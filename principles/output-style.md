@@ -90,11 +90,81 @@ Write short sentences.
 
 Separate distinct statements with line breaks so the report reads well in plain consoles.
 
+Put exactly one empty line between sentences in a paragraph for readability in simple consoles or text viewers.
+
+Put exactly one empty line before and after lists of items.
+
+For nested lists, put an empty line between the parent list item and its sublist.
+
+For lists of short sentences, do not use blank lines between list items. For complex lists, use blank lines.
+
+Avoid numbered lists for non-sequential items. Use bullet points.
+
+For process or workflow steps, use bold headers separated by empty lines instead of numbered lists.
+
 Keep tables readable as plain text and align columns by padding cell values.
+
+Keep section names short. Do not put qualifiers in section names using parentheses.
+
+Use headers for section titles rather than bold runs of text.
+
+In English, use "Title Case" in section and chapter names.
 
 Use standard ASCII double quotes rather than typographic quotes.
 
+Prefer ASCII characters for normal text.
+
+Box-drawing characters like "│", "├", "└" are allowed in code blocks for directory trees and simple diagrams. If a diagram already uses box-drawing characters, keep them. Do not replace box-drawing characters with "+", "-", or "`".
+
 Do not leave blank lines as the first or last line inside a fenced code block.
+
+**Hexadecimal and byte values**: Enclose in backticks (e.g., `` `FF` ``).
+
+**Key terms**: Bold key terms when defining them (e.g., **Term**: Definition).
+
+## Multilingual Output
+
+When the user requests a specific natural language for the report, translate all user-facing prose into that language.
+
+**What must be translated:**
+
+- All section headings (e.g., "Technology Stack", "Executive Summary", "Quality Assessment")
+- All table column headers (e.g., "Layer", "Technology", "Category", "Status", "Risks", "Notes", "Dimension", "Score")
+- All category names in the Quality Assessment summary table and detailed paragraphs (e.g., "Testing and Testability", "Design Principles", "Code Quality")
+- All dimension names in the Project Scorecard (e.g., "Testability", "Design Soundness", "Code Quality")
+- All risk names in the Risk Register
+- All trade-off names in the Trade-off Analysis
+- All recommendation option summaries
+- All descriptive paragraphs, evidence, reasoning, and justification text
+- "Summary description" and observation paragraph headings
+
+**What stays in English (fixed vocabularies):**
+
+- Status markers: `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`
+- Severity values: `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`
+- Maturity levels: `Prototype`, `Early development`, `Pre-production`, `Production-ready`, `Undetermined`
+- Score format: `Score: X/5` (the word "Score" is part of the fixed format)
+- Missing-information tokens: `UNKNOWN`, `NOT SPECIFIED`, `INSUFFICIENT INFORMATION`
+- File paths, config keys, commands, code snippets, and direct quotes from the input
+- The `SEVERITY:` prefix in risk register paragraphs
+
+**Language-specific style rules:**
+
+- In English, use "Title Case" in section and chapter names.
+- In Polish, do not use "Title Case" in section and chapter names; use sentence case.
+- In Polish, use "Przykład zawartości" instead of "Content Example".
+- In Polish, use Polish equivalents for standard headings:
+  - "Stos technologiczny" for "Technology Stack"
+  - "Podsumowanie wykonawcze" for "Executive Summary"
+  - "Kluczowe obserwacje" for "High-Level Observations"
+  - "Kontekst systemu" for "System Context"
+  - "Ocena jakości" for "Quality Assessment"
+  - "Analiza ryzyk" for "Risk Register"
+  - "Ocena projektu" for "Project Scorecard"
+  - "Analiza kompromisów" for "Trade-off Analysis"
+  - "Podsumowanie końcowe" for "Recommendation Summary"
+  - "Zależności" for "Dependency Health" (scorecard dimension)
+  - "Poprawność projektowa" for "Design Soundness" (scorecard dimension)
 
 ## Determinism
 

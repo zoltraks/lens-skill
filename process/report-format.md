@@ -19,9 +19,9 @@ Tables provide the scannable summary. Paragraphs below the table provide the det
 
 In tables, use shortened, general values. One or two words per cell. Do not crowd table cells with long explanations. Save detail for the paragraphs.
 
-Do not number section headings. Use the section name as the heading, for example "Quality Assessment", not "3. Quality Assessment".
+Do not number section headings. Use the section name as the heading, for example "Quality Assessment", not "3. Quality Assessment". When the user requests a specific language, translate the section heading into that language.
 
-Keep column headers identical to the templates below across every audit.
+Keep column headers identical to the templates below across every audit. When the user requests a specific language, translate the column headers into that language while keeping the structure identical.
 
 Within a table cell, separate multiple points with a semicolon or a line break, not with sub-bullets.
 
