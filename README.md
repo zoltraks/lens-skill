@@ -1,114 +1,83 @@
 # Lens - Software Audit Skill
 
-<p align="center">
-  <b>Agent Skill</b> for Windsurf · Cursor · Claude Code · Gemini CLI · OpenCode · GitHub Copilot CLI
-</p>
+> Evidence-based engineering audits of any software subject - prototypes, codebases under development, and already-running production systems.
 
-> Structured, evidence-based engineering audits of any software subject - prototypes, codebases under development, and already-running production systems. Drop-in skill for any AI coding agent that supports SKILL.md.
+Lens is a structured audit process packaged as an agent skill. It guides an AI coding agent through a complete engineering assessment of a codebase, producing a neutral, repeatable report anchored to concrete facts rather than impressions.
 
-This is an [Agent Skill](https://www.mintlify.com/blog/skill-md) - a folder of instructions any compatible AI coding agent loads on demand. When you ask for a software audit, architecture audit, production code audit, technical due diligence, or readiness assessment, this skill provides a fixed process, a table-driven report format, and per-category checklists for producing a neutral, repeatable assessment.
+Unlike a generic "review my code" prompt, Lens enforces a fixed workflow: intake, scope definition, evidence gathering, per-category assessment, synthesis, and validation. The output is a standardized report with eight sections - technology stack, executive summary, system context, quality assessment, risk register, project scorecard, trade-off analysis, and recommendation summary - each using a hybrid table-paragraph format for scannable summaries backed by detailed evidence.
 
 ---
 
-## What you get
+## What the skill does
 
-The skill produces a consistent audit report with these sections, each presented as a table: technology stack, executive summary, system context, quality assessment, risk register, project scorecard, trade-off analysis, and recommendation summary. Section headings are unnumbered.
+When you ask for an audit, the agent loads the skill and performs the following:
 
-The same structure applies whether the subject is an early prototype or mature production code; only which categories apply changes.
+**Reads everything you supplied**
 
-Every audit is governed by strict rules:
+Code, configuration, documentation, logs, and prior reports. It identifies the artifact type (prototype, codebase, production system, or proposal) and records the source format.
 
-- **Evidence only** - findings must trace to a concrete fact in the input.
+**Defines scope explicitly**
+
+Lists what is in scope and what is excluded. Marks unstated constraints as `NOT SPECIFIED` rather than assuming industry norms.
+
+**Gathers evidence before judging**
+
+Collects concrete anchors - file paths, config keys, commands, pipeline steps - before forming conclusions. Separates collection from judgment to avoid confirmation bias.
+
+**Assesses across 15 categories**
+
+Testing, design principles, code quality, dependencies, deployment, rollback, maintainability, change management, documentation, non-functional requirements, security, compliance, observability, error handling, and operational readiness. Each category receives one of five statuses: `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, or `N/A`.
+
+**Synthesizes findings**
+
+Builds a risk register from surfaced risks, a 0-5 scorecard from category findings, a trade-off analysis from architectural tensions, and non-prescriptive recommendation options.
+
+**Produces a validated report**
+
+Re-checks every finding against the evaluation rules: no assumptions, no personal judgment, no emotional language, every claim anchored to a concrete fact.
+
+---
+
+## Core principles
+
+Every audit follows these non-negotiable rules:
+
+- **Evidence only** - findings trace to a concrete fact: a file, a config value, a command, a log line.
 - **No assumptions** - missing information is marked `UNKNOWN`, `NOT SPECIFIED`, or `INSUFFICIENT INFORMATION`.
 - **No personal judgement** - the report evaluates the system, never the people who built it.
 - **Architectural neutrality** - choices are judged within stated constraints, not against a favored stack.
-- **Contextual applicability** - categories that cannot apply to the system's deployment model are marked `N/A` with justification, not treated as failures.
+- **Contextual applicability** - categories that cannot apply to the deployment model are marked `N/A` with justification, not treated as failures.
 
-When you ask for a full audit without naming an output file, the agent asks once whether to return the report inline or write it to a file you name. Name a file in your request to skip the question.
+---
 
-Each topic file is self-contained and follows the same structure: a purpose block, what to evaluate, evidence to look for, status criteria, common risks, and confidence signals.
+## Report format
+
+The skill uses a hybrid table-paragraph format throughout:
+
+- **Tables** provide scannable summaries with one to three words per cell.
+- **Paragraphs** below each table provide detailed evidence, file paths, and reasoning.
+- **Status markers** are shown inline after bold headings, for example `**Deployment Strategy** PARTIAL`.
+- **Scores** in the scorecard are shown as `Score: 3/5` inline after the dimension name.
+- **Severities** in the risk register are shown as `SEVERITY: CRITICAL` inline after the risk name.
+
+This format keeps the report readable in plain-text consoles while preserving depth.
 
 ---
 
 ## When to use this skill
 
-| Situation                                        | Use this skill?                          |
-|--------------------------------------------------|------------------------------------------|
-| "Audit the architecture of this system"          | **Yes**                                  |
-| "Audit this production codebase"                  | **Yes**                                  |
-| "Review this prototype for production readiness"  | **Yes**                                  |
-| "Do technical due diligence on this codebase"     | **Yes**                                  |
-| "Audit our dependencies and supply chain"         | **Yes** - use `assessment/dependencies.md` |
-| "Build me a risk register and scorecard"          | **Yes**                                  |
-| "Review only the security posture"               | **Yes** - single-dimension audit          |
-| "Compare these two architectural options"         | **Yes** - use `synthesis/trade-off-analysis.md` |
-| "Write the feature for me"                        | No - this skill assesses, it does not build |
-| "Tell me which team member caused this"           | No - this skill never evaluates people    |
-
----
-
-## Install
-
-### Windsurf / Cursor / VS Code (Cline, Roo Code)
-
-Project install - committed to a repo, shared with your team:
-
-```bash
-git clone https://github.com/YOURNAME/lens-skill .windsurf/skills/lens
-```
-
-Or use the cross-tool `.agents/skills/` path:
-
-```bash
-git clone https://github.com/YOURNAME/lens-skill .agents/skills/lens
-```
-
-### Claude Code - manual clone
-
-Personal install (available in all your projects):
-
-```bash
-git clone https://github.com/YOURNAME/lens-skill \
-  ~/.claude/skills/lens
-```
-
-Project install:
-
-```bash
-git clone https://github.com/YOURNAME/lens-skill \
-  .claude/skills/lens
-```
-
-### Gemini CLI
-
-```bash
-gemini skills install https://github.com/YOURNAME/lens-skill
-```
-
-Or manual:
-
-```bash
-git clone https://github.com/YOURNAME/lens-skill /tmp/lens-skill
-cp -r /tmp/lens-skill ~/.gemini/skills/lens
-```
-
-### OpenCode
-
-```bash
-git clone https://github.com/YOURNAME/lens-skill ~/.config/opencode/skills/lens
-```
-
-Or use the Claude-compatible path:
-
-```bash
-git clone https://github.com/YOURNAME/lens-skill ~/.claude/skills/lens
-```
-
-### GitHub Copilot CLI
-
-```bash
-gh skill install YOURNAME/lens-skill lens
-```
+| Situation                                        | Use this skill?                                 |
+|--------------------------------------------------|-------------------------------------------------|
+| "Audit the architecture of this system"          | **Yes**                                         |
+| "Audit this production codebase"                 | **Yes**                                         |
+| "Review this prototype for production readiness" | **Yes**                                         |
+| "Do technical due diligence on this codebase"    | **Yes**                                         |
+| "Audit our dependencies and supply chain"        | **Yes** - use `assessment/dependencies.md`      |
+| "Build me a risk register and scorecard"         | **Yes**                                         |
+| "Review only the security posture"               | **Yes** - single-dimension audit                |
+| "Compare these two architectural options"        | **Yes** - use `synthesis/trade-off-analysis.md` |
+| "Write the feature for me"                       | No - this skill assesses, it does not build     |
+| "Tell me which team member caused this"          | No - this skill never evaluates people          |
 
 ---
 
