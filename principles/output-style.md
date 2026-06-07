@@ -140,20 +140,37 @@ When the user requests a specific natural language for the report, translate all
 
 **What stays in English (fixed vocabularies):**
 
-- Status markers: `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`
-- Severity values: `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`
 - Maturity levels: `Prototype`, `Early development`, `Pre-production`, `Production-ready`, `Undetermined`
-- Score format: `Score: X/5` (the word "Score" is part of the fixed format)
+- Score format: `Score: X/5` in English, `Wynik: X/5` in Polish
 - Missing-information tokens: `UNKNOWN`, `NOT SPECIFIED`, `INSUFFICIENT INFORMATION`
 - File paths, config keys, commands, code snippets, and direct quotes from the input
-- The `SEVERITY:` prefix in risk register paragraphs
+
+**Status and severity translations by language:**
+
+When the report language is Polish, use these Polish equivalents instead of the English markers:
+
+| English | Polish |
+|---------|--------|
+| `PASS` | `OK` |
+| `PARTIAL` | `CZĘŚCIOWO` |
+| `FAIL` | `NIEZALICZONE` |
+| `UNKNOWN` | `NIEZNANE` |
+| `N/A` | `ND` |
+| `LOW` | `NISKIE` |
+| `MEDIUM` | `ŚREDNIE` |
+| `HIGH` | `WYSOKIE` |
+| `CRITICAL` | `KRYTYCZNE` |
+| `SEVERITY:` | `WAŻNOŚĆ:` |
+| `Score:` | `Wynik:` |
+
+The inline format remains identical: the marker follows the bold heading separated by a space. For example, `**Strategia wdrożenia** CZĘŚCIOWO` or `**Testowalność** Wynik: 5/5`.
 
 **Language-specific style rules:**
 
 - In English, use "Title Case" in section and chapter names.
 - In Polish, do not use "Title Case" in section and chapter names; use sentence case.
 - In Polish, use "Przykład zawartości" instead of "Content Example".
-- In Polish, use Polish equivalents for standard headings:
+- In Polish, use Polish equivalents for standard headings and table headers:
   - "Stos technologiczny" for "Technology Stack"
   - "Podsumowanie wykonawcze" for "Executive Summary"
   - "Kluczowe obserwacje" for "High-Level Observations"
@@ -165,6 +182,15 @@ When the user requests a specific natural language for the report, translate all
   - "Podsumowanie końcowe" for "Recommendation Summary"
   - "Zależności" for "Dependency Health" (scorecard dimension)
   - "Poprawność projektowa" for "Design Soundness" (scorecard dimension)
+  - "Obszar" for "Field" (Executive Summary table header)
+  - "Wartość" for "Value" (Executive Summary table header)
+  - "Kategoria" for "Category" (Quality Assessment table header)
+  - "Status" for "Status" (Quality Assessment table header)
+  - "Ryzyka" for "Risks" (Quality Assessment table header)
+  - "Uwagi" for "Notes" (Quality Assessment table header)
+  - "Wymiar" for "Dimension" (Project Scorecard table header)
+  - "Wynik" for "Score" (Project Scorecard table header)
+- In Polish, use neuter gender for acronyms treated as nouns: "czyste PWA" (not "czysta PWA"), "czyste SPA" (not "czysta SPA").
 
 ## Determinism
 
