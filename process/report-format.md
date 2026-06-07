@@ -66,6 +66,7 @@ The report has these top-level sections, in this order, with unnumbered headings
 
 - Technology Stack
 - Executive Summary
+- High-Level Observations
 - System Context
 - Quality Assessment
 - Risk Register
@@ -106,13 +107,23 @@ Use a key-value table:
 | Source basis   | <running system / inspected code / description>                                |
 | Maturity level | <`Prototype` / `Early development` / `Pre-production` / `Production-ready` / `Undetermined`> |
 
-Follow it with a high-level observations table, at most five rows:
+**Summary description**
 
-| # | High-Level Observation |
-|---|------------------------|
-| 1 | <observation>          |
+Write one paragraph immediately after the table. State the system's purpose in one sentence. Summarize the overall condition in one sentence. Note the maturity level and anchor it to evidence from later sections. Mention any critical finding that the reader should know first. Keep the paragraph to four sentences maximum.
 
 The maturity level must be justified by evidence in later sections, not asserted.
+
+## High-Level Observations
+
+Surface the most important findings in a compact table a reader can scan before reading the detail sections. Include at most five observations. Each observation should be a single concrete finding, not a category summary.
+
+Use this single-column table:
+
+| Observation                     |
+|---------------------------------|
+| <observation>                   |
+
+Write one paragraph per observation immediately after the table, in the same order as the table rows. Start each paragraph with a bold heading on its own line (the observation text, abbreviated if needed), then add an empty line, then the body. Each paragraph explains why the observation matters and what risk or opportunity it represents. Anchor every claim to a specific section in the Quality Assessment.
 
 ## System Context
 
@@ -199,8 +210,6 @@ Present a summary table followed by one paragraph per dimension.
 |-----------|-------|-------|
 
 Keep the summary table short. Use integer scores `0` to `5`, or `UNKNOWN` or `N/A`. Notes should be one phrase.
-
-Below the table, include a single sentence explaining the scale: "Scores are integers from 0 to 5, where 5 is the highest." This sentence is not a paragraph and does not use a bold heading.
 
 Use the rubric in `synthesis/scorecard.md`. Mark a dimension `UNKNOWN` when evidence is absent rather than scoring it `0`, and `N/A` when all of its source categories are `N/A`.
 
