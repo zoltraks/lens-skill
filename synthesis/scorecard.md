@@ -18,6 +18,7 @@ Use this fixed column order and dimension set:
 | Testability        |       |       |
 | Design Soundness   |       |       |
 | Code Quality       |       |       |
+| Stack Alignment    |       |       |
 | Dependency Health  |       |       |
 | Maintainability    |       |       |
 | Deployability      |       |       |
@@ -65,6 +66,7 @@ Each scorecard dimension summarizes one or more assessment categories.
 | Testability        | Testing and Testability                             |
 | Design Soundness   | Design Principles                                   |
 | Code Quality       | Code Quality                                        |
+| Stack Alignment    | Stack Best Practices                                |
 | Dependency Health  | Dependencies and Supply Chain                       |
 | Maintainability    | Maintainability, Change Management, Documentation   |
 | Deployability      | Deployment Strategy, Rollback Strategy              |

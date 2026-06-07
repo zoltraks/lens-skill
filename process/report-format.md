@@ -150,6 +150,7 @@ Category order:
 - Testing and Testability
 - Design Principles
 - Code Quality
+- Stack Best Practices
 - Dependencies and Supply Chain
 - Deployment Strategy
 - Rollback Strategy

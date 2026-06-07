@@ -24,9 +24,9 @@ Lists what is in scope and what is excluded. Marks unstated constraints as `NOT 
 
 Collects concrete anchors - file paths, config keys, commands, pipeline steps - before forming conclusions. Separates collection from judgment to avoid confirmation bias.
 
-**Assesses across 15 categories**
+**Assesses across 16 categories**
 
-Testing, design principles, code quality, dependencies, deployment, rollback, maintainability, change management, documentation, non-functional requirements, security, compliance, observability, error handling, and operational readiness. Each category receives one of five statuses: `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, or `N/A`.
+Testing, design principles, code quality, stack best practices, dependencies, deployment, rollback, maintainability, change management, documentation, non-functional requirements, security, compliance, observability, error handling, and operational readiness. Each category receives one of five statuses: `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, or `N/A`.
 
 **Synthesizes findings**
 
@@ -75,6 +75,7 @@ This format keeps the report readable in plain-text consoles while preserving de
 | "Audit our dependencies and supply chain"        | **Yes** - use `assessment/dependencies.md`      |
 | "Build me a risk register and scorecard"         | **Yes**                                         |
 | "Review only the security posture"               | **Yes** - single-dimension audit                |
+| "Check if this code is idiomatic for its stack"  | **Yes** - use `assessment/best-practices.md`    |
 | "Compare these two architectural options"        | **Yes** - use `synthesis/trade-off-analysis.md` |
 | "Write the feature for me"                       | No - this skill assesses, it does not build     |
 | "Tell me which team member caused this"          | No - this skill never evaluates people          |
@@ -100,6 +101,9 @@ This format keeps the report readable in plain-text consoles while preserving de
 
 **SOLID and testability**
 > Assess this codebase against SOLID principles and its testing strategy: test pyramid balance, TDD signals, and how testable the code is.
+
+**Stack best practices**
+> Review whether this code follows the idiomatic best practices of its stack: language idioms, framework conventions, ecosystem layout, and any deprecated APIs.
 
 **Dependency and supply-chain audit**
 > Audit the dependencies of this project: flag outdated and vulnerable packages, license compatibility, and whether builds are locked and reproducible.
@@ -130,6 +134,7 @@ lens-skill/
 │   ├── testing.md                 # Test pyramid (unit/integration/e2e), TDD, coverage, testability
 │   ├── design-principles.md       # SOLID, cohesion and coupling, DRY, separation of concerns
 │   ├── code-quality.md            # Static analysis, type safety, complexity, duplication, dead code
+│   ├── best-practices.md          # Stack idioms, framework conventions, ecosystem layout, deprecated APIs
 │   ├── dependencies.md            # Dependency freshness, vulnerabilities, licenses, lockfiles, SBOM
 │   ├── deployment.md              # Build pipeline, release process, frequency, manual steps
 │   ├── rollback.md                # Rollback mechanism, deploy safety, versioning

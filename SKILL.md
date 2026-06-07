@@ -21,8 +21,10 @@ description: >-
   review', 'code quality review', 'SOLID', 'design principles', 'TDD',
   'test coverage', 'test pyramid', 'testability', 'observability review',
   'operational readiness', 'rollback strategy', 'deployment strategy review',
-  'maintainability assessment', 'review this codebase', 'perform lens on',
-  'make audit report on', 'run lens', 'lens audit'.
+  'maintainability assessment', 'best practices', 'best practices review',
+  'idiomatic code', 'coding conventions', 'stack conventions', 'framework
+  conventions', 'review this codebase', 'perform lens on', 'make audit report
+  on', 'run lens', 'lens audit'.
 ---
 
 # Software Audit Skill
@@ -80,6 +82,7 @@ Do not assume a default and do not invent a filename. If the user already named 
 - **`assessment/testing.md`** - Test pyramid (unit, integration, end-to-end), TDD practice, coverage, CI automation, and design-for-testability.
 - **`assessment/design-principles.md`** - SOLID principles, cohesion and coupling, DRY, and separation of concerns.
 - **`assessment/code-quality.md`** - Static analysis, type safety, complexity, duplication, dead code, and style enforcement.
+- **`assessment/best-practices.md`** - Stack-specific best practices: language idioms, framework conventions, ecosystem layout, recommended libraries, deprecated APIs, and version-appropriate patterns.
 - **`assessment/dependencies.md`** - Dependency freshness, known vulnerabilities, license compliance, lockfiles, and SBOM.
 - **`assessment/deployment.md`** - Build pipeline, release process, release frequency, and manual steps.
 - **`assessment/rollback.md`** - Rollback mechanism, deployment safety, versioning, and recovery.
@@ -106,6 +109,7 @@ Do not assume a default and do not invent a filename. If the user already named 
 - Assemble the report skeleton from `process/report-format.md` before filling in findings; present every section as a table and use unnumbered headings.
 - Test layers, TDD, coverage, and design-for-testability belong in `assessment/testing.md`.
 - SOLID and design principles (SRP, OCP, LSP, ISP, DIP), cohesion, coupling, and DRY belong in `assessment/design-principles.md`; code-level metrics (lint, type safety, complexity, duplication) belong in `assessment/code-quality.md`; architectural module structure belongs in `assessment/maintainability.md`.
+- Stack-specific idioms and conventions (language idioms, framework patterns, ecosystem layout, deprecated APIs) belong in `assessment/best-practices.md`; keep it distinct from the language-agnostic principles in `assessment/design-principles.md` and the code-level metrics in `assessment/code-quality.md`. Assess adherence to the stack the subject already uses; do not judge the stack choice itself.
 - Dependency Inversion overlaps testability; assess the principle in `assessment/design-principles.md` and its testing impact in `assessment/testing.md`.
 - Third-party dependency and supply-chain posture belongs in `assessment/dependencies.md`; project-internal change control belongs in `assessment/change-management.md`.
 - Deployment automation belongs in `assessment/deployment.md`; reverting a release belongs in `assessment/rollback.md`.
