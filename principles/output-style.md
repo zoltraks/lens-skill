@@ -59,10 +59,10 @@ Missing-information tokens:
 
 Severity values:
 
-- `Low`
-- `Medium`
-- `High`
-- `Critical`
+- `LOW`
+- `MEDIUM`
+- `HIGH`
+- `CRITICAL`
 
 Maturity levels:
 

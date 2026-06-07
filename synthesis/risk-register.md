@@ -22,7 +22,7 @@ Column meanings:
 - **Category**: the assessment category the risk came from.
 - **Impact**: the consequence if the risk is realized.
 - **Likelihood**: how probable the risk is given the evidence.
-- **Severity**: one of `Low`, `Medium`, `High`, `Critical`.
+- **Severity**: one of `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`.
 - **Mitigation**: a neutral, optional action that would reduce the risk.
 
 ## Rating Guidance
@@ -31,29 +31,29 @@ Rate impact and likelihood from evidence, not intuition.
 
 Impact bands:
 
-- `Low`: limited or cosmetic effect.
-- `Medium`: degraded function or contained outage.
-- `High`: major function loss or data integrity concern.
-- `Critical`: data loss, breach, or full outage.
+- `LOW`: limited or cosmetic effect.
+- `MEDIUM`: degraded function or contained outage.
+- `HIGH`: major function loss or data integrity concern.
+- `CRITICAL`: data loss, breach, or full outage.
 
 Likelihood bands:
 
-- `Low`: would require an unusual combination of conditions.
-- `Medium`: plausible under normal operation.
-- `High`: expected to occur without intervention.
+- `LOW`: would require an unusual combination of conditions.
+- `MEDIUM`: plausible under normal operation.
+- `HIGH`: expected to occur without intervention.
 
 ## Severity Scale
 
 Derive severity from impact and likelihood, then record it explicitly.
 
-| Impact \ Likelihood | Low      | Medium   | High      |
+| Impact \ Likelihood | LOW      | MEDIUM   | HIGH      |
 |---------------------|----------|----------|-----------|
-| Critical            | High     | Critical | Critical  |
-| High                | Medium   | High     | Critical  |
-| Medium              | Low      | Medium   | High      |
-| Low                 | Low      | Low      | Medium    |
+| CRITICAL            | HIGH     | CRITICAL | CRITICAL  |
+| HIGH                | MEDIUM   | HIGH     | CRITICAL  |
+| MEDIUM              | LOW      | MEDIUM   | HIGH      |
+| LOW                 | LOW      | LOW      | MEDIUM    |
 
-Severity must always be one of `Low`, `Medium`, `High`, `Critical`.
+Severity must always be one of `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`.
 
 ## Rules
 

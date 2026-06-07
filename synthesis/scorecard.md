@@ -13,19 +13,19 @@ Apply `principles/evaluation-rules.md` throughout. A score is a summary of evide
 
 Use this fixed column order and dimension set:
 
-| Dimension          | Score | Range | Notes |
-|--------------------|-------|-------|-------|
-| Testability        |       | 0-5   |       |
-| Design Soundness   |       | 0-5   |       |
-| Code Quality       |       | 0-5   |       |
-| Dependency Health  |       | 0-5   |       |
-| Maintainability    |       | 0-5   |       |
-| Deployability      |       | 0-5   |       |
-| Scalability        |       | 0-5   |       |
-| Security           |       | 0-5   |       |
-| Compliance         |       | 0-5   |       |
-| Observability      |       | 0-5   |       |
-| Operational Safety |       | 0-5   |       |
+| Dimension          | Score | Notes |
+|--------------------|-------|-------|
+| Testability        |       |       |
+| Design Soundness   |       |       |
+| Code Quality       |       |       |
+| Dependency Health  |       |       |
+| Maintainability    |       |       |
+| Deployability      |       |       |
+| Scalability        |       |       |
+| Security           |       |       |
+| Compliance         |       |       |
+| Observability      |       |       |
+| Operational Safety |       |       |
 
 Keep the dimension names and order identical across every audit so scores are comparable.
 
