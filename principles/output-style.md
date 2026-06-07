@@ -23,7 +23,13 @@ Write about the system, not the author.
 
 ## Structure Preferences
 
-Prefer tables and structured lists over long prose where the content is comparative or enumerable.
+Use a hybrid table-paragraph format throughout the report.
+
+Tables provide scannable summaries. Paragraphs below tables provide detailed evidence, reasoning, and context. This keeps the report readable in plain-text consoles while preserving depth.
+
+In tables, use shortened, general values. One to three words per cell. Do not crowd table cells with long explanations.
+
+In paragraphs, use short sentences separated by line breaks. Anchor every claim to a concrete fact: a file path, a config key, a command, or a direct quote.
 
 Use headers for section titles rather than bold runs of text.
 

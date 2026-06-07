@@ -13,15 +13,29 @@ Keep every section even when content is `UNKNOWN`. A present-but-empty section s
 
 ## Formatting Rules
 
-Use tables as the primary presentation in every section. Tables keep findings scannable and comparable across audits.
+Use a hybrid table-paragraph format in every section.
+
+Tables provide the scannable summary. Paragraphs below the table provide the detailed evidence, risks, and reasoning.
+
+In tables, use shortened, general values. One or two words per cell. Do not crowd table cells with long explanations. Save detail for the paragraphs.
 
 Do not number section headings. Use the section name as the heading, for example "Quality Assessment", not "3. Quality Assessment".
 
 Keep column headers identical to the templates below across every audit.
 
-Put narrative only where a table cannot carry it, and keep it to one or two lines near the relevant table.
-
 Within a table cell, separate multiple points with a semicolon or a line break, not with sub-bullets.
+
+Place descriptive paragraphs immediately after each table. In the paragraphs, explain every aspect with concrete evidence, file paths, and reasoning. Use short sentences separated by line breaks.
+
+Start each detailed paragraph with a bold heading on its own line, followed by an empty line, then the paragraph body. Do not run the heading and the body together on the same line.
+
+Example:
+
+```markdown
+**Continue current approach**
+
+This option involves fixing only the most critical issues.
+```
 
 ## Report Delivery
 
@@ -110,17 +124,18 @@ Mark any unknown aspect as `NOT SPECIFIED`.
 
 ## Quality Assessment
 
-Present all categories in one table, in the fixed order below. One row per category.
+Present all categories in one summary table, then follow it with a detailed paragraph per category.
 
-| Category | Status | Evidence | Risks | Notes |
-|----------|--------|----------|-------|-------|
+**Summary table:**
 
-Column rules:
+| Category | Status | Risks | Notes |
+|----------|--------|-------|-------|
+
+Keep the summary table short. Use one to three words per cell.
 
 - **Status**: one of `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`, with the matching glyph.
-- **Evidence**: explicit facts anchored to a file, config, command, or quote.
-- **Risks**: concrete technical risks; `None identified` is allowed when evidence supports it.
-- **Notes**: neutral commentary; for `N/A`, state the one-line applicability justification per `principles/evaluation-rules.md`.
+- **Risks**: a short risk label, or `None identified`.
+- **Notes**: a brief label, or `N/A` with one-line justification per `principles/evaluation-rules.md`.
 
 Category order:
 
@@ -140,44 +155,82 @@ Category order:
 - Error Handling
 - Operational Readiness
 
+**Detailed paragraphs:**
+
+After the summary table, write one paragraph per category in the same order. Start each paragraph with a bold heading on its own line (the category name), followed by an empty line, then the body. Each paragraph restates the status and explains the evidence, concrete risks, and reasoning in detail. Anchor every claim to a file path, config key, or observed fact.
+
+Keep each paragraph self-contained so it can be read independently of the table. Use short sentences separated by line breaks.
+
 Include every category as a row. When a category cannot apply to the system's deployment model, mark it `N/A` with justification rather than dropping the row.
 
 ## Risk Register
 
-Provide the risk register table defined in `synthesis/risk-register.md`. Column order is fixed:
+Present a summary table followed by detailed risk paragraphs.
 
-| Risk | Category | Impact | Likelihood | Severity | Mitigation |
-|------|----------|--------|------------|----------|------------|
+**Summary table:**
+
+| Risk | Category | Severity | Mitigation |
+|------|----------|----------|------------|
+
+Keep the summary table short. Use concise risk names and one-word severity values.
 
 Severity must be one of `Low`, `Medium`, `High`, `Critical`.
 
+**Detailed paragraphs:**
+
+After the summary table, write one paragraph per risk in the same order. Start each paragraph with a bold heading on its own line (the risk name), followed by an empty line, then the body. Each paragraph restates the risk, describes the impact and likelihood with evidence, then evaluates the mitigation. Anchor every claim to a specific finding from the Quality Assessment.
+
 ## Project Scorecard
 
-Provide the project scorecard table defined in `synthesis/scorecard.md`. Column order is fixed:
+Present a summary table followed by one paragraph per dimension.
 
-| Dimension | Score | Evidence | Notes |
-|-----------|-------|----------|-------|
+**Summary table:**
 
-Dimensions are scored `0` to `5`. Use the rubric in `synthesis/scorecard.md`. Mark a dimension `UNKNOWN` when evidence is absent rather than scoring it `0`, and `N/A` when all of its source categories are `N/A`.
+| Dimension | Score | Notes |
+|-----------|-------|-------|
+
+Keep the summary table short. Use integer scores `0` to `5`, or `UNKNOWN` or `N/A`. Notes should be one phrase.
+
+Use the rubric in `synthesis/scorecard.md`. Mark a dimension `UNKNOWN` when evidence is absent rather than scoring it `0`, and `N/A` when all of its source categories are `N/A`.
+
+**Detailed paragraphs:**
+
+After the summary table, write one paragraph per dimension in the same order. Start each paragraph with a bold heading on its own line (the dimension name), followed by an empty line, then the body. Each paragraph restates the score, cites the evidence from the Quality Assessment that supports it, and explains any gaps or strengths. Anchor every claim to a specific file or observation.
 
 ## Trade-off Analysis
 
-Surface the key trade-offs using `synthesis/trade-off-analysis.md`. Use a table:
+Present a summary table followed by one paragraph per trade-off.
+
+**Summary table:**
 
 | Trade-off | Context | Option A: gain / cost | Option B: gain / cost | Evidence | Implication |
 |-----------|---------|-----------------------|-----------------------|----------|-------------|
 
+Keep the summary table short. Use concise phrases for each cell.
+
 Present each trade-off neutrally, without declaring a winner unless the user asked for a recommendation.
+
+**Detailed paragraphs:**
+
+After the summary table, write one paragraph per trade-off in the same order. Start each paragraph with a bold heading on its own line (the trade-off name), followed by an empty line, then the body. Each paragraph restates the tension, describes the evidence in the system that reveals it, and explains the implication under the stated context. Anchor every claim to a file, config, or design choice.
 
 ## Recommendation Summary
 
-Provide non-prescriptive options using `synthesis/recommendations.md`. Use a table:
+Present a summary table followed by one paragraph per option.
+
+**Summary table:**
 
 | Option | Summary | Pros | Cons | Risk Level |
 |--------|---------|------|------|------------|
 
+Keep the summary table short. Use concise phrases. Pros and cons should be brief labels separated by semicolons.
+
 Risk Level uses the severity vocabulary: `Low`, `Medium`, `High`, `Critical`.
 
 Offer a small set of distinct options, for example continue current approach, incremental improvement, or partial redesign of specific components.
+
+**Detailed paragraphs:**
+
+After the summary table, write one paragraph per option in the same order. Start each paragraph with a bold heading on its own line (the option name), followed by an empty line, then the body. Each paragraph restates the option, explains the pros and cons with evidence from the Quality Assessment and Risk Register, and evaluates the residual risk. Anchor every claim to a specific finding.
 
 Do not issue absolute directives unless the user explicitly requests them.
