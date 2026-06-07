@@ -13,19 +13,19 @@ Apply `principles/evaluation-rules.md` throughout. A score is a summary of evide
 
 Use this fixed column order and dimension set:
 
-| Dimension          | Score | Evidence | Notes |
-|--------------------|-------|----------|-------|
-| Testability        | 0-5   |          |       |
-| Design Soundness   | 0-5   |          |       |
-| Code Quality       | 0-5   |          |       |
-| Dependency Health  | 0-5   |          |       |
-| Maintainability    | 0-5   |          |       |
-| Deployability      | 0-5   |          |       |
-| Scalability        | 0-5   |          |       |
-| Security           | 0-5   |          |       |
-| Compliance         | 0-5   |          |       |
-| Observability      | 0-5   |          |       |
-| Operational Safety | 0-5   |          |       |
+| Dimension          | Score | Range | Notes |
+|--------------------|-------|-------|-------|
+| Testability        |       | 0-5   |       |
+| Design Soundness   |       | 0-5   |       |
+| Code Quality       |       | 0-5   |       |
+| Dependency Health  |       | 0-5   |       |
+| Maintainability    |       | 0-5   |       |
+| Deployability      |       | 0-5   |       |
+| Scalability        |       | 0-5   |       |
+| Security           |       | 0-5   |       |
+| Compliance         |       | 0-5   |       |
+| Observability      |       | 0-5   |       |
+| Operational Safety |       | 0-5   |       |
 
 Keep the dimension names and order identical across every audit so scores are comparable.
 
@@ -76,7 +76,7 @@ Each scorecard dimension summarizes one or more assessment categories.
 
 ## Rules
 
-- Every score must cite evidence in the evidence column.
+- Every score must cite evidence in the detailed paragraph body.
 - Keep notes neutral and technical.
 - Do not average away a critical gap. If a dimension has a critical weakness, the score must reflect it and the notes must name it.
 - Scores describe the system, never the people who built it.

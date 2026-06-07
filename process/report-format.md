@@ -27,14 +27,22 @@ Within a table cell, separate multiple points with a semicolon or a line break, 
 
 Place descriptive paragraphs immediately after each table. In the paragraphs, explain every aspect with concrete evidence, file paths, and reasoning. Use short sentences separated by line breaks.
 
-Start each detailed paragraph with a bold heading on its own line, followed by an empty line, then the paragraph body. Do not run the heading and the body together on the same line.
+Start each detailed paragraph with a bold heading on its own line. Put the status, score, or severity inline after the heading, separated by a space. Then add an empty line, then the paragraph body. Do not run the heading and the body together on the same line.
 
-Example:
+Example for Quality Assessment:
 
 ```markdown
-**Continue current approach**
+**Deployment Strategy** `PARTIAL`
 
-This option involves fixing only the most critical issues.
+The package is published to npm with a bin entry in package.json.
+```
+
+Example for Project Scorecard:
+
+```markdown
+**Deployability** `2`
+
+The package is published to npm.
 ```
 
 ## Report Delivery
@@ -157,7 +165,7 @@ Category order:
 
 **Detailed paragraphs:**
 
-After the summary table, write one paragraph per category in the same order. Start each paragraph with a bold heading on its own line (the category name), followed by an empty line, then the body. Each paragraph restates the status and explains the evidence, concrete risks, and reasoning in detail. Anchor every claim to a file path, config key, or observed fact.
+After the summary table, write one paragraph per category in the same order. Start each paragraph with a bold heading on its own line (the category name), put the status inline after the heading, then add an empty line, then the body. Each paragraph explains the evidence, concrete risks, and reasoning in detail. Anchor every claim to a file path, config key, or observed fact.
 
 Keep each paragraph self-contained so it can be read independently of the table. Use short sentences separated by line breaks.
 
@@ -178,7 +186,7 @@ Severity must be one of `Low`, `Medium`, `High`, `Critical`.
 
 **Detailed paragraphs:**
 
-After the summary table, write one paragraph per risk in the same order. Start each paragraph with a bold heading on its own line (the risk name), followed by an empty line, then the body. Each paragraph restates the risk, describes the impact and likelihood with evidence, then evaluates the mitigation. Anchor every claim to a specific finding from the Quality Assessment.
+After the summary table, write one paragraph per risk in the same order. Start each paragraph with a bold heading on its own line (the risk name), put the severity inline after the heading, then add an empty line, then the body. Each paragraph restates the risk, describes the impact and likelihood with evidence, then evaluates the mitigation. Anchor every claim to a specific finding from the Quality Assessment.
 
 ## Project Scorecard
 
@@ -186,16 +194,16 @@ Present a summary table followed by one paragraph per dimension.
 
 **Summary table:**
 
-| Dimension | Score | Notes |
-|-----------|-------|-------|
+| Dimension | Score | Range | Notes |
+|-----------|-------|-------|-------|
 
-Keep the summary table short. Use integer scores `0` to `5`, or `UNKNOWN` or `N/A`. Notes should be one phrase.
+Keep the summary table short. Use integer scores `0` to `5`, or `UNKNOWN` or `N/A`. The Range column is always `0-5` to remind readers of the scale. Notes should be one phrase.
 
 Use the rubric in `synthesis/scorecard.md`. Mark a dimension `UNKNOWN` when evidence is absent rather than scoring it `0`, and `N/A` when all of its source categories are `N/A`.
 
 **Detailed paragraphs:**
 
-After the summary table, write one paragraph per dimension in the same order. Start each paragraph with a bold heading on its own line (the dimension name), followed by an empty line, then the body. Each paragraph restates the score, cites the evidence from the Quality Assessment that supports it, and explains any gaps or strengths. Anchor every claim to a specific file or observation.
+After the summary table, write one paragraph per dimension in the same order. Start each paragraph with a bold heading on its own line (the dimension name), put the score inline after the heading, then add an empty line, then the body. Each paragraph cites the evidence from the Quality Assessment that supports the score, and explains any gaps or strengths. Anchor every claim to a specific file or observation.
 
 ## Trade-off Analysis
 
@@ -212,7 +220,7 @@ Present each trade-off neutrally, without declaring a winner unless the user ask
 
 **Detailed paragraphs:**
 
-After the summary table, write one paragraph per trade-off in the same order. Start each paragraph with a bold heading on its own line (the trade-off name), followed by an empty line, then the body. Each paragraph restates the tension, describes the evidence in the system that reveals it, and explains the implication under the stated context. Anchor every claim to a file, config, or design choice.
+After the summary table, write one paragraph per trade-off in the same order. Start each paragraph with a bold heading on its own line (the trade-off name), then add an empty line, then the body. Each paragraph restates the tension, describes the evidence in the system that reveals it, and explains the implication under the stated context. Anchor every claim to a file, config, or design choice.
 
 ## Recommendation Summary
 
@@ -231,6 +239,6 @@ Offer a small set of distinct options, for example continue current approach, in
 
 **Detailed paragraphs:**
 
-After the summary table, write one paragraph per option in the same order. Start each paragraph with a bold heading on its own line (the option name), followed by an empty line, then the body. Each paragraph restates the option, explains the pros and cons with evidence from the Quality Assessment and Risk Register, and evaluates the residual risk. Anchor every claim to a specific finding.
+After the summary table, write one paragraph per option in the same order. Start each paragraph with a bold heading on its own line (the option name), then add an empty line, then the body. Each paragraph restates the option, explains the pros and cons with evidence from the Quality Assessment and Risk Register, and evaluates the residual risk. Anchor every claim to a specific finding.
 
 Do not issue absolute directives unless the user explicitly requests them.
