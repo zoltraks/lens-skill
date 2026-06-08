@@ -10,7 +10,7 @@
 
 Lens is a structured audit process packaged as an agent skill. It guides an AI coding agent through a complete engineering assessment of a codebase, producing a neutral, repeatable report anchored to concrete facts rather than impressions.
 
-Unlike a generic "review my code" prompt, Lens enforces a fixed workflow: intake, parameter configuration, scope definition, evidence gathering, per-category assessment, synthesis, and validation. The output is a standardized report with eleven sections - document and stack metadata, executive summary and health dashboard, high-level observations, auditing methodology and scoring rubrics, system context and architectural assessment, strengths and what's working, detailed technical findings and assessment, unified risk register, trade-off analysis, actionable remediation roadmap, and scope exclusions - each using a hybrid table-paragraph format for scannable summaries backed by detailed evidence.
+Unlike a generic "review my code" prompt, Lens enforces a fixed workflow: intake, parameter configuration, scope definition, evidence gathering, per-category assessment, synthesis, and validation. The output is a standardized report with fifteen sections - document information, technology stack, executive summary, health dashboard, high-level observations, auditing methodology, scoring rubrics, system context, architectural assessment, strengths and what's working, detailed technical findings, unified risk register, trade-off analysis, actionable remediation roadmap, and scope exclusions - each using a hybrid table-paragraph format for scannable summaries backed by detailed evidence.
 
 ---
 

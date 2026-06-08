@@ -39,7 +39,7 @@ Use these tiers to rank recommendations:
 ## Rules
 
 - Every `REC-XXX` entry must resolve a specific `FND-XXX`.
-- Do not introduce new findings in this section. Recommendations must trace back to gaps in the Detailed Technical Findings & Assessment.
+- Do not introduce new findings in this section. Recommendations must trace back to gaps in the Detailed Technical Findings.
 - Tie every recommendation to a finding from the assessment or risk register.
 - Keep options non-prescriptive. Present them as choices with consequences.
 - Do not rank or select a single option unless the user explicitly asks for a recommendation.
@@ -52,6 +52,6 @@ Use these tiers to rank recommendations:
 
 Recommendations summarize and plan, they do not introduce new findings.
 
-Every recommendation must trace back to a finding in the Detailed Technical Findings & Assessment or an entry in the Unified Risk Register.
+Every recommendation must trace back to a finding in the Detailed Technical Findings or an entry in the Unified Risk Register.
 
 Trade-off analyses appear both as a standalone Trade-off Analysis section (before the Remediation Roadmap) and embedded into relevant findings. The roadmap references the relevant `FND-XXX` finding regardless of where the trade-off is presented.

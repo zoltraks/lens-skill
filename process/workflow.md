@@ -68,7 +68,7 @@ Ask: "What level of detail should the report include?"
 
 - **Standard** (default) - full report with all eleven sections, complete findings, risk register, scorecard, and remediation roadmap.
 - **Detailed** - full report plus extended remediation steps, additional verification methods, deeper architectural critique, and expanded impact analysis.
-- **Brief** - Executive Summary & Health Dashboard, Scorecard Summary, top risks only, and key recommendations. Detailed findings are summarized, not itemized.
+- **Brief** - Executive Summary, Health Dashboard (scorecard summary and risk heat map only), top risks only, and key recommendations. Detailed findings are summarized, not itemized.
 
 **Evaluation scale**
 

@@ -128,7 +128,7 @@ When the user requests a specific natural language for the report, translate all
 
 **What must be translated:**
 
-- All section headings (e.g., "Document & Stack Metadata", "Executive Summary & Health Dashboard", "Detailed Technical Findings & Assessment")
+- All section headings (e.g., "Technology Stack", "Executive Summary", "Health Dashboard", "Detailed Technical Findings")
 - All table column headers (e.g., "Layer", "Technology", "Category", "Status", "Risks", "Notes", "Dimension", "Score")
 - All finding pillar names in the Detailed Technical Findings summary table (e.g., "Architecture & Design", "Code Quality", "Security & Compliance", "Infrastructure & CI/CD", "AI Provenance & Code Origin", "Copyrights & Originality")
 - All dimension names in the Scorecard Summary (e.g., "Testability", "Design Soundness", "Code Quality")
@@ -170,13 +170,17 @@ The inline format remains identical: the marker follows the bold heading separat
 - In Polish, do not use "Title Case" in section and chapter names; use sentence case.
 - In Polish, use "Przykład zawartości" instead of "Content Example".
 - In Polish, use Polish equivalents for standard headings and table headers:
-  - "Metadane i stos technologiczny" for "Document & Stack Metadata"
-  - "Podsumowanie wykonawcze i panel zdrowia" for "Executive Summary & Health Dashboard"
+  - "Informacje o dokumencie" for "Document Information"
+  - "Stos technologiczny" for "Technology Stack"
+  - "Podsumowanie wykonawcze" for "Executive Summary"
+  - "Panel zdrowia" for "Health Dashboard"
   - "Kluczowe obserwacje" for "High-Level Observations"
-  - "Metodologia audytu i skale oceny" for "Auditing Methodology & Scoring Rubrics"
-  - "Kontekst systemu i ocena architektury" for "System Context & Architectural Assessment"
+  - "Metodologia audytu" for "Auditing Methodology"
+  - "Skale oceny" for "Scoring Rubrics"
+  - "Kontekst systemu" for "System Context"
+  - "Ocena architektury" for "Architectural Assessment"
   - "Mocne strony i co działa" for "Strengths & What's Working"
-  - "Szczegółowe wyniki techniczne i ocena" for "Detailed Technical Findings & Assessment"
+  - "Szczegółowe wyniki techniczne" for "Detailed Technical Findings"
   - "Jednolity rejestr ryzyk" for "Unified Risk Register"
   - "Analiza kompromisów" for "Trade-off Analysis"
   - "Plan działania i mapa naprawcza" for "Actionable Remediation Roadmap"

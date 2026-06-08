@@ -60,7 +60,7 @@ Severity must always be one of `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`.
 
 - Every `RSK-XXX` entry must reference its source `FND-XXX`.
 - When multiple findings contribute to one risk, list the primary `FND-XXX`.
-- Do not create risks that do not trace to a finding in the Detailed Technical Findings & Assessment.
+- Do not create risks that do not trace to a finding in the Detailed Technical Findings.
 - Do not output plaintext secrets, passwords, or cryptographic keys in the Risk column.
 
 ## Rules

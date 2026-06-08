@@ -3,7 +3,7 @@
 ## Purpose
 
 > **Scope:** The required structure and template for the final audit report
-> **Key items:** document metadata, executive summary with health dashboard, methodology, system context, detailed findings, unified risk register, remediation roadmap, scope exclusions
+> **Key items:** document information, technology stack, executive summary, health dashboard, auditing methodology, scoring rubrics, system context, architectural assessment, detailed technical findings, unified risk register, trade-off analysis, remediation roadmap, scope exclusions
 
 This file defines the exact shape of the audit report. Produce the sections in this order.
 
@@ -19,7 +19,7 @@ Tables provide the scannable summary. Paragraphs below the table provide the det
 
 In tables, use shortened, general values. One or two words per cell. Do not crowd table cells with long explanations. Save detail for the paragraphs.
 
-Do not number section headings. Use the section name as the heading, for example "Executive Summary & Health Dashboard", not "2. Executive Summary & Health Dashboard". When the user requests a specific language, translate the section heading into that language.
+Do not number section headings. Use the section name as the heading, for example "Executive Summary", not "2. Executive Summary". When the user requests a specific language, translate the section heading into that language.
 
 Keep column headers identical to the templates below across every audit. When the user requests a specific language, translate the column headers into that language while keeping the structure identical.
 
@@ -63,15 +63,19 @@ The report adapts to the detail level chosen during Parameter Configuration.
 
 **Standard**
 
-All eleven sections are present in full:
+All fifteen sections are present in full:
 
-- Document & Stack Metadata
-- Executive Summary & Health Dashboard
+- Document Information
+- Technology Stack
+- Executive Summary
+- Health Dashboard
 - High-Level Observations
-- Auditing Methodology & Scoring Rubrics
-- System Context & Architectural Assessment
+- Auditing Methodology
+- Scoring Rubrics
+- System Context
+- Architectural Assessment
 - Strengths & What's Working
-- Detailed Technical Findings & Assessment (all findings with full Description, Impact, Remediation, and Verification)
+- Detailed Technical Findings (all findings with full Description, Impact, Remediation, and Verification)
 - Unified Risk Register
 - Trade-off Analysis
 - Actionable Remediation Roadmap (full matrix with P1-P4, impact/effort/complexity, verification)
@@ -79,9 +83,10 @@ All eleven sections are present in full:
 
 **Detailed**
 
-Same eleven sections as Standard, plus the following extensions:
+Same fifteen sections as Standard, plus the following extensions:
 
-- Executive Summary includes an expanded Risk Heat Map with all risks plotted and a longer Production Readiness Threshold paragraph.
+- Executive Summary includes a longer Production Readiness Threshold paragraph.
+- Health Dashboard includes an expanded Risk Heat Map with all risks plotted.
 - Architectural Assessment includes deeper critique with additional industry baseline comparisons.
 - Strengths section includes 8-10 bullet points.
 - Each finding includes extended verification methods and alternative remediation paths.
@@ -92,10 +97,11 @@ Same eleven sections as Standard, plus the following extensions:
 
 Condensed output for rapid review:
 
-- Document & Stack Metadata (full)
-- Executive Summary & Health Dashboard (full summary table and risk heat map)
+- Document Information (full)
+- Technology Stack (full)
+- Executive Summary (summary table only)
+- Health Dashboard (scorecard summary and risk heat map only)
 - High-Level Observations (full)
-- Scorecard Summary table only (omits the per-dimension detailed paragraphs)
 - Strengths & What's Working (top 3 bullets only)
 - Top 5 findings only (summary table and abbreviated detail blocks)
 - Top 5 risks only (summary table)
@@ -103,25 +109,47 @@ Condensed output for rapid review:
 - Key recommendations only (top 5, no full matrix)
 - Scope Exclusions (full)
 
-Omitted in Brief: Auditing Methodology & Scoring Rubrics, System Context & Architectural Assessment detailed critique, full Detailed Technical Findings list, full Unified Risk Register, full Trade-off Analysis, full Actionable Remediation Roadmap.
+Omitted in Brief: Auditing Methodology, Scoring Rubrics, System Context, Architectural Assessment detailed critique, full Detailed Technical Findings list, full Unified Risk Register, full Trade-off Analysis, full Actionable Remediation Roadmap.
 
 ## Section Order
 
 The report has these top-level sections, in this order, with unnumbered headings:
 
-- Document & Stack Metadata
-- Executive Summary & Health Dashboard
+- Document Information
+- Technology Stack
+- Executive Summary
+- Health Dashboard
 - High-Level Observations
-- Auditing Methodology & Scoring Rubrics
-- System Context & Architectural Assessment
+- Auditing Methodology
+- Scoring Rubrics
+- System Context
+- Architectural Assessment
 - Strengths & What's Working
-- Detailed Technical Findings & Assessment
+- Detailed Technical Findings
 - Unified Risk Register
 - Trade-off Analysis
 - Actionable Remediation Roadmap
 - Scope Exclusions
 
-## Document & Stack Metadata
+## Document Information
+
+Open the report with a short metadata block. Each field must appear on its own line with a blank line separating it from the next field. Do not run fields together on the same line.
+
+Format:
+
+```markdown
+**Version**: <version number>
+
+**Date**: <audit date>
+
+**State**: <Draft / Final>
+
+**Detail Level**: <Standard / Detailed / Brief>
+```
+
+Use double asterisks for the label and a single space after the colon. Each label-value pair is followed by an empty line. This ensures proper rendering in all markdown viewers.
+
+## Technology Stack
 
 Open the report with a factual inventory of the technologies the subject uses. Describe the stack only; do not judge it here.
 
@@ -141,7 +169,7 @@ Use a key-value table:
 
 Anchor each entry to evidence, such as a manifest, lockfile, or config file. Mark any layer the input does not reveal as `NOT SPECIFIED`. Add or omit rows to fit the subject, but keep the layer names in this column.
 
-## Executive Summary & Health Dashboard
+## Executive Summary
 
 Provide a compact overview a reader can absorb without the detail sections.
 
@@ -164,16 +192,20 @@ The maturity level must be justified by evidence in later sections, not asserted
 
 Add a short paragraph at the end of the Executive Summary stating the minimum conditions required for the maturity label to change from its current level to `Production-ready`. Tie these conditions explicitly to specific risk IDs (for example: "To reach Production-ready, RSK-001 and RSK-002 must be closed by removing hardcoded secrets, and RSK-003 must be closed by achieving 60% test coverage"). This paragraph gives the reader a concrete bar for re-audit.
 
+## Health Dashboard
+
+Present the quantitative health summary in a consolidated view. This section contains the Risk Heat Map and the Scorecard Summary.
+
 **Risk Heat Map**
 
 Provide a consolidated Likelihood vs Impact matrix summarizing the top risks. Use a table:
 
-| Impact \ Likelihood | LOW | MEDIUM | HIGH |
-|---------------------|-----|--------|------|
-| CRITICAL            |     |        |      |
-| HIGH                |     |        |      |
-| MEDIUM              |     |        |      |
-| LOW                 |     |        |      |
+| Impact | LOW | MEDIUM | HIGH |
+|--------|-----|--------|------|
+| CRITICAL |     |        |      |
+| HIGH |     |        |      |
+| MEDIUM |     |        |      |
+| LOW |     |        |      |
 
 Populate cells with `RSK-XXX` identifiers from the Unified Risk Register. Leave empty cells blank. Do not include plaintext secrets, passwords, or cryptographic keys in this summary. Use generic descriptions or masked placeholders.
 
@@ -208,13 +240,13 @@ Use this single-column table:
 |---------------------------------|
 | <observation>                   |
 
-Write one paragraph per observation immediately after the table, in the same order as the table rows. Start each paragraph with a bold heading on its own line (the observation text, abbreviated if needed), then add an empty line, then the body. Each paragraph explains why the observation matters and what risk or opportunity it represents. Anchor every claim to a specific finding in the Detailed Technical Findings & Assessment.
+Write one paragraph per observation immediately after the table, in the same order as the table rows. Start each paragraph with a bold heading on its own line (the observation text, abbreviated if needed), then add an empty line, then the body. Each paragraph explains why the observation matters and what risk or opportunity it represents. Anchor every claim to a specific finding in the Detailed Technical Findings.
 
 Keep each observation brief. The full technical detail lives in the numbered finding blocks later in the report. This section exists to give non-technical readers a fast-skim path.
 
-## Auditing Methodology & Scoring Rubrics
+## Auditing Methodology
 
-This section defines the evaluation framework so that scores are objective and reproducible. Present it before any scored findings.
+This section defines how the audit was conducted and the framework used to evaluate findings. Present it before any scored findings.
 
 **Methodology overview**
 
@@ -226,6 +258,33 @@ State that the audit uses evidence-based reasoning across 18 assessment categori
 - **Infrastructure & CI/CD** - Dependencies, deployment, rollback, observability, error handling, operational readiness
 - **AI Provenance & Code Origin** - AI-generated code detection, Vibe Coding risks, Agent Driven Engineering maturity, SDLC discipline
 - **Copyrights & Originality** - Code originality, license compliance, attribution, dependency license compatibility
+
+**Audit evidence statement**
+
+Begin the Methodology section with 2-3 sentences stating exactly what was inspected. Include:
+
+- The number of source files, test files, and configuration files reviewed.
+- Whether Git history was examined.
+- Whether a running environment was observed.
+
+Example: "This audit inspected 147 source files, 8 test files, and 4 configuration files from the repository root. Git commit history was reviewed for the last 15 commits. No running application or live environment was observed; all findings are based on static code analysis."
+
+**Severity definitions**
+
+Add a 4-row rubric defining each qualitative severity band. These definitions anchor the severity values used in findings and risks.
+
+| Severity | Impact | Likelihood | Blocks Production Readiness |
+|----------|--------|------------|----------------------------|
+| CRITICAL | Data loss, breach, or full system compromise | Expected without intervention | Yes |
+| HIGH | Major function loss or data integrity concern | Plausible under normal operation | Yes |
+| MEDIUM | Degraded function or contained outage | Requires specific conditions | No (but must be tracked) |
+| LOW | Limited or cosmetic effect | Unusual combination required | No |
+
+Use these definitions consistently across the Detailed Technical Findings and the Unified Risk Register.
+
+## Scoring Rubrics
+
+This section defines the scoring framework so that scores are objective and reproducible. Present it after the Auditing Methodology and before any scored findings.
 
 **Scoring rubric**
 
@@ -251,32 +310,9 @@ For the 1-5 alternative scale:
 
 **Zero is not a score.** The value `0` is reserved and never used. When a dimension cannot apply, mark it `N/A`.
 
-**Severity definitions**
+## System Context
 
-Add a 4-row rubric defining each qualitative severity band. These definitions anchor the severity values used in findings and risks.
-
-| Severity | Impact | Likelihood | Blocks Production Readiness |
-|----------|--------|------------|----------------------------|
-| CRITICAL | Data loss, breach, or full system compromise | Expected without intervention | Yes |
-| HIGH | Major function loss or data integrity concern | Plausible under normal operation | Yes |
-| MEDIUM | Degraded function or contained outage | Requires specific conditions | No (but must be tracked) |
-| LOW | Limited or cosmetic effect | Unusual combination required | No |
-
-Use these definitions consistently across the Detailed Technical Findings and the Unified Risk Register.
-
-**Audit evidence statement**
-
-Begin the Methodology section with 2-3 sentences stating exactly what was inspected. Include:
-
-- The number of source files, test files, and configuration files reviewed.
-- Whether Git history was examined.
-- Whether a running environment was observed.
-
-Example: "This audit inspected 147 source files, 8 test files, and 4 configuration files from the repository root. Git commit history was reviewed for the last 15 commits. No running application or live environment was observed; all findings are based on static code analysis."
-
-## System Context & Architectural Assessment
-
-Describe the system as understood from the input, then provide an architectural critique against industry baselines.
+Describe the system as understood from the input. Present the factual context without critique.
 
 **System context table:**
 
@@ -290,9 +326,9 @@ Describe the system as understood from the input, then provide an architectural 
 
 Mark any unknown aspect as `NOT SPECIFIED`.
 
-**Architectural assessment**
+## Architectural Assessment
 
-After the context table, write one or more paragraphs critiquing the architecture. Evaluate coupling, cohesion, state management, separation of concerns, and pattern consistency against the stated constraints. Anchor every claim to a concrete file path or design decision. Do not judge the stack choice itself.
+Provide an architectural critique against industry baselines. Evaluate coupling, cohesion, state management, separation of concerns, and pattern consistency against the stated constraints. Anchor every claim to a concrete file path or design decision. Do not judge the stack choice itself.
 
 ## Strengths & What's Working
 
@@ -309,7 +345,7 @@ Use a bullet list. Each bullet is one sentence anchored to a concrete file, patt
 
 Do not invent strengths. Only list what is evidenced in the provided files.
 
-## Detailed Technical Findings & Assessment
+## Detailed Technical Findings
 
 Present all findings grouped under six pillars. Each finding receives a unique deterministic index.
 
