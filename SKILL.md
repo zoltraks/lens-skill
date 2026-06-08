@@ -58,14 +58,27 @@ Always load these two files before starting an audit:
 - **`principles/evaluation-rules.md`** - Evidence-only reasoning, no-assumption rule, neutrality, status markers, and hard constraints.
 - **`process/workflow.md`** - The end-to-end audit process from intake to final report.
 
-## Report Delivery
+## Parameter Configuration
 
-When the user requests a full audit, for example "perform lens on..." or "make audit report on...", and does not name an output file, ask once how to deliver the report:
+Before beginning the audit, the agent runs the Parameter Configuration phase defined in `process/workflow.md`.
 
-- Return the report inline as the response.
-- Write the report to a file whose name the user provides.
+The agent asks the user whether to accept the default parameters or configure them. Defaults are:
 
-Do not assume a default and do not invent a filename. If the user already named a file or stated a preference, honor it without asking. The full delivery rule is in `process/report-format.md`.
+| Parameter | Default |
+|-----------|---------|
+| Report delivery | Inline (direct response) |
+| Output filename | `AUDIT.md` (used if File mode selected) |
+| Report language | Match the language of the user's request |
+| Detail level | Standard |
+| Evaluation scale | 1-10 |
+| Improvement suggestions | Include with priorities (P1-P4 roadmap) |
+| Trade-off analysis | Embed into relevant findings |
+
+If the user accepts defaults or says "bypass", the agent proceeds immediately using these values.
+
+If the user chooses to configure, the agent walks through the parameters one at a time. At each prompt, the user may say "bypass" to accept all remaining defaults and proceed.
+
+The full parameter flow is documented in `process/workflow.md`.
 
 ## `principles/` - Rules Of Evaluation
 

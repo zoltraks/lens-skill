@@ -4,7 +4,7 @@
 
 Lens is a structured audit process packaged as an agent skill. It guides an AI coding agent through a complete engineering assessment of a codebase, producing a neutral, repeatable report anchored to concrete facts rather than impressions.
 
-Unlike a generic "review my code" prompt, Lens enforces a fixed workflow: intake, scope definition, evidence gathering, per-category assessment, synthesis, and validation. The output is a standardized report with eight sections - document and stack metadata, executive summary and health dashboard, auditing methodology and scoring rubrics, system context and architectural assessment, detailed technical findings and assessment, unified risk register, actionable remediation roadmap, and scope exclusions - each using a hybrid table-paragraph format for scannable summaries backed by detailed evidence.
+Unlike a generic "review my code" prompt, Lens enforces a fixed workflow: intake, parameter configuration, scope definition, evidence gathering, per-category assessment, synthesis, and validation. The output is a standardized report with eight sections - document and stack metadata, executive summary and health dashboard, auditing methodology and scoring rubrics, system context and architectural assessment, detailed technical findings and assessment, unified risk register, actionable remediation roadmap, and scope exclusions - each using a hybrid table-paragraph format for scannable summaries backed by detailed evidence.
 
 ---
 
@@ -15,6 +15,10 @@ When you ask for an audit, the agent loads the skill and performs the following:
 **Reads everything you supplied**
 
 Code, configuration, documentation, logs, and prior reports. It identifies the artifact type (prototype, codebase, production system, or proposal) and records the source format.
+
+**Configures parameters**
+
+Asks whether to accept default parameters (report delivery, detail level, evaluation scale, improvement suggestions) or configure them individually. The user may bypass at any stage to proceed with defaults.
 
 **Defines scope explicitly**
 
@@ -90,10 +94,10 @@ This format keeps the report readable in plain-text consoles while preserving de
 > Audit this production codebase. Produce a full engineering assessment with a unified risk register, scorecard, and actionable remediation roadmap.
 
 **Audit to a file**
-> Perform lens on this service and write the audit report to AUDIT.md.
+> Perform lens on this service and write the audit report to AUDIT.md. (The agent will accept the filename and ask whether to accept other defaults or configure parameters.)
 
 **Audit without a named file**
-> Make audit report on this codebase. (The agent will ask whether to reply inline or write to a file you name.)
+> Make audit report on this codebase. (The agent will ask whether to accept default parameters or configure them, then whether to reply inline or write to a file.)
 
 **Readiness assessment**
 > Is this system production-ready? Assess testing, deployment, rollback, observability, and operational readiness, and state the maturity level with evidence.

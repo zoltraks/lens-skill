@@ -11,7 +11,7 @@ For a single-dimension request, run the same steps but limit the assessment phas
 
 ## Step Overview
 
-The workflow has six phases. Complete each phase before moving to the next.
+The workflow has seven phases. Complete each phase before moving to the next.
 
 **Intake**
 
@@ -21,7 +21,80 @@ Identify the artifact type: prototype, codebase under development, running produ
 
 Note the source format. Findings from a description are weaker than findings from inspected code or configuration.
 
-Confirm the report destination. If the user named an output file, use it. If the user invoked an audit such as "perform lens on..." or "make audit report on..." without naming a file, ask once whether to return the report inline or write it to a file the user names, per the delivery rule in `process/report-format.md`.
+Determine the natural language of the user's request. The report language must match the request language unless the user explicitly states otherwise.
+
+**Parameter Configuration**
+
+Before beginning the audit, ask the user whether to accept the default parameters or configure them. Present the defaults in a compact summary.
+
+Default parameters:
+
+| Parameter | Default Value |
+|-----------|---------------|
+| Report delivery | Inline (direct response) |
+| Output filename | `AUDIT.md` (only used if delivery is File) |
+| Report language | Match the language of the user's request |
+| Detail level | Standard |
+| Evaluation scale | 1-10 |
+| Improvement suggestions | Include with priorities (P1-P4 roadmap) |
+| Trade-off analysis | Embed into relevant findings |
+
+If the user accepts defaults or says "bypass", "defaults", or equivalent, proceed immediately to Scope Definition using the values above.
+
+If the user chooses to configure, walk through the parameters one at a time. At each prompt, offer a bypass option to accept the remaining defaults and proceed.
+
+**Parameter prompts**
+
+Present each prompt as a single question with clear options. After each answer, confirm the choice and move to the next parameter.
+
+**Report delivery**
+
+Ask: "How should the report be delivered?"
+
+- Inline (default) - return the full report as the direct response.
+- File - write the report to a file.
+
+If File is chosen, ask for the filename. Default to `AUDIT.md` if the user does not specify.
+
+If the user already named a file or stated a delivery preference in the original request, honor it without asking again.
+
+**Report language**
+
+The default is the language of the user's request. Ask only if the user explicitly asks for a different language.
+
+**Detail level**
+
+Ask: "What level of detail should the report include?"
+
+- **Standard** (default) - full report with all eight sections, complete findings, risk register, scorecard, and remediation roadmap.
+- **Detailed** - full report plus extended remediation steps, additional verification methods, deeper architectural critique, and expanded impact analysis.
+- **Brief** - Executive Summary & Health Dashboard, Scorecard Summary, top risks only, and key recommendations. Detailed findings are summarized, not itemized.
+
+**Evaluation scale**
+
+Ask: "Which evaluation scale should be used for the scorecard?"
+
+- **1-10** (default) - default scale with band definitions Poor (1-3), Average (4-6), Good (7-8), Excellent (9-10).
+- **1-5** - alternative compact scale.
+
+**Improvement suggestions**
+
+Ask: "How should improvement suggestions be presented?"
+
+- **Include with priorities** (default) - full Actionable Remediation Roadmap with P1-P4 priority tiers, impact/effort/complexity matrix, and verification steps.
+- **Brief only** - top 5 recommendations without the full matrix or verification steps.
+- **None** - omit the Actionable Remediation Roadmap. Include only findings and risks.
+
+**Trade-off analysis**
+
+Ask: "Should architectural trade-offs be analyzed?"
+
+- **Embed into findings** (default) - trade-offs are embedded into the relevant `FND-ARC-XXX` or `FND-CQ-XXX` finding blocks.
+- **Omit** - do not include trade-off reasoning.
+
+**Bypass rule**
+
+At any parameter prompt, if the user responds with "bypass", "skip", "defaults", or equivalent, immediately accept all remaining defaults and proceed to Scope Definition.
 
 **Scope Definition**
 
@@ -87,7 +160,7 @@ Use this checklist to confirm you understand the input before assessing.
 | What was explicitly excluded?              | Out-of-scope list                  |
 | What constraints did the user state?       | Constraints, or `NOT SPECIFIED`    |
 | What maturity does the user claim, if any? | Claimed maturity, or none          |
-| Where should the report be delivered?      | Inline / named file, ask if unstated |
+| What is the natural language of the request? | Language code or name              |
 
 ## Handling Thin Input
 

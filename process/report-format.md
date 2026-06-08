@@ -45,20 +45,57 @@ Example for scorecard dimension:
 The repository contains multiple plaintext secrets in tracked files.
 ```
 
-## Report Delivery
+## Report Delivery And Parameter Configuration
 
-Before producing a full report, confirm where it should go.
+Report delivery is determined during the Parameter Configuration phase in `process/workflow.md`. Do not ask delivery questions here; they are handled upstream.
 
-When the user names an output file, for example "write the audit to AUDIT.md", write the report to that path and confirm the location.
+When the user names an output file in the original request, for example "write the audit to AUDIT.md", honor that filename without asking again.
 
-When the user invokes an audit without naming an output file, for example "perform lens on this service" or "make audit report on the codebase", ask which delivery they want before writing the full report:
+When the user invokes an audit without naming an output file, for example "perform lens on this service" or "make audit report on the codebase", the Parameter Configuration phase determines delivery and filename.
 
-- Return the report inline as the response.
-- Write the report to a file whose name the user provides.
-
-Ask this once, early, as a single question. Do not assume a default and do not invent a filename. If the user has already stated a preference in the same request, honor it without asking again.
+Default delivery is **Inline** (direct response). Default filename is **AUDIT.md** when File mode is selected.
 
 For a single-dimension request that produces only a short subsection, returning the result inline is acceptable without asking, unless the user asked for a file.
+
+## Detail Level Configuration
+
+The report adapts to the detail level chosen during Parameter Configuration.
+
+**Standard**
+
+All eight sections are present in full:
+
+- Document & Stack Metadata
+- Executive Summary & Health Dashboard
+- Auditing Methodology & Scoring Rubrics
+- System Context & Architectural Assessment
+- Detailed Technical Findings & Assessment (all findings with full Description, Impact, Remediation, and Verification)
+- Unified Risk Register
+- Actionable Remediation Roadmap (full matrix with P1-P4, impact/effort/complexity, verification)
+- Scope Exclusions
+
+**Detailed**
+
+Same eight sections as Standard, plus the following extensions:
+
+- Executive Summary includes an expanded Risk Heat Map with all risks plotted.
+- Architectural Assessment includes deeper critique with additional industry baseline comparisons.
+- Each finding includes extended verification methods and alternative remediation paths.
+- Remediation Roadmap includes additional context for each recommendation (blocking dependencies, estimated timeframes).
+
+**Brief**
+
+Condensed output for rapid review:
+
+- Document & Stack Metadata (full)
+- Executive Summary & Health Dashboard (full summary table and risk heat map)
+- Scorecard Summary table only (omits the per-dimension detailed paragraphs)
+- Top 5 findings only (summary table and abbreviated detail blocks)
+- Top 5 risks only (summary table)
+- Key recommendations only (top 5, no full matrix)
+- Scope Exclusions (full)
+
+Omitted in Brief: Auditing Methodology & Scoring Rubrics, System Context & Architectural Assessment detailed critique, full Detailed Technical Findings list, full Unified Risk Register, full Actionable Remediation Roadmap.
 
 ## Section Order
 
