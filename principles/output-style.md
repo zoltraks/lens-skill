@@ -172,10 +172,13 @@ The inline format remains identical: the marker follows the bold heading separat
 - In Polish, use Polish equivalents for standard headings and table headers:
   - "Metadane i stos technologiczny" for "Document & Stack Metadata"
   - "Podsumowanie wykonawcze i panel zdrowia" for "Executive Summary & Health Dashboard"
+  - "Kluczowe obserwacje" for "High-Level Observations"
   - "Metodologia audytu i skale oceny" for "Auditing Methodology & Scoring Rubrics"
   - "Kontekst systemu i ocena architektury" for "System Context & Architectural Assessment"
+  - "Mocne strony i co działa" for "Strengths & What's Working"
   - "Szczegółowe wyniki techniczne i ocena" for "Detailed Technical Findings & Assessment"
   - "Jednolity rejestr ryzyk" for "Unified Risk Register"
+  - "Analiza kompromisów" for "Trade-off Analysis"
   - "Plan działania i mapa naprawcza" for "Actionable Remediation Roadmap"
   - "Wyłączenia z zakresu" for "Scope Exclusions"
   - "Zależności" for "Dependency Health" (scorecard dimension)

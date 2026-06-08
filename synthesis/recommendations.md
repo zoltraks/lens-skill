@@ -54,4 +54,4 @@ Recommendations summarize and plan, they do not introduce new findings.
 
 Every recommendation must trace back to a finding in the Detailed Technical Findings & Assessment or an entry in the Unified Risk Register.
 
-Trade-off analyses that were previously in a standalone section should be embedded directly into the relevant finding in the Detailed Technical Findings & Assessment. The roadmap then references that finding.
+Trade-off analyses appear both as a standalone Trade-off Analysis section (before the Remediation Roadmap) and embedded into relevant findings. The roadmap references the relevant `FND-XXX` finding regardless of where the trade-off is presented.

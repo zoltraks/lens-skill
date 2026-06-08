@@ -4,7 +4,7 @@
 
 Lens is a structured audit process packaged as an agent skill. It guides an AI coding agent through a complete engineering assessment of a codebase, producing a neutral, repeatable report anchored to concrete facts rather than impressions.
 
-Unlike a generic "review my code" prompt, Lens enforces a fixed workflow: intake, parameter configuration, scope definition, evidence gathering, per-category assessment, synthesis, and validation. The output is a standardized report with eight sections - document and stack metadata, executive summary and health dashboard, auditing methodology and scoring rubrics, system context and architectural assessment, detailed technical findings and assessment, unified risk register, actionable remediation roadmap, and scope exclusions - each using a hybrid table-paragraph format for scannable summaries backed by detailed evidence.
+Unlike a generic "review my code" prompt, Lens enforces a fixed workflow: intake, parameter configuration, scope definition, evidence gathering, per-category assessment, synthesis, and validation. The output is a standardized report with eleven sections - document and stack metadata, executive summary and health dashboard, high-level observations, auditing methodology and scoring rubrics, system context and architectural assessment, strengths and what's working, detailed technical findings and assessment, unified risk register, trade-off analysis, actionable remediation roadmap, and scope exclusions - each using a hybrid table-paragraph format for scannable summaries backed by detailed evidence.
 
 ---
 
@@ -65,6 +65,9 @@ The skill uses a hybrid table-paragraph format throughout:
 - **Recommendation IDs** are shown as `REC-[001]` and traced to specific findings.
 - **Scores** in the scorecard are shown as `Score: 7/10` inline after the dimension name (or `Score: X/5` when the 1-5 scale is selected).
 - **Severities** are shown as `SEVERITY: CRITICAL` inline after the finding title.
+- **High-Level Observations** provide a fast-skim path for non-technical readers.
+- **Strengths & What's Working** balances the tone with 5-8 acknowledged positives.
+- **Trade-off Analysis** surfaces architectural tensions in a dedicated table.
 
 This format keeps the report readable in plain-text consoles while preserving depth.
 
@@ -118,7 +121,7 @@ This format keeps the report readable in plain-text consoles while preserving de
 > Build a risk register for this architecture proposal. Use Low / Medium / High / Critical severities and tie each risk to evidence.
 
 **Architectural trade-off**
-> Evaluate the trade-off between keeping in-memory state versus introducing an external store for this prototype, given a single-instance target. Embed the analysis into the relevant architectural finding.
+> Evaluate the trade-off between keeping in-memory state versus introducing an external store for this prototype, given a single-instance target. Include a standalone trade-off table and embed the analysis into the relevant architectural finding.
 
 **Thin input**
 > Here is a one-paragraph description of a service. Audit what you can and list exactly what additional artifacts would raise confidence.
@@ -156,6 +159,7 @@ lens-skill/
 └── synthesis/
     ├── risk-register.md           # Unified risk register with FND cross-referencing
     ├── scorecard.md               # 1-10 project scorecard and rubric (1-5 optional)
+    ├── trade-off-analysis.md      # Engineering trade-offs in standalone table and embedded findings
     └── recommendations.md         # Actionable remediation roadmap with priority matrix
 ```
 

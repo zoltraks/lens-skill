@@ -72,7 +72,7 @@ The agent asks the user whether to accept the default parameters or configure th
 | Detail level | Standard |
 | Evaluation scale | 1-10 |
 | Improvement suggestions | Include with priorities (P1-P4 roadmap) |
-| Trade-off analysis | Embed into relevant findings |
+| Trade-off analysis | Standalone section + embedded into relevant findings |
 
 If the user accepts defaults or says "bypass", the agent proceeds immediately using these values.
 
@@ -113,6 +113,7 @@ The full parameter flow is documented in `process/workflow.md`.
 
 - **`synthesis/risk-register.md`** - Unified risk register with bidirectional cross-referencing to findings (`RSK-[001]` mapping to `FND-XXX`).
 - **`synthesis/scorecard.md`** - The 1-10 project scorecard, dimensions, and scoring rubric (1-5 optional).
+- **`synthesis/trade-off-analysis.md`** - Surfacing engineering trade-offs in a standalone section and embedded into findings.
 - **`synthesis/recommendations.md`** - Actionable remediation roadmap with prioritized impact-vs-effort matrix and verification steps.
 
 ## Navigation Rules
@@ -130,5 +131,5 @@ The full parameter flow is documented in `process/workflow.md`.
 - Data protection, privacy, and licensing belong in `assessment/compliance.md`.
 - Prefer the narrowest assessment file that directly matches the request.
 - If the user asks only for a single dimension (for example "review security" or "audit dependencies"), load that one assessment file plus `principles/` and produce the matching finding pillar and risk row only.
-- Trade-off analyses are embedded directly into the relevant architectural or design finding in the Detailed Technical Findings & Assessment. Do not produce a standalone Trade-off Analysis section.
+- Trade-off analyses appear both as a standalone Trade-off Analysis section (before the Remediation Roadmap) and embedded into relevant architectural or design findings (under Description or Impact bullets). Use `synthesis/trade-off-analysis.md` for the standalone table format.
 - For a full audit, load `principles/`, `process/`, every relevant `assessment/` file, and all `synthesis/` files. Mark categories that cannot apply to the subject as `N/A` with justification rather than dropping them.

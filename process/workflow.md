@@ -37,7 +37,7 @@ Default parameters:
 | Detail level | Standard |
 | Evaluation scale | 1-10 |
 | Improvement suggestions | Include with priorities (P1-P4 roadmap) |
-| Trade-off analysis | Embed into relevant findings |
+| Trade-off analysis | Standalone section + embedded into relevant findings |
 
 If the user accepts defaults or says "bypass", "defaults", or equivalent, proceed immediately to Scope Definition using the values above.
 
@@ -66,7 +66,7 @@ The default is the language of the user's request. Ask only if the user explicit
 
 Ask: "What level of detail should the report include?"
 
-- **Standard** (default) - full report with all eight sections, complete findings, risk register, scorecard, and remediation roadmap.
+- **Standard** (default) - full report with all eleven sections, complete findings, risk register, scorecard, and remediation roadmap.
 - **Detailed** - full report plus extended remediation steps, additional verification methods, deeper architectural critique, and expanded impact analysis.
 - **Brief** - Executive Summary & Health Dashboard, Scorecard Summary, top risks only, and key recommendations. Detailed findings are summarized, not itemized.
 
@@ -128,9 +128,15 @@ Build the unified risk register from the risks surfaced during assessment, using
 
 Build the project scorecard using `synthesis/scorecard.md`. Present the scoring rubric before the scores.
 
-Embed trade-off analyses directly into the relevant architectural or design findings. Do not produce a standalone trade-off section.
+Draft the High-Level Observations section by selecting the top 5 most important findings from the Detailed Technical Findings. Keep each observation brief; full detail lives in the finding blocks.
+
+Draft the Strengths & What's Working section by identifying 5-8 evidenced positive baselines from the codebase.
+
+Surface trade-offs both as a standalone Trade-off Analysis section (using `synthesis/trade-off-analysis.md`) and embedded into relevant architectural or design findings where they directly explain a specific finding.
 
 Draft the actionable remediation roadmap using `synthesis/recommendations.md`. Every recommendation must resolve a specific `FND-XXX`.
+
+Add the Production Readiness Threshold paragraph to the Executive Summary, tying conditions to specific `RSK-XXX` IDs.
 
 **Validation**
 
@@ -145,6 +151,14 @@ Confirm every `RSK-XXX` references its source `FND-XXX`.
 Confirm every `REC-XXX` resolves a specific `FND-XXX`.
 
 Confirm no plaintext secrets, passwords, or cryptographic keys appear in summaries, observations, or risk descriptions.
+
+Confirm the High-Level Observations section contains at most 5 bullets and anchors each to a specific `FND-XXX`.
+
+Confirm the Strengths & What's Working section contains 5-8 evidenced bullet points.
+
+Confirm the Trade-off Analysis section uses the standard table format and frames each trade-off against a stated constraint.
+
+Confirm every finding in the index table has a Remediation Status column with value `Open`.
 
 Confirm the report follows `process/report-format.md` section by section.
 
@@ -183,6 +197,8 @@ When the user asks for only one dimension, such as "review observability":
 
 ## Re-Audit
 
-When re-auditing after changes, keep the same categories, statuses vocabulary, and scorecard dimensions.
+When re-auditing after changes, keep the same categories, statuses vocabulary, scorecard dimensions, and finding IDs.
 
 Record what changed since the previous audit and which findings moved status, so progress is comparable over time.
+
+Update the Remediation Status column for findings that were closed since the previous audit. Add a "Re-audit Notes" paragraph noting which `FND-XXX` findings changed from `Open` to `Closed` and which `RSK-XXX` risks were mitigated.

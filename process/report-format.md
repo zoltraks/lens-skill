@@ -63,24 +63,29 @@ The report adapts to the detail level chosen during Parameter Configuration.
 
 **Standard**
 
-All eight sections are present in full:
+All eleven sections are present in full:
 
 - Document & Stack Metadata
 - Executive Summary & Health Dashboard
+- High-Level Observations
 - Auditing Methodology & Scoring Rubrics
 - System Context & Architectural Assessment
+- Strengths & What's Working
 - Detailed Technical Findings & Assessment (all findings with full Description, Impact, Remediation, and Verification)
 - Unified Risk Register
+- Trade-off Analysis
 - Actionable Remediation Roadmap (full matrix with P1-P4, impact/effort/complexity, verification)
 - Scope Exclusions
 
 **Detailed**
 
-Same eight sections as Standard, plus the following extensions:
+Same eleven sections as Standard, plus the following extensions:
 
-- Executive Summary includes an expanded Risk Heat Map with all risks plotted.
+- Executive Summary includes an expanded Risk Heat Map with all risks plotted and a longer Production Readiness Threshold paragraph.
 - Architectural Assessment includes deeper critique with additional industry baseline comparisons.
+- Strengths section includes 8-10 bullet points.
 - Each finding includes extended verification methods and alternative remediation paths.
+- Trade-off Analysis includes additional trade-offs surfaced during assessment.
 - Remediation Roadmap includes additional context for each recommendation (blocking dependencies, estimated timeframes).
 
 **Brief**
@@ -89,13 +94,16 @@ Condensed output for rapid review:
 
 - Document & Stack Metadata (full)
 - Executive Summary & Health Dashboard (full summary table and risk heat map)
+- High-Level Observations (full)
 - Scorecard Summary table only (omits the per-dimension detailed paragraphs)
+- Strengths & What's Working (top 3 bullets only)
 - Top 5 findings only (summary table and abbreviated detail blocks)
 - Top 5 risks only (summary table)
+- Key trade-offs only (top 2, no full table)
 - Key recommendations only (top 5, no full matrix)
 - Scope Exclusions (full)
 
-Omitted in Brief: Auditing Methodology & Scoring Rubrics, System Context & Architectural Assessment detailed critique, full Detailed Technical Findings list, full Unified Risk Register, full Actionable Remediation Roadmap.
+Omitted in Brief: Auditing Methodology & Scoring Rubrics, System Context & Architectural Assessment detailed critique, full Detailed Technical Findings list, full Unified Risk Register, full Trade-off Analysis, full Actionable Remediation Roadmap.
 
 ## Section Order
 
@@ -103,10 +111,13 @@ The report has these top-level sections, in this order, with unnumbered headings
 
 - Document & Stack Metadata
 - Executive Summary & Health Dashboard
+- High-Level Observations
 - Auditing Methodology & Scoring Rubrics
 - System Context & Architectural Assessment
+- Strengths & What's Working
 - Detailed Technical Findings & Assessment
 - Unified Risk Register
+- Trade-off Analysis
 - Actionable Remediation Roadmap
 - Scope Exclusions
 
@@ -149,6 +160,10 @@ Write one paragraph immediately after the table. State the system's purpose in o
 
 The maturity level must be justified by evidence in later sections, not asserted.
 
+**Production Readiness Threshold**
+
+Add a short paragraph at the end of the Executive Summary stating the minimum conditions required for the maturity label to change from its current level to `Production-ready`. Tie these conditions explicitly to specific risk IDs (for example: "To reach Production-ready, RSK-001 and RSK-002 must be closed by removing hardcoded secrets, and RSK-003 must be closed by achieving 60% test coverage"). This paragraph gives the reader a concrete bar for re-audit.
+
 **Risk Heat Map**
 
 Provide a consolidated Likelihood vs Impact matrix summarizing the top risks. Use a table:
@@ -180,6 +195,20 @@ Provide a compact summary of the project scorecard dimensions:
 | Compliance |       |       |
 | Observability |       |       |
 | Operational Safety |       |       |
+
+## High-Level Observations
+
+Surface the most important findings in a compact table a reader can scan before reading the detail sections. Include at most five observations. Each observation should be a single concrete finding, not a category summary.
+
+Use this single-column table:
+
+| Observation                     |
+|---------------------------------|
+| <observation>                   |
+
+Write one paragraph per observation immediately after the table, in the same order as the table rows. Start each paragraph with a bold heading on its own line (the observation text, abbreviated if needed), then add an empty line, then the body. Each paragraph explains why the observation matters and what risk or opportunity it represents. Anchor every claim to a specific finding in the Detailed Technical Findings & Assessment.
+
+Keep each observation brief. The full technical detail lives in the numbered finding blocks later in the report. This section exists to give non-technical readers a fast-skim path.
 
 ## Auditing Methodology & Scoring Rubrics
 
@@ -218,6 +247,29 @@ For the 1-5 alternative scale:
 
 **Zero is not a score.** The value `0` is reserved and never used. When a dimension cannot apply, mark it `N/A`.
 
+**Severity definitions**
+
+Add a 4-row rubric defining each qualitative severity band. These definitions anchor the severity values used in findings and risks.
+
+| Severity | Impact | Likelihood | Blocks Production Readiness |
+|----------|--------|------------|----------------------------|
+| CRITICAL | Data loss, breach, or full system compromise | Expected without intervention | Yes |
+| HIGH | Major function loss or data integrity concern | Plausible under normal operation | Yes |
+| MEDIUM | Degraded function or contained outage | Requires specific conditions | No (but must be tracked) |
+| LOW | Limited or cosmetic effect | Unusual combination required | No |
+
+Use these definitions consistently across the Detailed Technical Findings and the Unified Risk Register.
+
+**Audit evidence statement**
+
+Begin the Methodology section with 2-3 sentences stating exactly what was inspected. Include:
+
+- The number of source files, test files, and configuration files reviewed.
+- Whether Git history was examined.
+- Whether a running environment was observed.
+
+Example: "This audit inspected 147 source files, 8 test files, and 4 configuration files from the repository root. Git commit history was reviewed for the last 15 commits. No running application or live environment was observed; all findings are based on static code analysis."
+
 ## System Context & Architectural Assessment
 
 Describe the system as understood from the input, then provide an architectural critique against industry baselines.
@@ -238,20 +290,35 @@ Mark any unknown aspect as `NOT SPECIFIED`.
 
 After the context table, write one or more paragraphs critiquing the architecture. Evaluate coupling, cohesion, state management, separation of concerns, and pattern consistency against the stated constraints. Anchor every claim to a concrete file path or design decision. Do not judge the stack choice itself.
 
+## Strengths & What's Working
+
+Add a short section with 5-8 bullet points acknowledging what the system does well. This balances the tone of the report and anchors the scorecard with positive baselines.
+
+Use a bullet list. Each bullet is one sentence anchored to a concrete file, pattern, or decision. Examples:
+
+- Dependency injection is consistently applied in `Program.cs`, enabling testable service registration.
+- Nullable reference types are enabled project-wide, reducing null-reference defects.
+- XML documentation generation is configured, supporting API consumer onboarding.
+- The multi-stage Dockerfile uses official .NET base images and follows container best practices.
+- Firebird SQL connection pooling is configured with sensible `MinPoolSize` and `MaxPoolSize` values.
+- JWT bearer authentication is implemented with standard ASP.NET Core middleware.
+
+Do not invent strengths. Only list what is evidenced in the provided files.
+
 ## Detailed Technical Findings & Assessment
 
-This section replaces the previous Quality Assessment and High-Level Observations. Present all findings grouped under four pillars. Each finding receives a unique deterministic index.
+Present all findings grouped under four pillars. Each finding receives a unique deterministic index.
 
 **Summary table:**
 
 Present a compact summary of all findings:
 
-| Finding ID | Pillar | Severity | Title | Status |
-|------------|--------|----------|-------|--------|
-| FND-ARC-001 | Architecture & Design | <severity> | <title> | <status> |
-| FND-CQ-001 | Code Quality | <severity> | <title> | <status> |
-| FND-SEC-001 | Security & Compliance | <severity> | <title> | <status> |
-| FND-INF-001 | Infrastructure & CI/CD | <severity> | <title> | <status> |
+| Finding ID | Pillar | Severity | Title | Status | Remediation Status |
+|------------|--------|----------|-------|--------|-------------------|
+| FND-ARC-001 | Architecture & Design | <severity> | <title> | <status> | Open |
+| FND-CQ-001 | Code Quality | <severity> | <title> | <status> | Open |
+| FND-SEC-001 | Security & Compliance | <severity> | <title> | <status> | Open |
+| FND-INF-001 | Infrastructure & CI/CD | <severity> | <title> | <status> | Open |
 
 Pillar abbreviations for IDs:
 
@@ -339,6 +406,32 @@ Likelihood bands:
 - When a risk rests on missing information, mark its likelihood basis as `INSUFFICIENT INFORMATION` in the risk text.
 - Mitigations are options, not directives. Do not phrase them as commands unless the user asked for directives.
 - Do not output plaintext secrets, passwords, or cryptographic keys in the Risk column.
+
+## Trade-off Analysis
+
+Present engineering trade-offs as a dedicated section before the Remediation Roadmap. A trade-off is a deliberate exchange of one quality for another.
+
+Use a table with this fixed column order:
+
+| Trade-off | Context | Option A: gain / cost | Option B: gain / cost | Evidence | Implication |
+|-----------|---------|-----------------------|-----------------------|----------|-------------|
+
+Column meanings:
+
+- **Trade-off**: a short name for the tension.
+- **Context**: the stated constraint or goal that frames the choice, or `NOT SPECIFIED`.
+- **Option A**: the quality gained and the quality reduced for the first side.
+- **Option B**: the quality gained and the quality reduced for the alternative.
+- **Evidence**: what in the system shows this trade-off.
+- **Implication**: the neutral consequence under the stated context.
+
+**Rules**
+
+- Frame each trade-off against a stated constraint. If no constraint is stated, put `NOT SPECIFIED` in Context and present the trade-off without judging the choice.
+- Do not label either side as right or wrong outside an explicit recommendation request.
+- A choice that fits the stated context is not a weakness, even if it would be unusual in a different context.
+- Keep cell language neutral and anchored to evidence.
+- Trade-off reasoning may also be embedded into individual finding blocks (under Description or Impact) when it directly explains a specific finding. The standalone table here surfaces the system-level tensions.
 
 ## Actionable Remediation Roadmap
 
