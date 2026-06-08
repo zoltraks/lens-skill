@@ -27,6 +27,8 @@ Use this fixed column order and dimension set:
 | Compliance         |       |       |
 | Observability      |       |       |
 | Operational Safety |       |       |
+| AI Provenance      |       |       |
+| Originality & Licensing |       |       |
 
 Keep the dimension names and order identical across every audit so scores are comparable.
 
@@ -113,6 +115,8 @@ Each scorecard dimension summarizes one or more assessment categories.
 | Compliance         | Compliance and Data Protection                      |
 | Observability      | Observability                                       |
 | Operational Safety | Operational Readiness, Error Handling, Rollback Strategy |
+| AI Provenance      | AI-Generated Code & Provenance                      |
+| Originality & Licensing | Copyrights & Originality                       |
 
 ## Rules
 

@@ -8,7 +8,7 @@
 This file guides trade-off reasoning that appears in two places:
 
 - A standalone **Trade-off Analysis** section in the report, before the Actionable Remediation Roadmap.
-- Embedded into individual `FND-ARC-XXX` or `FND-CQ-XXX` finding blocks, under the Description or Impact bullet, when the trade-off directly explains a specific finding.
+- Embedded into individual `FND-ARC-XXX`, `FND-CQ-XXX`, `FND-AIP-XXX`, or `FND-CPR-XXX` finding blocks, under the Description or Impact bullet, when the trade-off directly explains a specific finding.
 
 A trade-off is a deliberate exchange of one quality for another.
 

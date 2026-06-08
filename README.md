@@ -1,5 +1,11 @@
 # Lens - Software Audit Skill
 
+```
+ /\_/\  
+( o.o ) 
+ > ^ <
+```
+
 > Evidence-based engineering audits of any software subject - prototypes, codebases under development, and already-running production systems.
 
 Lens is a structured audit process packaged as an agent skill. It guides an AI coding agent through a complete engineering assessment of a codebase, producing a neutral, repeatable report anchored to concrete facts rather than impressions.
@@ -28,9 +34,9 @@ Lists what is in scope and what is excluded. Marks unstated constraints as `NOT 
 
 Collects concrete anchors - file paths, config keys, commands, pipeline steps - before forming conclusions. Separates collection from judgment to avoid confirmation bias.
 
-**Assesses across 16 categories**
+**Assesses across 18 categories**
 
-Testing, design principles, code quality, stack best practices, dependencies, deployment, rollback, maintainability, change management, documentation, non-functional requirements, security, compliance, observability, error handling, and operational readiness. Each category receives one of five statuses: `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, or `N/A`.
+Testing, design principles, code quality, stack best practices, dependencies, deployment, rollback, maintainability, change management, documentation, non-functional requirements, security, compliance, observability, error handling, operational readiness, AI-generated code detection and provenance, and copyrights and originality. Each category receives one of five statuses: `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, or `N/A`.
 
 **Synthesizes findings**
 
@@ -155,7 +161,9 @@ lens-skill/
 │   ├── compliance.md              # Data protection, privacy, regulatory scope, licensing, audit trail
 │   ├── observability.md           # Logging, metrics, tracing, alerting
 │   ├── error-handling.md          # Exceptions, retries, fallbacks, user-facing errors
-│   └── operational-readiness.md   # Runbooks, on-call, capacity, backups, incident response
+│   ├── operational-readiness.md   # Runbooks, on-call, capacity, backups, incident response
+│   ├── ai-generated-code.md       # AI code detection, Vibe Coding risks, Agent Driven Engineering maturity
+│   └── copyrights.md              # Code originality, license compliance, attribution
 └── synthesis/
     ├── risk-register.md           # Unified risk register with FND cross-referencing
     ├── scorecard.md               # 1-10 project scorecard and rubric (1-5 optional)

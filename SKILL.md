@@ -8,7 +8,8 @@ description: >-
   principles (SOLID), code quality, dependencies and supply chain, deployment,
   rollback, maintainability, change management, documentation, non-functional
   requirements, security, compliance and data protection, observability, error
-  handling, and operational readiness. Enforces evidence-only reasoning,
+  handling, operational readiness, AI-generated code detection and provenance,
+  and copyrights and originality. Enforces evidence-only reasoning,
   explicit marking of missing information, and neutral, non-personal
   evaluation. Use whenever the user asks for a software audit, architecture
   audit, prototype review, production code audit, technical due diligence,
@@ -108,6 +109,8 @@ The full parameter flow is documented in `process/workflow.md`.
 - **`assessment/observability.md`** - Logging, metrics, tracing, and alerting.
 - **`assessment/error-handling.md`** - Exception strategy, retries, fallbacks, and user-facing error handling.
 - **`assessment/operational-readiness.md`** - Runbooks, on-call, capacity, backups, and incident response.
+- **`assessment/ai-generated-code.md`** - AI-generated code detection, Vibe Coding risks, Agent Driven Engineering maturity, and SDLC discipline.
+- **`assessment/copyrights.md`** - Code originality, license compliance, attribution, and dependency license compatibility.
 
 ## `synthesis/` - Findings And Report Assembly
 
@@ -129,6 +132,8 @@ The full parameter flow is documented in `process/workflow.md`.
 - Performance, scalability, availability, reliability, and resilience belong in `assessment/nfr.md`; day-two operations belong in `assessment/operational-readiness.md`.
 - Logging and metrics belong in `assessment/observability.md`; failure handling in code belongs in `assessment/error-handling.md`.
 - Data protection, privacy, and licensing belong in `assessment/compliance.md`.
+- AI-generated code detection, Vibe Coding risks, and Agent Driven Engineering maturity belong in `assessment/ai-generated-code.md`.
+- Code originality, license compliance, and attribution belong in `assessment/copyrights.md`.
 - Prefer the narrowest assessment file that directly matches the request.
 - If the user asks only for a single dimension (for example "review security" or "audit dependencies"), load that one assessment file plus `principles/` and produce the matching finding pillar and risk row only.
 - Trade-off analyses appear both as a standalone Trade-off Analysis section (before the Remediation Roadmap) and embedded into relevant architectural or design findings (under Description or Impact bullets). Use `synthesis/trade-off-analysis.md` for the standalone table format.

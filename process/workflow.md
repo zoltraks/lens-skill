@@ -116,7 +116,7 @@ Where evidence is absent, record the gap explicitly with the appropriate missing
 
 **Category Assessment**
 
-For each category, open the matching `assessment/` file and apply its checklist.
+For each category, open the matching `assessment/` file and apply its checklist. For a full audit, this includes the two additional categories `assessment/ai-generated-code.md` and `assessment/copyrights.md`.
 
 Assign a status (`PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`) per the rules in `principles/evaluation-rules.md`.
 
@@ -188,7 +188,7 @@ A thin-input audit is still useful: it shows exactly what is missing for a readi
 
 ## Single-Dimension Audits
 
-When the user asks for only one dimension, such as "review observability":
+When the user asks for only one dimension, such as "review observability" or "check for AI-generated code" or "audit copyrights":
 
 - Still load `principles/evaluation-rules.md` and `principles/output-style.md`.
 - Load only the matching `assessment/` file.

@@ -130,7 +130,7 @@ When the user requests a specific natural language for the report, translate all
 
 - All section headings (e.g., "Document & Stack Metadata", "Executive Summary & Health Dashboard", "Detailed Technical Findings & Assessment")
 - All table column headers (e.g., "Layer", "Technology", "Category", "Status", "Risks", "Notes", "Dimension", "Score")
-- All finding pillar names in the Detailed Technical Findings summary table (e.g., "Architecture & Design", "Code Quality", "Security & Compliance", "Infrastructure & CI/CD")
+- All finding pillar names in the Detailed Technical Findings summary table (e.g., "Architecture & Design", "Code Quality", "Security & Compliance", "Infrastructure & CI/CD", "AI Provenance & Code Origin", "Copyrights & Originality")
 - All dimension names in the Scorecard Summary (e.g., "Testability", "Design Soundness", "Code Quality")
 - All risk names in the Unified Risk Register
 - All recommendation summaries in the Actionable Remediation Roadmap
@@ -183,6 +183,8 @@ The inline format remains identical: the marker follows the bold heading separat
   - "Wyłączenia z zakresu" for "Scope Exclusions"
   - "Zależności" for "Dependency Health" (scorecard dimension)
   - "Poprawność projektowa" for "Design Soundness" (scorecard dimension)
+  - "Pochodzenie AI" for "AI Provenance" (scorecard dimension)
+  - "Oryginalność i licencjonowanie" for "Originality & Licensing" (scorecard dimension)
   - "Obszar" for "Field" (Executive Summary table header)
   - "Wartość" for "Value" (Executive Summary table header)
   - "Wymiar" for "Dimension" (Project Scorecard table header)

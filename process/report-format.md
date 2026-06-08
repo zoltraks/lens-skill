@@ -195,6 +195,8 @@ Provide a compact summary of the project scorecard dimensions:
 | Compliance |       |       |
 | Observability |       |       |
 | Operational Safety |       |       |
+| AI Provenance |       |       |
+| Originality & Licensing |       |       |
 
 ## High-Level Observations
 
@@ -216,12 +218,14 @@ This section defines the evaluation framework so that scores are objective and r
 
 **Methodology overview**
 
-State that the audit uses evidence-based reasoning across 16 assessment categories grouped into four pillars. List the pillars:
+State that the audit uses evidence-based reasoning across 18 assessment categories grouped into six pillars. List the pillars:
 
 - **Architecture & Design** - Design principles, maintainability, change management, documentation, non-functional requirements
 - **Code Quality** - Testing, code quality, stack best practices
 - **Security & Compliance** - Security, compliance and data protection
 - **Infrastructure & CI/CD** - Dependencies, deployment, rollback, observability, error handling, operational readiness
+- **AI Provenance & Code Origin** - AI-generated code detection, Vibe Coding risks, Agent Driven Engineering maturity, SDLC discipline
+- **Copyrights & Originality** - Code originality, license compliance, attribution, dependency license compatibility
 
 **Scoring rubric**
 
@@ -307,7 +311,7 @@ Do not invent strengths. Only list what is evidenced in the provided files.
 
 ## Detailed Technical Findings & Assessment
 
-Present all findings grouped under four pillars. Each finding receives a unique deterministic index.
+Present all findings grouped under six pillars. Each finding receives a unique deterministic index.
 
 **Summary table:**
 
@@ -319,6 +323,8 @@ Present a compact summary of all findings:
 | FND-CQ-001 | Code Quality | <severity> | <title> | <status> | Open |
 | FND-SEC-001 | Security & Compliance | <severity> | <title> | <status> | Open |
 | FND-INF-001 | Infrastructure & CI/CD | <severity> | <title> | <status> | Open |
+| FND-AIP-001 | AI Provenance & Code Origin | <severity> | <title> | <status> | Open |
+| FND-CPR-001 | Copyrights & Originality | <severity> | <title> | <status> | Open |
 
 Pillar abbreviations for IDs:
 
@@ -326,6 +332,8 @@ Pillar abbreviations for IDs:
 - `CQ` - Code Quality
 - `SEC` - Security & Compliance
 - `INF` - Infrastructure & CI/CD
+- `AIP` - AI Provenance & Code Origin
+- `CPR` - Copyrights & Originality
 
 Severity values: `CRITICAL`, `HIGH`, `MEDIUM`, `LOW`.
 Status values: `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`.
@@ -337,7 +345,7 @@ After the summary table, write one block per finding in the same order. Use this
 ```markdown
 ### FND-[PILLAR]-[NUMBER]: [Clear, Concise Title of Finding]
 
-* **Pillar:** [Architecture & Design | Code Quality | Security & Compliance | Infrastructure & CI/CD]
+* **Pillar:** [Architecture & Design | Code Quality | Security & Compliance | Infrastructure & CI/CD | AI Provenance & Code Origin | Copyrights & Originality]
 * **Severity:** [Critical | High | Medium | Low]
 * **Target Files/Modules:** [Exact paths or components evaluated]
 * **Description:** [Detailed technical explanation of the discovered state, architectural anti-pattern, or code flaw]

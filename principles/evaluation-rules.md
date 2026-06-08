@@ -132,6 +132,8 @@ Format: `FND-[PILLAR]-[001]`
   - `CQ` - Code Quality
   - `SEC` - Security & Compliance
   - `INF` - Infrastructure & CI/CD
+  - `AIP` - AI Provenance & Code Origin
+  - `CPR` - Copyrights & Originality
 - `001` is a zero-padded sequential number per pillar.
 
 Assign IDs in the order findings are presented. Do not reuse or skip numbers within a single audit.
