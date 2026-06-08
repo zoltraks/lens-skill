@@ -128,13 +128,12 @@ When the user requests a specific natural language for the report, translate all
 
 **What must be translated:**
 
-- All section headings (e.g., "Technology Stack", "Executive Summary", "Quality Assessment")
+- All section headings (e.g., "Document & Stack Metadata", "Executive Summary & Health Dashboard", "Detailed Technical Findings & Assessment")
 - All table column headers (e.g., "Layer", "Technology", "Category", "Status", "Risks", "Notes", "Dimension", "Score")
-- All category names in the Quality Assessment summary table and detailed paragraphs (e.g., "Testing and Testability", "Design Principles", "Code Quality")
-- All dimension names in the Project Scorecard (e.g., "Testability", "Design Soundness", "Code Quality")
-- All risk names in the Risk Register
-- All trade-off names in the Trade-off Analysis
-- All recommendation option summaries
+- All finding pillar names in the Detailed Technical Findings summary table (e.g., "Architecture & Design", "Code Quality", "Security & Compliance", "Infrastructure & CI/CD")
+- All dimension names in the Scorecard Summary (e.g., "Testability", "Design Soundness", "Code Quality")
+- All risk names in the Unified Risk Register
+- All recommendation summaries in the Actionable Remediation Roadmap
 - All descriptive paragraphs, evidence, reasoning, and justification text
 - "Summary description" and observation paragraph headings
 
@@ -171,26 +170,29 @@ The inline format remains identical: the marker follows the bold heading separat
 - In Polish, do not use "Title Case" in section and chapter names; use sentence case.
 - In Polish, use "Przykład zawartości" instead of "Content Example".
 - In Polish, use Polish equivalents for standard headings and table headers:
-  - "Stos technologiczny" for "Technology Stack"
-  - "Podsumowanie wykonawcze" for "Executive Summary"
-  - "Kluczowe obserwacje" for "High-Level Observations"
-  - "Kontekst systemu" for "System Context"
-  - "Ocena jakości" for "Quality Assessment"
-  - "Analiza ryzyk" for "Risk Register"
-  - "Ocena projektu" for "Project Scorecard"
-  - "Analiza kompromisów" for "Trade-off Analysis"
-  - "Podsumowanie końcowe" for "Recommendation Summary"
+  - "Metadane i stos technologiczny" for "Document & Stack Metadata"
+  - "Podsumowanie wykonawcze i panel zdrowia" for "Executive Summary & Health Dashboard"
+  - "Metodologia audytu i skale oceny" for "Auditing Methodology & Scoring Rubrics"
+  - "Kontekst systemu i ocena architektury" for "System Context & Architectural Assessment"
+  - "Szczegółowe wyniki techniczne i ocena" for "Detailed Technical Findings & Assessment"
+  - "Jednolity rejestr ryzyk" for "Unified Risk Register"
+  - "Plan działania i mapa naprawcza" for "Actionable Remediation Roadmap"
+  - "Wyłączenia z zakresu" for "Scope Exclusions"
   - "Zależności" for "Dependency Health" (scorecard dimension)
   - "Poprawność projektowa" for "Design Soundness" (scorecard dimension)
   - "Obszar" for "Field" (Executive Summary table header)
   - "Wartość" for "Value" (Executive Summary table header)
-  - "Kategoria" for "Category" (Quality Assessment table header)
-  - "Status" for "Status" (Quality Assessment table header)
-  - "Ryzyka" for "Risks" (Quality Assessment table header)
-  - "Uwagi" for "Notes" (Quality Assessment table header)
   - "Wymiar" for "Dimension" (Project Scorecard table header)
   - "Wynik" for "Score" (Project Scorecard table header)
 - In Polish, use neuter gender for acronyms treated as nouns: "czyste PWA" (not "czysta PWA"), "czyste SPA" (not "czysta SPA").
+
+## Information Security In Output
+
+Never reproduce plaintext secrets, passwords, or cryptographic keys in summaries, observations, risk descriptions, or recommendation text.
+
+When a finding involves a secret, describe the location and nature of the exposure without quoting the value. Use `[REDACTED]` as a placeholder or a generic phrase such as "plaintext database credentials found in tracking file".
+
+The file path and configuration key that contains the secret may still be cited as evidence. Only the secret value itself is redacted.
 
 ## Determinism
 

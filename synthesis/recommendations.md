@@ -1,57 +1,57 @@
-# Recommendation Summary
+# Actionable Remediation Roadmap
 
 ## Purpose
 
-> **Scope:** Non-prescriptive recommendation options with pros, cons, and risk level
-> **Key items:** option set, pros and cons, risk level, no absolute directives
+> **Scope:** Prioritized, traceable remediation plan with Impact vs Effort matrix, complexity ratings, and explicit verification steps
+> **Key items:** `REC-[001]` indexing, `FND-XXX` traceability, priority tiers, non-prescriptive options
 
-This file guides the recommendation section. The goal is to present options, not to dictate a path.
+This file guides the remediation roadmap section. The goal is to present a prioritized, traceable plan where every recommendation resolves a specific finding.
 
 Apply `principles/evaluation-rules.md` throughout. Do not issue absolute directives unless the user explicitly requests them.
 
-## Option Set
+## Prioritized Matrix
 
-Offer a small, mutually understandable set of options. A typical set:
+Present recommendations as a table. One row per recommendation. Use this fixed column order:
 
-- Option 1: Continue the current approach.
-- Option 2: Incremental improvement of specific gaps.
-- Option 3: Partial redesign of specific components.
-
-Adjust the set to the system, but keep options distinct and comparable.
-
-## Per-Option Structure
-
-Present options as one table. One row per option. Use this fixed column order:
-
-| Option | Summary | Pros | Cons | Risk Level |
-|--------|---------|------|------|------------|
+| Rec ID | Priority | Finding | Recommendation | Impact | Effort | Complexity | Verification |
+|--------|----------|---------|----------------|--------|--------|------------|--------------|
 
 Column meanings:
 
-- **Option**: a short name, for example "Continue current approach".
-- **Summary**: a one-line description of the option.
-- **Pros**: benefits, each anchored to a finding; separate multiple with a semicolon.
-- **Cons**: costs or risks, each anchored to a finding; separate multiple with a semicolon.
-- **Risk Level**: one of `Low`, `Medium`, `High`, `Critical`, matching the risk-register vocabulary.
+- **Rec ID**: `REC-[001]` ascending sequentially.
+- **Priority**: `P1` (immediate), `P2` (short-term), `P3` (medium-term), `P4` (long-term).
+- **Finding**: the `FND-[PILLAR]-[NNN]` identifier this recommendation resolves.
+- **Recommendation**: a concise, actionable technical step.
+- **Impact**: the business or technical impact of applying this fix (`High`, `Medium`, `Low`).
+- **Effort**: the estimated engineering effort to implement (`High`, `Medium`, `Low`).
+- **Complexity**: the architectural or organizational complexity of the change (`High`, `Medium`, `Low`).
+- **Verification**: a specific test, command, or process to confirm the fix is successful.
 
-A reusable example row:
+## Priority Tiers
 
-```text
-| Incremental improvement | Add CI gate and dependency scanning | Closes top risks with bounded effort; reuses existing tests | Requires pipeline setup | Medium |
-```
+Use these tiers to rank recommendations:
+
+- **P1 - Immediate**: Address critical security risks or data-loss scenarios. Implement within days.
+- **P2 - Short-term**: Address high-severity findings that degrade reliability or compliance. Implement within weeks.
+- **P3 - Medium-term**: Address average findings that affect maintainability or observability. Implement within months.
+- **P4 - Long-term**: Address architectural or strategic improvements. Schedule for the next planning cycle.
 
 ## Rules
 
-- Tie every pro and con to a finding from the assessment or risk register.
+- Every `REC-XXX` entry must resolve a specific `FND-XXX`.
+- Do not introduce new findings in this section. Recommendations must trace back to gaps in the Detailed Technical Findings & Assessment.
+- Tie every recommendation to a finding from the assessment or risk register.
 - Keep options non-prescriptive. Present them as choices with consequences.
-- Do not rank or select an option unless the user explicitly asks for a recommendation.
+- Do not rank or select a single option unless the user explicitly asks for a recommendation.
 - When the user does ask for a single recommendation, state the chosen option, the reason anchored to evidence, and the residual risk.
 - Keep language neutral and free of blame.
+- When a recommendation would require information that was never provided, state the missing information rather than assuming it.
+- Do not reproduce plaintext secrets, passwords, or cryptographic keys in the Recommendation or Verification columns.
 
 ## Relationship To Other Sections
 
-Recommendations summarize, they do not introduce new findings.
+Recommendations summarize and plan, they do not introduce new findings.
 
-Every option must trace back to gaps in the Quality Assessment, entries in the Risk Register, or tensions in the Trade-off Analysis.
+Every recommendation must trace back to a finding in the Detailed Technical Findings & Assessment or an entry in the Unified Risk Register.
 
-If a recommendation would require information that was never provided, state the missing information rather than assuming it.
+Trade-off analyses that were previously in a standalone section should be embedded directly into the relevant finding in the Detailed Technical Findings & Assessment. The roadmap then references that finding.

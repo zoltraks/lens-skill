@@ -12,7 +12,7 @@ description: >-
   explicit marking of missing information, and neutral, non-personal
   evaluation. Use whenever the user asks for a software audit, architecture
   audit, prototype review, production code audit, technical due diligence,
-  readiness assessment, risk register, scorecard, or trade-off analysis.
+  readiness assessment, risk register, scorecard, or remediation roadmap.
   Triggers: 'software audit', 'architecture audit', 'prototype audit',
   'production code audit', 'code audit', 'audit this system', 'audit this
   codebase', 'engineering assessment', 'technical due diligence', 'production
@@ -98,10 +98,9 @@ Do not assume a default and do not invent a filename. If the user already named 
 
 ## `synthesis/` - Findings And Report Assembly
 
-- **`synthesis/risk-register.md`** - Risk table format, impact and likelihood rating, and severity scale.
+- **`synthesis/risk-register.md`** - Unified risk register with bidirectional cross-referencing to findings (`RSK-[001]` mapping to `FND-XXX`).
 - **`synthesis/scorecard.md`** - The 1-10 project scorecard, dimensions, and scoring rubric (1-5 optional).
-- **`synthesis/trade-off-analysis.md`** - How to surface and present trade-offs.
-- **`synthesis/recommendations.md`** - Non-prescriptive recommendation options with pros, cons, and risk level.
+- **`synthesis/recommendations.md`** - Actionable remediation roadmap with prioritized impact-vs-effort matrix and verification steps.
 
 ## Navigation Rules
 
@@ -117,5 +116,6 @@ Do not assume a default and do not invent a filename. If the user already named 
 - Logging and metrics belong in `assessment/observability.md`; failure handling in code belongs in `assessment/error-handling.md`.
 - Data protection, privacy, and licensing belong in `assessment/compliance.md`.
 - Prefer the narrowest assessment file that directly matches the request.
-- If the user asks only for a single dimension (for example "review security" or "audit dependencies"), load that one assessment file plus `principles/` and produce the matching report row or subsection only.
+- If the user asks only for a single dimension (for example "review security" or "audit dependencies"), load that one assessment file plus `principles/` and produce the matching finding pillar and risk row only.
+- Trade-off analyses are embedded directly into the relevant architectural or design finding in the Detailed Technical Findings & Assessment. Do not produce a standalone Trade-off Analysis section.
 - For a full audit, load `principles/`, `process/`, every relevant `assessment/` file, and all `synthesis/` files. Mark categories that cannot apply to the subject as `N/A` with justification rather than dropping them.

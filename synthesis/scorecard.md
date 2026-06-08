@@ -36,6 +36,19 @@ The default scale is integers from `1` to `10`. When the user explicitly request
 
 **Zero is not a score.** The value `0` is reserved and never used as a rated score in either scale. When a dimension cannot apply, mark it `N/A` rather than assigning a numeric value.
 
+### Quantitative Band Definitions (1-10)
+
+Present this rubric matrix in the report so that scores are objective and reproducible.
+
+| Band | Score Range | Definition |
+|------|-------------|------------|
+| Excellent | 9-10 | Capability is comprehensive and verified by strong evidence |
+| Good | 7-8 | Capability is solid overall; minor or noticeable gaps exist |
+| Average | 4-6 | Capability is present but uneven, limited, or inconsistent |
+| Poor | 1-3 | Capability is minimal, fragmentary, or absent where required |
+
+Per-score meanings:
+
 | Score | Meaning                                                                 |
 |-------|-------------------------------------------------------------------------|
 | 10    | Capability is comprehensive and verified by strong evidence             |
@@ -52,6 +65,13 @@ The default scale is integers from `1` to `10`. When the user explicitly request
 ### Alternative Rubric (1-5)
 
 Use this scale only when explicitly requested.
+
+| Band | Score Range | Definition |
+|------|-------------|------------|
+| Excellent | 5 | Capability is comprehensive and verified by strong evidence |
+| Good | 4 | Capability is solid with minor gaps |
+| Average | 3 | Capability is adequate but uneven |
+| Poor | 1-2 | Capability is minimal, limited, or absent where required |
 
 | Score | Meaning                                                                 |
 |-------|-------------------------------------------------------------------------|

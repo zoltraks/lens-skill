@@ -2,8 +2,8 @@
 
 ## Purpose
 
-> **Scope:** The required structure and table-driven template for the final audit report
-> **Key items:** technology stack, executive summary, system context, quality assessment, risk register, project scorecard, trade-offs, recommendations
+> **Scope:** The required structure and template for the final audit report
+> **Key items:** document metadata, executive summary with health dashboard, methodology, system context, detailed findings, unified risk register, remediation roadmap, scope exclusions
 
 This file defines the exact shape of the audit report. Produce the sections in this order.
 
@@ -19,7 +19,7 @@ Tables provide the scannable summary. Paragraphs below the table provide the det
 
 In tables, use shortened, general values. One or two words per cell. Do not crowd table cells with long explanations. Save detail for the paragraphs.
 
-Do not number section headings. Use the section name as the heading, for example "Quality Assessment", not "3. Quality Assessment". When the user requests a specific language, translate the section heading into that language.
+Do not number section headings. Use the section name as the heading, for example "Executive Summary & Health Dashboard", not "2. Executive Summary & Health Dashboard". When the user requests a specific language, translate the section heading into that language.
 
 Keep column headers identical to the templates below across every audit. When the user requests a specific language, translate the column headers into that language while keeping the structure identical.
 
@@ -29,20 +29,20 @@ Place descriptive paragraphs immediately after each table. In the paragraphs, ex
 
 Start each detailed paragraph with a bold heading on its own line. Put the status, score, or severity inline after the heading, separated by a space. Then add an empty line, then the paragraph body. Do not run the heading and the body together on the same line.
 
-Example for Quality Assessment:
+Example for finding summary:
 
 ```markdown
-**Deployment Strategy** `PARTIAL`
+**FND-SEC-001: Hardcoded JWT signing key** `CRITICAL`
 
-The package is published to npm with a bin entry in package.json.
+`src/Portal.Api/appsettings.json` contains a plaintext JWT symmetric key.
 ```
 
-Example for Project Scorecard:
+Example for scorecard dimension:
 
 ```markdown
-**Deployability** Score: `5/10`
+**Security** Score: `2/10`
 
-The package is published to npm.
+The repository contains multiple plaintext secrets in tracked files.
 ```
 
 ## Report Delivery
@@ -64,17 +64,16 @@ For a single-dimension request that produces only a short subsection, returning 
 
 The report has these top-level sections, in this order, with unnumbered headings:
 
-- Technology Stack
-- Executive Summary
-- High-Level Observations
-- System Context
-- Quality Assessment
-- Risk Register
-- Project Scorecard
-- Trade-off Analysis
-- Recommendation Summary
+- Document & Stack Metadata
+- Executive Summary & Health Dashboard
+- Auditing Methodology & Scoring Rubrics
+- System Context & Architectural Assessment
+- Detailed Technical Findings & Assessment
+- Unified Risk Register
+- Actionable Remediation Roadmap
+- Scope Exclusions
 
-## Technology Stack
+## Document & Stack Metadata
 
 Open the report with a factual inventory of the technologies the subject uses. Describe the stack only; do not judge it here.
 
@@ -94,7 +93,7 @@ Use a key-value table:
 
 Anchor each entry to evidence, such as a manifest, lockfile, or config file. Mark any layer the input does not reveal as `NOT SPECIFIED`. Add or omit rows to fit the subject, but keep the layer names in this column.
 
-## Executive Summary
+## Executive Summary & Health Dashboard
 
 Provide a compact overview a reader can absorb without the detail sections.
 
@@ -113,23 +112,80 @@ Write one paragraph immediately after the table. State the system's purpose in o
 
 The maturity level must be justified by evidence in later sections, not asserted.
 
-## High-Level Observations
+**Risk Heat Map**
 
-Surface the most important findings in a compact table a reader can scan before reading the detail sections. Include at most five observations. Each observation should be a single concrete finding, not a category summary.
+Provide a consolidated Likelihood vs Impact matrix summarizing the top risks. Use a table:
 
-Use this single-column table:
+| Impact \ Likelihood | LOW | MEDIUM | HIGH |
+|---------------------|-----|--------|------|
+| CRITICAL            |     |        |      |
+| HIGH                |     |        |      |
+| MEDIUM              |     |        |      |
+| LOW                 |     |        |      |
 
-| Observation                     |
-|---------------------------------|
-| <observation>                   |
+Populate cells with `RSK-XXX` identifiers from the Unified Risk Register. Leave empty cells blank. Do not include plaintext secrets, passwords, or cryptographic keys in this summary. Use generic descriptions or masked placeholders.
 
-Write one paragraph per observation immediately after the table, in the same order as the table rows. Start each paragraph with a bold heading on its own line (the observation text, abbreviated if needed), then add an empty line, then the body. Each paragraph explains why the observation matters and what risk or opportunity it represents. Anchor every claim to a specific section in the Quality Assessment.
+**Scorecard Summary**
 
-## System Context
+Provide a compact summary of the project scorecard dimensions:
 
-Describe the system as understood from the input, without judgement.
+| Dimension | Score | Notes |
+|-----------|-------|-------|
+| Testability |       |       |
+| Design Soundness |       |       |
+| Code Quality |       |       |
+| Stack Alignment |       |       |
+| Dependency Health |       |       |
+| Maintainability |       |       |
+| Deployability |       |       |
+| Scalability |       |       |
+| Security |       |       |
+| Compliance |       |       |
+| Observability |       |       |
+| Operational Safety |       |       |
 
-Use a key-value table:
+## Auditing Methodology & Scoring Rubrics
+
+This section defines the evaluation framework so that scores are objective and reproducible. Present it before any scored findings.
+
+**Methodology overview**
+
+State that the audit uses evidence-based reasoning across 16 assessment categories grouped into four pillars. List the pillars:
+
+- **Architecture & Design** - Design principles, maintainability, change management, documentation, non-functional requirements
+- **Code Quality** - Testing, code quality, stack best practices
+- **Security & Compliance** - Security, compliance and data protection
+- **Infrastructure & CI/CD** - Dependencies, deployment, rollback, observability, error handling, operational readiness
+
+**Scoring rubric**
+
+Present the rubric matrix that defines what constitutes each score band. Use the default 1-10 scale unless the user requested the 1-5 alternative.
+
+For the 1-10 scale:
+
+| Band | Score Range | Definition |
+|------|-------------|------------|
+| Excellent | 9-10 | Capability is comprehensive and verified by strong evidence |
+| Good | 7-8 | Capability is solid overall; minor or noticeable gaps exist |
+| Average | 4-6 | Capability is present but uneven, limited, or inconsistent |
+| Poor | 1-3 | Capability is minimal, fragmentary, or absent where required |
+
+For the 1-5 alternative scale:
+
+| Band | Score Range | Definition |
+|------|-------------|------------|
+| Excellent | 5 | Capability is comprehensive and verified by strong evidence |
+| Good | 4 | Capability is solid with minor gaps |
+| Average | 3 | Capability is adequate but uneven |
+| Poor | 1-2 | Capability is minimal, limited, or absent where required |
+
+**Zero is not a score.** The value `0` is reserved and never used. When a dimension cannot apply, mark it `N/A`.
+
+## System Context & Architectural Assessment
+
+Describe the system as understood from the input, then provide an architectural critique against industry baselines.
+
+**System context table:**
 
 | Aspect                | Detail                                          |
 |-----------------------|-------------------------------------------------|
@@ -141,116 +197,158 @@ Use a key-value table:
 
 Mark any unknown aspect as `NOT SPECIFIED`.
 
-## Quality Assessment
+**Architectural assessment**
 
-Present all categories in one summary table, then follow it with a detailed paragraph per category.
+After the context table, write one or more paragraphs critiquing the architecture. Evaluate coupling, cohesion, state management, separation of concerns, and pattern consistency against the stated constraints. Anchor every claim to a concrete file path or design decision. Do not judge the stack choice itself.
 
-**Summary table:**
+## Detailed Technical Findings & Assessment
 
-| Category | Status | Risks | Notes |
-|----------|--------|-------|-------|
-
-Keep the summary table short. Use one to three words per cell.
-
-- **Status**: one of `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`, with the matching glyph.
-- **Risks**: a short risk label, or `None identified`.
-- **Notes**: a brief label, or `N/A` with one-line justification per `principles/evaluation-rules.md`.
-
-Category order:
-
-- Testing and Testability
-- Design Principles
-- Code Quality
-- Stack Best Practices
-- Dependencies and Supply Chain
-- Deployment Strategy
-- Rollback Strategy
-- Maintainability
-- Change Management
-- Documentation
-- Non-Functional Requirements
-- Security
-- Compliance and Data Protection
-- Observability
-- Error Handling
-- Operational Readiness
-
-**Detailed paragraphs:**
-
-After the summary table, write one paragraph per category in the same order. Start each paragraph with a bold heading on its own line (the category name), put the status inline after the heading, then add an empty line, then the body. Each paragraph explains the evidence, concrete risks, and reasoning in detail. Anchor every claim to a file path, config key, or observed fact.
-
-Keep each paragraph self-contained so it can be read independently of the table. Use short sentences separated by line breaks.
-
-Include every category as a row. When a category cannot apply to the system's deployment model, mark it `N/A` with justification rather than dropping the row.
-
-## Risk Register
-
-Present a summary table followed by detailed risk paragraphs.
+This section replaces the previous Quality Assessment and High-Level Observations. Present all findings grouped under four pillars. Each finding receives a unique deterministic index.
 
 **Summary table:**
 
-| Risk | Category | Severity | Mitigation |
-|------|----------|----------|------------|
+Present a compact summary of all findings:
 
-Keep the summary table short. Use concise risk names and one-word severity values.
+| Finding ID | Pillar | Severity | Title | Status |
+|------------|--------|----------|-------|--------|
+| FND-ARC-001 | Architecture & Design | <severity> | <title> | <status> |
+| FND-CQ-001 | Code Quality | <severity> | <title> | <status> |
+| FND-SEC-001 | Security & Compliance | <severity> | <title> | <status> |
+| FND-INF-001 | Infrastructure & CI/CD | <severity> | <title> | <status> |
 
-Severity must be one of `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`.
+Pillar abbreviations for IDs:
 
-**Detailed paragraphs:**
+- `ARC` - Architecture & Design
+- `CQ` - Code Quality
+- `SEC` - Security & Compliance
+- `INF` - Infrastructure & CI/CD
 
-After the summary table, write one paragraph per risk in the same order. Start each paragraph with a bold heading on its own line (the risk name), put the severity inline after the heading as `SEVERITY: X`, then add an empty line, then the body. Each paragraph restates the risk, describes the impact and likelihood with evidence, then evaluates the mitigation. Anchor every claim to a specific finding from the Quality Assessment.
+Severity values: `CRITICAL`, `HIGH`, `MEDIUM`, `LOW`.
+Status values: `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`.
 
-## Project Scorecard
+**Detailed findings**
 
-Present a summary table followed by one paragraph per dimension.
+After the summary table, write one block per finding in the same order. Use this exact markdown block pattern:
 
-**Summary table:**
+```markdown
+### FND-[PILLAR]-[NUMBER]: [Clear, Concise Title of Finding]
 
-| Dimension | Score | Notes |
-|-----------|-------|-------|
+* **Pillar:** [Architecture & Design | Code Quality | Security & Compliance | Infrastructure & CI/CD]
+* **Severity:** [Critical | High | Medium | Low]
+* **Target Files/Modules:** [Exact paths or components evaluated]
+* **Description:** [Detailed technical explanation of the discovered state, architectural anti-pattern, or code flaw]
+* **Impact:** [Concrete operational, business, or security consequence if left unremediated]
+* **Remediation Recommendation:** [Step-by-step technical guidance to resolve the finding]
+* **Verification Method:** [Specific test, command, or process to confirm the fix is successful]
+```
 
-Keep the summary table short. Use integer scores `1` to `10`, or `UNKNOWN` or `N/A`. Notes should be one phrase. When the user requests the 1-5 scale, use scores `1` to `5` instead.
+Each finding must cite concrete evidence: file paths, config keys, commands, or direct quotes. Do not crowd the bullet list with long prose. Use short sentences separated by line breaks.
 
-Use the rubric in `synthesis/scorecard.md`. Mark a dimension `UNKNOWN` when evidence is absent rather than scoring it `0`, and `N/A` when all of its source categories are `N/A`.
+When referencing secrets, credentials, or keys in the Description or Impact fields, replace exact values with `[REDACTED]` or generic descriptions such as "plaintext database credentials found in tracking file".
 
-**Detailed paragraphs:**
+Trade-off analyses that were previously in a standalone section should be embedded directly into the relevant finding they impact, under the Description or Impact bullet.
 
-After the summary table, write one paragraph per dimension in the same order. Start each paragraph with a bold heading on its own line (the dimension name), put the score inline after the heading as `Score: X/10`, then add an empty line, then the body. Each paragraph cites the evidence from the Quality Assessment that supports the score, and explains any gaps or strengths. Anchor every claim to a specific file or observation. When the user requests the 1-5 scale, use `Score: X/5` instead.
+## Unified Risk Register
 
-## Trade-off Analysis
+This section builds a cross-referenced risk table from the risks surfaced during assessment. Every risk must trace back to a specific finding.
 
-Present a summary table followed by one paragraph per trade-off.
+**Table format:**
 
-**Summary table:**
+| Risk ID | Risk | Source Finding | Impact | Likelihood | Severity | Mitigation |
+|---------|------|----------------|--------|------------|----------|------------|
+| RSK-001 | <concrete risk> | FND-XXX | <consequence> | <probability> | <severity> | <action> |
 
-| Trade-off | Context | Option A: gain / cost | Option B: gain / cost | Evidence | Implication |
-|-----------|---------|-----------------------|-----------------------|----------|-------------|
+Column meanings:
 
-Keep the summary table short. Use concise phrases for each cell.
+- **Risk ID**: `RSK-[001]` ascending.
+- **Risk**: a concrete technical risk, stated neutrally.
+- **Source Finding**: the `FND-XXX` identifier that produced this risk.
+- **Impact**: the consequence if the risk is realized.
+- **Likelihood**: how probable the risk is given the evidence.
+- **Severity**: one of `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`.
+- **Mitigation**: a neutral, optional action that would reduce the risk.
 
-Present each trade-off neutrally, without declaring a winner unless the user asked for a recommendation.
+**Rating guidance**
 
-**Detailed paragraphs:**
+Rate impact and likelihood from evidence, not intuition.
 
-After the summary table, write one paragraph per trade-off in the same order. Start each paragraph with a bold heading on its own line (the trade-off name), then add an empty line, then the body. Each paragraph restates the tension, describes the evidence in the system that reveals it, and explains the implication under the stated context. Anchor every claim to a file, config, or design choice.
+Impact bands:
 
-## Recommendation Summary
+- `LOW`: limited or cosmetic effect.
+- `MEDIUM`: degraded function or contained outage.
+- `HIGH`: major function loss or data integrity concern.
+- `CRITICAL`: data loss, breach, or full outage.
 
-Present a summary table followed by one paragraph per option.
+Likelihood bands:
 
-**Summary table:**
+- `LOW`: would require an unusual combination of conditions.
+- `MEDIUM`: plausible under normal operation.
+- `HIGH`: expected to occur without intervention.
 
-| Option | Summary | Pros | Cons | Risk Level |
-|--------|---------|------|------|------------|
+**Severity matrix**
 
-Keep the summary table short. Use concise phrases. Pros and cons should be brief labels separated by semicolons.
+| Impact \ Likelihood | LOW      | MEDIUM   | HIGH      |
+|---------------------|----------|----------|-----------|
+| CRITICAL            | HIGH     | CRITICAL | CRITICAL  |
+| HIGH                | MEDIUM   | HIGH     | CRITICAL  |
+| MEDIUM              | LOW      | MEDIUM   | HIGH      |
+| LOW                 | LOW      | LOW      | MEDIUM    |
 
-Risk Level uses the severity vocabulary: `Low`, `Medium`, `High`, `Critical`.
+**Rules**
 
-Offer a small set of distinct options, for example continue current approach, incremental improvement, or partial redesign of specific components.
+- One row per distinct risk. Do not merge unrelated risks.
+- Every `RSK-XXX` entry must reference its source `FND-XXX`.
+- State each risk as a property of the system, never as a fault of a person.
+- When a risk rests on missing information, mark its likelihood basis as `INSUFFICIENT INFORMATION` in the risk text.
+- Mitigations are options, not directives. Do not phrase them as commands unless the user asked for directives.
+- Do not output plaintext secrets, passwords, or cryptographic keys in the Risk column.
 
-**Detailed paragraphs:**
+## Actionable Remediation Roadmap
 
-After the summary table, write one paragraph per option in the same order. Start each paragraph with a bold heading on its own line (the option name), then add an empty line, then the body. Each paragraph restates the option, explains the pros and cons with evidence from the Quality Assessment and Risk Register, and evaluates the residual risk. Anchor every claim to a specific finding.
+This section transforms recommendations into a prioritized, traceable remediation plan. Every recommendation must resolve a specific finding.
 
-Do not issue absolute directives unless the user explicitly requests them.
+**Prioritized matrix**
+
+Present recommendations as a table. One row per recommendation. Use this fixed column order:
+
+| Rec ID | Priority | Finding | Recommendation | Impact | Effort | Complexity | Verification |
+|--------|----------|---------|----------------|--------|--------|------------|--------------|
+| REC-001 | <P1-P4> | FND-XXX | <action> | <High/Med/Low> | <High/Med/Low> | <High/Med/Low> | <verification step> |
+
+Column meanings:
+
+- **Rec ID**: `REC-[001]` ascending.
+- **Priority**: `P1` (immediate), `P2` (short-term), `P3` (medium-term), `P4` (long-term).
+- **Finding**: the `FND-XXX` identifier this recommendation resolves.
+- **Recommendation**: a concise, actionable technical step.
+- **Impact**: the business or technical impact of applying this fix (`High`, `Medium`, `Low`).
+- **Effort**: the estimated engineering effort to implement (`High`, `Medium`, `Low`).
+- **Complexity**: the architectural or organizational complexity of the change (`High`, `Medium`, `Low`).
+- **Verification**: a specific test, command, or process to confirm the fix is successful.
+
+**Rules**
+
+- Every `REC-XXX` entry must resolve a specific `FND-XXX`.
+- Do not introduce new findings in this section. Recommendations must trace back to gaps in the Detailed Technical Findings.
+- Keep language neutral and free of blame.
+- Do not rank or select a single option unless the user explicitly asks for a recommendation.
+- When the user does ask for a single recommendation, state the chosen option, the reason anchored to evidence, and the residual risk.
+- When a recommendation would require information that was never provided, state the missing information rather than assuming it.
+
+## Scope Exclusions
+
+Explicitly define the limits of the analysis.
+
+List components or environments that were not inspected unless they were explicitly provided in the input scope. Typical exclusions include:
+
+- Operational runtime infrastructure (live servers, VMs, containers)
+- Live network topologies and firewall rules
+- Third-party authentication provider implementations
+- Physical deployment environments
+- End-user devices or browser clients
+- Data backups or disaster-recovery procedures
+- Penetration-test results or security audits performed by external firms
+
+Mark each item as `NOT INSPECTED` or `EXCLUDED BY SCOPE`. If the user provided some of these, list them as `INCLUDED`.
+
+State any extrapolations made from sampled code to the whole system.

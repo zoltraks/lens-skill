@@ -4,7 +4,7 @@
 
 Lens is a structured audit process packaged as an agent skill. It guides an AI coding agent through a complete engineering assessment of a codebase, producing a neutral, repeatable report anchored to concrete facts rather than impressions.
 
-Unlike a generic "review my code" prompt, Lens enforces a fixed workflow: intake, scope definition, evidence gathering, per-category assessment, synthesis, and validation. The output is a standardized report with eight sections - technology stack, executive summary, system context, quality assessment, risk register, project scorecard, trade-off analysis, and recommendation summary - each using a hybrid table-paragraph format for scannable summaries backed by detailed evidence.
+Unlike a generic "review my code" prompt, Lens enforces a fixed workflow: intake, scope definition, evidence gathering, per-category assessment, synthesis, and validation. The output is a standardized report with eight sections - document and stack metadata, executive summary and health dashboard, auditing methodology and scoring rubrics, system context and architectural assessment, detailed technical findings and assessment, unified risk register, actionable remediation roadmap, and scope exclusions - each using a hybrid table-paragraph format for scannable summaries backed by detailed evidence.
 
 ---
 
@@ -30,7 +30,7 @@ Testing, design principles, code quality, stack best practices, dependencies, de
 
 **Synthesizes findings**
 
-Builds a risk register from surfaced risks, a 1-10 scorecard from category findings (1-5 available on request), a trade-off analysis from architectural tensions, and non-prescriptive recommendation options.
+Builds a unified risk register with bidirectional cross-referencing to findings, a 1-10 scorecard from category findings (1-5 available on request), and an actionable remediation roadmap with prioritized impact-vs-effort tracking.
 
 **Produces a validated report**
 
@@ -56,9 +56,11 @@ The skill uses a hybrid table-paragraph format throughout:
 
 - **Tables** provide scannable summaries with one to three words per cell.
 - **Paragraphs** below each table provide detailed evidence, file paths, and reasoning.
-- **Status markers** are shown inline after bold headings, for example `**Deployment Strategy** PARTIAL`.
+- **Finding IDs** are shown as `FND-[PILLAR]-[001]` in the detailed findings section.
+- **Risk IDs** are shown as `RSK-[001]` and cross-referenced to source findings.
+- **Recommendation IDs** are shown as `REC-[001]` and traced to specific findings.
 - **Scores** in the scorecard are shown as `Score: 7/10` inline after the dimension name (or `Score: X/5` when the 1-5 scale is selected).
-- **Severities** in the risk register are shown as `SEVERITY: CRITICAL` inline after the risk name.
+- **Severities** are shown as `SEVERITY: CRITICAL` inline after the finding title.
 
 This format keeps the report readable in plain-text consoles while preserving depth.
 
@@ -76,7 +78,7 @@ This format keeps the report readable in plain-text consoles while preserving de
 | "Build me a risk register and scorecard"         | **Yes**                                         |
 | "Review only the security posture"               | **Yes** - single-dimension audit                |
 | "Check if this code is idiomatic for its stack"  | **Yes** - use `assessment/best-practices.md`    |
-| "Compare these two architectural options"        | **Yes** - use `synthesis/trade-off-analysis.md` |
+| "Compare these two architectural options"        | **Yes** - embed trade-offs into relevant findings |
 | "Write the feature for me"                       | No - this skill assesses, it does not build     |
 | "Tell me which team member caused this"          | No - this skill never evaluates people          |
 
@@ -85,7 +87,7 @@ This format keeps the report readable in plain-text consoles while preserving de
 ## Example prompts
 
 **Full audit**
-> Audit this production codebase. Produce a full engineering assessment with a risk register, scorecard, trade-off analysis, and recommendation options.
+> Audit this production codebase. Produce a full engineering assessment with a unified risk register, scorecard, and actionable remediation roadmap.
 
 **Audit to a file**
 > Perform lens on this service and write the audit report to AUDIT.md.
@@ -111,8 +113,8 @@ This format keeps the report readable in plain-text consoles while preserving de
 **Risk register**
 > Build a risk register for this architecture proposal. Use Low / Medium / High / Critical severities and tie each risk to evidence.
 
-**Trade-off analysis**
-> Compare keeping in-memory state versus introducing an external store for this prototype, given a single-instance target.
+**Architectural trade-off**
+> Evaluate the trade-off between keeping in-memory state versus introducing an external store for this prototype, given a single-instance target. Embed the analysis into the relevant architectural finding.
 
 **Thin input**
 > Here is a one-paragraph description of a service. Audit what you can and list exactly what additional artifacts would raise confidence.
@@ -148,13 +150,12 @@ lens-skill/
 │   ├── error-handling.md          # Exceptions, retries, fallbacks, user-facing errors
 │   └── operational-readiness.md   # Runbooks, on-call, capacity, backups, incident response
 └── synthesis/
-    ├── risk-register.md           # Risk table, impact and likelihood, severity scale
+    ├── risk-register.md           # Unified risk register with FND cross-referencing
     ├── scorecard.md               # 1-10 project scorecard and rubric (1-5 optional)
-    ├── trade-off-analysis.md      # Surfacing and presenting trade-offs as a table
-    └── recommendations.md         # Non-prescriptive options with pros, cons, risk level
+    └── recommendations.md         # Actionable remediation roadmap with priority matrix
 ```
 
-The skill activates automatically when you ask for a software audit, architecture audit, production code audit, technical due diligence, readiness assessment, risk register, scorecard, or trade-off analysis.
+The skill activates automatically when you ask for a software audit, architecture audit, production code audit, technical due diligence, readiness assessment, risk register, scorecard, or remediation roadmap.
 
 ---
 

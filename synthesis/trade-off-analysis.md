@@ -1,11 +1,17 @@
 # Trade-off Analysis
 
+## Deprecation Notice
+
+This standalone file is deprecated. Trade-off analyses are now embedded directly into the relevant architectural or design finding in the Detailed Technical Findings & Assessment section (`process/report-format.md`). Do not produce a standalone Trade-off Analysis section in new audits.
+
+Use the guidance below to embed trade-off reasoning into individual `FND-ARC-XXX` or `FND-CQ-XXX` findings as part of the Description or Impact bullet.
+
 ## Purpose
 
-> **Scope:** Surfacing and presenting engineering trade-offs as a table
+> **Scope:** Surfacing and presenting engineering trade-offs within a finding
 > **Key items:** option comparisons, cost versus quality, speed versus maintainability, simplicity versus flexibility
 
-This file guides the trade-off section of the report. A trade-off is a deliberate exchange of one quality for another.
+This file guides trade-off reasoning that is embedded inside a finding block. A trade-off is a deliberate exchange of one quality for another.
 
 Apply `principles/evaluation-rules.md` throughout. Present trade-offs neutrally. Do not declare a winner unless the user asked for a recommendation.
 

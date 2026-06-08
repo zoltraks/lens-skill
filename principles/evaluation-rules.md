@@ -111,6 +111,52 @@ Do not generalize from a sampled part to the whole system without marking the ex
 
 If the input is a description rather than running code, note that findings are based on description and not on verified behavior.
 
+## Information Security And Redaction
+
+Never output explicit plaintext secrets, actual database passwords, or cryptographic keys extracted from the source files within high-level summaries, observations, or the risk register.
+
+Replace exact credentials with masked placeholders or generic technical descriptions. Use `[REDACTED]` for specific values. Use phrases such as "plaintext database credentials found in tracking file" instead of quoting the credential string.
+
+File paths and config keys may be cited as evidence. The redaction rule applies only to the secret value itself, not to the location where it was found.
+
+## Indexing And Traceability
+
+Every finding, risk, and recommendation must be bound by a deterministic indexing scheme.
+
+**Finding IDs**
+
+Format: `FND-[PILLAR]-[001]`
+
+- `PILLAR` is a three-letter code:
+  - `ARC` - Architecture & Design
+  - `CQ` - Code Quality
+  - `SEC` - Security & Compliance
+  - `INF` - Infrastructure & CI/CD
+- `001` is a zero-padded sequential number per pillar.
+
+Assign IDs in the order findings are presented. Do not reuse or skip numbers within a single audit.
+
+**Risk IDs**
+
+Format: `RSK-[001]`
+
+- Sequential across the entire audit.
+- Every `RSK-XXX` entry must reference its source `FND-XXX` in the Source Finding column.
+
+**Recommendation IDs**
+
+Format: `REC-[001]`
+
+- Sequential across the entire audit.
+- Every `REC-XXX` entry must resolve a specific `FND-XXX` in the Finding column.
+
+**Cross-referencing rules**
+
+- A risk without a source finding is incomplete. Trace every risk to at least one `FND-XXX`.
+- A recommendation without a target finding is incomplete. Trace every recommendation to at least one `FND-XXX`.
+- When multiple findings contribute to one risk, list the primary `FND-XXX`.
+- When one finding generates multiple recommendations, create separate `REC-XXX` rows.
+
 ## Critical Constraints
 
 These constraints are absolute:

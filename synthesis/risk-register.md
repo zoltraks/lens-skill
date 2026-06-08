@@ -1,25 +1,26 @@
-# Risk Register
+# Unified Risk Register
 
 ## Purpose
 
-> **Scope:** Risk table format, impact and likelihood rating, severity scale
-> **Key items:** structured risks, fixed columns, `Low`, `Medium`, `High`, `Critical`
+> **Scope:** Risk table format, impact and likelihood rating, severity scale, bidirectional cross-referencing with findings
+> **Key items:** structured risks, fixed columns, `Low`, `Medium`, `High`, `Critical`, `RSK-[001]` indexing, `FND-XXX` traceability
 
 This file defines how to record risks surfaced during assessment. Build the register from the risks already noted in each `assessment/` file.
 
-Apply `principles/evaluation-rules.md` throughout. Every risk must trace to evidence or to a clearly marked gap.
+Apply `principles/evaluation-rules.md` throughout. Every risk must trace to evidence or to a clearly marked gap. Every risk must reference its source finding.
 
 ## Table Format
 
 Use this fixed column order:
 
-| Risk | Category | Impact | Likelihood | Severity | Mitigation |
-|------|----------|--------|------------|----------|------------|
+| Risk ID | Risk | Source Finding | Impact | Likelihood | Severity | Mitigation |
+|---------|------|----------------|--------|------------|----------|------------|
 
 Column meanings:
 
+- **Risk ID**: `RSK-[001]` ascending sequentially.
 - **Risk**: a concrete technical risk, stated neutrally.
-- **Category**: the assessment category the risk came from.
+- **Source Finding**: the `FND-[PILLAR]-[NNN]` identifier that produced this risk.
 - **Impact**: the consequence if the risk is realized.
 - **Likelihood**: how probable the risk is given the evidence.
 - **Severity**: one of `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`.
@@ -55,16 +56,23 @@ Derive severity from impact and likelihood, then record it explicitly.
 
 Severity must always be one of `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`.
 
+## Cross-Referencing Rules
+
+- Every `RSK-XXX` entry must reference its source `FND-XXX`.
+- When multiple findings contribute to one risk, list the primary `FND-XXX`.
+- Do not create risks that do not trace to a finding in the Detailed Technical Findings & Assessment.
+- Do not output plaintext secrets, passwords, or cryptographic keys in the Risk column.
+
 ## Rules
 
 - One row per distinct risk. Do not merge unrelated risks.
 - State each risk as a property of the system, never as a fault of a person.
 - When a risk rests on missing information, mark its likelihood basis as `INSUFFICIENT INFORMATION` in the risk text.
 - Mitigations are options, not directives. Do not phrase them as commands unless the user asked for directives.
-- Keep risk wording consistent with the category notes that produced it.
+- Keep risk wording consistent with the finding notes that produced it.
 
 ## Example Row
 
 ```text
-| Manual release steps with no checklist | Deployment | Failed or partial release | Medium | High | Document and automate the release path |
+| RSK-001 | Hardcoded JWT signing key in committed config | FND-SEC-001 | Authentication bypass or token forgery | High | CRITICAL | Move key to secrets manager and rotate |
 ```

@@ -51,19 +51,27 @@ Record evidence, concrete risks, and neutral notes for each category.
 
 **Synthesis**
 
-Build the risk register from the risks surfaced during assessment, using `synthesis/risk-register.md`.
+Build the unified risk register from the risks surfaced during assessment, using `synthesis/risk-register.md`. Every risk must reference its source `FND-XXX`.
 
-Build the project scorecard using `synthesis/scorecard.md`.
+Build the project scorecard using `synthesis/scorecard.md`. Present the scoring rubric before the scores.
 
-Identify trade-offs using `synthesis/trade-off-analysis.md`.
+Embed trade-off analyses directly into the relevant architectural or design findings. Do not produce a standalone trade-off section.
 
-Draft non-prescriptive options using `synthesis/recommendations.md`.
+Draft the actionable remediation roadmap using `synthesis/recommendations.md`. Every recommendation must resolve a specific `FND-XXX`.
 
 **Validation**
 
 Re-check every finding against `principles/evaluation-rules.md`.
 
 Confirm no finding rests on an assumption, that every status has evidence or a gap token, and that no language evaluates people.
+
+Confirm every `FND-XXX` finding uses the correct pillar abbreviation and sequential numbering.
+
+Confirm every `RSK-XXX` references its source `FND-XXX`.
+
+Confirm every `REC-XXX` resolves a specific `FND-XXX`.
+
+Confirm no plaintext secrets, passwords, or cryptographic keys appear in summaries, observations, or risk descriptions.
 
 Confirm the report follows `process/report-format.md` section by section.
 
