@@ -32,7 +32,7 @@ Default parameters:
 | Parameter | Default Value |
 |-----------|---------------|
 | Report delivery | Inline (direct response) |
-| Output filename | `AUDIT.md` (only used if delivery is File) |
+| Output filename | `AUDIT.md` for non-Polish reports, `AUDYT.md` for Polish reports (only used if delivery is File) |
 | Report language | Match the language of the user's request |
 | Detail level | Standard |
 | Evaluation scale | 1-10 |
@@ -54,13 +54,15 @@ Ask: "How should the report be delivered?"
 - Inline (default) - return the full report as the direct response.
 - File - write the report to a file.
 
-If File is chosen, ask for the filename. Default to `AUDIT.md` if the user does not specify.
+If File is chosen, ask for the filename. Default to `AUDYT.md` if the report language is Polish, otherwise default to `AUDIT.md`. If the user does not specify, use the language-appropriate default.
 
 If the user already named a file or stated a delivery preference in the original request, honor it without asking again.
 
 **Report language**
 
 The default is the language of the user's request. Ask only if the user explicitly asks for a different language.
+
+When the report language is Polish, the default filename changes to `AUDYT.md`, all Polish diacritics must be preserved, and the report must be written in UTF-8 encoding.
 
 **Detail level**
 

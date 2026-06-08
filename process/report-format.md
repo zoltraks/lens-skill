@@ -61,7 +61,7 @@ When the user names an output file in the original request, for example "write t
 
 When the user invokes an audit without naming an output file, for example "perform lens on this service" or "make audit report on the codebase", the Parameter Configuration phase determines delivery and filename.
 
-Default delivery is **Inline** (direct response). Default filename is **AUDIT.md** when File mode is selected.
+Default delivery is **Inline** (direct response). Default filename is **AUDYT.md** for Polish reports or **AUDIT.md** for all other languages when File mode is selected.
 
 For a single-dimension request that produces only a short subsection, returning the result inline is acceptable without asking, unless the user asked for a file.
 

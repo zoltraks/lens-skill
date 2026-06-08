@@ -68,7 +68,7 @@ The agent asks the user whether to accept the default parameters or configure th
 | Parameter | Default |
 |-----------|---------|
 | Report delivery | Inline (direct response) |
-| Output filename | `AUDIT.md` (used if File mode selected) |
+| Output filename | `AUDIT.md` for non-Polish reports, `AUDYT.md` for Polish reports (used if File mode selected) |
 | Report language | Match the language of the user's request |
 | Detail level | Standard |
 | Evaluation scale | 1-10 |
@@ -78,6 +78,8 @@ The agent asks the user whether to accept the default parameters or configure th
 If the user accepts defaults or says "bypass", the agent proceeds immediately using these values.
 
 If the user chooses to configure, the agent walks through the parameters one at a time. At each prompt, the user may say "bypass" to accept all remaining defaults and proceed.
+
+When the report language is Polish, the default filename becomes `AUDYT.md`, all Polish diacritics must be preserved, and the report must be written in UTF-8 encoding.
 
 The full parameter flow is documented in `process/workflow.md`.
 

@@ -196,6 +196,8 @@ The inline format remains identical: the marker follows the bold heading separat
   - "Wymiar" for "Dimension" (Project Scorecard table header)
   - "Wynik" for "Score" (Project Scorecard table header)
 - In Polish, use neuter gender for acronyms treated as nouns: "czyste PWA" (not "czysta PWA"), "czyste SPA" (not "czysta SPA").
+- When producing a Polish-language report, preserve all Polish diacritics (e.g., "ą", "ę", "ć", "ł", "ń", "ó", "ś", "ź", "ż", "Ą", "Ę", "Ć", "Ł", "Ń", "Ó", "Ś", "Ź", "Ż") in every section, heading, table cell, and paragraph. Do not transliterate or strip diacritics.
+- Write Polish-language reports in UTF-8 encoding. Do not use ASCII-only fallback for Polish text.
 
 ## Information Security In Output
 
