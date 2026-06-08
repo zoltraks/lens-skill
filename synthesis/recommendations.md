@@ -16,6 +16,8 @@ Present recommendations as a table. One row per recommendation. Use this fixed c
 | Rec ID | Priority | Finding | Recommendation | Impact | Effort | Complexity | Verification |
 |--------|----------|---------|----------------|--------|--------|------------|--------------|
 
+When the report language is Polish, translate the column headers into Polish using the equivalents defined in `principles/output-style.md`.
+
 Column meanings:
 
 - **Rec ID**: `REC-[001]` ascending sequentially.

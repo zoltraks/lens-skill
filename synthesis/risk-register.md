@@ -16,6 +16,8 @@ Use this fixed column order:
 | Risk ID | Risk | Source Finding | Impact | Likelihood | Severity | Mitigation |
 |---------|------|----------------|--------|------------|----------|------------|
 
+When the report language is Polish, translate the column headers into Polish using the equivalents defined in `principles/output-style.md`.
+
 Column meanings:
 
 - **Risk ID**: `RSK-[001]` ascending sequentially.

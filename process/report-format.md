@@ -157,6 +157,8 @@ Format:
 
 Use double asterisks for the label and a single space after the colon. Each label-value pair is followed by an empty line. This ensures proper rendering in all markdown viewers.
 
+When the report language is Polish, translate the labels into Polish: `Wersja`, `Data`, `Stan`, `Poziom szczegółowości`.
+
 ## Technology Stack
 
 Open the report with a factual inventory of the technologies the subject uses. Describe the stack only; do not judge it here.
@@ -175,7 +177,7 @@ Use a key-value table:
 | Data stores      | <databases, caches, file formats>, or `NOT SPECIFIED`           |
 | Target platforms | <where the software runs or ships>                              |
 
-Anchor each entry to evidence, such as a manifest, lockfile, or config file. Mark any layer the input does not reveal as `NOT SPECIFIED`. Add or omit rows to fit the subject, but keep the layer names in this column.
+Anchor each entry to evidence, such as a manifest, lockfile, or config file. Mark any layer the input does not reveal as `NOT SPECIFIED`. Add or omit rows to fit the subject, but keep the layer names in this column and translate them into the report language.
 
 ## Executive Summary
 
@@ -190,13 +192,19 @@ Use a key-value table:
 | Source basis   | <running system / inspected code / description>                                |
 | Maturity level | <`Prototype` / `Early development` / `Pre-production` / `Production-ready` / `Undetermined`> |
 
+When the report language is Polish, translate the table headers and field names into Polish: `Obszar`, `Wartość`, `Typ systemu`, `Zakres`, `Źródło danych`, `Poziom dojrzałości`.
+
 **Summary description**
+
+When the report language is Polish, use `Opis podsumowujący` instead of `Summary description`.
 
 Write one paragraph immediately after the table. State the system's purpose in one sentence. Summarize the overall condition in one sentence. Note the maturity level and anchor it to evidence from later sections. Mention any critical finding that the reader should know first. Keep the paragraph to four sentences maximum.
 
 The maturity level must be justified by evidence in later sections, not asserted.
 
 **Production Readiness Threshold**
+
+When the report language is Polish, use `Próg gotowości produkcyjnej` instead of `Production Readiness Threshold`.
 
 Add a short paragraph at the end of the Executive Summary stating the minimum conditions required for the maturity label to change from its current level to `Production-ready`. Tie these conditions explicitly to specific risk IDs (for example: "To reach Production-ready, RSK-001 and RSK-002 must be closed by removing hardcoded secrets, and RSK-003 must be closed by achieving 60% test coverage"). This paragraph gives the reader a concrete bar for re-audit.
 
@@ -215,9 +223,13 @@ Provide a consolidated Likelihood vs Impact matrix summarizing the top risks. Us
 | MEDIUM |     |        |      |
 | LOW |     |        |      |
 
+When the report language is Polish, translate the axis labels into Polish: `Wpływ`, `Prawdopodobieństwo`.
+
 Populate cells with `RSK-XXX` identifiers from the Unified Risk Register. Leave empty cells blank. Do not include plaintext secrets, passwords, or cryptographic keys in this summary. Use generic descriptions or masked placeholders.
 
 **Scorecard Summary**
+
+When the report language is Polish, use `Scorecard - podsumowanie` instead of `Scorecard Summary`.
 
 Provide a compact summary of the project scorecard dimensions:
 
@@ -238,6 +250,8 @@ Provide a compact summary of the project scorecard dimensions:
 | AI Provenance |       |       |
 | Originality & Licensing |       |       |
 
+When the report language is Polish, translate the column headers and dimension names into Polish using the equivalents defined in `principles/output-style.md`.
+
 ## High-Level Observations
 
 Surface the most important findings in a compact table a reader can scan before reading the detail sections. Include at most five observations. Each observation should be a single concrete finding, not a category summary.
@@ -247,6 +261,8 @@ Use this single-column table:
 | Observation                     |
 |---------------------------------|
 | <observation>                   |
+
+When the report language is Polish, translate the table header into Polish: `Obserwacja`.
 
 Write one paragraph per observation immediately after the table, in the same order as the table rows. Start each paragraph with a bold heading on its own line (the observation text, abbreviated if needed), then add an empty line, then the body. Each paragraph explains why the observation matters and what risk or opportunity it represents. Anchor every claim to a specific finding in the Detailed Technical Findings.
 
@@ -258,6 +274,8 @@ This section defines how the audit was conducted and the framework used to evalu
 
 **Methodology overview**
 
+When the report language is Polish, use `Przegląd metodologiczny` instead of `Methodology overview`.
+
 State that the audit uses evidence-based reasoning across 18 assessment categories grouped into six pillars. List the pillars:
 
 - **Architecture & Design** - Design principles, maintainability, change management, documentation, non-functional requirements
@@ -267,7 +285,11 @@ State that the audit uses evidence-based reasoning across 18 assessment categori
 - **AI Provenance & Code Origin** - AI-generated code detection, Vibe Coding risks, Agent Driven Engineering maturity, SDLC discipline
 - **Copyrights & Originality** - Code originality, license compliance, attribution, dependency license compatibility
 
+When the report language is Polish, translate the pillar names into Polish using the equivalents defined in `principles/output-style.md`.
+
 **Audit evidence statement**
+
+When the report language is Polish, use `Oświadczenie o dowodach` instead of `Audit evidence statement`.
 
 Begin the Methodology section with 2-3 sentences stating exactly what was inspected. Include:
 
@@ -279,6 +301,8 @@ Example: "This audit inspected 147 source files, 8 test files, and 4 configurati
 
 **Severity definitions**
 
+When the report language is Polish, use `Definicje ważności` instead of `Severity definitions`.
+
 Add a 4-row rubric defining each qualitative severity band. These definitions anchor the severity values used in findings and risks.
 
 | Severity | Impact | Likelihood | Blocks Production Readiness |
@@ -287,6 +311,8 @@ Add a 4-row rubric defining each qualitative severity band. These definitions an
 | HIGH | Major function loss or data integrity concern | Plausible under normal operation | Yes |
 | MEDIUM | Degraded function or contained outage | Requires specific conditions | No (but must be tracked) |
 | LOW | Limited or cosmetic effect | Unusual combination required | No |
+
+When the report language is Polish, translate the column headers and severity descriptions into Polish. Use `Ważność` for `Severity`, `Wpływ` for `Impact`, `Prawdopodobieństwo` for `Likelihood`, and `Blokuje gotowość produkcyjną` for `Blocks Production Readiness`.
 
 Use these definitions consistently across the Detailed Technical Findings and the Unified Risk Register.
 
@@ -307,6 +333,13 @@ For the 1-10 scale:
 | Average | 4-6 | Capability is present but uneven, limited, or inconsistent |
 | Poor | 1-3 | Capability is minimal, fragmentary, or absent where required |
 
+When the report language is Polish, translate the band names and definitions into Polish:
+- `Doskonała` for `Excellent`
+- `Dobra` for `Good`
+- `Średnia` for `Average`
+- `Słaba` for `Poor`
+- Translate `Definition` into `Definicja` and `Score Range` into `Zakres wyników`.
+
 For the 1-5 alternative scale:
 
 | Band | Score Range | Definition |
@@ -315,6 +348,8 @@ For the 1-5 alternative scale:
 | Good | 4 | Capability is solid with minor gaps |
 | Average | 3 | Capability is adequate but uneven |
 | Poor | 1-2 | Capability is minimal, limited, or absent where required |
+
+When the report language is Polish, apply the same band translations as above.
 
 **Zero is not a score.** The value `0` is reserved and never used. When a dimension cannot apply, mark it `N/A`.
 
@@ -329,6 +364,8 @@ Describe the system as understood from the input. Present the factual context wi
 | Key components | <named components or modules> |
 | External dependencies | <services, libraries, platforms> |
 | Assumptions | <only if explicitly stated, else `NOT SPECIFIED`> |
+
+When the report language is Polish, translate the table headers and aspect names into Polish: `Aspekt`, `Szczegóły`, `Opis funkcjonalny`, `Przegląd architektury`, `Kluczowe komponenty`, `Zależności zewnętrzne`, `Założenia`.
 
 Mark any unknown aspect as `NOT SPECIFIED`.
 
@@ -357,6 +394,8 @@ Present all findings grouped under six pillars. Each finding receives a unique d
 
 **Summary table:**
 
+When the report language is Polish, use `Tabela podsumowania` instead of `Summary table`.
+
 Present a compact summary of all findings:
 
 | Finding ID | Pillar | Severity | Title | Status | Remediation Status |
@@ -368,6 +407,8 @@ Present a compact summary of all findings:
 | FND-AIP-001 | AI Provenance & Code Origin | <severity> | <title> | <status> | Open |
 | FND-CPR-001 | Copyrights & Originality | <severity> | <title> | <status> | Open |
 
+When the report language is Polish, translate the column headers into Polish: `Identyfikator`, `Filtr`, `Ważność`, `Tytuł`, `Status`, `Status naprawy`.
+
 Pillar abbreviations for IDs:
 
 - `ARC` - Architecture & Design
@@ -376,6 +417,8 @@ Pillar abbreviations for IDs:
 - `INF` - Infrastructure & CI/CD
 - `AIP` - AI Provenance & Code Origin
 - `CPR` - Copyrights & Originality
+
+When the report language is Polish, translate the pillar names into Polish using the equivalents defined in `principles/output-style.md`.
 
 Severity values: `CRITICAL`, `HIGH`, `MEDIUM`, `LOW`.
 Status values: `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`.
@@ -396,6 +439,8 @@ After the summary table, write one block per finding in the same order. Use this
 * **Verification Method:** [Specific test, command, or process to confirm the fix is successful]
 ```
 
+When the report language is Polish, translate the bullet labels into Polish: `Filtr`, `Ważność`, `Pliki/Moduły docelowe`, `Opis`, `Wpływ`, `Rekomendacja naprawcza`, `Metoda weryfikacji`.
+
 Each finding must cite concrete evidence: file paths, config keys, commands, or direct quotes. Do not crowd the bullet list with long prose. Use short sentences separated by line breaks.
 
 When referencing secrets, credentials, or keys in the Description or Impact fields, replace exact values with `[REDACTED]` or generic descriptions such as "plaintext database credentials found in tracking file".
@@ -411,6 +456,8 @@ This section builds a cross-referenced risk table from the risks surfaced during
 | Risk ID | Risk | Source Finding | Impact | Likelihood | Severity | Mitigation |
 |---------|------|----------------|--------|------------|----------|------------|
 | RSK-001 | <concrete risk> | FND-XXX | <consequence> | <probability> | <severity> | <action> |
+
+When the report language is Polish, translate the column headers into Polish: `Identyfikator ryzyka`, `Ryzyko`, `Źródło`, `Wpływ`, `Prawdopodobieństwo`, `Ważność`, `Ograniczenie`.
 
 Column meanings:
 
@@ -448,6 +495,8 @@ Likelihood bands:
 | MEDIUM              | LOW      | MEDIUM   | HIGH      |
 | LOW                 | LOW      | LOW      | MEDIUM    |
 
+When the report language is Polish, translate the axis labels into Polish: `Wpływ`, `Prawdopodobieństwo`.
+
 **Rules**
 
 - One row per distinct risk. Do not merge unrelated risks.
@@ -465,6 +514,8 @@ Use a table with this fixed column order:
 
 | Trade-off | Context | Option A: gain / cost | Option B: gain / cost | Evidence | Implication |
 |-----------|---------|-----------------------|-----------------------|----------|-------------|
+
+When the report language is Polish, translate the column headers into Polish: `Kompromis`, `Kontekst`, `Opcja A: zysk / koszt`, `Opcja B: zysk / koszt`, `Dowód`, `Implikacja`.
 
 Column meanings:
 
@@ -494,6 +545,8 @@ Present recommendations as a table. One row per recommendation. Use this fixed c
 | Rec ID | Priority | Finding | Recommendation | Impact | Effort | Complexity | Verification |
 |--------|----------|---------|----------------|--------|--------|------------|--------------|
 | REC-001 | <P1-P4> | FND-XXX | <action> | <High/Med/Low> | <High/Med/Low> | <High/Med/Low> | <verification step> |
+
+When the report language is Polish, translate the column headers into Polish: `Identyfikator rekomendacji`, `Priorytet`, `Znalezisko`, `Rekomendacja`, `Wpływ`, `Wysiłek`, `Złożoność`, `Weryfikacja`.
 
 Column meanings:
 

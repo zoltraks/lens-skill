@@ -173,31 +173,132 @@ The inline format remains identical: the marker follows the bold heading separat
 - In Polish, use "Przykład zawartości" instead of "Content Example".
 - In Polish, use Polish equivalents for standard headings and table headers:
   - "Informacje o dokumencie" for "Document Information"
+  - "Wersja" for "Version" (Document Information label)
+  - "Data" for "Date" (Document Information label)
+  - "Stan" for "State" (Document Information label)
+  - "Poziom szczegółowości" for "Detail Level" (Document Information label)
   - "Stos technologiczny" for "Technology Stack"
+  - "Warstwa" for "Layer" (Technology Stack table header)
+  - "Technologie" for "Technology" (Technology Stack table header)
+  - "Języki" for "Languages" (Technology Stack layer)
+  - "Frameworki" for "Frameworks" (Technology Stack layer)
+  - "Środowisko uruchomieniowe/Platforma" for "Runtime/Platform" (Technology Stack layer)
+  - "Narzędzia budowania" for "Build tooling" (Technology Stack layer)
+  - "Narzędzia testowe" for "Test tooling" (Technology Stack layer)
+  - "Zarządzanie pakietami" for "Package manager" (Technology Stack layer)
+  - "Kluczowe biblioteki" for "Key libraries" (Technology Stack layer)
+  - "Magazyny danych" for "Data stores" (Technology Stack layer)
+  - "Docelowe platformy" for "Target platforms" (Technology Stack layer)
   - "Podsumowanie wykonawcze" for "Executive Summary"
+  - "Obszar" for "Field" (Executive Summary table header)
+  - "Wartość" for "Value" (Executive Summary table header)
+  - "Typ systemu" for "System type" (Executive Summary field)
+  - "Zakres" for "Scope" (Executive Summary field)
+  - "Źródło danych" for "Source basis" (Executive Summary field)
+  - "Poziom dojrzałości" for "Maturity level" (Executive Summary field)
+  - "Opis podsumowujący" for "Summary description" (paragraph heading)
+  - "Próg gotowości produkcyjnej" for "Production Readiness Threshold" (paragraph heading)
   - "Panel zdrowia" for "Health Dashboard"
+  - "Mapa ciepła ryzyk" for "Risk Heat Map"
+  - "Wpływ" for "Impact" (Risk Heat Map axis)
+  - "Prawdopodobieństwo" for "Likelihood" (Risk Heat Map axis)
+  - "Scorecard - podsumowanie" for "Scorecard Summary"
+  - "Wymiar" for "Dimension" (Project Scorecard table header)
+  - "Wynik" for "Score" (Project Scorecard table header)
+  - "Uwagi" for "Notes" (Project Scorecard table header)
+  - "Testowalność" for "Testability" (scorecard dimension)
+  - "Jakość kodu" for "Code Quality" (scorecard dimension)
+  - "Zgodność ze stosem" for "Stack Alignment" (scorecard dimension)
+  - "Zależności" for "Dependency Health" (scorecard dimension)
+  - "Utrzymywalność" for "Maintainability" (scorecard dimension)
+  - "Wdrażalność" for "Deployability" (scorecard dimension)
+  - "Skalowalność" for "Scalability" (scorecard dimension)
+  - "Bezpieczeństwo" for "Security" (scorecard dimension)
+  - "Zgodność" for "Compliance" (scorecard dimension)
+  - "Obserwowalność" for "Observability" (scorecard dimension)
+  - "Bezpieczeństwo operacyjne" for "Operational Safety" (scorecard dimension)
+  - "Pochodzenie AI" for "AI Provenance" (scorecard dimension)
+  - "Oryginalność i licencjonowanie" for "Originality & Licensing" (scorecard dimension)
   - "Kluczowe obserwacje" for "High-Level Observations"
+  - "Obserwacja" for "Observation" (High-Level Observations table header)
   - "Metodologia audytu" for "Auditing Methodology"
+  - "Przegląd metodologiczny" for "Methodology overview"
+  - "Oświadczenie o dowodach" for "Audit evidence statement"
+  - "Definicje ważności" for "Severity definitions"
   - "Skale oceny" for "Scoring Rubrics"
   - "Kontekst systemu" for "System Context"
+  - "Aspekt" for "Aspect" (System Context table header)
+  - "Szczegóły" for "Detail" (System Context table header)
   - "Ocena architektury" for "Architectural Assessment"
   - "Mocne strony i co działa" for "Strengths & What's Working"
   - "Szczegółowe wyniki techniczne" for "Detailed Technical Findings"
+  - "Tabela podsumowania" for "Summary table"
+  - "Identyfikator" for "Finding ID" (findings summary table header)
+  - "Filtr" for "Pillar" (findings summary table header)
+  - "Ważność" for "Severity" (findings summary table header)
+  - "Tytuł" for "Title" (findings summary table header)
+  - "Status" for "Status" (findings summary table header)
+  - "Status naprawy" for "Remediation Status" (findings summary table header)
+  - "Pliki/Moduły docelowe" for "Target Files/Modules" (finding detail label)
+  - "Opis" for "Description" (finding detail label)
+  - "Wpływ" for "Impact" (finding detail label)
+  - "Rekomendacja naprawcza" for "Remediation Recommendation" (finding detail label)
+  - "Metoda weryfikacji" for "Verification Method" (finding detail label)
   - "Jednolity rejestr ryzyk" for "Unified Risk Register"
+  - "Identyfikator ryzyka" for "Risk ID" (risk register table header)
+  - "Ryzyko" for "Risk" (risk register table header)
+  - "Źródło" for "Source Finding" (risk register table header)
+  - "Prawdopodobieństwo" for "Likelihood" (risk register table header)
+  - "Ograniczenie" for "Mitigation" (risk register table header)
   - "Analiza kompromisów" for "Trade-off Analysis"
+  - "Kompromis" for "Trade-off" (trade-off table header)
+  - "Kontekst" for "Context" (trade-off table header)
+  - "Opcja A: zysk / koszt" for "Option A: gain / cost" (trade-off table header)
+  - "Opcja B: zysk / koszt" for "Option B: gain / cost" (trade-off table header)
+  - "Dowód" for "Evidence" (trade-off table header)
+  - "Implikacja" for "Implication" (trade-off table header)
   - "Plan działania i mapa naprawcza" for "Actionable Remediation Roadmap"
+  - "Identyfikator rekomendacji" for "Rec ID" (recommendation table header)
+  - "Priorytet" for "Priority" (recommendation table header)
+  - "Znalezisko" for "Finding" (recommendation table header)
+  - "Rekomendacja" for "Recommendation" (recommendation table header)
+  - "Wysiłek" for "Effort" (recommendation table header)
+  - "Złożoność" for "Complexity" (recommendation table header)
+  - "Weryfikacja" for "Verification" (recommendation table header)
   - "Wyłączenia z zakresu" for "Scope Exclusions"
-  - "Zależności" for "Dependency Health" (scorecard dimension)
-  - "Poprawność projektowa" for "Design Soundness" (scorecard dimension)
-  - "Pochodzenie AI" for "AI Provenance" (scorecard dimension)
-  - "Oryginalność i licencjonowanie" for "Originality & Licensing" (scorecard dimension)
-  - "Obszar" for "Field" (Executive Summary table header)
-  - "Wartość" for "Value" (Executive Summary table header)
-  - "Wymiar" for "Dimension" (Project Scorecard table header)
-  - "Wynik" for "Score" (Project Scorecard table header)
+  - "Zakres" for "Scope" (Scope Exclusions table header)
+  - "Uzasadnienie" for "Justification" (Scope Exclusions table header)
 - In Polish, use neuter gender for acronyms treated as nouns: "czyste PWA" (not "czysta PWA"), "czyste SPA" (not "czysta SPA").
 - When producing a Polish-language report, preserve all Polish diacritics (e.g., "ą", "ę", "ć", "ł", "ń", "ó", "ś", "ź", "ż", "Ą", "Ę", "Ć", "Ł", "Ń", "Ó", "Ś", "Ź", "Ż") in every section, heading, table cell, and paragraph. Do not transliterate or strip diacritics.
 - Write Polish-language reports in UTF-8 encoding. Do not use ASCII-only fallback for Polish text.
+- The following Polish words are frequently written without diacritics by mistake. Always use the correct form with diacritics:
+  - `Poziom dojrzałości` (not `Poziom dojrzalosci`)
+  - `Testowalność` (not `Testowalnosc`)
+  - `Jakość` (not `Jakosc`)
+  - `Jakość kodu` (not `Jakosc kodu`)
+  - `Zgodność` (not `Zgodnosc`)
+  - `Zgodność ze stosem` (not `Zgodnosc ze stosem`)
+  - `Utrzymywalność` (not `Utrzymywalnosc`)
+  - `Wdrażalność` (not `Wdrazalnosc`)
+  - `Skalowalność` (not `Skalowalnosc`)
+  - `Bezpieczeństwo` (not `Bezpieczenstwo`)
+  - `Bezpieczeństwo operacyjne` (not `Bezpieczenstwo operacyjne`)
+  - `Poprawność projektowa` (not `Poprawnosc projektowa`)
+  - `Obserwowalność` (not `Obserwowalnosc`)
+  - `Środowisko` (not `Srodowisko`)
+  - `Narzędzia` (not `Narzedzia`)
+  - `Zarządzanie` (not `Zarzadzanie`)
+  - `Wartość` (not `Wartosc`)
+  - `Wpływ` (not `Wplyw`)
+  - `Prawdopodobieństwo` (not `Prawdopodobienstwo`)
+  - `Szczegóły` (not `Szczegoly`)
+  - `Przegląd` (not `Przeglad`)
+  - `Oświadczenie` (not `Oswiadczenie`)
+  - `Założenia` (not `Zalozenia`)
+  - `Wysiłek` (not `Wysilek`)
+  - `Złożoność` (not `Zlozonosc`)
+  - `Oryginalność` (not `Oryginalnosc`)
+  - `Wdrażanie` (not `Wdrazanie`)
 
 ## Information Security In Output
 

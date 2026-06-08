@@ -40,6 +40,8 @@ Present trade-offs as one table. One row per trade-off. Use this fixed column or
 | Trade-off | Context | Option A: gain / cost | Option B: gain / cost | Evidence | Implication |
 |-----------|---------|-----------------------|-----------------------|----------|-------------|
 
+When the report language is Polish, translate the column headers into Polish using the equivalents defined in `principles/output-style.md`.
+
 Column meanings:
 
 - **Trade-off**: a short name for the tension.

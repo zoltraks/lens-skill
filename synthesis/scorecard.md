@@ -32,6 +32,8 @@ Use this fixed column order and dimension set:
 
 Keep the dimension names and order identical across every audit so scores are comparable.
 
+When the report language is Polish, translate the column headers and dimension names into Polish using the equivalents defined in `principles/output-style.md`.
+
 ## Scoring Rubric
 
 The default scale is integers from `1` to `10`. When the user explicitly requests a `1-5` scale, use the Alternative Rubric below.
@@ -49,6 +51,8 @@ Present this rubric matrix in the report so that scores are objective and reprod
 | Average | 4-6 | Capability is present but uneven, limited, or inconsistent |
 | Poor | 1-3 | Capability is minimal, fragmentary, or absent where required |
 
+When the report language is Polish, translate the band names and definitions into Polish using the equivalents defined in `principles/output-style.md`.
+
 Per-score meanings:
 
 | Score | Meaning                                                                 |
@@ -64,6 +68,8 @@ Per-score meanings:
 | 2     | Fragments present, mostly unevidenced                                   |
 | 1     | Capability is absent where required, with evidence of absence           |
 
+When the report language is Polish, translate the `Score` and `Meaning` headers and the per-score descriptions into Polish.
+
 ### Alternative Rubric (1-5)
 
 Use this scale only when explicitly requested.
@@ -75,6 +81,8 @@ Use this scale only when explicitly requested.
 | Average | 3 | Capability is adequate but uneven |
 | Poor | 1-2 | Capability is minimal, limited, or absent where required |
 
+When the report language is Polish, apply the same band translations as the 1-10 scale.
+
 | Score | Meaning                                                                 |
 |-------|-------------------------------------------------------------------------|
 | 5     | Capability is comprehensive and verified by strong evidence             |
@@ -82,6 +90,8 @@ Use this scale only when explicitly requested.
 | 3     | Capability is adequate but uneven                                       |
 | 2     | Capability is present but limited or inconsistent                       |
 | 1     | Capability is absent where required, with evidence of absence           |
+
+When the report language is Polish, translate the headers and descriptions into Polish.
 
 ## Handling Unknowns
 
