@@ -45,6 +45,14 @@ Example for scorecard dimension:
 The repository contains multiple plaintext secrets in tracked files.
 ```
 
+**Hyphen rule**
+
+Use the standard ASCII hyphen-minus `-` (U+002D) for all hyphens, dashes, and minus signs. Do not use the em dash `—` (U+2014) or en dash `–` (U+2013) anywhere in the report.
+
+**No closing line**
+
+Do not add a closing line such as "End of audit report." or "---" at the end of the document. The Scope Exclusions section is the final section; end the report after it without any trailing boilerplate.
+
 ## Report Delivery And Parameter Configuration
 
 Report delivery is determined during the Parameter Configuration phase in `process/workflow.md`. Do not ask delivery questions here; they are handled upstream.
@@ -263,11 +271,11 @@ State that the audit uses evidence-based reasoning across 18 assessment categori
 
 Begin the Methodology section with 2-3 sentences stating exactly what was inspected. Include:
 
-- The number of source files, test files, and configuration files reviewed.
+- The number of source files, test files, and configuration files reviewed. State whether `.gitignore` exclusions were applied. If `.gitignore` was not present, note this as a gap.
 - Whether Git history was examined.
 - Whether a running environment was observed.
 
-Example: "This audit inspected 147 source files, 8 test files, and 4 configuration files from the repository root. Git commit history was reviewed for the last 15 commits. No running application or live environment was observed; all findings are based on static code analysis."
+Example: "This audit inspected 147 source files, 8 test files, and 4 configuration files from the repository root, excluding files listed in `.gitignore`. Git commit history was reviewed for the last 15 commits. No running application or live environment was observed; all findings are based on static code analysis."
 
 **Severity definitions**
 
@@ -314,15 +322,13 @@ For the 1-5 alternative scale:
 
 Describe the system as understood from the input. Present the factual context without critique.
 
-**System context table:**
-
-| Aspect                | Detail                                          |
-|-----------------------|-------------------------------------------------|
-| Functional description| <what the system does>                          |
-| Architecture overview | <high-level structure>                          |
-| Key components        | <named components or modules>                   |
-| External dependencies | <services, libraries, platforms>                |
-| Assumptions           | <only if explicitly stated, else `NOT SPECIFIED`> |
+| Aspect | Detail |
+|--------|--------|
+| Functional description | <what the system does> |
+| Architecture overview | <high-level structure> |
+| Key components | <named components or modules> |
+| External dependencies | <services, libraries, platforms> |
+| Assumptions | <only if explicitly stated, else `NOT SPECIFIED`> |
 
 Mark any unknown aspect as `NOT SPECIFIED`.
 

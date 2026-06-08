@@ -114,6 +114,8 @@ Use standard ASCII double quotes rather than typographic quotes.
 
 Prefer ASCII characters for normal text.
 
+Use the standard ASCII hyphen-minus `-` (U+002D) for all hyphens, dashes, and minus signs. Do not use the em dash `—` (U+2014) or en dash `–` (U+2013) anywhere in the report.
+
 Box-drawing characters like "│", "├", "└" are allowed in code blocks for directory trees and simple diagrams. If a diagram already uses box-drawing characters, keep them. Do not replace box-drawing characters with "+", "-", or "`".
 
 Do not leave blank lines as the first or last line inside a fenced code block.
@@ -202,6 +204,10 @@ Never reproduce plaintext secrets, passwords, or cryptographic keys in summaries
 When a finding involves a secret, describe the location and nature of the exposure without quoting the value. Use `[REDACTED]` as a placeholder or a generic phrase such as "plaintext database credentials found in tracking file".
 
 The file path and configuration key that contains the secret may still be cited as evidence. Only the secret value itself is redacted.
+
+## Report Termination
+
+Do not add a closing line such as "End of audit report." or a trailing horizontal rule `---` at the end of the document. The Scope Exclusions section is the final section; end the report after it without any trailing boilerplate.
 
 ## Determinism
 

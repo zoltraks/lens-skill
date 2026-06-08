@@ -110,6 +110,8 @@ Determine the maturity level claim, if any, so it can be tested against evidence
 
 For each relevant assessment category, collect concrete anchors: files, config keys, commands, pipeline steps, documented procedures, or direct quotes.
 
+Respect `.gitignore` exclusions. Do not inspect files that are excluded by `.gitignore` patterns (for example, `bin/`, `obj/`, `node_modules/`, `.env` files, or build artifacts). If a `.gitignore` file is present, use it to filter the file list before analysis. If no `.gitignore` is present, explicitly note this as a gap.
+
 Do not yet form conclusions. Separate collection from judgement to avoid confirmation bias.
 
 Where evidence is absent, record the gap explicitly with the appropriate missing-information token.
