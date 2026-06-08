@@ -40,7 +40,7 @@ The package is published to npm with a bin entry in package.json.
 Example for Project Scorecard:
 
 ```markdown
-**Deployability** Score: `2/5`
+**Deployability** Score: `5/10`
 
 The package is published to npm.
 ```
@@ -209,13 +209,13 @@ Present a summary table followed by one paragraph per dimension.
 | Dimension | Score | Notes |
 |-----------|-------|-------|
 
-Keep the summary table short. Use integer scores `0` to `5`, or `UNKNOWN` or `N/A`. Notes should be one phrase.
+Keep the summary table short. Use integer scores `1` to `10`, or `UNKNOWN` or `N/A`. Notes should be one phrase. When the user requests the 1-5 scale, use scores `1` to `5` instead.
 
 Use the rubric in `synthesis/scorecard.md`. Mark a dimension `UNKNOWN` when evidence is absent rather than scoring it `0`, and `N/A` when all of its source categories are `N/A`.
 
 **Detailed paragraphs:**
 
-After the summary table, write one paragraph per dimension in the same order. Start each paragraph with a bold heading on its own line (the dimension name), put the score inline after the heading as `Score: X/5`, then add an empty line, then the body. Each paragraph cites the evidence from the Quality Assessment that supports the score, and explains any gaps or strengths. Anchor every claim to a specific file or observation.
+After the summary table, write one paragraph per dimension in the same order. Start each paragraph with a bold heading on its own line (the dimension name), put the score inline after the heading as `Score: X/10`, then add an empty line, then the body. Each paragraph cites the evidence from the Quality Assessment that supports the score, and explains any gaps or strengths. Anchor every claim to a specific file or observation. When the user requests the 1-5 scale, use `Score: X/5` instead.
 
 ## Trade-off Analysis
 

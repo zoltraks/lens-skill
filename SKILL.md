@@ -99,7 +99,7 @@ Do not assume a default and do not invent a filename. If the user already named 
 ## `synthesis/` - Findings And Report Assembly
 
 - **`synthesis/risk-register.md`** - Risk table format, impact and likelihood rating, and severity scale.
-- **`synthesis/scorecard.md`** - The 0-5 project scorecard, dimensions, and scoring rubric.
+- **`synthesis/scorecard.md`** - The 1-10 project scorecard, dimensions, and scoring rubric (1-5 optional).
 - **`synthesis/trade-off-analysis.md`** - How to surface and present trade-offs.
 - **`synthesis/recommendations.md`** - Non-prescriptive recommendation options with pros, cons, and risk level.
 

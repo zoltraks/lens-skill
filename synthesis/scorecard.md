@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** The 0-5 project scorecard, dimensions, scoring rubric
+> **Scope:** The 1-10 project scorecard, dimensions, scoring rubric, with an optional 1-5 scale
 > **Key items:** fixed dimensions, integer scores, evidence per score, unknown handling
 
 This file defines the comparative project scorecard. It appears in the report under the heading "Project Scorecard". Derive each score from the matching `assessment/` findings.
@@ -32,7 +32,26 @@ Keep the dimension names and order identical across every audit so scores are co
 
 ## Scoring Rubric
 
-Scores are integers from `0` to `5`.
+The default scale is integers from `1` to `10`. When the user explicitly requests a `1-5` scale, use the Alternative Rubric below.
+
+**Zero is not a score.** The value `0` is reserved and never used as a rated score in either scale. When a dimension cannot apply, mark it `N/A` rather than assigning a numeric value.
+
+| Score | Meaning                                                                 |
+|-------|-------------------------------------------------------------------------|
+| 10    | Capability is comprehensive and verified by strong evidence             |
+| 9     | Capability is nearly comprehensive, with only trivial gaps            |
+| 8     | Capability is solid with minor gaps                                     |
+| 7     | Capability is good overall, with some noticeable gaps                   |
+| 6     | Capability is adequate but uneven                                       |
+| 5     | Capability is present but limited or inconsistent                       |
+| 4     | Capability is present but significantly limited                         |
+| 3     | Capability is minimal or barely evidenced                               |
+| 2     | Fragments present, mostly unevidenced                                   |
+| 1     | Capability is absent where required, with evidence of absence           |
+
+### Alternative Rubric (1-5)
+
+Use this scale only when explicitly requested.
 
 | Score | Meaning                                                                 |
 |-------|-------------------------------------------------------------------------|
@@ -40,14 +59,13 @@ Scores are integers from `0` to `5`.
 | 4     | Capability is solid with minor gaps                                     |
 | 3     | Capability is adequate but uneven                                       |
 | 2     | Capability is present but limited or inconsistent                       |
-| 1     | Capability is minimal or barely evidenced                               |
-| 0     | Capability is absent where required, with evidence of absence           |
+| 1     | Capability is absent where required, with evidence of absence           |
 
 ## Handling Unknowns
 
-Do not score a dimension `0` when evidence is simply missing.
+Do not assign the minimum score when evidence is simply missing.
 
-When evidence is absent, leave the score blank or write `UNKNOWN` and explain in the notes. Reserve `0` for evidenced absence of a required capability.
+When evidence is absent, leave the score blank or write `UNKNOWN` and explain in the notes. Reserve the minimum score for evidenced absence of a required capability.
 
 ## Handling Not Applicable
 

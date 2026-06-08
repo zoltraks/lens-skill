@@ -72,7 +72,7 @@ Maturity levels:
 - `Production-ready`
 - `Undetermined`
 
-Score scale: integers `0` to `5`, defined in `synthesis/scorecard.md`.
+Score scale: integers `1` to `10` by default, with an optional `1` to `5` scale, defined in `synthesis/scorecard.md`. The value `0` is reserved and never used as a score.
 
 ## Consistency Rules
 
@@ -141,7 +141,7 @@ When the user requests a specific natural language for the report, translate all
 **What stays in English (fixed vocabularies):**
 
 - Maturity levels: `Prototype`, `Early development`, `Pre-production`, `Production-ready`, `Undetermined`
-- Score format: `Score: X/5` in English, `Wynik: X/5` in Polish
+- Score format: `Score: X/10` in English, `Wynik: X/10` in Polish. When the 1-5 scale is selected, use `Score: X/5` and `Wynik: X/5`.
 - Missing-information tokens: `UNKNOWN`, `NOT SPECIFIED`, `INSUFFICIENT INFORMATION`
 - File paths, config keys, commands, code snippets, and direct quotes from the input
 
@@ -163,7 +163,7 @@ When the report language is Polish, use these Polish equivalents instead of the 
 | `SEVERITY:` | `WAŻNOŚĆ:` |
 | `Score:` | `Wynik:` |
 
-The inline format remains identical: the marker follows the bold heading separated by a space. For example, `**Strategia wdrożenia** CZĘŚCIOWO` or `**Testowalność** Wynik: 5/5`.
+The inline format remains identical: the marker follows the bold heading separated by a space. For example, `**Strategia wdrożenia** CZĘŚCIOWO` or `**Testowalność** Wynik: 8/10`.
 
 **Language-specific style rules:**
 

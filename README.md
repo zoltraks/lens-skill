@@ -30,7 +30,7 @@ Testing, design principles, code quality, stack best practices, dependencies, de
 
 **Synthesizes findings**
 
-Builds a risk register from surfaced risks, a 0-5 scorecard from category findings, a trade-off analysis from architectural tensions, and non-prescriptive recommendation options.
+Builds a risk register from surfaced risks, a 1-10 scorecard from category findings (1-5 available on request), a trade-off analysis from architectural tensions, and non-prescriptive recommendation options.
 
 **Produces a validated report**
 
@@ -57,7 +57,7 @@ The skill uses a hybrid table-paragraph format throughout:
 - **Tables** provide scannable summaries with one to three words per cell.
 - **Paragraphs** below each table provide detailed evidence, file paths, and reasoning.
 - **Status markers** are shown inline after bold headings, for example `**Deployment Strategy** PARTIAL`.
-- **Scores** in the scorecard are shown as `Score: 3/5` inline after the dimension name.
+- **Scores** in the scorecard are shown as `Score: 7/10` inline after the dimension name (or `Score: X/5` when the 1-5 scale is selected).
 - **Severities** in the risk register are shown as `SEVERITY: CRITICAL` inline after the risk name.
 
 This format keeps the report readable in plain-text consoles while preserving depth.
@@ -149,7 +149,7 @@ lens-skill/
 │   └── operational-readiness.md   # Runbooks, on-call, capacity, backups, incident response
 └── synthesis/
     ├── risk-register.md           # Risk table, impact and likelihood, severity scale
-    ├── scorecard.md               # 0-5 project scorecard and rubric
+    ├── scorecard.md               # 1-10 project scorecard and rubric (1-5 optional)
     ├── trade-off-analysis.md      # Surfacing and presenting trade-offs as a table
     └── recommendations.md         # Non-prescriptive options with pros, cons, risk level
 ```
