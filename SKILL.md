@@ -63,7 +63,7 @@ Always load these two files before starting an audit:
 
 Before beginning the audit, the agent runs the Parameter Configuration phase defined in `process/workflow.md`.
 
-The agent asks the user whether to accept the default parameters or configure them. Defaults are:
+The agent MUST ask the user whether to accept the default parameters or configure them. Defaults are:
 
 | Parameter | Default |
 |-----------|---------|
@@ -74,6 +74,8 @@ The agent asks the user whether to accept the default parameters or configure th
 | Evaluation scale | 1-10 |
 | Improvement suggestions | Include with priorities (P1-P4 roadmap) |
 | Trade-off analysis | Standalone section + embedded into relevant findings |
+
+The agent MUST ask this question and MUST NOT skip it. The agent MUST wait for user response before starting the audit.
 
 If the user accepts defaults or says "bypass", the agent proceeds immediately using these values.
 

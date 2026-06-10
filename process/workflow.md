@@ -39,6 +39,8 @@ Default parameters:
 | Improvement suggestions | Include with priorities (P1-P4 roadmap) |
 | Trade-off analysis | Standalone section + embedded into relevant findings |
 
+The agent MUST ask the user and MUST NOT skip this step. The agent MUST wait for user response before proceeding to Scope Definition.
+
 If the user accepts defaults or says "bypass", "defaults", or equivalent, proceed immediately to Scope Definition using the values above.
 
 If the user chooses to configure, walk through the parameters one at a time. At each prompt, offer a bypass option to accept the remaining defaults and proceed.
