@@ -19,6 +19,8 @@ Tables provide the scannable summary. Paragraphs below the table provide the det
 
 In tables, use shortened, general values. One or two words per cell. Do not crowd table cells with long explanations. Save detail for the paragraphs.
 
+Align table columns by padding every cell value with trailing spaces so that all `|` column separators align vertically in plain text. Use consistent spacing within each table.
+
 Do not number section headings. Use the section name as the heading, for example "Executive Summary", not "2. Executive Summary". When the user requests a specific language, translate the section heading into that language.
 
 Keep column headers identical to the templates below across every audit. When the user requests a specific language, translate the column headers into that language while keeping the structure identical.
@@ -28,6 +30,8 @@ Within a table cell, separate multiple points with a semicolon or a line break, 
 Place descriptive paragraphs immediately after each table. In the paragraphs, explain every aspect with concrete evidence, file paths, and reasoning. Use short sentences separated by line breaks.
 
 Start each detailed paragraph with a bold heading on its own line. Put the status, score, or severity inline after the heading, separated by a space. Then add an empty line, then the paragraph body. Do not run the heading and the body together on the same line.
+
+Use this bold-heading pattern for paragraphs that expand on a table row. For actual section or subsection titles, use markdown header syntax (`##` or `###`) rather than bold text.
 
 Example for finding summary:
 
@@ -369,20 +373,34 @@ When the report language is Polish, translate the table headers and aspect names
 
 Mark any unknown aspect as `NOT SPECIFIED`.
 
+After the table, add subsections for major components (e.g., `### Backend`, `### Frontend`, `### Deployment`). Put exactly one empty line after each subsection header before the first sentence. Separate every sentence with an empty line.
+
 ## Architectural Assessment
 
 Provide an architectural critique against industry baselines. Evaluate coupling, cohesion, state management, separation of concerns, and pattern consistency against the stated constraints. Anchor every claim to a concrete file path or design decision. Do not judge the stack choice itself.
+
+Structure this section with three subsections: `### What Works`, `### What Needs Attention`, and `### Industry Baseline Comparison`. Use Title Case for all subsection titles. Put exactly one empty line after each subsection header before the first sentence.
+
+When listing multiple related items (e.g., typical production practices), use a bullet list rather than an inline comma-separated paragraph. Put an empty line between the intro sentence and the first bullet.
 
 ## Strengths & What's Working
 
 Add a short section with 5-8 bullet points acknowledging what the system does well. This balances the tone of the report and anchors the scorecard with positive baselines.
 
-Use a bullet list. Each bullet is one sentence anchored to a concrete file, pattern, or decision. Examples:
+Use a bullet list. When a strength requires more than one sentence, start the bullet with a bold heading on its own line, then add an empty line, then the body. Anchor every claim to a concrete file, pattern, or decision. Examples:
+
+```markdown
+- **TypeScript strict mode is enabled in both backend and frontend**.
+
+`backend/tsconfig.json` and `frontend/tsconfig.app.json` both set `"strict": true`.
+
+This catches a broad class of type errors at compile time.
+```
+
+For single-sentence strengths, keep them as plain bullets:
 
 - Dependency injection is consistently applied in `Program.cs`, enabling testable service registration.
 - Nullable reference types are enabled project-wide, reducing null-reference defects.
-- XML documentation generation is configured, supporting API consumer onboarding.
-- The multi-stage Dockerfile uses official .NET base images and follows container best practices.
 - Firebird SQL connection pooling is configured with sensible `MinPoolSize` and `MaxPoolSize` values.
 - JWT bearer authentication is implemented with standard ASP.NET Core middleware.
 
@@ -572,7 +590,15 @@ Column meanings:
 
 Explicitly define the limits of the analysis.
 
-List components or environments that were not inspected unless they were explicitly provided in the input scope. Typical exclusions include:
+List components or environments that were not inspected unless they were explicitly provided in the input scope. Format each exclusion as a bullet with a bold label, followed by an empty line, then the explanation. Example:
+
+```markdown
+- **Firebird database schema and stored procedures**.
+
+The database layer was assessed only from the API side. The actual tables, views, triggers, and stored procedures in Firebird were not provided.
+```
+
+Typical exclusions include:
 
 - Operational runtime infrastructure (live servers, VMs, containers)
 - Live network topologies and firewall rules

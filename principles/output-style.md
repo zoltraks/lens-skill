@@ -90,7 +90,7 @@ Write short sentences.
 
 Separate distinct statements with line breaks so the report reads well in plain consoles.
 
-Put exactly one empty line between sentences in a paragraph for readability in simple consoles or text viewers.
+Prefer single-sentence paragraphs. Every sentence in a prose paragraph must be on its own line, separated from the next sentence by an empty line.
 
 Put exactly one empty line before and after lists of items.
 
@@ -100,13 +100,17 @@ For lists of short sentences, do not use blank lines between list items. For com
 
 Avoid numbered lists for non-sequential items. Use bullet points.
 
+When a prose paragraph lists three or more related items, use a bullet list instead of an inline comma-separated list.
+
 For process or workflow steps, use bold headers separated by empty lines instead of numbered lists.
 
-Keep tables readable as plain text and align columns by padding cell values.
+Keep tables readable as plain text. Align columns by padding every cell value with trailing spaces so that all `|` column separators in a table align vertically in plain text.
 
 Keep section names short. Do not put qualifiers in section names using parentheses.
 
 Use headers for section titles rather than bold runs of text.
+
+Put exactly one empty line after every markdown header (`#`, `##`, `###`) before the first content line.
 
 In English, use "Title Case" in section and chapter names.
 
@@ -120,7 +124,7 @@ Box-drawing characters like "│", "├", "└" are allowed in code blocks for d
 
 Do not leave blank lines as the first or last line inside a fenced code block.
 
-**Hexadecimal and byte values**: Enclose in backticks (e.g., `` `FF` ``).
+**Hexadecimal and byte values**: Enclose in double backticks (e.g., `` `FF` ``).
 
 **Key terms**: Bold key terms when defining them (e.g., **Term**: Definition).
 
