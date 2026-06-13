@@ -496,6 +496,8 @@ Do not enclose labels in brackets. Write the label as plain centered text withou
 
 Flow arrows (`─>`, `│`) must align with the center of the frame they connect to.
 
+When placing a label above or below a horizontal arrow, the label row must span the exact same width as the arrow row so the frames above and below remain aligned.
+
 Anchor every node to a file or module.
 
 ### Design Patterns
