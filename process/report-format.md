@@ -448,9 +448,35 @@ Present a Level-0 (context) and a Level-1 (decomposition) view. Use a fenced ASC
 
 **Level-0 (context)**
 
-[MCP Client] --> (MERA Server) --> {SQLite Index}
-[REST Client] --> (MERA Server) --> {Filesystem}
-[Git Remote] <-> (MERA Server)
+```
+    ╭────────────╮         ╭──────────────╮
+    │            │         │              │
+    │ MCP Client │────────>│ SQLite Index │
+    │            │         │              │
+    ╰────────────╯         ╰──────────────╯
+            │
+            │
+            v
+    ╭─────────────╮         ╭──────────────╮
+    │             │         │              │
+    │ REST Client │────────>│ Filesystem   │
+    │             │         │              │
+    ╰─────────────╯         ╰──────────────╯
+            ^
+            │
+    ╭────────────╮
+    │            │
+    │ Git Remote │
+    │            │
+    ╰────────────╯
+            ^
+            │
+    ╭─────────────╮
+    │             │
+    │ MERA Server │
+    │             │
+    ╰─────────────╯
+```
 
 **Trust boundaries**
 
@@ -460,7 +486,17 @@ Present a Level-0 (context) and a Level-1 (decomposition) view. Use a fenced ASC
 | Storage | Handler | Filesystem | Path canonicalization |
 ```
 
-Use only the four DFD element types: external entity `[..]`, process `(..)`, data store `{..}`, and flow `-->`. Anchor every node to a file or module.
+Use framed nodes with box-drawing characters for every DFD element.
+
+Each frame must have exactly three content rows: an empty line, a centered label, and an empty line.
+
+Keep exactly one space between the frame border and the label text on all sides. Do not use two spaces or asymmetric padding.
+
+Do not enclose labels in brackets. Write the label as plain centered text without `[..]`, `(..)`, or `{..}`.
+
+Flow arrows (`─>`, `│`) must align with the center of the frame they connect to.
+
+Anchor every node to a file or module.
 
 ### Design Patterns
 
