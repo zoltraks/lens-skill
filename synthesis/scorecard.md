@@ -27,8 +27,8 @@ Use this fixed column order and dimension set:
 | Compliance         |       |       |
 | Observability      |       |       |
 | Operational Safety |       |       |
-| AI Provenance      |       |       |
 | Originality & Licensing |       |       |
+| AI Provenance      |       |       |
 
 Keep the dimension names and order identical across every audit so scores are comparable.
 
