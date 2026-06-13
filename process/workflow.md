@@ -23,6 +23,14 @@ Note the source format. Findings from a description are weaker than findings fro
 
 Determine the natural language of the user's request. The report language must match the request language unless the user explicitly states otherwise.
 
+**Rerunning an existing audit**
+
+When the user asks to rerun, regenerate, or update an audit report, first check whether a previous audit file exists in the target location (for example, `AUDIT.md` or `AUDYT.md` in the project directory).
+
+If a previous report is found, read its Document Information section to determine the parameters that were used (detail level, evaluation scale, language, delivery mode, and filename). Reuse those same parameters for the new run unless the user explicitly asks to change them or requests a fresh audit from scratch. Proceed directly to Scope Definition using the recovered parameters. Do not ask the parameter configuration questions again.
+
+If no previous report is found and the conversation context contains no record of previously chosen parameters, treat the request as a new audit and run the full Parameter Configuration phase.
+
 **Parameter Configuration**
 
 Before beginning the audit, ask the user whether to accept the default parameters or configure them. Present the defaults in a compact summary.
@@ -59,6 +67,10 @@ Ask: "How should the report be delivered?"
 If File is chosen, ask for the filename. Default to `AUDYT.md` if the report language is Polish, otherwise default to `AUDIT.md`. If the user does not specify, use the language-appropriate default.
 
 If the user already named a file or stated a delivery preference in the original request, honor it without asking again.
+
+**Overwriting existing files**
+
+When the target file already exists (for example, a previous `AUDIT.md` or `AUDYT.md`), overwrite it with the new report. Increment the `Version` field in the Document Information section by reading the existing file, parsing the current version number, and incrementing the minor component up to 9 (for example, `1.0` becomes `1.1`, `1.9` becomes `2.0`, `9.9` becomes `10.0`). Do not prompt the user before overwriting. Do not create backup copies. The audit report is the authoritative artifact for the current assessment.
 
 **Report language**
 

@@ -163,6 +163,10 @@ Format:
 
 Use double asterisks for the label and a single space after the colon. Each label-value pair is followed by an empty line. This ensures proper rendering in all markdown viewers.
 
+**Version increment on overwrite**
+
+When overwriting an existing audit file, read the current version from the existing Document Information block, increment the minor component up to 9 (for example, `1.0` to `1.1`, `1.9` to `2.0`, `9.9` to `10.0`), and write the incremented version into the new report.
+
 When the report language is Polish, translate the labels into Polish: `Wersja`, `Data`, `Stan`, `Poziom szczegółowości`.
 
 ## Technology Stack

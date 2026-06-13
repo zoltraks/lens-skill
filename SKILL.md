@@ -85,6 +85,10 @@ When the report language is Polish, the default filename becomes `AUDYT.md`, all
 
 The full parameter flow is documented in `process/workflow.md`.
 
+**Rerunning an audit**
+
+When the user asks to rerun, regenerate, or update an audit, check whether a previous report file exists. If it does, reuse the parameters recorded in its Document Information section. Do not ask the parameter configuration questions again unless the user explicitly asks for a fresh audit or new parameters. If no previous report exists and no prior parameter choices are recorded in context, run the full Parameter Configuration phase.
+
 ## `principles/` - Rules Of Evaluation
 
 - **`principles/evaluation-rules.md`** - Evidence-based reasoning, no assumptions, no personal judgement, architectural neutrality, status markers (`PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`), and critical constraints.
