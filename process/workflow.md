@@ -82,7 +82,7 @@ When the report language is Polish, the default filename changes to `AUDYT.md`, 
 
 Ask: "What level of detail should the report include?"
 
-- **Standard** (default) - full report with all eleven sections, complete findings, risk register, scorecard, and remediation roadmap.
+- **Standard** (default) - full report with all fifteen always-present sections plus any conditional sections whose criteria are met, complete findings, risk register, scorecard, and remediation roadmap.
 - **Detailed** - full report plus extended remediation steps, additional verification methods, deeper architectural critique, and expanded impact analysis.
 - **Brief** - Executive Summary, Health Dashboard (scorecard summary and risk heat map only), top risks only, and key recommendations. Detailed findings are summarized, not itemized.
 
@@ -136,6 +136,8 @@ Where evidence is absent, record the gap explicitly with the appropriate missing
 
 For each category, open the matching `assessment/` file and apply its checklist. For a full audit, this includes the two additional categories `assessment/ai-generated-code.md` and `assessment/copyrights.md`.
 
+Evaluate the inclusion criterion for each conditional assessment, listed in the Conditional Sections table of `process/report-format.md`. When the criterion is met, open the matching conditional file and apply it: `assessment/data-flow.md`, `assessment/design-patterns.md`, `assessment/threat-model.md`, and `assessment/api-contract.md`. When a criterion is not met, omit that section and record the deliberate omission for Scope Exclusions. Do not force a conditional section onto a subject it does not fit.
+
 Assign a status (`PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`) per the rules in `principles/evaluation-rules.md`.
 
 Record evidence, concrete risks, and neutral notes for each category.
@@ -152,7 +154,11 @@ Draft the Strengths & What's Working section by identifying 5-8 evidenced positi
 
 Surface trade-offs both as a standalone Trade-off Analysis section (using `synthesis/trade-off-analysis.md`) and embedded into relevant architectural or design findings where they directly explain a specific finding.
 
+When structural debt distinct from risks was surfaced, build the Technical Debt Register using `synthesis/technical-debt-register.md`. Every debt item must trace to a finding or a cited direct observation.
+
 Draft the actionable remediation roadmap using `synthesis/recommendations.md`. Every recommendation must resolve a specific `FND-XXX`.
+
+When the roadmap contains at least one P1 or P2 recommendation, build the Re-audit and Follow-up Plan using `synthesis/re-audit-plan.md`, mapping those findings to verification owners and closure evidence.
 
 Add the Production Readiness Threshold paragraph to the Executive Summary, tying conditions to specific `RSK-XXX` IDs.
 
@@ -177,6 +183,18 @@ Confirm the Strengths & What's Working section contains 5-8 evidenced bullet poi
 Confirm the Trade-off Analysis section uses the standard table format and frames each trade-off against a stated constraint.
 
 Confirm every finding in the index table has a Remediation Status column with value `Open`.
+
+Confirm each conditional section was evaluated: it is either present because its criterion is met, or omitted with a deliberate one-line justification in Scope Exclusions. No conditional section may be present-but-empty, and none relevant to the subject may be silently dropped.
+
+When a Threat Model is present, confirm every unmitigated threat traces to a `FND-XXX` and a `RSK-XXX`, and that no plaintext secret appears in a disclosure threat.
+
+When an API Contract Conformance section is present, confirm each security gap maps to an OWASP API Security Top 10 (2023) code where one applies.
+
+When a Technical Debt Register is present, confirm every `TDR-XXX` traces to a `FND-XXX` or a cited direct observation, and that no security risk is duplicated from the Unified Risk Register.
+
+When a Re-audit and Follow-up Plan is present, confirm every row references a `FND-XXX` and that owners or dates absent from the input are marked `NOT SPECIFIED` rather than invented.
+
+Confirm the Auditing Methodology cites only the reference standards actually applied, and the Scope Exclusions state the OWASP category coverage.
 
 Confirm the report follows `process/report-format.md` section by section.
 

@@ -10,7 +10,7 @@
 
 Lens is a structured audit process packaged as an agent skill. It guides an AI coding agent through a complete engineering assessment of a codebase, producing a neutral, repeatable report anchored to concrete facts rather than impressions.
 
-Unlike a generic "review my code" prompt, Lens enforces a fixed workflow: intake, parameter configuration, scope definition, evidence gathering, per-category assessment, synthesis, and validation. The output is a standardized report with fifteen sections - document information, technology stack, executive summary, health dashboard, high-level observations, auditing methodology, scoring rubrics, system context, architectural assessment, strengths and what's working, detailed technical findings, unified risk register, trade-off analysis, actionable remediation roadmap, and scope exclusions - each using a hybrid table-paragraph format for scannable summaries backed by detailed evidence.
+Unlike a generic "review my code" prompt, Lens enforces a fixed workflow: intake, parameter configuration, scope definition, evidence gathering, per-category assessment, synthesis, and validation. The output is a standardized report with fifteen always-present sections - document information, technology stack, executive summary, health dashboard, high-level observations, auditing methodology, scoring rubrics, system context, architectural assessment, strengths and what's working, detailed technical findings, unified risk register, trade-off analysis, actionable remediation roadmap, and scope exclusions - plus conditional sections (data flow diagram, design patterns, architecture decision records, threat model, API contract conformance, technical debt register, and re-audit plan) that appear only when the subject warrants them. Every section uses a hybrid table-paragraph format for scannable summaries backed by detailed evidence.
 
 ---
 
@@ -163,13 +163,21 @@ lens-skill/
 │   ├── error-handling.md          # Exceptions, retries, fallbacks, user-facing errors
 │   ├── operational-readiness.md   # Runbooks, on-call, capacity, backups, incident response
 │   ├── ai-generated-code.md       # AI code detection, Vibe Coding risks, Agent Driven Engineering maturity
-│   └── copyrights.md              # Code originality, license compliance, attribution
+│   ├── copyrights.md              # Code originality, license compliance, attribution
+│   ├── data-flow.md               # (conditional) DFD, trust boundaries, inter-process flows
+│   ├── design-patterns.md         # (conditional) GoF/POSA pattern fitness and anti-patterns
+│   ├── threat-model.md            # (conditional) STRIDE threat enumeration per trust boundary
+│   └── api-contract.md            # (conditional) API spec conformance, RFC 7807, OWASP API Top 10
 └── synthesis/
     ├── risk-register.md           # Unified risk register with FND cross-referencing
     ├── scorecard.md               # 1-10 project scorecard and rubric (1-5 optional)
     ├── trade-off-analysis.md      # Engineering trade-offs in standalone table and embedded findings
-    └── recommendations.md         # Actionable remediation roadmap with priority matrix
+    ├── recommendations.md         # Actionable remediation roadmap with priority matrix
+    ├── technical-debt-register.md # (conditional) TDR inventory with CISQ/SQALE cost model
+    └── re-audit-plan.md           # (conditional) Verification ownership, sign-off gates, re-audit triggers
 ```
+
+Sections marked *(conditional)* appear in a report only when the subject warrants them. A system with no API gets no API Contract section; a single-user local utility with no trust boundary gets no Threat Model. The inclusion criteria are defined in the Conditional Sections table of `process/report-format.md`.
 
 The skill activates automatically when you ask for a software audit, architecture audit, production code audit, technical due diligence, readiness assessment, risk register, scorecard, or remediation roadmap.
 
