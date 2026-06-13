@@ -1,5 +1,5 @@
 ---
-name: lens
+name: lens-skill
 description: >-
   Software audit skill. Produces structured, evidence-based engineering
   assessments of any software subject: prototypes, codebases under development,
@@ -26,6 +26,15 @@ description: >-
   'idiomatic code', 'coding conventions', 'stack conventions', 'framework
   conventions', 'review this codebase', 'perform lens on', 'make audit report
   on', 'run lens', 'lens audit'.
+compatibility: >-
+  Designed for agent coding environments with file system access (Claude Code,
+  Claude Desktop, Windsurf, Devin, and similar). Requires the ability to read
+  source files, run shell commands, and write Markdown reports. No network
+  access required for the audit itself; optional web fetch for external
+  documentation or CVE lookups.
+metadata:
+  version: "0.5"
+  author: cognition-labs
 ---
 
 # Software Audit Skill

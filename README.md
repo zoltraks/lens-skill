@@ -7,6 +7,8 @@
 ```
 
 > Evidence-based engineering audits of any software subject - prototypes, codebases under development, and already-running production systems.
+>
+> **Version:** 0.5 | [Versioning Policy](./VERSIONING.md)
 
 Lens is a structured audit process packaged as an agent skill. It guides an AI coding agent through a complete engineering assessment of a codebase, producing a neutral, repeatable report anchored to concrete facts rather than impressions.
 
