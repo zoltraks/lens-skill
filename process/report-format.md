@@ -27,7 +27,7 @@ Keep column headers identical to the templates below across every audit. When th
 
 Within a table cell, separate multiple points with a semicolon or a line break, not with sub-bullets.
 
-Place descriptive paragraphs immediately after each table. In the paragraphs, explain every aspect with concrete evidence, file paths, and reasoning. Use short sentences separated by line breaks.
+Place descriptive paragraphs immediately after each table. In the paragraphs, explain every aspect with concrete evidence, file paths, and reasoning. Use short sentences separated by blank lines; each sentence stands on its own line with an empty line between consecutive sentences.
 
 Start each detailed paragraph with a bold heading on its own line. Put the status, score, or severity inline after the heading, separated by a space. Then add an empty line, then the paragraph body. Do not run the heading and the body together on the same line.
 
@@ -145,11 +145,13 @@ The report has these top-level sections, in this order, with unnumbered headings
 
 ## Document Information
 
-Open the report with a short metadata block. Each field must appear on its own line with a blank line separating it from the next field. Do not run fields together on the same line.
+Open the report with a document title as a level-1 markdown heading (`#`), followed by a short metadata block. Each metadata field must appear on its own line with a blank line separating it from the next field. Do not run fields together on the same line.
 
 Format:
 
 ```markdown
+# <System Name> Software Audit Report
+
 **Version**: <version number>
 
 **Date**: <audit date>
@@ -459,7 +461,7 @@ After the summary table, write one block per finding in the same order. Use this
 
 When the report language is Polish, translate the bullet labels into Polish: `Filtr`, `Ważność`, `Pliki/Moduły docelowe`, `Opis`, `Wpływ`, `Rekomendacja naprawcza`, `Metoda weryfikacji`.
 
-Each finding must cite concrete evidence: file paths, config keys, commands, or direct quotes. Do not crowd the bullet list with long prose. Use short sentences separated by line breaks.
+Each finding must cite concrete evidence: file paths, config keys, commands, or direct quotes. Do not crowd the bullet list with long prose. Use short sentences separated by blank lines; each sentence stands on its own line with an empty line between consecutive sentences.
 
 When referencing secrets, credentials, or keys in the Description or Impact fields, replace exact values with `[REDACTED]` or generic descriptions such as "plaintext database credentials found in tracking file".
 

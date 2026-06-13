@@ -29,7 +29,7 @@ Tables provide scannable summaries. Paragraphs below tables provide detailed evi
 
 In tables, use shortened, general values. One to three words per cell. Do not crowd table cells with long explanations.
 
-In paragraphs, use short sentences separated by line breaks. Anchor every claim to a concrete fact: a file path, a config key, a command, or a direct quote.
+In paragraphs, use short sentences separated by blank lines. Each sentence should stand on its own line, with an empty line between consecutive sentences. Anchor every claim to a concrete fact: a file path, a config key, a command, or a direct quote.
 
 Use headers for section titles rather than bold runs of text.
 
