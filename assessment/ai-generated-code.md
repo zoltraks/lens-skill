@@ -86,6 +86,7 @@ Agent Driven Engineering, when used wisely, treats AI as a tool within an SDLC: 
 - [ ] Are there files with inconsistent style compared to the rest of the codebase?
 - [ ] Is there perfect symmetry across modules (identical signatures, identical test patterns, zero variation)?
 - [ ] Are there structure-only tests that assert fields equal values just assigned?
+- [ ] Do large generated test or data files (thousands of uniform entries) contain a provenance header documenting origin, generation methodology, and validation steps?
 - [ ] Is there a complete absence of TODO, FIXME, HACK, or commented-out experimental code?
 
 **Review and validation**
@@ -127,3 +128,4 @@ Agent Driven Engineering, when used wisely, treats AI as a tool within an SDLC: 
 - When marking `FAIL`, anchor the finding to specific files or patterns, not to a general impression.
 - If the system claims to be production-ready but shows Vibe Coding patterns, the maturity claim is contradicted by evidence.
 - When a finding involves a hallucinated API or incorrect pattern, cite the specific file and the expected correct pattern.
+- A large generated test or data file (thousands of entries with uniform structure) that lacks a provenance header is a MEDIUM severity finding at minimum. Without documented origin and generation methodology, errors in the generated data cannot be traced to their source or corrected systematically.

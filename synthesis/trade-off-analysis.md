@@ -57,6 +57,7 @@ Column meanings:
 - Do not label either side as right or wrong outside an explicit recommendation request.
 - A choice that fits the stated context is not a weakness, even if it would be unusual in a different context.
 - Keep cell language neutral and anchored to evidence.
+- When the trade-off analysis includes an explicit recommendation (for example, "Build both targets" or "Archive prototypes"), that recommendation must appear as a `REC-XXX` entry in the Actionable Remediation Roadmap, traced to the relevant `FND-XXX`. Do not leave recommendations in the trade-off table without a corresponding roadmap entry.
 
 ## Example
 

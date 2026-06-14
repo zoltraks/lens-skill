@@ -746,6 +746,7 @@ Column meanings:
 - A choice that fits the stated context is not a weakness, even if it would be unusual in a different context.
 - Keep cell language neutral and anchored to evidence.
 - Trade-off reasoning may also be embedded into individual finding blocks (under Description or Impact) when it directly explains a specific finding. The standalone table here surfaces the system-level tensions.
+- When the trade-off analysis includes an explicit recommendation, that recommendation must also appear as a `REC-XXX` entry in the Actionable Remediation Roadmap, traced to the relevant `FND-XXX`.
 
 ## Actionable Remediation Roadmap
 
@@ -809,7 +810,12 @@ State any extrapolations made from sampled code to the whole system.
 
 **Standard coverage statement**
 
-When the audit referenced security standards, state which categories were in scope and which were not, so the reader does not assume full coverage. For a web application, name the OWASP Top 10 (2021) categories (`A01`-`A10`) that were and were not assessed. For an API, name the OWASP API Security Top 10 (2023) categories (`API1`-`API10`). Mark categories that could not be assessed from the provided input as `NOT ASSESSED` with a one-line reason.
+When the audit referenced security standards, state which categories were in scope and which were not, so the reader does not assume full coverage.
+
+For a web application, name the OWASP Top 10 (2021) categories (`A01`-`A10`) that were and were not assessed.
+For an API, name the OWASP API Security Top 10 (2023) categories (`API1`-`API10`).
+For any system, name the ISO 25010 quality characteristics that correspond to scorecard dimensions marked `N/A` (for example, `Scalability`, `Operational Safety`) and justify each exclusion in one sentence anchored to the application nature.
+Mark categories that could not be assessed from the provided input as `NOT ASSESSED` with a one-line reason.
 
 **Omitted conditional sections**
 

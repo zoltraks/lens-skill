@@ -49,6 +49,7 @@ Use these tiers to rank recommendations:
 - Keep language neutral and free of blame.
 - When a recommendation would require information that was never provided, state the missing information rather than assuming it.
 - Do not reproduce plaintext secrets, passwords, or cryptographic keys in the Recommendation or Verification columns.
+- Any recommendation stated in the Trade-off Analysis must also appear as a `REC-XXX` in this roadmap, traced to the same `FND-XXX`. Do not allow recommendations to exist only in the trade-off table.
 
 ## Relationship To Other Sections
 

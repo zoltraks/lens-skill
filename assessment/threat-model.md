@@ -59,6 +59,17 @@ Each confirmed threat that rests on a concrete gap becomes or references a findi
 
 Render the threat model as described in `process/report-format.md`. Present one table keyed by trust boundary and STRIDE category, then describe each material threat with evidence and its linked `FND-XXX` / `RSK-XXX`.
 
+## Common Threat Examples
+
+Use these examples to avoid overlooking categories that are often missed:
+
+- **Information Disclosure**: Unencrypted network transport (for example, `ws://` instead of `wss://`), verbose error messages revealing internal paths, log files containing sensitive tokens, broad API responses exposing extra fields.
+- **Elevation of Privilege**: Filesystem access without path validation (for example, loading ROM files from user input allowing directory traversal), missing authorization checks on administrative endpoints, ability to escalate from guest to admin via parameter tampering.
+- **Repudiation**: Absence of audit logs on security-relevant actions (for example, WebSocket connection events, configuration changes, authentication attempts), missing timestamps or actor attribution in logs.
+- **Spoofing**: Missing origin validation on cross-origin requests, weak or absent token verification, unauthenticated WebSocket connections.
+- **Tampering**: Unsigned serialized data, lack of integrity checks on downloaded artifacts, writable configuration without validation.
+- **Denial of Service**: Unbounded input buffers, missing rate limits, unauthenticated endpoints that trigger heavy computation.
+
 ## Status Criteria
 
 - `PASS`: All trust boundaries are enumerated and each material STRIDE threat has an evidenced mitigating control.
@@ -69,8 +80,10 @@ Render the threat model as described in `process/report-format.md`. Present one 
 
 ## Rules
 
+- Check all six STRIDE categories at every trust boundary. A threat model with fewer than six categories examined is incomplete.
 - Anchor every threat to a specific trust boundary and flow from the data flow model.
 - Do not list a threat that does not map to a concrete boundary or flow.
 - Distinguish a present control from a verified-effective control.
 - Every unmitigated threat must trace to a finding and a risk; do not leave threats floating outside the register.
 - Do not output plaintext secrets, tokens, or keys when describing a disclosure threat.
+- If a STRIDE category yields no material threat at a boundary, record it as `None identified` with a one-line justification rather than omitting it.
