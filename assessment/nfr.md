@@ -19,13 +19,13 @@ Apply `principles/evaluation-rules.md` throughout. Distinguish a stated target f
 
 ## Evidence To Look For
 
-| Signal                       | Where It Appears                                   |
-|------------------------------|----------------------------------------------------|
-| Stated NFR targets           | Requirements, SLAs, SLOs, design docs              |
-| Performance evidence         | Benchmarks, load test results, profiling data      |
-| Scaling model                | Autoscaling config, statelessness, partitioning    |
-| Redundancy                   | Replication, multi-zone setup, failover            |
-| Resilience patterns          | Timeouts, circuit breakers, bulkheads, retries     |
+| Signal               | Where It Appears                                |
+|----------------------|-------------------------------------------------|
+| Stated NFR targets   | Requirements, SLAs, SLOs, design docs           |
+| Performance evidence | Benchmarks, load test results, profiling data   |
+| Scaling model        | Autoscaling config, statelessness, partitioning |
+| Redundancy           | Replication, multi-zone setup, failover         |
+| Resilience patterns  | Timeouts, circuit breakers, bulkheads, retries  |
 
 ## Status Criteria
 

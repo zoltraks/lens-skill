@@ -49,12 +49,12 @@ Likelihood bands:
 
 Derive severity from impact and likelihood, then record it explicitly.
 
-| Impact \ Likelihood | LOW      | MEDIUM   | HIGH      |
-|---------------------|----------|----------|-----------|
-| CRITICAL            | HIGH     | CRITICAL | CRITICAL  |
-| HIGH                | MEDIUM   | HIGH     | CRITICAL  |
-| MEDIUM              | LOW      | MEDIUM   | HIGH      |
-| LOW                 | LOW      | LOW      | MEDIUM    |
+| Impact \ Likelihood | LOW    | MEDIUM   | HIGH     |
+|---------------------|--------|----------|----------|
+| CRITICAL            | HIGH   | CRITICAL | CRITICAL |
+| HIGH                | MEDIUM | HIGH     | CRITICAL |
+| MEDIUM              | LOW    | MEDIUM   | HIGH     |
+| LOW                 | LOW    | LOW      | MEDIUM   |
 
 Severity must always be one of `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`.
 

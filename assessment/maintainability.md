@@ -18,14 +18,14 @@ Apply `principles/evaluation-rules.md` throughout. Describe code properties, nev
 
 ## Evidence To Look For
 
-| Signal                       | Where It Appears                                   |
-|------------------------------|----------------------------------------------------|
-| Module boundaries            | Directory layout, package structure, interfaces    |
-| Dependency direction         | Imports, dependency graphs, layering rules         |
-| Consistency                  | Naming conventions, repeated patterns              |
-| Debt markers                 | TODO and FIXME comments, deprecation notes         |
-| Size signals                 | Very large files, very long functions              |
-| Duplication                  | Repeated blocks, copy-paste patterns               |
+| Signal               | Where It Appears                                |
+|----------------------|-------------------------------------------------|
+| Module boundaries    | Directory layout, package structure, interfaces |
+| Dependency direction | Imports, dependency graphs, layering rules      |
+| Consistency          | Naming conventions, repeated patterns           |
+| Debt markers         | TODO and FIXME comments, deprecation notes      |
+| Size signals         | Very large files, very long functions           |
+| Duplication          | Repeated blocks, copy-paste patterns            |
 
 ## Status Criteria
 

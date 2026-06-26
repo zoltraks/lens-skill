@@ -18,14 +18,14 @@ Apply `principles/evaluation-rules.md` throughout. Reverting a release is assess
 
 ## Evidence To Look For
 
-| Signal                       | Where It Appears                                   |
-|------------------------------|----------------------------------------------------|
-| Build definition             | Pipeline files, build scripts, container builds    |
-| Artifact handling            | Registries, artifact stores, versioned outputs     |
-| Environment promotion        | Staging and production promotion steps             |
-| Release automation           | Deploy jobs, infrastructure-as-code, release scripts |
-| Manual procedures            | Runbooks, checklists, documented manual steps      |
-| Release cadence              | Changelogs, tags, release history                  |
+| Signal                | Where It Appears                                     |
+|-----------------------|------------------------------------------------------|
+| Build definition      | Pipeline files, build scripts, container builds      |
+| Artifact handling     | Registries, artifact stores, versioned outputs       |
+| Environment promotion | Staging and production promotion steps               |
+| Release automation    | Deploy jobs, infrastructure-as-code, release scripts |
+| Manual procedures     | Runbooks, checklists, documented manual steps        |
+| Release cadence       | Changelogs, tags, release history                    |
 
 ## Status Criteria
 

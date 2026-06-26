@@ -19,14 +19,14 @@ Apply `principles/evaluation-rules.md` throughout. Assess only what the input sh
 
 ## Evidence To Look For
 
-| Signal                       | Where It Appears                                   |
-|------------------------------|----------------------------------------------------|
-| Authentication mechanism     | Auth libraries, session or token handling          |
-| Authorization checks         | Access control rules, role checks, policy code     |
-| Input handling               | Validation, parameterized queries, output encoding |
-| Secret management            | Secret stores, environment handling, key rotation  |
-| Transport security           | TLS configuration, certificate handling            |
-| Sensitive data in logs       | Logging of credentials, tokens, or personal data   |
+| Signal                   | Where It Appears                                   |
+|--------------------------|----------------------------------------------------|
+| Authentication mechanism | Auth libraries, session or token handling          |
+| Authorization checks     | Access control rules, role checks, policy code     |
+| Input handling           | Validation, parameterized queries, output encoding |
+| Secret management        | Secret stores, environment handling, key rotation  |
+| Transport security       | TLS configuration, certificate handling            |
+| Sensitive data in logs   | Logging of credentials, tokens, or personal data   |
 
 ## Status Criteria
 

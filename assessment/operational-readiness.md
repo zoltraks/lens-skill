@@ -19,14 +19,14 @@ Apply `principles/evaluation-rules.md` throughout. Observability signals are ass
 
 ## Evidence To Look For
 
-| Signal                       | Where It Appears                                   |
-|------------------------------|----------------------------------------------------|
-| Runbooks                     | Operational docs, procedure guides                 |
-| Ownership                    | On-call rotation, escalation paths, service owners |
-| Capacity planning            | Capacity models, scaling thresholds, quotas        |
-| Backups                      | Backup schedule, retention, restore procedure      |
-| Recovery testing             | Restore drills, disaster-recovery exercises        |
-| Incident process             | Incident playbooks, post-incident reviews          |
+| Signal            | Where It Appears                                   |
+|-------------------|----------------------------------------------------|
+| Runbooks          | Operational docs, procedure guides                 |
+| Ownership         | On-call rotation, escalation paths, service owners |
+| Capacity planning | Capacity models, scaling thresholds, quotas        |
+| Backups           | Backup schedule, retention, restore procedure      |
+| Recovery testing  | Restore drills, disaster-recovery exercises        |
+| Incident process  | Incident playbooks, post-incident reviews          |
 
 ## Status Criteria
 

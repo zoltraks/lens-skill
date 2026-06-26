@@ -17,13 +17,13 @@ Apply `principles/evaluation-rules.md` throughout. Assess processes and artifact
 
 ## Evidence To Look For
 
-| Signal                       | Where It Appears                                   |
-|------------------------------|----------------------------------------------------|
-| Feature flag system          | Flag configuration, flag libraries, toggles        |
-| Decision records             | ADR directory, design docs, recorded rationale     |
-| Change review               | Pull request templates, review rules, approvals    |
-| Traceability                 | Links between changes and requirements or issues   |
-| Changelog                    | Maintained changelog or release notes              |
+| Signal              | Where It Appears                                 |
+|---------------------|--------------------------------------------------|
+| Feature flag system | Flag configuration, flag libraries, toggles      |
+| Decision records    | ADR directory, design docs, recorded rationale   |
+| Change review       | Pull request templates, review rules, approvals  |
+| Traceability        | Links between changes and requirements or issues |
+| Changelog           | Maintained changelog or release notes            |
 
 ## Status Criteria
 

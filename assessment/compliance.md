@@ -20,14 +20,14 @@ Apply `principles/evaluation-rules.md` throughout. State obligations only where 
 
 ## Evidence To Look For
 
-| Signal                       | Where It Appears                                   |
-|------------------------------|----------------------------------------------------|
-| Personal data handling       | Data models, storage of user or sensitive fields   |
-| Retention and deletion       | Retention policy, deletion paths, expiry logic     |
-| Consent and rights           | Consent flows, export or delete capabilities       |
-| Project license              | License file, headers, distribution terms          |
-| Third-party obligations      | Attribution, copyleft, notice files                |
-| Audit trail                  | Audit logs of access and changes to sensitive data |
+| Signal                  | Where It Appears                                   |
+|-------------------------|----------------------------------------------------|
+| Personal data handling  | Data models, storage of user or sensitive fields   |
+| Retention and deletion  | Retention policy, deletion paths, expiry logic     |
+| Consent and rights      | Consent flows, export or delete capabilities       |
+| Project license         | License file, headers, distribution terms          |
+| Third-party obligations | Attribution, copyleft, notice files                |
+| Audit trail             | Audit logs of access and changes to sensitive data |
 
 ## Status Criteria
 

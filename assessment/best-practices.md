@@ -22,15 +22,16 @@ Apply `principles/evaluation-rules.md` throughout. Judge adherence to the conven
 
 ## Evidence To Look For
 
-| Signal                       | Where It Appears                                   |
-|------------------------------|----------------------------------------------------|
-| Idiomatic language use       | Native constructs and idioms over ported patterns  |
-| Framework conventions        | Prescribed layout, lifecycle hooks, official APIs  |
-| Ecosystem layout             | Conventional project structure and file naming     |
-| Stack style guide            | Adopted style guide, ecosystem-standard tooling config |
+| Signal                       | Where It Appears                                             |
+|------------------------------|--------------------------------------------------------------|
+| Idiomatic language use       | Native constructs and idioms over ported patterns            |
+| Framework conventions        | Prescribed layout, lifecycle hooks, official APIs            |
+| Ecosystem layout             | Conventional project structure and file naming               |
+| Stack style guide            | Adopted style guide, ecosystem-standard tooling config       |
 | Recommended libraries        | Established ecosystem libraries over hand-rolled equivalents |
-| Deprecated APIs              | Absence of calls the stack flags as deprecated     |
+| Deprecated APIs              | Absence of calls the stack flags as deprecated               |
 | Version-appropriate patterns | Features matching the installed runtime or framework version |
+
 
 ## Status Criteria
 

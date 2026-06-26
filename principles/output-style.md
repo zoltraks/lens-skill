@@ -29,6 +29,8 @@ Tables provide scannable summaries. Paragraphs below tables provide detailed evi
 
 In tables, use shortened, general values. One to three words per cell. Do not crowd table cells with long explanations.
 
+Apply the table formatting rules defined in `process/report-format.md` (Table Formatting Rules section) to every table in the report: compact column widths, trailing-space padding on every cell, and hyphens contiguous with pipes in the separator row.
+
 In paragraphs, use short sentences separated by blank lines. Each sentence should stand on its own line, with an empty line between consecutive sentences. Anchor every claim to a concrete fact: a file path, a config key, a command, or a direct quote.
 
 Use headers for section titles rather than bold runs of text.
@@ -154,19 +156,19 @@ When the user requests a specific natural language for the report, translate all
 
 When the report language is Polish, use these Polish equivalents instead of the English markers:
 
-| English | Polish |
-|---------|--------|
-| `PASS` | `OK` |
-| `PARTIAL` | `CZĘŚCIOWO` |
-| `FAIL` | `NIEZALICZONE` |
-| `UNKNOWN` | `NIEZNANE` |
-| `N/A` | `ND` |
-| `LOW` | `NISKIE` |
-| `MEDIUM` | `ŚREDNIE` |
-| `HIGH` | `WYSOKIE` |
-| `CRITICAL` | `KRYTYCZNE` |
-| `SEVERITY:` | `WAŻNOŚĆ:` |
-| `Score:` | `Wynik:` |
+| English     | Polish          |
+|-------------|-----------------|
+| `PASS`      | `OK`            |
+| `PARTIAL`   | `CZĘŚCIOWO`     |
+| `FAIL`      | `NIEZALICZONE`  |
+| `UNKNOWN`   | `NIEZNANE`      |
+| `N/A`       | `ND`            |
+| `LOW`       | `NISKIE`        |
+| `MEDIUM`    | `ŚREDNIE`       |
+| `HIGH`      | `WYSOKIE`       |
+| `CRITICAL`  | `KRYTYCZNE`     |
+| `SEVERITY:` | `WAŻNOŚĆ:`      |
+| `Score:`    | `Wynik:`        |
 
 The inline format remains identical: the marker follows the bold heading separated by a space. For example, `**Strategia wdrożenia** CZĘŚCIOWO` or `**Testowalność** Wynik: 8/10`.
 

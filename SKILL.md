@@ -33,7 +33,7 @@ compatibility: >-
   access required for the audit itself; optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "0.5"
+  version: "0.6"
   author: cognition-labs
 ---
 
@@ -74,16 +74,16 @@ Before beginning the audit, the agent runs the Parameter Configuration phase def
 
 The agent MUST ask the user whether to accept the default parameters or configure them. Defaults are:
 
-| Parameter | Default |
-|-----------|---------|
-| Report delivery | Inline (direct response) |
-| Output location | Resolved from the audited repository or directory: `docs/audit/` > `docs/` > root (used if File mode selected) |
-| Output filename | `AUDIT.md` for non-Polish reports, `AUDYT.md` for Polish reports, adjusted for existing conventions in the resolved directory; agent confirms with user before writing |
-| Report language | Match the language of the user's request |
-| Detail level | Standard |
-| Evaluation scale | 1-10 |
-| Improvement suggestions | Include with priorities (P1-P4 roadmap) |
-| Trade-off analysis | Standalone section + embedded into relevant findings |
+| Parameter                | Default                                                                                                                                                                  |
+|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Report delivery          | Inline (direct response)                                                                                                                                                 |
+| Output location          | Resolved from the audited repository or directory: `docs/audit/` > `docs/` > root (used if File mode selected)                                                          |
+| Output filename          | `AUDIT.md` for non-Polish reports, `AUDYT.md` for Polish reports, adjusted for existing conventions in the resolved directory; agent confirms with user before writing   |
+| Report language          | Match the language of the user's request                                                                                                                                 |
+| Detail level             | Standard                                                                                                                                                                 |
+| Evaluation scale         | 1-10                                                                                                                                                                     |
+| Improvement suggestions  | Include with priorities (P1-P4 roadmap)                                                                                                                                  |
+| Trade-off analysis       | Standalone section + embedded into relevant findings                                                                                                                     |
 
 The agent MUST ask this question and MUST NOT skip it. The agent MUST wait for user response before starting the audit.
 

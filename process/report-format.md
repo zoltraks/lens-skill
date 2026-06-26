@@ -19,8 +19,6 @@ Tables provide the scannable summary. Paragraphs below the table provide the det
 
 In tables, use shortened, general values. One or two words per cell. Do not crowd table cells with long explanations. Save detail for the paragraphs.
 
-Align table columns by padding every cell value with trailing spaces so that all `|` column separators align vertically in plain text. Use consistent spacing within each table.
-
 Do not number section headings. Use the section name as the heading, for example "Executive Summary", not "2. Executive Summary". When the user requests a specific language, translate the section heading into that language.
 
 Keep column headers identical to the templates below across every audit. When the user requests a specific language, translate the column headers into that language while keeping the structure identical.
@@ -32,6 +30,37 @@ Place descriptive paragraphs immediately after each table. In the paragraphs, ex
 Start each detailed paragraph with a bold heading on its own line. Put the status, score, or severity inline after the heading, separated by a space. Then add an empty line, then the paragraph body. Do not run the heading and the body together on the same line.
 
 Use this bold-heading pattern for paragraphs that expand on a table row. For actual section or subsection titles, use markdown header syntax (`##` or `###`) rather than bold text.
+
+### Table Formatting Rules
+
+Apply these rules to every table in the report.
+
+**Delimiters**: Use pipe characters (`|`) to delimit columns. Place one space after the leading pipe and one space before the trailing pipe.
+
+**Header separator**: Place a separator line immediately after the header row. The separator contains only hyphens and pipe characters. The hyphens are contiguous with the pipe characters - do not add spaces between pipes and hyphens. The separator width for each column equals the column width plus two hyphens. Minimum column width is three characters.
+
+Correct separator format:
+```
+|---------|--------|
+```
+Incorrect separator format (spaces around hyphens):
+```
+| ------- | ------ |
+```
+
+**Cell padding**: Pad every cell with trailing spaces so it matches the widest cell in that column. Empty cells must also be padded. Use left alignment for all cells. Never truncate cell contents.
+
+**Column width**: Calculate the column width as the maximum character width of all cells in that column, including the header. Include all Markdown formatting characters (backticks, asterisks, spaces, punctuation) in the width measurement.
+
+**Compacting**: After calculating column widths, compact the table by removing any padding that exceeds the widest cell in each column. The compacted version - minimum width that fits every cell - is the correct version.
+
+**Checklist for every table**:
+- Identify all cells including the header row.
+- Measure each cell width including all formatting characters.
+- Determine the maximum width per column.
+- Pad every cell with trailing spaces to match the column maximum.
+- Build the separator with hyphens equal to the column width plus two, no spaces.
+- Verify all `|` separators align vertically in plain text.
 
 Example for finding summary:
 
@@ -137,15 +166,15 @@ When a conditional section is omitted, state the omission once in the Scope Excl
 
 The following sections and subsections are conditional. Each lists its inclusion criterion and the assessment file that governs it:
 
-| Section / Subsection | Include When | Governing File |
-|----------------------|--------------|----------------|
-| Data Flow Diagram (in Architectural Assessment) | The system moves data across one or more trust boundaries | `assessment/data-flow.md` |
-| Design Patterns (in Architectural Assessment) | The codebase is large enough to exhibit recurring structure | `assessment/design-patterns.md` |
-| Architecture Decision Records (in Architectural Assessment) | The system is production-bound and has significant decisions | `assessment/change-management.md` |
-| Threat Model (standalone) | The system has a security-relevant attack surface or trust boundary | `assessment/threat-model.md` |
-| API Contract Conformance (standalone) | The system exposes an API (REST, GraphQL, gRPC, MCP) | `assessment/api-contract.md` |
-| Technical Debt Register (standalone) | The assessment surfaces structural debt distinct from risks | `synthesis/technical-debt-register.md` |
-| Re-audit and Follow-up Plan (standalone) | The roadmap contains at least one P1 or P2 recommendation | `synthesis/re-audit-plan.md` |
+| Section / Subsection                                        | Include When                                                        | Governing File                         |
+|-------------------------------------------------------------|---------------------------------------------------------------------|----------------------------------------|
+| Data Flow Diagram (in Architectural Assessment)             | The system moves data across one or more trust boundaries           | `assessment/data-flow.md`              |
+| Design Patterns (in Architectural Assessment)               | The codebase is large enough to exhibit recurring structure         | `assessment/design-patterns.md`        |
+| Architecture Decision Records (in Architectural Assessment) | The system is production-bound and has significant decisions        | `assessment/change-management.md`      |
+| Threat Model (standalone)                                   | The system has a security-relevant attack surface or trust boundary | `assessment/threat-model.md`           |
+| API Contract Conformance (standalone)                       | The system exposes an API (REST, GraphQL, gRPC, MCP)                | `assessment/api-contract.md`           |
+| Technical Debt Register (standalone)                        | The assessment surfaces structural debt distinct from risks         | `synthesis/technical-debt-register.md` |
+| Re-audit and Follow-up Plan (standalone)                    | The roadmap contains at least one P1 or P2 recommendation           | `synthesis/re-audit-plan.md`           |
 
 When in doubt about whether a conditional section applies, prefer including it with explicit `N/A` or `NOT SPECIFIED` markers over silently dropping a relevant concern. Only omit a section when it genuinely cannot apply to the subject.
 
@@ -205,17 +234,17 @@ Open the report with a factual inventory of the technologies the subject uses. D
 
 Use a key-value table:
 
-| Layer            | Technology                                                      |
-|------------------|-----------------------------------------------------------------|
-| Languages        | <languages and versions>                                        |
-| Frameworks       | <application and UI frameworks>                                 |
-| Runtime/Platform | <runtime, OS, or host platform>                                 |
-| Build tooling    | <build system, bundler, compilers>                              |
-| Test tooling     | <test frameworks and runners>                                   |
-| Package manager  | <dependency and package manager>                                |
-| Key libraries    | <notable third-party libraries>                                 |
-| Data stores      | <databases, caches, file formats>, or `NOT SPECIFIED`           |
-| Target platforms | <where the software runs or ships>                              |
+| Layer            | Technology                                            |
+|------------------|-------------------------------------------------------|
+| Languages        | <languages and versions>                              |
+| Frameworks       | <application and UI frameworks>                       |
+| Runtime/Platform | <runtime, OS, or host platform>                       |
+| Build tooling    | <build system, bundler, compilers>                    |
+| Test tooling     | <test frameworks and runners>                         |
+| Package manager  | <dependency and package manager>                      |
+| Key libraries    | <notable third-party libraries>                       |
+| Data stores      | <databases, caches, file formats>, or `NOT SPECIFIED` |
+| Target platforms | <where the software runs or ships>                    |
 
 Anchor each entry to evidence, such as a manifest, lockfile, or config file. Mark any layer the input does not reveal as `NOT SPECIFIED`. Add or omit rows to fit the subject, but keep the layer names in this column and translate them into the report language.
 
@@ -225,11 +254,11 @@ Provide a compact overview a reader can absorb without the detail sections.
 
 Use a key-value table:
 
-| Field          | Value                                                                          |
-|----------------|--------------------------------------------------------------------------------|
-| System type    | <prototype / codebase / production system / proposal>                          |
-| Scope          | <what was reviewed and what was excluded>                                      |
-| Source basis   | <running system / inspected code / description>                                |
+| Field          | Value                                                                                         |
+|----------------|-----------------------------------------------------------------------------------------------|
+| System type    | <prototype / codebase / production system / proposal>                                         |
+| Scope          | <what was reviewed and what was excluded>                                                     |
+| Source basis   | <running system / inspected code / description>                                               |
 | Maturity level | <`Prototype` / `Early development` / `Pre-production` / `Production-ready` / `Undetermined`> |
 
 When the report language is Polish, translate the table headers and field names into Polish: `Obszar`, `Wartość`, `Typ systemu`, `Zakres`, `Źródło danych`, `Poziom dojrzałości`.
@@ -256,12 +285,12 @@ Present the quantitative health summary in a consolidated view. This section con
 
 Provide a consolidated Likelihood vs Impact matrix summarizing the top risks. Use a table:
 
-| Impact | LOW | MEDIUM | HIGH |
-|--------|-----|--------|------|
+| Impact   | LOW | MEDIUM | HIGH |
+|----------|-----|--------|------|
 | CRITICAL |     |        |      |
-| HIGH |     |        |      |
-| MEDIUM |     |        |      |
-| LOW |     |        |      |
+| HIGH     |     |        |      |
+| MEDIUM   |     |        |      |
+| LOW      |     |        |      |
 
 When the report language is Polish, translate the axis labels into Polish: `Wpływ`, `Prawdopodobieństwo`.
 
@@ -273,21 +302,21 @@ When the report language is Polish, use `Scorecard - podsumowanie` instead of `S
 
 Provide a compact summary of the project scorecard dimensions:
 
-| Dimension | Score | Notes |
-|-----------|-------|-------|
-| Testability |       |       |
-| Design Soundness |       |       |
-| Code Quality |       |       |
-| Stack Alignment |       |       |
-| Dependency Health |       |       |
-| Maintainability |       |       |
-| Deployability |       |       |
-| Scalability |       |       |
-| Security |       |       |
-| Compliance |       |       |
-| Observability |       |       |
-| Operational Safety |       |       |
-| AI Provenance |       |       |
+| Dimension               | Score | Notes |
+|-------------------------|-------|-------|
+| Testability             |       |       |
+| Design Soundness        |       |       |
+| Code Quality            |       |       |
+| Stack Alignment         |       |       |
+| Dependency Health       |       |       |
+| Maintainability         |       |       |
+| Deployability           |       |       |
+| Scalability             |       |       |
+| Security                |       |       |
+| Compliance              |       |       |
+| Observability           |       |       |
+| Operational Safety      |       |       |
+| AI Provenance           |       |       |
 | Originality & Licensing |       |       |
 
 When the report language is Polish, translate the column headers and dimension names into Polish using the equivalents defined in `principles/output-style.md`.
@@ -361,12 +390,12 @@ When the report language is Polish, use `Definicje ważności` instead of `Sever
 
 Add a 4-row rubric defining each qualitative severity band. These definitions anchor the severity values used in findings and risks.
 
-| Severity | Impact | Likelihood | Blocks Production Readiness |
-|----------|--------|------------|----------------------------|
-| CRITICAL | Data loss, breach, or full system compromise | Expected without intervention | Yes |
-| HIGH | Major function loss or data integrity concern | Plausible under normal operation | Yes |
-| MEDIUM | Degraded function or contained outage | Requires specific conditions | No (but must be tracked) |
-| LOW | Limited or cosmetic effect | Unusual combination required | No |
+| Severity | Impact                                        | Likelihood                       | Blocks Production Readiness |
+|----------|-----------------------------------------------|----------------------------------|-----------------------------|
+| CRITICAL | Data loss, breach, or full system compromise  | Expected without intervention    | Yes                         |
+| HIGH     | Major function loss or data integrity concern | Plausible under normal operation | Yes                         |
+| MEDIUM   | Degraded function or contained outage         | Requires specific conditions     | No (but must be tracked)    |
+| LOW      | Limited or cosmetic effect                    | Unusual combination required     | No                          |
 
 When the report language is Polish, translate the column headers and severity descriptions into Polish. Use `Ważność` for `Severity`, `Wpływ` for `Impact`, `Prawdopodobieństwo` for `Likelihood`, and `Blokuje gotowość produkcyjną` for `Blocks Production Readiness`.
 
@@ -382,12 +411,12 @@ Present the rubric matrix that defines what constitutes each score band. Use the
 
 For the 1-10 scale:
 
-| Band | Score Range | Definition |
-|------|-------------|------------|
-| Excellent | 9-10 | Capability is comprehensive and verified by strong evidence |
-| Good | 7-8 | Capability is solid overall; minor or noticeable gaps exist |
-| Average | 4-6 | Capability is present but uneven, limited, or inconsistent |
-| Poor | 1-3 | Capability is minimal, fragmentary, or absent where required |
+| Band      | Score Range | Definition                                                   |
+|-----------|-------------|--------------------------------------------------------------|
+| Excellent | 9-10        | Capability is comprehensive and verified by strong evidence  |
+| Good      | 7-8         | Capability is solid overall; minor or noticeable gaps exist  |
+| Average   | 4-6         | Capability is present but uneven, limited, or inconsistent   |
+| Poor      | 1-3         | Capability is minimal, fragmentary, or absent where required |
 
 When the report language is Polish, translate the band names and definitions into Polish:
 - `Doskonała` for `Excellent`
@@ -398,12 +427,12 @@ When the report language is Polish, translate the band names and definitions int
 
 For the 1-5 alternative scale:
 
-| Band | Score Range | Definition |
-|------|-------------|------------|
-| Excellent | 5 | Capability is comprehensive and verified by strong evidence |
-| Good | 4 | Capability is solid with minor gaps |
-| Average | 3 | Capability is adequate but uneven |
-| Poor | 1-2 | Capability is minimal, limited, or absent where required |
+| Band      | Score Range | Definition                                                  |
+|-----------|-------------|-------------------------------------------------------------|
+| Excellent | 5           | Capability is comprehensive and verified by strong evidence |
+| Good      | 4           | Capability is solid with minor gaps                         |
+| Average   | 3           | Capability is adequate but uneven                           |
+| Poor      | 1-2         | Capability is minimal, limited, or absent where required    |
 
 When the report language is Polish, apply the same band translations as above.
 
@@ -413,13 +442,13 @@ When the report language is Polish, apply the same band translations as above.
 
 Describe the system as understood from the input. Present the factual context without critique.
 
-| Aspect | Detail |
-|--------|--------|
-| Functional description | <what the system does> |
-| Architecture overview | <high-level structure> |
-| Key components | <named components or modules> |
-| External dependencies | <services, libraries, platforms> |
-| Assumptions | <only if explicitly stated, else `NOT SPECIFIED`> |
+| Aspect                 | Detail                                              |
+|------------------------|-----------------------------------------------------|
+| Functional description | <what the system does>                              |
+| Architecture overview  | <high-level structure>                              |
+| Key components         | <named components or modules>                       |
+| External dependencies  | <services, libraries, platforms>                    |
+| Assumptions            | <only if explicitly stated, else `NOT SPECIFIED`>   |
 
 When the report language is Polish, translate the table headers and aspect names into Polish: `Aspekt`, `Szczegóły`, `Opis funkcjonalny`, `Przegląd architektury`, `Kluczowe komponenty`, `Zależności zewnętrzne`, `Założenia`.
 
@@ -480,10 +509,10 @@ Present a Level-0 (context) and a Level-1 (decomposition) view. Use a fenced ASC
 
 **Trust boundaries**
 
-| Boundary | From | To | Crossing Control |
-|----------|------|----|------------------|
-| Network ingress | Client | Auth layer | JWT validation |
-| Storage | Handler | Filesystem | Path canonicalization |
+| Boundary        | From    | To         | Crossing Control      |
+|-----------------|---------|------------|-----------------------|
+| Network ingress | Client  | Auth layer | JWT validation        |
+| Storage         | Handler | Filesystem | Path canonicalization |
 ```
 
 Use framed nodes with box-drawing characters for every DFD element.
@@ -506,11 +535,11 @@ Include this subsection only when the codebase exhibits recurring structure, per
 
 Present a table of the patterns in use with a fitness verdict, then describe each material pattern or anti-pattern with evidence.
 
-| Pattern | Location | Assessment | Description |
-|---------|----------|------------|-------------|
-| Repository | `KnowledgeBase` trait | PASS | Clean abstraction with injectable implementation |
-| Strategy | hybrid search weighting | PARTIAL | Hardcoded, not runtime interchangeable |
-| Factory Method | `build_router` per handler | FAIL | Duplicated construction logic, anti-pattern |
+| Pattern        | Location                   | Assessment | Description                                      |
+|----------------|----------------------------|------------|--------------------------------------------------|
+| Repository     | `KnowledgeBase` trait      | PASS       | Clean abstraction with injectable implementation |
+| Strategy       | hybrid search weighting    | PARTIAL    | Hardcoded, not runtime interchangeable           |
+| Factory Method | `build_router` per handler | FAIL       | Duplicated construction logic, anti-pattern      |
 
 Name patterns using their standard GoF or POSA names. Cross-reference any anti-pattern that is also a code-origin signal to its `FND-AIP-XXX` finding.
 
@@ -520,11 +549,11 @@ Include this subsection only when the system is production-bound with significan
 
 Present a table of decisions that should carry an ADR, each marked `Recorded` or `Missing`, anchored to the code that embodies the decision.
 
-| Decision | Location | ADR Status |
-|----------|----------|------------|
-| Data store choice | `Cargo.toml`, `kb/sqlite.rs` | Missing |
-| Web framework choice | `Cargo.toml` | Missing |
-| Session state model | `main.rs` | Missing |
+| Decision             | Location                      | ADR Status |
+|----------------------|-------------------------------|------------|
+| Data store choice    | `Cargo.toml`, `kb/sqlite.rs`  | Missing    |
+| Web framework choice | `Cargo.toml`                  | Missing    |
+| Session state model  | `main.rs`                     | Missing    |
 
 When the codebase shows AI-generated-code signals, note that missing ADRs make it impossible to distinguish deliberate decisions from AI defaults, and cross-reference the relevant `FND-AIP-XXX`.
 
@@ -536,11 +565,11 @@ This section applies the STRIDE framework to the trust boundaries identified in 
 
 Present one table keyed by trust boundary and STRIDE category, then describe each material threat with evidence and its linked `FND-XXX` and `RSK-XXX`.
 
-| Boundary | Threat (STRIDE) | Threat Description | Mitigating Control | Finding |
-|----------|-----------------|--------------------|--------------------|---------|
-| Network ingress | Spoofing | Token forgery if signing key weak | JWT HS256 validation | FND-SEC-XXX |
-| Write path | Tampering | Path traversal on write | None (gap) | FND-SEC-XXX |
-| API surface | Denial of Service | No rate limiting | None (gap) | FND-SEC-XXX |
+| Boundary        | Threat (STRIDE)   | Threat Description                | Mitigating Control   | Finding     |
+|-----------------|-------------------|-----------------------------------|----------------------|-------------|
+| Network ingress | Spoofing          | Token forgery if signing key weak | JWT HS256 validation | FND-SEC-XXX |
+| Write path      | Tampering         | Path traversal on write           | None (gap)           | FND-SEC-XXX |
+| API surface     | Denial of Service | No rate limiting                  | None (gap)           | FND-SEC-XXX |
 
 The six STRIDE categories are `Spoofing`, `Tampering`, `Repudiation`, `Information Disclosure`, `Denial of Service`, and `Elevation of Privilege`. Every unmitigated threat must trace to a finding and a risk. Never output plaintext secrets when describing an information-disclosure threat.
 
@@ -552,13 +581,13 @@ Include this section only when the system exposes an API, per `assessment/api-co
 
 Present a conformance table across the evaluated dimensions, then describe each gap with evidence and its linked `FND-XXX`. Map each API security gap to its OWASP API Security Top 10 (2023) code where one applies.
 
-| Dimension | Status | Evidence |
-|-----------|--------|----------|
-| Specification present | PASS | `openapi/openapi.yaml` |
-| Schema validation enforced | PARTIAL | typed deserialization, no rejection tests |
-| Error format (RFC 7807) | FAIL | ad hoc status codes, no problem-details |
-| Versioning strategy | UNKNOWN | no version in path or header |
-| Spec-to-code agreement | PARTIAL | `/health` marked `security: []` but behind auth |
+| Dimension                  | Status  | Evidence                                              |
+|----------------------------|---------|-------------------------------------------------------|
+| Specification present      | PASS    | `openapi/openapi.yaml`                                |
+| Schema validation enforced | PARTIAL | typed deserialization, no rejection tests             |
+| Error format (RFC 7807)    | FAIL    | ad hoc status codes, no problem-details               |
+| Versioning strategy        | UNKNOWN | no version in path or header                          |
+| Spec-to-code agreement     | PARTIAL | `/health` marked `security: []` but behind auth       |
 
 When the report language is Polish, translate the column headers into Polish: `Wymiar`, `Status`, `Dowód`.
 
@@ -595,14 +624,14 @@ When the report language is Polish, use `Tabela podsumowania` instead of `Summar
 
 Present a compact summary of all findings:
 
-| Finding ID | Pillar | Severity | Title | Status | Remediation Status |
-|------------|--------|----------|-------|--------|-------------------|
-| FND-ARC-001 | Architecture & Design | <severity> | <title> | <status> | Open |
-| FND-CQ-001 | Code Quality | <severity> | <title> | <status> | Open |
-| FND-SEC-001 | Security & Compliance | <severity> | <title> | <status> | Open |
-| FND-INF-001 | Infrastructure & CI/CD | <severity> | <title> | <status> | Open |
-| FND-AIP-001 | AI Provenance & Code Origin | <severity> | <title> | <status> | Open |
-| FND-CPR-001 | Copyrights & Originality | <severity> | <title> | <status> | Open |
+| Finding ID  | Pillar                      | Severity   | Title   | Status   | Remediation Status |
+|-------------|-----------------------------|------------|---------|----------|--------------------|
+| FND-ARC-001 | Architecture & Design       | <severity> | <title> | <status> | Open               |
+| FND-CQ-001  | Code Quality                | <severity> | <title> | <status> | Open               |
+| FND-SEC-001 | Security & Compliance       | <severity> | <title> | <status> | Open               |
+| FND-INF-001 | Infrastructure & CI/CD      | <severity> | <title> | <status> | Open               |
+| FND-AIP-001 | AI Provenance & Code Origin | <severity> | <title> | <status> | Open               |
+| FND-CPR-001 | Copyrights & Originality    | <severity> | <title> | <status> | Open               |
 
 When the report language is Polish, translate the column headers into Polish: `Identyfikator`, `Filtr`, `Ważność`, `Tytuł`, `Status`, `Status naprawy`.
 
@@ -652,9 +681,9 @@ This register is distinct from the Unified Risk Register: risks describe what co
 
 Use this fixed column order:
 
-| Debt ID | Debt Item | Category | Source Finding | Remediation Cost | Cost of Delay | Status |
-|---------|-----------|----------|----------------|------------------|---------------|--------|
-| TDR-001 | <concrete debt item> | <CISQ characteristic> | FND-XXX | <High/Med/Low> | <High/Med/Low> | Open |
+| Debt ID | Debt Item            | Category              | Source Finding | Remediation Cost | Cost of Delay  | Status |
+|---------|----------------------|-----------------------|----------------|------------------|----------------|--------|
+| TDR-001 | <concrete debt item> | <CISQ characteristic> | FND-XXX        | <High/Med/Low>   | <High/Med/Low> | Open   |
 
 When the report language is Polish, translate the column headers into Polish: `Identyfikator długu`, `Pozycja długu`, `Kategoria`, `Źródło`, `Koszt naprawy`, `Koszt zwłoki`, `Status`.
 
@@ -701,12 +730,12 @@ Likelihood bands:
 
 **Severity matrix**
 
-| Impact \ Likelihood | LOW      | MEDIUM   | HIGH      |
-|---------------------|----------|----------|-----------|
-| CRITICAL            | HIGH     | CRITICAL | CRITICAL  |
-| HIGH                | MEDIUM   | HIGH     | CRITICAL  |
-| MEDIUM              | LOW      | MEDIUM   | HIGH      |
-| LOW                 | LOW      | LOW      | MEDIUM    |
+| Impact \ Likelihood | LOW    | MEDIUM   | HIGH     |
+|---------------------|--------|----------|----------|
+| CRITICAL            | HIGH   | CRITICAL | CRITICAL |
+| HIGH                | MEDIUM | HIGH     | CRITICAL |
+| MEDIUM              | LOW    | MEDIUM   | HIGH     |
+| LOW                 | LOW    | LOW      | MEDIUM   |
 
 When the report language is Polish, translate the axis labels into Polish: `Wpływ`, `Prawdopodobieństwo`.
 

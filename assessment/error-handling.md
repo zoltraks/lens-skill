@@ -18,13 +18,13 @@ Apply `principles/evaluation-rules.md` throughout. System-wide resilience patter
 
 ## Evidence To Look For
 
-| Signal                       | Where It Appears                                   |
-|------------------------------|----------------------------------------------------|
-| Error boundaries             | Centralized handlers, middleware, error types      |
-| Retry logic                  | Retry helpers, backoff, idempotency handling       |
-| Fallbacks                    | Default values, circuit breakers, degraded modes   |
-| User messaging               | Error responses, status codes, message templates   |
-| Leak prevention              | Stack traces or internals hidden from users        |
+| Signal           | Where It Appears                                 |
+|------------------|--------------------------------------------------|
+| Error boundaries | Centralized handlers, middleware, error types    |
+| Retry logic      | Retry helpers, backoff, idempotency handling     |
+| Fallbacks        | Default values, circuit breakers, degraded modes |
+| User messaging   | Error responses, status codes, message templates |
+| Leak prevention  | Stack traces or internals hidden from users      |
 
 ## Status Criteria
 

@@ -59,13 +59,13 @@ When the input does not state a constraint, mark the constraint as `NOT SPECIFIE
 
 Use exactly these five status values for category findings:
 
-| Marker      | Meaning                                                              |
-|-------------|----------------------------------------------------------------------|
-| `PASS`      | Capability is present and supported by clear evidence                |
-| `PARTIAL`   | Capability is partially present, incomplete, or only partly evidenced |
-| `FAIL`      | Capability is absent where it is required, with evidence of absence   |
-| `UNKNOWN`   | Evidence is missing; status cannot be determined                      |
-| `N/A`       | Capability cannot apply to this system's deployment model            |
+| Marker    | Meaning                                                               |
+|-----------|-----------------------------------------------------------------------|
+| `PASS`    | Capability is present and supported by clear evidence                 |
+| `PARTIAL` | Capability is partially present, incomplete, or only partly evidenced |
+| `FAIL`    | Capability is absent where it is required, with evidence of absence   |
+| `UNKNOWN` | Evidence is missing; status cannot be determined                      |
+| `N/A`     | Capability cannot apply to this system's deployment model             |
 
 Pair the marker with a glyph for readability where the report format calls for it:
 

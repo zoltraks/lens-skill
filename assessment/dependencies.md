@@ -20,14 +20,14 @@ Apply `principles/evaluation-rules.md` throughout. Report the supply-chain postu
 
 ## Evidence To Look For
 
-| Signal                       | Where It Appears                                   |
-|------------------------------|----------------------------------------------------|
-| Dependency manifest          | Package or build manifest with version ranges      |
-| Lockfile                     | Lockfile pinning resolved versions                 |
-| Vulnerability scanning       | Audit tooling, advisory config, scan reports       |
-| License data                 | Declared license, dependency license inventory     |
-| Vendoring or pinning         | Vendored deps, exact-version pins, hashes          |
-| SBOM                         | SBOM file or generated inventory                   |
+| Signal                 | Where It Appears                               |
+|------------------------|------------------------------------------------|
+| Dependency manifest    | Package or build manifest with version ranges  |
+| Lockfile               | Lockfile pinning resolved versions             |
+| Vulnerability scanning | Audit tooling, advisory config, scan reports   |
+| License data           | Declared license, dependency license inventory |
+| Vendoring or pinning   | Vendored deps, exact-version pins, hashes      |
+| SBOM                   | SBOM file or generated inventory               |
 
 ## Status Criteria
 

@@ -19,14 +19,14 @@ Apply `principles/evaluation-rules.md` throughout. Assess whether documentation 
 
 ## Evidence To Look For
 
-| Signal                       | Where It Appears                                   |
-|------------------------------|----------------------------------------------------|
-| Entry docs                   | README, getting-started, usage guide               |
-| API docs                     | Generated API reference, interface docs            |
-| Setup instructions           | Build and run steps, environment requirements      |
-| Inline docs                  | Comments on non-obvious logic, doc comments        |
-| Decision records             | ADRs, design docs, recorded rationale              |
-| Doc-code agreement           | Docs that match current commands and structure     |
+| Signal             | Where It Appears                               |
+|--------------------|------------------------------------------------|
+| Entry docs         | README, getting-started, usage guide           |
+| API docs           | Generated API reference, interface docs        |
+| Setup instructions | Build and run steps, environment requirements  |
+| Inline docs        | Comments on non-obvious logic, doc comments    |
+| Decision records   | ADRs, design docs, recorded rationale          |
+| Doc-code agreement | Docs that match current commands and structure |
 
 ## Status Criteria
 

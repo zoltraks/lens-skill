@@ -20,14 +20,14 @@ Apply `principles/evaluation-rules.md` throughout. This category covers code-lev
 
 ## Evidence To Look For
 
-| Signal                       | Where It Appears                                   |
-|------------------------------|----------------------------------------------------|
-| Linter configuration         | Lint config files, enabled rule sets               |
-| Type strictness              | Compiler or type-checker strict flags              |
-| Formatter                    | Auto-format config, pre-commit formatting          |
-| Complexity signals           | Very long functions, deep nesting, large files     |
-| Duplication                  | Repeated blocks, copy-paste logic                  |
-| Dead code                    | Unused exports, unreachable branches, commented-out code |
+| Signal               | Where It Appears                                         |
+|----------------------|----------------------------------------------------------|
+| Linter configuration | Lint config files, enabled rule sets                     |
+| Type strictness      | Compiler or type-checker strict flags                    |
+| Formatter            | Auto-format config, pre-commit formatting                |
+| Complexity signals   | Very long functions, deep nesting, large files           |
+| Duplication          | Repeated blocks, copy-paste logic                        |
+| Dead code            | Unused exports, unreachable branches, commented-out code |
 
 ## Status Criteria
 

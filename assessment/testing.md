@@ -22,18 +22,18 @@ Apply `principles/evaluation-rules.md` throughout. Presence of a test directory 
 
 ## Evidence To Look For
 
-| Signal                         | Where It Appears                                  |
-|--------------------------------|---------------------------------------------------|
-| Unit test files                | Test directories, files named for test frameworks |
-| Integration tests              | Tests that spin up databases, services, or mocks  |
-| End-to-end tests               | Browser, API, or workflow test suites             |
-| Test pyramid shape             | Ratio of unit to integration to e2e tests         |
-| TDD signals                    | Test-and-code commits interleaved, red-green history, contributing guide |
-| Testability seams              | Injected dependencies, interfaces, pure functions |
-| Coverage data                  | Coverage reports, badges, config thresholds       |
-| Coverage depth                 | Edge-case assertions, boundary tests, error-path coverage |
-| CI configuration               | Pipeline files, workflow definitions              |
-| Gate on failure                | Required checks, branch protection, pipeline gates |
+| Signal             | Where It Appears                                                         |
+|--------------------|--------------------------------------------------------------------------|
+| Unit test files    | Test directories, files named for test frameworks                        |
+| Integration tests  | Tests that spin up databases, services, or mocks                         |
+| End-to-end tests   | Browser, API, or workflow test suites                                    |
+| Test pyramid shape | Ratio of unit to integration to e2e tests                                |
+| TDD signals        | Test-and-code commits interleaved, red-green history, contributing guide |
+| Testability seams  | Injected dependencies, interfaces, pure functions                        |
+| Coverage data      | Coverage reports, badges, config thresholds                              |
+| Coverage depth     | Edge-case assertions, boundary tests, error-path coverage                |
+| CI configuration   | Pipeline files, workflow definitions                                     |
+| Gate on failure    | Required checks, branch protection, pipeline gates                       |
 
 ## Status Criteria
 

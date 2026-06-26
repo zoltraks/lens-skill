@@ -37,15 +37,15 @@ Before beginning the audit, ask the user whether to accept the default parameter
 
 Default parameters:
 
-| Parameter | Default Value |
-|-----------|---------------|
-| Report delivery | Inline (direct response) |
-| Output filename | `AUDIT.md` for non-Polish reports, `AUDYT.md` for Polish reports (only used if delivery is File) |
-| Report language | Match the language of the user's request |
-| Detail level | Standard |
-| Evaluation scale | 1-10 |
-| Improvement suggestions | Include with priorities (P1-P4 roadmap) |
-| Trade-off analysis | Standalone section + embedded into relevant findings |
+| Parameter               | Default Value                                                                                    |
+|-------------------------|--------------------------------------------------------------------------------------------------|
+| Report delivery         | Inline (direct response)                                                                         |
+| Output filename         | `AUDIT.md` for non-Polish reports, `AUDYT.md` for Polish reports (only used if delivery is File) |
+| Report language         | Match the language of the user's request                                                         |
+| Detail level            | Standard                                                                                         |
+| Evaluation scale        | 1-10                                                                                             |
+| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                          |
+| Trade-off analysis      | Standalone section + embedded into relevant findings                                             |
 
 The agent MUST ask the user and MUST NOT skip this step. The agent MUST wait for user response before proceeding to Scope Definition.
 
@@ -213,15 +213,15 @@ Confirm the report follows `process/report-format.md` section by section.
 
 Use this checklist to confirm you understand the input before assessing.
 
-| Question                                   | Record As                          |
-|--------------------------------------------|------------------------------------|
-| What artifact type is this?                | Prototype / Codebase / Production system / Proposal |
-| What is the source format?                 | Running / Inspected code / Description |
-| What components were provided?             | List of components in scope        |
-| What was explicitly excluded?              | Out-of-scope list                  |
-| What constraints did the user state?       | Constraints, or `NOT SPECIFIED`    |
-| What maturity does the user claim, if any? | Claimed maturity, or none          |
-| What is the natural language of the request? | Language code or name              |
+| Question                                      | Record As                                           |
+|-----------------------------------------------|-----------------------------------------------------|
+| What artifact type is this?                   | Prototype / Codebase / Production system / Proposal |
+| What is the source format?                    | Running / Inspected code / Description              |
+| What components were provided?                | List of components in scope                         |
+| What was explicitly excluded?                 | Out-of-scope list                                   |
+| What constraints did the user state?          | Constraints, or `NOT SPECIFIED`                     |
+| What maturity does the user claim, if any?    | Claimed maturity, or none                           |
+| What is the natural language of the request?  | Language code or name                               |
 
 ## Handling Thin Input
 

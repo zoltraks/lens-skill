@@ -13,22 +13,22 @@ Apply `principles/evaluation-rules.md` throughout. A score is a summary of evide
 
 Use this fixed column order and dimension set:
 
-| Dimension          | Score | Notes |
-|--------------------|-------|-------|
-| Testability        |       |       |
-| Design Soundness   |       |       |
-| Code Quality       |       |       |
-| Stack Alignment    |       |       |
-| Dependency Health  |       |       |
-| Maintainability    |       |       |
-| Deployability      |       |       |
-| Scalability        |       |       |
-| Security           |       |       |
-| Compliance         |       |       |
-| Observability      |       |       |
-| Operational Safety |       |       |
+| Dimension               | Score | Notes |
+|-------------------------|-------|-------|
+| Testability             |       |       |
+| Design Soundness        |       |       |
+| Code Quality            |       |       |
+| Stack Alignment         |       |       |
+| Dependency Health       |       |       |
+| Maintainability         |       |       |
+| Deployability           |       |       |
+| Scalability             |       |       |
+| Security                |       |       |
+| Compliance              |       |       |
+| Observability           |       |       |
+| Operational Safety      |       |       |
 | Originality & Licensing |       |       |
-| AI Provenance      |       |       |
+| AI Provenance           |       |       |
 
 Keep the dimension names and order identical across every audit so scores are comparable.
 
@@ -44,29 +44,29 @@ The default scale is integers from `1` to `10`. When the user explicitly request
 
 Present this rubric matrix in the report so that scores are objective and reproducible.
 
-| Band | Score Range | Definition |
-|------|-------------|------------|
-| Excellent | 9-10 | Capability is comprehensive and verified by strong evidence |
-| Good | 7-8 | Capability is solid overall; minor or noticeable gaps exist |
-| Average | 4-6 | Capability is present but uneven, limited, or inconsistent |
-| Poor | 1-3 | Capability is minimal, fragmentary, or absent where required |
+| Band      | Score Range | Definition                                                   |
+|-----------|-------------|--------------------------------------------------------------|
+| Excellent | 9-10        | Capability is comprehensive and verified by strong evidence  |
+| Good      | 7-8         | Capability is solid overall; minor or noticeable gaps exist  |
+| Average   | 4-6         | Capability is present but uneven, limited, or inconsistent   |
+| Poor      | 1-3         | Capability is minimal, fragmentary, or absent where required |
 
 When the report language is Polish, translate the band names and definitions into Polish using the equivalents defined in `principles/output-style.md`.
 
 Per-score meanings:
 
-| Score | Meaning                                                                 |
-|-------|-------------------------------------------------------------------------|
-| 10    | Capability is comprehensive and verified by strong evidence             |
-| 9     | Capability is nearly comprehensive, with only trivial gaps            |
-| 8     | Capability is solid with minor gaps                                     |
-| 7     | Capability is good overall, with some noticeable gaps                   |
-| 6     | Capability is adequate but uneven                                       |
-| 5     | Capability is present but limited or inconsistent                       |
-| 4     | Capability is present but significantly limited                         |
-| 3     | Capability is minimal or barely evidenced                               |
-| 2     | Fragments present, mostly unevidenced                                   |
-| 1     | Capability is absent where required, with evidence of absence           |
+| Score | Meaning                                                       |
+|-------|---------------------------------------------------------------|
+| 10    | Capability is comprehensive and verified by strong evidence   |
+| 9     | Capability is nearly comprehensive, with only trivial gaps    |
+| 8     | Capability is solid with minor gaps                           |
+| 7     | Capability is good overall, with some noticeable gaps         |
+| 6     | Capability is adequate but uneven                             |
+| 5     | Capability is present but limited or inconsistent             |
+| 4     | Capability is present but significantly limited               |
+| 3     | Capability is minimal or barely evidenced                     |
+| 2     | Fragments present, mostly unevidenced                         |
+| 1     | Capability is absent where required, with evidence of absence |
 
 When the report language is Polish, translate the `Score` and `Meaning` headers and the per-score descriptions into Polish.
 
@@ -74,22 +74,22 @@ When the report language is Polish, translate the `Score` and `Meaning` headers 
 
 Use this scale only when explicitly requested.
 
-| Band | Score Range | Definition |
-|------|-------------|------------|
-| Excellent | 5 | Capability is comprehensive and verified by strong evidence |
-| Good | 4 | Capability is solid with minor gaps |
-| Average | 3 | Capability is adequate but uneven |
-| Poor | 1-2 | Capability is minimal, limited, or absent where required |
+| Band      | Score Range | Definition                                                  |
+|-----------|-------------|-------------------------------------------------------------|
+| Excellent | 5           | Capability is comprehensive and verified by strong evidence |
+| Good      | 4           | Capability is solid with minor gaps                         |
+| Average   | 3           | Capability is adequate but uneven                           |
+| Poor      | 1-2         | Capability is minimal, limited, or absent where required    |
 
 When the report language is Polish, apply the same band translations as the 1-10 scale.
 
-| Score | Meaning                                                                 |
-|-------|-------------------------------------------------------------------------|
-| 5     | Capability is comprehensive and verified by strong evidence             |
-| 4     | Capability is solid with minor gaps                                     |
-| 3     | Capability is adequate but uneven                                       |
-| 2     | Capability is present but limited or inconsistent                       |
-| 1     | Capability is absent where required, with evidence of absence           |
+| Score | Meaning                                                       |
+|-------|---------------------------------------------------------------|
+| 5     | Capability is comprehensive and verified by strong evidence   |
+| 4     | Capability is solid with minor gaps                           |
+| 3     | Capability is adequate but uneven                             |
+| 2     | Capability is present but limited or inconsistent             |
+| 1     | Capability is absent where required, with evidence of absence |
 
 When the report language is Polish, translate the headers and descriptions into Polish.
 
@@ -111,22 +111,22 @@ Do not let `N/A` dimensions drag a summary score. A dimension that cannot apply 
 
 Each scorecard dimension summarizes one or more assessment categories.
 
-| Dimension          | Source Categories                                   |
-|--------------------|-----------------------------------------------------|
-| Testability        | Testing and Testability                             |
-| Design Soundness   | Design Principles                                   |
-| Code Quality       | Code Quality                                        |
-| Stack Alignment    | Stack Best Practices                                |
-| Dependency Health  | Dependencies and Supply Chain                       |
-| Maintainability    | Maintainability, Change Management, Documentation   |
-| Deployability      | Deployment Strategy, Rollback Strategy              |
-| Scalability        | Non-Functional Requirements                         |
-| Security           | Security                                            |
-| Compliance         | Compliance and Data Protection                      |
-| Observability      | Observability                                       |
-| Operational Safety | Operational Readiness, Error Handling, Rollback Strategy |
-| AI Provenance      | AI-Generated Code & Provenance                      |
-| Originality & Licensing | Copyrights & Originality                       |
+| Dimension               | Source Categories                                        |
+|-------------------------|----------------------------------------------------------|
+| Testability             | Testing and Testability                                  |
+| Design Soundness        | Design Principles                                        |
+| Code Quality            | Code Quality                                             |
+| Stack Alignment         | Stack Best Practices                                     |
+| Dependency Health       | Dependencies and Supply Chain                            |
+| Maintainability         | Maintainability, Change Management, Documentation        |
+| Deployability           | Deployment Strategy, Rollback Strategy                   |
+| Scalability             | Non-Functional Requirements                              |
+| Security                | Security                                                 |
+| Compliance              | Compliance and Data Protection                           |
+| Observability           | Observability                                            |
+| Operational Safety      | Operational Readiness, Error Handling, Rollback Strategy |
+| AI Provenance           | AI-Generated Code & Provenance                           |
+| Originality & Licensing | Copyrights & Originality                                 |
 
 ## Rules
 

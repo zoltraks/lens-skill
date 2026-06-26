@@ -18,13 +18,13 @@ Apply `principles/evaluation-rules.md` throughout. Operational use of observabil
 
 ## Evidence To Look For
 
-| Signal                       | Where It Appears                                   |
-|------------------------------|----------------------------------------------------|
-| Logging                      | Logging libraries, log format, log levels          |
-| Metrics                      | Metrics instrumentation, dashboards, counters      |
-| Tracing                      | Trace context propagation, span instrumentation    |
-| Alerting                     | Alert rules, thresholds, notification routing      |
-| Correlation                  | Request or trace identifiers across components      |
+| Signal      | Where It Appears                                |
+|-------------|-------------------------------------------------|
+| Logging     | Logging libraries, log format, log levels       |
+| Metrics     | Metrics instrumentation, dashboards, counters   |
+| Tracing     | Trace context propagation, span instrumentation |
+| Alerting    | Alert rules, thresholds, notification routing   |
+| Correlation | Request or trace identifiers across components  |
 
 ## Status Criteria
 

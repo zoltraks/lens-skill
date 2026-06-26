@@ -18,13 +18,14 @@ Apply `principles/evaluation-rules.md` throughout. Forward deployment is assesse
 
 ## Evidence To Look For
 
-| Signal                       | Where It Appears                                   |
-|------------------------------|----------------------------------------------------|
-| Revert procedure             | Runbooks, deploy tooling, documented steps         |
-| Safe-deploy pattern          | Canary, blue-green, staged rollout configuration   |
-| Version pinning              | Immutable tags, release identifiers, artifact pins |
-| Migration tooling            | Migration framework, up and down migrations        |
-| Backups before release       | Backup steps tied to release procedure             |
+| Signal                 | Where It Appears                                   |
+|------------------------|----------------------------------------------------|
+| Revert procedure       | Runbooks, deploy tooling, documented steps         |
+| Safe-deploy pattern    | Canary, blue-green, staged rollout configuration   |
+| Version pinning        | Immutable tags, release identifiers, artifact pins |
+| Migration tooling      | Migration framework, up and down migrations        |
+| Backups before release | Backup steps tied to release procedure             |
+
 
 ## Status Criteria
 
