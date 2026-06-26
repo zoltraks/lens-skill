@@ -47,3 +47,27 @@ Apply `principles/evaluation-rules.md` throughout. Assess processes and artifact
 - Changes traceable to requirements or tracked work items.
 
 Mark each missing signal explicitly rather than inferring its presence.
+
+## Architecture Decision Record Gap Assessment
+
+For production-bound systems, the absence of Architecture Decision Records (ADRs) is a governance gap. Industry practice (the MADR standard and Michael Nygard's original ADR format) treats significant, hard-to-reverse decisions as artifacts that should be recorded.
+
+A standard ADR records, at minimum: Title, Status (`Proposed`, `Accepted`, `Deprecated`, `Superseded`), Context, Decision, Consequences, and the Alternatives considered.
+
+**What to evaluate**
+
+- Whether a decisions directory exists (for example, `docs/decisions/`, `docs/adr/`) and contains ADRs.
+- Which significant decisions lack a recorded rationale. List the decisions that should have been recorded, for example: choice of data store, choice of web framework, state management model, key algorithm weightings, and the authentication model.
+- Whether the recorded decisions match the implemented system.
+
+**Render as**
+
+Render the ADR gap as a subsection of the Architectural Assessment per `process/report-format.md`. Present a table of decisions that should have an ADR, each marked `Recorded` or `Missing`, anchored to the file or code that embodies the decision.
+
+**Interaction with AI provenance**
+
+When the codebase shows AI-generated-code signals (see `assessment/ai-generated-code.md`), the absence of ADRs is more serious: without recorded rationale it is impossible to distinguish a deliberate decision from an AI default. Cross-reference the relevant `FND-AIP-XXX` finding.
+
+**Status**
+
+Use `PASS` when significant decisions are recorded and current, `PARTIAL` when some are recorded but key ones are missing, `FAIL` when no decisions are recorded for a production system with clearly significant choices, and `N/A` for a trivial system where no architectural decision rises to the level of an ADR.

@@ -19,15 +19,19 @@ Tables provide the scannable summary. Paragraphs below the table provide the det
 
 In tables, use shortened, general values. One or two words per cell. Do not crowd table cells with long explanations. Save detail for the paragraphs.
 
+Align table columns by padding every cell value with trailing spaces so that all `|` column separators align vertically in plain text. Use consistent spacing within each table.
+
 Do not number section headings. Use the section name as the heading, for example "Executive Summary", not "2. Executive Summary". When the user requests a specific language, translate the section heading into that language.
 
 Keep column headers identical to the templates below across every audit. When the user requests a specific language, translate the column headers into that language while keeping the structure identical.
 
 Within a table cell, separate multiple points with a semicolon or a line break, not with sub-bullets.
 
-Place descriptive paragraphs immediately after each table. In the paragraphs, explain every aspect with concrete evidence, file paths, and reasoning. Use short sentences separated by line breaks.
+Place descriptive paragraphs immediately after each table. In the paragraphs, explain every aspect with concrete evidence, file paths, and reasoning. Use short sentences separated by blank lines; each sentence stands on its own line with an empty line between consecutive sentences.
 
 Start each detailed paragraph with a bold heading on its own line. Put the status, score, or severity inline after the heading, separated by a space. Then add an empty line, then the paragraph body. Do not run the heading and the body together on the same line.
+
+Use this bold-heading pattern for paragraphs that expand on a table row. For actual section or subsection titles, use markdown header syntax (`##` or `###`) rather than bold text.
 
 Example for finding summary:
 
@@ -51,7 +55,7 @@ Use the standard ASCII hyphen-minus `-` (U+002D) for all hyphens, dashes, and mi
 
 **No closing line**
 
-Do not add a closing line such as "End of audit report." or "---" at the end of the document. The Scope Exclusions section is the final section; end the report after it without any trailing boilerplate.
+Do not add a closing line such as "End of audit report." or "---" at the end of the document. The final section is the Re-audit and Follow-up Plan when it is included, otherwise Scope Exclusions; end the report after the final section without any trailing boilerplate.
 
 ## Report Delivery And Parameter Configuration
 
@@ -71,7 +75,7 @@ The report adapts to the detail level chosen during Parameter Configuration.
 
 **Standard**
 
-All fifteen sections are present in full:
+All fifteen always-present sections are present in full:
 
 - Document Information
 - Technology Stack
@@ -89,9 +93,11 @@ All fifteen sections are present in full:
 - Actionable Remediation Roadmap (full matrix with P1-P4, impact/effort/complexity, verification)
 - Scope Exclusions
 
+In addition, any conditional sections whose criteria are met are included in full. See the Conditional Sections rule below for the inclusion criteria of the Data Flow Diagram, Design Patterns, Architecture Decision Records, Threat Model, API Contract Conformance, Technical Debt Register, and Re-audit and Follow-up Plan.
+
 **Detailed**
 
-Same fifteen sections as Standard, plus the following extensions:
+Same sections as Standard, plus the following extensions. At the Detailed level, evaluate every conditional section's criterion explicitly and include each one that applies:
 
 - Executive Summary includes a longer Production Readiness Threshold paragraph.
 - Health Dashboard includes an expanded Risk Heat Map with all risks plotted.
@@ -100,6 +106,8 @@ Same fifteen sections as Standard, plus the following extensions:
 - Each finding includes extended verification methods and alternative remediation paths.
 - Trade-off Analysis includes additional trade-offs surfaced during assessment.
 - Remediation Roadmap includes additional context for each recommendation (blocking dependencies, estimated timeframes).
+- Threat Model, when included, plots every trust boundary against all six STRIDE categories rather than only the material ones.
+- Technical Debt Register, when included, lists cost of delay for every item rather than only the top items.
 
 **Brief**
 
@@ -119,9 +127,31 @@ Condensed output for rapid review:
 
 Omitted in Brief: Auditing Methodology, Scoring Rubrics, System Context, Architectural Assessment detailed critique, full Detailed Technical Findings list, full Unified Risk Register, full Trade-off Analysis, full Actionable Remediation Roadmap.
 
+## Conditional Sections
+
+Some sections and subsections apply only to certain kinds of system. Include a section only when it is relevant to the subject under audit. A section that does not apply must be omitted entirely, not included as an empty placeholder.
+
+This differs from the rule for always-present sections, where a present-but-empty section signals a gap. The conditional sections below describe a specific capability (an API, a trust boundary, recurring structure) that some subjects simply do not have; forcing such a section would mislead the reader.
+
+When a conditional section is omitted, state the omission once in the Scope Exclusions section with a one-line justification, so the reader knows the omission was deliberate.
+
+The following sections and subsections are conditional. Each lists its inclusion criterion and the assessment file that governs it:
+
+| Section / Subsection | Include When | Governing File |
+|----------------------|--------------|----------------|
+| Data Flow Diagram (in Architectural Assessment) | The system moves data across one or more trust boundaries | `assessment/data-flow.md` |
+| Design Patterns (in Architectural Assessment) | The codebase is large enough to exhibit recurring structure | `assessment/design-patterns.md` |
+| Architecture Decision Records (in Architectural Assessment) | The system is production-bound and has significant decisions | `assessment/change-management.md` |
+| Threat Model (standalone) | The system has a security-relevant attack surface or trust boundary | `assessment/threat-model.md` |
+| API Contract Conformance (standalone) | The system exposes an API (REST, GraphQL, gRPC, MCP) | `assessment/api-contract.md` |
+| Technical Debt Register (standalone) | The assessment surfaces structural debt distinct from risks | `synthesis/technical-debt-register.md` |
+| Re-audit and Follow-up Plan (standalone) | The roadmap contains at least one P1 or P2 recommendation | `synthesis/re-audit-plan.md` |
+
+When in doubt about whether a conditional section applies, prefer including it with explicit `N/A` or `NOT SPECIFIED` markers over silently dropping a relevant concern. Only omit a section when it genuinely cannot apply to the subject.
+
 ## Section Order
 
-The report has these top-level sections, in this order, with unnumbered headings:
+The report has these top-level sections, in this order, with unnumbered headings. Sections marked *(conditional)* are included only when their criterion in the Conditional Sections table is met:
 
 - Document Information
 - Technology Stack
@@ -131,21 +161,27 @@ The report has these top-level sections, in this order, with unnumbered headings
 - Auditing Methodology
 - Scoring Rubrics
 - System Context
-- Architectural Assessment
+- Architectural Assessment (may contain the conditional Data Flow Diagram, Design Patterns, and Architecture Decision Records subsections)
+- Threat Model *(conditional)*
+- API Contract Conformance *(conditional)*
 - Strengths & What's Working
 - Detailed Technical Findings
+- Technical Debt Register *(conditional)*
 - Unified Risk Register
 - Trade-off Analysis
 - Actionable Remediation Roadmap
 - Scope Exclusions
+- Re-audit and Follow-up Plan *(conditional)*
 
 ## Document Information
 
-Open the report with a short metadata block. Each field must appear on its own line with a blank line separating it from the next field. Do not run fields together on the same line.
+Open the report with a document title as a level-1 markdown heading (`#`), followed by a short metadata block. Each metadata field must appear on its own line with a blank line separating it from the next field. Do not run fields together on the same line.
 
 Format:
 
 ```markdown
+# <System Name> Software Audit Report
+
 **Version**: <version number>
 
 **Date**: <audit date>
@@ -156,6 +192,10 @@ Format:
 ```
 
 Use double asterisks for the label and a single space after the colon. Each label-value pair is followed by an empty line. This ensures proper rendering in all markdown viewers.
+
+**Version increment on overwrite**
+
+When overwriting an existing audit file, read the current version from the existing Document Information block, increment the minor component up to 9 (for example, `1.0` to `1.1`, `1.9` to `2.0`, `9.9` to `10.0`), and write the incremented version into the new report.
 
 When the report language is Polish, translate the labels into Polish: `Wersja`, `Data`, `Stan`, `Poziom szczegółowości`.
 
@@ -276,7 +316,7 @@ This section defines how the audit was conducted and the framework used to evalu
 
 When the report language is Polish, use `Przegląd metodologiczny` instead of `Methodology overview`.
 
-State that the audit uses evidence-based reasoning across 18 assessment categories grouped into six pillars. List the pillars:
+State that the audit uses evidence-based reasoning across 18 core assessment categories grouped into six pillars, plus conditional assessments (data flow, design patterns, threat model, API contract) applied when the subject warrants them. List the pillars:
 
 - **Architecture & Design** - Design principles, maintainability, change management, documentation, non-functional requirements
 - **Code Quality** - Testing, code quality, stack best practices
@@ -286,6 +326,22 @@ State that the audit uses evidence-based reasoning across 18 assessment categori
 - **Copyrights & Originality** - Code originality, license compliance, attribution, dependency license compatibility
 
 When the report language is Polish, translate the pillar names into Polish using the equivalents defined in `principles/output-style.md`.
+
+**Reference standards**
+
+When the report language is Polish, use `Standardy odniesienia` instead of `Reference standards`.
+
+Name the external standards the audit aligns with, so the methodology is credible to an external reader. Cite only the standards actually applied to the subject. Typical references:
+
+- **ISO/IEC 25010** - product quality model (functional suitability, performance efficiency, compatibility, usability, reliability, security, maintainability, portability), which underpins the scorecard dimensions.
+- **OWASP ASVS** - Application Security Verification Standard, for the security and threat-model assessment.
+- **OWASP Top 10 (2021)** and, for APIs, **OWASP API Security Top 10 (2023)** - for the security category coverage.
+- **NIST SP 800-30** - risk assessment process, for the risk register and threat model.
+- **STRIDE** - threat enumeration framework, when a threat model is included.
+- **CISQ / SQALE** - structural quality and technical-debt cost model, when a technical debt register is included.
+- **ISO 19011** and **NIST RMF** - audit follow-up and continuous monitoring, when a re-audit plan is included.
+
+Cite a standard only when its corresponding section or assessment is present in the report. Do not list a standard that was not applied.
 
 **Audit evidence statement**
 
@@ -369,20 +425,161 @@ When the report language is Polish, translate the table headers and aspect names
 
 Mark any unknown aspect as `NOT SPECIFIED`.
 
+After the table, add subsections for major components (e.g., `### Backend`, `### Frontend`, `### Deployment`). Put exactly one empty line after each subsection header before the first sentence. Separate every sentence with an empty line.
+
 ## Architectural Assessment
 
 Provide an architectural critique against industry baselines. Evaluate coupling, cohesion, state management, separation of concerns, and pattern consistency against the stated constraints. Anchor every claim to a concrete file path or design decision. Do not judge the stack choice itself.
+
+Structure this section with three subsections: `### What Works`, `### What Needs Attention`, and `### Industry Baseline Comparison`. Use Title Case for all subsection titles. Put exactly one empty line after each subsection header before the first sentence.
+
+When listing multiple related items (e.g., typical production practices), use a bullet list rather than an inline comma-separated paragraph. Put an empty line between the intro sentence and the first bullet.
+
+The Architectural Assessment may also carry up to three conditional subsections, included only when their criteria are met. When included, place them in this order, before `### Industry Baseline Comparison`.
+
+### Data Flow Diagram
+
+Include this subsection only when the system moves data across a trust boundary, per `assessment/data-flow.md`. It is the foundation for the Threat Model section.
+
+Present a Level-0 (context) and a Level-1 (decomposition) view. Use a fenced ASCII block or a flow table. Then list the trust boundaries.
+
+```markdown
+### Data Flow Diagram
+
+**Level-0 (context)**
+
+```
+    ╭────────────╮         ╭──────────────╮
+    │            │         │              │
+    │ MCP Client │────────>│ SQLite Index │
+    │            │         │              │
+    ╰────────────╯         ╰──────────────╯
+            │
+            │
+            v
+    ╭─────────────╮         ╭──────────────╮
+    │             │         │              │
+    │ REST Client │────────>│ Filesystem   │
+    │             │         │              │
+    ╰─────────────╯         ╰──────────────╯
+            ^
+            │
+    ╭────────────╮
+    │            │
+    │ Git Remote │
+    │            │
+    ╰────────────╯
+            ^
+            │
+    ╭─────────────╮
+    │             │
+    │ MERA Server │
+    │             │
+    ╰─────────────╯
+```
+
+**Trust boundaries**
+
+| Boundary | From | To | Crossing Control |
+|----------|------|----|------------------|
+| Network ingress | Client | Auth layer | JWT validation |
+| Storage | Handler | Filesystem | Path canonicalization |
+```
+
+Use framed nodes with box-drawing characters for every DFD element.
+
+Each frame must have exactly three content rows: an empty line, a centered label, and an empty line.
+
+Keep exactly one space between the frame border and the label text on all sides. Do not use two spaces or asymmetric padding.
+
+Do not enclose labels in brackets. Write the label as plain centered text without `[..]`, `(..)`, or `{..}`.
+
+Flow arrows (`─>`, `│`) must align with the center of the frame they connect to.
+
+When placing a label above or below a horizontal arrow, the label row must span the exact same width as the arrow row so the frames above and below remain aligned.
+
+Anchor every node to a file or module.
+
+### Design Patterns
+
+Include this subsection only when the codebase exhibits recurring structure, per `assessment/design-patterns.md`.
+
+Present a table of the patterns in use with a fitness verdict, then describe each material pattern or anti-pattern with evidence.
+
+| Pattern | Location | Assessment | Description |
+|---------|----------|------------|-------------|
+| Repository | `KnowledgeBase` trait | PASS | Clean abstraction with injectable implementation |
+| Strategy | hybrid search weighting | PARTIAL | Hardcoded, not runtime interchangeable |
+| Factory Method | `build_router` per handler | FAIL | Duplicated construction logic, anti-pattern |
+
+Name patterns using their standard GoF or POSA names. Cross-reference any anti-pattern that is also a code-origin signal to its `FND-AIP-XXX` finding.
+
+### Architecture Decision Records
+
+Include this subsection only when the system is production-bound with significant decisions, per the ADR gap guidance in `assessment/change-management.md`.
+
+Present a table of decisions that should carry an ADR, each marked `Recorded` or `Missing`, anchored to the code that embodies the decision.
+
+| Decision | Location | ADR Status |
+|----------|----------|------------|
+| Data store choice | `Cargo.toml`, `kb/sqlite.rs` | Missing |
+| Web framework choice | `Cargo.toml` | Missing |
+| Session state model | `main.rs` | Missing |
+
+When the codebase shows AI-generated-code signals, note that missing ADRs make it impossible to distinguish deliberate decisions from AI defaults, and cross-reference the relevant `FND-AIP-XXX`.
+
+## Threat Model
+
+Include this section only when the system has a security-relevant attack surface, per `assessment/threat-model.md`. Omit it for a single-user local utility with no trust boundary, and note the omission in Scope Exclusions.
+
+This section applies the STRIDE framework to the trust boundaries identified in the Data Flow Diagram. It aligns with NIST SP 800-30 and OWASP ASVS Level 2.
+
+Present one table keyed by trust boundary and STRIDE category, then describe each material threat with evidence and its linked `FND-XXX` and `RSK-XXX`.
+
+| Boundary | Threat (STRIDE) | Threat Description | Mitigating Control | Finding |
+|----------|-----------------|--------------------|--------------------|---------|
+| Network ingress | Spoofing | Token forgery if signing key weak | JWT HS256 validation | FND-SEC-XXX |
+| Write path | Tampering | Path traversal on write | None (gap) | FND-SEC-XXX |
+| API surface | Denial of Service | No rate limiting | None (gap) | FND-SEC-XXX |
+
+The six STRIDE categories are `Spoofing`, `Tampering`, `Repudiation`, `Information Disclosure`, `Denial of Service`, and `Elevation of Privilege`. Every unmitigated threat must trace to a finding and a risk. Never output plaintext secrets when describing an information-disclosure threat.
+
+When the report language is Polish, translate the column headers into Polish: `Granica`, `Zagrożenie (STRIDE)`, `Opis zagrożenia`, `Kontrola ograniczająca`, `Znalezisko`.
+
+## API Contract Conformance
+
+Include this section only when the system exposes an API, per `assessment/api-contract.md`. Omit it entirely for a system with no API surface, and note the omission in Scope Exclusions.
+
+Present a conformance table across the evaluated dimensions, then describe each gap with evidence and its linked `FND-XXX`. Map each API security gap to its OWASP API Security Top 10 (2023) code where one applies.
+
+| Dimension | Status | Evidence |
+|-----------|--------|----------|
+| Specification present | PASS | `openapi/openapi.yaml` |
+| Schema validation enforced | PARTIAL | typed deserialization, no rejection tests |
+| Error format (RFC 7807) | FAIL | ad hoc status codes, no problem-details |
+| Versioning strategy | UNKNOWN | no version in path or header |
+| Spec-to-code agreement | PARTIAL | `/health` marked `security: []` but behind auth |
+
+When the report language is Polish, translate the column headers into Polish: `Wymiar`, `Status`, `Dowód`.
 
 ## Strengths & What's Working
 
 Add a short section with 5-8 bullet points acknowledging what the system does well. This balances the tone of the report and anchors the scorecard with positive baselines.
 
-Use a bullet list. Each bullet is one sentence anchored to a concrete file, pattern, or decision. Examples:
+Use a bullet list. When a strength requires more than one sentence, start the bullet with a bold heading on its own line, then add an empty line, then the body. Anchor every claim to a concrete file, pattern, or decision. Examples:
+
+```markdown
+- **TypeScript strict mode is enabled in both backend and frontend**.
+
+`backend/tsconfig.json` and `frontend/tsconfig.app.json` both set `"strict": true`.
+
+This catches a broad class of type errors at compile time.
+```
+
+For single-sentence strengths, keep them as plain bullets:
 
 - Dependency injection is consistently applied in `Program.cs`, enabling testable service registration.
 - Nullable reference types are enabled project-wide, reducing null-reference defects.
-- XML documentation generation is configured, supporting API consumer onboarding.
-- The multi-stage Dockerfile uses official .NET base images and follows container best practices.
 - Firebird SQL connection pooling is configured with sensible `MinPoolSize` and `MaxPoolSize` values.
 - JWT bearer authentication is implemented with standard ASP.NET Core middleware.
 
@@ -441,11 +638,27 @@ After the summary table, write one block per finding in the same order. Use this
 
 When the report language is Polish, translate the bullet labels into Polish: `Filtr`, `Ważność`, `Pliki/Moduły docelowe`, `Opis`, `Wpływ`, `Rekomendacja naprawcza`, `Metoda weryfikacji`.
 
-Each finding must cite concrete evidence: file paths, config keys, commands, or direct quotes. Do not crowd the bullet list with long prose. Use short sentences separated by line breaks.
+Each finding must cite concrete evidence: file paths, config keys, commands, or direct quotes. Do not crowd the bullet list with long prose. Use short sentences separated by blank lines; each sentence stands on its own line with an empty line between consecutive sentences.
 
 When referencing secrets, credentials, or keys in the Description or Impact fields, replace exact values with `[REDACTED]` or generic descriptions such as "plaintext database credentials found in tracking file".
 
 Trade-off analyses that were previously in a standalone section should be embedded directly into the relevant finding they impact, under the Description or Impact bullet.
+
+## Technical Debt Register
+
+Include this section only when the assessment surfaces structural debt distinct from risks, per `synthesis/technical-debt-register.md`. Omit it when no such debt exists.
+
+This register is distinct from the Unified Risk Register: risks describe what could go wrong, debt describes accumulated cost that is already present. The cost model follows the CISQ structural quality characteristics and the SQALE method.
+
+Use this fixed column order:
+
+| Debt ID | Debt Item | Category | Source Finding | Remediation Cost | Cost of Delay | Status |
+|---------|-----------|----------|----------------|------------------|---------------|--------|
+| TDR-001 | <concrete debt item> | <CISQ characteristic> | FND-XXX | <High/Med/Low> | <High/Med/Low> | Open |
+
+When the report language is Polish, translate the column headers into Polish: `Identyfikator długu`, `Pozycja długu`, `Kategoria`, `Źródło`, `Koszt naprawy`, `Koszt zwłoki`, `Status`.
+
+Category is one of the CISQ characteristics: `Reliability`, `Performance Efficiency`, `Security`, `Maintainability`. Every item must trace to a `FND-XXX` or be marked `Direct observation` with a cited file. Do not duplicate security risks here; those belong in the Unified Risk Register.
 
 ## Unified Risk Register
 
@@ -533,6 +746,7 @@ Column meanings:
 - A choice that fits the stated context is not a weakness, even if it would be unusual in a different context.
 - Keep cell language neutral and anchored to evidence.
 - Trade-off reasoning may also be embedded into individual finding blocks (under Description or Impact) when it directly explains a specific finding. The standalone table here surfaces the system-level tensions.
+- When the trade-off analysis includes an explicit recommendation, that recommendation must also appear as a `REC-XXX` entry in the Actionable Remediation Roadmap, traced to the relevant `FND-XXX`.
 
 ## Actionable Remediation Roadmap
 
@@ -572,7 +786,15 @@ Column meanings:
 
 Explicitly define the limits of the analysis.
 
-List components or environments that were not inspected unless they were explicitly provided in the input scope. Typical exclusions include:
+List components or environments that were not inspected unless they were explicitly provided in the input scope. Format each exclusion as a bullet with a bold label, followed by an empty line, then the explanation. Example:
+
+```markdown
+- **Firebird database schema and stored procedures**.
+
+The database layer was assessed only from the API side. The actual tables, views, triggers, and stored procedures in Firebird were not provided.
+```
+
+Typical exclusions include:
 
 - Operational runtime infrastructure (live servers, VMs, containers)
 - Live network topologies and firewall rules
@@ -585,3 +807,32 @@ List components or environments that were not inspected unless they were explici
 Mark each item as `NOT INSPECTED` or `EXCLUDED BY SCOPE`. If the user provided some of these, list them as `INCLUDED`.
 
 State any extrapolations made from sampled code to the whole system.
+
+**Standard coverage statement**
+
+When the audit referenced security standards, state which categories were in scope and which were not, so the reader does not assume full coverage.
+
+For a web application, name the OWASP Top 10 (2021) categories (`A01`-`A10`) that were and were not assessed.
+For an API, name the OWASP API Security Top 10 (2023) categories (`API1`-`API10`).
+For any system, name the ISO 25010 quality characteristics that correspond to scorecard dimensions marked `N/A` (for example, `Scalability`, `Operational Safety`) and justify each exclusion in one sentence anchored to the application nature.
+Mark categories that could not be assessed from the provided input as `NOT ASSESSED` with a one-line reason.
+
+**Omitted conditional sections**
+
+When a conditional section was omitted because it does not apply (for example, the API Contract Conformance section for a system with no API, or the Threat Model for a single-user local utility), state the omission here with a one-line justification so the reader knows it was deliberate.
+
+## Re-audit and Follow-up Plan
+
+Include this section only when the Actionable Remediation Roadmap contains at least one P1 or P2 recommendation, per `synthesis/re-audit-plan.md`. It is the final section of the report when present.
+
+This section makes the report actionable in a governance sense. It follows ISO 19011 (follow-up auditing) and the monitor step of the NIST Risk Management Framework.
+
+Present a table mapping findings to verification ownership and closure evidence. Include one row per P1 and P2 finding at minimum.
+
+| Finding | Priority | Verification Owner | Closure Evidence | Target Re-audit Trigger |
+|---------|----------|--------------------|------------------|-------------------------|
+| FND-XXX | P1 | <role or `NOT SPECIFIED`> | <verifiable artifact> | <milestone or `NOT SPECIFIED`> |
+
+When the report language is Polish, translate the column headers into Polish: `Znalezisko`, `Priorytet`, `Właściciel weryfikacji`, `Dowód zamknięcia`, `Wyzwalacz ponownego audytu`.
+
+After the table, state the sign-off gates (which findings must close before production sign-off, tied to their `RSK-XXX`) and the recommended re-audit schedule. Do not invent owner names or dates; use `NOT SPECIFIED` where the input is silent.

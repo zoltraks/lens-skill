@@ -23,6 +23,14 @@ Note the source format. Findings from a description are weaker than findings fro
 
 Determine the natural language of the user's request. The report language must match the request language unless the user explicitly states otherwise.
 
+**Rerunning an existing audit**
+
+When the user asks to rerun, regenerate, or update an audit report, first check whether a previous audit file exists in the target location (for example, `AUDIT.md` or `AUDYT.md` in the project directory).
+
+If a previous report is found, read its Document Information section to determine the parameters that were used (detail level, evaluation scale, language, delivery mode, and filename). Reuse those same parameters for the new run unless the user explicitly asks to change them or requests a fresh audit from scratch. Proceed directly to Scope Definition using the recovered parameters. Do not ask the parameter configuration questions again.
+
+If no previous report is found and the conversation context contains no record of previously chosen parameters, treat the request as a new audit and run the full Parameter Configuration phase.
+
 **Parameter Configuration**
 
 Before beginning the audit, ask the user whether to accept the default parameters or configure them. Present the defaults in a compact summary.
@@ -71,6 +79,10 @@ Always place the file inside the audited repository or directory. Do not write t
 
 If the user already named a file or stated a delivery preference in the original request, honor it without asking again; still resolve the output directory using the rules above unless a full path was given.
 
+**Overwriting existing files**
+
+When the target file already exists (for example, a previous `AUDIT.md` or `AUDYT.md`), overwrite it with the new report. Increment the `Version` field in the Document Information section by reading the existing file, parsing the current version number, and incrementing the minor component up to 9 (for example, `1.0` becomes `1.1`, `1.9` becomes `2.0`, `9.9` becomes `10.0`). Do not prompt the user before overwriting. Do not create backup copies. The audit report is the authoritative artifact for the current assessment.
+
 **Report language**
 
 The default is the language of the user's request. Ask only if the user explicitly asks for a different language.
@@ -81,7 +93,7 @@ When the report language is Polish, the default filename changes to `AUDYT.md`, 
 
 Ask: "What level of detail should the report include?"
 
-- **Standard** (default) - full report with all eleven sections, complete findings, risk register, scorecard, and remediation roadmap.
+- **Standard** (default) - full report with all fifteen always-present sections plus any conditional sections whose criteria are met, complete findings, risk register, scorecard, and remediation roadmap.
 - **Detailed** - full report plus extended remediation steps, additional verification methods, deeper architectural critique, and expanded impact analysis.
 - **Brief** - Executive Summary, Health Dashboard (scorecard summary and risk heat map only), top risks only, and key recommendations. Detailed findings are summarized, not itemized.
 
@@ -135,6 +147,8 @@ Where evidence is absent, record the gap explicitly with the appropriate missing
 
 For each category, open the matching `assessment/` file and apply its checklist. For a full audit, this includes the two additional categories `assessment/ai-generated-code.md` and `assessment/copyrights.md`.
 
+Evaluate the inclusion criterion for each conditional assessment, listed in the Conditional Sections table of `process/report-format.md`. When the criterion is met, open the matching conditional file and apply it: `assessment/data-flow.md`, `assessment/design-patterns.md`, `assessment/threat-model.md`, and `assessment/api-contract.md`. When a criterion is not met, omit that section and record the deliberate omission for Scope Exclusions. Do not force a conditional section onto a subject it does not fit.
+
 Assign a status (`PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`) per the rules in `principles/evaluation-rules.md`.
 
 Record evidence, concrete risks, and neutral notes for each category.
@@ -151,7 +165,11 @@ Draft the Strengths & What's Working section by identifying 5-8 evidenced positi
 
 Surface trade-offs both as a standalone Trade-off Analysis section (using `synthesis/trade-off-analysis.md`) and embedded into relevant architectural or design findings where they directly explain a specific finding.
 
+When structural debt distinct from risks was surfaced, build the Technical Debt Register using `synthesis/technical-debt-register.md`. Every debt item must trace to a finding or a cited direct observation.
+
 Draft the actionable remediation roadmap using `synthesis/recommendations.md`. Every recommendation must resolve a specific `FND-XXX`.
+
+When the roadmap contains at least one P1 or P2 recommendation, build the Re-audit and Follow-up Plan using `synthesis/re-audit-plan.md`, mapping those findings to verification owners and closure evidence.
 
 Add the Production Readiness Threshold paragraph to the Executive Summary, tying conditions to specific `RSK-XXX` IDs.
 
@@ -176,6 +194,18 @@ Confirm the Strengths & What's Working section contains 5-8 evidenced bullet poi
 Confirm the Trade-off Analysis section uses the standard table format and frames each trade-off against a stated constraint.
 
 Confirm every finding in the index table has a Remediation Status column with value `Open`.
+
+Confirm each conditional section was evaluated: it is either present because its criterion is met, or omitted with a deliberate one-line justification in Scope Exclusions. No conditional section may be present-but-empty, and none relevant to the subject may be silently dropped.
+
+When a Threat Model is present, confirm every unmitigated threat traces to a `FND-XXX` and a `RSK-XXX`, and that no plaintext secret appears in a disclosure threat.
+
+When an API Contract Conformance section is present, confirm each security gap maps to an OWASP API Security Top 10 (2023) code where one applies.
+
+When a Technical Debt Register is present, confirm every `TDR-XXX` traces to a `FND-XXX` or a cited direct observation, and that no security risk is duplicated from the Unified Risk Register.
+
+When a Re-audit and Follow-up Plan is present, confirm every row references a `FND-XXX` and that owners or dates absent from the input are marked `NOT SPECIFIED` rather than invented.
+
+Confirm the Auditing Methodology cites only the reference standards actually applied, and the Scope Exclusions state the OWASP category coverage.
 
 Confirm the report follows `process/report-format.md` section by section.
 

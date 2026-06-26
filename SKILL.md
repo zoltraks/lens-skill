@@ -1,5 +1,5 @@
 ---
-name: lens
+name: lens-skill
 description: >-
   Software audit skill. Produces structured, evidence-based engineering
   assessments of any software subject: prototypes, codebases under development,
@@ -26,6 +26,15 @@ description: >-
   'idiomatic code', 'coding conventions', 'stack conventions', 'framework
   conventions', 'review this codebase', 'perform lens on', 'make audit report
   on', 'run lens', 'lens audit'.
+compatibility: >-
+  Designed for agent coding environments with file system access (Claude Code,
+  Claude Desktop, Windsurf, Devin, and similar). Requires the ability to read
+  source files, run shell commands, and write Markdown reports. No network
+  access required for the audit itself; optional web fetch for external
+  documentation or CVE lookups.
+metadata:
+  version: "0.5"
+  author: cognition-labs
 ---
 
 # Software Audit Skill
@@ -86,6 +95,10 @@ When the report language is Polish, the default filename becomes `AUDYT.md`, all
 
 The full parameter flow is documented in `process/workflow.md`.
 
+**Rerunning an audit**
+
+When the user asks to rerun, regenerate, or update an audit, check whether a previous report file exists. If it does, reuse the parameters recorded in its Document Information section. Do not ask the parameter configuration questions again unless the user explicitly asks for a fresh audit or new parameters. If no previous report exists and no prior parameter choices are recorded in context, run the full Parameter Configuration phase.
+
 ## `principles/` - Rules Of Evaluation
 
 - **`principles/evaluation-rules.md`** - Evidence-based reasoning, no assumptions, no personal judgement, architectural neutrality, status markers (`PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`), and critical constraints.
@@ -117,12 +130,23 @@ The full parameter flow is documented in `process/workflow.md`.
 - **`assessment/ai-generated-code.md`** - AI-generated code detection, Vibe Coding risks, Agent Driven Engineering maturity, and SDLC discipline.
 - **`assessment/copyrights.md`** - Code originality, license compliance, attribution, and dependency license compatibility.
 
+### Conditional assessment files
+
+Load these only when the subject meets the inclusion criterion in the Conditional Sections table of `process/report-format.md`.
+
+- **`assessment/data-flow.md`** - Data flow diagrams, trust boundaries, and inter-process flows. Include when the system crosses a trust boundary.
+- **`assessment/design-patterns.md`** - GoF and POSA pattern identification, fitness, and anti-pattern detection. Include when the codebase exhibits recurring structure.
+- **`assessment/threat-model.md`** - STRIDE threat enumeration mapped to trust boundaries. Include when the system has a security-relevant attack surface.
+- **`assessment/api-contract.md`** - API specification conformance, RFC 7807 error format, and OWASP API Security Top 10 (2023). Include when the system exposes an API.
+
 ## `synthesis/` - Findings And Report Assembly
 
 - **`synthesis/risk-register.md`** - Unified risk register with bidirectional cross-referencing to findings (`RSK-[001]` mapping to `FND-XXX`).
 - **`synthesis/scorecard.md`** - The 1-10 project scorecard, dimensions, and scoring rubric (1-5 optional).
 - **`synthesis/trade-off-analysis.md`** - Surfacing engineering trade-offs in a standalone section and embedded into findings.
 - **`synthesis/recommendations.md`** - Actionable remediation roadmap with prioritized impact-vs-effort matrix and verification steps.
+- **`synthesis/technical-debt-register.md`** - Formal technical debt inventory (`TDR-[001]`) using CISQ and SQALE cost model. Conditional: include when structural debt distinct from risks is surfaced.
+- **`synthesis/re-audit-plan.md`** - Verification ownership, sign-off gates, and re-audit triggers following ISO 19011 and NIST RMF. Conditional: include when the roadmap has a P1 or P2 recommendation.
 
 ## Navigation Rules
 
@@ -139,6 +163,12 @@ The full parameter flow is documented in `process/workflow.md`.
 - Data protection, privacy, and licensing belong in `assessment/compliance.md`.
 - AI-generated code detection, Vibe Coding risks, and Agent Driven Engineering maturity belong in `assessment/ai-generated-code.md`.
 - Code originality, license compliance, and attribution belong in `assessment/copyrights.md`.
+- Data flow modeling and trust boundaries belong in `assessment/data-flow.md`; STRIDE threat enumeration belongs in `assessment/threat-model.md` and depends on the data flow model; control-level security review belongs in `assessment/security.md`.
+- Concrete design pattern identification and fitness belong in `assessment/design-patterns.md`; keep it distinct from the SOLID principles in `assessment/design-principles.md`.
+- API specification conformance and the OWASP API Security Top 10 belong in `assessment/api-contract.md`; ADR gap assessment belongs in `assessment/change-management.md`.
+- Conditional sections appear only when their inclusion criterion is met. Evaluate each criterion in the Conditional Sections table of `process/report-format.md`. Omit a conditional section entirely when it cannot apply, and note the deliberate omission in Scope Exclusions. Never force an irrelevant section (for example, an API Contract section for a project with no API).
+- The Technical Debt Register (`synthesis/technical-debt-register.md`) is distinct from the Unified Risk Register: debt is accumulated cost already present, risk is what could go wrong. Do not duplicate entries between them.
+- The Re-audit and Follow-up Plan (`synthesis/re-audit-plan.md`) is the final section when present; it maps P1 and P2 findings to verification owners and closure evidence.
 - Prefer the narrowest assessment file that directly matches the request.
 - If the user asks only for a single dimension (for example "review security" or "audit dependencies"), load that one assessment file plus `principles/` and produce the matching finding pillar and risk row only.
 - Trade-off analyses appear both as a standalone Trade-off Analysis section (before the Remediation Roadmap) and embedded into relevant architectural or design findings (under Description or Impact bullets). Use `synthesis/trade-off-analysis.md` for the standalone table format.
