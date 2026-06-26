@@ -54,11 +54,22 @@ Present each prompt as a single question with clear options. After each answer, 
 Ask: "How should the report be delivered?"
 
 - Inline (default) - return the full report as the direct response.
-- File - write the report to a file.
+- File - write the report to a file inside the audited repository or directory.
 
-If File is chosen, ask for the filename. Default to `AUDYT.md` if the report language is Polish, otherwise default to `AUDIT.md`. If the user does not specify, use the language-appropriate default.
+If File is chosen, resolve the output location using the following rules, applied in order against the root of the repository or directory being audited:
 
-If the user already named a file or stated a delivery preference in the original request, honor it without asking again.
+1. If `docs/audit/` exists, inspect its contents and match the naming convention already in use there (e.g. `AUDIT.md`, `audit.md`, date-prefixed names). Use that directory and that convention as the default.
+2. If `docs/audit/` does not exist but `docs/` exists, use `docs/` as the default output directory.
+3. Otherwise use the root of the audited repository or directory as the default output directory.
+
+Present the resolved default location to the user and ask: "Where should the file be written, and what should it be named?"
+
+- Default location - accept the resolved directory and the language-appropriate default filename (`AUDIT.md` for non-Polish reports, `AUDYT.md` for Polish reports), adjusted for any naming convention found in step 1.
+- Custom path - the user may supply a path relative to the audited repository or directory root (e.g. `reports/2026-06-audit.md`).
+
+Always place the file inside the audited repository or directory. Do not write to an absolute path outside it unless the user explicitly provides one.
+
+If the user already named a file or stated a delivery preference in the original request, honor it without asking again; still resolve the output directory using the rules above unless a full path was given.
 
 **Report language**
 

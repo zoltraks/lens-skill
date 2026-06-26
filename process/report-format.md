@@ -57,11 +57,11 @@ Do not add a closing line such as "End of audit report." or "---" at the end of 
 
 Report delivery is determined during the Parameter Configuration phase in `process/workflow.md`. Do not ask delivery questions here; they are handled upstream.
 
-When the user names an output file in the original request, for example "write the audit to AUDIT.md", honor that filename without asking again.
+When the user names an output file in the original request, for example "write the audit to AUDIT.md", honor that filename without asking again; resolve the output directory using the location rules in `process/workflow.md` unless a full path was given.
 
-When the user invokes an audit without naming an output file, for example "perform lens on this service" or "make audit report on the codebase", the Parameter Configuration phase determines delivery and filename.
+When the user invokes an audit without naming an output file, for example "perform lens on this service" or "make audit report on the codebase", the Parameter Configuration phase determines delivery, output location, and filename.
 
-Default delivery is **Inline** (direct response). Default filename is **AUDYT.md** for Polish reports or **AUDIT.md** for all other languages when File mode is selected.
+Default delivery is **Inline** (direct response). When File mode is selected, the output location is resolved by inspecting the audited repository or directory in this order: `docs/audit/` first (matching existing naming conventions), then `docs/`, then the root. The default filename within that location is **AUDYT.md** for Polish reports or **AUDIT.md** for all other languages, adjusted for any naming convention already present in the resolved directory. The agent presents the resolved default to the user and asks for confirmation or a custom path before writing.
 
 For a single-dimension request that produces only a short subsection, returning the result inline is acceptable without asking, unless the user asked for a file.
 

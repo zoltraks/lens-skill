@@ -68,7 +68,8 @@ The agent MUST ask the user whether to accept the default parameters or configur
 | Parameter | Default |
 |-----------|---------|
 | Report delivery | Inline (direct response) |
-| Output filename | `AUDIT.md` for non-Polish reports, `AUDYT.md` for Polish reports (used if File mode selected) |
+| Output location | Resolved from the audited repository or directory: `docs/audit/` > `docs/` > root (used if File mode selected) |
+| Output filename | `AUDIT.md` for non-Polish reports, `AUDYT.md` for Polish reports, adjusted for existing conventions in the resolved directory; agent confirms with user before writing |
 | Report language | Match the language of the user's request |
 | Detail level | Standard |
 | Evaluation scale | 1-10 |
