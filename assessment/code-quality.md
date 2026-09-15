@@ -7,7 +7,7 @@
 
 This file guides assessment of code-level quality in an existing or production codebase.
 
-Apply `principles/evaluation-rules.md` throughout. This category covers code-level health; architectural structure is assessed in `assessment/maintainability.md`.
+Apply `principles/evaluation-rules.md` throughout. This category covers code-level health, architectural structure is assessed in `assessment/maintainability.md`.
 
 ## What To Evaluate
 

@@ -7,13 +7,13 @@
 
 This file guides assessment of object and module design quality against established design principles.
 
-Apply `principles/evaluation-rules.md` throughout. Assess observable design properties from the code, not intent. Architectural module boundaries are assessed in `assessment/maintainability.md`; code-level metrics in `assessment/code-quality.md`; this file covers design principles.
+Apply `principles/evaluation-rules.md` throughout. Assess observable design properties from the code, not intent. Architectural module boundaries are assessed in `assessment/maintainability.md`, code-level metrics in `assessment/code-quality.md`, this file covers design principles.
 
 ## What To Evaluate
 
 Evaluate each SOLID principle as an observable property of the code:
 
-- Single Responsibility (SRP): each unit has one reason to change; classes and modules are not catch-alls.
+- Single Responsibility (SRP): each unit has one reason to change, classes and modules are not catch-alls.
 - Open/Closed (OCP): behavior can be extended without modifying existing, tested code, typically via abstraction.
 - Liskov Substitution (LSP): subtypes are usable wherever their base type is expected without surprising behavior.
 - Interface Segregation (ISP): clients depend on narrow interfaces, not large ones with unused members.
@@ -21,7 +21,7 @@ Evaluate each SOLID principle as an observable property of the code:
 
 Also evaluate the companion principles:
 
-- Cohesion: related behavior is grouped; a unit's members serve one purpose.
+- Cohesion: related behavior is grouped, a unit's members serve one purpose.
 - Coupling: units depend on each other minimally and through stable contracts.
 - DRY: knowledge is represented once, without harmful duplication.
 - Separation of concerns: distinct concerns live in distinct units rather than being intertwined.
@@ -62,4 +62,4 @@ Also evaluate the companion principles:
 - Narrow, role-specific interfaces and minimal cross-module coupling.
 - Shared abstractions in place of repeated logic.
 
-Mark each missing signal explicitly rather than inferring its presence. Judge each principle separately; a design can satisfy some and violate others, which the notes should make clear.
+Mark each missing signal explicitly rather than inferring its presence. Judge each principle separately, a design can satisfy some and violate others, which the notes should make clear.

@@ -56,6 +56,6 @@ Tie every node and flow to a concrete file path, module, or config key. Do not i
 ## Rules
 
 - Use only the four DFD element types. Do not introduce custom shapes.
-- Mark every trust boundary explicitly; the threat model depends on it.
+- Mark every trust boundary explicitly, the threat model depends on it.
 - Mark inferred flows as inferred rather than presenting them as confirmed.
 - When the system has no trust boundary, mark the section `N/A` rather than forcing a diagram.

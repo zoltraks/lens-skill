@@ -7,7 +7,7 @@
 
 This file guides assessment of third-party dependencies and the software supply chain, a primary concern for production code.
 
-Apply `principles/evaluation-rules.md` throughout. Report the supply-chain posture from available manifests and lockfiles; do not run untrusted tooling as part of the audit.
+Apply `principles/evaluation-rules.md` throughout. Report the supply-chain posture from available manifests and lockfiles, do not run untrusted tooling as part of the audit.
 
 ## What To Evaluate
 

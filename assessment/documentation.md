@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** Code, API, and user documentation; onboarding; knowledge transfer
+> **Scope:** Code, API, and user documentation, onboarding, knowledge transfer
 > **Key items:** README accuracy, API docs, inline docs, setup/onboarding, decision records
 
 This file guides assessment of whether the system is documented well enough to be understood, operated, and extended.

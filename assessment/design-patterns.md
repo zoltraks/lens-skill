@@ -7,7 +7,7 @@
 
 This file guides assessment of which design patterns the code uses and whether they are applied appropriately. It complements `assessment/design-principles.md` (SOLID) and `assessment/maintainability.md` (module structure): this file names the concrete patterns and judges their fitness.
 
-Apply `principles/evaluation-rules.md` throughout. Name patterns from observable code, not from intent. A pattern that fits the stated context is a strength; a pattern applied inconsistently or where it adds no value is an anti-pattern.
+Apply `principles/evaluation-rules.md` throughout. Name patterns from observable code, not from intent. A pattern that fits the stated context is a strength, a pattern applied inconsistently or where it adds no value is an anti-pattern.
 
 ## When This Applies
 

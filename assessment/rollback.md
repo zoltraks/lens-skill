@@ -26,7 +26,6 @@ Apply `principles/evaluation-rules.md` throughout. Forward deployment is assesse
 | Migration tooling      | Migration framework, up and down migrations        |
 | Backups before release | Backup steps tied to release procedure             |
 
-
 ## Status Criteria
 
 - `PASS`: A defined, tested rollback path exists, deployments limit blast radius, and migrations are reversible or guarded.

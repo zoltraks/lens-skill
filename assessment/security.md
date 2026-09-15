@@ -7,7 +7,7 @@
 
 This file guides assessment of the system's defensive posture.
 
-Apply `principles/evaluation-rules.md` throughout. Assess only what the input shows. Do not perform credential harvesting or offensive actions; this is a defensive review.
+Apply `principles/evaluation-rules.md` throughout. Assess only what the input shows. Do not perform credential harvesting or offensive actions, this is a defensive review.
 
 ## What To Evaluate
 

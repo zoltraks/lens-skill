@@ -24,7 +24,7 @@ Use this fixed column order:
 | Debt ID | Debt Item | Category | Source Finding | Remediation Cost | Cost of Delay | Status |
 |---------|-----------|----------|----------------|------------------|---------------|--------|
 
-When the report language is Polish, translate the column headers into Polish: `Identyfikator długu`, `Pozycja długu`, `Kategoria`, `Źródło`, `Koszt naprawy`, `Koszt zwłoki`, `Status`.
+When the report language is not English, apply the column header translations from the matching `translation/` file.
 
 Column meanings:
 
@@ -57,7 +57,7 @@ Column meanings:
 - Every item must trace to a `FND-XXX` or be marked `Direct observation` with a cited file.
 - State each item as a property of the code, never as a fault of a person.
 - Keep remediation cost and cost of delay anchored to evidence, not intuition.
-- A debt item may also be a recommendation target; reference it from the roadmap by its source finding, not by `TDR-XXX`.
+- A debt item may also be a recommendation target, reference it from the roadmap by its source finding, not by `TDR-XXX`.
 
 ## Example Row
 

@@ -134,6 +134,14 @@ Do not leave blank lines as the first or last line inside a fenced code block.
 
 When the user requests a specific natural language for the report, translate all user-facing prose into that language.
 
+The default report language is English. When the request language is ambiguous or cannot be determined, default to English.
+
+**Translation files**
+
+Translation rules for each supported language live in the `translation/` directory. Each file is named after the language (for example, `translation/polish.md`). When the report language is not English, load the matching translation file and apply every translation defined there.
+
+To add support for a new language, create a new file in `translation/` following the structure of the existing files. The file must define translations for status and severity vocabulary, section headings, table headers, style rules, and any language-specific encoding or diacritics requirements.
+
 **What must be translated:**
 
 - All section headings (e.g., "Technology Stack", "Executive Summary", "Health Dashboard", "Detailed Technical Findings")
@@ -148,169 +156,16 @@ When the user requests a specific natural language for the report, translate all
 **What stays in English (fixed vocabularies):**
 
 - Maturity levels: `Prototype`, `Early development`, `Pre-production`, `Production-ready`, `Undetermined`
-- Score format: `Score: X/10` in English, `Wynik: X/10` in Polish. When the 1-5 scale is selected, use `Score: X/5` and `Wynik: X/5`.
 - Missing-information tokens: `UNKNOWN`, `NOT SPECIFIED`, `INSUFFICIENT INFORMATION`
 - File paths, config keys, commands, code snippets, and direct quotes from the input
 
-**Status and severity translations by language:**
+**Status, severity, and score format:**
 
-When the report language is Polish, use these Polish equivalents instead of the English markers:
-
-| English     | Polish          |
-|-------------|-----------------|
-| `PASS`      | `OK`            |
-| `PARTIAL`   | `CZĘŚCIOWO`     |
-| `FAIL`      | `NIEZALICZONE`  |
-| `UNKNOWN`   | `NIEZNANE`      |
-| `N/A`       | `ND`            |
-| `LOW`       | `NISKIE`        |
-| `MEDIUM`    | `ŚREDNIE`       |
-| `HIGH`      | `WYSOKIE`       |
-| `CRITICAL`  | `KRYTYCZNE`     |
-| `SEVERITY:` | `WAŻNOŚĆ:`      |
-| `Score:`    | `Wynik:`        |
-
-The inline format remains identical: the marker follows the bold heading separated by a space. For example, `**Strategia wdrożenia** CZĘŚCIOWO` or `**Testowalność** Wynik: 8/10`.
+The English markers (`PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`, `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`, `Score:`, `SEVERITY:`) are the default. Each translation file defines the equivalents for its language. The inline format remains identical: the marker follows the bold heading separated by a space.
 
 **Language-specific style rules:**
 
-- In English, use "Title Case" in section and chapter names.
-- In Polish, do not use "Title Case" in section and chapter names; use sentence case.
-- In Polish, use "Przykład zawartości" instead of "Content Example".
-- In Polish, use Polish equivalents for standard headings and table headers:
-  - "Informacje o dokumencie" for "Document Information"
-  - "Wersja" for "Version" (Document Information label)
-  - "Data" for "Date" (Document Information label)
-  - "Stan" for "State" (Document Information label)
-  - "Poziom szczegółowości" for "Detail Level" (Document Information label)
-  - "Stos technologiczny" for "Technology Stack"
-  - "Warstwa" for "Layer" (Technology Stack table header)
-  - "Technologie" for "Technology" (Technology Stack table header)
-  - "Języki" for "Languages" (Technology Stack layer)
-  - "Frameworki" for "Frameworks" (Technology Stack layer)
-  - "Środowisko uruchomieniowe/Platforma" for "Runtime/Platform" (Technology Stack layer)
-  - "Narzędzia budowania" for "Build tooling" (Technology Stack layer)
-  - "Narzędzia testowe" for "Test tooling" (Technology Stack layer)
-  - "Zarządzanie pakietami" for "Package manager" (Technology Stack layer)
-  - "Kluczowe biblioteki" for "Key libraries" (Technology Stack layer)
-  - "Magazyny danych" for "Data stores" (Technology Stack layer)
-  - "Docelowe platformy" for "Target platforms" (Technology Stack layer)
-  - "Podsumowanie wykonawcze" for "Executive Summary"
-  - "Obszar" for "Field" (Executive Summary table header)
-  - "Wartość" for "Value" (Executive Summary table header)
-  - "Typ systemu" for "System type" (Executive Summary field)
-  - "Zakres" for "Scope" (Executive Summary field)
-  - "Źródło danych" for "Source basis" (Executive Summary field)
-  - "Poziom dojrzałości" for "Maturity level" (Executive Summary field)
-  - "Opis podsumowujący" for "Summary description" (paragraph heading)
-  - "Próg gotowości produkcyjnej" for "Production Readiness Threshold" (paragraph heading)
-  - "Panel zdrowia" for "Health Dashboard"
-  - "Mapa ciepła ryzyk" for "Risk Heat Map"
-  - "Wpływ" for "Impact" (Risk Heat Map axis)
-  - "Prawdopodobieństwo" for "Likelihood" (Risk Heat Map axis)
-  - "Scorecard - podsumowanie" for "Scorecard Summary"
-  - "Wymiar" for "Dimension" (Project Scorecard table header)
-  - "Wynik" for "Score" (Project Scorecard table header)
-  - "Uwagi" for "Notes" (Project Scorecard table header)
-  - "Testowalność" for "Testability" (scorecard dimension)
-  - "Jakość kodu" for "Code Quality" (scorecard dimension)
-  - "Zgodność ze stosem" for "Stack Alignment" (scorecard dimension)
-  - "Zależności" for "Dependency Health" (scorecard dimension)
-  - "Utrzymywalność" for "Maintainability" (scorecard dimension)
-  - "Wdrażalność" for "Deployability" (scorecard dimension)
-  - "Skalowalność" for "Scalability" (scorecard dimension)
-  - "Bezpieczeństwo" for "Security" (scorecard dimension)
-  - "Zgodność" for "Compliance" (scorecard dimension)
-  - "Obserwowalność" for "Observability" (scorecard dimension)
-  - "Bezpieczeństwo operacyjne" for "Operational Safety" (scorecard dimension)
-  - "Pochodzenie AI" for "AI Provenance" (scorecard dimension)
-  - "Oryginalność i licencjonowanie" for "Originality & Licensing" (scorecard dimension)
-  - "Definicja umiejętności" for "Skill Definition" (scorecard dimension)
-  - "Kluczowe obserwacje" for "High-Level Observations"
-  - "Obserwacja" for "Observation" (High-Level Observations table header)
-  - "Metodologia audytu" for "Auditing Methodology"
-  - "Przegląd metodologiczny" for "Methodology overview"
-  - "Oświadczenie o dowodach" for "Audit evidence statement"
-  - "Definicje ważności" for "Severity definitions"
-  - "Skale oceny" for "Scoring Rubrics"
-  - "Kontekst systemu" for "System Context"
-  - "Aspekt" for "Aspect" (System Context table header)
-  - "Szczegóły" for "Detail" (System Context table header)
-  - "Ocena architektury" for "Architectural Assessment"
-  - "Zgodność definicji umiejętności" for "Skill Definition Conformance"
-  - "Mocne strony i co działa" for "Strengths & What's Working"
-  - "Szczegółowe wyniki techniczne" for "Detailed Technical Findings"
-  - "Tabela podsumowania" for "Summary table"
-  - "Identyfikator" for "Finding ID" (findings summary table header)
-  - "Filtr" for "Pillar" (findings summary table header)
-  - "Ważność" for "Severity" (findings summary table header)
-  - "Tytuł" for "Title" (findings summary table header)
-  - "Status" for "Status" (findings summary table header)
-  - "Status naprawy" for "Remediation Status" (findings summary table header)
-  - "Pliki/Moduły docelowe" for "Target Files/Modules" (finding detail label)
-  - "Opis" for "Description" (finding detail label)
-  - "Wpływ" for "Impact" (finding detail label)
-  - "Rekomendacja naprawcza" for "Remediation Recommendation" (finding detail label)
-  - "Metoda weryfikacji" for "Verification Method" (finding detail label)
-  - "Jednolity rejestr ryzyk" for "Unified Risk Register"
-  - "Identyfikator ryzyka" for "Risk ID" (risk register table header)
-  - "Ryzyko" for "Risk" (risk register table header)
-  - "Źródło" for "Source Finding" (risk register table header)
-  - "Prawdopodobieństwo" for "Likelihood" (risk register table header)
-  - "Ograniczenie" for "Mitigation" (risk register table header)
-  - "Analiza kompromisów" for "Trade-off Analysis"
-  - "Kompromis" for "Trade-off" (trade-off table header)
-  - "Kontekst" for "Context" (trade-off table header)
-  - "Opcja A: zysk / koszt" for "Option A: gain / cost" (trade-off table header)
-  - "Opcja B: zysk / koszt" for "Option B: gain / cost" (trade-off table header)
-  - "Dowód" for "Evidence" (trade-off table header)
-  - "Implikacja" for "Implication" (trade-off table header)
-  - "Plan działania i mapa naprawcza" for "Actionable Remediation Roadmap"
-  - "Identyfikator rekomendacji" for "Rec ID" (recommendation table header)
-  - "Priorytet" for "Priority" (recommendation table header)
-  - "Znalezisko" for "Finding" (recommendation table header)
-  - "Rekomendacja" for "Recommendation" (recommendation table header)
-  - "Wysiłek" for "Effort" (recommendation table header)
-  - "Złożoność" for "Complexity" (recommendation table header)
-  - "Weryfikacja" for "Verification" (recommendation table header)
-  - "Wyłączenia z zakresu" for "Scope Exclusions"
-  - "Zakres" for "Scope" (Scope Exclusions table header)
-  - "Uzasadnienie" for "Justification" (Scope Exclusions table header)
-  - "Projekt" for "Project" (Project Inventory table header)
-  - "Ścieżka" for "Path" (Project Inventory table header)
-  - "Wersja" for "Version" (Project Inventory table header)
-  - "Opis" for "Description" (Project Inventory table header)
-- In Polish, use neuter gender for acronyms treated as nouns: "czyste PWA" (not "czysta PWA"), "czyste SPA" (not "czysta SPA").
-- When producing a Polish-language report, preserve all Polish diacritics (e.g., "ą", "ę", "ć", "ł", "ń", "ó", "ś", "ź", "ż", "Ą", "Ę", "Ć", "Ł", "Ń", "Ó", "Ś", "Ź", "Ż") in every section, heading, table cell, and paragraph. Do not transliterate or strip diacritics.
-- Write Polish-language reports in UTF-8 encoding. Do not use ASCII-only fallback for Polish text.
-- The following Polish words are frequently written without diacritics by mistake. Always use the correct form with diacritics:
-  - `Poziom dojrzałości` (not `Poziom dojrzalosci`)
-  - `Testowalność` (not `Testowalnosc`)
-  - `Jakość` (not `Jakosc`)
-  - `Jakość kodu` (not `Jakosc kodu`)
-  - `Zgodność` (not `Zgodnosc`)
-  - `Zgodność ze stosem` (not `Zgodnosc ze stosem`)
-  - `Utrzymywalność` (not `Utrzymywalnosc`)
-  - `Wdrażalność` (not `Wdrazalnosc`)
-  - `Skalowalność` (not `Skalowalnosc`)
-  - `Bezpieczeństwo` (not `Bezpieczenstwo`)
-  - `Bezpieczeństwo operacyjne` (not `Bezpieczenstwo operacyjne`)
-  - `Poprawność projektowa` (not `Poprawnosc projektowa`)
-  - `Obserwowalność` (not `Obserwowalnosc`)
-  - `Środowisko` (not `Srodowisko`)
-  - `Narzędzia` (not `Narzedzia`)
-  - `Zarządzanie` (not `Zarzadzanie`)
-  - `Wartość` (not `Wartosc`)
-  - `Wpływ` (not `Wplyw`)
-  - `Prawdopodobieństwo` (not `Prawdopodobienstwo`)
-  - `Szczegóły` (not `Szczegoly`)
-  - `Przegląd` (not `Przeglad`)
-  - `Oświadczenie` (not `Oswiadczenie`)
-  - `Założenia` (not `Zalozenia`)
-  - `Wysiłek` (not `Wysilek`)
-  - `Złożoność` (not `Zlozonosc`)
-  - `Oryginalność` (not `Oryginalnosc`)
-  - `Wdrażanie` (not `Wdrazanie`)
+Each translation file may override English style rules where the target language requires it. For example, heading capitalization, gender rules for acronyms, diacritics preservation, and encoding requirements are defined per language in the translation file.
 
 ## Information Security In Output
 
@@ -322,7 +177,7 @@ The file path and configuration key that contains the secret may still be cited 
 
 ## Report Termination
 
-Do not add a closing line such as "End of audit report." or a trailing horizontal rule `---` at the end of the document. The Scope Exclusions section is the final section; end the report after it without any trailing boilerplate.
+Do not add a closing line such as "End of audit report." or a trailing horizontal rule `---` at the end of the document. The Scope Exclusions section is the final section, end the report after it without any trailing boilerplate.
 
 ## Determinism
 

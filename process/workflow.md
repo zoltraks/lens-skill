@@ -37,7 +37,7 @@ When multiple projects are present, the audit runs independently for each projec
 
 **Rerunning an existing audit**
 
-When the user asks to rerun, regenerate, or update an audit report, first check whether a previous audit file exists in the target location (for example, `AUDIT.md` or `AUDYT.md` in the project directory).
+When the user asks to rerun, regenerate, or update an audit report, first check whether a previous audit file exists in the target location (for example, `AUDIT.md` or a language-specific filename in the project directory).
 
 If a previous report is found, read its Document Information section to determine the parameters that were used (detail level, evaluation scale, language, delivery mode, and filename). Reuse those same parameters for the new run unless the user explicitly asks to change them or requests a fresh audit from scratch. Proceed directly to Scope Definition using the recovered parameters. Do not ask the parameter configuration questions again.
 
@@ -52,7 +52,7 @@ Default parameters:
 | Parameter               | Default Value                                                                                    |
 |-------------------------|--------------------------------------------------------------------------------------------------|
 | Report delivery         | Inline (direct response)                                                                         |
-| Output filename         | `AUDIT.md` for non-Polish reports, `AUDYT.md` for Polish reports (only used if delivery is File) |
+| Output filename         | `AUDIT.md` for English reports, or the language-specific filename from the matching `translation/` file (only used if delivery is File) |
 | Report language         | Match the language of the user's request                                                         |
 | Detail level            | Standard                                                                                         |
 | Evaluation scale        | 1-10                                                                                             |
@@ -87,16 +87,16 @@ When multiple projects are present and each has a different version, resolve the
 
 Present the resolved default location to the user and ask: "Where should the file be written, and what should it be named?"
 
-- Default location - accept the resolved directory and the language-appropriate default filename (`AUDIT.md` for non-Polish reports, `AUDYT.md` for Polish reports), adjusted for any naming convention found in step 1.
+- Default location - accept the resolved directory and the language-appropriate default filename (`AUDIT.md` for English reports, or the filename defined in the matching `translation/` file for non-English reports), adjusted for any naming convention found in step 1.
 - Custom path - the user may supply a path relative to the audited repository or directory root (e.g. `reports/2026-06-audit.md`).
 
 Always place the file inside the audited repository or directory. Do not write to an absolute path outside it unless the user explicitly provides one.
 
-If the user already named a file or stated a delivery preference in the original request, honor it without asking again; still resolve the output directory using the rules above unless a full path was given.
+If the user already named a file or stated a delivery preference in the original request, honor it without asking again, still resolve the output directory using the rules above unless a full path was given.
 
 **Overwriting existing files**
 
-When the target file already exists (for example, a previous `AUDIT.md` or `AUDYT.md`), overwrite it with the new report. Increment the `Version` field in the Document Information section by reading the existing file, parsing the current version number, and incrementing the minor component up to 9 (for example, `1.0` becomes `1.1`, `1.9` becomes `2.0`, `9.9` becomes `10.0`). Do not prompt the user before overwriting. Do not create backup copies. The audit report is the authoritative artifact for the current assessment.
+When the target file already exists (for example, a previous `AUDIT.md` or language-specific audit file), overwrite it with the new report. Increment the `Version` field in the Document Information section by reading the existing file, parsing the current version number, and incrementing the minor component up to 9 (for example, `1.0` becomes `1.1`, `1.9` becomes `2.0`, `9.9` becomes `10.0`). Do not prompt the user before overwriting. Do not create backup copies. The audit report is the authoritative artifact for the current assessment.
 
 **Report language**
 
@@ -104,7 +104,7 @@ The default is the language of the user's request. When the request language is 
 
 Ask only if the user explicitly asks for a different language.
 
-When the report language is Polish, the default filename changes to `AUDYT.md`, all Polish diacritics must be preserved, and the report must be written in UTF-8 encoding.
+When the report language is not English, load the matching `translation/` file and apply every translation, style rule, and encoding requirement defined there. The default filename changes to the language-specific filename defined in the translation file, and the report must be written in UTF-8 encoding with all language-specific diacritics preserved.
 
 **Detail level**
 
@@ -176,7 +176,7 @@ Build the unified risk register from the risks surfaced during assessment, using
 
 Build the project scorecard using `synthesis/scorecard.md`. Present the scoring rubric before the scores.
 
-Draft the High-Level Observations section by selecting the top 5 most important findings from the Detailed Technical Findings. Keep each observation brief; full detail lives in the finding blocks.
+Draft the High-Level Observations section by selecting the top 5 most important findings from the Detailed Technical Findings. Keep each observation brief, full detail lives in the finding blocks.
 
 Draft the Strengths & What's Working section by identifying 5-8 evidenced positive baselines from the codebase.
 

@@ -33,7 +33,7 @@ Use this fixed column order and dimension set:
 
 Keep the dimension names and order identical across every audit so scores are comparable.
 
-When the report language is Polish, translate the column headers and dimension names into Polish using the equivalents defined in `principles/output-style.md`.
+When the report language is not English, apply the column header and dimension name translations from the matching `translation/` file.
 
 ## Scoring Rubric
 
@@ -52,7 +52,7 @@ Present this rubric matrix in the report so that scores are objective and reprod
 | Average   | 4-6         | Capability is present but uneven, limited, or inconsistent   |
 | Poor      | 1-3         | Capability is minimal, fragmentary, or absent where required |
 
-When the report language is Polish, translate the band names and definitions into Polish using the equivalents defined in `principles/output-style.md`.
+When the report language is not English, apply the band name and definition translations from the matching `translation/` file.
 
 Per-score meanings:
 
@@ -69,7 +69,7 @@ Per-score meanings:
 | 2     | Fragments present, mostly unevidenced                         |
 | 1     | Capability is absent where required, with evidence of absence |
 
-When the report language is Polish, translate the `Score` and `Meaning` headers and the per-score descriptions into Polish.
+When the report language is not English, apply the header and per-score description translations from the matching `translation/` file.
 
 ### Alternative Rubric (1-5)
 
@@ -82,7 +82,7 @@ Use this scale only when explicitly requested.
 | Average   | 3           | Capability is adequate but uneven                           |
 | Poor      | 1-2         | Capability is minimal, limited, or absent where required    |
 
-When the report language is Polish, apply the same band translations as the 1-10 scale.
+When the report language is not English, apply the same band translations from the matching `translation/` file.
 
 | Score | Meaning                                                       |
 |-------|---------------------------------------------------------------|
@@ -92,7 +92,7 @@ When the report language is Polish, apply the same band translations as the 1-10
 | 2     | Capability is present but limited or inconsistent             |
 | 1     | Capability is absent where required, with evidence of absence |
 
-When the report language is Polish, translate the headers and descriptions into Polish.
+When the report language is not English, apply the header and description translations from the matching `translation/` file.
 
 ## Handling Unknowns
 

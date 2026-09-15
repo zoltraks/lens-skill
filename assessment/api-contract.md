@@ -69,4 +69,4 @@ Render this as a standalone section, as described in `process/report-format.md`,
 - Anchor every conformance gap to a specific endpoint, schema, or spec line.
 - When the spec contradicts the code, record it as a drift finding citing both sides.
 - Map each API security gap to its OWASP API Security Top 10 (2023) code where one applies.
-- Do not assume a control is present because the spec mentions it; confirm enforcement in code.
+- Do not assume a control is present because the spec mentions it, confirm enforcement in code.

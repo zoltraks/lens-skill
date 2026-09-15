@@ -9,7 +9,7 @@ This file defines the Re-audit and Follow-up Plan, the final section of the repo
 
 The convention follows ISO 19011 (guidelines for auditing management systems), which treats follow-up as part of a complete audit, and the monitor step of the NIST Risk Management Framework (NIST SP 800-37), which treats verification as continuous.
 
-Apply `principles/evaluation-rules.md` throughout. Owners and dates are placeholders to be filled by the user's organization; mark them `NOT SPECIFIED` where the input does not provide them rather than inventing names.
+Apply `principles/evaluation-rules.md` throughout. Owners and dates are placeholders to be filled by the user's organization, mark them `NOT SPECIFIED` where the input does not provide them rather than inventing names.
 
 ## When This Applies
 
@@ -17,12 +17,12 @@ Include this section whenever the report contains a remediation roadmap with at 
 
 ## Table Format
 
-Use this fixed column order. Include one row per P1 and P2 finding at minimum; P3 and P4 findings may be grouped.
+Use this fixed column order. Include one row per P1 and P2 finding at minimum, P3 and P4 findings may be grouped.
 
 | Finding | Priority | Verification Owner | Closure Evidence | Target Re-audit Trigger |
 |---------|----------|--------------------|------------------|-------------------------|
 
-When the report language is Polish, translate the column headers into Polish: `Znalezisko`, `Priorytet`, `Właściciel weryfikacji`, `Dowód zamknięcia`, `Wyzwalacz ponownego audytu`.
+When the report language is not English, apply the column header translations from the matching `translation/` file.
 
 Column meanings:
 

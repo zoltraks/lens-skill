@@ -145,6 +145,7 @@ This format keeps the report readable in plain-text consoles while preserving de
 ```
 lens-skill/
 ├── SKILL.md                       # Root router - load this first
+├── STYLE.md                       # Document style rules for all files in this skill
 ├── principles/
 │   ├── evaluation-rules.md        # Evidence-only, no assumptions, neutrality, status markers, constraints
 │   └── output-style.md            # Tone, fixed vocabularies, consistency, determinism
@@ -182,11 +183,21 @@ lens-skill/
     ├── recommendations.md         # Actionable remediation roadmap with priority matrix
     ├── technical-debt-register.md # (conditional) TDR inventory with CISQ/SQALE cost model
     └── re-audit-plan.md           # (conditional) Verification ownership, sign-off gates, re-audit triggers
+└── translation/
+    └── polish.md                  # Polish translations: status, severity, headings, table headers, style rules
 ```
 
-Sections marked *(conditional)* appear in a report only when the subject warrants them. A system with no API gets no API Contract section; a single-user local utility with no trust boundary gets no Threat Model. The inclusion criteria are defined in the Conditional Sections table of `process/report-format.md`.
+Sections marked *(conditional)* appear in a report only when the subject warrants them. A system with no API gets no API Contract section, a single-user local utility with no trust boundary gets no Threat Model. The inclusion criteria are defined in the Conditional Sections table of `process/report-format.md`.
 
 The skill activates automatically when you ask for a software audit, architecture audit, production code audit, technical due diligence, readiness assessment, risk register, scorecard, or remediation roadmap.
+
+---
+
+## Document Style
+
+Every document that is part of this skill must follow the rules specified in [STYLE.md](./STYLE.md).
+
+That file compiles Markdown text style, table formatting, and Agent Skills document requirements into a single reference.
 
 ---
 

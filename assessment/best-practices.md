@@ -2,12 +2,12 @@
 
 ## Purpose
 
-> **Scope:** Idiomatic use of the chosen languages, frameworks, runtimes, and libraries; stack-specific conventions and anti-patterns
+> **Scope:** Idiomatic use of the chosen languages, frameworks, runtimes, and libraries, stack-specific conventions and anti-patterns
 > **Key items:** language idioms, framework conventions, ecosystem layout, official style guides, recommended libraries, deprecated APIs, version-appropriate patterns
 
 This file guides assessment of how closely the code follows the documented best practices and idioms of its own technology stack.
 
-Apply `principles/evaluation-rules.md` throughout. Judge adherence to the conventions of the stack the subject already uses. Do not penalize the stack choice itself or compare it against a preferred stack, per the architectural-neutrality rule. Generic, language-agnostic design principles are assessed in `assessment/design-principles.md`; code-level metrics such as linting and complexity in `assessment/code-quality.md`; this file covers stack-specific convention.
+Apply `principles/evaluation-rules.md` throughout. Judge adherence to the conventions of the stack the subject already uses. Do not penalize the stack choice itself or compare it against a preferred stack, per the architectural-neutrality rule. Generic, language-agnostic design principles are assessed in `assessment/design-principles.md`, code-level metrics such as linting and complexity in `assessment/code-quality.md`, this file covers stack-specific convention.
 
 ## What To Evaluate
 
@@ -31,7 +31,6 @@ Apply `principles/evaluation-rules.md` throughout. Judge adherence to the conven
 | Recommended libraries        | Established ecosystem libraries over hand-rolled equivalents |
 | Deprecated APIs              | Absence of calls the stack flags as deprecated               |
 | Version-appropriate patterns | Features matching the installed runtime or framework version |
-
 
 ## Status Criteria
 

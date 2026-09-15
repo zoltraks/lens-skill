@@ -9,7 +9,7 @@ This file defines the exact shape of the audit report. Produce the sections in t
 
 The report applies to any software subject: a prototype, a codebase under development, or an already-running production system. Adjust which categories apply, not the structure.
 
-Keep every section even when content is `UNKNOWN`. A present-but-empty section signals a gap; a missing section hides it.
+Keep every section even when content is `UNKNOWN`. A present-but-empty section signals a gap, a missing section hides it.
 
 ## Formatting Rules
 
@@ -25,7 +25,7 @@ Keep column headers identical to the templates below across every audit. When th
 
 Within a table cell, separate multiple points with a semicolon or a line break, not with sub-bullets.
 
-Place descriptive paragraphs immediately after each table. In the paragraphs, explain every aspect with concrete evidence, file paths, and reasoning. Use short sentences separated by blank lines; each sentence stands on its own line with an empty line between consecutive sentences.
+Place descriptive paragraphs immediately after each table. In the paragraphs, explain every aspect with concrete evidence, file paths, and reasoning. Use short sentences separated by blank lines, each sentence stands on its own line with an empty line between consecutive sentences.
 
 Start each detailed paragraph with a bold heading on its own line. Put the status, score, or severity inline after the heading, separated by a space. Then add an empty line, then the paragraph body. Do not run the heading and the body together on the same line.
 
@@ -40,11 +40,11 @@ Apply these rules to every table in the report.
 **Header separator**: Place a separator line immediately after the header row. The separator contains only hyphens and pipe characters. The hyphens are contiguous with the pipe characters - do not add spaces between pipes and hyphens. The separator width for each column equals the column width plus two hyphens. Minimum column width is three characters.
 
 Correct separator format:
-```
+```markdown
 |---------|--------|
 ```
 Incorrect separator format (spaces around hyphens):
-```
+```markdown
 | ------- | ------ |
 ```
 
@@ -84,17 +84,17 @@ Use the standard ASCII hyphen-minus `-` (U+002D) for all hyphens, dashes, and mi
 
 **No closing line**
 
-Do not add a closing line such as "End of audit report." or "---" at the end of the document. The final section is the Re-audit and Follow-up Plan when it is included, otherwise Scope Exclusions; end the report after the final section without any trailing boilerplate.
+Do not add a closing line such as "End of audit report." or "---" at the end of the document. The final section is the Re-audit and Follow-up Plan when it is included, otherwise Scope Exclusions, end the report after the final section without any trailing boilerplate.
 
 ## Report Delivery And Parameter Configuration
 
-Report delivery is determined during the Parameter Configuration phase in `process/workflow.md`. Do not ask delivery questions here; they are handled upstream.
+Report delivery is determined during the Parameter Configuration phase in `process/workflow.md`. Do not ask delivery questions here, they are handled upstream.
 
-When the user names an output file in the original request, for example "write the audit to AUDIT.md", honor that filename without asking again; resolve the output directory using the location rules in `process/workflow.md` unless a full path was given.
+When the user names an output file in the original request, for example "write the audit to AUDIT.md", honor that filename without asking again, resolve the output directory using the location rules in `process/workflow.md` unless a full path was given.
 
 When the user invokes an audit without naming an output file, for example "perform lens on this service" or "make audit report on the codebase", the Parameter Configuration phase determines delivery, output location, and filename.
 
-Default delivery is **Inline** (direct response). When File mode is selected, the output location is resolved by inspecting the audited repository or directory in this order: `docs/audit/` first (or `docs/report/` if `docs/audit/` does not exist), then `docs/`, then the root. When `docs/audit/` or `docs/report/` contains subdirectories named with version numbers and the project version can be determined, the default output directory becomes `docs/audit/<version>` or `docs/report/<version>`. The default filename within that location is **AUDYT.md** for Polish reports or **AUDIT.md** for all other languages, adjusted for any naming convention already present in the resolved directory. The agent presents the resolved default to the user and asks for confirmation or a custom path before writing.
+Default delivery is **Inline** (direct response). When File mode is selected, the output location is resolved by inspecting the audited repository or directory in this order: `docs/audit/` first (or `docs/report/` if `docs/audit/` does not exist), then `docs/`, then the root. When `docs/audit/` or `docs/report/` contains subdirectories named with version numbers and the project version can be determined, the default output directory becomes `docs/audit/<version>` or `docs/report/<version>`. The default filename within that location is **AUDIT.md** for English reports, or the language-specific filename defined in the matching `translation/` file for non-English reports, adjusted for any naming convention already present in the resolved directory. The agent presents the resolved default to the user and asks for confirmation or a custom path before writing.
 
 For a single-dimension request that produces only a short subsection, returning the result inline is acceptable without asking, unless the user asked for a file.
 
@@ -160,7 +160,7 @@ Omitted in Brief: Auditing Methodology, Scoring Rubrics, System Context, Archite
 
 Some sections and subsections apply only to certain kinds of system. Include a section only when it is relevant to the subject under audit. A section that does not apply must be omitted entirely, not included as an empty placeholder.
 
-This differs from the rule for always-present sections, where a present-but-empty section signals a gap. The conditional sections below describe a specific capability (an API, a trust boundary, recurring structure) that some subjects simply do not have; forcing such a section would mislead the reader.
+This differs from the rule for always-present sections, where a present-but-empty section signals a gap. The conditional sections below describe a specific capability (an API, a trust boundary, recurring structure) that some subjects simply do not have, forcing such a section would mislead the reader.
 
 When a conditional section is omitted, state the omission once in the Scope Exclusions section with a one-line justification, so the reader knows the omission was deliberate.
 
@@ -271,7 +271,7 @@ Use double asterisks for the label and a single space after the colon. Each labe
 
 When overwriting an existing audit file, read the current version from the existing Document Information block, increment the minor component up to 9 (for example, `1.0` to `1.1`, `1.9` to `2.0`, `9.9` to `10.0`), and write the incremented version into the new report.
 
-When the report language is Polish, translate the labels into Polish: `Wersja`, `Data`, `Stan`, `Poziom szczegółowości`, `Projekty` (for the `Projects` field in multi-project reports).
+When the report language is not English, apply the label translations from the matching `translation/` file.
 
 ## Multi-Project Report Structure
 
@@ -287,7 +287,7 @@ When the audit covers more than one project in a repository or directory, the re
 | <project name> | <project path>    | <ver>   | <one-line description>     |
 ```
 
-When the report language is Polish, translate the column headers into Polish: `Projekt`, `Ścieżka`, `Wersja`, `Opis`.
+When the report language is not English, apply the column header translations from the matching `translation/` file.
 
 **Per-project sections** follow the Project Inventory. Each project gets a level-2 heading (`##`) with the project name, followed by the full set of report sections for that project:
 
@@ -324,7 +324,7 @@ The Scope Exclusions section covers all projects. List exclusions per project us
 
 ## Technology Stack
 
-Open the report with a factual inventory of the technologies the subject uses. Describe the stack only; do not judge it here.
+Open the report with a factual inventory of the technologies the subject uses. Describe the stack only, do not judge it here.
 
 Use a key-value table:
 
@@ -355,11 +355,11 @@ Use a key-value table:
 | Source basis   | <running system / inspected code / description>                                               |
 | Maturity level | <`Prototype` / `Early development` / `Pre-production` / `Production-ready` / `Undetermined`> |
 
-When the report language is Polish, translate the table headers and field names into Polish: `Obszar`, `Wartość`, `Typ systemu`, `Zakres`, `Źródło danych`, `Poziom dojrzałości`.
+When the report language is not English, apply the table header and field name translations from the matching `translation/` file.
 
 **Summary description**
 
-When the report language is Polish, use `Opis podsumowujący` instead of `Summary description`.
+When the report language is not English, apply the heading translation from the matching `translation/` file.
 
 Write one paragraph immediately after the table. State the system's purpose in one sentence. Summarize the overall condition in one sentence. Note the maturity level and anchor it to evidence from later sections. Mention any critical finding that the reader should know first. Keep the paragraph to four sentences maximum.
 
@@ -367,7 +367,7 @@ The maturity level must be justified by evidence in later sections, not asserted
 
 **Production Readiness Threshold**
 
-When the report language is Polish, use `Próg gotowości produkcyjnej` instead of `Production Readiness Threshold`.
+When the report language is not English, apply the heading translation from the matching `translation/` file.
 
 Add a short paragraph at the end of the Executive Summary stating the minimum conditions required for the maturity label to change from its current level to `Production-ready`. Tie these conditions explicitly to specific risk IDs (for example: "To reach Production-ready, RSK-001 and RSK-002 must be closed by removing hardcoded secrets, and RSK-003 must be closed by achieving 60% test coverage"). This paragraph gives the reader a concrete bar for re-audit.
 
@@ -386,13 +386,13 @@ Provide a consolidated Likelihood vs Impact matrix summarizing the top risks. Us
 | MEDIUM   |     |        |      |
 | LOW      |     |        |      |
 
-When the report language is Polish, translate the axis labels into Polish: `Wpływ`, `Prawdopodobieństwo`.
+When the report language is not English, apply the axis label translations from the matching `translation/` file.
 
 Populate cells with `RSK-XXX` identifiers from the Unified Risk Register. Leave empty cells blank. Do not include plaintext secrets, passwords, or cryptographic keys in this summary. Use generic descriptions or masked placeholders.
 
 **Scorecard Summary**
 
-When the report language is Polish, use `Scorecard - podsumowanie` instead of `Scorecard Summary`.
+When the report language is not English, apply the heading translation from the matching `translation/` file.
 
 Provide a compact summary of the project scorecard dimensions:
 
@@ -414,7 +414,7 @@ Provide a compact summary of the project scorecard dimensions:
 | Originality & Licensing |       |       |
 | Skill Definition        |       |       |
 
-When the report language is Polish, translate the column headers and dimension names into Polish using the equivalents defined in `principles/output-style.md`.
+When the report language is not English, apply the translations from the matching `translation/` file.
 
 ## High-Level Observations
 
@@ -426,7 +426,7 @@ Use this single-column table:
 |---------------------------------|
 | <observation>                   |
 
-When the report language is Polish, translate the table header into Polish: `Obserwacja`.
+When the report language is not English, apply the table header translation from the matching `translation/` file.
 
 Write one paragraph per observation immediately after the table, in the same order as the table rows. Start each paragraph with a bold heading on its own line (the observation text, abbreviated if needed), then add an empty line, then the body. Each paragraph explains why the observation matters and what risk or opportunity it represents. Anchor every claim to a specific finding in the Detailed Technical Findings.
 
@@ -438,7 +438,7 @@ This section defines how the audit was conducted and the framework used to evalu
 
 **Methodology overview**
 
-When the report language is Polish, use `Przegląd metodologiczny` instead of `Methodology overview`.
+When the report language is not English, apply the heading translation from the matching `translation/` file.
 
 State that the audit uses evidence-based reasoning across 18 core assessment categories grouped into six pillars, plus conditional assessments (data flow, design patterns, threat model, API contract, skill definition) applied when the subject warrants them. List the pillars:
 
@@ -449,11 +449,11 @@ State that the audit uses evidence-based reasoning across 18 core assessment cat
 - **AI Provenance & Code Origin** - AI-generated code detection, Vibe Coding risks, Agent Driven Engineering maturity, SDLC discipline
 - **Copyrights & Originality** - Code originality, license compliance, attribution, dependency license compatibility
 
-When the report language is Polish, translate the pillar names into Polish using the equivalents defined in `principles/output-style.md`.
+When the report language is not English, apply the pillar name translations from the matching `translation/` file.
 
 **Reference standards**
 
-When the report language is Polish, use `Standardy odniesienia` instead of `Reference standards`.
+When the report language is not English, apply the heading translation from the matching `translation/` file.
 
 Name the external standards the audit aligns with, so the methodology is credible to an external reader. Cite only the standards actually applied to the subject. Typical references:
 
@@ -469,7 +469,7 @@ Cite a standard only when its corresponding section or assessment is present in 
 
 **Audit evidence statement**
 
-When the report language is Polish, use `Oświadczenie o dowodach` instead of `Audit evidence statement`.
+When the report language is not English, apply the heading translation from the matching `translation/` file.
 
 Begin the Methodology section with 2-3 sentences stating exactly what was inspected. Include:
 
@@ -481,7 +481,7 @@ Example: "This audit inspected 147 source files, 8 test files, and 4 configurati
 
 **Severity definitions**
 
-When the report language is Polish, use `Definicje ważności` instead of `Severity definitions`.
+When the report language is not English, apply the heading translation from the matching `translation/` file.
 
 Add a 4-row rubric defining each qualitative severity band. These definitions anchor the severity values used in findings and risks.
 
@@ -492,7 +492,7 @@ Add a 4-row rubric defining each qualitative severity band. These definitions an
 | MEDIUM   | Degraded function or contained outage         | Requires specific conditions     | No (but must be tracked)    |
 | LOW      | Limited or cosmetic effect                    | Unusual combination required     | No                          |
 
-When the report language is Polish, translate the column headers and severity descriptions into Polish. Use `Ważność` for `Severity`, `Wpływ` for `Impact`, `Prawdopodobieństwo` for `Likelihood`, and `Blokuje gotowość produkcyjną` for `Blocks Production Readiness`.
+When the report language is not English, apply the column header and severity description translations from the matching `translation/` file.
 
 Use these definitions consistently across the Detailed Technical Findings and the Unified Risk Register.
 
@@ -513,12 +513,7 @@ For the 1-10 scale:
 | Average   | 4-6         | Capability is present but uneven, limited, or inconsistent   |
 | Poor      | 1-3         | Capability is minimal, fragmentary, or absent where required |
 
-When the report language is Polish, translate the band names and definitions into Polish:
-- `Doskonała` for `Excellent`
-- `Dobra` for `Good`
-- `Średnia` for `Average`
-- `Słaba` for `Poor`
-- Translate `Definition` into `Definicja` and `Score Range` into `Zakres wyników`.
+When the report language is not English, apply the band name and definition translations from the matching `translation/` file.
 
 For the 1-5 alternative scale:
 
@@ -529,7 +524,7 @@ For the 1-5 alternative scale:
 | Average   | 3           | Capability is adequate but uneven                           |
 | Poor      | 1-2         | Capability is minimal, limited, or absent where required    |
 
-When the report language is Polish, apply the same band translations as above.
+When the report language is not English, apply the same band translations from the matching `translation/` file.
 
 **Zero is not a score.** The value `0` is reserved and never used. When a dimension cannot apply, mark it `N/A`.
 
@@ -545,7 +540,7 @@ Describe the system as understood from the input. Present the factual context wi
 | External dependencies  | <services, libraries, platforms>                    |
 | Assumptions            | <only if explicitly stated, else `NOT SPECIFIED`>   |
 
-When the report language is Polish, translate the table headers and aspect names into Polish: `Aspekt`, `Szczegóły`, `Opis funkcjonalny`, `Przegląd architektury`, `Kluczowe komponenty`, `Zależności zewnętrzne`, `Założenia`.
+When the report language is not English, apply the table header and aspect name translations from the matching `translation/` file.
 
 Mark any unknown aspect as `NOT SPECIFIED`.
 
@@ -566,9 +561,6 @@ The Architectural Assessment may also carry up to three conditional subsections,
 Include this subsection only when the system moves data across a trust boundary, per `assessment/data-flow.md`. It is the foundation for the Threat Model section.
 
 Present a Level-0 (context) and a Level-1 (decomposition) view. Use a fenced ASCII block or a flow table. Then list the trust boundaries.
-
-```markdown
-### Data Flow Diagram
 
 **Level-0 (context)**
 
@@ -608,7 +600,6 @@ Present a Level-0 (context) and a Level-1 (decomposition) view. Use a fenced ASC
 |-----------------|---------|------------|-----------------------|
 | Network ingress | Client  | Auth layer | JWT validation        |
 | Storage         | Handler | Filesystem | Path canonicalization |
-```
 
 Use framed nodes with box-drawing characters for every DFD element.
 
@@ -668,7 +659,7 @@ Present one table keyed by trust boundary and STRIDE category, then describe eac
 
 The six STRIDE categories are `Spoofing`, `Tampering`, `Repudiation`, `Information Disclosure`, `Denial of Service`, and `Elevation of Privilege`. Every unmitigated threat must trace to a finding and a risk. Never output plaintext secrets when describing an information-disclosure threat.
 
-When the report language is Polish, translate the column headers into Polish: `Granica`, `Zagrożenie (STRIDE)`, `Opis zagrożenia`, `Kontrola ograniczająca`, `Znalezisko`.
+When the report language is not English, apply the column header translations from the matching `translation/` file.
 
 ## API Contract Conformance
 
@@ -684,7 +675,7 @@ Present a conformance table across the evaluated dimensions, then describe each 
 | Versioning strategy        | UNKNOWN | no version in path or header                          |
 | Spec-to-code agreement     | PARTIAL | `/health` marked `security: []` but behind auth       |
 
-When the report language is Polish, translate the column headers into Polish: `Wymiar`, `Status`, `Dowód`.
+When the report language is not English, apply the column header translations from the matching `translation/` file.
 
 ## Skill Definition Conformance
 
@@ -704,7 +695,7 @@ Present a conformance table across the evaluated dimensions, then describe each 
 || Description triggering      | PARTIAL | Description lacks specific trigger keywords           |
 || Body content quality        | PASS    | Instructions, examples, and edge cases present         |
 
-When the report language is Polish, translate the column headers into Polish: `Wymiar`, `Status`, `Dowód`.
+When the report language is not English, apply the column header translations from the matching `translation/` file.
 
 ## Strengths & What's Working
 
@@ -735,7 +726,7 @@ Present all findings grouped under six pillars. Each finding receives a unique d
 
 **Summary table:**
 
-When the report language is Polish, use `Tabela podsumowania` instead of `Summary table`.
+When the report language is not English, apply the heading translation from the matching `translation/` file.
 
 Present a compact summary of all findings:
 
@@ -748,7 +739,7 @@ Present a compact summary of all findings:
 | FND-AIP-001 | AI Provenance & Code Origin | <severity> | <title> | <status> | Open               |
 | FND-CPR-001 | Copyrights & Originality    | <severity> | <title> | <status> | Open               |
 
-When the report language is Polish, translate the column headers into Polish: `Identyfikator`, `Filtr`, `Ważność`, `Tytuł`, `Status`, `Status naprawy`.
+When the report language is not English, apply the column header translations from the matching `translation/` file.
 
 Pillar abbreviations for IDs:
 
@@ -759,7 +750,7 @@ Pillar abbreviations for IDs:
 - `AIP` - AI Provenance & Code Origin
 - `CPR` - Copyrights & Originality
 
-When the report language is Polish, translate the pillar names into Polish using the equivalents defined in `principles/output-style.md`.
+When the report language is not English, apply the pillar name translations from the matching `translation/` file.
 
 Severity values: `CRITICAL`, `HIGH`, `MEDIUM`, `LOW`.
 Status values: `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`.
@@ -780,9 +771,9 @@ After the summary table, write one block per finding in the same order. Use this
 * **Verification Method:** [Specific test, command, or process to confirm the fix is successful]
 ```
 
-When the report language is Polish, translate the bullet labels into Polish: `Filtr`, `Ważność`, `Pliki/Moduły docelowe`, `Opis`, `Wpływ`, `Rekomendacja naprawcza`, `Metoda weryfikacji`.
+When the report language is not English, apply the bullet label translations from the matching `translation/` file.
 
-Each finding must cite concrete evidence: file paths, config keys, commands, or direct quotes. Do not crowd the bullet list with long prose. Use short sentences separated by blank lines; each sentence stands on its own line with an empty line between consecutive sentences.
+Each finding must cite concrete evidence: file paths, config keys, commands, or direct quotes. Do not crowd the bullet list with long prose. Use short sentences separated by blank lines, each sentence stands on its own line with an empty line between consecutive sentences.
 
 When referencing secrets, credentials, or keys in the Description or Impact fields, replace exact values with `[REDACTED]` or generic descriptions such as "plaintext database credentials found in tracking file".
 
@@ -800,9 +791,9 @@ Use this fixed column order:
 |---------|----------------------|-----------------------|----------------|------------------|----------------|--------|
 | TDR-001 | <concrete debt item> | <CISQ characteristic> | FND-XXX        | <High/Med/Low>   | <High/Med/Low> | Open   |
 
-When the report language is Polish, translate the column headers into Polish: `Identyfikator długu`, `Pozycja długu`, `Kategoria`, `Źródło`, `Koszt naprawy`, `Koszt zwłoki`, `Status`.
+When the report language is not English, apply the column header translations from the matching `translation/` file.
 
-Category is one of the CISQ characteristics: `Reliability`, `Performance Efficiency`, `Security`, `Maintainability`. Every item must trace to a `FND-XXX` or be marked `Direct observation` with a cited file. Do not duplicate security risks here; those belong in the Unified Risk Register.
+Category is one of the CISQ characteristics: `Reliability`, `Performance Efficiency`, `Security`, `Maintainability`. Every item must trace to a `FND-XXX` or be marked `Direct observation` with a cited file. Do not duplicate security risks here, those belong in the Unified Risk Register.
 
 ## Unified Risk Register
 
@@ -814,7 +805,7 @@ This section builds a cross-referenced risk table from the risks surfaced during
 |---------|------|----------------|--------|------------|----------|------------|
 | RSK-001 | <concrete risk> | FND-XXX | <consequence> | <probability> | <severity> | <action> |
 
-When the report language is Polish, translate the column headers into Polish: `Identyfikator ryzyka`, `Ryzyko`, `Źródło`, `Wpływ`, `Prawdopodobieństwo`, `Ważność`, `Ograniczenie`.
+When the report language is not English, apply the column header translations from the matching `translation/` file.
 
 Column meanings:
 
@@ -852,7 +843,7 @@ Likelihood bands:
 | MEDIUM              | LOW    | MEDIUM   | HIGH     |
 | LOW                 | LOW    | LOW      | MEDIUM   |
 
-When the report language is Polish, translate the axis labels into Polish: `Wpływ`, `Prawdopodobieństwo`.
+When the report language is not English, apply the axis label translations from the matching `translation/` file.
 
 **Rules**
 
@@ -872,7 +863,7 @@ Use a table with this fixed column order:
 | Trade-off | Context | Option A: gain / cost | Option B: gain / cost | Evidence | Implication |
 |-----------|---------|-----------------------|-----------------------|----------|-------------|
 
-When the report language is Polish, translate the column headers into Polish: `Kompromis`, `Kontekst`, `Opcja A: zysk / koszt`, `Opcja B: zysk / koszt`, `Dowód`, `Implikacja`.
+When the report language is not English, apply the column header translations from the matching `translation/` file.
 
 Column meanings:
 
@@ -904,7 +895,7 @@ Present recommendations as a table. One row per recommendation. Use this fixed c
 |--------|----------|---------|----------------|--------|--------|------------|--------------|
 | REC-001 | <P1-P4> | FND-XXX | <action> | <High/Med/Low> | <High/Med/Low> | <High/Med/Low> | <verification step> |
 
-When the report language is Polish, translate the column headers into Polish: `Identyfikator rekomendacji`, `Priorytet`, `Znalezisko`, `Rekomendacja`, `Wpływ`, `Wysiłek`, `Złożoność`, `Weryfikacja`.
+When the report language is not English, apply the column header translations from the matching `translation/` file.
 
 Column meanings:
 
@@ -977,6 +968,6 @@ Present a table mapping findings to verification ownership and closure evidence.
 |---------|----------|--------------------|------------------|-------------------------|
 | FND-XXX | P1 | <role or `NOT SPECIFIED`> | <verifiable artifact> | <milestone or `NOT SPECIFIED`> |
 
-When the report language is Polish, translate the column headers into Polish: `Znalezisko`, `Priorytet`, `Właściciel weryfikacji`, `Dowód zamknięcia`, `Wyzwalacz ponownego audytu`.
+When the report language is not English, apply the column header translations from the matching `translation/` file.
 
-After the table, state the sign-off gates (which findings must close before production sign-off, tied to their `RSK-XXX`) and the recommended re-audit schedule. Do not invent owner names or dates; use `NOT SPECIFIED` where the input is silent.
+After the table, state the sign-off gates (which findings must close before production sign-off, tied to their `RSK-XXX`) and the recommended re-audit schedule. Do not invent owner names or dates, use `NOT SPECIFIED` where the input is silent.

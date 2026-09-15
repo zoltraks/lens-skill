@@ -51,4 +51,4 @@ Apply `principles/evaluation-rules.md` throughout. State obligations only where 
 - A satisfied project license and recorded third-party obligations.
 - An audit trail for access to and changes of sensitive data.
 
-Use `N/A` only when the system genuinely processes no regulated data, with a one-line justification. When in doubt between `N/A` and `UNKNOWN`, prefer `UNKNOWN`. Do not assert legal conclusions; report observable controls and applicable obligations.
+Use `N/A` only when the system genuinely processes no regulated data, with a one-line justification. When in doubt between `N/A` and `UNKNOWN`, prefer `UNKNOWN`. Do not assert legal conclusions, report observable controls and applicable obligations.

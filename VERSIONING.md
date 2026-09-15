@@ -24,6 +24,12 @@ Versions use a two-part decimal format: `<major>.<minor>`.
 
 3. **Major may also be incremented directly** for breaking changes that alter the report structure, remove mandatory sections, or change scoring semantics.
 
+## When To Bump
+
+Never bump the version automatically. The version is bumped only when the user explicitly asks for it.
+
+Do not bump the version as a side effect of adding features, fixing issues, or refactoring. Wait for the user to request a version bump, then apply the increment rules above.
+
 ## Where Version Is Recorded
 
 The version lives in `SKILL.md` frontmatter under `metadata.version`:

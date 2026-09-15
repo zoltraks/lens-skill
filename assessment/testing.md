@@ -7,7 +7,7 @@
 
 This file guides assessment of how the system verifies its own behavior and how amenable the code is to testing.
 
-Apply `principles/evaluation-rules.md` throughout. Presence of a test directory is not evidence of effective testing; inspect content. Design-level testability overlaps with the Dependency Inversion principle in `assessment/design-principles.md`.
+Apply `principles/evaluation-rules.md` throughout. Presence of a test directory is not evidence of effective testing, inspect content. Design-level testability overlaps with the Dependency Inversion principle in `assessment/design-principles.md`.
 
 ## What To Evaluate
 
@@ -61,4 +61,4 @@ Apply `principles/evaluation-rules.md` throughout. Presence of a test directory 
 - Tests that assert behavior and outcomes, not just that code executes.
 - Tests that cover edge cases, boundary conditions, error paths, and negative cases, evidenced by assertion variety.
 
-Mark each missing signal explicitly rather than inferring its presence. Do not infer TDD from the mere existence of tests; cite a concrete signal.
+Mark each missing signal explicitly rather than inferring its presence. Do not infer TDD from the mere existence of tests, cite a concrete signal.

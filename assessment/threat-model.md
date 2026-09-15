@@ -7,7 +7,7 @@
 
 This file guides a structured threat model of the system using the STRIDE framework, anchored to the data flow model in `assessment/data-flow.md`. It complements the control-level review in `assessment/security.md`: security findings are symptoms, the threat model maps the attack surface systematically.
 
-Apply `principles/evaluation-rules.md` throughout. This is a defensive analysis. Enumerate threats from observable structure; do not perform offensive actions or credential harvesting.
+Apply `principles/evaluation-rules.md` throughout. This is a defensive analysis. Enumerate threats from observable structure, do not perform offensive actions or credential harvesting.
 
 ## When This Applies
 
@@ -84,6 +84,6 @@ Use these examples to avoid overlooking categories that are often missed:
 - Anchor every threat to a specific trust boundary and flow from the data flow model.
 - Do not list a threat that does not map to a concrete boundary or flow.
 - Distinguish a present control from a verified-effective control.
-- Every unmitigated threat must trace to a finding and a risk; do not leave threats floating outside the register.
+- Every unmitigated threat must trace to a finding and a risk, do not leave threats floating outside the register.
 - Do not output plaintext secrets, tokens, or keys when describing a disclosure threat.
 - If a STRIDE category yields no material threat at a boundary, record it as `None identified` with a one-line justification rather than omitting it.
