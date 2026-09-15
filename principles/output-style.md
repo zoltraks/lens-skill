@@ -225,6 +225,7 @@ The inline format remains identical: the marker follows the bold heading separat
   - "Bezpieczeństwo operacyjne" for "Operational Safety" (scorecard dimension)
   - "Pochodzenie AI" for "AI Provenance" (scorecard dimension)
   - "Oryginalność i licencjonowanie" for "Originality & Licensing" (scorecard dimension)
+  - "Definicja umiejętności" for "Skill Definition" (scorecard dimension)
   - "Kluczowe obserwacje" for "High-Level Observations"
   - "Obserwacja" for "Observation" (High-Level Observations table header)
   - "Metodologia audytu" for "Auditing Methodology"
@@ -236,6 +237,7 @@ The inline format remains identical: the marker follows the bold heading separat
   - "Aspekt" for "Aspect" (System Context table header)
   - "Szczegóły" for "Detail" (System Context table header)
   - "Ocena architektury" for "Architectural Assessment"
+  - "Zgodność definicji umiejętności" for "Skill Definition Conformance"
   - "Mocne strony i co działa" for "Strengths & What's Working"
   - "Szczegółowe wyniki techniczne" for "Detailed Technical Findings"
   - "Tabela podsumowania" for "Summary table"

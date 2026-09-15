@@ -8,7 +8,7 @@
 
 > Evidence-based engineering audits of any software subject - prototypes, codebases under development, and already-running production systems.
 >
-> **Version:** 0.5 | [Versioning Policy](./VERSIONING.md)
+> [Versioning Policy](./VERSIONING.md)
 
 Lens is a structured audit process packaged as an agent skill. It guides an AI coding agent through a complete engineering assessment of a codebase, producing a neutral, repeatable report anchored to concrete facts rather than impressions.
 
@@ -93,6 +93,7 @@ This format keeps the report readable in plain-text consoles while preserving de
 | "Build me a risk register and scorecard"         | **Yes**                                         |
 | "Review only the security posture"               | **Yes** - single-dimension audit                |
 | "Check if this code is idiomatic for its stack"  | **Yes** - use `assessment/best-practices.md`    |
+| "Audit this skill for spec conformance"          | **Yes** - use `assessment/skill-definition.md`  |
 | "Compare these two architectural options"        | **Yes** - embed trade-offs into relevant findings |
 | "Write the feature for me"                       | No - this skill assesses, it does not build     |
 | "Tell me which team member caused this"          | No - this skill never evaluates people          |
@@ -134,6 +135,9 @@ This format keeps the report readable in plain-text consoles while preserving de
 **Thin input**
 > Here is a one-paragraph description of a service. Audit what you can and list exactly what additional artifacts would raise confidence.
 
+**Skill definition audit**
+> Audit this Agent Skill for spec conformance. Check the SKILL.md frontmatter against the Agent Skills specification, verify all file references resolve, and assess whether the description triggers correctly.
+
 ---
 
 ## What's inside
@@ -169,7 +173,8 @@ lens-skill/
 │   ├── data-flow.md               # (conditional) DFD, trust boundaries, inter-process flows
 │   ├── design-patterns.md         # (conditional) GoF/POSA pattern fitness and anti-patterns
 │   ├── threat-model.md            # (conditional) STRIDE threat enumeration per trust boundary
-│   └── api-contract.md            # (conditional) API spec conformance, RFC 7807, OWASP API Top 10
+│   ├── api-contract.md            # (conditional) API spec conformance, RFC 7807, OWASP API Top 10
+│   └── skill-definition.md        # (conditional) Agent Skills spec conformance, frontmatter, progressive disclosure
 └── synthesis/
     ├── risk-register.md           # Unified risk register with FND cross-referencing
     ├── scorecard.md               # 1-10 project scorecard and rubric (1-5 optional)

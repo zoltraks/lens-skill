@@ -173,6 +173,7 @@ The following sections and subsections are conditional. Each lists its inclusion
 | Architecture Decision Records (in Architectural Assessment) | The system is production-bound and has significant decisions        | `assessment/change-management.md`      |
 | Threat Model (standalone)                                   | The system has a security-relevant attack surface or trust boundary | `assessment/threat-model.md`           |
 | API Contract Conformance (standalone)                       | The system exposes an API (REST, GraphQL, gRPC, MCP)                | `assessment/api-contract.md`           |
+| Skill Definition Conformance (standalone)                    | The subject is an Agent Skill (has a `SKILL.md` file)               | `assessment/skill-definition.md`       |
 | Technical Debt Register (standalone)                        | The assessment surfaces structural debt distinct from risks         | `synthesis/technical-debt-register.md` |
 | Re-audit and Follow-up Plan (standalone)                    | The roadmap contains at least one P1 or P2 recommendation           | `synthesis/re-audit-plan.md`           |
 
@@ -193,6 +194,7 @@ The report has these top-level sections, in this order, with unnumbered headings
 - Architectural Assessment (may contain the conditional Data Flow Diagram, Design Patterns, and Architecture Decision Records subsections)
 - Threat Model *(conditional)*
 - API Contract Conformance *(conditional)*
+- Skill Definition Conformance *(conditional)*
 - Strengths & What's Working
 - Detailed Technical Findings
 - Technical Debt Register *(conditional)*
@@ -318,6 +320,7 @@ Provide a compact summary of the project scorecard dimensions:
 | Operational Safety      |       |       |
 | AI Provenance           |       |       |
 | Originality & Licensing |       |       |
+| Skill Definition        |       |       |
 
 When the report language is Polish, translate the column headers and dimension names into Polish using the equivalents defined in `principles/output-style.md`.
 
@@ -345,7 +348,7 @@ This section defines how the audit was conducted and the framework used to evalu
 
 When the report language is Polish, use `Przegląd metodologiczny` instead of `Methodology overview`.
 
-State that the audit uses evidence-based reasoning across 18 core assessment categories grouped into six pillars, plus conditional assessments (data flow, design patterns, threat model, API contract) applied when the subject warrants them. List the pillars:
+State that the audit uses evidence-based reasoning across 18 core assessment categories grouped into six pillars, plus conditional assessments (data flow, design patterns, threat model, API contract, skill definition) applied when the subject warrants them. List the pillars:
 
 - **Architecture & Design** - Design principles, maintainability, change management, documentation, non-functional requirements
 - **Code Quality** - Testing, code quality, stack best practices
@@ -588,6 +591,26 @@ Present a conformance table across the evaluated dimensions, then describe each 
 | Error format (RFC 7807)    | FAIL    | ad hoc status codes, no problem-details               |
 | Versioning strategy        | UNKNOWN | no version in path or header                          |
 | Spec-to-code agreement     | PARTIAL | `/health` marked `security: []` but behind auth       |
+
+When the report language is Polish, translate the column headers into Polish: `Wymiar`, `Status`, `Dowód`.
+
+## Skill Definition Conformance
+
+Include this section only when the subject is an Agent Skill, per `assessment/skill-definition.md`. Omit it entirely for a project that is not a skill, and note the omission in Scope Exclusions.
+
+Present a conformance table across the evaluated dimensions, then describe each gap with evidence and its linked `FND-XXX`.
+
+|| Dimension                  | Status  | Evidence                                              |
+||----------------------------|---------|-------------------------------------------------------|
+|| Frontmatter present        | PASS    | `SKILL.md` has YAML frontmatter with required fields  |
+|| Name field conformance      | PASS    | `name` is lowercase, matches directory, under 64 chars |
+|| Description conformance     | PARTIAL | Description is 1200 chars, exceeds 1024-char limit     |
+|| Optional field validity     | PASS    | `license`, `compatibility`, `metadata` all valid       |
+|| Directory structure         | PASS    | `scripts/`, `references/` directories present          |
+|| Progressive disclosure      | PASS    | `SKILL.md` is 180 lines, references split out          |
+|| File reference integrity    | FAIL    | `references/missing.md` referenced but does not exist  |
+|| Description triggering      | PARTIAL | Description lacks specific trigger keywords           |
+|| Body content quality        | PASS    | Instructions, examples, and edge cases present         |
 
 When the report language is Polish, translate the column headers into Polish: `Wymiar`, `Status`, `Dowód`.
 

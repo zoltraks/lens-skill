@@ -2,30 +2,19 @@
 name: lens-skill
 description: >-
   Software audit skill. Produces structured, evidence-based engineering
-  assessments of any software subject: prototypes, codebases under development,
-  already-running production systems, and technical proposals. Covers testing
-  and testability (TDD, unit, integration, and end-to-end tests), design
-  principles (SOLID), code quality, dependencies and supply chain, deployment,
-  rollback, maintainability, change management, documentation, non-functional
-  requirements, security, compliance and data protection, observability, error
-  handling, operational readiness, AI-generated code detection and provenance,
-  and copyrights and originality. Enforces evidence-only reasoning,
-  explicit marking of missing information, and neutral, non-personal
-  evaluation. Use whenever the user asks for a software audit, architecture
-  audit, prototype review, production code audit, technical due diligence,
-  readiness assessment, risk register, scorecard, or remediation roadmap.
-  Triggers: 'software audit', 'architecture audit', 'prototype audit',
-  'production code audit', 'code audit', 'audit this system', 'audit this
-  codebase', 'engineering assessment', 'technical due diligence', 'production
-  readiness', 'risk register', 'scorecard', 'maturity assessment', 'trade-off
-  analysis', 'NFR review', 'security review', 'dependency audit', 'supply chain
-  review', 'code quality review', 'SOLID', 'design principles', 'TDD',
-  'test coverage', 'test pyramid', 'testability', 'observability review',
-  'operational readiness', 'rollback strategy', 'deployment strategy review',
-  'maintainability assessment', 'best practices', 'best practices review',
-  'idiomatic code', 'coding conventions', 'stack conventions', 'framework
-  conventions', 'review this codebase', 'perform lens on', 'make audit report
-  on', 'run lens', 'lens audit'.
+  assessments of any software subject: prototypes, codebases under
+  development, production systems, and technical proposals. Covers testing,
+  design principles (SOLID), code quality, dependencies, deployment, rollback,
+  maintainability, documentation, NFRs, security, compliance, observability,
+  error handling, operational readiness, AI-generated code detection, and
+  copyrights. Enforces evidence-only reasoning, explicit marking of missing
+  information, and neutral, non-personal evaluation. Use whenever the user
+  asks for a software audit, architecture audit, prototype review, production
+  code audit, technical due diligence, readiness assessment, risk register,
+  scorecard, or remediation roadmap. Triggers on phrases like audit this
+  codebase, engineering assessment, production readiness, run lens, lens
+  audit, and perform lens on. See the full trigger list in the body.
+license: MIT
 compatibility: >-
   Designed for agent coding environments with file system access (Claude Code,
   Claude Desktop, Windsurf, Devin, and similar). Requires the ability to read
@@ -33,7 +22,7 @@ compatibility: >-
   access required for the audit itself; optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "0.6"
+  version: "0.7"
   author: cognition-labs
 ---
 
@@ -49,6 +38,57 @@ You analyze any software subject - a prototype, a codebase under development, an
 You evaluate technical quality, code health, operational readiness, and architectural soundness. The same structure applies whether the subject is an early prototype or mature production code; only which categories apply changes.
 
 You do not evaluate people. You do not assign blame. You do not infer intent. You do not give personal opinions.
+
+## Trigger Keywords
+
+The skill activates on any of these phrases:
+
+- software audit
+- architecture audit
+- prototype audit
+- production code audit
+- code audit
+- audit this system
+- audit this codebase
+- engineering assessment
+- technical due diligence
+- production readiness
+- risk register
+- scorecard
+- maturity assessment
+- trade-off analysis
+- NFR review
+- security review
+- dependency audit
+- supply chain review
+- code quality review
+- SOLID
+- design principles
+- TDD
+- test coverage
+- test pyramid
+- testability
+- observability review
+- operational readiness
+- rollback strategy
+- deployment strategy review
+- maintainability assessment
+- best practices
+- best practices review
+- idiomatic code
+- coding conventions
+- stack conventions
+- framework conventions
+- review this codebase
+- perform lens on
+- make audit report on
+- run lens
+- lens audit
+- audit this skill
+- skill audit
+- skill definition review
+- skill conformance
+- skill spec conformance
 
 ## How To Use This Skill
 
@@ -138,6 +178,7 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
 - **`assessment/design-patterns.md`** - GoF and POSA pattern identification, fitness, and anti-pattern detection. Include when the codebase exhibits recurring structure.
 - **`assessment/threat-model.md`** - STRIDE threat enumeration mapped to trust boundaries. Include when the system has a security-relevant attack surface.
 - **`assessment/api-contract.md`** - API specification conformance, RFC 7807 error format, and OWASP API Security Top 10 (2023). Include when the system exposes an API.
+- **`assessment/skill-definition.md`** - Agent Skills specification conformance, frontmatter validity, progressive disclosure, triggering description quality, and file reference integrity. Include when the subject is an Agent Skill (has a `SKILL.md` file).
 
 ## `synthesis/` - Findings And Report Assembly
 
@@ -166,6 +207,7 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
 - Data flow modeling and trust boundaries belong in `assessment/data-flow.md`; STRIDE threat enumeration belongs in `assessment/threat-model.md` and depends on the data flow model; control-level security review belongs in `assessment/security.md`.
 - Concrete design pattern identification and fitness belong in `assessment/design-patterns.md`; keep it distinct from the SOLID principles in `assessment/design-principles.md`.
 - API specification conformance and the OWASP API Security Top 10 belong in `assessment/api-contract.md`; ADR gap assessment belongs in `assessment/change-management.md`.
+- Agent Skills specification conformance, frontmatter validity, progressive disclosure, and triggering description quality belong in `assessment/skill-definition.md`; include it only when the subject is an Agent Skill (has a `SKILL.md` file).
 - Conditional sections appear only when their inclusion criterion is met. Evaluate each criterion in the Conditional Sections table of `process/report-format.md`. Omit a conditional section entirely when it cannot apply, and note the deliberate omission in Scope Exclusions. Never force an irrelevant section (for example, an API Contract section for a project with no API).
 - The Technical Debt Register (`synthesis/technical-debt-register.md`) is distinct from the Unified Risk Register: debt is accumulated cost already present, risk is what could go wrong. Do not duplicate entries between them.
 - The Re-audit and Follow-up Plan (`synthesis/re-audit-plan.md`) is the final section when present; it maps P1 and P2 findings to verification owners and closure evidence.

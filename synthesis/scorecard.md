@@ -29,6 +29,7 @@ Use this fixed column order and dimension set:
 | Operational Safety      |       |       |
 | Originality & Licensing |       |       |
 | AI Provenance           |       |       |
+| Skill Definition        |       |       |
 
 Keep the dimension names and order identical across every audit so scores are comparable.
 
@@ -127,6 +128,7 @@ Each scorecard dimension summarizes one or more assessment categories.
 | Operational Safety      | Operational Readiness, Error Handling, Rollback Strategy |
 | AI Provenance           | AI-Generated Code & Provenance                           |
 | Originality & Licensing | Copyrights & Originality                                 |
+| Skill Definition        | Skill Definition Conformance                             |
 
 ## Rules
 
