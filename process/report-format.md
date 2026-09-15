@@ -94,7 +94,7 @@ When the user names an output file in the original request, for example "write t
 
 When the user invokes an audit without naming an output file, for example "perform lens on this service" or "make audit report on the codebase", the Parameter Configuration phase determines delivery, output location, and filename.
 
-Default delivery is **Inline** (direct response). When File mode is selected, the output location is resolved by inspecting the audited repository or directory in this order: `docs/audit/` first (matching existing naming conventions), then `docs/`, then the root. The default filename within that location is **AUDYT.md** for Polish reports or **AUDIT.md** for all other languages, adjusted for any naming convention already present in the resolved directory. The agent presents the resolved default to the user and asks for confirmation or a custom path before writing.
+Default delivery is **Inline** (direct response). When File mode is selected, the output location is resolved by inspecting the audited repository or directory in this order: `docs/audit/` first (or `docs/report/` if `docs/audit/` does not exist), then `docs/`, then the root. When `docs/audit/` or `docs/report/` contains subdirectories named with version numbers and the project version can be determined, the default output directory becomes `docs/audit/<version>` or `docs/report/<version>`. The default filename within that location is **AUDYT.md** for Polish reports or **AUDIT.md** for all other languages, adjusted for any naming convention already present in the resolved directory. The agent presents the resolved default to the user and asks for confirmation or a custom path before writing.
 
 For a single-dimension request that produces only a short subsection, returning the result inline is acceptable without asking, unless the user asked for a file.
 
@@ -181,7 +181,9 @@ When in doubt about whether a conditional section applies, prefer including it w
 
 ## Section Order
 
-The report has these top-level sections, in this order, with unnumbered headings. Sections marked *(conditional)* are included only when their criterion in the Conditional Sections table is met:
+The report has these top-level sections, in this order, with unnumbered headings. Sections marked *(conditional)* are included only when their criterion in the Conditional Sections table is met.
+
+For a **single-project** audit:
 
 - Document Information
 - Technology Stack
@@ -204,6 +206,31 @@ The report has these top-level sections, in this order, with unnumbered headings
 - Scope Exclusions
 - Re-audit and Follow-up Plan *(conditional)*
 
+For a **multi-project** audit, the structure changes. See the Multi-Project Report Structure section below for the full layout. In summary:
+
+- Document Information (once)
+- Project Inventory (once)
+- Per project (level-2 heading per project, full section set each):
+  - Technology Stack
+  - Executive Summary
+  - Health Dashboard
+  - High-Level Observations
+  - Auditing Methodology
+  - Scoring Rubrics
+  - System Context
+  - Architectural Assessment
+  - Threat Model *(conditional)*
+  - API Contract Conformance *(conditional)*
+  - Skill Definition Conformance *(conditional)*
+  - Strengths & What's Working
+  - Detailed Technical Findings
+  - Technical Debt Register *(conditional)*
+  - Unified Risk Register
+  - Trade-off Analysis
+  - Actionable Remediation Roadmap
+- Scope Exclusions (once, shared)
+- Re-audit and Follow-up Plan *(conditional)* (once, shared)
+
 ## Document Information
 
 Open the report with a document title as a level-1 markdown heading (`#`), followed by a short metadata block. Each metadata field must appear on its own line with a blank line separating it from the next field. Do not run fields together on the same line.
@@ -222,13 +249,78 @@ Format:
 **Detail Level**: <Standard / Detailed / Brief>
 ```
 
+For a multi-project audit, use the repository or directory name as the system name, and add a `**Projects**` field listing the audited project names:
+
+```markdown
+# <Repository Name> Software Audit Report
+
+**Version**: <version number>
+
+**Date**: <audit date>
+
+**State**: <Draft / Final>
+
+**Detail Level**: <Standard / Detailed / Brief>
+
+**Projects**: <project-1>, <project-2>, <project-3>
+```
+
 Use double asterisks for the label and a single space after the colon. Each label-value pair is followed by an empty line. This ensures proper rendering in all markdown viewers.
 
 **Version increment on overwrite**
 
 When overwriting an existing audit file, read the current version from the existing Document Information block, increment the minor component up to 9 (for example, `1.0` to `1.1`, `1.9` to `2.0`, `9.9` to `10.0`), and write the incremented version into the new report.
 
-When the report language is Polish, translate the labels into Polish: `Wersja`, `Data`, `Stan`, `Poziom szczegółowości`.
+When the report language is Polish, translate the labels into Polish: `Wersja`, `Data`, `Stan`, `Poziom szczegółowości`, `Projekty` (for the `Projects` field in multi-project reports).
+
+## Multi-Project Report Structure
+
+When the audit covers more than one project in a repository or directory, the report uses a combined structure. Each project is assessed independently and receives its own complete set of sections within the report.
+
+**Document Information** appears once at the top. The title uses the repository or directory name, not a single project name. Add a `**Projects**` field listing the audited projects.
+
+**Project Inventory** appears immediately after Document Information. It lists each project with its path, version, and a one-line description.
+
+```markdown
+| Project        | Path             | Version | Description                |
+|----------------|------------------|---------|----------------------------|
+| <project name> | <project path>    | <ver>   | <one-line description>     |
+```
+
+When the report language is Polish, translate the column headers into Polish: `Projekt`, `Ścieżka`, `Wersja`, `Opis`.
+
+**Per-project sections** follow the Project Inventory. Each project gets a level-2 heading (`##`) with the project name, followed by the full set of report sections for that project:
+
+- Technology Stack
+- Executive Summary
+- Health Dashboard
+- High-Level Observations
+- Auditing Methodology
+- Scoring Rubrics
+- System Context
+- Architectural Assessment (with conditional subsections)
+- Threat Model *(conditional)*
+- API Contract Conformance *(conditional)*
+- Skill Definition Conformance *(conditional)*
+- Strengths & What's Working
+- Detailed Technical Findings
+- Technical Debt Register *(conditional)*
+- Unified Risk Register
+- Trade-off Analysis
+- Actionable Remediation Roadmap
+
+Use level-3 headings (`###`) for subsections within each project block.
+
+**Finding IDs** are scoped per project. Each project's findings start at `FND-XXX-001`. Risk IDs and recommendation IDs also reset per project. Prefix each finding heading with the project identifier so the reader can navigate. For example: `### FND-ARC-001: [api-service] Missing input validation`.
+
+**Shared sections** appear once at the end of the report, after all per-project sections:
+
+- Scope Exclusions
+- Re-audit and Follow-up Plan *(conditional)*
+
+The Scope Exclusions section covers all projects. List exclusions per project using the project identifier as a prefix.
+
+**Single-project reports** use the standard structure without the Project Inventory table and without per-project level-2 headings. The sections appear directly under level-2 headings as in a standard report.
 
 ## Technology Stack
 

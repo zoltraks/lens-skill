@@ -276,6 +276,10 @@ The inline format remains identical: the marker follows the bold heading separat
   - "Wyłączenia z zakresu" for "Scope Exclusions"
   - "Zakres" for "Scope" (Scope Exclusions table header)
   - "Uzasadnienie" for "Justification" (Scope Exclusions table header)
+  - "Projekt" for "Project" (Project Inventory table header)
+  - "Ścieżka" for "Path" (Project Inventory table header)
+  - "Wersja" for "Version" (Project Inventory table header)
+  - "Opis" for "Description" (Project Inventory table header)
 - In Polish, use neuter gender for acronyms treated as nouns: "czyste PWA" (not "czysta PWA"), "czyste SPA" (not "czysta SPA").
 - When producing a Polish-language report, preserve all Polish diacritics (e.g., "ą", "ę", "ć", "ł", "ń", "ó", "ś", "ź", "ż", "Ą", "Ę", "Ć", "Ł", "Ń", "Ó", "Ś", "Ź", "Ż") in every section, heading, table cell, and paragraph. Do not transliterate or strip diacritics.
 - Write Polish-language reports in UTF-8 encoding. Do not use ASCII-only fallback for Polish text.

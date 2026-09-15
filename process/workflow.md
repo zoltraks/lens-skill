@@ -21,7 +21,19 @@ Identify the artifact type: prototype, codebase under development, running produ
 
 Note the source format. Findings from a description are weaker than findings from inspected code or configuration.
 
-Determine the natural language of the user's request. The report language must match the request language unless the user explicitly states otherwise.
+Determine the natural language of the user's request. The report language must match the request language unless the user explicitly states otherwise. When the request language is ambiguous or cannot be determined, default to English.
+
+**Project Identification**
+
+After reading the input, identify whether the repository or directory contains one project or multiple projects.
+
+A project is a self-contained unit with its own manifest, configuration, or entry point. Signals of a project boundary include a package manifest (`package.json`, `Cargo.toml`, `composer.json`, `go.mod`, `pom.xml`, `*.csproj`), a dedicated configuration directory, a `SKILL.md` file (for an Agent Skill), or a clearly separated component with its own build and entry point.
+
+When multiple project manifests or boundaries exist at the top level or in clearly separated subdirectories, treat each as an independent project. Record the list of identified projects with their paths and, if determinable, their version numbers.
+
+When only one project is present, proceed with the standard single-project workflow.
+
+When multiple projects are present, the audit runs independently for each project. Each project receives its own complete assessment, findings, scorecard, and risk register within a single combined report. See the Multi-Project Audits section below for the per-project workflow.
 
 **Rerunning an existing audit**
 
@@ -66,9 +78,12 @@ Ask: "How should the report be delivered?"
 
 If File is chosen, resolve the output location using the following rules, applied in order against the root of the repository or directory being audited:
 
-1. If `docs/audit/` exists, inspect its contents and match the naming convention already in use there (e.g. `AUDIT.md`, `audit.md`, date-prefixed names). Use that directory and that convention as the default.
-2. If `docs/audit/` does not exist but `docs/` exists, use `docs/` as the default output directory.
-3. Otherwise use the root of the audited repository or directory as the default output directory.
+1. If `docs/audit/` or `docs/report/` exists, use that directory as the default output directory. When both exist, prefer `docs/audit/`. Inspect the directory contents and match any naming convention already in use there (for example, `AUDIT.md`, `audit.md`, date-prefixed names).
+2. If a `docs/audit/` or `docs/report/` directory contains subdirectories named with version numbers (for example, `1.0.1`, `0.5.0`), and the project version can be determined from its manifest or configuration, then the default output directory becomes `docs/audit/<version>` or `docs/report/<version>` using the current project version. For example, if `docs/audit/1.0.1` exists and the project version is `1.2.3`, the suggested directory is `docs/audit/1.2.3`.
+3. If neither `docs/audit/` nor `docs/report/` exists but `docs/` exists, use `docs/` as the default output directory.
+4. Otherwise use the root of the audited repository or directory as the default output directory.
+
+When multiple projects are present and each has a different version, resolve the output directory once using the repository root. The single combined report is written to one location. Do not create per-project subdirectories unless the user explicitly requests separate files per project.
 
 Present the resolved default location to the user and ask: "Where should the file be written, and what should it be named?"
 
@@ -85,7 +100,9 @@ When the target file already exists (for example, a previous `AUDIT.md` or `AUDY
 
 **Report language**
 
-The default is the language of the user's request. Ask only if the user explicitly asks for a different language.
+The default is the language of the user's request. When the request language is ambiguous, mixed, or cannot be determined with confidence, default to English and apply the English document style rules.
+
+Ask only if the user explicitly asks for a different language.
 
 When the report language is Polish, the default filename changes to `AUDYT.md`, all Polish diacritics must be preserved, and the report must be written in UTF-8 encoding.
 
@@ -221,7 +238,8 @@ Use this checklist to confirm you understand the input before assessing.
 | What was explicitly excluded?                 | Out-of-scope list                                   |
 | What constraints did the user state?          | Constraints, or `NOT SPECIFIED`                     |
 | What maturity does the user claim, if any?    | Claimed maturity, or none                           |
-| What is the natural language of the request?  | Language code or name                               |
+| What is the natural language of the request?  | Language code or name, or English (default)         |
+| How many projects are in the directory?        | One / Multiple (list each with path and version)    |
 
 ## Handling Thin Input
 
@@ -249,3 +267,33 @@ When re-auditing after changes, keep the same categories, statuses vocabulary, s
 Record what changed since the previous audit and which findings moved status, so progress is comparable over time.
 
 Update the Remediation Status column for findings that were closed since the previous audit. Add a "Re-audit Notes" paragraph noting which `FND-XXX` findings changed from `Open` to `Closed` and which `RSK-XXX` risks were mitigated.
+
+## Multi-Project Audits
+
+When the Project Identification step in Intake detects more than one project in the repository or directory, the audit runs independently for each project.
+
+**Per-project independence**
+
+Each project is assessed as a self-contained subject. Findings, risks, scorecard scores, and recommendations for one project must not reference or depend on another project unless the user explicitly states that cross-project interactions are in scope.
+
+Finding IDs use the standard pillar abbreviations but are scoped per project. Each project's findings start at `FND-XXX-001`. Risk IDs and recommendation IDs also reset per project. The project name or identifier prefixes the finding block heading so the reader can locate the project within the report. See `process/report-format.md` for the multi-project report structure.
+
+**Workflow for multiple projects**
+
+Run the full workflow (Scope Definition through Validation) once per project, in sequence or in parallel as the agent's capabilities allow. After all per-project assessments are complete, run a single Synthesis phase that combines all projects into one report:
+
+1. For each project, run Scope Definition, Evidence Gathering, Category Assessment, and per-project Validation.
+2. After all projects are assessed, build the combined report per `process/report-format.md` Multi-Project Report Structure.
+3. Each project gets its own complete set of sections: Technology Stack, Executive Summary, Health Dashboard, High-Level Observations, Auditing Methodology, Scoring Rubrics, System Context, Architectural Assessment, conditional sections, Strengths, Detailed Technical Findings, Unified Risk Register, Trade-off Analysis, and Actionable Remediation Roadmap.
+4. Finding IDs, risk IDs, and recommendation IDs are scoped per project. Use the project identifier as a prefix in the finding heading so the reader can navigate. For example, `### FND-ARC-001: [api-service] Missing input validation`.
+5. The Document Information section appears once at the top of the report and lists all audited projects.
+6. A Project Inventory table immediately after Document Information lists each project with its path, version, and a one-line description.
+7. Scope Exclusions and Re-audit and Follow-up Plan are shared sections at the end of the report, covering all projects.
+
+**Parameter Configuration for multiple projects**
+
+The Parameter Configuration phase runs once. The chosen parameters (detail level, evaluation scale, language, delivery mode, improvement suggestions, trade-off analysis) apply uniformly to all projects in the report. Do not re-ask parameters per project.
+
+**Output location for multiple projects**
+
+The report is a single file. Resolve the output directory once using the rules in the Report delivery section. When version-numbered subdirectories exist under `docs/audit/` or `docs/report/`, use the repository's primary version if one can be determined. When no single primary version applies, use the root of the resolved directory without a version subdirectory.

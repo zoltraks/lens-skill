@@ -22,7 +22,7 @@ compatibility: >-
   access required for the audit itself; optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "0.7"
+  version: "0.8"
   author: cognition-labs
 ---
 
