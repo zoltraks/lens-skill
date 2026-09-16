@@ -39,7 +39,7 @@ Generated code is not inherently lower quality, and unknown origin is not eviden
 
 - Check whether generated changes have requirement links and review evidence.
 - Inspect tests for actual behavior, boundary conditions, and failure paths.
-- Verify referenced APIs against the installed dependency versions.
+- Verify referenced APIs against the declared or pinned dependency versions.
 - Inspect whether generated datasets record source, generator version, and validation method.
 - Check how generation inputs containing sensitive data are governed when such use is evidenced.
 - Assess how defects are tracked, corrected, and prevented from recurring.

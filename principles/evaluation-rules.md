@@ -32,10 +32,13 @@ specified in `process/audit-workflow.md`.
 
 Distinguish these evidence bases in finding detail:
 
-- **Inspected**: directly observed in source or configuration, not executed.
-- **Executed**: observed in a recorded command or bounded runtime check.
-- **Reported**: supplied by documentation, a stakeholder, or a prior report.
+- **Inspected**: directly observed in source, configuration, or documentation, not executed.
+- **Reported**: supplied by documentation, a stakeholder, a prior report, or a committed artifact
+  such as CI output, a coverage report, or a scan result.
 - **Inferred**: reasoned from cited evidence, with prerequisites and uncertainty stated.
+
+The audit never executes checks itself. Results produced outside the audit are `Reported`
+evidence, regardless of who ran them.
 
 These labels describe evidence, not replacement category statuses.
 
@@ -53,7 +56,7 @@ A changelog saying tests passed supports "reported passing", never "verified pas
 
 A command listed as a verification recommendation is not evidence that it ran.
 
-A successful scanner run supports only its covered checks, not "no vulnerabilities".
+A committed scanner report supports only its covered checks, not "no vulnerabilities".
 
 **Counter-check material claims**
 
@@ -63,7 +66,7 @@ Before finalizing every `CRITICAL` or `HIGH` finding, look for evidence that cou
 - Check whether the code is compiled, registered, reachable, and enabled for the assessed target.
 - Verify library semantics and control-flow invariants before claiming a panic or data loss.
 - Identify actor access, deployment prerequisites, blast radius, and compensating controls.
-- Record the counter-check and remaining uncertainty, even when execution is unavailable.
+- Record the counter-check and remaining uncertainty, the audit never performs execution.
 
 A guarded `unwrap()` is not a demonstrated panic, and an unregistered module does not necessarily
 add compile time.
@@ -231,3 +234,8 @@ These constraints are absolute:
 - Do not present an inference as a fact.
 - Always mark missing information explicitly.
 - Do not issue absolute directives unless the user explicitly requests them.
+- Never compile, build, test, or execute the audited project, and never run linters, scanners,
+  or generators against it. Tool availability cannot be assumed. Analysis rests on repository
+  contents alone: source files, configuration, build scripts, pipeline definitions,
+  documentation, and committed artifacts. Read-only inspection commands such as file listing,
+  search, and version control history remain in scope.

@@ -121,21 +121,20 @@ Recheck editions at audit time and preserve a requested legacy baseline with an 
 
 ## Tool Corroboration
 
-Use a supported SAST engine and relevant rules to supplement manual tracing.
+The audit does not run SAST engines or scanners. Corroboration comes from manual tracing plus
+any committed scan results, CI security steps, or documented reviews.
 
-Verify language, framework, interprocedural analysis, and edition support for the installed version.
-
-[CodeQL lists Rust support](https://docs.github.com/en/code-security/code-scanning/introduction-to-code-scanning/about-code-scanning-with-codeql).
-
+When a committed report claims coverage, check that the engine supports the project's language
+and framework. [CodeQL lists Rust support](https://docs.github.com/en/code-security/code-scanning/introduction-to-code-scanning/about-code-scanning-with-codeql) and
 [Semgrep capabilities vary by engine and edition](https://docs.semgrep.dev/semgrep-ce-languages).
 
 Neither language support nor a clean scan establishes coverage of custom authorization semantics.
 
 `cargo audit` checks dependency advisories, and `cargo clippy` checks configured lints, neither
-verifies application authorization or path containment.
+verifies application authorization or path containment, even when their output is documented.
 
-For serious findings, prefer a targeted negative regression test and a valid-operation control,
-recording the exact setup and result or why execution could not be performed.
+For serious findings, recommend a targeted negative regression test and a valid-operation
+control for the verification owner, recording why the audit cannot perform it.
 
 ## Status Criteria
 

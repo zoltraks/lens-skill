@@ -9,7 +9,8 @@ This file guides assessment of third-party dependencies and the software supply 
 
 Apply `principles/evaluation-rules.md` throughout.
 
-Assess manifests, lockfiles, and permitted tool results using the execution-safety rules below.
+Assess manifests, lockfiles, committed scan reports, and generated inventories by inspection.
+The audit never runs audit or generation tools.
 
 ## What To Evaluate
 
@@ -33,17 +34,23 @@ Assess manifests, lockfiles, and permitted tool results using the execution-safe
 
 ## Verification And Advisory Triage
 
-Use the safe-execution rules and evidence ledger in `process/audit-workflow.md`.
+Use the evidence ledger and the no-execution rule in `process/audit-workflow.md`.
 
 For Rust, inspect each workspace or independent manifest and its resolved lockfile.
 
-Run `cargo audit` or `cargo deny check advisories` when available and permitted, recording the
-RustSec database revision, tool version, features/targets, exit code, and sanitized output.
+Do not run `cargo audit`, `cargo deny check advisories`, or an ecosystem equivalent. Look for
+committed scan reports, CI pipeline steps that run them, or documented advisory reviews. When a
+report exists, record the advisory database revision, tool version, and scope from the artifact
+as `Reported` evidence.
 
 [Cargo audit and cargo deny](https://rustsec.org/) have different scopes, do not treat them as
 interchangeable proof of application security.
 
-For other stacks, select the existing ecosystem equivalent and state its supported scope.
+For other stacks, note the existing ecosystem equivalent and state its supported scope.
+
+When no scan report exists and advisory status cannot be checked from repository contents, mark
+vulnerability status `UNKNOWN` and recommend the scan as a roadmap item rather than treating
+freshness as clearance.
 
 For each advisory, record package and resolved version, dependency path, affected and fixed ranges,
 advisory ID and aliases, advisory category, and runtime/build/dev relevance.
@@ -63,10 +70,10 @@ advisories, compatibility, and support signals.
 ## SBOM And License Evidence
 
 For executable deliverables, check for a machine-readable component inventory tied to the audited
-revision or release artifact, and generate one when safe and permitted.
+revision or release artifact. The audit does not generate one.
 
-Use CycloneDX or SPDX according to consumer requirements and tool support, recording the schema
-version, generator/version, timestamp, target/features, and source or binary basis.
+When an SBOM exists, record the CycloneDX or SPDX schema version, generator, timestamp, and
+source or binary basis.
 
 Both formats support supply-chain and licensing use cases, neither guarantees completeness.
 
@@ -79,11 +86,9 @@ and other shipped assets are included or excluded.
 
 A source SBOM does not prove what a particular binary or container actually shipped.
 
-For Rust, consider `cargo cyclonedx` for inventory and `cargo deny check licenses` for policy
-checks.
-
-[Cargo CycloneDX](https://github.com/CycloneDX/cyclonedx-rust-cargo) invokes Cargo and is not safe
-by default on an untrusted project.
+For Rust, `cargo cyclonedx` for inventory and `cargo deny check licenses` for policy checks are
+typical documented tooling, assess their configuration and committed output rather than running
+them.
 
 Use the existing license policy, and distinguish a scanner's default-policy rejection from an
 established legal incompatibility.
@@ -106,12 +111,14 @@ Do not claim SBOM procurement obligations without a specific applicable contract
 For an in-scope container, assess its build context, ignore rules, builder stage, published runtime
 image, and exported caches separately.
 
-Use an approved image scanner such as Trivy against an immutable image digest, recording scanners,
-database age, target platform, exclusions, and results.
+Do not run image scanners such as Trivy. Assess the container from its build context and inspect
+committed scan reports when present, recording the scanner, database age, target platform,
+exclusions, and results as `Reported` evidence.
 
 A final-image scan does not cover unpublished builder layers or external build caches.
 
-Use synthetic canaries for leakage tests, never bake a real secret into a test image.
+Check Dockerfiles and image build contexts for copied secrets, never suggest baking a real
+secret into a test image.
 
 For critical dependencies, inspect release/support policy, ownership continuity, security response,
 and feasible replacement or fork paths using dated primary evidence.

@@ -11,7 +11,7 @@ Apply `principles/evaluation-rules.md` throughout. This category covers code-lev
 
 ## What To Evaluate
 
-- Static analysis: whether linters or analyzers run and what rule sets are enforced.
+- Static analysis: whether linters or analyzers are configured and enforced, and which rules apply.
 - Type safety: whether a type system is used and how strict its configuration is.
 - Complexity: whether functions and files are bounded in size and branching.
 - Duplication: whether logic is repeated rather than shared.
@@ -33,7 +33,8 @@ Apply `principles/evaluation-rules.md` throughout. This category covers code-lev
 
 Treat lint configuration as evidence of configuration, not successful execution or enforcement.
 
-Record analyzer version, rules, exclusions, target/features, and output in the evidence ledger.
+Record the analyzer's declared version, rules, exclusions, and documented output in the evidence
+ledger.
 
 Before claiming a panic, trace guards, slice lengths, invariants, and the runtime's panic boundary.
 
@@ -44,8 +45,9 @@ Line counts and method counts are investigation signals, not automatic severity 
 For Rust unsafe-code claims, distinguish inspected first-party source from dependencies, macros,
 generated code, native FFI, and the standard library.
 
-Use [cargo-geiger](https://github.com/geiger-rs/cargo-geiger) for scoped unsafe-use statistics
-when available and permitted, not as proof of soundness or insecurity.
+For scoped unsafe-use statistics, rely on inspected source and committed reports such as
+[cargo-geiger](https://github.com/geiger-rs/cargo-geiger) output, do not run tools. A clean
+report is not proof of soundness or insecurity.
 
 Report "no unsafe found in the reviewed scope", not "memory safe" or "no unsafe anywhere".
 

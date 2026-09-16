@@ -14,11 +14,12 @@ For a single-dimension request, run the same steps but limit the assessment phas
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 23   | Step Overview guidance           |
-| Intake Checklist        | 466  | Intake Checklist guidance        |
-| Handling Thin Input     | 481  | Handling Thin Input guidance     |
-| Single-Dimension Audits | 491  | Single-Dimension Audits guidance |
-| Re-Audit                | 500  | Re-Audit guidance                |
-| Multi-Project Audits    | 516  | Multi-Project Audits guidance    |
+| Intake Checklist        | 462  | Intake Checklist guidance        |
+| Handling Thin Input     | 477  | Handling Thin Input guidance     |
+| Single-Dimension Audits | 487  | Single-Dimension Audits guidance |
+| Re-Audit                | 496  | Re-Audit guidance                |
+| Multi-Project Audits    | 512  | Multi-Project Audits guidance    |
+| Report Structure        | 536  | Report Structure guidance        |
 
 ## Step Overview
 
@@ -241,22 +242,29 @@ obligations using the existing assessment categories rather than creating a sepa
 If business artifacts are unavailable, retain those concerns as `UNKNOWN` and request specific
 artifacts, do not present a source-only review as complete business due diligence.
 
-During scope definition, agree the permitted execution environment and network access.
+The audit runs source-only. It never compiles, builds, or tests the project and never runs
+linters, scanners, or generators against it, tool availability cannot be assumed and executing
+untrusted code is out of scope.
 
-Default to source inspection plus safe, available local checks after reviewing their side effects.
+Analysis rests on repository contents alone: source files, configuration, build scripts,
+pipeline definitions, documentation, and committed artifacts such as coverage or scan reports.
+Read-only inspection commands such as file listing, search, and version control history remain
+in scope.
 
-Do not treat acceptance of report-format defaults as permission to install tools, upload source,
-change project policies, execute untrusted builds, or access live systems.
+The audit never installs tools, uploads source, changes project policies, executes builds or
+tests, or accesses live systems.
 
-Record the resulting scope as source-only, tool-assisted, or runtime-validated for the checks
-actually completed, not those planned.
+Record the scope as `source-only`. Documented or committed check results are `Reported`
+evidence, not audit execution.
 
-For readiness audits, identify required evidence before judging readiness: applicable build and
-test results, dependency review, targeted security checks, and operational recovery evidence.
+For readiness audits, identify required evidence before judging readiness: documented build and
+test results, dependency manifests and lockfiles, committed scan reports, and operational
+recovery documentation.
 
 **Evidence Gathering**
 
-For each relevant assessment category, collect concrete anchors: files, config keys, commands, pipeline steps, documented procedures, or direct quotes.
+For each relevant assessment category, collect concrete anchors: files, config keys, documented
+commands, pipeline steps, documented procedures, committed check output, or direct quotes.
 
 When development standards documents were found during intake, collect evidence of conformance and divergence: for each rule in the standards, find representative source files that follow or violate it. Also collect the external best practices, style guides, or conventions that the standards reference or that apply to the stack, for the standards-quality evaluation in `assessment/standards-conformance.md`.
 
@@ -270,50 +278,39 @@ Do not yet form conclusions. Separate collection from judgement to avoid confirm
 
 Where evidence is absent, record the gap explicitly with the appropriate missing-information token.
 
-**Verification Plan And Execution**
+**Verification Plan**
 
 Build a small verification matrix per project before assessment.
 
-Select checks from the project's documented commands and the relevant assessment guides.
+Select the checks that would verify material claims from the project's documented commands and
+the relevant assessment guides: build and test commands, lint and formatting rules, dependency
+advisory scans, and license or SBOM checks.
 
-For executable projects, consider build/type checks, tests, formatting/lint, dependency advisories,
-and license/SBOM checks as the baseline, executing applicable checks when safe and permitted.
+The audit never executes them. For each selected check, record what the repository itself
+shows: a documented command, a pipeline step, a committed report, or nothing at all.
 
-Add targeted security regression checks for material trust boundaries.
+Map each check to the ledger as `NOT RUN`, citing where the check is declared or where its
+output is documented when such artifacts exist.
 
-Use coverage, mutation, fuzz, load, and recovery testing proportionately, not as an unconditional
-requirement to install every tool.
+A documented or committed result is `Reported` evidence. It supports the claim it covers,
+never "verified" status.
 
-For documentation-only skills or proposals, substitute reference, format, consistency, and scenario
-checks rather than attempting unrelated compiler commands.
+If a material claim has no documented result and cannot be resolved from source, record the
+gap, its confidence impact, and the exact next step as a recommendation.
 
-Record every selected check, including checks not run, in the ledger.
+Do not mark the absence of tool execution as a product defect. A missing check is missing
+evidence, not a missing feature.
 
-If a tool is missing or blocked, record the reason, confidence impact, and exact next step.
+**No execution**
 
-Do not silently convert the audit to source-only or mark an environment failure as a product defect.
+The audit never compiles, builds, or tests the project and never runs linters, scanners, or
+generators against it.
 
-**Execution safety**
+Read-only inspection of repository contents is still used: file listing, search, and version
+control history.
 
-Review scripts, build hooks, package-manager configuration, test setup, and tool provenance first.
-
-Builds, procedural macros, dependency resolution, and SBOM generators can execute project code.
-
-Use an approved disposable environment without ambient credentials for untrusted code.
-
-Constrain network access, time, memory, and disk usage, and use synthetic data and local fixtures.
-
-Do not mutate live data, weaken security controls, or alter source, manifests, lockfiles, or policy
-exceptions to make verification pass.
-
-Request approval for necessary installation, network use, or configuration changes.
-
-Use pinned, reviewed tool versions rather than auto-installing the newest release.
-
-Record any generated artifacts and keep them in the approved audit/work location.
-
-An explicitly approved verification output may be inspected even if its directory is gitignored,
-but this does not authorize inspecting unrelated ignored files or secrets.
+Do not mutate the repository or its configuration, and do not treat inspection findings as
+runtime-verified behavior.
 
 **Evidence ledger**
 
@@ -323,27 +320,25 @@ Use globally unique evidence IDs within a report, with a project identifier on e
 |-------------|-----------|---------------------|-----------|---------------|----------|
 | EVD-001     | <project> | <command or source> | <state>   | <observation> | <path>   |
 
-Execution states are `COMPLETED`, `FAILED`, `BLOCKED`, `NOT RUN`, or `N/A`.
+The audit produces only two execution states: `NOT RUN` for a check that is documented or
+selected but never executed, and `N/A` for a source observation.
 
 They are separate from category statuses and from what the check discovered.
 
-For a source observation rather than a command, use `N/A` for execution and identify its evidence
+For a source observation rather than a check, use `N/A` for execution and identify its evidence
 basis as Inspected, Reported, or Inferred as appropriate.
 
-`COMPLETED` means a check produced interpretable results, even if it found defects and returned
-nonzero, while `FAILED` means execution did not produce a usable assessment.
+Below each row, record the documented command or the file and line range, revision and
+dirty-tree state, date, declared tool or report version, and sanitized artifact path.
 
-Below each row, record the exact command and working directory or file and line range, revision
-and dirty-tree state, date, tool/version, OS/target/features, exit code, and sanitized artifact
-path.
+For committed scanner or coverage reports, record the producing tool, report timestamp or
+revision, ruleset, exclusions, suppressions, and coverage.
 
-For scanners, record database timestamp/revision, ruleset, exclusions, suppressions, and coverage.
+For supplied or committed CI output, record the run or revision and label it `Reported`
+evidence, noting any mismatch with the audited tree.
 
-For supplied CI output, record the run/revision and label it reported evidence unless independently
-reproduced, noting any mismatch with the audited tree.
-
-Preserve complete sanitized logs or machine-readable output when permitted, or record a precise
-excerpt and explain why the original artifact is unavailable.
+Preserve complete sanitized logs or machine-readable output when they exist in the repository,
+or record a precise excerpt and explain why the original artifact is unavailable.
 
 Tie findings to evidence IDs and explain what each item proves and does not prove.
 
@@ -433,7 +428,8 @@ Confirm the report follows `process/report-format.md` section by section.
 
 - Reconcile all counts with their source and scope, including tests, findings, risks, and scores.
 - Ensure every `CRITICAL` and `HIGH` finding records a counter-check and verification limit.
-- Keep build, test, scanner, and runtime claims consistent with the execution ledger.
+- Keep build, test, scanner, and runtime claims consistent with the evidence ledger.
+- Confirm no build, test, or tool execution was performed or implied by the audit.
 - Distinguish observed defects, unverified threats, and missing evidence in every summary.
 - Check applicable security findings for CWE mapping and justified CVSS vectors or gap tokens.
 - Recompute risk-matrix placements and any totals rather than estimating them in prose.
@@ -448,20 +444,21 @@ When maintaining this skill, exercise these scenarios and check the expected beh
 
 These are reasoning checks, not proof of improvement from an independent model benchmark.
 
-| Scenario                                     | Expected Behavior                                    |
-|----------------------------------------------|------------------------------------------------------|
-| Changelog says tests pass, execution blocked | Reported only, readiness evidence incomplete         |
-| Scanner exits nonzero with an advisory       | Completed check, finding requires triage             |
-| Old crate, no advisory data                  | Freshness concern, vulnerability status unknown      |
-| Guarded panic or excluded module             | Verify reachability, do not invent failure           |
-| Local CLI without hosted runtime             | Assess local safety, omit irrelevant hosted controls |
-| Due diligence with no cost or support data   | Retain unknowns, request artifacts                   |
-| Two projects reuse FND-SEC-001               | Project-qualified shared references                  |
-| Clean code with uniform tests                | No authorship inference, assess test behavior        |
-| Security fix proposed but not run            | Keep verification pending, no closure claim          |
-| Partial cost inputs or no telemetry          | No complete budget or numeric SLO claim              |
-| Previous report at version 1.9 exists        | New `AUDIT-2.0.md`, previous kept, comparison added  |
-| Previous report has no Version field         | Assume 1.0, new file `AUDIT-1.1.md`                  |
+| Scenario                                   | Expected Behavior                                    |
+|--------------------------------------------|------------------------------------------------------|
+| Changelog says tests pass                  | Reported only, readiness evidence incomplete         |
+| Committed scan report lists an advisory    | Reported evidence, finding requires triage           |
+| Documented build steps, no pipeline        | Inspected only, build outcome unknown                |
+| Old crate, no advisory data                | Freshness concern, vulnerability status unknown      |
+| Guarded panic or excluded module           | Verify reachability, do not invent failure           |
+| Local CLI without hosted runtime           | Assess local safety, omit irrelevant hosted controls |
+| Due diligence with no cost or support data | Retain unknowns, request artifacts                   |
+| Two projects reuse FND-SEC-001             | Project-qualified shared references                  |
+| Clean code with uniform tests              | No authorship inference, assess test behavior        |
+| Security fix proposed but not run          | Keep verification pending, no closure claim          |
+| Partial cost inputs or no telemetry        | No complete budget or numeric SLO claim              |
+| Previous report at version 1.9 exists      | New `AUDIT-2.0.md`, previous kept, comparison added  |
+| Previous report has no Version field       | Assume 1.0, new file `AUDIT-1.1.md`                  |
 
 ## Intake Checklist
 

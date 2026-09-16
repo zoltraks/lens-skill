@@ -43,7 +43,7 @@ The default report language is English. This file is loaded only when the user r
 | Threat Model                       | 423  | Threat Model guidance                       |
 | API Contract Conformance           | 432  | API Contract Conformance guidance           |
 | Evidence And Decision Terms        | 440  | Evidence And Decision Terms guidance        |
-| Skill Definition Conformance Table | 503  | Skill Definition Conformance Table guidance |
+| Skill Definition Conformance Table | 502  | Skill Definition Conformance Table guidance |
 
 ## Status And Severity Vocabulary
 
@@ -457,7 +457,6 @@ vectors, tool commands, and execution-state codes.
 | Counter-check                    | Kontrola kontrargumentów          |
 | Security Classification          | Klasyfikacja bezpieczeństwa       |
 | Inspected                        | Sprawdzone w źródłach             |
-| Executed                         | Zweryfikowane wykonaniem          |
 | Reported                         | Zadeklarowane                     |
 | Inferred                         | Wywnioskowane                     |
 | Readiness Cost                   | Koszt osiągnięcia gotowości       |
@@ -494,8 +493,8 @@ vectors, tool commands, and execution-state codes.
 | IP Rights                        | Prawa własności intelektualnej    |
 | Data Obligations                 | Obowiązki dotyczące danych        |
 
-Execution states remain `COMPLETED`, `FAILED`, `BLOCKED`, `NOT RUN`, and `N/A` to preserve the
-ledger's machine-readable vocabulary, explain their meanings in Polish prose.
+Execution states produced by the audit are `NOT RUN` and `N/A` to preserve the ledger's
+machine-readable vocabulary, explain their meanings in Polish prose.
 
 Keep `UNKNOWN`, `NOT SPECIFIED`, and `INSUFFICIENT INFORMATION` when used as missing-information
 tokens, while category statuses use the existing Polish translations.

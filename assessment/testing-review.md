@@ -35,63 +35,58 @@ Apply `principles/evaluation-rules.md` throughout. Presence of a test directory 
 | CI configuration   | Pipeline files, workflow definitions                                     |
 | Gate on failure    | Required checks, branch protection, pipeline gates                       |
 
-## Execution And Effectiveness Evidence
+## Evidence Of Test Effectiveness
 
-Inventory tests per project and distinguish declared, discovered, executed, passed, failed, ignored,
-and filtered counts, including the command and revision that produced each count.
+Inventory tests per project and distinguish declared, discovered, and documented result counts.
+
+The audit never executes the suite. Executed, passed, failed, and ignored counts exist only when
+a committed report or documentation records them, cited as `Reported` evidence.
 
 Classify test layers by the boundaries exercised, not just the directory or test name.
 
-Run documented checks with the approved target and feature set when safe and permitted.
+Identify the checks the project documents, for Rust typically `cargo build --locked`,
+`cargo test --locked`, `cargo clippy --locked -- -D warnings`, and `cargo fmt --check`, from
+build scripts, CI configuration, or contributor documentation. Do not run them.
 
-For Rust, typical baseline commands are `cargo build --locked`, `cargo test --locked`,
-`cargo clippy --locked -- -D warnings`, and `cargo fmt --check`.
+Judge whether tests run automatically on change and whether failures block merge or release from
+pipeline definitions, not from execution.
 
-Apply workspace or manifest selection only after verifying the actual workspace structure.
-
-Do not assume `--all-features` is valid when features are mutually exclusive.
-
-Keep compilation-only checks, source test counts, and actual passing test results separate.
+Keep compilation claims, inspected test counts, and documented passing results separate.
 
 **Coverage**
 
-Use existing reports or an approved tool such as
-[cargo-llvm-cov](https://github.com/taiki-e/cargo-llvm-cov) to measure coverage.
+Treat coverage as evidence only when a committed report, badge source, or documented run supplies
+it.
 
-Record covered/total counts, line/region/branch metric, exclusions, target/features, and critical
+Inspect the report's covered/total counts, line/region/branch metric, exclusions, and critical
 modules separately from the project aggregate.
 
-Branch coverage may require nightly and explicit flags, do not infer it from line coverage.
+Branch and line coverage measure different things, do not infer one from the other.
 
-Unmeasured coverage is `UNKNOWN`, not zero and not a percentage derived from test counts.
+Undocumented coverage is `UNKNOWN`, not zero and not a percentage derived from test counts.
 
 **Mutation testing**
 
-Use [cargo-mutants](https://mutants.rs/) or a stack equivalent for bounded, high-value modules
-when test effectiveness is uncertain and execution is approved.
+Assess mutation testing from committed configuration, harnesses, and reports. Do not run
+[cargo-mutants](https://mutants.rs/) or a stack equivalent.
 
-Require a passing baseline and report generated, tested, caught, missed, unviable, timed-out, and
-excluded mutations, using the tool's actual categories.
+When a mutation score is documented, check whether its numerator, denominator, and excluded
+outcomes are defined.
 
-If a mutation score is reported, define its numerator and denominator and show excluded outcomes.
-
-A survivor is a review candidate, not automatically proof of a missing assertion, because equivalent
-mutations and harness limitations can occur.
+A documented survivor is a review candidate, not automatically proof of a missing assertion,
+because equivalent mutations and harness limitations can occur.
 
 Do not infer mutation scores or repository-wide weakness from a selected sample.
 
 **Fuzz and property testing**
 
-Prioritize parsers, path resolution, protocol framing, and serialization boundaries.
+Prioritize parsers, path resolution, protocol framing, and serialization boundaries when judging
+whether fuzz coverage is warranted.
 
-For [cargo-fuzz](https://github.com/rust-fuzz/cargo-fuzz), verify nightly, compiler, architecture,
-and OS support, native Windows is not supported by the documented libFuzzer setup.
+Assess fuzzing from harness presence, declared scope, invariants, corpus, and committed results.
+Do not run fuzzers.
 
-Record harness scope, invariants, corpus, execution budget, and reproducible minimized failures.
-
-Creating a harness changes the project and needs approval beyond simply running existing tests.
-
-No crashes in a bounded run is not proof of safety.
+A documented bounded run without crashes is not proof of safety.
 
 **Assertion quality**
 
@@ -106,7 +101,7 @@ success, no unintended side effects, failure handling, and regression coverage.
 
 ## Status Criteria
 
-- `PASS`: Tests exist across the layers the system needs in a balanced pyramid, the code is structured for testability, tests run automatically, and failures block release, with evidence.
+- `PASS`: Tests exist across the layers the system needs in a balanced pyramid, the code is structured for testability, CI configuration runs tests on change, and failures block release, with evidence.
 - `PARTIAL`: Some layers, automation, or testability seams exist but coverage is uneven, the pyramid is inverted, gates are missing, or evidence is incomplete.
 - `FAIL`: No meaningful tests where the system clearly requires them, with evidence of absence.
 - `UNKNOWN`: Testing artifacts were not provided or cannot be inspected.

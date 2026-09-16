@@ -43,8 +43,8 @@ State which findings gate a re-audit sign-off. As a default rule, every `CRITICA
 
 ## Verification And Sign-off Evidence
 
-Before using the report as a go/no-go gate, verify all `CRITICAL` and `HIGH` findings, not just a
-convenient sample, using checks capable of testing their claims.
+Before using the report as a go/no-go gate, verify all `CRITICAL` and `HIGH` findings outside
+the audit, not just a convenient sample, using checks capable of testing their claims.
 
 For security defects, prefer a targeted regression test of the vulnerable boundary with permitted
 and denied operations, supported by the manual trace and relevant scanner output.

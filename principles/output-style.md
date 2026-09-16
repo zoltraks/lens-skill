@@ -68,12 +68,14 @@ Severity values:
 
 Use `UNKNOWN` for a missing severity rating, not as a new severity band.
 
-Evidence basis labels are Inspected, Executed, Reported, and Inferred.
+Evidence basis labels are Inspected, Reported, and Inferred. The audit never executes checks,
+externally produced results are `Reported`.
 
 Confidence uses `HIGH`, `MEDIUM`, and `LOW`, separately from severity.
 
-Ledger execution states are `COMPLETED`, `FAILED`, `BLOCKED`, `NOT RUN`, and `N/A`, separately
-from category status or scanner findings.
+Ledger execution states produced by the audit are `NOT RUN` for documented checks that were not
+executed and `N/A` for source observations, separately from category status or scanner
+findings.
 
 Maturity levels:
 

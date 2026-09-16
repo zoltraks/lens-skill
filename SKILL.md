@@ -19,9 +19,9 @@ license: MIT
 compatibility: >-
   Designed for agent coding environments with file system access (Claude Code,
   Claude Desktop, Windsurf, Devin, and similar). Requires the ability to read
-  source files, run shell commands, and write Markdown reports. No network
-  access required for the audit itself, optional web fetch for external
-  documentation or CVE lookups.
+  source files and write Markdown reports. The audit never builds, tests, or
+  executes the project. No network access required for the audit itself,
+  optional web fetch for external documentation or CVE lookups.
 metadata:
   version: "0.7"
   author: cognition-labs
@@ -220,7 +220,9 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
 
 Use the verification plan and evidence ledger in `process/audit-workflow.md` for every audit.
 
-Run applicable, permitted checks when safe, and record blocked or unrun checks and their effect on
+The audit never builds, tests, or executes the project or analysis tools against it. All
+evidence comes from inspected repository contents: source, configuration, build scripts,
+documentation, and committed artifacts. Record documented but unrun checks and their effect on
 confidence rather than treating a source-only review as verified production readiness.
 
 Keep evidence basis, confidence, category status, vulnerability severity, and business risk
@@ -247,6 +249,9 @@ when maintaining the skill.
 ## Navigation Rules
 
 - Always apply `principles/evaluation-rules.md` and `principles/output-style.md` to every section of every audit.
+- Never compile, build, test, or execute the audited project, and never run linters, scanners,
+  or generators against it. Verification claims rest on inspected repository contents,
+  documented results are `Reported` evidence.
 - Assemble the report skeleton from `process/report-format.md` before filling in findings, present every section as a table and use unnumbered headings.
 - Test layers, TDD, coverage, and design-for-testability belong in `assessment/testing-review.md`.
 - SOLID and design principles (SRP, OCP, LSP, ISP, DIP), cohesion, coupling, and DRY belong in `assessment/design-principles.md`, code-level metrics (lint, type safety, complexity, duplication) belong in `assessment/code-quality.md`, architectural module structure belongs in `assessment/maintainability-review.md`.

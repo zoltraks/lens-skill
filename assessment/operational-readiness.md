@@ -30,11 +30,11 @@ Apply `principles/evaluation-rules.md` throughout. Observability signals are ass
 
 ## Recovery And Ownership Evidence
 
-Distinguish authoritative data from disposable indexes, and test whether supposedly rebuildable
+Distinguish authoritative data from disposable indexes, and inspect whether supposedly rebuildable
 stores include unique usage, audit, or business records.
 
 Record required RPO (acceptable data loss) and RTO (acceptable recovery time), their approval basis,
-and observed restore results with data volume and environment.
+and documented restore results with data volume and environment.
 
 A backup schedule is not evidence of a successful restore.
 

@@ -48,7 +48,9 @@ Lists what is in scope and what is excluded. Marks unstated constraints as `NOT 
 
 **Gathers evidence before judging**
 
-Collects concrete anchors - file paths, config keys, commands, pipeline steps - before forming conclusions. Separates collection from judgment to avoid confirmation bias.
+Collects concrete anchors - file paths, config keys, documented commands, pipeline steps - before
+forming conclusions. Separates collection from judgment to avoid confirmation bias. The analysis
+never builds, tests, or executes the project.
 
 **Assesses across 18 categories**
 
@@ -68,11 +70,13 @@ Re-checks every finding against the evaluation rules: no assumptions, no persona
 
 Lens separates inspected source, executed checks, reported claims, and inference.
 
-Every audit records a verification plan and evidence ledger with revision, exact command or source,
-tool/database version, result, artifact, and limitations, including checks that could not run.
+Every audit records a verification plan and evidence ledger with revision, documented command or
+source, declared tool or report version, recorded result when one exists in the repository,
+artifact, and limitations, including checks that were not run.
 
-Safe, available checks are used when permitted, tool installation and untrusted execution are not
-implied by an audit request.
+The audit inspects repository contents only. It never builds, tests, or executes the project, and
+tool availability is not assumed. Documented or committed check results count as reported
+evidence, not verification.
 
 Serious findings receive a counter-check for reachability, existing guards, and alternative
 explanations before they reach the executive summary.
@@ -80,8 +84,9 @@ explanations before they reach the executive summary.
 Security findings use justified CWE mappings and CVSS vectors where applicable, while engineering
 and business risks retain the Lens risk matrix.
 
-The guides cover Rust baseline checks, coverage, mutation/fuzz testing, unsafe-use statistics,
-dependency advisories, SBOMs, and license policies, with equivalent tools selected for other stacks.
+The guides cover how to assess documented or committed evidence for baseline checks, coverage,
+mutation and fuzz testing, unsafe-use statistics, dependency advisories, SBOMs, and license
+policies across stacks.
 
 A clean scan is not proof of security, and a source-only audit is not runtime verification.
 

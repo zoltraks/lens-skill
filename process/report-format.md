@@ -21,29 +21,29 @@ Keep every section even when content is `UNKNOWN`. A present-but-empty section s
 | Conditional Sections                        | 204  | Conditional Sections guidance                        |
 | Section Order                               | 229  | Section Order guidance                               |
 | Document Information                        | 287  | Document Information guidance                        |
-| Multi-Project Report Structure              | 347  | Multi-Project Report Structure guidance              |
-| Technology Stack                            | 398  | Technology Stack guidance                            |
-| Executive Summary                           | 418  | Executive Summary guidance                           |
-| Health Dashboard                            | 473  | Health Dashboard guidance                            |
-| High-Level Observations                     | 518  | High-Level Observations guidance                     |
-| Auditing Methodology                        | 534  | Auditing Methodology guidance                        |
-| Scoring Rubrics                             | 634  | Scoring Rubrics guidance                             |
-| System Context                              | 674  | System Context guidance                              |
-| Architectural Assessment                    | 708  | Architectural Assessment guidance                    |
-| Threat Model                                | 806  | Threat Model guidance                                |
-| API Contract Conformance                    | 827  | API Contract Conformance guidance                    |
-| Skill Definition Conformance                | 843  | Skill Definition Conformance guidance                |
-| Standards Conformance                       | 863  | Standards Conformance guidance                       |
-| Strengths & What's Working                  | 908  | Strengths & What's Working guidance                  |
-| Detailed Technical Findings                 | 933  | Detailed Technical Findings guidance                 |
-| Technical Debt Register                     | 1012 | Technical Debt Register guidance                     |
-| Unified Risk Register                       | 1047 | Unified Risk Register guidance                       |
-| Trade-off Analysis                          | 1122 | Trade-off Analysis guidance                          |
-| Actionable Remediation Roadmap              | 1151 | Actionable Remediation Roadmap guidance              |
-| Changes Since Previous Audit                | 1207 | Changes Since Previous Audit guidance                |
-| Scope Exclusions                            | 1267 | Scope Exclusions guidance                            |
-| Re-audit and Follow-up Plan                 | 1314 | Re-audit and Follow-up Plan guidance                 |
-| References                                  | 1340 | References guidance                                  |
+| Multi-Project Report Structure              | 348  | Multi-Project Report Structure guidance              |
+| Technology Stack                            | 399  | Technology Stack guidance                            |
+| Executive Summary                           | 419  | Executive Summary guidance                           |
+| Health Dashboard                            | 474  | Health Dashboard guidance                            |
+| High-Level Observations                     | 519  | High-Level Observations guidance                     |
+| Auditing Methodology                        | 535  | Auditing Methodology guidance                        |
+| Scoring Rubrics                             | 640  | Scoring Rubrics guidance                             |
+| System Context                              | 680  | System Context guidance                              |
+| Architectural Assessment                    | 714  | Architectural Assessment guidance                    |
+| Threat Model                                | 812  | Threat Model guidance                                |
+| API Contract Conformance                    | 833  | API Contract Conformance guidance                    |
+| Skill Definition Conformance                | 849  | Skill Definition Conformance guidance                |
+| Standards Conformance                       | 869  | Standards Conformance guidance                       |
+| Strengths & What's Working                  | 914  | Strengths & What's Working guidance                  |
+| Detailed Technical Findings                 | 939  | Detailed Technical Findings guidance                 |
+| Technical Debt Register                     | 1018 | Technical Debt Register guidance                     |
+| Unified Risk Register                       | 1053 | Unified Risk Register guidance                       |
+| Trade-off Analysis                          | 1128 | Trade-off Analysis guidance                          |
+| Actionable Remediation Roadmap              | 1157 | Actionable Remediation Roadmap guidance              |
+| Changes Since Previous Audit                | 1213 | Changes Since Previous Audit guidance                |
+| Scope Exclusions                            | 1273 | Scope Exclusions guidance                            |
+| Re-audit and Follow-up Plan                 | 1320 | Re-audit and Follow-up Plan guidance                 |
+| References                                  | 1346 | References guidance                                  |
 
 ## Formatting Rules
 
@@ -325,7 +325,8 @@ For a multi-project audit, use the repository or directory name as the system na
 Use double asterisks for the label and a single space after the colon. Each label-value pair is followed by an empty line. This ensures proper rendering in all markdown viewers.
 
 Also record the audited revision and dirty-tree state, Lens version, evaluation scale, language,
-delivery mode, audit purpose, target environment, and actual verification scope.
+delivery mode, audit purpose, target environment, and the verification scope, which is always
+`source-only`.
 
 Record `NOT SPECIFIED` or `UNKNOWN` when the input does not establish a field.
 
@@ -453,8 +454,8 @@ Tie conditions to risk IDs and required verification, without inventing numeric 
 Distinguish adopted acceptance criteria from proposed improvements and identify who must confirm
 unapproved criteria.
 
-For readiness or due diligence, add an **Evidence And Decision Limits** paragraph stating required
-checks completed, blocked or unrun checks, critical uncertainties, and sign-off state.
+For readiness or due diligence, add an **Evidence And Decision Limits** paragraph stating which
+required checks are documented, which were not run, critical uncertainties, and sign-off state.
 
 Keep any "builds", "tests pass", "secure", or "production-ready" claim within the evidence actually
 collected, carrying the same qualifications as the detailed findings.
@@ -584,9 +585,13 @@ Begin the Methodology section with 2-3 sentences stating exactly what was inspec
   `.gitignore` exclusions were applied. If `.gitignore` was absent, record that fact without
   assuming a defect.
 - Whether Git history was examined.
-- Whether a running environment was observed.
+- Which documented check results, such as CI output, coverage reports, or scan artifacts, were
+  supplied or committed.
 
-Example: "This audit inspected 147 source files, 8 test files, and 4 configuration files from the repository root, excluding files listed in `.gitignore`. Git commit history was reviewed for the last 15 commits. No running application or live environment was observed; all findings are based on static code analysis."
+Example: "This audit inspected 147 source files, 8 test files, and 4 configuration files from the
+repository root, excluding files listed in `.gitignore`. Git commit history was reviewed for the
+last 15 commits. No builds, tests, or tools were executed, all findings are based on static
+inspection of the repository contents."
 
 **Verification And Evidence Ledger**
 
@@ -596,15 +601,16 @@ Include the per-project check summary and evidence records from `process/audit-w
 |-------------|-----------|---------------------|-----------|----------|---------------|
 | EVD-001     | <project> | <source or command> | <state>   | <result> | <path or gap> |
 
-Place exact commands, directories, revisions, tool/database versions, exit codes, target/features,
-exclusions, and limitations below the table rather than abbreviating away reproducibility.
+Place documented commands, source locations, revisions, declared tool or report versions,
+exclusions, and limitations below the table rather than abbreviating away traceability.
 
-Include blocked, failed, and unrun checks, and label supplied historical results as reported.
+Include documented checks that were not run, and label supplied or committed results as
+reported.
 
 For dependencies, summarize inventory/SBOM scope, schema version, license policy, advisory triage,
 and artifact paths, not just direct manifest versions.
 
-For testing, distinguish counts from measured coverage and mutation outcomes.
+For testing, distinguish inspected test counts from documented coverage and mutation outcomes.
 
 Link every finding to supporting `EVD-XXX` records.
 
