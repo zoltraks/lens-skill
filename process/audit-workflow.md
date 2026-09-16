@@ -23,6 +23,22 @@ Note the source format. Findings from a description are weaker than findings fro
 
 Determine the natural language of the user's request. The report language must match the request language unless the user explicitly states otherwise. When the request language is ambiguous or cannot be determined, default to English.
 
+**Development standards discovery**
+
+During intake, look for project-internal development standards documents. These are documents that prescribe how source code should be written for the project's technology stack: language version, project structure, naming conventions, error handling, testing, formatting, dependency management, and similar rules.
+
+Search in these locations, in order:
+
+- `docs/standard/` and any file inside it, such as `docs/standard/go-development.md`
+- `docs/standards/`
+- `docs/guidelines/`
+- `STANDARDS.md` at the repository root
+- Any file referenced from `README.md`, `AGENTS.md`, or `docs/GUIDELINES.md` as a development standard
+
+Record whether standards documents exist, their paths, and which technology stack or software type each one covers. This determines whether the Standards Conformance assessment applies.
+
+When no standards documents are found, the Standards Conformance assessment is omitted and the omission is noted in Scope Exclusions.
+
 **Project Identification**
 
 After reading the input, identify whether the repository or directory contains one project or multiple projects.
@@ -171,6 +187,8 @@ Determine the maturity level claim, if any, so it can be tested against evidence
 
 For each relevant assessment category, collect concrete anchors: files, config keys, commands, pipeline steps, documented procedures, or direct quotes.
 
+When development standards documents were found during intake, collect evidence of conformance and divergence: for each rule in the standards, find representative source files that follow or violate it. Also collect the external best practices, style guides, or conventions that the standards reference or that apply to the stack, for the standards-quality evaluation in `assessment/standards-conformance.md`.
+
 Respect `.gitignore` exclusions. Do not inspect files that are excluded by `.gitignore` patterns (for example, `bin/`, `obj/`, `node_modules/`, `.env` files, or build artifacts). If a `.gitignore` file is present, use it to filter the file list before analysis. If no `.gitignore` is present, explicitly note this as a gap.
 
 Do not yet form conclusions. Separate collection from judgement to avoid confirmation bias.
@@ -181,7 +199,7 @@ Where evidence is absent, record the gap explicitly with the appropriate missing
 
 For each category, open the matching `assessment/` file and apply its checklist. For a full audit, this includes the two additional categories `assessment/ai-generated-code.md` and `assessment/copyright-review.md`.
 
-Evaluate the inclusion criterion for each conditional assessment, listed in the Conditional Sections table of `process/report-format.md`. When the criterion is met, open the matching conditional file and apply it: `assessment/data-flow.md`, `assessment/design-patterns.md`, `assessment/threat-model.md`, `assessment/api-contract.md`, and `assessment/skill-definition.md`. When a criterion is not met, omit that section and record the deliberate omission for Scope Exclusions. Do not force a conditional section onto a subject it does not fit.
+Evaluate the inclusion criterion for each conditional assessment, listed in the Conditional Sections table of `process/report-format.md`. When the criterion is met, open the matching conditional file and apply it: `assessment/data-flow.md`, `assessment/design-patterns.md`, `assessment/threat-model.md`, `assessment/api-contract.md`, `assessment/skill-definition.md`, and `assessment/standards-conformance.md`. When a criterion is not met, omit that section and record the deliberate omission for Scope Exclusions. Do not force a conditional section onto a subject it does not fit.
 
 Assign a status (`PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`) per the rules in `principles/evaluation-rules.md`.
 
@@ -234,6 +252,8 @@ Confirm each conditional section was evaluated: it is either present because its
 When a Threat Model is present, confirm every unmitigated threat traces to a `FND-XXX` and a `RSK-XXX`, and that no plaintext secret appears in a disclosure threat.
 
 When an API Contract Conformance section is present, confirm each security gap maps to an OWASP API Security Top 10 (2023) code where one applies.
+
+When a Standards Conformance section is present, confirm every conformance judgement cites a specific rule in the standards document and a specific file or pattern in the codebase, and that every standards-quality judgement cites a named external best practice. Confirm the References section lists every external source consulted during the standards-quality evaluation.
 
 When a Technical Debt Register is present, confirm every `TDR-XXX` traces to a `FND-XXX` or a cited direct observation, and that no security risk is duplicated from the Unified Risk Register.
 

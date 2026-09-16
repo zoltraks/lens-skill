@@ -6,8 +6,9 @@ description: >-
   development, production systems, and technical proposals. Covers testing,
   design principles (SOLID), code quality, dependencies, deployment, rollback,
   maintainability, documentation, NFRs, security, compliance, observability,
-  error handling, operational readiness, AI-generated code detection, and
-  copyrights. Enforces evidence-only reasoning, explicit marking of missing
+  error handling, operational readiness, AI-generated code detection,
+  copyrights, and conformance with project-internal development standards.
+  Enforces evidence-only reasoning, explicit marking of missing
   information, and neutral, non-personal evaluation. Use whenever the user
   asks for a software audit, architecture audit, prototype review, production
   code audit, technical due diligence, readiness assessment, risk register,
@@ -89,6 +90,10 @@ The skill activates on any of these phrases:
 - skill definition review
 - skill conformance
 - skill spec conformance
+- standards conformance
+- development standards review
+- coding standards audit
+- stack standards conformance
 
 ## How To Use This Skill
 
@@ -183,6 +188,7 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
 - **`assessment/threat-model.md`** - STRIDE threat enumeration mapped to trust boundaries. Include when the system has a security-relevant attack surface.
 - **`assessment/api-contract.md`** - API specification conformance, RFC 7807 error format, and OWASP API Security Top 10 (2023). Include when the system exposes an API.
 - **`assessment/skill-definition.md`** - Agent Skills specification conformance, frontmatter validity, progressive disclosure, triggering description quality, and file reference integrity. Include when the subject is an Agent Skill (has a `SKILL.md` file).
+- **`assessment/standards-conformance.md`** - Project-internal development standards: code-to-standards conformance, standards-to-best-practices quality, and external reference collection. Include when the project contains documented development standards.
 
 ## `synthesis/` - Findings And Report Assembly
 
@@ -213,7 +219,8 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
 - Concrete design pattern identification and fitness belong in `assessment/design-patterns.md`, keep it distinct from the SOLID principles in `assessment/design-principles.md`.
 - API specification conformance and the OWASP API Security Top 10 belong in `assessment/api-contract.md`, ADR gap assessment belongs in `assessment/change-management.md`.
 - Agent Skills specification conformance, frontmatter validity, progressive disclosure, and triggering description quality belong in `assessment/skill-definition.md`, include it only when the subject is an Agent Skill (has a `SKILL.md` file).
-- Conditional sections appear only when their inclusion criterion is met. Evaluate each criterion in the Conditional Sections table of `process/report-format.md`. Omit a conditional section entirely when it cannot apply, and note the deliberate omission in Scope Exclusions. Never force an irrelevant section (for example, an API Contract section for a project with no API).
+- Project-internal development standards conformance and standards-quality evaluation belong in `assessment/standards-conformance.md`, include it only when the project contains documented development standards. The References section at the end of the report lists every external source consulted during the standards-quality evaluation and any other assessment category.
+- Conditional sections appear only when their inclusion criterion is met. Evaluate each criterion in the Conditional Sections table of `process/report-format.md`. Omit a conditional section entirely when it cannot apply, and note the deliberate omission in Scope Exclusions. Never force an irrelevant section (for example, an API Contract section for a project with no API, or a Standards Conformance section for a project with no development standards).
 - The Technical Debt Register (`synthesis/debt-register.md`) is distinct from the Unified Risk Register: debt is accumulated cost already present, risk is what could go wrong. Do not duplicate entries between them.
 - The Re-audit and Follow-up Plan (`synthesis/re-audit-plan.md`) is the final section when present, it maps P1 and P2 findings to verification owners and closure evidence.
 - Translation files in `translation/` are loaded only when the report language is not English. Each file defines the translations for one language. To add a new language, create a new file in `translation/` following the structure of the existing files.

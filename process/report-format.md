@@ -84,7 +84,7 @@ Use the standard ASCII hyphen-minus `-` (U+002D) for all hyphens, dashes, and mi
 
 **No closing line**
 
-Do not add a closing line such as "End of audit report." or "---" at the end of the document. The final section is the Re-audit and Follow-up Plan when it is included, otherwise Scope Exclusions, end the report after the final section without any trailing boilerplate.
+Do not add a closing line such as "End of audit report." or "---" at the end of the document. The final section is the References section, end the report after the final section without any trailing boilerplate.
 
 ## Report Delivery And Parameter Configuration
 
@@ -121,8 +121,9 @@ All fifteen always-present sections are present in full:
 - Trade-off Analysis
 - Actionable Remediation Roadmap (full matrix with P1-P4, impact/effort/complexity, verification)
 - Scope Exclusions
+- References
 
-In addition, any conditional sections whose criteria are met are included in full. See the Conditional Sections rule below for the inclusion criteria of the Data Flow Diagram, Design Patterns, Architecture Decision Records, Threat Model, API Contract Conformance, Technical Debt Register, and Re-audit and Follow-up Plan.
+In addition, any conditional sections whose criteria are met are included in full. See the Conditional Sections rule below for the inclusion criteria of the Data Flow Diagram, Design Patterns, Architecture Decision Records, Threat Model, API Contract Conformance, Skill Definition Conformance, Standards Conformance, Technical Debt Register, and Re-audit and Follow-up Plan.
 
 **Detailed**
 
@@ -153,6 +154,7 @@ Condensed output for rapid review:
 - Key trade-offs only (top 2, no full table)
 - Key recommendations only (top 5, no full matrix)
 - Scope Exclusions (full)
+- References (full)
 
 Omitted in Brief: Auditing Methodology, Scoring Rubrics, System Context, Architectural Assessment detailed critique, full Detailed Technical Findings list, full Unified Risk Register, full Trade-off Analysis, full Actionable Remediation Roadmap.
 
@@ -166,16 +168,17 @@ When a conditional section is omitted, state the omission once in the Scope Excl
 
 The following sections and subsections are conditional. Each lists its inclusion criterion and the assessment file that governs it:
 
-| Section / Subsection                                        | Include When                                                        | Governing File                    |
-|-------------------------------------------------------------|---------------------------------------------------------------------|-----------------------------------|
-| Data Flow Diagram (in Architectural Assessment)             | The system moves data across one or more trust boundaries           | `assessment/data-flow.md`         |
-| Design Patterns (in Architectural Assessment)               | The codebase is large enough to exhibit recurring structure         | `assessment/design-patterns.md`   |
-| Architecture Decision Records (in Architectural Assessment) | The system is production-bound and has significant decisions        | `assessment/change-management.md` |
-| Threat Model (standalone)                                   | The system has a security-relevant attack surface or trust boundary | `assessment/threat-model.md`      |
-| API Contract Conformance (standalone)                       | The system exposes an API (REST, GraphQL, gRPC, MCP)                | `assessment/api-contract.md`      |
-| Skill Definition Conformance (standalone)                   | The subject is an Agent Skill (has a `SKILL.md` file)               | `assessment/skill-definition.md`  |
-| Technical Debt Register (standalone)                        | The assessment surfaces structural debt distinct from risks         | `synthesis/debt-register.md`      |
-| Re-audit and Follow-up Plan (standalone)                    | The roadmap contains at least one P1 or P2 recommendation           | `synthesis/re-audit-plan.md`      |
+| Section / Subsection                                        | Include When                                                        | Governing File                        |
+|-------------------------------------------------------------|---------------------------------------------------------------------|---------------------------------------|
+| Data Flow Diagram (in Architectural Assessment)             | The system moves data across one or more trust boundaries           | `assessment/data-flow.md`             |
+| Design Patterns (in Architectural Assessment)               | The codebase is large enough to exhibit recurring structure         | `assessment/design-patterns.md`       |
+| Architecture Decision Records (in Architectural Assessment) | The system is production-bound and has significant decisions        | `assessment/change-management.md`     |
+| Threat Model (standalone)                                   | The system has a security-relevant attack surface or trust boundary | `assessment/threat-model.md`          |
+| API Contract Conformance (standalone)                       | The system exposes an API (REST, GraphQL, gRPC, MCP)                | `assessment/api-contract.md`          |
+| Skill Definition Conformance (standalone)                   | The subject is an Agent Skill (has a `SKILL.md` file)               | `assessment/skill-definition.md`      |
+| Standards Conformance (standalone)                          | The project contains documented development standards               | `assessment/standards-conformance.md` |
+| Technical Debt Register (standalone)                        | The assessment surfaces structural debt distinct from risks         | `synthesis/debt-register.md`          |
+| Re-audit and Follow-up Plan (standalone)                    | The roadmap contains at least one P1 or P2 recommendation           | `synthesis/re-audit-plan.md`          |
 
 When in doubt about whether a conditional section applies, prefer including it with explicit `N/A` or `NOT SPECIFIED` markers over silently dropping a relevant concern. Only omit a section when it genuinely cannot apply to the subject.
 
@@ -197,6 +200,7 @@ For a **single-project** audit:
 - Threat Model *(conditional)*
 - API Contract Conformance *(conditional)*
 - Skill Definition Conformance *(conditional)*
+- Standards Conformance *(conditional)*
 - Strengths & What's Working
 - Detailed Technical Findings
 - Technical Debt Register *(conditional)*
@@ -205,6 +209,7 @@ For a **single-project** audit:
 - Actionable Remediation Roadmap
 - Scope Exclusions
 - Re-audit and Follow-up Plan *(conditional)*
+- References
 
 For a **multi-project** audit, the structure changes. See the Multi-Project Report Structure section below for the full layout. In summary:
 
@@ -222,6 +227,7 @@ For a **multi-project** audit, the structure changes. See the Multi-Project Repo
   - Threat Model *(conditional)*
   - API Contract Conformance *(conditional)*
   - Skill Definition Conformance *(conditional)*
+  - Standards Conformance *(conditional)*
   - Strengths & What's Working
   - Detailed Technical Findings
   - Technical Debt Register *(conditional)*
@@ -230,6 +236,7 @@ For a **multi-project** audit, the structure changes. See the Multi-Project Repo
   - Actionable Remediation Roadmap
 - Scope Exclusions (once, shared)
 - Re-audit and Follow-up Plan *(conditional)* (once, shared)
+- References (once, shared)
 
 ## Document Information
 
@@ -302,6 +309,7 @@ When the report language is not English, apply the column header translations fr
 - Threat Model *(conditional)*
 - API Contract Conformance *(conditional)*
 - Skill Definition Conformance *(conditional)*
+- Standards Conformance *(conditional)*
 - Strengths & What's Working
 - Detailed Technical Findings
 - Technical Debt Register *(conditional)*
@@ -699,6 +707,51 @@ Present a conformance table across the evaluated dimensions, then describe each 
 
 When the report language is not English, apply the column header translations from the matching `translation/` file.
 
+## Standards Conformance
+
+Include this section only when the project contains documented development standards, per `assessment/standards-conformance.md`. Omit it entirely for a project with no development standards documents, and note the omission in Scope Exclusions.
+
+This section evaluates two dimensions: whether the codebase conforms to the project's documented development standards, and whether those standards are themselves consistent with established good practices for the technology stack, programming language, and software type.
+
+**Standards inventory**
+
+List the development standards documents found in the project:
+
+| Document | Path   | Stack Coverage                         |
+|----------|--------|----------------------------------------|
+| <title>  | <path> | <languages, frameworks, software type> |
+
+When the report language is not English, apply the column header translations from the matching `translation/` file.
+
+**Code conformance**
+
+Present a conformance table across the areas the standards cover, then describe each gap with evidence and its linked `FND-XXX`:
+
+| Area                  | Standard Rule         | Status  | Evidence                                  |
+|-----------------------|-----------------------|---------|-------------------------------------------|
+| Language version      | <rule from standards> | PASS    | <file or config matching the rule>        |
+| Project structure     | <rule from standards> | PARTIAL | <file or pattern diverging from the rule> |
+| Naming conventions    | <rule from standards> | FAIL    | <file or pattern violating the rule>      |
+| Error handling        | <rule from standards> | UNKNOWN | <not enough evidence to judge>            |
+| Testing               | <rule from standards> | PASS    | <test files matching the rule>            |
+| Formatting and lint   | <rule from standards> | PARTIAL | <CI config present, not enforced>         |
+| Dependency management | <rule from standards> | PASS    | <manifest and lockfile matching the rule> |
+| Security              | <rule from standards> | FAIL    | <file or pattern violating the rule>      |
+
+When the report language is not English, apply the column header translations from the matching `translation/` file.
+
+**Standards quality**
+
+Evaluate whether the documented standards are consistent with established good practices for the stack. Anchor every judgement to a named external best practice, style guide, or convention:
+
+| Area   | Standards Position             | External Best Practice  | Alignment                              |
+|--------|--------------------------------|-------------------------|----------------------------------------|
+| <area> | <what the standards prescribe> | <named external source> | Aligned / Partially aligned / Diverges |
+
+When the report language is not English, apply the column header translations from the matching `translation/` file.
+
+After the table, describe each divergence with evidence. Name the external source and explain how the standards position differs from the established practice. Cross-reference any conformance gap that also produces a `FND-XXX` finding.
+
 ## Strengths & What's Working
 
 Add a short section with 5-8 bullet points acknowledging what the system does well. This balances the tone of the report and anchors the scorecard with positive baselines.
@@ -973,3 +1026,21 @@ Present a table mapping findings to verification ownership and closure evidence.
 When the report language is not English, apply the column header translations from the matching `translation/` file.
 
 After the table, state the sign-off gates (which findings must close before production sign-off, tied to their `RSK-XXX`) and the recommended re-audit schedule. Do not invent owner names or dates, use `NOT SPECIFIED` where the input is silent.
+
+## References
+
+This section lists every external source referenced during the audit. It is the final section of the report when no Re-audit and Follow-up Plan is present, otherwise it follows the Re-audit and Follow-up Plan.
+
+Collect references from all sections of the report. Sources include the standards named in Auditing Methodology, the external best practices cited in Standards Conformance, and any documentation consulted during any assessment category.
+
+Present the references as a table:
+
+| Reference | Publisher or Author   | URL                      | Used In         |
+|-----------|-----------------------|--------------------------|-----------------|
+| <title>   | <publisher or author> | <url or `NOT SPECIFIED`> | <section names> |
+
+When the report language is not English, apply the column header translations from the matching `translation/` file.
+
+Only list sources actually consulted during the audit. Do not invent references. When a source was consulted but has no stable URL, write `NOT SPECIFIED` in the URL column rather than guessing.
+
+Group rows by section when the same source is used in multiple sections, or list one row per source with all sections in the Used In column separated by semicolons. Keep the order stable: methodology standards first, then standards-conformance best practices, then any other sources in the order they first appear in the report.

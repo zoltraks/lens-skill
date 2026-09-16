@@ -83,20 +83,21 @@ This format keeps the report readable in plain-text consoles while preserving de
 
 ## When to use this skill
 
-| Situation                                        | Use this skill?                                   |
-|--------------------------------------------------|---------------------------------------------------|
-| "Audit the architecture of this system"          | **Yes**                                           |
-| "Audit this production codebase"                 | **Yes**                                           |
-| "Review this prototype for production readiness" | **Yes**                                           |
-| "Do technical due diligence on this codebase"    | **Yes**                                           |
-| "Audit our dependencies and supply chain"        | **Yes** - use `assessment/dependency-review.md`   |
-| "Build me a risk register and scorecard"         | **Yes**                                           |
-| "Review only the security posture"               | **Yes** - single-dimension audit                  |
-| "Check if this code is idiomatic for its stack"  | **Yes** - use `assessment/best-practices.md`      |
-| "Audit this skill for spec conformance"          | **Yes** - use `assessment/skill-definition.md`    |
-| "Compare these two architectural options"        | **Yes** - embed trade-offs into relevant findings |
-| "Write the feature for me"                       | No - this skill assesses, it does not build       |
-| "Tell me which team member caused this"          | No - this skill never evaluates people            |
+| Situation                                        | Use this skill?                                     |
+|--------------------------------------------------|-----------------------------------------------------|
+| "Audit the architecture of this system"          | **Yes**                                             |
+| "Audit this production codebase"                 | **Yes**                                             |
+| "Review this prototype for production readiness" | **Yes**                                             |
+| "Do technical due diligence on this codebase"    | **Yes**                                             |
+| "Audit our dependencies and supply chain"        | **Yes** - use `assessment/dependency-review.md`     |
+| "Build me a risk register and scorecard"         | **Yes**                                             |
+| "Review only the security posture"               | **Yes** - single-dimension audit                    |
+| "Check if this code is idiomatic for its stack"  | **Yes** - use `assessment/best-practices.md`        |
+| "Audit this skill for spec conformance"          | **Yes** - use `assessment/skill-definition.md`      |
+| "Check conformance with our dev standards"       | **Yes** - use `assessment/standards-conformance.md` |
+| "Compare these two architectural options"        | **Yes** - embed trade-offs into relevant findings   |
+| "Write the feature for me"                       | No - this skill assesses, it does not build         |
+| "Tell me which team member caused this"          | No - this skill never evaluates people              |
 
 ---
 
@@ -175,7 +176,8 @@ lens-skill/
 │   ├── design-patterns.md         # (conditional) GoF/POSA pattern fitness and anti-patterns
 │   ├── threat-model.md            # (conditional) STRIDE threat enumeration per trust boundary
 │   ├── api-contract.md            # (conditional) API spec conformance, RFC 7807, OWASP API Top 10
-│   └── skill-definition.md        # (conditional) Agent Skills spec conformance, frontmatter, progressive disclosure
+│   ├── skill-definition.md        # (conditional) Agent Skills spec conformance, frontmatter, progressive disclosure
+│   └── standards-conformance.md   # (conditional) Project development standards conformance and quality
 ├── synthesis/
 │   ├── risk-register.md           # Unified risk register with FND cross-referencing
 │   ├── project-scorecard.md      # 1-10 project scorecard and rubric (1-5 optional)

@@ -219,6 +219,36 @@ The default output filename for a Polish-language report is `AUDYT.md` instead o
 |------------------------------|---------------------------------|
 | Skill Definition Conformance | Zgodność definicji umiejętności |
 
+## Standards Conformance
+
+| English                | Polish                    |
+|------------------------|---------------------------|
+| Standards Conformance  | Zgodność ze standardami   |
+| Standards inventory    | Inwentaryzacja standardów |
+| Document               | Dokument                  |
+| Path                   | Ścieżka                   |
+| Stack Coverage         | Zakres stosu              |
+| Code conformance       | Zgodność kodu             |
+| Area                   | Obszar                    |
+| Standard Rule          | Reguła standardu          |
+| Standards quality      | Jakość standardów         |
+| Standards Position     | Pozycja standardu         |
+| External Best Practice | Zewnętrzna dobra praktyka |
+| Alignment              | Zgodność                  |
+| Aligned                | Zgodne                    |
+| Partially aligned      | Częściowo zgodne          |
+| Diverges               | Rozbieżne                 |
+
+## References
+
+| English             | Polish            |
+|---------------------|-------------------|
+| References          | Referencje        |
+| Reference           | Referencja        |
+| Publisher or Author | Wydawca lub autor |
+| URL                 | URL               |
+| Used In             | Zastosowane w     |
+
 ## Strengths And What's Working
 
 | English                    | Polish                   |
