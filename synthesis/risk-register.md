@@ -56,7 +56,27 @@ Derive severity from impact and likelihood, then record it explicitly.
 | MEDIUM              | LOW    | MEDIUM   | HIGH     |
 | LOW                 | LOW    | LOW      | MEDIUM   |
 
-Severity must always be one of `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`.
+A supported severity must be one of `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`.
+
+Use the missing-information rules below when a rating cannot be supported.
+
+## Classification And Confidence
+
+Use CWE and CVSS from `assessment/security-review.md` only for applicable security findings.
+
+Link those classifications through the source finding rather than replacing this business-risk
+matrix with a vulnerability score.
+
+Explain any difference between technical vulnerability severity and the contextual Lens severity.
+
+Keep confidence and verification limits visible in risk detail.
+
+If impact or likelihood lacks a defensible basis, use `UNKNOWN` for the rating and severity rather
+than forcing a matrix value, and identify the evidence needed to rate it.
+
+`UNKNOWN` here denotes a missing rating, not an additional severity band.
+
+List unrated risks beside the heat map instead of placing them in an invented cell.
 
 ## Cross-Referencing Rules
 

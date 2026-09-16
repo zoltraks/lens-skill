@@ -61,6 +61,27 @@ Apply `principles/evaluation-rules.md` throughout. This assessment is conditiona
 
 Mark each missing signal explicitly rather than inferring its presence. Anchor every conformance judgement to a specific rule in the standards document and a specific file or pattern in the codebase. Anchor every standards-quality judgement to a named external best practice, style guide, or convention for the stack.
 
+## Requirement Interpretation
+
+Quote or closely paraphrase the actual rule and record whether it is mandatory, recommended,
+optional, or conditional before judging conformance.
+
+Honor alternatives and scope, for example "thiserror or manual errors where needed" does not
+require a particular dependency in every module.
+
+Verify process requirements using process evidence, not unrelated source-code properties.
+
+Documentation-before-code needs change history or review evidence, not a count of doc comments.
+
+Keep standards-quality analysis separate from implementation analysis.
+
+A standards document that is silent on authorization does not prescribe broken authorization.
+
+Record that silence as a coverage gap where relevant, and assess the implementation separately.
+
+An external best practice supports advice unless it was adopted as a requirement or implements a
+necessary security invariant.
+
 ## External References
 
 When this assessment is included, collect every external source referenced during the standards-quality evaluation. Examples include official language style guides, framework conventions documentation, ecosystem best-practice guides, and standards documents for the software type. These references appear in the References section at the end of the audit report, per `process/report-format.md`.

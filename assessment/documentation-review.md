@@ -28,6 +28,46 @@ Apply `principles/evaluation-rules.md` throughout. Assess whether documentation 
 | Decision records   | ADRs, design docs, recorded rationale          |
 | Doc-code agreement | Docs that match current commands and structure |
 
+## Architecture Documentation Coverage
+
+Use [arc42](https://arc42.org/overview) as a coverage aid, not a required document format.
+
+Map existing material to goals, constraints, context, solution strategy, building blocks, runtime,
+deployment, crosscutting concepts, decisions, quality scenarios, risks/debt, and glossary.
+
+Reference existing documents rather than requiring twelve new sections for a small system.
+
+Use the [C4 model](https://c4model.com/) for appropriate context, container, and component views.
+
+A C4 container is a deployable or executable unit, not necessarily a Docker container.
+
+C4 diagrams supplement the security DFD and do not replace trust-boundary or data-flow analysis.
+
+Check diagrams against actual routing and storage access, not a generic template.
+
+Review significant decisions using `assessment/change-management.md`.
+
+## Support Continuity
+
+For production readiness or technical due diligence, assess knowledge concentration and handover
+artifacts as system continuity risks, not individual performance.
+
+Inspect ownership files, support procedures, reviewer coverage, onboarding evidence, and maintenance
+of critical subsystems.
+
+A bounded Git summary such as `git shortlog -sn --no-merges HEAD` can inform contributor
+concentration when history is in scope.
+
+Record revision range, observation window, merge handling, bots, aliases, and any shallow history.
+
+Commit concentration is only a proxy, it does not measure operational access, expertise, review
+work, or the number of people able to restore service.
+
+Request evidence of backup ownership, access handover, and a second operator's build/restore drill
+before asserting a bus-factor number.
+
+Report aggregate or role-level information, not personal rankings or contributor email addresses.
+
 ## Status Criteria
 
 - `PASS`: Entry, setup, and interface documentation exist and match the code, with evidence.

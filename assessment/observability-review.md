@@ -26,6 +26,23 @@ Apply `principles/evaluation-rules.md` throughout. Operational use of observabil
 | Alerting    | Alert rules, thresholds, notification routing   |
 | Correlation | Request or trace identifiers across components  |
 
+## Evidence Of Operational Use
+
+Connect telemetry to the SLIs in `assessment/nfr-review.md` and the response procedures in
+`assessment/operational-readiness.md`.
+
+Distinguish instrumentation present in source from collected signals, usable dashboards, tested
+alerts, and a verified response path.
+
+Record measurement queries, time windows, alert conditions, routing, and evidence of alert testing.
+
+Do not require Prometheus, JSON logs, or distributed tracing by brand or convention alone.
+
+For a CLI or stdio protocol, distinguish normal output from diagnostics and preserve stdout's
+contract when recommending logging changes.
+
+Assess redaction, cardinality, retention, and telemetry cost alongside diagnostic usefulness.
+
 ## Status Criteria
 
 - `PASS`: Structured logs, meaningful metrics, request tracing, and actionable alerts are present, with evidence.

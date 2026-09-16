@@ -52,7 +52,16 @@ Mark each missing signal explicitly rather than inferring its presence.
 
 For production-bound systems, the absence of Architecture Decision Records (ADRs) is a governance gap. Industry practice (the MADR standard and Michael Nygard's original ADR format) treats significant, hard-to-reverse decisions as artifacts that should be recorded.
 
-A standard ADR records, at minimum: Title, Status (`Proposed`, `Accepted`, `Deprecated`, `Superseded`), Context, Decision, Consequences, and the Alternatives considered.
+[Michael Nygard's lightweight ADR](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)
+records Title, Status, Context, Decision, and Consequences.
+
+Alternatives are a useful extension, not a mandatory field in the original format.
+
+Accept equivalent decision records in existing documentation rather than requiring a particular
+tool.
+
+Keep superseded decisions linked to their replacements and distinguish proposed decisions from
+accepted ones.
 
 **What to evaluate**
 
@@ -66,7 +75,17 @@ Render the ADR gap as a subsection of the Architectural Assessment per `process/
 
 **Interaction with AI provenance**
 
-When the codebase shows AI-generated-code signals (see `assessment/ai-generated-code.md`), the absence of ADRs is more serious: without recorded rationale it is impossible to distinguish a deliberate decision from an AI default. Cross-reference the relevant `FND-AIP-XXX` finding.
+Missing rationale limits confidence in a decision regardless of code origin.
+
+Do not infer an AI default or raise severity from style-based provenance signals.
+
+Cross-reference `assessment/ai-generated-code.md` only when explicit provenance evidence is
+relevant.
+
+For technical due diligence, compare roadmap commitments with documented prerequisites, integration
+constraints, deprecation plans, and supplied capacity estimates.
+
+Do not infer delivery capacity from commit counts or issue counts.
 
 **Status**
 

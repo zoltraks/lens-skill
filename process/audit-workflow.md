@@ -9,6 +9,17 @@ This file defines the order of operations for producing an audit. Follow it for 
 
 For a single-dimension request, run the same steps but limit the assessment phase to the one requested category.
 
+## Contents
+
+| Section                 | Line | What it covers                   |
+|-------------------------|------|----------------------------------|
+| Step Overview           | 23   | Step Overview guidance           |
+| Intake Checklist        | 431  | Intake Checklist guidance        |
+| Handling Thin Input     | 446  | Handling Thin Input guidance     |
+| Single-Dimension Audits | 456  | Single-Dimension Audits guidance |
+| Re-Audit                | 465  | Re-Audit guidance                |
+| Multi-Project Audits    | 473  | Multi-Project Audits guidance    |
+
 ## Step Overview
 
 The workflow has seven phases. Complete each phase before moving to the next.
@@ -55,7 +66,16 @@ When multiple projects are present, the audit runs independently for each projec
 
 When the user asks to rerun, regenerate, or update an audit report, first check whether a previous audit file exists in the target location (for example, `AUDIT.md` or a language-specific filename in the project directory).
 
-If a previous report is found, read its Document Information section to determine the parameters that were used (detail level, evaluation scale, language, delivery mode, and filename). Reuse those same parameters for the new run unless the user explicitly asks to change them or requests a fresh audit from scratch. Proceed directly to Scope Definition using the recovered parameters. Do not ask the parameter configuration questions again.
+If a previous report is found, recover its detail level, scale, language, delivery mode, and
+filename.
+
+Reuse them unless the user asks to change them, then proceed to Scope Definition without repeating
+answered questions.
+
+Do not reuse old execution permissions, tool results, or readiness conclusions as current evidence.
+
+Record any missing parameters using defaults and disclose them, rather than claiming they were
+specified in the prior report.
 
 If no previous report is found and the conversation context contains no record of previously chosen parameters, treat the request as a new audit and run the full Parameter Configuration phase.
 
@@ -143,7 +163,9 @@ When the report language is not English, load the matching `translation/` file a
 
 Ask: "What level of detail should the report include?"
 
-- **Standard** (default) - full report with all fifteen always-present sections plus any conditional sections whose criteria are met, complete findings, risk register, scorecard, and remediation roadmap.
+- **Standard** (default) - full report with all sixteen baseline sections, subject to explicit
+  parameter exclusions plus any conditional sections whose criteria are met, complete findings, risk
+  register, scorecard, and remediation roadmap.
 - **Detailed** - full report plus extended remediation steps, additional verification methods, deeper architectural critique, and expanded impact analysis.
 - **Brief** - Executive Summary, Health Dashboard (scorecard summary and risk heat map only), top risks only, and key recommendations. Detailed findings are summarized, not itemized.
 
@@ -166,7 +188,8 @@ Ask: "How should improvement suggestions be presented?"
 
 Ask: "Should architectural trade-offs be analyzed?"
 
-- **Embed into findings** (default) - trade-offs are embedded into the relevant `FND-ARC-XXX` or `FND-CQY-XXX` finding blocks.
+- **Standalone and embedded** (default) - a summary section and reasoning in relevant findings.
+- **Embed into findings** - reasoning only in relevant finding blocks.
 - **Omit** - do not include trade-off reasoning.
 
 **Bypass rule**
@@ -183,17 +206,122 @@ Record any constraints, goals, or target environment the user stated. Mark unsta
 
 Determine the maturity level claim, if any, so it can be tested against evidence later.
 
+**Audit Purpose And Verification Scope**
+
+Record whether the decision is engineering improvement, production readiness, or technical due
+diligence for acquisition, investment, or supplier review.
+
+For due diligence, include continuity, ownership, operating cost, roadmap feasibility, and IP/data
+obligations using the existing assessment categories rather than creating a separate people score.
+
+If business artifacts are unavailable, retain those concerns as `UNKNOWN` and request specific
+artifacts, do not present a source-only review as complete business due diligence.
+
+During scope definition, agree the permitted execution environment and network access.
+
+Default to source inspection plus safe, available local checks after reviewing their side effects.
+
+Do not treat acceptance of report-format defaults as permission to install tools, upload source,
+change project policies, execute untrusted builds, or access live systems.
+
+Record the resulting scope as source-only, tool-assisted, or runtime-validated for the checks
+actually completed, not those planned.
+
+For readiness audits, identify required evidence before judging readiness: applicable build and
+test results, dependency review, targeted security checks, and operational recovery evidence.
+
 **Evidence Gathering**
 
 For each relevant assessment category, collect concrete anchors: files, config keys, commands, pipeline steps, documented procedures, or direct quotes.
 
 When development standards documents were found during intake, collect evidence of conformance and divergence: for each rule in the standards, find representative source files that follow or violate it. Also collect the external best practices, style guides, or conventions that the standards reference or that apply to the stack, for the standards-quality evaluation in `assessment/standards-conformance.md`.
 
-Respect `.gitignore` exclusions. Do not inspect files that are excluded by `.gitignore` patterns (for example, `bin/`, `obj/`, `node_modules/`, `.env` files, or build artifacts). If a `.gitignore` file is present, use it to filter the file list before analysis. If no `.gitignore` is present, explicitly note this as a gap.
+Respect `.gitignore` exclusions. Do not inspect files that are excluded by `.gitignore` patterns
+(for example, `bin/`, `obj/`, `node_modules/`, `.env` files, or build artifacts). If a
+`.gitignore` file is present, use it to filter the file list before analysis. If no `.gitignore` is
+present, record the fact, but raise a finding only if relevant exclusions
+are required or a concrete exposure is evidenced.
 
 Do not yet form conclusions. Separate collection from judgement to avoid confirmation bias.
 
 Where evidence is absent, record the gap explicitly with the appropriate missing-information token.
+
+**Verification Plan And Execution**
+
+Build a small verification matrix per project before assessment.
+
+Select checks from the project's documented commands and the relevant assessment guides.
+
+For executable projects, consider build/type checks, tests, formatting/lint, dependency advisories,
+and license/SBOM checks as the baseline, executing applicable checks when safe and permitted.
+
+Add targeted security regression checks for material trust boundaries.
+
+Use coverage, mutation, fuzz, load, and recovery testing proportionately, not as an unconditional
+requirement to install every tool.
+
+For documentation-only skills or proposals, substitute reference, format, consistency, and scenario
+checks rather than attempting unrelated compiler commands.
+
+Record every selected check, including checks not run, in the ledger.
+
+If a tool is missing or blocked, record the reason, confidence impact, and exact next step.
+
+Do not silently convert the audit to source-only or mark an environment failure as a product defect.
+
+**Execution safety**
+
+Review scripts, build hooks, package-manager configuration, test setup, and tool provenance first.
+
+Builds, procedural macros, dependency resolution, and SBOM generators can execute project code.
+
+Use an approved disposable environment without ambient credentials for untrusted code.
+
+Constrain network access, time, memory, and disk usage, and use synthetic data and local fixtures.
+
+Do not mutate live data, weaken security controls, or alter source, manifests, lockfiles, or policy
+exceptions to make verification pass.
+
+Request approval for necessary installation, network use, or configuration changes.
+
+Use pinned, reviewed tool versions rather than auto-installing the newest release.
+
+Record any generated artifacts and keep them in the approved audit/work location.
+
+An explicitly approved verification output may be inspected even if its directory is gitignored,
+but this does not authorize inspecting unrelated ignored files or secrets.
+
+**Evidence ledger**
+
+Use globally unique evidence IDs within a report, with a project identifier on each row.
+
+| Evidence ID | Project   | Check / Source      | Execution | Result        | Artifact |
+|-------------|-----------|---------------------|-----------|---------------|----------|
+| EVD-001     | <project> | <command or source> | <state>   | <observation> | <path>   |
+
+Execution states are `COMPLETED`, `FAILED`, `BLOCKED`, `NOT RUN`, or `N/A`.
+
+They are separate from category statuses and from what the check discovered.
+
+For a source observation rather than a command, use `N/A` for execution and identify its evidence
+basis as Inspected, Reported, or Inferred as appropriate.
+
+`COMPLETED` means a check produced interpretable results, even if it found defects and returned
+nonzero, while `FAILED` means execution did not produce a usable assessment.
+
+Below each row, record the exact command and working directory or file and line range, revision
+and dirty-tree state, date, tool/version, OS/target/features, exit code, and sanitized artifact
+path.
+
+For scanners, record database timestamp/revision, ruleset, exclusions, suppressions, and coverage.
+
+For supplied CI output, record the run/revision and label it reported evidence unless independently
+reproduced, noting any mismatch with the audited tree.
+
+Preserve complete sanitized logs or machine-readable output when permitted, or record a precise
+excerpt and explain why the original artifact is unavailable.
+
+Tie findings to evidence IDs and explain what each item proves and does not prove.
 
 **Category Assessment**
 
@@ -201,7 +329,8 @@ For each category, open the matching `assessment/` file and apply its checklist.
 
 Evaluate the inclusion criterion for each conditional assessment, listed in the Conditional Sections table of `process/report-format.md`. When the criterion is met, open the matching conditional file and apply it: `assessment/data-flow.md`, `assessment/design-patterns.md`, `assessment/threat-model.md`, `assessment/api-contract.md`, `assessment/skill-definition.md`, and `assessment/standards-conformance.md`. When a criterion is not met, omit that section and record the deliberate omission for Scope Exclusions. Do not force a conditional section onto a subject it does not fit.
 
-Assign a status (`PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`) per the rules in `principles/evaluation-rules.md`.
+Assign a status (`PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`) per the rules in
+`principles/evaluation-rules.md`.
 
 Record evidence, concrete risks, and neutral notes for each category.
 
@@ -239,13 +368,17 @@ Confirm every `REC-XXX` resolves a specific `FND-XXX`.
 
 Confirm no plaintext secrets, passwords, or cryptographic keys appear in summaries, observations, or risk descriptions.
 
-Confirm the High-Level Observations section contains at most 5 bullets and anchors each to a specific `FND-XXX`.
+Confirm High-Level Observations contains at most five observations in the template's table and
+paragraph format, each anchored to a specific `FND-XXX`.
 
-Confirm the Strengths & What's Working section contains 5-8 evidenced bullet points.
+Confirm strengths fit the selected detail level and are evidenced, use fewer than the suggested
+count when the input supports fewer, rather than padding the report.
 
 Confirm the Trade-off Analysis section uses the standard table format and frames each trade-off against a stated constraint.
 
-Confirm every finding in the index table has a Remediation Status column with value `Open`.
+Confirm every adverse finding in an initial audit has Remediation Status `Open`.
+
+For re-audits, preserve IDs and update closure states only from the required evidence.
 
 Confirm each conditional section was evaluated: it is either present because its criterion is met, or omitted with a deliberate one-line justification in Scope Exclusions. No conditional section may be present-but-empty, and none relevant to the subject may be silently dropped.
 
@@ -262,6 +395,38 @@ When a Re-audit and Follow-up Plan is present, confirm every row references a `F
 Confirm the Auditing Methodology cites only the reference standards actually applied, and the Scope Exclusions state the OWASP category coverage.
 
 Confirm the report follows `process/report-format.md` section by section.
+
+**Evidence and decision checks**
+
+- Reconcile all counts with their source and scope, including tests, findings, risks, and scores.
+- Ensure every `CRITICAL` and `HIGH` finding records a counter-check and verification limit.
+- Keep build, test, scanner, and runtime claims consistent with the execution ledger.
+- Distinguish observed defects, unverified threats, and missing evidence in every summary.
+- Check applicable security findings for CWE mapping and justified CVSS vectors or gap tokens.
+- Recompute risk-matrix placements and any totals rather than estimating them in prose.
+- Check that shared references use project-qualified IDs, never ambiguous labels such as "both".
+- Require applicable readiness evidence and confirmed verification ownership before sign-off.
+- Report unknown cost inputs, unmeasured SLOs, and missing business artifacts prominently.
+- Preserve evidence limitations even in Brief reports.
+
+**Regression Scenarios For Skill Changes**
+
+When maintaining this skill, exercise these scenarios and check the expected behavior.
+
+These are reasoning checks, not proof of improvement from an independent model benchmark.
+
+| Scenario                                     | Expected Behavior                                    |
+|----------------------------------------------|------------------------------------------------------|
+| Changelog says tests pass, execution blocked | Reported only, readiness evidence incomplete         |
+| Scanner exits nonzero with an advisory       | Completed check, finding requires triage             |
+| Old crate, no advisory data                  | Freshness concern, vulnerability status unknown      |
+| Guarded panic or excluded module             | Verify reachability, do not invent failure           |
+| Local CLI without hosted runtime             | Assess local safety, omit irrelevant hosted controls |
+| Due diligence with no cost or support data   | Retain unknowns, request artifacts                   |
+| Two projects reuse FND-SEC-001               | Project-qualified shared references                  |
+| Clean code with uniform tests                | No authorship inference, assess test behavior        |
+| Security fix proposed but not run            | Keep verification pending, no closure claim          |
+| Partial cost inputs or no telemetry          | No complete budget or numeric SLO claim              |
 
 ## Intake Checklist
 

@@ -9,6 +9,41 @@ This file defines the Polish translations for the audit report. When the report 
 
 The default report language is English. This file is loaded only when the user requests a Polish-language report.
 
+## Contents
+
+| Section                            | Line | What it covers                              |
+|------------------------------------|------|---------------------------------------------|
+| Status And Severity Vocabulary     | 47   | Status And Severity Vocabulary guidance     |
+| Style Rules                        | 69   | Style Rules guidance                        |
+| Diacritics Frequently Misspelled   | 77   | Diacritics Frequently Misspelled guidance   |
+| Output Filename                    | 109  | Output Filename guidance                    |
+| Document Information               | 113  | Document Information guidance               |
+| Project Inventory                  | 124  | Project Inventory guidance                  |
+| Technology Stack                   | 133  | Technology Stack guidance                   |
+| Executive Summary                  | 150  | Executive Summary guidance                  |
+| Health Dashboard                   | 164  | Health Dashboard guidance                   |
+| Scorecard                          | 174  | Scorecard guidance                          |
+| Scoring Rubrics                    | 197  | Scoring Rubrics guidance                    |
+| High-Level Observations            | 211  | High-Level Observations guidance            |
+| Auditing Methodology               | 218  | Auditing Methodology guidance               |
+| System Context                     | 232  | System Context guidance                     |
+| Architectural Assessment           | 245  | Architectural Assessment guidance           |
+| Skill Definition Conformance       | 251  | Skill Definition Conformance guidance       |
+| Standards Conformance              | 257  | Standards Conformance guidance              |
+| References                         | 277  | References guidance                         |
+| Strengths And What's Working       | 286  | Strengths And What's Working guidance       |
+| Detailed Technical Findings        | 292  | Detailed Technical Findings guidance        |
+| Technical Debt Register            | 321  | Technical Debt Register guidance            |
+| Unified Risk Register              | 333  | Unified Risk Register guidance              |
+| Trade-off Analysis                 | 346  | Trade-off Analysis guidance                 |
+| Actionable Remediation Roadmap     | 358  | Actionable Remediation Roadmap guidance     |
+| Scope Exclusions                   | 372  | Scope Exclusions guidance                   |
+| Re-audit And Follow-up Plan        | 380  | Re-audit And Follow-up Plan guidance        |
+| Threat Model                       | 390  | Threat Model guidance                       |
+| API Contract Conformance           | 399  | API Contract Conformance guidance           |
+| Evidence And Decision Terms        | 407  | Evidence And Decision Terms guidance        |
+| Skill Definition Conformance Table | 470  | Skill Definition Conformance Table guidance |
+
 ## Status And Severity Vocabulary
 
 Use these Polish equivalents instead of the English markers:
@@ -368,6 +403,69 @@ The default output filename for a Polish-language report is `AUDYT.md` instead o
 | Dimension | Wymiar |
 | Status    | Status |
 | Evidence  | Dowód  |
+
+## Evidence And Decision Terms
+
+Translate prose labels below, while preserving machine tokens such as `EVD-001`, CWE IDs, CVSS
+vectors, tool commands, and execution-state codes.
+
+| English                          | Polish                            |
+|----------------------------------|-----------------------------------|
+| Evidence And Decision Limits     | Dowody i ograniczenia decyzji     |
+| Verification And Evidence Ledger | Rejestr weryfikacji i dowodów     |
+| Evidence ID                      | Identyfikator dowodu              |
+| Check / Source                   | Kontrola / źródło                 |
+| Execution                        | Wykonanie                         |
+| Result                           | Wynik                             |
+| Artifact                         | Artefakt                          |
+| Requirement Basis                | Podstawa wymagania                |
+| Confidence                       | Pewność oceny                     |
+| Verification State               | Stan weryfikacji                  |
+| Counter-check                    | Kontrola kontrargumentów          |
+| Security Classification          | Klasyfikacja bezpieczeństwa       |
+| Inspected                        | Sprawdzone w źródłach             |
+| Executed                         | Zweryfikowane wykonaniem          |
+| Reported                         | Zadeklarowane                     |
+| Inferred                         | Wywnioskowane                     |
+| Readiness Cost                   | Koszt osiągnięcia gotowości       |
+| Operational Objectives           | Cele operacyjne                   |
+| Due Diligence Coverage           | Zakres due diligence              |
+| Work Item                        | Pakiet prac                       |
+| Source Recommendations           | Rekomendacje źródłowe             |
+| Effort Range                     | Zakres nakładu pracy              |
+| Basis                            | Podstawa                          |
+| Dependencies                     | Zależności                        |
+| Metric                           | Metryka                           |
+| Target                           | Cel                               |
+| Measured Result                  | Wynik pomiaru                     |
+| Window                           | Okres pomiaru                     |
+| Source                           | Źródło                            |
+| Owner                            | Właściciel                        |
+| Concern                          | Obszar ryzyka                     |
+| Missing Artifact / Next Step     | Brakujący artefakt / kolejny krok |
+| Meaning                          | Znaczenie                         |
+| Readiness Treatment              | Obsługa gotowości produkcyjnej    |
+| Quality Characteristic           | Charakterystyka jakości           |
+| Lens Evidence                    | Dowody w Lens                     |
+| Functional Suitability           | Przydatność funkcjonalna          |
+| Performance Efficiency           | Efektywność wydajnościowa         |
+| Compatibility                    | Kompatybilność                    |
+| Interaction Capability           | Zdolność interakcji               |
+| Reliability                      | Niezawodność                      |
+| Flexibility                      | Elastyczność                      |
+| Safety                           | Bezpieczeństwo przed szkodami     |
+| Support Continuity               | Ciągłość wsparcia                 |
+| Ownership Cost                   | Koszt utrzymania                  |
+| Roadmap Feasibility              | Wykonalność planu rozwoju         |
+| Supplier Continuity              | Ciągłość dostawcy                 |
+| IP Rights                        | Prawa własności intelektualnej    |
+| Data Obligations                 | Obowiązki dotyczące danych        |
+
+Execution states remain `COMPLETED`, `FAILED`, `BLOCKED`, `NOT RUN`, and `N/A` to preserve the
+ledger's machine-readable vocabulary, explain their meanings in Polish prose.
+
+Keep `UNKNOWN`, `NOT SPECIFIED`, and `INSUFFICIENT INFORMATION` when used as missing-information
+tokens, while category statuses use the existing Polish translations.
 
 ## Skill Definition Conformance Table
 

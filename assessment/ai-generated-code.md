@@ -2,130 +2,91 @@
 
 ## Purpose
 
-> **Scope:** Detecting AI-generated code patterns, evaluating the maturity of Agent Driven Engineering practices, and flagging Vibe Coding risks in production-bound code
-> **Key items:** AI code signals, SDLC maturity, prototype-to-production gap, hallucination risks, architectural fit of generated patterns
+> **Scope:** Evidence of code origin and the controls used to validate generated artifacts
+> **Key items:** provenance, review records, reproducibility, SDLC controls, uncertainty
 
-This file defines how to assess whether a codebase contains AI-generated code, how that code was integrated, and whether the development process behind it is appropriate for the system's claimed maturity.
+Assess observable development artifacts and validation controls, not the abilities or intent of
+contributors.
 
-Apply `principles/evaluation-rules.md` throughout. A finding of AI-generated code is not inherently negative. The evaluation focuses on whether the code was reviewed, understood, and validated before entering a production-bound branch.
+Apply `principles/evaluation-rules.md` throughout.
 
-## What To Look For
+| Out of scope       | See instead                       |
+|--------------------|-----------------------------------|
+| Test effectiveness | `assessment/testing-review.md`    |
+| Source licensing   | `assessment/copyright-review.md`  |
+| Change governance  | `assessment/change-management.md` |
 
-**Explicit AI tool signals**
+## Establish Provenance
 
-- AI instruction files such as `CLAUDE.md`, `.cursorrules`, `.claude/`, `.cursor/`, `AI.md`, or similar documents that provide direct prompts or constraints to an AI coding agent.
-- Documentation explicitly describing an "AI-assisted development" workflow, "AI agent instructions", or preparation steps for AI collaboration (for example, `docs/PREPARATION.md` titled "AI Assisted Development").
-- Agent-specific policy files (for example, `policies/agents/claude-code.md`) that constrain behavior for AI tools.
-- Sections in `GUIDELINES.md` or `README.md` titled "Agent Behavior", "Memorization", or "Model Change" that describe AI agent workflows.
+Use explicit attribution, generation manifests, linked review records, or supplied stakeholder
+statements to establish the provenance of particular artifacts.
 
-**Code-level signals of AI-generated code**
+AI instruction files establish that an agent workflow is supported, not that any specific file was
+generated or that review was absent.
 
-- Overly verbose or generic documentation comments that explain obvious operations (for example, `// Print current time as the first message` before `println!(...)` or `/// Starts a background blocking task that watches ...` on a function named `start`).
-- Inconsistent naming conventions within a single file or class.
-- Boilerplate code that does not match the project's established patterns.
-- Comments that reference non-existent requirements or refer to "the user" in first person.
-- Dead code, unused variables, or imports that were generated and never cleaned up.
-- Use of deprecated, hallucinated, or non-existent APIs that were suggested by a model.
-- Patterns that solve a general problem but do not fit the specific architectural context.
+Record the provenance source, its scope, and whether it is inspected or reported evidence.
 
-**Structural uniformity signals**
+Keep code origin `UNKNOWN` when it cannot be established.
 
-- Perfect symmetry across multiple modules: all functions in a category (for example, all API handlers, all CLI subcommands) follow the exact same signature pattern, error handling pattern, and test pattern with zero variation.
-- Identical helper functions repeated across multiple files (for example, `build_router` in every API handler file) rather than extracted to a shared utility.
-- Identical test module structure repeated across every source file (for example, every test module defines `fn build_router(...) -> Router` with the exact same body).
-- All data structures, response types, and request types created with identical field count, naming style, and derivation attributes across the entire codebase.
+Do not estimate the percentage of AI-generated code from style.
 
-**Test pattern signals**
+Uniform formatting, round test values, synchronized versions, rapid commits, verbose prose, and
+absence of TODOs or abandoned code are not reliable authorship evidence.
 
-- Structure-only tests that assert a struct field equals the value just assigned (for example, `let req = SearchRequest { query: "foo".into() }; assert_eq!(req.query, "foo")`).
-- Tests that verify Rust language features rather than domain logic (for example, testing that `vec![].is_empty()` returns true after creating an empty vector).
-- Tests that use suspiciously round or neat values (for example, `documents_indexed: 100`, `chunks_indexed: 500`, `queries_total: 1000`) rather than realistic, varied data.
-- Every test module covering only happy path and one error case, with identical assertion patterns across all modules.
+Generated code is not inherently lower quality, and unknown origin is not evidence of infringement.
 
-**Absence of human personality markers**
+## Evaluate Validation Controls
 
-- Zero `TODO`, `FIXME`, `XXX`, `HACK`, or `NOTE` comments in a large codebase. Human developers typically leave at least some deferred work markers.
-- Zero commented-out experimental code, debug print statements, or abandoned approaches.
-- Zero pragmatic shortcuts, workarounds, or "this is a hack because ..." comments.
-- No stylistic inconsistencies, personal abbreviations, or naming quirks that humans typically introduce over time.
+- Check whether generated changes have requirement links and review evidence.
+- Inspect tests for actual behavior, boundary conditions, and failure paths.
+- Verify referenced APIs against the installed dependency versions.
+- Inspect whether generated datasets record source, generator version, and validation method.
+- Check how generation inputs containing sensitive data are governed when such use is evidenced.
+- Assess how defects are tracked, corrected, and prevented from recurring.
 
-**Process and metadata signals**
+Do not infer a contributor's understanding from comments or the absence of comments.
 
-- Rapid file creation timestamps clustered in short windows with large additions.
-- Unusual commit messages such as "generated by AI", "vibe coded", or "quick prototype".
-- Perfect documentation-to-code alignment where every feature in the specification is implemented exactly as described, with no deviation or pragmatic compromise.
-- Version synchronization across multiple files (for example, `Cargo.toml`, `CHANGELOG.md`, and `README.md` all showing the exact same version number simultaneously).
+Evaluate missing review or provenance controls against the system's adopted requirements and
+exposure, rather than assigning an automatic severity based on file size.
 
-**Agent Driven Engineering maturity signals**
+## Separate Origin From Quality
 
-- `PASS`: AI tools are used as assistants within a defined SDLC. Every generated block is reviewed, tested, and adapted to the project's conventions. Design decisions are documented.
-- `PARTIAL`: AI tools are used for drafting or prototyping. Some review is present, but not all generated code is validated. Prototypes may exist in production branches.
-- `FAIL`: The codebase appears to be predominantly AI-generated with minimal human review. Vibe Coding is the dominant mode. Architecture, security, and correctness were not validated.
+Record stub tests under Code Quality, unsafe authorization under Security, and missing decision
+rationale under Architecture, regardless of who or what produced the code.
 
-**Vibe Coding vs Production Engineering**
+Cross-reference those findings from this category only when explicit provenance links them.
 
-Vibe Coding is the practice of rapidly generating code through conversational AI without architectural planning, design review, or rigorous testing. It is acceptable for prototypes, spikes, and exploratory branches. It is not acceptable for production systems because:
+Do not duplicate the same defect under multiple pillars to penalize AI involvement twice.
 
-- Generated code may not match the existing architectural style or conventions.
-- Hallucinated APIs, incorrect logic, or security anti-patterns may be introduced silently.
-- The generating developer may not fully understand the code, making debugging and maintenance difficult.
-- Generated tests may pass without actually asserting correct behavior (happy-path hallucination).
-- Prompt engineering is not a substitute for requirements analysis and design.
+Use "unverified generated artifact" only when generation is evidenced and validation is unknown.
 
-Agent Driven Engineering, when used wisely, treats AI as a tool within an SDLC: requirements are gathered, designs are reviewed, code is generated in bounded tasks, and every output is reviewed, tested, and integrated with human oversight.
+Use "missing validation evidence" when origin itself is unknown.
 
-## Checklist
+## Status Criteria
 
-**Code origin and provenance**
+- `PASS`: Applicable provenance and validation requirements are evidenced for the reviewed scope.
+- `PARTIAL`: Some required controls are evidenced, but specific validation gaps remain.
+- `FAIL`: A required provenance or validation control is demonstrably absent or defeated.
+- `UNKNOWN`: Origin or validation history cannot be determined from available artifacts.
+- `N/A`: No generated artifacts or AI workflow are in scope, with a stated justification.
 
-- [ ] Are there explicit AI instruction files (`CLAUDE.md`, `.cursorrules`, `AI.md`, agent policy files)?
-- [ ] Is there documentation describing an AI-assisted development workflow or AI agent instructions?
-- [ ] Can any files be identified as likely AI-generated based on pattern analysis?
-- [ ] Are there commit messages or documentation that state AI generation?
-- [ ] Is there evidence of rapid bulk generation (large additions in short timeframes)?
-- [ ] Are there files with inconsistent style compared to the rest of the codebase?
-- [ ] Is there perfect symmetry across modules (identical signatures, identical test patterns, zero variation)?
-- [ ] Are there structure-only tests that assert fields equal values just assigned?
-- [ ] Do large generated test or data files (thousands of uniform entries) contain a provenance header documenting origin, generation methodology, and validation steps?
-- [ ] Is there a complete absence of TODO, FIXME, HACK, or commented-out experimental code?
+Keep provenance uncertainty separate from independently evidenced quality defects.
 
-**Review and validation**
+Prototype status changes applicable controls, but does not make provenance automatically irrelevant.
 
-- [ ] Is there evidence that generated code was reviewed before merge?
-- [ ] Do tests exist for generated logic, and do they assert real behavior or only happy paths?
-- [ ] Is there a design document or ADR that justifies the use of generated patterns?
-- [ ] Does the team demonstrate understanding of the generated code in comments or documentation?
-- [ ] Are tests present for edge cases and non-happy paths, or only for the obvious cases an AI would think of?
+## Process Frameworks
 
-**Production readiness of generated code**
+Use selected [NIST SSDF practices](https://csrc.nist.gov/pubs/sp/800/218/final) for review, testing,
+artifact protection, and vulnerability response when process evidence is available.
 
-- [ ] Is generated code present in the main or production branch?
-- [ ] Does generated code handle edge cases, errors, and security concerns?
-- [ ] Are generated SQL queries, regex patterns, or serialization logic manually validated?
-- [ ] Is there evidence of hallucinated APIs, incorrect library versions, or deprecated patterns?
-- [ ] Does the code contain pragmatic shortcuts and workarounds, or is it suspiciously textbook-perfect?
+SSDF 1.1 is the final baseline consulted for this guidance, while 1.2 is listed as a draft in the
+[NIST publications index](https://csrc.nist.gov/projects/ssdf/publications).
 
-**SDLC presence**
+Recheck publication status at audit time and do not present draft requirements as adopted controls.
 
-- [ ] Does the project have a requirements or design phase before coding?
-- [ ] Are there code review practices evidenced (PR comments, review checklists)?
-- [ ] Is there a testing strategy that covers generated code paths?
-- [ ] Is there a documented policy on AI tool usage in the project?
-- [ ] Does the documentation contain AI-agent-specific instructions (pre-work checklists, memorization conventions, model-change rules)?
+Use [OWASP SAMM](https://owaspsamm.org/model/) to organize evidenced governance, design,
+implementation, verification, and operations practices when process maturity is in scope.
 
-## Status Markers
+Identify the exact practices assessed and missing evidence.
 
-- `PASS`: AI tools are used within a disciplined SDLC. Generated code is reviewed, tested, and adapted. No Vibe Coding in production branches.
-- `PARTIAL`: AI-generated code is present in production branches. Some review is evidenced, but gaps exist (missing tests, unexplained patterns, or unvalidated API usage).
-- `FAIL`: Predominantly AI-generated code with minimal review. Vibe Coding is the dominant mode. Hallucinated or deprecated patterns are present.
-- `UNKNOWN`: Cannot determine the origin of the code from the provided files.
-- `N/A`: The system is explicitly a prototype or spike where AI generation is the stated intent.
-
-## Rules
-
-- Do not assume code is AI-generated without concrete signals. A clean, well-documented file is not evidence of AI generation.
-- Do not penalize the use of AI tools. Penalize the absence of review, validation, and SDLC discipline.
-- When marking `FAIL`, anchor the finding to specific files or patterns, not to a general impression.
-- If the system claims to be production-ready but shows Vibe Coding patterns, the maturity claim is contradicted by evidence.
-- When a finding involves a hallucinated API or incorrect pattern, cite the specific file and the expected correct pattern.
-- A large generated test or data file (thousands of entries with uniform structure) that lacks a provenance header is a MEDIUM severity finding at minimum. Without documented origin and generation methodology, errors in the generated data cannot be traced to their source or corrected systematically.
+Do not claim an SSDF certification or SAMM maturity level from repository inspection alone.

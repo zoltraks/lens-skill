@@ -27,8 +27,8 @@ Use this fixed column order and dimension set:
 | Compliance              |       |       |
 | Observability           |       |       |
 | Operational Safety      |       |       |
-| Originality & Licensing |       |       |
 | AI Provenance           |       |       |
+| Originality & Licensing |       |       |
 | Skill Definition        |       |       |
 
 Keep the dimension names and order identical across every audit so scores are comparable.
@@ -129,6 +129,59 @@ Each scorecard dimension summarizes one or more assessment categories.
 | AI Provenance           | AI-Generated Code & Provenance                           |
 | Originality & Licensing | Copyrights & Originality                                 |
 | Skill Definition        | Skill Definition Conformance                             |
+
+## ISO/IEC 25010:2023 Crosswalk
+
+Use this crosswalk as a coverage aid, not a claim of ISO certification or an ISO-defined scoring
+formula.
+
+Lens scores remain the existing rubric, and process/governance dimensions are complementary rather
+than direct ISO product-quality ratings.
+
+| Quality Characteristic | Lens Evidence                                           |
+|------------------------|---------------------------------------------------------|
+| Functional Suitability | Required behavior, correctness, contract tests          |
+| Performance Efficiency | NFR measurements and resource use                       |
+| Compatibility          | Interface and interoperability checks                   |
+| Interaction Capability | User workflows, accessibility, error prevention         |
+| Reliability            | Tests, resilience, recovery evidence                    |
+| Security               | Security controls and dependency findings               |
+| Maintainability        | Design, code quality, testability, documentation        |
+| Flexibility            | Adaptation, installation, replacement, scalability      |
+| Safety                 | Hazards, fail-safe behavior, warnings, safe integration |
+
+The 2023 edition uses Interaction Capability and Flexibility and adds Safety compared with 2011.
+
+Consult the [ISO publication record](https://www.iso.org/standard/78176.html) and identify when
+only a public summary, such as the
+[arc42 revision overview](https://quality.arc42.org/articles/iso-25010-update-2023), was accessible.
+
+Do not claim clause-level assessment from a summary.
+
+For a full audit, check all nine characteristics for applicability and identify assessed, unknown,
+and inapplicable coverage in Scoring Rubrics or Scope Exclusions.
+
+Functional completeness, interoperability, and user interaction need explicit evidence even when no
+Lens dimension maps to them one-to-one.
+
+Do not invent extra scores or claim the existing dimensions cover every characteristic completely.
+
+Operational Safety is broader than ISO Safety, map only evidenced hazards and harm-prevention
+controls to Safety.
+
+## Score Confidence And Aggregation
+
+Cite supporting evidence IDs, material findings, and confidence for each scored dimension.
+
+Do not reward an unexecuted build or unverified runtime behavior as demonstrated capability.
+
+If an overall score is requested, state the aggregation formula, weights, rounding rule, and scored
+versus applicable dimensions, excluding `UNKNOWN` and `N/A` from the numeric denominator.
+
+Disclose missing coverage beside the result, and do not compare aggregates with different scopes
+without explaining the difference.
+
+An average never overrides a material risk or incomplete production-readiness gate.
 
 ## Rules
 

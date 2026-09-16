@@ -66,6 +66,15 @@ Severity values:
 - `HIGH`
 - `CRITICAL`
 
+Use `UNKNOWN` for a missing severity rating, not as a new severity band.
+
+Evidence basis labels are Inspected, Executed, Reported, and Inferred.
+
+Confidence uses `HIGH`, `MEDIUM`, and `LOW`, separately from severity.
+
+Ledger execution states are `COMPLETED`, `FAILED`, `BLOCKED`, `NOT RUN`, and `N/A`, separately
+from category status or scanner findings.
+
 Maturity levels:
 
 - `Prototype`
@@ -177,7 +186,12 @@ The file path and configuration key that contains the secret may still be cited 
 
 ## Report Termination
 
-Do not add a closing line such as "End of audit report." or a trailing horizontal rule `---` at the end of the document. The Scope Exclusions section is the final section, end the report after it without any trailing boilerplate.
+Do not add a closing line such as "End of audit report." or a trailing horizontal rule `---` at the
+end of the document.
+
+References is the final section, following the Re-audit and Follow-up Plan when applicable.
+
+End after References without trailing boilerplate.
 
 ## Determinism
 

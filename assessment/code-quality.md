@@ -29,6 +29,26 @@ Apply `principles/evaluation-rules.md` throughout. This category covers code-lev
 | Duplication          | Repeated blocks, copy-paste logic                        |
 | Dead code            | Unused exports, unreachable branches, commented-out code |
 
+## Validate Static Claims
+
+Treat lint configuration as evidence of configuration, not successful execution or enforcement.
+
+Record analyzer version, rules, exclusions, target/features, and output in the evidence ledger.
+
+Before claiming a panic, trace guards, slice lengths, invariants, and the runtime's panic boundary.
+
+Before claiming dead code affects compilation or runtime, verify module inclusion and reachability.
+
+Line counts and method counts are investigation signals, not automatic severity thresholds.
+
+For Rust unsafe-code claims, distinguish inspected first-party source from dependencies, macros,
+generated code, native FFI, and the standard library.
+
+Use [cargo-geiger](https://github.com/geiger-rs/cargo-geiger) for scoped unsafe-use statistics
+when available and permitted, not as proof of soundness or insecurity.
+
+Report "no unsafe found in the reviewed scope", not "memory safe" or "no unsafe anywhere".
+
 ## Status Criteria
 
 - `PASS`: Linting, formatting, and type checks are configured and strict, with low complexity and little duplication, supported by evidence.

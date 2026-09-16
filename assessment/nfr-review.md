@@ -27,6 +27,32 @@ Apply `principles/evaluation-rules.md` throughout. Distinguish a stated target f
 | Redundancy           | Replication, multi-zone setup, failover         |
 | Resilience patterns  | Timeouts, circuit breakers, bulkheads, retries  |
 
+## Service Objectives And Measurement
+
+For an operated service, record a small set of user-relevant SLIs and approved SLOs.
+
+Use the [Google SRE guidance](https://sre.google/workbook/implementing-slos/) for explicit targets
+and error-budget decisions rather than universal uptime or latency thresholds.
+
+For each objective, record the user journey, SLI definition, source/query, measurement window,
+target, measured result, exclusions, and owner or `NOT SPECIFIED`.
+
+Examples include successful eligible requests divided by all eligible requests, latency below an
+agreed threshold, data freshness, and successful job completion.
+
+Report p95 latency with the sampled workload and window, not as an assumed production guarantee.
+
+For a ratio-based SLO, error budget equals `(1 - target) * eligible events` in the same window.
+
+Do not turn a request-based budget into downtime minutes without a justified conversion.
+
+Record the policy for budget exhaustion or excessive burn and the role authorized to act on it.
+
+Separate proposed targets from approved targets, leaving absent baselines `UNKNOWN`.
+
+For non-hosted software, use appropriate task performance and recovery criteria rather than
+requiring service uptime, on-call, or distributed tracing.
+
 ## Status Criteria
 
 - `PASS`: Targets are stated and met with measured evidence, and the architecture supports the required scale and resilience.

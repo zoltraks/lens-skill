@@ -3,7 +3,8 @@
 ## Purpose
 
 > **Scope:** API specification conformance, schema validation, error standardization, versioning, spec-to-code agreement
-> **Key items:** OpenAPI/contract presence, request and response schema enforcement, RFC 7807 error format, versioning strategy, OWASP API Security Top 10 (2023)
+> **Key items:** OpenAPI/contract presence, request and response schema enforcement, RFC 9457 error
+> format, versioning strategy, OWASP API Security Top 10 (2023)
 
 This file guides assessment of whether a system that exposes an API conforms to its own contract and to API design standards. It complements `assessment/security-review.md` and `assessment/threat-model.md` for the security dimension and `assessment/documentation-review.md` for the docs dimension.
 
@@ -20,10 +21,30 @@ It does not apply to a system with no external API surface, for example a pure C
 - **Contract presence**: whether an API specification exists (OpenAPI, AsyncAPI, Protobuf, JSON Schema) and whether it is generated from code or maintained by hand.
 - **Schema validation**: whether request bodies are validated against the schema and rejected when malformed.
 - **Response consistency**: whether responses use a consistent envelope and types across endpoints.
-- **Error standardization**: whether errors follow a standard such as RFC 7807 (Problem Details for HTTP APIs) with `type`, `title`, `status`, `detail`, and `instance` fields, rather than ad hoc bodies.
+- **Error standardization**: whether errors follow a standard such as RFC 9457 (Problem Details for
+  HTTP APIs) with `type`, `title`, `status`, `detail`, and `instance` fields, rather than ad hoc
+  bodies.
 - **Versioning**: whether the API has a versioning strategy (path, header, or media type).
 - **Spec-to-code agreement**: whether the specification matches the implemented behavior, including auth requirements per endpoint.
 - **OWASP API Security Top 10 (2023)**: whether the contract guards against the API-specific risk categories.
+
+## Protocol-Specific Requirements
+
+[RFC 9457](https://www.rfc-editor.org/rfc/rfc9457.html) obsoletes RFC 7807 for HTTP Problem Details.
+
+It is an optional format, not a universal requirement for every API or every error response.
+
+Assess its member semantics and media type only when adopted by the contract, and do not require
+all five standard members indiscriminately.
+
+Use JSON-RPC/MCP, gRPC, or GraphQL error conventions for those protocols rather than forcing an
+HTTP Problem Details envelope onto them.
+
+Compare actual endpoints, schemas, auth rules, compatibility promises, and failure behavior.
+
+An OpenAPI `info.version` need not equal the binary package version unless the project requires it.
+
+A version mismatch alone does not demonstrate schema drift or require URL versioning.
 
 ## OWASP API Security Top 10 (2023) Reference
 

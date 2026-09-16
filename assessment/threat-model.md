@@ -30,7 +30,10 @@ STRIDE enumerates six threat categories, each the inverse of a security property
 
 ## Method
 
-This method aligns with NIST SP 800-30 (risk assessment) and OWASP ASVS Level 2 architecture and threat modeling requirements.
+Use STRIDE for threat enumeration and NIST SP 800-30 where its risk-assessment process is applied.
+
+Select applicable ASVS requirements and level using `assessment/security-review.md`, a STRIDE table
+does not by itself establish ASVS conformance.
 
 **Establish the model**
 

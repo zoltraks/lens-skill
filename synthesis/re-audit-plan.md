@@ -5,7 +5,9 @@
 > **Scope:** Verification ownership, re-audit triggers, sign-off gates, and evidence to close findings
 > **Key items:** verification owner, target date, sign-off gate, closure evidence, `FND-XXX` traceability
 
-This file defines the Re-audit and Follow-up Plan, the final section of the report. It makes the audit actionable in a governance sense, not just a technical one.
+This file defines the Re-audit and Follow-up Plan, which precedes the final References section.
+
+It connects remediation to verified closure and accountable sign-off.
 
 The convention follows ISO 19011 (guidelines for auditing management systems), which treats follow-up as part of a complete audit, and the monitor step of the NIST Risk Management Framework (NIST SP 800-37), which treats verification as continuous.
 
@@ -13,7 +15,10 @@ Apply `principles/evaluation-rules.md` throughout. Owners and dates are placehol
 
 ## When This Applies
 
-Include this section whenever the report contains a remediation roadmap with at least one P1 or P2 recommendation. For a report with no actionable findings, mark the section `N/A`.
+Include this section whenever the report contains a remediation roadmap with a P1 or P2
+recommendation.
+
+Otherwise omit this conditional section and explain the omission in Scope Exclusions.
 
 ## Table Format
 
@@ -35,6 +40,36 @@ Column meanings:
 ## Sign-off Gates
 
 State which findings gate a re-audit sign-off. As a default rule, every `CRITICAL` and `HIGH` finding must be closed before the system is signed off as production-ready. Tie each gate to its `RSK-XXX` so the Production Readiness Threshold in the Executive Summary stays consistent.
+
+## Verification And Sign-off Evidence
+
+Before using the report as a go/no-go gate, verify all `CRITICAL` and `HIGH` findings, not just a
+convenient sample, using checks capable of testing their claims.
+
+For security defects, prefer a targeted regression test of the vulnerable boundary with permitted
+and denied operations, supported by the manual trace and relevant scanner output.
+
+Record the fixed revision, setup, command or procedure, result, residual risk, and reviewer role.
+
+When runtime reproduction is unavailable, keep that limitation explicit and do not claim a
+runtime-validated closure from a proposed test or unrelated clean scan.
+
+Every gate needs a confirmed verification owner and acceptance evidence.
+
+Leave unknown assignments `NOT SPECIFIED`, and list a suggested role separately as proposed,
+awaiting confirmation.
+
+Missing owners or required evidence keep sign-off pending even if the report itself is final.
+
+Document completion and production approval are separate states.
+
+Any authorized risk acceptance needs an accountable role, rationale, scope, expiry, compensating
+controls, and re-audit trigger, it is not technical closure and does not imply `Production-ready`.
+
+For multi-project reports, use project-qualified finding and risk references in every shared row.
+
+Recheck advisories, artifact identity, and materially changed deployment assumptions at follow-up,
+not just the edited lines.
 
 ## Re-audit Schedule
 

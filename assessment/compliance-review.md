@@ -29,6 +29,31 @@ Apply `principles/evaluation-rules.md` throughout. State obligations only where 
 | Third-party obligations | Attribution, copyleft, notice files                |
 | Audit trail             | Audit logs of access and changes to sensitive data |
 
+## Data Lifecycle Review
+
+Start with data categories and flows, not an assumed regulation or a demand for consent everywhere.
+
+For material categories, record purpose, source, subjects, storage, recipients, access controls,
+retention/deletion behavior, and the requirement or policy basis.
+
+Include identity fields, free-text queries, logs, backups, Git history, caches, embeddings, and
+third-party processing when these are in scope.
+
+A knowledge base can contain personal data even without a dedicated customer table.
+
+A derived index is not necessarily anonymous, and deleting a source record does not prove deletion
+from replicas, backups, logs, or model-related stores.
+
+Use schema and synthetic fixtures rather than exposing personal data in evidence.
+
+For due diligence, record deployment jurisdictions, controller/processor responsibilities,
+subprocessors, transfer arrangements, and contractual obligations from supplied evidence.
+
+If GDPR or another regime may apply but context is missing, identify the unanswered questions and
+request legal confirmation instead of claiming either compliance or noncompliance.
+
+Keep licensing assessment applicable even when personal-data controls are `N/A`.
+
 ## Status Criteria
 
 - `PASS`: Applicable obligations are identified and matching controls are present, with evidence.
@@ -51,4 +76,8 @@ Apply `principles/evaluation-rules.md` throughout. State obligations only where 
 - A satisfied project license and recorded third-party obligations.
 - An audit trail for access to and changes of sensitive data.
 
-Use `N/A` only when the system genuinely processes no regulated data, with a one-line justification. When in doubt between `N/A` and `UNKNOWN`, prefer `UNKNOWN`. Do not assert legal conclusions, report observable controls and applicable obligations.
+Use `N/A` for a data-protection subcheck only when it cannot apply, with a justification.
+
+Do not mark the whole compliance category `N/A` while licensing or other obligations still apply.
+
+When in doubt, prefer `UNKNOWN` and request context rather than asserting legal conclusions.

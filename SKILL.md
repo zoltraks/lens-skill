@@ -176,7 +176,8 @@ When the user asks to rerun, regenerate, or update an audit, check whether a pre
 - **`assessment/observability-review.md`** - Logging, metrics, tracing, and alerting.
 - **`assessment/error-handling.md`** - Exception strategy, retries, fallbacks, and user-facing error handling.
 - **`assessment/operational-readiness.md`** - Runbooks, on-call, capacity, backups, and incident response.
-- **`assessment/ai-generated-code.md`** - AI-generated code detection, Vibe Coding risks, Agent Driven Engineering maturity, and SDLC discipline.
+- **`assessment/ai-generated-code.md`** - Explicit code provenance, generated-artifact validation,
+  and evidenced secure-development controls, without style-based authorship inference.
 - **`assessment/copyright-review.md`** - Code originality, license compliance, attribution, and dependency license compatibility.
 
 ### Conditional assessment files
@@ -186,7 +187,8 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
 - **`assessment/data-flow.md`** - Data flow diagrams, trust boundaries, and inter-process flows. Include when the system crosses a trust boundary.
 - **`assessment/design-patterns.md`** - GoF and POSA pattern identification, fitness, and anti-pattern detection. Include when the codebase exhibits recurring structure.
 - **`assessment/threat-model.md`** - STRIDE threat enumeration mapped to trust boundaries. Include when the system has a security-relevant attack surface.
-- **`assessment/api-contract.md`** - API specification conformance, RFC 7807 error format, and OWASP API Security Top 10 (2023). Include when the system exposes an API.
+- **`assessment/api-contract.md`** - API specification conformance, RFC 9457 error format, and OWASP
+  API Security Top 10 (2023). Include when the system exposes an API.
 - **`assessment/skill-definition.md`** - Agent Skills specification conformance, frontmatter validity, progressive disclosure, triggering description quality, and file reference integrity. Include when the subject is an Agent Skill (has a `SKILL.md` file).
 - **`assessment/standards-conformance.md`** - Project-internal development standards: code-to-standards conformance, standards-to-best-practices quality, and external reference collection. Include when the project contains documented development standards.
 
@@ -199,6 +201,34 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
 - **`synthesis/debt-register.md`** - Formal technical debt inventory (`TDR-[001]`) using CISQ and SQALE cost model. Conditional: include when structural debt distinct from risks is surfaced.
 - **`synthesis/re-audit-plan.md`** - Verification ownership, sign-off gates, and re-audit triggers following ISO 19011 and NIST RMF. Conditional: include when the roadmap has a P1 or P2 recommendation.
 - **`translation/polish-language.md`** - Polish translations for the audit report: status and severity vocabulary, section headings, table headers, style rules, diacritics, and encoding. Load when the report language is Polish.
+
+## Evidence And Decision Contract
+
+Use the verification plan and evidence ledger in `process/audit-workflow.md` for every audit.
+
+Run applicable, permitted checks when safe, and record blocked or unrun checks and their effect on
+confidence rather than treating a source-only review as verified production readiness.
+
+Keep evidence basis, confidence, category status, vulnerability severity, and business risk
+distinct.
+
+For security findings, use the CWE/CVSS and control-verification guidance in
+`assessment/security-review.md`.
+
+For full audits of executable projects, load `assessment/testing-review.md` and
+`assessment/dependency-review.md` for stack-aware verification, SBOM, and license review.
+
+For technical due diligence, also load `assessment/operational-readiness.md`,
+`assessment/documentation-review.md`, `assessment/compliance-review.md`, and
+`synthesis/remediation-roadmap.md` for continuity, cost, data lifecycle, and roadmap evidence.
+
+Use `synthesis/project-scorecard.md` for the ISO/IEC 25010:2023 crosswalk without changing Lens
+scores into purported ISO ratings.
+
+Treat unknown authorship as unknown, using `assessment/ai-generated-code.md`, not style heuristics.
+
+Validate summaries against evidence and run the regression scenarios in `process/audit-workflow.md`
+when maintaining the skill.
 
 ## Navigation Rules
 
@@ -213,7 +243,8 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
 - Performance, scalability, availability, reliability, and resilience belong in `assessment/nfr-review.md`, day-two operations belong in `assessment/operational-readiness.md`.
 - Logging and metrics belong in `assessment/observability-review.md`, failure handling in code belongs in `assessment/error-handling.md`.
 - Data protection, privacy, and licensing belong in `assessment/compliance-review.md`.
-- AI-generated code detection, Vibe Coding risks, and Agent Driven Engineering maturity belong in `assessment/ai-generated-code.md`.
+- Code provenance and generated-artifact validation belong in `assessment/ai-generated-code.md`,
+  concrete quality defects remain in their technical categories regardless of origin.
 - Code originality, license compliance, and attribution belong in `assessment/copyright-review.md`.
 - Data flow modeling and trust boundaries belong in `assessment/data-flow.md`, STRIDE threat enumeration belongs in `assessment/threat-model.md` and depends on the data flow model, control-level security review belongs in `assessment/security-review.md`.
 - Concrete design pattern identification and fitness belong in `assessment/design-patterns.md`, keep it distinct from the SOLID principles in `assessment/design-principles.md`.
@@ -222,7 +253,8 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
 - Project-internal development standards conformance and standards-quality evaluation belong in `assessment/standards-conformance.md`, include it only when the project contains documented development standards. The References section at the end of the report lists every external source consulted during the standards-quality evaluation and any other assessment category.
 - Conditional sections appear only when their inclusion criterion is met. Evaluate each criterion in the Conditional Sections table of `process/report-format.md`. Omit a conditional section entirely when it cannot apply, and note the deliberate omission in Scope Exclusions. Never force an irrelevant section (for example, an API Contract section for a project with no API, or a Standards Conformance section for a project with no development standards).
 - The Technical Debt Register (`synthesis/debt-register.md`) is distinct from the Unified Risk Register: debt is accumulated cost already present, risk is what could go wrong. Do not duplicate entries between them.
-- The Re-audit and Follow-up Plan (`synthesis/re-audit-plan.md`) is the final section when present, it maps P1 and P2 findings to verification owners and closure evidence.
+- The Re-audit and Follow-up Plan (`synthesis/re-audit-plan.md`) precedes References when present
+  and maps P1 and P2 findings to verification owners and closure evidence.
 - Translation files in `translation/` are loaded only when the report language is not English. Each file defines the translations for one language. To add a new language, create a new file in `translation/` following the structure of the existing files.
 - Prefer the narrowest assessment file that directly matches the request.
 - If the user asks only for a single dimension (for example "review security" or "audit dependencies"), load that one assessment file plus `principles/` and produce the matching finding pillar and risk row only.

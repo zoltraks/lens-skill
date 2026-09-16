@@ -73,11 +73,30 @@ Apply `principles/evaluation-rules.md` throughout. A finding of copied code is a
 
 ## Status Markers
 
-- `PASS`: All code is original or properly attributed. Licenses are documented, compatible, and complete. No unauthorized copying is evidenced.
-- `PARTIAL`: Most code is original. Some minor attribution gaps exist, or some dependency licenses are not fully documented. No evidence of incompatible licenses.
+- `PASS` : Required ownership, attribution, and licensing evidence is complete for the assessed
+  scope.
+- `PARTIAL`: Some applicable evidence is present, with identified attribution or licensing gaps.
 - `FAIL`: Evidence of copied code without attribution, incompatible dependency licenses, or copyrighted material used without permission.
 - `UNKNOWN`: The origin of key code blocks cannot be determined from the provided files.
 - `N/A`: The system is a personal prototype with no stated intent for distribution or commercial use, and no third-party dependencies.
+
+## Limits Of Verification
+
+Use the inventory and license-policy checks in `assessment/dependency-review.md` for transitive
+components, avoiding duplicate findings or effort totals.
+
+Distinguish declared licenses, observed notices, and reviewed conclusions for the distribution
+model.
+
+Absence of recognizable copied snippets does not establish that all code is original.
+
+A copyright policy is evidence of a policy, not proof of ownership or assignment of contributor IP.
+
+For due diligence, request contributor/contractor assignment records or applicable agreements and
+record unavailable evidence as `UNKNOWN`, without making legal conclusions.
+
+Do not label absence of per-file SPDX identifiers a license violation unless a specific license,
+contract, or adopted policy requires them.
 
 ## Rules
 

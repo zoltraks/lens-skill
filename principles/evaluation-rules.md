@@ -23,6 +23,69 @@ When information is missing, mark it explicitly with one of these tokens:
 
 Do not fill gaps with plausible defaults. A clearly marked gap is more valuable than a confident guess.
 
+## Evidence Strength And Claim Control
+
+Assign an evidence ID (`EVD-001` onward) to each material observation or tool execution.
+
+Record its source, revision, scope, collection method, and limitations in the evidence ledger
+specified in `process/audit-workflow.md`.
+
+Distinguish these evidence bases in finding detail:
+
+- **Inspected**: directly observed in source or configuration, not executed.
+- **Executed**: observed in a recorded command or bounded runtime check.
+- **Reported**: supplied by documentation, a stakeholder, or a prior report.
+- **Inferred**: reasoned from cited evidence, with prerequisites and uncertainty stated.
+
+These labels describe evidence, not replacement category statuses.
+
+Record confidence as `HIGH`, `MEDIUM`, or `LOW`, with a reason independent of severity.
+
+High confidence requires a complete supporting trace or reproducible observation within scope.
+
+Medium confidence indicates partial corroboration, and low confidence indicates material unknowns.
+
+An inspected defect can be high confidence without a scanner alert, but it is not runtime-verified.
+
+Keep qualifications intact in summaries, strengths, scores, and roadmaps.
+
+A changelog saying tests passed supports "reported passing", never "verified passing".
+
+A command listed as a verification recommendation is not evidence that it ran.
+
+A successful scanner run supports only its covered checks, not "no vulnerabilities".
+
+**Counter-check material claims**
+
+Before finalizing every `CRITICAL` or `HIGH` finding, look for evidence that could refute it.
+
+- Trace inputs, callers, guards, configuration, and the actual effect across relevant boundaries.
+- Check whether the code is compiled, registered, reachable, and enabled for the assessed target.
+- Verify library semantics and control-flow invariants before claiming a panic or data loss.
+- Identify actor access, deployment prerequisites, blast radius, and compensating controls.
+- Record the counter-check and remaining uncertainty, even when execution is unavailable.
+
+A guarded `unwrap()` is not a demonstrated panic, and an unregistered module does not necessarily
+add compile time.
+
+A Docker builder-stage exposure does not prove inclusion in the published runtime image.
+
+A policy requiring documentation before implementation cannot be disproved by missing doc comments.
+
+Treat these as examples of claim validation, not exceptions limited to a particular stack.
+
+**Requirements and advice**
+
+Separate mandatory requirements, adopted recommendations, and optional improvements.
+
+Cite the requirement and its applicability before recording nonconformance.
+
+A standard's popularity does not make its adoption mandatory, and a recommendation does not
+become a requirement merely because the report lists it.
+
+Do not infer code originality, authorship, review history, or organizational practices from
+source style or absence of contrary evidence.
+
 ## No Assumptions
 
 Do not infer implementation details that are not provided.
@@ -67,19 +130,16 @@ Use exactly these five status values for category findings:
 | `UNKNOWN` | Evidence is missing; status cannot be determined                      |
 | `N/A`     | Capability cannot apply to this system's deployment model             |
 
-Pair the marker with a glyph for readability where the report format calls for it:
-
-- `PASS` shown as a check mark.
-- `PARTIAL` shown as a warning sign.
-- `FAIL` shown as a cross.
-- `UNKNOWN` shown as a question mark.
-- `N/A` shown as a dash.
+Use plain-text markers by default, add glyphs only when explicitly requested.
 
 Reserve `FAIL` for cases where the capability is both absent and required by a stated or clearly implied requirement. If the requirement itself is not stated, prefer `UNKNOWN` and note the missing requirement.
 
 ## Contextual Applicability
 
-Some categories do not apply to every system. A single-user local binary has no meaningful rollback, hosted-style operational readiness, or runtime telemetry requirement.
+Some categories do not apply to every system.
+
+A local binary may not need hosted telemetry or on-call, but can still need safe updates, rollback,
+file-operation safeguards, and recovery from corruption.
 
 Use `N/A` only when the capability cannot apply given the system's stated or clearly evident deployment model.
 

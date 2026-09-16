@@ -7,7 +7,10 @@
 
 This file defines the Technical Debt Register (TDR), a structured inventory of debt items that are not security risks but compound over time. It is distinct from the Unified Risk Register: risks describe what could go wrong, debt describes accumulated cost that is already present and invisible.
 
-The TDR convention is analogous to Architecture Decision Records. The cost model follows CISQ structural quality characteristics and the SQALE method, which separates remediation cost (effort to fix) from cost of delay (ongoing cost of leaving the debt in place).
+Use CISQ characteristics to organize structural debt and a SQALE-inspired distinction between
+remediation cost and the ongoing cost of leaving debt in place.
+
+Claim use of the SQALE method only when its quality and estimation models were actually applied.
 
 Apply `principles/evaluation-rules.md` throughout. Every debt item must trace to a concrete finding or a concrete observation in the code.
 
@@ -15,7 +18,9 @@ Apply `principles/evaluation-rules.md` throughout. Every debt item must trace to
 
 Include the TDR when the assessment surfaces structural debt items that are not captured as risks: dead code, duplicated logic, low-value tests, hardcoded values that should be configurable, advisory-only checks, or shortcuts.
 
-When no such items exist, mark the section `N/A` rather than fabricating debt. Do not duplicate the risk register here.
+When no such items exist, omit this conditional section and note the reason in Scope Exclusions.
+
+Do not duplicate the risk register here.
 
 ## Table Format
 
@@ -32,8 +37,8 @@ Column meanings:
 - **Debt Item**: a concrete, neutrally stated debt, anchored to a file or pattern.
 - **Category**: one of the CISQ characteristics the debt degrades: `Reliability`, `Performance Efficiency`, `Security`, `Maintainability`.
 - **Source Finding**: the `FND-XXX` identifier that produced this item, or `Direct observation` when it stems from code review without a standalone finding.
-- **Remediation Cost**: estimated effort to fix (`High`, `Medium`, `Low`).
-- **Cost of Delay**: the ongoing cost of leaving the debt (`High`, `Medium`, `Low`).
+- **Remediation Cost**: evidence-based person-hour/day range, or `INSUFFICIENT INFORMATION`.
+- **Cost of Delay**: quantified ongoing cost over a stated horizon, or `INSUFFICIENT INFORMATION`.
 - **Status**: `Open` by default.
 
 ## What Belongs Here
@@ -42,14 +47,47 @@ Column meanings:
 - Low-value or structure-only tests that assert no real behavior.
 - Duplicated logic that should be a shared abstraction.
 - Hardcoded values that should be named constants or configuration.
-- Advisory-only checks whose result is computed but discarded.
+- Non-security validation checks whose result is computed but discarded.
 - Workarounds and shortcuts documented as such.
+
+Discarded authorization results belong in security findings and the risk register, not this list.
 
 ## What Does Not Belong Here
 
 - Security risks. Those belong in the Unified Risk Register.
 - Missing features. The TDR records debt in existing code, not absent functionality.
 - Subjective style preferences with no maintainability cost.
+
+## Cost Model
+
+Use a declared estimation basis rather than converting `Low`, `Medium`, and `High` into arbitrary
+hours.
+
+Qualitative ratings may remain when numeric inputs are unavailable, but are not summable costs.
+
+For each numeric range, record the estimator or model, assumptions, confidence, unit, and included
+work: implementation, tests, review, migration, rollout, and verification.
+
+Define hours per person-day if converting units, and keep engineering effort separate from elapsed
+delivery time.
+
+For cost of delay, use evidenced change frequency, extra effort per change, incident impact, or
+operating expense over a specified horizon.
+
+Do not invent incident probabilities or monetary losses from source inspection.
+
+Label scenario estimates as estimates, not measured values or commitments.
+
+Describe the approach as SQALE-inspired unless an actual SQALE quality and estimation model was
+used.
+
+[SQALE's author explains](https://www.cutter.com/article/managing-technical-debt-sqale-method-490726)
+remediation cost and non-remediation cost as distinct calibrated models, not severity labels.
+
+Link overlapping work to one canonical recommendation and count its cost once across registers
+and projects.
+
+Do not double-count a security remediation as both risk work and structural debt.
 
 ## Rules
 
@@ -62,5 +100,5 @@ Column meanings:
 ## Example Row
 
 ```text
-| TDR-001 | Eight #[allow(dead_code)] annotations mask unused code | Maintainability | FND-CQY-002 | Low | Medium | Open |
+| TDR-001 | Unused code | Maintainability | FND-CQY-002 | INSUFFICIENT INFORMATION | INSUFFICIENT INFORMATION | Open |
 ```

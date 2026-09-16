@@ -28,6 +28,59 @@ Apply `principles/evaluation-rules.md` throughout. Observability signals are ass
 | Recovery testing  | Restore drills, disaster-recovery exercises        |
 | Incident process  | Incident playbooks, post-incident reviews          |
 
+## Recovery And Ownership Evidence
+
+Distinguish authoritative data from disposable indexes, and test whether supposedly rebuildable
+stores include unique usage, audit, or business records.
+
+Record required RPO (acceptable data loss) and RTO (acceptable recovery time), their approval basis,
+and observed restore results with data volume and environment.
+
+A backup schedule is not evidence of a successful restore.
+
+Do not infer committed-data loss merely because shutdown bypasses destructors or a WAL has not been
+checkpointed, verify the storage engine's durability settings and recovery behavior.
+
+For destructive file operations, inspect containment, overwrite safeguards, interruption behavior,
+and recovery paths even in a local utility.
+
+Relate these hazards to Safety where applicable without equating all operational gaps to hazards.
+
+Record the responsible operating role, escalation path, backup role, and handover evidence.
+
+Unknown ownership is a readiness evidence gap, not permission to invent a person or role assignment.
+
+## Technical Due Diligence
+
+When acquisition, investment, or supplier review is in scope, cover these business-facing concerns
+through existing categories.
+
+| Concern             | Evidence                      | Governing Assessment  |
+|---------------------|-------------------------------|-----------------------|
+| Support continuity  | Ownership and handover        | Documentation         |
+| Ownership cost      | Usage and billing             | Operational Readiness |
+| Roadmap feasibility | Commitments and dependencies  | Change Management     |
+| Supplier continuity | Support and replacement paths | Dependencies          |
+| IP rights           | Licenses and assignments      | Copyrights            |
+| Data obligations    | Lifecycle and contracts       | Compliance            |
+
+Record unavailable business evidence as `UNKNOWN` even when source inspection is comprehensive.
+
+**Cost of ownership**
+
+Separate current measured spend, modeled future spend, and one-time remediation costs.
+
+For a model, record workload, region, pricing date, currency, utilization, redundancy, storage,
+egress, backup, telemetry, support, and licensing assumptions.
+
+Use supplied bills or current provider pricing only for the deployment being modeled.
+
+Show low/base/high scenarios only when inputs support them, including excluded costs and confidence.
+
+Do not assume free operation from open-source licensing or zero hosting cost for a local tool.
+
+Missing deployment scale or prices means `INSUFFICIENT INFORMATION`, not a fabricated monthly bill.
+
 ## Status Criteria
 
 - `PASS`: Runbooks, defined ownership, capacity planning, tested backups, and an incident process are present, with evidence.

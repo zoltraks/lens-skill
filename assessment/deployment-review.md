@@ -27,6 +27,34 @@ Apply `principles/evaluation-rules.md` throughout. Reverting a release is assess
 | Manual procedures     | Runbooks, checklists, documented manual steps        |
 | Release cadence       | Changelogs, tags, release history                    |
 
+## Delivery Performance
+
+When production delivery history is available, use the current
+[DORA delivery metrics](https://dora.dev/guides/dora-metrics/) at the application/service level.
+
+The consulted guide defines five metrics:
+
+- Change lead time, from commit to production deployment.
+- Deployment frequency, deployments per period or time between deployments.
+- Failed deployment recovery time, recovery after a deployment requiring immediate intervention.
+- Change fail rate, the share of deployments requiring immediate intervention.
+- Deployment rework rate, the share of deployments unplanned due to a production incident.
+
+Record the definition, data sources, observation window, sample size, calculation, and exclusions.
+
+Use deployment and incident records, Git commits or release tags alone do not establish these
+metrics.
+
+Mark unavailable measurements `UNKNOWN` and zero-denominator ratios as undefined, not zero.
+
+Do not equate failed deployment recovery time with recovery from every type of incident.
+
+If comparing with an older four-metric audit, disclose definition changes before comparing values.
+
+Do not impose historical "elite" bands as universal targets or rank individual contributors.
+
+Use comparable service-level trends to assess change over time.
+
 ## Status Criteria
 
 - `PASS`: Builds are automated and reproducible, releases follow a defined automated path, and manual steps are minimal and documented.

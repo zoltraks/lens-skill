@@ -12,7 +12,20 @@
 
 Lens is a structured audit process packaged as an agent skill. It guides an AI coding agent through a complete engineering assessment of a codebase, producing a neutral, repeatable report anchored to concrete facts rather than impressions.
 
-Unlike a generic "review my code" prompt, Lens enforces a fixed workflow: intake, parameter configuration, scope definition, evidence gathering, per-category assessment, synthesis, and validation. The output is a standardized report with fifteen always-present sections - document information, technology stack, executive summary, health dashboard, high-level observations, auditing methodology, scoring rubrics, system context, architectural assessment, strengths and what's working, detailed technical findings, unified risk register, trade-off analysis, actionable remediation roadmap, and scope exclusions - plus conditional sections (data flow diagram, design patterns, architecture decision records, threat model, API contract conformance, technical debt register, and re-audit plan) that appear only when the subject warrants them. Every section uses a hybrid table-paragraph format for scannable summaries backed by detailed evidence.
+Unlike a generic "review my code" prompt, Lens enforces a fixed workflow: intake, parameter
+configuration, scope definition, evidence gathering, per-category assessment, synthesis, and
+validation.
+
+The output is a standardized report with sixteen baseline sections - document
+information, technology stack, executive summary, health dashboard, high-level observations,
+auditing methodology, scoring rubrics, system context, architectural assessment, strengths and
+what's working, detailed technical findings, unified risk register, trade-off analysis, actionable
+remediation roadmap, scope exclusions, and references - plus conditional sections (data flow
+diagram, design patterns, architecture decision records, threat model, API contract conformance,
+technical debt register, and re-audit plan) that appear only when the subject warrants them.
+
+Every section uses a hybrid table-paragraph format for scannable summaries backed by detailed
+evidence.
 
 ---
 
@@ -49,6 +62,47 @@ Builds a unified risk register with bidirectional cross-referencing to findings,
 Re-checks every finding against the evaluation rules: no assumptions, no personal judgment, no emotional language, every claim anchored to a concrete fact.
 
 ---
+
+## Evidence And Decision Quality
+
+Lens separates inspected source, executed checks, reported claims, and inference.
+
+Every audit records a verification plan and evidence ledger with revision, exact command or source,
+tool/database version, result, artifact, and limitations, including checks that could not run.
+
+Safe, available checks are used when permitted, tool installation and untrusted execution are not
+implied by an audit request.
+
+Serious findings receive a counter-check for reachability, existing guards, and alternative
+explanations before they reach the executive summary.
+
+Security findings use justified CWE mappings and CVSS vectors where applicable, while engineering
+and business risks retain the Lens risk matrix.
+
+The guides cover Rust baseline checks, coverage, mutation/fuzz testing, unsafe-use statistics,
+dependency advisories, SBOMs, and license policies, with equivalent tools selected for other stacks.
+
+A clean scan is not proof of security, and a source-only audit is not runtime verification.
+
+The quality crosswalk uses ISO/IEC 25010:2023 without claiming ISO certification.
+
+ASVS 5.0.0, OWASP Top 10:2025, API Top 10:2023, and RFC 9457 are applied only where relevant,
+with versions and coverage recorded and publication status checked at audit time.
+
+Technical due diligence includes support continuity, operating costs, roadmap feasibility, supplier
+risk, IP rights, and data lifecycle evidence through the existing categories.
+
+Missing business inputs remain visible rather than being filled with invented budgets or owners.
+
+Operational reviews distinguish SLO targets from measured results and use the current five-metric
+DORA model when production delivery data is available.
+
+Remediation costs use supported ranges and disclose unestimated work, common work is counted once.
+
+Unknown authorship stays unknown, tidy code and uniform tests are not AI-origin evidence.
+
+Production sign-off remains pending when required verification or confirmed ownership is missing,
+even when the scoped report is final.
 
 ## Core principles
 
@@ -170,12 +224,12 @@ lens-skill/
 │   ├── observability-review.md   # Logging, metrics, tracing, alerting
 │   ├── error-handling.md          # Exceptions, retries, fallbacks, user-facing errors
 │   ├── operational-readiness.md   # Runbooks, on-call, capacity, backups, incident response
-│   ├── ai-generated-code.md       # AI code detection, Vibe Coding risks, Agent Driven Engineering maturity
+│   ├── ai-generated-code.md       # Explicit provenance, generated-artifact validation, SDLC evidence
 │   ├── copyright-review.md       # Code originality, license compliance, attribution
 │   ├── data-flow.md               # (conditional) DFD, trust boundaries, inter-process flows
 │   ├── design-patterns.md         # (conditional) GoF/POSA pattern fitness and anti-patterns
 │   ├── threat-model.md            # (conditional) STRIDE threat enumeration per trust boundary
-│   ├── api-contract.md            # (conditional) API spec conformance, RFC 7807, OWASP API Top 10
+│   ├── api-contract.md            # (conditional) API spec conformance, RFC 9457, OWASP API Top 10
 │   ├── skill-definition.md        # (conditional) Agent Skills spec conformance, frontmatter, progressive disclosure
 │   └── standards-conformance.md   # (conditional) Project development standards conformance and quality
 ├── synthesis/
@@ -202,6 +256,25 @@ Every document that is part of this skill must follow the rules specified in [ST
 That file compiles Markdown text style, table formatting, and Agent Skills document requirements into a single reference.
 
 ---
+
+## Verification For Skill Maintenance
+
+This repository contains Markdown instructions, not an application build or an automated model
+benchmark suite.
+
+When changing the skill:
+
+- Run `git diff --check` to detect whitespace errors.
+- Check frontmatter lengths, skill name, unchanged version, and root-router references.
+- Format edited tables using an automated source-width formatter per `STYLE.md`.
+- Check Contents tables in files over 300 lines and preserve encoding and line endings.
+- Review router, workflow, templates, synthesis guides, and translations for agreement.
+- Exercise the regression scenarios in `process/audit-workflow.md` and record limitations.
+
+Use `work/` for temporary validation scripts and remove only the temporary artifacts you created.
+
+Structural checks do not prove that future agents will follow the instructions, a fresh audit or
+independent model evaluation is a separate behavioral verification step.
 
 ## License
 
