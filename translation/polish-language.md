@@ -13,36 +13,37 @@ The default report language is English. This file is loaded only when the user r
 
 | Section                            | Line | What it covers                              |
 |------------------------------------|------|---------------------------------------------|
-| Status And Severity Vocabulary     | 47   | Status And Severity Vocabulary guidance     |
-| Style Rules                        | 69   | Style Rules guidance                        |
-| Diacritics Frequently Misspelled   | 77   | Diacritics Frequently Misspelled guidance   |
-| Output Filename                    | 109  | Output Filename guidance                    |
-| Document Information               | 113  | Document Information guidance               |
-| Project Inventory                  | 124  | Project Inventory guidance                  |
-| Technology Stack                   | 133  | Technology Stack guidance                   |
-| Executive Summary                  | 150  | Executive Summary guidance                  |
-| Health Dashboard                   | 164  | Health Dashboard guidance                   |
-| Scorecard                          | 174  | Scorecard guidance                          |
-| Scoring Rubrics                    | 197  | Scoring Rubrics guidance                    |
-| High-Level Observations            | 211  | High-Level Observations guidance            |
-| Auditing Methodology               | 218  | Auditing Methodology guidance               |
-| System Context                     | 232  | System Context guidance                     |
-| Architectural Assessment           | 245  | Architectural Assessment guidance           |
-| Skill Definition Conformance       | 251  | Skill Definition Conformance guidance       |
-| Standards Conformance              | 257  | Standards Conformance guidance              |
-| References                         | 277  | References guidance                         |
-| Strengths And What's Working       | 286  | Strengths And What's Working guidance       |
-| Detailed Technical Findings        | 292  | Detailed Technical Findings guidance        |
-| Technical Debt Register            | 321  | Technical Debt Register guidance            |
-| Unified Risk Register              | 333  | Unified Risk Register guidance              |
-| Trade-off Analysis                 | 346  | Trade-off Analysis guidance                 |
-| Actionable Remediation Roadmap     | 358  | Actionable Remediation Roadmap guidance     |
-| Scope Exclusions                   | 372  | Scope Exclusions guidance                   |
-| Re-audit And Follow-up Plan        | 380  | Re-audit And Follow-up Plan guidance        |
-| Threat Model                       | 390  | Threat Model guidance                       |
-| API Contract Conformance           | 399  | API Contract Conformance guidance           |
-| Evidence And Decision Terms        | 407  | Evidence And Decision Terms guidance        |
-| Skill Definition Conformance Table | 470  | Skill Definition Conformance Table guidance |
+| Status And Severity Vocabulary     | 48   | Status And Severity Vocabulary guidance     |
+| Style Rules                        | 70   | Style Rules guidance                        |
+| Diacritics Frequently Misspelled   | 78   | Diacritics Frequently Misspelled guidance   |
+| Output Filename                    | 110  | Output Filename guidance                    |
+| Document Information               | 117  | Document Information guidance               |
+| Project Inventory                  | 129  | Project Inventory guidance                  |
+| Technology Stack                   | 138  | Technology Stack guidance                   |
+| Executive Summary                  | 155  | Executive Summary guidance                  |
+| Health Dashboard                   | 169  | Health Dashboard guidance                   |
+| Scorecard                          | 179  | Scorecard guidance                          |
+| Scoring Rubrics                    | 202  | Scoring Rubrics guidance                    |
+| High-Level Observations            | 216  | High-Level Observations guidance            |
+| Auditing Methodology               | 223  | Auditing Methodology guidance               |
+| System Context                     | 237  | System Context guidance                     |
+| Architectural Assessment           | 250  | Architectural Assessment guidance           |
+| Skill Definition Conformance       | 256  | Skill Definition Conformance guidance       |
+| Standards Conformance              | 262  | Standards Conformance guidance              |
+| References                         | 282  | References guidance                         |
+| Strengths And What's Working       | 291  | Strengths And What's Working guidance       |
+| Detailed Technical Findings        | 297  | Detailed Technical Findings guidance        |
+| Technical Debt Register            | 326  | Technical Debt Register guidance            |
+| Unified Risk Register              | 338  | Unified Risk Register guidance              |
+| Trade-off Analysis                 | 351  | Trade-off Analysis guidance                 |
+| Actionable Remediation Roadmap     | 363  | Actionable Remediation Roadmap guidance     |
+| Changes Since Previous Audit       | 377  | Changes Since Previous Audit guidance       |
+| Scope Exclusions                   | 405  | Scope Exclusions guidance                   |
+| Re-audit And Follow-up Plan        | 413  | Re-audit And Follow-up Plan guidance        |
+| Threat Model                       | 423  | Threat Model guidance                       |
+| API Contract Conformance           | 432  | API Contract Conformance guidance           |
+| Evidence And Decision Terms        | 440  | Evidence And Decision Terms guidance        |
+| Skill Definition Conformance Table | 503  | Skill Definition Conformance Table guidance |
 
 ## Status And Severity Vocabulary
 
@@ -110,6 +111,9 @@ The following Polish words are frequently written without diacritics by mistake.
 
 The default output filename for a Polish-language report is `AUDYT.md` instead of `AUDIT.md`.
 
+When a previous report exists, the default filename carries the new version, for example
+`AUDYT-1.1.md`, and the previous file is never overwritten.
+
 ## Document Information
 
 | English              | Polish                  |
@@ -119,6 +123,7 @@ The default output filename for a Polish-language report is `AUDYT.md` instead o
 | Date                 | Data                    |
 | State                | Stan                    |
 | Detail Level         | Poziom szczegółowości   |
+| Previous Report      | Poprzedni raport        |
 | Projects             | Projekty                |
 
 ## Project Inventory
@@ -368,6 +373,34 @@ The default output filename for a Polish-language report is `AUDYT.md` instead o
 | Effort                         | Wysiłek                         |
 | Complexity                     | Złożoność                       |
 | Verification                   | Weryfikacja                     |
+
+## Changes Since Previous Audit
+
+| English                      | Polish                        |
+|------------------------------|-------------------------------|
+| Changes Since Previous Audit | Zmiany od poprzedniego audytu |
+| Field                        | Obszar                        |
+| Previous Report              | Poprzedni raport              |
+| Current Report               | Bieżący raport                |
+| File                         | Plik                          |
+| Version                      | Wersja                        |
+| Date                         | Data                          |
+| Detail level                 | Poziom szczegółowości         |
+| Evaluation scale             | Skala oceny                   |
+| Finding transitions          | Zmiany stanu znalezisk        |
+| Finding                      | Znalezisko                    |
+| Previous                     | Poprzedni                     |
+| Current                      | Bieżący                       |
+| Note                         | Uwaga                         |
+| Score delta                  | Zmiana wyników                |
+| Dimension                    | Wymiar                        |
+| Direction                    | Kierunek                      |
+| Up                           | W górę                        |
+| Down                         | W dół                         |
+| Unchanged                    | Bez zmian                     |
+| New                          | Nowe                          |
+| Open                         | Otwarte                       |
+| Closed                       | Zamknięte                     |
 
 ## Scope Exclusions
 

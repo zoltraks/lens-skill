@@ -14,11 +14,11 @@ For a single-dimension request, run the same steps but limit the assessment phas
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 23   | Step Overview guidance           |
-| Intake Checklist        | 431  | Intake Checklist guidance        |
-| Handling Thin Input     | 446  | Handling Thin Input guidance     |
-| Single-Dimension Audits | 456  | Single-Dimension Audits guidance |
-| Re-Audit                | 465  | Re-Audit guidance                |
-| Multi-Project Audits    | 473  | Multi-Project Audits guidance    |
+| Intake Checklist        | 466  | Intake Checklist guidance        |
+| Handling Thin Input     | 481  | Handling Thin Input guidance     |
+| Single-Dimension Audits | 491  | Single-Dimension Audits guidance |
+| Re-Audit                | 500  | Re-Audit guidance                |
+| Multi-Project Audits    | 516  | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -64,7 +64,14 @@ When multiple projects are present, the audit runs independently for each projec
 
 **Rerunning an existing audit**
 
-When the user asks to rerun, regenerate, or update an audit report, first check whether a previous audit file exists in the target location (for example, `AUDIT.md` or a language-specific filename in the project directory).
+When the user asks to rerun, regenerate, or update an audit report, first check whether a
+previous audit report exists. Search the location indicated in the request, the resolved output
+directory and its versioned or dated subdirectories, the default locations (`docs/audit/`,
+`docs/report/`, `docs/`, repository root), and the rest of the document structure, per
+`synthesis/report-comparison.md`.
+
+A previous report may be named `AUDIT.md`, `AUDIT-<version>.md`, or the language-specific
+filename. When several exist, use the one with the highest version.
 
 If a previous report is found, recover its detail level, scale, language, delivery mode, and
 filename.
@@ -77,6 +84,10 @@ Do not reuse old execution permissions, tool results, or readiness conclusions a
 Record any missing parameters using defaults and disclose them, rather than claiming they were
 specified in the prior report.
 
+The previous report is never overwritten. The new report is written to a new versioned file
+and carries a Changes Since Previous Audit section, per `synthesis/report-comparison.md` and
+`process/report-format.md`.
+
 If no previous report is found and the conversation context contains no record of previously chosen parameters, treat the request as a new audit and run the full Parameter Configuration phase.
 
 **Parameter Configuration**
@@ -88,7 +99,7 @@ Default parameters:
 | Parameter               | Default                                                                            |
 |-------------------------|------------------------------------------------------------------------------------|
 | Report delivery         | File if `docs/audit/` or `docs/report/` exists, otherwise Inline (direct response) |
-| Output filename         | `AUDIT.md` for English reports, or the language-specific filename                  |
+| Output filename         | `AUDIT.md` or language-specific, `AUDIT-<version>.md` after a previous report      |
 | Report language         | Match the language of the user's request                                           |
 | Detail level            | Standard                                                                           |
 | Evaluation scale        | 1-10                                                                               |
@@ -97,7 +108,10 @@ Default parameters:
 
 The agent MUST ask the user and MUST NOT skip this step. The agent MUST wait for user response before proceeding to Scope Definition.
 
-Output filename is `AUDIT.md` for English reports, or the language-specific filename from the matching `translation/` file. Used only when delivery is File.
+Output filename is `AUDIT.md` for English reports, or the language-specific filename from the
+matching `translation/` file. When a previous report exists, the filename carries the new
+version, for example `AUDIT-1.1.md`, per `synthesis/report-comparison.md`. Used only when
+delivery is File.
 
 If the user accepts defaults or says "bypass", "defaults", or equivalent, proceed immediately to Scope Definition using the values above.
 
@@ -147,9 +161,19 @@ Always place the file inside the audited repository or directory. Do not write t
 
 If the user already named a file or stated a delivery preference in the original request, honor it without asking again, still resolve the output directory using the rules above unless a full path was given.
 
-**Overwriting existing files**
+**Previous report files**
 
-When the target file already exists (for example, a previous `AUDIT.md` or language-specific audit file), overwrite it with the new report. Increment the `Version` field in the Document Information section by reading the existing file, parsing the current version number, and incrementing the minor component up to 9 (for example, `1.0` becomes `1.1`, `1.9` becomes `2.0`, `9.9` becomes `10.0`). Do not prompt the user before overwriting. Do not create backup copies. The audit report is the authoritative artifact for the current assessment.
+When a previous audit report exists (for example, `AUDIT.md`, `AUDIT-1.0.md`, or a
+language-specific audit file), do not overwrite it. Write the new report to a separate file
+named `<base>-<version>.md`, for example `AUDIT-1.1.md`.
+
+Read the `Version` field from the previous report's Document Information block, increment the
+minor component up to 9 (for example, `1.0` becomes `1.1`, `1.9` becomes `2.0`, `9.9` becomes
+`10.0`), and write the incremented version into the new report. When the previous report
+records no version, treat it as `1.0` and assign `1.1`.
+
+The previous report remains unchanged so that audit history stays comparable. Full rules live
+in `synthesis/report-comparison.md`.
 
 **Report language**
 
@@ -352,6 +376,10 @@ Draft the actionable remediation roadmap using `synthesis/remediation-roadmap.md
 
 When the roadmap contains at least one P1 or P2 recommendation, build the Re-audit and Follow-up Plan using `synthesis/re-audit-plan.md`, mapping those findings to verification owners and closure evidence.
 
+When a previous report was found during intake, build the Changes Since Previous Audit section
+using `synthesis/report-comparison.md`, comparing findings, risks, scores, and category
+statuses against the previous report.
+
 Add the Production Readiness Threshold paragraph to the Executive Summary, tying conditions to specific `RSK-XXX` IDs.
 
 **Validation**
@@ -380,7 +408,12 @@ Confirm every adverse finding in an initial audit has Remediation Status `Open`.
 
 For re-audits, preserve IDs and update closure states only from the required evidence.
 
-Confirm each conditional section was evaluated: it is either present because its criterion is met, or omitted with a deliberate one-line justification in Scope Exclusions. No conditional section may be present-but-empty, and none relevant to the subject may be silently dropped.
+When a Changes Since Previous Audit section is present, confirm the previous report file was
+left unchanged, the new filename carries the incremented version, every transition cites
+current evidence, and no identifier from the previous report was reused for a different
+finding.
+
+Confirm each conditional section was evaluated: it is either present because its criterion is met, or omitted with a deliberate one-line justification in Scope Exclusions. No conditional section may be present-but-empty, and none relevant to the subject may be silently dropped. Changes Since Previous Audit is the exception, its absence in a first audit needs no omission note.
 
 When a Threat Model is present, confirm every unmitigated threat traces to a `FND-XXX` and a `RSK-XXX`, and that no plaintext secret appears in a disclosure threat.
 
@@ -427,6 +460,8 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Clean code with uniform tests                | No authorship inference, assess test behavior        |
 | Security fix proposed but not run            | Keep verification pending, no closure claim          |
 | Partial cost inputs or no telemetry          | No complete budget or numeric SLO claim              |
+| Previous report at version 1.9 exists        | New `AUDIT-2.0.md`, previous kept, comparison added  |
+| Previous report has no Version field         | Assume 1.0, new file `AUDIT-1.1.md`                  |
 
 ## Intake Checklist
 
@@ -468,7 +503,15 @@ When re-auditing after changes, keep the same categories, statuses vocabulary, s
 
 Record what changed since the previous audit and which findings moved status, so progress is comparable over time.
 
-Update the Remediation Status column for findings that were closed since the previous audit. Add a "Re-audit Notes" paragraph noting which `FND-XXX` findings changed from `Open` to `Closed` and which `RSK-XXX` risks were mitigated.
+Update the Remediation Status column for findings that were closed since the previous audit.
+
+Build the Changes Since Previous Audit section using `synthesis/report-comparison.md`, noting
+which `FND-XXX` findings changed from `Open` to `Closed`, which `RSK-XXX` risks were mitigated,
+and which findings are new.
+
+Do not overwrite the previous report file. Write the new report to a versioned file such as
+`AUDIT-1.1.md` and record the previous report in the Document Information `Previous Report`
+field.
 
 ## Multi-Project Audits
 

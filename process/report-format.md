@@ -15,34 +15,35 @@ Keep every section even when content is `UNKNOWN`. A present-but-empty section s
 
 | Section                                     | Line | What it covers                                       |
 |---------------------------------------------|------|------------------------------------------------------|
-| Formatting Rules                            | 47   | Formatting Rules guidance                            |
-| Report Delivery And Parameter Configuration | 124  | Report Delivery And Parameter Configuration guidance |
-| Detail Level Configuration                  | 136  | Detail Level Configuration guidance                  |
-| Conditional Sections                        | 202  | Conditional Sections guidance                        |
-| Section Order                               | 226  | Section Order guidance                               |
-| Document Information                        | 282  | Document Information guidance                        |
-| Multi-Project Report Structure              | 334  | Multi-Project Report Structure guidance              |
-| Technology Stack                            | 384  | Technology Stack guidance                            |
-| Executive Summary                           | 404  | Executive Summary guidance                           |
-| Health Dashboard                            | 459  | Health Dashboard guidance                            |
-| High-Level Observations                     | 504  | High-Level Observations guidance                     |
-| Auditing Methodology                        | 520  | Auditing Methodology guidance                        |
-| Scoring Rubrics                             | 620  | Scoring Rubrics guidance                             |
-| System Context                              | 660  | System Context guidance                              |
-| Architectural Assessment                    | 694  | Architectural Assessment guidance                    |
-| Threat Model                                | 792  | Threat Model guidance                                |
-| API Contract Conformance                    | 813  | API Contract Conformance guidance                    |
-| Skill Definition Conformance                | 829  | Skill Definition Conformance guidance                |
-| Standards Conformance                       | 849  | Standards Conformance guidance                       |
-| Strengths & What's Working                  | 894  | Strengths & What's Working guidance                  |
-| Detailed Technical Findings                 | 919  | Detailed Technical Findings guidance                 |
-| Technical Debt Register                     | 998  | Technical Debt Register guidance                     |
-| Unified Risk Register                       | 1033 | Unified Risk Register guidance                       |
-| Trade-off Analysis                          | 1108 | Trade-off Analysis guidance                          |
-| Actionable Remediation Roadmap              | 1137 | Actionable Remediation Roadmap guidance              |
-| Scope Exclusions                            | 1193 | Scope Exclusions guidance                            |
-| Re-audit and Follow-up Plan                 | 1236 | Re-audit and Follow-up Plan guidance                 |
-| References                                  | 1262 | References guidance                                  |
+| Formatting Rules                            | 48   | Formatting Rules guidance                            |
+| Report Delivery And Parameter Configuration | 125  | Report Delivery And Parameter Configuration guidance |
+| Detail Level Configuration                  | 137  | Detail Level Configuration guidance                  |
+| Conditional Sections                        | 204  | Conditional Sections guidance                        |
+| Section Order                               | 229  | Section Order guidance                               |
+| Document Information                        | 287  | Document Information guidance                        |
+| Multi-Project Report Structure              | 347  | Multi-Project Report Structure guidance              |
+| Technology Stack                            | 398  | Technology Stack guidance                            |
+| Executive Summary                           | 418  | Executive Summary guidance                           |
+| Health Dashboard                            | 473  | Health Dashboard guidance                            |
+| High-Level Observations                     | 518  | High-Level Observations guidance                     |
+| Auditing Methodology                        | 534  | Auditing Methodology guidance                        |
+| Scoring Rubrics                             | 634  | Scoring Rubrics guidance                             |
+| System Context                              | 674  | System Context guidance                              |
+| Architectural Assessment                    | 708  | Architectural Assessment guidance                    |
+| Threat Model                                | 806  | Threat Model guidance                                |
+| API Contract Conformance                    | 827  | API Contract Conformance guidance                    |
+| Skill Definition Conformance                | 843  | Skill Definition Conformance guidance                |
+| Standards Conformance                       | 863  | Standards Conformance guidance                       |
+| Strengths & What's Working                  | 908  | Strengths & What's Working guidance                  |
+| Detailed Technical Findings                 | 933  | Detailed Technical Findings guidance                 |
+| Technical Debt Register                     | 1012 | Technical Debt Register guidance                     |
+| Unified Risk Register                       | 1047 | Unified Risk Register guidance                       |
+| Trade-off Analysis                          | 1122 | Trade-off Analysis guidance                          |
+| Actionable Remediation Roadmap              | 1151 | Actionable Remediation Roadmap guidance              |
+| Changes Since Previous Audit                | 1207 | Changes Since Previous Audit guidance                |
+| Scope Exclusions                            | 1267 | Scope Exclusions guidance                            |
+| Re-audit and Follow-up Plan                 | 1314 | Re-audit and Follow-up Plan guidance                 |
+| References                                  | 1340 | References guidance                                  |
 
 ## Formatting Rules
 
@@ -129,7 +130,7 @@ When the user names an output file in the original request, for example "write t
 
 When the user invokes an audit without naming an output file, for example "perform lens on this service" or "make audit report on the codebase", the Parameter Configuration phase determines delivery, output location, and filename.
 
-Default delivery is **File** when `docs/audit/` or `docs/report/` exists in the audited repository or directory, otherwise **Inline** (direct response). When File mode is selected, the output location is resolved by inspecting the audited repository or directory in this order: `docs/audit/` first, then `docs/report/`, then `docs/`, then the root. When `docs/audit/` or `docs/report/` contains subdirectories named with version numbers and the project version can be determined, the default output directory becomes `docs/audit/<version>` or `docs/report/<version>`. When `docs/audit/` or `docs/report/` contains subdirectories named with dates in ISO `YYYY-MM-DD` format, the default output directory becomes `docs/audit/<current-date>` or `docs/report/<current-date>` using the current date in the same format. The final output location must fit the existing directory structure. The default filename within that location is **AUDIT.md** for English reports, or the language-specific filename defined in the matching `translation/` file for non-English reports, adjusted for any naming convention already present in the resolved directory. The agent presents the resolved default to the user and asks for confirmation or a custom path before writing.
+Default delivery is **File** when `docs/audit/` or `docs/report/` exists in the audited repository or directory, otherwise **Inline** (direct response). When File mode is selected, the output location is resolved by inspecting the audited repository or directory in this order: `docs/audit/` first, then `docs/report/`, then `docs/`, then the root. When `docs/audit/` or `docs/report/` contains subdirectories named with version numbers and the project version can be determined, the default output directory becomes `docs/audit/<version>` or `docs/report/<version>`. When `docs/audit/` or `docs/report/` contains subdirectories named with dates in ISO `YYYY-MM-DD` format, the default output directory becomes `docs/audit/<current-date>` or `docs/report/<current-date>` using the current date in the same format. The final output location must fit the existing directory structure. The default filename within that location is **AUDIT.md** for English reports, or the language-specific filename defined in the matching `translation/` file for non-English reports, adjusted for any naming convention already present in the resolved directory. When a previous audit report exists, the default filename carries the new version, for example `AUDIT-1.1.md`, and the previous file is never overwritten. The agent presents the resolved default to the user and asks for confirmation or a custom path before writing.
 
 For a single-dimension request that produces only a short subsection, returning the result inline is acceptable without asking, unless the user asked for a file.
 
@@ -189,6 +190,7 @@ Condensed output for rapid review:
 - Top 5 risks only (summary table)
 - Key trade-offs only (top 2, no full table)
 - Key recommendations only (top 5, no full matrix)
+- Changes Since Previous Audit (report reference and finding transition tables only) when a previous report exists
 - Scope Exclusions (full)
 - References (full)
 
@@ -220,6 +222,7 @@ The following sections and subsections are conditional. Each lists its inclusion
 | Standards Conformance (standalone)                          | The project contains documented development standards               | `assessment/standards-conformance.md` |
 | Technical Debt Register (standalone)                        | The assessment surfaces structural debt distinct from risks         | `synthesis/debt-register.md`          |
 | Re-audit and Follow-up Plan (standalone)                    | The roadmap contains at least one P1 or P2 recommendation           | `synthesis/re-audit-plan.md`          |
+| Changes Since Previous Audit (standalone)                   | A previously created audit report was found during intake           | `synthesis/report-comparison.md`      |
 
 When in doubt about whether a conditional section applies, prefer including it with explicit `N/A` or `NOT SPECIFIED` markers over silently dropping a relevant concern. Only omit a section when it genuinely cannot apply to the subject.
 
@@ -248,6 +251,7 @@ For a **single-project** audit:
 - Unified Risk Register
 - Trade-off Analysis
 - Actionable Remediation Roadmap
+- Changes Since Previous Audit *(conditional)*
 - Scope Exclusions
 - Re-audit and Follow-up Plan *(conditional)*
 - References
@@ -275,6 +279,7 @@ For a **multi-project** audit, the structure changes. See the Multi-Project Repo
   - Unified Risk Register
   - Trade-off Analysis
   - Actionable Remediation Roadmap
+  - Changes Since Previous Audit *(conditional)*
 - Scope Exclusions (once, shared)
 - Re-audit and Follow-up Plan *(conditional)* (once, shared)
 - References (once, shared)
@@ -295,6 +300,8 @@ Format:
 **State**: <Draft / Final>
 
 **Detail Level**: <Standard / Detailed / Brief>
+
+**Previous Report**: <previous report path and version, only when a previous report exists>
 ```
 
 For a multi-project audit, use the repository or directory name as the system name, and add a `**Projects**` field listing the audited project names:
@@ -309,6 +316,8 @@ For a multi-project audit, use the repository or directory name as the system na
 **State**: <Draft / Final>
 
 **Detail Level**: <Standard / Detailed / Brief>
+
+**Previous Report**: <previous report path and version, only when a previous report exists>
 
 **Projects**: <project-1>, <project-2>, <project-3>
 ```
@@ -325,9 +334,13 @@ a different tree.
 
 `Final` means the scoped report is complete, not that the system is approved for production.
 
-**Version increment on overwrite**
+**Report versioning**
 
-When overwriting an existing audit file, read the current version from the existing Document Information block, increment the minor component up to 9 (for example, `1.0` to `1.1`, `1.9` to `2.0`, `9.9` to `10.0`), and write the incremented version into the new report.
+The first audit of a subject is version `1.0`.
+
+When a previous audit report exists, read the current version from its Document Information block, increment the minor component up to 9 (for example, `1.0` to `1.1`, `1.9` to `2.0`, `9.9` to `10.0`), and write the incremented version into the new report. When the previous report records no version, treat it as `1.0` and assign `1.1`.
+
+The previous report file is never overwritten. The new report is written to a separate versioned file, for example `AUDIT-1.1.md`, per `synthesis/report-comparison.md`.
 
 When the report language is not English, apply the label translations from the matching `translation/` file.
 
@@ -367,6 +380,7 @@ When the report language is not English, apply the column header translations fr
 - Unified Risk Register
 - Trade-off Analysis
 - Actionable Remediation Roadmap
+- Changes Since Previous Audit *(conditional)*
 
 Use level-3 headings (`###`) for subsections within each project block.
 
@@ -1190,6 +1204,66 @@ For readiness or due diligence, include the supported cost rollup and dependency
 Numeric totals require evidence-based compatible units, unknown work remains visible beside any
 known subtotal.
 
+## Changes Since Previous Audit
+
+Include this section only when a previously created audit report was found during intake, per
+`synthesis/report-comparison.md`. Omit it entirely for a first audit. The absence of a previous
+report is the normal case, so no omission note is needed in Scope Exclusions.
+
+Open with a report reference table:
+
+| Field            | Previous Report | Current Report |
+|------------------|-----------------|----------------|
+| File             | <path>          | <filename>     |
+| Version          | <version>       | <version>      |
+| Date             | <date>          | <date>         |
+| Detail level     | <level>         | <level>        |
+| Evaluation scale | <scale>         | <scale>        |
+
+When the previous report records no version, show `1.0 (assumed)` in the Version row.
+
+When parameters differ between reports, state the difference in a paragraph below the table
+before comparing content, since a scale or detail-level change affects comparability.
+
+When the report language is not English, apply the column header translations from the matching `translation/` file.
+
+**Finding transitions**
+
+Present a table of findings that changed remediation state or first appeared since the
+previous report:
+
+| Finding | Previous | Current | Note               |
+|---------|----------|---------|--------------------|
+| FND-XXX | Open     | Closed  | <closing evidence> |
+| FND-XXX | Open     | Open    | still reproduces   |
+| FND-XXX | -        | New     | first reported     |
+
+A previous finding that no longer reproduces stays in the table as `Closed` with the evidence
+that closes it, it is never silently dropped.
+
+**Score delta**
+
+Present a per-dimension score comparison:
+
+| Dimension | Previous | Current | Direction |
+|-----------|----------|---------|-----------|
+| <name>    | <score>  | <score> | Up        |
+
+Direction uses `Up`, `Down`, or `Unchanged`. When the evaluation scale changed between
+reports, mark the direction `UNKNOWN` for affected dimensions instead of comparing raw numbers.
+
+After the tables, write one paragraph per material change. Summarize which findings moved
+state, which `RSK-XXX` risks were added or mitigated, and which category statuses changed.
+Anchor every claim to a `FND-XXX`, `RSK-XXX`, or `EVD-XXX` in the current report.
+
+**Rules**
+
+- New findings keep their assigned `FND-XXX` IDs and appear as `New` in the transition table.
+- Mark a comparison element `UNKNOWN` when the previous report cannot supply it, do not guess.
+- For multi-project reports, place this section inside each project block and qualify every
+  identifier with the project identifier.
+- Do not include plaintext secrets, passwords, or cryptographic keys in comparison text.
+
 ## Scope Exclusions
 
 Explicitly define the limits of the analysis.
@@ -1231,7 +1305,11 @@ Mark categories that could not be assessed from the provided input as `NOT ASSES
 
 **Omitted conditional sections**
 
-When a conditional section was omitted because it does not apply (for example, the API Contract Conformance section for a system with no API, or the Threat Model for a single-user local utility), state the omission here with a one-line justification so the reader knows it was deliberate.
+When a conditional section was omitted because it does not apply (for example, the API
+Contract Conformance section for a system with no API, or the Threat Model for a single-user
+local utility), state the omission here with a one-line justification so the reader knows it
+was deliberate. The Changes Since Previous Audit section is the exception, a first audit has
+no previous report to compare, so its absence needs no note.
 
 ## Re-audit and Follow-up Plan
 

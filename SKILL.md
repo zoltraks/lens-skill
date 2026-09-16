@@ -123,7 +123,7 @@ The agent MUST ask the user whether to accept the default parameters or configur
 |-------------------------|------------------------------------------------------------------------------------|
 | Report delivery         | File if `docs/audit/` or `docs/report/` exists, otherwise Inline (direct response) |
 | Output location         | Resolved from the audited repository or existing directory                         |
-| Output filename         | `AUDIT.md` for English reports, or the language-specific filename                  |
+| Output filename         | `AUDIT.md` or language-specific, `AUDIT-<version>.md` after a previous report      |
 | Report language         | Match the language of the user's request                                           |
 | Detail level            | Standard                                                                           |
 | Evaluation scale        | 1-10                                                                               |
@@ -134,7 +134,11 @@ The agent MUST ask this question and MUST NOT skip it. The agent MUST wait for u
 
 Output location is resolved from the audited repository or existing directory: `docs/audit/` > `docs/report/` > `docs/` > root (used if File mode selected).
 
-Output filename should be chosen as `AUDIT.md` for English reports, or the language-specific filename from the matching `translation/` file, adjusted for existing conventions. Agent confirms with user before writing.
+Output filename should be chosen as `AUDIT.md` for English reports, or the language-specific
+filename from the matching `translation/` file, adjusted for existing conventions. When a
+previous report exists, the default filename carries the new version, for example
+`AUDIT-1.1.md`, and the previous file is never overwritten. Agent confirms with user before
+writing.
 
 If the user accepts defaults or says "bypass", the agent proceeds immediately using these values.
 
@@ -146,7 +150,16 @@ The full parameter flow is documented in `process/audit-workflow.md`.
 
 **Rerunning an audit**
 
-When the user asks to rerun, regenerate, or update an audit, check whether a previous report file exists. If it does, reuse the parameters recorded in its Document Information section. Do not ask the parameter configuration questions again unless the user explicitly asks for a fresh audit or new parameters. If no previous report exists and no prior parameter choices are recorded in context, run the full Parameter Configuration phase.
+When the user asks to rerun, regenerate, or update an audit, check whether a previous report
+exists, searching the location named in the request, the resolved output directory, the default
+locations (`docs/audit/`, `docs/report/`, `docs/`, repository root), and the rest of the
+document structure, per `synthesis/report-comparison.md`. If a previous report is found, reuse
+the parameters recorded in its Document Information section. Do not ask the parameter
+configuration questions again unless the user explicitly asks for a fresh audit or new
+parameters. The previous report is never overwritten: write the new report to a versioned file
+such as `AUDIT-1.1.md` and add the Changes Since Previous Audit section. If no previous report
+exists and no prior parameter choices are recorded in context, run the full Parameter
+Configuration phase.
 
 ## `principles/` - Rules Of Evaluation
 
@@ -200,6 +213,7 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
 - **`synthesis/remediation-roadmap.md`** - Actionable remediation roadmap with prioritized impact-vs-effort matrix and verification steps.
 - **`synthesis/debt-register.md`** - Formal technical debt inventory (`TDR-[001]`) using CISQ and SQALE cost model. Conditional: include when structural debt distinct from risks is surfaced.
 - **`synthesis/re-audit-plan.md`** - Verification ownership, sign-off gates, and re-audit triggers following ISO 19011 and NIST RMF. Conditional: include when the roadmap has a P1 or P2 recommendation.
+- **`synthesis/report-comparison.md`** - Previous report discovery, iterative report versioning, versioned output filenames, and the Changes Since Previous Audit section. Conditional: include when a previous audit report exists.
 - **`translation/polish-language.md`** - Polish translations for the audit report: status and severity vocabulary, section headings, table headers, style rules, diacritics, and encoding. Load when the report language is Polish.
 
 ## Evidence And Decision Contract
@@ -255,6 +269,9 @@ when maintaining the skill.
 - The Technical Debt Register (`synthesis/debt-register.md`) is distinct from the Unified Risk Register: debt is accumulated cost already present, risk is what could go wrong. Do not duplicate entries between them.
 - The Re-audit and Follow-up Plan (`synthesis/re-audit-plan.md`) precedes References when present
   and maps P1 and P2 findings to verification owners and closure evidence.
+- The Changes Since Previous Audit section (`synthesis/report-comparison.md`) appears only when a
+  previously created audit report was found during intake. The previous file is never overwritten,
+  the new report uses a versioned filename such as `AUDIT-1.1.md` and the next minor version.
 - Translation files in `translation/` are loaded only when the report language is not English. Each file defines the translations for one language. To add a new language, create a new file in `translation/` following the structure of the existing files.
 - Prefer the narrowest assessment file that directly matches the request.
 - If the user asks only for a single dimension (for example "review security" or "audit dependencies"), load that one assessment file plus `principles/` and produce the matching finding pillar and risk row only.

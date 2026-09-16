@@ -22,7 +22,8 @@ auditing methodology, scoring rubrics, system context, architectural assessment,
 what's working, detailed technical findings, unified risk register, trade-off analysis, actionable
 remediation roadmap, scope exclusions, and references - plus conditional sections (data flow
 diagram, design patterns, architecture decision records, threat model, API contract conformance,
-technical debt register, and re-audit plan) that appear only when the subject warrants them.
+skill definition conformance, standards conformance, technical debt register, changes since
+previous audit, and re-audit plan) that appear only when the subject warrants them.
 
 Every section uses a hybrid table-paragraph format for scannable summaries backed by detailed
 evidence.
@@ -187,6 +188,9 @@ This format keeps the report readable in plain-text consoles while preserving de
 **Architectural trade-off**
 > Evaluate the trade-off between keeping in-memory state versus introducing an external store for this prototype, given a single-instance target. Include a standalone trade-off table and embed the analysis into the relevant architectural finding.
 
+**Re-audit**
+> Re-run the audit on this codebase after the latest fixes. (The agent finds the previous report, writes a new versioned file such as `AUDIT-1.1.md` without overwriting it, and adds a Changes Since Previous Audit section.)
+
 **Thin input**
 > Here is a one-paragraph description of a service. Audit what you can and list exactly what additional artifacts would raise confidence.
 
@@ -238,7 +242,8 @@ lens-skill/
 │   ├── trade-off-analysis.md      # Engineering trade-offs in standalone table and embedded findings
 │   ├── remediation-roadmap.md     # Actionable remediation roadmap with priority matrix
 │   ├── debt-register.md           # (conditional) TDR inventory with CISQ/SQALE cost model
-│   └── re-audit-plan.md           # (conditional) Verification ownership, sign-off gates, re-audit triggers
+│   ├── re-audit-plan.md           # (conditional) Verification ownership, sign-off gates, re-audit triggers
+│   └── report-comparison.md       # (conditional) Previous report discovery, versioning, comparison section
 └── translation/
     └── polish-language.md         # Polish translations: status, severity, headings, table headers, style rules
 ```

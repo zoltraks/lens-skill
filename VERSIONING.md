@@ -15,9 +15,9 @@ Versions use a two-part decimal format: `<major>.<minor>`.
 
 2. **Minor rolls over at 9**. When minor would reach 10, increment major by 1 and reset minor to 0.
 
-   | Before | After | Reason  |
-   |--------|-------|---------|
-   | 0.8    | 0.9   | minor + 1   |
+   | Before | After | Reason         |
+   |--------|-------|----------------|
+   | 0.8    | 0.9   | minor + 1      |
    | 0.9    | 1.0   | minor rollover |
    | 1.9    | 2.0   | minor rollover |
    | 9.9    | 10.0  | minor rollover |
