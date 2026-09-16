@@ -5,7 +5,7 @@
 > **Scope:** API specification conformance, schema validation, error standardization, versioning, spec-to-code agreement
 > **Key items:** OpenAPI/contract presence, request and response schema enforcement, RFC 7807 error format, versioning strategy, OWASP API Security Top 10 (2023)
 
-This file guides assessment of whether a system that exposes an API conforms to its own contract and to API design standards. It complements `assessment/security.md` and `assessment/threat-model.md` for the security dimension and `assessment/documentation.md` for the docs dimension.
+This file guides assessment of whether a system that exposes an API conforms to its own contract and to API design standards. It complements `assessment/security-review.md` and `assessment/threat-model.md` for the security dimension and `assessment/documentation-review.md` for the docs dimension.
 
 Apply `principles/evaluation-rules.md` throughout. Assess only what the spec and code show. Treat a spec that contradicts the code as a drift finding.
 
@@ -29,28 +29,28 @@ It does not apply to a system with no external API surface, for example a pure C
 
 Use these category codes when an API security gap maps to one:
 
-| Code | Category |
-|------|----------|
-| API1:2023 | Broken Object Level Authorization |
-| API2:2023 | Broken Authentication |
-| API3:2023 | Broken Object Property Level Authorization |
-| API4:2023 | Unrestricted Resource Consumption |
-| API5:2023 | Broken Function Level Authorization |
-| API6:2023 | Unrestricted Access to Sensitive Business Flows |
-| API7:2023 | Server-Side Request Forgery |
-| API8:2023 | Security Misconfiguration |
-| API9:2023 | Improper Inventory Management |
-| API10:2023 | Unsafe Consumption of APIs |
+| Code       | Category                                        |
+|------------|-------------------------------------------------|
+| API1:2023  | Broken Object Level Authorization               |
+| API2:2023  | Broken Authentication                           |
+| API3:2023  | Broken Object Property Level Authorization      |
+| API4:2023  | Unrestricted Resource Consumption               |
+| API5:2023  | Broken Function Level Authorization             |
+| API6:2023  | Unrestricted Access to Sensitive Business Flows |
+| API7:2023  | Server-Side Request Forgery                     |
+| API8:2023  | Security Misconfiguration                       |
+| API9:2023  | Improper Inventory Management                   |
+| API10:2023 | Unsafe Consumption of APIs                      |
 
 ## Evidence To Look For
 
-| Signal | Where It Appears |
-|--------|------------------|
-| API specification | `openapi.yaml`, `*.proto`, schema files, generated docs |
+| Signal             | Where It Appears                                                   |
+|--------------------|--------------------------------------------------------------------|
+| API specification  | `openapi.yaml`, `*.proto`, schema files, generated docs            |
 | Schema enforcement | Validation middleware, typed deserialization, rejected-input tests |
-| Error format | Centralized error responses, problem-details types |
-| Versioning | Version in path, header, or media type |
-| Spec drift | Spec declarations that differ from implemented behavior |
+| Error format       | Centralized error responses, problem-details types                 |
+| Versioning         | Version in path, header, or media type                             |
+| Spec drift         | Spec declarations that differ from implemented behavior            |
 
 ## Status Criteria
 

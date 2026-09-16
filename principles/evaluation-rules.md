@@ -93,7 +93,7 @@ Distinguish the three non-positive markers carefully:
 - `UNKNOWN`: the capability may be needed but evidence is missing.
 - `N/A`: the capability cannot be needed given the deployment model.
 
-A category marked `N/A` is excluded from scoring, not scored zero. See `synthesis/scorecard.md`.
+A category marked `N/A` is excluded from scoring, not scored zero. See `synthesis/project-scorecard.md`.
 
 ## Evidence Citation
 

@@ -95,7 +95,7 @@ The skill activates on any of these phrases:
 Use progressive disclosure:
 
 - Read this router first.
-- Read `principles/evaluation-rules.md` and `process/workflow.md` before producing any audit. They are mandatory for every audit.
+- Read `principles/evaluation-rules.md` and `process/audit-workflow.md` before producing any audit. They are mandatory for every audit.
 - Open only the assessment files that match the system under audit.
 - Use the synthesis files to assemble the final report sections.
 
@@ -106,26 +106,30 @@ This skill is self-contained. The topic files below are the available reference 
 Always load these two files before starting an audit:
 
 - **`principles/evaluation-rules.md`** - Evidence-only reasoning, no-assumption rule, neutrality, status markers, and hard constraints.
-- **`process/workflow.md`** - The end-to-end audit process from intake to final report.
+- **`process/audit-workflow.md`** - The end-to-end audit process from intake to final report.
 
 ## Parameter Configuration
 
-Before beginning the audit, the agent runs the Parameter Configuration phase defined in `process/workflow.md`.
+Before beginning the audit, the agent runs the Parameter Configuration phase defined in `process/audit-workflow.md`.
 
 The agent MUST ask the user whether to accept the default parameters or configure them. Defaults are:
 
-| Parameter                | Default                                                                                                                                                                  |
-|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Report delivery          | Inline (direct response)                                                                                                                                                 |
-| Output location          | Resolved from the audited repository or directory: `docs/audit/` > `docs/` > root (used if File mode selected)                                                          |
-| Output filename          | `AUDIT.md` for English reports, or the language-specific filename from the matching `translation/` file, adjusted for existing conventions; agent confirms with user before writing |
-| Report language          | Match the language of the user's request                                                                                                                                 |
-| Detail level             | Standard                                                                                                                                                                 |
-| Evaluation scale         | 1-10                                                                                                                                                                     |
-| Improvement suggestions  | Include with priorities (P1-P4 roadmap)                                                                                                                                  |
-| Trade-off analysis       | Standalone section + embedded into relevant findings                                                                                                                     |
+| Parameter               | Default                                                                            |
+|-------------------------|------------------------------------------------------------------------------------|
+| Report delivery         | File if `docs/audit/` or `docs/report/` exists, otherwise Inline (direct response) |
+| Output location         | Resolved from the audited repository or existing directory                         |
+| Output filename         | `AUDIT.md` for English reports, or the language-specific filename                  |
+| Report language         | Match the language of the user's request                                           |
+| Detail level            | Standard                                                                           |
+| Evaluation scale        | 1-10                                                                               |
+| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                            |
+| Trade-off analysis      | Standalone section + embedded into relevant findings                               |
 
 The agent MUST ask this question and MUST NOT skip it. The agent MUST wait for user response before starting the audit.
+
+Output location is resolved from the audited repository or existing directory: `docs/audit/` > `docs/report/` > `docs/` > root (used if File mode selected).
+
+Output filename should be chosen as `AUDIT.md` for English reports, or the language-specific filename from the matching `translation/` file, adjusted for existing conventions. Agent confirms with user before writing.
 
 If the user accepts defaults or says "bypass", the agent proceeds immediately using these values.
 
@@ -133,7 +137,7 @@ If the user chooses to configure, the agent walks through the parameters one at 
 
 When the report language is not English, load the matching `translation/` file and apply every translation, style rule, and encoding requirement defined there. The default filename changes to the language-specific filename defined in the translation file.
 
-The full parameter flow is documented in `process/workflow.md`.
+The full parameter flow is documented in `process/audit-workflow.md`.
 
 **Rerunning an audit**
 
@@ -146,29 +150,29 @@ When the user asks to rerun, regenerate, or update an audit, check whether a pre
 
 ## `process/` - Audit Process
 
-- **`process/workflow.md`** - Step-by-step audit workflow: intake, scope definition, evidence gathering, category assessment, synthesis, and validation.
+- **`process/audit-workflow.md`** - Step-by-step audit workflow: intake, scope definition, evidence gathering, category assessment, synthesis, and validation.
 - **`process/report-format.md`** - The required report structure and the table-driven template the final output must follow. Section headings are unnumbered.
 
 ## `assessment/` - Assessment Categories
 
-- **`assessment/testing.md`** - Test pyramid (unit, integration, end-to-end), TDD practice, coverage, CI automation, and design-for-testability.
+- **`assessment/testing-review.md`** - Test pyramid (unit, integration, end-to-end), TDD practice, coverage, CI automation, and design-for-testability.
 - **`assessment/design-principles.md`** - SOLID principles, cohesion and coupling, DRY, and separation of concerns.
 - **`assessment/code-quality.md`** - Static analysis, type safety, complexity, duplication, dead code, and style enforcement.
 - **`assessment/best-practices.md`** - Stack-specific best practices: language idioms, framework conventions, ecosystem layout, recommended libraries, deprecated APIs, and version-appropriate patterns.
-- **`assessment/dependencies.md`** - Dependency freshness, known vulnerabilities, license compliance, lockfiles, and SBOM.
-- **`assessment/deployment.md`** - Build pipeline, release process, release frequency, and manual steps.
-- **`assessment/rollback.md`** - Rollback mechanism, deployment safety, versioning, and recovery.
-- **`assessment/maintainability.md`** - Modularity, coupling, code structure, and technical-debt signals.
+- **`assessment/dependency-review.md`** - Dependency freshness, known vulnerabilities, license compliance, lockfiles, and SBOM.
+- **`assessment/deployment-review.md`** - Build pipeline, release process, release frequency, and manual steps.
+- **`assessment/rollback-review.md`** - Rollback mechanism, deployment safety, versioning, and recovery.
+- **`assessment/maintainability-review.md`** - Modularity, coupling, code structure, and technical-debt signals.
 - **`assessment/change-management.md`** - Feature flags, ADR usage, and release governance.
-- **`assessment/documentation.md`** - Entry, API, and inline docs, onboarding, and knowledge transfer.
-- **`assessment/nfr.md`** - Performance, scalability, availability, reliability, and resilience.
-- **`assessment/security.md`** - Authentication, authorization, input validation, OWASP risks, and data exposure.
-- **`assessment/compliance.md`** - Data protection, privacy, regulatory scope, licensing, and auditability.
-- **`assessment/observability.md`** - Logging, metrics, tracing, and alerting.
+- **`assessment/documentation-review.md`** - Entry, API, and inline docs, onboarding, and knowledge transfer.
+- **`assessment/nfr-review.md`** - Performance, scalability, availability, reliability, and resilience.
+- **`assessment/security-review.md`** - Authentication, authorization, input validation, OWASP risks, and data exposure.
+- **`assessment/compliance-review.md`** - Data protection, privacy, regulatory scope, licensing, and auditability.
+- **`assessment/observability-review.md`** - Logging, metrics, tracing, and alerting.
 - **`assessment/error-handling.md`** - Exception strategy, retries, fallbacks, and user-facing error handling.
 - **`assessment/operational-readiness.md`** - Runbooks, on-call, capacity, backups, and incident response.
 - **`assessment/ai-generated-code.md`** - AI-generated code detection, Vibe Coding risks, Agent Driven Engineering maturity, and SDLC discipline.
-- **`assessment/copyrights.md`** - Code originality, license compliance, attribution, and dependency license compatibility.
+- **`assessment/copyright-review.md`** - Code originality, license compliance, attribution, and dependency license compatibility.
 
 ### Conditional assessment files
 
@@ -183,34 +187,34 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
 ## `synthesis/` - Findings And Report Assembly
 
 - **`synthesis/risk-register.md`** - Unified risk register with bidirectional cross-referencing to findings (`RSK-[001]` mapping to `FND-XXX`).
-- **`synthesis/scorecard.md`** - The 1-10 project scorecard, dimensions, and scoring rubric (1-5 optional).
+- **`synthesis/project-scorecard.md`** - The 1-10 project scorecard, dimensions, and scoring rubric (1-5 optional).
 - **`synthesis/trade-off-analysis.md`** - Surfacing engineering trade-offs in a standalone section and embedded into findings.
-- **`synthesis/recommendations.md`** - Actionable remediation roadmap with prioritized impact-vs-effort matrix and verification steps.
-- **`synthesis/technical-debt-register.md`** - Formal technical debt inventory (`TDR-[001]`) using CISQ and SQALE cost model. Conditional: include when structural debt distinct from risks is surfaced.
+- **`synthesis/remediation-roadmap.md`** - Actionable remediation roadmap with prioritized impact-vs-effort matrix and verification steps.
+- **`synthesis/debt-register.md`** - Formal technical debt inventory (`TDR-[001]`) using CISQ and SQALE cost model. Conditional: include when structural debt distinct from risks is surfaced.
 - **`synthesis/re-audit-plan.md`** - Verification ownership, sign-off gates, and re-audit triggers following ISO 19011 and NIST RMF. Conditional: include when the roadmap has a P1 or P2 recommendation.
-- **`translation/polish.md`** - Polish translations for the audit report: status and severity vocabulary, section headings, table headers, style rules, diacritics, and encoding. Load when the report language is Polish.
+- **`translation/polish-language.md`** - Polish translations for the audit report: status and severity vocabulary, section headings, table headers, style rules, diacritics, and encoding. Load when the report language is Polish.
 
 ## Navigation Rules
 
 - Always apply `principles/evaluation-rules.md` and `principles/output-style.md` to every section of every audit.
 - Assemble the report skeleton from `process/report-format.md` before filling in findings, present every section as a table and use unnumbered headings.
-- Test layers, TDD, coverage, and design-for-testability belong in `assessment/testing.md`.
-- SOLID and design principles (SRP, OCP, LSP, ISP, DIP), cohesion, coupling, and DRY belong in `assessment/design-principles.md`, code-level metrics (lint, type safety, complexity, duplication) belong in `assessment/code-quality.md`, architectural module structure belongs in `assessment/maintainability.md`.
+- Test layers, TDD, coverage, and design-for-testability belong in `assessment/testing-review.md`.
+- SOLID and design principles (SRP, OCP, LSP, ISP, DIP), cohesion, coupling, and DRY belong in `assessment/design-principles.md`, code-level metrics (lint, type safety, complexity, duplication) belong in `assessment/code-quality.md`, architectural module structure belongs in `assessment/maintainability-review.md`.
 - Stack-specific idioms and conventions (language idioms, framework patterns, ecosystem layout, deprecated APIs) belong in `assessment/best-practices.md`, keep it distinct from the language-agnostic principles in `assessment/design-principles.md` and the code-level metrics in `assessment/code-quality.md`. Assess adherence to the stack the subject already uses, do not judge the stack choice itself.
-- Dependency Inversion overlaps testability, assess the principle in `assessment/design-principles.md` and its testing impact in `assessment/testing.md`.
-- Third-party dependency and supply-chain posture belongs in `assessment/dependencies.md`, project-internal change control belongs in `assessment/change-management.md`.
-- Deployment automation belongs in `assessment/deployment.md`, reverting a release belongs in `assessment/rollback.md`.
-- Performance, scalability, availability, reliability, and resilience belong in `assessment/nfr.md`, day-two operations belong in `assessment/operational-readiness.md`.
-- Logging and metrics belong in `assessment/observability.md`, failure handling in code belongs in `assessment/error-handling.md`.
-- Data protection, privacy, and licensing belong in `assessment/compliance.md`.
+- Dependency Inversion overlaps testability, assess the principle in `assessment/design-principles.md` and its testing impact in `assessment/testing-review.md`.
+- Third-party dependency and supply-chain posture belongs in `assessment/dependency-review.md`, project-internal change control belongs in `assessment/change-management.md`.
+- Deployment automation belongs in `assessment/deployment-review.md`, reverting a release belongs in `assessment/rollback-review.md`.
+- Performance, scalability, availability, reliability, and resilience belong in `assessment/nfr-review.md`, day-two operations belong in `assessment/operational-readiness.md`.
+- Logging and metrics belong in `assessment/observability-review.md`, failure handling in code belongs in `assessment/error-handling.md`.
+- Data protection, privacy, and licensing belong in `assessment/compliance-review.md`.
 - AI-generated code detection, Vibe Coding risks, and Agent Driven Engineering maturity belong in `assessment/ai-generated-code.md`.
-- Code originality, license compliance, and attribution belong in `assessment/copyrights.md`.
-- Data flow modeling and trust boundaries belong in `assessment/data-flow.md`, STRIDE threat enumeration belongs in `assessment/threat-model.md` and depends on the data flow model, control-level security review belongs in `assessment/security.md`.
+- Code originality, license compliance, and attribution belong in `assessment/copyright-review.md`.
+- Data flow modeling and trust boundaries belong in `assessment/data-flow.md`, STRIDE threat enumeration belongs in `assessment/threat-model.md` and depends on the data flow model, control-level security review belongs in `assessment/security-review.md`.
 - Concrete design pattern identification and fitness belong in `assessment/design-patterns.md`, keep it distinct from the SOLID principles in `assessment/design-principles.md`.
 - API specification conformance and the OWASP API Security Top 10 belong in `assessment/api-contract.md`, ADR gap assessment belongs in `assessment/change-management.md`.
 - Agent Skills specification conformance, frontmatter validity, progressive disclosure, and triggering description quality belong in `assessment/skill-definition.md`, include it only when the subject is an Agent Skill (has a `SKILL.md` file).
 - Conditional sections appear only when their inclusion criterion is met. Evaluate each criterion in the Conditional Sections table of `process/report-format.md`. Omit a conditional section entirely when it cannot apply, and note the deliberate omission in Scope Exclusions. Never force an irrelevant section (for example, an API Contract section for a project with no API).
-- The Technical Debt Register (`synthesis/technical-debt-register.md`) is distinct from the Unified Risk Register: debt is accumulated cost already present, risk is what could go wrong. Do not duplicate entries between them.
+- The Technical Debt Register (`synthesis/debt-register.md`) is distinct from the Unified Risk Register: debt is accumulated cost already present, risk is what could go wrong. Do not duplicate entries between them.
 - The Re-audit and Follow-up Plan (`synthesis/re-audit-plan.md`) is the final section when present, it maps P1 and P2 findings to verification owners and closure evidence.
 - Translation files in `translation/` are loaded only when the report language is not English. Each file defines the translations for one language. To add a new language, create a new file in `translation/` following the structure of the existing files.
 - Prefer the narrowest assessment file that directly matches the request.

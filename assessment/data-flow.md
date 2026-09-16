@@ -19,12 +19,12 @@ It does not apply to a pure library, a single-file script with no external I/O, 
 
 A data flow diagram (DFD) uses exactly four element types. Use these consistently:
 
-| Element | Meaning | Notation in prose |
-|---------|---------|-------------------|
-| External entity | An actor or system outside the boundary that produces or consumes data | `[Entity]` |
-| Process | A unit inside the system that transforms data | `(Process)` |
-| Data store | A place where data rests | `{Store}` |
-| Data flow | A directional movement of data between the above | `-->` |
+| Element         | Meaning                                                                | Notation in prose |
+|-----------------|------------------------------------------------------------------------|-------------------|
+| External entity | An actor or system outside the boundary that produces or consumes data | `[Entity]`        |
+| Process         | A unit inside the system that transforms data                          | `(Process)`       |
+| Data store      | A place where data rests                                               | `{Store}`         |
+| Data flow       | A directional movement of data between the above                       | `-->`             |
 
 Model two levels:
 
@@ -39,13 +39,15 @@ Mark each boundary explicitly. Every flow that crosses a boundary is a candidate
 
 ## Evidence To Look For
 
-| Signal | Where It Appears |
-|--------|------------------|
-| External entities | Clients, third-party services, Git remotes, message queues named in code or config |
-| Processes | Request handlers, background workers, sync loops, watchers |
-| Data stores | Databases, caches, file systems, in-memory state |
-| Data flows | Function calls across modules, network calls, file reads and writes |
-| Trust boundaries | Authentication middleware, authorization checks, deserialization points, process boundaries |
+| Signal            | Where It Appears                                                                  |
+|-------------------|-----------------------------------------------------------------------------------|
+| External entities | Clients, third-party services, Git remotes, message queues                        |
+| Processes         | Request handlers, background workers, sync loops, watchers                        |
+| Data stores       | Databases, caches, file systems, in-memory state                                  |
+| Data flows        | Function calls across modules, network calls, file reads and writes               |
+| Trust boundaries  | Auth middleware, authorization checks, deserialization points, process boundaries |
+
+Trust boundary examples include authentication middleware, authorization checks, deserialization points, and process boundaries.
 
 ## How To Present
 

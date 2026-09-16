@@ -74,7 +74,7 @@ Maturity levels:
 - `Production-ready`
 - `Undetermined`
 
-Score scale: integers `1` to `10` by default, with an optional `1` to `5` scale, defined in `synthesis/scorecard.md`. The value `0` is reserved and never used as a score.
+Score scale: integers `1` to `10` by default, with an optional `1` to `5` scale, defined in `synthesis/project-scorecard.md`. The value `0` is reserved and never used as a score.
 
 ## Consistency Rules
 
@@ -138,7 +138,7 @@ The default report language is English. When the request language is ambiguous o
 
 **Translation files**
 
-Translation rules for each supported language live in the `translation/` directory. Each file is named after the language (for example, `translation/polish.md`). When the report language is not English, load the matching translation file and apply every translation defined there.
+Translation rules for each supported language live in the `translation/` directory. Each file is named after the language (for example, `translation/polish-language.md`). When the report language is not English, load the matching translation file and apply every translation defined there.
 
 To add support for a new language, create a new file in `translation/` following the structure of the existing files. The file must define translations for status and severity vocabulary, section headings, table headers, style rules, and any language-specific encoding or diacritics requirements.
 

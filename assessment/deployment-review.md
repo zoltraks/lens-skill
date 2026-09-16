@@ -7,7 +7,7 @@
 
 This file guides assessment of how the system goes from source to a running release.
 
-Apply `principles/evaluation-rules.md` throughout. Reverting a release is assessed separately in `assessment/rollback.md`.
+Apply `principles/evaluation-rules.md` throughout. Reverting a release is assessed separately in `assessment/rollback-review.md`.
 
 ## What To Evaluate
 

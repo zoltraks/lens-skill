@@ -7,7 +7,7 @@
 
 This file guides assessment of how the system behaves when operations fail.
 
-Apply `principles/evaluation-rules.md` throughout. System-wide resilience patterns are also touched in `assessment/nfr.md`, here the focus is the code-level handling of failures.
+Apply `principles/evaluation-rules.md` throughout. System-wide resilience patterns are also touched in `assessment/nfr-review.md`, here the focus is the code-level handling of failures.
 
 ## What To Evaluate
 

@@ -5,7 +5,7 @@
 > **Scope:** Structured threat enumeration using STRIDE, mapped to trust boundaries and data flows
 > **Key items:** Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege, attack surface, trust boundaries
 
-This file guides a structured threat model of the system using the STRIDE framework, anchored to the data flow model in `assessment/data-flow.md`. It complements the control-level review in `assessment/security.md`: security findings are symptoms, the threat model maps the attack surface systematically.
+This file guides a structured threat model of the system using the STRIDE framework, anchored to the data flow model in `assessment/data-flow.md`. It complements the control-level review in `assessment/security-review.md`: security findings are symptoms, the threat model maps the attack surface systematically.
 
 Apply `principles/evaluation-rules.md` throughout. This is a defensive analysis. Enumerate threats from observable structure, do not perform offensive actions or credential harvesting.
 
@@ -19,14 +19,14 @@ It does not apply to a single-user local utility with no network surface, no unt
 
 STRIDE enumerates six threat categories, each the inverse of a security property:
 
-| Threat | Violates | Question to ask at each boundary |
-|--------|----------|----------------------------------|
-| Spoofing | Authentication | Can an actor impersonate another identity? |
-| Tampering | Integrity | Can data or code be modified in transit or at rest? |
-| Repudiation | Non-repudiation | Can an actor deny an action without an audit trail? |
-| Information Disclosure | Confidentiality | Can data be read by an unauthorized party? |
-| Denial of Service | Availability | Can the system be made unavailable? |
-| Elevation of Privilege | Authorization | Can an actor gain rights beyond their grant? |
+| Threat                 | Violates        | Question to ask at each boundary                    |
+|------------------------|-----------------|-----------------------------------------------------|
+| Spoofing               | Authentication  | Can an actor impersonate another identity?          |
+| Tampering              | Integrity       | Can data or code be modified in transit or at rest? |
+| Repudiation            | Non-repudiation | Can an actor deny an action without an audit trail? |
+| Information Disclosure | Confidentiality | Can data be read by an unauthorized party?          |
+| Denial of Service      | Availability    | Can the system be made unavailable?                 |
+| Elevation of Privilege | Authorization   | Can an actor gain rights beyond their grant?        |
 
 ## Method
 
@@ -46,14 +46,14 @@ Each confirmed threat that rests on a concrete gap becomes or references a findi
 
 ## Evidence To Look For
 
-| Signal | Where It Appears |
-|--------|------------------|
-| Spoofing surface | Token issuance, credential checks, session handling |
-| Tampering surface | Write endpoints, deserialization, file writes, unsigned data |
-| Repudiation surface | Absence of audit logs on sensitive actions |
-| Disclosure surface | Error messages, logs, unencrypted transport, broad responses |
-| DoS surface | Unbounded input, missing rate limits, unbounded retries |
-| Elevation surface | Authorization checks, role enforcement, privilege transitions |
+| Signal              | Where It Appears                                              |
+|---------------------|---------------------------------------------------------------|
+| Spoofing surface    | Token issuance, credential checks, session handling           |
+| Tampering surface   | Write endpoints, deserialization, file writes, unsigned data  |
+| Repudiation surface | Absence of audit logs on sensitive actions                    |
+| Disclosure surface  | Error messages, logs, unencrypted transport, broad responses  |
+| DoS surface         | Unbounded input, missing rate limits, unbounded retries       |
+| Elevation surface   | Authorization checks, role enforcement, privilege transitions |
 
 ## How To Present
 

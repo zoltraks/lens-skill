@@ -7,7 +7,7 @@
 
 This file guides assessment of object and module design quality against established design principles.
 
-Apply `principles/evaluation-rules.md` throughout. Assess observable design properties from the code, not intent. Architectural module boundaries are assessed in `assessment/maintainability.md`, code-level metrics in `assessment/code-quality.md`, this file covers design principles.
+Apply `principles/evaluation-rules.md` throughout. Assess observable design properties from the code, not intent. Architectural module boundaries are assessed in `assessment/maintainability-review.md`, code-level metrics in `assessment/code-quality.md`, this file covers design principles.
 
 ## What To Evaluate
 

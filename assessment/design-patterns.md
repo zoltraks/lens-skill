@@ -5,7 +5,7 @@
 > **Scope:** Identification of design patterns in use, their fitness for the context, and anti-pattern detection
 > **Key items:** GoF catalog (creational, structural, behavioral), POSA, pattern fitness, anti-patterns, inconsistent application
 
-This file guides assessment of which design patterns the code uses and whether they are applied appropriately. It complements `assessment/design-principles.md` (SOLID) and `assessment/maintainability.md` (module structure): this file names the concrete patterns and judges their fitness.
+This file guides assessment of which design patterns the code uses and whether they are applied appropriately. It complements `assessment/design-principles.md` (SOLID) and `assessment/maintainability-review.md` (module structure): this file names the concrete patterns and judges their fitness.
 
 Apply `principles/evaluation-rules.md` throughout. Name patterns from observable code, not from intent. A pattern that fits the stated context is a strength, a pattern applied inconsistently or where it adds no value is an anti-pattern.
 
@@ -32,14 +32,16 @@ For each pattern in use, assess:
 
 ## Evidence To Look For
 
-| Signal | Where It Appears |
-|--------|------------------|
-| Repository pattern | An interface or trait abstracting a data store, with concrete implementations |
-| Strategy pattern | Interchangeable algorithms; check whether selected at runtime or hardcoded |
-| Builder / Factory Method | Construction helpers; check whether shared or duplicated across files |
-| Command pattern | Encapsulated requests, especially for CLI dispatch or undoable actions |
-| Adapter / Facade | Wrappers over third-party libraries or subsystems |
-| Anti-patterns | God objects, duplicated construction logic, inconsistent factory application, Strategy with hardcoded weights |
+| Signal                   | Where It Appears                                                           |
+|--------------------------|----------------------------------------------------------------------------|
+| Repository pattern       | Interface or trait abstracting a data store, with concrete implementations |
+| Strategy pattern         | Interchangeable algorithms; check whether selected at runtime or hardcoded |
+| Builder / Factory Method | Construction helpers; check whether shared or duplicated across files      |
+| Command pattern          | Encapsulated requests, especially for CLI dispatch or undoable actions     |
+| Adapter / Facade         | Wrappers over third-party libraries or subsystems                          |
+| Anti-patterns            | God objects, duplicated construction logic, hardcoded Strategy variants    |
+
+Anti-patterns include God objects, duplicated construction logic, inconsistent factory application, and Strategy with hardcoded weights.
 
 ## Common Anti-Patterns
 

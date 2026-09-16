@@ -49,17 +49,19 @@ Before beginning the audit, ask the user whether to accept the default parameter
 
 Default parameters:
 
-| Parameter               | Default Value                                                                                    |
-|-------------------------|--------------------------------------------------------------------------------------------------|
-| Report delivery         | Inline (direct response)                                                                         |
-| Output filename         | `AUDIT.md` for English reports, or the language-specific filename from the matching `translation/` file (only used if delivery is File) |
-| Report language         | Match the language of the user's request                                                         |
-| Detail level            | Standard                                                                                         |
-| Evaluation scale        | 1-10                                                                                             |
-| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                          |
-| Trade-off analysis      | Standalone section + embedded into relevant findings                                             |
+| Parameter               | Default                                                                            |
+|-------------------------|------------------------------------------------------------------------------------|
+| Report delivery         | File if `docs/audit/` or `docs/report/` exists, otherwise Inline (direct response) |
+| Output filename         | `AUDIT.md` for English reports, or the language-specific filename                  |
+| Report language         | Match the language of the user's request                                           |
+| Detail level            | Standard                                                                           |
+| Evaluation scale        | 1-10                                                                               |
+| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                            |
+| Trade-off analysis      | Standalone section + embedded into relevant findings                               |
 
 The agent MUST ask the user and MUST NOT skip this step. The agent MUST wait for user response before proceeding to Scope Definition.
+
+Output filename is `AUDIT.md` for English reports, or the language-specific filename from the matching `translation/` file. Used only when delivery is File.
 
 If the user accepts defaults or says "bypass", "defaults", or equivalent, proceed immediately to Scope Definition using the values above.
 
@@ -71,23 +73,38 @@ Present each prompt as a single question with clear options. After each answer, 
 
 **Report delivery**
 
+The default delivery mode depends on the audited repository or directory structure:
+
+- If `docs/audit/` or `docs/report/` exists, the default is **File** - write the report to a file inside the audited repository or directory.
+- If neither `docs/audit/` nor `docs/report/` exists, the default is **Inline** - return the full report as the direct response.
+
 Ask: "How should the report be delivered?"
 
-- Inline (default) - return the full report as the direct response.
-- File - write the report to a file inside the audited repository or directory.
+- File (default when `docs/audit/` or `docs/report/` exists) - write the report to a file inside the audited repository or directory.
+- Inline (default when neither `docs/audit/` nor `docs/report/` exists) - return the full report as the direct response.
 
-If File is chosen, resolve the output location using the following rules, applied in order against the root of the repository or directory being audited:
+When File mode is selected (either by default or by user choice), resolve the output location using the following rules, applied in order against the root of the repository or directory being audited:
 
-1. If `docs/audit/` or `docs/report/` exists, use that directory as the default output directory. When both exist, prefer `docs/audit/`. Inspect the directory contents and match any naming convention already in use there (for example, `AUDIT.md`, `audit.md`, date-prefixed names).
-2. If a `docs/audit/` or `docs/report/` directory contains subdirectories named with version numbers (for example, `1.0.1`, `0.5.0`), and the project version can be determined from its manifest or configuration, then the default output directory becomes `docs/audit/<version>` or `docs/report/<version>` using the current project version. For example, if `docs/audit/1.0.1` exists and the project version is `1.2.3`, the suggested directory is `docs/audit/1.2.3`.
-3. If neither `docs/audit/` nor `docs/report/` exists but `docs/` exists, use `docs/` as the default output directory.
-4. Otherwise use the root of the audited repository or directory as the default output directory.
+1. If `docs/audit/` exists, use it as the base output directory.
+2. Else if `docs/report/` exists, use it as the base output directory.
+3. Else if `docs/` exists, use it as the base output directory.
+4. Otherwise use the root of the audited repository or directory as the base output directory.
+
+After selecting the base output directory, check whether it contains subdirectories that indicate an existing structure. Inspect the subdirectory names to determine the pattern:
+
+- **Version-numbered subdirectories**: If the base directory contains subdirectories named with version numbers (for example, `1.0.1`, `0.5.0`, `2.3.1`) and the project version can be determined from its manifest or configuration, then the default output directory becomes `<base>/<version>` using the current project version. For example, if `docs/audit/1.0.1` exists and the project version is `1.2.3`, the suggested directory is `docs/audit/1.2.3`.
+
+- **Date-named subdirectories**: If the base directory contains subdirectories named with dates in ISO `YYYY-MM-DD` format (for example, `2026-01-02`, `2026-04-06`), then the default output directory becomes `<base>/<current-date>` using the current date in the same ISO format. For example, if `docs/report/2026-04-06` exists and the current date is `2026-09-15`, the suggested directory is `docs/report/2026-09-15`.
+
+- **No subdirectories**: If the base directory has no subdirectories, use the base directory directly as the output directory.
+
+The final output location must fit the existing directory structure. Do not mix patterns: if the existing structure uses version numbers, use a version subdirectory, if it uses dates, use a date subdirectory.
 
 When multiple projects are present and each has a different version, resolve the output directory once using the repository root. The single combined report is written to one location. Do not create per-project subdirectories unless the user explicitly requests separate files per project.
 
 Present the resolved default location to the user and ask: "Where should the file be written, and what should it be named?"
 
-- Default location - accept the resolved directory and the language-appropriate default filename (`AUDIT.md` for English reports, or the filename defined in the matching `translation/` file for non-English reports), adjusted for any naming convention found in step 1.
+- Default location - accept the resolved directory and the language-appropriate default filename (`AUDIT.md` for English reports, or the filename defined in the matching `translation/` file for non-English reports), adjusted for any naming convention found in the resolved directory.
 - Custom path - the user may supply a path relative to the audited repository or directory root (e.g. `reports/2026-06-audit.md`).
 
 Always place the file inside the audited repository or directory. Do not write to an absolute path outside it unless the user explicitly provides one.
@@ -162,7 +179,7 @@ Where evidence is absent, record the gap explicitly with the appropriate missing
 
 **Category Assessment**
 
-For each category, open the matching `assessment/` file and apply its checklist. For a full audit, this includes the two additional categories `assessment/ai-generated-code.md` and `assessment/copyrights.md`.
+For each category, open the matching `assessment/` file and apply its checklist. For a full audit, this includes the two additional categories `assessment/ai-generated-code.md` and `assessment/copyright-review.md`.
 
 Evaluate the inclusion criterion for each conditional assessment, listed in the Conditional Sections table of `process/report-format.md`. When the criterion is met, open the matching conditional file and apply it: `assessment/data-flow.md`, `assessment/design-patterns.md`, `assessment/threat-model.md`, `assessment/api-contract.md`, and `assessment/skill-definition.md`. When a criterion is not met, omit that section and record the deliberate omission for Scope Exclusions. Do not force a conditional section onto a subject it does not fit.
 
@@ -174,7 +191,7 @@ Record evidence, concrete risks, and neutral notes for each category.
 
 Build the unified risk register from the risks surfaced during assessment, using `synthesis/risk-register.md`. Every risk must reference its source `FND-XXX`.
 
-Build the project scorecard using `synthesis/scorecard.md`. Present the scoring rubric before the scores.
+Build the project scorecard using `synthesis/project-scorecard.md`. Present the scoring rubric before the scores.
 
 Draft the High-Level Observations section by selecting the top 5 most important findings from the Detailed Technical Findings. Keep each observation brief, full detail lives in the finding blocks.
 
@@ -182,9 +199,9 @@ Draft the Strengths & What's Working section by identifying 5-8 evidenced positi
 
 Surface trade-offs both as a standalone Trade-off Analysis section (using `synthesis/trade-off-analysis.md`) and embedded into relevant architectural or design findings where they directly explain a specific finding.
 
-When structural debt distinct from risks was surfaced, build the Technical Debt Register using `synthesis/technical-debt-register.md`. Every debt item must trace to a finding or a cited direct observation.
+When structural debt distinct from risks was surfaced, build the Technical Debt Register using `synthesis/debt-register.md`. Every debt item must trace to a finding or a cited direct observation.
 
-Draft the actionable remediation roadmap using `synthesis/recommendations.md`. Every recommendation must resolve a specific `FND-XXX`.
+Draft the actionable remediation roadmap using `synthesis/remediation-roadmap.md`. Every recommendation must resolve a specific `FND-XXX`.
 
 When the roadmap contains at least one P1 or P2 recommendation, build the Re-audit and Follow-up Plan using `synthesis/re-audit-plan.md`, mapping those findings to verification owners and closure evidence.
 
@@ -230,16 +247,16 @@ Confirm the report follows `process/report-format.md` section by section.
 
 Use this checklist to confirm you understand the input before assessing.
 
-| Question                                      | Record As                                           |
-|-----------------------------------------------|-----------------------------------------------------|
-| What artifact type is this?                   | Prototype / Codebase / Production system / Proposal |
-| What is the source format?                    | Running / Inspected code / Description              |
-| What components were provided?                | List of components in scope                         |
-| What was explicitly excluded?                 | Out-of-scope list                                   |
-| What constraints did the user state?          | Constraints, or `NOT SPECIFIED`                     |
-| What maturity does the user claim, if any?    | Claimed maturity, or none                           |
-| What is the natural language of the request?  | Language code or name, or English (default)         |
-| How many projects are in the directory?        | One / Multiple (list each with path and version)    |
+| Question                                     | Record As                                           |
+|----------------------------------------------|-----------------------------------------------------|
+| What artifact type is this?                  | Prototype / Codebase / Production system / Proposal |
+| What is the source format?                   | Running / Inspected code / Description              |
+| What components were provided?               | List of components in scope                         |
+| What was explicitly excluded?                | Out-of-scope list                                   |
+| What constraints did the user state?         | Constraints, or `NOT SPECIFIED`                     |
+| What maturity does the user claim, if any?   | Claimed maturity, or none                           |
+| What is the natural language of the request? | Language code or name, or English (default)         |
+| How many projects are in the directory?      | One / Multiple (list each with path and version)    |
 
 ## Handling Thin Input
 
@@ -296,4 +313,4 @@ The Parameter Configuration phase runs once. The chosen parameters (detail level
 
 **Output location for multiple projects**
 
-The report is a single file. Resolve the output directory once using the rules in the Report delivery section. When version-numbered subdirectories exist under `docs/audit/` or `docs/report/`, use the repository's primary version if one can be determined. When no single primary version applies, use the root of the resolved directory without a version subdirectory.
+The report is a single file. Resolve the output directory once using the rules in the Report delivery section. When version-numbered subdirectories exist under `docs/audit/` or `docs/report/`, use the repository's primary version if one can be determined. When date-named subdirectories exist under `docs/audit/` or `docs/report/`, use the current date in ISO `YYYY-MM-DD` format. When no single primary version applies and no date pattern exists, use the root of the resolved directory without a subdirectory.

@@ -7,7 +7,7 @@
 
 This file guides assessment of whether a project that is an Agent Skill conforms to the [Agent Skills specification](https://agentskills.io/specification) and follows the quality practices defined by the skill-creator skill.
 
-It complements `assessment/documentation.md` for the docs dimension and `assessment/best-practices.md` for stack-convention conformance. This file covers skill-specification-specific conformance only.
+It complements `assessment/documentation-review.md` for the docs dimension and `assessment/best-practices.md` for stack-convention conformance. This file covers skill-specification-specific conformance only.
 
 Apply `principles/evaluation-rules.md` throughout. Assess only what the files show. Treat a frontmatter field that contradicts the spec as a conformance finding.
 
@@ -34,27 +34,27 @@ It does not apply to a conventional codebase, library, or service that has no `S
 
 Use these constraints when evaluating frontmatter conformance:
 
-| Field           | Required | Constraints                                                    |
-|-----------------|----------|----------------------------------------------------------------|
+| Field           | Required | Constraints                                                         |
+|-----------------|----------|---------------------------------------------------------------------|
 | `name`          | Yes      | Max 64 chars, lowercase alphanumeric and hyphens, matches directory |
-| `description`   | Yes      | Max 1024 chars, non-empty, describes what and when            |
-| `license`       | No       | License name or reference to a bundled license file            |
-| `compatibility` | No       | Max 500 chars, environment requirements                        |
-| `metadata`      | No       | Map of string keys to string values                            |
-| `allowed-tools` | No       | Space-separated string of pre-approved tools (experimental)   |
+| `description`   | Yes      | Max 1024 chars, non-empty, describes what and when                  |
+| `license`       | No       | License name or reference to a bundled license file                 |
+| `compatibility` | No       | Max 500 chars, environment requirements                             |
+| `metadata`      | No       | Map of string keys to string values                                 |
+| `allowed-tools` | No       | Space-separated string of pre-approved tools (experimental)         |
 
 ## Evidence To Look For
 
-| Signal                        | Where It Appears                                          |
-|-------------------------------|-----------------------------------------------------------|
-| Frontmatter                   | YAML block at top of `SKILL.md`                           |
-| Name conformance              | `name` field value vs directory name                       |
-| Description quality           | `description` field content and length                    |
-| Optional fields               | `license`, `compatibility`, `metadata`, `allowed-tools`   |
-| Directory structure           | `scripts/`, `references/`, `assets/` directories           |
-| Progressive disclosure        | `SKILL.md` line count, referenced files                    |
-| File reference integrity      | Paths in `SKILL.md` body resolving to existing files       |
-| Body content                  | Instructions, examples, edge cases in `SKILL.md`          |
+| Signal                   | Where It Appears                                        |
+|--------------------------|---------------------------------------------------------|
+| Frontmatter              | YAML block at top of `SKILL.md`                         |
+| Name conformance         | `name` field value vs directory name                    |
+| Description quality      | `description` field content and length                  |
+| Optional fields          | `license`, `compatibility`, `metadata`, `allowed-tools` |
+| Directory structure      | `scripts/`, `references/`, `assets/` directories        |
+| Progressive disclosure   | `SKILL.md` line count, referenced files                 |
+| File reference integrity | Paths in `SKILL.md` body resolving to existing files    |
+| Body content             | Instructions, examples, edge cases in `SKILL.md`        |
 
 ## Status Criteria
 

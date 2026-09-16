@@ -7,7 +7,7 @@
 
 This file guides assessment of how the system recovers from a bad release.
 
-Apply `principles/evaluation-rules.md` throughout. Forward deployment is assessed in `assessment/deployment.md`.
+Apply `principles/evaluation-rules.md` throughout. Forward deployment is assessed in `assessment/deployment-review.md`.
 
 ## What To Evaluate
 

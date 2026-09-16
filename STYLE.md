@@ -35,7 +35,7 @@ This format is recommended for reference files and topic documents.
 
 When a document covers a focused topic within a larger skill, include an out-of-scope table directing readers to related files.
 
-```markdown
+```
 | Out of scope   | See instead        |
 |----------------|--------------------|
 | Chip registers | `hardware/chip.md` |
@@ -143,9 +143,13 @@ Do not use trailing spaces at the end of lines.
 
 Use a language tag on every fenced code block that contains code in a programming, markup, or data language.
 
-Do not use a language tag on fenced blocks that contain ASCII art, directory trees, diagrams, or plain text.
+Do not use a language tag on fenced blocks that contain ASCII art, directory trees, diagrams, plain text, console output, or tables.
 
 Leave those blocks as plain fenced blocks with no tag.
+
+Do not use the `markdown` tag on fenced blocks that contain tables, console output, ASCII art, or plain text content.
+
+The `markdown` tag is only for blocks that demonstrate Markdown syntax itself as an example of formatted content.
 
 Do not leave a blank line as the first or last line inside the block.
 
@@ -271,6 +275,10 @@ Always count the source text, never the rendered text.
 
 Compact the table after calculating column widths.
 
+The column width is the minimum character count needed to fit the widest value in any row, including the header.
+
+Do not add extra padding beyond what the widest cell requires.
+
 Remove any padding that exceeds the widest cell in each column.
 
 Recalculate the separator line and all cell padding after compacting.
@@ -287,11 +295,37 @@ Recompute each column's width, re-pad every data cell, and replace every separat
 
 A table is only correctly edited when every cell in a column has the same width and every separator cell matches that width plus two.
 
+### Automated Formatting
+
+Use a script or automated tool to format tables instead of counting character widths manually.
+
+Manual counting by an AI model is error-prone and leads to misaligned columns.
+
+Write a temporary script in JavaScript or Python that parses the table, calculates column widths from source text, and outputs the formatted table.
+
+When writing a table formatting script, handle both Unix (`\n`) and Windows (`\r\n`) line endings.
+
+Strip carriage return characters before parsing rows and checking pipe delimiters.
+
+Preserve the original line ending style when writing the formatted output.
+
 ### Multi-Line Cells
 
 Avoid multi-line cells.
 
 If a cell must wrap, apply the same formatting rules to every row in the table.
+
+### Table Content
+
+Keep cell content concise.
+
+A table is a summary view, not a full explanation.
+
+When a cell description is long, put a short abbreviation or summary in the table cell and place the full clarification in a separate sentence below the table.
+
+Prefer fewer than 10 columns per table.
+
+Split a wide table into multiple smaller tables when it has too many columns or the content is too dense to read as plain text.
 
 ## Special Characters
 
@@ -323,7 +357,7 @@ Reference files clearly from `SKILL.md` with guidance on when to read them.
 
 Use backtick code spans around file paths in both prose and table cells.
 
-Examples: `system/memory.md`, `hardware/chip.md`, `process/workflow.md`.
+Examples: `system/memory.md`, `hardware/chip.md`, `process/audit-workflow.md`.
 
 ## Skill Document Requirements
 

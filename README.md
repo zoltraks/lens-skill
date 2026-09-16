@@ -83,20 +83,20 @@ This format keeps the report readable in plain-text consoles while preserving de
 
 ## When to use this skill
 
-| Situation                                        | Use this skill?                                 |
-|--------------------------------------------------|-------------------------------------------------|
-| "Audit the architecture of this system"          | **Yes**                                         |
-| "Audit this production codebase"                 | **Yes**                                         |
-| "Review this prototype for production readiness" | **Yes**                                         |
-| "Do technical due diligence on this codebase"    | **Yes**                                         |
-| "Audit our dependencies and supply chain"        | **Yes** - use `assessment/dependencies.md`      |
-| "Build me a risk register and scorecard"         | **Yes**                                         |
-| "Review only the security posture"               | **Yes** - single-dimension audit                |
-| "Check if this code is idiomatic for its stack"  | **Yes** - use `assessment/best-practices.md`    |
-| "Audit this skill for spec conformance"          | **Yes** - use `assessment/skill-definition.md`  |
+| Situation                                        | Use this skill?                                   |
+|--------------------------------------------------|---------------------------------------------------|
+| "Audit the architecture of this system"          | **Yes**                                           |
+| "Audit this production codebase"                 | **Yes**                                           |
+| "Review this prototype for production readiness" | **Yes**                                           |
+| "Do technical due diligence on this codebase"    | **Yes**                                           |
+| "Audit our dependencies and supply chain"        | **Yes** - use `assessment/dependency-review.md`   |
+| "Build me a risk register and scorecard"         | **Yes**                                           |
+| "Review only the security posture"               | **Yes** - single-dimension audit                  |
+| "Check if this code is idiomatic for its stack"  | **Yes** - use `assessment/best-practices.md`      |
+| "Audit this skill for spec conformance"          | **Yes** - use `assessment/skill-definition.md`    |
 | "Compare these two architectural options"        | **Yes** - embed trade-offs into relevant findings |
-| "Write the feature for me"                       | No - this skill assesses, it does not build     |
-| "Tell me which team member caused this"          | No - this skill never evaluates people          |
+| "Write the feature for me"                       | No - this skill assesses, it does not build       |
+| "Tell me which team member caused this"          | No - this skill never evaluates people            |
 
 ---
 
@@ -150,41 +150,41 @@ lens-skill/
 │   ├── evaluation-rules.md        # Evidence-only, no assumptions, neutrality, status markers, constraints
 │   └── output-style.md            # Tone, fixed vocabularies, consistency, determinism
 ├── process/
-│   ├── workflow.md                # Intake, scope, evidence, assessment, synthesis, validation
+│   ├── audit-workflow.md          # Intake, scope, evidence, assessment, synthesis, validation
 │   └── report-format.md           # The table-driven, unnumbered report template
 ├── assessment/
-│   ├── testing.md                 # Test pyramid (unit/integration/e2e), TDD, coverage, testability
+│   ├── testing-review.md          # Test pyramid (unit/integration/e2e), TDD, coverage, testability
 │   ├── design-principles.md       # SOLID, cohesion and coupling, DRY, separation of concerns
 │   ├── code-quality.md            # Static analysis, type safety, complexity, duplication, dead code
 │   ├── best-practices.md          # Stack idioms, framework conventions, ecosystem layout, deprecated APIs
-│   ├── dependencies.md            # Dependency freshness, vulnerabilities, licenses, lockfiles, SBOM
-│   ├── deployment.md              # Build pipeline, release process, frequency, manual steps
-│   ├── rollback.md                # Rollback mechanism, deploy safety, versioning
-│   ├── maintainability.md         # Modularity, coupling, structure, technical debt
+│   ├── dependency-review.md      # Dependency freshness, vulnerabilities, licenses, lockfiles, SBOM
+│   ├── deployment-review.md      # Build pipeline, release process, frequency, manual steps
+│   ├── rollback-review.md        # Rollback mechanism, deploy safety, versioning
+│   ├── maintainability-review.md # Modularity, coupling, structure, technical debt
 │   ├── change-management.md       # Feature flags, ADRs, release governance
-│   ├── documentation.md           # Entry, API, inline docs, onboarding, knowledge transfer
-│   ├── nfr.md                     # Performance, scalability, availability, reliability, resilience
-│   ├── security.md                # Auth, authorization, input validation, OWASP, data exposure
-│   ├── compliance.md              # Data protection, privacy, regulatory scope, licensing, audit trail
-│   ├── observability.md           # Logging, metrics, tracing, alerting
+│   ├── documentation-review.md   # Entry, API, inline docs, onboarding, knowledge transfer
+│   ├── nfr-review.md             # Performance, scalability, availability, reliability, resilience
+│   ├── security-review.md        # Auth, authorization, input validation, OWASP, data exposure
+│   ├── compliance-review.md      # Data protection, privacy, regulatory scope, licensing, audit trail
+│   ├── observability-review.md   # Logging, metrics, tracing, alerting
 │   ├── error-handling.md          # Exceptions, retries, fallbacks, user-facing errors
 │   ├── operational-readiness.md   # Runbooks, on-call, capacity, backups, incident response
 │   ├── ai-generated-code.md       # AI code detection, Vibe Coding risks, Agent Driven Engineering maturity
-│   ├── copyrights.md              # Code originality, license compliance, attribution
+│   ├── copyright-review.md       # Code originality, license compliance, attribution
 │   ├── data-flow.md               # (conditional) DFD, trust boundaries, inter-process flows
 │   ├── design-patterns.md         # (conditional) GoF/POSA pattern fitness and anti-patterns
 │   ├── threat-model.md            # (conditional) STRIDE threat enumeration per trust boundary
 │   ├── api-contract.md            # (conditional) API spec conformance, RFC 7807, OWASP API Top 10
 │   └── skill-definition.md        # (conditional) Agent Skills spec conformance, frontmatter, progressive disclosure
-└── synthesis/
-    ├── risk-register.md           # Unified risk register with FND cross-referencing
-    ├── scorecard.md               # 1-10 project scorecard and rubric (1-5 optional)
-    ├── trade-off-analysis.md      # Engineering trade-offs in standalone table and embedded findings
-    ├── recommendations.md         # Actionable remediation roadmap with priority matrix
-    ├── technical-debt-register.md # (conditional) TDR inventory with CISQ/SQALE cost model
-    └── re-audit-plan.md           # (conditional) Verification ownership, sign-off gates, re-audit triggers
+├── synthesis/
+│   ├── risk-register.md           # Unified risk register with FND cross-referencing
+│   ├── project-scorecard.md      # 1-10 project scorecard and rubric (1-5 optional)
+│   ├── trade-off-analysis.md      # Engineering trade-offs in standalone table and embedded findings
+│   ├── remediation-roadmap.md     # Actionable remediation roadmap with priority matrix
+│   ├── debt-register.md           # (conditional) TDR inventory with CISQ/SQALE cost model
+│   └── re-audit-plan.md           # (conditional) Verification ownership, sign-off gates, re-audit triggers
 └── translation/
-    └── polish.md                  # Polish translations: status, severity, headings, table headers, style rules
+    └── polish-language.md         # Polish translations: status, severity, headings, table headers, style rules
 ```
 
 Sections marked *(conditional)* appear in a report only when the subject warrants them. A system with no API gets no API Contract section, a single-user local utility with no trust boundary gets no Threat Model. The inclusion criteria are defined in the Conditional Sections table of `process/report-format.md`.

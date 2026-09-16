@@ -7,7 +7,7 @@
 
 This file guides assessment of whether the system can be run and supported in production.
 
-Apply `principles/evaluation-rules.md` throughout. Observability signals are assessed in `assessment/observability.md`, here the focus is the operational practices that consume them.
+Apply `principles/evaluation-rules.md` throughout. Observability signals are assessed in `assessment/observability-review.md`, here the focus is the operational practices that consume them.
 
 ## What To Evaluate
 

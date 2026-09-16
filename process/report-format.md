@@ -67,7 +67,7 @@ Example for finding summary:
 ```markdown
 **FND-SEC-001: Hardcoded JWT signing key** `CRITICAL`
 
-`src/Portal.Api/appsettings.json` contains a plaintext JWT symmetric key.
+`src/backend/appsettings.json` contains a plaintext JWT symmetric key.
 ```
 
 Example for scorecard dimension:
@@ -88,13 +88,13 @@ Do not add a closing line such as "End of audit report." or "---" at the end of 
 
 ## Report Delivery And Parameter Configuration
 
-Report delivery is determined during the Parameter Configuration phase in `process/workflow.md`. Do not ask delivery questions here, they are handled upstream.
+Report delivery is determined during the Parameter Configuration phase in `process/audit-workflow.md`. Do not ask delivery questions here, they are handled upstream.
 
-When the user names an output file in the original request, for example "write the audit to AUDIT.md", honor that filename without asking again, resolve the output directory using the location rules in `process/workflow.md` unless a full path was given.
+When the user names an output file in the original request, for example "write the audit to AUDIT.md", honor that filename without asking again, resolve the output directory using the location rules in `process/audit-workflow.md` unless a full path was given.
 
 When the user invokes an audit without naming an output file, for example "perform lens on this service" or "make audit report on the codebase", the Parameter Configuration phase determines delivery, output location, and filename.
 
-Default delivery is **Inline** (direct response). When File mode is selected, the output location is resolved by inspecting the audited repository or directory in this order: `docs/audit/` first (or `docs/report/` if `docs/audit/` does not exist), then `docs/`, then the root. When `docs/audit/` or `docs/report/` contains subdirectories named with version numbers and the project version can be determined, the default output directory becomes `docs/audit/<version>` or `docs/report/<version>`. The default filename within that location is **AUDIT.md** for English reports, or the language-specific filename defined in the matching `translation/` file for non-English reports, adjusted for any naming convention already present in the resolved directory. The agent presents the resolved default to the user and asks for confirmation or a custom path before writing.
+Default delivery is **File** when `docs/audit/` or `docs/report/` exists in the audited repository or directory, otherwise **Inline** (direct response). When File mode is selected, the output location is resolved by inspecting the audited repository or directory in this order: `docs/audit/` first, then `docs/report/`, then `docs/`, then the root. When `docs/audit/` or `docs/report/` contains subdirectories named with version numbers and the project version can be determined, the default output directory becomes `docs/audit/<version>` or `docs/report/<version>`. When `docs/audit/` or `docs/report/` contains subdirectories named with dates in ISO `YYYY-MM-DD` format, the default output directory becomes `docs/audit/<current-date>` or `docs/report/<current-date>` using the current date in the same format. The final output location must fit the existing directory structure. The default filename within that location is **AUDIT.md** for English reports, or the language-specific filename defined in the matching `translation/` file for non-English reports, adjusted for any naming convention already present in the resolved directory. The agent presents the resolved default to the user and asks for confirmation or a custom path before writing.
 
 For a single-dimension request that produces only a short subsection, returning the result inline is acceptable without asking, unless the user asked for a file.
 
@@ -166,16 +166,16 @@ When a conditional section is omitted, state the omission once in the Scope Excl
 
 The following sections and subsections are conditional. Each lists its inclusion criterion and the assessment file that governs it:
 
-| Section / Subsection                                        | Include When                                                        | Governing File                         |
-|-------------------------------------------------------------|---------------------------------------------------------------------|----------------------------------------|
-| Data Flow Diagram (in Architectural Assessment)             | The system moves data across one or more trust boundaries           | `assessment/data-flow.md`              |
-| Design Patterns (in Architectural Assessment)               | The codebase is large enough to exhibit recurring structure         | `assessment/design-patterns.md`        |
-| Architecture Decision Records (in Architectural Assessment) | The system is production-bound and has significant decisions        | `assessment/change-management.md`      |
-| Threat Model (standalone)                                   | The system has a security-relevant attack surface or trust boundary | `assessment/threat-model.md`           |
-| API Contract Conformance (standalone)                       | The system exposes an API (REST, GraphQL, gRPC, MCP)                | `assessment/api-contract.md`           |
-| Skill Definition Conformance (standalone)                    | The subject is an Agent Skill (has a `SKILL.md` file)               | `assessment/skill-definition.md`       |
-| Technical Debt Register (standalone)                        | The assessment surfaces structural debt distinct from risks         | `synthesis/technical-debt-register.md` |
-| Re-audit and Follow-up Plan (standalone)                    | The roadmap contains at least one P1 or P2 recommendation           | `synthesis/re-audit-plan.md`           |
+| Section / Subsection                                        | Include When                                                        | Governing File                    |
+|-------------------------------------------------------------|---------------------------------------------------------------------|-----------------------------------|
+| Data Flow Diagram (in Architectural Assessment)             | The system moves data across one or more trust boundaries           | `assessment/data-flow.md`         |
+| Design Patterns (in Architectural Assessment)               | The codebase is large enough to exhibit recurring structure         | `assessment/design-patterns.md`   |
+| Architecture Decision Records (in Architectural Assessment) | The system is production-bound and has significant decisions        | `assessment/change-management.md` |
+| Threat Model (standalone)                                   | The system has a security-relevant attack surface or trust boundary | `assessment/threat-model.md`      |
+| API Contract Conformance (standalone)                       | The system exposes an API (REST, GraphQL, gRPC, MCP)                | `assessment/api-contract.md`      |
+| Skill Definition Conformance (standalone)                   | The subject is an Agent Skill (has a `SKILL.md` file)               | `assessment/skill-definition.md`  |
+| Technical Debt Register (standalone)                        | The assessment surfaces structural debt distinct from risks         | `synthesis/debt-register.md`      |
+| Re-audit and Follow-up Plan (standalone)                    | The roadmap contains at least one P1 or P2 recommendation           | `synthesis/re-audit-plan.md`      |
 
 When in doubt about whether a conditional section applies, prefer including it with explicit `N/A` or `NOT SPECIFIED` markers over silently dropping a relevant concern. Only omit a section when it genuinely cannot apply to the subject.
 
@@ -281,10 +281,10 @@ When the audit covers more than one project in a repository or directory, the re
 
 **Project Inventory** appears immediately after Document Information. It lists each project with its path, version, and a one-line description.
 
-```markdown
-| Project        | Path             | Version | Description                |
-|----------------|------------------|---------|----------------------------|
-| <project name> | <project path>    | <ver>   | <one-line description>     |
+```
+| Project        | Path           | Version | Description            |
+|----------------|----------------|---------|------------------------|
+| <project name> | <project path> | <ver>   | <one-line description> |
 ```
 
 When the report language is not English, apply the column header translations from the matching `translation/` file.
@@ -348,12 +348,14 @@ Provide a compact overview a reader can absorb without the detail sections.
 
 Use a key-value table:
 
-| Field          | Value                                                                                         |
-|----------------|-----------------------------------------------------------------------------------------------|
-| System type    | <prototype / codebase / production system / proposal>                                         |
-| Scope          | <what was reviewed and what was excluded>                                                     |
-| Source basis   | <running system / inspected code / description>                                               |
-| Maturity level | <`Prototype` / `Early development` / `Pre-production` / `Production-ready` / `Undetermined`> |
+| Field          | Value                                                 |
+|----------------|-------------------------------------------------------|
+| System type    | <prototype / codebase / production system / proposal> |
+| Scope          | <what was reviewed and what was excluded>             |
+| Source basis   | <running system / inspected code / description>       |
+| Maturity level | <maturity level>                                      |
+
+Maturity level is one of: `Prototype`, `Early development`, `Pre-production`, `Production-ready`, or `Undetermined`.
 
 When the report language is not English, apply the table header and field name translations from the matching `translation/` file.
 
@@ -422,9 +424,9 @@ Surface the most important findings in a compact table a reader can scan before 
 
 Use this single-column table:
 
-| Observation                     |
-|---------------------------------|
-| <observation>                   |
+| Observation   |
+|---------------|
+| <observation> |
 
 When the report language is not English, apply the table header translation from the matching `translation/` file.
 
@@ -532,13 +534,13 @@ When the report language is not English, apply the same band translations from t
 
 Describe the system as understood from the input. Present the factual context without critique.
 
-| Aspect                 | Detail                                              |
-|------------------------|-----------------------------------------------------|
-| Functional description | <what the system does>                              |
-| Architecture overview  | <high-level structure>                              |
-| Key components         | <named components or modules>                       |
-| External dependencies  | <services, libraries, platforms>                    |
-| Assumptions            | <only if explicitly stated, else `NOT SPECIFIED`>   |
+| Aspect                 | Detail                                            |
+|------------------------|---------------------------------------------------|
+| Functional description | <what the system does>                            |
+| Architecture overview  | <high-level structure>                            |
+| Key components         | <named components or modules>                     |
+| External dependencies  | <services, libraries, platforms>                  |
+| Assumptions            | <only if explicitly stated, else `NOT SPECIFIED`> |
 
 When the report language is not English, apply the table header and aspect name translations from the matching `translation/` file.
 
@@ -587,11 +589,11 @@ Present a Level-0 (context) and a Level-1 (decomposition) view. Use a fenced ASC
     ╰────────────╯
             ^
             │
-    ╭─────────────╮
-    │             │
-    │ MERA Server │
-    │             │
-    ╰─────────────╯
+    ╭──────────────╮
+    │              │
+    │ Index Server │
+    │              │
+    ╰──────────────╯
 ```
 
 **Trust boundaries**
@@ -635,11 +637,11 @@ Include this subsection only when the system is production-bound with significan
 
 Present a table of decisions that should carry an ADR, each marked `Recorded` or `Missing`, anchored to the code that embodies the decision.
 
-| Decision             | Location                      | ADR Status |
-|----------------------|-------------------------------|------------|
-| Data store choice    | `Cargo.toml`, `kb/sqlite.rs`  | Missing    |
-| Web framework choice | `Cargo.toml`                  | Missing    |
-| Session state model  | `main.rs`                     | Missing    |
+| Decision             | Location                  | ADR Status |
+|----------------------|---------------------------|------------|
+| Data store choice    | `Cargo.toml`, `src/db.rs` | Missing    |
+| Web framework choice | `Cargo.toml`              | Missing    |
+| Session state model  | `main.rs`                 | Missing    |
 
 When the codebase shows AI-generated-code signals, note that missing ADRs make it impossible to distinguish deliberate decisions from AI defaults, and cross-reference the relevant `FND-AIP-XXX`.
 
@@ -667,13 +669,13 @@ Include this section only when the system exposes an API, per `assessment/api-co
 
 Present a conformance table across the evaluated dimensions, then describe each gap with evidence and its linked `FND-XXX`. Map each API security gap to its OWASP API Security Top 10 (2023) code where one applies.
 
-| Dimension                  | Status  | Evidence                                              |
-|----------------------------|---------|-------------------------------------------------------|
-| Specification present      | PASS    | `openapi/openapi.yaml`                                |
-| Schema validation enforced | PARTIAL | typed deserialization, no rejection tests             |
-| Error format (RFC 7807)    | FAIL    | ad hoc status codes, no problem-details               |
-| Versioning strategy        | UNKNOWN | no version in path or header                          |
-| Spec-to-code agreement     | PARTIAL | `/health` marked `security: []` but behind auth       |
+| Dimension                  | Status  | Evidence                                        |
+|----------------------------|---------|-------------------------------------------------|
+| Specification present      | PASS    | `openapi/openapi.yaml`                          |
+| Schema validation enforced | PARTIAL | typed deserialization, no rejection tests       |
+| Error format (RFC 7807)    | FAIL    | ad hoc status codes, no problem-details         |
+| Versioning strategy        | UNKNOWN | no version in path or header                    |
+| Spec-to-code agreement     | PARTIAL | `/health` marked `security: []` but behind auth |
 
 When the report language is not English, apply the column header translations from the matching `translation/` file.
 
@@ -683,17 +685,17 @@ Include this section only when the subject is an Agent Skill, per `assessment/sk
 
 Present a conformance table across the evaluated dimensions, then describe each gap with evidence and its linked `FND-XXX`.
 
-|| Dimension                  | Status  | Evidence                                              |
-||----------------------------|---------|-------------------------------------------------------|
-|| Frontmatter present        | PASS    | `SKILL.md` has YAML frontmatter with required fields  |
-|| Name field conformance      | PASS    | `name` is lowercase, matches directory, under 64 chars |
-|| Description conformance     | PARTIAL | Description is 1200 chars, exceeds 1024-char limit     |
-|| Optional field validity     | PASS    | `license`, `compatibility`, `metadata` all valid       |
-|| Directory structure         | PASS    | `scripts/`, `references/` directories present          |
-|| Progressive disclosure      | PASS    | `SKILL.md` is 180 lines, references split out          |
-|| File reference integrity    | FAIL    | `references/missing.md` referenced but does not exist  |
-|| Description triggering      | PARTIAL | Description lacks specific trigger keywords           |
-|| Body content quality        | PASS    | Instructions, examples, and edge cases present         |
+| Dimension                | Status  | Evidence                                               |
+|--------------------------|---------|--------------------------------------------------------|
+| Frontmatter present      | PASS    | `SKILL.md` has YAML frontmatter with required fields   |
+| Name field conformance   | PASS    | `name` is lowercase, matches directory, under 64 chars |
+| Description conformance  | PARTIAL | Description is 1200 chars, exceeds 1024-char limit     |
+| Optional field validity  | PASS    | `license`, `compatibility`, `metadata` all valid       |
+| Directory structure      | PASS    | `scripts/`, `references/` directories present          |
+| Progressive disclosure   | PASS    | `SKILL.md` is 180 lines, references split out          |
+| File reference integrity | FAIL    | `references/missing.md` referenced but does not exist  |
+| Description triggering   | PARTIAL | Description lacks specific trigger keywords            |
+| Body content quality     | PASS    | Instructions, examples, and edge cases present         |
 
 When the report language is not English, apply the column header translations from the matching `translation/` file.
 
@@ -715,7 +717,7 @@ For single-sentence strengths, keep them as plain bullets:
 
 - Dependency injection is consistently applied in `Program.cs`, enabling testable service registration.
 - Nullable reference types are enabled project-wide, reducing null-reference defects.
-- Firebird SQL connection pooling is configured with sensible `MinPoolSize` and `MaxPoolSize` values.
+- SQL database connection pooling is configured with sensible `MinPoolSize` and `MaxPoolSize` values.
 - JWT bearer authentication is implemented with standard ASP.NET Core middleware.
 
 Do not invent strengths. Only list what is evidenced in the provided files.
@@ -781,7 +783,7 @@ Trade-off analyses that were previously in a standalone section should be embedd
 
 ## Technical Debt Register
 
-Include this section only when the assessment surfaces structural debt distinct from risks, per `synthesis/technical-debt-register.md`. Omit it when no such debt exists.
+Include this section only when the assessment surfaces structural debt distinct from risks, per `synthesis/debt-register.md`. Omit it when no such debt exists.
 
 This register is distinct from the Unified Risk Register: risks describe what could go wrong, debt describes accumulated cost that is already present. The cost model follows the CISQ structural quality characteristics and the SQALE method.
 
@@ -801,9 +803,9 @@ This section builds a cross-referenced risk table from the risks surfaced during
 
 **Table format:**
 
-| Risk ID | Risk | Source Finding | Impact | Likelihood | Severity | Mitigation |
-|---------|------|----------------|--------|------------|----------|------------|
-| RSK-001 | <concrete risk> | FND-XXX | <consequence> | <probability> | <severity> | <action> |
+| Risk ID | Risk            | Source Finding | Impact        | Likelihood    | Severity   | Mitigation |
+|---------|-----------------|----------------|---------------|---------------|------------|------------|
+| RSK-001 | <concrete risk> | FND-XXX        | <consequence> | <probability> | <severity> | <action>   |
 
 When the report language is not English, apply the column header translations from the matching `translation/` file.
 
@@ -891,9 +893,9 @@ This section transforms recommendations into a prioritized, traceable remediatio
 
 Present recommendations as a table. One row per recommendation. Use this fixed column order:
 
-| Rec ID | Priority | Finding | Recommendation | Impact | Effort | Complexity | Verification |
-|--------|----------|---------|----------------|--------|--------|------------|--------------|
-| REC-001 | <P1-P4> | FND-XXX | <action> | <High/Med/Low> | <High/Med/Low> | <High/Med/Low> | <verification step> |
+| Rec ID  | Priority | Finding | Recommendation | Impact         | Effort         | Complexity     | Verification        |
+|---------|----------|---------|----------------|----------------|----------------|----------------|---------------------|
+| REC-001 | <P1-P4>  | FND-XXX | <action>       | <High/Med/Low> | <High/Med/Low> | <High/Med/Low> | <verification step> |
 
 When the report language is not English, apply the column header translations from the matching `translation/` file.
 
@@ -924,9 +926,9 @@ Explicitly define the limits of the analysis.
 List components or environments that were not inspected unless they were explicitly provided in the input scope. Format each exclusion as a bullet with a bold label, followed by an empty line, then the explanation. Example:
 
 ```markdown
-- **Firebird database schema and stored procedures**.
+- **SQL database schema and stored procedures**.
 
-The database layer was assessed only from the API side. The actual tables, views, triggers, and stored procedures in Firebird were not provided.
+The database layer was assessed only from the API side. The actual tables, views, triggers, and stored procedures were not provided.
 ```
 
 Typical exclusions include:
@@ -964,9 +966,9 @@ This section makes the report actionable in a governance sense. It follows ISO 1
 
 Present a table mapping findings to verification ownership and closure evidence. Include one row per P1 and P2 finding at minimum.
 
-| Finding | Priority | Verification Owner | Closure Evidence | Target Re-audit Trigger |
-|---------|----------|--------------------|------------------|-------------------------|
-| FND-XXX | P1 | <role or `NOT SPECIFIED`> | <verifiable artifact> | <milestone or `NOT SPECIFIED`> |
+| Finding | Priority | Verification Owner        | Closure Evidence      | Target Re-audit Trigger        |
+|---------|----------|---------------------------|-----------------------|--------------------------------|
+| FND-XXX | P1       | <role or `NOT SPECIFIED`> | <verifiable artifact> | <milestone or `NOT SPECIFIED`> |
 
 When the report language is not English, apply the column header translations from the matching `translation/` file.
 
