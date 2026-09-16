@@ -129,7 +129,7 @@ Format: `FND-[PILLAR]-[001]`
 
 - `PILLAR` is a three-letter code:
   - `ARC` - Architecture & Design
-  - `CQ` - Code Quality
+  - `CQY` - Code Quality
   - `SEC` - Security & Compliance
   - `INF` - Infrastructure & CI/CD
   - `AIP` - AI Provenance & Code Origin

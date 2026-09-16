@@ -166,7 +166,7 @@ Ask: "How should improvement suggestions be presented?"
 
 Ask: "Should architectural trade-offs be analyzed?"
 
-- **Embed into findings** (default) - trade-offs are embedded into the relevant `FND-ARC-XXX` or `FND-CQ-XXX` finding blocks.
+- **Embed into findings** (default) - trade-offs are embedded into the relevant `FND-ARC-XXX` or `FND-CQY-XXX` finding blocks.
 - **Omit** - do not include trade-off reasoning.
 
 **Bypass rule**

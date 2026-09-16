@@ -83,13 +83,17 @@ Do not pack unrelated ideas into one long paragraph.
 
 ## Word Wrap and Line Breaks
 
-Do not hard-wrap text at a fixed column width.
+Break lines that exceed 100 characters.
 
-Let each sentence occupy one logical line.
+Break at a natural boundary such as after a comma, conjunction, or clause end.
 
-A sentence may be long when the thought is long, the editor or renderer will soft-wrap the display.
+Keep the continuation indented to the same level as the start of the sentence when the sentence is inside a list item or a block quote.
 
-Hard-wrap only when the source itself needs a forced line break, such as inside a code block or a diagram.
+Do not break lines inside inline code, file paths, or URLs.
+
+Let each sentence occupy one logical line when it is under 100 characters.
+
+Hard-wrap at a forced line break only when the source itself needs one, such as inside a code block or a diagram.
 
 ## Headings
 

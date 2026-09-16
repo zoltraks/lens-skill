@@ -367,11 +367,13 @@ Maturity level is one of: `Prototype`, `Early development`, `Pre-production`, `P
 
 When the report language is not English, apply the table header and field name translations from the matching `translation/` file.
 
+Do not add a "Summary description" row to this table. Long descriptive text in a table cell makes the table unreadable in plain text. The summary description belongs in a paragraph after the table, as described below.
+
 **Summary description**
 
 When the report language is not English, apply the heading translation from the matching `translation/` file.
 
-Write one paragraph immediately after the table. State the system's purpose in one sentence. Summarize the overall condition in one sentence. Note the maturity level and anchor it to evidence from later sections. Mention any critical finding that the reader should know first. Keep the paragraph to four sentences maximum.
+Write one paragraph immediately after the table. State the system's purpose in one sentence. Summarize the overall condition in one sentence. Note the maturity level and anchor it to evidence from later sections. Mention any critical finding that the reader should know first. Keep the paragraph to four sentences maximum. Break lines that exceed 100 characters per `STYLE.md`.
 
 The maturity level must be justified by evidence in later sections, not asserted.
 
@@ -788,7 +790,7 @@ Present a compact summary of all findings:
 | Finding ID  | Pillar                      | Severity   | Title   | Status   | Remediation Status |
 |-------------|-----------------------------|------------|---------|----------|--------------------|
 | FND-ARC-001 | Architecture & Design       | <severity> | <title> | <status> | Open               |
-| FND-CQ-001  | Code Quality                | <severity> | <title> | <status> | Open               |
+| FND-CQY-001 | Code Quality                | <severity> | <title> | <status> | Open               |
 | FND-SEC-001 | Security & Compliance       | <severity> | <title> | <status> | Open               |
 | FND-INF-001 | Infrastructure & CI/CD      | <severity> | <title> | <status> | Open               |
 | FND-AIP-001 | AI Provenance & Code Origin | <severity> | <title> | <status> | Open               |
@@ -799,7 +801,7 @@ When the report language is not English, apply the column header translations fr
 Pillar abbreviations for IDs:
 
 - `ARC` - Architecture & Design
-- `CQ` - Code Quality
+- `CQY` - Code Quality
 - `SEC` - Security & Compliance
 - `INF` - Infrastructure & CI/CD
 - `AIP` - AI Provenance & Code Origin
@@ -830,6 +832,8 @@ When the report language is not English, apply the bullet label translations fro
 
 Each finding must cite concrete evidence: file paths, config keys, commands, or direct quotes. Do not crowd the bullet list with long prose. Use short sentences separated by blank lines, each sentence stands on its own line with an empty line between consecutive sentences.
 
+Every finding must include a detailed Description, Impact, Remediation Recommendation, and Verification Method. A finding with only a title and status is incomplete. The Description must explain what the discovered state is, where it is located (citing file paths and line numbers), and why it constitutes a finding. The Impact must state the concrete consequence. The Remediation Recommendation must provide step-by-step technical guidance. The Verification Method must specify a test or command to confirm the fix.
+
 When referencing secrets, credentials, or keys in the Description or Impact fields, replace exact values with `[REDACTED]` or generic descriptions such as "plaintext database credentials found in tracking file".
 
 Trade-off analyses that were previously in a standalone section should be embedded directly into the relevant finding they impact, under the Description or Impact bullet.
@@ -849,6 +853,21 @@ Use this fixed column order:
 When the report language is not English, apply the column header translations from the matching `translation/` file.
 
 Category is one of the CISQ characteristics: `Reliability`, `Performance Efficiency`, `Security`, `Maintainability`. Every item must trace to a `FND-XXX` or be marked `Direct observation` with a cited file. Do not duplicate security risks here, those belong in the Unified Risk Register.
+
+After the table, write one block per debt item in the same order. Use this exact markdown block pattern:
+
+```markdown
+### TDR-[NUMBER]: [Clear, Concise Title of Debt Item]
+
+* **Category:** [Reliability | Performance Efficiency | Security | Maintainability]
+* **Source Finding:** [FND-XXX or Direct observation]
+* **Description:** [Detailed technical explanation of the debt, what it is, where it is located, and why it constitutes debt]
+* **Remediation Cost:** [High/Medium/Low with one-line justification]
+* **Cost of Delay:** [High/Medium/Low with one-line justification]
+* **Status:** [Open | In progress | Resolved]
+```
+
+When the report language is not English, apply the bullet label translations from the matching `translation/` file.
 
 ## Unified Risk Register
 
@@ -908,6 +927,21 @@ When the report language is not English, apply the axis label translations from 
 - When a risk rests on missing information, mark its likelihood basis as `INSUFFICIENT INFORMATION` in the risk text.
 - Mitigations are options, not directives. Do not phrase them as commands unless the user asked for directives.
 - Do not output plaintext secrets, passwords, or cryptographic keys in the Risk column.
+
+After the table, write one block per risk in the same order. Use this exact markdown block pattern:
+
+```markdown
+### RSK-[NUMBER]: [Clear, Concise Title of Risk]
+
+* **Source Finding:** [FND-XXX]
+* **Description:** [Detailed technical explanation of the risk, what could go wrong, and under what conditions]
+* **Impact:** [Concrete consequence if the risk is realized]
+* **Likelihood:** [How probable the risk is given the evidence, with justification]
+* **Severity:** [LOW | MEDIUM | HIGH | CRITICAL]
+* **Mitigation:** [Neutral, optional action that would reduce the risk]
+```
+
+When the report language is not English, apply the bullet label translations from the matching `translation/` file.
 
 ## Trade-off Analysis
 
@@ -972,6 +1006,22 @@ Column meanings:
 - When the user does ask for a single recommendation, state the chosen option, the reason anchored to evidence, and the residual risk.
 - When a recommendation would require information that was never provided, state the missing information rather than assuming it.
 
+After the table, write one block per recommendation in the same order. Use this exact markdown block pattern:
+
+```markdown
+### REC-[NUMBER]: [Clear, Concise Title of Recommendation]
+
+* **Priority:** [P1 | P2 | P3 | P4]
+* **Finding:** [FND-XXX]
+* **Description:** [Detailed technical explanation of the recommended action, what it changes, and how it resolves the finding]
+* **Impact:** [Business or technical impact of applying this fix]
+* **Effort:** [Estimated engineering effort with one-line justification]
+* **Complexity:** [Architectural or organizational complexity with one-line justification]
+* **Verification:** [Specific test, command, or process to confirm the fix is successful]
+```
+
+When the report language is not English, apply the bullet label translations from the matching `translation/` file.
+
 ## Scope Exclusions
 
 Explicitly define the limits of the analysis.
@@ -1035,12 +1085,12 @@ Collect references from all sections of the report. Sources include the standard
 
 Present the references as a table:
 
-| Reference | Publisher or Author   | URL                      | Used In         |
-|-----------|-----------------------|--------------------------|-----------------|
-| <title>   | <publisher or author> | <url or `NOT SPECIFIED`> | <section names> |
+| Reference | Publisher or Author   | Used In         |
+|-----------|-----------------------|-----------------|
+| <title>   | <publisher or author> | <section names> |
 
 When the report language is not English, apply the column header translations from the matching `translation/` file.
 
-Only list sources actually consulted during the audit. Do not invent references. When a source was consulted but has no stable URL, write `NOT SPECIFIED` in the URL column rather than guessing.
+Only list sources actually consulted during the audit. Do not invent references.
 
-Group rows by section when the same source is used in multiple sections, or list one row per source with all sections in the Used In column separated by semicolons. Keep the order stable: methodology standards first, then standards-conformance best practices, then any other sources in the order they first appear in the report.
+After the table, add one paragraph per reference that has a URL. Format each link as a Markdown link: `[<title>](<url>)`. Do not put URLs in the table itself, because long URLs make the table unreadable in plain text. Group rows by section when the same source is used in multiple sections, or list one row per source with all sections in the Used In column separated by semicolons. Keep the order stable: methodology standards first, then standards-conformance best practices, then any other sources in the order they first appear in the report.

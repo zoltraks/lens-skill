@@ -62,5 +62,5 @@ Column meanings:
 ## Example Row
 
 ```text
-| TDR-001 | Eight #[allow(dead_code)] annotations mask unused code | Maintainability | FND-CQ-002 | Low | Medium | Open |
+| TDR-001 | Eight #[allow(dead_code)] annotations mask unused code | Maintainability | FND-CQY-002 | Low | Medium | Open |
 ```

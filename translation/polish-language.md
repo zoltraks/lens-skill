@@ -246,7 +246,6 @@ The default output filename for a Polish-language report is `AUDYT.md` instead o
 | References          | Referencje        |
 | Reference           | Referencja        |
 | Publisher or Author | Wydawca lub autor |
-| URL                 | URL               |
 | Used In             | Zastosowane w     |
 
 ## Strengths And What's Working
