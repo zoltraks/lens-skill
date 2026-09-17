@@ -19,11 +19,12 @@ Unlike a generic "review my code" prompt, Lens enforces a fixed workflow: intake
 configuration, scope definition, evidence gathering, per-category assessment, synthesis, and
 validation.
 
-The output is a standardized report with fifteen baseline sections - document
+The output is a standardized report with seventeen baseline sections - document
 information, executive summary, system context (with the technology stack), health dashboard,
 high-level observations, auditing methodology, scoring rubrics, architectural assessment,
 trade-off analysis, strengths and what's working, detailed technical findings, unified risk
-register, actionable remediation roadmap, scope exclusions, and references - plus conditional
+register, actionable remediation roadmap, scope exclusions, limitations and unknowns, validation
+record, and references - plus conditional
 sections (data flow diagram, design patterns, architecture decision records, threat model, API
 contract conformance, skill definition conformance, standards conformance, API compatibility and
 versioning discipline, technical debt register, changes since previous audit, and re-audit plan)
@@ -181,21 +182,21 @@ This format keeps the report readable in plain-text consoles while preserving de
 
 ## When to use this skill
 
-| Situation                                        | Use this skill?                                     |
-|--------------------------------------------------|-----------------------------------------------------|
-| "Audit the architecture of this system"          | **Yes**                                             |
-| "Audit this production codebase"                 | **Yes**                                             |
-| "Review this prototype for production readiness" | **Yes**                                             |
-| "Do technical due diligence on this codebase"    | **Yes**                                             |
-| "Audit our dependencies and supply chain"        | **Yes** - use `assessment/dependency-review.md`     |
-| "Build me a risk register and scorecard"         | **Yes**                                             |
-| "Review only the security posture"               | **Yes** - single-dimension audit                    |
-| "Check if this code is idiomatic for its stack"  | **Yes** - use `assessment/best-practices.md`        |
-| "Audit this skill for spec conformance"          | **Yes** - use `assessment/skill-definition.md`      |
-| "Check conformance with our dev standards"       | **Yes** - use `assessment/standards-conformance.md` |
-| "Compare these two architectural options"        | **Yes** - embed trade-offs into relevant findings   |
-| "Write the feature for me"                       | No - this skill assesses, it does not build         |
-| "Tell me which team member caused this"          | No - this skill never evaluates people              |
+| Situation                                          | Use this skill?                                       |
+|----------------------------------------------------|-------------------------------------------------------|
+| "Audit the architecture of this system"            | **Yes**                                               |
+| "Audit this production codebase"                   | **Yes**                                               |
+| "Review this prototype for production readiness"   | **Yes**                                               |
+| "Do technical due diligence on this codebase"      | **Yes**                                               |
+| "Audit our dependencies and supply chain"          | **Yes** - use `assessment/dependency-review.md`       |
+| "Build me a risk register and scorecard"           | **Yes**                                               |
+| "Review only the security posture"                 | **Yes** - single-dimension audit                      |
+| "Check if this code is idiomatic for its stack"    | **Yes** - use `assessment/best-practices.md`          |
+| "Audit this skill for spec conformance"            | **Yes** - use `assessment/skill-definition.md`        |
+| "Check conformance with our dev standards"         | **Yes** - use `assessment/standards-conformance.md`   |
+| "Compare these two architectural options"          | **Yes** - embed trade-offs into relevant findings     |
+| "Write the feature for me"                         | No - this skill assesses, it does not build           |
+| "Tell me which team member caused this"            | No - this skill never evaluates people                |
 
 ---
 
@@ -244,8 +245,8 @@ This format keeps the report readable in plain-text consoles while preserving de
 
 **Re-audit**
 > Re-run the audit on this codebase after the latest fixes. (The agent finds the previous report,
-> writes a new versioned file such as `AUDIT-1.1.md` without overwriting it, and adds a Changes
-> Since Previous Audit section.)
+> writes a new revision-numbered file such as `AUDIT-1.1.md` without overwriting it, and adds a
+> Changes Since Previous Audit section.)
 
 **Thin input**
 > Here is a one-paragraph description of a service. Audit what you can and list exactly what
@@ -269,7 +270,8 @@ lens-skill/
 │   └── output-style.md            # Tone, fixed vocabularies, consistency, determinism
 ├── process/
 │   ├── audit-workflow.md          # Intake, scope, evidence, assessment, synthesis, validation
-│   └── report-format.md           # The table-driven, unnumbered report template
+│   ├── report-format.md           # The table-driven, unnumbered report template
+│   └── report-parity.md           # Mandatory core checklist and consistency gate before Final
 ├── assessment/
 │   ├── testing-review.md          # Test pyramid (unit/integration/e2e), TDD, coverage, testability
 │   ├── design-principles.md       # SOLID, cohesion and coupling, DRY, separation of concerns
@@ -303,7 +305,7 @@ lens-skill/
 │   ├── remediation-roadmap.md     # Actionable remediation roadmap with priority matrix
 │   ├── debt-register.md           # (conditional) TDR inventory with CISQ/SQALE cost model
 │   ├── re-audit-plan.md           # (conditional) Verification ownership, sign-off gates, re-audit triggers
-│   └── report-comparison.md       # (conditional) Previous report discovery, versioning, comparison section
+│   └── report-comparison.md       # (conditional) Previous report discovery, revisions, comparison
 ├── references/
 │   ├── stack-standards.md         # Per-stack canonical standards, advisories, and compat tooling map
 │   ├── cwe-analyzer-map.md        # CWE to static-analyzer-rule cross-reference per ecosystem

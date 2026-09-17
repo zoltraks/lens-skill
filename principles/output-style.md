@@ -88,6 +88,9 @@ Ledger execution states produced by the audit are `NOT RUN` for documented check
 executed and `N/A` for source observations, separately from category status or scanner
 findings.
 
+Validation Record results are `Applied`, `PASS`, or `N/A`, separately from category status. An
+`N/A` always carries a justification.
+
 Maturity levels:
 
 - `Prototype`

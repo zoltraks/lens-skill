@@ -12,14 +12,14 @@ requested category.
 
 ## Contents
 
-| Section                 | Line | What it covers                   |
-|-------------------------|------|----------------------------------|
-| Step Overview           | 24   | Step Overview guidance           |
-| Intake Checklist        | 648  | Intake Checklist guidance        |
-| Handling Thin Input     | 663  | Handling Thin Input guidance     |
-| Single-Dimension Audits | 674  | Single-Dimension Audits guidance |
-| Re-Audit                | 684  | Re-Audit guidance                |
-| Multi-Project Audits    | 702  | Multi-Project Audits guidance    |
+| Section                   | Line   | What it covers                     |
+|---------------------------|--------|------------------------------------|
+| Step Overview             | 24     | Step Overview guidance             |
+| Intake Checklist          | 666    | Intake Checklist guidance          |
+| Handling Thin Input       | 681    | Handling Thin Input guidance       |
+| Single-Dimension Audits   | 692    | Single-Dimension Audits guidance   |
+| Re-Audit                  | 702    | Re-Audit guidance                  |
+| Multi-Project Audits      | 720    | Multi-Project Audits guidance      |
 
 ## Step Overview
 
@@ -38,6 +38,13 @@ configuration.
 Determine the natural language of the user's request. The report language must match the request
 language unless the user explicitly states otherwise. When the request language is ambiguous or
 cannot be determined, default to English.
+
+**Report parity discovery**
+
+When searching for a previous report during intake, also record the most recent audit report
+found for ANY subject in the searched locations, with its path and revision. The consistency
+gate in `process/report-parity.md` diffs the new report's capability set against it before
+`State: Final`.
 
 **Development standards discovery**
 
@@ -104,11 +111,10 @@ directory and its versioned or dated subdirectories, the default locations (`doc
 `docs/report/`, `docs/`, repository root), and the rest of the document structure, per
 `synthesis/report-comparison.md`.
 
-A previous report may be named `AUDIT.md`, `AUDIT-<version>.md`, or the language-specific
-filename. When several exist, use the one with the highest version.
+A previous report may be named `AUDIT.md`, `AUDIT-<revision>.md`, or the language-specific
+filename. When several exist, use the one with the highest revision.
 
-If a previous report is found, recover its detail level, scale, language, delivery mode, and
-filename.
+If a previous report is found, recover its detail level, scale, language, and filename.
 
 Reuse them unless the user asks to change them, then proceed to Scope Definition without repeating
 answered questions.
@@ -118,9 +124,9 @@ Do not reuse old execution permissions, tool results, or readiness conclusions a
 Record any missing parameters using defaults and disclose them, rather than claiming they were
 specified in the prior report.
 
-The previous report is never overwritten. The new report is written to a new versioned file
-and carries a Changes Since Previous Audit section, per `synthesis/report-comparison.md` and
-`process/report-format.md`.
+The previous report is never overwritten. The new report is written to a new
+revision-numbered file and carries a Changes Since Previous Audit section, per
+`synthesis/report-comparison.md` and `process/report-format.md`.
 
 If no previous report is found and the conversation context contains no record of previously chosen
 parameters, treat the request as a new audit and run the full Parameter Configuration phase.
@@ -132,22 +138,22 @@ core parameters. Present the defaults in a compact summary.
 
 Default parameters:
 
-| Parameter               | Default                                                                            |
-|-------------------------|------------------------------------------------------------------------------------|
-| Report delivery         | File if `docs/audit/` or `docs/report/` exists, otherwise Inline (direct response) |
-| Output filename         | `AUDIT.md` or language-specific, `AUDIT-<version>.md` after a previous report      |
-| Report language         | Match the language of the user's request                                           |
-| Detail level            | Detailed                                                                           |
-| Evaluation scale        | 1-10                                                                               |
-| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                            |
-| Trade-off analysis      | Standalone section + embedded into relevant findings                               |
+| Parameter                 | Default                                                                              |
+|---------------------------|--------------------------------------------------------------------------------------|
+| Report delivery           | File if `docs/audit/` or `docs/report/` exists, otherwise Inline (direct response)   |
+| Output filename           | `AUDIT.md` or language-specific, `AUDIT-<revision>.md` after a previous report       |
+| Report language           | Match the language of the user's request                                             |
+| Detail level              | Detailed                                                                             |
+| Evaluation scale          | 1-10                                                                                 |
+| Improvement suggestions   | Include with priorities (P1-P4 roadmap)                                              |
+| Trade-off analysis        | Standalone section + embedded into relevant findings                                 |
 
 The agent MUST ask the user and MUST NOT skip this step. The agent MUST wait for user response
 before proceeding to Scope Definition.
 
 Output filename is `AUDIT.md` for English reports, or the language-specific filename from the
 matching `translation/` file. When a previous report exists, the filename carries the new
-version, for example `AUDIT-1.1.md`, per `synthesis/report-comparison.md`. Used only when
+revision, for example `AUDIT-1.1.md`, per `synthesis/report-comparison.md`. Used only when
 delivery is File.
 
 Improvement suggestions and trade-off analysis are advanced parameters. Apply their defaults
@@ -227,7 +233,7 @@ Present each applicable option as a concrete choice:
 - `File - <base>/<current-date>/<filename>` - file location using the ISO `YYYY-MM-DD` current
   date. Offer this only when the base is `docs/audit/` or `docs/report/` and no existing
   subdirectory pattern is present. For example, `docs/report/<date>/AUDIT-2.0.md` when the next
-  report version is `2.0`.
+  report revision is `2.0`.
 - `Custom report file` - ask the user to specify the location and filename.
 
 For example, when `docs/report/` exists with no subdirectory pattern, the question can offer
@@ -251,12 +257,14 @@ If the user stated only a File preference without a path, ask the same delivery 
 
 When a previous audit report exists (for example, `AUDIT.md`, `AUDIT-1.0.md`, or a
 language-specific audit file), do not overwrite it. Write the new report to a separate file
-named `<base>-<version>.md`, for example `AUDIT-1.1.md`.
+named `<base>-<revision>.md`, for example `AUDIT-1.1.md`.
 
-Read the `Version` field from the previous report's Document Information block, increment the
-minor component up to 9 (for example, `1.0` becomes `1.1`, `1.9` becomes `2.0`, `9.9` becomes
-`10.0`), and write the incremented version into the new report. When the previous report
-records no version, treat it as `1.0` and assign `1.1`.
+Read the `Report Revision` value from the previous report's Document Information section,
+increment the minor component up to 9 (for example, `1.0` becomes `1.1`, `1.9` becomes `2.0`,
+`9.9` becomes `10.0`), and write the incremented revision into the new report. When the
+previous report records no revision, treat it as `1.0` and assign `1.1`. Older reports may
+record the revision as a bold-label `Version` field or a `Field`/`Value` table row, read any
+of these forms.
 
 The previous report remains unchanged so that audit history stays comparable. Full rules live
 in `synthesis/report-comparison.md`.
@@ -281,7 +289,7 @@ Ask: "What level of detail should the report include?"
 
 - **Detailed** (default) - full report plus extended remediation steps, additional verification
   methods, deeper architectural critique, and expanded impact analysis.
-- **Standard** - full report with all fifteen baseline sections, subject to explicit parameter
+- **Standard** - full report with all seventeen baseline sections, subject to explicit parameter
   exclusions plus any conditional sections whose criteria are met, complete findings, risk
   register, scorecard, and remediation roadmap.
 - **Brief** - Executive Summary, Health Dashboard (scorecard summary and risk heat map only),
@@ -437,9 +445,9 @@ runtime-verified behavior.
 
 Use globally unique evidence IDs within a report, with a project identifier on each row.
 
-| Evidence ID | Project   | Check / Source      | Execution | Result        | Artifact |
-|-------------|-----------|---------------------|-----------|---------------|----------|
-| EVD-001     | <project> | <command or source> | <state>   | <observation> | <path>   |
+| Evidence ID   | Project     | Check / Source        | Execution   | Result          | Artifact   |
+|---------------|-------------|-----------------------|-------------|-----------------|------------|
+| EVD-001       | <project>   | <command or source>   | <state>     | <observation>   | <path>     |
 
 The audit produces only two execution states: `NOT RUN` for a check that is documented or
 selected but never executed, and `N/A` for a source observation.
@@ -550,7 +558,7 @@ Confirm every adverse finding in an initial audit has Remediation Status `Open`.
 For re-audits, preserve IDs and update closure states only from the required evidence.
 
 When a Changes Since Previous Audit section is present, confirm the previous report file was
-left unchanged, the new filename carries the incremented version, every transition cites
+left unchanged, the new filename carries the incremented revision, every transition cites
 current evidence, and no identifier from the previous report was reused for a different
 finding.
 
@@ -604,6 +612,10 @@ was formatted with an automated script so all `|` separators align vertically in
 
 Confirm any temporary formatting scripts were removed from the audited repository.
 
+Run the Mandatory Core Checklist and Consistency Gate in `process/report-parity.md`. Write the
+Limitations and Unknowns and Validation Record sections from their outcome. Mark `State: Final`
+only when the gate passes.
+
 **Evidence and decision checks**
 
 - Reconcile all counts with their source and scope, including tests, findings, risks, and scores.
@@ -624,41 +636,47 @@ When maintaining this skill, exercise these scenarios and check the expected beh
 
 These are reasoning checks, not proof of improvement from an independent model benchmark.
 
-| Scenario                                   | Expected Behavior                                    |
-|--------------------------------------------|------------------------------------------------------|
-| Changelog says tests pass                  | Reported only, readiness evidence incomplete         |
-| Committed scan report lists an advisory    | Reported evidence, finding requires triage           |
-| Documented build steps, no pipeline        | Inspected only, build outcome unknown                |
-| Old crate, no advisory data                | Freshness concern, vulnerability status unknown      |
-| Guarded panic or excluded module           | Verify reachability, do not invent failure           |
-| Local CLI without hosted runtime           | Assess local safety, omit irrelevant hosted controls |
-| Due diligence with no cost or support data | Retain unknowns, request artifacts                   |
-| Two projects reuse FND-SEC-001             | Project-qualified shared references                  |
-| Clean code with uniform tests              | No authorship inference, assess test behavior        |
-| Security fix proposed but not run          | Keep verification pending, no closure claim          |
-| Partial cost inputs or no telemetry        | No complete budget or numeric SLO claim              |
-| Previous report at version 1.9 exists      | New `AUDIT-2.0.md`, previous kept, comparison added  |
-| Previous report has no Version field       | Assume 1.0, new file `AUDIT-1.1.md`                  |
-| Reusable library without an API gate       | API Compatibility section included, absence assessed |
-| CWE-295 finding in C#                      | Finding names `CA5359` and its enablement state      |
-| Git author data collected, no finding      | Team & Continuity dashboard line still present       |
-| Mean 5.8 with Security at 4                | Floor named next to the mean                         |
-| Lockfile present, no SBOM                  | Source-derived component inventory produced          |
+| Scenario                                     | Expected Behavior                                      |
+|----------------------------------------------|--------------------------------------------------------|
+| Changelog says tests pass                    | Reported only, readiness evidence incomplete           |
+| Committed scan report lists an advisory      | Reported evidence, finding requires triage             |
+| Documented build steps, no pipeline          | Inspected only, build outcome unknown                  |
+| Old crate, no advisory data                  | Freshness concern, vulnerability status unknown        |
+| Guarded panic or excluded module             | Verify reachability, do not invent failure             |
+| Local CLI without hosted runtime             | Assess local safety, omit irrelevant hosted controls   |
+| Due diligence with no cost or support data   | Retain unknowns, request artifacts                     |
+| Two projects reuse FND-SEC-001               | Project-qualified shared references                    |
+| Clean code with uniform tests                | No authorship inference, assess test behavior          |
+| Security fix proposed but not run            | Keep verification pending, no closure claim            |
+| Partial cost inputs or no telemetry          | No complete budget or numeric SLO claim                |
+| Previous report at revision 1.9 exists       | New `AUDIT-2.0.md`, previous kept, comparison added    |
+| Previous report has no Revision row          | Assume 1.0, new file `AUDIT-1.1.md`                    |
+| Previous report uses bold-label `Version`    | Read it as the report revision                         |
+| Reusable library without an API gate         | API Compatibility section included, absence assessed   |
+| CWE-295 finding in C#                        | Finding names `CA5359` and its enablement state        |
+| Git author data collected, no finding        | Team & Continuity dashboard line still present         |
+| Mean 5.8 with Security at 4                  | Floor named next to the mean                           |
+| Lockfile present, no SBOM                    | Source-derived component inventory produced            |
+| Other-subject report has a new section       | Apply it or justify `N/A` in the Validation Record     |
+| Checklist item silently skipped              | Consistency gate fails, report stays `Draft`           |
+| Same issue type in two projects              | Per-project trade-off, not the combined section        |
+| Shared workspace or build decision           | Row in the combined Trade-off Analysis                 |
+| Multi-project audit                          | Combined summary and Changes precede project blocks    |
 
 ## Intake Checklist
 
 Use this checklist to confirm you understand the input before assessing.
 
-| Question                                     | Record As                                           |
-|----------------------------------------------|-----------------------------------------------------|
-| What artifact type is this?                  | Prototype / Codebase / Production system / Proposal |
-| What is the source format?                   | Running / Inspected code / Description              |
-| What components were provided?               | List of components in scope                         |
-| What was explicitly excluded?                | Out-of-scope list                                   |
-| What constraints did the user state?         | Constraints, or `NOT SPECIFIED`                     |
-| What maturity does the user claim, if any?   | Claimed maturity, or none                           |
-| What is the natural language of the request? | Language code or name, or English (default)         |
-| How many projects are in the directory?      | One / Multiple (list each with path and version)    |
+| Question                                       | Record As                                             |
+|------------------------------------------------|-------------------------------------------------------|
+| What artifact type is this?                    | Prototype / Codebase / Production system / Proposal   |
+| What is the source format?                     | Running / Inspected code / Description                |
+| What components were provided?                 | List of components in scope                           |
+| What was explicitly excluded?                  | Out-of-scope list                                     |
+| What constraints did the user state?           | Constraints, or `NOT SPECIFIED`                       |
+| What maturity does the user claim, if any?     | Claimed maturity, or none                             |
+| What is the natural language of the request?   | Language code or name, or English (default)           |
+| How many projects are in the directory?        | One / Multiple (list each with path and version)      |
 
 ## Handling Thin Input
 
@@ -695,9 +713,9 @@ Build the Changes Since Previous Audit section using `synthesis/report-compariso
 which `FND-XXX` findings changed from `Open` to `Closed`, which `RSK-XXX` risks were mitigated,
 and which findings are new.
 
-Do not overwrite the previous report file. Write the new report to a versioned file such as
-`AUDIT-1.1.md` and record the previous report in the Document Information `Previous Report`
-field.
+Do not overwrite the previous report file. Write the new report to a revision-numbered file
+such as `AUDIT-1.1.md` and record the previous report in the Document Information
+`Previous Report` row.
 
 ## Multi-Project Audits
 
@@ -736,8 +754,12 @@ single Synthesis phase that combines all projects into one report:
    projects.
 6. A Project Inventory table immediately after Document Information lists each project with its
    path, version, and a one-line description.
-7. Scope Exclusions and Re-audit and Follow-up Plan are shared sections at the end of the report,
-   covering all projects.
+7. A condensed combined Executive Summary and, when a previous report exists, a combined Changes
+   Since Previous Audit follow the Project Inventory, before the per-project blocks.
+8. The combined Trade-off Analysis, Scope Exclusions, Limitations and Unknowns, Re-audit and
+   Follow-up Plan, Validation Record, and References are shared sections at the end of the
+   report, covering all projects. The combined Trade-off Analysis holds only cross-project
+   trade-offs per `synthesis/trade-off-analysis.md`.
 
 **Parameter Configuration for multiple projects**
 

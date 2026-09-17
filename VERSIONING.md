@@ -34,6 +34,16 @@ it.
 Do not bump the version as a side effect of adding features, fixing issues, or refactoring. Wait for
 the user to request a version bump, then apply the increment rules above.
 
+## Terminology
+
+The word `version` in this file always means the skill version recorded in `SKILL.md`
+frontmatter.
+
+Audit reports produced by the skill carry a `Report Revision`, not a version. Inside a report,
+the word `version` refers to the audited software, a project, a library, or the skill itself,
+which is shown as `Skill Version`. Report revision rules live in `process/report-format.md`
+and `synthesis/report-comparison.md`.
+
 ## Where Version Is Recorded
 
 The version lives in `SKILL.md` frontmatter under `metadata.version`:

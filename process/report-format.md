@@ -18,37 +18,39 @@ missing section hides it.
 
 ## Contents
 
-| Section                                     | Line | What it covers                                       |
-|---------------------------------------------|------|------------------------------------------------------|
-| Formatting Rules                            | 53   | Formatting Rules guidance                            |
-| Report Delivery And Parameter Configuration | 203  | Report Delivery And Parameter Configuration guidance |
-| Detail Level Configuration                  | 241  | Detail Level Configuration guidance                  |
-| Conditional Sections                        | 319  | Conditional Sections guidance                        |
-| Section Order                               | 354  | Section Order guidance                               |
-| Document Information                        | 415  | Document Information guidance                        |
-| Multi-Project Report Structure              | 485  | Multi-Project Report Structure guidance              |
-| Executive Summary                           | 546  | Executive Summary guidance                           |
-| Changes Since Previous Audit                | 629  | Changes Since Previous Audit guidance                |
-| System Context                              | 690  | System Context guidance                              |
-| Health Dashboard                            | 750  | Health Dashboard guidance                            |
-| High-Level Observations                     | 824  | High-Level Observations guidance                     |
-| Auditing Methodology                        | 848  | Auditing Methodology guidance                        |
-| Scoring Rubrics                             | 982  | Scoring Rubrics guidance                             |
-| Architectural Assessment                    | 1041 | Architectural Assessment guidance                    |
-| Trade-off Analysis                          | 1176 | Trade-off Analysis guidance                          |
-| Threat Model                                | 1213 | Threat Model guidance                                |
-| API Contract Conformance                    | 1240 | API Contract Conformance guidance                    |
-| Skill Definition Conformance                | 1260 | Skill Definition Conformance guidance                |
-| Standards Conformance                       | 1283 | Standards Conformance guidance                       |
-| API Compatibility & Versioning Discipline   | 1339 | API Compatibility guidance                           |
-| Strengths & What's Working                  | 1366 | Strengths & What's Working guidance                  |
-| Detailed Technical Findings                 | 1396 | Detailed Technical Findings guidance                 |
-| Technical Debt Register                     | 1493 | Technical Debt Register guidance                     |
-| Unified Risk Register                       | 1534 | Unified Risk Register guidance                       |
-| Actionable Remediation Roadmap              | 1614 | Actionable Remediation Roadmap guidance              |
-| Scope Exclusions                            | 1678 | Scope Exclusions guidance                            |
-| Re-audit and Follow-up Plan                 | 1730 | Re-audit and Follow-up Plan guidance                 |
-| References                                  | 1759 | References guidance                                  |
+| Section                                       | Line   | What it covers                                         |
+|-----------------------------------------------|--------|--------------------------------------------------------|
+| Formatting Rules                              | 53     | Formatting Rules guidance                              |
+| Report Delivery And Parameter Configuration   | 203    | Report Delivery And Parameter Configuration guidance   |
+| Detail Level Configuration                    | 241    | Detail Level Configuration guidance                    |
+| Conditional Sections                          | 324    | Conditional Sections guidance                          |
+| Section Order                                 | 359    | Section Order guidance                                 |
+| Document Information                          | 426    | Document Information guidance                          |
+| Multi-Project Report Structure                | 505    | Multi-Project Report Structure guidance                |
+| Executive Summary                             | 595    | Executive Summary guidance                             |
+| Changes Since Previous Audit                  | 678    | Changes Since Previous Audit guidance                  |
+| System Context                                | 739    | System Context guidance                                |
+| Health Dashboard                              | 799    | Health Dashboard guidance                              |
+| High-Level Observations                       | 873    | High-Level Observations guidance                       |
+| Auditing Methodology                          | 897    | Auditing Methodology guidance                          |
+| Scoring Rubrics                               | 1033   | Scoring Rubrics guidance                               |
+| Architectural Assessment                      | 1092   | Architectural Assessment guidance                      |
+| Trade-off Analysis                            | 1227   | Trade-off Analysis guidance                            |
+| Threat Model                                  | 1267   | Threat Model guidance                                  |
+| API Contract Conformance                      | 1294   | API Contract Conformance guidance                      |
+| Skill Definition Conformance                  | 1314   | Skill Definition Conformance guidance                  |
+| Standards Conformance                         | 1337   | Standards Conformance guidance                         |
+| API Compatibility & Versioning Discipline     | 1393   | API Compatibility guidance                             |
+| Strengths & What's Working                    | 1420   | Strengths & What's Working guidance                    |
+| Detailed Technical Findings                   | 1450   | Detailed Technical Findings guidance                   |
+| Technical Debt Register                       | 1547   | Technical Debt Register guidance                       |
+| Unified Risk Register                         | 1588   | Unified Risk Register guidance                         |
+| Actionable Remediation Roadmap                | 1668   | Actionable Remediation Roadmap guidance                |
+| Scope Exclusions                              | 1732   | Scope Exclusions guidance                              |
+| Limitations and Unknowns                      | 1784   | Limitations and Unknowns guidance                      |
+| Re-audit and Follow-up Plan                   | 1808   | Re-audit and Follow-up Plan guidance                   |
+| Validation Record                             | 1837   | Validation Record guidance                             |
+| References                                    | 1862   | References guidance                                    |
 
 ## Formatting Rules
 
@@ -231,7 +233,7 @@ plus version-numbered and date-named alternatives under `docs/audit/` or `docs/r
 
 The default filename is `AUDIT.md` for English reports, or the language-specific filename from
 the matching `translation/` file. When a previous audit report exists, the filename carries the
-new version, for example `AUDIT-2.0.md`, and the previous file is never overwritten.
+new revision, for example `AUDIT-2.0.md`, and the previous file is never overwritten.
 
 `Custom report file` asks the user to specify the location and filename before writing.
 
@@ -247,7 +249,7 @@ selects them during configuration or explicitly requests them.
 
 **Standard**
 
-All fifteen baseline sections are present in full, subject to explicit parameter exclusions:
+All seventeen baseline sections are present in full, subject to explicit parameter exclusions:
 
 - Document Information
 - Executive Summary
@@ -264,6 +266,8 @@ All fifteen baseline sections are present in full, subject to explicit parameter
 - Unified Risk Register
 - Actionable Remediation Roadmap (full matrix with P1-P4, impact/effort/complexity, verification)
 - Scope Exclusions
+- Limitations and Unknowns
+- Validation Record
 - References
 
 In addition, any conditional sections whose criteria are met are included in full. See the
@@ -306,13 +310,16 @@ Condensed output for rapid review:
 - Key trade-offs only (top 2, no full table)
 - Key recommendations only (top 5, no full matrix)
 - Scope Exclusions (full)
+- Limitations and Unknowns (full)
+- Validation Record (full)
 - References (full)
 
 Omitted in Brief: full Auditing Methodology, Scoring Rubrics, the System Context aspects beyond
 the Technology Stack subsection, Architectural Assessment critique, full findings, full risk
 register, full trade-offs, and full roadmap.
 
-Retain a compact check summary, evidence IDs, and blocked/unrun checks in Scope Exclusions.
+Retain a compact check summary and evidence IDs in Scope Exclusions, and blocked/unrun checks in
+Limitations and Unknowns.
 
 Do not omit critical decision limitations to meet the shorter format.
 
@@ -333,19 +340,19 @@ a one-line justification, so the reader knows the omission was deliberate.
 The following sections and subsections are conditional. Each lists its inclusion criterion and the
 assessment file that governs it:
 
-| Section / Subsection                                        | Include When                                                           | Governing File                        |
-|-------------------------------------------------------------|------------------------------------------------------------------------|---------------------------------------|
-| Data Flow Diagram (in Architectural Assessment)             | The system moves data across one or more trust boundaries              | `assessment/data-flow.md`             |
-| Design Patterns (in Architectural Assessment)               | The codebase is large enough to exhibit recurring structure            | `assessment/design-patterns.md`       |
-| Architecture Decision Records (in Architectural Assessment) | The system is production-bound and has significant decisions           | `assessment/change-management.md`     |
-| Threat Model (standalone)                                   | The system has a security-relevant attack surface or trust boundary    | `assessment/threat-model.md`          |
-| API Contract Conformance (standalone)                       | The system exposes an API (REST, GraphQL, gRPC, MCP)                   | `assessment/api-contract.md`          |
-| Skill Definition Conformance (standalone)                   | The subject is an Agent Skill (has a `SKILL.md` file)                  | `assessment/skill-definition.md`      |
-| Standards Conformance (standalone)                          | The project contains documented development standards                  | `assessment/standards-conformance.md` |
-| API Compatibility & Versioning Discipline (standalone)      | The subject is a reusable library or package, not a deployable service | `assessment/api-compatibility.md`     |
-| Technical Debt Register (standalone)                        | The assessment surfaces structural debt distinct from risks            | `synthesis/debt-register.md`          |
-| Re-audit and Follow-up Plan (standalone)                    | The roadmap contains at least one P1 or P2 recommendation              | `synthesis/re-audit-plan.md`          |
-| Changes Since Previous Audit (standalone)                   | A previously created audit report was found during intake              | `synthesis/report-comparison.md`      |
+| Section / Subsection                                          | Include When                                                             | Governing File                          |
+|---------------------------------------------------------------|--------------------------------------------------------------------------|-----------------------------------------|
+| Data Flow Diagram (in Architectural Assessment)               | The system moves data across one or more trust boundaries                | `assessment/data-flow.md`               |
+| Design Patterns (in Architectural Assessment)                 | The codebase is large enough to exhibit recurring structure              | `assessment/design-patterns.md`         |
+| Architecture Decision Records (in Architectural Assessment)   | The system is production-bound and has significant decisions             | `assessment/change-management.md`       |
+| Threat Model (standalone)                                     | The system has a security-relevant attack surface or trust boundary      | `assessment/threat-model.md`            |
+| API Contract Conformance (standalone)                         | The system exposes an API (REST, GraphQL, gRPC, MCP)                     | `assessment/api-contract.md`            |
+| Skill Definition Conformance (standalone)                     | The subject is an Agent Skill (has a `SKILL.md` file)                    | `assessment/skill-definition.md`        |
+| Standards Conformance (standalone)                            | The project contains documented development standards                    | `assessment/standards-conformance.md`   |
+| API Compatibility & Versioning Discipline (standalone)        | The subject is a reusable library or package, not a deployable service   | `assessment/api-compatibility.md`       |
+| Technical Debt Register (standalone)                          | The assessment surfaces structural debt distinct from risks              | `synthesis/debt-register.md`            |
+| Re-audit and Follow-up Plan (standalone)                      | The roadmap contains at least one P1 or P2 recommendation                | `synthesis/re-audit-plan.md`            |
+| Changes Since Previous Audit (standalone)                     | A previously created audit report was found during intake                | `synthesis/report-comparison.md`        |
 
 When in doubt about whether a conditional section applies, prefer including it with explicit `N/A`
 or `NOT SPECIFIED` markers over silently dropping a relevant concern. Only omit a section when it
@@ -380,7 +387,9 @@ For a **single-project** audit:
 - Unified Risk Register
 - Actionable Remediation Roadmap
 - Scope Exclusions
+- Limitations and Unknowns
 - Re-audit and Follow-up Plan *(conditional)*
+- Validation Record
 - References
 
 For a **multi-project** audit, the structure changes. See the Multi-Project Report Structure section
@@ -388,9 +397,10 @@ below for the full layout. In summary:
 
 - Document Information (once)
 - Project Inventory (once)
+- Executive Summary (condensed, combined)
+- Changes Since Previous Audit *(conditional)* (combined)
 - Per project (level-2 heading per project, full section set each):
   - Executive Summary
-  - Changes Since Previous Audit *(conditional)*
   - System Context (with the Technology Stack subsection)
   - Health Dashboard
   - High-Level Observations
@@ -408,76 +418,88 @@ below for the full layout. In summary:
   - Technical Debt Register *(conditional)*
   - Unified Risk Register
   - Actionable Remediation Roadmap
+- Trade-off Analysis (combined, cross-project trade-offs only)
 - Scope Exclusions (once, shared)
+- Limitations and Unknowns (once, shared)
 - Re-audit and Follow-up Plan *(conditional)* (once, shared)
+- Validation Record (once, shared)
 - References (once, shared)
 
 ## Document Information
 
-Open the report with a document title as a level-1 markdown heading (`#`), followed by a short
-metadata block. Each metadata field must appear on its own line with a blank line separating it from
-the next field. Do not run fields together on the same line.
+Open the report with a document title as a level-1 markdown heading (`#`), followed by the
+`## Document Information` section.
 
-Format:
+Present the document metadata as a two-column table with an empty header row and no column
+names:
 
 ```markdown
 # <System Name> Software Audit Report
 
-**Version**: <version number>
+## Document Information
 
-**Date**: <audit date>
-
-**State**: <Draft / Final>
-
-**Detail Level**: <Standard / Detailed / Brief>
-
-**Previous Report**: <previous report path and version, only when a previous report exists>
+|                  |                                              |
+|------------------|----------------------------------------------|
+| Report Revision  | 1.2                                          |
+| Report Date      | 2026-09-17                                   |
+| State            | Final                                        |
+| Detail Level     | Detailed                                     |
+| Evaluation Scale | 1-10                                         |
+| Previous Report  | docs/audit/26.7.0/AUDIT-1.1.md, revision 1.1 |
 ```
 
-For a multi-project audit, use the repository or directory name as the system name, and add a
-`**Projects**` field listing the audited project names:
+Pad the empty header cells to the column width like any other cell.
 
-```markdown
-# <Repository Name> Software Audit Report
+Rows appear in this order, each label in the first column and its value in the second:
 
-**Version**: <version number>
+- `Report Revision` - the report document revision, assigned per the report revision rules below.
+- `Report Date` - the audit date.
+- `State` - `Draft` or `Final`.
+- `Detail Level` - `Standard`, `Detailed`, or `Brief`.
+- `Evaluation Scale` - `1-10`, `1-5`, `1-3`, `5 stars`, or `3 stars`.
+- `Language` - the report language.
+- `Audit Purpose` - engineering improvement, production readiness, or technical due diligence.
+- `Target Environment` - where the software runs or ships.
+- `Verification Scope` - always `source-only`.
+- `Subject Revision` - the audited revision of the subject, such as a commit hash.
+- `Dirty-Tree State` - the working tree state at audit time.
+- `Skill Version` - the version of the audit skill that produced the report.
+- `Previous Report` - the previous report path and revision, only when a previous report exists.
+- `Projects` - the audited project names, multi-project reports only.
 
-**Date**: <audit date>
+Omit a row entirely when the input does not establish its value. Never write an empty value cell
+or a `NOT SPECIFIED` token in this table.
 
-**State**: <Draft / Final>
+Do not include a `Delivery Mode` or `Report Delivery` row. Whether the report was delivered as a
+file or an inline response is evident from the delivery itself.
 
-**Detail Level**: <Standard / Detailed / Brief>
+The word `revision` refers to the report document. The word `version` refers to the audited
+software, a project, a library, or the skill itself, as in `Subject Revision` for the audited
+commit and `Skill Version` for the skill.
 
-**Previous Report**: <previous report path and version, only when a previous report exists>
+For a multi-project audit, use the repository or directory name as the system name in the title
+and include the `Projects` row.
 
-**Projects**: <project-1>, <project-2>, <project-3>
-```
-
-Use double asterisks for the label and a single space after the colon. Each label-value pair is
-followed by an empty line. This ensures proper rendering in all markdown viewers.
-
-Also record the audited revision and dirty-tree state, Lens version, evaluation scale, language,
-delivery mode, audit purpose, target environment, and the verification scope, which is always
-`source-only`.
-
-Record `NOT SPECIFIED` or `UNKNOWN` when the input does not establish a field.
-
-These fields support reproducible re-audits and prevent historical tool results being attributed to
-a different tree.
+These fields support reproducible re-audits and prevent historical tool results being attributed
+to a different tree.
 
 `Final` means the scoped report is complete, not that the system is approved for production.
 
-**Report versioning**
+**Report revision**
 
-The first audit of a subject is version `1.0`.
+The first audit of a subject is revision `1.0`.
 
-When a previous audit report exists, read the current version from its Document Information block,
-increment the minor component up to 9 (for example, `1.0` to `1.1`, `1.9` to `2.0`, `9.9` to
-`10.0`), and write the incremented version into the new report. When the previous report records no
-version, treat it as `1.0` and assign `1.1`.
+When a previous audit report exists, read the `Report Revision` value from its Document
+Information table, increment the minor component up to 9 (for example, `1.0` to `1.1`, `1.9` to
+`2.0`, `9.9` to `10.0`), and write the incremented revision into the new report. When the
+previous report records no revision, treat it as `1.0` and assign `1.1`.
 
-The previous report file is never overwritten. The new report is written to a separate versioned
-file, for example `AUDIT-1.1.md`, per `synthesis/report-comparison.md`.
+Earlier reports may record the document revision differently: a bold-label `Version` field, or a
+`Field`/`Value` table with a `Version` row. Read any of these forms as the report revision.
+
+The previous report file is never overwritten. The new report is written to a separate file
+carrying the new revision in its name, for example `AUDIT-1.1.md`, per
+`synthesis/report-comparison.md`.
 
 When the report language is not English, apply the label translations from the matching
 `translation/` file.
@@ -489,7 +511,7 @@ structure. Each project is assessed independently and receives its own complete 
 within the report.
 
 **Document Information** appears once at the top. The title uses the repository or directory name,
-not a single project name. Add a `**Projects**` field listing the audited projects.
+not a single project name. Include a `Projects` row in the table listing the audited projects.
 
 **Project Inventory** appears immediately after Document Information. It lists each project with its
 path, version, and a one-line description.
@@ -503,11 +525,27 @@ path, version, and a one-line description.
 When the report language is not English, apply the column header translations from the matching
 `translation/` file.
 
-**Per-project sections** follow the Project Inventory. Each project gets a level-2 heading (`##`)
-with the project name, followed by the full set of report sections for that project:
+**Combined summary sections** appear immediately after the Project Inventory, so orientation
+material precedes per-project detail.
+
+The **Executive Summary** is a condensed combined summary. Write a short orientation paragraph,
+then a compact table with one row per project:
+
+```
+| Project        | Score                   | Lowest              | Top Risks               | Readiness         |
+|----------------|-------------------------|---------------------|-------------------------|-------------------|
+| <project name> | <mean>/<scale> (<band>) | <dimension> <score> | <top RSK-XXX or `NONE`> | <readiness state> |
+```
+
+The **Changes Since Previous Audit** section is combined at report level when a previous report
+exists. Give each compared project its own level-3 subsection inside this section and keep
+project-qualified finding IDs. Do not repeat the section inside the per-project blocks.
+
+**Per-project sections** follow the combined summary sections. Each project gets a level-2
+heading (`##`) with the project name, followed by the full set of report sections for that
+project:
 
 - Executive Summary
-- Changes Since Previous Audit *(conditional)*
 - System Context (with the Technology Stack subsection)
 - Health Dashboard
 - High-Level Observations
@@ -519,6 +557,7 @@ with the project name, followed by the full set of report sections for that proj
 - API Contract Conformance *(conditional)*
 - Skill Definition Conformance *(conditional)*
 - Standards Conformance *(conditional)*
+- API Compatibility & Versioning Discipline *(conditional)*
 - Strengths & What's Working
 - Detailed Technical Findings
 - Technical Debt Register *(conditional)*
@@ -533,11 +572,24 @@ so the reader can navigate. For example: `### FND-ARC-001: [api-service] Missing
 
 **Shared sections** appear once at the end of the report, after all per-project sections:
 
+- Trade-off Analysis (combined)
 - Scope Exclusions
+- Limitations and Unknowns
 - Re-audit and Follow-up Plan *(conditional)*
+- Validation Record
+- References
 
-The Scope Exclusions section covers all projects. List exclusions per project using the project
-identifier as a prefix.
+The combined **Trade-off Analysis** holds only cross-project trade-offs. A trade-off is
+cross-project only when the decision was made once and constrains more than one project, such
+as a shared dependency choice or a repository-wide workspace or build decision. The same issue
+type appearing independently in two projects is a repeated per-project finding, not a
+cross-project trade-off, and stays in the per-project Trade-off Analysis after that project's
+Architectural Assessment. The combined table adds a leading `Project` column. When no
+cross-project trade-off qualifies, the section stays present and the table carries a single
+`N/A` row with a one-line justification.
+
+The Scope Exclusions, Limitations and Unknowns, Validation Record, and Re-audit sections cover
+all projects. Qualify rows per project using the project identifier.
 
 **Single-project reports** use the standard structure without the Project Inventory table and
 without per-project level-2 headings. The sections appear directly under level-2 headings as in a
@@ -558,13 +610,13 @@ scale, so no score appears before its band is defined:
 
 Use a key-value table:
 
-| Field          | Value                                                 |
-|----------------|-------------------------------------------------------|
-| System type    | <prototype / codebase / production system / proposal> |
-| Scope          | <what was reviewed and what was excluded>             |
-| Source basis   | <running system / inspected code / description>       |
-| Maturity level | <maturity level>                                      |
-| Overall score  | <score display>, lowest: <dimension> <score display>  |
+| Field            | Value                                                   |
+|------------------|---------------------------------------------------------|
+| System type      | <prototype / codebase / production system / proposal>   |
+| Scope            | <what was reviewed and what was excluded>               |
+| Source basis     | <running system / inspected code / description>         |
+| Maturity level   | <maturity level>                                        |
+| Overall score    | <score display>, lowest: <dimension> <score display>    |
 
 Maturity level is one of: `Prototype`, `Early development`, `Pre-production`, `Production-ready`, or
 `Undetermined`.
@@ -634,15 +686,15 @@ report is the normal case, so no omission note is needed in Scope Exclusions.
 
 Open with a report reference table:
 
-| Field            | Previous Report | Current Report |
-|------------------|-----------------|----------------|
-| File             | <path>          | <filename>     |
-| Version          | <version>       | <version>      |
-| Date             | <date>          | <date>         |
-| Detail level     | <level>         | <level>        |
-| Evaluation scale | <scale>         | <scale>        |
+| Field              | Previous Report   | Current Report   |
+|--------------------|-------------------|------------------|
+| File               | <path>            | <filename>       |
+| Revision           | <revision>        | <revision>       |
+| Date               | <date>            | <date>           |
+| Detail level       | <level>           | <level>          |
+| Evaluation scale   | <scale>           | <scale>          |
 
-When the previous report records no version, show `1.0 (assumed)` in the Version row.
+When the previous report records no revision, show `1.0 (assumed)` in the Revision row.
 
 When parameters differ between reports, state the difference in a paragraph below the table
 before comparing content, since a scale or detail-level change affects comparability.
@@ -655,11 +707,11 @@ When the report language is not English, apply the column header translations fr
 Present a table of findings that changed remediation state or first appeared since the
 previous report:
 
-| Finding | Previous | Current | Note               |
-|---------|----------|---------|--------------------|
-| FND-XXX | Open     | Closed  | <closing evidence> |
-| FND-XXX | Open     | Open    | still reproduces   |
-| FND-XXX | -        | New     | first reported     |
+| Finding   | Previous   | Current   | Note                 |
+|-----------|------------|-----------|----------------------|
+| FND-XXX   | Open       | Closed    | <closing evidence>   |
+| FND-XXX   | Open       | Open      | still reproduces     |
+| FND-XXX   | -          | New       | first reported       |
 
 A previous finding that no longer reproduces stays in the table as `Closed` with the evidence
 that closes it, it is never silently dropped.
@@ -668,9 +720,9 @@ that closes it, it is never silently dropped.
 
 Present a per-dimension score comparison:
 
-| Dimension | Previous | Current | Direction |
-|-----------|----------|---------|-----------|
-| <name>    | <score>  | <score> | Up        |
+| Dimension   | Previous   | Current   | Direction   |
+|-------------|------------|-----------|-------------|
+| <name>      | <score>    | <score>   | Up          |
 
 Direction uses `Up`, `Down`, or `Unchanged`. When the evaluation scale changed between
 reports, mark the direction `UNKNOWN` for affected dimensions instead of comparing raw numbers.
@@ -691,13 +743,13 @@ Anchor every claim to a `FND-XXX`, `RSK-XXX`, or `EVD-XXX` in the current report
 
 Describe the system as understood from the input. Present the factual context without critique.
 
-| Aspect                 | Detail                                            |
-|------------------------|---------------------------------------------------|
-| Functional description | <what the system does>                            |
-| Architecture overview  | <high-level structure>                            |
-| Key components         | <named components or modules>                     |
-| External dependencies  | <services, libraries, platforms>                  |
-| Assumptions            | <only if explicitly stated, else `NOT SPECIFIED`> |
+| Aspect                   | Detail                                              |
+|--------------------------|-----------------------------------------------------|
+| Functional description   | <what the system does>                              |
+| Architecture overview    | <high-level structure>                              |
+| Key components           | <named components or modules>                       |
+| External dependencies    | <services, libraries, platforms>                    |
+| Assumptions              | <only if explicitly stated, else `NOT SPECIFIED`>   |
 
 When the report language is not English, apply the table header and aspect name translations from
 the matching `translation/` file.
@@ -711,17 +763,17 @@ judge it here.
 
 Use a key-value table:
 
-| Layer            | Technology                                            |
-|------------------|-------------------------------------------------------|
-| Languages        | <languages and versions>                              |
-| Frameworks       | <application and UI frameworks>                       |
-| Runtime/Platform | <runtime, OS, or host platform>                       |
-| Build tooling    | <build system, bundler, compilers>                    |
-| Test tooling     | <test frameworks and runners>                         |
-| Package manager  | <dependency and package manager>                      |
-| Key libraries    | <notable third-party libraries>                       |
-| Data stores      | <databases, caches, file formats>, or `NOT SPECIFIED` |
-| Target platforms | <where the software runs or ships>                    |
+| Layer              | Technology                                              |
+|--------------------|---------------------------------------------------------|
+| Languages          | <languages and versions>                                |
+| Frameworks         | <application and UI frameworks>                         |
+| Runtime/Platform   | <runtime, OS, or host platform>                         |
+| Build tooling      | <build system, bundler, compilers>                      |
+| Test tooling       | <test frameworks and runners>                           |
+| Package manager    | <dependency and package manager>                        |
+| Key libraries      | <notable third-party libraries>                         |
+| Data stores        | <databases, caches, file formats>, or `NOT SPECIFIED`   |
+| Target platforms   | <where the software runs or ships>                      |
 
 Anchor each entry to evidence, such as a manifest, lockfile, or config file. Mark any layer the
 input does not reveal as `NOT SPECIFIED`. Add or omit rows to fit the subject, but keep the layer
@@ -756,12 +808,12 @@ Map, the Scorecard Summary, and the Team & Continuity line.
 
 Provide a consolidated Likelihood vs Impact matrix summarizing the top risks. Use a table:
 
-| Impact   | LOW | MEDIUM | HIGH |
-|----------|-----|--------|------|
-| CRITICAL |     |        |      |
-| HIGH     |     |        |      |
-| MEDIUM   |     |        |      |
-| LOW      |     |        |      |
+| Impact     | LOW   | MEDIUM   | HIGH   |
+|------------|-------|----------|--------|
+| CRITICAL   |       |          |        |
+| HIGH       |       |          |        |
+| MEDIUM     |       |          |        |
+| LOW        |       |          |        |
 
 When the report language is not English, apply the axis label translations from the matching
 `translation/` file.
@@ -780,24 +832,24 @@ Provide a compact summary of the project scorecard dimensions.
 Precede the table with the same one-line score-band legend defined for the Executive Summary,
 so no score appears before its band is defined.
 
-| Dimension               | Score | Notes |
-|-------------------------|-------|-------|
-| Testability             |       |       |
-| Design Soundness        |       |       |
-| Code Quality            |       |       |
-| Stack Alignment         |       |       |
-| Dependency Health       |       |       |
-| Maintainability         |       |       |
-| Deployability           |       |       |
-| Scalability             |       |       |
-| Security                |       |       |
-| Compliance              |       |       |
-| Observability           |       |       |
-| Operational Safety      |       |       |
-| AI Provenance           |       |       |
-| Originality & Licensing |       |       |
-| Skill Definition        |       |       |
-| API Compatibility       |       |       |
+| Dimension                 | Score   | Notes   |
+|---------------------------|---------|---------|
+| Testability               |         |         |
+| Design Soundness          |         |         |
+| Code Quality              |         |         |
+| Stack Alignment           |         |         |
+| Dependency Health         |         |         |
+| Maintainability           |         |         |
+| Deployability             |         |         |
+| Scalability               |         |         |
+| Security                  |         |         |
+| Compliance                |         |         |
+| Observability             |         |         |
+| Operational Safety        |         |         |
+| AI Provenance             |         |         |
+| Originality & Licensing   |         |         |
+| Skill Definition          |         |         |
+| API Compatibility         |         |         |
 
 The API Compatibility dimension is `N/A` unless the subject is a reusable library or package,
 per `assessment/api-compatibility.md`.
@@ -829,9 +881,9 @@ not a category summary.
 
 Use this single-column table:
 
-| Observation   |
-|---------------|
-| <observation> |
+| Observation     |
+|-----------------|
+| <observation>   |
 
 When the report language is not English, apply the table header translation from the matching
 `translation/` file.
@@ -933,9 +985,9 @@ inspection of the repository contents."
 
 Include the per-project check summary and evidence records from `process/audit-workflow.md`.
 
-| Evidence ID | Project   | Check / Source      | Execution | Result   | Artifact      |
-|-------------|-----------|---------------------|-----------|----------|---------------|
-| EVD-001     | <project> | <source or command> | <state>   | <result> | <path or gap> |
+| Evidence ID   | Project     | Check / Source        | Execution   | Result     | Artifact        |
+|---------------|-------------|-----------------------|-------------|------------|-----------------|
+| EVD-001       | <project>   | <source or command>   | <state>     | <result>   | <path or gap>   |
 
 Place documented commands, source locations, revisions, declared tool or report versions,
 exclusions, and limitations below the table rather than abbreviating away traceability.
@@ -960,16 +1012,18 @@ When the report language is not English, apply the heading translation from the 
 Add a 4-row rubric defining each qualitative severity band. These definitions anchor the severity
 values used in findings and risks.
 
-| Severity | Meaning                  | Readiness Treatment       |
-|----------|--------------------------|---------------------------|
-| CRITICAL | Critical contextual risk | Gate resolution           |
-| HIGH     | Major contextual risk    | Gate resolution           |
-| MEDIUM   | Material contained risk  | Track and plan            |
-| LOW      | Limited contextual risk  | Proportionate improvement |
+| Severity   | Meaning                    | Readiness Treatment         |
+|------------|----------------------------|-----------------------------|
+| CRITICAL   | Critical contextual risk   | Gate resolution             |
+| HIGH       | Major contextual risk      | Gate resolution             |
+| MEDIUM     | Material contained risk    | Track and plan              |
+| LOW        | Limited contextual risk    | Proportionate improvement   |
 
 Derive these bands from the impact/likelihood matrix in `synthesis/risk-register.md`.
 
-Do not assign a fixed likelihood to each severity band or confuse CVSS with this matrix.
+Print one line of clarification under the severity table in every report: severity derives from
+the impact/likelihood matrix, not CVSS. Do not assign a fixed likelihood to each severity band
+or confuse CVSS with this matrix.
 
 Use `UNKNOWN` for an unsupported rating and list unrated risks separately from the heat map.
 
@@ -992,32 +1046,32 @@ scale unless the user requested `1-5`, `1-3`, `5 stars`, or `3 stars`.
 
 For the `1-10` scale:
 
-| Band      | Score Range | Definition                                                   |
-|-----------|-------------|--------------------------------------------------------------|
-| Excellent | 9-10        | Capability is comprehensive and verified by strong evidence  |
-| Good      | 7-8         | Capability is solid overall; minor or noticeable gaps exist  |
-| Average   | 4-6         | Capability is present but uneven, limited, or inconsistent   |
-| Poor      | 1-3         | Capability is minimal, fragmentary, or absent where required |
+| Band        | Score Range   | Definition                                                     |
+|-------------|---------------|----------------------------------------------------------------|
+| Excellent   | 9-10          | Capability is comprehensive and verified by strong evidence    |
+| Good        | 7-8           | Capability is solid overall; minor or noticeable gaps exist    |
+| Average     | 4-6           | Capability is present but uneven, limited, or inconsistent     |
+| Poor        | 1-3           | Capability is minimal, fragmentary, or absent where required   |
 
 When the report language is not English, apply the band name and definition translations from
 the matching `translation/` file.
 
 For the `1-5` and `5 stars` scales:
 
-| Band      | Score Range | Definition                                                  |
-|-----------|-------------|-------------------------------------------------------------|
-| Excellent | 5           | Capability is comprehensive and verified by strong evidence |
-| Good      | 4           | Capability is solid with minor gaps                         |
-| Average   | 3           | Capability is adequate but uneven                           |
-| Poor      | 1-2         | Capability is minimal, limited, or absent where required    |
+| Band        | Score Range   | Definition                                                    |
+|-------------|---------------|---------------------------------------------------------------|
+| Excellent   | 5             | Capability is comprehensive and verified by strong evidence   |
+| Good        | 4             | Capability is solid with minor gaps                           |
+| Average     | 3             | Capability is adequate but uneven                             |
+| Poor        | 1-2           | Capability is minimal, limited, or absent where required      |
 
 For the `1-3` and `3 stars` scales:
 
-| Band      | Score | Definition                                                  |
-|-----------|-------|-------------------------------------------------------------|
-| Excellent | 3     | Capability is comprehensive and verified by strong evidence |
-| Average   | 2     | Capability is adequate but uneven                           |
-| Poor      | 1     | Capability is minimal, limited, or absent where required    |
+| Band        | Score   | Definition                                                    |
+|-------------|---------|---------------------------------------------------------------|
+| Excellent   | 3       | Capability is comprehensive and verified by strong evidence   |
+| Average     | 2       | Capability is adequate but uneven                             |
+| Poor        | 1       | Capability is minimal, limited, or absent where required      |
 
 When the report language is not English, apply the same band translations from the matching
 `translation/` file.
@@ -1061,14 +1115,14 @@ before `### Industry Baseline Comparison`.
 Always include this subsection. Evaluate the code against the SOLID principles and DRY per
 `assessment/design-principles.md`. Present one row per principle:
 
-| Principle             | Status | Evidence |
-|-----------------------|--------|----------|
-| Single Responsibility |        |          |
-| Open/Closed           |        |          |
-| Liskov Substitution   |        |          |
-| Interface Segregation |        |          |
-| Dependency Inversion  |        |          |
-| DRY                   |        |          |
+| Principle               | Status   | Evidence   |
+|-------------------------|----------|------------|
+| Single Responsibility   |          |            |
+| Open/Closed             |          |            |
+| Liskov Substitution     |          |            |
+| Interface Segregation   |          |            |
+| Dependency Inversion    |          |            |
+| DRY                     |          |            |
 
 Reuse evidence already gathered for other findings instead of re-investigating it. When a
 violation was already described elsewhere, for example a Liskov Substitution breach logged as a
@@ -1117,10 +1171,10 @@ table. Then list the trust boundaries.
 
 **Trust boundaries**
 
-| Boundary        | From    | To         | Crossing Control      |
-|-----------------|---------|------------|-----------------------|
-| Network ingress | Client  | Auth layer | JWT validation        |
-| Storage         | Handler | Filesystem | Path canonicalization |
+| Boundary          | From      | To           | Crossing Control        |
+|-------------------|-----------|--------------|-------------------------|
+| Network ingress   | Client    | Auth layer   | JWT validation          |
+| Storage           | Handler   | Filesystem   | Path canonicalization   |
 
 Use framed nodes with box-drawing characters for every DFD element.
 
@@ -1147,11 +1201,11 @@ Include this subsection only when the codebase exhibits recurring structure, per
 Present a table of the patterns in use with a fitness verdict, then describe each material pattern
 or anti-pattern with evidence.
 
-| Pattern        | Location                   | Assessment | Description                                      |
-|----------------|----------------------------|------------|--------------------------------------------------|
-| Repository     | `KnowledgeBase` trait      | PASS       | Clean abstraction with injectable implementation |
-| Strategy       | hybrid search weighting    | PARTIAL    | Hardcoded, not runtime interchangeable           |
-| Factory Method | `build_router` per handler | FAIL       | Duplicated construction logic, anti-pattern      |
+| Pattern          | Location                     | Assessment   | Description                                        |
+|------------------|------------------------------|--------------|----------------------------------------------------|
+| Repository       | `KnowledgeBase` trait        | PASS         | Clean abstraction with injectable implementation   |
+| Strategy         | hybrid search weighting      | PARTIAL      | Hardcoded, not runtime interchangeable             |
+| Factory Method   | `build_router` per handler   | FAIL         | Duplicated construction logic, anti-pattern        |
 
 Name patterns using their standard GoF or POSA names. Cross-reference any anti-pattern that is also
 a code-origin signal to its `FND-AIP-XXX` finding.
@@ -1164,11 +1218,11 @@ ADR gap guidance in `assessment/change-management.md`.
 Present a table of decisions that should carry an ADR, each marked `Recorded` or `Missing`, anchored
 to the code that embodies the decision.
 
-| Decision             | Location                  | ADR Status |
-|----------------------|---------------------------|------------|
-| Data store choice    | `Cargo.toml`, `src/db.rs` | Missing    |
-| Web framework choice | `Cargo.toml`              | Missing    |
-| Session state model  | `main.rs`                 | Missing    |
+| Decision               | Location                    | ADR Status   |
+|------------------------|-----------------------------|--------------|
+| Data store choice      | `Cargo.toml`, `src/db.rs`   | Missing      |
+| Web framework choice   | `Cargo.toml`                | Missing      |
+| Session state model    | `main.rs`                   | Missing      |
 
 Missing decision rationale limits confidence regardless of origin, do not infer AI authorship or
 an AI default from absent ADRs.
@@ -1180,8 +1234,8 @@ the decisions they discuss. A trade-off is a deliberate exchange of one quality 
 
 Use a table with this fixed column order:
 
-| Trade-off | Context | Option A: gain / cost | Option B: gain / cost | Evidence | Implication |
-|-----------|---------|-----------------------|-----------------------|----------|-------------|
+| Trade-off   | Context   | Option A: gain / cost   | Option B: gain / cost   | Evidence   | Implication   |
+|-------------|-----------|-------------------------|-------------------------|------------|---------------|
 
 When the report language is not English, apply the column header translations from the matching
 `translation/` file.
@@ -1206,6 +1260,9 @@ Column meanings:
 - Trade-off reasoning may also be embedded into individual finding blocks (under Description or
   Impact) when it directly explains a specific finding. The standalone table here surfaces the
   system-level tensions.
+- For a multi-project report, each project block carries its own Trade-off Analysis after that
+  project's Architectural Assessment. A combined report-level Trade-off Analysis holds only
+  cross-project trade-offs, per the Multi-Project Report Structure section.
 - When the trade-off analysis includes an explicit recommendation, that recommendation must also
   appear as a `REC-XXX` entry in the Actionable Remediation Roadmap, traced to the relevant
   `FND-XXX`.
@@ -1224,11 +1281,11 @@ ASVS Level 2 coverage merely because a threat table exists.
 Present one table keyed by trust boundary and STRIDE category, then describe each material threat
 with evidence and its linked `FND-XXX` and `RSK-XXX`.
 
-| Boundary        | Threat (STRIDE)   | Threat Description                | Mitigating Control   | Finding     |
-|-----------------|-------------------|-----------------------------------|----------------------|-------------|
-| Network ingress | Spoofing          | Token forgery if signing key weak | JWT HS256 validation | FND-SEC-XXX |
-| Write path      | Tampering         | Path traversal on write           | None (gap)           | FND-SEC-XXX |
-| API surface     | Denial of Service | No rate limiting                  | None (gap)           | FND-SEC-XXX |
+| Boundary          | Threat (STRIDE)     | Threat Description                  | Mitigating Control     | Finding       |
+|-------------------|---------------------|-------------------------------------|------------------------|---------------|
+| Network ingress   | Spoofing            | Token forgery if signing key weak   | JWT HS256 validation   | FND-SEC-XXX   |
+| Write path        | Tampering           | Path traversal on write             | None (gap)             | FND-SEC-XXX   |
+| API surface       | Denial of Service   | No rate limiting                    | None (gap)             | FND-SEC-XXX   |
 
 The six STRIDE categories are `Spoofing`, `Tampering`, `Repudiation`, `Information Disclosure`,
 `Denial of Service`, and `Elevation of Privilege`. Every unmitigated threat must trace to a finding
@@ -1246,13 +1303,13 @@ Present a conformance table across the evaluated dimensions, then describe each 
 and its linked `FND-XXX`. Map each API security gap to its OWASP API Security Top 10 (2023) code
 where one applies.
 
-| Dimension                  | Status  | Evidence                                        |
-|----------------------------|---------|-------------------------------------------------|
-| Specification present      | PASS    | `openapi/openapi.yaml`                          |
-| Schema validation enforced | PARTIAL | typed deserialization, no rejection tests       |
-| Adopted error contract     | FAIL    | observed response contradicts declared schema   |
-| Versioning strategy        | UNKNOWN | compatibility policy not supplied               |
-| Spec-to-code agreement     | PARTIAL | `/health` marked `security: []` but behind auth |
+| Dimension                    | Status    | Evidence                                          |
+|------------------------------|-----------|---------------------------------------------------|
+| Specification present        | PASS      | `openapi/openapi.yaml`                            |
+| Schema validation enforced   | PARTIAL   | typed deserialization, no rejection tests         |
+| Adopted error contract       | FAIL      | observed response contradicts declared schema     |
+| Versioning strategy          | UNKNOWN   | compatibility policy not supplied                 |
+| Spec-to-code agreement       | PARTIAL   | `/health` marked `security: []` but behind auth   |
 
 When the report language is not English, apply the column header translations from the matching
 `translation/` file.
@@ -1265,17 +1322,17 @@ Omit it entirely for a project that is not a skill, and note the omission in Sco
 Present a conformance table across the evaluated dimensions, then describe each gap with evidence
 and its linked `FND-XXX`.
 
-| Dimension                | Status  | Evidence                                               |
-|--------------------------|---------|--------------------------------------------------------|
-| Frontmatter present      | PASS    | `SKILL.md` has YAML frontmatter with required fields   |
-| Name field conformance   | PASS    | `name` is lowercase, matches directory, under 64 chars |
-| Description conformance  | PARTIAL | Description is 1200 chars, exceeds 1024-char limit     |
-| Optional field validity  | PASS    | `license`, `compatibility`, `metadata` all valid       |
-| Directory structure      | PASS    | `scripts/`, `references/` directories present          |
-| Progressive disclosure   | PASS    | `SKILL.md` is 180 lines, references split out          |
-| File reference integrity | FAIL    | `references/missing.md` referenced but does not exist  |
-| Description triggering   | PARTIAL | Description lacks specific trigger keywords            |
-| Body content quality     | PASS    | Instructions, examples, and edge cases present         |
+| Dimension                  | Status    | Evidence                                                 |
+|----------------------------|-----------|----------------------------------------------------------|
+| Frontmatter present        | PASS      | `SKILL.md` has YAML frontmatter with required fields     |
+| Name field conformance     | PASS      | `name` is lowercase, matches directory, under 64 chars   |
+| Description conformance    | PARTIAL   | Description is 1200 chars, exceeds 1024-char limit       |
+| Optional field validity    | PASS      | `license`, `compatibility`, `metadata` all valid         |
+| Directory structure        | PASS      | `scripts/`, `references/` directories present            |
+| Progressive disclosure     | PASS      | `SKILL.md` is 180 lines, references split out            |
+| File reference integrity   | FAIL      | `references/missing.md` referenced but does not exist    |
+| Description triggering     | PARTIAL   | Description lacks specific trigger keywords              |
+| Body content quality       | PASS      | Instructions, examples, and edge cases present           |
 
 When the report language is not English, apply the column header translations from the matching
 `translation/` file.
@@ -1294,9 +1351,9 @@ practices for the technology stack, programming language, and software type.
 
 List the development standards documents found in the project:
 
-| Document | Path   | Stack Coverage                         |
-|----------|--------|----------------------------------------|
-| <title>  | <path> | <languages, frameworks, software type> |
+| Document   | Path     | Stack Coverage                           |
+|------------|----------|------------------------------------------|
+| <title>    | <path>   | <languages, frameworks, software type>   |
 
 When the report language is not English, apply the column header translations from the matching
 `translation/` file.
@@ -1306,16 +1363,16 @@ When the report language is not English, apply the column header translations fr
 Present a conformance table across the areas the standards cover, then describe each gap with
 evidence and its linked `FND-XXX`:
 
-| Area                  | Standard Rule         | Status  | Evidence                                  |
-|-----------------------|-----------------------|---------|-------------------------------------------|
-| Language version      | <rule from standards> | PASS    | <file or config matching the rule>        |
-| Project structure     | <rule from standards> | PARTIAL | <file or pattern diverging from the rule> |
-| Naming conventions    | <rule from standards> | FAIL    | <file or pattern violating the rule>      |
-| Error handling        | <rule from standards> | UNKNOWN | <not enough evidence to judge>            |
-| Testing               | <rule from standards> | PASS    | <test files matching the rule>            |
-| Formatting and lint   | <rule from standards> | PARTIAL | <CI config present, not enforced>         |
-| Dependency management | <rule from standards> | PASS    | <manifest and lockfile matching the rule> |
-| Security              | <rule from standards> | FAIL    | <file or pattern violating the rule>      |
+| Area                    | Standard Rule           | Status    | Evidence                                    |
+|-------------------------|-------------------------|-----------|---------------------------------------------|
+| Language version        | <rule from standards>   | PASS      | <file or config matching the rule>          |
+| Project structure       | <rule from standards>   | PARTIAL   | <file or pattern diverging from the rule>   |
+| Naming conventions      | <rule from standards>   | FAIL      | <file or pattern violating the rule>        |
+| Error handling          | <rule from standards>   | UNKNOWN   | <not enough evidence to judge>              |
+| Testing                 | <rule from standards>   | PASS      | <test files matching the rule>              |
+| Formatting and lint     | <rule from standards>   | PARTIAL   | <CI config present, not enforced>           |
+| Dependency management   | <rule from standards>   | PASS      | <manifest and lockfile matching the rule>   |
+| Security                | <rule from standards>   | FAIL      | <file or pattern violating the rule>        |
 
 When the report language is not English, apply the column header translations from the matching
 `translation/` file.
@@ -1325,9 +1382,9 @@ When the report language is not English, apply the column header translations fr
 Evaluate whether the documented standards are consistent with established good practices for the
 stack. Anchor every judgement to a named external best practice, style guide, or convention:
 
-| Area   | Standards Position             | External Best Practice  | Alignment                              |
-|--------|--------------------------------|-------------------------|----------------------------------------|
-| <area> | <what the standards prescribe> | <named external source> | Aligned / Partially / Diverges         |
+| Area     | Standards Position               | External Best Practice    | Alignment                        |
+|----------|----------------------------------|---------------------------|----------------------------------|
+| <area>   | <what the standards prescribe>   | <named external source>   | Aligned / Partially / Diverges   |
 
 When the report language is not English, apply the column header translations from the matching
 `translation/` file.
@@ -1345,14 +1402,14 @@ note the omission in Scope Exclusions.
 Present a conformance table across the evaluated dimensions, then describe each gap with evidence
 and its linked `FND-XXX`.
 
-| Dimension                  | Status  | Evidence                                          |
-|----------------------------|---------|---------------------------------------------------|
-| Public surface tracked     | PARTIAL | API baseline or exports list, or none found       |
-| Compatibility gate present | FAIL    | No ApiCompat or semver-checks configuration found |
-| Versioning scheme declared | PASS    | `VERSIONING.md` names the scheme                  |
-| Versioning practice        | PARTIAL | Tag and changelog history vs the declared scheme  |
-| Deprecation policy         | UNKNOWN | Deprecation markers and removal timeline          |
-| Breaking changes tracked   | FAIL    | Known items bound to a named future major version |
+| Dimension                    | Status    | Evidence                                            |
+|------------------------------|-----------|-----------------------------------------------------|
+| Public surface tracked       | PARTIAL   | API baseline or exports list, or none found         |
+| Compatibility gate present   | FAIL      | No ApiCompat or semver-checks configuration found   |
+| Versioning scheme declared   | PASS      | `VERSIONING.md` names the scheme                    |
+| Versioning practice          | PARTIAL   | Tag and changelog history vs the declared scheme    |
+| Deprecation policy           | UNKNOWN   | Deprecation markers and removal timeline            |
+| Breaking changes tracked     | FAIL      | Known items bound to a named future major version   |
 
 When the report language is not English, apply the column header translations from the matching
 `translation/` file.
@@ -1406,15 +1463,15 @@ When the report language is not English, apply the heading translation from the 
 
 Present a compact summary of all findings:
 
-| Finding ID  | Pillar                                    | Severity   | Title   | Status   | Remediation Status |
-|-------------|-------------------------------------------|------------|---------|----------|--------------------|
-| FND-ARC-001 | Architecture & Design                     | <severity> | <title> | <status> | Open               |
-| FND-CQY-001 | Code Quality                              | <severity> | <title> | <status> | Open               |
-| FND-SEC-001 | Security & Compliance                     | <severity> | <title> | <status> | Open               |
-| FND-INF-001 | Infrastructure & CI/CD                    | <severity> | <title> | <status> | Open               |
-| FND-AIP-001 | AI Provenance & Code Origin               | <severity> | <title> | <status> | Open               |
-| FND-CPR-001 | Copyrights & Originality                  | <severity> | <title> | <status> | Open               |
-| FND-API-001 | API Compatibility & Versioning Discipline | <severity> | <title> | <status> | Open               |
+| Finding ID    | Pillar                                      | Severity     | Title     | Status     | Remediation Status   |
+|---------------|---------------------------------------------|--------------|-----------|------------|----------------------|
+| FND-ARC-001   | Architecture & Design                       | <severity>   | <title>   | <status>   | Open                 |
+| FND-CQY-001   | Code Quality                                | <severity>   | <title>   | <status>   | Open                 |
+| FND-SEC-001   | Security & Compliance                       | <severity>   | <title>   | <status>   | Open                 |
+| FND-INF-001   | Infrastructure & CI/CD                      | <severity>   | <title>   | <status>   | Open                 |
+| FND-AIP-001   | AI Provenance & Code Origin                 | <severity>   | <title>   | <status>   | Open                 |
+| FND-CPR-001   | Copyrights & Originality                    | <severity>   | <title>   | <status>   | Open                 |
+| FND-API-001   | API Compatibility & Versioning Discipline   | <severity>   | <title>   | <status>   | Open                 |
 
 When the report language is not English, apply the column header translations from the matching
 `translation/` file.
@@ -1503,9 +1560,9 @@ full method application only when its models were used.
 
 Use this fixed column order:
 
-| Debt ID | Debt Item   | Category         | Source Finding | Remediation Cost | Cost of Delay | Status |
-|---------|-------------|------------------|----------------|------------------|---------------|--------|
-| TDR-001 | <debt item> | <characteristic> | <FND ID>       | <range or gap>   | <cost or gap> | Open   |
+| Debt ID   | Debt Item     | Category           | Source Finding   | Remediation Cost   | Cost of Delay   | Status   |
+|-----------|---------------|--------------------|------------------|--------------------|-----------------|----------|
+| TDR-001   | <debt item>   | <characteristic>   | <FND ID>         | <range or gap>     | <cost or gap>   | Open     |
 
 When the report language is not English, apply the column header translations from the matching
 `translation/` file.
@@ -1538,9 +1595,9 @@ risk must trace back to a specific finding.
 
 **Table format:**
 
-| Risk ID | Risk            | Source Finding | Impact        | Likelihood    | Severity   | Mitigation |
-|---------|-----------------|----------------|---------------|---------------|------------|------------|
-| RSK-001 | <concrete risk> | FND-XXX        | <consequence> | <probability> | <severity> | <action>   |
+| Risk ID   | Risk              | Source Finding   | Impact          | Likelihood      | Severity     | Mitigation   |
+|-----------|-------------------|------------------|-----------------|-----------------|--------------|--------------|
+| RSK-001   | <concrete risk>   | FND-XXX          | <consequence>   | <probability>   | <severity>   | <action>     |
 
 When the report language is not English, apply the column header translations from the matching
 `translation/` file.
@@ -1574,12 +1631,12 @@ Likelihood bands:
 
 **Severity matrix**
 
-| Impact \ Likelihood | LOW    | MEDIUM   | HIGH     |
-|---------------------|--------|----------|----------|
-| CRITICAL            | HIGH   | CRITICAL | CRITICAL |
-| HIGH                | MEDIUM | HIGH     | CRITICAL |
-| MEDIUM              | LOW    | MEDIUM   | HIGH     |
-| LOW                 | LOW    | LOW      | MEDIUM   |
+| Impact \ Likelihood   | LOW      | MEDIUM     | HIGH       |
+|-----------------------|----------|------------|------------|
+| CRITICAL              | HIGH     | CRITICAL   | CRITICAL   |
+| HIGH                  | MEDIUM   | HIGH       | CRITICAL   |
+| MEDIUM                | LOW      | MEDIUM     | HIGH       |
+| LOW                   | LOW      | LOW        | MEDIUM     |
 
 When the report language is not English, apply the axis label translations from the matching
 `translation/` file.
@@ -1620,9 +1677,9 @@ recommendation must resolve a specific finding.
 
 Present recommendations as a table. One row per recommendation. Use this fixed column order:
 
-| Rec ID  | Priority | Finding | Recommendation | Impact         | Effort         | Complexity     | Verification        |
-|---------|----------|---------|----------------|----------------|----------------|----------------|---------------------|
-| REC-001 | <P1-P4>  | FND-XXX | <action>       | <High/Med/Low> | <High/Med/Low> | <High/Med/Low> | <verification step> |
+| Rec ID    | Priority   | Finding   | Recommendation   | Impact           | Effort           | Complexity       | Verification          |
+|-----------|------------|-----------|------------------|------------------|------------------|------------------|-----------------------|
+| REC-001   | <P1-P4>    | FND-XXX   | <action>         | <High/Med/Low>   | <High/Med/Low>   | <High/Med/Low>   | <verification step>   |
 
 When the report language is not English, apply the column header translations from the matching
 `translation/` file.
@@ -1727,12 +1784,36 @@ local utility), state the omission here with a one-line justification so the rea
 was deliberate. The Changes Since Previous Audit section is the exception, a first audit has
 no previous report to compare, so its absence needs no note.
 
+## Limitations and Unknowns
+
+List every check that would require execution and was therefore not performed, plus every
+unresolved unknown the report carries.
+
+This section exists because the audit is source-only. An unrun check is a limitation of the
+report, never a defect of the subject.
+
+Use a table:
+
+| Item                   | Type           | Reason                                      | Resolution                                  |
+|------------------------|----------------|---------------------------------------------|---------------------------------------------|
+| <check or unknown>     | Unrun check    | Requires execution, out of audit scope      | <command or artifact that would run it>     |
+| <check or unknown>     | Unknown        | <why the evidence was unavailable>          | <input or artifact that would resolve it>   |
+
+Rows come from two sources:
+
+- Every `NOT RUN` row of the verification plan and evidence ledger in
+  `process/audit-workflow.md`, with the verification method that would have run it.
+- Every unresolved `UNKNOWN`, `NOT SPECIFIED`, or `INSUFFICIENT INFORMATION` token from the
+  findings and registers, with the input that would resolve it.
+
+For multi-project reports, qualify each row with the project identifier.
+
 ## Re-audit and Follow-up Plan
 
 Include this section only when the Actionable Remediation Roadmap contains at least one P1 or P2
 recommendation, per `synthesis/re-audit-plan.md`.
 
-It precedes the final References section.
+It precedes the Validation Record and References sections.
 
 This section makes the report actionable in a governance sense. It follows ISO 19011 (follow-up
 auditing) and the monitor step of the NIST Risk Management Framework.
@@ -1740,9 +1821,9 @@ auditing) and the monitor step of the NIST Risk Management Framework.
 Present a table mapping findings to verification ownership and closure evidence. Include one row per
 P1 and P2 finding at minimum.
 
-| Finding | Priority | Verification Owner        | Closure Evidence      | Target Re-audit Trigger        |
-|---------|----------|---------------------------|-----------------------|--------------------------------|
-| FND-XXX | P1       | <role or `NOT SPECIFIED`> | <verifiable artifact> | <milestone or `NOT SPECIFIED`> |
+| Finding   | Priority   | Verification Owner          | Closure Evidence        | Target Re-audit Trigger          |
+|-----------|------------|-----------------------------|-------------------------|----------------------------------|
+| FND-XXX   | P1         | <role or `NOT SPECIFIED`>   | <verifiable artifact>   | <milestone or `NOT SPECIFIED`>   |
 
 When the report language is not English, apply the column header translations from the matching
 `translation/` file.
@@ -1756,11 +1837,35 @@ residual risk, and the separation of final-report state from production sign-off
 Unknown owners or missing required verification leave sign-off pending, proposed roles are not
 assignments.
 
+## Validation Record
+
+Close the analysis with a self-check table verifying the report's internal consistency. This
+section renders the report's capability set so a future report can diff it mechanically, per
+`process/report-parity.md`.
+
+Use a table:
+
+| Check   | Result    | Evidence / Justification                 |
+|---------|-----------|------------------------------------------|
+| PAR-1   | Applied   | <evidence or `N/A` justification>        |
+
+Rows appear in this order:
+
+1. One row per Mandatory Core Checklist item, `PAR-1` through `PAR-9`, in fixed order.
+2. Internal consistency checks: `FND-XXX`/`RSK-XXX`/`REC-XXX` cross-referencing, count
+   reconciliation across summary tables and registers, conditional-section evaluation, and
+   formatting rules.
+3. A `Parity baseline` row naming the report diffed against, or `none found`.
+
+Result values are `Applied`, `PASS`, or `N/A`. An `N/A` always carries a justification in the
+Evidence / Justification column.
+
+For multi-project reports, qualify per-project checks with the project identifier.
+
 ## References
 
-This section lists every external source referenced during the audit. It is the final section of the
-report when no Re-audit and Follow-up Plan is present, otherwise it follows the Re-audit and
-Follow-up Plan.
+This section lists every external source referenced during the audit. It is always the final
+section of the report.
 
 Collect references from all sections of the report. Sources include the standards named in Auditing
 Methodology, the external best practices cited in Standards Conformance, and any documentation
@@ -1768,9 +1873,9 @@ consulted during any assessment category.
 
 Present the references as a table:
 
-| Reference | Publisher or Author   | Used In         |
-|-----------|-----------------------|-----------------|
-| <title>   | <publisher or author> | <section names> |
+| Reference   | Publisher or Author     | Used In           |
+|-------------|-------------------------|-------------------|
+| <title>     | <publisher or author>   | <section names>   |
 
 When the report language is not English, apply the column header translations from the matching
 `translation/` file.
