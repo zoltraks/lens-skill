@@ -57,7 +57,7 @@ them, otherwise mark `UNKNOWN` rather than copying registry assumptions.
 | `*.csproj`            | `<PackageReference Include Version>` entries are `direct`. `PrivateAssets` and `IncludeAssets` qualify scope. `<ProjectReference>` entries are internal, not components. |
 | `packages.config`     | Each `<package id version>` entry is a direct component (legacy projects).                                                                                               |
 | `packages.lock.json`  | Per-target objects list `resolved` versions with `type` of `Direct` or `Transitive` and `contentHash`. Multi-target projects produce one list per target.                |
-| `project.assets.json` | `libraries` lists all resolved components with `type`; `targets` records the resolved graph per target framework.                                                        |
+| `project.assets.json` | `libraries` lists all resolved components with `type`, and `targets` records the resolved graph per target framework.                                                    |
 | `*.nuspec`            | `<dependencies><dependency id version>` declares the package's own runtime dependencies.                                                                                 |
 
 ## Node / npm
@@ -67,7 +67,7 @@ them, otherwise mark `UNKNOWN` rather than copying registry assumptions.
 | `package.json`      | `dependencies`, `devDependencies`, `peerDependencies`, `optionalDependencies` give direct components with declared ranges.                                                                                                                             |
 | `package-lock.json` | The `packages` map keys `node_modules/<name>` entries give resolved `version`, `dev` scope flag, `resolved` URL, and `integrity` hash. Nested `node_modules` paths indicate transitive placement. The root `""` entry repeats the declared direct set. |
 | `yarn.lock`         | Each `name@range:` stanza gives resolved `version`, `resolved`, `integrity`.                                                                                                                                                                           |
-| `pnpm-lock.yaml`    | `importers` lists direct dependencies per workspace package; `packages` or `snapshots` lists the resolved set.                                                                                                                                         |
+| `pnpm-lock.yaml`    | `importers` lists direct dependencies per workspace package, and `packages` or `snapshots` lists the resolved set.                                                                                                                                     |
 
 ## Python
 
@@ -85,7 +85,7 @@ Relationship is usually `UNKNOWN` for Python unless a lockfile marks it. State t
 
 | File     | What To Extract                                                                                                                                                                |
 |----------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `go.mod` | `require` blocks give direct components; entries commented `// indirect` are transitive. `toolchain` and `go` lines are toolchain pins, not dependencies.                      |
+| `go.mod` | `require` blocks give direct components, entries commented `// indirect` are transitive. `toolchain` and `go` lines are toolchain pins, not dependencies.                      |
 | `go.sum` | Module-plus-hash lines give integrity data, including hashes for transitive and test dependencies. Each module typically has two lines: the module hash and the `go.mod` hash. |
 
 ## Java / JVM

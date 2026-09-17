@@ -92,6 +92,9 @@ or a verified implementation, never invent a score from the qualitative label.
 If prerequisites or impact cannot be established, record `INSUFFICIENT INFORMATION` and the missing
 metrics, or clearly label bounded scenario vectors as provisional.
 
+When no calculator or verified implementation is accessible, record the derived vector and mark the
+score `INSUFFICIENT INFORMATION`. Never emit a score that was not validated.
+
 Separate a publisher's advisory vector from a locally assessed vector.
 
 CVSS describes technical vulnerability severity, not the Lens risk-register likelihood or business

@@ -8,7 +8,8 @@
 > format, versioning strategy, OWASP API Security Top 10 (2023)
 
 This file guides assessment of whether a system that exposes an API conforms to its own contract and
-to API design standards. It complements `assessment/security-review.md` and
+to API design standards, and whether a system that consumes a documented API contract calls it
+conformantly. It complements `assessment/security-review.md` and
 `assessment/threat-model.md` for the security dimension and `assessment/documentation-review.md` for
 the docs dimension.
 
@@ -17,12 +18,19 @@ spec that contradicts the code as a drift finding.
 
 ## When This Applies
 
-This assessment applies when the system exposes an API: REST, GraphQL, gRPC, MCP, or a similar
-contract-driven interface.
+This assessment applies when the system defines, exposes, or consumes an API contract: REST,
+GraphQL, gRPC, MCP, or a similar contract-driven interface.
 
-It does not apply to a system with no external API surface, for example a pure CLI with no server, a
-library, or a batch job. In that case, mark the section `N/A` with a one-line justification. Do not
-invent an API-spec section for a project that has no API.
+A consumer such as a CLI, agent, or client library qualifies when a documented contract exists for
+the API it calls, for example an OpenAPI spec in the same repository or a published contract it
+targets. For a consumer, assess request and response conformance to that contract: whether the
+calls match documented endpoints, payloads, and error shapes. Mark provider-side dimensions such
+as contract presence and schema enforcement `N/A` for a pure consumer.
+
+It does not apply to a system with no API surface and no documented contract consumption, for
+example a pure CLI with no server calls, a library, or a batch job. In that case, mark the
+section `N/A` with a one-line justification. Do not invent an API-spec section for a project
+that has no API.
 
 ## What To Evaluate
 
@@ -94,7 +102,7 @@ Use these category codes when an API security gap maps to one:
 - `FAIL`: No specification where the API surface clearly requires one, or the spec broadly
   contradicts the code, with evidence.
 - `UNKNOWN`: API artifacts were not provided.
-- `N/A`: The system exposes no API, with justification.
+- `N/A`: The system exposes no API and consumes no documented contract, with justification.
 
 ## How To Present
 

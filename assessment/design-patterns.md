@@ -50,8 +50,8 @@ For each pattern in use, assess:
 | Signal                   | Where It Appears                                                           |
 |--------------------------|----------------------------------------------------------------------------|
 | Repository pattern       | Interface or trait abstracting a data store, with concrete implementations |
-| Strategy pattern         | Interchangeable algorithms; check whether selected at runtime or hardcoded |
-| Builder / Factory Method | Construction helpers; check whether shared or duplicated across files      |
+| Strategy pattern         | Interchangeable algorithms, check whether selected at runtime or hardcoded |
+| Builder / Factory Method | Construction helpers, check whether shared or duplicated across files      |
 | Command pattern          | Encapsulated requests, especially for CLI dispatch or undoable actions     |
 | Adapter / Facade         | Wrappers over third-party libraries or subsystems                          |
 | Anti-patterns            | God objects, duplicated construction logic, hardcoded Strategy variants    |

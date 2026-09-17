@@ -23,6 +23,10 @@ A previous report is identified by the audit report Document Information section
 `Detail Level` rows, or by the audit filename convention: `AUDIT.md`, `AUDIT-<revision>.md`,
 or the language-specific filename defined in `translation/`.
 
+A file that shares the report directory but lacks these identification markers is not a previous
+audit report. Status snapshots, state documents such as `current-state.md`, coverage or scan
+output, and stakeholder documents are `Reported` evidence or context, never comparison baselines.
+
 Older reports may record the metadata differently: a bold-label block with a `Version` field,
 or a `Field`/`Value` table with a `Version` row. Read any of these forms as the report
 revision.
@@ -62,11 +66,11 @@ The first audit of a subject is revision `1.0`.
 Each subsequent report increments the minor component by one. When the minor component would
 reach 10, increment the major component and reset the minor to 0.
 
-| Previous   | New    |
-|------------|--------|
-| 1.0        | 1.1    |
-| 1.9        | 2.0    |
-| 9.9        | 10.0   |
+| Previous | New  |
+|----------|------|
+| 1.0      | 1.1  |
+| 1.9      | 2.0  |
+| 9.9      | 10.0 |
 
 When the previous report records no revision, treat it as `1.0` and assign the new report `1.1`.
 
@@ -88,6 +92,11 @@ fit it while keeping the revision distinguishable in the name.
 When the user supplies an explicit output filename, honor it. If the supplied name collides
 with an existing report file, do not overwrite it. Append the revision suffix or ask the user
 for a different name.
+
+Place each revision under the resolved output directory for the current audit date, for
+example `docs/report/<audit-date>/`. When the previous report sits in the same date-named
+directory, the new revision lands beside it. Never write a revision into a different report's
+directory and never modify directories of prior audits.
 
 ## Comparison Content
 
@@ -111,6 +120,33 @@ When a previous report element cannot be parsed well enough to compare, mark tha
 When parameters differ between reports, for example a different evaluation scale or detail
 level, note the difference before comparing, since it affects comparability.
 
+## Evidence Transitions
+
+Distinguish three kinds of delta in the Changes Since Previous Audit section.
+
+- **Finding transition** - a finding moved remediation state, for example `Open` to `Closed`.
+- **Evidence correction** - a figure or anchor was re-derived and differs from the previous
+  report while the finding it supports is unchanged. List corrections in their own subsection,
+  never as finding transitions.
+- **Capability change** - the report structure differs because the skill version or parameters
+  changed, not the audited product.
+
+A refined figure does not change a finding's status by itself.
+
+State the corrected value, name the counting method when the difference is methodological, and
+keep the finding status it supports.
+
+## Observation Folding
+
+When a re-audit surfaces a defect not named in any previous finding, first check whether an
+existing finding's description already covers that defect class.
+
+Attach the observation to the covering finding as an evidence extension and record it in the
+finding's evidence rows.
+
+Mint a new `FND-XXX` identifier only when no existing finding covers the defect class,
+continuing the per-pillar sequence per the Identifier Continuity rules.
+
 ## Identifier Continuity
 
 Preserve `FND-XXX`, `RSK-XXX`, and `REC-XXX` identifiers across audits.
@@ -120,6 +156,30 @@ not reused.
 
 A finding is marked `Closed` only when the current audit holds the evidence that closes it.
 A finding that still reproduces stays `Open` even when the previous report claimed progress.
+
+When the report structure itself forces renumbering, for example when registers move from a
+combined layout to per-project scope, re-scope the identifiers to the current structure and
+publish the complete old-to-new mapping in the Changes Since Previous Audit section. The
+mapping is mandatory, it is what keeps a renumbered register comparable across revisions.
+
+When a previous recommendation references a source that is not an `FND-XXX` identifier, for
+example "Dependencies (both)" or "API Contract", create the covering finding under the current
+pillar sequence and mark it `New` in the finding transitions, do not carry a dangling
+reference forward.
+
+## Remediation Status
+
+Use this fixed vocabulary in the Remediation Status column during a re-audit.
+
+| Status              | Meaning                                                                |
+|---------------------|------------------------------------------------------------------------|
+| `Open - Confirmed`  | The finding's anchor was re-inspected and still reproduces             |
+| `Open - Reported`   | Only historical executed evidence supports it, nothing was re-verified |
+| `Closed - Verified` | Current-audit evidence closes it, cite the closing evidence            |
+| `New`               | Minted in this revision                                                |
+| `PASS`              | A passing control, re-verified                                         |
+
+Carry the evidence qualification inside the status rather than inventing new markers.
 
 ## Rules
 
@@ -134,3 +194,7 @@ A finding that still reproduces stays `Open` even when the previous report claim
 - For multi-project reports, produce the comparison in the combined Changes Since Previous
   Audit section, one level-3 subsection per project, and qualify every identifier with the
   project identifier.
+- Previous reports are comparison inputs, not audited source. Read them for transitions and
+  parity, never count them in the file inventory or cite them as product evidence.
+- A score that moved because the formula or presentation changed is a capability change.
+  Record it outside the score-delta table, the table covers dimension changes only.

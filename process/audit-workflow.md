@@ -12,14 +12,14 @@ requested category.
 
 ## Contents
 
-| Section                   | Line   | What it covers                     |
-|---------------------------|--------|------------------------------------|
-| Step Overview             | 24     | Step Overview guidance             |
-| Intake Checklist          | 666    | Intake Checklist guidance          |
-| Handling Thin Input       | 681    | Handling Thin Input guidance       |
-| Single-Dimension Audits   | 692    | Single-Dimension Audits guidance   |
-| Re-Audit                  | 702    | Re-Audit guidance                  |
-| Multi-Project Audits      | 720    | Multi-Project Audits guidance      |
+| Section                 | Line | What it covers                   |
+|-------------------------|------|----------------------------------|
+| Step Overview           | 24   | Step Overview guidance           |
+| Intake Checklist        | 701  | Intake Checklist guidance        |
+| Handling Thin Input     | 716  | Handling Thin Input guidance     |
+| Single-Dimension Audits | 727  | Single-Dimension Audits guidance |
+| Re-Audit                | 737  | Re-Audit guidance                |
+| Multi-Project Audits    | 764  | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -138,15 +138,15 @@ core parameters. Present the defaults in a compact summary.
 
 Default parameters:
 
-| Parameter                 | Default                                                                              |
-|---------------------------|--------------------------------------------------------------------------------------|
-| Report delivery           | File if `docs/audit/` or `docs/report/` exists, otherwise Inline (direct response)   |
-| Output filename           | `AUDIT.md` or language-specific, `AUDIT-<revision>.md` after a previous report       |
-| Report language           | Match the language of the user's request                                             |
-| Detail level              | Detailed                                                                             |
-| Evaluation scale          | 1-10                                                                                 |
-| Improvement suggestions   | Include with priorities (P1-P4 roadmap)                                              |
-| Trade-off analysis        | Standalone section + embedded into relevant findings                                 |
+| Parameter               | Default                                                                            |
+|-------------------------|------------------------------------------------------------------------------------|
+| Report delivery         | File if `docs/audit/` or `docs/report/` exists, otherwise Inline (direct response) |
+| Output filename         | `AUDIT.md` or language-specific, `AUDIT-<revision>.md` after a previous report     |
+| Report language         | Match the language of the user's request                                           |
+| Detail level            | Detailed                                                                           |
+| Evaluation scale        | 1-10                                                                               |
+| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                            |
+| Trade-off analysis      | Standalone section + embedded into relevant findings                               |
 
 The agent MUST ask the user and MUST NOT skip this step. The agent MUST wait for user response
 before proceeding to Scope Definition.
@@ -389,11 +389,30 @@ For dependency analysis, derive the component inventory from manifests and lockf
 per `references/dependency-manifests.md`. The derived list records components, versions,
 relationships, and scopes without running a package manager or an SBOM generator.
 
-Respect `.gitignore` exclusions. Do not inspect files that are excluded by `.gitignore` patterns
-(for example, `bin/`, `obj/`, `node_modules/`, `.env` files, or build artifacts). If a
-`.gitignore` file is present, use it to filter the file list before analysis. If no `.gitignore` is
-present, record the fact, but raise a finding only if relevant exclusions
-are required or a concrete exposure is evidenced.
+For recurring source and history censuses, apply the canonical counting methods in
+`references/census-commands.md` and record the counting rule beside each figure in the ledger,
+so a re-audit can reproduce the number.
+
+Respect `.gitignore` exclusions for generated, vendored, and build output. Do not inspect files
+that are excluded by `.gitignore` patterns when they hold generated or vendored content (for
+example, `bin/`, `obj/`, `node_modules/`, or build artifacts). If a `.gitignore` file is present,
+use it to filter the file list before analysis. If no `.gitignore` is present, record the fact,
+but raise a finding only if relevant exclusions are required or a concrete exposure is evidenced.
+
+The exclusion targets generated and vendored content, not project-owned configuration that the
+project keeps untracked. When tracked source loads an untracked config or credential file (for
+example an `access.json` or `.env` file referenced by auth code), inspect it for security
+posture. Record such a file as working-tree evidence, never count it in the tracked file
+inventory, and never reproduce secret values per `principles/evaluation-rules.md`.
+
+Before asserting that a file is committed repository content, verify its tracked status with
+`git ls-files` and its ignore status with `git check-ignore`, per the Tracked Artifacts methods
+in `references/census-commands.md`. A file present on disk is not committed content until
+`git ls-files` says so.
+
+Honor read restrictions the project itself declares, for example rule files that bar reading
+certain directories. An untracked rules directory still governs. Record every honored
+restriction in Scope Exclusions so the reader knows the coverage bound.
 
 Do not yet form conclusions. Separate collection from judgement to avoid confirmation bias.
 
@@ -445,9 +464,9 @@ runtime-verified behavior.
 
 Use globally unique evidence IDs within a report, with a project identifier on each row.
 
-| Evidence ID   | Project     | Check / Source        | Execution   | Result          | Artifact   |
-|---------------|-------------|-----------------------|-------------|-----------------|------------|
-| EVD-001       | <project>   | <command or source>   | <state>     | <observation>   | <path>     |
+| Evidence ID | Project   | Check / Source      | Execution | Result        | Artifact |
+|-------------|-----------|---------------------|-----------|---------------|----------|
+| EVD-001     | <project> | <command or source> | <state>   | <observation> | <path>   |
 
 The audit produces only two execution states: `NOT RUN` for a check that is documented or
 selected but never executed, and `N/A` for a source observation.
@@ -527,6 +546,14 @@ Draft the Executive Summary last, after all findings, the risk register, and the
 final. It is the first section a reader sees but the last one synthesized, so it summarizes only
 completed analysis. Add the Production Readiness Threshold paragraph to it at this stage, tying
 conditions to specific `RSK-XXX` IDs.
+
+**Large report assembly**
+
+When a report is too large to write in one pass, compose it in parts inside the audited
+repository's `work/` directory (or `temp`/`temporary` when that is the convention), then
+concatenate the parts in the fixed section order into the final file. Run the Pre-Delivery
+Mechanical Checklist and the formatting script on the assembled file, not on the parts, and
+remove the part files after assembly.
 
 **Validation**
 
@@ -610,7 +637,12 @@ Confirm the report follows the Formatting Rules in `process/report-format.md`: h
 `###`, prose lines over 100 characters are wrapped, prose contains no semicolons, and every table
 was formatted with an automated script so all `|` separators align vertically in plain text.
 
-Confirm any temporary formatting scripts were removed from the audited repository.
+Run the Pre-Delivery Mechanical Checklist in `process/report-format.md` and require zero
+violations. Copy `tools/validate-report.py` into the audited repository as
+`validate-report.tmp.py` and run it on the report. The report stays `Draft` while the checklist
+or the validator reports a violation.
+
+Confirm any temporary formatting or validation scripts were removed from the audited repository.
 
 Run the Mandatory Core Checklist and Consistency Gate in `process/report-parity.md`. Write the
 Limitations and Unknowns and Validation Record sections from their outcome. Mark `State: Final`
@@ -636,47 +668,50 @@ When maintaining this skill, exercise these scenarios and check the expected beh
 
 These are reasoning checks, not proof of improvement from an independent model benchmark.
 
-| Scenario                                     | Expected Behavior                                      |
-|----------------------------------------------|--------------------------------------------------------|
-| Changelog says tests pass                    | Reported only, readiness evidence incomplete           |
-| Committed scan report lists an advisory      | Reported evidence, finding requires triage             |
-| Documented build steps, no pipeline          | Inspected only, build outcome unknown                  |
-| Old crate, no advisory data                  | Freshness concern, vulnerability status unknown        |
-| Guarded panic or excluded module             | Verify reachability, do not invent failure             |
-| Local CLI without hosted runtime             | Assess local safety, omit irrelevant hosted controls   |
-| Due diligence with no cost or support data   | Retain unknowns, request artifacts                     |
-| Two projects reuse FND-SEC-001               | Project-qualified shared references                    |
-| Clean code with uniform tests                | No authorship inference, assess test behavior          |
-| Security fix proposed but not run            | Keep verification pending, no closure claim            |
-| Partial cost inputs or no telemetry          | No complete budget or numeric SLO claim                |
-| Previous report at revision 1.9 exists       | New `AUDIT-2.0.md`, previous kept, comparison added    |
-| Previous report has no Revision row          | Assume 1.0, new file `AUDIT-1.1.md`                    |
-| Previous report uses bold-label `Version`    | Read it as the report revision                         |
-| Reusable library without an API gate         | API Compatibility section included, absence assessed   |
-| CWE-295 finding in C#                        | Finding names `CA5359` and its enablement state        |
-| Git author data collected, no finding        | Team & Continuity dashboard line still present         |
-| Mean 5.8 with Security at 4                  | Floor named next to the mean                           |
-| Lockfile present, no SBOM                    | Source-derived component inventory produced            |
-| Other-subject report has a new section       | Apply it or justify `N/A` in the Validation Record     |
-| Checklist item silently skipped              | Consistency gate fails, report stays `Draft`           |
-| Same issue type in two projects              | Per-project trade-off, not the combined section        |
-| Shared workspace or build decision           | Row in the combined Trade-off Analysis                 |
-| Multi-project audit                          | Combined summary and Changes precede project blocks    |
+| Scenario                                   | Expected Behavior                                    |
+|--------------------------------------------|------------------------------------------------------|
+| Changelog says tests pass                  | Reported only, readiness evidence incomplete         |
+| Committed scan report lists an advisory    | Reported evidence, finding requires triage           |
+| Documented build steps, no pipeline        | Inspected only, build outcome unknown                |
+| Old crate, no advisory data                | Freshness concern, vulnerability status unknown      |
+| Guarded panic or excluded module           | Verify reachability, do not invent failure           |
+| Local CLI without hosted runtime           | Assess local safety, omit irrelevant hosted controls |
+| Due diligence with no cost or support data | Retain unknowns, request artifacts                   |
+| Two projects reuse FND-SEC-001             | Project-qualified shared references                  |
+| Clean code with uniform tests              | No authorship inference, assess test behavior        |
+| Security fix proposed but not run          | Keep verification pending, no closure claim          |
+| Partial cost inputs or no telemetry        | No complete budget or numeric SLO claim              |
+| Previous report at revision 1.9 exists     | New `AUDIT-2.0.md`, previous kept, comparison added  |
+| Previous report has no Revision row        | Assume 1.0, new file `AUDIT-1.1.md`                  |
+| Previous report uses bold-label `Version`  | Read it as the report revision                       |
+| Reusable library without an API gate       | API Compatibility section included, absence assessed |
+| CWE-295 finding in C#                      | Finding names `CA5359` and its enablement state      |
+| Git author data collected, no finding      | Team & Continuity dashboard line still present       |
+| Mean 5.8 with Security at 4                | Floor named next to the mean                         |
+| Lockfile present, no SBOM                  | Source-derived component inventory produced          |
+| Other-subject report has a new section     | Apply it or justify `N/A` in the Validation Record   |
+| Checklist item silently skipped            | Consistency gate fails, report stays `Draft`         |
+| Same issue type in two projects            | Per-project trade-off, not the combined section      |
+| Shared workspace or build decision         | Row in the combined Trade-off Analysis               |
+| Multi-project audit                        | Combined summary and Changes precede project blocks  |
+| Prior report anchor does not resolve       | Correct anchor recorded, citation flagged            |
+| Census method differs between reports      | Canonical method restated, figure compared           |
+| Comment-only catch bodies                  | Counted separately from empty bodies                 |
 
 ## Intake Checklist
 
 Use this checklist to confirm you understand the input before assessing.
 
-| Question                                       | Record As                                             |
-|------------------------------------------------|-------------------------------------------------------|
-| What artifact type is this?                    | Prototype / Codebase / Production system / Proposal   |
-| What is the source format?                     | Running / Inspected code / Description                |
-| What components were provided?                 | List of components in scope                           |
-| What was explicitly excluded?                  | Out-of-scope list                                     |
-| What constraints did the user state?           | Constraints, or `NOT SPECIFIED`                       |
-| What maturity does the user claim, if any?     | Claimed maturity, or none                             |
-| What is the natural language of the request?   | Language code or name, or English (default)           |
-| How many projects are in the directory?        | One / Multiple (list each with path and version)      |
+| Question                                     | Record As                                           |
+|----------------------------------------------|-----------------------------------------------------|
+| What artifact type is this?                  | Prototype / Codebase / Production system / Proposal |
+| What is the source format?                   | Running / Inspected code / Description              |
+| What components were provided?               | List of components in scope                         |
+| What was explicitly excluded?                | Out-of-scope list                                   |
+| What constraints did the user state?         | Constraints, or `NOT SPECIFIED`                     |
+| What maturity does the user claim, if any?   | Claimed maturity, or none                           |
+| What is the natural language of the request? | Language code or name, or English (default)         |
+| How many projects are in the directory?      | One / Multiple (list each with path and version)    |
 
 ## Handling Thin Input
 
@@ -707,6 +742,10 @@ and finding IDs.
 Record what changed since the previous audit and which findings moved status, so progress is
 comparable over time.
 
+Every evidence anchor is re-derived from the current tree. When a previous report's anchor does
+not resolve and the tree is unchanged, record the correct anchor and flag the prior citation as
+an evidence correction per `synthesis/report-comparison.md`, never silently substitute it.
+
 Update the Remediation Status column for findings that were closed since the previous audit.
 
 Build the Changes Since Previous Audit section using `synthesis/report-comparison.md`, noting
@@ -716,6 +755,11 @@ and which findings are new.
 Do not overwrite the previous report file. Write the new report to a revision-numbered file
 such as `AUDIT-1.1.md` and record the previous report in the Document Information
 `Previous Report` row.
+
+When `git diff` or the file inventory shows no source delta since the previous report, the
+mandatory reading narrows: format, comparison, parity, style, and evaluation files plus the
+synthesis files for sections the report carries. Category assessment files load only for
+categories with new or changed findings.
 
 ## Multi-Project Audits
 

@@ -44,11 +44,21 @@ Impact bands:
 - `HIGH`: major function loss or data integrity concern.
 - `CRITICAL`: data loss, breach, or full outage.
 
+When an impact sits between bands, compare the blast radius. A dead subsystem is `HIGH`
+unless it is the system's sole function, a data-corrupting write or an authentication bypass
+is `CRITICAL`, a degraded but still working path is `MEDIUM`.
+
 Likelihood bands:
 
 - `LOW`: would require an unusual combination of conditions.
 - `MEDIUM`: plausible under normal operation.
 - `HIGH`: expected to occur without intervention.
+
+Likelihood rates the probability that the risk materializes for the subject, not the
+probability that the underlying defect exists. A defect that always manifests, for example a
+stub that always returns zeros, gives its risk `HIGH` likelihood. A defect that needs a
+trigger, such as an attacker in position, a compromised file, or a configured feature, is
+`MEDIUM` or `LOW` by the trigger's plausibility.
 
 ## Severity Scale
 
@@ -99,6 +109,11 @@ List unrated risks beside the heat map instead of placing them in an invented ce
 - Mitigations are options, not directives. Do not phrase them as commands unless the user asked for
   directives.
 - Keep risk wording consistent with the finding notes that produced it.
+- Re-derive every matrix placement during a re-audit. When re-derivation moves a risk's
+  severity, record the band change and the matrix rationale in the Changes section, never
+  silently preserve or adjust a prior rating.
+- Every rated risk occupies exactly one heat-map cell. The union of heat-map cells must equal
+  the register's rated risk set, `UNKNOWN`-rated risks are listed beside the map instead.
 
 ## Example Row
 

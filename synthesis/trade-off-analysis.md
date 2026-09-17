@@ -43,8 +43,8 @@ Consider these axes where the system shows tension:
 
 Present trade-offs as one table. One row per trade-off. Use this fixed column order:
 
-| Trade-off   | Context   | Option A: gain / cost   | Option B: gain / cost   | Evidence   | Implication   |
-|-------------|-----------|-------------------------|-------------------------|------------|---------------|
+| Trade-off | Context | Option A: gain / cost | Option B: gain / cost | Evidence | Implication |
+|-----------|---------|-----------------------|-----------------------|----------|-------------|
 
 When the report language is not English, apply the column header translations from the matching
 `translation/` file.
@@ -67,11 +67,11 @@ A combined report-level Trade-off Analysis holds only cross-project trade-offs. 
 qualifies as cross-project only when the decision was made once and constrains more than one
 project, such as a shared dependency choice or a repository-wide workspace or build decision.
 The same issue type appearing independently in two projects is a repeated per-project finding,
-not a cross-project trade-off — both crates using `unwrap()` in production is the same
+not a cross-project trade-off - both crates using `unwrap()` in production is the same
 per-project finding occurring twice, not a shared decision.
 
 The combined table adds a leading `Project` column. The combined section is always present in a
-multi-project report; when no trade-off qualifies, it carries a single `N/A` row with a
+multi-project report, and when no trade-off qualifies it carries a single `N/A` row with a
 one-line justification.
 
 ## Rules
@@ -90,5 +90,5 @@ one-line justification.
 ## Example
 
 ```text
-| In-memory vs external store | Single-instance prototype, no stated scale | Simplicity / no horizontal scaling | Scaling / added operational surface | State held in process variables, no datastore config | Simpler design fits the stated context; scaling later needs rework |
+| In-memory vs external store | Single-instance prototype, no stated scale | Simplicity / no horizontal scaling | Scaling / added operational surface | State held in process variables, no datastore config | Simpler design fits the stated context, scaling later needs rework |
 ```

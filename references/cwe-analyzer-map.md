@@ -41,7 +41,7 @@ Most are disabled by default and require `.editorconfig` or `AnalysisLevel` conf
 | CWE-611 | XML injection / XXE                      | `CA3009`, `CA3075`, `CA5369`                                          |
 | CWE-78  | Process command injection                | `CA3006`                                                              |
 | CWE-601 | Open redirect                            | `CA3007`                                                              |
-| CWE-502 | Insecure deserialization                 | `CA2300`–`CA2302`, `CA2321`–`CA2335`, `CA5360`, `CA5369`              |
+| CWE-502 | Insecure deserialization                 | `CA2300`-`CA2302`, `CA2321`-`CA2335`, `CA5360`, `CA5369`              |
 | CWE-327 | Broken or risky cryptographic algorithms | `CA5350` (weak), `CA5351` (broken), `CA5358` (cipher mode)            |
 | CWE-295 | Certificate validation disabled          | `CA5359`                                                              |
 | CWE-326 | Weak key or TLS protocol version         | `CA5397`, `CA5398`                                                    |
@@ -63,7 +63,7 @@ The rules below are the ones relevant to common audit findings.
 | CWE-78  | Command injection                     | `G204`                         |
 | CWE-22  | Path traversal                        | `G111`, `G304`, `G305`         |
 | CWE-295 | TLS certificate verification skipped  | `G402`                         |
-| CWE-327 | Blocklisted crypto imports, DES/RC4   | `G405`, `G501`–`G507`          |
+| CWE-327 | Blocklisted crypto imports, DES/RC4   | `G405`, `G501`-`G507`          |
 | CWE-328 | Weak hash (MD5, SHA1, MD4, RIPEMD160) | `G401`, `G406`                 |
 | CWE-330 | Insecure random source                | `G404`                         |
 | CWE-409 | Decompression bomb via `io.Copy`      | `G110`                         |
@@ -122,17 +122,17 @@ The main rule source is
 
 | CWE     | Weakness                               | Bandit Tests                                          |
 |---------|----------------------------------------|-------------------------------------------------------|
-| CWE-78  | Shell / subprocess injection           | `B601`–`B607`                                         |
+| CWE-78  | Shell / subprocess injection           | `B601`-`B607`                                         |
 | CWE-89  | Hardcoded SQL expressions              | `B608`                                                |
 | CWE-502 | Insecure deserialization               | `B301` (pickle), `B506` (yaml.load)                   |
 | CWE-295 | Certificate / host-key verification    | `B501`, `B507`                                        |
-| CWE-327 | Weak hash, cipher, or TLS version      | `B303`, `B304`, `B305`, `B324`, `B413`, `B502`–`B504` |
+| CWE-327 | Weak hash, cipher, or TLS version      | `B303`, `B304`, `B305`, `B324`, `B413`, `B502`-`B504` |
 | CWE-326 | Weak cryptographic key                 | `B505`                                                |
 | CWE-330 | Standard pseudo-random in security use | `B311`                                                |
 | CWE-377 | Insecure temp file                     | `B306`                                                |
 | CWE-22  | Unsafe archive extraction              | `B202`                                                |
-| CWE-798 | Hardcoded password                     | `B105`–`B107`                                         |
-| CWE-611 | XML attacks                            | `B313`–`B320`                                         |
+| CWE-798 | Hardcoded password                     | `B105`-`B107`                                         |
+| CWE-611 | XML attacks                            | `B313`-`B320`                                         |
 
 ## Rust
 

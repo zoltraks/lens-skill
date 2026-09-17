@@ -1,8 +1,8 @@
 # Lens - Software Audit Skill
 
 ```
- /\_/\  
-( o.o ) 
+ /\_/\
+( o.o )
  > ^ <
 ```
 

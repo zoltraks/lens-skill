@@ -140,7 +140,7 @@ Use exactly these five status values for category findings:
 | `PASS`    | Capability is present and supported by clear evidence                 |
 | `PARTIAL` | Capability is partially present, incomplete, or only partly evidenced |
 | `FAIL`    | Capability is absent where it is required, with evidence of absence   |
-| `UNKNOWN` | Evidence is missing; status cannot be determined                      |
+| `UNKNOWN` | Evidence is missing, status cannot be determined                      |
 | `N/A`     | Capability cannot apply to this system's deployment model             |
 
 Use plain-text markers by default, add glyphs only when explicitly requested.
@@ -248,6 +248,23 @@ Format: `REC-[001]`
   one `FND-XXX`.
 - When multiple findings contribute to one risk, list the primary `FND-XXX`.
 - When one finding generates multiple recommendations, create separate `REC-XXX` rows.
+
+**Pillar assignment**
+
+When a finding could belong to more than one pillar, assign it by the recurring cases below
+before defaulting to judgment.
+
+| Finding class                               | Pillar                 |
+|---------------------------------------------|------------------------|
+| Dependency deprecation or health            | Infrastructure & CI/CD |
+| Missing or dead endpoint or route           | Infrastructure & CI/CD |
+| Documentation or contract drift             | AI Provenance & Origin |
+| Broken transport or protocol framing        | Architecture & Design  |
+| Unenforced or absent authorization          | Security & Compliance  |
+| Structural debt, duplication, orphaned code | Architecture & Design  |
+| Error-handling or status-code defects       | Code Quality           |
+
+The pillar records where the fix lives, not where the symptom was noticed.
 
 ## Critical Constraints
 

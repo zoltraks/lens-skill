@@ -125,7 +125,8 @@ Break lines that exceed 100 characters at a natural boundary such as after a com
 not break inside inline code, file paths, or URLs.
 
 Do not use the semicolon character in prose. Join closely related clauses with a comma or split them
-into separate sentences.
+into separate sentences. The prose scope includes sentences, headings, table cells, and list items,
+only code blocks, inline code, and file paths are exempt.
 
 Prefer single-sentence paragraphs. Every sentence in a prose paragraph must be on its own line,
 separated from the next sentence by an empty line.
@@ -167,6 +168,9 @@ Prefer ASCII characters for normal text.
 
 Use the standard ASCII hyphen-minus `-` (U+002D) for all hyphens, dashes, and minus signs. Do not
 use the em dash `—` (U+2014) or en dash `–` (U+2013) anywhere in the report.
+
+Use ASCII `->` for arrows in prose, do not use `→` or other typographic arrows outside code
+blocks.
 
 Box-drawing characters like "│", "├", "└" are allowed in code blocks for directory trees and simple
 diagrams. If a diagram already uses box-drawing characters, keep them. Do not replace box-drawing

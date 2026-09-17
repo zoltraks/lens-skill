@@ -39,9 +39,9 @@ Also evaluate the companion principles:
 
 | Signal                | Where It Appears                                              |
 |-----------------------|---------------------------------------------------------------|
-| SRP                   | Focused classes and modules; absence of god objects           |
+| SRP                   | Focused classes and modules, absence of god objects           |
 | OCP                   | Extension via interfaces, strategies, or plugins              |
-| LSP                   | Subtypes honoring base contracts; no type-checking branches   |
+| LSP                   | Subtypes honoring base contracts, no type-checking branches   |
 | ISP                   | Small, role-specific interfaces                               |
 | DIP                   | Dependencies injected as abstractions, not constructed inline |
 | Cohesion and coupling | Module imports, dependency direction, fan-out                 |

@@ -15,19 +15,23 @@ a previous report happened to include.
 
 ## Mandatory Core Checklist
 
-| Item    | Requirement                                                                                                                     | Governing file                       |
-|---------|---------------------------------------------------------------------------------------------------------------------------------|--------------------------------------|
-| PAR-1   | Every security finding carries a CWE ID, `UNKNOWN`, or a justified `N/A`                                                        | `assessment/security-review.md`      |
-| PAR-2   | The severity table carries a one-line note that severity derives from the impact-likelihood matrix, not CVSS                    | `process/report-format.md`           |
-| PAR-3   | Scoring Rubrics include the ISO/IEC 25010:2023 coverage crosswalk as a mapping, not a conformance claim                         | `synthesis/project-scorecard.md`     |
-| PAR-4   | The Technical Debt Register separates remediation cost from cost of delay per CISQ/SQALE                                        | `synthesis/debt-register.md`         |
-| PAR-5   | The evidence pass ran the `git log` author/commit concentration check and surfaced it as the Team & Continuity line             | `process/report-format.md`           |
-| PAR-6   | A source-only component inventory was produced from the ecosystem's manifest or lockfile                                        | `references/dependency-manifests.md` |
-| PAR-7   | The Limitations and Unknowns section lists every check that would require execution and was not performed                       | `process/report-format.md`           |
-| PAR-8   | The Validation Record self-check table is present and complete                                                                  | `process/report-format.md`           |
-| PAR-9   | Reference standards were re-derived from the per-stack lookup for the detected stack, never copied verbatim from a prior report | `references/stack-standards.md`      |
+| Item  | Requirement                                                                                                                     | Governing file                       |
+|-------|---------------------------------------------------------------------------------------------------------------------------------|--------------------------------------|
+| PAR-1 | Every security finding carries a CWE ID, `UNKNOWN`, or a justified `N/A`                                                        | `assessment/security-review.md`      |
+| PAR-2 | The severity table carries a one-line note that severity derives from the impact-likelihood matrix, not CVSS                    | `process/report-format.md`           |
+| PAR-3 | Scoring Rubrics include the ISO/IEC 25010:2023 coverage crosswalk as a mapping, not a conformance claim                         | `synthesis/project-scorecard.md`     |
+| PAR-4 | The Technical Debt Register separates remediation cost from cost of delay per CISQ/SQALE                                        | `synthesis/debt-register.md`         |
+| PAR-5 | The evidence pass ran the `git log` author/commit concentration check and surfaced it as the Team & Continuity line             | `process/report-format.md`           |
+| PAR-6 | A source-only component inventory was produced from the ecosystem's manifest or lockfile                                        | `references/dependency-manifests.md` |
+| PAR-7 | The Limitations and Unknowns section lists every check that would require execution and was not performed                       | `process/report-format.md`           |
+| PAR-8 | The Validation Record self-check table is present and complete                                                                  | `process/report-format.md`           |
+| PAR-9 | Reference standards were re-derived from the per-stack lookup for the detected stack, never copied verbatim from a prior report | `references/stack-standards.md`      |
 
-PAR-5 may report `NOT COLLECTED` when Git history is unavailable; silence is not acceptable.
+PAR-5 may report `NOT COLLECTED` when Git history is unavailable, silence is not acceptable.
+
+PAR-9 re-derivation means re-selecting references from the current stack lookup for the
+detected stack. Identical output to a prior report is expected when the stack is unchanged,
+the requirement forbids inheriting the list without re-deriving it.
 
 ## Capability Set
 
@@ -57,10 +61,14 @@ Run this gate before marking a report `State: Final`.
 5. When no other report is accessible, record `none found` and gate on the checklist alone.
 6. Record the outcome in the Validation Record, then set `State: Final`.
 
+When the most recent baseline predates the current skill version, the Validation Record names
+which sections were added for parity versus which compare as content. Added structural sections
+are capability differences, not product changes.
+
 ## Applicability And Justification
 
 An item is `N/A` only when genuinely inapplicable to the subject. `N/A` never means "not
-checked" — the check ran and was judged inapplicable.
+checked" - the check ran and was judged inapplicable.
 
 Justifications live in the Validation Record's Evidence / Justification column. Omitted
 conditional sections also appear in Scope Exclusions.
@@ -81,6 +89,6 @@ discovery finds nothing.
 
 - *Run the checklist on every report, including Brief reports.*
 - *A capability in a newer report on a different subject must be applied here or justified as
-  inapplicable — never silently dropped.*
+  inapplicable - never silently dropped.*
 - *A failed gate keeps the report `Draft`.*
-- *The Validation Record is part of the report — its absence fails the gate itself.*
+- *The Validation Record is part of the report - its absence fails the gate itself.*

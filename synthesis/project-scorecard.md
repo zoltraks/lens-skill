@@ -59,7 +59,7 @@ Present this rubric matrix in the report so that scores are objective and reprod
 | Band      | Score Range | Definition                                                   |
 |-----------|-------------|--------------------------------------------------------------|
 | Excellent | 9-10        | Capability is comprehensive and verified by strong evidence  |
-| Good      | 7-8         | Capability is solid overall; minor or noticeable gaps exist  |
+| Good      | 7-8         | Capability is solid overall, minor or noticeable gaps exist  |
 | Average   | 4-6         | Capability is present but uneven, limited, or inconsistent   |
 | Poor      | 1-3         | Capability is minimal, fragmentary, or absent where required |
 

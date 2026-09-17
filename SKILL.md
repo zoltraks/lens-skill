@@ -142,16 +142,16 @@ Before beginning the audit, the agent runs the Parameter Configuration phase def
 The agent MUST ask the user whether to accept the default parameters or configure the core
 parameters. Defaults are:
 
-| Parameter                 | Default                                                                              |
-|---------------------------|--------------------------------------------------------------------------------------|
-| Report delivery           | File if `docs/audit/` or `docs/report/` exists, otherwise Inline (direct response)   |
-| Output location           | Resolved from the audited repository or existing directory                           |
-| Output filename           | `AUDIT.md` or language-specific, `AUDIT-<revision>.md` after a previous report       |
-| Report language           | Match the language of the user's request                                             |
-| Detail level              | Detailed                                                                             |
-| Evaluation scale          | 1-10                                                                                 |
-| Improvement suggestions   | Include with priorities (P1-P4 roadmap)                                              |
-| Trade-off analysis        | Standalone section + embedded into relevant findings                                 |
+| Parameter               | Default                                                                            |
+|-------------------------|------------------------------------------------------------------------------------|
+| Report delivery         | File if `docs/audit/` or `docs/report/` exists, otherwise Inline (direct response) |
+| Output location         | Resolved from the audited repository or existing directory                         |
+| Output filename         | `AUDIT.md` or language-specific, `AUDIT-<revision>.md` after a previous report     |
+| Report language         | Match the language of the user's request                                           |
+| Detail level            | Detailed                                                                           |
+| Evaluation scale        | 1-10                                                                               |
+| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                            |
+| Trade-off analysis      | Standalone section + embedded into relevant findings                               |
 
 The agent MUST ask this question and MUST NOT skip it. The agent MUST wait for user response before
 starting the audit.
@@ -265,7 +265,8 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
 - **`assessment/threat-model.md`** - STRIDE threat enumeration mapped to trust boundaries. Include
   when the system has a security-relevant attack surface.
 - **`assessment/api-contract.md`** - API specification conformance, RFC 9457 error format, and OWASP
-  API Security Top 10 (2023). Include when the system exposes an API.
+  API Security Top 10 (2023). Include when the system defines, exposes, or consumes an API
+  contract.
 - **`assessment/skill-definition.md`** - Agent Skills specification conformance, frontmatter
   validity, progressive disclosure, triggering description quality, and file reference integrity.
   Include when the subject is an Agent Skill (has a `SKILL.md` file).
@@ -313,6 +314,22 @@ intake, assessment, and report writing.
 - **`references/dependency-manifests.md`** - Text-only readers for dependency manifests and
   lockfiles per ecosystem, producing a CycloneDX/SPDX-style source-derived component inventory
   without executing anything.
+- **`references/census-commands.md`** - Canonical counting methods for recurring audit
+  censuses: git history, conditional directives, catch clauses, test inventory, and tracked
+  artifacts. Produces figures a re-audit can reproduce.
+
+## `tools/` - Canonical Scripts
+
+Copy these into the audited repository's `work/` directory under a `.tmp.` name before use, run
+them there, and remove the copies when done. They are report-production tooling, not analysis of
+the audited project.
+
+- **`tools/format-table.py`** - Canonical implementation of the Table Formatting Rules in
+  `process/report-format.md`. Rebuilds every table with aligned pipes and width-plus-two
+  separators, preserving the file's line-ending style.
+- **`tools/validate-report.py`** - Mechanical consistency checker covering the scriptable items
+  of the Pre-Delivery Mechanical Checklist: heading depth, prose punctuation, table separators,
+  FND/RSK/REC cross-references, finding-block fields, and PAR-1..PAR-9 rows.
 
 ## Evidence And Decision Contract
 
