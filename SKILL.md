@@ -109,6 +109,15 @@ Use progressive disclosure:
 
 This skill is self-contained. The topic files below are the available reference material in this repository.
 
+When asked how this skill works, explain that Lens produces structured, evidence-based engineering
+audits of software subjects.
+
+Explain that the user starts it by asking for an audit of a codebase, prototype, production system,
+or proposal.
+
+Mention that advanced analysis and report-format parameters can be refined when explicitly
+specified.
+
 ## Mandatory Reading
 
 Always load these two files before starting an audit:
@@ -120,7 +129,8 @@ Always load these two files before starting an audit:
 
 Before beginning the audit, the agent runs the Parameter Configuration phase defined in `process/audit-workflow.md`.
 
-The agent MUST ask the user whether to accept the default parameters or configure them. Defaults are:
+The agent MUST ask the user whether to accept the default parameters or configure the core
+parameters. Defaults are:
 
 | Parameter               | Default                                                                            |
 |-------------------------|------------------------------------------------------------------------------------|
@@ -128,12 +138,18 @@ The agent MUST ask the user whether to accept the default parameters or configur
 | Output location         | Resolved from the audited repository or existing directory                         |
 | Output filename         | `AUDIT.md` or language-specific, `AUDIT-<version>.md` after a previous report      |
 | Report language         | Match the language of the user's request                                           |
-| Detail level            | Standard                                                                           |
+| Detail level            | Detailed                                                                           |
 | Evaluation scale        | 1-10                                                                               |
 | Improvement suggestions | Include with priorities (P1-P4 roadmap)                                            |
 | Trade-off analysis      | Standalone section + embedded into relevant findings                               |
 
 The agent MUST ask this question and MUST NOT skip it. The agent MUST wait for user response before starting the audit.
+
+Core configuration covers unresolved delivery/output and report-shape choices. Advanced
+parameters use their defaults unless the user explicitly specifies another setting.
+
+Improvement suggestions and trade-off analysis are not separate routine prompts. Apply the
+defaults above unless the user explicitly requests a different setting.
 
 Output location is resolved from the audited repository or existing directory: `docs/audit/` > `docs/report/` > `docs/` > root (used if File mode selected).
 
@@ -145,7 +161,9 @@ writing.
 
 If the user accepts defaults or says "bypass", the agent proceeds immediately using these values.
 
-If the user chooses to configure, the agent walks through the parameters one at a time. At each prompt, the user may say "bypass" to accept all remaining defaults and proceed.
+If the user chooses to configure, the agent asks only the unresolved core parameter questions
+defined in `process/audit-workflow.md`. At each prompt, the user may say "bypass" to accept all
+remaining defaults and proceed.
 
 When the report language is not English, load the matching `translation/` file and apply every translation, style rule, and encoding requirement defined there. The default filename changes to the language-specific filename defined in the translation file.
 
@@ -212,7 +230,8 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
 ## `synthesis/` - Findings And Report Assembly
 
 - **`synthesis/risk-register.md`** - Unified risk register with bidirectional cross-referencing to findings (`RSK-[001]` mapping to `FND-XXX`).
-- **`synthesis/project-scorecard.md`** - The 1-10 project scorecard, dimensions, and scoring rubric (1-5 optional).
+- **`synthesis/project-scorecard.md`** - The 1-10 project scorecard, dimensions, and scoring
+  rubric (1-5, 1-3, 5 stars, and 3 stars options).
 - **`synthesis/trade-off-analysis.md`** - Surfacing engineering trade-offs in a standalone section and embedded into findings.
 - **`synthesis/remediation-roadmap.md`** - Actionable remediation roadmap with prioritized impact-vs-effort matrix and verification steps.
 - **`synthesis/debt-register.md`** - Formal technical debt inventory (`TDR-[001]`) using CISQ and SQALE cost model. Conditional: include when structural debt distinct from risks is surfaced.

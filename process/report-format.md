@@ -15,36 +15,36 @@ Keep every section even when content is `UNKNOWN`. A present-but-empty section s
 
 | Section                                     | Line | What it covers                                       |
 |---------------------------------------------|------|------------------------------------------------------|
-| Formatting Rules                            | 48   | Formatting Rules guidance                            |
-| Report Delivery And Parameter Configuration | 151  | Report Delivery And Parameter Configuration guidance |
-| Detail Level Configuration                  | 163  | Detail Level Configuration guidance                  |
-| Conditional Sections                        | 230  | Conditional Sections guidance                        |
-| Section Order                               | 256  | Section Order guidance                               |
-| Document Information                        | 316  | Document Information guidance                        |
-| Multi-Project Report Structure              | 377  | Multi-Project Report Structure guidance              |
-| Technology Stack                            | 428  | Technology Stack guidance                            |
-| Executive Summary                           | 448  | Executive Summary guidance                           |
-| Health Dashboard                            | 509  | Health Dashboard guidance                            |
-| High-Level Observations                     | 569  | High-Level Observations guidance                     |
-| Auditing Methodology                        | 585  | Auditing Methodology guidance                        |
-| Scoring Rubrics                             | 699  | Scoring Rubrics guidance                             |
-| System Context                              | 741  | System Context guidance                              |
-| Architectural Assessment                    | 775  | Architectural Assessment guidance                    |
-| Threat Model                                | 873  | Threat Model guidance                                |
-| API Contract Conformance                    | 894  | API Contract Conformance guidance                    |
-| Skill Definition Conformance                | 910  | Skill Definition Conformance guidance                |
-| Standards Conformance                       | 930  | Standards Conformance guidance                       |
-| API Compatibility & Versioning Discipline   | 975  | API Compatibility guidance                           |
-| Strengths & What's Working                  | 996  | Strengths & What's Working guidance                  |
-| Detailed Technical Findings                 | 1021 | Detailed Technical Findings guidance                 |
-| Technical Debt Register                     | 1102 | Technical Debt Register guidance                     |
-| Unified Risk Register                       | 1137 | Unified Risk Register guidance                       |
-| Trade-off Analysis                          | 1212 | Trade-off Analysis guidance                          |
-| Actionable Remediation Roadmap              | 1241 | Actionable Remediation Roadmap guidance              |
-| Changes Since Previous Audit                | 1297 | Changes Since Previous Audit guidance                |
-| Scope Exclusions                            | 1357 | Scope Exclusions guidance                            |
-| Re-audit and Follow-up Plan                 | 1404 | Re-audit and Follow-up Plan guidance                 |
-| References                                  | 1430 | References guidance                                  |
+| Formatting Rules                            | 49   | Formatting Rules guidance                            |
+| Report Delivery And Parameter Configuration | 160  | Report Delivery And Parameter Configuration guidance |
+| Detail Level Configuration                  | 198  | Detail Level Configuration guidance                  |
+| Conditional Sections                        | 268  | Conditional Sections guidance                        |
+| Section Order                               | 294  | Section Order guidance                               |
+| Document Information                        | 354  | Document Information guidance                        |
+| Multi-Project Report Structure              | 415  | Multi-Project Report Structure guidance              |
+| Technology Stack                            | 466  | Technology Stack guidance                            |
+| Executive Summary                           | 486  | Executive Summary guidance                           |
+| Health Dashboard                            | 551  | Health Dashboard guidance                            |
+| High-Level Observations                     | 615  | High-Level Observations guidance                     |
+| Auditing Methodology                        | 631  | Auditing Methodology guidance                        |
+| Scoring Rubrics                             | 745  | Scoring Rubrics guidance                             |
+| System Context                              | 804  | System Context guidance                              |
+| Architectural Assessment                    | 838  | Architectural Assessment guidance                    |
+| Threat Model                                | 936  | Threat Model guidance                                |
+| API Contract Conformance                    | 957  | API Contract Conformance guidance                    |
+| Skill Definition Conformance                | 973  | Skill Definition Conformance guidance                |
+| Standards Conformance                       | 993  | Standards Conformance guidance                       |
+| API Compatibility & Versioning Discipline   | 1038 | API Compatibility guidance                           |
+| Strengths & What's Working                  | 1059 | Strengths & What's Working guidance                  |
+| Detailed Technical Findings                 | 1084 | Detailed Technical Findings guidance                 |
+| Technical Debt Register                     | 1165 | Technical Debt Register guidance                     |
+| Unified Risk Register                       | 1200 | Unified Risk Register guidance                       |
+| Trade-off Analysis                          | 1275 | Trade-off Analysis guidance                          |
+| Actionable Remediation Roadmap              | 1304 | Actionable Remediation Roadmap guidance              |
+| Changes Since Previous Audit                | 1360 | Changes Since Previous Audit guidance                |
+| Scope Exclusions                            | 1420 | Scope Exclusions guidance                            |
+| Re-audit and Follow-up Plan                 | 1467 | Re-audit and Follow-up Plan guidance                 |
+| References                                  | 1493 | References guidance                                  |
 
 ## Formatting Rules
 
@@ -141,6 +141,14 @@ Example for scorecard dimension:
 The repository contains multiple plaintext secrets in tracked files.
 ```
 
+When `5 stars` is selected, the same dimension uses a five-position star bar:
+
+```markdown
+**Security** Score: `★★☆☆☆`
+
+The repository contains multiple plaintext secrets in tracked files.
+```
+
 **Hyphen rule**
 
 Use the standard ASCII hyphen-minus `-` (U+002D) for all hyphens, dashes, and minus signs. Do not use the em dash `—` (U+2014) or en dash `–` (U+2013) anywhere in the report.
@@ -151,19 +159,48 @@ Do not add a closing line such as "End of audit report." or "---" at the end of 
 
 ## Report Delivery And Parameter Configuration
 
-Report delivery is determined during the Parameter Configuration phase in `process/audit-workflow.md`. Do not ask delivery questions here, they are handled upstream.
+Report delivery and output-file selection are determined during the Parameter Configuration
+phase in `process/audit-workflow.md`. Do not ask delivery questions here, they are handled
+upstream.
 
-When the user names an output file in the original request, for example "write the audit to AUDIT.md", honor that filename without asking again, resolve the output directory using the location rules in `process/audit-workflow.md` unless a full path was given.
+The delivery question presents `Inline`, each applicable concrete file path, and
+`Custom report file` in one prompt. Selecting a file path chooses both delivery and output
+location.
 
-When the user invokes an audit without naming an output file, for example "perform lens on this service" or "make audit report on the codebase", the Parameter Configuration phase determines delivery, output location, and filename.
+When the user names an output file in the original request, for example "write the audit to
+AUDIT.md", honor that filename without asking again. Resolve the output directory using the
+location rules in `process/audit-workflow.md` unless a full path was given.
 
-Default delivery is **File** when `docs/audit/` or `docs/report/` exists in the audited repository or directory, otherwise **Inline** (direct response). When File mode is selected, the output location is resolved by inspecting the audited repository or directory in this order: `docs/audit/` first, then `docs/report/`, then `docs/`, then the root. When `docs/audit/` or `docs/report/` contains subdirectories named with version numbers and the project version can be determined, the default output directory becomes `docs/audit/<version>` or `docs/report/<version>`. When `docs/audit/` or `docs/report/` contains subdirectories named with dates in ISO `YYYY-MM-DD` format, the default output directory becomes `docs/audit/<current-date>` or `docs/report/<current-date>` using the current date in the same format. The final output location must fit the existing directory structure. When the resolved base is `docs/audit/` or `docs/report/` and no such subdirectory pattern exists, the agent also offers a version-numbered and a date-named subdirectory as additional choices at the output prompt, for example `docs/audit/<version>/AUDIT.md` and `docs/audit/<current-date>/AUDIT.md`. The default filename within that location is **AUDIT.md** for English reports, or the language-specific filename defined in the matching `translation/` file for non-English reports, adjusted for any naming convention already present in the resolved directory. When a previous audit report exists, the default filename carries the new version, for example `AUDIT-1.1.md`, and the previous file is never overwritten. The agent presents the resolved default to the user and asks for confirmation or a custom path before writing.
+When the user states only a File preference without naming a path, ask the same question with
+`Inline` omitted. Retain the applicable file-location and `Custom report file` options.
 
-For a single-dimension request that produces only a short subsection, returning the result inline is acceptable without asking, unless the user asked for a file.
+When the user invokes an audit without naming an output file, the Parameter Configuration phase
+resolves the output base and offers the applicable file paths in the delivery question.
+
+Default delivery is **File** when `docs/audit/` or `docs/report/` exists in the audited
+repository or directory, otherwise **Inline**. When File is selected, resolve the output
+location in this order: `docs/audit/`, then `docs/report/`, then `docs/`, then the root.
+
+An existing version-numbered subdirectory pattern produces a path such as
+`docs/report/<version>/AUDIT.md`. An existing date-named pattern produces a path such as
+`docs/report/<current-date>/AUDIT.md`. When no pattern exists, the question offers the base path
+plus version-numbered and date-named alternatives under `docs/audit/` or `docs/report/`.
+
+The default filename is `AUDIT.md` for English reports, or the language-specific filename from
+the matching `translation/` file. When a previous audit report exists, the filename carries the
+new version, for example `AUDIT-2.0.md`, and the previous file is never overwritten.
+
+`Custom report file` asks the user to specify the location and filename before writing.
+
+For a single-dimension request that produces only a short subsection, returning the result
+inline is acceptable without asking, unless the user asked for a file.
 
 ## Detail Level Configuration
 
 The report adapts to the detail level chosen during Parameter Configuration.
+
+The default detail level is `Detailed`. `Standard` and `Brief` remain available when the user
+selects them during configuration or explicitly requests them.
 
 **Standard**
 
@@ -452,15 +489,19 @@ Provide a compact overview a reader can absorb without the detail sections.
 
 Use a key-value table:
 
-| Field          | Value                                                        |
-|----------------|--------------------------------------------------------------|
-| System type    | <prototype / codebase / production system / proposal>        |
-| Scope          | <what was reviewed and what was excluded>                    |
-| Source basis   | <running system / inspected code / description>              |
-| Maturity level | <maturity level>                                             |
-| Overall score  | <mean>/<scale> (<band>), lowest: <dimension> <score>/<scale> |
+| Field          | Value                                                 |
+|----------------|-------------------------------------------------------|
+| System type    | <prototype / codebase / production system / proposal> |
+| Scope          | <what was reviewed and what was excluded>             |
+| Source basis   | <running system / inspected code / description>       |
+| Maturity level | <maturity level>                                      |
+| Overall score  | <score display>, lowest: <dimension> <score display>  |
 
 Maturity level is one of: `Prototype`, `Early development`, `Pre-production`, `Production-ready`, or `Undetermined`.
+
+For numeric scales, use `<mean>/<scale> (<band>)` and `<score>/<scale>`. For `5 stars` or
+`3 stars`, use the rounded star bar followed by the exact mean in parentheses, for example
+`★★★☆☆ (3.4/5)` and `lowest: Security ★★☆☆☆`.
 
 The Overall score row always pairs the unweighted mean with the lowest-scoring applicable
 dimension and its score, so a weak pillar is never hidden inside the average. Exclude `N/A` and
@@ -553,6 +594,10 @@ Provide a compact summary of the project scorecard dimensions:
 
 The API Compatibility dimension is `N/A` unless the subject is a reusable library or package,
 per `assessment/api-compatibility.md`.
+
+Render each Score cell in the selected evaluation scale: `7/10` for `1-10`, `4/5` for `1-5`,
+`2/3` for `1-3`, `★★★★☆` for `5 stars`, and `★★☆` for `3 stars`. Render `UNKNOWN` and `N/A`
+as text, not as star bars.
 
 When the report language is not English, apply the translations from the matching `translation/` file.
 
@@ -705,9 +750,10 @@ The earlier dashboard summarizes these scores and should reference this rubric.
 
 **Scoring rubric**
 
-Present the rubric matrix that defines what constitutes each score band. Use the default 1-10 scale unless the user requested the 1-5 alternative.
+Present the rubric matrix that defines what constitutes each score band. Use the default `1-10`
+scale unless the user requested `1-5`, `1-3`, `5 stars`, or `3 stars`.
 
-For the 1-10 scale:
+For the `1-10` scale:
 
 | Band      | Score Range | Definition                                                   |
 |-----------|-------------|--------------------------------------------------------------|
@@ -716,9 +762,10 @@ For the 1-10 scale:
 | Average   | 4-6         | Capability is present but uneven, limited, or inconsistent   |
 | Poor      | 1-3         | Capability is minimal, fragmentary, or absent where required |
 
-When the report language is not English, apply the band name and definition translations from the matching `translation/` file.
+When the report language is not English, apply the band name and definition translations from
+the matching `translation/` file.
 
-For the 1-5 alternative scale:
+For the `1-5` and `5 stars` scales:
 
 | Band      | Score Range | Definition                                                  |
 |-----------|-------------|-------------------------------------------------------------|
@@ -727,13 +774,28 @@ For the 1-5 alternative scale:
 | Average   | 3           | Capability is adequate but uneven                           |
 | Poor      | 1-2         | Capability is minimal, limited, or absent where required    |
 
-When the report language is not English, apply the same band translations from the matching `translation/` file.
+For the `1-3` and `3 stars` scales:
 
-**Zero is not a score.** The value `0` is reserved and never used. When a dimension cannot apply, mark it `N/A`.
+| Band      | Score | Definition                                                  |
+|-----------|-------|-------------------------------------------------------------|
+| Excellent | 3     | Capability is comprehensive and verified by strong evidence |
+| Average   | 2     | Capability is adequate but uneven                           |
+| Poor      | 1     | Capability is minimal, limited, or absent where required    |
+
+When the report language is not English, apply the same band translations from the matching
+`translation/` file.
+
+For `5 stars`, render each score as a five-position star bar using `★` for filled positions and
+`☆` for empty positions, such as `★★★☆☆` for `3`. For `3 stars`, use three positions, such as
+`★★☆` for `2`. Render `UNKNOWN` and `N/A` as text, not as star bars.
+
+**Zero is not a score.** The value `0` is reserved and never used. When a dimension cannot
+apply, mark it `N/A`.
 
 Apply the ISO/IEC 25010:2023 crosswalk in `synthesis/project-scorecard.md` and show coverage gaps.
 
-For every numeric score, include evidence references and confidence in its supporting paragraph.
+For every numeric or star score, include evidence references and confidence in its supporting
+paragraph.
 
 If an overall score is shown, disclose its formula, weights, rounding, and coverage denominator.
 State the lowest-scoring applicable dimension and its score alongside the mean, per
@@ -967,7 +1029,7 @@ Evaluate whether the documented standards are consistent with established good p
 
 | Area   | Standards Position             | External Best Practice  | Alignment                              |
 |--------|--------------------------------|-------------------------|----------------------------------------|
-| <area> | <what the standards prescribe> | <named external source> | Aligned / Partially aligned / Diverges |
+| <area> | <what the standards prescribe> | <named external source> | Aligned / Partially / Diverges         |
 
 When the report language is not English, apply the column header translations from the matching `translation/` file.
 

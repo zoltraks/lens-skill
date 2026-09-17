@@ -2,8 +2,9 @@
 
 ## Purpose
 
-> **Scope:** The 1-10 project scorecard, dimensions, scoring rubric, with an optional 1-5 scale
-> **Key items:** fixed dimensions, integer scores, evidence per score, unknown handling
+> **Scope:** The 1-10 project scorecard, dimensions, scoring rubric, with optional 1-5, 1-3, and
+> star-bar scales
+> **Key items:** fixed dimensions, integer scores, star bars, evidence per score, unknown handling
 
 This file defines the comparative project scorecard. It appears in the report under the heading "Project Scorecard". Derive each score from the matching `assessment/` findings.
 
@@ -41,9 +42,12 @@ When the report language is not English, apply the column header and dimension n
 
 ## Scoring Rubric
 
-The default scale is integers from `1` to `10`. When the user explicitly requests a `1-5` scale, use the Alternative Rubric below.
+The default scale is integers from `1` to `10`. Explicit alternatives are `1-5`, `1-3`,
+`5 stars`, and `3 stars`. Star scales use the matching numeric rubric and render the score as a
+star bar.
 
-**Zero is not a score.** The value `0` is reserved and never used as a rated score in either scale. When a dimension cannot apply, mark it `N/A` rather than assigning a numeric value.
+**Zero is not a score.** The value `0` is reserved and never used as a rated score in any scale.
+When a dimension cannot apply, mark it `N/A` rather than assigning a numeric value.
 
 ### Quantitative Band Definitions (1-10)
 
@@ -77,7 +81,7 @@ When the report language is not English, apply the header and per-score descript
 
 ### Alternative Rubric (1-5)
 
-Use this scale only when explicitly requested.
+Use this scale when the user selects `1-5` or `5 stars`.
 
 | Band      | Score Range | Definition                                                  |
 |-----------|-------------|-------------------------------------------------------------|
@@ -97,6 +101,40 @@ When the report language is not English, apply the same band translations from t
 | 1     | Capability is absent where required, with evidence of absence |
 
 When the report language is not English, apply the header and description translations from the matching `translation/` file.
+
+### Compact Rubric (1-3)
+
+Use this scale when the user selects `1-3` or `3 stars`.
+
+| Band      | Score | Definition                                                  |
+|-----------|-------|-------------------------------------------------------------|
+| Excellent | 3     | Capability is comprehensive and verified by strong evidence |
+| Average   | 2     | Capability is adequate but uneven                           |
+| Poor      | 1     | Capability is minimal, limited, or absent where required    |
+
+| Score | Meaning                                                       |
+|-------|---------------------------------------------------------------|
+| 3     | Capability is comprehensive and verified by strong evidence   |
+| 2     | Capability is adequate but uneven                             |
+| 1     | Capability is absent where required, with evidence of absence |
+
+When the report language is not English, apply the same band and description translations from
+the matching `translation/` file.
+
+### Star Display
+
+Use `★` for each filled position and `☆` for each empty position.
+
+For `5 stars`, use the `1-5` rubric and five positions. Examples: `★★★★★` for `5`,
+`★★★☆☆` for `3`, and `★☆☆☆☆` for `1`.
+
+For `3 stars`, use the `1-3` rubric and three positions. Examples: `★★★` for `3`, `★★☆` for
+`2`, and `★☆☆` for `1`.
+
+Render `UNKNOWN` and `N/A` as text, not as star bars.
+
+For an overall mean under a star scale, round to the nearest integer for the star bar and keep
+the exact mean in parentheses, for example `★★★☆☆ (3.4/5)`.
 
 ## Handling Unknowns
 
@@ -184,9 +222,11 @@ If an overall score is requested, state the aggregation formula, weights, roundi
 versus applicable dimensions, excluding `UNKNOWN` and `N/A` from the numeric denominator.
 
 Always pair the mean with the floor: name the lowest-scoring applicable dimension and its score,
-for example "Overall 5.8/10 (Average), lowest dimension: Security at 4/10". When several
-dimensions tie for the lowest score, name them all. The floor appears wherever the overall
-score appears, including the Executive Summary and the Health Dashboard.
+for example "Overall 5.8/10 (Average), lowest dimension: Security at 4/10". Under `5 stars` or
+`3 stars`, render both values as star bars while keeping the exact mean in parentheses, for
+example "Overall ★★★☆☆ (3.4/5), lowest dimension: Security ★★☆☆☆". When several dimensions
+tie for the lowest score, name them all. The floor appears wherever the overall score appears,
+including the Executive Summary and the Health Dashboard.
 
 In a multi-project report, state the floor per project. Do not collapse unrelated projects into
 one aggregate.

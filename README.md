@@ -29,6 +29,10 @@ appear only when the subject warrants them.
 Every section uses a hybrid table-paragraph format for scannable summaries backed by detailed
 evidence.
 
+When asked how the skill works, explain that Lens is for evidence-based engineering audits, that
+the user invokes it by naming the software subject and desired audit, and that advanced analysis
+and report-format parameters can be refined when explicitly specified.
+
 ---
 
 ## What the skill does
@@ -41,7 +45,10 @@ Code, configuration, documentation, logs, and prior reports. It identifies the a
 
 **Configures parameters**
 
-Asks whether to accept default parameters (report delivery, detail level, evaluation scale, improvement suggestions) or configure them individually. The user may bypass at any stage to proceed with defaults.
+Asks whether to accept default parameters or configure the core report parameters. Detail level
+defaults to `Detailed`, improvement suggestions default to a prioritized roadmap, and trade-off
+analysis defaults to a standalone section with embedded reasoning. Advanced parameters can still
+be changed when explicitly specified.
 
 **Defines scope explicitly**
 
@@ -59,7 +66,9 @@ Testing, design principles, code quality, stack best practices, dependencies, de
 
 **Synthesizes findings**
 
-Builds a unified risk register with bidirectional cross-referencing to findings, a 1-10 scorecard from category findings (1-5 available on request), and an actionable remediation roadmap with prioritized impact-vs-effort tracking.
+Builds a unified risk register with bidirectional cross-referencing to findings, a 1-10
+scorecard from category findings, and an actionable remediation roadmap with prioritized
+impact-vs-effort tracking. Optional scales are `1-5`, `1-3`, `5 stars`, and `3 stars`.
 
 **Produces a validated report**
 
@@ -140,7 +149,9 @@ The skill uses a hybrid table-paragraph format throughout:
 - **Finding IDs** are shown as `FND-[PILLAR]-[001]` in the detailed findings section.
 - **Risk IDs** are shown as `RSK-[001]` and cross-referenced to source findings.
 - **Recommendation IDs** are shown as `REC-[001]` and traced to specific findings.
-- **Scores** in the scorecard are shown as `Score: 7/10` inline after the dimension name (or `Score: X/5` when the 1-5 scale is selected).
+- **Scores** in the scorecard are shown as `Score: 7/10` inline after the dimension name.
+  `1-5` and `1-3` use `Score: X/5` or `Score: X/3`, while star scales use bars such as
+  `Score: ★★★★☆` or `Score: ★★☆`.
 - **Severities** are shown as `SEVERITY: CRITICAL` inline after the finding title.
 - **High-Level Observations** provide a fast-skim path for non-technical readers.
 - **Strengths & What's Working** balances the tone with 5-8 acknowledged positives.
@@ -177,10 +188,12 @@ This format keeps the report readable in plain-text consoles while preserving de
 > Audit this production codebase. Produce a full engineering assessment with a unified risk register, scorecard, and actionable remediation roadmap.
 
 **Audit to a file**
-> Perform lens on this service and write the audit report to AUDIT.md. (The agent will accept the filename and ask whether to accept other defaults or configure parameters.)
+> Perform lens on this service and write the audit report to AUDIT.md. (The agent will accept
+> the filename and ask whether to accept other defaults or configure core parameters.)
 
 **Audit without a named file**
-> Make audit report on this codebase. (The agent will ask whether to accept default parameters or configure them, then whether to reply inline or write to a file.)
+> Make audit report on this codebase. (The agent will ask whether to accept default parameters or
+> configure core parameters, then offer inline, concrete file-location, and custom-file choices.)
 
 **Readiness assessment**
 > Is this system production-ready? Assess testing, deployment, rollback, observability, and operational readiness, and state the maturity level with evidence.
@@ -254,7 +267,7 @@ lens-skill/
 │   └── api-compatibility.md       # (conditional) API compat gates, versioning, breaking-change tracking
 ├── synthesis/
 │   ├── risk-register.md           # Unified risk register with FND cross-referencing
-│   ├── project-scorecard.md      # 1-10 project scorecard and rubric (1-5 optional)
+│   ├── project-scorecard.md      # Project scorecard, rubric, and scale display rules
 │   ├── trade-off-analysis.md      # Engineering trade-offs in standalone table and embedded findings
 │   ├── remediation-roadmap.md     # Actionable remediation roadmap with priority matrix
 │   ├── debt-register.md           # (conditional) TDR inventory with CISQ/SQALE cost model

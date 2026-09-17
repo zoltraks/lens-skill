@@ -14,11 +14,11 @@ For a single-dimension request, run the same steps but limit the assessment phas
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 23   | Step Overview guidance           |
-| Intake Checklist        | 518  | Intake Checklist guidance        |
-| Handling Thin Input     | 533  | Handling Thin Input guidance     |
-| Single-Dimension Audits | 543  | Single-Dimension Audits guidance |
-| Re-Audit                | 552  | Re-Audit guidance                |
-| Multi-Project Audits    | 568  | Multi-Project Audits guidance    |
+| Intake Checklist        | 582  | Intake Checklist guidance        |
+| Handling Thin Input     | 597  | Handling Thin Input guidance     |
+| Single-Dimension Audits | 607  | Single-Dimension Audits guidance |
+| Re-Audit                | 616  | Re-Audit guidance                |
+| Multi-Project Audits    | 632  | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -107,7 +107,8 @@ If no previous report is found and the conversation context contains no record o
 
 **Parameter Configuration**
 
-Before beginning the audit, ask the user whether to accept the default parameters or configure them. Present the defaults in a compact summary.
+Before beginning the audit, ask the user whether to accept the default parameters or configure the
+core parameters. Present the defaults in a compact summary.
 
 Default parameters:
 
@@ -116,7 +117,7 @@ Default parameters:
 | Report delivery         | File if `docs/audit/` or `docs/report/` exists, otherwise Inline (direct response) |
 | Output filename         | `AUDIT.md` or language-specific, `AUDIT-<version>.md` after a previous report      |
 | Report language         | Match the language of the user's request                                           |
-| Detail level            | Standard                                                                           |
+| Detail level            | Detailed                                                                           |
 | Evaluation scale        | 1-10                                                                               |
 | Improvement suggestions | Include with priorities (P1-P4 roadmap)                                            |
 | Trade-off analysis      | Standalone section + embedded into relevant findings                               |
@@ -128,57 +129,102 @@ matching `translation/` file. When a previous report exists, the filename carrie
 version, for example `AUDIT-1.1.md`, per `synthesis/report-comparison.md`. Used only when
 delivery is File.
 
-If the user accepts defaults or says "bypass", "defaults", or equivalent, proceed immediately to Scope Definition using the values above.
+Improvement suggestions and trade-off analysis are advanced parameters. Apply their defaults
+unless the user explicitly specifies another setting.
 
-If the user chooses to configure, walk through the parameters one at a time. At each prompt, offer a bypass option to accept the remaining defaults and proceed.
+If the user accepts defaults or says "bypass", "defaults", or equivalent, proceed immediately to
+Scope Definition using the values above.
+
+If the user chooses to configure, ask only the unresolved core parameter prompts in this order:
+delivery and output file, detail level, and evaluation scale.
+At each prompt, offer a bypass option to accept the remaining defaults and proceed.
 
 **Parameter prompts**
 
-Present each prompt as a single question with clear options. After each answer, confirm the choice and move to the next parameter.
+Present each prompt as a single question with clear options. After each answer, confirm the
+choice and move to the next parameter.
 
-**Report delivery**
+Routine prompts are limited to delivery and output file, detail level, and evaluation scale.
+Report language follows the request language unless the user explicitly specifies another
+language. Advanced parameters use their defaults unless explicitly specified.
 
-The default delivery mode depends on the audited repository or directory structure:
+**Delivery and output file**
 
-- If `docs/audit/` or `docs/report/` exists, the default is **File** - write the report to a file inside the audited repository or directory.
-- If neither `docs/audit/` nor `docs/report/` exists, the default is **Inline** - return the full report as the direct response.
-
-Ask: "How should the report be delivered?"
-
-- File (default when `docs/audit/` or `docs/report/` exists) - write the report to a file inside the audited repository or directory.
-- Inline (default when neither `docs/audit/` nor `docs/report/` exists) - return the full report as the direct response.
-
-When File mode is selected (either by default or by user choice), resolve the output location using the following rules, applied in order against the root of the repository or directory being audited:
+Before asking, resolve the base output directory using the following rules, applied in order
+against the root of the repository or directory being audited:
 
 1. If `docs/audit/` exists, use it as the base output directory.
 2. Else if `docs/report/` exists, use it as the base output directory.
 3. Else if `docs/` exists, use it as the base output directory.
 4. Otherwise use the root of the audited repository or directory as the base output directory.
 
-After selecting the base output directory, check whether it contains subdirectories that indicate an existing structure. Inspect the subdirectory names to determine the pattern:
+After selecting the base output directory, check whether it contains subdirectories that
+indicate an existing structure. Inspect the subdirectory names to determine the pattern:
 
-- **Version-numbered subdirectories**: If the base directory contains subdirectories named with version numbers (for example, `1.0.1`, `0.5.0`, `2.3.1`) and the project version can be determined from its manifest or configuration, then the default output directory becomes `<base>/<version>` using the current project version. For example, if `docs/audit/1.0.1` exists and the project version is `1.2.3`, the suggested directory is `docs/audit/1.2.3`.
+- **Version-numbered subdirectories**: If the base directory contains subdirectories named with
+  version numbers, such as `1.0.1`, `0.5.0`, or `2.3.1`, and the project version can be
+  determined from its manifest or configuration, then the resolved output directory becomes
+  `<base>/<version>` using the current project version. For example, if `docs/audit/1.0.1`
+  exists and the project version is `1.2.3`, the suggested directory is `docs/audit/1.2.3`.
 
-- **Date-named subdirectories**: If the base directory contains subdirectories named with dates in ISO `YYYY-MM-DD` format (for example, `2026-01-02`, `2026-04-06`), then the default output directory becomes `<base>/<current-date>` using the current date in the same ISO format. For example, if `docs/report/2026-04-06` exists and the current date is `2026-09-15`, the suggested directory is `docs/report/2026-09-15`.
+- **Date-named subdirectories**: If the base directory contains subdirectories named with dates
+  in ISO `YYYY-MM-DD` format, such as `2026-01-02` or `2026-04-06`, then the resolved output
+  directory becomes `<base>/<current-date>` using the current date in the same ISO format. For
+  example, if `docs/report/2026-04-06` exists and the current date is `2026-09-15`, the
+  suggested directory is `docs/report/2026-09-15`.
 
-- **No subdirectory pattern**: If the base directory has no version-numbered or date-named subdirectories, use the base directory directly as the default output directory. When the base is `docs/audit/` or `docs/report/`, offer the two structured alternatives at the location prompt below.
+- **No subdirectory pattern**: If the base directory has no version-numbered or date-named
+  subdirectories, use the base directory directly as the resolved output directory. When the
+  base is `docs/audit/` or `docs/report/`, offer the two structured alternatives in the delivery
+  question.
 
-The final output location must fit the existing directory structure. Do not mix patterns: if the existing structure uses version numbers, use a version subdirectory, if it uses dates, use a date subdirectory.
+The final output location must fit the existing directory structure. Do not mix patterns: if the
+existing structure uses version numbers, use a version subdirectory, if it uses dates, use a
+date subdirectory.
 
-When multiple projects are present and each has a different version, resolve the output directory once using the repository root. The single combined report is written to one location. Do not create per-project subdirectories unless the user explicitly requests separate files per project.
+When multiple projects are present and each has a different version, resolve the output
+directory once using the repository root. The single combined report is written to one location.
+Do not create per-project subdirectories unless the user explicitly requests separate files per
+project.
 
-Present the resolved default location to the user and ask: "Where should the file be written, and what should it be named?"
+Resolve the filename before asking. Use `AUDIT.md` for English reports, or the language-specific
+filename from the matching `translation/` file for non-English reports. When a previous report
+exists, use the incremented filename defined in `synthesis/report-comparison.md`.
 
-- Default location - accept the resolved directory and the language-appropriate default filename (`AUDIT.md` for English reports, or the filename defined in the matching `translation/` file for non-English reports), adjusted for any naming convention found in the resolved directory.
-- Version subdirectory - offered only when the resolved base is `docs/audit/` or `docs/report/`, no existing subdirectory pattern is present, and the project version can be determined from its manifest or configuration. Write to `<base>/<version>/<filename>`, for example `docs/audit/1.2.3/AUDIT.md`.
-- Date subdirectory - offered only when the resolved base is `docs/audit/` or `docs/report/` and no existing subdirectory pattern is present. Write to `<base>/<current-date>/<filename>` using the ISO `YYYY-MM-DD` format, for example `docs/audit/2026-09-16/AUDIT.md`.
-- Custom path - the user may supply a path relative to the audited repository or directory root (e.g. `reports/2026-06-audit.md`).
+Ask: "How should the report be delivered?"
 
-Choosing a subdirectory option creates the subdirectory inside the base directory. Subsequent audits then follow the established pattern per the rules above.
+Present each applicable option as a concrete choice:
 
-Always place the file inside the audited repository or directory. Do not write to an absolute path outside it unless the user explicitly provides one.
+- `Inline` - return the full report as the direct response. This is the default when neither
+  `docs/audit/` nor `docs/report/` exists.
+- `File - <resolved-path>` - write the report to the resolved path. This is the default when
+  `docs/audit/` or `docs/report/` exists.
+- `File - <base>/<version>/<filename>` - file location using the project version. Offer this
+  only when the base is `docs/audit/` or `docs/report/`, no existing subdirectory pattern is
+  present, and the project version can be determined. For example,
+  `docs/report/<version>/AUDIT.md`.
+- `File - <base>/<current-date>/<filename>` - file location using the ISO `YYYY-MM-DD` current
+  date. Offer this only when the base is `docs/audit/` or `docs/report/` and no existing
+  subdirectory pattern is present. For example, `docs/report/<date>/AUDIT-2.0.md` when the next
+  report version is `2.0`.
+- `Custom report file` - ask the user to specify the location and filename.
 
-If the user already named a file or stated a delivery preference in the original request, honor it without asking again, still resolve the output directory using the rules above unless a full path was given.
+For example, when `docs/report/` exists with no subdirectory pattern, the question can offer
+`docs/report/AUDIT.md`, `docs/report/<version>/AUDIT.md`, and
+`docs/report/<date>/AUDIT-2.0.md` alongside `Inline` and `Custom report file`.
+
+Choosing a subdirectory option creates the subdirectory inside the base directory. Subsequent
+audits then follow the established pattern per the rules above.
+
+Always place the file inside the audited repository or directory. Do not write to an absolute
+path outside it unless the user explicitly provides one.
+
+If the user already named a file or stated an Inline preference in the original request, honor
+it without asking again. Resolve the output directory using the rules above unless a full path
+was given.
+
+If the user stated only a File preference without a path, ask the same delivery question with
+`Inline` omitted and the applicable file-location and `Custom report file` options retained.
 
 **Previous report files**
 
@@ -196,40 +242,58 @@ in `synthesis/report-comparison.md`.
 
 **Report language**
 
-The default is the language of the user's request. When the request language is ambiguous, mixed, or cannot be determined with confidence, default to English and apply the English document style rules.
+The default is the language of the user's request. When the request language is ambiguous, mixed,
+or cannot be determined with confidence, default to English and apply the English document style
+rules.
 
-Ask only if the user explicitly asks for a different language.
+When the user explicitly specifies a different report language, apply it without a routine
+follow-up question.
 
-When the report language is not English, load the matching `translation/` file and apply every translation, style rule, and encoding requirement defined there. The default filename changes to the language-specific filename defined in the translation file, and the report must be written in UTF-8 encoding with all language-specific diacritics preserved.
+When the report language is not English, load the matching `translation/` file and apply every
+translation, style rule, and encoding requirement defined there. The default filename changes to
+the language-specific filename defined in the translation file, and the report must be written in
+UTF-8 encoding with all language-specific diacritics preserved.
 
 **Detail level**
 
 Ask: "What level of detail should the report include?"
 
-- **Standard** (default) - full report with all sixteen baseline sections, subject to explicit
-  parameter exclusions plus any conditional sections whose criteria are met, complete findings, risk
+- **Detailed** (default) - full report plus extended remediation steps, additional verification
+  methods, deeper architectural critique, and expanded impact analysis.
+- **Standard** - full report with all sixteen baseline sections, subject to explicit parameter
+  exclusions plus any conditional sections whose criteria are met, complete findings, risk
   register, scorecard, and remediation roadmap.
-- **Detailed** - full report plus extended remediation steps, additional verification methods, deeper architectural critique, and expanded impact analysis.
-- **Brief** - Executive Summary, Health Dashboard (scorecard summary and risk heat map only), top risks only, and key recommendations. Detailed findings are summarized, not itemized.
+- **Brief** - Executive Summary, Health Dashboard (scorecard summary and risk heat map only),
+  top risks only, and key recommendations. Detailed findings are summarized, not itemized.
 
 **Evaluation scale**
 
 Ask: "Which evaluation scale should be used for the scorecard?"
 
-- **1-10** (default) - default scale with band definitions Poor (1-3), Average (4-6), Good (7-8), Excellent (9-10).
-- **1-5** - alternative compact scale.
+- **1-10** (default) - default scale with band definitions Poor (1-3), Average (4-6), Good
+  (7-8), Excellent (9-10).
+- **1-5** - compact numeric scale.
+- **1-3** - minimal numeric scale.
+- **5 stars** - uses the `1-5` rubric and displays filled and empty star bars, such as
+  `★★★☆☆`.
+- **3 stars** - uses the `1-3` rubric and displays filled and empty star bars, such as `★★☆`.
 
 **Improvement suggestions**
 
-Ask: "How should improvement suggestions be presented?"
+Use **Include with priorities** by default. Do not ask this as a routine prompt.
 
-- **Include with priorities** (default) - full Actionable Remediation Roadmap with P1-P4 priority tiers, impact/effort/complexity matrix, and verification steps.
+Apply another option only when the user explicitly specifies it.
+
+- **Include with priorities** (default) - full Actionable Remediation Roadmap with P1-P4 priority
+  tiers, impact/effort/complexity matrix, and verification steps.
 - **Brief only** - top 5 recommendations without the full matrix or verification steps.
 - **None** - omit the Actionable Remediation Roadmap. Include only findings and risks.
 
 **Trade-off analysis**
 
-Ask: "Should architectural trade-offs be analyzed?"
+Use **Standalone and embedded** by default. Do not ask this as a routine prompt.
+
+Apply another option only when the user explicitly specifies it.
 
 - **Standalone and embedded** (default) - a summary section and reasoning in relevant findings.
 - **Embed into findings** - reasoning only in relevant finding blocks.
@@ -593,4 +657,9 @@ The Parameter Configuration phase runs once. The chosen parameters (detail level
 
 **Output location for multiple projects**
 
-The report is a single file. Resolve the output directory once using the rules in the Report delivery section. When version-numbered subdirectories exist under `docs/audit/` or `docs/report/`, use the repository's primary version if one can be determined. When date-named subdirectories exist under `docs/audit/` or `docs/report/`, use the current date in ISO `YYYY-MM-DD` format. When no single primary version applies and no date pattern exists, use the root of the resolved directory without a subdirectory.
+The report is a single file. Resolve the output directory once using the rules in the Delivery
+and output file section. When version-numbered subdirectories exist under `docs/audit/` or
+`docs/report/`, use the repository's primary version if one can be determined. When date-named
+subdirectories exist under `docs/audit/` or `docs/report/`, use the current date in ISO
+`YYYY-MM-DD` format. When no single primary version applies and no date pattern exists, use the
+root of the resolved directory without a subdirectory.
