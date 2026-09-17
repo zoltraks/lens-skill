@@ -197,6 +197,8 @@ Format: `FND-[PILLAR]-[001]`
   - `INF` - Infrastructure & CI/CD
   - `AIP` - AI Provenance & Code Origin
   - `CPR` - Copyrights & Originality
+  - `API` - API Compatibility & Versioning Discipline (conditional, reusable libraries and
+    packages only, per `assessment/api-compatibility.md`)
 - `001` is a zero-padded sequential number per pillar.
 
 Assign IDs in the order findings are presented. Do not reuse or skip numbers within a single audit.

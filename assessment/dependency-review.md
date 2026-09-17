@@ -72,6 +72,11 @@ advisories, compatibility, and support signals.
 For executable deliverables, check for a machine-readable component inventory tied to the audited
 revision or release artifact. The audit does not generate one.
 
+When no SBOM exists, derive a source-level component list from the manifests and lockfiles using
+the readers in `references/dependency-manifests.md`. The derived list is `Inspected` evidence of
+the declared and resolved dependency set at the audited revision. It partially closes the
+inventory gap without claiming to be a shipped-artifact SBOM.
+
 When an SBOM exists, record the CycloneDX or SPDX schema version, generator, timestamp, and
 source or binary basis.
 

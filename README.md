@@ -22,8 +22,9 @@ auditing methodology, scoring rubrics, system context, architectural assessment,
 what's working, detailed technical findings, unified risk register, trade-off analysis, actionable
 remediation roadmap, scope exclusions, and references - plus conditional sections (data flow
 diagram, design patterns, architecture decision records, threat model, API contract conformance,
-skill definition conformance, standards conformance, technical debt register, changes since
-previous audit, and re-audit plan) that appear only when the subject warrants them.
+skill definition conformance, standards conformance, API compatibility and versioning
+discipline, technical debt register, changes since previous audit, and re-audit plan) that
+appear only when the subject warrants them.
 
 Every section uses a hybrid table-paragraph format for scannable summaries backed by detailed
 evidence.
@@ -54,7 +55,7 @@ never builds, tests, or executes the project.
 
 **Assesses across 18 categories**
 
-Testing, design principles, code quality, stack best practices, dependencies, deployment, rollback, maintainability, change management, documentation, non-functional requirements, security, compliance, observability, error handling, operational readiness, AI-generated code detection and provenance, and copyrights and originality. Each category receives one of five statuses: `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, or `N/A`.
+Testing, design principles, code quality, stack best practices, dependencies, deployment, rollback, maintainability, change management, documentation, non-functional requirements, security, compliance, observability, error handling, operational readiness, AI-generated code detection and provenance, and copyrights and originality. Each category receives one of five statuses: `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, or `N/A`. A conditional seventh pillar, API Compatibility & Versioning Discipline, applies when the subject is a reusable library or package.
 
 **Synthesizes findings**
 
@@ -82,7 +83,15 @@ Serious findings receive a counter-check for reachability, existing guards, and 
 explanations before they reach the executive summary.
 
 Security findings use justified CWE mappings and CVSS vectors where applicable, while engineering
-and business risks retain the Lens risk matrix.
+and business risks retain the Lens risk matrix. Each CWE-classified finding also names the
+equivalent static-analyzer rule for the detected stack, per `references/cwe-analyzer-map.md`,
+so follow-up verification is concrete.
+
+Audits select canonical, stack-specific references from `references/stack-standards.md` rather
+than relying on generic standards alone. Dependency manifests and lockfiles yield a
+source-derived component inventory per `references/dependency-manifests.md`, with no tool
+execution. Every overall score is reported with its lowest-scoring dimension alongside the
+mean, and every material piece of collected evidence must surface in the report.
 
 The guides cover how to assess documented or committed evidence for baseline checks, coverage,
 mutation and fuzz testing, unsafe-use statistics, dependency advisories, SBOMs, and license
@@ -136,6 +145,7 @@ The skill uses a hybrid table-paragraph format throughout:
 - **High-Level Observations** provide a fast-skim path for non-technical readers.
 - **Strengths & What's Working** balances the tone with 5-8 acknowledged positives.
 - **Trade-off Analysis** surfaces architectural tensions in a dedicated table.
+- **Document style** - generated reports follow the same Markdown rules as the skill's documents: `#`/`##`/`###` headings only, one-sentence paragraphs, 100-character wrapping, and tables aligned by a temporary formatting script.
 
 This format keeps the report readable in plain-text consoles while preserving depth.
 
@@ -240,7 +250,8 @@ lens-skill/
 │   ├── threat-model.md            # (conditional) STRIDE threat enumeration per trust boundary
 │   ├── api-contract.md            # (conditional) API spec conformance, RFC 9457, OWASP API Top 10
 │   ├── skill-definition.md        # (conditional) Agent Skills spec conformance, frontmatter, progressive disclosure
-│   └── standards-conformance.md   # (conditional) Project development standards conformance and quality
+│   ├── standards-conformance.md   # (conditional) Project development standards conformance and quality
+│   └── api-compatibility.md       # (conditional) API compat gates, versioning, breaking-change tracking
 ├── synthesis/
 │   ├── risk-register.md           # Unified risk register with FND cross-referencing
 │   ├── project-scorecard.md      # 1-10 project scorecard and rubric (1-5 optional)
@@ -249,6 +260,10 @@ lens-skill/
 │   ├── debt-register.md           # (conditional) TDR inventory with CISQ/SQALE cost model
 │   ├── re-audit-plan.md           # (conditional) Verification ownership, sign-off gates, re-audit triggers
 │   └── report-comparison.md       # (conditional) Previous report discovery, versioning, comparison section
+├── references/
+│   ├── stack-standards.md         # Per-stack canonical standards, advisories, and compat tooling map
+│   ├── cwe-analyzer-map.md        # CWE to static-analyzer-rule cross-reference per ecosystem
+│   └── dependency-manifests.md    # Text-only manifest readers, source-derived component inventory
 └── translation/
     └── polish-language.md         # Polish translations: status, severity, headings, table headers, style rules
 ```
@@ -281,7 +296,7 @@ When changing the skill:
 - Review router, workflow, templates, synthesis guides, and translations for agreement.
 - Exercise the regression scenarios in `process/audit-workflow.md` and record limitations.
 
-Use `work/` for temporary validation scripts and remove only the temporary artifacts you created.
+Name temporary validation scripts with a `.tmp.` infix, place them in `work/` when it exists and in the repository root otherwise, and remove them after use.
 
 Structural checks do not prove that future agents will follow the instructions, a fresh audit or
 independent model evaluation is a separate behavioral verification step.

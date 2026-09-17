@@ -94,6 +94,9 @@ The skill activates on any of these phrases:
 - development standards review
 - coding standards audit
 - stack standards conformance
+- api compatibility
+- api versioning audit
+- library audit
 
 ## How To Use This Skill
 
@@ -204,6 +207,7 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
   API Security Top 10 (2023). Include when the system exposes an API.
 - **`assessment/skill-definition.md`** - Agent Skills specification conformance, frontmatter validity, progressive disclosure, triggering description quality, and file reference integrity. Include when the subject is an Agent Skill (has a `SKILL.md` file).
 - **`assessment/standards-conformance.md`** - Project-internal development standards: code-to-standards conformance, standards-to-best-practices quality, and external reference collection. Include when the project contains documented development standards.
+- **`assessment/api-compatibility.md`** - API compatibility gates, versioning-scheme consistency, and breaking-change tracking. Include when the subject is a reusable library or package rather than a deployable service.
 
 ## `synthesis/` - Findings And Report Assembly
 
@@ -215,6 +219,21 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
 - **`synthesis/re-audit-plan.md`** - Verification ownership, sign-off gates, and re-audit triggers following ISO 19011 and NIST RMF. Conditional: include when the roadmap has a P1 or P2 recommendation.
 - **`synthesis/report-comparison.md`** - Previous report discovery, iterative report versioning, versioned output filenames, and the Changes Since Previous Audit section. Conditional: include when a previous audit report exists.
 - **`translation/polish-language.md`** - Polish translations for the audit report: status and severity vocabulary, section headings, table headers, style rules, diacritics, and encoding. Load when the report language is Polish.
+
+## `references/` - Lookup Tables
+
+Load these when the detected stack or finding type requires them. They are consulted during
+intake, assessment, and report writing.
+
+- **`references/stack-standards.md`** - Canonical standards, guidelines, security advisories,
+  and compatibility tooling per detected stack. Selects the references the audit applies and
+  cites.
+- **`references/cwe-analyzer-map.md`** - CWE-to-static-analyzer-rule cross-reference per
+  ecosystem, with enablement evidence sources. Gives every CWE-classified security finding a
+  concrete follow-up check.
+- **`references/dependency-manifests.md`** - Text-only readers for dependency manifests and
+  lockfiles per ecosystem, producing a CycloneDX/SPDX-style source-derived component inventory
+  without executing anything.
 
 ## Evidence And Decision Contract
 
@@ -253,6 +272,11 @@ when maintaining the skill.
   or generators against it. Verification claims rest on inspected repository contents,
   documented results are `Reported` evidence.
 - Assemble the report skeleton from `process/report-format.md` before filling in findings, present every section as a table and use unnumbered headings.
+- The generated report follows the same Markdown document style rules as the skill's own
+  documents, adapted by the Formatting Rules in `process/report-format.md`: `#`/`##`/`###`
+  headings only, short one-sentence paragraphs, 100-character line wrapping, no semicolons in
+  prose, and every table aligned with a temporary automated formatting script. Do not add a
+  Contents table to the report.
 - Test layers, TDD, coverage, and design-for-testability belong in `assessment/testing-review.md`.
 - SOLID and design principles (SRP, OCP, LSP, ISP, DIP), cohesion, coupling, and DRY belong in `assessment/design-principles.md`, code-level metrics (lint, type safety, complexity, duplication) belong in `assessment/code-quality.md`, architectural module structure belongs in `assessment/maintainability-review.md`.
 - Stack-specific idioms and conventions (language idioms, framework patterns, ecosystem layout, deprecated APIs) belong in `assessment/best-practices.md`, keep it distinct from the language-agnostic principles in `assessment/design-principles.md` and the code-level metrics in `assessment/code-quality.md`. Assess adherence to the stack the subject already uses, do not judge the stack choice itself.
@@ -270,6 +294,11 @@ when maintaining the skill.
 - API specification conformance and the OWASP API Security Top 10 belong in `assessment/api-contract.md`, ADR gap assessment belongs in `assessment/change-management.md`.
 - Agent Skills specification conformance, frontmatter validity, progressive disclosure, and triggering description quality belong in `assessment/skill-definition.md`, include it only when the subject is an Agent Skill (has a `SKILL.md` file).
 - Project-internal development standards conformance and standards-quality evaluation belong in `assessment/standards-conformance.md`, include it only when the project contains documented development standards. The References section at the end of the report lists every external source consulted during the standards-quality evaluation and any other assessment category.
+- Canonical stack references are selected from `references/stack-standards.md` during intake and cited in Auditing Methodology and References. Generic standards alone are not a substitute for stack-specific sources.
+- Every CWE-classified security finding names its equivalent static analyzer rule from `references/cwe-analyzer-map.md` and its enablement state, or states that no direct rule exists for that CWE in the stack. The lookup is documentation, it never implies an analyzer ran.
+- Source-derived dependency inventories follow `references/dependency-manifests.md`: manifests and lockfiles are read as text and produce a CycloneDX/SPDX-style component list, never an executed SBOM.
+- API compatibility gates, versioning consistency, and breaking-change tracking belong in `assessment/api-compatibility.md`, include it only when the subject is a reusable library or package rather than a deployable service.
+- Wherever an overall score appears, the lowest-scoring applicable dimension and its score are reported alongside the mean, per `synthesis/project-scorecard.md`.
 - Conditional sections appear only when their inclusion criterion is met. Evaluate each criterion in the Conditional Sections table of `process/report-format.md`. Omit a conditional section entirely when it cannot apply, and note the deliberate omission in Scope Exclusions. Never force an irrelevant section (for example, an API Contract section for a project with no API, or a Standards Conformance section for a project with no development standards).
 - The Technical Debt Register (`synthesis/debt-register.md`) is distinct from the Unified Risk Register: debt is accumulated cost already present, risk is what could go wrong. Do not duplicate entries between them.
 - The Re-audit and Follow-up Plan (`synthesis/re-audit-plan.md`) precedes References when present

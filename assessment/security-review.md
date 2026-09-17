@@ -99,6 +99,23 @@ Retain Lens qualitative severities for engineering and business risks.
 
 Do not apply CVSS to bus factor, debt, licensing uncertainty, or missing runbooks.
 
+## Analyzer Cross-Reference
+
+For every CWE-classified finding, consult `references/cwe-analyzer-map.md` for the equivalent
+static analyzer rule in the detected stack.
+
+When a rule exists, record it in the finding with its enablement state, for example "the
+equivalent automated check is `CA5359`, not yet enabled". Enablement is determined from
+repository evidence such as `.editorconfig` entries, ruleset files, or CI steps, per the
+enablement table in `references/cwe-analyzer-map.md`.
+
+When no direct rule exists for the CWE in the stack, state that plainly, for example "no direct
+analyzer rule exists for CWE-327 in Rust". Do not present a related rule as coverage of the
+whole weakness.
+
+This is a documentation lookup. It names the check a team can enable and verify. It never
+implies the analyzer ran during the audit.
+
 ## Standards Coverage
 
 Use [OWASP Top 10:2025](https://owasp.org/Top10/2025/) as an awareness taxonomy, including

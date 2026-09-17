@@ -103,6 +103,10 @@ Write short sentences.
 
 Separate distinct statements with line breaks so the report reads well in plain consoles.
 
+Break lines that exceed 100 characters at a natural boundary such as after a comma or clause end, do not break inside inline code, file paths, or URLs.
+
+Do not use the semicolon character in prose. Join closely related clauses with a comma or split them into separate sentences.
+
 Prefer single-sentence paragraphs. Every sentence in a prose paragraph must be on its own line, separated from the next sentence by an empty line.
 
 Put exactly one empty line before and after lists of items.
@@ -119,11 +123,15 @@ For process or workflow steps, use bold headers separated by empty lines instead
 
 Keep tables readable as plain text. Align columns by padding every cell value with trailing spaces so that all `|` column separators in a table align vertically in plain text.
 
+Format every table with an automated script per the Table Formatting Rules in `process/report-format.md`, do not count column widths by hand.
+
 Keep section names short. Do not put qualifiers in section names using parentheses.
 
 Use headers for section titles rather than bold runs of text.
 
 Put exactly one empty line after every markdown header (`#`, `##`, `###`) before the first content line.
+
+Do not use `####` or deeper headings in the report.
 
 In English, use "Title Case" in section and chapter names.
 
@@ -136,6 +144,8 @@ Use the standard ASCII hyphen-minus `-` (U+002D) for all hyphens, dashes, and mi
 Box-drawing characters like "│", "├", "└" are allowed in code blocks for directory trees and simple diagrams. If a diagram already uses box-drawing characters, keep them. Do not replace box-drawing characters with "+", "-", or "`".
 
 Do not leave blank lines as the first or last line inside a fenced code block.
+
+Use a language tag on fenced code blocks that contain code. Leave diagrams, directory trees, console output, and plain text untagged.
 
 **Hexadecimal and byte values**: Enclose in double backticks (e.g., `` `FF` ``).
 

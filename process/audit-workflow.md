@@ -14,12 +14,11 @@ For a single-dimension request, run the same steps but limit the assessment phas
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 23   | Step Overview guidance           |
-| Intake Checklist        | 462  | Intake Checklist guidance        |
-| Handling Thin Input     | 477  | Handling Thin Input guidance     |
-| Single-Dimension Audits | 487  | Single-Dimension Audits guidance |
-| Re-Audit                | 496  | Re-Audit guidance                |
-| Multi-Project Audits    | 512  | Multi-Project Audits guidance    |
-| Report Structure        | 536  | Report Structure guidance        |
+| Intake Checklist        | 518  | Intake Checklist guidance        |
+| Handling Thin Input     | 533  | Handling Thin Input guidance     |
+| Single-Dimension Audits | 543  | Single-Dimension Audits guidance |
+| Re-Audit                | 552  | Re-Audit guidance                |
+| Multi-Project Audits    | 568  | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -62,6 +61,21 @@ When multiple project manifests or boundaries exist at the top level or in clear
 When only one project is present, proceed with the standard single-project workflow.
 
 When multiple projects are present, the audit runs independently for each project. Each project receives its own complete assessment, findings, scorecard, and risk register within a single combined report. See the Multi-Project Audits section below for the per-project workflow.
+
+**Stack and subject classification**
+
+For each identified project, detect the language and ecosystem from manifest and file signals:
+`Cargo.toml` for Rust, `*.csproj` or `*.sln` for .NET, `go.mod` for Go, `package.json` for
+Node, `pom.xml` or `build.gradle` for JVM stacks, `pyproject.toml` for Python, and so on.
+
+Record the detected stacks and consult `references/stack-standards.md` for the canonical
+references to apply during assessment and cite in the report.
+
+Classify each project as a reusable library or package versus a deployable service or
+application. Signals of a library subject include a package manifest with a published name and
+version (`*.nuspec`, a `Cargo.toml` or `package.json` naming a published artifact), library
+guidance in documentation, or consumption by other projects. This classification controls the
+API Compatibility And Versioning Discipline conditional assessment.
 
 **Rerunning an existing audit**
 
@@ -147,7 +161,7 @@ After selecting the base output directory, check whether it contains subdirector
 
 - **Date-named subdirectories**: If the base directory contains subdirectories named with dates in ISO `YYYY-MM-DD` format (for example, `2026-01-02`, `2026-04-06`), then the default output directory becomes `<base>/<current-date>` using the current date in the same ISO format. For example, if `docs/report/2026-04-06` exists and the current date is `2026-09-15`, the suggested directory is `docs/report/2026-09-15`.
 
-- **No subdirectories**: If the base directory has no subdirectories, use the base directory directly as the output directory.
+- **No subdirectory pattern**: If the base directory has no version-numbered or date-named subdirectories, use the base directory directly as the default output directory. When the base is `docs/audit/` or `docs/report/`, offer the two structured alternatives at the location prompt below.
 
 The final output location must fit the existing directory structure. Do not mix patterns: if the existing structure uses version numbers, use a version subdirectory, if it uses dates, use a date subdirectory.
 
@@ -156,7 +170,11 @@ When multiple projects are present and each has a different version, resolve the
 Present the resolved default location to the user and ask: "Where should the file be written, and what should it be named?"
 
 - Default location - accept the resolved directory and the language-appropriate default filename (`AUDIT.md` for English reports, or the filename defined in the matching `translation/` file for non-English reports), adjusted for any naming convention found in the resolved directory.
+- Version subdirectory - offered only when the resolved base is `docs/audit/` or `docs/report/`, no existing subdirectory pattern is present, and the project version can be determined from its manifest or configuration. Write to `<base>/<version>/<filename>`, for example `docs/audit/1.2.3/AUDIT.md`.
+- Date subdirectory - offered only when the resolved base is `docs/audit/` or `docs/report/` and no existing subdirectory pattern is present. Write to `<base>/<current-date>/<filename>` using the ISO `YYYY-MM-DD` format, for example `docs/audit/2026-09-16/AUDIT.md`.
 - Custom path - the user may supply a path relative to the audited repository or directory root (e.g. `reports/2026-06-audit.md`).
+
+Choosing a subdirectory option creates the subdirectory inside the base directory. Subsequent audits then follow the established pattern per the rules above.
 
 Always place the file inside the audited repository or directory. Do not write to an absolute path outside it unless the user explicitly provides one.
 
@@ -268,6 +286,10 @@ commands, pipeline steps, documented procedures, committed check output, or dire
 
 When development standards documents were found during intake, collect evidence of conformance and divergence: for each rule in the standards, find representative source files that follow or violate it. Also collect the external best practices, style guides, or conventions that the standards reference or that apply to the stack, for the standards-quality evaluation in `assessment/standards-conformance.md`.
 
+For dependency analysis, derive the component inventory from manifests and lockfiles as text,
+per `references/dependency-manifests.md`. The derived list records components, versions,
+relationships, and scopes without running a package manager or an SBOM generator.
+
 Respect `.gitignore` exclusions. Do not inspect files that are excluded by `.gitignore` patterns
 (for example, `bin/`, `obj/`, `node_modules/`, `.env` files, or build artifacts). If a
 `.gitignore` file is present, use it to filter the file list before analysis. If no `.gitignore` is
@@ -277,6 +299,14 @@ are required or a concrete exposure is evidenced.
 Do not yet form conclusions. Separate collection from judgement to avoid confirmation bias.
 
 Where evidence is absent, record the gap explicitly with the appropriate missing-information token.
+
+**Collected evidence coverage**
+
+Every material observation collected during this pass must surface in the report. Git history
+signals such as author concentration, commit cadence, and tag history produce at least a
+one-line entry even when no adverse finding results: a Health Dashboard line, a finding, a
+strength, or an explicit note. An item is dropped only with a recorded reason. Nothing
+collected is silently unused.
 
 **Verification Plan**
 
@@ -346,7 +376,7 @@ Tie findings to evidence IDs and explain what each item proves and does not prov
 
 For each category, open the matching `assessment/` file and apply its checklist. For a full audit, this includes the two additional categories `assessment/ai-generated-code.md` and `assessment/copyright-review.md`.
 
-Evaluate the inclusion criterion for each conditional assessment, listed in the Conditional Sections table of `process/report-format.md`. When the criterion is met, open the matching conditional file and apply it: `assessment/data-flow.md`, `assessment/design-patterns.md`, `assessment/threat-model.md`, `assessment/api-contract.md`, `assessment/skill-definition.md`, and `assessment/standards-conformance.md`. When a criterion is not met, omit that section and record the deliberate omission for Scope Exclusions. Do not force a conditional section onto a subject it does not fit.
+Evaluate the inclusion criterion for each conditional assessment, listed in the Conditional Sections table of `process/report-format.md`. When the criterion is met, open the matching conditional file and apply it: `assessment/data-flow.md`, `assessment/design-patterns.md`, `assessment/threat-model.md`, `assessment/api-contract.md`, `assessment/skill-definition.md`, `assessment/standards-conformance.md`, and `assessment/api-compatibility.md`. When a criterion is not met, omit that section and record the deliberate omission for Scope Exclusions. Do not force a conditional section onto a subject it does not fit.
 
 Assign a status (`PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`) per the rules in
 `principles/evaluation-rules.md`.
@@ -357,7 +387,7 @@ Record evidence, concrete risks, and neutral notes for each category.
 
 Build the unified risk register from the risks surfaced during assessment, using `synthesis/risk-register.md`. Every risk must reference its source `FND-XXX`.
 
-Build the project scorecard using `synthesis/project-scorecard.md`. Present the scoring rubric before the scores.
+Build the project scorecard using `synthesis/project-scorecard.md`. Present the scoring rubric before the scores. Wherever an overall score is stated, report the lowest-scoring applicable dimension and its score alongside the mean, so a weak pillar is not hidden inside an average.
 
 Draft the High-Level Observations section by selecting the top 5 most important findings from the Detailed Technical Findings. Keep each observation brief, full detail lives in the finding blocks.
 
@@ -416,13 +446,33 @@ When an API Contract Conformance section is present, confirm each security gap m
 
 When a Standards Conformance section is present, confirm every conformance judgement cites a specific rule in the standards document and a specific file or pattern in the codebase, and that every standards-quality judgement cites a named external best practice. Confirm the References section lists every external source consulted during the standards-quality evaluation.
 
+Confirm every material evidence item collected during Evidence Gathering surfaces in the report
+as a finding, a risk, a dashboard element, or a strength, or is recorded as deliberately unused
+with a reason. Git history signals such as author concentration, commit cadence, and tag
+history must appear at least as the Team & Continuity line in the Health Dashboard.
+
+Confirm every CWE-classified security finding names its equivalent static analyzer rule from
+`references/cwe-analyzer-map.md` with its enablement evidence, or states that no direct rule
+exists for the CWE in that stack. Confirm no finding implies an analyzer ran.
+
+Confirm every place an overall score appears reports the lowest-scoring applicable dimension
+and its score alongside the mean, per `synthesis/project-scorecard.md`.
+
+When an API Compatibility And Versioning Discipline section is present, confirm it addresses
+gate presence, versioning-scheme consistency, and breaking-change tracking, and that configured
+tools are treated as intended checks, not executed ones.
+
 When a Technical Debt Register is present, confirm every `TDR-XXX` traces to a `FND-XXX` or a cited direct observation, and that no security risk is duplicated from the Unified Risk Register.
 
 When a Re-audit and Follow-up Plan is present, confirm every row references a `FND-XXX` and that owners or dates absent from the input are marked `NOT SPECIFIED` rather than invented.
 
-Confirm the Auditing Methodology cites only the reference standards actually applied, and the Scope Exclusions state the OWASP category coverage.
+Confirm the Auditing Methodology cites only the reference standards actually applied, including the stack-specific canonical sources from `references/stack-standards.md` that were consulted, and the Scope Exclusions state the OWASP category coverage.
 
 Confirm the report follows `process/report-format.md` section by section.
+
+Confirm the report follows the Formatting Rules in `process/report-format.md`: headings stop at `###`, prose lines over 100 characters are wrapped, prose contains no semicolons, and every table was formatted with an automated script so all `|` separators align vertically in plain text.
+
+Confirm any temporary formatting scripts were removed from the audited repository.
 
 **Evidence and decision checks**
 
@@ -459,6 +509,11 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Partial cost inputs or no telemetry        | No complete budget or numeric SLO claim              |
 | Previous report at version 1.9 exists      | New `AUDIT-2.0.md`, previous kept, comparison added  |
 | Previous report has no Version field       | Assume 1.0, new file `AUDIT-1.1.md`                  |
+| Reusable library without an API gate       | API Compatibility section included, absence assessed |
+| CWE-295 finding in C#                      | Finding names `CA5359` and its enablement state      |
+| Git author data collected, no finding      | Team & Continuity dashboard line still present       |
+| Mean 5.8 with Security at 4                | Floor named next to the mean                         |
+| Lockfile present, no SBOM                  | Source-derived component inventory produced          |
 
 ## Intake Checklist
 

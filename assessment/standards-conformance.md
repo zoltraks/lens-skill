@@ -84,6 +84,6 @@ necessary security invariant.
 
 ## External References
 
-When this assessment is included, collect every external source referenced during the standards-quality evaluation. Examples include official language style guides, framework conventions documentation, ecosystem best-practice guides, and standards documents for the software type. These references appear in the References section at the end of the audit report, per `process/report-format.md`.
+When this assessment is included, collect every external source referenced during the standards-quality evaluation. Examples include official language style guides, framework conventions documentation, ecosystem best-practice guides, and standards documents for the software type. `references/stack-standards.md` provides the canonical starting set per detected stack. These references appear in the References section at the end of the audit report, per `process/report-format.md`.
 
 Record each reference with its title, publisher or author, and URL when available. Do not invent references. Only list sources actually consulted during the assessment.

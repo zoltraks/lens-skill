@@ -30,8 +30,12 @@ Use this fixed column order and dimension set:
 | AI Provenance           |       |       |
 | Originality & Licensing |       |       |
 | Skill Definition        |       |       |
+| API Compatibility       |       |       |
 
 Keep the dimension names and order identical across every audit so scores are comparable.
+
+The API Compatibility dimension applies only when the subject is a reusable library or package,
+per `assessment/api-compatibility.md`. For a deployable service or application it is `N/A`.
 
 When the report language is not English, apply the column header and dimension name translations from the matching `translation/` file.
 
@@ -129,6 +133,7 @@ Each scorecard dimension summarizes one or more assessment categories.
 | AI Provenance           | AI-Generated Code & Provenance                           |
 | Originality & Licensing | Copyrights & Originality                                 |
 | Skill Definition        | Skill Definition Conformance                             |
+| API Compatibility       | API Compatibility And Versioning Discipline              |
 
 ## ISO/IEC 25010:2023 Crosswalk
 
@@ -177,6 +182,14 @@ Do not reward an unexecuted build or unverified runtime behavior as demonstrated
 
 If an overall score is requested, state the aggregation formula, weights, rounding rule, and scored
 versus applicable dimensions, excluding `UNKNOWN` and `N/A` from the numeric denominator.
+
+Always pair the mean with the floor: name the lowest-scoring applicable dimension and its score,
+for example "Overall 5.8/10 (Average), lowest dimension: Security at 4/10". When several
+dimensions tie for the lowest score, name them all. The floor appears wherever the overall
+score appears, including the Executive Summary and the Health Dashboard.
+
+In a multi-project report, state the floor per project. Do not collapse unrelated projects into
+one aggregate.
 
 Disclose missing coverage beside the result, and do not compare aggregates with different scopes
 without explaining the difference.

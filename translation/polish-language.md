@@ -11,39 +11,40 @@ The default report language is English. This file is loaded only when the user r
 
 ## Contents
 
-| Section                            | Line | What it covers                              |
-|------------------------------------|------|---------------------------------------------|
-| Status And Severity Vocabulary     | 48   | Status And Severity Vocabulary guidance     |
-| Style Rules                        | 70   | Style Rules guidance                        |
-| Diacritics Frequently Misspelled   | 78   | Diacritics Frequently Misspelled guidance   |
-| Output Filename                    | 110  | Output Filename guidance                    |
-| Document Information               | 117  | Document Information guidance               |
-| Project Inventory                  | 129  | Project Inventory guidance                  |
-| Technology Stack                   | 138  | Technology Stack guidance                   |
-| Executive Summary                  | 155  | Executive Summary guidance                  |
-| Health Dashboard                   | 169  | Health Dashboard guidance                   |
-| Scorecard                          | 179  | Scorecard guidance                          |
-| Scoring Rubrics                    | 202  | Scoring Rubrics guidance                    |
-| High-Level Observations            | 216  | High-Level Observations guidance            |
-| Auditing Methodology               | 223  | Auditing Methodology guidance               |
-| System Context                     | 237  | System Context guidance                     |
-| Architectural Assessment           | 250  | Architectural Assessment guidance           |
-| Skill Definition Conformance       | 256  | Skill Definition Conformance guidance       |
-| Standards Conformance              | 262  | Standards Conformance guidance              |
-| References                         | 282  | References guidance                         |
-| Strengths And What's Working       | 291  | Strengths And What's Working guidance       |
-| Detailed Technical Findings        | 297  | Detailed Technical Findings guidance        |
-| Technical Debt Register            | 326  | Technical Debt Register guidance            |
-| Unified Risk Register              | 338  | Unified Risk Register guidance              |
-| Trade-off Analysis                 | 351  | Trade-off Analysis guidance                 |
-| Actionable Remediation Roadmap     | 363  | Actionable Remediation Roadmap guidance     |
-| Changes Since Previous Audit       | 377  | Changes Since Previous Audit guidance       |
-| Scope Exclusions                   | 405  | Scope Exclusions guidance                   |
-| Re-audit And Follow-up Plan        | 413  | Re-audit And Follow-up Plan guidance        |
-| Threat Model                       | 423  | Threat Model guidance                       |
-| API Contract Conformance           | 432  | API Contract Conformance guidance           |
-| Evidence And Decision Terms        | 440  | Evidence And Decision Terms guidance        |
-| Skill Definition Conformance Table | 502  | Skill Definition Conformance Table guidance |
+| Section                                     | Line | What it covers                              |
+|---------------------------------------------|------|---------------------------------------------|
+| Status And Severity Vocabulary              | 48   | Status And Severity Vocabulary guidance     |
+| Style Rules                                 | 70   | Style Rules guidance                        |
+| Diacritics Frequently Misspelled            | 78   | Diacritics Frequently Misspelled guidance   |
+| Output Filename                             | 110  | Output Filename guidance                    |
+| Document Information                        | 117  | Document Information guidance               |
+| Project Inventory                           | 129  | Project Inventory guidance                  |
+| Technology Stack                            | 138  | Technology Stack guidance                   |
+| Executive Summary                           | 155  | Executive Summary guidance                  |
+| Health Dashboard                            | 170  | Health Dashboard guidance                   |
+| Scorecard                                   | 181  | Scorecard guidance                          |
+| Scoring Rubrics                             | 205  | Scoring Rubrics guidance                    |
+| High-Level Observations                     | 219  | High-Level Observations guidance            |
+| Auditing Methodology                        | 226  | Auditing Methodology guidance               |
+| System Context                              | 240  | System Context guidance                     |
+| Architectural Assessment                    | 253  | Architectural Assessment guidance           |
+| Skill Definition Conformance                | 259  | Skill Definition Conformance guidance       |
+| Standards Conformance                       | 265  | Standards Conformance guidance              |
+| References                                  | 285  | References guidance                         |
+| Strengths And What's Working                | 294  | Strengths And What's Working guidance       |
+| Detailed Technical Findings                 | 300  | Detailed Technical Findings guidance        |
+| Technical Debt Register                     | 330  | Technical Debt Register guidance            |
+| Unified Risk Register                       | 342  | Unified Risk Register guidance              |
+| Trade-off Analysis                          | 355  | Trade-off Analysis guidance                 |
+| Actionable Remediation Roadmap              | 367  | Actionable Remediation Roadmap guidance     |
+| Changes Since Previous Audit                | 381  | Changes Since Previous Audit guidance       |
+| Scope Exclusions                            | 409  | Scope Exclusions guidance                   |
+| Re-audit And Follow-up Plan                 | 417  | Re-audit And Follow-up Plan guidance        |
+| Threat Model                                | 427  | Threat Model guidance                       |
+| API Contract Conformance                    | 436  | API Contract Conformance guidance           |
+| API Compatibility And Versioning Discipline | 444  | API Compatibility And Versioning guidance   |
+| Evidence And Decision Terms                 | 453  | Evidence And Decision Terms guidance        |
+| Skill Definition Conformance Table          | 515  | Skill Definition Conformance Table guidance |
 
 ## Status And Severity Vocabulary
 
@@ -163,6 +164,7 @@ When a previous report exists, the default filename carries the new version, for
 | Scope                          | Zakres                      |
 | Source basis                   | Źródło danych               |
 | Maturity level                 | Poziom dojrzałości          |
+| Overall score                  | Wynik ogólny                |
 | Summary description            | Opis podsumowujący          |
 | Production Readiness Threshold | Próg gotowości produkcyjnej |
 
@@ -175,6 +177,7 @@ When a previous report exists, the default filename carries the new version, for
 | Impact            | Wpływ                    |
 | Likelihood        | Prawdopodobieństwo       |
 | Scorecard Summary | Scorecard - podsumowanie |
+| Team & Continuity | Zespół i ciągłość        |
 
 ## Scorecard
 
@@ -198,6 +201,7 @@ When a previous report exists, the default filename carries the new version, for
 | AI Provenance           | Pochodzenie AI                 |
 | Originality & Licensing | Oryginalność i licencjonowanie |
 | Skill Definition        | Definicja umiejętności         |
+| API Compatibility       | Zgodność API                   |
 
 ## Scoring Rubrics
 
@@ -314,14 +318,15 @@ When a previous report exists, the default filename carries the new version, for
 
 ### Pillar Names
 
-| English                     | Polish                         |
-|-----------------------------|--------------------------------|
-| Architecture & Design       | Architektura i projektowanie   |
-| Code Quality                | Jakość kodu                    |
-| Security & Compliance       | Bezpieczeństwo i zgodność      |
-| Infrastructure & CI/CD      | Infrastruktura i CI/CD         |
-| AI Provenance & Code Origin | Pochodzenie AI i kod           |
-| Copyrights & Originality    | Prawa autorskie i oryginalność |
+| English                                   | Polish                                  |
+|-------------------------------------------|-----------------------------------------|
+| Architecture & Design                     | Architektura i projektowanie            |
+| Code Quality                              | Jakość kodu                             |
+| Security & Compliance                     | Bezpieczeństwo i zgodność               |
+| Infrastructure & CI/CD                    | Infrastruktura i CI/CD                  |
+| AI Provenance & Code Origin               | Pochodzenie AI i kod                    |
+| Copyrights & Originality                  | Prawa autorskie i oryginalność          |
+| API Compatibility & Versioning Discipline | Zgodność API i dyscyplina wersjonowania |
 
 ## Technical Debt Register
 
@@ -436,6 +441,15 @@ When a previous report exists, the default filename carries the new version, for
 | Dimension | Wymiar |
 | Status    | Status |
 | Evidence  | Dowód  |
+
+## API Compatibility And Versioning Discipline
+
+| English                                   | Polish                                  |
+|-------------------------------------------|-----------------------------------------|
+| API Compatibility & Versioning Discipline | Zgodność API i dyscyplina wersjonowania |
+| Dimension                                 | Wymiar                                  |
+| Status                                    | Status                                  |
+| Evidence                                  | Dowód                                   |
 
 ## Evidence And Decision Terms
 

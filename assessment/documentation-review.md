@@ -68,6 +68,11 @@ before asserting a bus-factor number.
 
 Report aggregate or role-level information, not personal rankings or contributor email addresses.
 
+Whatever this pass collects must surface in the report, per the collected-evidence rule in
+`process/audit-workflow.md`. Contributor concentration, commit cadence, and tag history appear
+at minimum as the Team & Continuity line in the Health Dashboard, even when they produce no
+adverse finding.
+
 ## Status Criteria
 
 - `PASS`: Entry, setup, and interface documentation exist and match the code, with evidence.

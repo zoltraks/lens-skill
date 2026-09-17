@@ -16,34 +16,35 @@ Keep every section even when content is `UNKNOWN`. A present-but-empty section s
 | Section                                     | Line | What it covers                                       |
 |---------------------------------------------|------|------------------------------------------------------|
 | Formatting Rules                            | 48   | Formatting Rules guidance                            |
-| Report Delivery And Parameter Configuration | 125  | Report Delivery And Parameter Configuration guidance |
-| Detail Level Configuration                  | 137  | Detail Level Configuration guidance                  |
-| Conditional Sections                        | 204  | Conditional Sections guidance                        |
-| Section Order                               | 229  | Section Order guidance                               |
-| Document Information                        | 287  | Document Information guidance                        |
-| Multi-Project Report Structure              | 348  | Multi-Project Report Structure guidance              |
-| Technology Stack                            | 399  | Technology Stack guidance                            |
-| Executive Summary                           | 419  | Executive Summary guidance                           |
-| Health Dashboard                            | 474  | Health Dashboard guidance                            |
-| High-Level Observations                     | 519  | High-Level Observations guidance                     |
-| Auditing Methodology                        | 535  | Auditing Methodology guidance                        |
-| Scoring Rubrics                             | 640  | Scoring Rubrics guidance                             |
-| System Context                              | 680  | System Context guidance                              |
-| Architectural Assessment                    | 714  | Architectural Assessment guidance                    |
-| Threat Model                                | 812  | Threat Model guidance                                |
-| API Contract Conformance                    | 833  | API Contract Conformance guidance                    |
-| Skill Definition Conformance                | 849  | Skill Definition Conformance guidance                |
-| Standards Conformance                       | 869  | Standards Conformance guidance                       |
-| Strengths & What's Working                  | 914  | Strengths & What's Working guidance                  |
-| Detailed Technical Findings                 | 939  | Detailed Technical Findings guidance                 |
-| Technical Debt Register                     | 1018 | Technical Debt Register guidance                     |
-| Unified Risk Register                       | 1053 | Unified Risk Register guidance                       |
-| Trade-off Analysis                          | 1128 | Trade-off Analysis guidance                          |
-| Actionable Remediation Roadmap              | 1157 | Actionable Remediation Roadmap guidance              |
-| Changes Since Previous Audit                | 1213 | Changes Since Previous Audit guidance                |
-| Scope Exclusions                            | 1273 | Scope Exclusions guidance                            |
-| Re-audit and Follow-up Plan                 | 1320 | Re-audit and Follow-up Plan guidance                 |
-| References                                  | 1346 | References guidance                                  |
+| Report Delivery And Parameter Configuration | 151  | Report Delivery And Parameter Configuration guidance |
+| Detail Level Configuration                  | 163  | Detail Level Configuration guidance                  |
+| Conditional Sections                        | 230  | Conditional Sections guidance                        |
+| Section Order                               | 256  | Section Order guidance                               |
+| Document Information                        | 316  | Document Information guidance                        |
+| Multi-Project Report Structure              | 377  | Multi-Project Report Structure guidance              |
+| Technology Stack                            | 428  | Technology Stack guidance                            |
+| Executive Summary                           | 448  | Executive Summary guidance                           |
+| Health Dashboard                            | 509  | Health Dashboard guidance                            |
+| High-Level Observations                     | 569  | High-Level Observations guidance                     |
+| Auditing Methodology                        | 585  | Auditing Methodology guidance                        |
+| Scoring Rubrics                             | 699  | Scoring Rubrics guidance                             |
+| System Context                              | 741  | System Context guidance                              |
+| Architectural Assessment                    | 775  | Architectural Assessment guidance                    |
+| Threat Model                                | 873  | Threat Model guidance                                |
+| API Contract Conformance                    | 894  | API Contract Conformance guidance                    |
+| Skill Definition Conformance                | 910  | Skill Definition Conformance guidance                |
+| Standards Conformance                       | 930  | Standards Conformance guidance                       |
+| API Compatibility & Versioning Discipline   | 975  | API Compatibility guidance                           |
+| Strengths & What's Working                  | 996  | Strengths & What's Working guidance                  |
+| Detailed Technical Findings                 | 1021 | Detailed Technical Findings guidance                 |
+| Technical Debt Register                     | 1102 | Technical Debt Register guidance                     |
+| Unified Risk Register                       | 1137 | Unified Risk Register guidance                       |
+| Trade-off Analysis                          | 1212 | Trade-off Analysis guidance                          |
+| Actionable Remediation Roadmap              | 1241 | Actionable Remediation Roadmap guidance              |
+| Changes Since Previous Audit                | 1297 | Changes Since Previous Audit guidance                |
+| Scope Exclusions                            | 1357 | Scope Exclusions guidance                            |
+| Re-audit and Follow-up Plan                 | 1404 | Re-audit and Follow-up Plan guidance                 |
+| References                                  | 1430 | References guidance                                  |
 
 ## Formatting Rules
 
@@ -54,6 +55,10 @@ Tables provide the scannable summary. Paragraphs below the table provide the det
 In tables, use shortened, general values. One or two words per cell. Do not crowd table cells with long explanations. Save detail for the paragraphs.
 
 Do not number section headings. Use the section name as the heading, for example "Executive Summary", not "2. Executive Summary". When the user requests a specific language, translate the section heading into that language.
+
+Use `#` for the document title, `##` for top-level sections, and `###` for subsections and finding or register blocks. Do not use `####` or deeper headings.
+
+Use Title Case for English section names and keep them short, avoid trailing punctuation and descriptive qualifiers in parentheses. The matching `translation/` file defines the casing rule for non-English reports.
 
 Keep column headers identical to the templates below across every audit. When the user requests a specific language, translate the column headers into that language while keeping the structure identical.
 
@@ -66,6 +71,14 @@ Place descriptive paragraphs immediately after each table. In the paragraphs, ex
 Start each detailed paragraph with a bold heading on its own line. Put the status, score, or severity inline after the heading, separated by a space. Then add an empty line, then the paragraph body. Do not run the heading and the body together on the same line.
 
 Use this bold-heading pattern for paragraphs that expand on a table row. For actual section or subsection titles, use markdown header syntax (`##` or `###`) rather than bold text.
+
+Break prose lines that exceed 100 characters at a natural boundary such as after a comma or clause end, per `STYLE.md`. Do not break inside inline code, file paths, or URLs.
+
+Do not use the semicolon character in prose. Join closely related clauses with a comma or split them into separate sentences.
+
+Use a language tag on fenced code blocks that contain code. Leave diagrams, directory trees, console output, and plain text untagged, and do not leave a blank line as the first or last line inside a fenced block.
+
+Do not add a Contents or table-of-contents section. `STYLE.md` requires one in documents over 300 lines, but the report navigates by its fixed section order and the Health Dashboard, so the omission is deliberate.
 
 ### Table Formatting Rules
 
@@ -97,6 +110,20 @@ Incorrect separator format (spaces around hyphens):
 - Pad every cell with trailing spaces to match the column maximum.
 - Build the separator with hyphens equal to the column width plus two, no spaces.
 - Verify all `|` separators align vertically in plain text.
+
+**Automated formatting**
+
+Format every table with a script, do not count column widths by hand. Manual counting is error-prone and produces misaligned columns, per `STYLE.md`.
+
+Before delivering a File-mode report, write a temporary JavaScript or Python script that implements the checklist above: parse each table, measure every cell width in source text including formatting characters, pad each cell to the column maximum, and rebuild each separator as the column width plus two hyphens. Handle both `\n` and `\r\n` input and preserve the file's original line-ending style.
+
+Name the script with a `.tmp.` infix, for example `format-table.tmp.js` or `format-table.tmp.py`.
+
+Place the script in a `work/` directory when one exists in the audited repository, otherwise place it in the repository root without creating a directory solely for it. Run it on the report file, verify that all `|` separators align vertically, then remove the script.
+
+For Inline delivery, apply the same formatting to the report text before emitting the response.
+
+Running the formatting script on the report file is part of producing the report. It is not execution of the audited project.
 
 Example for finding summary:
 
@@ -130,7 +157,7 @@ When the user names an output file in the original request, for example "write t
 
 When the user invokes an audit without naming an output file, for example "perform lens on this service" or "make audit report on the codebase", the Parameter Configuration phase determines delivery, output location, and filename.
 
-Default delivery is **File** when `docs/audit/` or `docs/report/` exists in the audited repository or directory, otherwise **Inline** (direct response). When File mode is selected, the output location is resolved by inspecting the audited repository or directory in this order: `docs/audit/` first, then `docs/report/`, then `docs/`, then the root. When `docs/audit/` or `docs/report/` contains subdirectories named with version numbers and the project version can be determined, the default output directory becomes `docs/audit/<version>` or `docs/report/<version>`. When `docs/audit/` or `docs/report/` contains subdirectories named with dates in ISO `YYYY-MM-DD` format, the default output directory becomes `docs/audit/<current-date>` or `docs/report/<current-date>` using the current date in the same format. The final output location must fit the existing directory structure. The default filename within that location is **AUDIT.md** for English reports, or the language-specific filename defined in the matching `translation/` file for non-English reports, adjusted for any naming convention already present in the resolved directory. When a previous audit report exists, the default filename carries the new version, for example `AUDIT-1.1.md`, and the previous file is never overwritten. The agent presents the resolved default to the user and asks for confirmation or a custom path before writing.
+Default delivery is **File** when `docs/audit/` or `docs/report/` exists in the audited repository or directory, otherwise **Inline** (direct response). When File mode is selected, the output location is resolved by inspecting the audited repository or directory in this order: `docs/audit/` first, then `docs/report/`, then `docs/`, then the root. When `docs/audit/` or `docs/report/` contains subdirectories named with version numbers and the project version can be determined, the default output directory becomes `docs/audit/<version>` or `docs/report/<version>`. When `docs/audit/` or `docs/report/` contains subdirectories named with dates in ISO `YYYY-MM-DD` format, the default output directory becomes `docs/audit/<current-date>` or `docs/report/<current-date>` using the current date in the same format. The final output location must fit the existing directory structure. When the resolved base is `docs/audit/` or `docs/report/` and no such subdirectory pattern exists, the agent also offers a version-numbered and a date-named subdirectory as additional choices at the output prompt, for example `docs/audit/<version>/AUDIT.md` and `docs/audit/<current-date>/AUDIT.md`. The default filename within that location is **AUDIT.md** for English reports, or the language-specific filename defined in the matching `translation/` file for non-English reports, adjusted for any naming convention already present in the resolved directory. When a previous audit report exists, the default filename carries the new version, for example `AUDIT-1.1.md`, and the previous file is never overwritten. The agent presents the resolved default to the user and asks for confirmation or a custom path before writing.
 
 For a single-dimension request that produces only a short subsection, returning the result inline is acceptable without asking, unless the user asked for a file.
 
@@ -211,18 +238,19 @@ When a conditional section is omitted, state the omission once in the Scope Excl
 
 The following sections and subsections are conditional. Each lists its inclusion criterion and the assessment file that governs it:
 
-| Section / Subsection                                        | Include When                                                        | Governing File                        |
-|-------------------------------------------------------------|---------------------------------------------------------------------|---------------------------------------|
-| Data Flow Diagram (in Architectural Assessment)             | The system moves data across one or more trust boundaries           | `assessment/data-flow.md`             |
-| Design Patterns (in Architectural Assessment)               | The codebase is large enough to exhibit recurring structure         | `assessment/design-patterns.md`       |
-| Architecture Decision Records (in Architectural Assessment) | The system is production-bound and has significant decisions        | `assessment/change-management.md`     |
-| Threat Model (standalone)                                   | The system has a security-relevant attack surface or trust boundary | `assessment/threat-model.md`          |
-| API Contract Conformance (standalone)                       | The system exposes an API (REST, GraphQL, gRPC, MCP)                | `assessment/api-contract.md`          |
-| Skill Definition Conformance (standalone)                   | The subject is an Agent Skill (has a `SKILL.md` file)               | `assessment/skill-definition.md`      |
-| Standards Conformance (standalone)                          | The project contains documented development standards               | `assessment/standards-conformance.md` |
-| Technical Debt Register (standalone)                        | The assessment surfaces structural debt distinct from risks         | `synthesis/debt-register.md`          |
-| Re-audit and Follow-up Plan (standalone)                    | The roadmap contains at least one P1 or P2 recommendation           | `synthesis/re-audit-plan.md`          |
-| Changes Since Previous Audit (standalone)                   | A previously created audit report was found during intake           | `synthesis/report-comparison.md`      |
+| Section / Subsection                                        | Include When                                                           | Governing File                        |
+|-------------------------------------------------------------|------------------------------------------------------------------------|---------------------------------------|
+| Data Flow Diagram (in Architectural Assessment)             | The system moves data across one or more trust boundaries              | `assessment/data-flow.md`             |
+| Design Patterns (in Architectural Assessment)               | The codebase is large enough to exhibit recurring structure            | `assessment/design-patterns.md`       |
+| Architecture Decision Records (in Architectural Assessment) | The system is production-bound and has significant decisions           | `assessment/change-management.md`     |
+| Threat Model (standalone)                                   | The system has a security-relevant attack surface or trust boundary    | `assessment/threat-model.md`          |
+| API Contract Conformance (standalone)                       | The system exposes an API (REST, GraphQL, gRPC, MCP)                   | `assessment/api-contract.md`          |
+| Skill Definition Conformance (standalone)                   | The subject is an Agent Skill (has a `SKILL.md` file)                  | `assessment/skill-definition.md`      |
+| Standards Conformance (standalone)                          | The project contains documented development standards                  | `assessment/standards-conformance.md` |
+| API Compatibility & Versioning Discipline (standalone)      | The subject is a reusable library or package, not a deployable service | `assessment/api-compatibility.md`     |
+| Technical Debt Register (standalone)                        | The assessment surfaces structural debt distinct from risks            | `synthesis/debt-register.md`          |
+| Re-audit and Follow-up Plan (standalone)                    | The roadmap contains at least one P1 or P2 recommendation              | `synthesis/re-audit-plan.md`          |
+| Changes Since Previous Audit (standalone)                   | A previously created audit report was found during intake              | `synthesis/report-comparison.md`      |
 
 When in doubt about whether a conditional section applies, prefer including it with explicit `N/A` or `NOT SPECIFIED` markers over silently dropping a relevant concern. Only omit a section when it genuinely cannot apply to the subject.
 
@@ -245,6 +273,7 @@ For a **single-project** audit:
 - API Contract Conformance *(conditional)*
 - Skill Definition Conformance *(conditional)*
 - Standards Conformance *(conditional)*
+- API Compatibility & Versioning Discipline *(conditional)*
 - Strengths & What's Working
 - Detailed Technical Findings
 - Technical Debt Register *(conditional)*
@@ -273,6 +302,7 @@ For a **multi-project** audit, the structure changes. See the Multi-Project Repo
   - API Contract Conformance *(conditional)*
   - Skill Definition Conformance *(conditional)*
   - Standards Conformance *(conditional)*
+  - API Compatibility & Versioning Discipline *(conditional)*
   - Strengths & What's Working
   - Detailed Technical Findings
   - Technical Debt Register *(conditional)*
@@ -422,14 +452,20 @@ Provide a compact overview a reader can absorb without the detail sections.
 
 Use a key-value table:
 
-| Field          | Value                                                 |
-|----------------|-------------------------------------------------------|
-| System type    | <prototype / codebase / production system / proposal> |
-| Scope          | <what was reviewed and what was excluded>             |
-| Source basis   | <running system / inspected code / description>       |
-| Maturity level | <maturity level>                                      |
+| Field          | Value                                                        |
+|----------------|--------------------------------------------------------------|
+| System type    | <prototype / codebase / production system / proposal>        |
+| Scope          | <what was reviewed and what was excluded>                    |
+| Source basis   | <running system / inspected code / description>              |
+| Maturity level | <maturity level>                                             |
+| Overall score  | <mean>/<scale> (<band>), lowest: <dimension> <score>/<scale> |
 
 Maturity level is one of: `Prototype`, `Early development`, `Pre-production`, `Production-ready`, or `Undetermined`.
+
+The Overall score row always pairs the unweighted mean with the lowest-scoring applicable
+dimension and its score, so a weak pillar is never hidden inside the average. Exclude `N/A` and
+`UNKNOWN` dimensions from both values. When several dimensions tie for the lowest score, name
+them all. Omit the row only when no dimensions were scored.
 
 When the report language is not English, apply the table header and field name translations from the matching `translation/` file.
 
@@ -473,7 +509,7 @@ of the scorecard average.
 
 ## Health Dashboard
 
-Present the quantitative health summary in a consolidated view. This section contains the Risk Heat Map and the Scorecard Summary.
+Present the quantitative health summary in a consolidated view. This section contains the Risk Heat Map, the Scorecard Summary, and the Team & Continuity line.
 
 **Risk Heat Map**
 
@@ -513,8 +549,23 @@ Provide a compact summary of the project scorecard dimensions:
 | AI Provenance           |       |       |
 | Originality & Licensing |       |       |
 | Skill Definition        |       |       |
+| API Compatibility       |       |       |
+
+The API Compatibility dimension is `N/A` unless the subject is a reusable library or package,
+per `assessment/api-compatibility.md`.
 
 When the report language is not English, apply the translations from the matching `translation/` file.
+
+**Team & Continuity**
+
+Write one line summarizing contributor and continuity evidence collected during Evidence
+Gathering: author concentration, commit cadence, tag and release history, and any documented
+ownership or maintenance statement. Anchor it to evidence IDs. When Git history or repository
+data was not in scope, mark it `NOT COLLECTED` rather than omitting the line. Keep it neutral
+and aggregate, never personal. Commit concentration is a proxy for continuity, not a measure of
+operational access or expertise.
+
+When the report language is not English, apply the heading translation from the matching `translation/` file.
 
 ## High-Level Observations
 
@@ -542,7 +593,7 @@ The earlier dashboard is a summary, its scores refer to the methodology and rubr
 
 When the report language is not English, apply the heading translation from the matching `translation/` file.
 
-State that the audit uses evidence-based reasoning across 18 core assessment categories grouped into six pillars, plus conditional assessments (data flow, design patterns, threat model, API contract, skill definition) applied when the subject warrants them. List the pillars:
+State that the audit uses evidence-based reasoning across 18 core assessment categories grouped into six pillars, plus conditional assessments (data flow, design patterns, threat model, API contract, skill definition, standards conformance) applied when the subject warrants them, and the conditional API Compatibility & Versioning Discipline pillar for libraries and packages. List the pillars:
 
 - **Architecture & Design** - Design principles, maintainability, change management, documentation, non-functional requirements
 - **Code Quality** - Testing, code quality, stack best practices
@@ -551,6 +602,7 @@ State that the audit uses evidence-based reasoning across 18 core assessment cat
 - **AI Provenance & Code Origin** - Explicit attribution, generated-artifact validation, and SDLC
   evidence, without authorship inference from style
 - **Copyrights & Originality** - Code originality, license compliance, attribution, dependency license compatibility
+- **API Compatibility & Versioning Discipline** - Public API stability, versioning consistency, and breaking-change tracking. Conditional, applied only when the subject is a reusable library or package.
 
 When the report language is not English, apply the pillar name translations from the matching `translation/` file.
 
@@ -572,6 +624,12 @@ Name the external standards the audit aligns with, so the methodology is credibl
 - **STRIDE** - threat enumeration framework, when a threat model is included.
 - **CISQ / SQALE** - structural quality and technical-debt cost model, when a technical debt register is included.
 - **ISO 19011** and **NIST RMF** - audit follow-up and continuous monitoring, when a re-audit plan is included.
+
+Beyond the generic standards above, name the stack-specific canonical sources applied, selected
+per `references/stack-standards.md`: for example the Rust API Guidelines and the RustSec
+Advisory Database for Rust, or the Framework Design Guidelines and NuGet package authoring best
+practices for .NET. Stack-specific sources are the primary reference set for the detected stack,
+not optional decoration.
 
 Cite a standard only when its corresponding section or assessment is present in the report. Do not list a standard that was not applied.
 
@@ -608,7 +666,9 @@ Include documented checks that were not run, and label supplied or committed res
 reported.
 
 For dependencies, summarize inventory/SBOM scope, schema version, license policy, advisory triage,
-and artifact paths, not just direct manifest versions.
+and artifact paths, not just direct manifest versions. When no SBOM exists, record the
+source-derived component inventory produced per `references/dependency-manifests.md`, labeled
+as manifest-derived rather than shipped content.
 
 For testing, distinguish inspected test counts from documented coverage and mutation outcomes.
 
@@ -676,6 +736,8 @@ Apply the ISO/IEC 25010:2023 crosswalk in `synthesis/project-scorecard.md` and s
 For every numeric score, include evidence references and confidence in its supporting paragraph.
 
 If an overall score is shown, disclose its formula, weights, rounding, and coverage denominator.
+State the lowest-scoring applicable dimension and its score alongside the mean, per
+`synthesis/project-scorecard.md`.
 
 ## System Context
 
@@ -911,6 +973,27 @@ When the report language is not English, apply the column header translations fr
 
 After the table, describe each divergence with evidence. Name the external source and explain how the standards position differs from the established practice. Cross-reference any conformance gap that also produces a `FND-XXX` finding.
 
+## API Compatibility & Versioning Discipline
+
+Include this section only when the subject is a reusable library or package, per `assessment/api-compatibility.md`. Omit it entirely for a deployable service or application, and note the omission in Scope Exclusions.
+
+Present a conformance table across the evaluated dimensions, then describe each gap with evidence and its linked `FND-XXX`.
+
+| Dimension                  | Status  | Evidence                                          |
+|----------------------------|---------|---------------------------------------------------|
+| Public surface tracked     | PARTIAL | API baseline or exports list, or none found       |
+| Compatibility gate present | FAIL    | No ApiCompat or semver-checks configuration found |
+| Versioning scheme declared | PASS    | `VERSIONING.md` names the scheme                  |
+| Versioning practice        | PARTIAL | Tag and changelog history vs the declared scheme  |
+| Deprecation policy         | UNKNOWN | Deprecation markers and removal timeline          |
+| Breaking changes tracked   | FAIL    | Known items bound to a named future major version |
+
+When the report language is not English, apply the column header translations from the matching `translation/` file.
+
+After the table, list each known future-breaking item and the version it is bound to. An item with no target version is open-ended and must be named as such.
+
+Configured tooling is evidence of intent, not proof of execution. Treat a configured gate as `Reported` unless the audit can verify it ran.
+
 ## Strengths & What's Working
 
 Add a short section with 5-8 bullet points acknowledging what the system does well. This balances the tone of the report and anchors the scorecard with positive baselines.
@@ -938,7 +1021,7 @@ Use fewer than the suggested count when evidence is thin and state the limitatio
 
 ## Detailed Technical Findings
 
-Present all findings grouped under six pillars. Each finding receives a unique deterministic index.
+Present all findings grouped under six pillars, plus the conditional API Compatibility & Versioning Discipline pillar when the subject is a reusable library or package. Each finding receives a unique deterministic index.
 
 **Summary table:**
 
@@ -946,14 +1029,15 @@ When the report language is not English, apply the heading translation from the 
 
 Present a compact summary of all findings:
 
-| Finding ID  | Pillar                      | Severity   | Title   | Status   | Remediation Status |
-|-------------|-----------------------------|------------|---------|----------|--------------------|
-| FND-ARC-001 | Architecture & Design       | <severity> | <title> | <status> | Open               |
-| FND-CQY-001 | Code Quality                | <severity> | <title> | <status> | Open               |
-| FND-SEC-001 | Security & Compliance       | <severity> | <title> | <status> | Open               |
-| FND-INF-001 | Infrastructure & CI/CD      | <severity> | <title> | <status> | Open               |
-| FND-AIP-001 | AI Provenance & Code Origin | <severity> | <title> | <status> | Open               |
-| FND-CPR-001 | Copyrights & Originality    | <severity> | <title> | <status> | Open               |
+| Finding ID  | Pillar                                    | Severity   | Title   | Status   | Remediation Status |
+|-------------|-------------------------------------------|------------|---------|----------|--------------------|
+| FND-ARC-001 | Architecture & Design                     | <severity> | <title> | <status> | Open               |
+| FND-CQY-001 | Code Quality                              | <severity> | <title> | <status> | Open               |
+| FND-SEC-001 | Security & Compliance                     | <severity> | <title> | <status> | Open               |
+| FND-INF-001 | Infrastructure & CI/CD                    | <severity> | <title> | <status> | Open               |
+| FND-AIP-001 | AI Provenance & Code Origin               | <severity> | <title> | <status> | Open               |
+| FND-CPR-001 | Copyrights & Originality                  | <severity> | <title> | <status> | Open               |
+| FND-API-001 | API Compatibility & Versioning Discipline | <severity> | <title> | <status> | Open               |
 
 When the report language is not English, apply the column header translations from the matching `translation/` file.
 
@@ -965,6 +1049,7 @@ Pillar abbreviations for IDs:
 - `INF` - Infrastructure & CI/CD
 - `AIP` - AI Provenance & Code Origin
 - `CPR` - Copyrights & Originality
+- `API` - API Compatibility & Versioning Discipline (conditional, libraries and packages only)
 
 When the report language is not English, apply the pillar name translations from the matching `translation/` file.
 
@@ -978,7 +1063,7 @@ After the summary table, write one block per finding in the same order. Use this
 ```markdown
 ### FND-[PILLAR]-[NUMBER]: [Clear, Concise Title of Finding]
 
-* **Pillar:** [Architecture & Design | Code Quality | Security & Compliance | Infrastructure & CI/CD | AI Provenance & Code Origin | Copyrights & Originality]
+* **Pillar:** [Architecture & Design | Code Quality | Security & Compliance | Infrastructure & CI/CD | AI Provenance & Code Origin | Copyrights & Originality | API Compatibility & Versioning Discipline]
 * **Severity:** [Critical | High | Medium | Low]
 * **Target Files/Modules:** [Exact paths or components evaluated]
 * **Requirement Basis:** [Applicable requirement or explicitly optional improvement]
