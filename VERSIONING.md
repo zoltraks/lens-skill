@@ -11,7 +11,8 @@ Versions use a two-part decimal format: `<major>.<minor>`.
 
 ## Increment Rules
 
-1. **Increment minor by 0.1** for each release that adds or refines capability without breaking existing behavior.
+1. **Increment minor by 0.1** for each release that adds or refines capability without breaking
+   existing behavior.
 
 2. **Minor rolls over at 9**. When minor would reach 10, increment major by 1 and reset minor to 0.
 
@@ -22,13 +23,16 @@ Versions use a two-part decimal format: `<major>.<minor>`.
    | 1.9    | 2.0   | minor rollover |
    | 9.9    | 10.0  | minor rollover |
 
-3. **Major may also be incremented directly** for breaking changes that alter the report structure, remove mandatory sections, or change scoring semantics.
+3. **Major may also be incremented directly** for breaking changes that alter the report structure,
+   remove mandatory sections, or change scoring semantics.
 
 ## When To Bump
 
-Never bump the version automatically. The version is bumped only when the user explicitly asks for it.
+Never bump the version automatically. The version is bumped only when the user explicitly asks for
+it.
 
-Do not bump the version as a side effect of adding features, fixing issues, or refactoring. Wait for the user to request a version bump, then apply the increment rules above.
+Do not bump the version as a side effect of adding features, fixing issues, or refactoring. Wait for
+the user to request a version bump, then apply the increment rules above.
 
 ## Where Version Is Recorded
 
@@ -42,4 +46,5 @@ metadata:
 ---
 ```
 
-This follows the [Agent Skills specification](https://agentskills.io/specification) `metadata` field convention, keeping the skill compatible with Anthropic Claude and other spec-compliant agents.
+This follows the [Agent Skills specification](https://agentskills.io/specification) `metadata` field
+convention, keeping the skill compatible with Anthropic Claude and other spec-compliant agents.

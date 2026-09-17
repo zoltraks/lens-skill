@@ -7,12 +7,14 @@
 
 This file guides assessment of how the system recovers from a bad release.
 
-Apply `principles/evaluation-rules.md` throughout. Forward deployment is assessed in `assessment/deployment-review.md`.
+Apply `principles/evaluation-rules.md` throughout. Forward deployment is assessed in
+`assessment/deployment-review.md`.
 
 ## What To Evaluate
 
 - Rollback mechanism: how a previous known-good version is restored.
-- Deployment safety: patterns that limit blast radius, such as staged, canary, or blue-green releases.
+- Deployment safety: patterns that limit blast radius, such as staged, canary, or blue-green
+  releases.
 - Versioning strategy: how versions are identified and pinned for revert.
 - Data reversibility: whether schema and data migrations can be undone safely.
 
@@ -28,8 +30,10 @@ Apply `principles/evaluation-rules.md` throughout. Forward deployment is assesse
 
 ## Status Criteria
 
-- `PASS`: A defined, tested rollback path exists, deployments limit blast radius, and migrations are reversible or guarded.
-- `PARTIAL`: A rollback path exists for code but not data, or safe-deploy patterns are absent, or the path is untested.
+- `PASS`: A defined, tested rollback path exists, deployments limit blast radius, and migrations are
+  reversible or guarded.
+- `PARTIAL`: A rollback path exists for code but not data, or safe-deploy patterns are absent, or
+  the path is untested.
 - `FAIL`: No rollback path where one is clearly required, with evidence of absence.
 - `UNKNOWN`: Rollback and versioning details were not provided.
 

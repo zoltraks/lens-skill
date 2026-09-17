@@ -2,49 +2,53 @@
 
 ## Purpose
 
-> **Scope:** Polish translations for the audit report, including status and severity vocabulary, section headings, table headers, style rules, and diacritics
-> **Key items:** translation tables, status and severity mapping, style rules, encoding, diacritics preservation
+> **Scope:** Polish translations for the audit report, including status and severity vocabulary,
+> section headings, table headers, style rules, and diacritics
+> **Key items:** translation tables, status and severity mapping, style rules, encoding, diacritics
+> preservation
 
-This file defines the Polish translations for the audit report. When the report language is Polish, apply every translation in this file to the corresponding English terms in the report.
+This file defines the Polish translations for the audit report. When the report language is Polish,
+apply every translation in this file to the corresponding English terms in the report.
 
-The default report language is English. This file is loaded only when the user requests a Polish-language report.
+The default report language is English. This file is loaded only when the user requests a
+Polish-language report.
 
 ## Contents
 
 | Section                                     | Line | What it covers                              |
 |---------------------------------------------|------|---------------------------------------------|
-| Status And Severity Vocabulary              | 49   | Status And Severity Vocabulary guidance     |
-| Style Rules                                 | 73   | Style Rules guidance                        |
-| Diacritics Frequently Misspelled            | 81   | Diacritics Frequently Misspelled guidance   |
-| Output Filename                             | 113  | Output Filename guidance                    |
-| Document Information                        | 120  | Document Information guidance               |
-| Project Inventory                           | 132  | Project Inventory guidance                  |
-| Technology Stack                            | 141  | Technology Stack guidance                   |
-| Executive Summary                           | 158  | Executive Summary guidance                  |
-| Health Dashboard                            | 173  | Health Dashboard guidance                   |
-| Scorecard                                   | 184  | Scorecard guidance                          |
-| Scoring Rubrics                             | 208  | Scoring Rubrics guidance                    |
-| High-Level Observations                     | 222  | High-Level Observations guidance            |
-| Auditing Methodology                        | 229  | Auditing Methodology guidance               |
-| System Context                              | 243  | System Context guidance                     |
-| Architectural Assessment                    | 256  | Architectural Assessment guidance           |
-| Skill Definition Conformance                | 262  | Skill Definition Conformance guidance       |
-| Standards Conformance                       | 268  | Standards Conformance guidance              |
-| References                                  | 288  | References guidance                         |
-| Strengths And What's Working                | 297  | Strengths And What's Working guidance       |
-| Detailed Technical Findings                 | 303  | Detailed Technical Findings guidance        |
-| Technical Debt Register                     | 333  | Technical Debt Register guidance            |
-| Unified Risk Register                       | 345  | Unified Risk Register guidance              |
-| Trade-off Analysis                          | 358  | Trade-off Analysis guidance                 |
-| Actionable Remediation Roadmap              | 370  | Actionable Remediation Roadmap guidance     |
-| Changes Since Previous Audit                | 384  | Changes Since Previous Audit guidance       |
-| Scope Exclusions                            | 412  | Scope Exclusions guidance                   |
-| Re-audit And Follow-up Plan                 | 420  | Re-audit And Follow-up Plan guidance        |
-| Threat Model                                | 430  | Threat Model guidance                       |
-| API Contract Conformance                    | 439  | API Contract Conformance guidance           |
-| API Compatibility And Versioning Discipline | 447  | API Compatibility And Versioning guidance   |
-| Evidence And Decision Terms                 | 456  | Evidence And Decision Terms guidance        |
-| Skill Definition Conformance Table          | 518  | Skill Definition Conformance Table guidance |
+| Status And Severity Vocabulary              | 53   | Status And Severity Vocabulary guidance     |
+| Style Rules                                 | 78   | Style Rules guidance                        |
+| Diacritics Frequently Misspelled            | 89   | Diacritics Frequently Misspelled guidance   |
+| Output Filename                             | 122  | Output Filename guidance                    |
+| Document Information                        | 129  | Document Information guidance               |
+| Project Inventory                           | 141  | Project Inventory guidance                  |
+| Technology Stack                            | 150  | Technology Stack guidance                   |
+| Executive Summary                           | 167  | Executive Summary guidance                  |
+| Health Dashboard                            | 182  | Health Dashboard guidance                   |
+| Scorecard                                   | 193  | Scorecard guidance                          |
+| Scoring Rubrics                             | 217  | Scoring Rubrics guidance                    |
+| High-Level Observations                     | 231  | High-Level Observations guidance            |
+| Auditing Methodology                        | 238  | Auditing Methodology guidance               |
+| System Context                              | 252  | System Context guidance                     |
+| Architectural Assessment                    | 265  | Architectural Assessment guidance           |
+| Skill Definition Conformance                | 272  | Skill Definition Conformance guidance       |
+| Standards Conformance                       | 278  | Standards Conformance guidance              |
+| References                                  | 299  | References guidance                         |
+| Strengths And What's Working                | 308  | Strengths And What's Working guidance       |
+| Detailed Technical Findings                 | 314  | Detailed Technical Findings guidance        |
+| Technical Debt Register                     | 344  | Technical Debt Register guidance            |
+| Unified Risk Register                       | 356  | Unified Risk Register guidance              |
+| Trade-off Analysis                          | 369  | Trade-off Analysis guidance                 |
+| Actionable Remediation Roadmap              | 381  | Actionable Remediation Roadmap guidance     |
+| Changes Since Previous Audit                | 395  | Changes Since Previous Audit guidance       |
+| Scope Exclusions                            | 423  | Scope Exclusions guidance                   |
+| Re-audit And Follow-up Plan                 | 431  | Re-audit And Follow-up Plan guidance        |
+| Threat Model                                | 441  | Threat Model guidance                       |
+| API Contract Conformance                    | 450  | API Contract Conformance guidance           |
+| API Compatibility And Versioning Discipline | 458  | API Compatibility And Versioning guidance   |
+| Evidence And Decision Terms                 | 467  | Evidence And Decision Terms guidance        |
+| Skill Definition Conformance Table          | 529  | Skill Definition Conformance Table guidance |
 
 ## Status And Severity Vocabulary
 
@@ -64,7 +68,8 @@ Use these Polish equivalents instead of the English markers:
 | `SEVERITY:` | `WAŻNOŚĆ:`     |
 | `Score:`    | `Wynik:`       |
 
-The inline format remains identical: the marker follows the bold heading separated by a space. For example, `**Strategia wdrożenia** CZĘŚCIOWO` or `**Testowalność** Wynik: 8/10`.
+The inline format remains identical: the marker follows the bold heading separated by a space. For
+example, `**Strategia wdrożenia** CZĘŚCIOWO` or `**Testowalność** Wynik: 8/10`.
 
 When the `1-5` or `1-3` numeric scale is selected, use `Wynik: X/5` or `Wynik: X/3`.
 
@@ -74,13 +79,17 @@ When `5 stars` or `3 stars` is selected, use `Wynik:` followed by the unchanged 
 
 - Do not use "Title Case" in section and chapter names, use sentence case.
 - Use "Przykład zawartości" instead of "Content Example".
-- Use neuter gender for acronyms treated as nouns: "czyste PWA" (not "czysta PWA"), "czyste SPA" (not "czysta SPA").
-- Preserve all Polish diacritics (for example, "ą", "ę", "ć", "ł", "ń", "ó", "ś", "ź", "ż", "Ą", "Ę", "Ć", "Ł", "Ń", "Ó", "Ś", "Ź", "Ż") in every section, heading, table cell, and paragraph. Do not transliterate or strip diacritics.
+- Use neuter gender for acronyms treated as nouns: "czyste PWA" (not "czysta PWA"), "czyste SPA"
+  (not "czysta SPA").
+- Preserve all Polish diacritics (for example, "ą", "ę", "ć", "ł", "ń", "ó", "ś", "ź", "ż", "Ą",
+  "Ę", "Ć", "Ł", "Ń", "Ó", "Ś", "Ź", "Ż") in every section, heading, table cell, and paragraph. Do
+  not transliterate or strip diacritics.
 - Write the report in UTF-8 encoding. Do not use ASCII-only fallback for Polish text.
 
 ## Diacritics Frequently Misspelled
 
-The following Polish words are frequently written without diacritics by mistake. Always use the correct form with diacritics:
+The following Polish words are frequently written without diacritics by mistake. Always use the
+correct form with diacritics:
 
 - `Poziom dojrzałości` (not `Poziom dojrzalosci`)
 - `Testowalność` (not `Testowalnosc`)
@@ -258,6 +267,7 @@ When a previous report exists, the default filename carries the new version, for
 | English                  | Polish             |
 |--------------------------|--------------------|
 | Architectural Assessment | Ocena architektury |
+| Design Principles        | Zasady projektowe  |
 
 ## Skill Definition Conformance
 

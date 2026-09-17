@@ -7,7 +7,8 @@
 
 This file guides assessment of whether the system can be run and supported in production.
 
-Apply `principles/evaluation-rules.md` throughout. Observability signals are assessed in `assessment/observability-review.md`, here the focus is the operational practices that consume them.
+Apply `principles/evaluation-rules.md` throughout. Observability signals are assessed in
+`assessment/observability-review.md`, here the focus is the operational practices that consume them.
 
 ## What To Evaluate
 
@@ -83,8 +84,10 @@ Missing deployment scale or prices means `INSUFFICIENT INFORMATION`, not a fabri
 
 ## Status Criteria
 
-- `PASS`: Runbooks, defined ownership, capacity planning, tested backups, and an incident process are present, with evidence.
-- `PARTIAL`: Some operational practices exist but key procedures are undocumented, untested, or unowned.
+- `PASS`: Runbooks, defined ownership, capacity planning, tested backups, and an incident process
+  are present, with evidence.
+- `PARTIAL`: Some operational practices exist but key procedures are undocumented, untested, or
+  unowned.
 - `FAIL`: No operational practices where production operation is clearly intended, with evidence.
 - `UNKNOWN`: Operational artifacts were not provided.
 

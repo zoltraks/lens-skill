@@ -6,9 +6,11 @@
 > star-bar scales
 > **Key items:** fixed dimensions, integer scores, star bars, evidence per score, unknown handling
 
-This file defines the comparative project scorecard. It appears in the report under the heading "Project Scorecard". Derive each score from the matching `assessment/` findings.
+This file defines the comparative project scorecard. It appears in the report under the heading
+"Project Scorecard". Derive each score from the matching `assessment/` findings.
 
-Apply `principles/evaluation-rules.md` throughout. A score is a summary of evidence, not an impression.
+Apply `principles/evaluation-rules.md` throughout. A score is a summary of evidence, not an
+impression.
 
 ## Table Format
 
@@ -38,7 +40,8 @@ Keep the dimension names and order identical across every audit so scores are co
 The API Compatibility dimension applies only when the subject is a reusable library or package,
 per `assessment/api-compatibility.md`. For a deployable service or application it is `N/A`.
 
-When the report language is not English, apply the column header and dimension name translations from the matching `translation/` file.
+When the report language is not English, apply the column header and dimension name translations
+from the matching `translation/` file.
 
 ## Scoring Rubric
 
@@ -60,7 +63,8 @@ Present this rubric matrix in the report so that scores are objective and reprod
 | Average   | 4-6         | Capability is present but uneven, limited, or inconsistent   |
 | Poor      | 1-3         | Capability is minimal, fragmentary, or absent where required |
 
-When the report language is not English, apply the band name and definition translations from the matching `translation/` file.
+When the report language is not English, apply the band name and definition translations from the
+matching `translation/` file.
 
 Per-score meanings:
 
@@ -77,7 +81,8 @@ Per-score meanings:
 | 2     | Fragments present, mostly unevidenced                         |
 | 1     | Capability is absent where required, with evidence of absence |
 
-When the report language is not English, apply the header and per-score description translations from the matching `translation/` file.
+When the report language is not English, apply the header and per-score description translations
+from the matching `translation/` file.
 
 ### Alternative Rubric (1-5)
 
@@ -90,7 +95,8 @@ Use this scale when the user selects `1-5` or `5 stars`.
 | Average   | 3           | Capability is adequate but uneven                           |
 | Poor      | 1-2         | Capability is minimal, limited, or absent where required    |
 
-When the report language is not English, apply the same band translations from the matching `translation/` file.
+When the report language is not English, apply the same band translations from the matching
+`translation/` file.
 
 | Score | Meaning                                                       |
 |-------|---------------------------------------------------------------|
@@ -100,7 +106,8 @@ When the report language is not English, apply the same band translations from t
 | 2     | Capability is present but limited or inconsistent             |
 | 1     | Capability is absent where required, with evidence of absence |
 
-When the report language is not English, apply the header and description translations from the matching `translation/` file.
+When the report language is not English, apply the header and description translations from the
+matching `translation/` file.
 
 ### Compact Rubric (1-3)
 
@@ -140,15 +147,19 @@ the exact mean in parentheses, for example `★★★☆☆ (3.4/5)`.
 
 Do not assign the minimum score when evidence is simply missing.
 
-When evidence is absent, leave the score blank or write `UNKNOWN` and explain in the notes. Reserve the minimum score for evidenced absence of a required capability.
+When evidence is absent, leave the score blank or write `UNKNOWN` and explain in the notes. Reserve
+the minimum score for evidenced absence of a required capability.
 
 ## Handling Not Applicable
 
-When every source category for a dimension is `N/A`, mark the dimension `N/A` rather than scoring it.
+When every source category for a dimension is `N/A`, mark the dimension `N/A` rather than scoring
+it.
 
 Put the applicability justification in the notes, anchored to the deployment model.
 
-Do not let `N/A` dimensions drag a summary score. A dimension that cannot apply is excluded, not counted as zero. Use `N/A` only under the contextual-applicability rule in `principles/evaluation-rules.md`.
+Do not let `N/A` dimensions drag a summary score. A dimension that cannot apply is excluded, not
+counted as zero. Use `N/A` only under the contextual-applicability rule in
+`principles/evaluation-rules.md`.
 
 ## Dimension To Category Mapping
 
@@ -240,5 +251,6 @@ An average never overrides a material risk or incomplete production-readiness ga
 
 - Every score must cite evidence in the detailed paragraph body.
 - Keep notes neutral and technical.
-- Do not average away a critical gap. If a dimension has a critical weakness, the score must reflect it and the notes must name it.
+- Do not average away a critical gap. If a dimension has a critical weakness, the score must reflect
+  it and the notes must name it.
 - Scores describe the system, never the people who built it.

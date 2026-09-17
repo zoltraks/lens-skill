@@ -29,7 +29,8 @@ Apply `principles/evaluation-rules.md` throughout. Describe code properties, nev
 
 ## Status Criteria
 
-- `PASS`: Clear module boundaries, controlled coupling, consistent structure, and few debt signals, with evidence.
+- `PASS`: Clear module boundaries, controlled coupling, consistent structure, and few debt signals,
+  with evidence.
 - `PARTIAL`: Reasonable structure with notable coupling, inconsistency, or localized debt.
 - `FAIL`: No clear boundaries, pervasive coupling, or structural disorder, with evidence.
 - `UNKNOWN`: Source structure was not provided for inspection.

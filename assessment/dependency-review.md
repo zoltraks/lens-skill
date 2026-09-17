@@ -3,9 +3,11 @@
 ## Purpose
 
 > **Scope:** Dependency health, known vulnerabilities, license compliance, lockfiles, provenance
-> **Key items:** outdated dependencies, known CVEs, license obligations, pinning, SBOM, build provenance
+> **Key items:** outdated dependencies, known CVEs, license obligations, pinning, SBOM, build
+> provenance
 
-This file guides assessment of third-party dependencies and the software supply chain, a primary concern for production code.
+This file guides assessment of third-party dependencies and the software supply chain, a primary
+concern for production code.
 
 Apply `principles/evaluation-rules.md` throughout.
 
@@ -16,10 +18,13 @@ The audit never runs audit or generation tools.
 
 - Dependency freshness: whether dependencies are current or significantly outdated.
 - Known vulnerabilities: whether dependencies carry published vulnerabilities.
-- License compliance: whether dependency licenses are compatible with the project's license and distribution.
+- License compliance: whether dependency licenses are compatible with the project's license and
+  distribution.
 - Pinning and lockfiles: whether versions are pinned and locked for reproducibility.
 - Provenance: whether the origin and integrity of dependencies are verifiable.
 - Bill of materials: whether an SBOM or equivalent inventory exists.
+- Target lifecycle: whether declared runtimes, frameworks, and platform targets are still
+  vendor-supported.
 
 ## Evidence To Look For
 
@@ -130,12 +135,23 @@ and feasible replacement or fork paths using dated primary evidence.
 
 Do not infer maintainer competence, availability, or bus factor from stars or version numbers.
 
+## Target And Dependency Lifecycle
+
+For every explicitly declared target framework, runtime, language version, OS target, or
+long-lived platform version, check the vendor's support status: `supported`, `EOL`, or
+`EOL-via-parent-product`. Cite the vendor's own lifecycle policy page as the reference for each
+status.
+
+This applies across ecosystems, not to one stack. When the vendor status cannot be determined
+from repository contents, mark it `UNKNOWN` and record which lifecycle page would resolve it.
+
 ## Status Criteria
 
 - `PASS`: Applicable support, integrity, advisory, and license requirements are evidenced for the
   resolved dependency scope, including version locking where required.
 - `PARTIAL`: Dependencies are managed but outdated, unscanned, or license posture is unclear.
-- `FAIL`: Dependencies carry known unaddressed vulnerabilities or incompatible licenses, with evidence.
+- `FAIL`: Dependencies carry known unaddressed vulnerabilities or incompatible licenses, with
+  evidence.
 - `UNKNOWN`: Manifests, lockfiles, or license data were not provided.
 
 ## Common Risks
@@ -153,4 +169,5 @@ Do not infer maintainer competence, availability, or bus factor from stars or ve
 - A reviewed, recorded license posture compatible with the project license.
 - An SBOM or generated dependency inventory.
 
-Mark each missing signal explicitly rather than inferring its presence. Do not claim a dependency is safe merely because it is current.
+Mark each missing signal explicitly rather than inferring its presence. Do not claim a dependency is
+safe merely because it is current.

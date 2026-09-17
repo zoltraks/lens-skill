@@ -38,6 +38,9 @@ determined, use the most recently modified file and record the choice.
 When no previous report exists, omit the Changes Since Previous Audit section. A first audit is
 the normal case and needs no omission note in Scope Exclusions.
 
+When the section is present, place it immediately after the Executive Summary, per
+`process/report-format.md`.
+
 ## Report Versioning
 
 The first audit of a subject is version `1.0`.

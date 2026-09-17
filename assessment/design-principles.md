@@ -5,19 +5,28 @@
 > **Scope:** SOLID principles, cohesion and coupling, DRY, separation of concerns
 > **Key items:** SRP, OCP, LSP, ISP, DIP, high cohesion, low coupling, no needless duplication
 
-This file guides assessment of object and module design quality against established design principles.
+This file guides assessment of object and module design quality against established design
+principles.
 
-Apply `principles/evaluation-rules.md` throughout. Assess observable design properties from the code, not intent. Architectural module boundaries are assessed in `assessment/maintainability-review.md`, code-level metrics in `assessment/code-quality.md`, this file covers design principles.
+Apply `principles/evaluation-rules.md` throughout. Assess observable design properties from the
+code, not intent. Architectural module boundaries are assessed in
+`assessment/maintainability-review.md`, code-level metrics in `assessment/code-quality.md`, this
+file covers design principles.
 
 ## What To Evaluate
 
 Evaluate each SOLID principle as an observable property of the code:
 
-- Single Responsibility (SRP): each unit has one reason to change, classes and modules are not catch-alls.
-- Open/Closed (OCP): behavior can be extended without modifying existing, tested code, typically via abstraction.
-- Liskov Substitution (LSP): subtypes are usable wherever their base type is expected without surprising behavior.
-- Interface Segregation (ISP): clients depend on narrow interfaces, not large ones with unused members.
-- Dependency Inversion (DIP): high-level modules depend on abstractions, not on concrete low-level details.
+- Single Responsibility (SRP): each unit has one reason to change, classes and modules are not
+  catch-alls.
+- Open/Closed (OCP): behavior can be extended without modifying existing, tested code, typically via
+  abstraction.
+- Liskov Substitution (LSP): subtypes are usable wherever their base type is expected without
+  surprising behavior.
+- Interface Segregation (ISP): clients depend on narrow interfaces, not large ones with unused
+  members.
+- Dependency Inversion (DIP): high-level modules depend on abstractions, not on concrete low-level
+  details.
 
 Also evaluate the companion principles:
 
@@ -40,9 +49,12 @@ Also evaluate the companion principles:
 
 ## Status Criteria
 
-- `PASS`: The design consistently follows SOLID and the companion principles, with evidence across representative units.
-- `PARTIAL`: Principles are followed in places but violated in others, such as god objects, concrete dependencies, or duplication.
-- `FAIL`: The design broadly violates these principles where the scale clearly calls for them, with evidence.
+- `PASS`: The design consistently follows SOLID and the companion principles, with evidence across
+  representative units.
+- `PARTIAL`: Principles are followed in places but violated in others, such as god objects, concrete
+  dependencies, or duplication.
+- `FAIL`: The design broadly violates these principles where the scale clearly calls for them, with
+  evidence.
 - `UNKNOWN`: Source was not provided in enough depth to judge design.
 
 ## Common Risks
@@ -62,4 +74,15 @@ Also evaluate the companion principles:
 - Narrow, role-specific interfaces and minimal cross-module coupling.
 - Shared abstractions in place of repeated logic.
 
-Mark each missing signal explicitly rather than inferring its presence. Judge each principle separately, a design can satisfy some and violate others, which the notes should make clear.
+Mark each missing signal explicitly rather than inferring its presence. Judge each principle
+separately, a design can satisfy some and violate others, which the notes should make clear.
+
+## Render As
+
+Render the evaluation as the `### Design Principles` subsection of the Architectural Assessment,
+per `process/report-format.md`. Present one row per principle with status and evidence. The
+subsection is always present, mark principles `N/A` when no source was inspected for them.
+
+Reuse evidence already gathered for other findings instead of re-investigating it. When a
+violation was already described elsewhere, for example a Liskov Substitution breach logged as a
+contract defect, name and cross-reference that finding rather than duplicating the analysis.

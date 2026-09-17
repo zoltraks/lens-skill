@@ -3,11 +3,13 @@
 ## Purpose
 
 > **Scope:** Authentication, authorization, input validation, OWASP risks, data exposure
-> **Key items:** identity, access control, untrusted input handling, secret management, data protection
+> **Key items:** identity, access control, untrusted input handling, secret management, data
+> protection
 
 This file guides assessment of the system's defensive posture.
 
-Apply `principles/evaluation-rules.md` throughout. Assess only what the input shows. Do not perform credential harvesting or offensive actions, this is a defensive review.
+Apply `principles/evaluation-rules.md` throughout. Assess only what the input shows. Do not perform
+credential harvesting or offensive actions, this is a defensive review.
 
 ## What To Evaluate
 
@@ -142,7 +144,8 @@ The audit does not run SAST engines or scanners. Corroboration comes from manual
 any committed scan results, CI security steps, or documented reviews.
 
 When a committed report claims coverage, check that the engine supports the project's language
-and framework. [CodeQL lists Rust support](https://docs.github.com/en/code-security/code-scanning/introduction-to-code-scanning/about-code-scanning-with-codeql) and
+and framework.
+[CodeQL lists Rust support](https://docs.github.com/en/code-security/code-scanning/introduction-to-code-scanning/about-code-scanning-with-codeql) and
 [Semgrep capabilities vary by engine and edition](https://docs.semgrep.dev/semgrep-ce-languages).
 
 Neither language support nor a clean scan establishes coverage of custom authorization semantics.
@@ -155,7 +158,8 @@ control for the verification owner, recording why the audit cannot perform it.
 
 ## Status Criteria
 
-- `PASS`: Identity, access control, and input handling are present and consistent, and secrets and sensitive data are protected, with evidence.
+- `PASS`: Identity, access control, and input handling are present and consistent, and secrets and
+  sensitive data are protected, with evidence.
 - `PARTIAL`: Some controls are present but inconsistent, incomplete, or only partly evidenced.
 - `FAIL`: A required control is absent or clearly defeated, with evidence.
 - `UNKNOWN`: Security-relevant artifacts were not provided.
@@ -176,4 +180,5 @@ control for the verification owner, recording why the audit cannot perform it.
 - Secrets held in a dedicated store and kept out of logs and source.
 - Transport encryption applied to all sensitive traffic.
 
-Mark each missing signal explicitly rather than inferring its presence. Do not claim a control is effective merely because it is referenced.
+Mark each missing signal explicitly rather than inferring its presence. Do not claim a control is
+effective merely because it is referenced.

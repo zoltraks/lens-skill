@@ -7,7 +7,8 @@
 
 This file guides assessment of code-level quality in an existing or production codebase.
 
-Apply `principles/evaluation-rules.md` throughout. This category covers code-level health, architectural structure is assessed in `assessment/maintainability-review.md`.
+Apply `principles/evaluation-rules.md` throughout. This category covers code-level health,
+architectural structure is assessed in `assessment/maintainability-review.md`.
 
 ## What To Evaluate
 
@@ -51,11 +52,38 @@ report is not proof of soundness or insecurity.
 
 Report "no unsafe found in the reviewed scope", not "memory safe" or "no unsafe anywhere".
 
+## Complexity Measurement
+
+Estimate cyclomatic complexity per method from source parsing alone, never by execution. Count
+one per method plus one per decision point: `if`/`else`, loops, `case`/`when` branches, `catch`,
+ternaries, and boolean `&&`/`||` chains.
+
+Flag methods above roughly 15-20, naming the file, method, and estimated count. Estimates are
+`Inferred` evidence unless a committed metrics report supplies the value.
+
+Before treating the metric as absent, look for a project-local metrics tool configuration and any
+committed output or checkpoint history, such as a SourceMonitor `.smproj` file and its checkpoint
+data or the equivalent for other stacks. Record committed metric output as `Reported` evidence
+with the tool, version, and revision.
+
+## Duplication Scan
+
+Scan for near-duplicate blocks across files, source-only, using a token-based or structural
+comparison. When no dedicated tool is configured, compare suspiciously similar regions manually
+by structure: the same sequence of operations under renamed identifiers still counts as
+duplication.
+
+Flag candidate clusters explicitly, for example several hand-rolled codecs or parsers that share
+one shape, and record the files and extent of each cluster.
+
 ## Status Criteria
 
-- `PASS`: Linting, formatting, and type checks are configured and strict, with low complexity and little duplication, supported by evidence.
-- `PARTIAL`: Some tooling exists but rules are loose, unenforced, or complexity and duplication are notable.
-- `FAIL`: No static analysis or type discipline where the language and scale clearly call for it, with evidence.
+- `PASS`: Linting, formatting, and type checks are configured and strict, with low complexity and
+  little duplication, supported by evidence.
+- `PARTIAL`: Some tooling exists but rules are loose, unenforced, or complexity and duplication are
+  notable.
+- `FAIL`: No static analysis or type discipline where the language and scale clearly call for it,
+  with evidence.
 - `UNKNOWN`: Source and tooling configuration were not provided.
 
 ## Common Risks

@@ -7,7 +7,8 @@
 
 This file guides assessment of the qualities a system must exhibit beyond its functions.
 
-Apply `principles/evaluation-rules.md` throughout. Distinguish a stated target from a measured result, and mark unstated targets as `NOT SPECIFIED`.
+Apply `principles/evaluation-rules.md` throughout. Distinguish a stated target from a measured
+result, and mark unstated targets as `NOT SPECIFIED`.
 
 ## What To Evaluate
 
@@ -55,8 +56,10 @@ requiring service uptime, on-call, or distributed tracing.
 
 ## Status Criteria
 
-- `PASS`: Targets are stated and met with measured evidence, and the architecture supports the required scale and resilience.
-- `PARTIAL`: Targets are stated but only partly evidenced, or the architecture supports some qualities but not others.
+- `PASS`: Targets are stated and met with measured evidence, and the architecture supports the
+  required scale and resilience.
+- `PARTIAL`: Targets are stated but only partly evidenced, or the architecture supports some
+  qualities but not others.
 - `FAIL`: Required NFRs are clearly unmet, with evidence.
 - `UNKNOWN`: NFR targets or measurements were not provided.
 

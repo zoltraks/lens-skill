@@ -3,11 +3,15 @@
 ## Purpose
 
 > **Scope:** Output style, terminology, status and severity vocabularies, consistency rules
-> **Key items:** precise structured prose, tables over paragraphs, fixed vocabularies, repeatable output
+> **Key items:** precise structured prose, tables over paragraphs, fixed vocabularies, repeatable
+> output
 
-This file defines how the audit report should read. It complements `evaluation-rules.md`, which defines what may be said.
+This file defines how the audit report should read.
 
-The goal is consistency. Two audits of similar systems should produce reports of similar shape, vocabulary, and rigor.
+It complements `principles/evaluation-rules.md`, which defines what may be said.
+
+The goal is consistency. Two audits of similar systems should produce reports of similar shape,
+vocabulary, and rigor.
 
 ## Tone And Register
 
@@ -25,13 +29,19 @@ Write about the system, not the author.
 
 Use a hybrid table-paragraph format throughout the report.
 
-Tables provide scannable summaries. Paragraphs below tables provide detailed evidence, reasoning, and context. This keeps the report readable in plain-text consoles while preserving depth.
+Tables provide scannable summaries. Paragraphs below tables provide detailed evidence, reasoning,
+and context. This keeps the report readable in plain-text consoles while preserving depth.
 
-In tables, use shortened, general values. One to three words per cell. Do not crowd table cells with long explanations.
+In tables, use shortened, general values. One to three words per cell. Do not crowd table cells with
+long explanations.
 
-Apply the table formatting rules defined in `process/report-format.md` (Table Formatting Rules section) to every table in the report: compact column widths, trailing-space padding on every cell, and hyphens contiguous with pipes in the separator row.
+Apply the table formatting rules defined in `process/report-format.md` (Table Formatting Rules
+section) to every table in the report: compact column widths, trailing-space padding on every cell,
+and hyphens contiguous with pipes in the separator row.
 
-In paragraphs, use short sentences separated by blank lines. Each sentence should stand on its own line, with an empty line between consecutive sentences. Anchor every claim to a concrete fact: a file path, a config key, a command, or a direct quote.
+In paragraphs, use short sentences separated by blank lines. Each sentence should stand on its own
+line, with an empty line between consecutive sentences. Anchor every claim to a concrete fact: a
+file path, a config key, a command, or a direct quote.
 
 Use headers for section titles rather than bold runs of text.
 
@@ -51,7 +61,8 @@ Status values:
 - `UNKNOWN`
 - `N/A`
 
-Use `N/A` only under the contextual-applicability rule in `principles/evaluation-rules.md`, always with a one-line justification.
+Use `N/A` only under the contextual-applicability rule in `principles/evaluation-rules.md`, always
+with a one-line justification.
 
 Missing-information tokens:
 
@@ -85,7 +96,8 @@ Maturity levels:
 - `Production-ready`
 - `Undetermined`
 
-Score scale: integers `1` to `10` by default, with an optional `1` to `5` scale, defined in `synthesis/project-scorecard.md`. The value `0` is reserved and never used as a score.
+Score scale: integers `1` to `10` by default, with an optional `1` to `5` scale, defined in
+`synthesis/project-scorecard.md`. The value `0` is reserved and never used as a score.
 
 ## Consistency Rules
 
@@ -93,9 +105,12 @@ Use the same category names and the same order across every audit, as listed in 
 
 Use the same column headers in the risk register and scorecard tables across every audit.
 
-When a category cannot apply to the system's deployment model, keep the section and mark it `N/A` with a one-line justification, rather than silently dropping it or marking it `FAIL`. When a category could apply but no evidence was provided, mark it `UNKNOWN`.
+When a category cannot apply to the system's deployment model, keep the section and mark it `N/A`
+with a one-line justification, rather than silently dropping it or marking it `FAIL`. When a
+category could apply but no evidence was provided, mark it `UNKNOWN`.
 
-Do not introduce new status or severity words. If a nuance is needed, place it in the notes column, not in the marker.
+Do not introduce new status or severity words. If a nuance is needed, place it in the notes column,
+not in the marker.
 
 ## Plain-Text Friendly Formatting
 
@@ -103,33 +118,41 @@ Write short sentences.
 
 Separate distinct statements with line breaks so the report reads well in plain consoles.
 
-Break lines that exceed 100 characters at a natural boundary such as after a comma or clause end, do not break inside inline code, file paths, or URLs.
+Break lines that exceed 100 characters at a natural boundary such as after a comma or clause end, do
+not break inside inline code, file paths, or URLs.
 
-Do not use the semicolon character in prose. Join closely related clauses with a comma or split them into separate sentences.
+Do not use the semicolon character in prose. Join closely related clauses with a comma or split them
+into separate sentences.
 
-Prefer single-sentence paragraphs. Every sentence in a prose paragraph must be on its own line, separated from the next sentence by an empty line.
+Prefer single-sentence paragraphs. Every sentence in a prose paragraph must be on its own line,
+separated from the next sentence by an empty line.
 
 Put exactly one empty line before and after lists of items.
 
 For nested lists, put an empty line between the parent list item and its sublist.
 
-For lists of short sentences, do not use blank lines between list items. For complex lists, use blank lines.
+For lists of short sentences, do not use blank lines between list items. For complex lists, use
+blank lines.
 
 Avoid numbered lists for non-sequential items. Use bullet points.
 
-When a prose paragraph lists three or more related items, use a bullet list instead of an inline comma-separated list.
+When a prose paragraph lists three or more related items, use a bullet list instead of an inline
+comma-separated list.
 
 For process or workflow steps, use bold headers separated by empty lines instead of numbered lists.
 
-Keep tables readable as plain text. Align columns by padding every cell value with trailing spaces so that all `|` column separators in a table align vertically in plain text.
+Keep tables readable as plain text. Align columns by padding every cell value with trailing spaces
+so that all `|` column separators in a table align vertically in plain text.
 
-Format every table with an automated script per the Table Formatting Rules in `process/report-format.md`, do not count column widths by hand.
+Format every table with an automated script per the Table Formatting Rules in
+`process/report-format.md`, do not count column widths by hand.
 
 Keep section names short. Do not put qualifiers in section names using parentheses.
 
 Use headers for section titles rather than bold runs of text.
 
-Put exactly one empty line after every markdown header (`#`, `##`, `###`) before the first content line.
+Put exactly one empty line after every markdown header (`#`, `##`, `###`) before the first content
+line.
 
 Do not use `####` or deeper headings in the report.
 
@@ -139,13 +162,17 @@ Use standard ASCII double quotes rather than typographic quotes.
 
 Prefer ASCII characters for normal text.
 
-Use the standard ASCII hyphen-minus `-` (U+002D) for all hyphens, dashes, and minus signs. Do not use the em dash `—` (U+2014) or en dash `–` (U+2013) anywhere in the report.
+Use the standard ASCII hyphen-minus `-` (U+002D) for all hyphens, dashes, and minus signs. Do not
+use the em dash `—` (U+2014) or en dash `–` (U+2013) anywhere in the report.
 
-Box-drawing characters like "│", "├", "└" are allowed in code blocks for directory trees and simple diagrams. If a diagram already uses box-drawing characters, keep them. Do not replace box-drawing characters with "+", "-", or "`".
+Box-drawing characters like "│", "├", "└" are allowed in code blocks for directory trees and simple
+diagrams. If a diagram already uses box-drawing characters, keep them. Do not replace box-drawing
+characters with "+", "-", or "`".
 
 Do not leave blank lines as the first or last line inside a fenced code block.
 
-Use a language tag on fenced code blocks that contain code. Leave diagrams, directory trees, console output, and plain text untagged.
+Use a language tag on fenced code blocks that contain code. Leave diagrams, directory trees, console
+output, and plain text untagged.
 
 **Hexadecimal and byte values**: Enclose in double backticks (e.g., `` `FF` ``).
 
@@ -153,22 +180,33 @@ Use a language tag on fenced code blocks that contain code. Leave diagrams, dire
 
 ## Multilingual Output
 
-When the user requests a specific natural language for the report, translate all user-facing prose into that language.
+When the user requests a specific natural language for the report, translate all user-facing prose
+into that language.
 
-The default report language is English. When the request language is ambiguous or cannot be determined, default to English.
+The default report language is English. When the request language is ambiguous or cannot be
+determined, default to English.
 
 **Translation files**
 
-Translation rules for each supported language live in the `translation/` directory. Each file is named after the language (for example, `translation/polish-language.md`). When the report language is not English, load the matching translation file and apply every translation defined there.
+Translation rules for each supported language live in the `translation/` directory. Each file is
+named after the language (for example, `translation/polish-language.md`). When the report language
+is not English, load the matching translation file and apply every translation defined there.
 
-To add support for a new language, create a new file in `translation/` following the structure of the existing files. The file must define translations for status and severity vocabulary, section headings, table headers, style rules, and any language-specific encoding or diacritics requirements.
+To add support for a new language, create a new file in `translation/` following the structure of
+the existing files. The file must define translations for status and severity vocabulary, section
+headings, table headers, style rules, and any language-specific encoding or diacritics requirements.
 
 **What must be translated:**
 
-- All section headings (e.g., "Technology Stack", "Executive Summary", "Health Dashboard", "Detailed Technical Findings")
-- All table column headers (e.g., "Layer", "Technology", "Category", "Status", "Risks", "Notes", "Dimension", "Score")
-- All finding pillar names in the Detailed Technical Findings summary table (e.g., "Architecture & Design", "Code Quality", "Security & Compliance", "Infrastructure & CI/CD", "AI Provenance & Code Origin", "Copyrights & Originality")
-- All dimension names in the Scorecard Summary (e.g., "Testability", "Design Soundness", "Code Quality")
+- All section headings (e.g., "Technology Stack", "Executive Summary", "Health Dashboard", "Detailed
+  Technical Findings")
+- All table column headers (e.g., "Layer", "Technology", "Category", "Status", "Risks", "Notes",
+  "Dimension", "Score")
+- All finding pillar names in the Detailed Technical Findings summary table (e.g., "Architecture &
+  Design", "Code Quality", "Security & Compliance", "Infrastructure & CI/CD", "AI Provenance & Code
+  Origin", "Copyrights & Originality")
+- All dimension names in the Scorecard Summary (e.g., "Testability", "Design Soundness", "Code
+  Quality")
 - All risk names in the Unified Risk Register
 - All recommendation summaries in the Actionable Remediation Roadmap
 - All descriptive paragraphs, evidence, reasoning, and justification text
@@ -176,25 +214,35 @@ To add support for a new language, create a new file in `translation/` following
 
 **What stays in English (fixed vocabularies):**
 
-- Maturity levels: `Prototype`, `Early development`, `Pre-production`, `Production-ready`, `Undetermined`
+- Maturity levels: `Prototype`, `Early development`, `Pre-production`, `Production-ready`,
+  `Undetermined`
 - Missing-information tokens: `UNKNOWN`, `NOT SPECIFIED`, `INSUFFICIENT INFORMATION`
 - File paths, config keys, commands, code snippets, and direct quotes from the input
 
 **Status, severity, and score format:**
 
-The English markers (`PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`, `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`, `Score:`, `SEVERITY:`) are the default. Each translation file defines the equivalents for its language. The inline format remains identical: the marker follows the bold heading separated by a space.
+The English markers (`PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`, `LOW`, `MEDIUM`, `HIGH`,
+`CRITICAL`, `Score:`, `SEVERITY:`) are the default. Each translation file defines the equivalents
+for its language. The inline format remains identical: the marker follows the bold heading separated
+by a space.
 
 **Language-specific style rules:**
 
-Each translation file may override English style rules where the target language requires it. For example, heading capitalization, gender rules for acronyms, diacritics preservation, and encoding requirements are defined per language in the translation file.
+Each translation file may override English style rules where the target language requires it. For
+example, heading capitalization, gender rules for acronyms, diacritics preservation, and encoding
+requirements are defined per language in the translation file.
 
 ## Information Security In Output
 
-Never reproduce plaintext secrets, passwords, or cryptographic keys in summaries, observations, risk descriptions, or recommendation text.
+Never reproduce plaintext secrets, passwords, or cryptographic keys in summaries, observations, risk
+descriptions, or recommendation text.
 
-When a finding involves a secret, describe the location and nature of the exposure without quoting the value. Use `[REDACTED]` as a placeholder or a generic phrase such as "plaintext database credentials found in tracking file".
+When a finding involves a secret, describe the location and nature of the exposure without quoting
+the value. Use `[REDACTED]` as a placeholder or a generic phrase such as "plaintext database
+credentials found in tracking file".
 
-The file path and configuration key that contains the secret may still be cited as evidence. Only the secret value itself is redacted.
+The file path and configuration key that contains the secret may still be cited as evidence. Only
+the secret value itself is redacted.
 
 ## Report Termination
 
@@ -209,4 +257,5 @@ End after References without trailing boilerplate.
 
 Given the same input, aim to produce the same findings, statuses, and scores.
 
-Anchor every judgement to a rule in this skill and to evidence in the input, so that the result is reproducible rather than stylistic.
+Anchor every judgement to a rule in this skill and to evidence in the input, so that the result is
+reproducible rather than stylistic.

@@ -3,11 +3,15 @@
 ## Purpose
 
 > **Scope:** Data protection, privacy, regulatory obligations, licensing, auditability
-> **Key items:** personal data handling, retention, consent, regulatory scope, license compliance, audit trail
+> **Key items:** personal data handling, retention, consent, regulatory scope, license compliance,
+> audit trail
 
-This file guides assessment of legal and regulatory obligations that apply to a system, especially one handling user or business data in production.
+This file guides assessment of legal and regulatory obligations that apply to a system, especially
+one handling user or business data in production.
 
-Apply `principles/evaluation-rules.md` throughout. State obligations only where the input or the system's domain makes them applicable. This is a technical assessment of observable controls, not legal advice.
+Apply `principles/evaluation-rules.md` throughout. State obligations only where the input or the
+system's domain makes them applicable. This is a technical assessment of observable controls, not
+legal advice.
 
 ## What To Evaluate
 

@@ -2,31 +2,43 @@
 
 ## Purpose
 
-> **Scope:** API specification conformance, schema validation, error standardization, versioning, spec-to-code agreement
+> **Scope:** API specification conformance, schema validation, error standardization, versioning,
+> spec-to-code agreement
 > **Key items:** OpenAPI/contract presence, request and response schema enforcement, RFC 9457 error
 > format, versioning strategy, OWASP API Security Top 10 (2023)
 
-This file guides assessment of whether a system that exposes an API conforms to its own contract and to API design standards. It complements `assessment/security-review.md` and `assessment/threat-model.md` for the security dimension and `assessment/documentation-review.md` for the docs dimension.
+This file guides assessment of whether a system that exposes an API conforms to its own contract and
+to API design standards. It complements `assessment/security-review.md` and
+`assessment/threat-model.md` for the security dimension and `assessment/documentation-review.md` for
+the docs dimension.
 
-Apply `principles/evaluation-rules.md` throughout. Assess only what the spec and code show. Treat a spec that contradicts the code as a drift finding.
+Apply `principles/evaluation-rules.md` throughout. Assess only what the spec and code show. Treat a
+spec that contradicts the code as a drift finding.
 
 ## When This Applies
 
-This assessment applies when the system exposes an API: REST, GraphQL, gRPC, MCP, or a similar contract-driven interface.
+This assessment applies when the system exposes an API: REST, GraphQL, gRPC, MCP, or a similar
+contract-driven interface.
 
-It does not apply to a system with no external API surface, for example a pure CLI with no server, a library, or a batch job. In that case, mark the section `N/A` with a one-line justification. Do not invent an API-spec section for a project that has no API.
+It does not apply to a system with no external API surface, for example a pure CLI with no server, a
+library, or a batch job. In that case, mark the section `N/A` with a one-line justification. Do not
+invent an API-spec section for a project that has no API.
 
 ## What To Evaluate
 
-- **Contract presence**: whether an API specification exists (OpenAPI, AsyncAPI, Protobuf, JSON Schema) and whether it is generated from code or maintained by hand.
-- **Schema validation**: whether request bodies are validated against the schema and rejected when malformed.
+- **Contract presence**: whether an API specification exists (OpenAPI, AsyncAPI, Protobuf, JSON
+  Schema) and whether it is generated from code or maintained by hand.
+- **Schema validation**: whether request bodies are validated against the schema and rejected when
+  malformed.
 - **Response consistency**: whether responses use a consistent envelope and types across endpoints.
 - **Error standardization**: whether errors follow a standard such as RFC 9457 (Problem Details for
   HTTP APIs) with `type`, `title`, `status`, `detail`, and `instance` fields, rather than ad hoc
   bodies.
 - **Versioning**: whether the API has a versioning strategy (path, header, or media type).
-- **Spec-to-code agreement**: whether the specification matches the implemented behavior, including auth requirements per endpoint.
-- **OWASP API Security Top 10 (2023)**: whether the contract guards against the API-specific risk categories.
+- **Spec-to-code agreement**: whether the specification matches the implemented behavior, including
+  auth requirements per endpoint.
+- **OWASP API Security Top 10 (2023)**: whether the contract guards against the API-specific risk
+  categories.
 
 ## Protocol-Specific Requirements
 
@@ -75,15 +87,20 @@ Use these category codes when an API security gap maps to one:
 
 ## Status Criteria
 
-- `PASS`: A specification exists, is enforced, errors are standardized, versioning is defined, and the spec matches the code, with evidence.
-- `PARTIAL`: A specification exists but enforcement, error standardization, versioning, or spec-to-code agreement is incomplete.
-- `FAIL`: No specification where the API surface clearly requires one, or the spec broadly contradicts the code, with evidence.
+- `PASS`: A specification exists, is enforced, errors are standardized, versioning is defined, and
+  the spec matches the code, with evidence.
+- `PARTIAL`: A specification exists but enforcement, error standardization, versioning, or
+  spec-to-code agreement is incomplete.
+- `FAIL`: No specification where the API surface clearly requires one, or the spec broadly
+  contradicts the code, with evidence.
 - `UNKNOWN`: API artifacts were not provided.
 - `N/A`: The system exposes no API, with justification.
 
 ## How To Present
 
-Render this as a standalone section, as described in `process/report-format.md`, only when the system exposes an API. Present a conformance table across the evaluated dimensions, then describe each gap with evidence and its linked `FND-XXX`.
+Render this as a standalone section, as described in `process/report-format.md`, only when the
+system exposes an API. Present a conformance table across the evaluated dimensions, then describe
+each gap with evidence and its linked `FND-XXX`.
 
 ## Rules
 

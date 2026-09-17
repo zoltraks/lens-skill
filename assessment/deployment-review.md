@@ -7,7 +7,8 @@
 
 This file guides assessment of how the system goes from source to a running release.
 
-Apply `principles/evaluation-rules.md` throughout. Reverting a release is assessed separately in `assessment/rollback-review.md`.
+Apply `principles/evaluation-rules.md` throughout. Reverting a release is assessed separately in
+`assessment/rollback-review.md`.
 
 ## What To Evaluate
 
@@ -57,9 +58,12 @@ Use comparable service-level trends to assess change over time.
 
 ## Status Criteria
 
-- `PASS`: Builds are automated and reproducible, releases follow a defined automated path, and manual steps are minimal and documented.
-- `PARTIAL`: Automation exists but key steps are manual, undocumented, or inconsistent across environments.
-- `FAIL`: Releases are entirely manual and undocumented where automation is clearly required, with evidence.
+- `PASS`: Builds are automated and reproducible, releases follow a defined automated path, and
+  manual steps are minimal and documented.
+- `PARTIAL`: Automation exists but key steps are manual, undocumented, or inconsistent across
+  environments.
+- `FAIL`: Releases are entirely manual and undocumented where automation is clearly required, with
+  evidence.
 - `UNKNOWN`: Build and release artifacts were not provided.
 
 ## Common Risks

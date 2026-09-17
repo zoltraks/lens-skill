@@ -7,7 +7,8 @@
 
 This file guides assessment of how well the system can be understood while running.
 
-Apply `principles/evaluation-rules.md` throughout. Operational use of observability data is assessed in `assessment/operational-readiness.md`.
+Apply `principles/evaluation-rules.md` throughout. Operational use of observability data is assessed
+in `assessment/operational-readiness.md`.
 
 ## What To Evaluate
 
@@ -45,7 +46,8 @@ Assess redaction, cardinality, retention, and telemetry cost alongside diagnosti
 
 ## Status Criteria
 
-- `PASS`: Structured logs, meaningful metrics, request tracing, and actionable alerts are present, with evidence.
+- `PASS`: Structured logs, meaningful metrics, request tracing, and actionable alerts are present,
+  with evidence.
 - `PARTIAL`: Some signals exist but are unstructured, incomplete, or lack alerting.
 - `FAIL`: No usable observability where it is clearly required, with evidence.
 - `UNKNOWN`: Observability artifacts were not provided.

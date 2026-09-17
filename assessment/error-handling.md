@@ -7,14 +7,16 @@
 
 This file guides assessment of how the system behaves when operations fail.
 
-Apply `principles/evaluation-rules.md` throughout. System-wide resilience patterns are also touched in `assessment/nfr-review.md`, here the focus is the code-level handling of failures.
+Apply `principles/evaluation-rules.md` throughout. System-wide resilience patterns are also touched
+in `assessment/nfr-review.md`, here the focus is the code-level handling of failures.
 
 ## What To Evaluate
 
 - Exception handling strategy: whether errors are handled consistently and at the right boundaries.
 - Retries: whether transient failures are retried safely, with limits and backoff.
 - Fallbacks: whether the system degrades gracefully when a dependency fails.
-- User-facing error handling: whether failures produce clear, safe messages without leaking internals.
+- User-facing error handling: whether failures produce clear, safe messages without leaking
+  internals.
 
 ## Evidence To Look For
 
@@ -28,8 +30,10 @@ Apply `principles/evaluation-rules.md` throughout. System-wide resilience patter
 
 ## Status Criteria
 
-- `PASS`: Errors are handled consistently at clear boundaries, retries are safe, fallbacks exist where needed, and user-facing failures are clear and safe, with evidence.
-- `PARTIAL`: Handling exists but is inconsistent, retries are unsafe, or some paths swallow or leak errors.
+- `PASS`: Errors are handled consistently at clear boundaries, retries are safe, fallbacks exist
+  where needed, and user-facing failures are clear and safe, with evidence.
+- `PARTIAL`: Handling exists but is inconsistent, retries are unsafe, or some paths swallow or leak
+  errors.
 - `FAIL`: Errors are unhandled or hidden where handling is clearly required, with evidence.
 - `UNKNOWN`: Error-handling code was not provided.
 

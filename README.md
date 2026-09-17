@@ -6,25 +6,28 @@
  > ^ <
 ```
 
-> Evidence-based engineering audits of any software subject - prototypes, codebases under development, and already-running production systems.
+> Evidence-based engineering audits of any software subject - prototypes, codebases under
+> development, and already-running production systems.
 >
 > [Versioning Policy](./VERSIONING.md)
 
-Lens is a structured audit process packaged as an agent skill. It guides an AI coding agent through a complete engineering assessment of a codebase, producing a neutral, repeatable report anchored to concrete facts rather than impressions.
+Lens is a structured audit process packaged as an agent skill. It guides an AI coding agent through
+a complete engineering assessment of a codebase, producing a neutral, repeatable report anchored to
+concrete facts rather than impressions.
 
 Unlike a generic "review my code" prompt, Lens enforces a fixed workflow: intake, parameter
 configuration, scope definition, evidence gathering, per-category assessment, synthesis, and
 validation.
 
-The output is a standardized report with sixteen baseline sections - document
-information, technology stack, executive summary, health dashboard, high-level observations,
-auditing methodology, scoring rubrics, system context, architectural assessment, strengths and
-what's working, detailed technical findings, unified risk register, trade-off analysis, actionable
-remediation roadmap, scope exclusions, and references - plus conditional sections (data flow
-diagram, design patterns, architecture decision records, threat model, API contract conformance,
-skill definition conformance, standards conformance, API compatibility and versioning
-discipline, technical debt register, changes since previous audit, and re-audit plan) that
-appear only when the subject warrants them.
+The output is a standardized report with fifteen baseline sections - document
+information, executive summary, system context (with the technology stack), health dashboard,
+high-level observations, auditing methodology, scoring rubrics, architectural assessment,
+trade-off analysis, strengths and what's working, detailed technical findings, unified risk
+register, actionable remediation roadmap, scope exclusions, and references - plus conditional
+sections (data flow diagram, design patterns, architecture decision records, threat model, API
+contract conformance, skill definition conformance, standards conformance, API compatibility and
+versioning discipline, technical debt register, changes since previous audit, and re-audit plan)
+that appear only when the subject warrants them.
 
 Every section uses a hybrid table-paragraph format for scannable summaries backed by detailed
 evidence.
@@ -41,7 +44,8 @@ When you ask for an audit, the agent loads the skill and performs the following:
 
 **Reads everything you supplied**
 
-Code, configuration, documentation, logs, and prior reports. It identifies the artifact type (prototype, codebase, production system, or proposal) and records the source format.
+Code, configuration, documentation, logs, and prior reports. It identifies the artifact type
+(prototype, codebase, production system, or proposal) and records the source format.
 
 **Configures parameters**
 
@@ -52,7 +56,8 @@ be changed when explicitly specified.
 
 **Defines scope explicitly**
 
-Lists what is in scope and what is excluded. Marks unstated constraints as `NOT SPECIFIED` rather than assuming industry norms.
+Lists what is in scope and what is excluded. Marks unstated constraints as `NOT SPECIFIED` rather
+than assuming industry norms.
 
 **Gathers evidence before judging**
 
@@ -62,7 +67,12 @@ never builds, tests, or executes the project.
 
 **Assesses across 18 categories**
 
-Testing, design principles, code quality, stack best practices, dependencies, deployment, rollback, maintainability, change management, documentation, non-functional requirements, security, compliance, observability, error handling, operational readiness, AI-generated code detection and provenance, and copyrights and originality. Each category receives one of five statuses: `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, or `N/A`. A conditional seventh pillar, API Compatibility & Versioning Discipline, applies when the subject is a reusable library or package.
+Testing, design principles, code quality, stack best practices, dependencies, deployment, rollback,
+maintainability, change management, documentation, non-functional requirements, security,
+compliance, observability, error handling, operational readiness, AI-generated code detection and
+provenance, and copyrights and originality. Each category receives one of five statuses: `PASS`,
+`PARTIAL`, `FAIL`, `UNKNOWN`, or `N/A`. A conditional seventh pillar, API Compatibility & Versioning
+Discipline, applies when the subject is a reusable library or package.
 
 **Synthesizes findings**
 
@@ -72,7 +82,8 @@ impact-vs-effort tracking. Optional scales are `1-5`, `1-3`, `5 stars`, and `3 s
 
 **Produces a validated report**
 
-Re-checks every finding against the evaluation rules: no assumptions, no personal judgment, no emotional language, every claim anchored to a concrete fact.
+Re-checks every finding against the evaluation rules: no assumptions, no personal judgment, no
+emotional language, every claim anchored to a concrete fact.
 
 ---
 
@@ -132,11 +143,15 @@ even when the scoped report is final.
 
 Every audit follows these non-negotiable rules:
 
-- **Evidence only** - findings trace to a concrete fact: a file, a config value, a command, a log line.
-- **No assumptions** - missing information is marked `UNKNOWN`, `NOT SPECIFIED`, or `INSUFFICIENT INFORMATION`.
+- **Evidence only** - findings trace to a concrete fact: a file, a config value, a command, a log
+  line.
+- **No assumptions** - missing information is marked `UNKNOWN`, `NOT SPECIFIED`, or
+  `INSUFFICIENT INFORMATION`.
 - **No personal judgement** - the report evaluates the system, never the people who built it.
-- **Architectural neutrality** - choices are judged within stated constraints, not against a favored stack.
-- **Contextual applicability** - categories that cannot apply to the deployment model are marked `N/A` with justification, not treated as failures.
+- **Architectural neutrality** - choices are judged within stated constraints, not against a favored
+  stack.
+- **Contextual applicability** - categories that cannot apply to the deployment model are marked
+  `N/A` with justification, not treated as failures.
 
 ---
 
@@ -156,7 +171,9 @@ The skill uses a hybrid table-paragraph format throughout:
 - **High-Level Observations** provide a fast-skim path for non-technical readers.
 - **Strengths & What's Working** balances the tone with 5-8 acknowledged positives.
 - **Trade-off Analysis** surfaces architectural tensions in a dedicated table.
-- **Document style** - generated reports follow the same Markdown rules as the skill's documents: `#`/`##`/`###` headings only, one-sentence paragraphs, 100-character wrapping, and tables aligned by a temporary formatting script.
+- **Document style** - generated reports follow the same Markdown rules as the skill's documents:
+  `#`/`##`/`###` headings only, one-sentence paragraphs, 100-character wrapping, and tables aligned
+  by a temporary formatting script.
 
 This format keeps the report readable in plain-text consoles while preserving depth.
 
@@ -185,7 +202,8 @@ This format keeps the report readable in plain-text consoles while preserving de
 ## Example prompts
 
 **Full audit**
-> Audit this production codebase. Produce a full engineering assessment with a unified risk register, scorecard, and actionable remediation roadmap.
+> Audit this production codebase. Produce a full engineering assessment with a unified risk
+> register, scorecard, and actionable remediation roadmap.
 
 **Audit to a file**
 > Perform lens on this service and write the audit report to AUDIT.md. (The agent will accept
@@ -196,34 +214,47 @@ This format keeps the report readable in plain-text consoles while preserving de
 > configure core parameters, then offer inline, concrete file-location, and custom-file choices.)
 
 **Readiness assessment**
-> Is this system production-ready? Assess testing, deployment, rollback, observability, and operational readiness, and state the maturity level with evidence.
+> Is this system production-ready? Assess testing, deployment, rollback, observability, and
+> operational readiness, and state the maturity level with evidence.
 
 **Single dimension**
-> Review only the security posture of this codebase. Mark anything you cannot determine from the provided files.
+> Review only the security posture of this codebase. Mark anything you cannot determine from the
+> provided files.
 
 **SOLID and testability**
-> Assess this codebase against SOLID principles and its testing strategy: test pyramid balance, TDD signals, and how testable the code is.
+> Assess this codebase against SOLID principles and its testing strategy: test pyramid balance, TDD
+> signals, and how testable the code is.
 
 **Stack best practices**
-> Review whether this code follows the idiomatic best practices of its stack: language idioms, framework conventions, ecosystem layout, and any deprecated APIs.
+> Review whether this code follows the idiomatic best practices of its stack: language idioms,
+> framework conventions, ecosystem layout, and any deprecated APIs.
 
 **Dependency and supply-chain audit**
-> Audit the dependencies of this project: flag outdated and vulnerable packages, license compatibility, and whether builds are locked and reproducible.
+> Audit the dependencies of this project: flag outdated and vulnerable packages, license
+> compatibility, and whether builds are locked and reproducible.
 
 **Risk register**
-> Build a risk register for this architecture proposal. Use Low / Medium / High / Critical severities and tie each risk to evidence.
+> Build a risk register for this architecture proposal. Use Low / Medium / High / Critical
+> severities and tie each risk to evidence.
 
 **Architectural trade-off**
-> Evaluate the trade-off between keeping in-memory state versus introducing an external store for this prototype, given a single-instance target. Include a standalone trade-off table and embed the analysis into the relevant architectural finding.
+> Evaluate the trade-off between keeping in-memory state versus introducing an external store for
+> this prototype, given a single-instance target. Include a standalone trade-off table and embed the
+> analysis into the relevant architectural finding.
 
 **Re-audit**
-> Re-run the audit on this codebase after the latest fixes. (The agent finds the previous report, writes a new versioned file such as `AUDIT-1.1.md` without overwriting it, and adds a Changes Since Previous Audit section.)
+> Re-run the audit on this codebase after the latest fixes. (The agent finds the previous report,
+> writes a new versioned file such as `AUDIT-1.1.md` without overwriting it, and adds a Changes
+> Since Previous Audit section.)
 
 **Thin input**
-> Here is a one-paragraph description of a service. Audit what you can and list exactly what additional artifacts would raise confidence.
+> Here is a one-paragraph description of a service. Audit what you can and list exactly what
+> additional artifacts would raise confidence.
 
 **Skill definition audit**
-> Audit this Agent Skill for spec conformance. Check the SKILL.md frontmatter against the Agent Skills specification, verify all file references resolve, and assess whether the description triggers correctly.
+> Audit this Agent Skill for spec conformance. Check the SKILL.md frontmatter against the Agent
+> Skills specification, verify all file references resolve, and assess whether the description
+> triggers correctly.
 
 ---
 
@@ -244,20 +275,20 @@ lens-skill/
 │   ├── design-principles.md       # SOLID, cohesion and coupling, DRY, separation of concerns
 │   ├── code-quality.md            # Static analysis, type safety, complexity, duplication, dead code
 │   ├── best-practices.md          # Stack idioms, framework conventions, ecosystem layout, deprecated APIs
-│   ├── dependency-review.md      # Dependency freshness, vulnerabilities, licenses, lockfiles, SBOM
-│   ├── deployment-review.md      # Build pipeline, release process, frequency, manual steps
-│   ├── rollback-review.md        # Rollback mechanism, deploy safety, versioning
-│   ├── maintainability-review.md # Modularity, coupling, structure, technical debt
+│   ├── dependency-review.md       # Dependency freshness, vulnerabilities, licenses, lockfiles, SBOM
+│   ├── deployment-review.md       # Build pipeline, release process, frequency, manual steps
+│   ├── rollback-review.md         # Rollback mechanism, deploy safety, versioning
+│   ├── maintainability-review.md  # Modularity, coupling, structure, technical debt
 │   ├── change-management.md       # Feature flags, ADRs, release governance
-│   ├── documentation-review.md   # Entry, API, inline docs, onboarding, knowledge transfer
-│   ├── nfr-review.md             # Performance, scalability, availability, reliability, resilience
-│   ├── security-review.md        # Auth, authorization, input validation, OWASP, data exposure
-│   ├── compliance-review.md      # Data protection, privacy, regulatory scope, licensing, audit trail
-│   ├── observability-review.md   # Logging, metrics, tracing, alerting
+│   ├── documentation-review.md    # Entry, API, inline docs, onboarding, knowledge transfer
+│   ├── nfr-review.md              # Performance, scalability, availability, reliability, resilience
+│   ├── security-review.md         # Auth, authorization, input validation, OWASP, data exposure
+│   ├── compliance-review.md       # Data protection, privacy, regulatory scope, licensing, audit trail
+│   ├── observability-review.md    # Logging, metrics, tracing, alerting
 │   ├── error-handling.md          # Exceptions, retries, fallbacks, user-facing errors
 │   ├── operational-readiness.md   # Runbooks, on-call, capacity, backups, incident response
 │   ├── ai-generated-code.md       # Explicit provenance, generated-artifact validation, SDLC evidence
-│   ├── copyright-review.md       # Code originality, license compliance, attribution
+│   ├── copyright-review.md        # Code originality, license compliance, attribution
 │   ├── data-flow.md               # (conditional) DFD, trust boundaries, inter-process flows
 │   ├── design-patterns.md         # (conditional) GoF/POSA pattern fitness and anti-patterns
 │   ├── threat-model.md            # (conditional) STRIDE threat enumeration per trust boundary
@@ -267,7 +298,7 @@ lens-skill/
 │   └── api-compatibility.md       # (conditional) API compat gates, versioning, breaking-change tracking
 ├── synthesis/
 │   ├── risk-register.md           # Unified risk register with FND cross-referencing
-│   ├── project-scorecard.md      # Project scorecard, rubric, and scale display rules
+│   ├── project-scorecard.md       # Project scorecard, rubric, and scale display rules
 │   ├── trade-off-analysis.md      # Engineering trade-offs in standalone table and embedded findings
 │   ├── remediation-roadmap.md     # Actionable remediation roadmap with priority matrix
 │   ├── debt-register.md           # (conditional) TDR inventory with CISQ/SQALE cost model
@@ -281,9 +312,14 @@ lens-skill/
     └── polish-language.md         # Polish translations: status, severity, headings, table headers, style rules
 ```
 
-Sections marked *(conditional)* appear in a report only when the subject warrants them. A system with no API gets no API Contract section, a single-user local utility with no trust boundary gets no Threat Model. The inclusion criteria are defined in the Conditional Sections table of `process/report-format.md`.
+Sections marked *(conditional)* appear in a report only when the subject warrants them. A system
+with no API gets no API Contract section, a single-user local utility with no trust boundary gets no
+Threat Model. The inclusion criteria are defined in the Conditional Sections table of
+`process/report-format.md`.
 
-The skill activates automatically when you ask for a software audit, architecture audit, production code audit, technical due diligence, readiness assessment, risk register, scorecard, or remediation roadmap.
+The skill activates automatically when you ask for a software audit, architecture audit, production
+code audit, technical due diligence, readiness assessment, risk register, scorecard, or remediation
+roadmap.
 
 ---
 
@@ -291,7 +327,8 @@ The skill activates automatically when you ask for a software audit, architectur
 
 Every document that is part of this skill must follow the rules specified in [STYLE.md](./STYLE.md).
 
-That file compiles Markdown text style, table formatting, and Agent Skills document requirements into a single reference.
+That file compiles Markdown text style, table formatting, and Agent Skills document requirements
+into a single reference.
 
 ---
 
@@ -309,7 +346,8 @@ When changing the skill:
 - Review router, workflow, templates, synthesis guides, and translations for agreement.
 - Exercise the regression scenarios in `process/audit-workflow.md` and record limitations.
 
-Name temporary validation scripts with a `.tmp.` infix, place them in `work/` when it exists and in the repository root otherwise, and remove them after use.
+Name temporary validation scripts with a `.tmp.` infix, place them in `work/` when it exists and in
+the repository root otherwise, and remove them after use.
 
 Structural checks do not prove that future agents will follow the instructions, a fresh audit or
 independent model evaluation is a separate behavioral verification step.

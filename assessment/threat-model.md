@@ -3,17 +3,26 @@
 ## Purpose
 
 > **Scope:** Structured threat enumeration using STRIDE, mapped to trust boundaries and data flows
-> **Key items:** Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege, attack surface, trust boundaries
+> **Key items:** Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service,
+> Elevation of Privilege, attack surface, trust boundaries
 
-This file guides a structured threat model of the system using the STRIDE framework, anchored to the data flow model in `assessment/data-flow.md`. It complements the control-level review in `assessment/security-review.md`: security findings are symptoms, the threat model maps the attack surface systematically.
+This file guides a structured threat model of the system using the STRIDE framework, anchored to the
+data flow model in `assessment/data-flow.md`. It complements the control-level review in
+`assessment/security-review.md`: security findings are symptoms, the threat model maps the attack
+surface systematically.
 
-Apply `principles/evaluation-rules.md` throughout. This is a defensive analysis. Enumerate threats from observable structure, do not perform offensive actions or credential harvesting.
+Apply `principles/evaluation-rules.md` throughout. This is a defensive analysis. Enumerate threats
+from observable structure, do not perform offensive actions or credential harvesting.
 
 ## When This Applies
 
-This assessment applies when the system has a security-relevant attack surface: a network service, an API, an authentication or authorization boundary, multi-tenant data, or any flow that crosses a trust boundary.
+This assessment applies when the system has a security-relevant attack surface: a network service,
+an API, an authentication or authorization boundary, multi-tenant data, or any flow that crosses a
+trust boundary.
 
-It does not apply to a single-user local utility with no network surface, no untrusted input, and no shared data. In that case, mark the section `N/A` with a one-line justification anchored to the deployment model. When in doubt between `N/A` and including the section, include it.
+It does not apply to a single-user local utility with no network surface, no untrusted input, and no
+shared data. In that case, mark the section `N/A` with a one-line justification anchored to the
+deployment model. When in doubt between `N/A` and including the section, include it.
 
 ## Framework
 
@@ -41,11 +50,14 @@ Use the Level-1 data flow model from `assessment/data-flow.md`. List the trust b
 
 **Enumerate per boundary**
 
-For each flow that crosses a trust boundary, ask each of the six STRIDE questions. Record any plausible threat as a row.
+For each flow that crosses a trust boundary, ask each of the six STRIDE questions. Record any
+plausible threat as a row.
 
 **Link to findings and risks**
 
-Each confirmed threat that rests on a concrete gap becomes or references a finding (`FND-SEC-XXX`) and a risk (`RSK-XXX`). Threats that are already mitigated are recorded as mitigated, with the control cited.
+Each confirmed threat that rests on a concrete gap becomes or references a finding (`FND-SEC-XXX`)
+and a risk (`RSK-XXX`). Threats that are already mitigated are recorded as mitigated, with the
+control cited.
 
 ## Evidence To Look For
 
@@ -60,33 +72,49 @@ Each confirmed threat that rests on a concrete gap becomes or references a findi
 
 ## How To Present
 
-Render the threat model as described in `process/report-format.md`. Present one table keyed by trust boundary and STRIDE category, then describe each material threat with evidence and its linked `FND-XXX` / `RSK-XXX`.
+Render the threat model as described in `process/report-format.md`. Present one table keyed by trust
+boundary and STRIDE category, then describe each material threat with evidence and its linked
+`FND-XXX` / `RSK-XXX`.
 
 ## Common Threat Examples
 
 Use these examples to avoid overlooking categories that are often missed:
 
-- **Information Disclosure**: Unencrypted network transport (for example, `ws://` instead of `wss://`), verbose error messages revealing internal paths, log files containing sensitive tokens, broad API responses exposing extra fields.
-- **Elevation of Privilege**: Filesystem access without path validation (for example, loading ROM files from user input allowing directory traversal), missing authorization checks on administrative endpoints, ability to escalate from guest to admin via parameter tampering.
-- **Repudiation**: Absence of audit logs on security-relevant actions (for example, WebSocket connection events, configuration changes, authentication attempts), missing timestamps or actor attribution in logs.
-- **Spoofing**: Missing origin validation on cross-origin requests, weak or absent token verification, unauthenticated WebSocket connections.
-- **Tampering**: Unsigned serialized data, lack of integrity checks on downloaded artifacts, writable configuration without validation.
-- **Denial of Service**: Unbounded input buffers, missing rate limits, unauthenticated endpoints that trigger heavy computation.
+- **Information Disclosure**: Unencrypted network transport (for example, `ws://` instead of
+  `wss://`), verbose error messages revealing internal paths, log files containing sensitive tokens,
+  broad API responses exposing extra fields.
+- **Elevation of Privilege**: Filesystem access without path validation (for example, loading ROM
+  files from user input allowing directory traversal), missing authorization checks on
+  administrative endpoints, ability to escalate from guest to admin via parameter tampering.
+- **Repudiation**: Absence of audit logs on security-relevant actions (for example, WebSocket
+  connection events, configuration changes, authentication attempts), missing timestamps or actor
+  attribution in logs.
+- **Spoofing**: Missing origin validation on cross-origin requests, weak or absent token
+  verification, unauthenticated WebSocket connections.
+- **Tampering**: Unsigned serialized data, lack of integrity checks on downloaded artifacts,
+  writable configuration without validation.
+- **Denial of Service**: Unbounded input buffers, missing rate limits, unauthenticated endpoints
+  that trigger heavy computation.
 
 ## Status Criteria
 
-- `PASS`: All trust boundaries are enumerated and each material STRIDE threat has an evidenced mitigating control.
-- `PARTIAL`: Boundaries are enumerated but some STRIDE categories have unmitigated or unverified threats.
+- `PASS`: All trust boundaries are enumerated and each material STRIDE threat has an evidenced
+  mitigating control.
+- `PARTIAL`: Boundaries are enumerated but some STRIDE categories have unmitigated or unverified
+  threats.
 - `FAIL`: Material threats exist at a trust boundary with no mitigating control, with evidence.
 - `UNKNOWN`: The attack surface could not be determined from the input.
 - `N/A`: The system has no security-relevant trust boundary, with justification.
 
 ## Rules
 
-- Check all six STRIDE categories at every trust boundary. A threat model with fewer than six categories examined is incomplete.
+- Check all six STRIDE categories at every trust boundary. A threat model with fewer than six
+  categories examined is incomplete.
 - Anchor every threat to a specific trust boundary and flow from the data flow model.
 - Do not list a threat that does not map to a concrete boundary or flow.
 - Distinguish a present control from a verified-effective control.
-- Every unmitigated threat must trace to a finding and a risk, do not leave threats floating outside the register.
+- Every unmitigated threat must trace to a finding and a risk, do not leave threats floating outside
+  the register.
 - Do not output plaintext secrets, tokens, or keys when describing a disclosure threat.
-- If a STRIDE category yields no material threat at a boundary, record it as `None identified` with a one-line justification rather than omitting it.
+- If a STRIDE category yields no material threat at a boundary, record it as `None identified` with
+  a one-line justification rather than omitting it.

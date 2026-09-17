@@ -2,12 +2,16 @@
 
 ## Purpose
 
-> **Scope:** Risk table format, impact and likelihood rating, severity scale, bidirectional cross-referencing with findings
-> **Key items:** structured risks, fixed columns, `Low`, `Medium`, `High`, `Critical`, `RSK-[001]` indexing, `FND-XXX` traceability
+> **Scope:** Risk table format, impact and likelihood rating, severity scale, bidirectional
+> cross-referencing with findings
+> **Key items:** structured risks, fixed columns, `Low`, `Medium`, `High`, `Critical`, `RSK-[001]`
+> indexing, `FND-XXX` traceability
 
-This file defines how to record risks surfaced during assessment. Build the register from the risks already noted in each `assessment/` file.
+This file defines how to record risks surfaced during assessment. Build the register from the risks
+already noted in each `assessment/` file.
 
-Apply `principles/evaluation-rules.md` throughout. Every risk must trace to evidence or to a clearly marked gap. Every risk must reference its source finding.
+Apply `principles/evaluation-rules.md` throughout. Every risk must trace to evidence or to a clearly
+marked gap. Every risk must reference its source finding.
 
 ## Table Format
 
@@ -16,7 +20,8 @@ Use this fixed column order:
 | Risk ID | Risk | Source Finding | Impact | Likelihood | Severity | Mitigation |
 |---------|------|----------------|--------|------------|----------|------------|
 
-When the report language is not English, apply the column header translations from the matching `translation/` file.
+When the report language is not English, apply the column header translations from the matching
+`translation/` file.
 
 Column meanings:
 
@@ -89,8 +94,10 @@ List unrated risks beside the heat map instead of placing them in an invented ce
 
 - One row per distinct risk. Do not merge unrelated risks.
 - State each risk as a property of the system, never as a fault of a person.
-- When a risk rests on missing information, mark its likelihood basis as `INSUFFICIENT INFORMATION` in the risk text.
-- Mitigations are options, not directives. Do not phrase them as commands unless the user asked for directives.
+- When a risk rests on missing information, mark its likelihood basis as `INSUFFICIENT INFORMATION`
+  in the risk text.
+- Mitigations are options, not directives. Do not phrase them as commands unless the user asked for
+  directives.
 - Keep risk wording consistent with the finding notes that produced it.
 
 ## Example Row

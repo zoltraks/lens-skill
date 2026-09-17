@@ -3,20 +3,26 @@
 ## Purpose
 
 > **Scope:** A formal inventory of technical debt items, distinct from the risk register
-> **Key items:** `TDR-[001]` indexing, debt category, remediation cost, cost of delay, `FND-XXX` traceability
+> **Key items:** `TDR-[001]` indexing, debt category, remediation cost, cost of delay, `FND-XXX`
+> traceability
 
-This file defines the Technical Debt Register (TDR), a structured inventory of debt items that are not security risks but compound over time. It is distinct from the Unified Risk Register: risks describe what could go wrong, debt describes accumulated cost that is already present and invisible.
+This file defines the Technical Debt Register (TDR), a structured inventory of debt items that are
+not security risks but compound over time. It is distinct from the Unified Risk Register: risks
+describe what could go wrong, debt describes accumulated cost that is already present and invisible.
 
 Use CISQ characteristics to organize structural debt and a SQALE-inspired distinction between
 remediation cost and the ongoing cost of leaving debt in place.
 
 Claim use of the SQALE method only when its quality and estimation models were actually applied.
 
-Apply `principles/evaluation-rules.md` throughout. Every debt item must trace to a concrete finding or a concrete observation in the code.
+Apply `principles/evaluation-rules.md` throughout. Every debt item must trace to a concrete finding
+or a concrete observation in the code.
 
 ## When This Applies
 
-Include the TDR when the assessment surfaces structural debt items that are not captured as risks: dead code, duplicated logic, low-value tests, hardcoded values that should be configurable, advisory-only checks, or shortcuts.
+Include the TDR when the assessment surfaces structural debt items that are not captured as risks:
+dead code, duplicated logic, low-value tests, hardcoded values that should be configurable,
+advisory-only checks, or shortcuts.
 
 When no such items exist, omit this conditional section and note the reason in Scope Exclusions.
 
@@ -29,14 +35,17 @@ Use this fixed column order:
 | Debt ID | Debt Item | Category | Source Finding | Remediation Cost | Cost of Delay | Status |
 |---------|-----------|----------|----------------|------------------|---------------|--------|
 
-When the report language is not English, apply the column header translations from the matching `translation/` file.
+When the report language is not English, apply the column header translations from the matching
+`translation/` file.
 
 Column meanings:
 
 - **Debt ID**: `TDR-[001]` ascending sequentially.
 - **Debt Item**: a concrete, neutrally stated debt, anchored to a file or pattern.
-- **Category**: one of the CISQ characteristics the debt degrades: `Reliability`, `Performance Efficiency`, `Security`, `Maintainability`.
-- **Source Finding**: the `FND-XXX` identifier that produced this item, or `Direct observation` when it stems from code review without a standalone finding.
+- **Category**: one of the CISQ characteristics the debt degrades: `Reliability`,
+  `Performance Efficiency`, `Security`, `Maintainability`.
+- **Source Finding**: the `FND-XXX` identifier that produced this item, or `Direct observation` when
+  it stems from code review without a standalone finding.
 - **Remediation Cost**: evidence-based person-hour/day range, or `INSUFFICIENT INFORMATION`.
 - **Cost of Delay**: quantified ongoing cost over a stated horizon, or `INSUFFICIENT INFORMATION`.
 - **Status**: `Open` by default.
@@ -95,7 +104,8 @@ Do not double-count a security remediation as both risk work and structural debt
 - Every item must trace to a `FND-XXX` or be marked `Direct observation` with a cited file.
 - State each item as a property of the code, never as a fault of a person.
 - Keep remediation cost and cost of delay anchored to evidence, not intuition.
-- A debt item may also be a recommendation target, reference it from the roadmap by its source finding, not by `TDR-XXX`.
+- A debt item may also be a recommendation target, reference it from the roadmap by its source
+  finding, not by `TDR-XXX`.
 
 ## Example Row
 

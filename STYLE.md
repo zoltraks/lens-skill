@@ -2,9 +2,11 @@
 
 ## Purpose
 
-This document defines the formatting and prose style for every Markdown document that is part of this Agent Skill.
+This document defines the formatting and prose style for every Markdown document that is part of
+this Agent Skill.
 
-It compiles rules from the [Agent Skills specification](https://agentskills.io/specification), the `skill-creator` skill, and general Markdown formatting best practices.
+It compiles rules from the [Agent Skills specification](https://agentskills.io/specification), the
+`skill-creator` skill, and general Markdown formatting best practices.
 
 Every document created or modified as part of this skill must follow the rules below.
 
@@ -33,7 +35,8 @@ This format is recommended for reference files and topic documents.
 
 ### Out-of-Scope Table
 
-When a document covers a focused topic within a larger skill, include an out-of-scope table directing readers to related files.
+When a document covers a focused topic within a larger skill, include an out-of-scope table
+directing readers to related files.
 
 ```
 | Out of scope   | See instead        |
@@ -83,17 +86,23 @@ Do not pack unrelated ideas into one long paragraph.
 
 ## Word Wrap and Line Breaks
 
-Break lines that exceed 100 characters.
+Break prose lines that exceed 100 characters.
+
+The 100-character limit applies to paragraph text only.
+
+It does not apply to table rows, table column values, URLs, links, or file paths.
 
 Break at a natural boundary such as after a comma, conjunction, or clause end.
 
-Keep the continuation indented to the same level as the start of the sentence when the sentence is inside a list item or a block quote.
+Keep the continuation indented to the same level as the start of the sentence when the sentence is
+inside a list item or a block quote.
 
-Do not break lines inside inline code, file paths, or URLs.
+Do not break lines inside inline code, file paths, URLs, or link markup.
 
 Let each sentence occupy one logical line when it is under 100 characters.
 
-Hard-wrap at a forced line break only when the source itself needs one, such as inside a code block or a diagram.
+Hard-wrap at a forced line break only when the source itself needs one, such as inside a code block
+or a diagram.
 
 ## Headings
 
@@ -111,7 +120,8 @@ Do not put descriptive qualifiers in section names using parentheses.
 
 Put qualifiers like "mandatory" or "do not repeat" in the section body instead.
 
-Parenthetical content in headings is allowed for compact technical identifiers only, such as address ranges, register numbers, or standard disambiguators.
+Parenthetical content in headings is allowed for compact technical identifiers only, such as address
+ranges, register numbers, or standard disambiguators.
 
 Avoid headings with trailing punctuation.
 
@@ -145,15 +155,19 @@ Do not use trailing spaces at the end of lines.
 
 ## Code Blocks
 
-Use a language tag on every fenced code block that contains code in a programming, markup, or data language.
+Use a language tag on every fenced code block that contains code in a programming, markup, or data
+language.
 
-Do not use a language tag on fenced blocks that contain ASCII art, directory trees, diagrams, plain text, console output, or tables.
+Do not use a language tag on fenced blocks that contain ASCII art, directory trees, diagrams, plain
+text, console output, or tables.
 
 Leave those blocks as plain fenced blocks with no tag.
 
-Do not use the `markdown` tag on fenced blocks that contain tables, console output, ASCII art, or plain text content.
+Do not use the `markdown` tag on fenced blocks that contain tables, console output, ASCII art, or
+plain text content.
 
-The `markdown` tag is only for blocks that demonstrate Markdown syntax itself as an example of formatted content.
+The `markdown` tag is only for blocks that demonstrate Markdown syntax itself as an example of
+formatted content.
 
 Do not leave a blank line as the first or last line inside the block.
 
@@ -231,7 +245,8 @@ Use left alignment for all cells.
 
 ### Column Widths
 
-Calculate the column width as the maximum character width of all cells in that column, including the header cell.
+Calculate the column width as the maximum character width of all cells in that column, including the
+header cell.
 
 Measure the width as the length of the cell string between the cell delimiters.
 
@@ -239,13 +254,15 @@ The width is the **source text** character count, not the rendered character cou
 
 This is the most important rule in this section.
 
-Count every character that appears in the plain-text Markdown source, including all formatting markers.
+Count every character that appears in the plain-text Markdown source, including all formatting
+markers.
 
 Do not strip, interpret, or collapse any characters before measuring.
 
 Do not measure the width of what the cell would look like after a Markdown renderer processes it.
 
-A Markdown renderer hides backticks, asterisks, and other formatting markers from the reader, but those markers are still present in the source text and must be counted.
+A Markdown renderer hides backticks, asterisks, and other formatting markers from the reader, but
+those markers are still present in the source text and must be counted.
 
 The table is formatted for plain-text readability first, and a Markdown renderer second.
 
@@ -256,7 +273,8 @@ In plain-text view, every character is visible, so every character must be count
 The following characters are part of the cell content and must be included in the width measurement.
 
 - Backticks around inline code (e.g., the cell `` `some.value` `` has 13 characters, not 11).
-- Double backticks around code containing backticks (e.g., the cell `` `` `00` `` `` has 8 characters, not 4).
+- Double backticks around code containing backticks (e.g., the cell `` `` `00` `` `` has 8
+  characters, not 4).
 - Asterisks for emphasis (e.g., the cell `*italic*` has 9 characters, not 7).
 - Double asterisks for bold (e.g., the cell `**bold**` has 10 characters, not 4).
 - Underscores for emphasis (e.g., the cell `_under_` has 8 characters, not 5).
@@ -265,13 +283,16 @@ The following characters are part of the cell content and must be included in th
 
 **Common Mistake**
 
-The most common formatting mistake is measuring the **rendered** width instead of the **source** width.
+The most common formatting mistake is measuring the **rendered** width instead of the **source**
+width.
 
-For example, the cell `` `config.settings.json` `` contains 22 characters in the source text, including the two backticks.
+For example, the cell `` `config.settings.json` `` contains 22 characters in the source text,
+including the two backticks.
 
 A Markdown renderer displays only `config.settings.json`, which is 20 characters.
 
-If the formatter uses 20 instead of 22, the column will be too narrow and the pipes will not align in plain text.
+If the formatter uses 20 instead of 22, the column will be too narrow and the pipes will not align
+in plain text.
 
 Always count the source text, never the rendered text.
 
@@ -279,7 +300,8 @@ Always count the source text, never the rendered text.
 
 Compact the table after calculating column widths.
 
-The column width is the minimum character count needed to fit the widest value in any row, including the header.
+The column width is the minimum character count needed to fit the widest value in any row, including
+the header.
 
 Do not add extra padding beyond what the widest cell requires.
 
@@ -295,9 +317,11 @@ The compacted version is the correct version.
 
 Editing any cell can change a column's width, so reformat the whole table after every edit.
 
-Recompute each column's width, re-pad every data cell, and replace every separator cell with the correct number of hyphens.
+Recompute each column's width, re-pad every data cell, and replace every separator cell with the
+correct number of hyphens.
 
-A table is only correctly edited when every cell in a column has the same width and every separator cell matches that width plus two.
+A table is only correctly edited when every cell in a column has the same width and every separator
+cell matches that width plus two.
 
 ### Automated Formatting
 
@@ -305,11 +329,13 @@ Use a script or automated tool to format tables instead of counting character wi
 
 Manual counting by an AI model is error-prone and leads to misaligned columns.
 
-Write a temporary script in JavaScript or Python that parses the table, calculates column widths from source text, and outputs the formatted table.
+Write a temporary script in JavaScript or Python that parses the table, calculates column widths
+from source text, and outputs the formatted table.
 
 Name the script with a `.tmp.` infix, for example `format-table.tmp.js` or `format-table.tmp.py`.
 
-Place the script in a `work/` directory when one exists in the repository, otherwise place it in the repository root without creating a directory solely for it.
+Place the script in a `work/` directory when one exists in the repository, otherwise place it in the
+repository root without creating a directory solely for it.
 
 Remove the script after use.
 
@@ -331,11 +357,13 @@ Keep cell content concise.
 
 A table is a summary view, not a full explanation.
 
-When a cell description is long, put a short abbreviation or summary in the table cell and place the full clarification in a separate sentence below the table.
+When a cell description is long, put a short abbreviation or summary in the table cell and place the
+full clarification in a separate sentence below the table.
 
 Prefer fewer than 10 columns per table.
 
-Split a wide table into multiple smaller tables when it has too many columns or the content is too dense to read as plain text.
+Split a wide table into multiple smaller tables when it has too many columns or the content is too
+dense to read as plain text.
 
 ## Special Characters
 
@@ -371,7 +399,8 @@ Examples: `system/memory.md`, `hardware/chip.md`, `process/audit-workflow.md`.
 
 ## Skill Document Requirements
 
-Documents that are part of an Agent Skill must follow additional rules from the [Agent Skills specification](https://agentskills.io/specification) and the `skill-creator` skill.
+Documents that are part of an Agent Skill must follow additional rules from the
+[Agent Skills specification](https://agentskills.io/specification) and the `skill-creator` skill.
 
 ### SKILL.md Frontmatter
 
@@ -379,8 +408,10 @@ The `SKILL.md` file must contain YAML frontmatter followed by Markdown content.
 
 Required frontmatter fields:
 
-- **`name`** - 1-64 characters, lowercase letters and hyphens only, must not start or end with a hyphen, must not contain consecutive hyphens, must match the parent directory name.
-- **`description`** - 1-1024 characters, non-empty, describes what the skill does and when to use it, should include specific trigger keywords.
+- **`name`** - 1-64 characters, lowercase letters and hyphens only, must not start or end with a
+  hyphen, must not contain consecutive hyphens, must match the parent directory name.
+- **`description`** - 1-1024 characters, non-empty, describes what the skill does and when to use
+  it, should include specific trigger keywords.
 
 Optional frontmatter fields:
 
@@ -395,7 +426,8 @@ Skills use a three-level loading system.
 
 1. **Metadata** - The `name` and `description` fields are loaded at startup for all skills.
 2. **Instructions** - The full `SKILL.md` body is loaded when the skill is activated.
-3. **Resources** - Files in `scripts/`, `references/`, `assets/`, or other directories are loaded only when required.
+3. **Resources** - Files in `scripts/`, `references/`, `assets/`, or other directories are loaded
+   only when required.
 
 Keep `SKILL.md` under 500 lines.
 
@@ -423,7 +455,8 @@ Optional directories:
 - `references/` - Documentation loaded into context as needed.
 - `assets/` - Files used in output such as templates, icons, and fonts.
 
-When a skill supports multiple domains or frameworks, organize by variant and let the agent read only the relevant reference file.
+When a skill supports multiple domains or frameworks, organize by variant and let the agent read
+only the relevant reference file.
 
 ## Adding New Files
 
@@ -431,7 +464,8 @@ When a skill supports multiple domains or frameworks, organize by variant and le
 
 Every new file must be registered in `SKILL.md`.
 
-Add a reference to the appropriate section or table in `SKILL.md` with guidance on when to read the file.
+Add a reference to the appropriate section or table in `SKILL.md` with guidance on when to read the
+file.
 
 ### File Naming
 

@@ -5,9 +5,11 @@
 > **Scope:** Code, API, and user documentation, onboarding, knowledge transfer
 > **Key items:** README accuracy, API docs, inline docs, setup/onboarding, decision records
 
-This file guides assessment of whether the system is documented well enough to be understood, operated, and extended.
+This file guides assessment of whether the system is documented well enough to be understood,
+operated, and extended.
 
-Apply `principles/evaluation-rules.md` throughout. Assess whether documentation exists and matches the code, not its prose style.
+Apply `principles/evaluation-rules.md` throughout. Assess whether documentation exists and matches
+the code, not its prose style.
 
 ## What To Evaluate
 
@@ -16,17 +18,20 @@ Apply `principles/evaluation-rules.md` throughout. Assess whether documentation 
 - Inline documentation: whether non-obvious code carries explanatory comments.
 - Onboarding: whether a new contributor can build and run the system from the docs.
 - Knowledge transfer: whether key decisions and operational facts are recorded rather than tacit.
+- Community health files: whether `SECURITY.md`, `CONTRIBUTING.md`, and `CODE_OF_CONDUCT.md`, or the
+  stack's equivalents, exist.
 
 ## Evidence To Look For
 
-| Signal             | Where It Appears                               |
-|--------------------|------------------------------------------------|
-| Entry docs         | README, getting-started, usage guide           |
-| API docs           | Generated API reference, interface docs        |
-| Setup instructions | Build and run steps, environment requirements  |
-| Inline docs        | Comments on non-obvious logic, doc comments    |
-| Decision records   | ADRs, design docs, recorded rationale          |
-| Doc-code agreement | Docs that match current commands and structure |
+| Signal             | Where It Appears                                         |
+|--------------------|----------------------------------------------------------|
+| Entry docs         | README, getting-started, usage guide                     |
+| API docs           | Generated API reference, interface docs                  |
+| Setup instructions | Build and run steps, environment requirements            |
+| Inline docs        | Comments on non-obvious logic, doc comments              |
+| Decision records   | ADRs, design docs, recorded rationale                    |
+| Doc-code agreement | Docs that match current commands and structure           |
+| Health files       | `SECURITY.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`   |
 
 ## Architecture Documentation Coverage
 
@@ -73,6 +78,14 @@ Whatever this pass collects must surface in the report, per the collected-eviden
 at minimum as the Team & Continuity line in the Health Dashboard, even when they produce no
 adverse finding.
 
+## Community Health Files
+
+Check for `SECURITY.md`, `CONTRIBUTING.md`, and `CODE_OF_CONDUCT.md`, or the stack's
+equivalents.
+
+The absence of `SECURITY.md` is a named finding, not a silent gap, whenever the audited subject
+has any security-relevant surface and is published for external consumption.
+
 ## Status Criteria
 
 - `PASS`: Entry, setup, and interface documentation exist and match the code, with evidence.
@@ -94,4 +107,5 @@ adverse finding.
 - Setup instructions that match the actual build and run commands.
 - Recorded decisions that explain why the system is built as it is.
 
-Mark each missing signal explicitly rather than inferring its presence. Treat documentation that contradicts the code as a drift finding, not as present documentation.
+Mark each missing signal explicitly rather than inferring its presence. Treat documentation that
+contradicts the code as a drift finding, not as present documentation.

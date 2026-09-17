@@ -2,17 +2,23 @@
 
 ## Purpose
 
-> **Scope:** Surfacing and presenting engineering trade-offs as a standalone section and within findings
-> **Key items:** option comparisons, cost versus quality, speed versus maintainability, simplicity versus flexibility
+> **Scope:** Surfacing and presenting engineering trade-offs as a standalone section and within
+> findings
+> **Key items:** option comparisons, cost versus quality, speed versus maintainability, simplicity
+> versus flexibility
 
 This file guides trade-off reasoning that appears in two places:
 
-- A standalone **Trade-off Analysis** section in the report, before the Actionable Remediation Roadmap.
-- Embedded into individual `FND-ARC-XXX`, `FND-CQY-XXX`, `FND-AIP-XXX`, or `FND-CPR-XXX` finding blocks, under the Description or Impact bullet, when the trade-off directly explains a specific finding.
+- A standalone **Trade-off Analysis** section in the report, immediately after the Architectural
+  Assessment, so trade-offs are discussed in the same pass as the decisions they concern.
+- Embedded into individual `FND-ARC-XXX`, `FND-CQY-XXX`, `FND-AIP-XXX`, or `FND-CPR-XXX` finding
+  blocks, under the Description or Impact bullet, when the trade-off directly explains a specific
+  finding.
 
 A trade-off is a deliberate exchange of one quality for another.
 
-Apply `principles/evaluation-rules.md` throughout. Present trade-offs neutrally. Do not declare a winner unless the user asked for a recommendation.
+Apply `principles/evaluation-rules.md` throughout. Present trade-offs neutrally. Do not declare a
+winner unless the user asked for a recommendation.
 
 ## What A Trade-off Is
 
@@ -40,7 +46,8 @@ Present trade-offs as one table. One row per trade-off. Use this fixed column or
 | Trade-off | Context | Option A: gain / cost | Option B: gain / cost | Evidence | Implication |
 |-----------|---------|-----------------------|-----------------------|----------|-------------|
 
-When the report language is not English, apply the column header translations from the matching `translation/` file.
+When the report language is not English, apply the column header translations from the matching
+`translation/` file.
 
 Column meanings:
 
@@ -53,11 +60,16 @@ Column meanings:
 
 ## Rules
 
-- Frame each trade-off against a stated constraint. If no constraint is stated, put `NOT SPECIFIED` in Context and present the trade-off without judging the choice.
+- Frame each trade-off against a stated constraint. If no constraint is stated, put `NOT SPECIFIED`
+  in Context and present the trade-off without judging the choice.
 - Do not label either side as right or wrong outside an explicit recommendation request.
-- A choice that fits the stated context is not a weakness, even if it would be unusual in a different context.
+- A choice that fits the stated context is not a weakness, even if it would be unusual in a
+  different context.
 - Keep cell language neutral and anchored to evidence.
-- When the trade-off analysis includes an explicit recommendation (for example, "Build both targets" or "Archive prototypes"), that recommendation must appear as a `REC-XXX` entry in the Actionable Remediation Roadmap, traced to the relevant `FND-XXX`. Do not leave recommendations in the trade-off table without a corresponding roadmap entry.
+- When the trade-off analysis includes an explicit recommendation (for example, "Build both targets"
+  or "Archive prototypes"), that recommendation must appear as a `REC-XXX` entry in the Actionable
+  Remediation Roadmap, traced to the relevant `FND-XXX`. Do not leave recommendations in the
+  trade-off table without a corresponding roadmap entry.
 
 ## Example
 

@@ -2,8 +2,10 @@
 
 ## Purpose
 
-> **Scope:** Public API stability, versioning practice, and breaking-change tracking for reusable libraries and packages
-> **Key items:** API compatibility gates, versioning scheme consistency, deprecation policy, tracked breaking changes
+> **Scope:** Public API stability, versioning practice, and breaking-change tracking for reusable
+> libraries and packages
+> **Key items:** API compatibility gates, versioning scheme consistency, deprecation policy, tracked
+> breaking changes
 
 This file guides assessment of whether a reusable library or package protects its consumers from
 unplanned breaking changes. It is a conditional pillar: include it whenever the audit subject is a
@@ -25,6 +27,8 @@ Apply `principles/evaluation-rules.md` throughout.
   execution.
 - **Versioning consistency**: whether the declared versioning scheme matches observed practice.
   Compare documented scheme, manifest versions, tags, changelog entries, and release notes.
+  When the project's versioning scheme is non-standard, cite
+  [Semantic Versioning](https://semver.org/) directly as the reference being diverged from.
 - **Breaking-change management**: whether known future-breaking items, such as public mutable
   fields or planned removals, are tracked against a specific future major version rather than
   left open-ended.
