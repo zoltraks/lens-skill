@@ -1,26 +1,58 @@
 """Mechanical consistency checker for Lens audit reports.
 
-Runs the scriptable part of the Validation Record and the Pre-Delivery
-Mechanical Checklist. Copy into the audited repository's `work/`
-directory as `validate-report.tmp.py`, run it on the report file, then
-remove the copy.
+Runs structural, formatting, traceability, score-disclosure, and parity checks.
+Copy into the audited repository's report-production directory as
+``validate-report.tmp.py`` when validating a generated report.
 
 Usage: python validate-report.py <report.md>
-Exit code 0 = all checks pass, 1 = failures found.
+Exit code 0 means all checks pass, 1 means failures were found.
 """
+
+from __future__ import annotations
 
 import re
 import sys
+from pathlib import Path
 
-NL = chr(10)
+NL = "\n"
 EMDASH = chr(0x2014)
 ENDASH = chr(0x2013)
 ARROW = chr(0x2192)
+BASELINE_SECTIONS = [
+    "Document Information",
+    "Executive Summary",
+    "System Context",
+    "Health Dashboard",
+    "High-Level Observations",
+    "Auditing Methodology",
+    "Scoring Rubrics",
+    "Architectural Assessment",
+    "Trade-off Analysis",
+    "Strengths & What's Working",
+    "Detailed Technical Findings",
+    "Unified Risk Register",
+    "Actionable Remediation Roadmap",
+    "Scope Exclusions",
+    "Limitations and Unknowns",
+    "Validation Record",
+    "References",
+]
+BRIEF_SECTIONS = {
+    "Document Information",
+    "Executive Summary",
+    "System Context",
+    "Health Dashboard",
+    "High-Level Observations",
+    "Strengths & What's Working",
+    "Scope Exclusions",
+    "Limitations and Unknowns",
+    "Validation Record",
+    "References",
+}
 
 
-def split_code(lines):
-    """Return flags marking which lines are inside fenced blocks."""
-    flags = []
+def split_code(lines: list[str]) -> list[bool]:
+    flags: list[bool] = []
     inside = False
     for line in lines:
         if line.lstrip().startswith("```"):
@@ -31,152 +63,262 @@ def split_code(lines):
     return flags
 
 
-def strip_spans(s):
-    s = re.sub("`[^`]*`", "", s)
-    return re.sub(r"\]\([^)]*\)", "]", s)
+def strip_spans(value: str) -> str:
+    value = re.sub(r"`[^`]*`", "", value)
+    return re.sub(r"\]\([^)]*\)", "]", value)
 
 
-def check_headings(lines, fences):
-    bad = []
-    for i, (l, f) in enumerate(zip(lines, fences)):
-        if f:
+def check_headings(lines: list[str], fences: list[bool]) -> list[str]:
+    failures: list[str] = []
+    for index, (line, fenced) in enumerate(zip(lines, fences)):
+        if fenced:
             continue
-        if re.match("^#{4,} ", l):
-            bad.append("line %d: %s" % (i + 1, l[:60]))
+        if re.match(r"^#{4,} ", line):
+            failures.append(f"line {index + 1}: heading is deeper than ###")
             continue
-        if re.match("^#{1,3} ", l):
-            j = i + 1
-            if j < len(lines) and lines[j].strip() != "":
-                bad.append("line %d: heading not followed by one blank line" % (i + 1))
-    return bad
+        if re.match(r"^#{1,3} ", line):
+            if index + 1 < len(lines) and lines[index + 1].strip() != "":
+                failures.append(f"line {index + 1}: heading is not followed by one blank line")
+    return failures
 
 
-def check_semicolons(lines, fences):
-    bad = []
-    for i, (l, f) in enumerate(zip(lines, fences)):
-        if not f and ";" in strip_spans(l):
-            bad.append("line %d: %s" % (i + 1, l[:70]))
-    return bad
+def check_semicolons(lines: list[str], fences: list[bool]) -> list[str]:
+    failures: list[str] = []
+    for index, (line, fenced) in enumerate(zip(lines, fences)):
+        if not fenced and ";" in strip_spans(line):
+            failures.append(f"line {index + 1}: semicolon in prose: {line[:80]}")
+    return failures
 
 
-def check_dashes(lines, fences):
-    bad = []
-    for i, (l, f) in enumerate(zip(lines, fences)):
-        if f:
+def check_dashes(lines: list[str], fences: list[bool]) -> list[str]:
+    failures: list[str] = []
+    for index, (line, fenced) in enumerate(zip(lines, fences)):
+        if fenced:
             continue
-        s = strip_spans(l)
-        for ch, name in ((EMDASH, "em dash"), (ENDASH, "en dash"), (ARROW, "arrow")):
-            if ch in s:
-                bad.append("line %d: %s found: %s" % (i + 1, name, l[:60]))
-    return bad
+        value = strip_spans(line)
+        for character, name in ((EMDASH, "em dash"), (ENDASH, "en dash"), (ARROW, "arrow")):
+            if character in value:
+                failures.append(f"line {index + 1}: {name} found: {line[:80]}")
+    return failures
 
 
-def check_table_code_spans(lines, fences):
-    """A literal pipe inside an inline code span silently splits a table cell."""
-    bad = []
-    for i, (l, f) in enumerate(zip(lines, fences)):
-        if f or not l.startswith("|"):
+def table_blocks(lines: list[str], fences: list[bool]) -> list[tuple[int, list[str]]]:
+    blocks: list[tuple[int, list[str]]] = []
+    index = 0
+    while index < len(lines):
+        if fences[index] or not lines[index].startswith("|"):
+            index += 1
             continue
-        for c in l.split("|")[1:-1]:
-            if c.count("`") % 2:
-                bad.append("line %d: unbalanced backtick in cell (literal pipe?): %s" % (i + 1, l[:60]))
-                break
-    return bad
+        start = index
+        rows: list[str] = []
+        while index < len(lines) and not fences[index] and lines[index].startswith("|"):
+            rows.append(lines[index])
+            index += 1
+        blocks.append((start, rows))
+    return blocks
 
 
-def check_table_separators(lines, fences):
-    bad = []
-    for i, (l, f) in enumerate(zip(lines, fences)):
-        if f or not l.startswith("|"):
+def raw_cells(line: str) -> list[str]:
+    parts = line.split("|")
+    return parts[1:-1] if len(parts) >= 2 and parts[-1].strip() == "" else parts[1:]
+
+
+def content_cells(line: str) -> list[str]:
+    return [cell.strip() for cell in raw_cells(line)]
+
+
+def is_separator(cells: list[str]) -> bool:
+    return bool(cells) and all(cell and set(cell) <= {"-"} for cell in cells)
+
+
+def check_tables(lines: list[str], fences: list[bool]) -> list[str]:
+    failures: list[str] = []
+    for start, rows in table_blocks(lines, fences):
+        if len(rows) < 2:
             continue
-        cells = l.split("|")[1:-1]
-        if cells and all(set(c) <= set("-: ") and "-" in c for c in cells):
-            for c in cells:
-                if c != c.strip(" ") or " " in c.strip(":"):
-                    bad.append("line %d: separator with spaces: %s" % (i + 1, l[:60]))
-                    break
-    return bad
+        header = content_cells(rows[0])
+        separator = content_cells(rows[1])
+        if not is_separator(separator):
+            continue
+        widths = [len(cell) for cell in header]
+        for row in rows[2:]:
+            cells = content_cells(row)
+            if is_separator(cells):
+                continue
+            if len(cells) != len(header):
+                failures.append(f"line {start + rows.index(row) + 1}: table column count differs from header")
+                continue
+            widths = [max(widths[index], len(cell)) for index, cell in enumerate(cells)]
+        raw_separator = raw_cells(rows[1])
+        if any(cell != cell.strip() for cell in raw_separator):
+            failures.append(f"line {start + 2}: table separator has spaces around hyphens")
+        if len(raw_separator) != len(widths):
+            failures.append(f"line {start + 2}: table separator column count differs from header")
+        else:
+            for index, cell in enumerate(raw_separator):
+                expected = "-" * (widths[index] + 2)
+                if cell != expected:
+                    failures.append(
+                        f"line {start + 2}: separator width in column {index + 1} is not {len(expected)}"
+                    )
+        header_positions = [index for index, char in enumerate(rows[0]) if char == "|"]
+        for offset, row in enumerate(rows[2:], start=2):
+            if is_separator(content_cells(row)):
+                continue
+            positions = [index for index, char in enumerate(row) if char == "|"]
+            if positions != header_positions:
+                failures.append(f"line {start + offset + 1}: table pipes are not vertically aligned")
+    return failures
 
 
-def check_ids(text):
-    bad = []
-    fnds = set(re.findall("FND-[A-Z]{3}-[0-9]{3}", text))
-    for m in re.finditer("RSK-[0-9]{3}.{0,200}?(FND-[A-Z]{3}-[0-9]{3})", text):
-        if m.group(1) not in fnds:
-            bad.append("risk cites unknown finding " + m.group(1))
-    for m in re.finditer("REC-[0-9]{3}.{0,200}?(FND-[A-Z]{3}-[0-9]{3})", text):
-        if m.group(1) not in fnds:
-            bad.append("recommendation cites unknown finding " + m.group(1))
-    return bad
+def check_ids(text: str) -> list[str]:
+    failures: list[str] = []
+    findings = set(re.findall(r"FND-[A-Z]{3}-[0-9]{3}", text))
+    for match in re.finditer(r"RSK-[0-9]{3}.{0,240}?(FND-[A-Z]{3}-[0-9]{3})", text, re.DOTALL):
+        if match.group(1) not in findings:
+            failures.append(f"risk cites unknown finding {match.group(1)}")
+    for match in re.finditer(r"REC-[0-9]{3}.{0,240}?(FND-[A-Z]{3}-[0-9]{3})", text, re.DOTALL):
+        if match.group(1) not in findings:
+            failures.append(f"recommendation cites unknown finding {match.group(1)}")
+    return failures
 
 
-def check_finding_blocks(lines):
+def check_finding_blocks(lines: list[str]) -> list[str]:
     required = [
-        "Pillar:", "Severity:", "Target Files/Modules:", "Requirement Basis:",
-        "Evidence:", "Confidence:", "Verification State:", "Counter-check:",
-        "Security Classification:", "Description:", "Impact:",
-        "Remediation Recommendation:", "Verification Method:",
+        "Pillar:",
+        "Severity:",
+        "Target Files/Modules:",
+        "Requirement Basis:",
+        "Evidence:",
+        "Confidence:",
+        "Verification State:",
+        "Counter-check:",
+        "Security Classification:",
+        "Description:",
+        "Impact:",
+        "Remediation Recommendation:",
+        "Verification Method:",
     ]
-    bad = []
-    starts = [i for i, l in enumerate(lines) if l.startswith("### FND-")]
-    for k, i in enumerate(starts):
-        end = starts[k + 1] if k + 1 < len(starts) else len(lines)
-        block = NL.join(lines[i:end])
-        name = lines[i][8:][:50]
+    failures: list[str] = []
+    starts = [index for index, line in enumerate(lines) if line.startswith("### FND-")]
+    for position, start in enumerate(starts):
+        end = starts[position + 1] if position + 1 < len(starts) else len(lines)
+        block = NL.join(lines[start:end])
+        name = lines[start][4:][:70]
         for field in required:
-            if "**" + field + "**" not in block:
-                bad.append("FND-" + name + ": missing " + field)
-    return bad
+            if f"**{field}**" not in block:
+                failures.append(f"{name}: missing {field}")
+    return failures
 
 
-def check_par_rows(text):
-    bad = []
-    for n in range(1, 10):
-        p = "PAR-%d" % n
-        if p not in text:
-            bad.append("missing " + p)
-    return bad
+def check_security_classification(lines: list[str]) -> list[str]:
+    failures: list[str] = []
+    starts = [index for index, line in enumerate(lines) if line.startswith("### FND-")]
+    for position, start in enumerate(starts):
+        end = starts[position + 1] if position + 1 < len(starts) else len(lines)
+        block = NL.join(lines[start:end])
+        if "**Pillar:** Security & Compliance" not in block:
+            continue
+        match = re.search(r"\* \*\*Security Classification:\*\*\s*(.*)", block)
+        if not match or not re.search(r"CWE-[0-9]+|\bUNKNOWN\b|\bN/A\b", match.group(1)):
+            failures.append(f"{lines[start][4:70]}: security classification lacks CWE, UNKNOWN, or N/A")
+    return failures
 
 
-def check_trailing(text, lines):
-    bad = []
-    tail = [l for l in lines if l.strip()][-5:]
-    if any("End of audit report" in l for l in tail):
-        bad.append("closing line 'End of audit report' present")
-    for i, l in enumerate(lines):
-        if l != l.rstrip():
-            bad.append("line %d: trailing whitespace" % (i + 1))
-            if len(bad) > 10:
+def check_par_rows(text: str) -> list[str]:
+    failures: list[str] = []
+    for number in range(1, 10):
+        if not re.search(rf"^\|\s*PAR-{number}(?:\s|\||:)", text, re.MULTILINE):
+            failures.append(f"missing Validation Record row PAR-{number}")
+    return failures
+
+
+def check_required_sections(text: str) -> list[str]:
+    if "Document Information" not in text:
+        return []
+    detail = re.search(r"\|\s*Detail Level\s*\|\s*([^|]+)", text)
+    required = BRIEF_SECTIONS if detail and detail.group(1).strip() == "Brief" else set(BASELINE_SECTIONS)
+    headings = set(re.findall(r"^#{2,3}\s+(.+?)\s*$", text, re.MULTILINE))
+    return [f"missing required section: {section}" for section in BASELINE_SECTIONS if section in required and section not in headings]
+
+
+def check_final_state(text: str) -> list[str]:
+    state = re.search(r"\|\s*State\s*\|\s*([^|]+)", text)
+    if not state or state.group(1).strip() != "Final":
+        return []
+    failures: list[str] = []
+    if "## Validation Record" not in text:
+        failures.append("Final report has no Validation Record")
+    if "Parity baseline" not in text:
+        failures.append("Final report has no parity baseline result")
+    return failures
+
+
+def check_score_disclosure(lines: list[str]) -> list[str]:
+    failures: list[str] = []
+    for index, line in enumerate(lines):
+        if "overall score" not in line.lower() or not re.search(r"\d+\.\d+\s*/\s*\d+", line):
+            continue
+        window = " ".join(lines[index : index + 6]).lower()
+        if "lowest" not in window:
+            failures.append(f"line {index + 1}: overall score has no lowest-dimension floor")
+    return failures
+
+
+def check_project_qualification(text: str) -> list[str]:
+    if "Project Inventory" not in text:
+        return []
+    failures: list[str] = []
+    if re.search(r"\|\s*(both|either|the projects)\s*\|", text, re.IGNORECASE):
+        failures.append("shared multi-project table uses an ambiguous project label")
+    return failures
+
+
+def check_trailing(lines: list[str]) -> list[str]:
+    failures: list[str] = []
+    nonempty = [line for line in lines if line.strip()]
+    if any("End of audit report" in line for line in nonempty[-5:]):
+        failures.append("closing line 'End of audit report' is present")
+    for index, line in enumerate(lines):
+        if line != line.rstrip():
+            failures.append(f"line {index + 1}: trailing whitespace")
+            if len(failures) > 20:
                 break
-    return bad
+    return failures
 
 
-def main(path):
-    text = open(path, "rb").read().decode("utf-8")
-    lines = text.replace(chr(13) + NL, NL).split(NL)
+def main(path: str) -> int:
+    text = Path(path).read_text(encoding="utf-8")
+    lines = text.replace("\r\n", "\n").split("\n")
     fences = split_code(lines)
-
     checks = [
-        ("headings (no ####+, blank line after)", check_headings(lines, fences)),
-        ("semicolons in prose", check_semicolons(lines, fences)),
-        ("non-ASCII dashes/arrows", check_dashes(lines, fences)),
-        ("table separator format", check_table_separators(lines, fences)),
-        ("literal pipe inside code span", check_table_code_spans(lines, fences)),
-        ("FND/RSK/REC cross-refs", check_ids(text)),
+        ("headings", check_headings(lines, fences)),
+        ("required sections", check_required_sections(text)),
+        ("semicolons", check_semicolons(lines, fences)),
+        ("non-ASCII dashes and arrows", check_dashes(lines, fences)),
+        ("tables", check_tables(lines, fences)),
+        ("FND/RSK/REC cross-references", check_ids(text)),
         ("finding-block fields", check_finding_blocks(lines)),
-        ("PAR-1..PAR-9 present", check_par_rows(text)),
-        ("trailing whitespace/closing line", check_trailing(text, lines)),
+        ("security classifications", check_security_classification(lines)),
+        ("score disclosure", check_score_disclosure(lines)),
+        ("project qualification", check_project_qualification(text)),
+        ("PAR-1..PAR-9", check_par_rows(text)),
+        ("final-state gate", check_final_state(text)),
+        ("trailing whitespace and ending", check_trailing(lines)),
     ]
-
     failures = 0
-    for name, bad in checks:
-        print("[%s] %s" % ("FAIL" if bad else "PASS", name))
-        for b in bad[:10]:
-            print("       " + b)
-        failures += len(bad)
-    print("%d issue(s) found" % failures)
-    sys.exit(1 if failures else 0)
+    for name, problems in checks:
+        status = "FAIL" if problems else "PASS"
+        print(f"[{status}] {name}")
+        for problem in problems[:10]:
+            print(f"       {problem}")
+        failures += len(problems)
+    print(f"{failures} issue(s) found")
+    return 1 if failures else 0
 
 
 if __name__ == "__main__":
-    main(sys.argv[1])
+    if len(sys.argv) != 2:
+        print("Usage: python validate-report.py <report.md>")
+        raise SystemExit(1)
+    raise SystemExit(main(sys.argv[1]))

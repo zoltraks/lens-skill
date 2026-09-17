@@ -136,6 +136,10 @@ version or the repository's development branch.
 
 Report assessed, unassessed, and inapplicable controls with evidence IDs.
 
+When ASVS is applied, cite version-qualified requirement identifiers such as `v5.0.0-1.2.5` and
+record the selected level or rationale. Do not use unversioned requirement numbers when editions may
+change them.
+
 A sampled review does not establish full ASVS level conformance, and a Top 10 mapping is not a
 security certification.
 

@@ -10,6 +10,18 @@ It compiles rules from the [Agent Skills specification](https://agentskills.io/s
 
 Every document created or modified as part of this skill must follow the rules below.
 
+## Contents
+
+| Section                    | Line | What it covers                                  |
+|----------------------------|------|-------------------------------------------------|
+| Document Structure         | 13   | Titles, purpose blocks, and contents tables     |
+| Paragraphs And Wrapping    | 73   | Sentence structure and line width               |
+| Headings And Lists         | 107  | Heading depth, lists, and spacing               |
+| Code And Inline Formatting | 156  | Fences, code spans, and special characters      |
+| Tables                     | 202  | Source-width alignment and automated formatting |
+| Skill Requirements         | 400  | Frontmatter and progressive disclosure          |
+| Maintenance                | 486  | File naming, encoding, and registration         |
+
 ## Document Structure
 
 Use a consistent top-to-bottom layout for every document.

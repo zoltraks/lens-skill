@@ -11,6 +11,18 @@
 >
 > [Versioning Policy](./VERSIONING.md)
 
+## Contents
+
+| Section                       | Line | What it covers                                      |
+|-------------------------------|------|-----------------------------------------------------|
+| What The Skill Does           | 53   | Audit purpose, evidence contract, and principles    |
+| Evidence And Decision Quality | 102  | Evidence strength and verification limits           |
+| Core Principles               | 154  | Evaluation constraints and status rules             |
+| Report Format                 | 170  | Report structure, identifiers, and style            |
+| When To Use This Skill        | 194  | Supported requests and exclusions                   |
+| What's Inside                 | 273  | Documents, references, tools, and conditional files |
+| Verification                  | 366  | Skill-maintenance checks and regression scenarios   |
+
 Lens is a structured audit process packaged as an agent skill. It guides an AI coding agent through
 a complete engineering assessment of a codebase, producing a neutral, repeatable report anchored to
 concrete facts rather than impressions.
@@ -26,8 +38,9 @@ trade-off analysis, strengths and what's working, detailed technical findings, u
 register, actionable remediation roadmap, scope exclusions, limitations and unknowns, validation
 record, and references - plus conditional
 sections (data flow diagram, design patterns, architecture decision records, threat model, API
-contract conformance, skill definition conformance, standards conformance, API compatibility and
-versioning discipline, technical debt register, changes since previous audit, and re-audit plan)
+contract conformance, skill definition conformance, AI system assessment, standards conformance, API
+compatibility and versioning discipline, technical debt register, changes since previous audit, and
+re-audit plan)
 that appear only when the subject warrants them.
 
 Every section uses a hybrid table-paragraph format for scannable summaries backed by detailed
@@ -182,21 +195,21 @@ This format keeps the report readable in plain-text consoles while preserving de
 
 ## When to use this skill
 
-| Situation                                          | Use this skill?                                       |
-|----------------------------------------------------|-------------------------------------------------------|
-| "Audit the architecture of this system"            | **Yes**                                               |
-| "Audit this production codebase"                   | **Yes**                                               |
-| "Review this prototype for production readiness"   | **Yes**                                               |
-| "Do technical due diligence on this codebase"      | **Yes**                                               |
-| "Audit our dependencies and supply chain"          | **Yes** - use `assessment/dependency-review.md`       |
-| "Build me a risk register and scorecard"           | **Yes**                                               |
-| "Review only the security posture"                 | **Yes** - single-dimension audit                      |
-| "Check if this code is idiomatic for its stack"    | **Yes** - use `assessment/best-practices.md`          |
-| "Audit this skill for spec conformance"            | **Yes** - use `assessment/skill-definition.md`        |
-| "Check conformance with our dev standards"         | **Yes** - use `assessment/standards-conformance.md`   |
-| "Compare these two architectural options"          | **Yes** - embed trade-offs into relevant findings     |
-| "Write the feature for me"                         | No - this skill assesses, it does not build           |
-| "Tell me which team member caused this"            | No - this skill never evaluates people                |
+| Situation                                        | Use this skill?                                     |
+|--------------------------------------------------|-----------------------------------------------------|
+| "Audit the architecture of this system"          | **Yes**                                             |
+| "Audit this production codebase"                 | **Yes**                                             |
+| "Review this prototype for production readiness" | **Yes**                                             |
+| "Do technical due diligence on this codebase"    | **Yes**                                             |
+| "Audit our dependencies and supply chain"        | **Yes** - use `assessment/dependency-review.md`     |
+| "Build me a risk register and scorecard"         | **Yes**                                             |
+| "Review only the security posture"               | **Yes** - single-dimension audit                    |
+| "Check if this code is idiomatic for its stack"  | **Yes** - use `assessment/best-practices.md`        |
+| "Audit this skill for spec conformance"          | **Yes** - use `assessment/skill-definition.md`      |
+| "Check conformance with our dev standards"       | **Yes** - use `assessment/standards-conformance.md` |
+| "Compare these two architectural options"        | **Yes** - embed trade-offs into relevant findings   |
+| "Write the feature for me"                       | No - this skill assesses, it does not build         |
+| "Tell me which team member caused this"          | No - this skill never evaluates people              |
 
 ---
 
@@ -265,13 +278,16 @@ This format keeps the report readable in plain-text consoles while preserving de
 lens-skill/
 ├── SKILL.md                       # Root router - load this first
 ├── STYLE.md                       # Document style rules for all files in this skill
+├── evals/
+│   └── evals.json                 # Skill-creator behavioral regression prompts
 ├── principles/
 │   ├── evaluation-rules.md        # Evidence-only, no assumptions, neutrality, status markers, constraints
 │   └── output-style.md            # Tone, fixed vocabularies, consistency, determinism
 ├── process/
 │   ├── audit-workflow.md          # Intake, scope, evidence, assessment, synthesis, validation
 │   ├── report-format.md           # The table-driven, unnumbered report template
-│   └── report-parity.md           # Mandatory core checklist and consistency gate before Final
+│   ├── report-parity.md           # Mandatory core checklist and consistency gate before Final
+│   └── readiness-and-scoring.md    # Deterministic scores, confidence, maturity, and readiness gates
 ├── assessment/
 │   ├── testing-review.md          # Test pyramid (unit/integration/e2e), TDD, coverage, testability
 │   ├── design-principles.md       # SOLID, cohesion and coupling, DRY, separation of concerns
@@ -290,6 +306,7 @@ lens-skill/
 │   ├── error-handling.md          # Exceptions, retries, fallbacks, user-facing errors
 │   ├── operational-readiness.md   # Runbooks, on-call, capacity, backups, incident response
 │   ├── ai-generated-code.md       # Explicit provenance, generated-artifact validation, SDLC evidence
+│   ├── ai-system.md              # (conditional) AI lifecycle, evaluation, safety, and provenance
 │   ├── copyright-review.md        # Code originality, license compliance, attribution
 │   ├── data-flow.md               # (conditional) DFD, trust boundaries, inter-process flows
 │   ├── design-patterns.md         # (conditional) GoF/POSA pattern fitness and anti-patterns
@@ -307,12 +324,27 @@ lens-skill/
 │   ├── re-audit-plan.md           # (conditional) Verification ownership, sign-off gates, re-audit triggers
 │   └── report-comparison.md       # (conditional) Previous report discovery, revisions, comparison
 ├── references/
-│   ├── stack-standards.md         # Per-stack canonical standards, advisories, and compat tooling map
+│   ├── stack-standards.md         # Stack, supply-chain, and AI reference sources
 │   ├── cwe-analyzer-map.md        # CWE to static-analyzer-rule cross-reference per ecosystem
-│   └── dependency-manifests.md    # Text-only manifest readers, source-derived component inventory
+│   ├── dependency-manifests.md    # Text-only manifest readers, source-derived component inventory
+│   └── census-commands.md         # Canonical reproducible census methods
+├── tools/
+│   ├── format-table.py            # Source-width Markdown table formatter
+│   ├── validate-report.py         # Report structure and traceability validator
+│   ├── validate-skill.py          # Dependency-light Agent Skill validator
+│   ├── check-references.py        # Relative-reference integrity checker
+│   └── README.md                  # Tool usage, safety, and cleanup rules
 └── translation/
     └── polish-language.md         # Polish translations: status, severity, headings, table headers, style rules
 ```
+
+The `tools/` scripts are report-production and skill-maintenance utilities.
+
+They do not build, test, scan, or execute the audited project.
+
+Copy report-production scripts into the audited repository's `work/` directory under a `.tmp.` name.
+Use an existing `temp` or `temporary` directory when `work/` is unavailable, and use the repository
+root only when none exists. Run them only against report artifacts and remove the copies after use.
 
 Sections marked *(conditional)* appear in a report only when the subject warrants them. A system
 with no API gets no API Contract section, a single-user local utility with no trust boundary gets no

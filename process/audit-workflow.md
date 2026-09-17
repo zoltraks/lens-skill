@@ -490,6 +490,20 @@ or record a precise excerpt and explain why the original artifact is unavailable
 
 Tie findings to evidence IDs and explain what each item proves and does not prove.
 
+**Claim and evidence traceability**
+
+Treat every material claim in the Executive Summary, Health Dashboard, High-Level Observations,
+scorecard, risk register, roadmap, and readiness decision as a claim that needs a finding or evidence
+reference.
+
+A claim reference must preserve the qualification of its source. Use `Inspected`, `Reported`, or
+`Inferred` evidence labels and retain `UNKNOWN`, `NOT SPECIFIED`, or `INSUFFICIENT INFORMATION`
+when the evidence cannot support a stronger statement.
+
+Do not promote an inspected source observation into a runtime or production claim. Do not promote a
+reported result from an older revision into current verification. If a material claim has no direct
+reference, add one to the evidence ledger or remove the claim.
+
 **Category Assessment**
 
 For each category, open the matching `assessment/` file and apply its checklist. For a full audit,
@@ -500,9 +514,10 @@ Evaluate the inclusion criterion for each conditional assessment, listed in the 
 table of `process/report-format.md`. When the criterion is met, open the matching conditional file
 and apply it: `assessment/data-flow.md`, `assessment/design-patterns.md`,
 `assessment/threat-model.md`, `assessment/api-contract.md`, `assessment/skill-definition.md`,
-`assessment/standards-conformance.md`, and `assessment/api-compatibility.md`. When a criterion is
-not met, omit that section and record the deliberate omission for Scope Exclusions. Do not force a
-conditional section onto a subject it does not fit.
+`assessment/ai-system.md`, `assessment/standards-conformance.md`, and
+`assessment/api-compatibility.md`. When a criterion is not met, omit that section and record the
+deliberate omission for Scope Exclusions. Do not force a conditional section onto a subject it does
+not fit.
 
 Assign a status (`PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`) per the rules in
 `principles/evaluation-rules.md`.
@@ -514,9 +529,11 @@ Record evidence, concrete risks, and neutral notes for each category.
 Build the unified risk register from the risks surfaced during assessment, using
 `synthesis/risk-register.md`. Every risk must reference its source `FND-XXX`.
 
-Build the project scorecard using `synthesis/project-scorecard.md`. Present the scoring rubric
-before the scores. Wherever an overall score is stated, report the lowest-scoring applicable
-dimension and its score alongside the mean, so a weak pillar is not hidden inside an average.
+Build the project scorecard using `synthesis/project-scorecard.md` and
+`process/readiness-and-scoring.md`. Present the scoring rubric before the scores. Wherever an overall
+score is stated, report the lowest-scoring applicable dimension and its score alongside the mean, so
+a weak pillar is not hidden inside an average. Record confidence, score caps, and readiness gates
+separately from the mean.
 
 Draft the High-Level Observations section by selecting the top 5 most important findings from the
 Detailed Technical Findings. Keep each observation brief, full detail lives in the finding blocks.
@@ -616,6 +633,10 @@ exists for the CWE in that stack. Confirm no finding implies an analyzer ran.
 
 Confirm every place an overall score appears reports the lowest-scoring applicable dimension
 and its score alongside the mean, per `synthesis/project-scorecard.md`.
+
+Confirm every numeric dimension has evidence IDs, confidence, and a justified score point or cap.
+Confirm `UNKNOWN` and `N/A` dimensions are excluded from the mean. Confirm the maturity level,
+readiness state, blocking risks, and sign-off status agree with `process/readiness-and-scoring.md`.
 
 When an API Compatibility And Versioning Discipline section is present, confirm it addresses
 gate presence, versioning-scheme consistency, and breaking-change tracking, and that configured
@@ -773,9 +794,15 @@ recommendations for one project must not reference or depend on another project 
 explicitly states that cross-project interactions are in scope.
 
 Finding IDs use the standard pillar abbreviations but are scoped per project. Each project's
-findings start at `FND-XXX-001`. Risk IDs and recommendation IDs also reset per project. The project
-name or identifier prefixes the finding block heading so the reader can locate the project within
-the report. See `process/report-format.md` for the multi-project report structure.
+findings start at `FND-XXX-001`. Risk IDs and recommendation IDs also reset per project.
+
+Inside a project block, the short identifier is sufficient. In shared sections, qualify every
+identifier with the stable project identifier, for example `api-service::FND-SEC-001`,
+`api-service::RSK-001`, and `api-service::REC-001`. Never use ambiguous labels such as `both`,
+`either`, or `the projects` as an identifier.
+
+The project name or identifier prefixes the finding block heading so the reader can locate the
+project within the report. See `process/report-format.md` for the multi-project report structure.
 
 **Workflow for multiple projects**
 

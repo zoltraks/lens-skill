@@ -86,8 +86,15 @@ Explain any difference between technical vulnerability severity and the contextu
 
 Keep confidence and verification limits visible in risk detail.
 
+For material risks, also record the triggering condition, existing controls, residual risk, treatment
+state, owner or `NOT SPECIFIED`, and closure or re-audit trigger. These fields may appear in the
+risk detail block when the summary table would become too wide.
+
 If impact or likelihood lacks a defensible basis, use `UNKNOWN` for the rating and severity rather
 than forcing a matrix value, and identify the evidence needed to rate it.
+
+Risk confidence is separate from severity. A high-severity risk can have low confidence when a
+reachability or deployment condition remains unresolved.
 
 `UNKNOWN` here denotes a missing rating, not an additional severity band.
 

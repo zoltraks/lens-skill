@@ -254,17 +254,22 @@ Format: `REC-[001]`
 When a finding could belong to more than one pillar, assign it by the recurring cases below
 before defaulting to judgment.
 
-| Finding class                               | Pillar                 |
-|---------------------------------------------|------------------------|
-| Dependency deprecation or health            | Infrastructure & CI/CD |
-| Missing or dead endpoint or route           | Infrastructure & CI/CD |
-| Documentation or contract drift             | AI Provenance & Origin |
-| Broken transport or protocol framing        | Architecture & Design  |
-| Unenforced or absent authorization          | Security & Compliance  |
-| Structural debt, duplication, orphaned code | Architecture & Design  |
-| Error-handling or status-code defects       | Code Quality           |
+| Finding class                               | Pillar                                |
+|---------------------------------------------|---------------------------------------|
+| Dependency deprecation or health            | Infrastructure & CI/CD                |
+| Missing or dead endpoint or route           | Infrastructure & CI/CD                |
+| Documentation drift                         | Code Quality or Architecture & Design |
+| API contract drift                          | API Contract or Architecture & Design |
+| Broken transport or protocol framing        | Architecture & Design                 |
+| Unenforced or absent authorization          | Security & Compliance                 |
+| Structural debt, duplication, orphaned code | Architecture & Design                 |
+| Error-handling or status-code defects       | Code Quality                          |
 
 The pillar records where the fix lives, not where the symptom was noticed.
+
+Documentation or contract drift is not evidence of AI-generated code unless explicit provenance
+links the defect to a generated artifact or AI workflow. Use `AIP` only for provenance and
+validation-control findings governed by `assessment/ai-generated-code.md`.
 
 ## Critical Constraints
 

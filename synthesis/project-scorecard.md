@@ -225,6 +225,9 @@ controls to Safety.
 
 ## Score Confidence And Aggregation
 
+Apply `process/readiness-and-scoring.md` for status-to-score mapping, confidence, score caps,
+readiness gates, and multi-project aggregation.
+
 Cite supporting evidence IDs, material findings, and confidence for each scored dimension.
 
 Do not reward an unexecuted build or unverified runtime behavior as demonstrated capability.

@@ -23,8 +23,8 @@ compatibility: >-
   executes the project. No network access required for the audit itself,
   optional web fetch for external documentation or CVE lookups.
 metadata:
-  version: "0.8"
-  author: cognition-labs
+  version: "0.9"
+  author: Filip Golewski
 ---
 
 # Software Audit Skill
@@ -32,6 +32,21 @@ metadata:
 > **Type:** Root router and taxonomy
 > **Purpose:** Route software audit requests to the smallest useful audit file and enforce
 > evidence-based, neutral assessment.
+
+## Contents
+
+| Section                 | Line | What it covers                                     |
+|-------------------------|------|----------------------------------------------------|
+| Trigger Keywords        | 63   | Activation phrases                                 |
+| How To Use              | 121  | Progressive disclosure and mandatory reading       |
+| Parameter Configuration | 151  | Defaults and user-controlled report shape          |
+| Principles              | 214  | Evaluation and output rules                        |
+| Process                 | 222  | Workflow, format, and parity                       |
+| Assessments             | 234  | Core and conditional assessment guides             |
+| Synthesis               | 299  | Findings, risk, score, and remediation assembly    |
+| References And Tools    | 322  | Lookup tables and report-production scripts        |
+| Evaluation Prompts      | 357  | Behavioral regression prompts                      |
+| Evidence Contract       | 365  | Source-only boundaries and validation expectations |
 
 You are an Engineering Audit Agent.
 
@@ -214,6 +229,8 @@ Configuration phase.
 - **`process/report-parity.md`** - The mandatory core checklist applied to every report and the
   consistency gate that runs before `State: Final`, diffing the report's capability set against
   the checklist and the most recent report found for any subject.
+- **`process/readiness-and-scoring.md`** - Deterministic score aggregation, evidence confidence,
+  maturity levels, readiness gates, and production sign-off limits.
 
 ## `assessment/` - Assessment Categories
 
@@ -270,6 +287,9 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
 - **`assessment/skill-definition.md`** - Agent Skills specification conformance, frontmatter
   validity, progressive disclosure, triggering description quality, and file reference integrity.
   Include when the subject is an Agent Skill (has a `SKILL.md` file).
+- **`assessment/ai-system.md`** - AI and machine-learning system lifecycle, model and data provenance,
+  evaluation, safety, authorization boundaries, monitoring, and rollback. Include only when the
+  project trains, serves, or materially depends on an AI system.
 - **`assessment/standards-conformance.md`** - Project-internal development standards:
   code-to-standards conformance, standards-to-best-practices quality, and external reference
   collection. Include when the project contains documented development standards.
@@ -320,16 +340,29 @@ intake, assessment, and report writing.
 
 ## `tools/` - Canonical Scripts
 
-Copy these into the audited repository's `work/` directory under a `.tmp.` name before use, run
-them there, and remove the copies when done. They are report-production tooling, not analysis of
-the audited project.
+Copy these into the audited repository's `work/` directory under a `.tmp.` name before use.
+Use an existing `temp` or `temporary` directory when `work/` is unavailable, and use the repository
+root only when none exists. Run the copies there and remove them when done. They are report-production
+tooling, not analysis of the audited project.
 
 - **`tools/format-table.py`** - Canonical implementation of the Table Formatting Rules in
   `process/report-format.md`. Rebuilds every table with aligned pipes and width-plus-two
   separators, preserving the file's line-ending style.
 - **`tools/validate-report.py`** - Mechanical consistency checker covering the scriptable items
-  of the Pre-Delivery Mechanical Checklist: heading depth, prose punctuation, table separators,
-  FND/RSK/REC cross-references, finding-block fields, and PAR-1..PAR-9 rows.
+  of the Pre-Delivery Mechanical Checklist, report traceability, score disclosure, and parity rows.
+- **`tools/validate-skill.py`** - Dependency-light validator for frontmatter, disclosure limits,
+  Contents sections, and root references.
+- **`tools/check-references.py`** - Relative-reference integrity checker for the root router and
+  README.
+- **`tools/README.md`** - Tool classes, safe usage, validation order, dependencies, and limitations.
+
+## Evaluation Prompts
+
+- **`evals/evals.json`** - Skill-creator regression prompts and evidence-oriented expectations for
+  full audits, re-audits, multi-project reports, due diligence, skill conformance, translation, and
+  AI-system assessment.
+
+Run these as behavioral evaluations after structural changes. They do not replace independent review.
 
 ## Evidence And Decision Contract
 

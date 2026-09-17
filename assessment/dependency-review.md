@@ -96,6 +96,17 @@ and other shipped assets are included or excluded.
 
 A source SBOM does not prove what a particular binary or container actually shipped.
 
+For an executable release, also inspect artifact identity, digests, signed-release evidence, build
+provenance, and any VEX or vulnerability-disposition data. Distinguish a manifest-derived list,
+an SBOM for source or build input, and an SBOM tied to the shipped artifact.
+
+Use the current CISA Minimum Elements for an SBOM as a completeness aid, not as a claim that a
+contract or regulation applies. Record the applicable edition and the fields that are absent.
+
+When SLSA provenance is supplied, record its version, predicate type, builder identity, source and
+dependency inputs, artifact subject, and verification state. Provenance configuration is intent,
+not proof that a build produced the claimed artifact.
+
 For Rust, `cargo cyclonedx` for inventory and `cargo deny check licenses` for policy checks are
 typical documented tooling, assess their configuration and committed output rather than running
 them.
@@ -111,8 +122,9 @@ against the actual delivery model, escalating ambiguous cases for legal review.
 
 A root MIT license does not settle transitive obligations, and a lockfile is not a license audit.
 
-Consult [CycloneDX](https://cyclonedx.org/specification/overview/) and
-[SPDX](https://spdx.dev/learn/overview/) for the selected schema and inventory limitations.
+Consult [CycloneDX ECMA-424](https://ecma-tc54.github.io/ECMA-424/) and
+[SPDX specifications](https://spdx.dev/specifications/) for the selected schema and inventory
+limitations.
 
 Do not claim SBOM procurement obligations without a specific applicable contract or regime.
 

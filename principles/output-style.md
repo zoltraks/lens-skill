@@ -91,6 +91,11 @@ findings.
 Validation Record results are `Applied`, `PASS`, or `N/A`, separately from category status. An
 `N/A` always carries a justification.
 
+**Machine tokens**: Keep status markers, validation results, execution states, evidence IDs,
+finding IDs, risk IDs, recommendation IDs, debt IDs, CWE IDs, CVSS vectors, OWASP IDs, and tool
+commands unchanged in every report language. Translate surrounding labels and explanatory prose,
+not the tokens used for comparison or validation.
+
 Maturity levels:
 
 - `Prototype`

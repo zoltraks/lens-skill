@@ -40,7 +40,7 @@ A report's capability set is the union of:
 - Checklist items applied.
 - Baseline and conditional sections present.
 - Required per-section elements (severity clarification, ISO crosswalk, Team & Continuity
-  line, component inventory).
+  line, component inventory, score formula, score floor, confidence, and readiness state).
 
 The Validation Record renders this set so a future report can diff it mechanically.
 
@@ -59,7 +59,13 @@ Run this gate before marking a report `State: Final`.
    service, not a library"). Inheriting an omission from the subject's own prior revision is
    never a justification.
 5. When no other report is accessible, record `none found` and gate on the checklist alone.
-6. Record the outcome in the Validation Record, then set `State: Final`.
+6. Run the semantic consistency checks for identifiers, scores, risk placement, evidence references,
+   conditional-section justifications, translation tokens, and project-qualified shared references.
+7. Record the outcome in the Validation Record, then set `State: Final` only when the structural and
+   semantic gates both pass.
+
+A report may be complete and useful while remaining `Draft` when a gate fails. Do not weaken the
+report to make the gate pass.
 
 When the most recent baseline predates the current skill version, the Validation Record names
 which sections were added for parity versus which compare as content. Added structural sections
@@ -92,3 +98,6 @@ discovery finds nothing.
   inapplicable - never silently dropped.*
 - *A failed gate keeps the report `Draft`.*
 - *The Validation Record is part of the report - its absence fails the gate itself.*
+- *A shared multi-project reference must use a stable project-qualified identifier.*
+- *A machine-readable token must remain unchanged in translated reports.*
+- *A passing structural check does not override a failed semantic check.*

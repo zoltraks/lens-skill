@@ -18,40 +18,41 @@ missing section hides it.
 
 ## Contents
 
-| Section                                     | Line | What it covers                                       |
-|---------------------------------------------|------|------------------------------------------------------|
-| Formatting Rules                            | 56   | Formatting Rules guidance                            |
-| Report Delivery And Parameter Configuration | 213  | Report Delivery And Parameter Configuration guidance |
-| Detail Level Configuration                  | 251  | Detail Level Configuration guidance                  |
-| Conditional Sections                        | 334  | Conditional Sections guidance                        |
-| Section Order                               | 372  | Section Order guidance                               |
-| Document Information                        | 439  | Document Information guidance                        |
-| Multi-Project Report Structure              | 518  | Multi-Project Report Structure guidance              |
-| Executive Summary                           | 609  | Executive Summary guidance                           |
-| Changes Since Previous Audit                | 692  | Changes Since Previous Audit guidance                |
-| System Context                              | 753  | System Context guidance                              |
-| Health Dashboard                            | 813  | Health Dashboard guidance                            |
-| High-Level Observations                     | 887  | High-Level Observations guidance                     |
-| Auditing Methodology                        | 911  | Auditing Methodology guidance                        |
-| Scoring Rubrics                             | 1053 | Scoring Rubrics guidance                             |
-| Architectural Assessment                    | 1112 | Architectural Assessment guidance                    |
-| Trade-off Analysis                          | 1247 | Trade-off Analysis guidance                          |
-| Threat Model                                | 1287 | Threat Model guidance                                |
-| API Contract Conformance                    | 1314 | API Contract Conformance guidance                    |
-| Skill Definition Conformance                | 1334 | Skill Definition Conformance guidance                |
-| Standards Conformance                       | 1357 | Standards Conformance guidance                       |
-| API Compatibility & Versioning Discipline   | 1413 | API Compatibility guidance                           |
-| Strengths & What's Working                  | 1440 | Strengths & What's Working guidance                  |
-| Detailed Technical Findings                 | 1470 | Detailed Technical Findings guidance                 |
-| Technical Debt Register                     | 1567 | Technical Debt Register guidance                     |
-| Unified Risk Register                       | 1608 | Unified Risk Register guidance                       |
-| Actionable Remediation Roadmap              | 1688 | Actionable Remediation Roadmap guidance              |
-| Scope Exclusions                            | 1752 | Scope Exclusions guidance                            |
-| Limitations and Unknowns                    | 1804 | Limitations and Unknowns guidance                    |
-| Re-audit and Follow-up Plan                 | 1828 | Re-audit and Follow-up Plan guidance                 |
-| Validation Record                           | 1857 | Validation Record guidance                           |
-| References                                  | 1882 | References guidance                                  |
-| Pre-Delivery Mechanical Checklist           | 1920 | Pre-Delivery Mechanical Checklist guidance           |
+| Section                                     | Line | What it covers                                        |
+|---------------------------------------------|------|-------------------------------------------------------|
+| Formatting Rules                            | 56   | Formatting Rules guidance                             |
+| Report Delivery And Parameter Configuration | 213  | Report delivery and output configuration              |
+| Detail Level Configuration                  | 251  | Standard, detailed, and brief reports                 |
+| Conditional Sections                        | 334  | Inclusion criteria for conditional sections           |
+| Section Order                               | 372  | Single-project and multi-project order                |
+| Document Information                        | 439  | Report metadata and revisions                         |
+| Multi-Project Report Structure              | 518  | Combined and project-specific sections                |
+| Executive Summary                           | 609  | Executive summary and readiness threshold             |
+| Changes Since Previous Audit                | 692  | Re-audit comparison structure                         |
+| System Context                              | 753  | Context and technology stack                          |
+| Health Dashboard                            | 813  | Heat map, scorecard, and continuity                   |
+| High-Level Observations                     | 887  | Reader-facing finding summary                         |
+| Auditing Methodology                        | 911  | Method, standards, and evidence ledger                |
+| Scoring Rubrics                             | 1053 | Score bands and ISO crosswalk                         |
+| Architectural Assessment                    | 1112 | Architecture, principles, and conditional subsections |
+| Trade-off Analysis                          | 1247 | Neutral engineering trade-offs                        |
+| Threat Model                                | 1287 | STRIDE analysis                                       |
+| API Contract Conformance                    | 1314 | API contract and security conformance                 |
+| Skill Definition Conformance                | 1334 | Agent Skill conformance                               |
+| AI System Assessment                        | 1363 | Conditional AI-system review                          |
+| Standards Conformance                       | 1374 | Internal standards quality and code conformance       |
+| API Compatibility & Versioning Discipline   | 1430 | Library compatibility gates                           |
+| Strengths & What's Working                  | 1457 | Evidence-based positive baselines                     |
+| Detailed Technical Findings                 | 1487 | Finding summary and detail blocks                     |
+| Technical Debt Register                     | 1584 | Distinct accumulated debt                             |
+| Unified Risk Register                       | 1625 | Cross-referenced risks                                |
+| Actionable Remediation Roadmap              | 1710 | Prioritized recommendations                           |
+| Scope Exclusions                            | 1774 | Explicit coverage limits                              |
+| Limitations and Unknowns                    | 1826 | Unrun checks and missing evidence                     |
+| Re-audit and Follow-up Plan                 | 1850 | Closure evidence and ownership                        |
+| Validation Record                           | 1879 | Mechanical and semantic gate results                  |
+| References                                  | 1904 | Consulted external sources                            |
+| Pre-Delivery Mechanical Checklist           | 1942 | Final mechanical checks                               |
 
 ## Formatting Rules
 
@@ -166,9 +167,10 @@ and `\r\n` input and preserve the file's original line-ending style.
 audited repository under a `.tmp.` name, for example `format-table.tmp.py`, instead of writing a
 new formatter by hand.
 
-Place the script copy in a `work/` directory when one exists in the audited repository, otherwise
-place it in the repository root without creating a directory solely for it. Run it on the report
-file, verify that all `|` separators align vertically, then remove the copy.
+Place the script copy in `work/` when that directory exists in the audited repository.
+Use an existing `temp` or `temporary` directory when `work/` is unavailable, and use the repository
+root only when none exists. Run it on the report file, verify that all `|` separators align
+vertically, then remove the copy.
 
 For Inline delivery, apply the same formatting to the report text before emitting the response.
 
@@ -352,15 +354,16 @@ assessment file that governs it:
 |-------------------------------------------------------------|---------------------------------------------------------------|---------------------------------------|
 | Data Flow Diagram (in Architectural Assessment)             | The system moves data across one or more trust boundaries     | `assessment/data-flow.md`             |
 | Design Patterns (in Architectural Assessment)               | The codebase is large enough to exhibit recurring structure   | `assessment/design-patterns.md`       |
-| Architecture Decision Records (in Architectural Assessment) | The system is production-bound and has significant decisions  | `assessment/change-management.md`     |
+| Architecture Decision Records (in Architectural Assessment) | The system is production-bound with significant decisions     | `assessment/change-management.md`     |
 | Threat Model (standalone)                                   | The system has a security-relevant attack surface or boundary | `assessment/threat-model.md`          |
 | API Contract Conformance (standalone)                       | The system defines, exposes, or consumes an API contract      | `assessment/api-contract.md`          |
-| Skill Definition Conformance (standalone)                   | The subject is an Agent Skill (has a `SKILL.md` file)         | `assessment/skill-definition.md`      |
+| Skill Definition Conformance (standalone)                   | The subject is an Agent Skill with a `SKILL.md` file          | `assessment/skill-definition.md`      |
+| AI System Assessment (standalone)                           | The project trains, serves, or materially depends on AI       | `assessment/ai-system.md`             |
 | Standards Conformance (standalone)                          | The project contains documented development standards         | `assessment/standards-conformance.md` |
-| API Compatibility & Versioning Discipline (standalone)      | The subject is a reusable library or package, not a service   | `assessment/api-compatibility.md`     |
-| Technical Debt Register (standalone)                        | The assessment surfaces structural debt distinct from risks   | `synthesis/debt-register.md`          |
-| Re-audit and Follow-up Plan (standalone)                    | The roadmap contains at least one P1 or P2 recommendation     | `synthesis/re-audit-plan.md`          |
-| Changes Since Previous Audit (standalone)                   | A previously created audit report was found during intake     | `synthesis/report-comparison.md`      |
+| API Compatibility & Versioning Discipline (standalone)      | The subject is a reusable library or package                  | `assessment/api-compatibility.md`     |
+| Technical Debt Register (standalone)                        | Structural debt distinct from risks is surfaced               | `synthesis/debt-register.md`          |
+| Re-audit and Follow-up Plan (standalone)                    | The roadmap contains a P1 or P2 recommendation                | `synthesis/re-audit-plan.md`          |
+| Changes Since Previous Audit (standalone)                   | A previous audit report was found during intake               | `synthesis/report-comparison.md`      |
 
 In a multi-project report, evaluate each criterion independently per project. A section may apply
 to one project and be omitted for another, record each deliberate omission in Scope Exclusions.
@@ -390,6 +393,7 @@ For a **single-project** audit:
 - Threat Model *(conditional)*
 - API Contract Conformance *(conditional)*
 - Skill Definition Conformance *(conditional)*
+- AI System Assessment *(conditional)*
 - Standards Conformance *(conditional)*
 - API Compatibility & Versioning Discipline *(conditional)*
 - Strengths & What's Working
@@ -567,6 +571,7 @@ project:
 - Threat Model *(conditional)*
 - API Contract Conformance *(conditional)*
 - Skill Definition Conformance *(conditional)*
+- AI System Assessment *(conditional)*
 - Standards Conformance *(conditional)*
 - API Compatibility & Versioning Discipline *(conditional)*
 - Strengths & What's Working
@@ -1054,6 +1059,9 @@ Register.
 
 Present the scoring framework after Auditing Methodology and before detailed finding assessments.
 
+Apply `process/readiness-and-scoring.md` for deterministic status-to-score mapping, confidence,
+score caps, maturity, readiness gates, and multi-project aggregation.
+
 The earlier dashboard summarizes these scores and should reference this rubric.
 
 **Scoring rubric**
@@ -1353,6 +1361,18 @@ and its linked `FND-XXX`.
 
 When the report language is not English, apply the column header translations from the matching
 `translation/` file.
+
+## AI System Assessment
+
+Include this section only when the project trains, serves, or materially depends on an AI or
+machine-learning system, per `assessment/ai-system.md`.
+
+Keep this section distinct from AI-generated-code provenance. A project can have AI-assisted source
+without having an AI system, and an AI system can contain no evidence about how its source was authored.
+
+Present the evaluated lifecycle, model and data provenance, evaluation evidence, safety boundaries,
+operational controls, and unresolved limitations. Use NIST AI RMF or ISO/IEC 42001 only when the
+selected practices were actually assessed.
 
 ## Standards Conformance
 
@@ -1679,7 +1699,14 @@ After the table, write one block per risk in the same order. Use this exact mark
 * **Impact:** [Concrete consequence if the risk is realized]
 * **Likelihood:** [How probable the risk is given the evidence, with justification]
 * **Severity:** [LOW | MEDIUM | HIGH | CRITICAL]
+* **Confidence:** [HIGH | MEDIUM | LOW with rationale]
+* **Triggering Condition:** [Threat, failure event, or predisposing condition]
+* **Existing Controls:** [Present controls and verification state]
 * **Mitigation:** [Neutral, optional action that would reduce the risk]
+* **Residual Risk:** [Remaining risk after the proposed mitigation, or `UNKNOWN`]
+* **Treatment State:** [Open | Accepted | Transferred | Monitoring | Closed]
+* **Owner:** [Role or `NOT SPECIFIED`]
+* **Closure Trigger:** [Evidence or event that starts re-verification]
 ```
 
 When the report language is not English, apply the bullet label translations from the matching

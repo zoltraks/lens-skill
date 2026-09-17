@@ -1,0 +1,97 @@
+{
+  "skill_name": "lens-skill",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Audit this small HTTP service from the supplied repository. Produce a source-only report with security findings, a threat model, an evidence ledger, a risk register, readiness gates, and a remediation roadmap.",
+      "expected_output": "A report that separates inspected evidence from unrun verification and traces security gaps through findings, risks, and recommendations.",
+      "files": [],
+      "expectations": [
+        "The report states that no project build, test, scan, or runtime execution was performed.",
+        "Every security finding has a CWE identifier, UNKNOWN, or justified N/A and an evidence reference.",
+        "The report distinguishes readiness state from report State: Final.",
+        "Every risk and recommendation resolves to a finding identifier."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review this reusable library for release safety and API compatibility. The repository contains a package manifest, a changelog, public API declarations, and several release tags.",
+      "expected_output": "A library-focused audit that includes API compatibility and versioning discipline without applying service-only controls.",
+      "files": [],
+      "expectations": [
+        "The report includes API Compatibility & Versioning Discipline.",
+        "The report evaluates public-surface tracking, compatibility gates, versioning consistency, and breaking-change tracking.",
+        "The report does not treat a deployable-service API contract section as a substitute for library compatibility analysis."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Audit a repository containing a PHP server, a React administration panel, and two Go utilities. Produce one combined report while keeping each project independently assessable.",
+      "expected_output": "A multi-project report with project inventory, independent findings and scorecards, combined cross-project trade-offs, and qualified shared references.",
+      "files": [],
+      "expectations": [
+        "Each project receives an independent assessment and scorecard.",
+        "Shared-section finding, risk, and recommendation references are project-qualified.",
+        "The combined trade-off section contains only decisions that affect more than one project.",
+        "The report does not use ambiguous project labels such as both or either."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Re-audit this repository after a previous audit report. The current source revision is unchanged, but the report format has gained new parity and evidence requirements.",
+      "expected_output": "A new revisioned report that preserves the previous report, distinguishes product changes from capability changes, and re-derives current evidence.",
+      "files": [],
+      "expectations": [
+        "The previous report is not overwritten.",
+        "The new report contains Changes Since Previous Audit and a revisioned filename.",
+        "Historical execution results are labeled Reported rather than current verification.",
+        "Structural additions caused by the skill version are distinguished from product changes."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Perform a thin-input technical due-diligence audit from a short project description and a dependency manifest. Identify exactly what can and cannot be concluded.",
+      "expected_output": "A bounded report that preserves unknown business, support, cost, security, and operational inputs and lists artifacts needed to raise confidence.",
+      "files": [],
+      "expectations": [
+        "Missing information is marked UNKNOWN, NOT SPECIFIED, or INSUFFICIENT INFORMATION rather than guessed.",
+        "The report does not invent owners, budgets, SLOs, or production evidence.",
+        "The report includes a concrete list of missing artifacts and next verification steps."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Audit this Agent Skill for specification conformance and report quality. Check its frontmatter, progressive disclosure, registered references, scripts, and report-production behavior.",
+      "expected_output": "A skill-definition assessment that checks the Agent Skills specification and the skill's own maintenance controls.",
+      "files": [],
+      "expectations": [
+        "The report includes Skill Definition Conformance.",
+        "The report checks frontmatter, name and description constraints, reference integrity, and progressive disclosure.",
+        "The report distinguishes structural conformance from future-agent behavioral verification."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Write the audit report in Polish. Preserve all identifiers and machine-readable statuses while translating headings, labels, findings, and explanatory prose.",
+      "expected_output": "A UTF-8 Polish report with complete heading and table-header coverage and unchanged machine tokens.",
+      "files": [],
+      "expectations": [
+        "The report uses Polish prose and headings with preserved diacritics.",
+        "Finding, evidence, risk, recommendation, CWE, validation, and execution tokens remain machine-readable.",
+        "Conditional headings that appear in the report are translated."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Audit a project that serves a retrieval-augmented language model with tool access. Assess model and data provenance, evaluation, prompt and tool boundaries, safety, monitoring, and rollback without auditing live behavior.",
+      "expected_output": "A conditional AI-system assessment separate from AI-generated-code provenance and general application security.",
+      "files": [],
+      "expectations": [
+        "The report includes the AI System Assessment only because an AI runtime is in scope.",
+        "The report evaluates model and dataset provenance, evaluation evidence, authorization boundaries, and rollback.",
+        "The report does not infer AI authorship from code style or ordinary use of an AI coding assistant.",
+        "The report does not claim NIST AI RMF or ISO/IEC 42001 conformance from repository inspection alone."
+      ]
+    }
+  ]
+}
