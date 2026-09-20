@@ -15,11 +15,11 @@ requested category.
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 24   | Step Overview guidance           |
-| Intake Checklist        | 701  | Intake Checklist guidance        |
-| Handling Thin Input     | 716  | Handling Thin Input guidance     |
-| Single-Dimension Audits | 727  | Single-Dimension Audits guidance |
-| Re-Audit                | 737  | Re-Audit guidance                |
-| Multi-Project Audits    | 764  | Multi-Project Audits guidance    |
+| Intake Checklist        | 752  | Intake Checklist guidance        |
+| Handling Thin Input     | 767  | Handling Thin Input guidance     |
+| Single-Dimension Audits | 778  | Single-Dimension Audits guidance |
+| Re-Audit                | 788  | Re-Audit guidance                |
+| Multi-Project Audits    | 815  | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -147,6 +147,7 @@ Default parameters:
 | Evaluation scale        | 1-10                                                                               |
 | Improvement suggestions | Include with priorities (P1-P4 roadmap)                                            |
 | Trade-off analysis      | Standalone section + embedded into relevant findings                               |
+| Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it |
 
 The agent MUST ask the user and MUST NOT skip this step. The agent MUST wait for user response
 before proceeding to Scope Definition.
@@ -170,6 +171,14 @@ At each prompt, offer a bypass option to accept the remaining defaults and proce
 
 Present each prompt as a single question with clear options. After each answer, confirm the
 choice and move to the next parameter.
+
+Every routine prompt carries three kinds of choices:
+
+1. The concrete options, with the default marked `(default)`.
+2. A fixed trailing option `Use default: <value>` that accepts the default for this question and
+   continues to the next prompt.
+3. A fixed trailing option `Use defaults for all remaining questions` that accepts every
+   remaining default and proceeds directly to Scope Definition.
 
 Routine prompts are limited to delivery and output file, detail level, and evaluation scale.
 Report language follows the request language unless the user explicitly specifies another
@@ -240,6 +249,9 @@ For example, when `docs/report/` exists with no subdirectory pattern, the questi
 `docs/report/AUDIT.md`, `docs/report/<version>/AUDIT.md`, and
 `docs/report/<date>/AUDIT-2.0.md` alongside `Inline` and `Custom report file`.
 
+Like every routine prompt, the question ends with `Use default: <default option>` and
+`Use defaults for all remaining questions`.
+
 Choosing a subdirectory option creates the subdirectory inside the base directory. Subsequent
 audits then follow the established pattern per the rules above.
 
@@ -295,6 +307,8 @@ Ask: "What level of detail should the report include?"
 - **Brief** - Executive Summary, Health Dashboard (scorecard summary and risk heat map only),
   top risks only, and key recommendations. Detailed findings are summarized, not itemized.
 
+The question ends with `Use default: Detailed` and `Use defaults for all remaining questions`.
+
 **Evaluation scale**
 
 Ask: "Which evaluation scale should be used for the scorecard?"
@@ -306,6 +320,8 @@ Ask: "Which evaluation scale should be used for the scorecard?"
 - **5 stars** - uses the `1-5` rubric and displays filled and empty star bars, such as
   `★★★☆☆`.
 - **3 stars** - uses the `1-3` rubric and displays filled and empty star bars, such as `★★☆`.
+
+The question ends with `Use default: 1-10` and `Use defaults for all remaining questions`.
 
 **Improvement suggestions**
 
@@ -328,10 +344,24 @@ Apply another option only when the user explicitly specifies it.
 - **Embed into findings** - reasoning only in relevant finding blocks.
 - **Omit** - do not include trade-off reasoning.
 
+**Descriptive mode**
+
+Use **Enabled** by default. Do not ask this as a routine prompt.
+
+Apply another option only when the user explicitly specifies it.
+
+- **Enabled** (default) - the report includes a `Glossary` section that indexes every
+  abbreviation and acronym used, carries longer descriptions for selected terms, and links
+  every acronym occurrence in the body to its description or the index table, per the Glossary
+  rules in `process/report-format.md`.
+- **Disabled** - omit the `Glossary` section. Record the deliberate omission in Scope
+  Exclusions.
+
 **Bypass rule**
 
-At any parameter prompt, if the user responds with "bypass", "skip", "defaults", or equivalent,
-immediately accept all remaining defaults and proceed to Scope Definition.
+Every routine prompt ends with the named option `Use defaults for all remaining questions`.
+Selecting it, or responding with "bypass", "skip", "defaults", or equivalent at any prompt,
+immediately accepts all remaining defaults and proceeds to Scope Definition.
 
 **Scope Definition**
 

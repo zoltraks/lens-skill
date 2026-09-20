@@ -92,6 +92,19 @@
         "The report does not infer AI authorship from code style or ordinary use of an AI coding assistant.",
         "The report does not claim NIST AI RMF or ISO/IEC 42001 conformance from repository inspection alone."
       ]
+    },
+    {
+      "id": 9,
+      "prompt": "Audit this small service from the supplied repository with default report parameters. The report must remain readable to a non-specialist audience.",
+      "expected_output": "A default audit that includes a Glossary section indexing every abbreviation and acronym used, carrying longer descriptions for selected terms, with every acronym occurrence in the report body linking to its description or the index table.",
+      "files": [],
+      "expectations": [
+        "The report contains a Glossary section after Document Information or Project Inventory and before Executive Summary.",
+        "The Glossary index table lists every acronym alphabetically, and terms with a longer description link to their ### subsection below the table.",
+        "Every acronym occurrence in the report body is a markdown link to its glossary description, or to #glossary when the term has no description.",
+        "The Glossary covers report-internal identifier prefixes and technology and standard abbreviations used in the report.",
+        "When Descriptive mode is disabled, the Glossary is omitted and the omission is justified in Scope Exclusions."
+      ]
     }
   ]
 }

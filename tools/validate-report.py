@@ -227,9 +227,197 @@ def check_security_classification(lines: list[str]) -> list[str]:
 
 def check_par_rows(text: str) -> list[str]:
     failures: list[str] = []
-    for number in range(1, 10):
+    for number in range(1, 11):
         if not re.search(rf"^\|\s*PAR-{number}(?:\s|\||:)", text, re.MULTILINE):
             failures.append(f"missing Validation Record row PAR-{number}")
+    return failures
+
+
+def heading_slugs(text: str) -> set[str]:
+    slugs: set[str] = set()
+    counts: dict[str, int] = {}
+    in_fence = False
+    for line in text.split("\n"):
+        if line.lstrip().startswith("```"):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+        match = re.match(r"^#{1,6}\s+(.+?)\s*$", line)
+        if not match:
+            continue
+        base = re.sub(r"[^a-z0-9 _-]", "", match.group(1).lower()).replace(" ", "-")
+        seen = counts.get(base, 0)
+        counts[base] = seen + 1
+        slugs.add(base if seen == 0 else f"{base}-{seen}")
+    return slugs
+
+
+GLOSSARY_VARIANTS: dict[str, list[str]] = {
+    "HTTP(S)": ["HTTP(S)", "HTTPS", "HTTP"],
+    "P1-P4": ["P1-P4", "P1", "P2", "P3", "P4"],
+    "ISO": ["ISO/IEC", "ISO"],
+    "CISQ": ["CISQ/SQALE", "CISQ"],
+    "AI": ["AI/ML", "AI"],
+}
+
+
+def glossary_variants(term: str) -> list[str]:
+    variants = list(GLOSSARY_VARIANTS.get(term, [term]))
+    if re.fullmatch(r"[A-Z]{2,}", term):
+        variants.append(term + "s")
+    return variants
+
+
+def slugify(heading: str) -> str:
+    return re.sub(r"[^a-z0-9 _-]", "", heading.lower()).replace(" ", "-")
+
+
+def check_glossary(text: str) -> list[str]:
+    failures: list[str] = []
+    if "Document Information" not in text:
+        return failures
+    mode = re.search(r"\|\s*Descriptive Mode\s*\|\s*([^|]+)", text)
+    heading = re.search(r"^#{2,3}\s+Glossary\s*$", text, re.MULTILINE)
+    if not mode:
+        failures.append("Document Information has no Descriptive Mode row")
+        return failures
+    value = mode.group(1).strip()
+    if value not in ("Enabled", "Disabled"):
+        failures.append(f"Descriptive Mode value must be Enabled or Disabled, got {value}")
+        return failures
+    if value == "Disabled":
+        if heading:
+            failures.append("Descriptive Mode is Disabled but the report has a Glossary section")
+        exclusions = re.search(r"^#{2,3}\s+Scope Exclusions\s*$", text, re.MULTILINE)
+        scope = ""
+        if exclusions:
+            following = re.search(r"^#{2,3}\s+", text[exclusions.end():], re.MULTILINE)
+            scope = text[exclusions.end() : exclusions.end() + following.start() if following else len(text)]
+        if not re.search(r"glossar|descriptive", scope, re.IGNORECASE):
+            failures.append("Descriptive Mode is Disabled but Scope Exclusions does not justify the omitted Glossary")
+        return failures
+    if not heading:
+        failures.append("Descriptive Mode is Enabled but the report has no Glossary section")
+        return failures
+    rest = text[heading.end():]
+    following = re.search(r"^##\s+", rest, re.MULTILINE)
+    g_end = heading.end() + (following.start() if following else len(rest))
+    sub_slugs: dict[str, str] = {}
+    sub_terms: list[str] = []
+    for match in re.finditer(r"^###\s+(.+?)\s*$", text[heading.end() : g_end], re.MULTILINE):
+        sub_heading = match.group(1)
+        term = re.split(r"\s*\(", sub_heading, 1)[0].strip()
+        sub_terms.append(term)
+        sub_slugs[term] = slugify(sub_heading)
+    if sub_terms != sorted(sub_terms, key=str.lower):
+        failures.append("glossary descriptions are not in alphabetical order")
+    table: list[str] = []
+    for line in text[heading.end() : g_end].split("\n"):
+        if line.startswith("###"):
+            break
+        if line.startswith("|"):
+            table.append(line)
+            continue
+        if table:
+            break
+    terms: list[str] = []
+    term_links: dict[str, str] = {}
+    bad_cells = 0
+    for row in table[2:]:
+        if not row.startswith("|") or re.match(r"^\|[\s\-:|]+\|?$", row):
+            continue
+        cell = row.split("|")[1].strip()
+        link = re.fullmatch(r"\[([^\]]+)\]\(#([^)]+)\)", cell)
+        if link:
+            terms.append(link.group(1))
+            term_links[link.group(1)] = link.group(2)
+        elif re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9/().+-]*", cell):
+            terms.append(cell)
+        else:
+            bad_cells += 1
+    if bad_cells:
+        failures.append(f"glossary index has {bad_cells} malformed term cell(s)")
+    if terms != sorted(terms, key=str.lower):
+        failures.append("glossary terms are not in alphabetical order")
+    if len(terms) != len(set(terms)):
+        failures.append("glossary has duplicate terms")
+    for required in ("SLO", "RPO", "RTO"):
+        if required not in terms:
+            failures.append(f"glossary is missing required term {required}")
+    for term, anchor in term_links.items():
+        if term not in sub_slugs:
+            failures.append(f"glossary term {term} links to #{anchor} but has no ### description")
+        elif anchor != sub_slugs[term]:
+            failures.append(f"glossary term {term} links to #{anchor}, expected #{sub_slugs[term]}")
+    for term in sub_slugs:
+        if term not in terms:
+            failures.append(f"glossary ### description {term} has no index-table row")
+        elif term not in term_links:
+            failures.append(f"glossary term {term} has a ### description but is not linked in the index table")
+    slugs = heading_slugs(text)
+    for term, anchor in term_links.items():
+        if anchor not in slugs:
+            failures.append(f"glossary term {term} links to missing anchor #{anchor}")
+    failures.extend(check_glossary_body_links(text, terms, sub_slugs))
+    return failures
+
+
+def check_glossary_body_links(text: str, terms: list[str], sub_slugs: dict[str, str]) -> list[str]:
+    failures: list[str] = []
+    variant_map: dict[str, str] = {}
+    for term in terms:
+        for variant in glossary_variants(term):
+            variant_map[variant] = term
+    if not variant_map:
+        return failures
+    pattern = re.compile("|".join(re.escape(v) for v in sorted(variant_map, key=len, reverse=True)))
+    sub_anchors = set(sub_slugs.values())
+    unlinked = 0
+    in_fence = False
+    in_glossary = False
+    for lineno, line in enumerate(text.split("\n"), 1):
+        if line.lstrip().startswith("```"):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+        if re.match(r"^##\s+Glossary\s*$", line):
+            in_glossary = True
+            continue
+        if in_glossary:
+            if re.match(r"^##\s+\S", line):
+                in_glossary = False
+            else:
+                continue
+        if re.match(r"^#{1,6}\s", line):
+            continue
+        masked = re.sub(r"`[^`]*`", "", line)
+        for link in re.finditer(r"\[([^\]]+)\]\(#([^)]+)\)", masked):
+            link_text, anchor = link.group(1), link.group(2)
+            if anchor != "glossary" and anchor not in sub_anchors:
+                continue
+            term = variant_map.get(link_text)
+            if term is None:
+                failures.append(f"line {lineno}: link [{link_text}](#{anchor}) text is not a glossary term")
+            else:
+                expected = sub_slugs.get(term, "glossary")
+                if anchor != expected:
+                    failures.append(f"line {lineno}: [{link_text}](#{anchor}) should link to #{expected}")
+        masked = re.sub(r"\[[^\]]*\]\([^)]*\)", "", masked)
+        masked = re.sub(r"https?://\S+", "", masked)
+        masked = re.sub(r"\[[^\]]*\]", "", masked)
+        for match in pattern.finditer(masked):
+            start, end = match.start(), match.end()
+            before = masked[start - 1] if start else " "
+            after = masked[end] if end < len(masked) else " "
+            if re.match(r"[\w/#.-]", before) or re.match(r"[\w/-]", after):
+                continue
+            unlinked += 1
+            if unlinked <= 30:
+                failures.append(f"line {lineno}: unlinked acronym {match.group(0)}")
+    if unlinked > 30:
+        failures.append(f"unlinked acronym occurrences total: {unlinked}")
     return failures
 
 
@@ -302,7 +490,8 @@ def main(path: str) -> int:
         ("security classifications", check_security_classification(lines)),
         ("score disclosure", check_score_disclosure(lines)),
         ("project qualification", check_project_qualification(text)),
-        ("PAR-1..PAR-9", check_par_rows(text)),
+        ("PAR-1..PAR-10", check_par_rows(text)),
+        ("glossary", check_glossary(text)),
         ("final-state gate", check_final_state(text)),
         ("trailing whitespace and ending", check_trailing(lines)),
     ]

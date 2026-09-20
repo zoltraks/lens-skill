@@ -20,39 +20,40 @@ missing section hides it.
 
 | Section                                     | Line | What it covers                                        |
 |---------------------------------------------|------|-------------------------------------------------------|
-| Formatting Rules                            | 56   | Formatting Rules guidance                             |
-| Report Delivery And Parameter Configuration | 213  | Report delivery and output configuration              |
-| Detail Level Configuration                  | 251  | Standard, detailed, and brief reports                 |
-| Conditional Sections                        | 334  | Inclusion criteria for conditional sections           |
-| Section Order                               | 372  | Single-project and multi-project order                |
-| Document Information                        | 439  | Report metadata and revisions                         |
-| Multi-Project Report Structure              | 518  | Combined and project-specific sections                |
-| Executive Summary                           | 609  | Executive summary and readiness threshold             |
-| Changes Since Previous Audit                | 692  | Re-audit comparison structure                         |
-| System Context                              | 753  | Context and technology stack                          |
-| Health Dashboard                            | 813  | Heat map, scorecard, and continuity                   |
-| High-Level Observations                     | 887  | Reader-facing finding summary                         |
-| Auditing Methodology                        | 911  | Method, standards, and evidence ledger                |
-| Scoring Rubrics                             | 1053 | Score bands and ISO crosswalk                         |
-| Architectural Assessment                    | 1112 | Architecture, principles, and conditional subsections |
-| Trade-off Analysis                          | 1247 | Neutral engineering trade-offs                        |
-| Threat Model                                | 1287 | STRIDE analysis                                       |
-| API Contract Conformance                    | 1314 | API contract and security conformance                 |
-| Skill Definition Conformance                | 1334 | Agent Skill conformance                               |
-| AI System Assessment                        | 1363 | Conditional AI-system review                          |
-| Standards Conformance                       | 1374 | Internal standards quality and code conformance       |
-| API Compatibility & Versioning Discipline   | 1430 | Library compatibility gates                           |
-| Strengths & What's Working                  | 1457 | Evidence-based positive baselines                     |
-| Detailed Technical Findings                 | 1487 | Finding summary and detail blocks                     |
-| Technical Debt Register                     | 1584 | Distinct accumulated debt                             |
-| Unified Risk Register                       | 1625 | Cross-referenced risks                                |
-| Actionable Remediation Roadmap              | 1710 | Prioritized recommendations                           |
-| Scope Exclusions                            | 1774 | Explicit coverage limits                              |
-| Limitations and Unknowns                    | 1826 | Unrun checks and missing evidence                     |
-| Re-audit and Follow-up Plan                 | 1850 | Closure evidence and ownership                        |
-| Validation Record                           | 1879 | Mechanical and semantic gate results                  |
-| References                                  | 1904 | Consulted external sources                            |
-| Pre-Delivery Mechanical Checklist           | 1942 | Final mechanical checks                               |
+| Formatting Rules                            | 58   | Formatting Rules guidance                             |
+| Report Delivery And Parameter Configuration | 216  | Report delivery and output configuration              |
+| Detail Level Configuration                  | 254  | Standard, detailed, and brief reports                 |
+| Conditional Sections                        | 338  | Inclusion criteria for conditional sections           |
+| Section Order                               | 378  | Single-project and multi-project order                |
+| Document Information                        | 448  | Report metadata and revisions                         |
+| Glossary                                    | 529  | Abbreviation and acronym definitions                  |
+| Multi-Project Report Structure              | 616  | Combined and project-specific sections                |
+| Executive Summary                           | 708  | Executive summary and readiness threshold             |
+| Changes Since Previous Audit                | 791  | Re-audit comparison structure                         |
+| System Context                              | 852  | Context and technology stack                          |
+| Health Dashboard                            | 912  | Heat map, scorecard, and continuity                   |
+| High-Level Observations                     | 986  | Reader-facing finding summary                         |
+| Auditing Methodology                        | 1010 | Method, standards, and evidence ledger                |
+| Scoring Rubrics                             | 1152 | Score bands and ISO crosswalk                         |
+| Architectural Assessment                    | 1214 | Architecture, principles, and conditional subsections |
+| Trade-off Analysis                          | 1349 | Neutral engineering trade-offs                        |
+| Threat Model                                | 1389 | STRIDE analysis                                       |
+| API Contract Conformance                    | 1416 | API contract and security conformance                 |
+| Skill Definition Conformance                | 1436 | Agent Skill conformance                               |
+| AI System Assessment                        | 1459 | Conditional AI-system review                          |
+| Standards Conformance                       | 1471 | Internal standards quality and code conformance       |
+| API Compatibility & Versioning Discipline   | 1527 | Library compatibility gates                           |
+| Strengths & What's Working                  | 1554 | Evidence-based positive baselines                     |
+| Detailed Technical Findings                 | 1584 | Finding summary and detail blocks                     |
+| Technical Debt Register                     | 1681 | Distinct accumulated debt                             |
+| Unified Risk Register                       | 1722 | Cross-referenced risks                                |
+| Actionable Remediation Roadmap              | 1809 | Prioritized recommendations                           |
+| Scope Exclusions                            | 1873 | Explicit coverage limits                              |
+| Limitations and Unknowns                    | 1925 | Unrun checks and missing evidence                     |
+| Re-audit and Follow-up Plan                 | 1949 | Closure evidence and ownership                        |
+| Validation Record                           | 1978 | Mechanical and semantic gate results                  |
+| References                                  | 2003 | Consulted external sources                            |
+| Pre-Delivery Mechanical Checklist           | 2041 | Final mechanical checks                               |
 
 ## Formatting Rules
 
@@ -308,6 +309,7 @@ conditional section's criterion explicitly and include each one that applies:
 Condensed output for rapid review:
 
 - Document Information (full)
+- Glossary (when Descriptive mode is enabled)
 - Executive Summary (summary table, evidence limits, readiness gate, and cost uncertainty)
 - Changes Since Previous Audit (report reference and finding transition tables only) when a previous
   report exists
@@ -364,6 +366,7 @@ assessment file that governs it:
 | Technical Debt Register (standalone)                        | Structural debt distinct from risks is surfaced               | `synthesis/debt-register.md`          |
 | Re-audit and Follow-up Plan (standalone)                    | The roadmap contains a P1 or P2 recommendation                | `synthesis/re-audit-plan.md`          |
 | Changes Since Previous Audit (standalone)                   | A previous audit report was found during intake               | `synthesis/report-comparison.md`      |
+| Glossary (standalone)                                       | Descriptive mode is enabled (default)                         | `process/report-format.md`            |
 
 In a multi-project report, evaluate each criterion independently per project. A section may apply
 to one project and be omitted for another, record each deliberate omission in Scope Exclusions.
@@ -380,6 +383,7 @@ The report has these top-level sections, in this order, with unnumbered headings
 For a **single-project** audit:
 
 - Document Information
+- Glossary *(when Descriptive mode is enabled)*
 - Executive Summary
 - Changes Since Previous Audit *(conditional)*
 - System Context (contains the Technology Stack subsection)
@@ -412,6 +416,7 @@ below for the full layout. In summary:
 
 - Document Information (once)
 - Project Inventory (once)
+- Glossary *(when Descriptive mode is enabled)* (once)
 - Executive Summary (condensed, combined)
 - Changes Since Previous Audit *(conditional)* (combined)
 - Per project (level-2 heading per project, full section set each):
@@ -472,6 +477,8 @@ Rows appear in this order, each label in the first column and its value in the s
 - `State` - `Draft` or `Final`.
 - `Detail Level` - `Standard`, `Detailed`, or `Brief`.
 - `Evaluation Scale` - `1-10`, `1-5`, `1-3`, `5 stars`, or `3 stars`.
+- `Descriptive Mode` - `Enabled` or `Disabled`. Always recorded so re-audits recover the
+  setting.
 - `Language` - the report language.
 - `Audit Purpose` - engineering improvement, production readiness, or technical due diligence.
 - `Target Environment` - where the software runs or ships.
@@ -518,6 +525,93 @@ carrying the new revision in its name, for example `AUDIT-1.1.md`, per
 
 When the report language is not English, apply the label translations from the matching
 `translation/` file.
+
+## Glossary
+
+The Glossary defines every abbreviation and acronym used in the report. It is present when
+Descriptive mode is `Enabled` (the default) and omitted when Descriptive mode is `Disabled`.
+When omitted, record the deliberate omission with a one-line justification in Scope Exclusions.
+
+The section appears immediately after `## Document Information`, or after
+`## Project Inventory` in a multi-project report, and always before `## Executive Summary`.
+A multi-project report carries one shared Glossary covering terms used in every project block.
+
+**Index table**
+
+Present the terms as a two-column table, one row per term, sorted alphabetically ignoring case.
+The Term cell holds the acronym in plain form, or a markdown link when the term carries a long
+description below the table. The Definition cell gives the expansion plus one clause of
+plain-language meaning or role in context.
+
+```markdown
+## Glossary
+
+| Term                               | Definition                                                     |
+|------------------------------------|----------------------------------------------------------------|
+| API                                | Application Programming Interface - the frontend-backend contract |
+| [RPO](#rpo-recovery-point-objective) | Recovery Point Objective - tolerable data loss measured as time |
+| [SLO](#slo-service-level-objective)  | Service Level Objective - measurable service-quality target    |
+```
+
+**Long descriptions**
+
+Terms that need more than an expansion get a `###` subsection below the index table, still inside
+`## Glossary`, sorted alphabetically by term. Name each subsection `### TERM (Expansion)` when the
+expansion is established, or `### TERM` when it is not. A term with a subsection links its table
+cell to that subsection's anchor, for example `[SLO](#slo-service-level-objective)`. Derive the
+anchor from the heading text: lowercase it, remove punctuation, and replace spaces with hyphens.
+
+Choose the subset deliberately. Good candidates are operational objectives such as `SLO`, `RPO`,
+and `RTO`, report-internal identifier prefixes such as `EVD`, `FND`, `RSK`, `REC`, `TDR`, and
+`PAR`, and subject-specific terms whose role needs explanation. Most terms stay index-only.
+
+```markdown
+### SLO (Service Level Objective)
+
+A measurable target for service quality, for example "99.9% of API requests succeed" or "p95
+latency under 300ms". SLOs tell operators, and an audit, what "healthy" means quantitatively.
+Without them there is no agreed threshold for when the platform is failing its users.
+```
+
+**Body linking**
+
+Every occurrence of a glossary term in the report body is a markdown link. When the term has a
+long-description subsection, link to that subsection's anchor, for example
+`[SLO](#slo-service-level-objective)`. Otherwise link to the index table at `#glossary`, for
+example `[API](#glossary)`.
+
+Apply the rule to prose and table cells. Exempt:
+
+- The Glossary section itself, including its index table and `###` descriptions.
+- Headings, fenced code blocks, inline code, existing link text, and URLs.
+- Occurrences inside a longer hyphenated or slashed identifier, such as `FND` inside
+  `FND-SEC-001`, `REC` inside `REC-BE-01`, or `PAR` inside `PAR-10`, and occurrences inside a
+  longer word, such as `SQL` inside `SQLite` or `API` inside `OpenAPI`. Link the whole compound
+  instead when the compound itself is a glossary term, such as `[SI-API](#si-api)` or
+  `[ISO/IEC](#glossary)`.
+- Inflected forms keep the suffix inside the link text, for example
+  `[SLOs](#slo-service-level-objective)`.
+
+**Coverage**
+
+Include every abbreviation and acronym used anywhere in the report body:
+
+- Report-internal identifier prefixes such as `EVD`, `FND`, `RSK`, `REC`, `TDR`, and `PAR`.
+- Priority tiers `P1`-`P4` and abbreviation-shaped tokens such as `N/A`.
+- Technology and standard names such as `API`, `CWE`, `CVSS`, `OWASP`, `STRIDE`, `SBOM`,
+  `SLO`, `RPO`, `RTO`, `PWA`, `SPA`, `CI/CD`, `TOTP`, `HMAC`, `CSP`, and `i18n`.
+- Subject-specific terms established by the audited project, such as product or protocol names.
+
+Each definition expands the abbreviation and adds one clause of plain-language meaning or role in
+context, as in the SLO, RPO, and RTO examples above.
+
+Do not list ordinary words, brand or product names that are not abbreviations, file extensions,
+command names, or fixed vocabulary tokens that are complete words such as `PASS`, `FAIL`,
+`UNKNOWN`, or `NOT SPECIFIED`. Do not invent expansions for product names the audited source
+does not establish, describe the term's role instead.
+
+When the report language is not English, keep each term in its original form and write the
+definition in the report language, per the matching `translation/` file.
 
 ## Multi-Project Report Structure
 
@@ -1962,6 +2056,7 @@ place, every item is mechanical and takes seconds to verify.
 | Arrows         | ASCII `->` in prose, no Unicode arrow                                          |
 | Prose width    | Lines broken near 100 characters, exempt table rows, URLs, links, paths        |
 | Finding blocks | Every required field present, see the template in Detailed Technical Findings  |
+| Glossary       | Present when Descriptive Mode is Enabled, alphabetical, body occurrences link  |
 | Diagrams       | Fenced, untagged, no leading or trailing blank line inside the fence           |
 | Registers      | Every RSK cites an FND, every REC cites an FND, heat-map covers rated risks    |
 | Ending         | References is the last section, no closing line after it                       |

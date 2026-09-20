@@ -15,17 +15,18 @@ a previous report happened to include.
 
 ## Mandatory Core Checklist
 
-| Item  | Requirement                                                                                                                     | Governing file                       |
-|-------|---------------------------------------------------------------------------------------------------------------------------------|--------------------------------------|
-| PAR-1 | Every security finding carries a CWE ID, `UNKNOWN`, or a justified `N/A`                                                        | `assessment/security-review.md`      |
-| PAR-2 | The severity table carries a one-line note that severity derives from the impact-likelihood matrix, not CVSS                    | `process/report-format.md`           |
-| PAR-3 | Scoring Rubrics include the ISO/IEC 25010:2023 coverage crosswalk as a mapping, not a conformance claim                         | `synthesis/project-scorecard.md`     |
-| PAR-4 | The Technical Debt Register separates remediation cost from cost of delay per CISQ/SQALE                                        | `synthesis/debt-register.md`         |
-| PAR-5 | The evidence pass ran the `git log` author/commit concentration check and surfaced it as the Team & Continuity line             | `process/report-format.md`           |
-| PAR-6 | A source-only component inventory was produced from the ecosystem's manifest or lockfile                                        | `references/dependency-manifests.md` |
-| PAR-7 | The Limitations and Unknowns section lists every check that would require execution and was not performed                       | `process/report-format.md`           |
-| PAR-8 | The Validation Record self-check table is present and complete                                                                  | `process/report-format.md`           |
-| PAR-9 | Reference standards were re-derived from the per-stack lookup for the detected stack, never copied verbatim from a prior report | `references/stack-standards.md`      |
+| Item   | Requirement                                                                                                                     | Governing file                       |
+|--------|---------------------------------------------------------------------------------------------------------------------------------|--------------------------------------|
+| PAR-1  | Every security finding carries a CWE ID, `UNKNOWN`, or a justified `N/A`                                                        | `assessment/security-review.md`      |
+| PAR-2  | The severity table carries a one-line note that severity derives from the impact-likelihood matrix, not CVSS                    | `process/report-format.md`           |
+| PAR-3  | Scoring Rubrics include the ISO/IEC 25010:2023 coverage crosswalk as a mapping, not a conformance claim                         | `synthesis/project-scorecard.md`     |
+| PAR-4  | The Technical Debt Register separates remediation cost from cost of delay per CISQ/SQALE                                        | `synthesis/debt-register.md`         |
+| PAR-5  | The evidence pass ran the `git log` author/commit concentration check and surfaced it as the Team & Continuity line             | `process/report-format.md`           |
+| PAR-6  | A source-only component inventory was produced from the ecosystem's manifest or lockfile                                        | `references/dependency-manifests.md` |
+| PAR-7  | The Limitations and Unknowns section lists every check that would require execution and was not performed                       | `process/report-format.md`           |
+| PAR-8  | The Validation Record self-check table is present and complete                                                                  | `process/report-format.md`           |
+| PAR-9  | Reference standards were re-derived from the per-stack lookup for the detected stack, never copied verbatim from a prior report | `references/stack-standards.md`      |
+| PAR-10 | When Descriptive mode is enabled, the Glossary indexes every acronym used and every body occurrence links to its description or the index table | `process/report-format.md`           |
 
 PAR-5 may report `NOT COLLECTED` when Git history is unavailable, silence is not acceptable.
 

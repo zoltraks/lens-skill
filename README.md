@@ -15,13 +15,13 @@
 
 | Section                       | Line | What it covers                                      |
 |-------------------------------|------|-----------------------------------------------------|
-| What The Skill Does           | 53   | Audit purpose, evidence contract, and principles    |
-| Evidence And Decision Quality | 102  | Evidence strength and verification limits           |
-| Core Principles               | 154  | Evaluation constraints and status rules             |
-| Report Format                 | 170  | Report structure, identifiers, and style            |
-| When To Use This Skill        | 194  | Supported requests and exclusions                   |
-| What's Inside                 | 273  | Documents, references, tools, and conditional files |
-| Verification                  | 366  | Skill-maintenance checks and regression scenarios   |
+| What The Skill Does           | 55   | Audit purpose, evidence contract, and principles    |
+| Evidence And Decision Quality | 106  | Evidence strength and verification limits           |
+| Core Principles               | 158  | Evaluation constraints and status rules             |
+| Report Format                 | 174  | Report structure, identifiers, and style            |
+| When To Use This Skill        | 198  | Supported requests and exclusions                   |
+| What's Inside                 | 277  | Documents, references, tools, and conditional files |
+| Verification                  | 371  | Skill-maintenance checks and regression scenarios   |
 
 Lens is a structured audit process packaged as an agent skill. It guides an AI coding agent through
 a complete engineering assessment of a codebase, producing a neutral, repeatable report anchored to
@@ -64,9 +64,11 @@ Code, configuration, documentation, logs, and prior reports. It identifies the a
 **Configures parameters**
 
 Asks whether to accept default parameters or configure the core report parameters. Detail level
-defaults to `Detailed`, improvement suggestions default to a prioritized roadmap, and trade-off
-analysis defaults to a standalone section with embedded reasoning. Advanced parameters can still
-be changed when explicitly specified.
+defaults to `Detailed`, improvement suggestions default to a prioritized roadmap, trade-off
+analysis defaults to a standalone section with embedded reasoning, and descriptive mode defaults
+to enabled, adding a `Glossary` section that indexes every abbreviation used, describes
+selected terms in depth, and is linked from every acronym occurrence in the report. Advanced
+parameters can still be changed when explicitly specified.
 
 **Defines scope explicitly**
 

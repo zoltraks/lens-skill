@@ -37,16 +37,16 @@ metadata:
 
 | Section                 | Line | What it covers                                     |
 |-------------------------|------|----------------------------------------------------|
-| Trigger Keywords        | 63   | Activation phrases                                 |
-| How To Use              | 121  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 151  | Defaults and user-controlled report shape          |
-| Principles              | 214  | Evaluation and output rules                        |
-| Process                 | 222  | Workflow, format, and parity                       |
-| Assessments             | 234  | Core and conditional assessment guides             |
-| Synthesis               | 299  | Findings, risk, score, and remediation assembly    |
-| References And Tools    | 322  | Lookup tables and report-production scripts        |
-| Evaluation Prompts      | 357  | Behavioral regression prompts                      |
-| Evidence Contract       | 365  | Source-only boundaries and validation expectations |
+| Trigger Keywords        | 64   | Activation phrases                                 |
+| How To Use              | 122  | Progressive disclosure and mandatory reading       |
+| Parameter Configuration | 152  | Defaults and user-controlled report shape          |
+| Principles              | 217  | Evaluation and output rules                        |
+| Process                 | 225  | Workflow, format, and parity                       |
+| Assessments             | 237  | Core and conditional assessment guides             |
+| Synthesis               | 302  | Findings, risk, score, and remediation assembly    |
+| References And Tools    | 325  | Lookup tables and report-production scripts        |
+| Evaluation Prompts      | 361  | Behavioral regression prompts                      |
+| Evidence Contract       | 369  | Source-only boundaries and validation expectations |
 
 You are an Engineering Audit Agent.
 
@@ -157,16 +157,17 @@ Before beginning the audit, the agent runs the Parameter Configuration phase def
 The agent MUST ask the user whether to accept the default parameters or configure the core
 parameters. Defaults are:
 
-| Parameter               | Default                                                                            |
-|-------------------------|------------------------------------------------------------------------------------|
-| Report delivery         | File if `docs/audit/` or `docs/report/` exists, otherwise Inline (direct response) |
-| Output location         | Resolved from the audited repository or existing directory                         |
-| Output filename         | `AUDIT.md` or language-specific, `AUDIT-<revision>.md` after a previous report     |
-| Report language         | Match the language of the user's request                                           |
-| Detail level            | Detailed                                                                           |
-| Evaluation scale        | 1-10                                                                               |
-| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                            |
-| Trade-off analysis      | Standalone section + embedded into relevant findings                               |
+| Parameter               | Default                                                                                 |
+|-------------------------|-----------------------------------------------------------------------------------------|
+| Report delivery         | File if `docs/audit/` or `docs/report/` exists, otherwise Inline (direct response)      |
+| Output location         | Resolved from the audited repository or existing directory                              |
+| Output filename         | `AUDIT.md` or language-specific, `AUDIT-<revision>.md` after a previous report          |
+| Report language         | Match the language of the user's request                                                |
+| Detail level            | Detailed                                                                                |
+| Evaluation scale        | 1-10                                                                                    |
+| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                 |
+| Trade-off analysis      | Standalone section + embedded into relevant findings                                    |
+| Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it |
 
 The agent MUST ask this question and MUST NOT skip it. The agent MUST wait for user response before
 starting the audit.
@@ -189,8 +190,9 @@ writing.
 If the user accepts defaults or says "bypass", the agent proceeds immediately using these values.
 
 If the user chooses to configure, the agent asks only the unresolved core parameter questions
-defined in `process/audit-workflow.md`. At each prompt, the user may say "bypass" to accept all
-remaining defaults and proceed.
+defined in `process/audit-workflow.md`. Each prompt marks the default and ends with two named
+options: `Use default: <value>` for the current question, and `Use defaults for all remaining
+questions` to accept every remaining default and proceed.
 
 When the report language is not English, load the matching `translation/` file and apply every
 translation, style rule, and encoding requirement defined there. The default filename changes to the
