@@ -102,6 +102,7 @@
         "The report contains a Glossary section after Document Information or Project Inventory and before Executive Summary.",
         "The Glossary index table lists every acronym alphabetically, and terms with a longer description link to their ### subsection below the table.",
         "Every acronym occurrence in the report body is a markdown link to its glossary description, or to #glossary when the term has no description.",
+        "Acronyms that are part of capitalized compound names such as 'AI Provenance' or 'API Compatibility' are not linked.",
         "The Glossary covers report-internal identifier prefixes and technology and standard abbreviations used in the report.",
         "When Descriptive mode is disabled, the Glossary is omitted and the omission is justified in Scope Exclusions."
       ]

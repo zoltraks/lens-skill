@@ -269,6 +269,52 @@ def glossary_variants(term: str) -> list[str]:
     return variants
 
 
+COMPOUND_NEIGHBOR_STOPWORDS = {
+    "The", "A", "An", "This", "That", "These", "Those", "Each", "Every", "All", "Any", "No",
+    "Not", "Both", "Same", "Only", "Just", "Even", "Such", "Its", "Our", "Their", "Per", "Via",
+    "For", "From", "Into", "On", "In", "At", "By", "As", "To", "Of", "Or", "And", "But", "So",
+    "Yet", "If", "When", "While", "Where", "How", "Why", "What", "Which", "Who", "With",
+    "Without", "Within", "Is", "Are", "Was", "Were", "Be", "Been", "Do", "Does", "Did", "Has",
+    "Have", "Had", "Can", "Could", "Will", "Would", "Shall", "Should", "May", "Might", "Must",
+    "Than", "Then", "Thus", "Also", "After", "Before", "During", "Until", "Since", "Over",
+    "Under", "Fits", "Use", "Uses", "Used", "Using",
+}
+
+
+def compound_context(line: str, start: int, end: int) -> bool:
+    j = start
+    while j > 0 and line[j - 1] not in " \t":
+        j -= 1
+    if not re.search(r"[A-Za-z0-9]", line[j:start]):
+        prev = line[:j].rstrip()
+        if prev:
+            prev_token = _compound_word(prev.split()[-1], trailing=False)
+            if (
+                prev_token not in COMPOUND_NEIGHBOR_STOPWORDS
+                and re.fullmatch(r"[A-Z][A-Za-z0-9]*(?:\.[A-Za-z0-9]+)*", prev_token)
+            ):
+                return True
+    k = end
+    while k < len(line) and line[k] not in " \t":
+        k += 1
+    if re.fullmatch(r"[\"'`)\]}*]*", line[end:k]):
+        nxt = line[k:].lstrip()
+        if nxt:
+            next_token = _compound_word(nxt.split()[0], trailing=True)
+            if re.fullmatch(r"[A-Z][A-Za-z0-9]*(?:\.[A-Za-z0-9]+)*", next_token):
+                return True
+    return False
+
+
+def _compound_word(token: str, trailing: bool) -> str:
+    link = re.fullmatch(r"\[([^\]]+)\]\([^)]*\)", token)
+    if link:
+        return link.group(1)
+    if trailing:
+        return re.sub(r"[^A-Za-z0-9]+$", "", token)
+    return re.sub(r"^[^A-Za-z0-9]+", "", token)
+
+
 def slugify(heading: str) -> str:
     return re.sub(r"[^a-z0-9 _-]", "", heading.lower()).replace(" ", "-")
 
@@ -392,10 +438,15 @@ def check_glossary_body_links(text: str, terms: list[str], sub_slugs: dict[str, 
                 continue
         if re.match(r"^#{1,6}\s", line):
             continue
-        masked = re.sub(r"`[^`]*`", "", line)
+        masked = re.sub(r"`[^`]*`", lambda m: " " * len(m.group(0)), line)
         for link in re.finditer(r"\[([^\]]+)\]\(#([^)]+)\)", masked):
             link_text, anchor = link.group(1), link.group(2)
             if anchor != "glossary" and anchor not in sub_anchors:
+                continue
+            if compound_context(masked, link.start(), link.end()):
+                failures.append(
+                    f"line {lineno}: [{link_text}](#{anchor}) links an acronym inside a capitalized compound name"
+                )
                 continue
             term = variant_map.get(link_text)
             if term is None:
@@ -404,14 +455,16 @@ def check_glossary_body_links(text: str, terms: list[str], sub_slugs: dict[str, 
                 expected = sub_slugs.get(term, "glossary")
                 if anchor != expected:
                     failures.append(f"line {lineno}: [{link_text}](#{anchor}) should link to #{expected}")
-        masked = re.sub(r"\[[^\]]*\]\([^)]*\)", "", masked)
-        masked = re.sub(r"https?://\S+", "", masked)
-        masked = re.sub(r"\[[^\]]*\]", "", masked)
+        masked = re.sub(r"\[[^\]]*\]\([^)]*\)", lambda m: " " * len(m.group(0)), masked)
+        masked = re.sub(r"https?://\S+", lambda m: " " * len(m.group(0)), masked)
+        masked = re.sub(r"\[[^\]]*\]", lambda m: " " * len(m.group(0)), masked)
         for match in pattern.finditer(masked):
             start, end = match.start(), match.end()
             before = masked[start - 1] if start else " "
             after = masked[end] if end < len(masked) else " "
             if re.match(r"[\w/#.-]", before) or re.match(r"[\w/-]", after):
+                continue
+            if compound_context(masked, start, end):
                 continue
             unlinked += 1
             if unlinked <= 30:

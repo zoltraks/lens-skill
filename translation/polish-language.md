@@ -24,36 +24,36 @@ Polish-language report.
 | Document Information                        | 138  | Document Information guidance               |
 | Project Inventory                           | 161  | Project Inventory guidance                  |
 | Glossary                                    | 170  | Glossary guidance                           |
-| Technology Stack                            | 183  | Technology Stack guidance                   |
-| Executive Summary                           | 200  | Executive Summary guidance                  |
-| Health Dashboard                            | 218  | Health Dashboard guidance                   |
-| Scorecard                                   | 229  | Scorecard guidance                          |
-| Scoring Rubrics                             | 253  | Scoring Rubrics guidance                    |
-| High-Level Observations                     | 267  | High-Level Observations guidance            |
-| Auditing Methodology                        | 274  | Auditing Methodology guidance               |
-| System Context                              | 288  | System Context guidance                     |
-| Architectural Assessment                    | 301  | Architectural Assessment guidance           |
-| Architectural Subsections                   | 308  | Architectural Subsections guidance          |
-| Skill Definition Conformance                | 319  | Skill Definition Conformance guidance       |
-| AI System Assessment                        | 325  | AI System Assessment guidance               |
-| Standards Conformance                       | 336  | Standards Conformance guidance              |
-| References                                  | 357  | References guidance                         |
-| Strengths And What's Working                | 366  | Strengths And What's Working guidance       |
-| Detailed Technical Findings                 | 372  | Detailed Technical Findings guidance        |
-| Technical Debt Register                     | 402  | Technical Debt Register guidance            |
-| Unified Risk Register                       | 414  | Unified Risk Register guidance              |
-| Trade-off Analysis                          | 427  | Trade-off Analysis guidance                 |
-| Actionable Remediation Roadmap              | 439  | Actionable Remediation Roadmap guidance     |
-| Changes Since Previous Audit                | 453  | Changes Since Previous Audit guidance       |
-| Scope Exclusions                            | 482  | Scope Exclusions guidance                   |
-| Limitations And Unknowns                    | 490  | Limitations And Unknowns guidance           |
-| Re-audit And Follow-up Plan                 | 502  | Re-audit And Follow-up Plan guidance        |
-| Validation Record                           | 512  | Validation Record guidance                  |
-| Threat Model                                | 523  | Threat Model guidance                       |
-| API Contract Conformance                    | 532  | API Contract Conformance guidance           |
-| API Compatibility And Versioning Discipline | 540  | API Compatibility And Versioning guidance   |
-| Evidence And Decision Terms                 | 549  | Evidence And Decision Terms guidance        |
-| Skill Definition Conformance Table          | 612  | Skill Definition Conformance Table guidance |
+| Technology Stack                            | 185  | Technology Stack guidance                   |
+| Executive Summary                           | 202  | Executive Summary guidance                  |
+| Health Dashboard                            | 220  | Health Dashboard guidance                   |
+| Scorecard                                   | 231  | Scorecard guidance                          |
+| Scoring Rubrics                             | 255  | Scoring Rubrics guidance                    |
+| High-Level Observations                     | 269  | High-Level Observations guidance            |
+| Auditing Methodology                        | 276  | Auditing Methodology guidance               |
+| System Context                              | 290  | System Context guidance                     |
+| Architectural Assessment                    | 303  | Architectural Assessment guidance           |
+| Architectural Subsections                   | 310  | Architectural Subsections guidance          |
+| Skill Definition Conformance                | 321  | Skill Definition Conformance guidance       |
+| AI System Assessment                        | 327  | AI System Assessment guidance               |
+| Standards Conformance                       | 338  | Standards Conformance guidance              |
+| References                                  | 359  | References guidance                         |
+| Strengths And What's Working                | 368  | Strengths And What's Working guidance       |
+| Detailed Technical Findings                 | 374  | Detailed Technical Findings guidance        |
+| Technical Debt Register                     | 404  | Technical Debt Register guidance            |
+| Unified Risk Register                       | 416  | Unified Risk Register guidance              |
+| Trade-off Analysis                          | 429  | Trade-off Analysis guidance                 |
+| Actionable Remediation Roadmap              | 441  | Actionable Remediation Roadmap guidance     |
+| Changes Since Previous Audit                | 455  | Changes Since Previous Audit guidance       |
+| Scope Exclusions                            | 484  | Scope Exclusions guidance                   |
+| Limitations And Unknowns                    | 492  | Limitations And Unknowns guidance           |
+| Re-audit And Follow-up Plan                 | 504  | Re-audit And Follow-up Plan guidance        |
+| Validation Record                           | 514  | Validation Record guidance                  |
+| Threat Model                                | 525  | Threat Model guidance                       |
+| API Contract Conformance                    | 534  | API Contract Conformance guidance           |
+| API Compatibility And Versioning Discipline | 542  | API Compatibility And Versioning guidance   |
+| Evidence And Decision Terms                 | 551  | Evidence And Decision Terms guidance        |
+| Skill Definition Conformance Table          | 614  | Skill Definition Conformance Table guidance |
 
 ## Status And Severity Vocabulary
 
@@ -178,7 +178,9 @@ The Document Information table uses an empty header row with no column names.
 Each term cell stays in its original form. A term cell is a markdown link only when the term
 carries a longer `###` description below the index table, pointing to that description's anchor.
 Acronym occurrences in the report body link to the description, or to the index table at
-`#glossary` when there is none. Definitions and descriptions are written in Polish.
+`#glossary` when there is none. Acronyms inside capitalized compound names are not linked, for
+example `AI` in `AI Provenance` or `UI` in `Material UI`; adjacent acronym pairs such as
+`NIST RMF` count as one compound. Definitions and descriptions are written in Polish.
 
 ## Technology Stack
 

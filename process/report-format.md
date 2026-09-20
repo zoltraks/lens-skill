@@ -27,33 +27,33 @@ missing section hides it.
 | Section Order                               | 378  | Single-project and multi-project order                |
 | Document Information                        | 448  | Report metadata and revisions                         |
 | Glossary                                    | 529  | Abbreviation and acronym definitions                  |
-| Multi-Project Report Structure              | 616  | Combined and project-specific sections                |
-| Executive Summary                           | 708  | Executive summary and readiness threshold             |
-| Changes Since Previous Audit                | 791  | Re-audit comparison structure                         |
-| System Context                              | 852  | Context and technology stack                          |
-| Health Dashboard                            | 912  | Heat map, scorecard, and continuity                   |
-| High-Level Observations                     | 986  | Reader-facing finding summary                         |
-| Auditing Methodology                        | 1010 | Method, standards, and evidence ledger                |
-| Scoring Rubrics                             | 1152 | Score bands and ISO crosswalk                         |
-| Architectural Assessment                    | 1214 | Architecture, principles, and conditional subsections |
-| Trade-off Analysis                          | 1349 | Neutral engineering trade-offs                        |
-| Threat Model                                | 1389 | STRIDE analysis                                       |
-| API Contract Conformance                    | 1416 | API contract and security conformance                 |
-| Skill Definition Conformance                | 1436 | Agent Skill conformance                               |
-| AI System Assessment                        | 1459 | Conditional AI-system review                          |
-| Standards Conformance                       | 1471 | Internal standards quality and code conformance       |
-| API Compatibility & Versioning Discipline   | 1527 | Library compatibility gates                           |
-| Strengths & What's Working                  | 1554 | Evidence-based positive baselines                     |
-| Detailed Technical Findings                 | 1584 | Finding summary and detail blocks                     |
-| Technical Debt Register                     | 1681 | Distinct accumulated debt                             |
-| Unified Risk Register                       | 1722 | Cross-referenced risks                                |
-| Actionable Remediation Roadmap              | 1809 | Prioritized recommendations                           |
-| Scope Exclusions                            | 1873 | Explicit coverage limits                              |
-| Limitations and Unknowns                    | 1925 | Unrun checks and missing evidence                     |
-| Re-audit and Follow-up Plan                 | 1949 | Closure evidence and ownership                        |
-| Validation Record                           | 1978 | Mechanical and semantic gate results                  |
-| References                                  | 2003 | Consulted external sources                            |
-| Pre-Delivery Mechanical Checklist           | 2041 | Final mechanical checks                               |
+| Multi-Project Report Structure              | 622  | Combined and project-specific sections                |
+| Executive Summary                           | 714  | Executive summary and readiness threshold             |
+| Changes Since Previous Audit                | 797  | Re-audit comparison structure                         |
+| System Context                              | 858  | Context and technology stack                          |
+| Health Dashboard                            | 918  | Heat map, scorecard, and continuity                   |
+| High-Level Observations                     | 992  | Reader-facing finding summary                         |
+| Auditing Methodology                        | 1016 | Method, standards, and evidence ledger                |
+| Scoring Rubrics                             | 1158 | Score bands and ISO crosswalk                         |
+| Architectural Assessment                    | 1220 | Architecture, principles, and conditional subsections |
+| Trade-off Analysis                          | 1355 | Neutral engineering trade-offs                        |
+| Threat Model                                | 1395 | STRIDE analysis                                       |
+| API Contract Conformance                    | 1422 | API contract and security conformance                 |
+| Skill Definition Conformance                | 1442 | Agent Skill conformance                               |
+| AI System Assessment                        | 1465 | Conditional AI-system review                          |
+| Standards Conformance                       | 1477 | Internal standards quality and code conformance       |
+| API Compatibility & Versioning Discipline   | 1533 | Library compatibility gates                           |
+| Strengths & What's Working                  | 1560 | Evidence-based positive baselines                     |
+| Detailed Technical Findings                 | 1590 | Finding summary and detail blocks                     |
+| Technical Debt Register                     | 1687 | Distinct accumulated debt                             |
+| Unified Risk Register                       | 1728 | Cross-referenced risks                                |
+| Actionable Remediation Roadmap              | 1815 | Prioritized recommendations                           |
+| Scope Exclusions                            | 1879 | Explicit coverage limits                              |
+| Limitations and Unknowns                    | 1931 | Unrun checks and missing evidence                     |
+| Re-audit and Follow-up Plan                 | 1955 | Closure evidence and ownership                        |
+| Validation Record                           | 1984 | Mechanical and semantic gate results                  |
+| References                                  | 2009 | Consulted external sources                            |
+| Pre-Delivery Mechanical Checklist           | 2047 | Final mechanical checks                               |
 
 ## Formatting Rules
 
@@ -589,6 +589,12 @@ Apply the rule to prose and table cells. Exempt:
   longer word, such as `SQL` inside `SQLite` or `API` inside `OpenAPI`. Link the whole compound
   instead when the compound itself is a glossary term, such as `[SI-API](#si-api)` or
   `[ISO/IEC](#glossary)`.
+- Acronyms that are part of a capitalized compound name: an acronym adjacent by whitespace to a
+  word starting with an uppercase letter on either side, for example `AI` in `AI Provenance`,
+  `API` in `API Compatibility & Versioning Discipline`, `UI` in `Material UI`, or `RMF` in
+  `NIST RMF`. Adjacent acronym pairs count as compounds too, so `the REST API` and `NIST RMF`
+  stay fully unlinked. Sentence-initial function words such as `The`, `A`, `Every`, and `No` do
+  not create compounds - `The PWA` still links.
 - Inflected forms keep the suffix inside the link text, for example
   `[SLOs](#slo-service-level-objective)`.
 
