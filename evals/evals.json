@@ -118,6 +118,18 @@
         "The document/ directory is proposed as a file location alongside Inline and Custom report file, and a date-named document/report/<date> alternative is offered when applicable.",
         "Each prompt ends with the named options 'Use default: <value>' and 'Use defaults for all remaining questions'."
       ]
+    },
+    {
+      "id": 11,
+      "prompt": "Audit this repository with default report parameters. The repository contains docs/report/ with existing version-numbered subdirectories 1.6.7 and 1.7.0, and the project version is 1.7.3.",
+      "expected_output": "The intake records the version-numbered convention, the delivery question offers only the version-based path, and the report is written to docs/report/1.7.3/ with a revisioned filename.",
+      "files": [],
+      "expectations": [
+        "Intake records the docs/report/ subdirectory pattern as version-numbered and resolves the output directory to docs/report/1.7.3.",
+        "The delivery question offers docs/report/1.7.3/<revisioned filename> and does not offer a date-named alternative such as docs/report/<current-date>/.",
+        "The report path offered at delivery matches the output directory recorded at intake and is not re-derived differently.",
+        "The report is written to docs/report/1.7.3/ and the written path is re-checked against the intake record before delivery."
+      ]
     }
   ]
 }

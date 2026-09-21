@@ -15,11 +15,11 @@ requested category.
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 24   | Step Overview guidance           |
-| Intake Checklist        | 775  | Intake Checklist guidance        |
-| Handling Thin Input     | 790  | Handling Thin Input guidance     |
-| Single-Dimension Audits | 801  | Single-Dimension Audits guidance |
-| Re-Audit                | 811  | Re-Audit guidance                |
-| Multi-Project Audits    | 838  | Multi-Project Audits guidance    |
+| Intake Checklist        | 800  | Intake Checklist guidance        |
+| Handling Thin Input     | 816  | Handling Thin Input guidance     |
+| Single-Dimension Audits | 827  | Single-Dimension Audits guidance |
+| Re-Audit                | 837  | Re-Audit guidance                |
+| Multi-Project Audits    | 864  | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -45,6 +45,26 @@ When searching for a previous report during intake, also record the most recent 
 found for ANY subject in the searched locations, with its path and revision. The consistency
 gate in `process/report-parity.md` diffs the new report's capability set against it before
 `State: Final`.
+
+**Output location discovery**
+
+During intake, inspect the documentation roots `docs/`, `document/`, and `doc/` and their
+`audit/` and `report/` subdirectories. Record the resolved base output directory, the detected
+subdirectory pattern, the project version used, and the resolved output directory.
+
+Classify the subdirectory names inside the resolved base output directory:
+
+- `version-numbered` - names matching `\d+\.\d+(\.\d+)?` with an optional `v` prefix, such as
+  `1.0.1` or `v2.3.1`.
+- `date-named` - names in ISO `YYYY-MM-DD` format, such as `2026-09-21`.
+- `mixed` - both kinds are present. Follow the pattern of the subdirectory holding the most
+  recent audit report by `Report Date` or `Report Revision`, or the pattern with more entries
+  when neither holds a report, and disclose the choice.
+- `none` - no matching subdirectories.
+
+The recorded result is consumed unchanged by the delivery question and re-checked before the
+report is written. When the user named a full output path in the request, detection still runs
+but the named path wins.
 
 **Development standards discovery**
 
@@ -200,25 +220,19 @@ being audited:
    order as the base output directory.
 4. Otherwise use the root of the audited repository or directory as the base output directory.
 
-After selecting the base output directory, check whether it contains subdirectories that
-indicate an existing structure. Inspect the subdirectory names to determine the pattern:
+After selecting the base output directory, consume the subdirectory pattern recorded during
+Output location discovery at intake. Do not re-detect the pattern here. Resolve the output
+directory deterministically from the record:
 
-- **Version-numbered subdirectories**: If the base directory contains subdirectories named with
-  version numbers, such as `1.0.1`, `0.5.0`, or `2.3.1`, and the project version can be
-  determined from its manifest or configuration, then the resolved output directory becomes
-  `<base>/<version>` using the current project version. For example, if `docs/audit/1.0.1`
-  exists and the project version is `1.2.3`, the suggested directory is `docs/audit/1.2.3`.
+| Recorded pattern   | Resolved output directory                                       |
+|--------------------|-----------------------------------------------------------------|
+| `version-numbered` | `<base>/<version>` using the recorded project version           |
+| `date-named`       | `<base>/<current-date>` using the ISO `YYYY-MM-DD` current date |
+| `none`             | `<base>` directly                                               |
+| `mixed`            | Follows the pattern recorded as most recent at intake           |
 
-- **Date-named subdirectories**: If the base directory contains subdirectories named with dates
-  in ISO `YYYY-MM-DD` format, such as `2026-01-02` or `2026-04-06`, then the resolved output
-  directory becomes `<base>/<current-date>` using the current date in the same ISO format. For
-  example, if `docs/report/2026-04-06` exists and the current date is `2026-09-15`, the
-  suggested directory is `docs/report/2026-09-15`.
-
-- **No subdirectory pattern**: If the base directory has no version-numbered or date-named
-  subdirectories, use the base directory directly as the resolved output directory. When the
-  base is an `audit/` or `report/` directory or a bare documentation root, offer the two
-  structured alternatives in the delivery question.
+When the recorded pattern is `version-numbered` but no project version can be determined,
+resolve to `<base>` and note why in the question context.
 
 The final output location must fit the existing directory structure. Do not mix patterns: if the
 existing structure uses version numbers, use a version subdirectory, if it uses dates, use a
@@ -249,13 +263,13 @@ Present each applicable option as a concrete choice:
   remaining `audit/` and `report/` directories, remaining bare documentation roots, and the
   repository root. For example, `document/AUDIT-1.0.md` or `AUDIT-1.0.md`.
 - `File - <base>/<version>/<filename>` - file location using the project version. Offer this
-  only when no existing subdirectory pattern is present and the project version can be
-  determined. When the base is a bare documentation root, offer
-  `<base>/report/<version>/<filename>` instead. For example, `docs/report/<version>/AUDIT-1.0.md`.
+  only when the recorded pattern is `none` and the project version can be determined. When the
+  base is a bare documentation root, offer `<base>/report/<version>/<filename>` instead. For
+  example, `docs/report/<version>/AUDIT-1.0.md`.
 - `File - <base>/<current-date>/<filename>` - file location using the ISO `YYYY-MM-DD` current
-  date. Offer this only when no existing subdirectory pattern is present. When the base is a
-  bare documentation root, offer `<base>/report/<current-date>/<filename>` instead. For
-  example, `docs/report/<date>/AUDIT-1.0.md` for a first audit.
+  date. Offer this only when the recorded pattern is `none`. When the base is a bare
+  documentation root, offer `<base>/report/<current-date>/<filename>` instead. For example,
+  `docs/report/<date>/AUDIT-1.0.md` for a first audit.
 - `File - <resolved-path with plain stem>` - the resolved path using the plain stem filename,
   such as `docs/report/AUDIT.md`, offered as an alternative to the revisioned default.
 - `Custom report file` - ask the user to specify the location and filename.
@@ -263,7 +277,14 @@ Present each applicable option as a concrete choice:
 For example, when `docs/report/` and `document/` exist with no subdirectory pattern, the
 question can offer `docs/report/AUDIT-1.0.md`, `docs/report/<version>/AUDIT-1.0.md`,
 `docs/report/<date>/AUDIT-1.0.md`, `document/AUDIT-1.0.md`, `AUDIT-1.0.md`, and
-`docs/report/AUDIT.md` alongside `Inline` and `Custom report file`.
+`docs/report/AUDIT.md` alongside `Inline` and `Custom report file`. When `docs/report/1.6.7`
+exists and the project version is `1.7.3`, the question instead offers
+`docs/report/1.7.3/AUDIT-1.0.md` as the only structured path, with no date alternative.
+
+When a subdirectory pattern was recorded at intake, do not offer the alternative pattern. A
+`version-numbered` record yields only the version path, a `date-named` record yields only the
+date path, and `mixed` follows the pattern recorded as most recent. `Custom report file`
+remains the escape hatch.
 
 Like every routine prompt, the question ends with `Use default: <default option>` and
 `Use defaults for all remaining questions`.
@@ -702,6 +723,9 @@ Scope Exclusions state the OWASP category coverage.
 
 Confirm the report follows `process/report-format.md` section by section.
 
+Confirm the report path matches the output directory recorded during Output location
+discovery. If it does not, correct the path before writing.
+
 Confirm the report follows the Formatting Rules in `process/report-format.md`: headings stop at
 `###`, prose lines over the selected wrap width (default 100) are wrapped, prose contains no
 semicolons, and every table was formatted with an automated script so all `|` separators align
@@ -771,21 +795,23 @@ These are reasoning checks, not proof of improvement from an independent model b
 | No previous report exists                  | Default `AUDIT-1.0.md`, `AUDIT.md` as alternative    |
 | `document/` exists, `docs/` does not       | Resolved base is `document/`, offered as a location  |
 | Document prose already wraps near 60       | Offer 60 alongside the default 100 at wrap time      |
+| Version-named subdirs under `docs/report/` | Only the version path offered, no date alternative   |
 
 ## Intake Checklist
 
 Use this checklist to confirm you understand the input before assessing.
 
-| Question                                     | Record As                                           |
-|----------------------------------------------|-----------------------------------------------------|
-| What artifact type is this?                  | Prototype / Codebase / Production system / Proposal |
-| What is the source format?                   | Running / Inspected code / Description              |
-| What components were provided?               | List of components in scope                         |
-| What was explicitly excluded?                | Out-of-scope list                                   |
-| What constraints did the user state?         | Constraints, or `NOT SPECIFIED`                     |
-| What maturity does the user claim, if any?   | Claimed maturity, or none                           |
-| What is the natural language of the request? | Language code or name, or English (default)         |
-| How many projects are in the directory?      | One / Multiple (list each with path and version)    |
+| Question                                     | Record As                                            |
+|----------------------------------------------|------------------------------------------------------|
+| What artifact type is this?                  | Prototype / Codebase / Production system / Proposal  |
+| What is the source format?                   | Running / Inspected code / Description               |
+| What components were provided?               | List of components in scope                          |
+| What was explicitly excluded?                | Out-of-scope list                                    |
+| What constraints did the user state?         | Constraints, or `NOT SPECIFIED`                      |
+| What maturity does the user claim, if any?   | Claimed maturity, or none                            |
+| What is the natural language of the request? | Language code or name, or English (default)          |
+| How many projects are in the directory?      | One / Multiple (list each with path and version)     |
+| What output subdirectory pattern exists?     | `version-numbered` / `date-named` / `mixed` / `none` |
 
 ## Handling Thin Input
 
@@ -896,7 +922,9 @@ projects in the report. Do not re-ask parameters per project.
 The report is a single file. Resolve the output directory once using the rules in the Delivery
 and output file section. When version-numbered subdirectories exist under an `audit/` or
 `report/` documentation directory, use the repository's primary version if one can be
-determined. When date-named subdirectories exist under an `audit/` or `report/` documentation
-directory, use the current date in ISO `YYYY-MM-DD` format. When no single primary version
-applies and no date pattern exists, use the root of the resolved directory without a
-subdirectory.
+determined. The primary version is the deployable service or application project's version.
+When several projects qualify, prefer the project whose version sequence continues the existing
+subdirectory names, and disclose the choice. When date-named subdirectories exist under an
+`audit/` or `report/` documentation directory, use the current date in ISO `YYYY-MM-DD` format.
+When no single primary version applies and no date pattern exists, use the root of the resolved
+directory without a subdirectory.

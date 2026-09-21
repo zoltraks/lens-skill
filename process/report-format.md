@@ -22,38 +22,38 @@ missing section hides it.
 |---------------------------------------------|------|-------------------------------------------------------|
 | Formatting Rules                            | 58   | Formatting Rules guidance                             |
 | Report Delivery And Parameter Configuration | 217  | Report delivery and output configuration              |
-| Detail Level Configuration                  | 258  | Standard, detailed, and brief reports                 |
-| Conditional Sections                        | 342  | Inclusion criteria for conditional sections           |
-| Section Order                               | 382  | Single-project and multi-project order                |
-| Document Information                        | 452  | Report metadata and revisions                         |
-| Glossary                                    | 533  | Abbreviation and acronym definitions                  |
-| Multi-Project Report Structure              | 626  | Combined and project-specific sections                |
-| Executive Summary                           | 718  | Executive summary and readiness threshold             |
-| Changes Since Previous Audit                | 802  | Re-audit comparison structure                         |
-| System Context                              | 863  | Context and technology stack                          |
-| Health Dashboard                            | 923  | Heat map, scorecard, and continuity                   |
-| High-Level Observations                     | 997  | Reader-facing finding summary                         |
-| Auditing Methodology                        | 1021 | Method, standards, and evidence ledger                |
-| Scoring Rubrics                             | 1163 | Score bands and ISO crosswalk                         |
-| Architectural Assessment                    | 1225 | Architecture, principles, and conditional subsections |
-| Trade-off Analysis                          | 1360 | Neutral engineering trade-offs                        |
-| Threat Model                                | 1400 | STRIDE analysis                                       |
-| API Contract Conformance                    | 1427 | API contract and security conformance                 |
-| Skill Definition Conformance                | 1447 | Agent Skill conformance                               |
-| AI System Assessment                        | 1470 | Conditional AI-system review                          |
-| Standards Conformance                       | 1483 | Internal standards quality and code conformance       |
-| API Compatibility & Versioning Discipline   | 1539 | Library compatibility gates                           |
-| Strengths & What's Working                  | 1566 | Evidence-based positive baselines                     |
-| Detailed Technical Findings                 | 1596 | Finding summary and detail blocks                     |
-| Technical Debt Register                     | 1693 | Distinct accumulated debt                             |
-| Unified Risk Register                       | 1734 | Cross-referenced risks                                |
-| Actionable Remediation Roadmap              | 1821 | Prioritized recommendations                           |
-| Scope Exclusions                            | 1885 | Explicit coverage limits                              |
-| Limitations and Unknowns                    | 1937 | Unrun checks and missing evidence                     |
-| Re-audit And Follow-up Plan                 | 1961 | Closure evidence and ownership                        |
-| Validation Record                           | 1990 | Mechanical and semantic gate results                  |
-| References                                  | 2015 | Consulted external sources                            |
-| Pre-Delivery Mechanical Checklist           | 2053 | Final mechanical checks                               |
+| Detail Level Configuration                  | 254  | Standard, detailed, and brief reports                 |
+| Conditional Sections                        | 338  | Inclusion criteria for conditional sections           |
+| Section Order                               | 378  | Single-project and multi-project order                |
+| Document Information                        | 448  | Report metadata and revisions                         |
+| Glossary                                    | 529  | Abbreviation and acronym definitions                  |
+| Multi-Project Report Structure              | 622  | Combined and project-specific sections                |
+| Executive Summary                           | 714  | Executive summary and readiness threshold             |
+| Changes Since Previous Audit                | 798  | Re-audit comparison structure                         |
+| System Context                              | 859  | Context and technology stack                          |
+| Health Dashboard                            | 919  | Heat map, scorecard, and continuity                   |
+| High-Level Observations                     | 993  | Reader-facing finding summary                         |
+| Auditing Methodology                        | 1017 | Method, standards, and evidence ledger                |
+| Scoring Rubrics                             | 1159 | Score bands and ISO crosswalk                         |
+| Architectural Assessment                    | 1221 | Architecture, principles, and conditional subsections |
+| Trade-off Analysis                          | 1356 | Neutral engineering trade-offs                        |
+| Threat Model                                | 1396 | STRIDE analysis                                       |
+| API Contract Conformance                    | 1423 | API contract and security conformance                 |
+| Skill Definition Conformance                | 1443 | Agent Skill conformance                               |
+| AI System Assessment                        | 1466 | Conditional AI-system review                          |
+| Standards Conformance                       | 1479 | Internal standards quality and code conformance       |
+| API Compatibility & Versioning Discipline   | 1535 | Library compatibility gates                           |
+| Strengths & What's Working                  | 1562 | Evidence-based positive baselines                     |
+| Detailed Technical Findings                 | 1592 | Finding summary and detail blocks                     |
+| Technical Debt Register                     | 1689 | Distinct accumulated debt                             |
+| Unified Risk Register                       | 1730 | Cross-referenced risks                                |
+| Actionable Remediation Roadmap              | 1817 | Prioritized recommendations                           |
+| Scope Exclusions                            | 1881 | Explicit coverage limits                              |
+| Limitations and Unknowns                    | 1933 | Unrun checks and missing evidence                     |
+| Re-audit And Follow-up Plan                 | 1957 | Closure evidence and ownership                        |
+| Validation Record                           | 1986 | Mechanical and semantic gate results                  |
+| References                                  | 2011 | Consulted external sources                            |
+| Pre-Delivery Mechanical Checklist           | 2049 | Final mechanical checks                               |
 
 ## Formatting Rules
 
@@ -235,15 +235,11 @@ When the user invokes an audit without naming an output file, the Parameter Conf
 resolves the output base and offers the applicable file paths in the delivery question.
 
 Default delivery is **File** when an `audit/` or `report/` directory exists under `docs/`,
-`document/`, or `doc/` in the audited repository or directory, otherwise **Inline**. When File
-is selected, resolve the output location in this order: `audit/` then `report/` then the bare
-root across `docs/`, `document/`, `doc/`, then the repository root.
-
-An existing version-numbered subdirectory pattern produces a path such as
-`docs/report/<version>/AUDIT-1.0.md`. An existing date-named pattern produces a path such as
-`docs/report/<current-date>/AUDIT-1.0.md`. When no pattern exists, the question offers every
-existing documentation location plus version-numbered and date-named alternatives under the
-resolved `audit/` or `report/` directory or bare documentation root.
+`document/`, or `doc/` in the audited repository or directory, otherwise **Inline**. Location
+resolution, subdirectory-pattern matching, and the delivery-question options are defined in
+`process/audit-workflow.md`, which is the single source of truth: the pattern recorded during
+Output location discovery there determines whether a version-numbered, date-named, or plain
+base path is offered.
 
 The default filename carries the report revision: `AUDIT-1.0.md` for a first English audit, or
 the language-specific revisioned name such as `AUDYT-1.0.md`, with the plain stem offered as an
@@ -2071,6 +2067,7 @@ place, every item is mechanical and takes seconds to verify.
 | Glossary       | Present when Descriptive Mode is Enabled, alphabetical, body occurrences link             |
 | Diagrams       | Fenced, untagged, no leading or trailing blank line inside the fence                      |
 | Registers      | Every RSK cites an FND, every REC cites an FND, heat-map covers rated risks               |
+| Location       | Report path matches the output directory recorded during intake                           |
 | Ending         | References is the last section, no closing line after it                                  |
 
 `tools/format-table.py` in the skill repository is the canonical formatting script, copy it into

@@ -528,6 +528,36 @@ def check_trailing(lines: list[str]) -> list[str]:
     return failures
 
 
+VERSION_DIR = re.compile(r"v?\d+\.\d+(?:\.\d+)?")
+DATE_DIR = re.compile(r"\d{4}-\d{2}-\d{2}")
+
+
+def dir_pattern(name: str) -> str | None:
+    if VERSION_DIR.fullmatch(name):
+        return "version-numbered"
+    if DATE_DIR.fullmatch(name):
+        return "date-named"
+    return None
+
+
+def check_location(path: str) -> list[str]:
+    parent = Path(path).resolve().parent
+    own = dir_pattern(parent.name)
+    if own is None:
+        return []
+    siblings = [
+        dir_pattern(child.name)
+        for child in parent.parent.iterdir()
+        if child.is_dir() and child != parent
+    ]
+    other = "date-named" if own == "version-numbered" else "version-numbered"
+    if siblings.count(other) > siblings.count(own):
+        return [
+            f"report directory '{parent.name}' is {own} but its siblings are predominantly {other}"
+        ]
+    return []
+
+
 def main(path: str) -> int:
     text = Path(path).read_text(encoding="utf-8")
     lines = text.replace("\r\n", "\n").split("\n")
@@ -546,6 +576,7 @@ def main(path: str) -> int:
         ("PAR-1..PAR-10", check_par_rows(text)),
         ("glossary", check_glossary(text)),
         ("final-state gate", check_final_state(text)),
+        ("location pattern", check_location(path)),
         ("trailing whitespace and ending", check_trailing(lines)),
     ]
     failures = 0

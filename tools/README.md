@@ -22,6 +22,10 @@ Use the repository root only when none of those directories exists.
 
 Run the copied scripts only against the generated report and report-support artifacts.
 
+`validate-report.py` also checks the report's location: when the report sits inside a
+version-numbered or date-named subdirectory, it flags a mismatch against the dominant sibling
+pattern under the same parent.
+
 Remove every copied script after validation.
 
 ### Skill-Maintenance Tools

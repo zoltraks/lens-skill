@@ -23,7 +23,7 @@ compatibility: >-
   executes the project. No network access required for the audit itself,
   optional web fetch for external documentation or CVE lookups.
 metadata:
-  version: "0.9"
+  version: "1.0"
   author: Filip Golewski
 ---
 
@@ -178,8 +178,8 @@ use their defaults unless the user explicitly specifies another setting. Improve
 trade-off analysis are not separate routine prompts. Apply the defaults above unless the user
 explicitly requests a different setting.
 
-Output location is resolved from the audited repository or existing directory: `audit/` >
-`report/` > bare root across `docs/`, `document/`, `doc/` > repository root (if File selected).
+Output location resolves under the audited root: `audit/` > `report/` > bare root across `docs/`,
+`document/`, `doc/` > repository root. A recorded version/date subdirectory pattern is reused.
 
 The output filename carries the report revision: `AUDIT-1.0.md` for a first audit or the
 language-specific revisioned name such as `AUDYT-1.0.md`, with plain `AUDIT.md` as an
