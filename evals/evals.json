@@ -106,6 +106,18 @@
         "The Glossary covers report-internal identifier prefixes and technology and standard abbreviations used in the report.",
         "When Descriptive mode is disabled, the Glossary is omitted and the omission is justified in Scope Exclusions."
       ]
+    },
+    {
+      "id": 10,
+      "prompt": "Audit this repository and walk me through the report parameters before starting. The repository contains a document/ directory but no docs/ directory, and no previous audit report exists.",
+      "expected_output": "A parameter configuration phase that presents the full option set: all five evaluation scales and all applicable report locations with a revisioned default filename.",
+      "files": [],
+      "expectations": [
+        "The evaluation-scale prompt offers all five options in order: 1-10 (default), 1-5, 1-3, 5 stars, and 3 stars.",
+        "For a first audit the delivery question proposes the revisioned filename AUDIT-1.0.md and offers plain AUDIT.md as an alternative.",
+        "The document/ directory is proposed as a file location alongside Inline and Custom report file, and a date-named document/report/<date> alternative is offered when applicable.",
+        "Each prompt ends with the named options 'Use default: <value>' and 'Use defaults for all remaining questions'."
+      ]
     }
   ]
 }

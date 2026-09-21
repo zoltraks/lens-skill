@@ -130,7 +130,9 @@ correct form with diacritics:
 
 ## Output Filename
 
-The default output filename for a Polish-language report is `AUDYT.md` instead of `AUDIT.md`.
+The default output filename for a Polish-language report carries the report revision:
+`AUDYT-1.0.md` for a first audit instead of `AUDIT-1.0.md`, with plain `AUDYT.md` offered as an
+alternative.
 
 When a previous report exists, the default filename carries the new revision, for example
 `AUDYT-1.1.md`, and the previous file is never overwritten.
@@ -360,8 +362,8 @@ example `AI` in `AI Provenance` or `UI` in `Material UI`; adjacent acronym pairs
 
 | English             | Polish            |
 |---------------------|-------------------|
-| References          | Referencje        |
-| Reference           | Referencja        |
+| References          | Odniesienia       |
+| Reference           | Odniesienie       |
 | Publisher or Author | Wydawca lub autor |
 | Used In             | Zastosowane w     |
 

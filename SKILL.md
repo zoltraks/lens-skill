@@ -40,16 +40,16 @@ metadata:
 | Trigger Keywords        | 67   | Activation phrases                                 |
 | How To Use              | 125  | Progressive disclosure and mandatory reading       |
 | Parameter Configuration | 155  | Defaults and user-controlled report shape          |
-| Principles              | 210  | Evaluation and output rules                        |
-| Process                 | 218  | Workflow, format, and parity                       |
-| Assessments             | 230  | Core and conditional assessment guides             |
-| Synthesis               | 295  | Findings, risk, score, and remediation assembly    |
-| Translation             | 314  | Per-language report translations                   |
-| References And Tools    | 322  | Lookup tables and report-production scripts        |
-| Evaluation Prompts      | 357  | Behavioral regression prompts                      |
-| Repository Files        | 366  | Housekeeping files governing this repository       |
-| Evidence Contract       | 375  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 405  | File-selection and section-placement rules         |
+| Principles              | 211  | Evaluation and output rules                        |
+| Process                 | 219  | Workflow, format, and parity                       |
+| Assessments             | 231  | Core and conditional assessment guides             |
+| Synthesis               | 296  | Findings, risk, score, and remediation assembly    |
+| Translation             | 315  | Per-language report translations                   |
+| References And Tools    | 323  | Lookup tables and report-production scripts        |
+| Evaluation Prompts      | 358  | Behavioral regression prompts                      |
+| Repository Files        | 367  | Housekeeping files governing this repository       |
+| Evidence Contract       | 376  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 406  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -160,12 +160,12 @@ configure the core parameters. Defaults are:
 
 | Parameter               | Default                                                                                 |
 |-------------------------|-----------------------------------------------------------------------------------------|
-| Report delivery         | File if `docs/audit/` or `docs/report/` exists, otherwise Inline (direct response)      |
-| Output location         | Resolved from the audited repository or existing directory                              |
-| Output filename         | `AUDIT.md` or language-specific, `AUDIT-<revision>.md` after a previous report          |
+| Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/`, else Inline |
+| Output location         | Resolved across `docs/`, `document/`, `doc/` roots or the repository root               |
+| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit  |
 | Report language         | Match the language of the user's request                                                |
 | Detail level            | Detailed                                                                                |
-| Evaluation scale        | 1-10                                                                                    |
+| Evaluation scale        | 1-10 (options: 1-5, 1-3, 5 stars, 3 stars)                                              |
 | Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                 |
 | Trade-off analysis      | Standalone section + embedded into relevant findings                                    |
 | Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it |
@@ -178,13 +178,13 @@ use their defaults unless the user explicitly specifies another setting. Improve
 trade-off analysis are not separate routine prompts. Apply the defaults above unless the user
 explicitly requests a different setting.
 
-Output location is resolved from the audited repository or existing directory: `docs/audit/` >
-`docs/report/` > `docs/` > root (used if File mode selected).
+Output location is resolved from the audited repository or existing directory: `audit/` >
+`report/` > bare root across `docs/`, `document/`, `doc/` > repository root (if File selected).
 
-The output filename is `AUDIT.md` for English reports, or the language-specific filename from the
-matching `translation/` file, adjusted for existing conventions. When a previous report exists, the
-default filename carries the new revision, for example `AUDIT-1.1.md`, and the previous file is
-never overwritten. The agent confirms with the user before writing.
+The output filename carries the report revision: `AUDIT-1.0.md` for a first audit or the
+language-specific revisioned name such as `AUDYT-1.0.md`, with plain `AUDIT.md` as an
+alternative. A previous report gives the incremented revision, for example `AUDIT-1.1.md`, and
+is never overwritten. The agent confirms with the user before writing.
 
 If the user accepts defaults or says "bypass", the agent proceeds immediately using these values.
 If the user chooses to configure, the agent asks only the unresolved core parameter questions
@@ -199,13 +199,14 @@ translation, style rule, and encoding requirement defined there.
 
 When the user asks to rerun, regenerate, or update an audit, check whether a previous report
 exists, searching the location named in the request, the resolved output directory, the default
-locations (`docs/audit/`, `docs/report/`, `docs/`, repository root), and the rest of the document
-structure, per `synthesis/report-comparison.md`. If a previous report is found, reuse the
-parameters recorded in its Document Information section. Do not ask the parameter configuration
-questions again unless the user explicitly asks for a fresh audit or new parameters. The previous
-report is never overwritten: write the new report to a revision-numbered file such as
-`AUDIT-1.1.md` and add the Changes Since Previous Audit section. If no previous report exists and
-no prior parameter choices are recorded in context, run the full Parameter Configuration phase.
+locations (`audit/` and `report/` directories and bare roots under `docs/`, `document/`, `doc/`,
+repository root), and the rest of the document structure, per `synthesis/report-comparison.md`.
+If a previous report is found, reuse the parameters recorded in its Document Information
+section. Do not ask the parameter configuration questions again unless the user explicitly asks
+for a fresh audit or new parameters. The previous report is never overwritten: write the new
+report to a revision-numbered file such as `AUDIT-1.1.md` and add the Changes Since Previous
+Audit section. If no previous report exists and no prior parameter choices are recorded in
+context, run the full Parameter Configuration phase.
 
 ## `principles/` - Rules Of Evaluation
 

@@ -82,9 +82,9 @@ conditional sections also appear in Scope Exclusions.
 
 ## Discovery Scope
 
-The cross-report diff searches the same locations as previous-report discovery:
-`docs/audit/`, `docs/report/`, `docs/`, the repository root, and the document structure when
-governed by another skill.
+The cross-report diff searches the same locations as previous-report discovery: `audit/` and
+`report/` directories and bare roots under `docs/`, `document/`, and `doc/`, the repository
+root, and the document structure when governed by another skill.
 
 "Most recent" is the audit report with the highest revision number and latest report date
 among files matching the audit naming pattern. A report the user supplies also counts.

@@ -15,11 +15,11 @@ requested category.
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 24   | Step Overview guidance           |
-| Intake Checklist        | 752  | Intake Checklist guidance        |
-| Handling Thin Input     | 767  | Handling Thin Input guidance     |
-| Single-Dimension Audits | 778  | Single-Dimension Audits guidance |
-| Re-Audit                | 788  | Re-Audit guidance                |
-| Multi-Project Audits    | 815  | Multi-Project Audits guidance    |
+| Intake Checklist        | 773  | Intake Checklist guidance        |
+| Handling Thin Input     | 788  | Handling Thin Input guidance     |
+| Single-Dimension Audits | 799  | Single-Dimension Audits guidance |
+| Re-Audit                | 809  | Re-Audit guidance                |
+| Multi-Project Audits    | 836  | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -107,9 +107,9 @@ API Compatibility And Versioning Discipline conditional assessment.
 
 When the user asks to rerun, regenerate, or update an audit report, first check whether a
 previous audit report exists. Search the location indicated in the request, the resolved output
-directory and its versioned or dated subdirectories, the default locations (`docs/audit/`,
-`docs/report/`, `docs/`, repository root), and the rest of the document structure, per
-`synthesis/report-comparison.md`.
+directory and its versioned or dated subdirectories, the default locations (`audit/` and
+`report/` directories and the bare root under `docs/`, `document/`, and `doc/`, then the
+repository root), and the rest of the document structure, per `synthesis/report-comparison.md`.
 
 A previous report may be named `AUDIT.md`, `AUDIT-<revision>.md`, or the language-specific
 filename. When several exist, use the one with the highest revision.
@@ -140,11 +140,11 @@ Default parameters:
 
 | Parameter               | Default                                                                                 |
 |-------------------------|-----------------------------------------------------------------------------------------|
-| Report delivery         | File if `docs/audit/` or `docs/report/` exists, otherwise Inline (direct response)      |
-| Output filename         | `AUDIT.md` or language-specific, `AUDIT-<revision>.md` after a previous report          |
+| Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/`, else Inline |
+| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit  |
 | Report language         | Match the language of the user's request                                                |
 | Detail level            | Detailed                                                                                |
-| Evaluation scale        | 1-10                                                                                    |
+| Evaluation scale        | 1-10 (options: 1-5, 1-3, 5 stars, 3 stars)                                              |
 | Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                 |
 | Trade-off analysis      | Standalone section + embedded into relevant findings                                    |
 | Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it |
@@ -152,10 +152,11 @@ Default parameters:
 The agent MUST ask the user and MUST NOT skip this step. The agent MUST wait for user response
 before proceeding to Scope Definition.
 
-Output filename is `AUDIT.md` for English reports, or the language-specific filename from the
-matching `translation/` file. When a previous report exists, the filename carries the new
-revision, for example `AUDIT-1.1.md`, per `synthesis/report-comparison.md`. Used only when
-delivery is File.
+Output filename carries the report revision: `AUDIT-1.0.md` for a first English audit, or the
+language-specific revisioned name from the matching `translation/` file such as `AUDYT-1.0.md`.
+When a previous report exists, the filename carries the new revision, for example `AUDIT-1.1.md`,
+per `synthesis/report-comparison.md`. Plain `AUDIT.md` or the language-specific stem remains an
+offered alternative. Used only when delivery is File.
 
 Improvement suggestions and trade-off analysis are advanced parameters. Apply their defaults
 unless the user explicitly specifies another setting.
@@ -186,12 +187,17 @@ language. Advanced parameters use their defaults unless explicitly specified.
 
 **Delivery and output file**
 
-Before asking, resolve the base output directory using the following rules, applied in order
-against the root of the repository or directory being audited:
+Documentation roots are `docs/`, `document/`, and `doc/`, checked in that order, and each may
+contain `audit/` or `report/` subdirectories. Before asking, resolve the base output directory
+using the following rules, applied in order against the root of the repository or directory
+being audited:
 
-1. If `docs/audit/` exists, use it as the base output directory.
-2. Else if `docs/report/` exists, use it as the base output directory.
-3. Else if `docs/` exists, use it as the base output directory.
+1. If any `<root>/audit/` directory exists, use the first one in the documentation root order
+   as the base output directory.
+2. Else if any `<root>/report/` directory exists, use the first one in the documentation root
+   order as the base output directory.
+3. Else if any bare documentation root exists, use the first one in the documentation root
+   order as the base output directory.
 4. Otherwise use the root of the audited repository or directory as the base output directory.
 
 After selecting the base output directory, check whether it contains subdirectories that
@@ -211,8 +217,8 @@ indicate an existing structure. Inspect the subdirectory names to determine the 
 
 - **No subdirectory pattern**: If the base directory has no version-numbered or date-named
   subdirectories, use the base directory directly as the resolved output directory. When the
-  base is `docs/audit/` or `docs/report/`, offer the two structured alternatives in the delivery
-  question.
+  base is an `audit/` or `report/` directory or a bare documentation root, offer the two
+  structured alternatives in the delivery question.
 
 The final output location must fit the existing directory structure. Do not mix patterns: if the
 existing structure uses version numbers, use a version subdirectory, if it uses dates, use a
@@ -223,31 +229,41 @@ directory once using the repository root. The single combined report is written 
 Do not create per-project subdirectories unless the user explicitly requests separate files per
 project.
 
-Resolve the filename before asking. Use `AUDIT.md` for English reports, or the language-specific
-filename from the matching `translation/` file for non-English reports. When a previous report
-exists, use the incremented filename defined in `synthesis/report-comparison.md`.
+Resolve the filename before asking. The default filename carries the report revision:
+`<stem>-<revision>.md`, where `<stem>` is `AUDIT` for English reports or the language-specific
+stem from the matching `translation/` file. A first audit uses `AUDIT-1.0.md` or the
+language-specific equivalent such as `AUDYT-1.0.md`. When a previous report exists, use the
+incremented filename defined in `synthesis/report-comparison.md`. The plain stem name `AUDIT.md`
+or its language-specific equivalent is offered as an alternative file option.
 
 Ask: "How should the report be delivered?"
 
 Present each applicable option as a concrete choice:
 
-- `Inline` - return the full report as the direct response. This is the default when neither
-  `docs/audit/` nor `docs/report/` exists.
-- `File - <resolved-path>` - write the report to the resolved path. This is the default when
-  `docs/audit/` or `docs/report/` exists.
+- `Inline` - return the full report as the direct response. This is the default when no `audit/`
+  or `report/` directory exists under any documentation root.
+- `File - <resolved-path>` - write the report to the resolved path using the revisioned
+  filename. This is the default when an `audit/` or `report/` directory exists under a
+  documentation root.
+- `File - <location>/<filename>` - one option for each other existing documentation location:
+  remaining `audit/` and `report/` directories, remaining bare documentation roots, and the
+  repository root. For example, `document/AUDIT-1.0.md` or `AUDIT-1.0.md`.
 - `File - <base>/<version>/<filename>` - file location using the project version. Offer this
-  only when the base is `docs/audit/` or `docs/report/`, no existing subdirectory pattern is
-  present, and the project version can be determined. For example,
-  `docs/report/<version>/AUDIT.md`.
+  only when no existing subdirectory pattern is present and the project version can be
+  determined. When the base is a bare documentation root, offer
+  `<base>/report/<version>/<filename>` instead. For example, `docs/report/<version>/AUDIT-1.0.md`.
 - `File - <base>/<current-date>/<filename>` - file location using the ISO `YYYY-MM-DD` current
-  date. Offer this only when the base is `docs/audit/` or `docs/report/` and no existing
-  subdirectory pattern is present. For example, `docs/report/<date>/AUDIT-2.0.md` when the next
-  report revision is `2.0`.
+  date. Offer this only when no existing subdirectory pattern is present. When the base is a
+  bare documentation root, offer `<base>/report/<current-date>/<filename>` instead. For
+  example, `docs/report/<date>/AUDIT-1.0.md` for a first audit.
+- `File - <resolved-path with plain stem>` - the resolved path using the plain stem filename,
+  such as `docs/report/AUDIT.md`, offered as an alternative to the revisioned default.
 - `Custom report file` - ask the user to specify the location and filename.
 
-For example, when `docs/report/` exists with no subdirectory pattern, the question can offer
-`docs/report/AUDIT.md`, `docs/report/<version>/AUDIT.md`, and
-`docs/report/<date>/AUDIT-2.0.md` alongside `Inline` and `Custom report file`.
+For example, when `docs/report/` and `document/` exist with no subdirectory pattern, the
+question can offer `docs/report/AUDIT-1.0.md`, `docs/report/<version>/AUDIT-1.0.md`,
+`docs/report/<date>/AUDIT-1.0.md`, `document/AUDIT-1.0.md`, `AUDIT-1.0.md`, and
+`docs/report/AUDIT.md` alongside `Inline` and `Custom report file`.
 
 Like every routine prompt, the question ends with `Use default: <default option>` and
 `Use defaults for all remaining questions`.
@@ -320,6 +336,8 @@ Ask: "Which evaluation scale should be used for the scorecard?"
 - **5 stars** - uses the `1-5` rubric and displays filled and empty star bars, such as
   `★★★☆☆`.
 - **3 stars** - uses the `1-3` rubric and displays filled and empty star bars, such as `★★☆`.
+
+Always present all five options in this order so `3 stars` stays visible alongside the others.
 
 The question ends with `Use default: 1-10` and `Use defaults for all remaining questions`.
 
@@ -748,6 +766,9 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Prior report anchor does not resolve       | Correct anchor recorded, citation flagged            |
 | Census method differs between reports      | Canonical method restated, figure compared           |
 | Comment-only catch bodies                  | Counted separately from empty bodies                 |
+| Evaluation scale prompt shown              | All five options: 1-10, 1-5, 1-3, 5 stars, 3 stars   |
+| No previous report exists                  | Default `AUDIT-1.0.md`, `AUDIT.md` as alternative    |
+| `document/` exists, `docs/` does not       | Resolved base is `document/`, offered as a location  |
 
 ## Intake Checklist
 
@@ -871,8 +892,9 @@ projects in the report. Do not re-ask parameters per project.
 **Output location for multiple projects**
 
 The report is a single file. Resolve the output directory once using the rules in the Delivery
-and output file section. When version-numbered subdirectories exist under `docs/audit/` or
-`docs/report/`, use the repository's primary version if one can be determined. When date-named
-subdirectories exist under `docs/audit/` or `docs/report/`, use the current date in ISO
-`YYYY-MM-DD` format. When no single primary version applies and no date pattern exists, use the
-root of the resolved directory without a subdirectory.
+and output file section. When version-numbered subdirectories exist under an `audit/` or
+`report/` documentation directory, use the repository's primary version if one can be
+determined. When date-named subdirectories exist under an `audit/` or `report/` documentation
+directory, use the current date in ISO `YYYY-MM-DD` format. When no single primary version
+applies and no date pattern exists, use the root of the resolved directory without a
+subdirectory.

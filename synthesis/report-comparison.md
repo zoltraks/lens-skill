@@ -35,8 +35,8 @@ Search for previous reports in this order:
 
 - The path or file indicated in the audit request, when the user named one.
 - The resolved output directory, including its version-numbered or date-named subdirectories.
-- The default designated locations: `docs/audit/`, `docs/report/`, `docs/`, then the repository
-  or directory root.
+- The default designated locations: `audit/` and `report/` directories and the bare roots under
+  `docs/`, `document/`, and `doc/`, then the repository or directory root.
 - Any other location in the document structure where an audit report file is found.
 
 When several previous reports exist, compare against the one with the highest revision. When
@@ -84,7 +84,9 @@ stays comparable.
 
 The default filename is `<base>-<revision>.md`, where `<base>` is the language-specific default
 stem (`AUDIT` for English, the stem defined in `translation/` otherwise) and `<revision>` is the
-new report revision. For example, `AUDIT-1.1.md` or `AUDYT-1.1.md`.
+new report revision. For example, `AUDIT-1.1.md` or `AUDYT-1.1.md`. A first audit uses revision
+`1.0`, producing `AUDIT-1.0.md` or `AUDYT-1.0.md`, with the plain stem `AUDIT.md` offered as an
+alternative at delivery time.
 
 When the resolved output directory uses an existing naming convention, adjust the pattern to
 fit it while keeping the revision distinguishable in the name.
@@ -94,9 +96,10 @@ with an existing report file, do not overwrite it. Append the revision suffix or
 for a different name.
 
 Place each revision under the resolved output directory for the current audit date, for
-example `docs/report/<audit-date>/`. When the previous report sits in the same date-named
-directory, the new revision lands beside it. Never write a revision into a different report's
-directory and never modify directories of prior audits.
+example `docs/report/<audit-date>/` or the equivalent under `document/` or `doc/`. When the
+previous report sits in the same date-named directory, the new revision lands beside it. Never
+write a revision into a different report's directory and never modify directories of prior
+audits.
 
 ## Comparison Content
 

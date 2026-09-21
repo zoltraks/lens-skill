@@ -233,18 +233,21 @@ When the user states only a File preference without naming a path, ask the same 
 When the user invokes an audit without naming an output file, the Parameter Configuration phase
 resolves the output base and offers the applicable file paths in the delivery question.
 
-Default delivery is **File** when `docs/audit/` or `docs/report/` exists in the audited
-repository or directory, otherwise **Inline**. When File is selected, resolve the output
-location in this order: `docs/audit/`, then `docs/report/`, then `docs/`, then the root.
+Default delivery is **File** when an `audit/` or `report/` directory exists under `docs/`,
+`document/`, or `doc/` in the audited repository or directory, otherwise **Inline**. When File
+is selected, resolve the output location in this order: `audit/` then `report/` then the bare
+root across `docs/`, `document/`, `doc/`, then the repository root.
 
 An existing version-numbered subdirectory pattern produces a path such as
-`docs/report/<version>/AUDIT.md`. An existing date-named pattern produces a path such as
-`docs/report/<current-date>/AUDIT.md`. When no pattern exists, the question offers the base path
-plus version-numbered and date-named alternatives under `docs/audit/` or `docs/report/`.
+`docs/report/<version>/AUDIT-1.0.md`. An existing date-named pattern produces a path such as
+`docs/report/<current-date>/AUDIT-1.0.md`. When no pattern exists, the question offers every
+existing documentation location plus version-numbered and date-named alternatives under the
+resolved `audit/` or `report/` directory or bare documentation root.
 
-The default filename is `AUDIT.md` for English reports, or the language-specific filename from
-the matching `translation/` file. When a previous audit report exists, the filename carries the
-new revision, for example `AUDIT-2.0.md`, and the previous file is never overwritten.
+The default filename carries the report revision: `AUDIT-1.0.md` for a first English audit, or
+the language-specific revisioned name such as `AUDYT-1.0.md`, with the plain stem offered as an
+alternative. When a previous audit report exists, the filename carries the new revision, for
+example `AUDIT-2.0.md`, and the previous file is never overwritten.
 
 `Custom report file` asks the user to specify the location and filename before writing.
 
