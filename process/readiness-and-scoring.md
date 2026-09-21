@@ -21,8 +21,8 @@ Every full audit keeps these outputs separate:
 - **Evidence confidence:** how strongly the inspected or reported evidence supports the conclusion.
 - **Maturity level:** the development state supported by the evidence.
 - **Readiness state:** whether the stated decision gate is met.
-- **Production sign-off:** an authorized decision outside the audit, with confirmed owners and closure
-  evidence.
+- **Production sign-off:** an authorized decision outside the audit, with confirmed owners and
+  closure evidence.
 
 `State: Final` means the scoped report passed its report-quality gates.
 

@@ -72,9 +72,9 @@ For software supply-chain audits, also record whether the repository provides a
 artifact identity, vulnerability exchange or disposition data, and SLSA provenance. Mark absent
 artifacts as gaps and unavailable external status as `UNKNOWN`.
 
-For projects that train, serve, or materially depend on AI systems, consult the conditional AI-system
-assessment and select the relevant NIST AI RMF or ISO/IEC 42001 practices. Do not apply those
-references to ordinary software that only has unknown code authorship.
+For projects that train, serve, or materially depend on AI systems, consult the conditional
+AI-system assessment and select the relevant NIST AI RMF or ISO/IEC 42001 practices. Do not apply
+those references to ordinary software that only has unknown code authorship.
 
 ## Extension Rules
 

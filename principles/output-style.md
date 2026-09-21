@@ -261,7 +261,7 @@ the secret value itself is redacted.
 Do not add a closing line such as "End of audit report." or a trailing horizontal rule `---` at the
 end of the document.
 
-References is the final section, following the Re-audit and Follow-up Plan when applicable.
+References is the final section, following the Re-audit And Follow-up Plan when applicable.
 
 End after References without trailing boilerplate.
 

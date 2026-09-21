@@ -105,8 +105,8 @@ cost controls.
 
 For hosted inference, distinguish target latency or cost from measured results.
 
-For local inference, assess resource limits, model loading failures, update safety, and recovery from
-partial or corrupted artifacts.
+For local inference, assess resource limits, model loading failures, update safety, and recovery
+from partial or corrupted artifacts.
 
 A model registry or deployment manifest shows intended control, not successful rollback or runtime
 monitoring.

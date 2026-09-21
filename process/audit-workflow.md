@@ -138,15 +138,15 @@ core parameters. Present the defaults in a compact summary.
 
 Default parameters:
 
-| Parameter               | Default                                                                            |
-|-------------------------|------------------------------------------------------------------------------------|
-| Report delivery         | File if `docs/audit/` or `docs/report/` exists, otherwise Inline (direct response) |
-| Output filename         | `AUDIT.md` or language-specific, `AUDIT-<revision>.md` after a previous report     |
-| Report language         | Match the language of the user's request                                           |
-| Detail level            | Detailed                                                                           |
-| Evaluation scale        | 1-10                                                                               |
-| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                            |
-| Trade-off analysis      | Standalone section + embedded into relevant findings                               |
+| Parameter               | Default                                                                                 |
+|-------------------------|-----------------------------------------------------------------------------------------|
+| Report delivery         | File if `docs/audit/` or `docs/report/` exists, otherwise Inline (direct response)      |
+| Output filename         | `AUDIT.md` or language-specific, `AUDIT-<revision>.md` after a previous report          |
+| Report language         | Match the language of the user's request                                                |
+| Detail level            | Detailed                                                                                |
+| Evaluation scale        | 1-10                                                                                    |
+| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                 |
+| Trade-off analysis      | Standalone section + embedded into relevant findings                                    |
 | Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it |
 
 The agent MUST ask the user and MUST NOT skip this step. The agent MUST wait for user response
@@ -523,8 +523,8 @@ Tie findings to evidence IDs and explain what each item proves and does not prov
 **Claim and evidence traceability**
 
 Treat every material claim in the Executive Summary, Health Dashboard, High-Level Observations,
-scorecard, risk register, roadmap, and readiness decision as a claim that needs a finding or evidence
-reference.
+scorecard, risk register, roadmap, and readiness decision as a claim that needs a finding or
+evidence reference.
 
 A claim reference must preserve the qualification of its source. Use `Inspected`, `Reported`, or
 `Inferred` evidence labels and retain `UNKNOWN`, `NOT SPECIFIED`, or `INSUFFICIENT INFORMATION`
@@ -560,10 +560,10 @@ Build the unified risk register from the risks surfaced during assessment, using
 `synthesis/risk-register.md`. Every risk must reference its source `FND-XXX`.
 
 Build the project scorecard using `synthesis/project-scorecard.md` and
-`process/readiness-and-scoring.md`. Present the scoring rubric before the scores. Wherever an overall
-score is stated, report the lowest-scoring applicable dimension and its score alongside the mean, so
-a weak pillar is not hidden inside an average. Record confidence, score caps, and readiness gates
-separately from the mean.
+`process/readiness-and-scoring.md`. Present the scoring rubric before the scores. Wherever an
+overall score is stated, report the lowest-scoring applicable dimension and its score alongside
+the mean, so a weak pillar is not hidden inside an average. Record confidence, score caps, and
+readiness gates separately from the mean.
 
 Draft the High-Level Observations section by selecting the top 5 most important findings from the
 Detailed Technical Findings. Keep each observation brief, full detail lives in the finding blocks.
@@ -581,7 +581,7 @@ When structural debt distinct from risks was surfaced, build the Technical Debt 
 Draft the actionable remediation roadmap using `synthesis/remediation-roadmap.md`. Every
 recommendation must resolve a specific `FND-XXX`.
 
-When the roadmap contains at least one P1 or P2 recommendation, build the Re-audit and Follow-up
+When the roadmap contains at least one P1 or P2 recommendation, build the Re-audit And Follow-up
 Plan using `synthesis/re-audit-plan.md`, mapping those findings to verification owners and closure
 evidence.
 
@@ -675,7 +675,7 @@ tools are treated as intended checks, not executed ones.
 When a Technical Debt Register is present, confirm every `TDR-XXX` traces to a `FND-XXX` or a cited
 direct observation, and that no security risk is duplicated from the Unified Risk Register.
 
-When a Re-audit and Follow-up Plan is present, confirm every row references a `FND-XXX` and that
+When a Re-audit And Follow-up Plan is present, confirm every row references a `FND-XXX` and that
 owners or dates absent from the input are marked `NOT SPECIFIED` rather than invented.
 
 Confirm the Auditing Methodology cites only the reference standards actually applied, including the

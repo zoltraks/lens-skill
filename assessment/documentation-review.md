@@ -23,15 +23,15 @@ the code, not its prose style.
 
 ## Evidence To Look For
 
-| Signal             | Where It Appears                                         |
-|--------------------|----------------------------------------------------------|
-| Entry docs         | README, getting-started, usage guide                     |
-| API docs           | Generated API reference, interface docs                  |
-| Setup instructions | Build and run steps, environment requirements            |
-| Inline docs        | Comments on non-obvious logic, doc comments              |
-| Decision records   | ADRs, design docs, recorded rationale                    |
-| Doc-code agreement | Docs that match current commands and structure           |
-| Health files       | `SECURITY.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`   |
+| Signal             | Where It Appears                                       |
+|--------------------|--------------------------------------------------------|
+| Entry docs         | README, getting-started, usage guide                   |
+| API docs           | Generated API reference, interface docs                |
+| Setup instructions | Build and run steps, environment requirements          |
+| Inline docs        | Comments on non-obvious logic, doc comments            |
+| Decision records   | ADRs, design docs, recorded rationale                  |
+| Doc-code agreement | Docs that match current commands and structure         |
+| Health files       | `SECURITY.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md` |
 
 ## Architecture Documentation Coverage
 

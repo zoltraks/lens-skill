@@ -15,13 +15,17 @@
 
 | Section                       | Line | What it covers                                      |
 |-------------------------------|------|-----------------------------------------------------|
-| What The Skill Does           | 55   | Audit purpose, evidence contract, and principles    |
-| Evidence And Decision Quality | 106  | Evidence strength and verification limits           |
-| Core Principles               | 158  | Evaluation constraints and status rules             |
-| Report Format                 | 174  | Report structure, identifiers, and style            |
-| When To Use This Skill        | 198  | Supported requests and exclusions                   |
-| What's Inside                 | 277  | Documents, references, tools, and conditional files |
-| Verification                  | 371  | Skill-maintenance checks and regression scenarios   |
+| What The Skill Does           | 59   | Audit purpose, evidence contract, and principles    |
+| Evidence And Decision Quality | 110  | Evidence strength and verification limits           |
+| Core Principles               | 162  | Evaluation constraints and status rules             |
+| Report Format                 | 178  | Report structure, identifiers, and style            |
+| When To Use This Skill        | 202  | Supported requests and exclusions                   |
+| Example Prompts               | 222  | Phrases the skill activates on                      |
+| What's Inside                 | 281  | Documents, references, tools, and conditional files |
+| Document Style                | 367  | Pointer to the style rules file                     |
+| Verification                  | 376  | Skill-maintenance checks and regression scenarios   |
+| License                       | 396  | License for the skill itself                        |
+| Credits                       | 402  | Authorship and attribution                          |
 
 Lens is a structured audit process packaged as an agent skill. It guides an AI coding agent through
 a complete engineering assessment of a codebase, producing a neutral, repeatable report anchored to
@@ -52,7 +56,7 @@ and report-format parameters can be refined when explicitly specified.
 
 ---
 
-## What the skill does
+## What The Skill Does
 
 When you ask for an audit, the agent loads the skill and performs the following:
 
@@ -155,7 +159,7 @@ Unknown authorship stays unknown, tidy code and uniform tests are not AI-origin 
 Production sign-off remains pending when required verification or confirmed ownership is missing,
 even when the scoped report is final.
 
-## Core principles
+## Core Principles
 
 Every audit follows these non-negotiable rules:
 
@@ -171,7 +175,7 @@ Every audit follows these non-negotiable rules:
 
 ---
 
-## Report format
+## Report Format
 
 The skill uses a hybrid table-paragraph format throughout:
 
@@ -195,7 +199,7 @@ This format keeps the report readable in plain-text consoles while preserving de
 
 ---
 
-## When to use this skill
+## When To Use This Skill
 
 | Situation                                        | Use this skill?                                     |
 |--------------------------------------------------|-----------------------------------------------------|
@@ -215,7 +219,7 @@ This format keeps the report readable in plain-text consoles while preserving de
 
 ---
 
-## Example prompts
+## Example Prompts
 
 **Full audit**
 > Audit this production codebase. Produce a full engineering assessment with a unified risk
@@ -274,12 +278,13 @@ This format keeps the report readable in plain-text consoles while preserving de
 
 ---
 
-## What's inside
+## What's Inside
 
 ```
 lens-skill/
 ├── SKILL.md                       # Root router - load this first
 ├── STYLE.md                       # Document style rules for all files in this skill
+├── VERSIONING.md                  # Skill versioning policy
 ├── evals/
 │   └── evals.json                 # Skill-creator behavioral regression prompts
 ├── principles/

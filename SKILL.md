@@ -37,16 +37,19 @@ metadata:
 
 | Section                 | Line | What it covers                                     |
 |-------------------------|------|----------------------------------------------------|
-| Trigger Keywords        | 64   | Activation phrases                                 |
-| How To Use              | 122  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 152  | Defaults and user-controlled report shape          |
-| Principles              | 217  | Evaluation and output rules                        |
-| Process                 | 225  | Workflow, format, and parity                       |
-| Assessments             | 237  | Core and conditional assessment guides             |
-| Synthesis               | 302  | Findings, risk, score, and remediation assembly    |
-| References And Tools    | 325  | Lookup tables and report-production scripts        |
-| Evaluation Prompts      | 361  | Behavioral regression prompts                      |
-| Evidence Contract       | 369  | Source-only boundaries and validation expectations |
+| Trigger Keywords        | 67   | Activation phrases                                 |
+| How To Use              | 125  | Progressive disclosure and mandatory reading       |
+| Parameter Configuration | 155  | Defaults and user-controlled report shape          |
+| Principles              | 210  | Evaluation and output rules                        |
+| Process                 | 218  | Workflow, format, and parity                       |
+| Assessments             | 230  | Core and conditional assessment guides             |
+| Synthesis               | 295  | Findings, risk, score, and remediation assembly    |
+| Translation             | 314  | Per-language report translations                   |
+| References And Tools    | 322  | Lookup tables and report-production scripts        |
+| Evaluation Prompts      | 357  | Behavioral regression prompts                      |
+| Repository Files        | 366  | Housekeeping files governing this repository       |
+| Evidence Contract       | 375  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 405  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -152,10 +155,8 @@ Always load these two files before starting an audit:
 ## Parameter Configuration
 
 Before beginning the audit, the agent runs the Parameter Configuration phase defined in
-`process/audit-workflow.md`.
-
-The agent MUST ask the user whether to accept the default parameters or configure the core
-parameters. Defaults are:
+`process/audit-workflow.md` and MUST ask the user whether to accept the default parameters or
+configure the core parameters. Defaults are:
 
 | Parameter               | Default                                                                                 |
 |-------------------------|-----------------------------------------------------------------------------------------|
@@ -172,47 +173,39 @@ parameters. Defaults are:
 The agent MUST ask this question and MUST NOT skip it. The agent MUST wait for user response before
 starting the audit.
 
-Core configuration covers unresolved delivery/output and report-shape choices. Advanced
-parameters use their defaults unless the user explicitly specifies another setting.
-
-Improvement suggestions and trade-off analysis are not separate routine prompts. Apply the
-defaults above unless the user explicitly requests a different setting.
+Core configuration covers unresolved delivery/output and report-shape choices. Advanced parameters
+use their defaults unless the user explicitly specifies another setting. Improvement suggestions and
+trade-off analysis are not separate routine prompts. Apply the defaults above unless the user
+explicitly requests a different setting.
 
 Output location is resolved from the audited repository or existing directory: `docs/audit/` >
 `docs/report/` > `docs/` > root (used if File mode selected).
 
-Output filename should be chosen as `AUDIT.md` for English reports, or the language-specific
-filename from the matching `translation/` file, adjusted for existing conventions. When a
-previous report exists, the default filename carries the new revision, for example
-`AUDIT-1.1.md`, and the previous file is never overwritten. Agent confirms with user before
-writing.
+The output filename is `AUDIT.md` for English reports, or the language-specific filename from the
+matching `translation/` file, adjusted for existing conventions. When a previous report exists, the
+default filename carries the new revision, for example `AUDIT-1.1.md`, and the previous file is
+never overwritten. The agent confirms with the user before writing.
 
 If the user accepts defaults or says "bypass", the agent proceeds immediately using these values.
-
 If the user chooses to configure, the agent asks only the unresolved core parameter questions
 defined in `process/audit-workflow.md`. Each prompt marks the default and ends with two named
 options: `Use default: <value>` for the current question, and `Use defaults for all remaining
 questions` to accept every remaining default and proceed.
 
 When the report language is not English, load the matching `translation/` file and apply every
-translation, style rule, and encoding requirement defined there. The default filename changes to the
-language-specific filename defined in the translation file.
-
-The full parameter flow is documented in `process/audit-workflow.md`.
+translation, style rule, and encoding requirement defined there.
 
 **Rerunning an audit**
 
 When the user asks to rerun, regenerate, or update an audit, check whether a previous report
 exists, searching the location named in the request, the resolved output directory, the default
-locations (`docs/audit/`, `docs/report/`, `docs/`, repository root), and the rest of the
-document structure, per `synthesis/report-comparison.md`. If a previous report is found, reuse
-the parameters recorded in its Document Information section. Do not ask the parameter
-configuration questions again unless the user explicitly asks for a fresh audit or new
-parameters. The previous report is never overwritten: write the new report to a
-revision-numbered file
-such as `AUDIT-1.1.md` and add the Changes Since Previous Audit section. If no previous report
-exists and no prior parameter choices are recorded in context, run the full Parameter
-Configuration phase.
+locations (`docs/audit/`, `docs/report/`, `docs/`, repository root), and the rest of the document
+structure, per `synthesis/report-comparison.md`. If a previous report is found, reuse the
+parameters recorded in its Document Information section. Do not ask the parameter configuration
+questions again unless the user explicitly asks for a fresh audit or new parameters. The previous
+report is never overwritten: write the new report to a revision-numbered file such as
+`AUDIT-1.1.md` and add the Changes Since Previous Audit section. If no previous report exists and
+no prior parameter choices are recorded in context, run the full Parameter Configuration phase.
 
 ## `principles/` - Rules Of Evaluation
 
@@ -229,8 +222,8 @@ Configuration phase.
 - **`process/report-format.md`** - The required report structure and the table-driven template the
   final output must follow. Section headings are unnumbered.
 - **`process/report-parity.md`** - The mandatory core checklist applied to every report and the
-  consistency gate that runs before `State: Final`, diffing the report's capability set against
-  the checklist and the most recent report found for any subject.
+  consistency gate that runs before `State: Final`, diffing the report's capability set against the
+  checklist and the most recent report found for any subject.
 - **`process/readiness-and-scoring.md`** - Deterministic score aggregation, evidence confidence,
   maturity levels, readiness gates, and production sign-off limits.
 
@@ -272,7 +265,7 @@ Configuration phase.
 - **`assessment/copyright-review.md`** - Code originality, license compliance, attribution, and
   dependency license compatibility.
 
-### Conditional assessment files
+### Conditional Assessment Files
 
 Load these only when the subject meets the inclusion criterion in the Conditional Sections table of
 `process/report-format.md`.
@@ -289,9 +282,9 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
 - **`assessment/skill-definition.md`** - Agent Skills specification conformance, frontmatter
   validity, progressive disclosure, triggering description quality, and file reference integrity.
   Include when the subject is an Agent Skill (has a `SKILL.md` file).
-- **`assessment/ai-system.md`** - AI and machine-learning system lifecycle, model and data provenance,
-  evaluation, safety, authorization boundaries, monitoring, and rollback. Include only when the
-  project trains, serves, or materially depends on an AI system.
+- **`assessment/ai-system.md`** - AI and machine-learning system lifecycle, model and data
+  provenance, evaluation, safety, authorization boundaries, monitoring, and rollback. Include only
+  when the project trains, serves, or materially depends on an AI system.
 - **`assessment/standards-conformance.md`** - Project-internal development standards:
   code-to-standards conformance, standards-to-best-practices quality, and external reference
   collection. Include when the project contains documented development standards.
@@ -316,8 +309,12 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
   recommendation.
 - **`synthesis/report-comparison.md`** - Previous report discovery, iterative report revisions,
   revision-numbered output filenames, and the Changes Since Previous Audit section. Conditional:
-  include
-  when a previous audit report exists.
+  include when a previous audit report exists.
+
+## `translation/` - Report Languages
+
+Load the matching file when the report language is not English:
+
 - **`translation/polish-language.md`** - Polish translations for the audit report: status and
   severity vocabulary, section headings, table headers, style rules, diacritics, and encoding. Load
   when the report language is Polish.
@@ -327,24 +324,23 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
 Load these when the detected stack or finding type requires them. They are consulted during
 intake, assessment, and report writing.
 
-- **`references/stack-standards.md`** - Canonical standards, guidelines, security advisories,
-  and compatibility tooling per detected stack. Selects the references the audit applies and
-  cites.
+- **`references/stack-standards.md`** - Canonical standards, guidelines, security advisories, and
+  compatibility tooling per detected stack. Selects the references the audit applies and cites.
 - **`references/cwe-analyzer-map.md`** - CWE-to-static-analyzer-rule cross-reference per
   ecosystem, with enablement evidence sources. Gives every CWE-classified security finding a
   concrete follow-up check.
 - **`references/dependency-manifests.md`** - Text-only readers for dependency manifests and
   lockfiles per ecosystem, producing a CycloneDX/SPDX-style source-derived component inventory
   without executing anything.
-- **`references/census-commands.md`** - Canonical counting methods for recurring audit
-  censuses: git history, conditional directives, catch clauses, test inventory, and tracked
-  artifacts. Produces figures a re-audit can reproduce.
+- **`references/census-commands.md`** - Canonical counting methods for recurring audit censuses:
+  git history, conditional directives, catch clauses, test inventory, and tracked artifacts.
+  Produces figures a re-audit can reproduce.
 
 ## `tools/` - Canonical Scripts
 
-Copy these into the audited repository's `work/` directory under a `.tmp.` name before use.
-Use an existing `temp` or `temporary` directory when `work/` is unavailable, and use the repository
-root only when none exists. Run the copies there and remove them when done. They are report-production
+Copy these into the audited repository's `work/` directory under a `.tmp.` name before use. Use an
+existing `temp` or `temporary` directory when `work/` is unavailable, and use the repository root
+only when none exists. Run the copies there and remove them when done. They are report-production
 tooling, not analysis of the audited project.
 
 - **`tools/format-table.py`** - Canonical implementation of the Table Formatting Rules in
@@ -364,7 +360,17 @@ tooling, not analysis of the audited project.
   full audits, re-audits, multi-project reports, due diligence, skill conformance, translation, and
   AI-system assessment.
 
-Run these as behavioral evaluations after structural changes. They do not replace independent review.
+Run these as behavioral evaluations after structural changes. They do not replace independent
+review.
+
+## Repository Files
+
+These files govern the skill repository itself rather than audit production:
+
+- **`STYLE.md`** - Style rules for the skill's own files. Follow when editing this repository.
+- **`README.md`** - Human-facing overview, usage examples, and verification commands.
+- **`VERSIONING.md`** - Version numbering and release conventions for the skill.
+- **`LICENSE`** - License text for the skill.
 
 ## Evidence And Decision Contract
 
@@ -405,21 +411,19 @@ when maintaining the skill.
   documented results are `Reported` evidence.
 - Assemble the report skeleton from `process/report-format.md` before filling in findings, present
   every section as a table and use unnumbered headings.
-- The generated report follows the same Markdown document style rules as the skill's own
-  documents, adapted by the Formatting Rules in `process/report-format.md`: `#`/`##`/`###`
-  headings only, short one-sentence paragraphs, 100-character line wrapping, no semicolons in
-  prose, and every table aligned with a temporary automated formatting script. Do not add a
-  Contents table to the report.
+- The generated report follows the skill's own Markdown style rules, adapted by the Formatting
+  Rules in `process/report-format.md`: `#`/`##`/`###` headings only, short one-sentence paragraphs,
+  100-character line wrapping, no semicolons in prose, and every table aligned with a temporary
+  automated formatting script. Do not add a Contents table to the report.
 - Test layers, TDD, coverage, and design-for-testability belong in `assessment/testing-review.md`.
 - SOLID and design principles (SRP, OCP, LSP, ISP, DIP), cohesion, coupling, and DRY belong in
   `assessment/design-principles.md`, code-level metrics (lint, type safety, complexity, duplication)
   belong in `assessment/code-quality.md`, architectural module structure belongs in
   `assessment/maintainability-review.md`.
 - Stack-specific idioms and conventions (language idioms, framework patterns, ecosystem layout,
-  deprecated APIs) belong in `assessment/best-practices.md`, keep it distinct from the
-  language-agnostic principles in `assessment/design-principles.md` and the code-level metrics in
-  `assessment/code-quality.md`. Assess adherence to the stack the subject already uses, do not judge
-  the stack choice itself.
+  deprecated APIs) belong in `assessment/best-practices.md`, keep it distinct from the principles in
+  `assessment/design-principles.md` and the code-level metrics in `assessment/code-quality.md`.
+  Assess adherence to the stack the subject already uses, do not judge the stack choice itself.
 - Dependency Inversion overlaps testability, assess the principle in
   `assessment/design-principles.md` and its testing impact in `assessment/testing-review.md`.
 - Third-party dependency and supply-chain posture belongs in `assessment/dependency-review.md`,
@@ -446,8 +450,8 @@ when maintaining the skill.
   the subject is an Agent Skill (has a `SKILL.md` file).
 - Project-internal development standards conformance and standards-quality evaluation belong in
   `assessment/standards-conformance.md`, include it only when the project contains documented
-  development standards. The References section at the end of the report lists every external source
-  consulted during the standards-quality evaluation and any other assessment category.
+  development standards. The report's References section lists every external source consulted
+  during the standards-quality evaluation and any other assessment category.
 - Canonical stack references are re-derived from `references/stack-standards.md` during intake
   on every audit and cited in Auditing Methodology and References, never copied verbatim from a
   prior report. Generic standards alone are not a substitute for stack-specific sources.
@@ -470,31 +474,25 @@ when maintaining the skill.
 - The Technical Debt Register (`synthesis/debt-register.md`) is distinct from the Unified Risk
   Register: debt is accumulated cost already present, risk is what could go wrong. Do not duplicate
   entries between them.
-- The Re-audit and Follow-up Plan (`synthesis/re-audit-plan.md`) precedes the Validation Record
-  and References when present and maps P1 and P2 findings to verification owners and closure
-  evidence.
+- The Re-audit And Follow-up Plan (`synthesis/re-audit-plan.md`) precedes Validation Record and
+  References when present and maps P1 and P2 findings to verification owners and closure evidence.
 - The Changes Since Previous Audit section (`synthesis/report-comparison.md`) appears only when a
-  previously created audit report was found during intake. The previous file is never overwritten,
-  the new report uses a revision-numbered filename such as `AUDIT-1.1.md` and the next minor
-  revision.
+  previous audit report was found during intake. The previous file is never overwritten, the new
+  report uses a revision-numbered filename such as `AUDIT-1.1.md` and the next minor revision.
 - Limitations and Unknowns lists every check that would require execution and was not performed.
-  Validation Record closes the report with the Mandatory Core Checklist result and the
-  consistency-gate outcome from `process/report-parity.md`. Mark `State: Final` only when the
-  gate passes.
+  Validation Record closes the report with the Mandatory Core Checklist result and the consistency
+  gate outcome from `process/report-parity.md`. Mark `State: Final` only when the gate passes.
 - For a multi-project report, a condensed combined Executive Summary and a combined Changes
   Since Previous Audit follow the Project Inventory, and a combined Trade-off Analysis holds
   only cross-project trade-offs per `synthesis/trade-off-analysis.md`.
-- Translation files in `translation/` are loaded only when the report language is not English. Each
-  file defines the translations for one language. To add a new language, create a new file in
-  `translation/` following the structure of the existing files.
-- Prefer the narrowest assessment file that directly matches the request.
-- If the user asks only for a single dimension (for example "review security" or "audit
-  dependencies"), load that one assessment file plus `principles/` and produce the matching finding
-  pillar and risk row only.
-- Trade-off analyses appear both as a standalone Trade-off Analysis section (immediately after the
-  Architectural Assessment) and embedded into relevant architectural or design findings (under
-  Description or Impact bullets). Use `synthesis/trade-off-analysis.md` for the standalone table
-  format.
+- Each `translation/` file defines one report language and loads only when the report language is
+  not English. Add a language with a new file following the existing structure.
+- Prefer the narrowest assessment file that directly matches the request. For a single-dimension
+  request (for example "review security" or "audit dependencies"), load that one assessment file
+  plus `principles/` and produce the matching finding pillar and risk row only.
+- Trade-off analyses appear as a standalone Trade-off Analysis section (right after Architectural
+  Assessment) and embedded into relevant architectural or design findings (under Description or
+  Impact bullets). Use `synthesis/trade-off-analysis.md` for the standalone table format.
 - For a full audit, load `principles/`, `process/`, every relevant `assessment/` file, and all
   `synthesis/` files. Mark categories that cannot apply to the subject as `N/A` with justification
   rather than dropping them.

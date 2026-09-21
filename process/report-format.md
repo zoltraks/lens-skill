@@ -41,19 +41,19 @@ missing section hides it.
 | API Contract Conformance                    | 1422 | API contract and security conformance                 |
 | Skill Definition Conformance                | 1442 | Agent Skill conformance                               |
 | AI System Assessment                        | 1465 | Conditional AI-system review                          |
-| Standards Conformance                       | 1477 | Internal standards quality and code conformance       |
-| API Compatibility & Versioning Discipline   | 1533 | Library compatibility gates                           |
-| Strengths & What's Working                  | 1560 | Evidence-based positive baselines                     |
-| Detailed Technical Findings                 | 1590 | Finding summary and detail blocks                     |
-| Technical Debt Register                     | 1687 | Distinct accumulated debt                             |
-| Unified Risk Register                       | 1728 | Cross-referenced risks                                |
-| Actionable Remediation Roadmap              | 1815 | Prioritized recommendations                           |
-| Scope Exclusions                            | 1879 | Explicit coverage limits                              |
-| Limitations and Unknowns                    | 1931 | Unrun checks and missing evidence                     |
-| Re-audit and Follow-up Plan                 | 1955 | Closure evidence and ownership                        |
-| Validation Record                           | 1984 | Mechanical and semantic gate results                  |
-| References                                  | 2009 | Consulted external sources                            |
-| Pre-Delivery Mechanical Checklist           | 2047 | Final mechanical checks                               |
+| Standards Conformance                       | 1478 | Internal standards quality and code conformance       |
+| API Compatibility & Versioning Discipline   | 1534 | Library compatibility gates                           |
+| Strengths & What's Working                  | 1561 | Evidence-based positive baselines                     |
+| Detailed Technical Findings                 | 1591 | Finding summary and detail blocks                     |
+| Technical Debt Register                     | 1688 | Distinct accumulated debt                             |
+| Unified Risk Register                       | 1729 | Cross-referenced risks                                |
+| Actionable Remediation Roadmap              | 1816 | Prioritized recommendations                           |
+| Scope Exclusions                            | 1880 | Explicit coverage limits                              |
+| Limitations and Unknowns                    | 1932 | Unrun checks and missing evidence                     |
+| Re-audit And Follow-up Plan                 | 1956 | Closure evidence and ownership                        |
+| Validation Record                           | 1985 | Mechanical and semantic gate results                  |
+| References                                  | 2010 | Consulted external sources                            |
+| Pre-Delivery Mechanical Checklist           | 2048 | Final mechanical checks                               |
 
 ## Formatting Rules
 
@@ -284,7 +284,7 @@ All seventeen baseline sections are present in full, subject to explicit paramet
 In addition, any conditional sections whose criteria are met are included in full. See the
 Conditional Sections rule below for the inclusion criteria of the Data Flow Diagram, Design
 Patterns, Architecture Decision Records, Threat Model, API Contract Conformance, Skill Definition
-Conformance, Standards Conformance, Technical Debt Register, and Re-audit and Follow-up Plan.
+Conformance, Standards Conformance, Technical Debt Register, and Re-audit And Follow-up Plan.
 
 **Detailed**
 
@@ -364,7 +364,7 @@ assessment file that governs it:
 | Standards Conformance (standalone)                          | The project contains documented development standards         | `assessment/standards-conformance.md` |
 | API Compatibility & Versioning Discipline (standalone)      | The subject is a reusable library or package                  | `assessment/api-compatibility.md`     |
 | Technical Debt Register (standalone)                        | Structural debt distinct from risks is surfaced               | `synthesis/debt-register.md`          |
-| Re-audit and Follow-up Plan (standalone)                    | The roadmap contains a P1 or P2 recommendation                | `synthesis/re-audit-plan.md`          |
+| Re-audit And Follow-up Plan (standalone)                    | The roadmap contains a P1 or P2 recommendation                | `synthesis/re-audit-plan.md`          |
 | Changes Since Previous Audit (standalone)                   | A previous audit report was found during intake               | `synthesis/report-comparison.md`      |
 | Glossary (standalone)                                       | Descriptive mode is enabled (default)                         | `process/report-format.md`            |
 
@@ -407,7 +407,7 @@ For a **single-project** audit:
 - Actionable Remediation Roadmap
 - Scope Exclusions
 - Limitations and Unknowns
-- Re-audit and Follow-up Plan *(conditional)*
+- Re-audit And Follow-up Plan *(conditional)*
 - Validation Record
 - References
 
@@ -441,7 +441,7 @@ below for the full layout. In summary:
 - Trade-off Analysis (combined, cross-project trade-offs only)
 - Scope Exclusions (once, shared)
 - Limitations and Unknowns (once, shared)
-- Re-audit and Follow-up Plan *(conditional)* (once, shared)
+- Re-audit And Follow-up Plan *(conditional)* (once, shared)
 - Validation Record (once, shared)
 - References (once, shared)
 
@@ -691,7 +691,7 @@ so the reader can navigate. For example: `### FND-ARC-001: [api-service] Missing
 - Trade-off Analysis (combined)
 - Scope Exclusions
 - Limitations and Unknowns
-- Re-audit and Follow-up Plan *(conditional)*
+- Re-audit And Follow-up Plan *(conditional)*
 - Validation Record
 - References
 
@@ -1468,7 +1468,8 @@ Include this section only when the project trains, serves, or materially depends
 machine-learning system, per `assessment/ai-system.md`.
 
 Keep this section distinct from AI-generated-code provenance. A project can have AI-assisted source
-without having an AI system, and an AI system can contain no evidence about how its source was authored.
+without having an AI system, and an AI system can contain no evidence about how its source was
+authored.
 
 Present the evaluated lifecycle, model and data provenance, evaluation evidence, safety boundaries,
 operational controls, and unresolved limitations. Use NIST AI RMF or ISO/IEC 42001 only when the
@@ -1952,7 +1953,7 @@ Rows come from two sources:
 
 For multi-project reports, qualify each row with the project identifier.
 
-## Re-audit and Follow-up Plan
+## Re-audit And Follow-up Plan
 
 Include this section only when the Actionable Remediation Roadmap contains at least one P1 or P2
 recommendation, per `synthesis/re-audit-plan.md`.

@@ -1,4 +1,4 @@
-# Re-audit and Follow-up Plan
+# Re-audit And Follow-up Plan
 
 ## Purpose
 
@@ -7,7 +7,7 @@
 > **Key items:** verification owner, target date, sign-off gate, closure evidence, `FND-XXX`
 > traceability
 
-This file defines the Re-audit and Follow-up Plan, which precedes the final References section.
+This file defines the Re-audit And Follow-up Plan, which precedes the final References section.
 
 It connects remediation to verified closure and accountable sign-off.
 
