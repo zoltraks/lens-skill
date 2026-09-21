@@ -414,8 +414,8 @@ when maintaining the skill.
   every section as a table and use unnumbered headings.
 - The generated report follows the skill's own Markdown style rules, adapted by the Formatting
   Rules in `process/report-format.md`: `#`/`##`/`###` headings only, short one-sentence paragraphs,
-  100-character line wrapping, no semicolons in prose, and every table aligned with a temporary
-  automated formatting script. Do not add a Contents table to the report.
+  prose wrapping at a selectable width (default 100), no semicolons in prose, and every table
+  aligned with a temporary automated formatting script. Do not add a Contents table to the report.
 - Test layers, TDD, coverage, and design-for-testability belong in `assessment/testing-review.md`.
 - SOLID and design principles (SRP, OCP, LSP, ISP, DIP), cohesion, coupling, and DRY belong in
   `assessment/design-principles.md`, code-level metrics (lint, type safety, complexity, duplication)

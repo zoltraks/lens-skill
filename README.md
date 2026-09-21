@@ -192,8 +192,8 @@ The skill uses a hybrid table-paragraph format throughout:
 - **Strengths & What's Working** balances the tone with 5-8 acknowledged positives.
 - **Trade-off Analysis** surfaces architectural tensions in a dedicated table.
 - **Document style** - generated reports follow the same Markdown rules as the skill's documents:
-  `#`/`##`/`###` headings only, one-sentence paragraphs, 100-character wrapping, and tables aligned
-  by a temporary formatting script.
+  `#`/`##`/`###` headings only, one-sentence paragraphs, prose wrapping at a selectable width
+  (default 100), and tables aligned by a temporary formatting script.
 
 This format keeps the report readable in plain-text consoles while preserving depth.
 

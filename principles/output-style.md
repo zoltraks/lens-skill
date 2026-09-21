@@ -126,8 +126,9 @@ Write short sentences.
 
 Separate distinct statements with line breaks so the report reads well in plain consoles.
 
-Break lines that exceed 100 characters at a natural boundary such as after a comma or clause end, do
-not break inside inline code, file paths, or URLs.
+Break lines that exceed the selected wrap width - 100 characters by default - at a natural boundary
+such as after a comma or clause end, per the Selecting The Wrap Width rule in `STYLE.md`. Do not
+break inside inline code, file paths, or URLs.
 
 Do not use the semicolon character in prose. Join closely related clauses with a comma or split them
 into separate sentences. The prose scope includes sentences, headings, table cells, and list items,

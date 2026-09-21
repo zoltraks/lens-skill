@@ -15,11 +15,11 @@ requested category.
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 24   | Step Overview guidance           |
-| Intake Checklist        | 773  | Intake Checklist guidance        |
-| Handling Thin Input     | 788  | Handling Thin Input guidance     |
-| Single-Dimension Audits | 799  | Single-Dimension Audits guidance |
-| Re-Audit                | 809  | Re-Audit guidance                |
-| Multi-Project Audits    | 836  | Multi-Project Audits guidance    |
+| Intake Checklist        | 775  | Intake Checklist guidance        |
+| Handling Thin Input     | 790  | Handling Thin Input guidance     |
+| Single-Dimension Audits | 801  | Single-Dimension Audits guidance |
+| Re-Audit                | 811  | Re-Audit guidance                |
+| Multi-Project Audits    | 838  | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -703,8 +703,9 @@ Scope Exclusions state the OWASP category coverage.
 Confirm the report follows `process/report-format.md` section by section.
 
 Confirm the report follows the Formatting Rules in `process/report-format.md`: headings stop at
-`###`, prose lines over 100 characters are wrapped, prose contains no semicolons, and every table
-was formatted with an automated script so all `|` separators align vertically in plain text.
+`###`, prose lines over the selected wrap width (default 100) are wrapped, prose contains no
+semicolons, and every table was formatted with an automated script so all `|` separators align
+vertically in plain text.
 
 Run the Pre-Delivery Mechanical Checklist in `process/report-format.md` and require zero
 violations. Copy `tools/validate-report.py` into the audited repository as
@@ -769,6 +770,7 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Evaluation scale prompt shown              | All five options: 1-10, 1-5, 1-3, 5 stars, 3 stars   |
 | No previous report exists                  | Default `AUDIT-1.0.md`, `AUDIT.md` as alternative    |
 | `document/` exists, `docs/` does not       | Resolved base is `document/`, offered as a location  |
+| Document prose already wraps near 60       | Offer 60 alongside the default 100 at wrap time      |
 
 ## Intake Checklist
 

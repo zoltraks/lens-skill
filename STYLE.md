@@ -16,13 +16,13 @@ Every document created or modified as part of this skill must follow the rules b
 |----------------------------|------|-------------------------------------------------|
 | Document Structure         | 27   | Titles, purpose blocks, and contents tables     |
 | Paragraphs And Wrapping    | 87   | Sentence structure and line width               |
-| Headings And Lists         | 121  | Heading depth, lists, and spacing               |
-| Code And Inline Formatting | 170  | Fences, code spans, and special characters      |
-| Tables                     | 216  | Source-width alignment and automated formatting |
-| Characters And Language    | 382  | Box-drawing, emoji, and per-language rules      |
-| File References            | 400  | Relative paths and backticked file paths        |
-| Skill Requirements         | 414  | Frontmatter and progressive disclosure          |
-| Maintenance                | 475  | File naming, encoding, and registration         |
+| Headings And Lists         | 140  | Heading depth, lists, and spacing               |
+| Code And Inline Formatting | 189  | Fences, code spans, and special characters      |
+| Tables                     | 235  | Source-width alignment and automated formatting |
+| Characters And Language    | 401  | Box-drawing, emoji, and per-language rules      |
+| File References            | 419  | Relative paths and backticked file paths        |
+| Skill Requirements         | 433  | Frontmatter and progressive disclosure          |
+| Maintenance                | 494  | File naming, encoding, and registration         |
 
 ## Document Structure
 
@@ -117,6 +117,25 @@ Let each sentence occupy one logical line when it is under 100 characters.
 
 Hard-wrap at a forced line break only when the source itself needs one, such as inside a code block
 or a diagram.
+
+### Selecting The Wrap Width
+
+The default prose width is 100 characters.
+
+When applying this rule to wrap lines in a document, whether a generated report or an existing
+document being fixed, first offer the user a choice of widths:
+
+- `100` (default) - the standard prose width.
+- `<detected width>` - the boundary the document's prose lines already cluster near, offered only
+  when the document appears to use one and it differs from 100. Measure prose lines only: exclude
+  table rows, headings, code blocks, URLs, and file paths. A document wrapped for narrow readers
+  may cluster near 60 characters.
+- `Custom width` - ask the user for a different limit, larger or smaller than 100.
+
+When no boundary can be detected, offer `100` and `Custom width`.
+
+Apply the selected width to the whole document and use it wherever the wrap rules in this file or
+in `process/report-format.md` say 100 characters.
 
 ## Headings
 

@@ -21,39 +21,39 @@ missing section hides it.
 | Section                                     | Line | What it covers                                        |
 |---------------------------------------------|------|-------------------------------------------------------|
 | Formatting Rules                            | 58   | Formatting Rules guidance                             |
-| Report Delivery And Parameter Configuration | 216  | Report delivery and output configuration              |
-| Detail Level Configuration                  | 254  | Standard, detailed, and brief reports                 |
-| Conditional Sections                        | 338  | Inclusion criteria for conditional sections           |
-| Section Order                               | 378  | Single-project and multi-project order                |
-| Document Information                        | 448  | Report metadata and revisions                         |
-| Glossary                                    | 529  | Abbreviation and acronym definitions                  |
-| Multi-Project Report Structure              | 622  | Combined and project-specific sections                |
-| Executive Summary                           | 714  | Executive summary and readiness threshold             |
-| Changes Since Previous Audit                | 797  | Re-audit comparison structure                         |
-| System Context                              | 858  | Context and technology stack                          |
-| Health Dashboard                            | 918  | Heat map, scorecard, and continuity                   |
-| High-Level Observations                     | 992  | Reader-facing finding summary                         |
-| Auditing Methodology                        | 1016 | Method, standards, and evidence ledger                |
-| Scoring Rubrics                             | 1158 | Score bands and ISO crosswalk                         |
-| Architectural Assessment                    | 1220 | Architecture, principles, and conditional subsections |
-| Trade-off Analysis                          | 1355 | Neutral engineering trade-offs                        |
-| Threat Model                                | 1395 | STRIDE analysis                                       |
-| API Contract Conformance                    | 1422 | API contract and security conformance                 |
-| Skill Definition Conformance                | 1442 | Agent Skill conformance                               |
-| AI System Assessment                        | 1465 | Conditional AI-system review                          |
-| Standards Conformance                       | 1478 | Internal standards quality and code conformance       |
-| API Compatibility & Versioning Discipline   | 1534 | Library compatibility gates                           |
-| Strengths & What's Working                  | 1561 | Evidence-based positive baselines                     |
-| Detailed Technical Findings                 | 1591 | Finding summary and detail blocks                     |
-| Technical Debt Register                     | 1688 | Distinct accumulated debt                             |
-| Unified Risk Register                       | 1729 | Cross-referenced risks                                |
-| Actionable Remediation Roadmap              | 1816 | Prioritized recommendations                           |
-| Scope Exclusions                            | 1880 | Explicit coverage limits                              |
-| Limitations and Unknowns                    | 1932 | Unrun checks and missing evidence                     |
-| Re-audit And Follow-up Plan                 | 1956 | Closure evidence and ownership                        |
-| Validation Record                           | 1985 | Mechanical and semantic gate results                  |
-| References                                  | 2010 | Consulted external sources                            |
-| Pre-Delivery Mechanical Checklist           | 2048 | Final mechanical checks                               |
+| Report Delivery And Parameter Configuration | 217  | Report delivery and output configuration              |
+| Detail Level Configuration                  | 258  | Standard, detailed, and brief reports                 |
+| Conditional Sections                        | 342  | Inclusion criteria for conditional sections           |
+| Section Order                               | 382  | Single-project and multi-project order                |
+| Document Information                        | 452  | Report metadata and revisions                         |
+| Glossary                                    | 533  | Abbreviation and acronym definitions                  |
+| Multi-Project Report Structure              | 626  | Combined and project-specific sections                |
+| Executive Summary                           | 718  | Executive summary and readiness threshold             |
+| Changes Since Previous Audit                | 802  | Re-audit comparison structure                         |
+| System Context                              | 863  | Context and technology stack                          |
+| Health Dashboard                            | 923  | Heat map, scorecard, and continuity                   |
+| High-Level Observations                     | 997  | Reader-facing finding summary                         |
+| Auditing Methodology                        | 1021 | Method, standards, and evidence ledger                |
+| Scoring Rubrics                             | 1163 | Score bands and ISO crosswalk                         |
+| Architectural Assessment                    | 1225 | Architecture, principles, and conditional subsections |
+| Trade-off Analysis                          | 1360 | Neutral engineering trade-offs                        |
+| Threat Model                                | 1400 | STRIDE analysis                                       |
+| API Contract Conformance                    | 1427 | API contract and security conformance                 |
+| Skill Definition Conformance                | 1447 | Agent Skill conformance                               |
+| AI System Assessment                        | 1470 | Conditional AI-system review                          |
+| Standards Conformance                       | 1483 | Internal standards quality and code conformance       |
+| API Compatibility & Versioning Discipline   | 1539 | Library compatibility gates                           |
+| Strengths & What's Working                  | 1566 | Evidence-based positive baselines                     |
+| Detailed Technical Findings                 | 1596 | Finding summary and detail blocks                     |
+| Technical Debt Register                     | 1693 | Distinct accumulated debt                             |
+| Unified Risk Register                       | 1734 | Cross-referenced risks                                |
+| Actionable Remediation Roadmap              | 1821 | Prioritized recommendations                           |
+| Scope Exclusions                            | 1885 | Explicit coverage limits                              |
+| Limitations and Unknowns                    | 1937 | Unrun checks and missing evidence                     |
+| Re-audit And Follow-up Plan                 | 1961 | Closure evidence and ownership                        |
+| Validation Record                           | 1990 | Mechanical and semantic gate results                  |
+| References                                  | 2015 | Consulted external sources                            |
+| Pre-Delivery Mechanical Checklist           | 2053 | Final mechanical checks                               |
 
 ## Formatting Rules
 
@@ -95,10 +95,11 @@ body. Do not run the heading and the body together on the same line.
 Use this bold-heading pattern for paragraphs that expand on a table row. For actual section or
 subsection titles, use markdown header syntax (`##` or `###`) rather than bold text.
 
-Break prose lines that exceed 100 characters at a natural boundary such as after a comma or clause
-end, per `STYLE.md`. Do not break inside inline code, file paths, or URLs. The limit does not apply
-to table rows, URLs, links, or file paths, so a line carrying an unbreakable URL may remain over 100
-characters.
+Break prose lines that exceed the selected wrap width - 100 characters by default - at a natural
+boundary such as after a comma or clause end, per `STYLE.md`. Offer the width choice per the
+Selecting The Wrap Width rules in `STYLE.md` before wrapping. Do not break inside inline code, file
+paths, or URLs. The limit does not apply to table rows, URLs, links, or file paths, so a line
+carrying an unbreakable URL may remain over the limit.
 
 Do not use the semicolon character in prose. Join closely related clauses with a comma or split them
 into separate sentences. The rule does not apply to code blocks, inline code, or file paths, per
@@ -764,7 +765,8 @@ When the report language is not English, apply the heading translation from the 
 Write one paragraph immediately after the table. State the system's purpose in one sentence.
 Summarize the overall condition in one sentence. Note the maturity level and anchor it to evidence
 from later sections. Mention any critical finding that the reader should know first. Keep the
-paragraph to four sentences maximum. Break lines that exceed 100 characters per `STYLE.md`.
+paragraph to four sentences maximum. Break lines that exceed the selected wrap width (default 100)
+per `STYLE.md`.
 
 The maturity level must be justified by evidence in later sections, not asserted.
 
@@ -2054,22 +2056,22 @@ Run this checklist after writing the report body and before running the formatti
 consolidates the mechanical rules from this file and `principles/output-style.md` in one
 place, every item is mechanical and takes seconds to verify.
 
-| Check          | Rule                                                                           |
-|----------------|--------------------------------------------------------------------------------|
-| Headings       | `#` title, `##` sections, `###` subsections and blocks, never `####` or deeper |
-| Heading space  | Exactly one empty line after every heading                                     |
-| Delimiters     | Pipe-delimited columns, one space inside leading and trailing pipes            |
-| Separators     | Hyphens contiguous with pipes, width equals column width plus two              |
-| Alignment      | Every column aligned by the formatting script, never padded by hand            |
-| Semicolons     | None outside code blocks, inline code, and file paths                          |
-| Dashes         | ASCII `-` only, no em dash or en dash                                          |
-| Arrows         | ASCII `->` in prose, no Unicode arrow                                          |
-| Prose width    | Lines broken near 100 characters, exempt table rows, URLs, links, paths        |
-| Finding blocks | Every required field present, see the template in Detailed Technical Findings  |
-| Glossary       | Present when Descriptive Mode is Enabled, alphabetical, body occurrences link  |
-| Diagrams       | Fenced, untagged, no leading or trailing blank line inside the fence           |
-| Registers      | Every RSK cites an FND, every REC cites an FND, heat-map covers rated risks    |
-| Ending         | References is the last section, no closing line after it                       |
+| Check          | Rule                                                                                      |
+|----------------|-------------------------------------------------------------------------------------------|
+| Headings       | `#` title, `##` sections, `###` subsections and blocks, never `####` or deeper            |
+| Heading space  | Exactly one empty line after every heading                                                |
+| Delimiters     | Pipe-delimited columns, one space inside leading and trailing pipes                       |
+| Separators     | Hyphens contiguous with pipes, width equals column width plus two                         |
+| Alignment      | Every column aligned by the formatting script, never padded by hand                       |
+| Semicolons     | None outside code blocks, inline code, and file paths                                     |
+| Dashes         | ASCII `-` only, no em dash or en dash                                                     |
+| Arrows         | ASCII `->` in prose, no Unicode arrow                                                     |
+| Prose width    | Lines broken near the selected width (default 100), exempt table rows, URLs, links, paths |
+| Finding blocks | Every required field present, see the template in Detailed Technical Findings             |
+| Glossary       | Present when Descriptive Mode is Enabled, alphabetical, body occurrences link             |
+| Diagrams       | Fenced, untagged, no leading or trailing blank line inside the fence                      |
+| Registers      | Every RSK cites an FND, every REC cites an FND, heat-map covers rated risks               |
+| Ending         | References is the last section, no closing line after it                                  |
 
 `tools/format-table.py` in the skill repository is the canonical formatting script, copy it into
 the audited repository's `work/` directory before use. `tools/validate-report.py` runs the
