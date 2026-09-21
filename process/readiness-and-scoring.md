@@ -155,6 +155,9 @@ Use these readiness states:
 | `Pending evidence` | Decision depends on missing or unrun evidence           |
 | `Not assessed`     | Readiness was outside the requested audit purpose       |
 
+When the report language is not English, the readiness state is rendered per the matching
+`translation/` file.
+
 `Ready` requires current closure evidence for every blocking gate.
 
 A proposed gate is not an approved requirement until the responsible stakeholder confirms it.

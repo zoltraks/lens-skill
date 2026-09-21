@@ -45,11 +45,11 @@ metadata:
 | Assessments             | 231  | Core and conditional assessment guides             |
 | Synthesis               | 296  | Findings, risk, score, and remediation assembly    |
 | Translation             | 315  | Per-language report translations                   |
-| References And Tools    | 323  | Lookup tables and report-production scripts        |
-| Evaluation Prompts      | 358  | Behavioral regression prompts                      |
-| Repository Files        | 367  | Housekeeping files governing this repository       |
-| Evidence Contract       | 376  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 406  | File-selection and section-placement rules         |
+| References And Tools    | 326  | Lookup tables and report-production scripts        |
+| Evaluation Prompts      | 361  | Behavioral regression prompts                      |
+| Repository Files        | 370  | Housekeeping files governing this repository       |
+| Evidence Contract       | 379  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 409  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -314,11 +314,12 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
 
 ## `translation/` - Report Languages
 
-Load the matching file when the report language is not English:
+Load the matching file when the report language is not English. Analysis runs in English and the
+report renders into the report language in a single pass, per `principles/output-style.md`:
 
-- **`translation/polish-language.md`** - Polish translations for the audit report: status and
-  severity vocabulary, section headings, table headers, style rules, diacritics, and encoding. Load
-  when the report language is Polish.
+- **`translation/polish-language.md`** - Polish rendering of the audit report and parameter
+  prompts: vocabulary, terminology dictionary, prompt phrasing, headings, table headers, style
+  rules, diacritics, and encoding. Load when the report language is Polish.
 
 ## `references/` - Lookup Tables
 

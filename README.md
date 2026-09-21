@@ -342,7 +342,7 @@ lens-skill/
 │   ├── check-references.py        # Relative-reference integrity checker
 │   └── README.md                  # Tool usage, safety, and cleanup rules
 └── translation/
-    └── polish-language.md         # Polish translations: status, severity, headings, table headers, style rules
+    └── polish-language.md         # Polish rendering: vocabulary, terminology dictionary, headings, prompt phrasing, style rules
 ```
 
 The `tools/` scripts are report-production and skill-maintenance utilities.

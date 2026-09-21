@@ -199,6 +199,22 @@ into that language.
 The default report language is English. When the request language is ambiguous or cannot be
 determined, default to English.
 
+**Analysis language**
+
+Analysis runs in English regardless of the report language. Evidence notes, finding drafts,
+partial conclusions, and assembled part files are written in English, and the report is rendered
+into the report language in a single pass that applies the matching `translation/` file.
+
+Reasoning in English keeps the analysis anchored to the English rules, rubrics, and fixed
+vocabularies in this skill, and a single render pass applies one terminology convention to the
+whole document.
+
+When the audited project establishes its own terminology in the report language, for example a
+project glossary or design documents, prefer those established forms over the translation file's
+defaults and record the choice.
+
+Direct quotes, code, configuration keys, file paths, and machine tokens are never translated.
+
 **Translation files**
 
 Translation rules for each supported language live in the `translation/` directory. Each file is
@@ -224,11 +240,13 @@ headings, table headers, style rules, and any language-specific encoding or diac
 - All recommendation summaries in the Actionable Remediation Roadmap
 - All descriptive paragraphs, evidence, reasoning, and justification text
 - "Summary description" and observation paragraph headings
+- All descriptive fixed values: maturity levels (`Prototype`, `Early development`,
+  `Pre-production`, `Production-ready`, `Undetermined`), report state (`Draft`, `Final`), detail
+  level, evaluation scale names, readiness states, and audit-purpose values, rendered per the
+  matching `translation/` file
 
 **What stays in English (fixed vocabularies):**
 
-- Maturity levels: `Prototype`, `Early development`, `Pre-production`, `Production-ready`,
-  `Undetermined`
 - Missing-information tokens: `UNKNOWN`, `NOT SPECIFIED`, `INSUFFICIENT INFORMATION`
 - File paths, config keys, commands, code snippets, and direct quotes from the input
 

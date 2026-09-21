@@ -477,8 +477,6 @@ Rows appear in this order, each label in the first column and its value in the s
 - `State` - `Draft` or `Final`.
 - `Detail Level` - `Standard`, `Detailed`, or `Brief`.
 - `Evaluation Scale` - `1-10`, `1-5`, `1-3`, `5 stars`, or `3 stars`.
-- `Descriptive Mode` - `Enabled` or `Disabled`. Always recorded so re-audits recover the
-  setting.
 - `Language` - the report language.
 - `Audit Purpose` - engineering improvement, production readiness, or technical due diligence.
 - `Target Environment` - where the software runs or ships.
@@ -494,6 +492,9 @@ or a `NOT SPECIFIED` token in this table.
 
 Do not include a `Delivery Mode` or `Report Delivery` row. Whether the report was delivered as a
 file or an inline response is evident from the delivery itself.
+
+Do not include a `Descriptive Mode` row. The setting is evident from the presence or absence of
+the Glossary section, and a re-audit recovers it that way.
 
 The word `revision` refers to the report document. The word `version` refers to the audited
 software, a project, a library, or the skill itself, as in `Subject Revision` for the audited
@@ -524,7 +525,8 @@ carrying the new revision in its name, for example `AUDIT-1.1.md`, per
 `synthesis/report-comparison.md`.
 
 When the report language is not English, apply the label translations from the matching
-`translation/` file.
+`translation/` file. Descriptive values such as `State`, `Detail Level`, `Evaluation Scale`,
+`Audit Purpose`, and `Verification Scope` are rendered per the same file.
 
 ## Glossary
 
@@ -735,7 +737,8 @@ Use a key-value table:
 | Overall score  | <score display>, lowest: <dimension> <score display>  |
 
 Maturity level is one of: `Prototype`, `Early development`, `Pre-production`, `Production-ready`, or
-`Undetermined`.
+`Undetermined`. When the report language is not English, the value is rendered per the matching
+`translation/` file.
 
 For numeric scales, use `<mean>/<scale> (<band>)` and `<score>/<scale>`. For `5 stars` or
 `3 stars`, use the rounded star bar followed by the exact mean in parentheses, for example
@@ -2064,7 +2067,7 @@ place, every item is mechanical and takes seconds to verify.
 | Arrows         | ASCII `->` in prose, no Unicode arrow                                                     |
 | Prose width    | Lines broken near the selected width (default 100), exempt table rows, URLs, links, paths |
 | Finding blocks | Every required field present, see the template in Detailed Technical Findings             |
-| Glossary       | Present when Descriptive Mode is Enabled, alphabetical, body occurrences link             |
+| Glossary       | Present when Descriptive mode is enabled, alphabetical, body occurrences link             |
 | Diagrams       | Fenced, untagged, no leading or trailing blank line inside the fence                      |
 | Registers      | Every RSK cites an FND, every REC cites an FND, heat-map covers rated risks               |
 | Location       | Report path matches the output directory recorded during intake                           |

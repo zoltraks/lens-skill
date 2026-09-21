@@ -73,12 +73,14 @@
     {
       "id": 7,
       "prompt": "Write the audit report in Polish. Preserve all identifiers and machine-readable statuses while translating headings, labels, findings, and explanatory prose.",
-      "expected_output": "A UTF-8 Polish report with complete heading and table-header coverage and unchanged machine tokens.",
+      "expected_output": "A UTF-8 Polish report with complete heading and table-header coverage, dictionary-consistent terminology, and unchanged machine tokens.",
       "files": [],
       "expectations": [
         "The report uses Polish prose and headings with preserved diacritics.",
         "Finding, evidence, risk, recommendation, CWE, validation, and execution tokens remain machine-readable.",
-        "Conditional headings that appear in the report are translated."
+        "Conditional headings that appear in the report are translated.",
+        "The report applies the Polish terminology dictionary (ustalenie, zalecenie, plik blokady zależności) and avoids literal calques such as rozjazd, dryf, or brama.",
+        "Descriptive fixed values are rendered in Polish (Gotowy, Szczegółowy, Etap przedprodukcyjny), and no Tryb opisowy row appears in Document Information."
       ]
     },
     {

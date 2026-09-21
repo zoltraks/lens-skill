@@ -39,6 +39,11 @@ Determine the natural language of the user's request. The report language must m
 language unless the user explicitly states otherwise. When the request language is ambiguous or
 cannot be determined, default to English.
 
+When the report language is not English, also look for project-established terminology in that
+language, such as a project glossary or design documents written in the report language, and
+record the established forms. They take precedence over the defaults in the matching
+`translation/` file.
+
 **Report parity discovery**
 
 When searching for a previous report during intake, also record the most recent audit report
@@ -134,7 +139,9 @@ repository root), and the rest of the document structure, per `synthesis/report-
 A previous report may be named `AUDIT.md`, `AUDIT-<revision>.md`, or the language-specific
 filename. When several exist, use the one with the highest revision.
 
-If a previous report is found, recover its detail level, scale, language, and filename.
+If a previous report is found, recover its detail level, scale, language, filename, and
+Descriptive mode. Recover Descriptive mode from the previous report's Document Information row
+when present, otherwise from the presence or absence of its Glossary section.
 
 Reuse them unless the user asks to change them, then proceed to Scope Definition without repeating
 answered questions.
@@ -331,6 +338,10 @@ When the report language is not English, load the matching `translation/` file a
 translation, style rule, and encoding requirement defined there. The default filename changes to
 the language-specific filename defined in the translation file, and the report must be written in
 UTF-8 encoding with all language-specific diacritics preserved.
+
+Analysis runs in English regardless of the report language: evidence notes, finding drafts, and
+assembled part files are written in English, and the report is rendered into the report language
+in a single pass, per `principles/output-style.md`.
 
 **Detail level**
 
@@ -637,9 +648,10 @@ conditions to specific `RSK-XXX` IDs.
 
 When a report is too large to write in one pass, compose it in parts inside the audited
 repository's `work/` directory (or `temp`/`temporary` when that is the convention), then
-concatenate the parts in the fixed section order into the final file. Run the Pre-Delivery
-Mechanical Checklist and the formatting script on the assembled file, not on the parts, and
-remove the part files after assembly.
+concatenate the parts in the fixed section order into the final file. For a non-English report,
+write the parts in English and render the report language during final assembly in a single
+pass. Run the Pre-Delivery Mechanical Checklist and the formatting script on the assembled file,
+not on the parts, and remove the part files after assembly.
 
 **Validation**
 

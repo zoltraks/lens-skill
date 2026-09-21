@@ -323,28 +323,15 @@ def check_glossary(text: str) -> list[str]:
     failures: list[str] = []
     if "Document Information" not in text:
         return failures
-    mode = re.search(r"\|\s*Descriptive Mode\s*\|\s*([^|]+)", text)
     heading = re.search(r"^#{2,3}\s+Glossary\s*$", text, re.MULTILINE)
-    if not mode:
-        failures.append("Document Information has no Descriptive Mode row")
-        return failures
-    value = mode.group(1).strip()
-    if value not in ("Enabled", "Disabled"):
-        failures.append(f"Descriptive Mode value must be Enabled or Disabled, got {value}")
-        return failures
-    if value == "Disabled":
-        if heading:
-            failures.append("Descriptive Mode is Disabled but the report has a Glossary section")
+    if not heading:
         exclusions = re.search(r"^#{2,3}\s+Scope Exclusions\s*$", text, re.MULTILINE)
         scope = ""
         if exclusions:
             following = re.search(r"^#{2,3}\s+", text[exclusions.end():], re.MULTILINE)
             scope = text[exclusions.end() : exclusions.end() + following.start() if following else len(text)]
         if not re.search(r"glossar|descriptive", scope, re.IGNORECASE):
-            failures.append("Descriptive Mode is Disabled but Scope Exclusions does not justify the omitted Glossary")
-        return failures
-    if not heading:
-        failures.append("Descriptive Mode is Enabled but the report has no Glossary section")
+            failures.append("report has no Glossary section and Scope Exclusions does not justify the omission")
         return failures
     rest = text[heading.end():]
     following = re.search(r"^##\s+", rest, re.MULTILINE)
