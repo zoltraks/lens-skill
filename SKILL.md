@@ -45,11 +45,11 @@ metadata:
 | Assessments             | 231  | Core and conditional assessment guides             |
 | Synthesis               | 296  | Findings, risk, score, and remediation assembly    |
 | Translation             | 315  | Per-language report translations                   |
-| References And Tools    | 326  | Lookup tables and report-production scripts        |
-| Evaluation Prompts      | 361  | Behavioral regression prompts                      |
-| Repository Files        | 370  | Housekeeping files governing this repository       |
-| Evidence Contract       | 379  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 409  | File-selection and section-placement rules         |
+| References And Tools    | 324  | Lookup tables and report-production scripts        |
+| Evaluation Prompts      | 359  | Behavioral regression prompts                      |
+| Repository Files        | 368  | Housekeeping files governing this repository       |
+| Evidence Contract       | 377  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 407  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 

@@ -220,8 +220,8 @@ def check_security_classification(lines: list[str]) -> list[str]:
         if "**Pillar:** Security & Compliance" not in block:
             continue
         match = re.search(r"\* \*\*Security Classification:\*\*\s*(.*)", block)
-        if not match or not re.search(r"CWE-[0-9]+|\bUNKNOWN\b|\bN/A\b", match.group(1)):
-            failures.append(f"{lines[start][4:70]}: security classification lacks CWE, UNKNOWN, or N/A")
+        if not match or not re.search(r"CWE-[0-9]+|\bUNKNOWN\b|\bN/A\b|\bN/D\b|\bNIEZNANE\b", match.group(1)):
+            failures.append(f"{lines[start][4:70]}: security classification lacks CWE or an unknown/not-applicable token")
     return failures
 
 

@@ -19,13 +19,13 @@
 | Evidence And Decision Quality | 110  | Evidence strength and verification limits           |
 | Core Principles               | 162  | Evaluation constraints and status rules             |
 | Report Format                 | 178  | Report structure, identifiers, and style            |
-| When To Use This Skill        | 202  | Supported requests and exclusions                   |
-| Example Prompts               | 222  | Phrases the skill activates on                      |
-| What's Inside                 | 281  | Documents, references, tools, and conditional files |
-| Document Style                | 367  | Pointer to the style rules file                     |
-| Verification                  | 376  | Skill-maintenance checks and regression scenarios   |
-| License                       | 396  | License for the skill itself                        |
-| Credits                       | 402  | Authorship and attribution                          |
+| When To Use This Skill        | 203  | Supported requests and exclusions                   |
+| Example Prompts               | 223  | Phrases the skill activates on                      |
+| What's Inside                 | 282  | Documents, references, tools, and conditional files |
+| Document Style                | 368  | Pointer to the style rules file                     |
+| Verification                  | 377  | Skill-maintenance checks and regression scenarios   |
+| License                       | 397  | License for the skill itself                        |
+| Credits                       | 403  | Authorship and attribution                          |
 
 Lens is a structured audit process packaged as an agent skill. It guides an AI coding agent through
 a complete engineering assessment of a codebase, producing a neutral, repeatable report anchored to
@@ -187,7 +187,8 @@ The skill uses a hybrid table-paragraph format throughout:
 - **Scores** in the scorecard are shown as `Score: 7/10` inline after the dimension name.
   `1-5` and `1-3` use `Score: X/5` or `Score: X/3`, while star scales use bars such as
   `Score: ★★★★☆` or `Score: ★★☆`.
-- **Severities** are shown as `SEVERITY: CRITICAL` inline after the finding title.
+- **Severities** are shown as `SEVERITY: CRITICAL` inline after the finding title. Severity,
+  status, and execution-state tokens localize per the report language's `translation/` file.
 - **High-Level Observations** provide a fast-skim path for non-technical readers.
 - **Strengths & What's Working** balances the tone with 5-8 acknowledged positives.
 - **Trade-off Analysis** surfaces architectural tensions in a dedicated table.

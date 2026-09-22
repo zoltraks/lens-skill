@@ -72,15 +72,16 @@
     },
     {
       "id": 7,
-      "prompt": "Write the audit report in Polish. Preserve all identifiers and machine-readable statuses while translating headings, labels, findings, and explanatory prose.",
-      "expected_output": "A UTF-8 Polish report with complete heading and table-header coverage, dictionary-consistent terminology, and unchanged machine tokens.",
+      "prompt": "Write the audit report in Polish. Preserve identifiers and verbatim evidence while translating headings, labels, findings, tokens, and explanatory prose.",
+      "expected_output": "A UTF-8 Polish report with complete heading and table-header coverage, dictionary-consistent terminology, localized report tokens, and unchanged identifiers and evidence.",
       "files": [],
       "expectations": [
         "The report uses Polish prose and headings with preserved diacritics.",
-        "Finding, evidence, risk, recommendation, CWE, validation, and execution tokens remain machine-readable.",
+        "Severity, status, and execution-state tokens render in Polish (WYSOKA, N/D, NIEZNANE, NIEURUCHOMIONE) with gender agreement, while IDs (FND, RSK, REC, EVD), CWE identifiers, commands, and verbatim evidence stay unchanged.",
         "Conditional headings that appear in the report are translated.",
-        "The report applies the Polish terminology dictionary (ustalenie, zalecenie, plik blokady zależności) and avoids literal calques such as rozjazd, dryf, or brama.",
-        "Descriptive fixed values are rendered in Polish (Gotowy, Szczegółowy, Etap przedprodukcyjny), and no Tryb opisowy row appears in Document Information."
+        "The report applies the Polish terminology dictionary (ustalenie, zalecenie, plik blokady zależności, proces CI) and avoids literal calques such as rozjazd, dryf, brama, or potok.",
+        "Descriptive fixed values are rendered in Polish (Gotowy, Szczegółowy, Etap przedprodukcyjny), and no Tryb opisowy row appears in Document Information.",
+        "The star-scale legend is labeled Skala oceny and names every band, including Zła for one star and Słaba for two stars."
       ]
     },
     {

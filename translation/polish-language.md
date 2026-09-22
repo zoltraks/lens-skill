@@ -20,46 +20,46 @@ Polish.
 | Section                                     | Line | What it covers                              |
 |---------------------------------------------|------|---------------------------------------------|
 | Analysis And Rendering                      | 64   | Analysis model and terminology precedence   |
-| Status And Severity Vocabulary              | 80   | Status And Severity Vocabulary guidance     |
-| Fixed Vocabulary Values                     | 109  | Polish renderings of descriptive values     |
-| Terminology                                 | 145  | English to Polish technical dictionary      |
-| Parameter Prompts                           | 239  | Polish phrasing for configuration questions |
-| Style Rules                                 | 253  | Style Rules guidance                        |
-| Diacritics Frequently Misspelled            | 285  | Diacritics Frequently Misspelled guidance   |
-| Output Filename                             | 319  | Output Filename guidance                    |
-| Document Information                        | 328  | Document Information guidance               |
-| Project Inventory                           | 356  | Project Inventory guidance                  |
-| Glossary                                    | 365  | Glossary guidance                           |
-| Technology Stack                            | 380  | Technology Stack guidance                   |
-| Executive Summary                           | 397  | Executive Summary guidance                  |
-| Health Dashboard                            | 415  | Health Dashboard guidance                   |
-| Scorecard                                   | 426  | Scorecard guidance                          |
-| Scoring Rubrics                             | 450  | Scoring Rubrics guidance                    |
-| High-Level Observations                     | 464  | High-Level Observations guidance            |
-| Auditing Methodology                        | 471  | Auditing Methodology guidance               |
-| System Context                              | 485  | System Context guidance                     |
-| Architectural Assessment                    | 498  | Architectural Assessment guidance           |
-| Architectural Subsections                   | 505  | Architectural Subsections guidance          |
-| Skill Definition Conformance                | 516  | Skill Definition Conformance guidance       |
-| AI System Assessment                        | 522  | AI System Assessment guidance               |
-| Standards Conformance                       | 533  | Standards Conformance guidance              |
-| References                                  | 554  | References guidance                         |
-| Strengths And What's Working                | 563  | Strengths And What's Working guidance       |
-| Detailed Technical Findings                 | 569  | Detailed Technical Findings guidance        |
-| Technical Debt Register                     | 599  | Technical Debt Register guidance            |
-| Unified Risk Register                       | 611  | Unified Risk Register guidance              |
-| Trade-off Analysis                          | 632  | Trade-off Analysis guidance                 |
-| Actionable Remediation Roadmap              | 644  | Actionable Remediation Roadmap guidance     |
-| Changes Since Previous Audit                | 658  | Changes Since Previous Audit guidance       |
-| Scope Exclusions                            | 687  | Scope Exclusions guidance                   |
-| Limitations And Unknowns                    | 695  | Limitations And Unknowns guidance           |
-| Re-audit And Follow-up Plan                 | 707  | Re-audit And Follow-up Plan guidance        |
-| Validation Record                           | 717  | Validation Record guidance                  |
-| Threat Model                                | 728  | Threat Model guidance                       |
-| API Contract Conformance                    | 737  | API Contract Conformance guidance           |
-| API Compatibility And Versioning Discipline | 745  | API Compatibility And Versioning guidance   |
-| Evidence And Decision Terms                 | 754  | Evidence And Decision Terms guidance        |
-| Skill Definition Conformance Table          | 817  | Skill Definition Conformance Table guidance |
+| Status And Severity Vocabulary              | 82   | Status And Severity Vocabulary guidance     |
+| Fixed Vocabulary Values                     | 131  | Polish renderings of descriptive values     |
+| Terminology                                 | 169  | English to Polish technical dictionary      |
+| Parameter Prompts                           | 268  | Polish phrasing for configuration questions |
+| Style Rules                                 | 282  | Style Rules guidance                        |
+| Diacritics Frequently Misspelled            | 337  | Diacritics Frequently Misspelled guidance   |
+| Output Filename                             | 371  | Output Filename guidance                    |
+| Document Information                        | 380  | Document Information guidance               |
+| Project Inventory                           | 408  | Project Inventory guidance                  |
+| Glossary                                    | 417  | Glossary guidance                           |
+| Technology Stack                            | 432  | Technology Stack guidance                   |
+| Executive Summary                           | 449  | Executive Summary guidance                  |
+| Health Dashboard                            | 467  | Health Dashboard guidance                   |
+| Scorecard                                   | 478  | Scorecard guidance                          |
+| Scoring Rubrics                             | 502  | Scoring Rubrics guidance                    |
+| High-Level Observations                     | 526  | High-Level Observations guidance            |
+| Auditing Methodology                        | 533  | Auditing Methodology guidance               |
+| System Context                              | 547  | System Context guidance                     |
+| Architectural Assessment                    | 560  | Architectural Assessment guidance           |
+| Architectural Subsections                   | 567  | Architectural Subsections guidance          |
+| Skill Definition Conformance                | 578  | Skill Definition Conformance guidance       |
+| AI System Assessment                        | 584  | AI System Assessment guidance               |
+| Standards Conformance                       | 595  | Standards Conformance guidance              |
+| References                                  | 616  | References guidance                         |
+| Strengths And What's Working                | 625  | Strengths And What's Working guidance       |
+| Detailed Technical Findings                 | 631  | Detailed Technical Findings guidance        |
+| Technical Debt Register                     | 661  | Technical Debt Register guidance            |
+| Unified Risk Register                       | 673  | Unified Risk Register guidance              |
+| Trade-off Analysis                          | 694  | Trade-off Analysis guidance                 |
+| Actionable Remediation Roadmap              | 706  | Actionable Remediation Roadmap guidance     |
+| Changes Since Previous Audit                | 720  | Changes Since Previous Audit guidance       |
+| Scope Exclusions                            | 749  | Scope Exclusions guidance                   |
+| Limitations And Unknowns                    | 757  | Limitations And Unknowns guidance           |
+| Re-audit And Follow-up Plan                 | 769  | Re-audit And Follow-up Plan guidance        |
+| Validation Record                           | 779  | Validation Record guidance                  |
+| Threat Model                                | 790  | Threat Model guidance                       |
+| API Contract Conformance                    | 799  | API Contract Conformance guidance           |
+| API Compatibility And Versioning Discipline | 807  | API Compatibility And Versioning guidance   |
+| Evidence And Decision Terms                 | 816  | Evidence And Decision Terms guidance        |
+| Skill Definition Conformance Table          | 876  | Skill Definition Conformance Table guidance |
 
 ## Analysis And Rendering
 
@@ -75,32 +75,54 @@ When the audited project establishes its own Polish terminology, for example a p
 Polish design documents, prefer those established forms over the defaults in this file and record
 the choice.
 
-Direct quotes, code, configuration keys, file paths, and machine tokens are never translated.
+Direct quotes, code, configuration keys, file paths, identifiers, and record IDs are never
+translated. Fixed report tokens - statuses, severities, and execution states - render in Polish
+per Status And Severity Vocabulary.
 
 ## Status And Severity Vocabulary
 
-Translate surrounding labels and explanatory prose, but preserve machine-readable markers in every
-Polish report.
+Fixed report tokens render in Polish in the report body. The English forms remain the analysis
+and validation vocabulary - mechanical checks run on the English-mapped working copy.
 
-| Machine token | Polish prose equivalent |
-|---------------|-------------------------|
-| `PASS`        | `OK`                    |
-| `PARTIAL`     | `CZĘŚCIOWO`             |
-| `FAIL`        | `NIEZALICZONE`          |
-| `UNKNOWN`     | `NIEZNANE`              |
-| `N/A`         | `N/D`                   |
-| `LOW`         | `NISKIE`                |
-| `MEDIUM`      | `ŚREDNIE`               |
-| `HIGH`        | `WYSOKIE`               |
-| `CRITICAL`    | `KRYTYCZNE`             |
-| `SEVERITY:`   | `WAŻNOŚĆ:`              |
-| `Score:`      | `Wynik:`                |
+Statuses and execution states use fixed label forms:
 
-The status, severity, execution, and validation tokens remain unchanged in tables and finding
-blocks so reports remain comparable and mechanically valid.
+| English token              | Polish render                 |
+|----------------------------|-------------------------------|
+| `PASS`                     | `OK`                          |
+| `PARTIAL`                  | `CZĘŚCIOWO`                   |
+| `FAIL`                     | `NIEZALICZONE`                |
+| `UNKNOWN`                  | `NIEZNANE`                    |
+| `N/A`                      | `N/D`                         |
+| `ERROR`                    | `BŁĄD`                        |
+| `NOT RUN`                  | `NIEURUCHOMIONE`              |
+| `NOT ASSESSED`             | `NIEOCENIONE`                 |
+| `NOT INSPECTED`            | `NIEZBADANE`                  |
+| `EXCLUDED BY SCOPE`        | `POZA ZAKRESEM`               |
+| `INSUFFICIENT INFORMATION` | `NIEWYSTARCZAJĄCE INFORMACJE` |
+| `SEVERITY:`                | `WAŻNOŚĆ:`                    |
+| `Score:`                   | `Wynik:`                      |
 
-Use Polish prose equivalents in explanations when needed, for example, "status częściowy" rather
-than replacing the `PARTIAL` marker.
+Severity agrees in gender with the governed noun: feminine for `ważność`, `pewność`, and
+`złożoność`, masculine for `wpływ`, `priorytet`, and `wysiłek`, neuter for `prawdopodobieństwo`
+and `ryzyko`.
+
+| English    | Feminine  | Masculine | Neuter    |
+|------------|-----------|-----------|-----------|
+| `CRITICAL` | KRYTYCZNA | KRYTYCZNY | KRYTYCZNE |
+| `HIGH`     | WYSOKA    | WYSOKI    | WYSOKIE   |
+| `MEDIUM`   | ŚREDNIA   | ŚREDNI    | ŚREDNIE   |
+| `LOW`      | NISKA     | NISKI     | NISKIE    |
+
+In prose, decline the token naturally: `ustalenia o ważności WYSOKIEJ`, `na poziomie WYSOKIM`,
+`ryzyko NISKIE`.
+
+Token columns in tables (`Ważność`, `Wpływ`, `Status`, `Wykonanie`, `Wynik`) and token-definition
+tables use the uppercase forms. In `* **Field:**` bullet lists, values use title case consistent
+with neighboring values, for example `Ważność: Wysoka` next to `Status: Otwarte` - never `NISKIE`
+next to `Otwarte`.
+
+Record identifiers (`FND-001`, `EVD-042`, `RSK-010`), priority codes (`P1`-`P4`), `CWE-####`,
+CVSS vectors, commands, and anything inside verbatim evidence stay unchanged.
 
 When the `1-5` or `1-3` numeric scale is selected, use `Wynik: X/5` or `Wynik: X/3`.
 
@@ -108,8 +130,9 @@ When `5 stars` or `3 stars` is selected, use `Wynik:` followed by the unchanged 
 
 ## Fixed Vocabulary Values
 
-Descriptive values are rendered in Polish. The machine tokens in the Status And Severity
-Vocabulary stay unchanged in tables and finding blocks.
+Descriptive values are rendered in Polish and agree in gender with the noun they describe:
+`wpływ`, `wysiłek`, and `priorytet` take `Wysoki`/`Średni`/`Niski`, `złożoność` and `ważność`
+take `Wysoka`/`Średnia`/`Niska`, `prawdopodobieństwo` and `ryzyko` take `Wysokie`/`Średnie`/`Niskie`.
 
 | English                   | Polish                                   |
 |---------------------------|------------------------------------------|
@@ -121,6 +144,7 @@ Vocabulary stay unchanged in tables and finding blocks.
 | `5 stars`                 | `5 gwiazdek`                             |
 | `3 stars`                 | `3 gwiazdki`                             |
 | `Enabled`                 | `Włączony` or `Aktywny`                  |
+| `Error`                   | `Błąd`                                   |
 | `Disabled`                | `Wyłączony`                              |
 | `Prototype`               | `Prototyp`                               |
 | `Early development`       | `Wczesny rozwój`                         |
@@ -187,6 +211,7 @@ than always translating the same English word identically.
 | fail-fast                              | natychmiastowe przerwanie przy błędzie                           |
 | fallback                               | mechanizm awaryjny / obsługa zastępcza                           |
 | finding                                | ustalenie                                                        |
+| host key pinning                       | przypięcie klucza hosta                                          |
 | license compliance                     | zgodność licencyjna                                              |
 | lockfile                               | plik blokady zależności                                          |
 | maintainability                        | utrzymywalność                                                   |
@@ -197,6 +222,7 @@ than always translating the same English word identically.
 | observability                          | obserwowalność                                                   |
 | operational readiness                  | gotowość operacyjna                                              |
 | operational security                   | bezpieczeństwo operacyjne                                        |
+| pipeline / CI pipeline                 | proces / proces CI / proces CI/CD                                |
 | pre-production                         | etap przedprodukcyjny / środowisko przedprodukcyjne              |
 | production / prod                      | środowisko produkcyjne                                           |
 | production-ready                       | gotowość produkcyjna                                             |
@@ -222,13 +248,16 @@ than always translating the same English word identically.
 | source of truth                        | źródło prawdy                                                    |
 | source-only                            | wyłącznie na podstawie kodu źródłowego                           |
 | testability                            | testowalność                                                     |
+| test inventory                         | rozbudowany zakres testów                                        |
 | threat                                 | zagrożenie                                                       |
 | threat model                           | model zagrożeń                                                   |
 | TLS termination                        | terminacja TLS / zakończenie połączenia TLS                      |
 | token reuse                            | ponowne użycie tokenu                                            |
 | toolchain                              | łańcuch narzędzi                                                 |
 | trust boundary                         | granica zaufania                                                 |
+| unauthenticated                        | bez uwierzytelnienia                                             |
 | version drift                          | rozbieżność wersji / niespójność wersjonowania                   |
+| version pinning                        | zamrożenie wersji                                                |
 | vulnerability                          | podatność                                                        |
 | vulnerability assessment               | ocena podatności                                                 |
 | vulnerability triage                   | weryfikacja i klasyfikacja podatności                            |
@@ -281,6 +310,29 @@ Apply these phrasing rules:
 - `ASCII` needs no Polish gloss such as `ograniczony zestaw znaków`.
 - `CRLF`, `CR`, and `LF` are character codes, do not expand or describe them.
 - Use `odpowiednie do przedmiotu` for "applicable to the subject", not `stosowne do przedmiotu`.
+- Within a table column, keep capitalization consistent: when most cells in a column start with an
+  uppercase letter, capitalize the first letter of every value in that column.
+- `* **Field:**` bullet-list values start with an uppercase letter, for example
+  `Podstawa wymagania: Kontrola dostępu bez uwierzytelnienia`. Values that start with a code span
+  or link stay verbatim.
+- In the Słownik, definition cells and the Polish gloss after ` - ` start with an uppercase
+  letter: `Secure Shell - Szyfrowana powłoka`, `znaki końca linii` renders `Znaki końca linii`.
+- Glossary glosses name the thing precisely, without padding: `SSH - Szyfrowana powłoka`,
+  `SMTP - Protokół wysyłania poczty`, `npm - Menedżer pakietów Node`,
+  `SCP - Kopiowanie plików protokołem SSH`, `TLS - Szyfrowana warstwa transportu`,
+  `TTL - Czas życia`, `RSK - Identyfikator w rejestrze ryzyk`.
+- Describe `pipeline` as `proces`, `proces CI`, or `proces CI/CD`, never `potok`.
+- Use `bez uwierzytelnienia` instead of `nieuwierzytelniony`: `kontrola dostępu bez
+  uwierzytelnienia`, `punkt przyjęcia raportów błędów bez uwierzytelnienia`.
+- `version pinning` renders `zamrożenie wersji`; `przypięcie` is reserved for host keys
+  (`przypięcie klucza hosta`, `przypięcie known_hosts`).
+- `new endpoint` as a unit of change reads `nowa operacja`; the standalone anglicism `endpoint`
+  stays.
+- `Inferred` renders `Wnioskowane`, not `Wywnioskowane`.
+- Use `N/D` for `N/A` and `BŁĄD`/`Błąd` for `ERROR`/`Error` in Polish reports.
+- The score-band legend is labeled `Skala oceny`, never `Legenda pasm` or `Skala ocen`.
+- Broad test coverage is `rozbudowany zakres testów`, not `szeroki inwentarz testowy`.
+- Effort estimates use plain units: `godziny`, not `godziny-dzień`.
 
 ## Diacritics Frequently Misspelled
 
@@ -455,11 +507,21 @@ example `AI` in `AI Provenance` or `UI` in `Material UI`, and adjacent acronym p
 | Good      | Dobra     |
 | Average   | Średnia   |
 | Poor      | Słaba     |
+| Bad       | Zła       |
 
 | English     | Polish         |
 |-------------|----------------|
 | Score Range | Zakres wyników |
 | Definition  | Definicja      |
+
+The one-line legend preceding a scorecard is labeled `Skala oceny` and names every band of the
+selected scale:
+
+- `1-10`: `Skala oceny: 1-3 Słaba · 4-6 Średnia · 7-8 Dobra · 9-10 Doskonała`
+- `1-5`: `Skala oceny: 1 Zła · 2 Słaba · 3 Średnia · 4 Dobra · 5 Doskonała`
+- `1-3`: `Skala oceny: 1 Słaba · 2 Średnia · 3 Doskonała`
+- `5 stars`: `Skala oceny: ★ Zła · ★★ Słaba · ★★★ Średnia · ★★★★ Dobra · ★★★★★ Doskonała`
+- `3 stars`: `Skala oceny: ★ Słaba · ★★ Średnia · ★★★ Doskonała`
 
 ## High-Level Observations
 
@@ -555,7 +617,7 @@ example `AI` in `AI Provenance` or `UI` in `Material UI`, and adjacent acronym p
 
 | English             | Polish            |
 |---------------------|-------------------|
-| References          | Odniesienia       |
+| References          | Podstawy oceny    |
 | Reference           | Odniesienie       |
 | Publisher or Author | Wydawca lub autor |
 | Used In             | Zastosowane w     |
@@ -578,7 +640,7 @@ example `AI` in `AI Provenance` or `UI` in `Material UI`, and adjacent acronym p
 | Title                       | Tytuł                            |
 | Status                      | Status                           |
 | Remediation Status          | Status naprawy                   |
-| Target Files/Modules        | Pliki/Moduły docelowe            |
+| Target Files/Modules        | Pliki lub moduły                 |
 | Description                 | Opis                             |
 | Impact                      | Wpływ                            |
 | Remediation Recommendation  | Zalecenie naprawcze              |
@@ -668,7 +730,7 @@ example `AI` in `AI Provenance` or `UI` in `Material UI`, and adjacent acronym p
 | Version                      | Wersja                        |
 | Date                         | Data                          |
 | Detail level                 | Poziom szczegółowości         |
-| Evaluation scale             | Skala ocen                    |
+| Evaluation scale             | Skala oceny                   |
 | Finding transitions          | Zmiany ustaleń                |
 | Finding                      | Ustalenie                     |
 | Previous                     | Poprzedni                     |
@@ -686,11 +748,11 @@ example `AI` in `AI Provenance` or `UI` in `Material UI`, and adjacent acronym p
 
 ## Scope Exclusions
 
-| English          | Polish               |
-|------------------|----------------------|
-| Scope Exclusions | Wyłączenia z zakresu |
-| Scope            | Zakres               |
-| Justification    | Uzasadnienie         |
+| English          | Polish             |
+|------------------|--------------------|
+| Scope Exclusions | Wyłączenia raportu |
+| Scope            | Zakres             |
+| Justification    | Uzasadnienie       |
 
 ## Limitations And Unknowns
 
@@ -718,7 +780,7 @@ example `AI` in `AI Provenance` or `UI` in `Material UI`, and adjacent acronym p
 
 | English                  | Polish                     |
 |--------------------------|----------------------------|
-| Validation Record        | Rekord walidacji           |
+| Validation Record        | Weryfikacja raportu        |
 | Check                    | Kontrola                   |
 | Result                   | Wynik                      |
 | Evidence / Justification | Dowód / uzasadnienie       |
@@ -772,7 +834,7 @@ vectors, tool commands, and execution-state codes.
 | Security Classification          | Klasyfikacja bezpieczeństwa                |
 | Inspected                        | Sprawdzone w źródłach                      |
 | Reported                         | Zadeklarowane                              |
-| Inferred                         | Wywnioskowane                              |
+| Inferred                         | Wnioskowane                                |
 | Readiness Cost                   | Koszt osiągnięcia gotowości                |
 | Operational Objectives           | Cele operacyjne                            |
 | Due Diligence Coverage           | Zakres weryfikacji                         |
@@ -807,12 +869,9 @@ vectors, tool commands, and execution-state codes.
 | IP Rights                        | Prawa własności intelektualnej             |
 | Data Obligations                 | Obowiązki dotyczące danych                 |
 
-Execution states produced by the audit are `NOT RUN` and `N/A` to preserve the ledger's
-machine-readable vocabulary, explain their meanings in Polish prose.
-
-Keep status markers, validation results, execution states, identifiers, and missing-information
-tokens unchanged so Polish reports use the same machine-readable contract as English reports.
-Translate their explanations and surrounding labels instead.
+Execution states produced by the audit render in Polish: `NIEURUCHOMIONE`, `NIEOCENIONE`,
+`NIEZBADANE`, `POZA ZAKRESEM`, `NIEWYSTARCZAJĄCE INFORMACJE`, and `N/D`. Record identifiers,
+CWE IDs, CVSS vectors, tool commands, and code stay unchanged.
 
 ## Skill Definition Conformance Table
 

@@ -254,8 +254,10 @@ headings, table headers, style rules, and any language-specific encoding or diac
 
 The English markers (`PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`, `LOW`, `MEDIUM`, `HIGH`,
 `CRITICAL`, `Score:`, `SEVERITY:`) are the default. Each translation file defines the equivalents
-for its language. The inline format remains identical: the marker follows the bold heading separated
-by a space.
+for its language, which may localize the markers themselves, including execution states such as
+`NOT RUN`, `NOT ASSESSED`, and `INSUFFICIENT INFORMATION`. The English forms remain the analysis
+and validation vocabulary. The inline format remains identical: the marker follows the bold
+heading separated by a space.
 
 **Language-specific style rules:**
 

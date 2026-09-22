@@ -93,7 +93,8 @@ Use this scale when the user selects `1-5` or `5 stars`.
 | Excellent | 5           | Capability is comprehensive and verified by strong evidence |
 | Good      | 4           | Capability is solid with minor gaps                         |
 | Average   | 3           | Capability is adequate but uneven                           |
-| Poor      | 1-2         | Capability is minimal, limited, or absent where required    |
+| Poor      | 2           | Capability is minimal or fragmentary where required         |
+| Bad       | 1           | Capability is absent or negligible where required           |
 
 When the report language is not English, apply the same band translations from the matching
 `translation/` file.

@@ -26,34 +26,34 @@ missing section hides it.
 | Conditional Sections                        | 338  | Inclusion criteria for conditional sections           |
 | Section Order                               | 378  | Single-project and multi-project order                |
 | Document Information                        | 448  | Report metadata and revisions                         |
-| Glossary                                    | 529  | Abbreviation and acronym definitions                  |
-| Multi-Project Report Structure              | 622  | Combined and project-specific sections                |
-| Executive Summary                           | 714  | Executive summary and readiness threshold             |
-| Changes Since Previous Audit                | 798  | Re-audit comparison structure                         |
-| System Context                              | 859  | Context and technology stack                          |
-| Health Dashboard                            | 919  | Heat map, scorecard, and continuity                   |
-| High-Level Observations                     | 993  | Reader-facing finding summary                         |
-| Auditing Methodology                        | 1017 | Method, standards, and evidence ledger                |
-| Scoring Rubrics                             | 1159 | Score bands and ISO crosswalk                         |
-| Architectural Assessment                    | 1221 | Architecture, principles, and conditional subsections |
-| Trade-off Analysis                          | 1356 | Neutral engineering trade-offs                        |
-| Threat Model                                | 1396 | STRIDE analysis                                       |
-| API Contract Conformance                    | 1423 | API contract and security conformance                 |
-| Skill Definition Conformance                | 1443 | Agent Skill conformance                               |
-| AI System Assessment                        | 1466 | Conditional AI-system review                          |
-| Standards Conformance                       | 1479 | Internal standards quality and code conformance       |
-| API Compatibility & Versioning Discipline   | 1535 | Library compatibility gates                           |
-| Strengths & What's Working                  | 1562 | Evidence-based positive baselines                     |
-| Detailed Technical Findings                 | 1592 | Finding summary and detail blocks                     |
-| Technical Debt Register                     | 1689 | Distinct accumulated debt                             |
-| Unified Risk Register                       | 1730 | Cross-referenced risks                                |
-| Actionable Remediation Roadmap              | 1817 | Prioritized recommendations                           |
-| Scope Exclusions                            | 1881 | Explicit coverage limits                              |
-| Limitations and Unknowns                    | 1933 | Unrun checks and missing evidence                     |
-| Re-audit And Follow-up Plan                 | 1957 | Closure evidence and ownership                        |
-| Validation Record                           | 1986 | Mechanical and semantic gate results                  |
-| References                                  | 2011 | Consulted external sources                            |
-| Pre-Delivery Mechanical Checklist           | 2049 | Final mechanical checks                               |
+| Glossary                                    | 531  | Abbreviation and acronym definitions                  |
+| Multi-Project Report Structure              | 624  | Combined and project-specific sections                |
+| Executive Summary                           | 716  | Executive summary and readiness threshold             |
+| Changes Since Previous Audit                | 801  | Re-audit comparison structure                         |
+| System Context                              | 862  | Context and technology stack                          |
+| Health Dashboard                            | 922  | Heat map, scorecard, and continuity                   |
+| High-Level Observations                     | 996  | Reader-facing finding summary                         |
+| Auditing Methodology                        | 1020 | Method, standards, and evidence ledger                |
+| Scoring Rubrics                             | 1162 | Score bands and ISO crosswalk                         |
+| Architectural Assessment                    | 1225 | Architecture, principles, and conditional subsections |
+| Trade-off Analysis                          | 1363 | Neutral engineering trade-offs                        |
+| Threat Model                                | 1403 | STRIDE analysis                                       |
+| API Contract Conformance                    | 1430 | API contract and security conformance                 |
+| Skill Definition Conformance                | 1450 | Agent Skill conformance                               |
+| AI System Assessment                        | 1473 | Conditional AI-system review                          |
+| Standards Conformance                       | 1486 | Internal standards quality and code conformance       |
+| API Compatibility & Versioning Discipline   | 1542 | Library compatibility gates                           |
+| Strengths & What's Working                  | 1569 | Evidence-based positive baselines                     |
+| Detailed Technical Findings                 | 1599 | Finding summary and detail blocks                     |
+| Technical Debt Register                     | 1700 | Distinct accumulated debt                             |
+| Unified Risk Register                       | 1741 | Cross-referenced risks                                |
+| Actionable Remediation Roadmap              | 1828 | Prioritized recommendations                           |
+| Scope Exclusions                            | 1892 | Explicit coverage limits                              |
+| Limitations and Unknowns                    | 1944 | Unrun checks and missing evidence                     |
+| Re-audit And Follow-up Plan                 | 1968 | Closure evidence and ownership                        |
+| Validation Record                           | 1997 | Mechanical and semantic gate results                  |
+| References                                  | 2022 | Consulted external sources                            |
+| Pre-Delivery Mechanical Checklist           | 2060 | Final mechanical checks                               |
 
 ## Formatting Rules
 
@@ -721,9 +721,9 @@ Precede the table with a one-line legend naming the band for each score range of
 scale, so no score appears before its band is defined:
 
 - `1-10`: `1-3 Poor · 4-6 Average · 7-8 Good · 9-10 Excellent`
-- `1-5`: `1-2 Poor · 3 Average · 4 Good · 5 Excellent`
+- `1-5`: `1 Bad · 2 Poor · 3 Average · 4 Good · 5 Excellent`
 - `1-3`: `1 Poor · 2 Average · 3 Excellent`
-- `5 stars`: `★-★★ Poor · ★★★ Average · ★★★★ Good · ★★★★★ Excellent`
+- `5 stars`: `★ Bad · ★★ Poor · ★★★ Average · ★★★★ Good · ★★★★★ Excellent`
 - `3 stars`: `★ Poor · ★★ Average · ★★★ Excellent`
 
 Use a key-value table:
@@ -1192,7 +1192,8 @@ For the `1-5` and `5 stars` scales:
 | Excellent | 5           | Capability is comprehensive and verified by strong evidence |
 | Good      | 4           | Capability is solid with minor gaps                         |
 | Average   | 3           | Capability is adequate but uneven                           |
-| Poor      | 1-2         | Capability is minimal, limited, or absent where required    |
+| Poor      | 2           | Capability is minimal or fragmentary where required         |
+| Bad       | 1           | Capability is absent or negligible where required           |
 
 For the `1-3` and `3 stars` scales:
 
@@ -1308,6 +1309,9 @@ table. Then list the trust boundaries.
 Use framed nodes with box-drawing characters for every DFD element.
 
 Each frame must have exactly three content rows: an empty line, a centered label, and an empty line.
+
+Set each frame's interior width to its longest label line plus exactly one space of padding on
+each side. A label must never touch, crowd, or overflow the frame border.
 
 Keep exactly one space between the frame border and the label text on all sides. Do not use two
 spaces or asymmetric padding.
@@ -1633,6 +1637,10 @@ When the report language is not English, apply the pillar name translations from
 
 Severity values: `CRITICAL`, `HIGH`, `MEDIUM`, `LOW`.
 Status values: `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`.
+
+When the report language is not English, these tokens render in the localized forms defined by
+the matching `translation/` file, along with execution states such as `NOT RUN`, `NOT ASSESSED`,
+`NOT INSPECTED`, `EXCLUDED BY SCOPE`, and `INSUFFICIENT INFORMATION`.
 
 **Detailed findings**
 

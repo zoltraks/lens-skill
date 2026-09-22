@@ -15,11 +15,11 @@ requested category.
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 24   | Step Overview guidance           |
-| Intake Checklist        | 800  | Intake Checklist guidance        |
-| Handling Thin Input     | 816  | Handling Thin Input guidance     |
-| Single-Dimension Audits | 827  | Single-Dimension Audits guidance |
-| Re-Audit                | 837  | Re-Audit guidance                |
-| Multi-Project Audits    | 864  | Multi-Project Audits guidance    |
+| Intake Checklist        | 812  | Intake Checklist guidance        |
+| Handling Thin Input     | 828  | Handling Thin Input guidance     |
+| Single-Dimension Audits | 839  | Single-Dimension Audits guidance |
+| Re-Audit                | 849  | Re-Audit guidance                |
+| Multi-Project Audits    | 876  | Multi-Project Audits guidance    |
 
 ## Step Overview
 
