@@ -16,16 +16,16 @@
 | Section                       | Line | What it covers                                      |
 |-------------------------------|------|-----------------------------------------------------|
 | What The Skill Does           | 59   | Audit purpose, evidence contract, and principles    |
-| Evidence And Decision Quality | 110  | Evidence strength and verification limits           |
-| Core Principles               | 162  | Evaluation constraints and status rules             |
-| Report Format                 | 178  | Report structure, identifiers, and style            |
-| When To Use This Skill        | 203  | Supported requests and exclusions                   |
-| Example Prompts               | 223  | Phrases the skill activates on                      |
-| What's Inside                 | 282  | Documents, references, tools, and conditional files |
-| Document Style                | 368  | Pointer to the style rules file                     |
-| Verification                  | 377  | Skill-maintenance checks and regression scenarios   |
-| License                       | 397  | License for the skill itself                        |
-| Credits                       | 403  | Authorship and attribution                          |
+| Evidence And Decision Quality | 115  | Evidence strength and verification limits           |
+| Core Principles               | 167  | Evaluation constraints and status rules             |
+| Report Format                 | 183  | Report structure, identifiers, and style            |
+| When To Use This Skill        | 208  | Supported requests and exclusions                   |
+| Example Prompts               | 228  | Phrases the skill activates on                      |
+| What's Inside                 | 287  | Documents, references, tools, and conditional files |
+| Document Style                | 374  | Pointer to the style rules file                     |
+| Verification                  | 383  | Skill-maintenance checks and regression scenarios   |
+| License                       | 403  | License for the skill itself                        |
+| Credits                       | 409  | Authorship and attribution                          |
 
 Lens is a structured audit process packaged as an agent skill. It guides an AI coding agent through
 a complete engineering assessment of a codebase, producing a neutral, repeatable report anchored to
@@ -59,6 +59,11 @@ and report-format parameters can be refined when explicitly specified.
 ## What The Skill Does
 
 When you ask for an audit, the agent loads the skill and performs the following:
+
+**Checks for updates**
+
+Once per session, the agent runs a git self-update check on the skill's own repository and offers
+to pull incoming commits before starting, when the skill lives in a git clone.
 
 **Reads everything you supplied**
 
@@ -341,6 +346,7 @@ lens-skill/
 │   ├── validate-report.py         # Report structure and traceability validator
 │   ├── validate-skill.py          # Dependency-light Agent Skill validator
 │   ├── check-references.py        # Relative-reference integrity checker
+│   ├── check-update.py            # Git upstream self-update checker for the skill repo
 │   └── README.md                  # Tool usage, safety, and cleanup rules
 └── translation/
     └── polish-language.md         # Polish rendering: vocabulary, terminology dictionary, headings, prompt phrasing, style rules

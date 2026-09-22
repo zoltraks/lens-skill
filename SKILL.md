@@ -37,19 +37,20 @@ metadata:
 
 | Section                 | Line | What it covers                                     |
 |-------------------------|------|----------------------------------------------------|
-| Trigger Keywords        | 67   | Activation phrases                                 |
-| How To Use              | 125  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 155  | Defaults and user-controlled report shape          |
-| Principles              | 211  | Evaluation and output rules                        |
-| Process                 | 219  | Workflow, format, and parity                       |
-| Assessments             | 231  | Core and conditional assessment guides             |
-| Synthesis               | 296  | Findings, risk, score, and remediation assembly    |
-| Translation             | 315  | Per-language report translations                   |
-| References And Tools    | 324  | Lookup tables and report-production scripts        |
-| Evaluation Prompts      | 359  | Behavioral regression prompts                      |
-| Repository Files        | 368  | Housekeeping files governing this repository       |
-| Evidence Contract       | 377  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 407  | File-selection and section-placement rules         |
+| Skill Update Check      | 68   | Once-per-session git freshness gate before use     |
+| Trigger Keywords        | 84   | Activation phrases                                 |
+| How To Use              | 142  | Progressive disclosure and mandatory reading       |
+| Parameter Configuration | 159  | Defaults and user-controlled report shape          |
+| Principles              | 210  | Evaluation and output rules                        |
+| Process                 | 218  | Workflow, format, and parity                       |
+| Assessments             | 230  | Core and conditional assessment guides             |
+| Synthesis               | 295  | Findings, risk, score, and remediation assembly    |
+| Translation             | 314  | Per-language report translations                   |
+| References And Tools    | 340  | Lookup tables and report-production scripts        |
+| Evaluation Prompts      | 360  | Behavioral regression prompts                      |
+| Repository Files        | 369  | Housekeeping files governing this repository       |
+| Evidence Contract       | 378  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 408  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -63,6 +64,21 @@ which categories apply changes.
 
 You do not evaluate people. You do not assign blame. You do not infer intent. You do not give
 personal opinions.
+
+## Skill Update Check
+
+Before any other step, once per session, run `python <skill-root>/tools/check-update.py`, where
+`<skill-root>` is the directory containing this `SKILL.md` - the skill's own repository, never
+the audited subject.
+
+- `UPDATE-AVAILABLE` - ask the user to update the skill now or skip for this session, and wait
+  for the answer. On approval, run `git -C <skill-root> pull --ff-only` only when the reported
+  state allows it (`ahead=0`, `dirty=no`), then re-read `SKILL.md` and any loaded rule files.
+  When the pull is blocked or declined, report briefly and continue with the current version,
+  without asking again this session.
+- Any other status - proceed silently and do not mention the check.
+
+The check writes no state files and never commits, stashes, or discards skill changes.
 
 ## Trigger Keywords
 
@@ -127,30 +143,17 @@ The skill activates on any of these phrases:
 Use progressive disclosure:
 
 - Read this router first.
-- Read `principles/evaluation-rules.md` and `process/audit-workflow.md` before producing any audit.
-  They are mandatory for every audit.
+- Read `principles/evaluation-rules.md` (evidence-only reasoning, no-assumption rule, neutrality,
+  status markers, hard constraints) and `process/audit-workflow.md` (the end-to-end audit process
+  from intake to final report) before producing any audit. They are mandatory for every audit.
 - Open only the assessment files that match the system under audit.
 - Use the synthesis files to assemble the final report sections.
 
-This skill is self-contained. The topic files below are the available reference material in this
-repository.
+This skill is self-contained - the topic files below are the available reference material.
 
-When asked how this skill works, explain that Lens produces structured, evidence-based engineering
-audits of software subjects.
-
-Explain that the user starts it by asking for an audit of a codebase, prototype, production system,
-or proposal.
-
-Mention that advanced analysis and report-format parameters can be refined when explicitly
-specified.
-
-## Mandatory Reading
-
-Always load these two files before starting an audit:
-
-- **`principles/evaluation-rules.md`** - Evidence-only reasoning, no-assumption rule, neutrality,
-  status markers, and hard constraints.
-- **`process/audit-workflow.md`** - The end-to-end audit process from intake to final report.
+When asked how this skill works, explain that Lens produces structured, evidence-based
+engineering audits of a codebase, prototype, production system, or proposal. Mention that
+advanced analysis and report-format parameters can be refined when explicitly specified.
 
 ## Parameter Configuration
 
@@ -173,10 +176,9 @@ configure the core parameters. Defaults are:
 The agent MUST ask this question and MUST NOT skip it. The agent MUST wait for user response before
 starting the audit.
 
-Core configuration covers unresolved delivery/output and report-shape choices. Advanced parameters
-use their defaults unless the user explicitly specifies another setting. Improvement suggestions and
-trade-off analysis are not separate routine prompts. Apply the defaults above unless the user
-explicitly requests a different setting.
+Core configuration covers unresolved delivery/output and report-shape choices. Improvement
+suggestions and trade-off analysis are not separate routine prompts. Apply the defaults above
+unless the user explicitly requests a different setting.
 
 Output location resolves under the audited root: `audit/` > `report/` > bare root across `docs/`,
 `document/`, `doc/` > repository root. A recorded version/date subdirectory pattern is reused.
@@ -186,11 +188,10 @@ language-specific revisioned name such as `AUDYT-1.0.md`, with plain `AUDIT.md` 
 alternative. A previous report gives the incremented revision, for example `AUDIT-1.1.md`, and
 is never overwritten. The agent confirms with the user before writing.
 
-If the user accepts defaults or says "bypass", the agent proceeds immediately using these values.
-If the user chooses to configure, the agent asks only the unresolved core parameter questions
-defined in `process/audit-workflow.md`. Each prompt marks the default and ends with two named
-options: `Use default: <value>` for the current question, and `Use defaults for all remaining
-questions` to accept every remaining default and proceed.
+If the user accepts defaults or says "bypass", the agent proceeds immediately. If the user chooses
+to configure, the agent asks only the unresolved core parameter questions defined in
+`process/audit-workflow.md`. Each prompt marks the default and ends with `Use default: <value>`
+and `Use defaults for all remaining questions`.
 
 When the report language is not English, load the matching `translation/` file and apply every
 translation, style rule, and encoding requirement defined there.
@@ -198,15 +199,12 @@ translation, style rule, and encoding requirement defined there.
 **Rerunning an audit**
 
 When the user asks to rerun, regenerate, or update an audit, check whether a previous report
-exists, searching the location named in the request, the resolved output directory, the default
-locations (`audit/` and `report/` directories and bare roots under `docs/`, `document/`, `doc/`,
-repository root), and the rest of the document structure, per `synthesis/report-comparison.md`.
-If a previous report is found, reuse the parameters recorded in its Document Information
-section. Do not ask the parameter configuration questions again unless the user explicitly asks
-for a fresh audit or new parameters. The previous report is never overwritten: write the new
-report to a revision-numbered file such as `AUDIT-1.1.md` and add the Changes Since Previous
-Audit section. If no previous report exists and no prior parameter choices are recorded in
-context, run the full Parameter Configuration phase.
+exists, per `synthesis/report-comparison.md`. If found, reuse the parameters recorded in its
+Document Information section and do not ask the parameter configuration questions again unless
+the user explicitly requests a fresh audit or new parameters. The previous report is never
+overwritten: write the new report to a revision-numbered file such as `AUDIT-1.1.md` and add the
+Changes Since Previous Audit section. If none exists and no prior parameter choices are recorded
+in context, run the full Parameter Configuration phase.
 
 ## `principles/` - Rules Of Evaluation
 
@@ -354,13 +352,15 @@ tooling, not analysis of the audited project.
   Contents sections, and root references.
 - **`tools/check-references.py`** - Relative-reference integrity checker for the root router and
   README.
+- **`tools/check-update.py`** - Skill self-update checker reporting git upstream status. Run once
+  per session from the Lens repository, before any audit work.
 - **`tools/README.md`** - Tool classes, safe usage, validation order, dependencies, and limitations.
 
 ## Evaluation Prompts
 
 - **`evals/evals.json`** - Skill-creator regression prompts and evidence-oriented expectations for
-  full audits, re-audits, multi-project reports, due diligence, skill conformance, translation, and
-  AI-system assessment.
+  full audits, re-audits, multi-project reports, due diligence, skill conformance, translation,
+  AI-system assessment, and the session update check.
 
 Run these as behavioral evaluations after structural changes. They do not replace independent
 review.

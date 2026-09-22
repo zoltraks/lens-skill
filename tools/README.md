@@ -3,7 +3,8 @@
 ## Purpose
 
 > **Scope:** Report-production and skill-maintenance scripts
-> **Key items:** table formatting, report validation, skill validation, reference integrity
+> **Key items:** table formatting, report validation, skill validation, reference integrity,
+> self-update check
 
 These scripts support deterministic maintenance of Lens and production of audit reports.
 
@@ -30,9 +31,12 @@ Remove every copied script after validation.
 
 ### Skill-Maintenance Tools
 
-Run `validate-skill.py` and `check-references.py` from the Lens repository.
+Run `validate-skill.py`, `check-references.py`, and `check-update.py` from the Lens repository.
 
 These tools inspect the skill itself and do not need to be copied into an audited project.
+
+`check-update.py` reports the git upstream status of the skill repository for the once-per-session
+Skill Update Check in `SKILL.md`, and always exits `0` with a `STATUS` verdict line.
 
 They use the Python standard library and do not require PyYAML or a package manager.
 
@@ -41,6 +45,7 @@ They use the Python standard library and do not require PyYAML or a package mana
 ```text
 python tools/validate-skill.py .
 python tools/check-references.py .
+python tools/check-update.py
 python tools/format-table.py path/to/AUDIT.md
 python tools/validate-report.py path/to/AUDIT.md
 ```

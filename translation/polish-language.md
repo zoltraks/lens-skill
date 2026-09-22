@@ -24,42 +24,42 @@ Polish.
 | Fixed Vocabulary Values                     | 131  | Polish renderings of descriptive values     |
 | Terminology                                 | 169  | English to Polish technical dictionary      |
 | Parameter Prompts                           | 268  | Polish phrasing for configuration questions |
-| Style Rules                                 | 282  | Style Rules guidance                        |
-| Diacritics Frequently Misspelled            | 337  | Diacritics Frequently Misspelled guidance   |
-| Output Filename                             | 371  | Output Filename guidance                    |
-| Document Information                        | 380  | Document Information guidance               |
-| Project Inventory                           | 408  | Project Inventory guidance                  |
-| Glossary                                    | 417  | Glossary guidance                           |
-| Technology Stack                            | 432  | Technology Stack guidance                   |
-| Executive Summary                           | 449  | Executive Summary guidance                  |
-| Health Dashboard                            | 467  | Health Dashboard guidance                   |
-| Scorecard                                   | 478  | Scorecard guidance                          |
-| Scoring Rubrics                             | 502  | Scoring Rubrics guidance                    |
-| High-Level Observations                     | 526  | High-Level Observations guidance            |
-| Auditing Methodology                        | 533  | Auditing Methodology guidance               |
-| System Context                              | 547  | System Context guidance                     |
-| Architectural Assessment                    | 560  | Architectural Assessment guidance           |
-| Architectural Subsections                   | 567  | Architectural Subsections guidance          |
-| Skill Definition Conformance                | 578  | Skill Definition Conformance guidance       |
-| AI System Assessment                        | 584  | AI System Assessment guidance               |
-| Standards Conformance                       | 595  | Standards Conformance guidance              |
-| References                                  | 616  | References guidance                         |
-| Strengths And What's Working                | 625  | Strengths And What's Working guidance       |
-| Detailed Technical Findings                 | 631  | Detailed Technical Findings guidance        |
-| Technical Debt Register                     | 661  | Technical Debt Register guidance            |
-| Unified Risk Register                       | 673  | Unified Risk Register guidance              |
-| Trade-off Analysis                          | 694  | Trade-off Analysis guidance                 |
-| Actionable Remediation Roadmap              | 706  | Actionable Remediation Roadmap guidance     |
-| Changes Since Previous Audit                | 720  | Changes Since Previous Audit guidance       |
-| Scope Exclusions                            | 749  | Scope Exclusions guidance                   |
-| Limitations And Unknowns                    | 757  | Limitations And Unknowns guidance           |
-| Re-audit And Follow-up Plan                 | 769  | Re-audit And Follow-up Plan guidance        |
-| Validation Record                           | 779  | Validation Record guidance                  |
-| Threat Model                                | 790  | Threat Model guidance                       |
-| API Contract Conformance                    | 799  | API Contract Conformance guidance           |
-| API Compatibility And Versioning Discipline | 807  | API Compatibility And Versioning guidance   |
-| Evidence And Decision Terms                 | 816  | Evidence And Decision Terms guidance        |
-| Skill Definition Conformance Table          | 876  | Skill Definition Conformance Table guidance |
+| Style Rules                                 | 285  | Style Rules guidance                        |
+| Diacritics Frequently Misspelled            | 340  | Diacritics Frequently Misspelled guidance   |
+| Output Filename                             | 374  | Output Filename guidance                    |
+| Document Information                        | 383  | Document Information guidance               |
+| Project Inventory                           | 411  | Project Inventory guidance                  |
+| Glossary                                    | 420  | Glossary guidance                           |
+| Technology Stack                            | 435  | Technology Stack guidance                   |
+| Executive Summary                           | 452  | Executive Summary guidance                  |
+| Health Dashboard                            | 470  | Health Dashboard guidance                   |
+| Scorecard                                   | 481  | Scorecard guidance                          |
+| Scoring Rubrics                             | 505  | Scoring Rubrics guidance                    |
+| High-Level Observations                     | 529  | High-Level Observations guidance            |
+| Auditing Methodology                        | 536  | Auditing Methodology guidance               |
+| System Context                              | 550  | System Context guidance                     |
+| Architectural Assessment                    | 563  | Architectural Assessment guidance           |
+| Architectural Subsections                   | 570  | Architectural Subsections guidance          |
+| Skill Definition Conformance                | 581  | Skill Definition Conformance guidance       |
+| AI System Assessment                        | 587  | AI System Assessment guidance               |
+| Standards Conformance                       | 598  | Standards Conformance guidance              |
+| References                                  | 619  | References guidance                         |
+| Strengths And What's Working                | 628  | Strengths And What's Working guidance       |
+| Detailed Technical Findings                 | 634  | Detailed Technical Findings guidance        |
+| Technical Debt Register                     | 664  | Technical Debt Register guidance            |
+| Unified Risk Register                       | 676  | Unified Risk Register guidance              |
+| Trade-off Analysis                          | 697  | Trade-off Analysis guidance                 |
+| Actionable Remediation Roadmap              | 709  | Actionable Remediation Roadmap guidance     |
+| Changes Since Previous Audit                | 723  | Changes Since Previous Audit guidance       |
+| Scope Exclusions                            | 752  | Scope Exclusions guidance                   |
+| Limitations And Unknowns                    | 760  | Limitations And Unknowns guidance           |
+| Re-audit And Follow-up Plan                 | 772  | Re-audit And Follow-up Plan guidance        |
+| Validation Record                           | 782  | Validation Record guidance                  |
+| Threat Model                                | 793  | Threat Model guidance                       |
+| API Contract Conformance                    | 802  | API Contract Conformance guidance           |
+| API Compatibility And Versioning Discipline | 810  | API Compatibility And Versioning guidance   |
+| Evidence And Decision Terms                 | 819  | Evidence And Decision Terms guidance        |
+| Skill Definition Conformance Table          | 879  | Skill Definition Conformance Table guidance |
 
 ## Analysis And Rendering
 
@@ -278,6 +278,9 @@ Apply these phrasing rules:
 - `Inline` is offered as `W treści odpowiedzi` and `Custom report file` as `Własny plik raportu`.
 - The trailing bypass options are `Użyj wartości domyślnej: <wartość>` and
   `Użyj wartości domyślnych dla wszystkich pozostałych pytań`.
+- The Skill Update Check question is `Dostępna jest aktualizacja umiejętności (<n> nowych
+  commitów). Zaktualizować teraz czy pominąć w tej sesji?` with options `Zaktualizuj teraz` and
+  `Pomiń w tej sesji`.
 
 ## Style Rules
 

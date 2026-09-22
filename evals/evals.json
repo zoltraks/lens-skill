@@ -133,6 +133,20 @@
         "The report path offered at delivery matches the output directory recorded at intake and is not re-derived differently.",
         "The report is written to docs/report/1.7.3/ and the written path is re-checked against the intake record before delivery."
       ]
+    },
+    {
+      "id": 12,
+      "prompt": "Start an audit of this repository. The skill directory is a git clone that currently sits three commits behind its upstream branch.",
+      "expected_output": "A self-update check that runs before any audit step, asks the user to update or skip for the session, and honors the answer without re-asking.",
+      "files": [],
+      "expectations": [
+        "The agent runs python <skill-root>/tools/check-update.py against the skill's own repository before any other step, never against the audited subject.",
+        "On UPDATE-AVAILABLE the agent asks whether to update the skill now or skip for this session and waits for the answer.",
+        "On approval the agent runs git pull --ff-only only when the reported tree state allows it, then re-reads SKILL.md and loaded rule files.",
+        "On skip or a blocked pull the agent continues with the current version and does not ask again in the session.",
+        "A status other than UPDATE-AVAILABLE produces no user-facing mention of the check.",
+        "The check writes no state files and never commits, stashes, or discards changes in the skill repository."
+      ]
     }
   ]
 }
