@@ -274,8 +274,9 @@ This format keeps the report readable in plain-text consoles while preserving de
 
 **Re-audit**
 > Re-run the audit on this codebase after the latest fixes. (The agent finds the previous report,
-> writes a new revision-numbered file such as `AUDIT-1.1.md` without overwriting it, and adds a
-> Changes Since Previous Audit section.)
+> asks you to confirm it as the re-audit baseline or choose a fresh audit instead, then writes a
+> new revision-numbered file such as `AUDIT-1.1.md` without overwriting it and adds a Changes
+> Since Previous Audit section.)
 
 **Thin input**
 > Here is a one-paragraph description of a service. Audit what you can and list exactly what

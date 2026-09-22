@@ -98,7 +98,7 @@ reachability or deployment condition remains unresolved.
 
 `UNKNOWN` here denotes a missing rating, not an additional severity band.
 
-List unrated risks beside the heat map instead of placing them in an invented cell.
+List unrated risks beside the risk map instead of placing them in an invented cell.
 
 ## Cross-Referencing Rules
 
@@ -119,7 +119,7 @@ List unrated risks beside the heat map instead of placing them in an invented ce
 - Re-derive every matrix placement during a re-audit. When re-derivation moves a risk's
   severity, record the band change and the matrix rationale in the Changes section, never
   silently preserve or adjust a prior rating.
-- Every rated risk occupies exactly one heat-map cell. The union of heat-map cells must equal
+- Every rated risk occupies exactly one risk-map cell. The union of risk-map cells must equal
   the register's rated risk set, `UNKNOWN`-rated risks are listed beside the map instead.
 
 ## Example Row

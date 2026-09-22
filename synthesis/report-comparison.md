@@ -5,7 +5,7 @@
 > **Scope:** Locating a previously created audit report, assigning and naming the new report
 > revision, and building the Changes Since Previous Audit section
 > **Key items:** previous report discovery, iterative revisions, revisioned filenames, status
-> transitions, `FND-XXX` continuity
+> transitions, `FND-XXX` continuity, fresh audit
 
 This file defines how an audit incorporates a previously created audit report.
 
@@ -16,7 +16,8 @@ never assumed from the previous report alone.
 ## When This Applies
 
 Apply this file when a previously created audit report exists in the audited repository or
-directory.
+directory and the user confirmed it as the re-audit baseline in the audit-mode question of
+`process/audit-workflow.md`.
 
 A previous report is identified by the audit report Document Information section, a
 `Software Audit Report` title with `Report Revision`, `Report Date`, `State`, and
@@ -43,12 +44,32 @@ When several previous reports exist, compare against the one with the highest re
 revisions cannot be compared, use the report with the most recent `Report Date`. When neither
 can be determined, use the most recently modified file and record the choice.
 
-When no previous report exists, omit the Changes Since Previous Audit section. A first audit is
-the normal case and needs no omission note in Scope Exclusions.
+When no previous report exists, or the user confirmed a fresh audit, omit the Changes Since
+Previous Audit section. Both cases need no omission note in Scope Exclusions.
 
 When the section is present, place it immediately after the Executive Summary, per
 `process/report-format.md`. For a multi-project report, place the combined section after the
 condensed combined Executive Summary and give each compared project its own level-3 subsection.
+
+## Fresh Audit
+
+When the user chose a fresh audit over an existing report, this file's comparison rules do not
+apply: the previous report's content is ignored entirely.
+
+What still applies:
+
+- The previous report file is never overwritten, renamed, or deleted.
+- The report revision still increments from the highest revision found, per Report Revision,
+  and the filename carries the new revision, per Output Filename.
+- The cross-subject parity baseline below still applies, it diffs capability sets, not content.
+
+What does not apply:
+
+- No Changes Since Previous Audit section.
+- No `Previous Report` row in Document Information.
+- No parameter recovery from the previous report.
+- No `FND-XXX`, `RSK-XXX`, or `REC-XXX` identifier continuity, sequences restart at `-001`.
+- No Remediation Status carryover, comparison tables, or score deltas.
 
 ## Cross-Subject Parity Baseline
 

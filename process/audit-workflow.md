@@ -15,11 +15,11 @@ requested category.
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 24   | Step Overview guidance           |
-| Intake Checklist        | 873  | Intake Checklist guidance        |
-| Handling Thin Input     | 889  | Handling Thin Input guidance     |
-| Single-Dimension Audits | 900  | Single-Dimension Audits guidance |
-| Re-Audit                | 910  | Re-Audit guidance                |
-| Multi-Project Audits    | 937  | Multi-Project Audits guidance    |
+| Intake Checklist        | 915  | Intake Checklist guidance        |
+| Handling Thin Input     | 932  | Handling Thin Input guidance     |
+| Single-Dimension Audits | 943  | Single-Dimension Audits guidance |
+| Re-Audit                | 953  | Re-Audit guidance                |
+| Multi-Project Audits    | 983  | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -128,31 +128,65 @@ version (`*.nuspec`, a `Cargo.toml` or `package.json` naming a published artifac
 guidance in documentation, or consumption by other projects. This classification controls the
 API Compatibility And Versioning Discipline conditional assessment.
 
-**Rerunning an existing audit**
+**Audit mode and previous reports**
 
-When the user asks to rerun, regenerate, or update an audit report, first check whether a
-previous audit report exists. Search the location indicated in the request, the resolved output
-directory and its versioned or dated subdirectories, the default locations (`audit/` and
-`report/` directories and the bare root under `docs/`, `document/`, and `doc/`, then the
-repository root), and the rest of the document structure, per `synthesis/report-comparison.md`.
+When the user asks to rerun, regenerate, or update an audit report, or the audited location
+already contains an audit report, first check whether a previous report exists. Search the
+location indicated in the request, the resolved output directory and its versioned or dated
+subdirectories, the default locations (`audit/` and `report/` directories and the bare root
+under `docs/`, `document/`, and `doc/`, then the repository root), and the rest of the document
+structure, per `synthesis/report-comparison.md`.
 
 A previous report may be named `AUDIT.md`, `AUDIT-<revision>.md`, or the language-specific
-filename. When several exist, use the one with the highest revision.
+filename. When several exist, present the one with the highest revision as the candidate
+baseline.
 
-If a previous report is found, recover its detail level, scale, language, filename, and
-Descriptive mode. Recover Descriptive mode from the previous report's Document Information row
-when present, otherwise from the presence or absence of its Glossary section.
+The audit mode is a user decision, never an assumption from the file system. When a previous
+report exists and the mode is not yet confirmed, ask the audit-mode question and wait for the
+answer before Parameter Configuration, because the answer decides whether parameters are
+recovered or asked. The question is a blocking decision gate: it presents concrete options with
+one marked `(recommended)` and never carries the `Use default` trailing options of routine
+prompts.
+
+- No audit mode was stated and a previous report was found: present the candidate file's path,
+  revision, and report date, and ask whether this is a re-audit against that report or a fresh
+  audit. Options: `Re-audit - compare against <filename>` and `Fresh audit - ignore the
+  previous report's content`.
+- The user asked for a re-audit and a previous report was found: confirm the baseline even when
+  the found file looks correct. Present its path, revision, and report date and ask the user to
+  confirm it is the intended baseline. Options: `Confirm - re-audit against <filename>` and
+  `Fresh audit instead`, plus any other answer the user gives.
+- The user asked for a re-audit and no previous report was found: say so, naming the searched
+  locations, and ask whether to proceed as a fresh audit at revision `1.0`. The user may also
+  supply the report path in another answer.
+- The user asked for a fresh audit: honor it without asking, whether or not a previous report
+  exists.
+
+Mark `(recommended)` on the re-audit option when the found report appears to cover the same
+subject, for example a matching system name or a file inside the subject's designated report
+directory, and on the fresh-audit option when it appears to cover a different subject. When
+unsure, recommend re-audit so history stays comparable.
+
+On a confirmed re-audit, recover the previous report's detail level, scale, language, filename,
+and Descriptive mode. Recover Descriptive mode from the previous report's Document Information
+row when present, otherwise from the presence or absence of its Glossary section.
 
 Reuse them unless the user asks to change them, then proceed to Scope Definition without repeating
 answered questions.
 
-Do not reuse old execution permissions, tool results, or readiness conclusions as current evidence.
-
 Record any missing parameters using defaults and disclose them, rather than claiming they were
 specified in the prior report.
 
-The previous report is never overwritten. The new report is written to a new
-revision-numbered file and carries a Changes Since Previous Audit section, per
+On a fresh audit the previous report's content is ignored: no parameters are recovered, the full
+Parameter Configuration phase runs, and no `FND-XXX`, `RSK-XXX`, or `REC-XXX` identifiers carry
+over. The report revision still increments from the highest revision found, the previous file is
+never overwritten, and the new report omits the Changes Since Previous Audit section and the
+`Previous Report` row. The cross-subject parity baseline in `process/report-parity.md` still
+applies.
+
+On a confirmed re-audit, do not reuse old execution permissions, tool results, or readiness
+conclusions as current evidence. The previous report is never overwritten. The new report is
+written to a new revision-numbered file and carries a Changes Since Previous Audit section, per
 `synthesis/report-comparison.md` and `process/report-format.md`.
 
 If no previous report is found and the conversation context contains no record of previously chosen
@@ -352,7 +386,7 @@ Ask: "What level of detail should the report include?"
 - **Standard** - full report with all seventeen baseline sections, subject to explicit parameter
   exclusions plus any conditional sections whose criteria are met, complete findings, risk
   register, scorecard, and remediation roadmap.
-- **Brief** - Executive Summary, Health Dashboard (scorecard summary and risk heat map only),
+- **Brief** - Executive Summary, Health Dashboard (scorecard summary and risk map only),
   top risks only, and key recommendations. Detailed findings are summarized, not itemized.
 
 The question ends with `Use default: Detailed` and `Use defaults for all remaining questions`.
@@ -665,7 +699,7 @@ When the roadmap contains at least one P1 or P2 recommendation, build the Re-aud
 Plan using `synthesis/re-audit-plan.md`, mapping those findings to verification owners and closure
 evidence.
 
-When a previous report was found during intake, build the Changes Since Previous Audit section
+When a re-audit was confirmed during intake, build the Changes Since Previous Audit section
 using `synthesis/report-comparison.md`, comparing findings, risks, scores, and category
 statuses against the previous report.
 
@@ -711,6 +745,10 @@ against a stated constraint.
 Confirm every adverse finding in an initial audit has Remediation Status `Open`.
 
 For re-audits, preserve IDs and update closure states only from the required evidence.
+
+On a fresh audit over an existing report, confirm the new report carries no Changes Since
+Previous Audit section, no `Previous Report` row, and no identifier or remediation status
+carried over from the previous report, while its revision still increments.
 
 When a Changes Since Previous Audit section is present, confirm the previous report file was
 left unchanged, the new filename carries the incremented revision, every transition cites
@@ -839,6 +877,10 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Previous report at revision 1.9 exists     | New `AUDIT-2.0.md`, previous kept, comparison added  |
 | Previous report has no Revision row        | Assume 1.0, new file `AUDIT-1.1.md`                  |
 | Previous report uses bold-label `Version`  | Read it as the report revision                       |
+| Previous report found, mode unstated       | Audit-mode question asked before parameters          |
+| Re-audit requested, report found           | Baseline file confirmed before reuse                 |
+| Re-audit requested, none found             | User asked before fresh audit at revision 1.0        |
+| Fresh audit over an existing report        | Revision increments, content ignored, fresh IDs      |
 | Reusable library without an API gate       | API Compatibility section included, absence assessed |
 | CWE-295 finding in C#                      | Finding names `CA5359` and its enablement state      |
 | Git author data collected, no finding      | Team & Continuity dashboard line still present       |
@@ -885,6 +927,7 @@ Use this checklist to confirm you understand the input before assessing.
 | What is the natural language of the request? | Language code or name, or English (default)          |
 | How many projects are in the directory?      | One / Multiple (list each with path and version)     |
 | What output subdirectory pattern exists?     | `version-numbered` / `date-named` / `mixed` / `none` |
+| Was a previous report found, and which mode? | none / re-audit confirmed / fresh audit              |
 
 ## Handling Thin Input
 
@@ -908,6 +951,9 @@ code" or "audit copyrights":
 - Note that the audit was scoped to a single dimension and is not a full readiness assessment.
 
 ## Re-Audit
+
+This section applies only after the user confirmed a re-audit in the audit-mode question of Step
+Overview.
 
 When re-auditing after changes, keep the same categories, statuses vocabulary, scorecard dimensions,
 and finding IDs.

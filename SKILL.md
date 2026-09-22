@@ -37,21 +37,21 @@ metadata:
 
 | Section                 | Line | What it covers                                     |
 |-------------------------|------|----------------------------------------------------|
-| Skill Update Check      | 68   | Once-per-session git freshness gate before use     |
-| Trigger Keywords        | 83   | Activation phrases                                 |
-| How To Use              | 105  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 122  | Defaults and user-controlled report shape          |
-| Principles              | 173  | Evaluation and output rules                        |
-| Process                 | 181  | Workflow, format, and parity                       |
-| Assessments             | 193  | Core and conditional assessment guides             |
-| Synthesis               | 258  | Findings, risk, score, and remediation assembly    |
-| Translation             | 277  | Per-language report translations                   |
-| References              | 286  | Lookup tables                                      |
-| Tools                   | 315  | Report-production scripts                          |
-| Evaluation Prompts      | 335  | Behavioral regression prompts                      |
-| Repository Files        | 344  | Housekeeping files governing this repository       |
-| Evidence Contract       | 353  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 383  | File-selection and section-placement rules         |
+| Skill Update Check      | 69   | Once-per-session git freshness gate before use     |
+| Trigger Keywords        | 84   | Activation phrases                                 |
+| How To Use              | 106  | Progressive disclosure and mandatory reading       |
+| Parameter Configuration | 123  | Defaults and user-controlled report shape          |
+| Principles              | 180  | Evaluation and output rules                        |
+| Process                 | 188  | Workflow, format, and parity                       |
+| Assessments             | 200  | Core and conditional assessment guides             |
+| Synthesis               | 265  | Findings, risk, score, and remediation assembly    |
+| Translation             | 284  | Per-language report translations                   |
+| References              | 293  | Lookup tables                                      |
+| Tools                   | 322  | Report-production scripts                          |
+| Evaluation Prompts      | 342  | Behavioral regression prompts                      |
+| Repository Files        | 351  | Housekeeping files governing this repository       |
+| Evidence Contract       | 360  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 390  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -163,13 +163,19 @@ translation, style rule, and encoding requirement defined there.
 
 **Rerunning an audit**
 
-When the user asks to rerun, regenerate, or update an audit, check whether a previous report
-exists, per `synthesis/report-comparison.md`. If found, reuse the parameters recorded in its
-Document Information section and do not ask the parameter configuration questions again unless
-the user explicitly requests a fresh audit or new parameters. The previous report is never
-overwritten: write the new report to a revision-numbered file such as `AUDIT-1.1.md` and add the
-Changes Since Previous Audit section. If none exists and no prior parameter choices are recorded
-in context, run the full Parameter Configuration phase.
+When the user asks to rerun, regenerate, or update an audit, or the audited location already
+contains an audit report, check whether a previous report exists, per
+`synthesis/report-comparison.md`. When one is found, ask the user to confirm the audit mode
+before parameter questions: a re-audit compares against that report, a fresh audit ignores its
+content while the revision still increments. A re-audit request still requires confirming the
+found file as the intended baseline, offering a fresh audit instead. When a requested re-audit
+finds no previous report, ask before proceeding as a fresh audit at revision `1.0`. On a
+confirmed re-audit, reuse the parameters recorded in its Document Information section and do
+not ask the parameter configuration questions again unless the user requests new parameters.
+The previous report is never overwritten: write the new report to a revision-numbered file such
+as `AUDIT-1.1.md`, adding the Changes Since Previous Audit section on a re-audit only. If none
+exists and no prior parameter choices are recorded in context, run the full Parameter
+Configuration phase.
 
 ## `principles/` - Rules Of Evaluation
 

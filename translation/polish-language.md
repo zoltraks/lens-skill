@@ -24,46 +24,46 @@ Polish.
 | Fixed Vocabulary Values                     | 150  | Polish renderings of descriptive values     |
 | Terminology                                 | 188  | English to Polish technical dictionary      |
 | Parameter Prompts                           | 303  | Polish phrasing for configuration questions |
-| Style Rules                                 | 320  | Style Rules guidance                        |
-| Diacritics Frequently Misspelled            | 385  | Diacritics Frequently Misspelled guidance   |
-| Output Filename                             | 419  | Output Filename guidance                    |
-| Document Information                        | 428  | Document Information guidance               |
-| Audit Type Coverage & Assurance Matrix      | 456  | Coverage and assurance rendering            |
-| Project Inventory                           | 479  | Project Inventory guidance                  |
-| Glossary                                    | 488  | Glossary guidance                           |
-| Technology Stack                            | 503  | Technology Stack guidance                   |
-| Executive Summary                           | 520  | Executive Summary guidance                  |
-| Health Dashboard                            | 538  | Health Dashboard guidance                   |
-| Scorecard                                   | 549  | Scorecard guidance                          |
-| Scoring Rubrics                             | 574  | Scoring Rubrics guidance                    |
-| Delivery Practice & Team Continuity         | 598  | Delivery and continuity rendering           |
-| High-Level Observations                     | 622  | High-Level Observations guidance            |
-| Auditing Methodology                        | 629  | Auditing Methodology guidance               |
-| System Context                              | 643  | System Context guidance                     |
-| Software Bill of Materials                  | 656  | SBOM section rendering                      |
-| License & IP Compliance Review              | 674  | License and IP section rendering            |
-| Architectural Assessment                    | 692  | Architectural Assessment guidance           |
-| Architectural Subsections                   | 699  | Architectural Subsections guidance          |
-| Skill Definition Conformance                | 710  | Skill Definition Conformance guidance       |
-| AI System Assessment                        | 716  | AI System Assessment guidance               |
-| Standards Conformance                       | 727  | Standards Conformance guidance              |
-| References                                  | 748  | References guidance                         |
-| Strengths And What's Working                | 757  | Strengths And What's Working guidance       |
-| Detailed Technical Findings                 | 763  | Detailed Technical Findings guidance        |
-| Technical Debt Register                     | 795  | Technical Debt Register guidance            |
-| Unified Risk Register                       | 807  | Unified Risk Register guidance              |
-| Trade-off Analysis                          | 828  | Trade-off Analysis guidance                 |
-| Actionable Remediation Roadmap              | 840  | Actionable Remediation Roadmap guidance     |
-| Changes Since Previous Audit                | 854  | Changes Since Previous Audit guidance       |
-| Scope Exclusions                            | 883  | Scope Exclusions guidance                   |
-| Limitations And Unknowns                    | 891  | Limitations And Unknowns guidance           |
-| Re-audit And Follow-up Plan                 | 903  | Re-audit And Follow-up Plan guidance        |
-| Validation Record                           | 913  | Validation Record guidance                  |
-| Threat Model                                | 924  | Threat Model guidance                       |
-| API Contract Conformance                    | 933  | API Contract Conformance guidance           |
-| API Compatibility And Versioning Discipline | 941  | API Compatibility And Versioning guidance   |
-| Evidence And Decision Terms                 | 950  | Evidence And Decision Terms guidance        |
-| Skill Definition Conformance Table          | 1010 | Skill Definition Conformance Table guidance |
+| Style Rules                                 | 328  | Style Rules guidance                        |
+| Diacritics Frequently Misspelled            | 396  | Diacritics Frequently Misspelled guidance   |
+| Output Filename                             | 430  | Output Filename guidance                    |
+| Document Information                        | 439  | Document Information guidance               |
+| Audit Type Coverage & Assurance Matrix      | 467  | Coverage and assurance rendering            |
+| Project Inventory                           | 490  | Project Inventory guidance                  |
+| Glossary                                    | 499  | Glossary guidance                           |
+| Technology Stack                            | 514  | Technology Stack guidance                   |
+| Executive Summary                           | 531  | Executive Summary guidance                  |
+| Health Dashboard                            | 549  | Health Dashboard guidance                   |
+| Scorecard                                   | 560  | Scorecard guidance                          |
+| Scoring Rubrics                             | 585  | Scoring Rubrics guidance                    |
+| Delivery Practice & Team Continuity         | 609  | Delivery and continuity rendering           |
+| High-Level Observations                     | 633  | High-Level Observations guidance            |
+| Auditing Methodology                        | 640  | Auditing Methodology guidance               |
+| System Context                              | 654  | System Context guidance                     |
+| Software Bill of Materials                  | 667  | SBOM section rendering                      |
+| License & IP Compliance Review              | 685  | License and IP section rendering            |
+| Architectural Assessment                    | 703  | Architectural Assessment guidance           |
+| Architectural Subsections                   | 710  | Architectural Subsections guidance          |
+| Skill Definition Conformance                | 721  | Skill Definition Conformance guidance       |
+| AI System Assessment                        | 727  | AI System Assessment guidance               |
+| Standards Conformance                       | 738  | Standards Conformance guidance              |
+| References                                  | 759  | References guidance                         |
+| Strengths And What's Working                | 768  | Strengths And What's Working guidance       |
+| Detailed Technical Findings                 | 774  | Detailed Technical Findings guidance        |
+| Technical Debt Register                     | 806  | Technical Debt Register guidance            |
+| Unified Risk Register                       | 818  | Unified Risk Register guidance              |
+| Trade-off Analysis                          | 839  | Trade-off Analysis guidance                 |
+| Actionable Remediation Roadmap              | 851  | Actionable Remediation Roadmap guidance     |
+| Changes Since Previous Audit                | 865  | Changes Since Previous Audit guidance       |
+| Scope Exclusions                            | 894  | Scope Exclusions guidance                   |
+| Limitations And Unknowns                    | 902  | Limitations And Unknowns guidance           |
+| Re-audit And Follow-up Plan                 | 914  | Re-audit And Follow-up Plan guidance        |
+| Validation Record                           | 924  | Validation Record guidance                  |
+| Threat Model                                | 935  | Threat Model guidance                       |
+| API Contract Conformance                    | 944  | API Contract Conformance guidance           |
+| API Compatibility And Versioning Discipline | 952  | API Compatibility And Versioning guidance   |
+| Evidence And Decision Terms                 | 961  | Evidence And Decision Terms guidance        |
+| Skill Definition Conformance Table          | 1021 | Skill Definition Conformance Table guidance |
 
 ## Analysis And Rendering
 
@@ -316,6 +316,14 @@ Apply these phrasing rules:
 - The Skill Update Check question is `Dostępna jest aktualizacja umiejętności (<n> nowych
   commitów). Zaktualizować teraz czy pominąć w tej sesji?` with options `Zaktualizuj teraz` and
   `Pomiń w tej sesji`.
+- The audit-mode question is `Znaleziono poprzedni raport audytu: <ścieżka> (rewizja <n>, data
+  <d>). Czy wykonać ponowny audyt względem tego raportu, czy nowy audyt?` with options
+  `Ponowny audyt - porównaj z <plik>` and `Nowy audyt - zignoruj poprzedni raport`. The
+  baseline-confirmation variant is `Potwierdź, że <ścieżka> to poprawna podstawa ponownego
+  audytu.` with options `Potwierdź - ponowny audyt względem <plik>` and `Nowy audyt`. When a
+  requested re-audit finds no previous report, ask `Nie znaleziono poprzedniego raportu audytu.
+  Wykonać nowy audyt (rewizja 1.0)?` with the option `Wykonaj nowy audyt`. Mark the recommended
+  option with `(zalecane)`.
 
 ## Style Rules
 
@@ -381,6 +389,9 @@ Apply these phrasing rules:
 - The score-band legend is labeled `Skala oceny`, never `Legenda pasm` or `Skala ocen`.
 - Broad test coverage is `rozbudowany zakres testów`, not `szeroki inwentarz testowy`.
 - Effort estimates use plain units: `godziny`, not `godziny-dzień`.
+- The verb `rozejść się` uses the past-tense forms `rozszedł się`, `rozeszła się`,
+  `rozeszło się`, and `rozeszli`/`rozeszły się`, never `rozeszedł się`, for example `kontrakt
+  rozszedł się z implementacją`.
 
 ## Diacritics Frequently Misspelled
 
@@ -540,7 +551,7 @@ example `AI` in `AI Provenance` or `UI` in `Material UI`, and adjacent acronym p
 | English           | Polish                     |
 |-------------------|----------------------------|
 | Health Dashboard  | Panel zdrowia              |
-| Risk Heat Map     | Mapa ciepła ryzyk          |
+| Risk Map          | Mapa ryzyk                 |
 | Impact            | Wpływ                      |
 | Likelihood        | Prawdopodobieństwo         |
 | Scorecard Summary | Karta oceny - podsumowanie |

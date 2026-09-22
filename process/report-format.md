@@ -22,42 +22,42 @@ missing section hides it.
 |---------------------------------------------|------|-------------------------------------------------------|
 | Formatting Rules                            | 62   | Formatting Rules guidance                             |
 | Report Delivery And Parameter Configuration | 221  | Report delivery and output configuration              |
-| Detail Level Configuration                  | 258  | Standard, detailed, and brief reports                 |
-| Conditional Sections                        | 342  | Inclusion criteria for conditional sections           |
-| Section Order                               | 382  | Single-project and multi-project order                |
-| Document Information                        | 460  | Report metadata and revisions                         |
-| Audit Type Coverage & Assurance Matrix      | 543  | Coverage of canonical audit types                     |
-| Glossary                                    | 579  | Abbreviation and acronym definitions                  |
-| Multi-Project Report Structure              | 672  | Combined and project-specific sections                |
-| Executive Summary                           | 770  | Executive summary and readiness threshold             |
-| Changes Since Previous Audit                | 866  | Re-audit comparison structure                         |
-| System Context                              | 927  | Context and technology stack                          |
-| Software Bill of Materials                  | 987  | Source-derived component inventory                    |
-| License & IP Compliance Review              | 1012 | License classification and copyleft conflicts         |
-| Health Dashboard                            | 1042 | Heat map, scorecard, and continuity                   |
-| Delivery Practice & Team Continuity         | 1123 | Delivery proxies and contributor concentration        |
-| High-Level Observations                     | 1161 | Reader-facing finding summary                         |
-| Auditing Methodology                        | 1185 | Method, standards, and evidence ledger                |
-| Scoring Rubrics                             | 1331 | Score bands and ISO crosswalk                         |
-| Architectural Assessment                    | 1394 | Architecture, principles, and conditional subsections |
-| Trade-off Analysis                          | 1532 | Neutral engineering trade-offs                        |
-| Threat Model                                | 1572 | STRIDE analysis                                       |
-| API Contract Conformance                    | 1599 | API contract and security conformance                 |
-| Skill Definition Conformance                | 1619 | Agent Skill conformance                               |
-| AI System Assessment                        | 1642 | Conditional AI-system review                          |
-| Standards Conformance                       | 1655 | Internal standards quality and code conformance       |
-| API Compatibility & Versioning Discipline   | 1711 | Library compatibility gates                           |
-| Strengths & What's Working                  | 1738 | Evidence-based positive baselines                     |
-| Detailed Technical Findings                 | 1768 | Finding summary and detail blocks                     |
-| Technical Debt Register                     | 1880 | Distinct accumulated debt                             |
-| Unified Risk Register                       | 1921 | Cross-referenced risks                                |
-| Actionable Remediation Roadmap              | 2008 | Prioritized recommendations                           |
-| Scope Exclusions                            | 2072 | Explicit coverage limits                              |
-| Limitations and Unknowns                    | 2143 | Unrun checks and missing evidence                     |
-| Re-audit And Follow-up Plan                 | 2172 | Closure evidence and ownership                        |
-| Validation Record                           | 2206 | Mechanical and semantic gate results                  |
-| References                                  | 2231 | Consulted external sources                            |
-| Pre-Delivery Mechanical Checklist           | 2269 | Final mechanical checks                               |
+| Detail Level Configuration                  | 259  | Standard, detailed, and brief reports                 |
+| Conditional Sections                        | 343  | Inclusion criteria for conditional sections           |
+| Section Order                               | 383  | Single-project and multi-project order                |
+| Document Information                        | 461  | Report metadata and revisions                         |
+| Audit Type Coverage & Assurance Matrix      | 546  | Coverage of canonical audit types                     |
+| Glossary                                    | 582  | Abbreviation and acronym definitions                  |
+| Multi-Project Report Structure              | 675  | Combined and project-specific sections                |
+| Executive Summary                           | 773  | Executive summary and readiness threshold             |
+| Changes Since Previous Audit                | 869  | Re-audit comparison structure                         |
+| System Context                              | 931  | Context and technology stack                          |
+| Software Bill of Materials                  | 991  | Source-derived component inventory                    |
+| License & IP Compliance Review              | 1016 | License classification and copyleft conflicts         |
+| Health Dashboard                            | 1046 | Risk map, scorecard, and continuity                   |
+| Delivery Practice & Team Continuity         | 1127 | Delivery proxies and contributor concentration        |
+| High-Level Observations                     | 1165 | Reader-facing finding summary                         |
+| Auditing Methodology                        | 1189 | Method, standards, and evidence ledger                |
+| Scoring Rubrics                             | 1335 | Score bands and ISO crosswalk                         |
+| Architectural Assessment                    | 1398 | Architecture, principles, and conditional subsections |
+| Trade-off Analysis                          | 1536 | Neutral engineering trade-offs                        |
+| Threat Model                                | 1576 | STRIDE analysis                                       |
+| API Contract Conformance                    | 1603 | API contract and security conformance                 |
+| Skill Definition Conformance                | 1623 | Agent Skill conformance                               |
+| AI System Assessment                        | 1646 | Conditional AI-system review                          |
+| Standards Conformance                       | 1659 | Internal standards quality and code conformance       |
+| API Compatibility & Versioning Discipline   | 1715 | Library compatibility gates                           |
+| Strengths & What's Working                  | 1742 | Evidence-based positive baselines                     |
+| Detailed Technical Findings                 | 1772 | Finding summary and detail blocks                     |
+| Technical Debt Register                     | 1884 | Distinct accumulated debt                             |
+| Unified Risk Register                       | 1925 | Cross-referenced risks                                |
+| Actionable Remediation Roadmap              | 2012 | Prioritized recommendations                           |
+| Scope Exclusions                            | 2076 | Explicit coverage limits                              |
+| Limitations and Unknowns                    | 2148 | Unrun checks and missing evidence                     |
+| Re-audit And Follow-up Plan                 | 2177 | Closure evidence and ownership                        |
+| Validation Record                           | 2211 | Mechanical and semantic gate results                  |
+| References                                  | 2236 | Consulted external sources                            |
+| Pre-Delivery Mechanical Checklist           | 2274 | Final mechanical checks                               |
 
 ## Formatting Rules
 
@@ -247,8 +247,9 @@ base path is offered.
 
 The default filename carries the report revision: `AUDIT-1.0.md` for a first English audit, or
 the language-specific revisioned name such as `AUDYT-1.0.md`, with the plain stem offered as an
-alternative. When a previous audit report exists, the filename carries the new revision, for
-example `AUDIT-2.0.md`, and the previous file is never overwritten.
+alternative. When a previous audit report exists, the filename carries the new revision whether
+the audit mode is re-audit or fresh audit, for example `AUDIT-2.0.md`, and the previous file is
+never overwritten.
 
 `Custom report file` asks the user to specify the location and filename before writing.
 
@@ -296,7 +297,7 @@ Same sections as Standard, plus the following extensions. At the Detailed level,
 conditional section's criterion explicitly and include each one that applies:
 
 - Executive Summary includes a longer Production Readiness Threshold paragraph.
-- Health Dashboard includes an expanded Risk Heat Map with all risks plotted.
+- Health Dashboard includes an expanded Risk Map with all risks plotted.
 - Architectural Assessment includes deeper critique with additional industry baseline comparisons.
 - Strengths section includes 8-10 bullet points.
 - Each finding includes extended verification methods and alternative remediation paths.
@@ -315,10 +316,10 @@ Condensed output for rapid review:
 - Document Information (full)
 - Glossary (when Descriptive mode is enabled)
 - Executive Summary (summary table, evidence limits, readiness gate, and cost uncertainty)
-- Changes Since Previous Audit (report reference and finding transition tables only) when a previous
-  report exists
+- Changes Since Previous Audit (report reference and finding transition tables only) when a
+  re-audit was confirmed
 - System Context (Technology Stack subsection only)
-- Health Dashboard (scorecard summary and risk heat map only)
+- Health Dashboard (scorecard summary and risk map only)
 - High-Level Observations (full)
 - Strengths & What's Working (top 3 bullets only)
 - Top 5 findings only (summary table and abbreviated detail blocks)
@@ -369,7 +370,7 @@ assessment file that governs it:
 | API Compatibility & Versioning Discipline (standalone)      | The subject is a reusable library or package                  | `assessment/api-compatibility.md`     |
 | Technical Debt Register (standalone)                        | Structural debt distinct from risks is surfaced               | `synthesis/debt-register.md`          |
 | Re-audit And Follow-up Plan (standalone)                    | The roadmap contains a P1 or P2 recommendation                | `synthesis/re-audit-plan.md`          |
-| Changes Since Previous Audit (standalone)                   | A previous audit report was found during intake               | `synthesis/report-comparison.md`      |
+| Changes Since Previous Audit (standalone)                   | Previous report found and confirmed as the re-audit baseline  | `synthesis/report-comparison.md`      |
 | Glossary (standalone)                                       | Descriptive mode is enabled (default)                         | `process/report-format.md`            |
 
 In a multi-project report, evaluate each criterion independently per project. A section may apply
@@ -496,7 +497,8 @@ Rows appear in this order, each label in the first column and its value in the s
 - `Subject Revision` - the audited revision of the subject, such as a commit hash.
 - `Dirty-Tree State` - the working tree state at audit time.
 - `Skill Version` - the version of the audit skill that produced the report.
-- `Previous Report` - the previous report path and revision, only when a previous report exists.
+- `Previous Report` - the previous report path and revision, only on a confirmed re-audit. Omit
+  the row on a fresh audit.
 - `Projects` - the audited project names, multi-project reports only.
 
 Omit a row entirely when the input does not establish its value. Never write an empty value cell
@@ -526,8 +528,9 @@ The first audit of a subject is revision `1.0`.
 
 When a previous audit report exists, read the `Report Revision` value from its Document
 Information table, increment the minor component up to 9 (for example, `1.0` to `1.1`, `1.9` to
-`2.0`, `9.9` to `10.0`), and write the incremented revision into the new report. When the
-previous report records no revision, treat it as `1.0` and assign `1.1`.
+`2.0`, `9.9` to `10.0`), and write the incremented revision into the new report. This applies to
+both a confirmed re-audit and a fresh audit. When the previous report records no revision,
+treat it as `1.0` and assign `1.1`.
 
 Earlier reports may record the document revision differently: a bold-label `Version` field, or a
 `Field`/`Value` table with a `Version` row. Read any of these forms as the report revision.
@@ -705,8 +708,8 @@ then a compact table with one row per project:
 | <project name> | <mean>/<scale> (<band>) | <dimension> <score> | <top RSK-XXX or `NONE`> | <readiness state> |
 ```
 
-The **Changes Since Previous Audit** section is combined at report level when a previous report
-exists. Give each compared project its own level-3 subsection inside this section and keep
+The **Changes Since Previous Audit** section is combined at report level when a re-audit was
+confirmed. Give each compared project its own level-3 subsection inside this section and keep
 project-qualified finding IDs. Do not repeat the section inside the per-project blocks.
 
 **Per-project sections** follow the combined summary sections. Each project gets a level-2
@@ -865,9 +868,10 @@ of the scorecard average.
 
 ## Changes Since Previous Audit
 
-Include this section only when a previously created audit report was found during intake, per
-`synthesis/report-comparison.md`. Omit it entirely for a first audit. The absence of a previous
-report is the normal case, so no omission note is needed in Scope Exclusions.
+Include this section only when a previously created audit report was found during intake and
+confirmed as the re-audit baseline, per `synthesis/report-comparison.md`. Omit it entirely for
+a first audit or a fresh audit. Both are normal cases, so no omission note is needed in Scope
+Exclusions.
 
 Open with a report reference table:
 
@@ -1041,10 +1045,10 @@ When the report language is not English, apply the column header translations fr
 
 ## Health Dashboard
 
-Present the quantitative health summary in a consolidated view. This section contains the Risk Heat
+Present the quantitative health summary in a consolidated view. This section contains the Risk
 Map, the Scorecard Summary, and the Team & Continuity line.
 
-**Risk Heat Map**
+**Risk Map**
 
 Provide a consolidated Likelihood vs Impact matrix summarizing the top risks. Use a table:
 
@@ -1320,7 +1324,7 @@ Print one line of clarification under the severity table in every report: severi
 the impact/likelihood matrix, not CVSS. Do not assign a fixed likelihood to each severity band
 or confuse CVSS with this matrix.
 
-Use `UNKNOWN` for an unsupported rating and list unrated risks separately from the heat map.
+Use `UNKNOWN` for an unsupported rating and list unrated risks separately from the risk map.
 
 When the report language is not English, apply the column header and severity description
 translations from the matching `translation/` file.
@@ -1977,7 +1981,7 @@ When the report language is not English, apply the axis label translations from 
 - Every `RSK-XXX` entry must reference its source `FND-XXX`.
 - State each risk as a property of the system, never as a fault of a person.
 - When a rating is unsupported, use `UNKNOWN`, state the missing evidence, and omit it from
-  numeric aggregation and heat-map placement, per `synthesis/risk-register.md`.
+  numeric aggregation and risk-map placement, per `synthesis/risk-register.md`.
 - Mitigations are options, not directives. Do not phrase them as commands unless the user asked for
   directives.
 - Do not output plaintext secrets, passwords, or cryptographic keys in the Risk column.
@@ -2138,7 +2142,8 @@ When a conditional section was omitted because it does not apply (for example, t
 Contract Conformance section for a system with no API, or the Threat Model for a single-user
 local utility), state the omission here with a one-line justification so the reader knows it
 was deliberate. The Changes Since Previous Audit section is the exception, a first audit has
-no previous report to compare, so its absence needs no note.
+no previous report to compare and a fresh audit ignores it, so its absence needs no note in
+either case.
 
 ## Limitations and Unknowns
 
@@ -2290,7 +2295,7 @@ place, every item is mechanical and takes seconds to verify.
 | Exploitability  | Narrative present on every `HIGH`/`CRITICAL` security finding, `N/A` justified            |
 | Glossary        | Present when Descriptive mode is enabled, alphabetical, body occurrences link             |
 | Diagrams        | Fenced, untagged, no leading or trailing blank line inside the fence                      |
-| Registers       | Every RSK cites an FND, every REC cites an FND, heat-map covers rated risks               |
+| Registers       | Every RSK cites an FND, every REC cites an FND, risk-map covers rated risks               |
 | Location        | Report path matches the output directory recorded during intake                           |
 | Ending          | References is the last section, no closing line after it                                  |
 

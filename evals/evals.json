@@ -42,6 +42,7 @@
       "expected_output": "A new revisioned report that preserves the previous report, distinguishes product changes from capability changes, and re-derives current evidence.",
       "files": [],
       "expectations": [
+        "Before reusing the previous report as a baseline, the agent presents the found file and asks the user to confirm it is the intended re-audit baseline, offering a fresh audit instead.",
         "The previous report is not overwritten.",
         "The new report contains Changes Since Previous Audit and a revisioned filename.",
         "Historical execution results are labeled Reported rather than current verification.",
@@ -211,6 +212,19 @@
         "Exploitability tiers render TEORETYCZNY, POTWIERDZONE STATYCZNIE, or ZWERYFIKOWANE DYNAMICZNIE, while IDs, CWE references, and file paths stay unchanged.",
         "The scorecard dimension renders Dostarczanie i ciągłość, and DORA metric names follow the dictionary.",
         "Loanwords such as commit, pull request, copyleft, SBOM, and due diligence stay untranslated and established terms such as Ważność, Panel zdrowia, and kryterium jakości are used."
+      ]
+    },
+    {
+      "id": 18,
+      "prompt": "Audit this repository. A previous audit report exists in docs/report/ but the user asks for a fresh audit that does not compare against it.",
+      "expected_output": "A new revisioned report that leaves the previous report untouched, ignores its content, and restarts finding, risk, and recommendation identifiers.",
+      "files": [],
+      "expectations": [
+        "The audit-mode confirmation is skipped because the user already stated a fresh audit.",
+        "The report revision and filename still increment from the previous report's revision, and the previous file is not overwritten.",
+        "The report omits the Changes Since Previous Audit section and the Previous Report row in Document Information.",
+        "Finding, risk, and recommendation identifiers restart at -001 rather than continuing the previous report's sequences.",
+        "The full Parameter Configuration phase runs because no parameters are recovered from the previous report."
       ]
     }
   ]
