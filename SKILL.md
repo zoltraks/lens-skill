@@ -23,7 +23,7 @@ compatibility: >-
   executes the project. No network access required for the audit itself,
   optional web fetch for external documentation or CVE lookups.
 metadata:
-  version: "1.0"
+  version: "1.1"
   author: Filip Golewski
 ---
 
@@ -38,19 +38,20 @@ metadata:
 | Section                 | Line | What it covers                                     |
 |-------------------------|------|----------------------------------------------------|
 | Skill Update Check      | 68   | Once-per-session git freshness gate before use     |
-| Trigger Keywords        | 84   | Activation phrases                                 |
-| How To Use              | 142  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 159  | Defaults and user-controlled report shape          |
-| Principles              | 210  | Evaluation and output rules                        |
-| Process                 | 218  | Workflow, format, and parity                       |
-| Assessments             | 230  | Core and conditional assessment guides             |
-| Synthesis               | 295  | Findings, risk, score, and remediation assembly    |
-| Translation             | 314  | Per-language report translations                   |
-| References And Tools    | 340  | Lookup tables and report-production scripts        |
-| Evaluation Prompts      | 360  | Behavioral regression prompts                      |
-| Repository Files        | 369  | Housekeeping files governing this repository       |
-| Evidence Contract       | 378  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 408  | File-selection and section-placement rules         |
+| Trigger Keywords        | 83   | Activation phrases                                 |
+| How To Use              | 105  | Progressive disclosure and mandatory reading       |
+| Parameter Configuration | 122  | Defaults and user-controlled report shape          |
+| Principles              | 173  | Evaluation and output rules                        |
+| Process                 | 181  | Workflow, format, and parity                       |
+| Assessments             | 193  | Core and conditional assessment guides             |
+| Synthesis               | 258  | Findings, risk, score, and remediation assembly    |
+| Translation             | 277  | Per-language report translations                   |
+| References              | 286  | Lookup tables                                      |
+| Tools                   | 315  | Report-production scripts                          |
+| Evaluation Prompts      | 335  | Behavioral regression prompts                      |
+| Repository Files        | 344  | Housekeeping files governing this repository       |
+| Evidence Contract       | 353  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 383  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -84,59 +85,23 @@ The check writes no state files and never commits, stashes, or discards skill ch
 
 The skill activates on any of these phrases:
 
-- software audit
-- architecture audit
-- prototype audit
-- production code audit
-- code audit
-- audit this system
-- audit this codebase
-- engineering assessment
-- technical due diligence
-- production readiness
-- risk register
-- scorecard
-- maturity assessment
-- trade-off analysis
-- NFR review
-- security review
-- dependency audit
-- supply chain review
-- code quality review
-- SOLID
-- design principles
-- TDD
-- test coverage
-- test pyramid
-- testability
-- observability review
-- operational readiness
-- rollback strategy
-- deployment strategy review
-- maintainability assessment
-- best practices
-- best practices review
-- idiomatic code
-- coding conventions
-- stack conventions
-- framework conventions
-- review this codebase
-- perform lens on
-- make audit report on
-- run lens
-- lens audit
-- audit this skill
-- skill audit
-- skill definition review
-- skill conformance
-- skill spec conformance
-- standards conformance
-- development standards review
-- coding standards audit
-- stack standards conformance
-- api compatibility
-- api versioning audit
-- library audit
+- audit requests: software audit, architecture audit, prototype audit, production code audit,
+  code audit, audit this system, audit this codebase, engineering assessment, technical due
+  diligence, production readiness, review this codebase
+- analysis artifacts: risk register, scorecard, maturity assessment, trade-off analysis,
+  NFR review
+- focused reviews: security review, dependency audit, supply chain review, code quality review,
+  SOLID, design principles, TDD, test coverage, test pyramid, testability, license audit, SBOM
+  review
+- operational reviews: observability review, operational readiness, rollback strategy,
+  deployment strategy review, maintainability assessment
+- conventions: best practices, best practices review, idiomatic code, coding conventions, stack
+  conventions, framework conventions, standards conformance, development standards review,
+  coding standards audit, stack standards conformance
+- lens invocations: perform lens on, make audit report on, run lens, lens audit
+- skill audits: audit this skill, skill audit, skill definition review, skill conformance,
+  skill spec conformance
+- library reviews: api compatibility, api versioning audit, library audit
 
 ## How To Use This Skill
 
@@ -335,6 +300,18 @@ intake, assessment, and report writing.
 - **`references/census-commands.md`** - Canonical counting methods for recurring audit censuses:
   git history, conditional directives, catch clauses, test inventory, and tracked artifacts.
   Produces figures a re-audit can reproduce.
+- **`references/audit-taxonomy.md`** - Canonical audit/report types, fixed coverage statuses, and
+  the assurance boundaries behind the Audit Type Coverage & Assurance Matrix. Consulted at
+  intake and again during synthesis, includes the methodology source corpus.
+- **`references/sbom-schema.md`** - Report-level schema for the source-derived component
+  inventory, extending `references/dependency-manifests.md` with license, risk, and advisory
+  columns. Load when building the per-project SBOM section.
+- **`references/license-compliance-checklist.md`** - License classes, copyleft-trap patterns,
+  notice, attribution, and ownership-evidence checks for the License & IP Compliance Review.
+- **`references/delivery-practice-methodology.md`** - DORA proxy procedure and bus-factor rubric
+  behind the Delivery Practice & Team Continuity section.
+- **`references/exploitability-narrative-template.md`** - Theoretical attack-path narrative
+  format, confidence tiers, and placement rules for HIGH/CRITICAL security findings.
 
 ## `tools/` - Canonical Scripts
 
@@ -413,6 +390,10 @@ when maintaining the skill.
   documented results are `Reported` evidence.
 - Assemble the report skeleton from `process/report-format.md` before filling in findings, present
   every section as a table and use unnumbered headings.
+- Every report opens with the Audit Type Coverage & Assurance Matrix built from the fixed types
+  and statuses in `references/audit-taxonomy.md`, kept consistent with Scope Exclusions.
+- Every finding and every Evidence Ledger row carries a `Type` tag: `Observation` for an
+  independently re-derivable fact, `Concern` for a risk judgment built on observations.
 - The generated report follows the skill's own Markdown style rules, adapted by the Formatting
   Rules in `process/report-format.md`: `#`/`##`/`###` headings only, short one-sentence paragraphs,
   prose wrapping at a selectable width (default 100), no semicolons in prose, and every table
@@ -463,6 +444,16 @@ when maintaining the skill.
 - Source-derived dependency inventories follow `references/dependency-manifests.md`: manifests and
   lockfiles are read as text and produce a CycloneDX/SPDX-style component list, never an executed
   SBOM.
+- The per-project SBOM section renders that inventory per `references/sbom-schema.md`, always
+  distinguishing it from a shipped-artifact SBOM and keeping underivable fields `Unknown`.
+- The License & IP Compliance Review follows `references/license-compliance-checklist.md` and
+  separates observed license facts from inferred concerns without legal conclusions.
+- The Delivery Practice & Team Continuity section follows
+  `references/delivery-practice-methodology.md`: five DORA metrics with source-derived proxies
+  labeled, telemetry-dependent metrics `NOT SPECIFIED`, and a bus-factor rating.
+- Every `HIGH`/`CRITICAL` Security & Compliance finding carries an Exploitability Narrative per
+  `references/exploitability-narrative-template.md`: `Theoretical` tier by default, marked not
+  executed, never a claim that exploitation occurred.
 - API compatibility gates, versioning consistency, and breaking-change tracking belong in
   `assessment/api-compatibility.md`, include it only when the subject is a reusable library or
   package rather than a deployable service.

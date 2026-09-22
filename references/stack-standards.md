@@ -27,6 +27,8 @@ Apply `principles/evaluation-rules.md` throughout.
   available to every later audit of that stack.
 - Prefer primary documentation, official specifications, and first-party guidance over blogs and
   secondary summaries.
+- Per-ecosystem manifest and lockfile locations for the component inventory live in
+  `references/dependency-manifests.md`, not in this map.
 
 ## Stack Map
 

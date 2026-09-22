@@ -23,8 +23,9 @@ Versions use a two-part decimal format: `<major>.<minor>`.
    | 1.9    | 2.0   | minor rollover |
    | 9.9    | 10.0  | minor rollover |
 
-3. **Major may also be incremented directly** for breaking changes that alter the report structure,
-   remove mandatory sections, or change scoring semantics.
+3. **Major increments only through minor rollover**. Minor numbers are never skipped: even
+   structural releases (new mandatory sections, scoring-semantics changes) take the next minor
+   number, and the major digit advances only when minor rolls over at 9.
 
 ## When To Bump
 

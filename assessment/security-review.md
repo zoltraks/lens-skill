@@ -121,6 +121,18 @@ whole weakness.
 This is a documentation lookup. It names the check a team can enable and verify. It never
 implies the analyzer ran during the audit.
 
+## Exploitability Narrative
+
+Every `HIGH` or `CRITICAL` finding on a network-facing surface carries an Exploitability
+Narrative in its finding block, per `references/exploitability-narrative-template.md`. The
+narrative reasons through precondition, attack path, and impact at an explicit confidence tier.
+Under the default source-only scope the tier is `Theoretical` or `Static-Confirmed`, never
+`Dynamically-Verified`.
+
+A network-facing surface is a component reachable across a trust boundary: endpoints, listeners,
+message consumers, and parsers of externally supplied input. Findings on internal-only code
+paths carry the field as `N/A` with a one-line reason.
+
 ## Standards Coverage
 
 Use [OWASP Top 10:2025](https://owasp.org/Top10/2025/) as an awareness taxonomy, including

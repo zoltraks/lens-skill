@@ -99,6 +99,12 @@ licensing) and unauthorized copying of code snippets or assets.
 Use the inventory and license-policy checks in `assessment/dependency-review.md` for transitive
 components, avoiding duplicate findings or effort totals.
 
+Run the license-classification pass from `references/license-compliance-checklist.md` over the
+SBOM table. Classify each component `Permissive`, `Weak-copyleft`, `Strong-copyleft`,
+`Proprietary`, or `Unknown` from inspected declarations only. A `Strong-copyleft` component
+linked into an incompatibly distributed work is a `Conflict` and produces an `FND-CPR` finding.
+Undeterminable licenses stay `Unknown` and count as a license-hygiene gap.
+
 Distinguish declared licenses, observed notices, and reviewed conclusions for the distribution
 model.
 

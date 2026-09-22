@@ -13,6 +13,23 @@ every report.
 These rules override stylistic preferences and convenience. If a finding cannot satisfy these rules,
 mark it as unknown rather than guessing.
 
+## Contents
+
+| Section                             | Line | What it covers                        |
+|-------------------------------------|------|---------------------------------------|
+| Evidence-Based Reasoning            | 33   | Traceability and missing-info tokens  |
+| Evidence Strength And Claim Control | 49   | Evidence bases, types, confidence     |
+| No Assumptions                      | 128  | The no-assumption rule                |
+| No Personal Judgement               | 139  | Neutrality toward people              |
+| Architectural Neutrality            | 152  | Judging within stated constraints     |
+| Status Markers                      | 164  | PASS, PARTIAL, FAIL, UNKNOWN, N/A     |
+| Contextual Applicability            | 182  | N/A usage for inapplicable categories |
+| Evidence Citation                   | 207  | Anchoring claims to sources           |
+| Confidence And Scope Limits         | 217  | Confidence and scope boundaries       |
+| Information Security And Redaction  | 227  | Secret handling rules                 |
+| Indexing And Traceability           | 239  | ID schemes and ordering               |
+| Critical Constraints                | 304  | Non-negotiable hard limits            |
+
 ## Evidence-Based Reasoning
 
 State only what is explicitly supported by the input.
@@ -47,6 +64,19 @@ The audit never executes checks itself. Results produced outside the audit are `
 evidence, regardless of who ran them.
 
 These labels describe evidence, not replacement category statuses.
+
+Alongside the evidence basis, tag each evidence-ledger row and each finding with its rhetorical
+type:
+
+- **Observation**: a fact another auditor can re-derive from the same artifact, such as a measured
+  count, a quoted line, or a recorded state.
+- **Concern**: a risk judgment built on one or more observations, including its reasoning and
+  remaining uncertainty.
+
+The type tag disciplines narrative sections so a judgment cannot appear dressed as a fact.
+
+Theoretical exploitability reasoning is not an evidence basis. It follows the tiers in
+`references/exploitability-narrative-template.md` and never claims execution occurred.
 
 Record confidence as `HIGH`, `MEDIUM`, or `LOW`, with a reason independent of severity.
 

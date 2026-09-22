@@ -30,12 +30,17 @@ Use this fixed column order and dimension set:
 | Compliance              |       |       |
 | Observability           |       |       |
 | Operational Safety      |       |       |
+| Delivery & Continuity   |       |       |
 | AI Provenance           |       |       |
 | Originality & Licensing |       |       |
 | Skill Definition        |       |       |
 | API Compatibility       |       |       |
 
 Keep the dimension names and order identical across every audit so scores are comparable.
+
+The Delivery & Continuity dimension summarizes the Delivery Practice & Team Continuity section:
+delivery-practice proxies and contributor concentration per
+`references/delivery-practice-methodology.md`. It is `N/A` when Git history was not in scope.
 
 The API Compatibility dimension applies only when the subject is a reusable library or package,
 per `assessment/api-compatibility.md`. For a deployable service or application it is `N/A`.
@@ -180,6 +185,7 @@ Each scorecard dimension summarizes one or more assessment categories.
 | Compliance              | Compliance and Data Protection                           |
 | Observability           | Observability                                            |
 | Operational Safety      | Operational Readiness, Error Handling, Rollback Strategy |
+| Delivery & Continuity   | Delivery Practice & Team Continuity                      |
 | AI Provenance           | AI-Generated Code & Provenance                           |
 | Originality & Licensing | Copyrights & Originality                                 |
 | Skill Definition        | Skill Definition Conformance                             |
@@ -223,6 +229,10 @@ Do not invent extra scores or claim the existing dimensions cover every characte
 
 Operational Safety is broader than ISO Safety, map only evidenced hazards and harm-prevention
 controls to Safety.
+
+Delivery & Continuity has no direct ISO 25010 product-quality characteristic. It measures process
+and team evidence and stays complementary to the product-quality crosswalk, it is not mapped onto
+a characteristic.
 
 ## Score Confidence And Aggregation
 

@@ -46,6 +46,11 @@ Record the definition, data sources, observation window, sample size, calculatio
 Use deployment and incident records, Git commits or release tags alone do not establish these
 metrics.
 
+When only repository evidence is available, the git-derived proxies and contributor-concentration
+rubric live in the Delivery Practice & Team Continuity section per
+`references/delivery-practice-methodology.md`. Those proxies are labeled as proxies and never
+presented as measured DORA metrics.
+
 Mark unavailable measurements `UNKNOWN` and zero-denominator ratios as undefined, not zero.
 
 Do not equate failed deployment recovery time with recovery from every type of incident.

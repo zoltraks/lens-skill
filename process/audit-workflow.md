@@ -15,11 +15,11 @@ requested category.
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 24   | Step Overview guidance           |
-| Intake Checklist        | 812  | Intake Checklist guidance        |
-| Handling Thin Input     | 828  | Handling Thin Input guidance     |
-| Single-Dimension Audits | 839  | Single-Dimension Audits guidance |
-| Re-Audit                | 849  | Re-Audit guidance                |
-| Multi-Project Audits    | 876  | Multi-Project Audits guidance    |
+| Intake Checklist        | 873  | Intake Checklist guidance        |
+| Handling Thin Input     | 889  | Handling Thin Input guidance     |
+| Single-Dimension Audits | 900  | Single-Dimension Audits guidance |
+| Re-Audit                | 910  | Re-Audit guidance                |
+| Multi-Project Audits    | 937  | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -450,6 +450,13 @@ tests, or accesses live systems.
 Record the scope as `source-only`. Documented or committed check results are `Reported`
 evidence, not audit execution.
 
+Also record the audit-type coverage decision here: read the canonical rows in
+`references/audit-taxonomy.md` and note which statuses the engagement supports. Under the
+default scope the Penetration Test, Compliance Certification, and interview-dependent
+Technical Due Diligence dimensions stay `Not Performed` or `Partially Covered`, and any
+explicitly lifted constraint is recorded so the Coverage Matrix and Scope Exclusions can match
+it. The matrix itself is rendered during Synthesis.
+
 For readiness audits, identify required evidence before judging readiness: documented build and
 test results, dependency manifests and lockfiles, committed scan reports, and operational
 recovery documentation.
@@ -468,6 +475,16 @@ reference or that apply to the stack, for the standards-quality evaluation in
 For dependency analysis, derive the component inventory from manifests and lockfiles as text,
 per `references/dependency-manifests.md`. The derived list records components, versions,
 relationships, and scopes without running a package manager or an SBOM generator.
+
+Build the SBOM table for the report from that inventory per `references/sbom-schema.md` before
+scoring Dependency Health, so the score has a structured artifact behind it. Then run the
+license-classification pass from `references/license-compliance-checklist.md` over every SBOM
+row, populating the License and License Risk cells from inspected declarations only.
+
+For delivery practice, compute the Git-derived proxies and contributor concentration per
+`references/delivery-practice-methodology.md`: tag cadence, median commit-to-tag interval,
+top-author share, and active-contributor count. Fields the repository cannot supply stay
+`NOT SPECIFIED` with the reason recorded.
 
 For recurring source and history censuses, apply the canonical counting methods in
 `references/census-commands.md` and record the counting rule beside each figure in the ledger,
@@ -544,9 +561,13 @@ runtime-verified behavior.
 
 Use globally unique evidence IDs within a report, with a project identifier on each row.
 
-| Evidence ID | Project   | Check / Source      | Execution | Result        | Artifact |
-|-------------|-----------|---------------------|-----------|---------------|----------|
-| EVD-001     | <project> | <command or source> | <state>   | <observation> | <path>   |
+| Evidence ID | Project   | Check / Source      | Execution | Result        | Type          | Artifact |
+|-------------|-----------|---------------------|-----------|---------------|---------------|----------|
+| EVD-001     | <project> | <command or source> | <state>   | <observation> | <obs/concern> | <path>   |
+
+Every ledger row carries a `Type`: `Observation` for a fact another auditor could re-derive from
+the same artifact, `Concern` for a risk judgment built on observations. Most ledger rows are
+`Observation`.
 
 The audit produces only two execution states: `NOT RUN` for a check that is documented or
 selected but never executed, and `N/A` for a source observation.
@@ -605,6 +626,15 @@ Assign a status (`PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`) per the rules in
 Record evidence, concrete risks, and neutral notes for each category.
 
 **Synthesis**
+
+Render the Audit Type Coverage & Assurance Matrix first, from the fixed row set in
+`references/audit-taxonomy.md`. It is the report's coverage declaration, so it is assembled
+before any other section content and checked against Scope Exclusions during Validation.
+
+Tag every finding `Observation` or `Concern` per `principles/evaluation-rules.md`, and attach an
+Exploitability Narrative at an explicit tier to every `HIGH` or `CRITICAL` security finding,
+per `references/exploitability-narrative-template.md`. Under the default scope the tier is
+`Theoretical` or `Static-Confirmed`.
 
 Build the unified risk register from the risks surfaced during assessment, using
 `synthesis/risk-register.md`. Every risk must reference its source `FND-XXX`.
@@ -712,6 +742,25 @@ Confirm every CWE-classified security finding names its equivalent static analyz
 `references/cwe-analyzer-map.md` with its enablement evidence, or states that no direct rule
 exists for the CWE in that stack. Confirm no finding implies an analyzer ran.
 
+Confirm the Audit Type Coverage & Assurance Matrix is present after Document Information and
+consistent with Scope Exclusions: every `Not Performed` row has a matching exclusion bullet and
+no `Covered` row is disclaimed later.
+
+Confirm every SBOM row has a License cell populated from an inspected declaration or marked
+`Unknown`, every direct component is manifest-sourced, and `Advisory Checked` is `Y` only where
+committed advisory evidence exists.
+
+Confirm every evidence-ledger row and every finding carries an `Observation` or `Concern` tag.
+
+Confirm every `HIGH` or `CRITICAL` Security & Compliance finding carries an Exploitability
+Narrative: the tier and attack-path reasoning on a network-facing surface, `N/A` with a reason
+otherwise. Confirm no narrative claims a tier above the evidence, `Dynamically-Verified` under
+the default scope is a defect.
+
+Confirm the Delivery Practice & Team Continuity section is present per project: computable
+metrics are labeled as proxies, unmeasurable metrics are `NOT SPECIFIED` with reasons, and the
+bus-factor rating carries its commit-share, contributor-count, and window basis.
+
 Confirm every place an overall score appears reports the lowest-scoring applicable dimension
 and its score alongside the mean, per `synthesis/project-scorecard.md`.
 
@@ -808,6 +857,18 @@ These are reasoning checks, not proof of improvement from an independent model b
 | `document/` exists, `docs/` does not       | Resolved base is `document/`, offered as a location  |
 | Document prose already wraps near 60       | Offer 60 alongside the default 100 at wrap time      |
 | Version-named subdirs under `docs/report/` | Only the version path offered, no date alternative   |
+| Full audit report generated                | Coverage matrix present, pentest row `Not Performed` |
+| Matrix row marked `Covered`                | No Scope Exclusions bullet disclaims that type       |
+| Manifest has no license fields             | SBOM License cells `Unknown`, gap feeds findings     |
+| Committed advisory report absent           | `Advisory Checked` stays `N` for every component     |
+| Critical finding on public endpoint        | Exploitability Narrative present, `Theoretical` tier |
+| Narrative claims dynamic verification      | Defect: scope never lifted, tier forced down         |
+| Security finding on internal-only code     | Narrative field present as `N/A` with reason         |
+| Git subject, no tags                       | Deployment frequency proxy `NOT SPECIFIED`           |
+| Single-author repository                   | Bus-factor `High`, Team & Continuity line present    |
+| Non-Git subject                            | Delivery Practice section `NOT COLLECTED`            |
+| Evidence ledger written                    | Every row carries `Observation` or `Concern`         |
+| Polish-language report                     | Headings and dimension names match glossary verbatim |
 
 ## Intake Checklist
 

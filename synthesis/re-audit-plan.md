@@ -89,6 +89,22 @@ State when a follow-up audit should occur. Use evidenced triggers rather than ar
 - A targeted re-audit when all P1 findings report closure evidence.
 - A full re-audit before the next major release or on a stated cadence.
 - An event-driven re-audit when the architecture, stack, or trust boundary changes materially.
+- An SBOM-drift re-audit when a dependency manifest or lockfile changes, re-running the component
+  inventory and the license-classification pass.
+- A license/IP-evidence re-audit when the project's own license, notices, ownership or assignment
+  documents, or vendored-code provenance changes.
+- A delivery-practice re-audit when the pipeline, release cadence, or deployment mechanism changes
+  materially, recomputing the proxies rather than carrying them forward.
+- An exposure re-audit when the network-facing surface changes: new endpoints, listeners, message
+  consumers, or externally supplied input parsers invalidate `Theoretical` narratives and the
+  threat model.
+- A continuity re-audit when ownership or contributor concentration changes materially, or when
+  team, support, or cost evidence arrives that was `NOT SPECIFIED`.
+- A compliance-evidence re-audit when new control artifacts (policies, committed scan results,
+  audit reports) arrive that the previous review lacked.
+- A pentest-escalation trigger: when a `HIGH` or `CRITICAL` security finding on a network-facing
+  surface remains `Theoretical` after remediation planning, name a scoped live penetration test
+  as the confirming engagement rather than leaving the tier unresolved.
 
 When the input provides no cadence or release plan, mark the schedule `NOT SPECIFIED` and state the
 recommended trigger neutrally.

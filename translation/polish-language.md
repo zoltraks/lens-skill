@@ -19,47 +19,51 @@ Polish.
 
 | Section                                     | Line | What it covers                              |
 |---------------------------------------------|------|---------------------------------------------|
-| Analysis And Rendering                      | 64   | Analysis model and terminology precedence   |
-| Status And Severity Vocabulary              | 82   | Status And Severity Vocabulary guidance     |
-| Fixed Vocabulary Values                     | 131  | Polish renderings of descriptive values     |
-| Terminology                                 | 169  | English to Polish technical dictionary      |
-| Parameter Prompts                           | 268  | Polish phrasing for configuration questions |
-| Style Rules                                 | 285  | Style Rules guidance                        |
-| Diacritics Frequently Misspelled            | 340  | Diacritics Frequently Misspelled guidance   |
-| Output Filename                             | 374  | Output Filename guidance                    |
-| Document Information                        | 383  | Document Information guidance               |
-| Project Inventory                           | 411  | Project Inventory guidance                  |
-| Glossary                                    | 420  | Glossary guidance                           |
-| Technology Stack                            | 435  | Technology Stack guidance                   |
-| Executive Summary                           | 452  | Executive Summary guidance                  |
-| Health Dashboard                            | 470  | Health Dashboard guidance                   |
-| Scorecard                                   | 481  | Scorecard guidance                          |
-| Scoring Rubrics                             | 505  | Scoring Rubrics guidance                    |
-| High-Level Observations                     | 529  | High-Level Observations guidance            |
-| Auditing Methodology                        | 536  | Auditing Methodology guidance               |
-| System Context                              | 550  | System Context guidance                     |
-| Architectural Assessment                    | 563  | Architectural Assessment guidance           |
-| Architectural Subsections                   | 570  | Architectural Subsections guidance          |
-| Skill Definition Conformance                | 581  | Skill Definition Conformance guidance       |
-| AI System Assessment                        | 587  | AI System Assessment guidance               |
-| Standards Conformance                       | 598  | Standards Conformance guidance              |
-| References                                  | 619  | References guidance                         |
-| Strengths And What's Working                | 628  | Strengths And What's Working guidance       |
-| Detailed Technical Findings                 | 634  | Detailed Technical Findings guidance        |
-| Technical Debt Register                     | 664  | Technical Debt Register guidance            |
-| Unified Risk Register                       | 676  | Unified Risk Register guidance              |
-| Trade-off Analysis                          | 697  | Trade-off Analysis guidance                 |
-| Actionable Remediation Roadmap              | 709  | Actionable Remediation Roadmap guidance     |
-| Changes Since Previous Audit                | 723  | Changes Since Previous Audit guidance       |
-| Scope Exclusions                            | 752  | Scope Exclusions guidance                   |
-| Limitations And Unknowns                    | 760  | Limitations And Unknowns guidance           |
-| Re-audit And Follow-up Plan                 | 772  | Re-audit And Follow-up Plan guidance        |
-| Validation Record                           | 782  | Validation Record guidance                  |
-| Threat Model                                | 793  | Threat Model guidance                       |
-| API Contract Conformance                    | 802  | API Contract Conformance guidance           |
-| API Compatibility And Versioning Discipline | 810  | API Compatibility And Versioning guidance   |
-| Evidence And Decision Terms                 | 819  | Evidence And Decision Terms guidance        |
-| Skill Definition Conformance Table          | 879  | Skill Definition Conformance Table guidance |
+| Analysis And Rendering                      | 68   | Analysis model and terminology precedence   |
+| Status And Severity Vocabulary              | 86   | Status And Severity Vocabulary guidance     |
+| Fixed Vocabulary Values                     | 150  | Polish renderings of descriptive values     |
+| Terminology                                 | 188  | English to Polish technical dictionary      |
+| Parameter Prompts                           | 303  | Polish phrasing for configuration questions |
+| Style Rules                                 | 320  | Style Rules guidance                        |
+| Diacritics Frequently Misspelled            | 385  | Diacritics Frequently Misspelled guidance   |
+| Output Filename                             | 419  | Output Filename guidance                    |
+| Document Information                        | 428  | Document Information guidance               |
+| Audit Type Coverage & Assurance Matrix      | 456  | Coverage and assurance rendering            |
+| Project Inventory                           | 479  | Project Inventory guidance                  |
+| Glossary                                    | 488  | Glossary guidance                           |
+| Technology Stack                            | 503  | Technology Stack guidance                   |
+| Executive Summary                           | 520  | Executive Summary guidance                  |
+| Health Dashboard                            | 538  | Health Dashboard guidance                   |
+| Scorecard                                   | 549  | Scorecard guidance                          |
+| Scoring Rubrics                             | 574  | Scoring Rubrics guidance                    |
+| Delivery Practice & Team Continuity         | 598  | Delivery and continuity rendering           |
+| High-Level Observations                     | 622  | High-Level Observations guidance            |
+| Auditing Methodology                        | 629  | Auditing Methodology guidance               |
+| System Context                              | 643  | System Context guidance                     |
+| Software Bill of Materials                  | 656  | SBOM section rendering                      |
+| License & IP Compliance Review              | 674  | License and IP section rendering            |
+| Architectural Assessment                    | 692  | Architectural Assessment guidance           |
+| Architectural Subsections                   | 699  | Architectural Subsections guidance          |
+| Skill Definition Conformance                | 710  | Skill Definition Conformance guidance       |
+| AI System Assessment                        | 716  | AI System Assessment guidance               |
+| Standards Conformance                       | 727  | Standards Conformance guidance              |
+| References                                  | 748  | References guidance                         |
+| Strengths And What's Working                | 757  | Strengths And What's Working guidance       |
+| Detailed Technical Findings                 | 763  | Detailed Technical Findings guidance        |
+| Technical Debt Register                     | 795  | Technical Debt Register guidance            |
+| Unified Risk Register                       | 807  | Unified Risk Register guidance              |
+| Trade-off Analysis                          | 828  | Trade-off Analysis guidance                 |
+| Actionable Remediation Roadmap              | 840  | Actionable Remediation Roadmap guidance     |
+| Changes Since Previous Audit                | 854  | Changes Since Previous Audit guidance       |
+| Scope Exclusions                            | 883  | Scope Exclusions guidance                   |
+| Limitations And Unknowns                    | 891  | Limitations And Unknowns guidance           |
+| Re-audit And Follow-up Plan                 | 903  | Re-audit And Follow-up Plan guidance        |
+| Validation Record                           | 913  | Validation Record guidance                  |
+| Threat Model                                | 924  | Threat Model guidance                       |
+| API Contract Conformance                    | 933  | API Contract Conformance guidance           |
+| API Compatibility And Versioning Discipline | 941  | API Compatibility And Versioning guidance   |
+| Evidence And Decision Terms                 | 950  | Evidence And Decision Terms guidance        |
+| Skill Definition Conformance Table          | 1010 | Skill Definition Conformance Table guidance |
 
 ## Analysis And Rendering
 
@@ -97,10 +101,25 @@ Statuses and execution states use fixed label forms:
 | `NOT RUN`                  | `NIEURUCHOMIONE`              |
 | `NOT ASSESSED`             | `NIEOCENIONE`                 |
 | `NOT INSPECTED`            | `NIEZBADANE`                  |
+| `NOT COLLECTED`            | `NIEZEBRANE`                  |
 | `EXCLUDED BY SCOPE`        | `POZA ZAKRESEM`               |
 | `INSUFFICIENT INFORMATION` | `NIEWYSTARCZAJĄCE INFORMACJE` |
 | `SEVERITY:`                | `WAŻNOŚĆ:`                    |
 | `Score:`                   | `Wynik:`                      |
+| `Covered`                  | `OBJĘTE`                      |
+| `Partially Covered`        | `CZĘŚCIOWO OBJĘTE`            |
+| `Not Performed`            | `NIEPRZEPROWADZONE`           |
+| `Not Applicable`           | `NIE DOTYCZY`                 |
+| `Observation`              | `OBSERWACJA`                  |
+| `Concern`                  | `ZASTRZEŻENIE`                |
+| `Theoretical`              | `TEORETYCZNY`                 |
+| `Static-Confirmed`         | `POTWIERDZONE STATYCZNIE`     |
+| `Dynamically-Verified`     | `ZWERYFIKOWANE DYNAMICZNIE`   |
+
+`Observation` and `Concern` are the evidence/finding type tags. In `* **Field:**` bullet lists
+they render title-cased `Obserwacja`/`Zastrzeżenie`. The Due Diligence Coverage column named
+`Concern` keeps its separate rendering `Obszar ryzyka`, the two uses are not the same word's
+job.
 
 Severity agrees in gender with the governed noun: feminine for `ważność`, `pewność`, and
 `złożoność`, masculine for `wpływ`, `priorytet`, and `wysiłek`, neuter for `prawdopodobieństwo`
@@ -177,7 +196,9 @@ than always translating the same English word identically.
 | AI-assisted development workflow       | proces wytwarzania oprogramowania wspomagany przez AI            |
 | access token                           | token dostępu                                                    |
 | API contract validation                | kontrola poprawności kontraktu API                               |
+| attack path                            | ścieżka ataku                                                    |
 | attack surface                         | powierzchnia ataku                                               |
+| assurance                              | zapewnienie                                                      |
 | attribution                            | przypisanie autorstwa                                            |
 | authoritative source                   | źródło autorytatywne                                             |
 | automated compliance check/enforcement | automatyczna weryfikacja zgodności                               |
@@ -189,13 +210,17 @@ than always translating the same English word identically.
 | build artifact                         | artefakt wynikowy / artefakt wdrożeniowy                         |
 | build job                              | zadanie budowania                                                |
 | build reproducibility                  | powtarzalność procesu budowania                                  |
+| bus factor                             | czynnik autobusowy                                               |
 | code provenance                        | pochodzenie kodu                                                 |
 | code provenance traceability           | identyfikowalność pochodzenia kodu                               |
 | Common Weakness Enumeration            | klasyfikacja typowych błędów bezpieczeństwa oprogramowania       |
+| concern (evidence/finding tag)         | zastrzeżenie                                                     |
 | contract test                          | test zgodności kontraktu / test kontraktowy                      |
 | contract/implementation mismatch       | rozbieżność między kontraktem a implementacją                    |
+| copyleft                               | copyleft (nie tłumaczyć)                                         |
 | credentials                            | poświadczenia                                                    |
 | demo credentials                       | poświadczenia demonstracyjne                                     |
+| delivery practice                      | praktyka dostarczania                                            |
 | dependency analysis                    | analiza zależności                                               |
 | dependency vulnerability scanning      | analiza podatności zależności / skanowanie podatności zależności |
 | deploy                                 | wdrażać                                                          |
@@ -208,18 +233,23 @@ than always translating the same English word identically.
 | error-report intake                    | przyjęcie raportów błędów                                        |
 | evidence                               | materiał dowodowy / dowód                                        |
 | evidence register                      | rejestr materiału dowodowego                                     |
+| exploitability narrative               | narracja wykorzystania podatności                                |
 | fail-fast                              | natychmiastowe przerwanie przy błędzie                           |
 | fallback                               | mechanizm awaryjny / obsługa zastępcza                           |
 | finding                                | ustalenie                                                        |
 | host key pinning                       | przypięcie klucza hosta                                          |
+| key-person risk                        | ryzyko koncentracji kompetencji                                  |
 | license compliance                     | zgodność licencyjna                                              |
+| likelihood                             | prawdopodobieństwo                                               |
 | lockfile                               | plik blokady zależności                                          |
 | maintainability                        | utrzymywalność                                                   |
 | manual deployment gate                 | ręczne zatwierdzenie wdrożenia                                   |
 | maturity level                         | poziom dojrzałości                                               |
 | mitigation                             | środek ograniczający ryzyko                                      |
 | mismatch                               | rozbieżność / niezgodność                                        |
+| non-conformity / gap                   | niezgodność / luka                                               |
 | observability                          | obserwowalność                                                   |
+| observation                            | obserwacja                                                       |
 | operational readiness                  | gotowość operacyjna                                              |
 | operational security                   | bezpieczeństwo operacyjne                                        |
 | pipeline / CI pipeline                 | proces / proces CI / proces CI/CD                                |
@@ -236,17 +266,21 @@ than always translating the same English word identically.
 | reproducible build                     | powtarzalny proces budowania                                     |
 | residual risk                          | ryzyko rezydualne                                                |
 | reuse detection                        | wykrywanie ponownego użycia tokenu                               |
+| risk register                          | rejestr ryzyk                                                    |
+| root cause                             | przyczyna źródłowa                                               |
 | runtime                                | środowisko uruchomieniowe                                        |
 | runtime scope                          | zakres uruchomieniowy                                            |
 | scalability                            | skalowalność                                                     |
 | scorecard                              | karta oceny                                                      |
 | security control                       | środek bezpieczeństwa / mechanizm kontrolny                      |
+| sign-off                               | zatwierdzenie / akceptacja formalna                              |
 | seed data                              | dane inicjalizacyjne                                             |
 | seeding                                | inicjalizacja danych                                             |
 | seeding mechanism                      | mechanizm inicjalizacji danych                                   |
 | Software Bill of Materials             | zestawienie składników oprogramowania                            |
 | source of truth                        | źródło prawdy                                                    |
 | source-only                            | wyłącznie na podstawie kodu źródłowego                           |
+| stakeholder                            | interesariusz                                                    |
 | testability                            | testowalność                                                     |
 | test inventory                         | rozbudowany zakres testów                                        |
 | threat                                 | zagrożenie                                                       |
@@ -254,6 +288,7 @@ than always translating the same English word identically.
 | TLS termination                        | terminacja TLS / zakończenie połączenia TLS                      |
 | token reuse                            | ponowne użycie tokenu                                            |
 | toolchain                              | łańcuch narzędzi                                                 |
+| trade-off                              | kompromis                                                        |
 | trust boundary                         | granica zaufania                                                 |
 | unauthenticated                        | bez uwierzytelnienia                                             |
 | version drift                          | rozbieżność wersji / niespójność wersjonowania                   |
@@ -327,11 +362,21 @@ Apply these phrasing rules:
 - Describe `pipeline` as `proces`, `proces CI`, or `proces CI/CD`, never `potok`.
 - Use `bez uwierzytelnienia` instead of `nieuwierzytelniony`: `kontrola dostępu bez
   uwierzytelnienia`, `punkt przyjęcia raportów błędów bez uwierzytelnienia`.
-- `version pinning` renders `zamrożenie wersji`; `przypięcie` is reserved for host keys
+- `version pinning` renders `zamrożenie wersji`, and `przypięcie` is reserved for host keys
   (`przypięcie klucza hosta`, `przypięcie known_hosts`).
-- `new endpoint` as a unit of change reads `nowa operacja`; the standalone anglicism `endpoint`
+- `new endpoint` as a unit of change reads `nowa operacja`, and the standalone anglicism `endpoint`
   stays.
 - `Inferred` renders `Wnioskowane`, not `Wywnioskowane`.
+- Keep one register per report. The default register is everyday Polish software-engineering
+  usage (`audyt`, `audytor`, `audytowanie`), not the ISO-standards register that writes
+  `audit`/`auditor`. The ISO spelling is a documented exception only, never mixed in with the
+  default, and never a per-section choice.
+- `commit`, `pull request`, `merge`, `roadmapa`, `due diligence`, `copyleft`, and `SBOM`
+  (spelled out once as `zestawienie składników oprogramowania`) are settled loanwords and stay
+  untranslated.
+- Every English term the skill adds to report headings or scored dimensions gets a Terminology
+  entry before it is used in a Polish report. Polish reports are checked against this file
+  verbatim under PAR-16, ad hoc translation is not allowed.
 - Use `N/D` for `N/A` and `BŁĄD`/`Błąd` for `ERROR`/`Error` in Polish reports.
 - The score-band legend is labeled `Skala oceny`, never `Legenda pasm` or `Skala ocen`.
 - Broad test coverage is `rozbudowany zakres testów`, not `szeroki inwentarz testowy`.
@@ -407,6 +452,29 @@ The `Descriptive Mode` row is omitted. The setting is evident from the presence 
 
 Value cells use the Fixed Vocabulary Values table for `State`, `Detail Level`, `Evaluation Scale`,
 `Audit Purpose`, and `Verification Scope`, and `Polski` for `Language`.
+
+## Audit Type Coverage & Assurance Matrix
+
+| English                                     | Polish                                              |
+|---------------------------------------------|-----------------------------------------------------|
+| Audit Type Coverage & Assurance Matrix      | Macierz pokrycia typów audytu i poziomu zapewnienia |
+| Report type                                 | Typ raportu                                         |
+| Status in this report                       | Status w tym raporcie                               |
+| Rationale                                   | Uzasadnienie                                        |
+| Software Architecture Review                | Przegląd architektury oprogramowania                |
+| Code Quality Audit                          | Audyt jakości kodu                                  |
+| Security Vulnerability Assessment           | Ocena podatności bezpieczeństwa                     |
+| Open Source License Compliance Review       | Przegląd zgodności licencji open source             |
+| Penetration Test                            | Test penetracyjny                                   |
+| Performance Audit                           | Audyt wydajności                                    |
+| Cloud Infrastructure Audit                  | Audyt infrastruktury chmurowej                      |
+| AI Governance Audit                         | Audyt zarządzania AI                                |
+| Technical Due Diligence                     | Techniczne due diligence                            |
+| SBOM / Software Composition Analysis        | SBOM / analiza składu oprogramowania                |
+| Compliance Certification (SOC 2, ISO 27001) | Certyfikacja zgodności (SOC 2, ISO 27001)           |
+
+The four coverage statuses render per Status And Severity Vocabulary: `OBJĘTE`,
+`CZĘŚCIOWO OBJĘTE`, `NIEPRZEPROWADZONE`, `NIE DOTYCZY`.
 
 ## Project Inventory
 
@@ -497,6 +565,7 @@ example `AI` in `AI Provenance` or `UI` in `Material UI`, and adjacent acronym p
 | Compliance              | Zgodność                       |
 | Observability           | Obserwowalność                 |
 | Operational Safety      | Bezpieczeństwo operacyjne      |
+| Delivery & Continuity   | Dostarczanie i ciągłość        |
 | AI Provenance           | Pochodzenie AI                 |
 | Originality & Licensing | Oryginalność i licencjonowanie |
 | Skill Definition        | Definicja umiejętności         |
@@ -525,6 +594,30 @@ selected scale:
 - `1-3`: `Skala oceny: 1 Słaba · 2 Średnia · 3 Doskonała`
 - `5 stars`: `Skala oceny: ★ Zła · ★★ Słaba · ★★★ Średnia · ★★★★ Dobra · ★★★★★ Doskonała`
 - `3 stars`: `Skala oceny: ★ Słaba · ★★ Średnia · ★★★ Doskonała`
+
+## Delivery Practice & Team Continuity
+
+| English                             | Polish                                   |
+|-------------------------------------|------------------------------------------|
+| Delivery Practice & Team Continuity | Praktyka dostarczania i ciągłość zespołu |
+| DORA metric                         | Metryka DORA                             |
+| Change lead time                    | Czas realizacji zmiany                   |
+| Deployment frequency                | Częstotliwość wdrożeń                    |
+| Failed deployment recovery time     | Czas odtworzenia po nieudanym wdrożeniu  |
+| Change fail rate                    | Wskaźnik nieudanych zmian                |
+| Deployment rework rate              | Wskaźnik prac poprawkowych po wdrożeniu  |
+| Result                              | Wynik                                    |
+| Basis                               | Podstawa                                 |
+| Observed / proxy                    | Zmierzone / zastępcze                    |
+| Commit-author concentration         | Koncentracja autorstwa commitów          |
+| Bus-factor rating                   | Ocena czynnika autobusowego              |
+| High concentration risk             | Wysokie ryzyko koncentracji              |
+| Moderate                            | Umiarkowane                              |
+| Low                                 | Niskie                                   |
+| Support / cost obligations          | Zobowiązania wsparcia i kosztów          |
+
+Metric cells keep machine-readable `NOT SPECIFIED` rendering as `NIEOKREŚLONE`, matching the
+fixed-vocabulary treatment of missing organizational data.
 
 ## High-Level Observations
 
@@ -559,6 +652,42 @@ selected scale:
 | Key components         | Kluczowe komponenty   |
 | External dependencies  | Zależności zewnętrzne |
 | Assumptions            | Założenia             |
+
+## Software Bill of Materials
+
+| English                    | Polish                                |
+|----------------------------|---------------------------------------|
+| Software Bill of Materials | Zestawienie składników oprogramowania |
+| Component                  | Komponent                             |
+| Version                    | Wersja                                |
+| Ecosystem                  | Ekosystem                             |
+| Direct/Transitive          | Bezpośredni / przechodni              |
+| License                    | Licencja                              |
+| License Risk               | Ryzyko licencyjne                     |
+| Advisory Checked           | Podatności zweryfikowane              |
+| Evidence Source            | Źródło dowodu                         |
+| Multi-project SBOM         | Zestawienie wieloprojektowe           |
+| SBOM Source                | Źródło zestawienia                    |
+| manifest-derived           | wyprowadzone z manifestów             |
+| machine-readable SBOM      | maszynowy format zestawienia          |
+
+## License & IP Compliance Review
+
+| English                         | Polish                                  |
+|---------------------------------|-----------------------------------------|
+| License & IP Compliance Review  | Przegląd zgodności licencyjnej i IP     |
+| License class                   | Klasa licencji                          |
+| Permissive                      | Permisyjna                              |
+| Weak-copyleft                   | Słabe copyleft                          |
+| Strong-copyleft                 | Silne copyleft                          |
+| Proprietary                     | Własnościowa                            |
+| License compatibility           | Zgodność licencji                       |
+| Notice / attribution            | Nota licencyjna / przypisanie autorstwa |
+| Source provenance               | Pochodzenie kodu                        |
+| Ownership / assignment evidence | Dowód własności / cesji praw            |
+| Copyleft linkage conflict       | Konflikt powiązania copyleft            |
+
+License-class cells use the feminine adjective forms shown, agreeing with `licencja`.
 
 ## Architectural Assessment
 
@@ -633,21 +762,23 @@ selected scale:
 
 ## Detailed Technical Findings
 
-| English                     | Polish                           |
-|-----------------------------|----------------------------------|
-| Detailed Technical Findings | Szczegółowe ustalenia techniczne |
-| Summary table               | Tabela podsumowania              |
-| Finding ID                  | Identyfikator                    |
-| Pillar                      | Filar                            |
-| Severity                    | Ważność                          |
-| Title                       | Tytuł                            |
-| Status                      | Status                           |
-| Remediation Status          | Status naprawy                   |
-| Target Files/Modules        | Pliki lub moduły                 |
-| Description                 | Opis                             |
-| Impact                      | Wpływ                            |
-| Remediation Recommendation  | Zalecenie naprawcze              |
-| Verification Method         | Metoda weryfikacji               |
+| English                     | Polish                            |
+|-----------------------------|-----------------------------------|
+| Detailed Technical Findings | Szczegółowe ustalenia techniczne  |
+| Summary table               | Tabela podsumowania               |
+| Finding ID                  | Identyfikator                     |
+| Pillar                      | Filar                             |
+| Severity                    | Ważność                           |
+| Title                       | Tytuł                             |
+| Status                      | Status                            |
+| Remediation Status          | Status naprawy                    |
+| Target Files/Modules        | Pliki lub moduły                  |
+| Type                        | Typ                               |
+| Exploitability Narrative    | Narracja wykorzystania podatności |
+| Description                 | Opis                              |
+| Impact                      | Wpływ                             |
+| Remediation Recommendation  | Zalecenie naprawcze               |
+| Verification Method         | Metoda weryfikacji                |
 
 ### Pillar Names
 

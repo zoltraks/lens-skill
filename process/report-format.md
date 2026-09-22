@@ -20,40 +20,44 @@ missing section hides it.
 
 | Section                                     | Line | What it covers                                        |
 |---------------------------------------------|------|-------------------------------------------------------|
-| Formatting Rules                            | 58   | Formatting Rules guidance                             |
-| Report Delivery And Parameter Configuration | 217  | Report delivery and output configuration              |
-| Detail Level Configuration                  | 254  | Standard, detailed, and brief reports                 |
-| Conditional Sections                        | 338  | Inclusion criteria for conditional sections           |
-| Section Order                               | 378  | Single-project and multi-project order                |
-| Document Information                        | 448  | Report metadata and revisions                         |
-| Glossary                                    | 531  | Abbreviation and acronym definitions                  |
-| Multi-Project Report Structure              | 624  | Combined and project-specific sections                |
-| Executive Summary                           | 716  | Executive summary and readiness threshold             |
-| Changes Since Previous Audit                | 801  | Re-audit comparison structure                         |
-| System Context                              | 862  | Context and technology stack                          |
-| Health Dashboard                            | 922  | Heat map, scorecard, and continuity                   |
-| High-Level Observations                     | 996  | Reader-facing finding summary                         |
-| Auditing Methodology                        | 1020 | Method, standards, and evidence ledger                |
-| Scoring Rubrics                             | 1162 | Score bands and ISO crosswalk                         |
-| Architectural Assessment                    | 1225 | Architecture, principles, and conditional subsections |
-| Trade-off Analysis                          | 1363 | Neutral engineering trade-offs                        |
-| Threat Model                                | 1403 | STRIDE analysis                                       |
-| API Contract Conformance                    | 1430 | API contract and security conformance                 |
-| Skill Definition Conformance                | 1450 | Agent Skill conformance                               |
-| AI System Assessment                        | 1473 | Conditional AI-system review                          |
-| Standards Conformance                       | 1486 | Internal standards quality and code conformance       |
-| API Compatibility & Versioning Discipline   | 1542 | Library compatibility gates                           |
-| Strengths & What's Working                  | 1569 | Evidence-based positive baselines                     |
-| Detailed Technical Findings                 | 1599 | Finding summary and detail blocks                     |
-| Technical Debt Register                     | 1700 | Distinct accumulated debt                             |
-| Unified Risk Register                       | 1741 | Cross-referenced risks                                |
-| Actionable Remediation Roadmap              | 1828 | Prioritized recommendations                           |
-| Scope Exclusions                            | 1892 | Explicit coverage limits                              |
-| Limitations and Unknowns                    | 1944 | Unrun checks and missing evidence                     |
-| Re-audit And Follow-up Plan                 | 1968 | Closure evidence and ownership                        |
-| Validation Record                           | 1997 | Mechanical and semantic gate results                  |
-| References                                  | 2022 | Consulted external sources                            |
-| Pre-Delivery Mechanical Checklist           | 2060 | Final mechanical checks                               |
+| Formatting Rules                            | 62   | Formatting Rules guidance                             |
+| Report Delivery And Parameter Configuration | 221  | Report delivery and output configuration              |
+| Detail Level Configuration                  | 258  | Standard, detailed, and brief reports                 |
+| Conditional Sections                        | 342  | Inclusion criteria for conditional sections           |
+| Section Order                               | 382  | Single-project and multi-project order                |
+| Document Information                        | 460  | Report metadata and revisions                         |
+| Audit Type Coverage & Assurance Matrix      | 543  | Coverage of canonical audit types                     |
+| Glossary                                    | 579  | Abbreviation and acronym definitions                  |
+| Multi-Project Report Structure              | 672  | Combined and project-specific sections                |
+| Executive Summary                           | 770  | Executive summary and readiness threshold             |
+| Changes Since Previous Audit                | 866  | Re-audit comparison structure                         |
+| System Context                              | 927  | Context and technology stack                          |
+| Software Bill of Materials                  | 987  | Source-derived component inventory                    |
+| License & IP Compliance Review              | 1012 | License classification and copyleft conflicts         |
+| Health Dashboard                            | 1042 | Heat map, scorecard, and continuity                   |
+| Delivery Practice & Team Continuity         | 1123 | Delivery proxies and contributor concentration        |
+| High-Level Observations                     | 1161 | Reader-facing finding summary                         |
+| Auditing Methodology                        | 1185 | Method, standards, and evidence ledger                |
+| Scoring Rubrics                             | 1331 | Score bands and ISO crosswalk                         |
+| Architectural Assessment                    | 1394 | Architecture, principles, and conditional subsections |
+| Trade-off Analysis                          | 1532 | Neutral engineering trade-offs                        |
+| Threat Model                                | 1572 | STRIDE analysis                                       |
+| API Contract Conformance                    | 1599 | API contract and security conformance                 |
+| Skill Definition Conformance                | 1619 | Agent Skill conformance                               |
+| AI System Assessment                        | 1642 | Conditional AI-system review                          |
+| Standards Conformance                       | 1655 | Internal standards quality and code conformance       |
+| API Compatibility & Versioning Discipline   | 1711 | Library compatibility gates                           |
+| Strengths & What's Working                  | 1738 | Evidence-based positive baselines                     |
+| Detailed Technical Findings                 | 1768 | Finding summary and detail blocks                     |
+| Technical Debt Register                     | 1880 | Distinct accumulated debt                             |
+| Unified Risk Register                       | 1921 | Cross-referenced risks                                |
+| Actionable Remediation Roadmap              | 2008 | Prioritized recommendations                           |
+| Scope Exclusions                            | 2072 | Explicit coverage limits                              |
+| Limitations and Unknowns                    | 2143 | Unrun checks and missing evidence                     |
+| Re-audit And Follow-up Plan                 | 2172 | Closure evidence and ownership                        |
+| Validation Record                           | 2206 | Mechanical and semantic gate results                  |
+| References                                  | 2231 | Consulted external sources                            |
+| Pre-Delivery Mechanical Checklist           | 2269 | Final mechanical checks                               |
 
 ## Formatting Rules
 
@@ -383,11 +387,15 @@ The report has these top-level sections, in this order, with unnumbered headings
 For a **single-project** audit:
 
 - Document Information
+- Audit Type Coverage & Assurance Matrix
 - Glossary *(when Descriptive mode is enabled)*
 - Executive Summary
 - Changes Since Previous Audit *(conditional)*
 - System Context (contains the Technology Stack subsection)
+- Software Bill of Materials
+- License & IP Compliance Review
 - Health Dashboard
+- Delivery Practice & Team Continuity
 - High-Level Observations
 - Auditing Methodology
 - Scoring Rubrics
@@ -415,6 +423,7 @@ For a **multi-project** audit, the structure changes. See the Multi-Project Repo
 below for the full layout. In summary:
 
 - Document Information (once)
+- Audit Type Coverage & Assurance Matrix (once)
 - Project Inventory (once)
 - Glossary *(when Descriptive mode is enabled)* (once)
 - Executive Summary (condensed, combined)
@@ -422,7 +431,10 @@ below for the full layout. In summary:
 - Per project (level-2 heading per project, full section set each):
   - Executive Summary
   - System Context (with the Technology Stack subsection)
+  - Software Bill of Materials
+  - License & IP Compliance Review
   - Health Dashboard
+  - Delivery Practice & Team Continuity
   - High-Level Observations
   - Auditing Methodology
   - Scoring Rubrics
@@ -528,13 +540,49 @@ When the report language is not English, apply the label translations from the m
 `translation/` file. Descriptive values such as `State`, `Detail Level`, `Evaluation Scale`,
 `Audit Purpose`, and `Verification Scope` are rendered per the same file.
 
+## Audit Type Coverage & Assurance Matrix
+
+State at a glance which canonical audit types this report answers and which it deliberately does
+not. The matrix makes the report's coverage explicit so it cannot be mistaken for a penetration
+test, a certifying audit, or a full technical due diligence.
+
+The section appears once per report, immediately after `## Document Information` and before
+`## Project Inventory` in a multi-project report, or before `## Glossary` in a single-project
+report.
+
+Present the fixed table from `references/audit-taxonomy.md`, one row per canonical audit type:
+
+|   | Report type                                    | Status in this report   | Rationale                                                            |
+|   | ---------------------------------------------- | ----------------------- | -------------------------------------------------------------------- |
+|   | Software Architecture Review                   | <status>                | <why this status holds for this audit>                               |
+|   | Code Quality Audit                             | <status>                | <why this status holds for this audit>                               |
+|   | Security Vulnerability Assessment              | <status>                | <why this status holds for this audit>                               |
+|   | Open Source License Compliance Review          | <status>                | <why this status holds for this audit>                               |
+|   | Penetration Test                               | <status>                | <why this status holds for this audit>                               |
+|   | Performance Audit                              | <status>                | <why this status holds for this audit>                               |
+|   | Cloud Infrastructure Audit                     | <status>                | <why this status holds for this audit>                               |
+|   | AI Governance Audit                            | <status>                | <why this status holds for this audit>                               |
+|   | Technical Due Diligence                        | <status>                | <why this status holds for this audit>                               |
+|   | SBOM / Software Composition Analysis           | <status>                | <why this status holds for this audit>                               |
+|   | Compliance Certification (SOC 2, ISO 27001)    | <status>                | <why this status holds for this audit>                               |
+
+Status values come from the fixed vocabulary in `references/audit-taxonomy.md`: `Covered`,
+`Partially Covered`, `Not Performed`, `Not Applicable`. Default statuses and per-type rationale
+are defined there. A status other than the default carries its reason in the Rationale column.
+
+When the report language is not English, apply the column header, report-type, and status
+translations from the matching `translation/` file.
+
+The matrix must agree with Scope Exclusions: every `Not Performed` row has a matching exclusion
+bullet, and no `Covered` row is later disclaimed. PAR-11 checks this consistency.
+
 ## Glossary
 
 The Glossary defines every abbreviation and acronym used in the report. It is present when
 Descriptive mode is `Enabled` (the default) and omitted when Descriptive mode is `Disabled`.
 When omitted, record the deliberate omission with a one-line justification in Scope Exclusions.
 
-The section appears immediately after `## Document Information`, or after
+The section appears immediately after `## Audit Type Coverage & Assurance Matrix`, or after
 `## Project Inventory` in a multi-project report, and always before `## Executive Summary`.
 A multi-project report carries one shared Glossary covering terms used in every project block.
 
@@ -630,7 +678,10 @@ within the report.
 **Document Information** appears once at the top. The title uses the repository or directory name,
 not a single project name. Include a `Projects` row in the table listing the audited projects.
 
-**Project Inventory** appears immediately after Document Information. It lists each project with its
+The **Audit Type Coverage & Assurance Matrix** appears once, immediately after Document
+Information and before the Project Inventory.
+
+**Project Inventory** appears after the Coverage Matrix. It lists each project with its
 path, version, and a one-line description.
 
 ```
@@ -664,7 +715,10 @@ project:
 
 - Executive Summary
 - System Context (with the Technology Stack subsection)
+- Software Bill of Materials
+- License & IP Compliance Review
 - Health Dashboard
+- Delivery Practice & Team Continuity
 - High-Level Observations
 - Auditing Methodology
 - Scoring Rubrics
@@ -768,6 +822,17 @@ paragraph to four sentences maximum. Break lines that exceed the selected wrap w
 per `STYLE.md`.
 
 The maturity level must be justified by evidence in later sections, not asserted.
+
+**Coverage and risk flags**
+
+Point the reader at the Audit Type Coverage & Assurance Matrix in one line, naming only the
+statuses that matter for reading the report, for example "This report covers the engineering audit
+types. No penetration test or compliance certification was performed".
+
+Flag a `High` contributor-concentration rating from Delivery Practice & Team Continuity and any
+`Conflict` license risk from License & IP Compliance Review here, one line each, since both are
+material deal-level facts a summary reader should not have to dig for. Omit a flag line when it
+does not apply.
 
 **Production Readiness Threshold**
 
@@ -919,6 +984,61 @@ obligations using `assessment/operational-readiness.md` and its related category
 Add a data-lifecycle summary under Compliance findings when relevant, referencing categories,
 stores, recipients, retention/deletion, and the applicable obligation basis.
 
+## Software Bill of Materials
+
+Present the source-derived component inventory as a structured table. Open the section with one
+line stating what this is: a manifest-derived component list at the audited revision, not a
+shipped-artifact SBOM and not a claim of SPDX or CycloneDX conformance.
+
+Build the table per `references/sbom-schema.md` from the manifests and lockfiles read per
+`references/dependency-manifests.md`:
+
+|   | Component   | Version   | Ecosystem   | Relationship   | License   | License Risk   | Advisory Checked   | Source File   |
+|   | ----------- | --------- | ----------- | -------------- | --------- | -------------- | ------------------ | ------------- |
+|   | <name>      | <ver>     | <purl>      | direct         | <lic>     | <flag>         | N                  | <path>        |
+
+License values come from inspected declarations only, `Unknown` otherwise. License Risk values
+are `None flagged`, `Review`, `Conflict`, or `Unknown` per
+`references/license-compliance-checklist.md`. `Advisory Checked` is `Y` only where committed
+advisory or scan evidence covers the component.
+
+Close the section with the direct and transitive totals and any manifest-lockfile drift noted.
+When no dependency manifest or lockfile exists in the project, state `No dependency manifests or
+lockfiles found` in place of the table rather than omitting the section.
+
+When the report language is not English, apply the column header translations from the matching
+`translation/` file.
+
+## License & IP Compliance Review
+
+Summarize the license-classification pass run over the SBOM table per
+`references/license-compliance-checklist.md`. This section is a synthesis layer: the per-component
+detail lives in the SBOM table and the finding detail lives in `FND-CPR` findings, this section
+states what the pass concluded.
+
+Present the classification counts:
+
+|   | License class     | Components   | Notes                                    |
+|   | ----------------- | ------------ | ---------------------------------------- |
+|   | Permissive        | <count>      | <notable components>                     |
+|   | Weak-copyleft     | <count>      | <notable components>                     |
+|   | Strong-copyleft   | <count>      | <notable components, linkage evidence>   |
+|   | Proprietary       | <count>      | <notable components>                     |
+|   | Unknown           | <count>      | share of total, hygiene implication      |
+
+Below the table, state in short paragraphs:
+
+- Any `Conflict` copyleft-trap result, naming the component, its license, the project's license or
+  distribution model, and the linkage evidence, cross-referenced to its `FND-CPR` finding.
+- Whether the project's own license file, headers, and third-party notices are consistent with the
+  component set, referencing the Copyrights & Originality assessment.
+- The share of components whose license could not be determined from inspected sources, and what
+  artifact (a maintained SBOM, a `THIRD-PARTY-NOTICES` file, per-package license declarations)
+  would resolve it.
+
+When the report language is not English, apply the column header translations from the matching
+`translation/` file.
+
 ## Health Dashboard
 
 Present the quantitative health summary in a consolidated view. This section contains the Risk Heat
@@ -966,10 +1086,14 @@ so no score appears before its band is defined.
 | Compliance              |       |       |
 | Observability           |       |       |
 | Operational Safety      |       |       |
+| Delivery & Continuity   |       |       |
 | AI Provenance           |       |       |
 | Originality & Licensing |       |       |
 | Skill Definition        |       |       |
 | API Compatibility       |       |       |
+
+The Delivery & Continuity dimension is `N/A` when Git history was not in scope, per
+`references/delivery-practice-methodology.md`.
 
 The API Compatibility dimension is `N/A` unless the subject is a reusable library or package,
 per `assessment/api-compatibility.md`.
@@ -990,8 +1114,49 @@ data was not in scope, mark it `NOT COLLECTED` rather than omitting the line. Ke
 and aggregate, never personal. Commit concentration is a proxy for continuity, not a measure of
 operational access or expertise.
 
+This line is the at-a-glance summary. The full delivery-practice proxies and concentration detail
+live in the Delivery Practice & Team Continuity section.
+
 When the report language is not English, apply the heading translation from the matching
 `translation/` file.
+
+## Delivery Practice & Team Continuity
+
+Assess how the project delivers changes and how concentrated its contributor base is, using only
+what the repository shows. Apply `references/delivery-practice-methodology.md` for the proxy
+procedures, the bus-factor rubric, and the marking rules.
+
+**Delivery metrics**
+
+Present the DORA five-metric view. Two metrics are computable as Git-derived proxies, three are
+not measurable from source and must stay `NOT SPECIFIED` with the reason:
+
+|   | DORA metric                      | Result                           | Basis                                       |
+|   | -------------------------------- | -------------------------------- | ------------------------------------------- |
+|   | Change lead time                 | <proxy interval>                 | Proxy: median commit-to-tag interval        |
+|   | Deployment frequency             | <proxy cadence>                  | Proxy: tag cadence over observed window     |
+|   | Failed deployment recovery time  | `NOT SPECIFIED`                  | Requires incident and deployment data       |
+|   | Change fail rate                 | `NOT SPECIFIED`                  | Requires incident and rollback data         |
+|   | Deployment rework rate           | `NOT SPECIFIED`                  | Requires production incident data           |
+
+Label computed values as proxies, never as measured DORA metrics. A project with no tags reports
+the proxy rows as `NOT SPECIFIED` with the reason, commits are not deployments. When Git history
+was not in scope, mark the whole table `NOT COLLECTED`.
+
+**Contributor concentration**
+
+State the bus-factor rating from `references/delivery-practice-methodology.md`: the top-author
+commit share, the active-contributor count, the observation window, and the resulting `High`,
+`Moderate`, or `Low` concentration rating, anchored to `EVD-XXX` rows. Reviewer diversity is
+`NOT SPECIFIED` unless the repository itself records review data, pull-request reviews do not
+live in Git history.
+
+Follow with one short paragraph noting documented ownership or maintenance statements, and any
+continuity-relevant `FND-INF` or `RSK-XXX` references. Keep the content aggregate and neutral,
+never a personal assessment.
+
+When the report language is not English, apply the heading, column header, and status
+translations from the matching `translation/` file.
 
 ## High-Level Observations
 
@@ -1105,9 +1270,13 @@ inspection of the repository contents."
 
 Include the per-project check summary and evidence records from `process/audit-workflow.md`.
 
-| Evidence ID | Project   | Check / Source      | Execution | Result   | Artifact      |
-|-------------|-----------|---------------------|-----------|----------|---------------|
-| EVD-001     | <project> | <source or command> | <state>   | <result> | <path or gap> |
+| Evidence ID | Project   | Check / Source      | Execution | Result   | Type          | Artifact      |
+|-------------|-----------|---------------------|-----------|----------|---------------|---------------|
+| EVD-001     | <project> | <source or command> | <state>   | <result> | <obs/concern> | <path or gap> |
+
+The `Type` column carries `Observation` or `Concern` per `principles/evaluation-rules.md`:
+`Observation` for a fact another auditor could re-derive from the same artifact, `Concern` for a
+risk judgment built on observations. Most ledger rows are `Observation`.
 
 Place documented commands, source locations, revisions, declared tool or report versions,
 exclusions, and limitations below the table rather than abbreviating away traceability.
@@ -1652,6 +1821,7 @@ block pattern:
 
 * **Pillar:** [Architecture & Design | Code Quality | Security & Compliance | Infrastructure & CI/CD | AI Provenance & Code Origin | Copyrights & Originality | API Compatibility & Versioning Discipline]
 * **Severity:** [Critical | High | Medium | Low]
+* **Type:** [Observation | Concern]
 * **Target Files/Modules:** [Exact paths or components evaluated]
 * **Requirement Basis:** [Applicable requirement or explicitly optional improvement]
 * **Evidence:** [EVD IDs, source lines, and inspected/executed/reported/inferred basis]
@@ -1663,6 +1833,7 @@ block pattern:
 * **Impact:** [Concrete operational, business, or security consequence if left unremediated]
 * **Remediation Recommendation:** [Step-by-step technical guidance to resolve the finding]
 * **Verification Method:** [Specific test, command, or process to confirm the fix is successful]
+* **Exploitability Narrative:** [Tier + attack-path reasoning, or N/A with reason]
 ```
 
 When the report language is not English, apply the bullet label translations from the matching
@@ -1678,6 +1849,15 @@ explain what the discovered state is, where it is located (citing file paths and
 why it constitutes a finding. The Impact must state the concrete consequence. The Remediation
 Recommendation must provide step-by-step technical guidance. The Verification Method must specify a
 test or command to confirm the fix.
+
+The `Type` field separates fact from judgment per `principles/evaluation-rules.md`: `Observation`
+for a finding stating an independently re-derivable fact, `Concern` for a risk judgment built on
+observations. Most findings are `Concern`.
+
+The `Exploitability Narrative` field is required on every `HIGH` or `CRITICAL` Security &
+Compliance finding, following `references/exploitability-narrative-template.md`. On a
+network-facing surface it carries the tier and attack-path reasoning. Otherwise it reads `N/A`
+with a one-line reason.
 
 When referencing secrets, credentials, or keys in the Description or Impact fields, replace exact
 values with `[REDACTED]` or generic descriptions such as "plaintext database credentials found in
@@ -1918,6 +2098,25 @@ them as `INCLUDED`.
 
 State any extrapolations made from sampled code to the whole system.
 
+**Standard engagement-type exclusions**
+
+Every report carries these statements in the same register, matching the `Not Performed` rows of
+the Audit Type Coverage & Assurance Matrix:
+
+- **Dynamic/runtime penetration testing** - `NOT PERFORMED` by default. Security findings on
+  network-facing surfaces carry a `Theoretical`-tier Exploitability Narrative only. A scoped, live
+  penetration test is a distinct, separately-commissioned engagement.
+- **Organizational and team interviews, business-fit assessment** - `NOT PERFORMED` by default.
+  The report covers the engineering dimensions of a technical due diligence (architecture, code,
+  security, licensing, delivery-practice proxies) but not the interview-based team, leadership,
+  and problem-fit pillars a formal TDD engagement adds.
+- **Compliance certification** - the report is not a SOC 2, ISO 27001, or PCI-DSS conformance
+  assessment. Referenced standards such as ISO/IEC 25010, OWASP ASVS, and NIST SP 800-30 are used
+  as scoring rubrics and coverage checklists only.
+
+When the engagement scope explicitly lifts one of these defaults, state that here and update the
+matrix status to match.
+
 **Standard coverage statement**
 
 When the audit referenced security standards, state which categories were in scope and which were
@@ -1963,6 +2162,11 @@ Rows come from two sources:
 - Every unresolved `UNKNOWN`, `NOT SPECIFIED`, or `INSUFFICIENT INFORMATION` token from the
   findings and registers, with the input that would resolve it.
 
+Typical unresolved inputs include telemetry-dependent delivery metrics that stayed
+`NOT SPECIFIED`, missing cost, support, ownership, or supplier-obligation evidence,
+underivable SBOM fields such as `Unknown` licenses, and `Theoretical` attack paths that no
+live validation has confirmed.
+
 For multi-project reports, qualify each row with the project identifier.
 
 ## Re-audit And Follow-up Plan
@@ -1988,6 +2192,11 @@ When the report language is not English, apply the column header translations fr
 After the table, state sign-off gates tied to project-qualified `RSK-XXX` IDs and an evidenced
 re-audit schedule.
 
+Include the two standard triggers from `synthesis/re-audit-plan.md` when they apply: an SBOM-drift
+re-audit on manifest or lockfile change, and a pentest-escalation trigger naming a scoped live
+penetration test when a `HIGH` or `CRITICAL` network-facing finding remains `Theoretical` after
+remediation planning.
+
 Apply `synthesis/re-audit-plan.md` for confirmed ownership, revision-specific closure evidence,
 residual risk, and the separation of final-report state from production sign-off.
 
@@ -2008,7 +2217,7 @@ Use a table:
 
 Rows appear in this order:
 
-1. One row per Mandatory Core Checklist item, `PAR-1` through `PAR-9`, in fixed order.
+1. One row per Mandatory Core Checklist item, `PAR-1` through `PAR-16`, in fixed order.
 2. Internal consistency checks: `FND-XXX`/`RSK-XXX`/`REC-XXX` cross-referencing, count
    reconciliation across summary tables and registers, conditional-section evaluation, and
    formatting rules.
@@ -2063,23 +2272,27 @@ Run this checklist after writing the report body and before running the formatti
 consolidates the mechanical rules from this file and `principles/output-style.md` in one
 place, every item is mechanical and takes seconds to verify.
 
-| Check          | Rule                                                                                      |
-|----------------|-------------------------------------------------------------------------------------------|
-| Headings       | `#` title, `##` sections, `###` subsections and blocks, never `####` or deeper            |
-| Heading space  | Exactly one empty line after every heading                                                |
-| Delimiters     | Pipe-delimited columns, one space inside leading and trailing pipes                       |
-| Separators     | Hyphens contiguous with pipes, width equals column width plus two                         |
-| Alignment      | Every column aligned by the formatting script, never padded by hand                       |
-| Semicolons     | None outside code blocks, inline code, and file paths                                     |
-| Dashes         | ASCII `-` only, no em dash or en dash                                                     |
-| Arrows         | ASCII `->` in prose, no Unicode arrow                                                     |
-| Prose width    | Lines broken near the selected width (default 100), exempt table rows, URLs, links, paths |
-| Finding blocks | Every required field present, see the template in Detailed Technical Findings             |
-| Glossary       | Present when Descriptive mode is enabled, alphabetical, body occurrences link             |
-| Diagrams       | Fenced, untagged, no leading or trailing blank line inside the fence                      |
-| Registers      | Every RSK cites an FND, every REC cites an FND, heat-map covers rated risks               |
-| Location       | Report path matches the output directory recorded during intake                           |
-| Ending         | References is the last section, no closing line after it                                  |
+| Check           | Rule                                                                                      |
+|-----------------|-------------------------------------------------------------------------------------------|
+| Headings        | `#` title, `##` sections, `###` subsections and blocks, never `####` or deeper            |
+| Heading space   | Exactly one empty line after every heading                                                |
+| Delimiters      | Pipe-delimited columns, one space inside leading and trailing pipes                       |
+| Separators      | Hyphens contiguous with pipes, width equals column width plus two                         |
+| Alignment       | Every column aligned by the formatting script, never padded by hand                       |
+| Semicolons      | None outside code blocks, inline code, and file paths                                     |
+| Dashes          | ASCII `-` only, no em dash or en dash                                                     |
+| Arrows          | ASCII `->` in prose, no Unicode arrow                                                     |
+| Prose width     | Lines broken near the selected width (default 100), exempt table rows, URLs, links, paths |
+| Finding blocks  | Every required field present, see the template in Detailed Technical Findings             |
+| Coverage matrix | Present after Document Information, consistent with Scope Exclusions                      |
+| SBOM            | Every License cell populated or `Unknown`, direct components manifest-sourced             |
+| Type tags       | `Observation` or `Concern` on every evidence-ledger row and every finding                 |
+| Exploitability  | Narrative present on every `HIGH`/`CRITICAL` security finding, `N/A` justified            |
+| Glossary        | Present when Descriptive mode is enabled, alphabetical, body occurrences link             |
+| Diagrams        | Fenced, untagged, no leading or trailing blank line inside the fence                      |
+| Registers       | Every RSK cites an FND, every REC cites an FND, heat-map covers rated risks               |
+| Location        | Report path matches the output directory recorded during intake                           |
+| Ending          | References is the last section, no closing line after it                                  |
 
 `tools/format-table.py` in the skill repository is the canonical formatting script, copy it into
 the audited repository's `work/` directory before use. `tools/validate-report.py` runs the

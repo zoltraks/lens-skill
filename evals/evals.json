@@ -147,6 +147,71 @@
         "A status other than UPDATE-AVAILABLE produces no user-facing mention of the check.",
         "The check writes no state files and never commits, stashes, or discards changes in the skill repository."
       ]
+    },
+    {
+      "id": 13,
+      "prompt": "Audit this repository with default parameters. The user expects a security-focused review and asks whether the report is a penetration test and a SOC 2 assessment.",
+      "expected_output": "A report whose Audit Type Coverage & Assurance Matrix states exactly which canonical audit types are covered, partially covered, or not performed, with rationale tied to report sections.",
+      "files": [],
+      "expectations": [
+        "The report includes an Audit Type Coverage & Assurance Matrix immediately after Document Information, using only the fixed statuses Covered, Partially Covered, Not Performed, and Not Applicable.",
+        "Penetration Test is marked Not Performed and the rationale distinguishes source-level security review from live exploitation.",
+        "Compliance Certification is marked Not Performed or Not Applicable, and referenced standards appear only as scoring rubrics.",
+        "Every matrix status is consistent with Scope Exclusions: nothing marked Covered is disclaimed there and vice versa.",
+        "Technical Due Diligence is not marked fully Covered when team interviews, business fit, cost, support, or ownership evidence is absent."
+      ]
+    },
+    {
+      "id": 14,
+      "prompt": "Audit this repository, which has dependency manifests and lockfiles but no committed SBOM, no license files in vendored code, and no ownership or contractor-assignment documents.",
+      "expected_output": "A report with a source-derived Software Bill of Materials section and a License & IP Compliance Review that keep undeterminable fields explicitly unknown.",
+      "files": [],
+      "expectations": [
+        "The Software Bill of Materials section states that no shipped-artifact SBOM was provided and presents the manifest-derived inventory as Inspected source evidence, not a generated or shipped SBOM.",
+        "Every SBOM row carries component, version, ecosystem, relationship, license, and evidence columns, with license cells reading Unknown rather than registry guesses.",
+        "The License & IP Compliance Review separates observed license facts from inferred concerns and records missing ownership or assignment evidence as UNKNOWN.",
+        "The absent shipped SBOM is reported as an inventory gap, not as a vulnerability or compliance violation.",
+        "No license violation, copyright infringement, or legal obligation is claimed without specific evidence."
+      ]
+    },
+    {
+      "id": 15,
+      "prompt": "Audit this repository, which has nine months of git history, quarterly release tags, a single dominant commit author, and no CI pipeline or incident data. Assess delivery health.",
+      "expected_output": "A Delivery Practice & Team Continuity section that reports source-derived DORA proxies, marks telemetry-dependent metrics NOT SPECIFIED, and rates key-person concentration.",
+      "files": [],
+      "expectations": [
+        "All five DORA metrics appear: change lead time, deployment frequency, failed deployment recovery time, change fail rate, and deployment rework rate.",
+        "Deployment frequency and change lead time carry computed proxy values labeled as source-derived proxies, while the three telemetry-dependent metrics read NOT SPECIFIED.",
+        "A bus-factor rating is derived from commit-author concentration using the documented thresholds.",
+        "Commit data is presented as aggregate evidence without inferring individual competence or assigning blame.",
+        "Missing support, cost, and supplier-obligation evidence is recorded as UNKNOWN rather than omitted."
+      ]
+    },
+    {
+      "id": 16,
+      "prompt": "Audit this repository, which contains an unauthenticated file-upload endpoint rated HIGH severity. Assess findings structure and exploitability reasoning.",
+      "expected_output": "Findings that carry a Type tag separating observation from concern, and an exploitability narrative on the network-facing security finding that stays theoretical.",
+      "files": [],
+      "expectations": [
+        "Every finding carries a Type field reading Observation or Concern, and every Evidence Ledger row carries the same tag.",
+        "The HIGH security finding on the upload endpoint carries an Exploitability Narrative with a tier, preconditions, attack-path steps, trust boundaries, impact, and uncertainty.",
+        "The narrative is marked Theoretical and NOT EXECUTED, states the live validation needed, and never claims exploitation occurred.",
+        "The Scope Exclusions name dynamic penetration testing as not performed by default and point to a separately commissioned engagement.",
+        "No finding, risk, or recommendation asserts verified runtime exploitability."
+      ]
+    },
+    {
+      "id": 17,
+      "prompt": "Write the audit report in Polish for a repository with manifests, a HIGH network-facing security finding, and partial git history. Use the skill's Polish rendering rules.",
+      "expected_output": "A Polish report whose new sections and tags match translation/polish-language.md verbatim, preserving machine tokens and settled terminology.",
+      "files": [],
+      "expectations": [
+        "New section headings match the dictionary verbatim: Macierz pokrycia typów audytu i poziomu zapewnienia, Zestawienie składników oprogramowania, Przegląd zgodności licencyjnej i IP, Praktyka dostarczania i ciągłość zespołu.",
+        "Coverage statuses render as OBJĘTE, CZĘŚCIOWO OBJĘTE, NIEPRZEPROWADZONE, or NIE DOTYCZY, and finding Type tags render Obserwacja or Zastrzeżenie.",
+        "Exploitability tiers render TEORETYCZNY, POTWIERDZONE STATYCZNIE, or ZWERYFIKOWANE DYNAMICZNIE, while IDs, CWE references, and file paths stay unchanged.",
+        "The scorecard dimension renders Dostarczanie i ciągłość, and DORA metric names follow the dictionary.",
+        "Loanwords such as commit, pull request, copyleft, SBOM, and due diligence stay untranslated and established terms such as Ważność, Panel zdrowia, and kryterium jakości are used."
+      ]
     }
   ]
 }

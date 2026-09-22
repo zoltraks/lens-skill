@@ -20,9 +20,13 @@ ENDASH = chr(0x2013)
 ARROW = chr(0x2192)
 BASELINE_SECTIONS = [
     "Document Information",
+    "Audit Type Coverage & Assurance Matrix",
     "Executive Summary",
     "System Context",
+    "Software Bill of Materials",
+    "License & IP Compliance Review",
     "Health Dashboard",
+    "Delivery Practice & Team Continuity",
     "High-Level Observations",
     "Auditing Methodology",
     "Scoring Rubrics",
@@ -39,6 +43,7 @@ BASELINE_SECTIONS = [
 ]
 BRIEF_SECTIONS = {
     "Document Information",
+    "Audit Type Coverage & Assurance Matrix",
     "Executive Summary",
     "System Context",
     "Health Dashboard",
@@ -187,6 +192,7 @@ def check_finding_blocks(lines: list[str]) -> list[str]:
     required = [
         "Pillar:",
         "Severity:",
+        "Type:",
         "Target Files/Modules:",
         "Requirement Basis:",
         "Evidence:",
@@ -198,6 +204,7 @@ def check_finding_blocks(lines: list[str]) -> list[str]:
         "Impact:",
         "Remediation Recommendation:",
         "Verification Method:",
+        "Exploitability Narrative:",
     ]
     failures: list[str] = []
     starts = [index for index, line in enumerate(lines) if line.startswith("### FND-")]
@@ -222,12 +229,17 @@ def check_security_classification(lines: list[str]) -> list[str]:
         match = re.search(r"\* \*\*Security Classification:\*\*\s*(.*)", block)
         if not match or not re.search(r"CWE-[0-9]+|\bUNKNOWN\b|\bN/A\b|\bN/D\b|\bNIEZNANE\b", match.group(1)):
             failures.append(f"{lines[start][4:70]}: security classification lacks CWE or an unknown/not-applicable token")
+        severity = re.search(r"\* \*\*Severity:\*\*\s*(.*)", block)
+        narrative = re.search(r"\* \*\*Exploitability Narrative:\*\*\s*(.*)", block)
+        if severity and narrative and re.search(r"\b(critical|high|krytyczna|wysoka)\b", severity.group(1), re.IGNORECASE):
+            if re.fullmatch(r"N/?A|N/D", narrative.group(1).strip()):
+                failures.append(f"{lines[start][4:70]}: HIGH/CRITICAL security finding's exploitability narrative is bare N/A without a reason")
     return failures
 
 
 def check_par_rows(text: str) -> list[str]:
     failures: list[str] = []
-    for number in range(1, 11):
+    for number in range(1, 17):
         if not re.search(rf"^\|\s*PAR-{number}(?:\s|\||:)", text, re.MULTILINE):
             failures.append(f"missing Validation Record row PAR-{number}")
     return failures
@@ -560,7 +572,7 @@ def main(path: str) -> int:
         ("security classifications", check_security_classification(lines)),
         ("score disclosure", check_score_disclosure(lines)),
         ("project qualification", check_project_qualification(text)),
-        ("PAR-1..PAR-10", check_par_rows(text)),
+        ("PAR-1..PAR-16", check_par_rows(text)),
         ("glossary", check_glossary(text)),
         ("final-state gate", check_final_state(text)),
         ("location pattern", check_location(path)),

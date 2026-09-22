@@ -15,17 +15,17 @@
 
 | Section                       | Line | What it covers                                      |
 |-------------------------------|------|-----------------------------------------------------|
-| What The Skill Does           | 59   | Audit purpose, evidence contract, and principles    |
-| Evidence And Decision Quality | 115  | Evidence strength and verification limits           |
-| Core Principles               | 167  | Evaluation constraints and status rules             |
-| Report Format                 | 183  | Report structure, identifiers, and style            |
-| When To Use This Skill        | 208  | Supported requests and exclusions                   |
-| Example Prompts               | 228  | Phrases the skill activates on                      |
-| What's Inside                 | 287  | Documents, references, tools, and conditional files |
-| Document Style                | 374  | Pointer to the style rules file                     |
-| Verification                  | 383  | Skill-maintenance checks and regression scenarios   |
-| License                       | 403  | License for the skill itself                        |
-| Credits                       | 409  | Authorship and attribution                          |
+| What The Skill Does           | 63   | Audit purpose, evidence contract, and principles    |
+| Evidence And Decision Quality | 119  | Evidence strength and verification limits           |
+| Core Principles               | 171  | Evaluation constraints and status rules             |
+| Report Format                 | 187  | Report structure, identifiers, and style            |
+| When To Use This Skill        | 212  | Supported requests and exclusions                   |
+| Example Prompts               | 232  | Phrases the skill activates on                      |
+| What's Inside                 | 291  | Documents, references, tools, and conditional files |
+| Document Style                | 383  | Pointer to the style rules file                     |
+| Verification                  | 392  | Skill-maintenance checks and regression scenarios   |
+| License                       | 412  | License for the skill itself                        |
+| Credits                       | 418  | Authorship and attribution                          |
 
 Lens is a structured audit process packaged as an agent skill. It guides an AI coding agent through
 a complete engineering assessment of a codebase, producing a neutral, repeatable report anchored to
@@ -35,12 +35,16 @@ Unlike a generic "review my code" prompt, Lens enforces a fixed workflow: intake
 configuration, scope definition, evidence gathering, per-category assessment, synthesis, and
 validation.
 
-The output is a standardized report with seventeen baseline sections - document
-information, executive summary, system context (with the technology stack), health dashboard,
+The output is a standardized report with twenty-one baseline sections - document
+information, an audit type coverage and assurance matrix that states which canonical audit
+types the report answers and which it deliberately does not, executive summary, system context
+(with the technology stack), a source-derived software bill of materials, a license and IP
+compliance review, health dashboard, a delivery practice and team continuity review,
 high-level observations, auditing methodology, scoring rubrics, architectural assessment,
-trade-off analysis, strengths and what's working, detailed technical findings, unified risk
-register, actionable remediation roadmap, scope exclusions, limitations and unknowns, validation
-record, and references - plus conditional
+trade-off analysis, strengths and what's working, detailed technical findings with theoretical
+exploitability narratives on serious security findings, unified risk register, actionable
+remediation roadmap, scope exclusions, limitations and unknowns, validation record, and
+references - plus conditional
 sections (data flow diagram, design patterns, architecture decision records, threat model, API
 contract conformance, skill definition conformance, AI system assessment, standards conformance, API
 compatibility and versioning discipline, technical debt register, changes since previous audit, and
@@ -340,7 +344,12 @@ lens-skill/
 │   ├── stack-standards.md         # Stack, supply-chain, and AI reference sources
 │   ├── cwe-analyzer-map.md        # CWE to static-analyzer-rule cross-reference per ecosystem
 │   ├── dependency-manifests.md    # Text-only manifest readers, source-derived component inventory
-│   └── census-commands.md         # Canonical reproducible census methods
+│   ├── census-commands.md         # Canonical reproducible census methods
+│   ├── audit-taxonomy.md          # Canonical audit types, coverage statuses, source corpus
+│   ├── sbom-schema.md             # Report-level source-derived component inventory schema
+│   ├── license-compliance-checklist.md  # License classes, copyleft, notices, ownership checks
+│   ├── delivery-practice-methodology.md # DORA proxies, bus-factor rubric, continuity evidence
+│   └── exploitability-narrative-template.md  # Theoretical attack-path narrative format and tiers
 ├── tools/
 │   ├── format-table.py            # Source-width Markdown table formatter
 │   ├── validate-report.py         # Report structure and traceability validator
