@@ -23,7 +23,7 @@ compatibility: >-
   executes the project. No network access required for the audit itself,
   optional web fetch for external documentation or CVE lookups.
 metadata:
-  version: "1.1"
+  version: "1.2"
   author: Filip Golewski
 ---
 
@@ -50,8 +50,8 @@ metadata:
 | Tools                   | 322  | Report-production scripts                          |
 | Evaluation Prompts      | 342  | Behavioral regression prompts                      |
 | Repository Files        | 351  | Housekeeping files governing this repository       |
-| Evidence Contract       | 360  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 390  | File-selection and section-placement rules         |
+| Evidence Contract       | 361  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 391  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -353,6 +353,7 @@ review.
 These files govern the skill repository itself rather than audit production:
 
 - **`STYLE.md`** - Style rules for the skill's own files. Follow when editing this repository.
+- **`MAINTENANCE.md`** - Repository structure, naming, registration, validation, and versioning rules.
 - **`README.md`** - Human-facing overview, usage examples, and verification commands.
 - **`VERSIONING.md`** - Version numbering and release conventions for the skill.
 - **`LICENSE`** - License text for the skill.
