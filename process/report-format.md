@@ -475,9 +475,9 @@ names:
 |------------------|----------------------------------------------|
 | Report Revision  | 1.2                                          |
 | Report Date      | 2026-09-17                                   |
-| State            | Final                                        |
 | Detail Level     | Detailed                                     |
 | Evaluation Scale | 1-10                                         |
+| Time taken       | 47:32                                        |
 | Previous Report  | docs/audit/26.7.0/AUDIT-1.1.md, revision 1.1 |
 ```
 
@@ -487,7 +487,8 @@ Rows appear in this order, each label in the first column and its value in the s
 
 - `Report Revision` - the report document revision, assigned per the report revision rules below.
 - `Report Date` - the audit date.
-- `State` - `Draft` or `Final`.
+- `State` - `Draft` only. Write the row while the report is still in progress and omit it when the
+  report is final, which is the expected end state and needs no marker.
 - `Detail Level` - `Standard`, `Detailed`, or `Brief`.
 - `Evaluation Scale` - `1-10`, `1-5`, `1-3`, `5 stars`, or `3 stars`.
 - `Language` - the report language.
@@ -495,8 +496,11 @@ Rows appear in this order, each label in the first column and its value in the s
 - `Target Environment` - where the software runs or ships.
 - `Verification Scope` - always `source-only`.
 - `Subject Revision` - the audited revision of the subject, such as a commit hash.
-- `Dirty-Tree State` - the working tree state at audit time.
+- `Dirty-Tree State` - the working tree state at audit time, written only when the tree is dirty.
+  Omit the row when the tree is clean.
 - `Skill Version` - the version of the audit skill that produced the report.
+- `Time taken` - elapsed audit time in `MM:SS`, measured from the start timestamp recorded at
+  intake.
 - `Previous Report` - the previous report path and revision, only on a confirmed re-audit. Omit
   the row on a fresh audit.
 - `Projects` - the audited project names, multi-project reports only.
@@ -520,7 +524,8 @@ and include the `Projects` row.
 These fields support reproducible re-audits and prevent historical tool results being attributed
 to a different tree.
 
-`Final` means the scoped report is complete, not that the system is approved for production.
+A report without a `State` row is final: the scoped report is complete, which does not mean the
+system is approved for production.
 
 **Report revision**
 
@@ -555,7 +560,7 @@ report.
 
 Present the fixed table from `references/audit-taxonomy.md`, one row per canonical audit type:
 
-|   | Report type                                    | Status in this report   | Rationale                                                            |
+|   | Report type                                    | Status                  | Rationale                                                            |
 |   | ---------------------------------------------- | ----------------------- | -------------------------------------------------------------------- |
 |   | Software Architecture Review                   | <status>                | <why this status holds for this audit>                               |
 |   | Code Quality Audit                             | <status>                | <why this status holds for this audit>                               |
@@ -570,13 +575,13 @@ Present the fixed table from `references/audit-taxonomy.md`, one row per canonic
 |   | Compliance Certification (SOC 2, ISO 27001)    | <status>                | <why this status holds for this audit>                               |
 
 Status values come from the fixed vocabulary in `references/audit-taxonomy.md`: `Covered`,
-`Partially Covered`, `Not Performed`, `Not Applicable`. Default statuses and per-type rationale
+`Partially`, `Not done`, `Not Applicable`. Default statuses and per-type rationale
 are defined there. A status other than the default carries its reason in the Rationale column.
 
 When the report language is not English, apply the column header, report-type, and status
 translations from the matching `translation/` file.
 
-The matrix must agree with Scope Exclusions: every `Not Performed` row has a matching exclusion
+The matrix must agree with Scope Exclusions: every `Not done` row has a matching exclusion
 bullet, and no `Covered` row is later disclaimed. PAR-11 checks this consistency.
 
 ## Glossary
@@ -650,6 +655,12 @@ Apply the rule to prose and table cells. Exempt:
   not create compounds - `The PWA` still links.
 - Inflected forms keep the suffix inside the link text, for example
   `[SLOs](#slo-service-level-objective)`.
+
+Apply body linking with a scripted pass rather than by hand. A report can hold hundreds of
+standalone acronym occurrences, and the reliable procedure is to walk the body once with the
+report's own index table and `###` anchors, skipping the exemptions above, and to rerun the pass
+after any late content edit. Hand-linking a long report reliably leaves misses that PAR-10 and
+`validate-report.py` then surface one by one.
 
 **Coverage**
 
@@ -791,7 +802,7 @@ Use a key-value table:
 | Scope          | <what was reviewed and what was excluded>             |
 | Source basis   | <running system / inspected code / description>       |
 | Maturity level | <maturity level>                                      |
-| Overall score  | <score display>, lowest: <dimension> <score display>  |
+| Overall score  | <score display>                                       |
 
 Maturity level is one of: `Prototype`, `Early development`, `Pre-production`, `Production-ready`, or
 `Undetermined`. When the report language is not English, the value is rendered per the matching
@@ -799,12 +810,13 @@ Maturity level is one of: `Prototype`, `Early development`, `Pre-production`, `P
 
 For numeric scales, use `<mean>/<scale> (<band>)` and `<score>/<scale>`. For `5 stars` or
 `3 stars`, use the rounded star bar followed by the exact mean in parentheses, for example
-`★★★☆☆ (3.4/5)` and `lowest: Security ★★☆☆☆`.
+`★★★☆☆ (3.4/5)`.
 
-The Overall score row always pairs the unweighted mean with the lowest-scoring applicable
-dimension and its score, so a weak pillar is never hidden inside the average. Exclude `N/A` and
-`UNKNOWN` dimensions from both values. When several dimensions tie for the lowest score, name
-them all. Omit the row only when no dimensions were scored.
+The Overall score cell holds only the score display. The lowest-scoring applicable dimension and
+its score go in a paragraph directly below the table, so a weak pillar is never hidden inside the
+average, for example `Lowest-scoring dimensions: Security ★★☆☆☆.` Exclude `N/A` and `UNKNOWN`
+dimensions from both values. When several dimensions tie for the lowest score, name them all.
+Omit the row and the paragraph only when no dimensions were scored.
 
 When the report language is not English, apply the table header and field name translations from the
 matching `translation/` file.
@@ -1300,8 +1312,8 @@ For testing, distinguish inspected test counts from documented coverage and muta
 
 Link every finding to supporting `EVD-XXX` records.
 
-Evidence IDs are scoped per report and are not stable across revisions. Cite a previous report's
-evidence as `EVD-XXX` plus the report name, for example `EVD-017 in AUDIT-1.2`.
+Identifiers apply only within a single report and may be reassigned in later revisions. Cite a
+previous report's evidence as `EVD-XXX` plus the report name, for example `EVD-017 in AUDIT-1.2`.
 
 **Severity definitions**
 
@@ -1392,7 +1404,7 @@ For every numeric or star score, include evidence references and confidence in i
 paragraph.
 
 If an overall score is shown, disclose its formula, weights, rounding, and coverage denominator.
-State the lowest-scoring applicable dimension and its score alongside the mean, per
+State the lowest-scoring applicable dimension and its score in a paragraph below the table, per
 `synthesis/project-scorecard.md`.
 
 ## Architectural Assessment
@@ -2104,7 +2116,7 @@ State any extrapolations made from sampled code to the whole system.
 
 **Standard engagement-type exclusions**
 
-Every report carries these statements in the same register, matching the `Not Performed` rows of
+Every report carries these statements in the same register, matching the `Not done` rows of
 the Audit Type Coverage & Assurance Matrix:
 
 - **Dynamic/runtime penetration testing** - `NOT PERFORMED` by default. Security findings on

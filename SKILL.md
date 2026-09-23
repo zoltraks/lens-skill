@@ -192,7 +192,7 @@ Configuration phase.
 - **`process/report-format.md`** - The required report structure and the table-driven template the
   final output must follow. Section headings are unnumbered.
 - **`process/report-parity.md`** - The mandatory core checklist applied to every report and the
-  consistency gate that runs before `State: Final`, diffing the report's capability set against the
+  consistency gate that runs before a report is marked final, diffing the report's capability set against the
   checklist and the most recent report found for any subject.
 - **`process/readiness-and-scoring.md`** - Deterministic score aggregation, evidence confidence,
   maturity levels, readiness gates, and production sign-off limits.
@@ -465,7 +465,7 @@ when maintaining the skill.
   `assessment/api-compatibility.md`, include it only when the subject is a reusable library or
   package rather than a deployable service.
 - Wherever an overall score appears, the lowest-scoring applicable dimension and its score are
-  reported alongside the mean, per `synthesis/project-scorecard.md`.
+  reported in a paragraph below the table, per `synthesis/project-scorecard.md`.
 - Conditional sections appear only when their inclusion criterion is met. Evaluate each criterion in
   the Conditional Sections table of `process/report-format.md`. Omit a conditional section entirely
   when it cannot apply, and note the deliberate omission in Scope Exclusions. Never force an
@@ -481,7 +481,8 @@ when maintaining the skill.
   report uses a revision-numbered filename such as `AUDIT-1.1.md` and the next minor revision.
 - Limitations and Unknowns lists every check that would require execution and was not performed.
   Validation Record closes the report with the Mandatory Core Checklist result and the consistency
-  gate outcome from `process/report-parity.md`. Mark `State: Final` only when the gate passes.
+  gate outcome from `process/report-parity.md`. The report is final - and carries no `State` row -
+  only when the gate passes.
 - For a multi-project report, a condensed combined Executive Summary and a combined Changes
   Since Previous Audit follow the Project Inventory, and a combined Trade-off Analysis holds
   only cross-project trade-offs per `synthesis/trade-off-analysis.md`.

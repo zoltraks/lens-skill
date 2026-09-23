@@ -20,11 +20,11 @@ The Coverage Matrix uses exactly these statuses, and no others:
 | Status              | Meaning                                                                                   |
 |---------------------|-------------------------------------------------------------------------------------------|
 | `Covered`           | The report answers this audit type's core questions within the source-only evidence model |
-| `Partially Covered` | Some of this type's dimensions are answered, and the named limits remain explicit         |
-| `Not Performed`     | This is a distinct engagement type the audit deliberately does not run                    |
+| `Partially` | Some of this type's dimensions are answered, and the named limits remain explicit         |
+| `Not done`     | This is a distinct engagement type the audit deliberately does not run                    |
 | `Not Applicable`    | This audit type does not apply to the subject under audit                                 |
 
-`Not Performed` declares a scope decision about an engagement kind, never a defect of the subject.
+`Not done` declares a scope decision about an engagement kind, never a defect of the subject.
 `Not Applicable` differs: the type's trigger condition is absent entirely, for example an AI
 Governance Audit for a project with no AI dependency.
 
@@ -39,13 +39,13 @@ or the subject justifies a different one, and the Rationale column always states
 | Code Quality Audit                          | Code Quality pillar findings, Technical Debt Register              | Covered           |
 | Security Vulnerability Assessment           | Security pillar findings, Threat Model, CWE mappings               | Covered           |
 | Open Source License Compliance Review       | License & IP Compliance Review, SBOM license pass                  | Covered           |
-| Penetration Test                            | Nothing equivalent, Exploitability Narratives are theoretical only | Not Performed     |
-| Performance Audit                           | NFR review of stated targets and design, no load measurement       | Partially Covered |
-| Cloud Infrastructure Audit                  | Deployment and IaC inspection, no live environment state           | Partially Covered |
+| Penetration Test                            | Nothing equivalent, Exploitability Narratives are theoretical only | Not done          |
+| Performance Audit                           | NFR review of stated targets and design, no load measurement       | Partially         |
+| Cloud Infrastructure Audit                  | Deployment and IaC inspection, no live environment state           | Partially         |
 | AI Governance Audit                         | AI System Assessment when applicable                               | Covered or N/A    |
-| Technical Due Diligence                     | Engineering dimensions plus Delivery Practice & Team Continuity    | Partially Covered |
+| Technical Due Diligence                     | Engineering dimensions plus Delivery Practice & Team Continuity    | Partially         |
 | SBOM / Software Composition Analysis        | Software Bill of Materials section, manifest-derived               | Covered           |
-| Compliance Certification (SOC 2, ISO 27001) | Standards used as scoring rubrics only                             | Not Performed     |
+| Compliance Certification (SOC 2, ISO 27001) | Standards used as scoring rubrics only                             | Not done          |
 
 The AI Governance Audit row takes `Covered` when the AI System Assessment applies per
 `assessment/ai-system.md`, and `Not Applicable` otherwise.
@@ -71,17 +71,17 @@ vendored code answers the core license-compliance question. Undeterminable depen
 recorded as `Unknown` and assessed as a gap, per `references/license-compliance-checklist.md`.
 
 **Penetration Test.** A penetration test validates exploitability against a running target.
-Source-only audits never execute the subject, so this row is always `Not Performed` unless the
+Source-only audits never execute the subject, so this row is always `Not done` unless the
 engagement scope explicitly lifts the no-execution constraint. Exploitability Narratives carry the
 attack-path reasoning habit at `Theoretical` confidence only.
 
 **Performance Audit.** Stated performance targets, NFR evidence, and design-level scalability are
 reviewable in source. Throughput, latency, and resource consumption are not measurable without
-execution, so the row stays `Partially Covered`.
+execution, so the row stays `Partially`.
 
 **Cloud Infrastructure Audit.** Committed IaC, deployment configuration, and pipeline files are
 inspectable. Live console state, IAM effective permissions, and runtime configuration drift are
-not, keeping the row `Partially Covered`.
+not, keeping the row `Partially`.
 
 **AI Governance Audit.** The conditional AI System Assessment covers model, data, and risk-control
 evidence present in source. Certification-grade governance review remains outside scope.
@@ -89,7 +89,7 @@ evidence present in source. Certification-grade governance review remains outsid
 **Technical Due Diligence.** The report covers the engineering pillars of a due diligence
 engagement: architecture, code, security, licensing, and delivery-practice proxies. Interviews,
 team assessment, business fit, and commercial analysis are not performed, so the row stays
-`Partially Covered`.
+`Partially`.
 
 **SBOM / Software Composition Analysis.** The manifest-derived inventory answers the inventory
 question. It is not a shipped-artifact SBOM and performs no advisory-database lookups, per
@@ -104,7 +104,7 @@ rubrics and coverage checklists. The report makes no conformance or certificatio
 - A status other than the default carries a one-line justification in the Rationale column.
 - The matrix must agree with Scope Exclusions: no `Covered` row may be disclaimed later, and no
   exclusion may contradict a `Covered` status. PAR-11 enforces this.
-- `Not Performed` rows reference the corresponding exclusion bullet in Scope Exclusions.
+- `Not done` rows reference the corresponding exclusion bullet in Scope Exclusions.
 - In a multi-project report the matrix appears once, before the Project Inventory, and statuses
   reflect the engagement as a whole. Per-project differences go in the Rationale column.
 

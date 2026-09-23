@@ -314,8 +314,8 @@ so follow-up verification is concrete.
 Audits select canonical, stack-specific references from `references/stack-standards.md` rather
 than relying on generic standards alone. Dependency manifests and lockfiles yield a
 source-derived component inventory per `references/dependency-manifests.md`, with no tool
-execution. Every overall score is reported with its lowest-scoring dimension alongside the
-mean, and every material piece of collected evidence must surface in the report.
+execution. Every overall score is reported with its lowest-scoring dimension in a paragraph
+below the table, and every material piece of collected evidence must surface in the report.
 
 The guides cover how to assess documented or committed evidence for baseline checks, coverage,
 mutation and fuzz testing, unsafe-use statistics, dependency advisories, SBOMs, and license
@@ -425,7 +425,7 @@ lens-skill/
 ├── process/
 │   ├── audit-workflow.md          # Intake, scope, evidence, assessment, synthesis, validation
 │   ├── report-format.md           # The table-driven, unnumbered report template
-│   ├── report-parity.md           # Mandatory core checklist and consistency gate before Final
+│   ├── report-parity.md           # Mandatory core checklist and consistency gate before final
 │   └── readiness-and-scoring.md    # Deterministic scores, confidence, maturity, and readiness gates
 ├── assessment/
 │   ├── testing-review.md          # Test pyramid (unit/integration/e2e), TDD, coverage, testability

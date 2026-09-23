@@ -9,7 +9,7 @@
       "expectations": [
         "The report states that no project build, test, scan, or runtime execution was performed.",
         "Every security finding has a CWE identifier, UNKNOWN, or justified N/A and an evidence reference.",
-        "The report distinguishes readiness state from report State: Final.",
+        "The report distinguishes readiness state from the report's final state (no State row).",
         "Every risk and recommendation resolves to a finding identifier."
       ]
     },
@@ -81,7 +81,7 @@
         "Severity, status, and execution-state tokens render in Polish (WYSOKA, N/D, NIEZNANE, NIEURUCHOMIONE) with gender agreement, while IDs (FND, RSK, REC, EVD), CWE identifiers, commands, and verbatim evidence stay unchanged.",
         "Conditional headings that appear in the report are translated.",
         "The report applies the Polish terminology dictionary (ustalenie, zalecenie, plik blokady zależności, proces CI) and avoids literal calques such as rozjazd, dryf, brama, or potok.",
-        "Descriptive fixed values are rendered in Polish (Gotowy, Szczegółowy, Etap przedprodukcyjny), and no Tryb opisowy row appears in Document Information.",
+        "Descriptive fixed values are rendered in Polish (Polski, Szczegółowy, Etap przedprodukcyjny), the Stan and Stan prac rows are omitted for a final report on a clean tree, and no Tryb opisowy row appears in Document Information.",
         "The star-scale legend is labeled Skala oceny and names every band, including Zła for one star and Słaba for two stars."
       ]
     },
@@ -155,9 +155,9 @@
       "expected_output": "A report whose Audit Type Coverage & Assurance Matrix states exactly which canonical audit types are covered, partially covered, or not performed, with rationale tied to report sections.",
       "files": [],
       "expectations": [
-        "The report includes an Audit Type Coverage & Assurance Matrix immediately after Document Information, using only the fixed statuses Covered, Partially Covered, Not Performed, and Not Applicable.",
-        "Penetration Test is marked Not Performed and the rationale distinguishes source-level security review from live exploitation.",
-        "Compliance Certification is marked Not Performed or Not Applicable, and referenced standards appear only as scoring rubrics.",
+        "The report includes an Audit Type Coverage & Assurance Matrix immediately after Document Information, using only the fixed statuses Covered, Partially, Not done, and Not Applicable.",
+        "Penetration Test is marked Not done and the rationale distinguishes source-level security review from live exploitation.",
+        "Compliance Certification is marked Not done or Not Applicable, and referenced standards appear only as scoring rubrics.",
         "Every matrix status is consistent with Scope Exclusions: nothing marked Covered is disclaimed there and vice versa.",
         "Technical Due Diligence is not marked fully Covered when team interviews, business fit, cost, support, or ownership evidence is absent."
       ]

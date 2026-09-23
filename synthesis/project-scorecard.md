@@ -246,12 +246,12 @@ Do not reward an unexecuted build or unverified runtime behavior as demonstrated
 If an overall score is requested, state the aggregation formula, weights, rounding rule, and scored
 versus applicable dimensions, excluding `UNKNOWN` and `N/A` from the numeric denominator.
 
-Always pair the mean with the floor: name the lowest-scoring applicable dimension and its score,
-for example "Overall 5.8/10 (Average), lowest dimension: Security at 4/10". Under `5 stars` or
-`3 stars`, render both values as star bars while keeping the exact mean in parentheses, for
-example "Overall ★★★☆☆ (3.4/5), lowest dimension: Security ★★☆☆☆". When several dimensions
-tie for the lowest score, name them all. The floor appears wherever the overall score appears,
-including the Executive Summary and the Health Dashboard.
+Always disclose the floor next to the mean: the overall-score cell holds only the score display,
+such as `5.8/10 (Average)` or `★★★☆☆ (3.4/5)`, and the lowest-scoring applicable dimension and
+its score go in a paragraph directly below the table, for example "Lowest-scoring dimensions:
+Security ★★☆☆☆". When several dimensions tie for the lowest score, name them all. The floor
+disclosure appears wherever the overall score appears, including the Executive Summary and the
+Health Dashboard.
 
 In a multi-project report, state the floor per project. Do not collapse unrelated projects into
 one aggregate.

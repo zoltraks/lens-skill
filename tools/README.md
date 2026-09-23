@@ -23,11 +23,24 @@ Use the repository root only when none of those directories exists.
 
 Run the copied scripts only against the generated report and report-support artifacts.
 
+Run `format-table.py` before `validate-report.py`, so table-width noise does not drown the
+validator's structural findings.
+
+When the report language is not English, run `validate-report.py` on an English-mapped working
+copy that translates the `* **Field:**` finding-block labels, fixed-vocabulary values, and
+section headings, and that remaps the glossary section anchor and the `Parity baseline` row
+label to English. Mapping only field labels makes the validator skip the required-sections,
+glossary, and final-state checks instead of running them. Anchor remapping changes cell widths,
+so run `format-table.py` on the working copy before validating it.
+
+On Windows consoles, set `PYTHONIOENCODING=utf-8` when running the tools, so non-ASCII report
+text prints legibly.
+
 `validate-report.py` also checks the report's location: when the report sits inside a
 version-numbered or date-named subdirectory, it flags a mismatch against the dominant sibling
 pattern under the same parent.
 
-Remove every copied script after validation.
+Remove every copied script and every validation working copy after validation.
 
 ### Skill-Maintenance Tools
 

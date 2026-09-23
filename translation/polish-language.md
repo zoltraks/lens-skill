@@ -107,8 +107,8 @@ Statuses and execution states use fixed label forms:
 | `SEVERITY:`                | `WAŻNOŚĆ:`                    |
 | `Score:`                   | `Wynik:`                      |
 | `Covered`                  | `OBJĘTE`                      |
-| `Partially Covered`        | `CZĘŚCIOWO OBJĘTE`            |
-| `Not Performed`            | `NIEPRZEPROWADZONE`           |
+| `Partially`                | `CZĘŚCIOWO`                   |
+| `Not done`                 | `NIEWYKONANE`                 |
 | `Not Applicable`           | `NIE DOTYCZY`                 |
 | `Observation`              | `OBSERWACJA`                  |
 | `Concern`                  | `ZASTRZEŻENIE`                |
@@ -455,8 +455,13 @@ The Document Information table uses an empty header row with no column names.
 | Subject Revision     | Wersja źródeł           |
 | Dirty-Tree State     | Stan prac               |
 | Skill Version        | Wersja umiejętności     |
+| Time taken           | Czas wykonania          |
 | Previous Report      | Poprzedni raport        |
 | Projects             | Projekty                |
+
+The `Stan` row is written only while the report is `Roboczy`; it is omitted when the report is
+final. The `Stan prac` row is written only when the working tree is dirty; it is omitted when the
+tree is clean.
 
 The `Descriptive Mode` row is omitted. The setting is evident from the presence or absence of the
 `Słownik` section, and a re-audit recovers it that way.
@@ -470,7 +475,7 @@ Value cells use the Fixed Vocabulary Values table for `State`, `Detail Level`, `
 |---------------------------------------------|-----------------------------------------------------|
 | Audit Type Coverage & Assurance Matrix      | Macierz pokrycia typów audytu i poziomu zapewnienia |
 | Report type                                 | Typ raportu                                         |
-| Status in this report                       | Status w tym raporcie                               |
+| Status                                      | Status                                              |
 | Rationale                                   | Uzasadnienie                                        |
 | Software Architecture Review                | Przegląd architektury oprogramowania                |
 | Code Quality Audit                          | Audyt jakości kodu                                  |
@@ -485,7 +490,7 @@ Value cells use the Fixed Vocabulary Values table for `State`, `Detail Level`, `
 | Compliance Certification (SOC 2, ISO 27001) | Certyfikacja zgodności (SOC 2, ISO 27001)           |
 
 The four coverage statuses render per Status And Severity Vocabulary: `OBJĘTE`,
-`CZĘŚCIOWO OBJĘTE`, `NIEPRZEPROWADZONE`, `NIE DOTYCZY`.
+`CZĘŚCIOWO`, `NIEWYKONANE`, `NIE DOTYCZY`.
 
 ## Project Inventory
 
@@ -510,6 +515,10 @@ Acronym occurrences in the report body link to the description, or to the index 
 `#słownik` when there is none. Acronyms inside capitalized compound names are not linked, for
 example `AI` in `AI Provenance` or `UI` in `Material UI`, and adjacent acronym pairs such as
 `NIST RMF` count as one compound. Definitions and descriptions are written in Polish.
+
+Identifier descriptions in `###` subsections prefer short, direct phrasing, for example
+`Identyfikatory obowiązują tylko w tym raporcie i w kolejnych wersjach mogą być inne.` and
+`Identyfikator zalecenia w planie działań naprawczych`.
 
 ## Technology Stack
 

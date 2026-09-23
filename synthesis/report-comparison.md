@@ -77,7 +77,7 @@ During the same discovery search, also record the most recent audit report found
 subject, not only this subject's prior revisions, with its path and revision.
 
 The consistency gate in `process/report-parity.md` diffs the new report's capability set against
-that baseline before `State: Final`. Extract the baseline's capability set from its Validation
+that baseline before the report is marked final. Extract the baseline's capability set from its Validation
 Record when present, otherwise from its section headings.
 
 ## Report Revision

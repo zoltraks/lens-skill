@@ -24,9 +24,8 @@ Every full audit keeps these outputs separate:
 - **Production sign-off:** an authorized decision outside the audit, with confirmed owners and
   closure evidence.
 
-`State: Final` means the scoped report passed its report-quality gates.
-
-`State: Final` does not mean the subject is production-approved.
+A final report - one without a `State` row - means the scoped report passed its report-quality
+gates. It does not mean the subject is production-approved.
 
 ## Category Inputs
 
@@ -162,7 +161,7 @@ When the report language is not English, the readiness state is rendered per the
 
 A proposed gate is not an approved requirement until the responsible stakeholder confirms it.
 
-Missing owners or missing closure evidence keep sign-off pending even when the report is `Final`.
+Missing owners or missing closure evidence keep sign-off pending even when the report is final.
 
 ## Required Summary Fields
 

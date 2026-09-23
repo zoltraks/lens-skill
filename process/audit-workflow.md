@@ -44,12 +44,15 @@ language, such as a project glossary or design documents written in the report l
 record the established forms. They take precedence over the defaults in the matching
 `translation/` file.
 
+Record the audit start timestamp from the system clock at the beginning of intake. The elapsed
+time is later written to the `Time taken` row in Document Information.
+
 **Report parity discovery**
 
 When searching for a previous report during intake, also record the most recent audit report
 found for ANY subject in the searched locations, with its path and revision. The consistency
-gate in `process/report-parity.md` diffs the new report's capability set against it before
-`State: Final`.
+gate in `process/report-parity.md` diffs the new report's capability set against it before the
+report is marked final.
 
 **Output location discovery**
 
@@ -487,7 +490,7 @@ evidence, not audit execution.
 Also record the audit-type coverage decision here: read the canonical rows in
 `references/audit-taxonomy.md` and note which statuses the engagement supports. Under the
 default scope the Penetration Test, Compliance Certification, and interview-dependent
-Technical Due Diligence dimensions stay `Not Performed` or `Partially Covered`, and any
+Technical Due Diligence dimensions stay `Not done` or `Partially`, and any
 explicitly lifted constraint is recorded so the Coverage Matrix and Scope Exclusions can match
 it. The matrix itself is rendered during Synthesis.
 
@@ -546,6 +549,10 @@ certain directories. An untracked rules directory still governs. Record every ho
 restriction in Scope Exclusions so the reader knows the coverage bound.
 
 Do not yet form conclusions. Separate collection from judgement to avoid confirmation bias.
+
+When a search or pattern match is ambiguous - for example a dependency scope or a classification
+matched in a different context than the project dependency - confirm the result by reading the
+source file before recording it as evidence.
 
 Where evidence is absent, record the gap explicitly with the appropriate missing-information token.
 
@@ -712,10 +719,17 @@ conditions to specific `RSK-XXX` IDs.
 
 When a report is too large to write in one pass, compose it in parts inside the audited
 repository's `work/` directory (or `temp`/`temporary` when that is the convention), then
-concatenate the parts in the fixed section order into the final file. For a non-English report,
-write the parts in English and render the report language during final assembly in a single
-pass. Run the Pre-Delivery Mechanical Checklist and the formatting script on the assembled file,
-not on the parts, and remove the part files after assembly.
+concatenate the parts in the fixed section order into the final file. Write one part per
+file-writing call so no single call exceeds the tool's input limit, and never use a shell
+heredoc for large content, since long heredocs are truncated by input limits and leave partial
+files behind.
+
+Parts may be written directly in the report language; a second render pass over the whole
+document is not required and can itself exceed the write limit. The English-mapped validation
+copy described in Validation still covers the mechanical checks for a non-English report.
+
+Run the Pre-Delivery Mechanical Checklist and the formatting script on the assembled file, not
+on the parts, and remove the part files after assembly.
 
 **Validation**
 
@@ -729,6 +743,10 @@ Confirm every `FND-XXX` finding uses the correct pillar abbreviation and sequent
 Confirm every `RSK-XXX` references its source `FND-XXX`.
 
 Confirm every `REC-XXX` resolves a specific `FND-XXX`.
+
+Confirm identifiers cited in narrative prose match register rows: a `RSK-XXX`, `FND-XXX`, or
+`REC-XXX` named in a summary, readiness paragraph, or changes section must exist in the
+corresponding register and refer to the same item.
 
 Confirm no plaintext secrets, passwords, or cryptographic keys appear in summaries, observations, or
 risk descriptions.
@@ -781,7 +799,7 @@ Confirm every CWE-classified security finding names its equivalent static analyz
 exists for the CWE in that stack. Confirm no finding implies an analyzer ran.
 
 Confirm the Audit Type Coverage & Assurance Matrix is present after Document Information and
-consistent with Scope Exclusions: every `Not Performed` row has a matching exclusion bullet and
+consistent with Scope Exclusions: every `Not done` row has a matching exclusion bullet and
 no `Covered` row is disclaimed later.
 
 Confirm every SBOM row has a License cell populated from an inspected declaration or marked
@@ -800,7 +818,7 @@ metrics are labeled as proxies, unmeasurable metrics are `NOT SPECIFIED` with re
 bus-factor rating carries its commit-share, contributor-count, and window basis.
 
 Confirm every place an overall score appears reports the lowest-scoring applicable dimension
-and its score alongside the mean, per `synthesis/project-scorecard.md`.
+and its score in a paragraph below the table, per `synthesis/project-scorecard.md`.
 
 Confirm every numeric dimension has evidence IDs, confidence, and a justified score point or cap.
 Confirm `UNKNOWN` and `N/A` dimensions are excluded from the mean. Confirm the maturity level,
@@ -832,14 +850,27 @@ vertically in plain text.
 
 Run the Pre-Delivery Mechanical Checklist in `process/report-format.md` and require zero
 violations. Copy `tools/validate-report.py` into the audited repository as
-`validate-report.tmp.py` and run it on the report. The report stays `Draft` while the checklist
-or the validator reports a violation.
+`validate-report.tmp.py` and run it on the report. When the report language is not English,
+first generate an English-mapped working copy that translates the `* **Field:**` finding-block
+labels, fixed-vocabulary values, and section headings, and that remaps the glossary section
+anchor and the `Parity baseline` row label to their English forms. A copy that maps only field
+labels lets the validator skip the required-sections, glossary, and final-state checks instead
+of running them; the fuller mapping makes every check execute on the translated report. Run the
+table formatter on the working copy as well, since anchor remapping changes cell widths. The
+report stays `Draft` while the checklist or the validator reports a violation.
 
-Confirm any temporary formatting or validation scripts were removed from the audited repository.
+Confirm any temporary formatting or validation scripts and any validation working copies were
+removed from the audited repository.
 
 Run the Mandatory Core Checklist and Consistency Gate in `process/report-parity.md`. Write the
-Limitations and Unknowns and Validation Record sections from their outcome. Mark `State: Final`
-only when the gate passes.
+Limitations and Unknowns and Validation Record sections from their outcome. The report is final
+only when the gate passes, at which point no `State` row remains in Document Information.
+
+Compute the elapsed time from the intake start timestamp to now and write it as `MM:SS` in the
+`Time taken` row of Document Information. Include the same value in the completion message to
+the user, for example `Time taken 13:45`. When no reliable start timestamp exists - for example
+when revising a report whose audit predates this rule - omit the row instead of inventing a
+duration.
 
 **Evidence and decision checks**
 
@@ -887,7 +918,7 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Mean 5.8 with Security at 4                | Floor named next to the mean                         |
 | Lockfile present, no SBOM                  | Source-derived component inventory produced          |
 | Other-subject report has a new section     | Apply it or justify `N/A` in the Validation Record   |
-| Checklist item silently skipped            | Consistency gate fails, report stays `Draft`         |
+| Checklist item silently skipped            | Consistency gate fails, report keeps `State | Draft` |
 | Same issue type in two projects            | Per-project trade-off, not the combined section      |
 | Shared workspace or build decision         | Row in the combined Trade-off Analysis               |
 | Multi-project audit                        | Combined summary and Changes precede project blocks  |
@@ -899,7 +930,7 @@ These are reasoning checks, not proof of improvement from an independent model b
 | `document/` exists, `docs/` does not       | Resolved base is `document/`, offered as a location  |
 | Document prose already wraps near 60       | Offer 60 alongside the default 100 at wrap time      |
 | Version-named subdirs under `docs/report/` | Only the version path offered, no date alternative   |
-| Full audit report generated                | Coverage matrix present, pentest row `Not Performed` |
+| Full audit report generated                | Coverage matrix present, pentest row `Not done`      |
 | Matrix row marked `Covered`                | No Scope Exclusions bullet disclaims that type       |
 | Manifest has no license fields             | SBOM License cells `Unknown`, gap feeds findings     |
 | Committed advisory report absent           | `Advisory Checked` stays `N` for every component     |

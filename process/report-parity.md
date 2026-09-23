@@ -3,7 +3,7 @@
 ## Purpose
 
 > **Scope:** The mandatory core checklist applied to every audit report and the consistency
-> gate that runs before a report is marked `Final`
+> gate that runs before a report is marked final
 > **Key items:** core checklist, capability set, consistency gate, applicability
 > justifications, cross-report discovery
 
@@ -27,7 +27,7 @@ a previous report happened to include.
 | PAR-8  | The Validation Record self-check table is present and complete                                                                                                                                                                     | `process/report-format.md`                        |
 | PAR-9  | Reference standards were re-derived from the per-stack lookup for the detected stack, never copied verbatim from a prior report                                                                                                    | `references/stack-standards.md`                   |
 | PAR-10 | When Descriptive mode is enabled, the Glossary indexes every acronym used and every body occurrence links to its description or the index table                                                                                    | `process/report-format.md`                        |
-| PAR-11 | The Audit Type Coverage & Assurance Matrix is present after Document Information and consistent with Scope Exclusions: no `Covered` type is later disclaimed, and every `Not Performed` row has a matching exclusion bullet        | `references/audit-taxonomy.md`                    |
+| PAR-11 | The Audit Type Coverage & Assurance Matrix is present after Document Information and consistent with Scope Exclusions: no `Covered` type is later disclaimed, and every `Not done` row has a matching exclusion bullet        | `references/audit-taxonomy.md`                    |
 | PAR-12 | Every SBOM entry has a License cell populated from an inspected declaration or marked `Unknown`, and every direct component is manifest-sourced                                                                                    | `references/sbom-schema.md`                       |
 | PAR-13 | Every Evidence Ledger row and every finding carries an `Observation` or `Concern` tag                                                                                                                                              | `principles/evaluation-rules.md`                  |
 | PAR-14 | Every `HIGH` or `CRITICAL` Security & Compliance finding on a network-facing surface carries an Exploitability Narrative with an explicit confidence tier                                                                          | `references/exploitability-narrative-template.md` |
@@ -54,7 +54,7 @@ The Validation Record renders this set so a future report can diff it mechanical
 
 ## Consistency Gate
 
-Run this gate before marking a report `State: Final`.
+Run this gate before marking a report final.
 
 1. Build the report's capability set.
 2. Diff it against the Mandatory Core Checklist: every item is `Applied` or `N/A` with an
@@ -69,11 +69,11 @@ Run this gate before marking a report `State: Final`.
 5. When no other report is accessible, record `none found` and gate on the checklist alone.
 6. Run the semantic consistency checks for identifiers, scores, risk placement, evidence references,
    conditional-section justifications, translation tokens, and project-qualified shared references.
-7. Record the outcome in the Validation Record, then set `State: Final` only when the structural and
-   semantic gates both pass.
+7. Record the outcome in the Validation Record, then remove the `State | Draft` row only when the
+   structural and semantic gates both pass - a final report carries no `State` row.
 
-A report may be complete and useful while remaining `Draft` when a gate fails. Do not weaken the
-report to make the gate pass.
+A report may be complete and useful while keeping `State | Draft` when a gate fails. Do not
+weaken the report to make the gate pass.
 
 When the most recent baseline predates the current skill version, the Validation Record names
 which sections were added for parity versus which compare as content. Added structural sections
@@ -104,7 +104,7 @@ discovery finds nothing.
 - *Run the checklist on every report, including Brief reports.*
 - *A capability in a newer report on a different subject must be applied here or justified as
   inapplicable - never silently dropped.*
-- *A failed gate keeps the report `Draft`.*
+- *A failed gate keeps the `State | Draft` row.*
 - *The Validation Record is part of the report - its absence fails the gate itself.*
 - *A shared multi-project reference must use a stable project-qualified identifier.*
 - *A machine-readable token must remain unchanged in translated reports.*

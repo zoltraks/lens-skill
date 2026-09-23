@@ -483,8 +483,15 @@ def check_required_sections(text: str) -> list[str]:
 
 
 def check_final_state(text: str) -> list[str]:
+    # The State row is written only while a report is Draft; a final report omits it.
+    # An explicit `State | Draft` marks the report as still in progress, so the gate skips.
+    # Without any State row an English report is final and the gate runs.
+    # Checks keyed on English anchors stay lenient on non-English reports, matching the
+    # English-mapped validation copy convention.
     state = re.search(r"\|\s*State\s*\|\s*([^|]+)", text)
-    if not state or state.group(1).strip() != "Final":
+    if state and state.group(1).strip() == "Draft":
+        return []
+    if not state and "Document Information" not in text:
         return []
     failures: list[str] = []
     if "## Validation Record" not in text:
