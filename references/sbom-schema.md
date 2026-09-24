@@ -9,7 +9,7 @@
 This file defines the table shape of the Software Bill of Materials section in
 `process/report-format.md`. The extraction procedures that fill the table live in
 `references/dependency-manifests.md`, and the license classification rules live in
-`references/license-compliance-checklist.md`. This file defines only what the report renders.
+`references/license-compliance.md`. This file defines only what the report renders.
 
 Apply `principles/evaluation-rules.md` throughout.
 
@@ -42,7 +42,7 @@ intent, not what a released binary or container contains.
   vendored `LICENSE` or `NOTICE` file inside the component, or a lockfile license field where the
   format carries one. Registry knowledge and typical-license guesses are not evidence, mark
   `Unknown` instead.
-- `License Risk` follows `references/license-compliance-checklist.md`: `Conflict` for a
+- `License Risk` follows `references/license-compliance.md`: `Conflict` for a
   copyleft-versus-distribution clash, `Review` for licenses needing legal attention, `Unknown`
   when the license itself is unknown, `None flagged` otherwise.
 - `Advisory Checked` stays `N` for every component unless committed vulnerability or scan output

@@ -40,7 +40,7 @@ Keep the dimension names and order identical across every audit so scores are co
 
 The Delivery & Continuity dimension summarizes the Delivery Practice & Team Continuity section:
 delivery-practice proxies and contributor concentration per
-`references/delivery-practice-methodology.md`. It is `N/A` when Git history was not in scope.
+`references/delivery-practice.md`. It is `N/A` when Git history was not in scope.
 
 The API Compatibility dimension applies only when the subject is a reusable library or package,
 per `assessment/api-compatibility.md`. For a deployable service or application it is `N/A`.

@@ -1015,7 +1015,7 @@ Build the table per `references/sbom-schema.md` from the manifests and lockfiles
 
 License values come from inspected declarations only, `Unknown` otherwise. License Risk values
 are `None flagged`, `Review`, `Conflict`, or `Unknown` per
-`references/license-compliance-checklist.md`. `Advisory Checked` is `Y` only where committed
+`references/license-compliance.md`. `Advisory Checked` is `Y` only where committed
 advisory or scan evidence covers the component.
 
 Close the section with the direct and transitive totals and any manifest-lockfile drift noted.
@@ -1028,7 +1028,7 @@ When the report language is not English, apply the column header translations fr
 ## License & IP Compliance Review
 
 Summarize the license-classification pass run over the SBOM table per
-`references/license-compliance-checklist.md`. This section is a synthesis layer: the per-component
+`references/license-compliance.md`. This section is a synthesis layer: the per-component
 detail lives in the SBOM table and the finding detail lives in `FND-CPR` findings, this section
 states what the pass concluded.
 
@@ -1109,7 +1109,7 @@ so no score appears before its band is defined.
 | API Compatibility       |       |       |
 
 The Delivery & Continuity dimension is `N/A` when Git history was not in scope, per
-`references/delivery-practice-methodology.md`.
+`references/delivery-practice.md`.
 
 The API Compatibility dimension is `N/A` unless the subject is a reusable library or package,
 per `assessment/api-compatibility.md`.
@@ -1139,7 +1139,7 @@ When the report language is not English, apply the heading translation from the 
 ## Delivery Practice & Team Continuity
 
 Assess how the project delivers changes and how concentrated its contributor base is, using only
-what the repository shows. Apply `references/delivery-practice-methodology.md` for the proxy
+what the repository shows. Apply `references/delivery-practice.md` for the proxy
 procedures, the bus-factor rubric, and the marking rules.
 
 **Delivery metrics**
@@ -1161,7 +1161,7 @@ was not in scope, mark the whole table `NOT COLLECTED`.
 
 **Contributor concentration**
 
-State the bus-factor rating from `references/delivery-practice-methodology.md`: the top-author
+State the bus-factor rating from `references/delivery-practice.md`: the top-author
 commit share, the active-contributor count, the observation window, and the resulting `High`,
 `Moderate`, or `Low` concentration rating, anchored to `EVD-XXX` rows. Reviewer diversity is
 `NOT SPECIFIED` unless the repository itself records review data, pull-request reviews do not
@@ -1871,7 +1871,7 @@ for a finding stating an independently re-derivable fact, `Concern` for a risk j
 observations. Most findings are `Concern`.
 
 The `Exploitability Narrative` field is required on every `HIGH` or `CRITICAL` Security &
-Compliance finding, following `references/exploitability-narrative-template.md`. On a
+Compliance finding, following `references/exploitability-narrative.md`. On a
 network-facing surface it carries the tier and attack-path reasoning. Otherwise it reads `N/A`
 with a one-line reason.
 

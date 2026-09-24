@@ -312,11 +312,11 @@ intake, assessment, and report writing.
 - **`references/sbom-schema.md`** - Report-level schema for the source-derived component
   inventory, extending `references/dependency-manifests.md` with license, risk, and advisory
   columns. Load when building the per-project SBOM section.
-- **`references/license-compliance-checklist.md`** - License classes, copyleft-trap patterns,
+- **`references/license-compliance.md`** - License classes, copyleft-trap patterns,
   notice, attribution, and ownership-evidence checks for the License & IP Compliance Review.
-- **`references/delivery-practice-methodology.md`** - DORA proxy procedure and bus-factor rubric
+- **`references/delivery-practice.md`** - DORA proxy procedure and bus-factor rubric
   behind the Delivery Practice & Team Continuity section.
-- **`references/exploitability-narrative-template.md`** - Theoretical attack-path narrative
+- **`references/exploitability-narrative.md`** - Theoretical attack-path narrative
   format, confidence tiers, and placement rules for HIGH/CRITICAL security findings.
 
 ## `tools/` - Canonical Scripts
@@ -453,13 +453,13 @@ when maintaining the skill.
   SBOM.
 - The per-project SBOM section renders that inventory per `references/sbom-schema.md`, always
   distinguishing it from a shipped-artifact SBOM and keeping underivable fields `Unknown`.
-- The License & IP Compliance Review follows `references/license-compliance-checklist.md` and
+- The License & IP Compliance Review follows `references/license-compliance.md` and
   separates observed license facts from inferred concerns without legal conclusions.
 - The Delivery Practice & Team Continuity section follows
-  `references/delivery-practice-methodology.md`: five DORA metrics with source-derived proxies
+  `references/delivery-practice.md`: five DORA metrics with source-derived proxies
   labeled, telemetry-dependent metrics `NOT SPECIFIED`, and a bus-factor rating.
 - Every `HIGH`/`CRITICAL` Security & Compliance finding carries an Exploitability Narrative per
-  `references/exploitability-narrative-template.md`: `Theoretical` tier by default, marked not
+  `references/exploitability-narrative.md`: `Theoretical` tier by default, marked not
   executed, never a claim that exploitation occurred.
 - API compatibility gates, versioning consistency, and breaking-change tracking belong in
   `assessment/api-compatibility.md`, include it only when the subject is a reusable library or

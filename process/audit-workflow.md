@@ -515,11 +515,11 @@ relationships, and scopes without running a package manager or an SBOM generator
 
 Build the SBOM table for the report from that inventory per `references/sbom-schema.md` before
 scoring Dependency Health, so the score has a structured artifact behind it. Then run the
-license-classification pass from `references/license-compliance-checklist.md` over every SBOM
+license-classification pass from `references/license-compliance.md` over every SBOM
 row, populating the License and License Risk cells from inspected declarations only.
 
 For delivery practice, compute the Git-derived proxies and contributor concentration per
-`references/delivery-practice-methodology.md`: tag cadence, median commit-to-tag interval,
+`references/delivery-practice.md`: tag cadence, median commit-to-tag interval,
 top-author share, and active-contributor count. Fields the repository cannot supply stay
 `NOT SPECIFIED` with the reason recorded.
 
@@ -674,7 +674,7 @@ before any other section content and checked against Scope Exclusions during Val
 
 Tag every finding `Observation` or `Concern` per `principles/evaluation-rules.md`, and attach an
 Exploitability Narrative at an explicit tier to every `HIGH` or `CRITICAL` security finding,
-per `references/exploitability-narrative-template.md`. Under the default scope the tier is
+per `references/exploitability-narrative.md`. Under the default scope the tier is
 `Theoretical` or `Static-Confirmed`.
 
 Build the unified risk register from the risks surfaced during assessment, using

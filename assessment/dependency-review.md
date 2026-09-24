@@ -85,7 +85,7 @@ inventory gap without claiming to be a shipped-artifact SBOM.
 The derived list renders in the report's Software Bill of Materials section per
 `references/sbom-schema.md`, which extends the output contract with License, License Risk, and
 Advisory Checked columns. License cells come from inspected declarations only, `Unknown`
-otherwise, and the license pass itself follows `references/license-compliance-checklist.md`.
+otherwise, and the license pass itself follows `references/license-compliance.md`.
 
 When an SBOM exists, record the CycloneDX or SPDX schema version, generator, timestamp, and
 source or binary basis.

@@ -18,11 +18,11 @@ Every document created or modified as part of this skill must follow the rules b
 | Paragraphs And Wrapping    | 87   | Sentence structure and line width               |
 | Headings And Lists         | 140  | Heading depth, lists, and spacing               |
 | Code And Inline Formatting | 189  | Fences, code spans, and special characters      |
-| Tables                     | 235  | Source-width alignment and automated formatting |
-| Characters And Language    | 401  | Box-drawing, emoji, and per-language rules      |
-| File References            | 419  | Relative paths and backticked file paths        |
-| Skill Requirements         | 433  | Frontmatter and progressive disclosure          |
-| Maintenance                | 494  | File naming, encoding, and registration         |
+| Tables                     | 255  | Source-width alignment and automated formatting |
+| Characters And Language    | 421  | Box-drawing, emoji, and per-language rules      |
+| File References            | 439  | Relative paths and backticked file paths        |
+| Skill Requirements         | 453  | Frontmatter and progressive disclosure          |
+| Maintenance                | 514  | File naming, encoding, and registration         |
 
 ## Document Structure
 
@@ -207,6 +207,26 @@ Do not leave a blank line as the first or last line inside the block.
 Keep code blocks compact and relevant.
 
 Use backticks for inline code, file names, commands, and values.
+
+### Comments In Plain-Text Blocks
+
+Lines inside a plain-text block, such as a directory tree or a file listing, may carry a `#`
+comment after the entry text.
+
+Start every comment in the same block at the same column.
+
+Set the comment column from the longest entry in the block: the comment begins at least two
+spaces after the end of that entry.
+
+The longest entry keeps a two-space gap.
+
+Pad every shorter entry so its comment reaches the shared column.
+
+Keep comment text short - a list of key items, not a full description.
+
+Recompute the column and re-pad the whole block after adding, removing, or renaming an entry.
+
+The rule applies per block: different fenced blocks may use different comment columns.
 
 ## Inline Formatting
 

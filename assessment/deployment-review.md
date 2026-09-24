@@ -48,7 +48,7 @@ metrics.
 
 When only repository evidence is available, the git-derived proxies and contributor-concentration
 rubric live in the Delivery Practice & Team Continuity section per
-`references/delivery-practice-methodology.md`. Those proxies are labeled as proxies and never
+`references/delivery-practice.md`. Those proxies are labeled as proxies and never
 presented as measured DORA metrics.
 
 Mark unavailable measurements `UNKNOWN` and zero-denominator ratios as undefined, not zero.

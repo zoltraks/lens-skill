@@ -68,7 +68,7 @@ mappings from `references/cwe-analyzer-map.md` name checks that would run, not c
 
 **Open Source License Compliance Review.** License inspection over manifests, notices, and
 vendored code answers the core license-compliance question. Undeterminable dependency licenses are
-recorded as `Unknown` and assessed as a gap, per `references/license-compliance-checklist.md`.
+recorded as `Unknown` and assessed as a gap, per `references/license-compliance.md`.
 
 **Penetration Test.** A penetration test validates exploitability against a running target.
 Source-only audits never execute the subject, so this row is always `Not done` unless the

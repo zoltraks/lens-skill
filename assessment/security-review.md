@@ -124,7 +124,7 @@ implies the analyzer ran during the audit.
 ## Exploitability Narrative
 
 Every `HIGH` or `CRITICAL` finding on a network-facing surface carries an Exploitability
-Narrative in its finding block, per `references/exploitability-narrative-template.md`. The
+Narrative in its finding block, per `references/exploitability-narrative.md`. The
 narrative reasons through precondition, attack path, and impact at an explicit confidence tier.
 Under the default source-only scope the tier is `Theoretical` or `Static-Confirmed`, never
 `Dynamically-Verified`.

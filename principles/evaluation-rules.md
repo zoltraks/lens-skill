@@ -76,7 +76,7 @@ type:
 The type tag disciplines narrative sections so a judgment cannot appear dressed as a fact.
 
 Theoretical exploitability reasoning is not an evidence basis. It follows the tiers in
-`references/exploitability-narrative-template.md` and never claims execution occurred.
+`references/exploitability-narrative.md` and never claims execution occurred.
 
 Record confidence as `HIGH`, `MEDIUM`, or `LOW`, with a reason independent of severity.
 
