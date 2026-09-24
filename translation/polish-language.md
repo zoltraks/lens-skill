@@ -23,47 +23,47 @@ Polish.
 | Status And Severity Vocabulary              | 86   | Status And Severity Vocabulary guidance     |
 | Fixed Vocabulary Values                     | 150  | Polish renderings of descriptive values     |
 | Terminology                                 | 188  | English to Polish technical dictionary      |
-| Parameter Prompts                           | 303  | Polish phrasing for configuration questions |
-| Style Rules                                 | 328  | Style Rules guidance                        |
-| Diacritics Frequently Misspelled            | 396  | Diacritics Frequently Misspelled guidance   |
-| Output Filename                             | 430  | Output Filename guidance                    |
-| Document Information                        | 439  | Document Information guidance               |
-| Audit Type Coverage & Assurance Matrix      | 467  | Coverage and assurance rendering            |
-| Project Inventory                           | 490  | Project Inventory guidance                  |
-| Glossary                                    | 499  | Glossary guidance                           |
-| Technology Stack                            | 514  | Technology Stack guidance                   |
-| Executive Summary                           | 531  | Executive Summary guidance                  |
-| Health Dashboard                            | 549  | Health Dashboard guidance                   |
-| Scorecard                                   | 560  | Scorecard guidance                          |
-| Scoring Rubrics                             | 585  | Scoring Rubrics guidance                    |
-| Delivery Practice & Team Continuity         | 609  | Delivery and continuity rendering           |
-| High-Level Observations                     | 633  | High-Level Observations guidance            |
-| Auditing Methodology                        | 640  | Auditing Methodology guidance               |
-| System Context                              | 654  | System Context guidance                     |
-| Software Bill of Materials                  | 667  | SBOM section rendering                      |
-| License & IP Compliance Review              | 685  | License and IP section rendering            |
-| Architectural Assessment                    | 703  | Architectural Assessment guidance           |
-| Architectural Subsections                   | 710  | Architectural Subsections guidance          |
-| Skill Definition Conformance                | 721  | Skill Definition Conformance guidance       |
-| AI System Assessment                        | 727  | AI System Assessment guidance               |
-| Standards Conformance                       | 738  | Standards Conformance guidance              |
-| References                                  | 759  | References guidance                         |
-| Strengths And What's Working                | 768  | Strengths And What's Working guidance       |
-| Detailed Technical Findings                 | 774  | Detailed Technical Findings guidance        |
-| Technical Debt Register                     | 806  | Technical Debt Register guidance            |
-| Unified Risk Register                       | 818  | Unified Risk Register guidance              |
-| Trade-off Analysis                          | 839  | Trade-off Analysis guidance                 |
-| Actionable Remediation Roadmap              | 851  | Actionable Remediation Roadmap guidance     |
-| Changes Since Previous Audit                | 865  | Changes Since Previous Audit guidance       |
-| Scope Exclusions                            | 894  | Scope Exclusions guidance                   |
-| Limitations And Unknowns                    | 902  | Limitations And Unknowns guidance           |
-| Re-audit And Follow-up Plan                 | 914  | Re-audit And Follow-up Plan guidance        |
-| Validation Record                           | 924  | Validation Record guidance                  |
-| Threat Model                                | 935  | Threat Model guidance                       |
-| API Contract Conformance                    | 944  | API Contract Conformance guidance           |
-| API Compatibility And Versioning Discipline | 952  | API Compatibility And Versioning guidance   |
-| Evidence And Decision Terms                 | 961  | Evidence And Decision Terms guidance        |
-| Skill Definition Conformance Table          | 1021 | Skill Definition Conformance Table guidance |
+| Parameter Prompts                           | 310  | Polish phrasing for configuration questions |
+| Style Rules                                 | 335  | Style Rules guidance                        |
+| Diacritics Frequently Misspelled            | 415  | Diacritics Frequently Misspelled guidance   |
+| Output Filename                             | 449  | Output Filename guidance                    |
+| Document Information                        | 458  | Document Information guidance               |
+| Audit Type Coverage & Assurance Matrix      | 491  | Coverage and assurance rendering            |
+| Project Inventory                           | 514  | Project Inventory guidance                  |
+| Glossary                                    | 523  | Glossary guidance                           |
+| Technology Stack                            | 542  | Technology Stack guidance                   |
+| Executive Summary                           | 559  | Executive Summary guidance                  |
+| Health Dashboard                            | 577  | Health Dashboard guidance                   |
+| Scorecard                                   | 588  | Scorecard guidance                          |
+| Scoring Rubrics                             | 613  | Scoring Rubrics guidance                    |
+| Delivery Practice & Team Continuity         | 637  | Delivery and continuity rendering           |
+| High-Level Observations                     | 661  | High-Level Observations guidance            |
+| Auditing Methodology                        | 668  | Auditing Methodology guidance               |
+| System Context                              | 682  | System Context guidance                     |
+| Software Bill of Materials                  | 695  | SBOM section rendering                      |
+| License & IP Compliance Review              | 713  | License and IP section rendering            |
+| Architectural Assessment                    | 731  | Architectural Assessment guidance           |
+| Architectural Subsections                   | 738  | Architectural Subsections guidance          |
+| Skill Definition Conformance                | 749  | Skill Definition Conformance guidance       |
+| AI System Assessment                        | 755  | AI System Assessment guidance               |
+| Standards Conformance                       | 766  | Standards Conformance guidance              |
+| References                                  | 787  | References guidance                         |
+| Strengths And What's Working                | 796  | Strengths And What's Working guidance       |
+| Detailed Technical Findings                 | 802  | Detailed Technical Findings guidance        |
+| Technical Debt Register                     | 834  | Technical Debt Register guidance            |
+| Unified Risk Register                       | 846  | Unified Risk Register guidance              |
+| Trade-off Analysis                          | 867  | Trade-off Analysis guidance                 |
+| Actionable Remediation Roadmap              | 879  | Actionable Remediation Roadmap guidance     |
+| Changes Since Previous Audit                | 893  | Changes Since Previous Audit guidance       |
+| Scope Exclusions                            | 922  | Scope Exclusions guidance                   |
+| Limitations And Unknowns                    | 930  | Limitations And Unknowns guidance           |
+| Re-audit And Follow-up Plan                 | 942  | Re-audit And Follow-up Plan guidance        |
+| Validation Record                           | 952  | Validation Record guidance                  |
+| Threat Model                                | 963  | Threat Model guidance                       |
+| API Contract Conformance                    | 972  | API Contract Conformance guidance           |
+| API Compatibility And Versioning Discipline | 980  | API Compatibility And Versioning guidance   |
+| Evidence And Decision Terms                 | 989  | Evidence And Decision Terms guidance        |
+| Skill Definition Conformance Table          | 1049 | Skill Definition Conformance Table guidance |
 
 ## Analysis And Rendering
 
@@ -234,14 +234,18 @@ than always translating the same English word identically.
 | evidence                               | materiał dowodowy / dowód                                        |
 | evidence register                      | rejestr materiału dowodowego                                     |
 | exploitability narrative               | narracja wykorzystania podatności                                |
+| fail-closed                            | odmowa dostępu / zamknięcie w przypadku błędu                    |
 | fail-fast                              | natychmiastowe przerwanie przy błędzie                           |
 | fallback                               | mechanizm awaryjny / obsługa zastępcza                           |
 | finding                                | ustalenie                                                        |
 | host key pinning                       | przypięcie klucza hosta                                          |
+| installation package                   | pakiet instalacyjny                                              |
+| join                                   | łączenie                                                         |
 | key-person risk                        | ryzyko koncentracji kompetencji                                  |
 | license compliance                     | zgodność licencyjna                                              |
 | likelihood                             | prawdopodobieństwo                                               |
 | lockfile                               | plik blokady zależności                                          |
+| lookup                                 | wyszukiwanie                                                     |
 | maintainability                        | utrzymywalność                                                   |
 | manual deployment gate                 | ręczne zatwierdzenie wdrożenia                                   |
 | maturity level                         | poziom dojrzałości                                               |
@@ -252,7 +256,9 @@ than always translating the same English word identically.
 | observation                            | obserwacja                                                       |
 | operational readiness                  | gotowość operacyjna                                              |
 | operational security                   | bezpieczeństwo operacyjne                                        |
+| package                                | pakiet                                                           |
 | pipeline / CI pipeline                 | proces / proces CI / proces CI/CD                                |
+| prefetch                               | wstępne pobranie / pobranie                                      |
 | pre-production                         | etap przedprodukcyjny / środowisko przedprodukcyjne              |
 | production / prod                      | środowisko produkcyjne                                           |
 | production-ready                       | gotowość produkcyjna                                             |
@@ -293,6 +299,7 @@ than always translating the same English word identically.
 | unauthenticated                        | bez uwierzytelnienia                                             |
 | version drift                          | rozbieżność wersji / niespójność wersjonowania                   |
 | version pinning                        | zamrożenie wersji                                                |
+| visual designer                        | projektowanie wizualne                                           |
 | vulnerability                          | podatność                                                        |
 | vulnerability assessment               | ocena podatności                                                 |
 | vulnerability triage                   | weryfikacja i klasyfikacja podatności                            |
@@ -339,6 +346,18 @@ Apply these phrasing rules:
   `frontend`, `backend`, `CI/CD`, and `lint` may stay untranslated. Never combine both forms of
   one term in a single phrase: write `środowisko uruchomieniowe` or `runtime`, never
   `środowisko uruchomieniowe runtime`.
+- `Runtime` compounds translate in full: `środowisko uruchomieniowe definicji` for `definition
+  runtime`, or the standalone `środowisko uruchomieniowe` when the qualifier can be dropped. A
+  bare `Runtime` never modifies a Polish noun, so `Runtime definicji` is wrong.
+- `Package` renders `pakiet`, never `paczka`, and `installation package` renders `pakiet
+  instalacyjny`. Compounds follow the same rule: `anatomia pakietu`, `anatomia pakietu
+  definicji`, or the shorter `anatomia definicji`, never `anatomia paczki definicji`.
+- `Join` renders `łączenie` (`łączenia` in plural), never `joiny`, and `lookup` renders
+  `wyszukiwanie` (`wyszukiwania` in plural), never `lookupy`.
+- `Prefetch` renders `wstępne pobranie` or the shorter `pobranie`.
+- `Visual designer` renders `projektowanie wizualne`, never `designer wizualny`.
+- `Fail-closed` renders `odmowa dostępu` or `zamknięcie w przypadku błędu`, depending on
+  context.
 - Do not translate one English word the same way everywhere. Software-engineering terms are
   context-dependent: `weakness` is `błąd bezpieczeństwa` or `podatność bezpieczeństwa`, `drift` is
   `rozbieżność` or `dezaktualizacja`, `gate` is `warunek` or `kontrola`, `workflow` is
