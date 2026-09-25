@@ -144,6 +144,23 @@ When a previous report element cannot be parsed well enough to compare, mark tha
 When parameters differ between reports, for example a different evaluation scale or detail
 level, note the difference before comparing, since it affects comparability.
 
+## Re-Audit With Changed Parameters
+
+When the user chose the changed-parameters mode in the audit-mode question of
+`process/audit-workflow.md`, the audit still compares against the previous report: identifier
+continuity, remediation-status carryover, finding transitions, and the Changes Since Previous
+Audit section all apply unchanged.
+
+The field table at the top of the Changes section lists every parameter that differs between
+the two reports, showing the recovered previous value and the new value.
+
+Every delta the parameter change produces is a capability change: a lower detail level hiding
+sections, a different scale moving scores, or a disabled Descriptive mode removing the Glossary
+are format differences, never product changes and never finding transitions.
+
+A parameter change never closes, opens, or revises a finding's status. Only current evidence
+does.
+
 ## Evidence Transitions
 
 Distinguish three kinds of delta in the Changes Since Previous Audit section.
@@ -153,7 +170,10 @@ Distinguish three kinds of delta in the Changes Since Previous Audit section.
   report while the finding it supports is unchanged. List corrections in their own subsection,
   never as finding transitions.
 - **Capability change** - the report structure differs because the skill version or parameters
-  changed, not the audited product.
+  changed, not the audited product. When the baseline's `Skill Version` predates the running
+  version, enumerate the capability delta - new mandatory sections, finding or ledger fields,
+  PAR rows, and scorecard dimensions - apply it to the new report, and name it in the Changes
+  section and the Validation Record.
 
 A refined figure does not change a finding's status by itself.
 
@@ -221,4 +241,6 @@ Carry the evidence qualification inside the status rather than inventing new mar
 - Previous reports are comparison inputs, not audited source. Read them for transitions and
   parity, never count them in the file inventory or cite them as product evidence.
 - A score that moved because the formula or presentation changed is a capability change.
-  Record it outside the score-delta table, the table covers dimension changes only.
+  Record it outside the score-delta table, the table covers dimension changes only. When the
+  dimension set itself changes between revisions, restate the mean formula: an added or removed
+  dimension changes the denominator, and that movement is not a product change.

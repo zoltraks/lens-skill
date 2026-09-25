@@ -42,11 +42,12 @@
       "expected_output": "A new revisioned report that preserves the previous report, distinguishes product changes from capability changes, and re-derives current evidence.",
       "files": [],
       "expectations": [
-        "Before reusing the previous report as a baseline, the agent presents the found file and asks the user to confirm it is the intended re-audit baseline, offering a fresh audit instead.",
+        "Before reusing the previous report as a baseline, the agent presents the found file and asks the user to confirm it is the intended re-audit baseline, offering a re-audit with changed parameters or a fresh audit instead.",
         "The previous report is not overwritten.",
         "The new report contains Changes Since Previous Audit and a revisioned filename.",
         "Historical execution results are labeled Reported rather than current verification.",
-        "Structural additions caused by the skill version are distinguished from product changes."
+        "Structural additions caused by the skill version are distinguished from product changes.",
+        "A baseline produced by an older skill version gets the current capability set applied, named as a capability change in the Validation Record."
       ]
     },
     {
@@ -225,6 +226,19 @@
         "The report omits the Changes Since Previous Audit section and the Previous Report row in Document Information.",
         "Finding, risk, and recommendation identifiers restart at -001 rather than continuing the previous report's sequences.",
         "The full Parameter Configuration phase runs because no parameters are recovered from the previous report."
+      ]
+    },
+    {
+      "id": 19,
+      "prompt": "Re-audit this repository, but change the detail level to Brief and the evaluation scale to 1-5.",
+      "expected_output": "A re-audit that preserves comparison semantics while applying the new parameters, with the parameter differences flagged as capability changes.",
+      "files": [],
+      "expectations": [
+        "When a previous report is found and the mode is unstated, the audit-mode question offers three options: re-audit, re-audit with changed parameters, and fresh audit.",
+        "A parameter-change request selects or is offered the re-audit-with-changed-parameters mode rather than a fresh audit.",
+        "Recovered parameters become defaults, and only the parameters the user names are re-asked, with the recovered value marked as the previous default.",
+        "Finding, risk, and recommendation identifiers keep continuity, and the Changes Since Previous Audit section lists the parameter differences as capability changes.",
+        "The report revision and filename still increment from the previous report's revision, and the previous file is not overwritten."
       ]
     }
   ]

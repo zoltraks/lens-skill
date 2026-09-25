@@ -15,11 +15,11 @@ requested category.
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 24   | Step Overview guidance           |
-| Intake Checklist        | 915  | Intake Checklist guidance        |
-| Handling Thin Input     | 932  | Handling Thin Input guidance     |
-| Single-Dimension Audits | 943  | Single-Dimension Audits guidance |
-| Re-Audit                | 953  | Re-Audit guidance                |
-| Multi-Project Audits    | 983  | Multi-Project Audits guidance    |
+| Intake Checklist        | 986  | Intake Checklist guidance        |
+| Handling Thin Input     | 1003 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1014 | Single-Dimension Audits guidance |
+| Re-Audit                | 1024 | Re-Audit guidance                |
+| Multi-Project Audits    | 1065 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -152,13 +152,14 @@ one marked `(recommended)` and never carries the `Use default` trailing options 
 prompts.
 
 - No audit mode was stated and a previous report was found: present the candidate file's path,
-  revision, and report date, and ask whether this is a re-audit against that report or a fresh
-  audit. Options: `Re-audit - compare against <filename>` and `Fresh audit - ignore the
-  previous report's content`.
+  revision, and report date, and ask which audit mode to run. Options: `Re-audit - compare
+  against <filename>`, `Re-audit with changed parameters - compare but reconfigure`, and
+  `Fresh audit - ignore the previous report's content`.
 - The user asked for a re-audit and a previous report was found: confirm the baseline even when
   the found file looks correct. Present its path, revision, and report date and ask the user to
-  confirm it is the intended baseline. Options: `Confirm - re-audit against <filename>` and
-  `Fresh audit instead`, plus any other answer the user gives.
+  confirm it is the intended baseline. Options: `Confirm - re-audit against <filename>`,
+  `Re-audit with changed parameters`, and `Fresh audit instead`, plus any other answer the
+  user gives.
 - The user asked for a re-audit and no previous report was found: say so, naming the searched
   locations, and ask whether to proceed as a fresh audit at revision `1.0`. The user may also
   supply the report path in another answer.
@@ -168,7 +169,9 @@ prompts.
 Mark `(recommended)` on the re-audit option when the found report appears to cover the same
 subject, for example a matching system name or a file inside the subject's designated report
 directory, and on the fresh-audit option when it appears to cover a different subject. When
-unsure, recommend re-audit so history stays comparable.
+unsure, recommend re-audit so history stays comparable. Mark the changed-parameters option
+recommended instead only when the user's request already signals a parameter change, for
+example "re-audit at a different scale".
 
 On a confirmed re-audit, recover the previous report's detail level, scale, language, filename,
 and Descriptive mode. Recover Descriptive mode from the previous report's Document Information
@@ -176,6 +179,17 @@ row when present, otherwise from the presence or absence of its Glossary section
 
 Reuse them unless the user asks to change them, then proceed to Scope Definition without repeating
 answered questions.
+
+On `Re-audit with changed parameters`, the audit keeps comparison semantics - identifier
+continuity, the Changes Since Previous Audit section, and the incremented revision - while
+any core parameter may change. Recover the previous report's parameters as defaults, present
+them in a compact summary, and ask one follow-up question listing the core parameters:
+`Which parameters should change?` The user names the parameters to reconfigure. Run the
+parameter prompts only for the named parameters, marking the recovered value
+`(previous, default)` on each option. Parameters not named keep their recovered values.
+Record every parameter that differs from the previous report in the Changes Since Previous
+Audit field table and classify deltas the change produces as capability changes per
+`synthesis/report-comparison.md`, never as product changes.
 
 Record any missing parameters using defaults and disclose them, rather than claiming they were
 specified in the prior report.
@@ -731,6 +745,23 @@ copy described in Validation still covers the mechanical checks for a non-Englis
 Run the Pre-Delivery Mechanical Checklist and the formatting script on the assembled file, not
 on the parts, and remove the part files after assembly.
 
+When the audit edits an existing report file instead of composing parts, for example on a
+re-audit that upgrades a prior revision, apply these mechanical-edit rules:
+
+- Anchor every insertion, move, or replacement on a complete heading line including its `#`
+  level, for example `^## frontend$`. A bare substring such as `## frontend` also matches the
+  deeper heading `### frontend` and lands edits inside the wrong block.
+- Scope block-relative searches to the enclosing section's start and end offsets, for example
+  the `## backend` to `## frontend` span. A document-wide `find` returns the first occurrence,
+  which is not necessarily the occurrence inside the intended block.
+- Never edit table separator rows or splice cells by regular expression. A pattern such as
+  `[-\s|]+` can cross a line boundary and merge the next data row into the separator. Rewrite
+  the whole table block, then run `tools/format-table.py` to rebuild padding and separators.
+- After every scripted edit, re-run `tools/format-table.py` and then
+  `tools/validate-report.py`. The validator prints at most ten problems per check, so iterate
+  until it reports zero rather than assuming the first fix pass cleared everything.
+- Preserve the report's existing line-ending style when a script writes the file.
+
 **Validation**
 
 Re-check every finding against `principles/evaluation-rules.md`.
@@ -850,7 +881,9 @@ vertically in plain text.
 
 Run the Pre-Delivery Mechanical Checklist in `process/report-format.md` and require zero
 violations. Copy `tools/validate-report.py` into the audited repository as
-`validate-report.tmp.py` and run it on the report. When the report language is not English,
+`validate-report.tmp.py` and run it on the report. The validator prints at most ten problems
+per check, so fix, re-run the formatter, and re-validate until it reports zero issues. When
+the report language is not English,
 first generate an English-mapped working copy that translates the `* **Field:**` finding-block
 labels, fixed-vocabulary values, and section headings, and that remaps the glossary section
 anchor and the `Parity baseline` row label to their English forms. A copy that maps only field
@@ -892,56 +925,63 @@ When maintaining this skill, exercise these scenarios and check the expected beh
 
 These are reasoning checks, not proof of improvement from an independent model benchmark.
 
-| Scenario                                   | Expected Behavior                                    |
-|--------------------------------------------|------------------------------------------------------|
-| Changelog says tests pass                  | Reported only, readiness evidence incomplete         |
-| Committed scan report lists an advisory    | Reported evidence, finding requires triage           |
-| Documented build steps, no pipeline        | Inspected only, build outcome unknown                |
-| Old crate, no advisory data                | Freshness concern, vulnerability status unknown      |
-| Guarded panic or excluded module           | Verify reachability, do not invent failure           |
-| Local CLI without hosted runtime           | Assess local safety, omit irrelevant hosted controls |
-| Due diligence with no cost or support data | Retain unknowns, request artifacts                   |
-| Two projects reuse FND-SEC-001             | Project-qualified shared references                  |
-| Clean code with uniform tests              | No authorship inference, assess test behavior        |
-| Security fix proposed but not run          | Keep verification pending, no closure claim          |
-| Partial cost inputs or no telemetry        | No complete budget or numeric SLO claim              |
-| Previous report at revision 1.9 exists     | New `AUDIT-2.0.md`, previous kept, comparison added  |
-| Previous report has no Revision row        | Assume 1.0, new file `AUDIT-1.1.md`                  |
-| Previous report uses bold-label `Version`  | Read it as the report revision                       |
-| Previous report found, mode unstated       | Audit-mode question asked before parameters          |
-| Re-audit requested, report found           | Baseline file confirmed before reuse                 |
-| Re-audit requested, none found             | User asked before fresh audit at revision 1.0        |
-| Fresh audit over an existing report        | Revision increments, content ignored, fresh IDs      |
-| Reusable library without an API gate       | API Compatibility section included, absence assessed |
-| CWE-295 finding in C#                      | Finding names `CA5359` and its enablement state      |
-| Git author data collected, no finding      | Team & Continuity dashboard line still present       |
-| Mean 5.8 with Security at 4                | Floor named next to the mean                         |
-| Lockfile present, no SBOM                  | Source-derived component inventory produced          |
-| Other-subject report has a new section     | Apply it or justify `N/A` in the Validation Record   |
-| Checklist item silently skipped            | Consistency gate fails, report keeps `State | Draft` |
-| Same issue type in two projects            | Per-project trade-off, not the combined section      |
-| Shared workspace or build decision         | Row in the combined Trade-off Analysis               |
-| Multi-project audit                        | Combined summary and Changes precede project blocks  |
-| Prior report anchor does not resolve       | Correct anchor recorded, citation flagged            |
-| Census method differs between reports      | Canonical method restated, figure compared           |
-| Comment-only catch bodies                  | Counted separately from empty bodies                 |
-| Evaluation scale prompt shown              | All five options: 1-10, 1-5, 1-3, 5 stars, 3 stars   |
-| No previous report exists                  | Default `AUDIT-1.0.md`, `AUDIT.md` as alternative    |
-| `document/` exists, `docs/` does not       | Resolved base is `document/`, offered as a location  |
-| Document prose already wraps near 60       | Offer 60 alongside the default 100 at wrap time      |
-| Version-named subdirs under `docs/report/` | Only the version path offered, no date alternative   |
-| Full audit report generated                | Coverage matrix present, pentest row `Not done`      |
-| Matrix row marked `Covered`                | No Scope Exclusions bullet disclaims that type       |
-| Manifest has no license fields             | SBOM License cells `Unknown`, gap feeds findings     |
-| Committed advisory report absent           | `Advisory Checked` stays `N` for every component     |
-| Critical finding on public endpoint        | Exploitability Narrative present, `Theoretical` tier |
-| Narrative claims dynamic verification      | Defect: scope never lifted, tier forced down         |
-| Security finding on internal-only code     | Narrative field present as `N/A` with reason         |
-| Git subject, no tags                       | Deployment frequency proxy `NOT SPECIFIED`           |
-| Single-author repository                   | Bus-factor `High`, Team & Continuity line present    |
-| Non-Git subject                            | Delivery Practice section `NOT COLLECTED`            |
-| Evidence ledger written                    | Every row carries `Observation` or `Concern`         |
-| Polish-language report                     | Headings and dimension names match glossary verbatim |
+| Scenario                                   | Expected Behavior                                               |
+|--------------------------------------------|-----------------------------------------------------------------|
+| Changelog says tests pass                  | Reported only, readiness evidence incomplete                    |
+| Committed scan report lists an advisory    | Reported evidence, finding requires triage                      |
+| Documented build steps, no pipeline        | Inspected only, build outcome unknown                           |
+| Old crate, no advisory data                | Freshness concern, vulnerability status unknown                 |
+| Guarded panic or excluded module           | Verify reachability, do not invent failure                      |
+| Local CLI without hosted runtime           | Assess local safety, omit irrelevant hosted controls            |
+| Due diligence with no cost or support data | Retain unknowns, request artifacts                              |
+| Two projects reuse FND-SEC-001             | Project-qualified shared references                             |
+| Clean code with uniform tests              | No authorship inference, assess test behavior                   |
+| Security fix proposed but not run          | Keep verification pending, no closure claim                     |
+| Partial cost inputs or no telemetry        | No complete budget or numeric SLO claim                         |
+| Previous report at revision 1.9 exists     | New `AUDIT-2.0.md`, previous kept, comparison added             |
+| Previous report has no Revision row        | Assume 1.0, new file `AUDIT-1.1.md`                             |
+| Previous report uses bold-label `Version`  | Read it as the report revision                                  |
+| Previous report found, mode unstated       | Three audit-mode options asked before parameters                |
+| Re-audit requested, report found           | Baseline file confirmed before reuse                            |
+| Re-audit with changed parameters chosen    | Recovered values are defaults, named params re-asked            |
+| Parameter differs between reports          | Capability change in Changes, not a product change              |
+| Baseline predates current skill version    | Capability delta applied, named in Validation Record            |
+| Scorecard gains a dimension on re-audit    | Mean formula restated, movement outside score delta             |
+| Re-audit requested, none found             | User asked before fresh audit at revision 1.0                   |
+| Fresh audit over an existing report        | Revision increments, content ignored, fresh IDs                 |
+| Reusable library without an API gate       | API Compatibility section included, absence assessed            |
+| CWE-295 finding in C#                      | Finding names `CA5359` and its enablement state                 |
+| Git author data collected, no finding      | Team & Continuity dashboard line still present                  |
+| Mean 5.8 with Security at 4                | Floor named next to the mean                                    |
+| Lockfile present, no SBOM                  | Source-derived component inventory produced                     |
+| Other-subject report has a new section     | Apply it or justify `N/A` in the Validation Record              |
+| Checklist item silently skipped            | Consistency gate fails, report keeps the `State` row at `Draft` |
+| Same issue type in two projects            | Per-project trade-off, not the combined section                 |
+| Shared workspace or build decision         | Row in the combined Trade-off Analysis                          |
+| Multi-project audit                        | Combined summary and Changes precede project blocks             |
+| Prior report anchor does not resolve       | Correct anchor recorded, citation flagged                       |
+| Census method differs between reports      | Canonical method restated, figure compared                      |
+| Scripted edit anchors on `## frontend`     | Complete heading line matched, no `###` hit                     |
+| Regex splice touches a table separator     | Whole block rewritten, formatter re-run                         |
+| Validator reports more than 10 problems    | Fix and re-run until zero, first-10 display limit               |
+| Comment-only catch bodies                  | Counted separately from empty bodies                            |
+| Evaluation scale prompt shown              | All five options: 1-10, 1-5, 1-3, 5 stars, 3 stars              |
+| No previous report exists                  | Default `AUDIT-1.0.md`, `AUDIT.md` as alternative               |
+| `document/` exists, `docs/` does not       | Resolved base is `document/`, offered as a location             |
+| Document prose already wraps near 60       | Offer 60 alongside the default 100 at wrap time                 |
+| Version-named subdirs under `docs/report/` | Only the version path offered, no date alternative              |
+| Full audit report generated                | Coverage matrix present, pentest row `Not done`                 |
+| Matrix row marked `Covered`                | No Scope Exclusions bullet disclaims that type                  |
+| Manifest has no license fields             | SBOM License cells `Unknown`, gap feeds findings                |
+| Committed advisory report absent           | `Advisory Checked` stays `N` for every component                |
+| Critical finding on public endpoint        | Exploitability Narrative present, `Theoretical` tier            |
+| Narrative claims dynamic verification      | Defect: scope never lifted, tier forced down                    |
+| Security finding on internal-only code     | Narrative field present as `N/A` with reason                    |
+| Git subject, no tags                       | Deployment frequency proxy `NOT SPECIFIED`                      |
+| Single-author repository                   | Bus-factor `High`, Team & Continuity line present               |
+| Non-Git subject                            | Delivery Practice section `NOT COLLECTED`                       |
+| Evidence ledger written                    | Every row carries `Observation` or `Concern`                    |
+| Polish-language report                     | Headings and dimension names match glossary verbatim            |
 
 ## Intake Checklist
 
@@ -958,7 +998,7 @@ Use this checklist to confirm you understand the input before assessing.
 | What is the natural language of the request? | Language code or name, or English (default)          |
 | How many projects are in the directory?      | One / Multiple (list each with path and version)     |
 | What output subdirectory pattern exists?     | `version-numbered` / `date-named` / `mixed` / `none` |
-| Was a previous report found, and which mode? | none / re-audit confirmed / fresh audit              |
+| Was a previous report found, and which mode? | none / re-audit / re-audit + changed params / fresh  |
 
 ## Handling Thin Input
 
@@ -995,6 +1035,17 @@ comparable over time.
 Every evidence anchor is re-derived from the current tree. When a previous report's anchor does
 not resolve and the tree is unchanged, record the correct anchor and flag the prior citation as
 an evidence correction per `synthesis/report-comparison.md`, never silently substitute it.
+
+When the baseline's `Skill Version` row predates the running skill version, enumerate the
+capability delta before writing: new mandatory sections, new finding or ledger fields, new PAR
+rows, and new scorecard dimensions added between the two versions. Apply the delta so the new
+report satisfies the current format, and classify every structural addition as a capability
+change in the Changes Since Previous Audit section and the Validation Record, not a product
+change.
+
+When the scorecard dimension set differs between revisions, restate the mean formula: an added
+or removed dimension changes the denominator, and the resulting score movement is a capability
+change recorded outside the score-delta table per `synthesis/report-comparison.md`.
 
 Update the Remediation Status column for findings that were closed since the previous audit.
 

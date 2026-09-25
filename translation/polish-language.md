@@ -325,12 +325,15 @@ Apply these phrasing rules:
   `Pomiń w tej sesji`.
 - The audit-mode question is `Znaleziono poprzedni raport audytu: <ścieżka> (rewizja <n>, data
   <d>). Czy wykonać ponowny audyt względem tego raportu, czy nowy audyt?` with options
-  `Ponowny audyt - porównaj z <plik>` and `Nowy audyt - zignoruj poprzedni raport`. The
-  baseline-confirmation variant is `Potwierdź, że <ścieżka> to poprawna podstawa ponownego
-  audytu.` with options `Potwierdź - ponowny audyt względem <plik>` and `Nowy audyt`. When a
-  requested re-audit finds no previous report, ask `Nie znaleziono poprzedniego raportu audytu.
-  Wykonać nowy audyt (rewizja 1.0)?` with the option `Wykonaj nowy audyt`. Mark the recommended
-  option with `(zalecane)`.
+  `Ponowny audyt - porównaj z <plik>`, `Ponowny audyt ze zmienionymi parametrami - porównaj
+  i zmień parametry`, and `Nowy audyt - zignoruj poprzedni raport`. The baseline-confirmation
+  variant is `Potwierdź, że <ścieżka> to poprawna podstawa ponownego audytu.` with options
+  `Potwierdź - ponowny audyt względem <plik>`, `Ponowny audyt ze zmienionymi parametrami`, and
+  `Nowy audyt`. The changed-parameters follow-up is `Które parametry zmienić?`, and the
+  recovered value on each prompt is marked `(poprzednia, domyślna)`. When a requested re-audit
+  finds no previous report, ask `Nie znaleziono poprzedniego raportu audytu. Wykonać nowy
+  audyt (rewizja 1.0)?` with the option `Wykonaj nowy audyt`. Mark the recommended option with
+  `(zalecane)`.
 
 ## Style Rules
 

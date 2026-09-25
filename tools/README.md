@@ -40,6 +40,12 @@ text prints legibly.
 version-numbered or date-named subdirectory, it flags a mismatch against the dominant sibling
 pattern under the same parent.
 
+It mechanically enforces the Observation/Concern tag rule: every `| EVD-` ledger row must carry
+a tag cell, and every `### FND-` block's `Type` field must read `Observation` or `Concern`.
+
+The validator prints at most ten problems per check, so fix, re-run the formatter, and
+re-validate until it reports zero issues rather than stopping after the first batch.
+
 Remove every copied script and every validation working copy after validation.
 
 ### Skill-Maintenance Tools
@@ -47,6 +53,9 @@ Remove every copied script and every validation working copy after validation.
 Run `validate-skill.py`, `check-references.py`, and `check-update.py` from the Lens repository.
 
 These tools inspect the skill itself and do not need to be copied into an audited project.
+
+`check-references.py` validates the skill's own `SKILL.md` and `README.md` navigation documents.
+It is never run on a report artifact or inside an audited repository.
 
 `check-update.py` reports the git upstream status of the skill repository for the once-per-session
 Skill Update Check in `SKILL.md`, and always exits `0` with a `STATUS` verdict line.

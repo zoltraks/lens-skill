@@ -20,16 +20,16 @@
 | Installation                       | 121  | Clone and update instructions                       |
 | Usage                              | 148  | Activation, parameters, and report delivery         |
 | Example Prompts                    | 174  | Full and focused audit requests                     |
-| Workflow Diagrams                  | 234  | ASCII and Mermaid audit pipelines                   |
-| Evidence And Decision Quality      | 294  | Evidence strength and verification limits           |
-| Core Principles                    | 346  | Evaluation constraints and status rules             |
-| Report Format                      | 362  | Report structure, identifiers, and style            |
-| When To Use This Skill             | 392  | Supported requests and exclusions                   |
-| What's Inside                      | 412  | Documents, references, tools, and conditional files |
-| Document Style                     | 501  | Pointer to the style rules file                     |
-| Verification For Skill Maintenance | 510  | Maintenance checks and regression scenarios         |
-| License                            | 530  | License for the skill itself                        |
-| Credits                            | 536  | Authorship and attribution                          |
+| Workflow Diagrams                  | 235  | ASCII and Mermaid audit pipelines                   |
+| Evidence And Decision Quality      | 295  | Evidence strength and verification limits           |
+| Core Principles                    | 347  | Evaluation constraints and status rules             |
+| Report Format                      | 363  | Report structure, identifiers, and style            |
+| When To Use This Skill             | 393  | Supported requests and exclusions                   |
+| What's Inside                      | 413  | Documents, references, tools, and conditional files |
+| Document Style                     | 502  | Pointer to the style rules file                     |
+| Verification For Skill Maintenance | 511  | Maintenance checks and regression scenarios         |
+| License                            | 531  | License for the skill itself                        |
+| Credits                            | 537  | Authorship and attribution                          |
 
 ## Overview
 
@@ -215,10 +215,11 @@ project.
 > analysis into the relevant architectural finding.
 
 **Re-audit**
-> Re-run the audit on this codebase after the latest fixes. (The agent finds the previous report,
-> asks you to confirm it as the re-audit baseline or choose a fresh audit instead, then writes a
-> new revision-numbered file such as `AUDIT-1.1.md` without overwriting it and adds a Changes
-> Since Previous Audit section.)
+> Re-run the audit on this codebase after the latest fixes. (The agent finds the previous report
+> and asks you to choose a mode: re-audit against it, re-audit with changed parameters, or a
+> fresh audit that ignores its content. It then writes a new revision-numbered file such as
+> `AUDIT-1.1.md` without overwriting it and adds a Changes Since Previous Audit section on
+> either re-audit mode.)
 
 **Thin input**
 > Here is a one-paragraph description of a service. Audit what you can and list exactly what

@@ -237,6 +237,24 @@ def check_security_classification(lines: list[str]) -> list[str]:
     return failures
 
 
+def check_type_tags(lines: list[str], fences: list[bool]) -> list[str]:
+    failures: list[str] = []
+    for index, (line, fenced) in enumerate(zip(lines, fences)):
+        if fenced or not line.startswith("| EVD-"):
+            continue
+        cells = [cell.strip() for cell in line.split("|")[1:-1]]
+        if not any(cell in ("Observation", "Concern") for cell in cells):
+            failures.append(f"line {index + 1}: evidence ledger row lacks an Observation/Concern tag")
+    starts = [index for index, line in enumerate(lines) if line.startswith("### FND-")]
+    for position, start in enumerate(starts):
+        end = starts[position + 1] if position + 1 < len(starts) else len(lines)
+        block = NL.join(lines[start:end])
+        match = re.search(r"\* \*\*Type:\*\*\s*(.*)", block)
+        if match and match.group(1).strip() not in ("Observation", "Concern"):
+            failures.append(f"{lines[start][4:70]}: Type is not Observation or Concern")
+    return failures
+
+
 def check_par_rows(text: str) -> list[str]:
     failures: list[str] = []
     for number in range(1, 17):
@@ -580,6 +598,7 @@ def main(path: str) -> int:
         ("score disclosure", check_score_disclosure(lines)),
         ("project qualification", check_project_qualification(text)),
         ("PAR-1..PAR-16", check_par_rows(text)),
+        ("Observation/Concern tags", check_type_tags(lines, fences)),
         ("glossary", check_glossary(text)),
         ("final-state gate", check_final_state(text)),
         ("location pattern", check_location(path)),
