@@ -303,7 +303,8 @@
         "Linking is performed by the scripts/link-glossary.py helper rather than by hand-inserted links.",
         "The linking pass runs before format-table.py and re-runs whenever report prose containing acronyms changes.",
         "Occurrences inside fenced code, inline code, headings, URLs, existing links, hyphenated identifiers, and capitalized compound names stay unlinked.",
-        "Variant forms such as HTTPS for HTTP(S), P2 for P1-P4, and the plural SLOs are linked to the indexed term."
+        "Variant forms such as HTTPS for HTTP(S), P2 for P1-P4, and the plural SLOs are linked to the indexed term.",
+        "The linking pass preserves the report's existing line-ending style rather than normalizing the file."
       ]
     },
     {
@@ -315,6 +316,7 @@
         "The baseline section count and names stated in process/report-format.md match the required-section check in scripts/validate-report.py.",
         "The PAR row coverage stated in the Validation Record contract matches the parity-row loop in scripts/validate-report.py.",
         "The required glossary terms and linking rules stated in the contract match the glossary checks in scripts/validate-report.py.",
+        "Helper blocks mirrored verbatim between link-glossary.py and validate-report.py are updated together in the same change.",
         "The change is verified by formatting and validating a produced report to zero issues, not by reading the documents alone."
       ]
     }

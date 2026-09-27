@@ -15,14 +15,14 @@ Every document created or modified as part of this skill must follow the rules b
 | Section                    | Line | What it covers                                  |
 |----------------------------|------|-------------------------------------------------|
 | Document Structure         | 27   | Titles, purpose blocks, and contents tables     |
-| Paragraphs And Wrapping    | 87   | Sentence structure and line width               |
-| Headings And Lists         | 140  | Heading depth, lists, and spacing               |
-| Code And Inline Formatting | 189  | Fences, code spans, and special characters      |
-| Tables                     | 255  | Source-width alignment and automated formatting |
-| Characters And Language    | 421  | Box-drawing, emoji, and per-language rules      |
-| File References            | 439  | Relative paths and backticked file paths        |
-| Skill Requirements         | 453  | Frontmatter and progressive disclosure          |
-| Maintenance                | 514  | File naming, encoding, and registration         |
+| Paragraphs And Wrapping    | 90   | Sentence structure and line width               |
+| Headings And Lists         | 143  | Heading depth, lists, and spacing               |
+| Code And Inline Formatting | 192  | Fences, code spans, and special characters      |
+| Tables                     | 258  | Source-width alignment and automated formatting |
+| Characters And Language    | 424  | Box-drawing, emoji, and per-language rules      |
+| File References            | 445  | Relative paths and backticked file paths        |
+| Skill Requirements         | 459  | Frontmatter and progressive disclosure          |
+| Maintenance                | 520  | File naming, encoding, and registration         |
 
 ## Document Structure
 
@@ -68,6 +68,9 @@ Use backtick code spans around the file path in the `See instead` column.
 ### Contents Table
 
 Include a Contents table in files longer than 300 lines.
+
+Files whose names begin with `AUDIT` or `AUDYT` are exempt, their layout is governed by
+`process/report-format.md` instead.
 
 ```markdown
 ## Contents
@@ -537,7 +540,8 @@ Every new topic file must include at minimum:
 - `## Purpose` section
 - One or more main content sections
 
-Files over 300 lines must also include a `## Contents` table.
+Files over 300 lines must also include a `## Contents` table, except `AUDIT`- and
+`AUDYT`-prefixed report files, which follow `process/report-format.md`.
 
 ## File Maintenance
 

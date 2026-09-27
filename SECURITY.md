@@ -26,6 +26,16 @@ Reports are welcome for:
 - Script behavior that writes files, mutates repositories, or executes commands outside its
   documented contract.
 
+## Accepted Posture
+
+The skill-update path deliberately relies on HTTPS transport, a clean-tree gate, `ff-only`
+pulls, and explicit user confirmation rather than signed commits or tags.
+
+Commit-hash pinning per `VERSIONING.md` is the documented integrity anchor consumers verify
+against.
+
+This posture is a standing accepted decision, revisited at each audit.
+
 ## Supported Versions
 
 The current release line declared in `SKILL.md` `metadata.version` receives fixes.

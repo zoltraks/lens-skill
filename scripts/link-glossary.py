@@ -133,8 +133,9 @@ def mask_line(line: str) -> str:
 
 
 def main(path: str) -> int:
-    text = open(path, encoding="utf-8").read().replace("\r\n", "\n")
-    lines = text.split("\n")
+    raw = open(path, "rb").read()
+    crlf = b"\r\n" in raw
+    lines = raw.decode("utf-8").replace("\r\n", "\n").split("\n")
     terms, anchors, g_start, g_end = parse_glossary(lines)
     variant_map: dict[str, str] = {}
     for term in terms:
@@ -187,7 +188,8 @@ def main(path: str) -> int:
             masked = masked[:start] + " " * len(replacement) + masked[end_:]
         linked += len(inserts)
         out.append(line)
-    open(path, "w", encoding="utf-8").write("\n".join(out))
+    eol = "\r\n" if crlf else "\n"
+    open(path, "wb").write(eol.join(out).encode("utf-8"))
     print(f"linked {linked} occurrence(s), skipped {skipped} compound-context occurrence(s)")
     return 0
 

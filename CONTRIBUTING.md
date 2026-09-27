@@ -9,10 +9,14 @@
 
 The repository is maintained by a single maintainer, Filip Golewski.
 
+This single-maintainer model is the intended operating model of the project, not a
+transitional state.
+
 All changes go through pull requests and are reviewed and merged by the maintainer.
 
 If the maintainer is unavailable for an extended period, repository continuity depends on a fork
-or a maintainer handoff arranged through the repository owner.
+or a maintainer handoff arranged through the repository owner, which is the accepted continuity
+mechanism.
 
 ## Before Submitting
 
@@ -30,7 +34,8 @@ python scripts/check-contents.py .
 git diff --check
 ```
 
-The maintainer runs the same validators before merging.
+The maintainer runs the same validators before merging, and the `validate` workflow runs them
+on every pull request.
 
 ## AI-Assisted Contributions
 
@@ -38,6 +43,9 @@ AI-assisted contributions are welcome.
 
 Disclose meaningful AI involvement in the pull request description or commit trailer, for
 example a `Co-Authored-By` line, so code and content provenance stays traceable.
+
+Trailers are expected only when meaningful AI involvement occurred, so a low trailer count is
+the expected state under low AI usage rather than a sign of undisclosed use.
 
 ## Versioning And Releases
 

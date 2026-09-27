@@ -36,21 +36,21 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 
 | Section                 | Line | What it covers                                     |
 |-------------------------|------|----------------------------------------------------|
-| Skill Update Check      | 73   | Once-per-session git freshness gate before use     |
-| Trigger Keywords        | 91   | Activation phrases                                 |
-| How To Use              | 111  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 130  | Defaults and user-controlled report shape          |
-| Principles              | 195  | Evaluation and output rules                        |
-| Process                 | 201  | Workflow, format, and parity                       |
-| Assessments             | 208  | Core and conditional assessment guides             |
-| Synthesis               | 249  | Findings, risk, score, and remediation assembly    |
-| Translations            | 262  | Per-language report translations                   |
-| References              | 271  | Lookup tables                                      |
-| Scripts                 | 288  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 308  | Behavioral regression prompts                      |
-| Repository Files        | 316  | Housekeeping files governing this repository       |
-| Evidence Contract       | 329  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 362  | File-selection and section-placement rules         |
+| Skill Update Check      | 74   | Once-per-session git freshness gate before use     |
+| Trigger Keywords        | 92   | Activation phrases                                 |
+| How To Use              | 112  | Progressive disclosure and mandatory reading       |
+| Parameter Configuration | 131  | Defaults and user-controlled report shape          |
+| Principles              | 196  | Evaluation and output rules                        |
+| Process                 | 202  | Workflow, format, and parity                       |
+| Assessments             | 209  | Core and conditional assessment guides             |
+| Synthesis               | 250  | Findings, risk, score, and remediation assembly    |
+| Translations            | 263  | Per-language report translations                   |
+| References              | 272  | Lookup tables                                      |
+| Scripts                 | 289  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 310  | Behavioral regression prompts                      |
+| Repository Files        | 318  | Housekeeping files governing this repository       |
+| Evidence Contract       | 331  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 364  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 

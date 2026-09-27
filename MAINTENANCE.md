@@ -81,6 +81,12 @@ Bounds such as baseline section counts, `PAR` row counts, and required glossary 
 identical in the prose contract and in `scripts/validate-report.py`, update both in the same
 change so the written rule and the check never drift apart.
 
+The same rule applies to logic mirrored between tools.
+
+The glossary variant and compound-name exemption helpers shared verbatim between
+`scripts/link-glossary.py` and `scripts/validate-report.py` must be updated together in the
+same change, since a copied implementation drifts the same way a written rule does.
+
 ## Extending Assessment And Report Resources
 
 ### Adding An Assessment Category

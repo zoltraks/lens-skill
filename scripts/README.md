@@ -62,6 +62,12 @@ the Lens repository.
 
 These tools inspect the skill itself and do not need to be copied into an audited project.
 
+`validate-skill.py` checks `SKILL.md` frontmatter, router references, file budgets, and
+`evals/evals.json`.
+
+It exempts files whose names begin with `AUDIT` or `AUDYT` from the large-file Contents check,
+because audit reports follow `process/report-format.md`.
+
 `check-references.py` validates the skill's own `SKILL.md` and `README.md` navigation documents.
 It is never run on a report artifact or inside an audited repository.
 

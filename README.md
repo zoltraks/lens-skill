@@ -28,11 +28,11 @@
 | Report Format                      | 388  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 418  | Supported requests and exclusions                   |
 | What's Inside                      | 439  | Documents, references, tools, and conditional files |
-| Document Style                     | 538  | Pointer to the style rules file                     |
-| Specification                      | 547  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 566  | Maintenance checks and regression scenarios         |
-| License                            | 587  | License for the skill itself                        |
-| Credits                            | 593  | Authorship and attribution                          |
+| Document Style                     | 542  | Pointer to the style rules file                     |
+| Specification                      | 551  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 570  | Maintenance checks and regression scenarios         |
+| License                            | 592  | License for the skill itself                        |
+| Credits                            | 598  | Authorship and attribution                          |
 
 ## Overview
 
@@ -446,6 +446,9 @@ lens-skill/
 ├── VERSIONING.md                      # Skill versioning policy
 ├── CONTRIBUTING.md                    # Maintainer model and pre-merge validation expectations
 ├── SECURITY.md                        # Private vulnerability reporting path
+├── .github/
+│   └── workflows/
+│       └── validate.yml                 # CI gate running the skill-maintenance validators
 ├── evals/
 │   └── evals.json                     # Skill-creator behavioral regression prompts
 ├── principles/
@@ -573,6 +576,7 @@ When changing the skill, follow `MAINTENANCE.md` and:
 
 - Run `python scripts/validate-skill.py .`, `python scripts/check-references.py .`, and
   `python scripts/check-contents.py .` after changing skill files.
+- The same validators run automatically on every pull request via `.github/workflows/validate.yml`.
 - Run `git diff --check` to detect whitespace errors.
 - Format edited tables using an automated source-width formatter per `STYLE.md`.
 - Check Contents tables in files over 300 lines and preserve encoding and line endings.
