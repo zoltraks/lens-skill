@@ -111,7 +111,8 @@ Update `SKILL.md` Navigation Rules and add evaluation prompts when the behavior 
 When changing audit phases, update `process/audit-workflow.md` and the corresponding intake,
 assessment, synthesis, or validation guidance.
 
-When adding or changing a report section, update `process/report-format.md` and
+When adding or changing a report section, update the matching section file under
+`process/report-format/` (or `process/report-format.md` for index-level rules) and
 `process/report-parity.md`, plus the relevant `synthesis/` or `assessment/` guide.
 
 Keep report section order, conditional criteria, checklist coverage, and router guidance consistent.
@@ -176,6 +177,19 @@ python scripts/check-contents.py .
 Run `git diff --check` before delivery.
 
 Format tables in edited skill documents with a temporary source-width formatter per `STYLE.md`.
+
+Generic document checkers flag several sanctioned patterns in this repository. Treat these as
+expected noise, not defects:
+
+- Star-bar glyphs `★` and `☆` inside code spans, allowed by `STYLE.md` for documented output
+  formats.
+- Missing blank lines before a list or table that starts a `markdown` payload block.
+- Compact `|  |` and `|--|` leading icon columns, the canonical output of `scripts/format-table.py`
+  that stricter formatters would pad further.
+- The deliberately incorrect separator-format example in `process/report-format.md`.
+- `XXX` inside `FND-XXX`, `RSK-XXX`, and `REC-XXX` template identifiers.
+- Polish diacritics in `translations/polish-language.md`.
+- A `[text](url)` literal inside a code span, counted as a link by census tools.
 
 Preserve the encoding and line-ending style of existing files.
 

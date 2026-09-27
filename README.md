@@ -28,11 +28,11 @@
 | Report Format                      | 388  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 418  | Supported requests and exclusions                   |
 | What's Inside                      | 439  | Documents, references, tools, and conditional files |
-| Document Style                     | 542  | Pointer to the style rules file                     |
-| Specification                      | 551  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 570  | Maintenance checks and regression scenarios         |
-| License                            | 592  | License for the skill itself                        |
-| Credits                            | 598  | Authorship and attribution                          |
+| Document Style                     | 554  | Pointer to the style rules file                     |
+| Specification                      | 563  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 582  | Maintenance checks and regression scenarios         |
+| License                            | 604  | License for the skill itself                        |
+| Credits                            | 610  | Authorship and attribution                          |
 
 ## Overview
 
@@ -456,7 +456,19 @@ lens-skill/
 │   └── output-style.md                # Tone, fixed vocabularies, consistency, determinism
 ├── process/
 │   ├── audit-workflow.md              # Intake, scope, evidence, assessment, synthesis, validation
-│   ├── report-format.md               # The table-driven, unnumbered report template
+│   ├── report-format.md               # Report format index: rules, section order, spec map
+│   ├── report-format/                 # Per-section report specifications
+│   │   ├── opening.md                 # Document Information, coverage matrix, Glossary
+│   │   ├── multi-project.md           # Combined multi-project report structure
+│   │   ├── summary-and-changes.md     # Executive Summary, Changes Since Previous Audit
+│   │   ├── context-and-compliance.md  # System Context, SBOM, License & IP review
+│   │   ├── dashboard-and-observations.md # Health Dashboard, delivery, observations
+│   │   ├── methodology-and-scoring.md # Auditing Methodology, Scoring Rubrics
+│   │   ├── architectural-assessment.md # Architectural Assessment and subsections
+│   │   ├── analysis.md                # Trade-off Analysis, Threat Model
+│   │   ├── conformance.md             # Conditional conformance sections
+│   │   ├── findings-and-registers.md  # Findings, debt, risk, and roadmap registers
+│   │   └── closing.md                 # Exclusions, limitations, validation, references
 │   ├── report-parity.md               # Mandatory core checklist and consistency gate before final
 │   └── readiness-and-scoring.md       # Deterministic scores, confidence, maturity, and readiness gates
 ├── assessment/

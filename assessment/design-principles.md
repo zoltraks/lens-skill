@@ -84,7 +84,7 @@ which the notes should make clear.
 ## Render As
 
 Render the evaluation as the `### Design Principles` subsection of the Architectural Assessment,
-per `process/report-format.md`.
+per `process/report-format/architectural-assessment.md`.
 
 Present one row per principle with status and evidence.
 

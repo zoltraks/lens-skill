@@ -57,7 +57,7 @@ Audit reports produced by the skill carry a `Report Revision`, not a version.
 Inside a report, the word `version` refers to the audited software, a project, a library,
 or the skill itself, which is shown as `Skill Version`.
 
-Report revision rules live in `process/report-format.md` and `synthesis/report-comparison.md`.
+Report revision rules live in `process/report-format/opening.md` and `synthesis/report-comparison.md`.
 
 ## Where Version Is Recorded
 

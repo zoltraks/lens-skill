@@ -58,7 +58,7 @@ omit the Changes Since Previous Audit section.
 Both cases need no omission note in Scope Exclusions.
 
 When the section is present, place it immediately after the Executive Summary,
-per `process/report-format.md`.
+per `process/report-format/summary-and-changes.md`.
 
 For a multi-project report, place the combined section after the condensed combined Executive
 Summary and give each compared project its own level-3 subsection.

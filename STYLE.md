@@ -16,13 +16,13 @@ Every document created or modified as part of this skill must follow the rules b
 |----------------------------|------|-------------------------------------------------|
 | Document Structure         | 27   | Titles, purpose blocks, and contents tables     |
 | Paragraphs And Wrapping    | 90   | Sentence structure and line width               |
-| Headings And Lists         | 143  | Heading depth, lists, and spacing               |
-| Code And Inline Formatting | 192  | Fences, code spans, and special characters      |
-| Tables                     | 258  | Source-width alignment and automated formatting |
-| Characters And Language    | 424  | Box-drawing, emoji, and per-language rules      |
-| File References            | 445  | Relative paths and backticked file paths        |
-| Skill Requirements         | 459  | Frontmatter and progressive disclosure          |
-| Maintenance                | 520  | File naming, encoding, and registration         |
+| Headings And Lists         | 146  | Heading depth, lists, and spacing               |
+| Code And Inline Formatting | 197  | Fences, code spans, and special characters      |
+| Tables                     | 263  | Source-width alignment and automated formatting |
+| Characters And Language    | 429  | Box-drawing, emoji, and per-language rules      |
+| File References            | 450  | Relative paths and backticked file paths        |
+| Skill Requirements         | 464  | Frontmatter and progressive disclosure          |
+| Maintenance                | 525  | File naming, encoding, and registration         |
 
 ## Document Structure
 
@@ -109,6 +109,9 @@ The 100-character limit applies to paragraph text only.
 
 It does not apply to table rows, table column values, URLs, links, or file paths.
 
+A line that exceeds 100 characters only because of an unbreakable link, URL, or path atom is
+acceptable.
+
 Break at a natural boundary such as after a comma, conjunction, or clause end.
 
 Keep the continuation indented to the same level as the start of the sentence when the sentence is
@@ -172,6 +175,8 @@ Put one empty line before and after every list.
 Do not put blank lines between short list items.
 
 Use blank lines between list items when the items are long or contain multiple sentences.
+
+A list item may carry multiple sentences when they express a single point.
 
 Put one blank line between a parent list item and its nested sublist.
 

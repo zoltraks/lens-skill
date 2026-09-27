@@ -89,7 +89,7 @@ and Strategy with hardcoded weights.
 ## How To Present
 
 Render this as a subsection of the Architectural Assessment,
-as described in `process/report-format.md`.
+as described in `process/report-format/architectural-assessment.md`.
 
 Present a table of patterns with their fitness verdict,
 then describe each material pattern or anti-pattern with evidence.

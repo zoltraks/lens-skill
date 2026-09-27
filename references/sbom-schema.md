@@ -7,7 +7,7 @@
 > source-derived disclaimer
 
 This file defines the table shape of the Software Bill of Materials section in
-`process/report-format.md`.
+`process/report-format/context-and-compliance.md`.
 
 The extraction procedures that fill the table live in `references/dependency-manifests.md`,
 and the license classification rules live in `references/license-compliance.md`.

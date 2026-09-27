@@ -87,7 +87,7 @@ accepted ones.
 
 **Render as**
 
-Render the ADR gap as a subsection of the Architectural Assessment per `process/report-format.md`.
+Render the ADR gap as a subsection of the Architectural Assessment per `process/report-format/architectural-assessment.md`.
 Present a table of decisions that should have an ADR, each marked `Recorded` or `Missing`, anchored
 to the file or code that embodies the decision.
 

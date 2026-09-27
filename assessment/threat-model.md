@@ -84,7 +84,7 @@ Threats that are already mitigated are recorded as mitigated, with the control c
 
 ## How To Present
 
-Render the threat model as described in `process/report-format.md`.
+Render the threat model as described in `process/report-format/analysis.md`.
 
 Present one table keyed by trust boundary and STRIDE category,
 then describe each material threat with evidence and its linked `FND-XXX` / `RSK-XXX`.

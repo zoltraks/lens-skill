@@ -76,7 +76,7 @@ points, and process boundaries.
 
 ## How To Present
 
-Render the model in the Architectural Assessment section as described in `process/report-format.md`.
+Render the model in the Architectural Assessment section as described in `process/report-format/architectural-assessment.md`.
 Present the Level-0 and Level-1 diagrams as fenced ASCII blocks or as a flow table, then list the
 trust boundaries in a table.
 

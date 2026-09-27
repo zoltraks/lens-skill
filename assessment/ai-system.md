@@ -142,7 +142,7 @@ Record the exact practices or outcomes assessed and list unassessed areas.
 ## How To Present
 
 Render this assessment as a conditional section or as findings in the appropriate technical pillars,
-according to `process/report-format.md`.
+according to `process/report-format/conformance.md`.
 
 Keep AI-system risks separate from AI-generated-code provenance findings.
 

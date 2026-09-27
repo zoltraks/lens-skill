@@ -7,7 +7,7 @@
 > **Key items:** audit-type table, coverage statuses, source corpus, coverage matrix rules
 
 This file names the audit types a synthesis report distinguishes and defines the fixed status
-vocabulary used by the Audit Type Coverage & Assurance Matrix in `process/report-format.md`.
+vocabulary used by the Audit Type Coverage & Assurance Matrix in `process/report-format/opening.md`.
 It also registers the external sources the skill's audit-type rules were derived from, so the
 report's References section can cite them the same way it cites standards.
 
@@ -138,7 +138,7 @@ These are the external sources the taxonomy, the coverage model,
 and the borrowed report structures derive from.
 
 Cite an entry in the report's References section only when its methodology was actually applied,
-per `process/report-format.md`.
+per `process/report-format/closing.md`.
 
 | Source                                                             | Publisher       | What it grounds                                                                 |
 |--------------------------------------------------------------------|-----------------|---------------------------------------------------------------------------------|

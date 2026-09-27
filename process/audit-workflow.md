@@ -286,7 +286,7 @@ or readiness conclusions as current evidence.
 The previous report is never overwritten.
 
 The new report is written to a new revision-numbered file and carries a Changes Since Previous Audit
-section, per `synthesis/report-comparison.md` and `process/report-format.md`.
+section, per `synthesis/report-comparison.md` and `process/report-format/summary-and-changes.md`.
 
 If no previous report is found and the conversation context contains no record of previously chosen
 parameters, treat the request as a new audit and run the full Parameter Configuration phase.
@@ -1338,7 +1338,7 @@ Never use ambiguous labels such as `both`, `either`, or `the projects` as an ide
 The project name or identifier prefixes the finding block heading so the reader can locate the
 project within the report.
 
-See `process/report-format.md` for the multi-project report structure.
+See `process/report-format/multi-project.md` for the multi-project report structure.
 
 **Workflow for multiple projects**
 
@@ -1350,8 +1350,7 @@ run a single Synthesis phase that combines all projects into one report:
 
 1. For each project, run Scope Definition, Evidence Gathering, Category Assessment, and per-project
    Validation.
-2. After all projects are assessed, build the combined report per `process/report-format.md`
-   Multi-Project Report Structure.
+2. After all projects are assessed, build the combined report per `process/report-format/multi-project.md`.
 3. Each project gets its own complete set of sections: Executive Summary, System Context (with the
    Technology Stack subsection), Health Dashboard, High-Level Observations, Auditing Methodology,
    Scoring Rubrics, Architectural Assessment, Trade-off Analysis, conditional sections, Strengths,

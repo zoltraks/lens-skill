@@ -42,15 +42,15 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 | Parameter Configuration | 131  | Defaults and user-controlled report shape          |
 | Principles              | 196  | Evaluation and output rules                        |
 | Process                 | 202  | Workflow, format, and parity                       |
-| Assessments             | 209  | Core and conditional assessment guides             |
-| Synthesis               | 250  | Findings, risk, score, and remediation assembly    |
-| Translations            | 263  | Per-language report translations                   |
-| References              | 272  | Lookup tables                                      |
-| Scripts                 | 289  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 310  | Behavioral regression prompts                      |
-| Repository Files        | 318  | Housekeeping files governing this repository       |
-| Evidence Contract       | 331  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 364  | File-selection and section-placement rules         |
+| Assessments             | 226  | Core and conditional assessment guides             |
+| Synthesis               | 267  | Findings, risk, score, and remediation assembly    |
+| Translations            | 280  | Per-language report translations                   |
+| References              | 289  | Lookup tables                                      |
+| Scripts                 | 306  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 327  | Behavioral regression prompts                      |
+| Repository Files        | 335  | Housekeeping files governing this repository       |
+| Evidence Contract       | 348  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 381  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -202,7 +202,24 @@ The previous report is never overwritten - write the next revision-numbered file
 ## `process/` - Audit Process
 
 - **`process/audit-workflow.md`** - End-to-end audit process: intake to validated report.
-- **`process/report-format.md`** - Report structure, table-driven template, unnumbered headings.
+- **`process/report-format.md`** - Report format index: formatting rules, parameters, section
+  order, specification-file map, pre-delivery checklist.
+- **`process/report-format/opening.md`** - Document Information, coverage matrix, Glossary.
+- **`process/report-format/multi-project.md`** - Combined multi-project report structure.
+- **`process/report-format/summary-and-changes.md`** - Executive Summary, Changes Since Previous
+  Audit.
+- **`process/report-format/context-and-compliance.md`** - System Context, SBOM, License & IP.
+- **`process/report-format/dashboard-and-observations.md`** - Health Dashboard, delivery practice,
+  observations.
+- **`process/report-format/methodology-and-scoring.md`** - Auditing Methodology, Scoring Rubrics.
+- **`process/report-format/architectural-assessment.md`** - Architectural Assessment and
+  subsections.
+- **`process/report-format/analysis.md`** - Trade-off Analysis, Threat Model.
+- **`process/report-format/conformance.md`** - Conditional conformance sections.
+- **`process/report-format/findings-and-registers.md`** - Strengths, findings, debt, risk,
+  roadmap.
+- **`process/report-format/closing.md`** - Exclusions, Limitations, Re-audit, Validation,
+  References.
 - **`process/report-parity.md`** - Mandatory core checklist and consistency gate.
 - **`process/readiness-and-scoring.md`** - Score aggregation, confidence, maturity, readiness gates.
 
@@ -368,7 +385,8 @@ when maintaining the skill.
 - Never compile, build, test, or execute the audited project, and never run linters, scanners,
   or generators against it. Verification claims rest on inspected repository contents,
   documented results are `Reported` evidence.
-- Assemble the report skeleton from `process/report-format.md` before filling in findings, present
+- Assemble the report skeleton from `process/report-format.md` and the section files under
+  `process/report-format/` before filling in findings, present
   every section as a table and use unnumbered headings.
 - Every report opens with the Audit Type Coverage & Assurance Matrix built from the fixed types
   and statuses in `references/audit-taxonomy.md`, kept consistent with Scope Exclusions.

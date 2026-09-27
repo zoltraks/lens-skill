@@ -20,7 +20,7 @@ Apply `principles/evaluation-rules.md` throughout.
 - Load the matching row or rows and consult the listed references when assessing Stack Best
   Practices, Security Posture, Dependency Review, Standards Conformance, and API Compatibility.
 - Name the consulted sources in the Auditing Methodology's "Reference standards" step and in the
-  References section, per `process/report-format.md`.
+  References section, per `process/report-format/closing.md`.
 - Cite only sources actually consulted. A row in this map is a pointer, not a citation.
 - When the detected stack has no row, research canonical sources and note the gap. Extend this
   map when a new stack is audited.
@@ -93,4 +93,4 @@ Do not apply those references to ordinary software that only has unknown code au
   separately in Standards Conformance. Internal standards complement canonical sources and never
   replace them in the References section.
 - When a cited page could not be consulted during the audit, do not list it in References. List
-  only consulted sources, per `process/report-format.md`.
+  only consulted sources, per `process/report-format/closing.md`.
