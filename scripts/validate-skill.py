@@ -8,6 +8,8 @@ import re
 import sys
 from pathlib import Path
 
+from common import parse_frontmatter, report
+
 
 ALLOWED_FIELDS = {"name", "description", "license", "compatibility", "metadata", "allowed-tools"}
 REFERENCE_PATTERN = re.compile(r"(?<![A-Za-z0-9:/])([A-Za-z0-9_.-]+/[A-Za-z0-9_./-]+\.(?:md|py|json|txt))(?![A-Za-z0-9])")
@@ -16,43 +18,6 @@ LINK_PATTERN = re.compile(r"\]\(([^)]+)\)")
 
 def issue(message: str, issues: list[str]) -> None:
     issues.append(message)
-
-
-def parse_frontmatter(text: str, issues: list[str]) -> tuple[dict[str, str], str]:
-    match = re.match(r"^---\r?\n(.*?)\r?\n---\r?\n", text, re.DOTALL)
-    if not match:
-        issue("SKILL.md has no YAML frontmatter block", issues)
-        return {}, text
-
-    raw = match.group(1).splitlines()
-    fields: dict[str, str] = {}
-    index = 0
-    while index < len(raw):
-        line = raw[index]
-        if line.startswith("  "):
-            index += 1
-            continue
-        if not line.strip() or line.lstrip().startswith("#"):
-            index += 1
-            continue
-        field_match = re.match(r"^([A-Za-z][A-Za-z0-9-]*):(?:\s*(.*))?$", line)
-        if not field_match:
-            issue(f"frontmatter line {index + 1} is not a simple field: {line}", issues)
-            index += 1
-            continue
-        key, value = field_match.group(1), field_match.group(2) or ""
-        if value in {">-", ">", "|-", "|"}:
-            parts: list[str] = []
-            index += 1
-            while index < len(raw) and (raw[index].startswith("  ") or not raw[index].strip()):
-                parts.append(raw[index][2:] if raw[index].startswith("  ") else "")
-                index += 1
-            separator = " " if value.startswith(">") else "\n"
-            fields[key] = separator.join(parts).strip()
-            continue
-        fields[key] = value.strip().strip('"').strip("'")
-        index += 1
-    return fields, text[match.end():]
 
 
 def validate_frontmatter(root: Path, fields: dict[str, str], issues: list[str]) -> None:
@@ -175,14 +140,7 @@ def main() -> int:
         validate_body(root, body, issues)
         validate_evals(root, fields, issues)
 
-    if issues:
-        for message in issues:
-            print(f"FAIL {message}")
-        print(f"{len(issues)} issue(s) found")
-        return 1
-
-    print("PASS skill metadata, references, and disclosure limits")
-    return 0
+    return report(issues, "skill metadata, references, and disclosure limits")
 
 
 if __name__ == "__main__":

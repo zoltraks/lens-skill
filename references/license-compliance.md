@@ -10,9 +10,11 @@ This file defines the license-classification pass that runs over the SBOM table
 (`references/sbom-schema.md`) and feeds the License & IP Compliance Review section and
 `assessment/copyright-review.md` findings.
 
-Apply `principles/evaluation-rules.md` throughout. Only inspected declarations count as license
-evidence. Knowing what license a popular package usually carries is not evidence, mark `Unknown`
-instead.
+Apply `principles/evaluation-rules.md` throughout.
+
+Only inspected declarations count as license evidence.
+
+Knowing what license a popular package usually carries is not evidence, mark `Unknown` instead.
 
 ## License Classes
 
@@ -39,12 +41,16 @@ Checked in this order, first inspected declaration wins:
 3. A lockfile license field, in the rare formats that carry one.
 4. Project-level license-policy documents that name the component's license explicitly.
 
-Nothing else counts. Absence of a declaration produces `Unknown`, not a best guess.
+Nothing else counts.
+
+Absence of a declaration produces `Unknown`, not a best guess.
 
 ## The Copyleft Trap
 
-The finding most likely to force legal remediation is a strong-copyleft component linked into a
-work distributed under incompatible terms. Flag a `Conflict` when all of these hold:
+The finding most likely to force legal remediation is a strong-copyleft component linked into a work
+distributed under incompatible terms.
+
+Flag a `Conflict` when all of these hold:
 
 - The component classifies as `Strong-copyleft`.
 - It is a `direct` or statically linked `transitive` component of the distributed work.
@@ -54,9 +60,10 @@ work distributed under incompatible terms. Flag a `Conflict` when all of these h
 A `Conflict` always produces an `FND-CPR` finding naming the component, its license, the
 project's license, and the linkage evidence.
 
-Flag `Review` for weak-copyleft components where the linkage mode is undetermined, for dual or
-unusual licenses, and for `Proprietary` third-party code. Flag `Unknown` where no declaration was
-found.
+Flag `Review` for weak-copyleft components where the linkage mode is undetermined,
+for dual or unusual licenses, and for `Proprietary` third-party code.
+
+Flag `Unknown` where no declaration was found.
 
 ## Rules
 

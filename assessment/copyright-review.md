@@ -7,13 +7,17 @@
 > **Key items:** original code, license headers, dependency licenses, copied snippets, attribution,
 > binary asset rights
 
-This file defines how to assess whether a codebase respects copyright and licensing rules. The
-assessment is based on the principle that all code should be original or properly licensed, and all
-third-party content should be documented.
+This file defines how to assess whether a codebase respects copyright and licensing rules.
 
-Apply `principles/evaluation-rules.md` throughout. A finding of copied code is a copyright issue,
-not a code quality issue. Distinguish between legitimate use of open-source libraries (with proper
-licensing) and unauthorized copying of code snippets or assets.
+The assessment is based on the principle that all code should be original or properly licensed,
+and all third-party content should be documented.
+
+Apply `principles/evaluation-rules.md` throughout.
+
+A finding of copied code is a copyright issue, not a code quality issue.
+
+Distinguish between legitimate use of open-source libraries (with proper licensing)
+and unauthorized copying of code snippets or assets.
 
 ## What To Look For
 
@@ -99,10 +103,14 @@ licensing) and unauthorized copying of code snippets or assets.
 Use the inventory and license-policy checks in `assessment/dependency-review.md` for transitive
 components, avoiding duplicate findings or effort totals.
 
-Run the license-classification pass from `references/license-compliance.md` over the
-SBOM table. Classify each component `Permissive`, `Weak-copyleft`, `Strong-copyleft`,
-`Proprietary`, or `Unknown` from inspected declarations only. A `Strong-copyleft` component
-linked into an incompatibly distributed work is a `Conflict` and produces an `FND-CPR` finding.
+Run the license-classification pass from `references/license-compliance.md` over the SBOM table.
+
+Classify each component `Permissive`, `Weak-copyleft`, `Strong-copyleft`, `Proprietary`,
+or `Unknown` from inspected declarations only.
+
+A `Strong-copyleft` component linked into an incompatibly distributed work is a `Conflict` and
+produces an `FND-CPR` finding.
+
 Undeterminable licenses stay `Unknown` and count as a license-hygiene gap.
 
 Distinguish declared licenses, observed notices, and reviewed conclusions for the distribution

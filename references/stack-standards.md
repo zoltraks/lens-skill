@@ -6,9 +6,11 @@
 > **Key items:** stack detection, canonical citations, security advisories, compatibility tooling
 
 This file maps detected languages and ecosystems to the canonical references the audit should
-consult and cite. It turns "cite generic standards" into a stack-aware habit: every audit names
-the authoritative guidance for the subject's actual stack, not only cross-cutting sources such as
-OWASP or CWE.
+consult and cite.
+
+It turns "cite generic standards" into a stack-aware habit:
+every audit names the authoritative guidance for the subject's actual stack,
+not only cross-cutting sources such as OWASP or CWE.
 
 Apply `principles/evaluation-rules.md` throughout.
 
@@ -54,7 +56,9 @@ Apply `principles/evaluation-rules.md` throughout.
 
 ## Cross-Cutting References
 
-These apply to every stack. Use them alongside, never instead of, the stack-specific rows.
+These apply to every stack.
+
+Use them alongside, never instead of, the stack-specific rows.
 
 | Purpose                       | References                                                                                                                                      |
 |-------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -71,12 +75,15 @@ The cross-cutting references above are lookup sources, not evidence that a contr
 
 For software supply-chain audits, also record whether the repository provides a
 [CISA-aligned SBOM](https://www.cisa.gov/resources-tools/resources/2026-minimum-elements-software-bill-materials-sbom),
-artifact identity, vulnerability exchange or disposition data, and SLSA provenance. Mark absent
-artifacts as gaps and unavailable external status as `UNKNOWN`.
+artifact identity, vulnerability exchange or disposition data, and SLSA provenance.
 
-For projects that train, serve, or materially depend on AI systems, consult the conditional
-AI-system assessment and select the relevant NIST AI RMF or ISO/IEC 42001 practices. Do not apply
-those references to ordinary software that only has unknown code authorship.
+Mark absent artifacts as gaps and unavailable external status as `UNKNOWN`.
+
+For projects that train, serve, or materially depend on AI systems,
+consult the conditional AI-system assessment and select the relevant NIST AI RMF or ISO/IEC 42001
+practices.
+
+Do not apply those references to ordinary software that only has unknown code authorship.
 
 ## Extension Rules
 

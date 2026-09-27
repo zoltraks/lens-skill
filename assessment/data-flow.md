@@ -7,11 +7,16 @@
 > stores, trust boundaries
 
 This file guides construction of a data flow model that makes the system's data movement and trust
-boundaries explicit. It is the foundation for the threat model in `assessment/threat-model.md` and
-enriches the Architectural Assessment.
+boundaries explicit.
 
-Apply `principles/evaluation-rules.md` throughout. Model only what the input shows. Mark inferred
-flows as inferred.
+It is the foundation for the threat model in `assessment/threat-model.md` and enriches the
+Architectural Assessment.
+
+Apply `principles/evaluation-rules.md` throughout.
+
+Model only what the input shows.
+
+Mark inferred flows as inferred.
 
 ## When This Applies
 
@@ -19,13 +24,17 @@ This assessment applies when the system moves data across one or more trust boun
 a network service, an API, a multi-process system, a system that reads or writes external stores, or
 a system that integrates with third-party services.
 
-It does not apply to a pure library, a single-file script with no external I/O, or a system with no
-trust boundary. In those cases, mark the section `N/A` with a one-line justification anchored to the
-deployment model.
+It does not apply to a pure library, a single-file script with no external I/O,
+or a system with no trust boundary.
+
+In those cases, mark the section `N/A` with a one-line justification anchored to the deployment
+model.
 
 ## What To Model
 
-A data flow diagram (DFD) uses exactly four element types. Use these consistently:
+A data flow diagram (DFD) uses exactly four element types.
+
+Use these consistently:
 
 | Element         | Meaning                                                                | Notation in prose |
 |-----------------|------------------------------------------------------------------------|-------------------|
@@ -47,8 +56,10 @@ Model two levels:
 A trust boundary is a line where the level of trust changes, for example between an unauthenticated
 client and an authenticated handler, or between application code and the filesystem.
 
-Mark each boundary explicitly. Every flow that crosses a boundary is a candidate for threat analysis
-in `assessment/threat-model.md`.
+Mark each boundary explicitly.
+
+Every flow that crosses a boundary is a candidate for threat analysis in
+`assessment/threat-model.md`.
 
 ## Evidence To Look For
 
@@ -69,8 +80,9 @@ Render the model in the Architectural Assessment section as described in `proces
 Present the Level-0 and Level-1 diagrams as fenced ASCII blocks or as a flow table, then list the
 trust boundaries in a table.
 
-Tie every node and flow to a concrete file path, module, or config key. Do not invent flows that the
-input does not show.
+Tie every node and flow to a concrete file path, module, or config key.
+
+Do not invent flows that the input does not show.
 
 ## Rules
 

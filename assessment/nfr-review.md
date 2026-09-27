@@ -7,8 +7,9 @@
 
 This file guides assessment of the qualities a system must exhibit beyond its functions.
 
-Apply `principles/evaluation-rules.md` throughout. Distinguish a stated target from a measured
-result, and mark unstated targets as `NOT SPECIFIED`.
+Apply `principles/evaluation-rules.md` throughout.
+
+Distinguish a stated target from a measured result, and mark unstated targets as `NOT SPECIFIED`.
 
 ## What To Evaluate
 

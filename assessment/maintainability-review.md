@@ -7,7 +7,9 @@
 
 This file guides assessment of how easily the system can be understood and changed.
 
-Apply `principles/evaluation-rules.md` throughout. Describe code properties, never the authors.
+Apply `principles/evaluation-rules.md` throughout.
+
+Describe code properties, never the authors.
 
 ## What To Evaluate
 

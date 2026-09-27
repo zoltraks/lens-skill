@@ -7,11 +7,15 @@
 > **Key items:** structured risks, fixed columns, `Low`, `Medium`, `High`, `Critical`, `RSK-[001]`
 > indexing, `FND-XXX` traceability
 
-This file defines how to record risks surfaced during assessment. Build the register from the risks
-already noted in each `assessment/` file.
+This file defines how to record risks surfaced during assessment.
 
-Apply `principles/evaluation-rules.md` throughout. Every risk must trace to evidence or to a clearly
-marked gap. Every risk must reference its source finding.
+Build the register from the risks already noted in each `assessment/` file.
+
+Apply `principles/evaluation-rules.md` throughout.
+
+Every risk must trace to evidence or to a clearly marked gap.
+
+Every risk must reference its source finding.
 
 ## Table Format
 
@@ -44,9 +48,11 @@ Impact bands:
 - `HIGH`: major function loss or data integrity concern.
 - `CRITICAL`: data loss, breach, or full outage.
 
-When an impact sits between bands, compare the blast radius. A dead subsystem is `HIGH`
-unless it is the system's sole function, a data-corrupting write or an authentication bypass
-is `CRITICAL`, a degraded but still working path is `MEDIUM`.
+When an impact sits between bands, compare the blast radius.
+
+A dead subsystem is `HIGH` unless it is the system's sole function,
+a data-corrupting write or an authentication bypass is `CRITICAL`,
+a degraded but still working path is `MEDIUM`.
 
 Likelihood bands:
 
@@ -54,11 +60,14 @@ Likelihood bands:
 - `MEDIUM`: plausible under normal operation.
 - `HIGH`: expected to occur without intervention.
 
-Likelihood rates the probability that the risk materializes for the subject, not the
-probability that the underlying defect exists. A defect that always manifests, for example a
-stub that always returns zeros, gives its risk `HIGH` likelihood. A defect that needs a
-trigger, such as an attacker in position, a compromised file, or a configured feature, is
-`MEDIUM` or `LOW` by the trigger's plausibility.
+Likelihood rates the probability that the risk materializes for the subject,
+not the probability that the underlying defect exists.
+
+A defect that always manifests, for example a stub that always returns zeros,
+gives its risk `HIGH` likelihood.
+
+A defect that needs a trigger, such as an attacker in position, a compromised file,
+or a configured feature, is `MEDIUM` or `LOW` by the trigger's plausibility.
 
 ## Severity Scale
 
@@ -87,14 +96,17 @@ Explain any difference between technical vulnerability severity and the contextu
 Keep confidence and verification limits visible in risk detail.
 
 For material risks, also record the triggering condition, existing controls, residual risk,
-treatment state, owner or `NOT SPECIFIED`, and closure or re-audit trigger. These fields may appear
-in the risk detail block when the summary table would become too wide.
+treatment state, owner or `NOT SPECIFIED`, and closure or re-audit trigger.
+
+These fields may appear in the risk detail block when the summary table would become too wide.
 
 If impact or likelihood lacks a defensible basis, use `UNKNOWN` for the rating and severity rather
 than forcing a matrix value, and identify the evidence needed to rate it.
 
-Risk confidence is separate from severity. A high-severity risk can have low confidence when a
-reachability or deployment condition remains unresolved.
+Risk confidence is separate from severity.
+
+A high-severity risk can have low confidence when a reachability or deployment condition remains
+unresolved.
 
 `UNKNOWN` here denotes a missing rating, not an additional severity band.
 

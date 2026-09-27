@@ -17,8 +17,11 @@ This file guides trade-off reasoning that appears in two places:
 
 A trade-off is a deliberate exchange of one quality for another.
 
-Apply `principles/evaluation-rules.md` throughout. Present trade-offs neutrally. Do not declare a
-winner unless the user asked for a recommendation.
+Apply `principles/evaluation-rules.md` throughout.
+
+Present trade-offs neutrally.
+
+Do not declare a winner unless the user asked for a recommendation.
 
 ## What A Trade-off Is
 
@@ -41,7 +44,11 @@ Consider these axes where the system shows tension:
 
 ## How To Present
 
-Present trade-offs as one table. One row per trade-off. Use this fixed column order:
+Present trade-offs as one table.
+
+One row per trade-off.
+
+Use this fixed column order:
 
 | Trade-off | Context | Option A: gain / cost | Option B: gain / cost | Evidence | Implication |
 |-----------|---------|-----------------------|-----------------------|----------|-------------|
@@ -63,16 +70,19 @@ Column meanings:
 Each project block carries its own Trade-off Analysis immediately after that project's
 Architectural Assessment, holding the trade-offs specific to that project.
 
-A combined report-level Trade-off Analysis holds only cross-project trade-offs. A trade-off
-qualifies as cross-project only when the decision was made once and constrains more than one
-project, such as a shared dependency choice or a repository-wide workspace or build decision.
+A combined report-level Trade-off Analysis holds only cross-project trade-offs.
+
+A trade-off qualifies as cross-project only when the decision was made once and constrains more than
+one project, such as a shared dependency choice or a repository-wide workspace or build decision.
+
 The same issue type appearing independently in two projects is a repeated per-project finding,
 not a cross-project trade-off - both crates using `unwrap()` in production is the same
 per-project finding occurring twice, not a shared decision.
 
-The combined table adds a leading `Project` column. The combined section is always present in a
-multi-project report, and when no trade-off qualifies it carries a single `N/A` row with a
-one-line justification.
+The combined table adds a leading `Project` column.
+
+The combined section is always present in a multi-project report,
+and when no trade-off qualifies it carries a single `N/A` row with a one-line justification.
 
 ## Rules
 

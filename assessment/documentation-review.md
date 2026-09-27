@@ -8,8 +8,9 @@
 This file guides assessment of whether the system is documented well enough to be understood,
 operated, and extended.
 
-Apply `principles/evaluation-rules.md` throughout. Assess whether documentation exists and matches
-the code, not its prose style.
+Apply `principles/evaluation-rules.md` throughout.
+
+Assess whether documentation exists and matches the code, not its prose style.
 
 ## What To Evaluate
 
@@ -73,10 +74,12 @@ before asserting a bus-factor number.
 
 Report aggregate or role-level information, not personal rankings or contributor email addresses.
 
-Whatever this pass collects must surface in the report, per the collected-evidence rule in
-`process/audit-workflow.md`. Contributor concentration, commit cadence, and tag history appear
-at minimum as the Team & Continuity line in the Health Dashboard, even when they produce no
-adverse finding.
+Whatever this pass collects must surface in the report,
+per the collected-evidence rule in `process/audit-workflow.md`.
+
+Contributor concentration, commit cadence,
+and tag history appear at minimum as the Team & Continuity line in the Health Dashboard,
+even when they produce no adverse finding.
 
 ## Community Health Files
 
@@ -107,5 +110,6 @@ has any security-relevant surface and is published for external consumption.
 - Setup instructions that match the actual build and run commands.
 - Recorded decisions that explain why the system is built as it is.
 
-Mark each missing signal explicitly rather than inferring its presence. Treat documentation that
-contradicts the code as a drift finding, not as present documentation.
+Mark each missing signal explicitly rather than inferring its presence.
+
+Treat documentation that contradicts the code as a drift finding, not as present documentation.

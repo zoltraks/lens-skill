@@ -7,6 +7,8 @@ import re
 import sys
 from pathlib import Path
 
+from common import report
+
 
 CODE_SPAN = re.compile(r"`([^`]+)`")
 MARKDOWN_LINK = re.compile(r"\[[^]]+\]\(([^)]+)\)")
@@ -52,14 +54,7 @@ def main() -> int:
             if not candidate.is_file():
                 issues.append(f"{name}: reference does not resolve: {raw}")
 
-    if issues:
-        for message in issues:
-            print(f"FAIL {message}")
-        print(f"{len(issues)} issue(s) found")
-        return 1
-
-    print("PASS root navigation references resolve")
-    return 0
+    return report(issues, "root navigation references resolve")
 
 
 if __name__ == "__main__":

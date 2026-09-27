@@ -13,20 +13,28 @@ or is a skill collection conforms to the
 [Agent Skills specification](https://agentskills.io/specification) and follows the quality
 practices defined by the skill-creator skill.
 
-`references/agent-skills-specification.md` is the conformance baseline. It distills the checkable
-constraints and defines the optional live-check procedure. Record which baseline was used -
-snapshot date or live fetch - in the report's evidence.
+`references/agent-skills-specification.md` is the conformance baseline.
+
+It distills the checkable constraints and defines the optional live-check procedure.
+
+Record which baseline was used - snapshot date or live fetch - in the report's evidence.
 
 It complements `assessment/documentation-review.md` for the docs dimension and
-`assessment/best-practices.md` for stack-convention conformance. This file covers
-skill-specification-specific conformance only.
+`assessment/best-practices.md` for stack-convention conformance.
 
-Apply `principles/evaluation-rules.md` throughout. Assess only what the files show. Treat a
-frontmatter field that contradicts the spec as a conformance finding.
+This file covers skill-specification-specific conformance only.
+
+Apply `principles/evaluation-rules.md` throughout.
+
+Assess only what the files show.
+
+Treat a frontmatter field that contradicts the spec as a conformance finding.
 
 ## Skill Discovery
 
-Enumerate every `SKILL.md` inside the audited root before evaluating. Search these locations:
+Enumerate every `SKILL.md` inside the audited root before evaluating.
+
+Search these locations:
 
 - The repository root itself.
 - `skills/` and `plugins/` directories, one level down (`skills/<name>/SKILL.md`).
@@ -53,9 +61,11 @@ dimension table directly against it.
 This assessment applies when the subject is an Agent Skill, is a skill collection, or contains
 `SKILL.md` files under the discovered locations.
 
-It does not apply to a conventional codebase, library, or service that has no `SKILL.md`. In that
-case, mark the section `N/A` with a one-line justification. Do not invent skill-conformance
-findings for a project that is not a skill.
+It does not apply to a conventional codebase, library, or service that has no `SKILL.md`.
+
+In that case, mark the section `N/A` with a one-line justification.
+
+Do not invent skill-conformance findings for a project that is not a skill.
 
 ## What To Evaluate
 
@@ -144,9 +154,10 @@ conformance:
 - `UNKNOWN`: The `SKILL.md` file was not provided for review.
 - `N/A`: The subject is not an Agent Skill and contains none, with justification.
 
-For a multi-skill subject, report a status per skill in the Skills Inventory matrix. The aggregate
-conformance status follows the weakest skill - a collection is `PARTIAL` when any skill fails
-required-field checks, never averaged to `PASS`.
+For a multi-skill subject, report a status per skill in the Skills Inventory matrix.
+
+The aggregate conformance status follows the weakest skill - a collection is `PARTIAL` when any
+skill fails required-field checks, never averaged to `PASS`.
 
 ## Common Risks
 
@@ -175,5 +186,7 @@ required-field checks, never averaged to `PASS`.
 - Reference files are focused and loaded on demand, not bundled into `SKILL.md`.
 - Every discovered skill appears in the Skills Inventory with a name-directory match verified.
 
-Mark each missing signal explicitly rather than inferring its presence. Treat a frontmatter field
-that violates a spec constraint as a conformance finding, not a style preference.
+Mark each missing signal explicitly rather than inferring its presence.
+
+Treat a frontmatter field that violates a spec constraint as a conformance finding,
+not a style preference.

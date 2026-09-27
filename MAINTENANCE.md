@@ -30,7 +30,7 @@ Use `SKILL.md` as the resource router and follow it when deciding which files to
 | `evals/`        | Behavioral regression prompts and expectations            |
 
 Root files govern the repository itself: `SKILL.md`, `README.md`, `STYLE.md`,
-`MAINTENANCE.md`, `VERSIONING.md`, and `LICENSE`.
+`MAINTENANCE.md`, `VERSIONING.md`, `CONTRIBUTING.md`, `SECURITY.md`, and `LICENSE`.
 
 Keep resource files one level deep under their directory.
 
@@ -134,7 +134,11 @@ Classify each tool in `scripts/README.md` as report-production or skill-maintena
 Report-production tools are copied into the audited repository under a `.tmp.` name and run only
 against report artifacts and report-support files.
 
-Skill-maintenance tools run from the Lens repository.
+Skill-maintenance tools run from the Lens repository and may import shared helpers from
+`scripts/common.py`.
+
+Report-production tools stay self-contained single files, because they are copied under `.tmp.`
+names where `common.py` is not available.
 
 Register each tool in `SKILL.md` and in the workflow or validation order where it is used.
 
@@ -154,6 +158,7 @@ Run the skill-maintenance validators after structural changes:
 ```text
 python scripts/validate-skill.py .
 python scripts/check-references.py .
+python scripts/check-contents.py .
 ```
 
 Run `git diff --check` before delivery.

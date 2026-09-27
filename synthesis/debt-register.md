@@ -6,17 +6,20 @@
 > **Key items:** `TDR-[001]` indexing, debt category, remediation cost, cost of delay, `FND-XXX`
 > traceability
 
-This file defines the Technical Debt Register (TDR), a structured inventory of debt items that are
-not security risks but compound over time. It is distinct from the Unified Risk Register: risks
-describe what could go wrong, debt describes accumulated cost that is already present and invisible.
+This file defines the Technical Debt Register (TDR),
+a structured inventory of debt items that are not security risks but compound over time.
+
+It is distinct from the Unified Risk Register: risks describe what could go wrong,
+debt describes accumulated cost that is already present and invisible.
 
 Use CISQ characteristics to organize structural debt and a SQALE-inspired distinction between
 remediation cost and the ongoing cost of leaving debt in place.
 
 Claim use of the SQALE method only when its quality and estimation models were actually applied.
 
-Apply `principles/evaluation-rules.md` throughout. Every debt item must trace to a concrete finding
-or a concrete observation in the code.
+Apply `principles/evaluation-rules.md` throughout.
+
+Every debt item must trace to a concrete finding or a concrete observation in the code.
 
 ## When This Applies
 

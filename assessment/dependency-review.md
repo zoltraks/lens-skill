@@ -43,10 +43,12 @@ Use the evidence ledger and the no-execution rule in `process/audit-workflow.md`
 
 For Rust, inspect each workspace or independent manifest and its resolved lockfile.
 
-Do not run `cargo audit`, `cargo deny check advisories`, or an ecosystem equivalent. Look for
-committed scan reports, CI pipeline steps that run them, or documented advisory reviews. When a
-report exists, record the advisory database revision, tool version, and scope from the artifact
-as `Reported` evidence.
+Do not run `cargo audit`, `cargo deny check advisories`, or an ecosystem equivalent.
+
+Look for committed scan reports, CI pipeline steps that run them, or documented advisory reviews.
+
+When a report exists, record the advisory database revision, tool version,
+and scope from the artifact as `Reported` evidence.
 
 [Cargo audit and cargo deny](https://rustsec.org/) have different scopes, do not treat them as
 interchangeable proof of application security.
@@ -75,17 +77,24 @@ advisories, compatibility, and support signals.
 ## SBOM And License Evidence
 
 For executable deliverables, check for a machine-readable component inventory tied to the audited
-revision or release artifact. The audit does not generate one.
+revision or release artifact.
 
-When no SBOM exists, derive a source-level component list from the manifests and lockfiles using
-the readers in `references/dependency-manifests.md`. The derived list is `Inspected` evidence of
-the declared and resolved dependency set at the audited revision. It partially closes the
-inventory gap without claiming to be a shipped-artifact SBOM.
+The audit does not generate one.
+
+When no SBOM exists, derive a source-level component list from the manifests and lockfiles using the
+readers in `references/dependency-manifests.md`.
+
+The derived list is `Inspected` evidence of the declared and resolved dependency set at the audited
+revision.
+
+It partially closes the inventory gap without claiming to be a shipped-artifact SBOM.
 
 The derived list renders in the report's Software Bill of Materials section per
-`references/sbom-schema.md`, which extends the output contract with License, License Risk, and
-Advisory Checked columns. License cells come from inspected declarations only, `Unknown`
-otherwise, and the license pass itself follows `references/license-compliance.md`.
+`references/sbom-schema.md`, which extends the output contract with License, License Risk,
+and Advisory Checked columns.
+
+License cells come from inspected declarations only, `Unknown` otherwise,
+and the license pass itself follows `references/license-compliance.md`.
 
 When an SBOM exists, record the CycloneDX or SPDX schema version, generator, timestamp, and
 source or binary basis.
@@ -101,16 +110,21 @@ and other shipped assets are included or excluded.
 
 A source SBOM does not prove what a particular binary or container actually shipped.
 
-For an executable release, also inspect artifact identity, digests, signed-release evidence, build
-provenance, and any VEX or vulnerability-disposition data. Distinguish a manifest-derived list,
-an SBOM for source or build input, and an SBOM tied to the shipped artifact.
+For an executable release, also inspect artifact identity, digests, signed-release evidence,
+build provenance, and any VEX or vulnerability-disposition data.
 
-Use the current CISA Minimum Elements for an SBOM as a completeness aid, not as a claim that a
-contract or regulation applies. Record the applicable edition and the fields that are absent.
+Distinguish a manifest-derived list, an SBOM for source or build input,
+and an SBOM tied to the shipped artifact.
 
-When SLSA provenance is supplied, record its version, predicate type, builder identity, source and
-dependency inputs, artifact subject, and verification state. Provenance configuration is intent,
-not proof that a build produced the claimed artifact.
+Use the current CISA Minimum Elements for an SBOM as a completeness aid,
+not as a claim that a contract or regulation applies.
+
+Record the applicable edition and the fields that are absent.
+
+When SLSA provenance is supplied, record its version, predicate type, builder identity,
+source and dependency inputs, artifact subject, and verification state.
+
+Provenance configuration is intent, not proof that a build produced the claimed artifact.
 
 For Rust, `cargo cyclonedx` for inventory and `cargo deny check licenses` for policy checks are
 typical documented tooling, assess their configuration and committed output rather than running
@@ -138,9 +152,11 @@ Do not claim SBOM procurement obligations without a specific applicable contract
 For an in-scope container, assess its build context, ignore rules, builder stage, published runtime
 image, and exported caches separately.
 
-Do not run image scanners such as Trivy. Assess the container from its build context and inspect
-committed scan reports when present, recording the scanner, database age, target platform,
-exclusions, and results as `Reported` evidence.
+Do not run image scanners such as Trivy.
+
+Assess the container from its build context and inspect committed scan reports when present,
+recording the scanner, database age, target platform, exclusions,
+and results as `Reported` evidence.
 
 A final-image scan does not cover unpublished builder layers or external build caches.
 
@@ -154,13 +170,16 @@ Do not infer maintainer competence, availability, or bus factor from stars or ve
 
 ## Target And Dependency Lifecycle
 
-For every explicitly declared target framework, runtime, language version, OS target, or
-long-lived platform version, check the vendor's support status: `supported`, `EOL`, or
-`EOL-via-parent-product`. Cite the vendor's own lifecycle policy page as the reference for each
-status.
+For every explicitly declared target framework, runtime, language version, OS target,
+or long-lived platform version, check the vendor's support status: `supported`, `EOL`,
+or `EOL-via-parent-product`.
 
-This applies across ecosystems, not to one stack. When the vendor status cannot be determined
-from repository contents, mark it `UNKNOWN` and record which lifecycle page would resolve it.
+Cite the vendor's own lifecycle policy page as the reference for each status.
+
+This applies across ecosystems, not to one stack.
+
+When the vendor status cannot be determined from repository contents,
+mark it `UNKNOWN` and record which lifecycle page would resolve it.
 
 ## Status Criteria
 
@@ -186,5 +205,6 @@ from repository contents, mark it `UNKNOWN` and record which lifecycle page woul
 - A reviewed, recorded license posture compatible with the project license.
 - An SBOM or generated dependency inventory.
 
-Mark each missing signal explicitly rather than inferring its presence. Do not claim a dependency is
-safe merely because it is current.
+Mark each missing signal explicitly rather than inferring its presence.
+
+Do not claim a dependency is safe merely because it is current.

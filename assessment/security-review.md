@@ -8,8 +8,11 @@
 
 This file guides assessment of the system's defensive posture.
 
-Apply `principles/evaluation-rules.md` throughout. Assess only what the input shows. Do not perform
-credential harvesting or offensive actions, this is a defensive review.
+Apply `principles/evaluation-rules.md` throughout.
+
+Assess only what the input shows.
+
+Do not perform credential harvesting or offensive actions, this is a defensive review.
 
 ## What To Evaluate
 
@@ -92,8 +95,10 @@ or a verified implementation, never invent a score from the qualitative label.
 If prerequisites or impact cannot be established, record `INSUFFICIENT INFORMATION` and the missing
 metrics, or clearly label bounded scenario vectors as provisional.
 
-When no calculator or verified implementation is accessible, record the derived vector and mark the
-score `INSUFFICIENT INFORMATION`. Never emit a score that was not validated.
+When no calculator or verified implementation is accessible,
+record the derived vector and mark the score `INSUFFICIENT INFORMATION`.
+
+Never emit a score that was not validated.
 
 Separate a publisher's advisory vector from a locally assessed vector.
 
@@ -109,29 +114,37 @@ Do not apply CVSS to bus factor, debt, licensing uncertainty, or missing runbook
 For every CWE-classified finding, consult `references/cwe-analyzer-map.md` for the equivalent
 static analyzer rule in the detected stack.
 
-When a rule exists, record it in the finding with its enablement state, for example "the
-equivalent automated check is `CA5359`, not yet enabled". Enablement is determined from
-repository evidence such as `.editorconfig` entries, ruleset files, or CI steps, per the
-enablement table in `references/cwe-analyzer-map.md`.
+When a rule exists, record it in the finding with its enablement state,
+for example "the equivalent automated check is `CA5359`, not yet enabled".
 
-When no direct rule exists for the CWE in the stack, state that plainly, for example "no direct
-analyzer rule exists for CWE-327 in Rust". Do not present a related rule as coverage of the
-whole weakness.
+Enablement is determined from repository evidence such as `.editorconfig` entries, ruleset files,
+or CI steps, per the enablement table in `references/cwe-analyzer-map.md`.
 
-This is a documentation lookup. It names the check a team can enable and verify. It never
-implies the analyzer ran during the audit.
+When no direct rule exists for the CWE in the stack, state that plainly,
+for example "no direct analyzer rule exists for CWE-327 in Rust".
+
+Do not present a related rule as coverage of the whole weakness.
+
+This is a documentation lookup.
+
+It names the check a team can enable and verify.
+
+It never implies the analyzer ran during the audit.
 
 ## Exploitability Narrative
 
-Every `HIGH` or `CRITICAL` finding on a network-facing surface carries an Exploitability
-Narrative in its finding block, per `references/exploitability-narrative.md`. The
-narrative reasons through precondition, attack path, and impact at an explicit confidence tier.
+Every `HIGH` or `CRITICAL` finding on a network-facing surface carries an Exploitability Narrative
+in its finding block, per `references/exploitability-narrative.md`.
+
+The narrative reasons through precondition, attack path, and impact at an explicit confidence tier.
+
 Under the default source-only scope the tier is `Theoretical` or `Static-Confirmed`, never
 `Dynamically-Verified`.
 
 A network-facing surface is a component reachable across a trust boundary: endpoints, listeners,
-message consumers, and parsers of externally supplied input. Findings on internal-only code
-paths carry the field as `N/A` with a one-line reason.
+message consumers, and parsers of externally supplied input.
+
+Findings on internal-only code paths carry the field as `N/A` with a one-line reason.
 
 ## Standards Coverage
 
@@ -149,8 +162,9 @@ version or the repository's development branch.
 Report assessed, unassessed, and inapplicable controls with evidence IDs.
 
 When ASVS is applied, cite version-qualified requirement identifiers such as `v5.0.0-1.2.5` and
-record the selected level or rationale. Do not use unversioned requirement numbers when editions may
-change them.
+record the selected level or rationale.
+
+Do not use unversioned requirement numbers when editions may change them.
 
 A sampled review does not establish full ASVS level conformance, and a Top 10 mapping is not a
 security certification.
@@ -159,8 +173,10 @@ Recheck editions at audit time and preserve a requested legacy baseline with an 
 
 ## Tool Corroboration
 
-The audit does not run SAST engines or scanners. Corroboration comes from manual tracing plus
-any committed scan results, CI security steps, or documented reviews.
+The audit does not run SAST engines or scanners.
+
+Corroboration comes from manual tracing plus any committed scan results, CI security steps,
+or documented reviews.
 
 When a committed report claims coverage, check that the engine supports the project's language
 and framework.
@@ -199,5 +215,6 @@ control for the verification owner, recording why the audit cannot perform it.
 - Secrets held in a dedicated store and kept out of logs and source.
 - Transport encryption applied to all sensitive traffic.
 
-Mark each missing signal explicitly rather than inferring its presence. Do not claim a control is
-effective merely because it is referenced.
+Mark each missing signal explicitly rather than inferring its presence.
+
+Do not claim a control is effective merely because it is referenced.

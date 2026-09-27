@@ -145,6 +145,7 @@
         "The agent runs python <skill-root>/scripts/check-update.py against the skill's own repository before any other step, never against the audited subject.",
         "On UPDATE-AVAILABLE the agent asks whether to update the skill now or skip for this session and waits for the answer.",
         "On approval the agent runs git pull --ff-only only when the reported tree state allows it, then re-reads SKILL.md and loaded rule files.",
+        "The agent reviews the incoming upstream changes and cites the tip_sha and tip_date detail lines before or when asking to pull.",
         "On skip or a blocked pull the agent continues with the current version and does not ask again in the session.",
         "A status other than UPDATE-AVAILABLE produces no user-facing mention of the check.",
         "The check writes no state files and never commits, stashes, or discards changes in the skill repository."

@@ -15,6 +15,12 @@ Verdicts:
 - UP-TO-DATE       no incoming commits on the upstream branch
 - UPDATE-AVAILABLE incoming commits exist, with behind/ahead/dirty details
 
+Verdicts after upstream resolution also carry tip detail lines:
+
+- tip_sha=<sha>     the short commit hash of the fetched upstream tip
+- tip_date=<date>   its committer date - a tag-free review anchor for
+                    deciding whether to pull
+
 Usage: python scripts/check-update.py [skill-directory]
 """
 
@@ -52,6 +58,16 @@ def verdict(status: str, **details: str) -> int:
     return 0
 
 
+def tip_details(root: Path) -> dict[str, str]:
+    tip = git(root, "log", "-1", "--format=%h %cs", "@{u}")
+    if tip is None or tip.returncode != 0:
+        return {}
+    parts = tip.stdout.strip().split()
+    if len(parts) != 2:
+        return {}
+    return {"tip_sha": parts[0], "tip_date": parts[1]}
+
+
 def main() -> int:
     if len(sys.argv) > 2:
         print(__doc__.strip().splitlines()[-1])
@@ -78,16 +94,17 @@ def main() -> int:
     if fetch is None or fetch.returncode != 0:
         return verdict("FETCH-FAILED", upstream=upstream_ref)
 
+    tip = tip_details(root)
     counts = git(root, "rev-list", "--left-right", "--count", "HEAD...@{u}")
     if counts is None or counts.returncode != 0:
-        return verdict("CHECK-FAILED", upstream=upstream_ref)
+        return verdict("CHECK-FAILED", upstream=upstream_ref, **tip)
     parts = counts.stdout.split()
     if len(parts) != 2:
-        return verdict("CHECK-FAILED", upstream=upstream_ref)
+        return verdict("CHECK-FAILED", upstream=upstream_ref, **tip)
     ahead, behind = parts
 
     if behind == "0":
-        return verdict("UP-TO-DATE", upstream=upstream_ref)
+        return verdict("UP-TO-DATE", upstream=upstream_ref, **tip)
 
     status = git(root, "status", "--porcelain")
     dirty = "yes" if status is not None and status.stdout.strip() else "no"
@@ -97,6 +114,7 @@ def main() -> int:
         behind=behind,
         ahead=ahead,
         dirty=dirty,
+        **tip,
     )
 
 

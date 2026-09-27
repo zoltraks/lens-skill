@@ -8,14 +8,17 @@
 > quality, external references
 
 This file guides assessment of whether the project documents its own development standards and
-whether the codebase conforms to them. It also evaluates whether the documented standards are
-themselves consistent with good practices for the technology stack, programming language, and
-software type.
+whether the codebase conforms to them.
 
-Apply `principles/evaluation-rules.md` throughout. This assessment is conditional: it applies only
-when the project contains documented development standards that its documentation indicates should
-be followed. When no such documents exist, omit this category and note the omission in Scope
-Exclusions.
+It also evaluates whether the documented standards are themselves consistent with good practices for
+the technology stack, programming language, and software type.
+
+Apply `principles/evaluation-rules.md` throughout.
+
+This assessment is conditional: it applies only when the project contains documented development
+standards that its documentation indicates should be followed.
+
+When no such documents exist, omit this category and note the omission in Scope Exclusions.
 
 ## What To Evaluate
 
@@ -92,9 +95,12 @@ Exclusions.
 - Standards referenced from `README.md` or `AGENTS.md` so they are discoverable and treated as
   authoritative.
 
-Mark each missing signal explicitly rather than inferring its presence. Anchor every conformance
-judgement to a specific rule in the standards document and a specific file or pattern in the
-codebase. Anchor every standards-quality judgement to a named external best practice, style guide,
+Mark each missing signal explicitly rather than inferring its presence.
+
+Anchor every conformance judgement to a specific rule in the standards document and a specific file
+or pattern in the codebase.
+
+Anchor every standards-quality judgement to a named external best practice, style guide,
 or convention for the stack.
 
 ## Requirement Interpretation
@@ -121,11 +127,18 @@ necessary security invariant.
 ## External References
 
 When this assessment is included, collect every external source referenced during the
-standards-quality evaluation. Examples include official language style guides, framework conventions
-documentation, ecosystem best-practice guides, and standards documents for the software type.
-`references/stack-standards.md` provides the canonical starting set per detected stack. These
-references appear in the References section at the end of the audit report, per
-`process/report-format.md`.
+standards-quality evaluation.
 
-Record each reference with its title, publisher or author, and URL when available. Do not invent
-references. Only list sources actually consulted during the assessment.
+Examples include official language style guides, framework conventions documentation,
+ecosystem best-practice guides, and standards documents for the software type.
+
+`references/stack-standards.md` provides the canonical starting set per detected stack.
+
+These references appear in the References section at the end of the audit report,
+per `process/report-format.md`.
+
+Record each reference with its title, publisher or author, and URL when available.
+
+Do not invent references.
+
+Only list sources actually consulted during the assessment.

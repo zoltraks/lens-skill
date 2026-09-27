@@ -6,9 +6,10 @@
 > **Key items:** git history, author concentration, conditional directives, catch clauses,
 > test inventory, tracked artifacts
 
-This file defines the standard measurement for each recurring census an audit reports. Apply
-the method named here and record the counting rule beside the figure in the evidence ledger, so
-a re-audit can reproduce the number instead of re-inventing the method.
+This file defines the standard measurement for each recurring census an audit reports.
+
+Apply the method named here and record the counting rule beside the figure in the evidence ledger,
+so a re-audit can reproduce the number instead of re-inventing the method.
 
 A census figure without its counting rule is not comparable across reports.
 

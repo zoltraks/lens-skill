@@ -7,8 +7,9 @@
 
 This file guides assessment of how changes are introduced, recorded, and governed.
 
-Apply `principles/evaluation-rules.md` throughout. Assess processes and artifacts, not the people
-who run them.
+Apply `principles/evaluation-rules.md` throughout.
+
+Assess processes and artifacts, not the people who run them.
 
 ## What To Evaluate
 
@@ -58,9 +59,11 @@ Mark each missing signal explicitly rather than inferring its presence.
 
 ## Architecture Decision Record Gap Assessment
 
-For production-bound systems, the absence of Architecture Decision Records (ADRs) is a governance
-gap. Industry practice (the MADR standard and Michael Nygard's original ADR format) treats
-significant, hard-to-reverse decisions as artifacts that should be recorded.
+For production-bound systems, the absence of Architecture Decision Records (ADRs)
+is a governance gap.
+
+Industry practice (the MADR standard and Michael Nygard's original ADR format) treats significant,
+hard-to-reverse decisions as artifacts that should be recorded.
 
 [Michael Nygard's lightweight ADR](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)
 records Title, Status, Context, Decision, and Consequences.

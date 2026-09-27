@@ -426,6 +426,9 @@ Do not replace box-drawing characters with `+`, `-`, or other ASCII approximatio
 
 Do not use emojis unless explicitly requested.
 
+Star-bar glyphs `★` and `☆` are allowed inside code spans and code blocks when they render
+documented output formats such as the star-scale display.
+
 ## Language
 
 Write documentation in the language used by the project.

@@ -10,12 +10,19 @@
 This file guides assessment of how closely the code follows the documented best practices and idioms
 of its own technology stack.
 
-Apply `principles/evaluation-rules.md` throughout. Select the stack's canonical guidance from
-`references/stack-standards.md` and anchor judgements to it. Judge adherence to the conventions of
-the stack the subject already uses. Do not penalize the stack choice itself or compare it against a
-preferred stack, per the architectural-neutrality rule. Generic, language-agnostic design principles
-are assessed in `assessment/design-principles.md`, code-level metrics such as linting and complexity
-in `assessment/code-quality.md`, this file covers stack-specific convention.
+Apply `principles/evaluation-rules.md` throughout.
+
+Select the stack's canonical guidance from `references/stack-standards.md` and anchor judgements to
+it.
+
+Judge adherence to the conventions of the stack the subject already uses.
+
+Do not penalize the stack choice itself or compare it against a preferred stack,
+per the architectural-neutrality rule.
+
+Generic, language-agnostic design principles are assessed in `assessment/design-principles.md`,
+code-level metrics such as linting and complexity in `assessment/code-quality.md`,
+this file covers stack-specific convention.
 
 ## What To Evaluate
 
@@ -76,5 +83,7 @@ in `assessment/code-quality.md`, this file covers stack-specific convention.
 - An adopted, enforced stack style guide and standard tooling.
 - Established libraries used for solved problems, with no deprecated APIs in active paths.
 
-Mark each missing signal explicitly rather than inferring its presence. Anchor every judgement to
-the stack's own documented convention, not to a preferred alternative stack.
+Mark each missing signal explicitly rather than inferring its presence.
+
+Anchor every judgement to the stack's own documented convention,
+not to a preferred alternative stack.

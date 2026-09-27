@@ -8,148 +8,203 @@
 > technical findings, unified risk register, trade-off analysis, remediation roadmap, scope
 > exclusions
 
-This file defines the exact shape of the audit report. Produce the sections in this order.
+This file defines the exact shape of the audit report.
 
-The report applies to any software subject: a prototype, a codebase under development, or an
-already-running production system. Adjust which categories apply, not the structure.
+Produce the sections in this order.
 
-Keep every section even when content is `UNKNOWN`. A present-but-empty section signals a gap, a
-missing section hides it.
+The report applies to any software subject: a prototype, a codebase under development,
+or an already-running production system.
+
+Adjust which categories apply, not the structure.
+
+Keep every section even when content is `UNKNOWN`.
+
+A present-but-empty section signals a gap, a missing section hides it.
 
 ## Contents
 
 | Section                                     | Line | What it covers                                        |
 |---------------------------------------------|------|-------------------------------------------------------|
-| Formatting Rules                            | 62   | Formatting Rules guidance                             |
-| Report Delivery And Parameter Configuration | 221  | Report delivery and output configuration              |
-| Detail Level Configuration                  | 259  | Standard, detailed, and brief reports                 |
-| Conditional Sections                        | 343  | Inclusion criteria for conditional sections           |
-| Section Order                               | 383  | Single-project and multi-project order                |
-| Document Information                        | 461  | Report metadata and revisions                         |
-| Audit Type Coverage & Assurance Matrix      | 551  | Coverage of canonical audit types                     |
-| Glossary                                    | 587  | Abbreviation and acronym definitions                  |
-| Multi-Project Report Structure              | 698  | Combined and project-specific sections                |
-| Executive Summary                           | 796  | Executive summary and readiness threshold             |
-| Changes Since Previous Audit                | 893  | Re-audit comparison structure                         |
-| System Context                              | 955  | Context and technology stack                          |
-| Software Bill of Materials                  | 1015 | Source-derived component inventory                    |
-| License & IP Compliance Review              | 1040 | License classification and copyleft conflicts         |
-| Health Dashboard                            | 1070 | Risk map, scorecard, and continuity                   |
-| Delivery Practice & Team Continuity         | 1151 | Delivery proxies and contributor concentration        |
-| High-Level Observations                     | 1189 | Reader-facing finding summary                         |
-| Auditing Methodology                        | 1213 | Method, standards, and evidence ledger                |
-| Scoring Rubrics                             | 1362 | Score bands and ISO crosswalk                         |
-| Architectural Assessment                    | 1425 | Architecture, principles, and conditional subsections |
-| Trade-off Analysis                          | 1563 | Neutral engineering trade-offs                        |
-| Threat Model                                | 1603 | STRIDE analysis                                       |
-| API Contract Conformance                    | 1630 | API contract and security conformance                 |
-| Skill Definition Conformance                | 1650 | Agent Skill conformance                               |
-| AI System Assessment                        | 1691 | Conditional AI-system review                          |
-| Standards Conformance                       | 1704 | Internal standards quality and code conformance       |
-| API Compatibility & Versioning Discipline   | 1760 | Library compatibility gates                           |
-| Strengths & What's Working                  | 1787 | Evidence-based positive baselines                     |
-| Detailed Technical Findings                 | 1817 | Finding summary and detail blocks                     |
-| Technical Debt Register                     | 1929 | Distinct accumulated debt                             |
-| Unified Risk Register                       | 1970 | Cross-referenced risks                                |
-| Actionable Remediation Roadmap              | 2057 | Prioritized recommendations                           |
-| Scope Exclusions                            | 2121 | Explicit coverage limits                              |
-| Limitations and Unknowns                    | 2193 | Unrun checks and missing evidence                     |
-| Re-audit And Follow-up Plan                 | 2222 | Closure evidence and ownership                        |
-| Validation Record                           | 2256 | Mechanical and semantic gate results                  |
-| References                                  | 2281 | Consulted external sources                            |
-| Pre-Delivery Mechanical Checklist           | 2319 | Final mechanical checks                               |
+| Formatting Rules                            | 67   | Formatting Rules guidance                             |
+| Report Delivery And Parameter Configuration | 285  | Report delivery and output configuration              |
+| Detail Level Configuration                  | 331  | Standard, detailed, and brief reports                 |
+| Conditional Sections                        | 421  | Inclusion criteria for conditional sections           |
+| Section Order                               | 470  | Single-project and multi-project order                |
+| Document Information                        | 553  | Report metadata and revisions                         |
+| Audit Type Coverage & Assurance Matrix      | 656  | Coverage of canonical audit types                     |
+| Glossary                                    | 699  | Abbreviation and acronym definitions                  |
+| Multi-Project Report Structure              | 835  | Combined and project-specific sections                |
+| Executive Summary                           | 959  | Executive summary and readiness threshold             |
+| Changes Since Previous Audit                | 1077 | Re-audit comparison structure                         |
+| System Context                              | 1146 | Context and technology stack                          |
+| Software Bill of Materials                  | 1215 | Source-derived component inventory                    |
+| License & IP Compliance Review              | 1244 | License classification and copyleft conflicts         |
+| Health Dashboard                            | 1275 | Risk map, scorecard, and continuity                   |
+| Delivery Practice & Team Continuity         | 1372 | Delivery proxies and contributor concentration        |
+| High-Level Observations                     | 1419 | Reader-facing finding summary                         |
+| Auditing Methodology                        | 1453 | Method, standards, and evidence ledger                |
+| Scoring Rubrics                             | 1625 | Score bands and ISO crosswalk                         |
+| Architectural Assessment                    | 1693 | Architecture, principles, and conditional subsections |
+| Trade-off Analysis                          | 1858 | Neutral engineering trade-offs                        |
+| Threat Model                                | 1900 | STRIDE analysis                                       |
+| API Contract Conformance                    | 1932 | API contract and security conformance                 |
+| Skill Definition Conformance                | 1954 | Agent Skill conformance                               |
+| AI System Assessment                        | 1999 | Conditional AI-system review                          |
+| Standards Conformance                       | 2014 | Internal standards quality and code conformance       |
+| API Compatibility & Versioning Discipline   | 2077 | Library compatibility gates                           |
+| Strengths & What's Working                  | 2107 | Evidence-based positive baselines                     |
+| Detailed Technical Findings                 | 2145 | Finding summary and detail blocks                     |
+| Technical Debt Register                     | 2274 | Distinct accumulated debt                             |
+| Unified Risk Register                       | 2321 | Cross-referenced risks                                |
+| Actionable Remediation Roadmap              | 2411 | Prioritized recommendations                           |
+| Scope Exclusions                            | 2481 | Explicit coverage limits                              |
+| Limitations and Unknowns                    | 2560 | Unrun checks and missing evidence                     |
+| Re-audit And Follow-up Plan                 | 2590 | Closure evidence and ownership                        |
+| Validation Record                           | 2627 | Mechanical and semantic gate results                  |
+| References                                  | 2654 | Consulted external sources                            |
+| Pre-Delivery Mechanical Checklist           | 2702 | Final mechanical checks                               |
 
 ## Formatting Rules
 
 Use a hybrid table-paragraph format in every section.
 
-Tables provide the scannable summary. Paragraphs below the table provide the detailed evidence,
-risks, and reasoning.
+Tables provide the scannable summary.
 
-In tables, use shortened, general values. One or two words per cell. Do not crowd table cells with
-long explanations. Save detail for the paragraphs.
+Paragraphs below the table provide the detailed evidence, risks, and reasoning.
 
-Do not number section headings. Use the section name as the heading, for example "Executive
-Summary", not "2. Executive Summary". When the user requests a specific language, translate the
-section heading into that language.
+In tables, use shortened, general values.
 
-Use `#` for the document title, `##` for top-level sections, and `###` for subsections and finding
-or register blocks. Do not use `####` or deeper headings.
+One or two words per cell.
 
-Use Title Case for English section names and keep them short, avoid trailing punctuation and
-descriptive qualifiers in parentheses. The matching `translations/` file defines the casing rule for
-non-English reports.
+Do not crowd table cells with long explanations.
 
-Keep column headers identical to the templates below across every audit. When the user requests a
-specific language, translate the column headers into that language while keeping the structure
-identical.
+Save detail for the paragraphs.
+
+Do not number section headings.
+
+Use the section name as the heading, for example "Executive Summary", not "2.
+
+Executive Summary".
+
+When the user requests a specific language, translate the section heading into that language.
+
+Use `#` for the document title, `##` for top-level sections,
+and `###` for subsections and finding or register blocks.
+
+Do not use `####` or deeper headings.
+
+Use Title Case for English section names and keep them short,
+avoid trailing punctuation and descriptive qualifiers in parentheses.
+
+The matching `translations/` file defines the casing rule for non-English reports.
+
+Keep column headers identical to the templates below across every audit.
+
+When the user requests a specific language,
+translate the column headers into that language while keeping the structure identical.
 
 Keep table cells single-line and use commas for compact lists, placing explanations below the table.
 
 Preserve identifiers and gap tokens intact even when they exceed the usual cell word limit.
 
-Place descriptive paragraphs immediately after each table. In the paragraphs, explain every aspect
-with concrete evidence, file paths, and reasoning. Use short sentences separated by blank lines,
+Place descriptive paragraphs immediately after each table.
+
+In the paragraphs, explain every aspect with concrete evidence, file paths, and reasoning.
+
+Use short sentences separated by blank lines,
 each sentence stands on its own line with an empty line between consecutive sentences.
 
-Start each detailed paragraph with a bold heading on its own line. Put the status, score, or
-severity inline after the heading, separated by a space. Then add an empty line, then the paragraph
-body. Do not run the heading and the body together on the same line.
+Start each detailed paragraph with a bold heading on its own line.
 
-Use this bold-heading pattern for paragraphs that expand on a table row. For actual section or
-subsection titles, use markdown header syntax (`##` or `###`) rather than bold text.
+Put the status, score, or severity inline after the heading, separated by a space.
+
+Then add an empty line, then the paragraph body.
+
+Do not run the heading and the body together on the same line.
+
+Use this bold-heading pattern for paragraphs that expand on a table row.
+
+For actual section or subsection titles, use markdown header syntax (`##` or `###`)
+rather than bold text.
 
 Break prose lines that exceed the selected wrap width - 100 characters by default - at a natural
-boundary such as after a comma or clause end, per `STYLE.md`. Offer the width choice per the
-Selecting The Wrap Width rules in `STYLE.md` before wrapping. Do not break inside inline code, file
-paths, or URLs. The limit does not apply to table rows, URLs, links, or file paths, so a line
-carrying an unbreakable URL may remain over the limit.
+boundary such as after a comma or clause end, per `STYLE.md`.
 
-Do not use the semicolon character in prose. Join closely related clauses with a comma or split them
-into separate sentences. The rule does not apply to code blocks, inline code, or file paths, per
-`STYLE.md`.
+Offer the width choice per the Selecting The Wrap Width rules in `STYLE.md` before wrapping.
 
-Use a language tag on fenced code blocks that contain code. Leave diagrams, directory trees, console
-output, and plain text untagged, and do not leave a blank line as the first or last line inside a
-fenced block.
+Do not break inside inline code, file paths, or URLs.
 
-Do not add a Contents or table-of-contents section. `STYLE.md` requires one in documents over 300
-lines, but the report navigates by its fixed section order and the Health Dashboard, so the omission
-is deliberate.
+The limit does not apply to table rows, URLs, links, or file paths,
+so a line carrying an unbreakable URL may remain over the limit.
+
+Do not use the semicolon character in prose.
+
+Join closely related clauses with a comma or split them into separate sentences.
+
+The rule does not apply to code blocks, inline code, or file paths, per `STYLE.md`.
+
+Use a language tag on fenced code blocks that contain code.
+
+Leave diagrams, directory trees, console output, and plain text untagged,
+and do not leave a blank line as the first or last line inside a fenced block.
+
+Do not add a Contents or table-of-contents section.
+
+`STYLE.md` requires one in documents over 300 lines,
+but the report navigates by its fixed section order and the Health Dashboard,
+so the omission is deliberate.
 
 ### Table Formatting Rules
 
 Apply these rules to every table in the report.
 
-**Delimiters**: Use pipe characters (`|`) to delimit columns. Place one space after the leading pipe
-and one space before the trailing pipe.
+**Delimiters**: Use pipe characters (`|`) to delimit columns.
 
-**Header separator**: Place a separator line immediately after the header row. The separator
-contains only hyphens and pipe characters. The hyphens are contiguous with the pipe characters - do
-not add spaces between pipes and hyphens. The separator width for each column equals the column
-width plus two hyphens. Minimum column width is three characters.
+Place one space after the leading pipe and one space before the trailing pipe.
+
+**Header separator**: Place a separator line immediately after the header row.
+
+The separator contains only hyphens and pipe characters.
+
+The hyphens are contiguous with the pipe characters - do not add spaces between pipes and hyphens.
+
+The separator width for each column equals the column width plus two hyphens.
+
+Minimum column width is three characters.
 
 Correct separator format:
+
 ```markdown
 |---------|--------|
 ```
+
 Incorrect separator format (spaces around hyphens):
+
 ```markdown
 | ------- | ------ |
 ```
 
 **Cell padding**: Pad every cell with trailing spaces so it matches the widest cell in that column.
-Empty cells must also be padded. Use left alignment for all cells. Never truncate cell contents.
+
+Empty cells must also be padded.
+
+Use left alignment for all cells.
+
+Never truncate cell contents.
 
 **Column width**: Calculate the column width as the maximum character width of all cells in that
-column, including the header. Include all Markdown formatting characters (backticks, asterisks,
-spaces, punctuation) in the width measurement.
+column, including the header.
 
-**Compacting**: After calculating column widths, compact the table by removing any padding that
-exceeds the widest cell in each column. The compacted version - minimum width that fits every cell -
-is the correct version.
+Include all Markdown formatting characters (backticks, asterisks, spaces, punctuation)
+in the width measurement.
+
+**Compacting**: After calculating column widths,
+compact the table by removing any padding that exceeds the widest cell in each column.
+
+The compacted version - minimum width that fits every cell - is the correct version.
 
 **Checklist for every table**:
+
 - Identify all cells including the header row.
 - Measure each cell width including all formatting characters.
 - Determine the maximum width per column.
@@ -161,27 +216,34 @@ is the correct version.
 
 **Automated formatting**
 
-Format every table with a script, do not count column widths by hand. Manual counting is error-prone
-and produces misaligned columns, per `STYLE.md`.
+Format every table with a script, do not count column widths by hand.
 
-Before delivering a File-mode report, run a script that implements the checklist above: parse each
-table, measure every cell width in source text including formatting characters, pad each cell to the
-column maximum, and rebuild each separator as the column width plus two hyphens. Handle both `\n`
-and `\r\n` input and preserve the file's original line-ending style.
+Manual counting is error-prone and produces misaligned columns, per `STYLE.md`.
 
-`scripts/format-table.py` in the skill repository is the canonical implementation. Copy it into the
-audited repository under a `.tmp.` name, for example `format-table.tmp.py`, instead of writing a
-new formatter by hand.
+Before delivering a File-mode report, run a script that implements the checklist above:
+parse each table, measure every cell width in source text including formatting characters,
+pad each cell to the column maximum, and rebuild each separator as the column width plus two
+hyphens.
+
+Handle both `\n` and `\r\n` input and preserve the file's original line-ending style.
+
+`scripts/format-table.py` in the skill repository is the canonical implementation.
+
+Copy it into the audited repository under a `.tmp.` name, for example `format-table.tmp.py`,
+instead of writing a new formatter by hand.
 
 Place the script copy in `work/` when that directory exists in the audited repository.
-Use an existing `temp` or `temporary` directory when `work/` is unavailable, and use the repository
-root only when none exists. Run it on the report file, verify that all `|` separators align
-vertically, then remove the copy.
+
+Use an existing `temp` or `temporary` directory when `work/` is unavailable,
+and use the repository root only when none exists.
+
+Run it on the report file, verify that all `|` separators align vertically, then remove the copy.
 
 For Inline delivery, apply the same formatting to the report text before emitting the response.
 
-Running the formatting script on the report file is part of producing the report. It is not
-execution of the audited project.
+Running the formatting script on the report file is part of producing the report.
+
+It is not execution of the audited project.
 
 Example for finding summary:
 
@@ -209,47 +271,57 @@ The repository contains multiple plaintext secrets in tracked files.
 
 **Hyphen rule**
 
-Use the standard ASCII hyphen-minus `-` (U+002D) for all hyphens, dashes, and minus signs. Do not
-use the em dash `—` (U+2014) or en dash `–` (U+2013) anywhere in the report.
+Use the standard ASCII hyphen-minus `-` (U+002D) for all hyphens, dashes, and minus signs.
+
+Do not use the em dash `—` (U+2014) or en dash `–` (U+2013) anywhere in the report.
 
 **No closing line**
 
-Do not add a closing line such as "End of audit report." or "---" at the end of the document. The
-final section is the References section, end the report after the final section without any trailing
-boilerplate.
+Do not add a closing line such as "End of audit report." or "---" at the end of the document.
+
+The final section is the References section,
+end the report after the final section without any trailing boilerplate.
 
 ## Report Delivery And Parameter Configuration
 
-Report delivery and output-file selection are determined during the Parameter Configuration
-phase in `process/audit-workflow.md`. Do not ask delivery questions here, they are handled
-upstream.
+Report delivery and output-file selection are determined during the Parameter Configuration phase in
+`process/audit-workflow.md`.
 
-The delivery question presents `Inline`, each applicable concrete file path, and
-`Custom report file` in one prompt. Selecting a file path chooses both delivery and output
-location.
+Do not ask delivery questions here, they are handled upstream.
 
-When the user names an output file in the original request, for example "write the audit to
-AUDIT.md", honor that filename without asking again. Resolve the output directory using the
-location rules in `process/audit-workflow.md` unless a full path was given.
+The delivery question presents `Inline`, each applicable concrete file path,
+and `Custom report file` in one prompt.
 
-When the user states only a File preference without naming a path, ask the same question with
-`Inline` omitted. Retain the applicable file-location and `Custom report file` options.
+Selecting a file path chooses both delivery and output location.
+
+When the user names an output file in the original request,
+for example "write the audit to AUDIT.md", honor that filename without asking again.
+
+Resolve the output directory using the location rules in `process/audit-workflow.md` unless a full
+path was given.
+
+When the user states only a File preference without naming a path,
+ask the same question with `Inline` omitted.
+
+Retain the applicable file-location and `Custom report file` options.
 
 When the user invokes an audit without naming an output file, the Parameter Configuration phase
 resolves the output base and offers the applicable file paths in the delivery question.
 
 Default delivery is **File** when an `audit/` or `report/` directory exists under `docs/`,
-`document/`, or `doc/` in the audited repository or directory, otherwise **Inline**. Location
-resolution, subdirectory-pattern matching, and the delivery-question options are defined in
-`process/audit-workflow.md`, which is the single source of truth: the pattern recorded during
-Output location discovery there determines whether a version-numbered, date-named, or plain
-base path is offered.
+`document/`, or `doc/` in the audited repository or directory, otherwise **Inline**.
 
-The default filename carries the report revision: `AUDIT-1.0.md` for a first English audit, or
-the language-specific revisioned name such as `AUDYT-1.0.md`, with the plain stem offered as an
-alternative. When a previous audit report exists, the filename carries the new revision whether
-the audit mode is re-audit or fresh audit, for example `AUDIT-2.0.md`, and the previous file is
-never overwritten.
+Location resolution, subdirectory-pattern matching,
+and the delivery-question options are defined in `process/audit-workflow.md`,
+which is the single source of truth: the pattern recorded during Output location discovery there
+determines whether a version-numbered, date-named, or plain base path is offered.
+
+The default filename carries the report revision: `AUDIT-1.0.md` for a first English audit,
+or the language-specific revisioned name such as `AUDYT-1.0.md`,
+with the plain stem offered as an alternative.
+
+When a previous audit report exists, the filename carries the new revision whether the audit mode is
+re-audit or fresh audit, for example `AUDIT-2.0.md`, and the previous file is never overwritten.
 
 `Custom report file` asks the user to specify the location and filename before writing.
 
@@ -260,8 +332,10 @@ inline is acceptable without asking, unless the user asked for a file.
 
 The report adapts to the detail level chosen during Parameter Configuration.
 
-The default detail level is `Detailed`. `Standard` and `Brief` remain available when the user
-selects them during configuration or explicitly requests them.
+The default detail level is `Detailed`.
+
+`Standard` and `Brief` remain available when the user selects them during configuration or
+explicitly requests them.
 
 **Standard**
 
@@ -286,15 +360,19 @@ All seventeen baseline sections are present in full, subject to explicit paramet
 - Validation Record
 - References
 
-In addition, any conditional sections whose criteria are met are included in full. See the
-Conditional Sections rule below for the inclusion criteria of the Data Flow Diagram, Design
-Patterns, Architecture Decision Records, Threat Model, API Contract Conformance, Skill Definition
-Conformance, Standards Conformance, Technical Debt Register, and Re-audit And Follow-up Plan.
+In addition, any conditional sections whose criteria are met are included in full.
+
+See the Conditional Sections rule below for the inclusion criteria of the Data Flow Diagram,
+Design Patterns, Architecture Decision Records, Threat Model, API Contract Conformance,
+Skill Definition Conformance, Standards Conformance, Technical Debt Register,
+and Re-audit And Follow-up Plan.
 
 **Detailed**
 
-Same sections as Standard, plus the following extensions. At the Detailed level, evaluate every
-conditional section's criterion explicitly and include each one that applies:
+Same sections as Standard, plus the following extensions.
+
+At the Detailed level, evaluate every conditional section's criterion explicitly and include each
+one that applies:
 
 - Executive Summary includes a longer Production Readiness Threshold paragraph.
 - Health Dashboard includes an expanded Risk Map with all risks plotted.
@@ -342,20 +420,25 @@ Do not omit critical decision limitations to meet the shorter format.
 
 ## Conditional Sections
 
-Some sections and subsections apply only to certain kinds of system. Include a section only when it
-is relevant to the subject under audit. A section that does not apply must be omitted entirely, not
-included as an empty placeholder.
+Some sections and subsections apply only to certain kinds of system.
 
-This differs from the rule for always-present sections, where a present-but-empty section signals a
-gap. The conditional sections below describe a specific capability (an API, a trust boundary,
-recurring structure) that some subjects simply do not have, forcing such a section would mislead the
-reader.
+Include a section only when it is relevant to the subject under audit.
+
+A section that does not apply must be omitted entirely, not included as an empty placeholder.
+
+This differs from the rule for always-present sections,
+where a present-but-empty section signals a gap.
+
+The conditional sections below describe a specific capability (an API, a trust boundary,
+recurring structure) that some subjects simply do not have,
+forcing such a section would mislead the reader.
 
 When a conditional section is omitted, state the omission once in the Scope Exclusions section with
 a one-line justification, so the reader knows the omission was deliberate.
 
-The following sections and subsections are conditional. Each lists its inclusion criterion and the
-assessment file that governs it:
+The following sections and subsections are conditional.
+
+Each lists its inclusion criterion and the assessment file that governs it:
 
 | Section / Subsection                                        | Include When                                                  | Governing File                        |
 |-------------------------------------------------------------|---------------------------------------------------------------|---------------------------------------|
@@ -373,17 +456,23 @@ assessment file that governs it:
 | Changes Since Previous Audit (standalone)                   | Previous report found and confirmed as the re-audit baseline  | `synthesis/report-comparison.md`      |
 | Glossary (standalone)                                       | Descriptive mode is enabled (default)                         | `process/report-format.md`            |
 
-In a multi-project report, evaluate each criterion independently per project. A section may apply
-to one project and be omitted for another, record each deliberate omission in Scope Exclusions.
+In a multi-project report, evaluate each criterion independently per project.
 
-When in doubt about whether a conditional section applies, prefer including it with explicit `N/A`
-or `NOT SPECIFIED` markers over silently dropping a relevant concern. Only omit a section when it
-genuinely cannot apply to the subject.
+A section may apply to one project and be omitted for another,
+record each deliberate omission in Scope Exclusions.
+
+When in doubt about whether a conditional section applies,
+prefer including it with explicit `N/A` or `NOT SPECIFIED` markers over silently dropping a relevant
+concern.
+
+Only omit a section when it genuinely cannot apply to the subject.
 
 ## Section Order
 
-The report has these top-level sections, in this order, with unnumbered headings. Sections marked
-*(conditional)* are included only when their criterion in the Conditional Sections table is met.
+The report has these top-level sections, in this order, with unnumbered headings.
+
+Sections marked *(conditional)* are included only when their criterion in the Conditional Sections
+table is met.
 
 For a **single-project** audit:
 
@@ -420,8 +509,11 @@ For a **single-project** audit:
 - Validation Record
 - References
 
-For a **multi-project** audit, the structure changes. See the Multi-Project Report Structure section
-below for the full layout. In summary:
+For a **multi-project** audit, the structure changes.
+
+See the Multi-Project Report Structure section below for the full layout.
+
+In summary:
 
 - Document Information (once)
 - Audit Type Coverage & Assurance Matrix (once)
@@ -505,18 +597,24 @@ Rows appear in this order, each label in the first column and its value in the s
   the row on a fresh audit.
 - `Projects` - the audited project names, multi-project reports only.
 
-Omit a row entirely when the input does not establish its value. Never write an empty value cell
-or a `NOT SPECIFIED` token in this table.
+Omit a row entirely when the input does not establish its value.
 
-Do not include a `Delivery Mode` or `Report Delivery` row. Whether the report was delivered as a
-file or an inline response is evident from the delivery itself.
+Never write an empty value cell or a `NOT SPECIFIED` token in this table.
 
-Do not include a `Descriptive Mode` row. The setting is evident from the presence or absence of
-the Glossary section, and a re-audit recovers it that way.
+Do not include a `Delivery Mode` or `Report Delivery` row.
 
-The word `revision` refers to the report document. The word `version` refers to the audited
-software, a project, a library, or the skill itself, as in `Subject Revision` for the audited
-commit and `Skill Version` for the skill.
+Whether the report was delivered as a file or an inline response is evident from the delivery
+itself.
+
+Do not include a `Descriptive Mode` row.
+
+The setting is evident from the presence or absence of the Glossary section,
+and a re-audit recovers it that way.
+
+The word `revision` refers to the report document.
+
+The word `version` refers to the audited software, a project, a library, or the skill itself,
+as in `Subject Revision` for the audited commit and `Skill Version` for the skill.
 
 For a multi-project audit, use the repository or directory name as the system name in the title
 and include the `Projects` row.
@@ -531,28 +629,37 @@ system is approved for production.
 
 The first audit of a subject is revision `1.0`.
 
-When a previous audit report exists, read the `Report Revision` value from its Document
-Information table, increment the minor component up to 9 (for example, `1.0` to `1.1`, `1.9` to
-`2.0`, `9.9` to `10.0`), and write the incremented revision into the new report. This applies to
-both a confirmed re-audit and a fresh audit. When the previous report records no revision,
-treat it as `1.0` and assign `1.1`.
+When a previous audit report exists, read the `Report Revision` value from its Document Information
+table, increment the minor component up to 9 (for example, `1.0` to `1.1`, `1.9` to `2.0`,
+`9.9` to `10.0`), and write the incremented revision into the new report.
 
-Earlier reports may record the document revision differently: a bold-label `Version` field, or a
-`Field`/`Value` table with a `Version` row. Read any of these forms as the report revision.
+This applies to both a confirmed re-audit and a fresh audit.
 
-The previous report file is never overwritten. The new report is written to a separate file
-carrying the new revision in its name, for example `AUDIT-1.1.md`, per
-`synthesis/report-comparison.md`.
+When the previous report records no revision, treat it as `1.0` and assign `1.1`.
 
-When the report language is not English, apply the label translations from the matching
-`translations/` file. Descriptive values such as `State`, `Detail Level`, `Evaluation Scale`,
-`Audit Purpose`, and `Verification Scope` are rendered per the same file.
+Earlier reports may record the document revision differently: a bold-label `Version` field,
+or a `Field`/`Value` table with a `Version` row.
+
+Read any of these forms as the report revision.
+
+The previous report file is never overwritten.
+
+The new report is written to a separate file carrying the new revision in its name,
+for example `AUDIT-1.1.md`, per `synthesis/report-comparison.md`.
+
+When the report language is not English,
+apply the label translations from the matching `translations/` file.
+
+Descriptive values such as `State`, `Detail Level`, `Evaluation Scale`, `Audit Purpose`,
+and `Verification Scope` are rendered per the same file.
 
 ## Audit Type Coverage & Assurance Matrix
 
 State at a glance which canonical audit types this report answers and which it deliberately does
-not. The matrix makes the report's coverage explicit so it cannot be mistaken for a penetration
-test, a certifying audit, or a full technical due diligence.
+not.
+
+The matrix makes the report's coverage explicit so it cannot be mistaken for a penetration test,
+a certifying audit, or a full technical due diligence.
 
 The section appears once per report, immediately after `## Document Information` and before
 `## Project Inventory` in a multi-project report, or before `## Glossary` in a single-project
@@ -560,34 +667,42 @@ report.
 
 Present the fixed table from `references/audit-taxonomy.md`, one row per canonical audit type:
 
-|   | Report type                                    | Status                  | Rationale                                                            |
-|   | ---------------------------------------------- | ----------------------- | -------------------------------------------------------------------- |
-|   | Software Architecture Review                   | <status>                | <why this status holds for this audit>                               |
-|   | Code Quality Audit                             | <status>                | <why this status holds for this audit>                               |
-|   | Security Vulnerability Assessment              | <status>                | <why this status holds for this audit>                               |
-|   | Open Source License Compliance Review          | <status>                | <why this status holds for this audit>                               |
-|   | Penetration Test                               | <status>                | <why this status holds for this audit>                               |
-|   | Performance Audit                              | <status>                | <why this status holds for this audit>                               |
-|   | Cloud Infrastructure Audit                     | <status>                | <why this status holds for this audit>                               |
-|   | AI Governance Audit                            | <status>                | <why this status holds for this audit>                               |
-|   | Technical Due Diligence                        | <status>                | <why this status holds for this audit>                               |
-|   | SBOM / Software Composition Analysis           | <status>                | <why this status holds for this audit>                               |
-|   | Compliance Certification (SOC 2, ISO 27001)    | <status>                | <why this status holds for this audit>                               |
+|  | Report type                                 | Status   | Rationale                              |
+|--|---------------------------------------------|----------|----------------------------------------|
+|  | Software Architecture Review                | <status> | <why this status holds for this audit> |
+|  | Code Quality Audit                          | <status> | <why this status holds for this audit> |
+|  | Security Vulnerability Assessment           | <status> | <why this status holds for this audit> |
+|  | Open Source License Compliance Review       | <status> | <why this status holds for this audit> |
+|  | Penetration Test                            | <status> | <why this status holds for this audit> |
+|  | Performance Audit                           | <status> | <why this status holds for this audit> |
+|  | Cloud Infrastructure Audit                  | <status> | <why this status holds for this audit> |
+|  | AI Governance Audit                         | <status> | <why this status holds for this audit> |
+|  | Technical Due Diligence                     | <status> | <why this status holds for this audit> |
+|  | SBOM / Software Composition Analysis        | <status> | <why this status holds for this audit> |
+|  | Compliance Certification (SOC 2, ISO 27001) | <status> | <why this status holds for this audit> |
 
 Status values come from the fixed vocabulary in `references/audit-taxonomy.md`: `Covered`,
-`Partially`, `Not done`, `Not Applicable`. Default statuses and per-type rationale
-are defined there. A status other than the default carries its reason in the Rationale column.
+`Partially`, `Not done`, `Not Applicable`.
+
+Default statuses and per-type rationale are defined there.
+
+A status other than the default carries its reason in the Rationale column.
 
 When the report language is not English, apply the column header, report-type, and status
 translations from the matching `translations/` file.
 
-The matrix must agree with Scope Exclusions: every `Not done` row has a matching exclusion
-bullet, and no `Covered` row is later disclaimed. PAR-11 checks this consistency.
+The matrix must agree with Scope Exclusions: every `Not done` row has a matching exclusion bullet,
+and no `Covered` row is later disclaimed.
+
+PAR-11 checks this consistency.
 
 ## Glossary
 
-The Glossary defines every abbreviation and acronym used in the report. It is present when
-Descriptive mode is `Enabled` (the default) and omitted when Descriptive mode is `Disabled`.
+The Glossary defines every abbreviation and acronym used in the report.
+
+It is present when Descriptive mode is `Enabled` (the default)
+and omitted when Descriptive mode is `Disabled`.
+
 When omitted, record the deliberate omission with a one-line justification in Scope Exclusions.
 
 The section appears immediately after `## Audit Type Coverage & Assurance Matrix`, or after
@@ -597,9 +712,12 @@ A multi-project report carries one shared Glossary covering terms used in every 
 **Index table**
 
 Present the terms as a two-column table, one row per term, sorted alphabetically ignoring case.
-The Term cell holds the acronym in plain form, or a markdown link when the term carries a long
-description below the table. The Definition cell gives the expansion plus one clause of
-plain-language meaning or role in context.
+
+The Term cell holds the acronym in plain form,
+or a markdown link when the term carries a long description below the table.
+
+The Definition cell gives the expansion plus one clause of plain-language meaning or role in
+context.
 
 ```markdown
 ## Glossary
@@ -613,15 +731,25 @@ plain-language meaning or role in context.
 
 **Long descriptions**
 
-Terms that need more than an expansion get a `###` subsection below the index table, still inside
-`## Glossary`, sorted alphabetically by term. Name each subsection `### TERM (Expansion)` when the
-expansion is established, or `### TERM` when it is not. A term with a subsection links its table
-cell to that subsection's anchor, for example `[SLO](#slo-service-level-objective)`. Derive the
-anchor from the heading text: lowercase it, remove punctuation, and replace spaces with hyphens.
+Terms that need more than an expansion get a `###` subsection below the index table,
+still inside `## Glossary`, sorted alphabetically by term.
 
-Choose the subset deliberately. Good candidates are operational objectives such as `SLO`, `RPO`,
-and `RTO`, report-internal identifier prefixes such as `EVD`, `FND`, `RSK`, `REC`, `TDR`, and
-`PAR`, and subject-specific terms whose role needs explanation. Most terms stay index-only.
+Name each subsection `### TERM (Expansion)` when the expansion is established,
+or `### TERM` when it is not.
+
+A term with a subsection links its table cell to that subsection's anchor,
+for example `[SLO](#slo-service-level-objective)`.
+
+Derive the anchor from the heading text: lowercase it, remove punctuation,
+and replace spaces with hyphens.
+
+Choose the subset deliberately.
+
+Good candidates are operational objectives such as `SLO`, `RPO`, and `RTO`,
+report-internal identifier prefixes such as `EVD`, `FND`, `RSK`, `REC`, `TDR`, and `PAR`,
+and subject-specific terms whose role needs explanation.
+
+Most terms stay index-only.
 
 ```markdown
 ### SLO (Service Level Objective)
@@ -633,12 +761,16 @@ Without them there is no agreed threshold for when the platform is failing its u
 
 **Body linking**
 
-Every occurrence of a glossary term in the report body is a markdown link. When the term has a
-long-description subsection, link to that subsection's anchor, for example
-`[SLO](#slo-service-level-objective)`. Otherwise link to the index table at `#glossary`, for
-example `[API](#glossary)`.
+Every occurrence of a glossary term in the report body is a markdown link.
 
-Apply the rule to prose and table cells. Exempt:
+When the term has a long-description subsection, link to that subsection's anchor,
+for example `[SLO](#slo-service-level-objective)`.
+
+Otherwise link to the index table at `#glossary`, for example `[API](#glossary)`.
+
+Apply the rule to prose and table cells.
+
+Exempt:
 
 - The Glossary section itself, including its index table and `###` descriptions.
 - Headings, fenced code blocks, inline code, existing link text, and URLs.
@@ -656,11 +788,14 @@ Apply the rule to prose and table cells. Exempt:
 - Inflected forms keep the suffix inside the link text, for example
   `[SLOs](#slo-service-level-objective)`.
 
-Apply body linking with a scripted pass rather than by hand. A report can hold hundreds of
-standalone acronym occurrences, and the reliable procedure is to walk the body once with the
-report's own index table and `###` anchors, skipping the exemptions above, and to rerun the pass
-after any late content edit. Hand-linking a long report reliably leaves misses that PAR-10 and
-`validate-report.py` then surface one by one.
+Apply body linking with a scripted pass rather than by hand.
+
+A report can hold hundreds of standalone acronym occurrences,
+and the reliable procedure is to walk the body once with the report's own index table and `###`
+anchors, skipping the exemptions above, and to rerun the pass after any late content edit.
+
+Hand-linking a long report reliably leaves misses that PAR-10 and `validate-report.py` then surface
+one by one.
 
 Three discipline notes keep new prose from reintroducing failures the pass just cleared:
 
@@ -688,27 +823,35 @@ Each definition expands the abbreviation and adds one clause of plain-language m
 context, as in the SLO, RPO, and RTO examples above.
 
 Do not list ordinary words, brand or product names that are not abbreviations, file extensions,
-command names, or fixed vocabulary tokens that are complete words such as `PASS`, `FAIL`,
-`UNKNOWN`, or `NOT SPECIFIED`. Do not invent expansions for product names the audited source
-does not establish, describe the term's role instead.
+command names, or fixed vocabulary tokens that are complete words such as `PASS`, `FAIL`, `UNKNOWN`,
+or `NOT SPECIFIED`.
+
+Do not invent expansions for product names the audited source does not establish,
+describe the term's role instead.
 
 When the report language is not English, keep each term in its original form and write the
 definition in the report language, per the matching `translations/` file.
 
 ## Multi-Project Report Structure
 
-When the audit covers more than one project in a repository or directory, the report uses a combined
-structure. Each project is assessed independently and receives its own complete set of sections
-within the report.
+When the audit covers more than one project in a repository or directory,
+the report uses a combined structure.
 
-**Document Information** appears once at the top. The title uses the repository or directory name,
-not a single project name. Include a `Projects` row in the table listing the audited projects.
+Each project is assessed independently and receives its own complete set of sections within the
+report.
+
+**Document Information** appears once at the top.
+
+The title uses the repository or directory name, not a single project name.
+
+Include a `Projects` row in the table listing the audited projects.
 
 The **Audit Type Coverage & Assurance Matrix** appears once, immediately after Document
 Information and before the Project Inventory.
 
-**Project Inventory** appears after the Coverage Matrix. It lists each project with its
-path, version, and a one-line description.
+**Project Inventory** appears after the Coverage Matrix.
+
+It lists each project with its path, version, and a one-line description.
 
 ```
 | Project        | Path           | Version | Description            |
@@ -722,8 +865,9 @@ When the report language is not English, apply the column header translations fr
 **Combined summary sections** appear immediately after the Project Inventory, so orientation
 material precedes per-project detail.
 
-The **Executive Summary** is a condensed combined summary. Write a short orientation paragraph,
-then a compact table with one row per project:
+The **Executive Summary** is a condensed combined summary.
+
+Write a short orientation paragraph, then a compact table with one row per project:
 
 ```
 | Project        | Score                   | Lowest              | Top Risks               | Readiness         |
@@ -732,12 +876,17 @@ then a compact table with one row per project:
 ```
 
 The **Changes Since Previous Audit** section is combined at report level when a re-audit was
-confirmed. Give each compared project its own level-3 subsection inside this section and keep
-project-qualified finding IDs. Do not repeat the section inside the per-project blocks.
+confirmed.
 
-**Per-project sections** follow the combined summary sections. Each project gets a level-2
-heading (`##`) with the project name, followed by the full set of report sections for that
-project:
+Give each compared project its own level-3 subsection inside this section and keep project-qualified
+finding IDs.
+
+Do not repeat the section inside the per-project blocks.
+
+**Per-project sections** follow the combined summary sections.
+
+Each project gets a level-2 heading (`##`) with the project name,
+followed by the full set of report sections for that project:
 
 - Executive Summary
 - System Context (with the Technology Stack subsection)
@@ -764,9 +913,15 @@ project:
 
 Use level-3 headings (`###`) for subsections within each project block.
 
-**Finding IDs** are scoped per project. Each project's findings start at `FND-XXX-001`. Risk IDs and
-recommendation IDs also reset per project. Prefix each finding heading with the project identifier
-so the reader can navigate. For example: `### FND-ARC-001: [api-service] Missing input validation`.
+**Finding IDs** are scoped per project.
+
+Each project's findings start at `FND-XXX-001`.
+
+Risk IDs and recommendation IDs also reset per project.
+
+Prefix each finding heading with the project identifier so the reader can navigate.
+
+For example: `### FND-ARC-001: [api-service] Missing input validation`.
 
 **Shared sections** appear once at the end of the report, after all per-project sections:
 
@@ -777,21 +932,29 @@ so the reader can navigate. For example: `### FND-ARC-001: [api-service] Missing
 - Validation Record
 - References
 
-The combined **Trade-off Analysis** holds only cross-project trade-offs. A trade-off is
-cross-project only when the decision was made once and constrains more than one project, such
-as a shared dependency choice or a repository-wide workspace or build decision. The same issue
-type appearing independently in two projects is a repeated per-project finding, not a
-cross-project trade-off, and stays in the per-project Trade-off Analysis after that project's
-Architectural Assessment. The combined table adds a leading `Project` column. When no
-cross-project trade-off qualifies, the section stays present and the table carries a single
-`N/A` row with a one-line justification.
+The combined **Trade-off Analysis** holds only cross-project trade-offs.
 
-The Scope Exclusions, Limitations and Unknowns, Validation Record, and Re-audit sections cover
-all projects. Qualify rows per project using the project identifier.
+A trade-off is cross-project only when the decision was made once and constrains more than one
+project, such as a shared dependency choice or a repository-wide workspace or build decision.
+
+The same issue type appearing independently in two projects is a repeated per-project finding,
+not a cross-project trade-off, and stays in the per-project Trade-off Analysis after that project's
+Architectural Assessment.
+
+The combined table adds a leading `Project` column.
+
+When no cross-project trade-off qualifies,
+the section stays present and the table carries a single `N/A` row with a one-line justification.
+
+The Scope Exclusions, Limitations and Unknowns, Validation Record,
+and Re-audit sections cover all projects.
+
+Qualify rows per project using the project identifier.
 
 **Single-project reports** use the standard structure without the Project Inventory table and
-without per-project level-2 headings. The sections appear directly under level-2 headings as in a
-standard report.
+without per-project level-2 headings.
+
+The sections appear directly under level-2 headings as in a standard report.
 
 ## Executive Summary
 
@@ -816,50 +979,71 @@ Use a key-value table:
 | Maturity level | <maturity level>                                      |
 | Overall score  | <score display>                                       |
 
-Maturity level is one of: `Prototype`, `Early development`, `Pre-production`, `Production-ready`, or
-`Undetermined`. When the report language is not English, the value is rendered per the matching
-`translations/` file.
+Maturity level is one of: `Prototype`, `Early development`, `Pre-production`, `Production-ready`,
+or `Undetermined`.
 
-For numeric scales, use `<mean>/<scale> (<band>)` and `<score>/<scale>`. For `5 stars` or
-`3 stars`, use the rounded star bar followed by the exact mean in parentheses, for example
-`★★★☆☆ (3.4/5)`.
+When the report language is not English,
+the value is rendered per the matching `translations/` file.
 
-The Overall score cell holds only the score display. The lowest-scoring applicable dimension and
-its score go in a paragraph directly below the table, so a weak pillar is never hidden inside the
-average, for example `Lowest-scoring dimensions: Security ★★☆☆☆.` Exclude `N/A` and `UNKNOWN`
-dimensions from both values. When several dimensions tie for the lowest score, name them all.
+For numeric scales, use `<mean>/<scale> (<band>)` and `<score>/<scale>`.
+
+For `5 stars` or `3 stars`, use the rounded star bar followed by the exact mean in parentheses,
+for example `★★★☆☆ (3.4/5)`.
+
+The Overall score cell holds only the score display.
+
+The lowest-scoring applicable dimension and its score go in a paragraph directly below the table,
+so a weak pillar is never hidden inside the average,
+for example `Lowest-scoring dimensions: Security ★★☆☆☆.` Exclude `N/A` and `UNKNOWN` dimensions from
+both values.
+
+When several dimensions tie for the lowest score, name them all.
+
 Omit the row and the paragraph only when no dimensions were scored.
 
 When the report language is not English, apply the table header and field name translations from the
 matching `translations/` file.
 
-Do not add a "Summary description" row to this table. Long descriptive text in a table cell makes
-the table unreadable in plain text. The summary description belongs in a paragraph after the table,
-as described below.
+Do not add a "Summary description" row to this table.
+
+Long descriptive text in a table cell makes the table unreadable in plain text.
+
+The summary description belongs in a paragraph after the table, as described below.
 
 **Summary description**
 
 When the report language is not English, apply the heading translation from the matching
 `translations/` file.
 
-Write one paragraph immediately after the table. State the system's purpose in one sentence.
-Summarize the overall condition in one sentence. Note the maturity level and anchor it to evidence
-from later sections. Mention any critical finding that the reader should know first. Keep the
-paragraph to four sentences maximum. Break lines that exceed the selected wrap width (default 100)
-per `STYLE.md`.
+Write one paragraph immediately after the table.
+
+State the system's purpose in one sentence.
+
+Summarize the overall condition in one sentence.
+
+Note the maturity level and anchor it to evidence from later sections.
+
+Mention any critical finding that the reader should know first.
+
+Keep the paragraph to four sentences maximum.
+
+Break lines that exceed the selected wrap width (default 100) per `STYLE.md`.
 
 The maturity level must be justified by evidence in later sections, not asserted.
 
 **Coverage and risk flags**
 
-Point the reader at the Audit Type Coverage & Assurance Matrix in one line, naming only the
-statuses that matter for reading the report, for example "This report covers the engineering audit
-types. No penetration test or compliance certification was performed".
+Point the reader at the Audit Type Coverage & Assurance Matrix in one line,
+naming only the statuses that matter for reading the report,
+for example "This report covers the engineering audit types.
+
+No penetration test or compliance certification was performed".
 
 Flag a `High` contributor-concentration rating from Delivery Practice & Team Continuity and any
-`Conflict` license risk from License & IP Compliance Review here, one line each, since both are
-material deal-level facts a summary reader should not have to dig for. Omit a flag line when it
-does not apply.
+`Conflict` license risk from License & IP Compliance Review here, one line each,
+since both are material deal-level facts a summary reader should not have to dig for.
+
+Omit a flag line when it does not apply.
 
 **Production Readiness Threshold**
 
@@ -893,9 +1077,11 @@ of the scorecard average.
 ## Changes Since Previous Audit
 
 Include this section only when a previously created audit report was found during intake and
-confirmed as the re-audit baseline, per `synthesis/report-comparison.md`. Omit it entirely for
-a first audit or a fresh audit. Both are normal cases, so no omission note is needed in Scope
-Exclusions.
+confirmed as the re-audit baseline, per `synthesis/report-comparison.md`.
+
+Omit it entirely for a first audit or a fresh audit.
+
+Both are normal cases, so no omission note is needed in Scope Exclusions.
 
 Open with a report reference table:
 
@@ -937,11 +1123,16 @@ Present a per-dimension score comparison:
 |-----------|----------|---------|-----------|
 | <name>    | <score>  | <score> | Up        |
 
-Direction uses `Up`, `Down`, or `Unchanged`. When the evaluation scale changed between
-reports, mark the direction `UNKNOWN` for affected dimensions instead of comparing raw numbers.
+Direction uses `Up`, `Down`, or `Unchanged`.
 
-After the tables, write one paragraph per material change. Summarize which findings moved
-state, which `RSK-XXX` risks were added or mitigated, and which category statuses changed.
+When the evaluation scale changed between reports,
+mark the direction `UNKNOWN` for affected dimensions instead of comparing raw numbers.
+
+After the tables, write one paragraph per material change.
+
+Summarize which findings moved state, which `RSK-XXX` risks were added or mitigated,
+and which category statuses changed.
+
 Anchor every claim to a `FND-XXX`, `RSK-XXX`, or `EVD-XXX` in the current report.
 
 **Rules**
@@ -954,7 +1145,9 @@ Anchor every claim to a `FND-XXX`, `RSK-XXX`, or `EVD-XXX` in the current report
 
 ## System Context
 
-Describe the system as understood from the input. Present the factual context without critique.
+Describe the system as understood from the input.
+
+Present the factual context without critique.
 
 | Aspect                 | Detail                                            |
 |------------------------|---------------------------------------------------|
@@ -971,8 +1164,9 @@ Mark any unknown aspect as `NOT SPECIFIED`.
 
 ### Technology Stack
 
-Present a factual inventory of the technologies the subject uses. Describe the stack only, do not
-judge it here.
+Present a factual inventory of the technologies the subject uses.
+
+Describe the stack only, do not judge it here.
 
 Use a key-value table:
 
@@ -988,13 +1182,19 @@ Use a key-value table:
 | Data stores      | <databases, caches, file formats>, or `NOT SPECIFIED` |
 | Target platforms | <where the software runs or ships>                    |
 
-Anchor each entry to evidence, such as a manifest, lockfile, or config file. Mark any layer the
-input does not reveal as `NOT SPECIFIED`. Add or omit rows to fit the subject, but keep the layer
-names in this column and translate them into the report language.
+Anchor each entry to evidence, such as a manifest, lockfile, or config file.
+
+Mark any layer the input does not reveal as `NOT SPECIFIED`.
+
+Add or omit rows to fit the subject, but keep the layer names in this column and translate them into
+the report language.
 
 After the tables, add further subsections for major components (e.g., `### Backend`, `### Frontend`,
-`### Deployment`). Put exactly one empty line after each subsection header before the first
-sentence. Separate every sentence with an empty line.
+`### Deployment`).
+
+Put exactly one empty line after each subsection header before the first sentence.
+
+Separate every sentence with an empty line.
 
 For operated systems, add a compact **Operational Objectives** table with metric, target, measured
 result, window, source, and owner, using the NFR and operational-readiness guides.
@@ -1014,21 +1214,25 @@ stores, recipients, retention/deletion, and the applicable obligation basis.
 
 ## Software Bill of Materials
 
-Present the source-derived component inventory as a structured table. Open the section with one
-line stating what this is: a manifest-derived component list at the audited revision, not a
-shipped-artifact SBOM and not a claim of SPDX or CycloneDX conformance.
+Present the source-derived component inventory as a structured table.
+
+Open the section with one line stating what this is:
+a manifest-derived component list at the audited revision,
+not a shipped-artifact SBOM and not a claim of SPDX or CycloneDX conformance.
 
 Build the table per `references/sbom-schema.md` from the manifests and lockfiles read per
 `references/dependency-manifests.md`:
 
-|   | Component   | Version   | Ecosystem   | Relationship   | License   | License Risk   | Advisory Checked   | Source File   |
-|   | ----------- | --------- | ----------- | -------------- | --------- | -------------- | ------------------ | ------------- |
-|   | <name>      | <ver>     | <purl>      | direct         | <lic>     | <flag>         | N                  | <path>        |
+|  | Component | Version | Ecosystem | Relationship | License | License Risk | Advisory Checked | Source File |
+|--|-----------|---------|-----------|--------------|---------|--------------|------------------|-------------|
+|  | <name>    | <ver>   | <purl>    | direct       | <lic>   | <flag>       | N                | <path>      |
 
-License values come from inspected declarations only, `Unknown` otherwise. License Risk values
-are `None flagged`, `Review`, `Conflict`, or `Unknown` per
-`references/license-compliance.md`. `Advisory Checked` is `Y` only where committed
-advisory or scan evidence covers the component.
+License values come from inspected declarations only, `Unknown` otherwise.
+
+License Risk values are `None flagged`, `Review`, `Conflict`,
+or `Unknown` per `references/license-compliance.md`.
+
+`Advisory Checked` is `Y` only where committed advisory or scan evidence covers the component.
 
 Close the section with the direct and transitive totals and any manifest-lockfile drift noted.
 When no dependency manifest or lockfile exists in the project, state `No dependency manifests or
@@ -1040,19 +1244,20 @@ When the report language is not English, apply the column header translations fr
 ## License & IP Compliance Review
 
 Summarize the license-classification pass run over the SBOM table per
-`references/license-compliance.md`. This section is a synthesis layer: the per-component
-detail lives in the SBOM table and the finding detail lives in `FND-CPR` findings, this section
-states what the pass concluded.
+`references/license-compliance.md`.
+
+This section is a synthesis layer: the per-component detail lives in the SBOM table and the finding
+detail lives in `FND-CPR` findings, this section states what the pass concluded.
 
 Present the classification counts:
 
-|   | License class     | Components   | Notes                                    |
-|   | ----------------- | ------------ | ---------------------------------------- |
-|   | Permissive        | <count>      | <notable components>                     |
-|   | Weak-copyleft     | <count>      | <notable components>                     |
-|   | Strong-copyleft   | <count>      | <notable components, linkage evidence>   |
-|   | Proprietary       | <count>      | <notable components>                     |
-|   | Unknown           | <count>      | share of total, hygiene implication      |
+|  | License class   | Components | Notes                                  |
+|--|-----------------|------------|----------------------------------------|
+|  | Permissive      | <count>    | <notable components>                   |
+|  | Weak-copyleft   | <count>    | <notable components>                   |
+|  | Strong-copyleft | <count>    | <notable components, linkage evidence> |
+|  | Proprietary     | <count>    | <notable components>                   |
+|  | Unknown         | <count>    | share of total, hygiene implication    |
 
 Below the table, state in short paragraphs:
 
@@ -1069,12 +1274,15 @@ When the report language is not English, apply the column header translations fr
 
 ## Health Dashboard
 
-Present the quantitative health summary in a consolidated view. This section contains the Risk
-Map, the Scorecard Summary, and the Team & Continuity line.
+Present the quantitative health summary in a consolidated view.
+
+This section contains the Risk Map, the Scorecard Summary, and the Team & Continuity line.
 
 **Risk Map**
 
-Provide a consolidated Likelihood vs Impact matrix summarizing the top risks. Use a table:
+Provide a consolidated Likelihood vs Impact matrix summarizing the top risks.
+
+Use a table:
 
 | Impact   | LOW | MEDIUM | HIGH |
 |----------|-----|--------|------|
@@ -1086,9 +1294,13 @@ Provide a consolidated Likelihood vs Impact matrix summarizing the top risks. Us
 When the report language is not English, apply the axis label translations from the matching
 `translations/` file.
 
-Populate cells with `RSK-XXX` identifiers from the Unified Risk Register. Leave empty cells blank.
-Do not include plaintext secrets, passwords, or cryptographic keys in this summary. Use generic
-descriptions or masked placeholders.
+Populate cells with `RSK-XXX` identifiers from the Unified Risk Register.
+
+Leave empty cells blank.
+
+Do not include plaintext secrets, passwords, or cryptographic keys in this summary.
+
+Use generic descriptions or masked placeholders.
 
 **Scorecard Summary**
 
@@ -1127,61 +1339,79 @@ The API Compatibility dimension is `N/A` unless the subject is a reusable librar
 per `assessment/api-compatibility.md`.
 
 Render each Score cell in the selected evaluation scale: `7/10` for `1-10`, `4/5` for `1-5`,
-`2/3` for `1-3`, `★★★★☆` for `5 stars`, and `★★☆` for `3 stars`. Render `UNKNOWN` and `N/A`
-as text, not as star bars.
+`2/3` for `1-3`, `★★★★☆` for `5 stars`, and `★★☆` for `3 stars`.
+
+Render `UNKNOWN` and `N/A` as text, not as star bars.
 
 When the report language is not English, apply the translations from the matching `translations/`
 file.
 
 **Team & Continuity**
 
-Write one line summarizing contributor and continuity evidence collected during Evidence
-Gathering: author concentration, commit cadence, tag and release history, and any documented
-ownership or maintenance statement. Anchor it to evidence IDs. When Git history or repository
-data was not in scope, mark it `NOT COLLECTED` rather than omitting the line. Keep it neutral
-and aggregate, never personal. Commit concentration is a proxy for continuity, not a measure of
-operational access or expertise.
+Write one line summarizing contributor and continuity evidence collected during Evidence Gathering:
+author concentration, commit cadence, tag and release history,
+and any documented ownership or maintenance statement.
 
-This line is the at-a-glance summary. The full delivery-practice proxies and concentration detail
-live in the Delivery Practice & Team Continuity section.
+Anchor it to evidence IDs.
+
+When Git history or repository data was not in scope,
+mark it `NOT COLLECTED` rather than omitting the line.
+
+Keep it neutral and aggregate, never personal.
+
+Commit concentration is a proxy for continuity, not a measure of operational access or expertise.
+
+This line is the at-a-glance summary.
+
+The full delivery-practice proxies and concentration detail live in the Delivery Practice & Team
+Continuity section.
 
 When the report language is not English, apply the heading translation from the matching
 `translations/` file.
 
 ## Delivery Practice & Team Continuity
 
-Assess how the project delivers changes and how concentrated its contributor base is, using only
-what the repository shows. Apply `references/delivery-practice.md` for the proxy
-procedures, the bus-factor rubric, and the marking rules.
+Assess how the project delivers changes and how concentrated its contributor base is,
+using only what the repository shows.
+
+Apply `references/delivery-practice.md` for the proxy procedures, the bus-factor rubric,
+and the marking rules.
 
 **Delivery metrics**
 
-Present the DORA five-metric view. Two metrics are computable as Git-derived proxies, three are
-not measurable from source and must stay `NOT SPECIFIED` with the reason:
+Present the DORA five-metric view.
 
-|   | DORA metric                      | Result                           | Basis                                       |
-|   | -------------------------------- | -------------------------------- | ------------------------------------------- |
-|   | Change lead time                 | <proxy interval>                 | Proxy: median commit-to-tag interval        |
-|   | Deployment frequency             | <proxy cadence>                  | Proxy: tag cadence over observed window     |
-|   | Failed deployment recovery time  | `NOT SPECIFIED`                  | Requires incident and deployment data       |
-|   | Change fail rate                 | `NOT SPECIFIED`                  | Requires incident and rollback data         |
-|   | Deployment rework rate           | `NOT SPECIFIED`                  | Requires production incident data           |
+Two metrics are computable as Git-derived proxies,
+three are not measurable from source and must stay `NOT SPECIFIED` with the reason:
 
-Label computed values as proxies, never as measured DORA metrics. A project with no tags reports
-the proxy rows as `NOT SPECIFIED` with the reason, commits are not deployments. When Git history
-was not in scope, mark the whole table `NOT COLLECTED`.
+|  | DORA metric                     | Result           | Basis                                   |
+|--|---------------------------------|------------------|-----------------------------------------|
+|  | Change lead time                | <proxy interval> | Proxy: median commit-to-tag interval    |
+|  | Deployment frequency            | <proxy cadence>  | Proxy: tag cadence over observed window |
+|  | Failed deployment recovery time | `NOT SPECIFIED`  | Requires incident and deployment data   |
+|  | Change fail rate                | `NOT SPECIFIED`  | Requires incident and rollback data     |
+|  | Deployment rework rate          | `NOT SPECIFIED`  | Requires production incident data       |
+
+Label computed values as proxies, never as measured DORA metrics.
+
+A project with no tags reports the proxy rows as `NOT SPECIFIED` with the reason,
+commits are not deployments.
+
+When Git history was not in scope, mark the whole table `NOT COLLECTED`.
 
 **Contributor concentration**
 
-State the bus-factor rating from `references/delivery-practice.md`: the top-author
-commit share, the active-contributor count, the observation window, and the resulting `High`,
-`Moderate`, or `Low` concentration rating, anchored to `EVD-XXX` rows. Reviewer diversity is
-`NOT SPECIFIED` unless the repository itself records review data, pull-request reviews do not
-live in Git history.
+State the bus-factor rating from `references/delivery-practice.md`: the top-author commit share,
+the active-contributor count, the observation window, and the resulting `High`, `Moderate`,
+or `Low` concentration rating, anchored to `EVD-XXX` rows.
 
-Follow with one short paragraph noting documented ownership or maintenance statements, and any
-continuity-relevant `FND-INF` or `RSK-XXX` references. Keep the content aggregate and neutral,
-never a personal assessment.
+Reviewer diversity is `NOT SPECIFIED` unless the repository itself records review data,
+pull-request reviews do not live in Git history.
+
+Follow with one short paragraph noting documented ownership or maintenance statements,
+and any continuity-relevant `FND-INF` or `RSK-XXX` references.
+
+Keep the content aggregate and neutral, never a personal assessment.
 
 When the report language is not English, apply the heading, column header, and status
 translations from the matching `translations/` file.
@@ -1189,8 +1419,11 @@ translations from the matching `translations/` file.
 ## High-Level Observations
 
 Surface the most important findings in a compact table a reader can scan before reading the detail
-sections. Include at most five observations. Each observation should be a single concrete finding,
-not a category summary.
+sections.
+
+Include at most five observations.
+
+Each observation should be a single concrete finding, not a category summary.
 
 Use this single-column table:
 
@@ -1201,14 +1434,21 @@ Use this single-column table:
 When the report language is not English, apply the table header translation from the matching
 `translations/` file.
 
-Write one paragraph per observation immediately after the table, in the same order as the table
-rows. Start each paragraph with a bold heading on its own line (the observation text, abbreviated if
-needed), then add an empty line, then the body. Each paragraph explains why the observation matters
-and what risk or opportunity it represents. Anchor every claim to a specific finding in the Detailed
-Technical Findings.
+Write one paragraph per observation immediately after the table,
+in the same order as the table rows.
 
-Keep each observation brief. The full technical detail lives in the numbered finding blocks later in
-the report. This section exists to give non-technical readers a fast-skim path.
+Start each paragraph with a bold heading on its own line (the observation text,
+abbreviated if needed), then add an empty line, then the body.
+
+Each paragraph explains why the observation matters and what risk or opportunity it represents.
+
+Anchor every claim to a specific finding in the Detailed Technical Findings.
+
+Keep each observation brief.
+
+The full technical detail lives in the numbered finding blocks later in the report.
+
+This section exists to give non-technical readers a fast-skim path.
 
 ## Auditing Methodology
 
@@ -1223,8 +1463,10 @@ When the report language is not English, apply the heading translation from the 
 
 State that the audit uses evidence-based reasoning across 18 core assessment categories grouped into
 six pillars, plus conditional assessments (data flow, design patterns, threat model, API contract,
-skill definition, standards conformance) applied when the subject warrants them, and the conditional
-API Compatibility & Versioning Discipline pillar for libraries and packages. List the pillars:
+skill definition, standards conformance) applied when the subject warrants them,
+and the conditional API Compatibility & Versioning Discipline pillar for libraries and packages.
+
+List the pillars:
 
 - **Architecture & Design** - Design principles, maintainability, change management, documentation,
   non-functional requirements
@@ -1248,8 +1490,12 @@ When the report language is not English, apply the pillar name translations from
 When the report language is not English, apply the heading translation from the matching
 `translations/` file.
 
-Name the external standards the audit aligns with, so the methodology is credible to an external
-reader. Cite only the standards actually applied to the subject. Typical references:
+Name the external standards the audit aligns with,
+so the methodology is credible to an external reader.
+
+Cite only the standards actually applied to the subject.
+
+Typical references:
 
 - **ISO/IEC 25010:2023** - nine-characteristic product quality coverage, using the explicit
   crosswalk
@@ -1266,21 +1512,26 @@ reader. Cite only the standards actually applied to the subject. Typical referen
 - **ISO 19011** and **NIST RMF** - audit follow-up and continuous monitoring, when a re-audit plan
   is included.
 
-Beyond the generic standards above, name the stack-specific canonical sources applied, selected
-per `references/stack-standards.md`: for example the Rust API Guidelines and the RustSec
-Advisory Database for Rust, or the Framework Design Guidelines and NuGet package authoring best
-practices for .NET. Stack-specific sources are the primary reference set for the detected stack,
+Beyond the generic standards above, name the stack-specific canonical sources applied,
+selected per `references/stack-standards.md`:
+for example the Rust API Guidelines and the RustSec Advisory Database for Rust,
+or the Framework Design Guidelines and NuGet package authoring best practices for .NET.
+
+Stack-specific sources are the primary reference set for the detected stack,
 not optional decoration.
 
-Cite a standard only when its corresponding section or assessment is present in the report. Do not
-list a standard that was not applied.
+Cite a standard only when its corresponding section or assessment is present in the report.
+
+Do not list a standard that was not applied.
 
 **Audit evidence statement**
 
 When the report language is not English, apply the heading translation from the matching
 `translations/` file.
 
-Begin the Methodology section with 2-3 sentences stating exactly what was inspected. Include:
+Begin the Methodology section with 2-3 sentences stating exactly what was inspected.
+
+Include:
 
 - The number of source files, test files, and configuration files reviewed. State whether
   `.gitignore` exclusions were applied. If `.gitignore` was absent, record that fact without
@@ -1289,10 +1540,13 @@ Begin the Methodology section with 2-3 sentences stating exactly what was inspec
 - Which documented check results, such as CI output, coverage reports, or scan artifacts, were
   supplied or committed.
 
-Example: "This audit inspected 147 source files, 8 test files, and 4 configuration files from the
-repository root, excluding files listed in `.gitignore`. Git commit history was reviewed for the
-last 15 commits. No builds, tests, or tools were executed, all findings are based on static
-inspection of the repository contents."
+Example: "This audit inspected 147 source files, 8 test files,
+and 4 configuration files from the repository root, excluding files listed in `.gitignore`.
+
+Git commit history was reviewed for the last 15 commits.
+
+No builds, tests, or tools were executed,
+all findings are based on static inspection of the repository contents."
 
 **Verification And Evidence Ledger**
 
@@ -1303,11 +1557,15 @@ Include the per-project check summary and evidence records from `process/audit-w
 | EVD-001     | <project> | <source or command> | <state>   | <result> | <obs/concern> | <path or gap> |
 
 The `Type` column carries `Observation` or `Concern` per `principles/evaluation-rules.md`:
-`Observation` for a fact another auditor could re-derive from the same artifact, `Concern` for a
-risk judgment built on observations. Most ledger rows are `Observation`. The tag is enforced
-mechanically: `scripts/validate-report.py` flags every `| EVD-` row and every finding block whose
-`Type` cell or field is missing or carries another value, so the Validation Record attestation
-is backed by a check rather than memory.
+
+`Observation` for a fact another auditor could re-derive from the same artifact,
+`Concern` for a risk judgment built on observations.
+
+Most ledger rows are `Observation`.
+
+The tag is enforced mechanically: `scripts/validate-report.py` flags every `| EVD-` row and every
+finding block whose `Type` cell or field is missing or carries another value,
+so the Validation Record attestation is backed by a check rather than memory.
 
 Place documented commands, source locations, revisions, declared tool or report versions,
 exclusions, and limitations below the table rather than abbreviating away traceability.
@@ -1319,24 +1577,28 @@ Include documented checks that were not run, and label supplied or committed res
 reported.
 
 For dependencies, summarize inventory/SBOM scope, schema version, license policy, advisory triage,
-and artifact paths, not just direct manifest versions. When no SBOM exists, record the
-source-derived component inventory produced per `references/dependency-manifests.md`, labeled
-as manifest-derived rather than shipped content.
+and artifact paths, not just direct manifest versions.
+
+When no SBOM exists, record the source-derived component inventory produced per
+`references/dependency-manifests.md`, labeled as manifest-derived rather than shipped content.
 
 For testing, distinguish inspected test counts from documented coverage and mutation outcomes.
 
 Link every finding to supporting `EVD-XXX` records.
 
-Identifiers apply only within a single report and may be reassigned in later revisions. Cite a
-previous report's evidence as `EVD-XXX` plus the report name, for example `EVD-017 in AUDIT-1.2`.
+Identifiers apply only within a single report and may be reassigned in later revisions.
+
+Cite a previous report's evidence as `EVD-XXX` plus the report name,
+for example `EVD-017 in AUDIT-1.2`.
 
 **Severity definitions**
 
 When the report language is not English, apply the heading translation from the matching
 `translations/` file.
 
-Add a 4-row rubric defining each qualitative severity band. These definitions anchor the severity
-values used in findings and risks.
+Add a 4-row rubric defining each qualitative severity band.
+
+These definitions anchor the severity values used in findings and risks.
 
 | Severity | Meaning                  | Readiness Treatment       |
 |----------|--------------------------|---------------------------|
@@ -1347,9 +1609,10 @@ values used in findings and risks.
 
 Derive these bands from the impact/likelihood matrix in `synthesis/risk-register.md`.
 
-Print one line of clarification under the severity table in every report: severity derives from
-the impact/likelihood matrix, not CVSS. Do not assign a fixed likelihood to each severity band
-or confuse CVSS with this matrix.
+Print one line of clarification under the severity table in every report:
+severity derives from the impact/likelihood matrix, not CVSS.
+
+Do not assign a fixed likelihood to each severity band or confuse CVSS with this matrix.
 
 Use `UNKNOWN` for an unsupported rating and list unrated risks separately from the risk map.
 
@@ -1370,8 +1633,9 @@ The earlier dashboard summarizes these scores and should reference this rubric.
 
 **Scoring rubric**
 
-Present the rubric matrix that defines what constitutes each score band. Use the default `1-10`
-scale unless the user requested `1-5`, `1-3`, `5 stars`, or `3 stars`.
+Present the rubric matrix that defines what constitutes each score band.
+
+Use the default `1-10` scale unless the user requested `1-5`, `1-3`, `5 stars`, or `3 stars`.
 
 For the `1-10` scale:
 
@@ -1406,12 +1670,16 @@ For the `1-3` and `3 stars` scales:
 When the report language is not English, apply the same band translations from the matching
 `translations/` file.
 
-For `5 stars`, render each score as a five-position star bar using `★` for filled positions and
-`☆` for empty positions, such as `★★★☆☆` for `3`. For `3 stars`, use three positions, such as
-`★★☆` for `2`. Render `UNKNOWN` and `N/A` as text, not as star bars.
+For `5 stars`, render each score as a five-position star bar using `★` for filled positions and `☆`
+for empty positions, such as `★★★☆☆` for `3`.
 
-**Zero is not a score.** The value `0` is reserved and never used. When a dimension cannot
-apply, mark it `N/A`.
+For `3 stars`, use three positions, such as `★★☆` for `2`.
+
+Render `UNKNOWN` and `N/A` as text, not as star bars.
+
+**Zero is not a score.** The value `0` is reserved and never used.
+
+When a dimension cannot apply, mark it `N/A`.
 
 Apply the ISO/IEC 25010:2023 crosswalk in `synthesis/project-scorecard.md` and show coverage gaps.
 
@@ -1424,26 +1692,40 @@ State the lowest-scoring applicable dimension and its score in a paragraph below
 
 ## Architectural Assessment
 
-Provide an architectural critique against industry baselines. Evaluate coupling, cohesion, state
-management, separation of concerns, and pattern consistency against the stated constraints. Anchor
-every claim to a concrete file path or design decision. Do not judge the stack choice itself.
+Provide an architectural critique against industry baselines.
+
+Evaluate coupling, cohesion, state management, separation of concerns,
+and pattern consistency against the stated constraints.
+
+Anchor every claim to a concrete file path or design decision.
+
+Do not judge the stack choice itself.
 
 Structure this section with four subsections: `### What Works`, `### What Needs Attention`,
-`### Design Principles`, and `### Industry Baseline Comparison`. Use Title Case for all subsection
-titles. Put exactly one empty line after each subsection header before the first sentence.
+`### Design Principles`, and `### Industry Baseline Comparison`.
 
-When listing multiple related items (e.g., typical production practices), use a bullet list rather
-than an inline comma-separated paragraph. Put an empty line between the intro sentence and the first
-bullet.
+Use Title Case for all subsection titles.
 
-The Architectural Assessment may also carry up to three conditional subsections, included only when
-their criteria are met. When included, place them in this order, after `### Design Principles` and
-before `### Industry Baseline Comparison`.
+Put exactly one empty line after each subsection header before the first sentence.
+
+When listing multiple related items (e.g., typical production practices),
+use a bullet list rather than an inline comma-separated paragraph.
+
+Put an empty line between the intro sentence and the first bullet.
+
+The Architectural Assessment may also carry up to three conditional subsections,
+included only when their criteria are met.
+
+When included, place them in this order,
+after `### Design Principles` and before `### Industry Baseline Comparison`.
 
 ### Design Principles
 
-Always include this subsection. Evaluate the code against the SOLID principles and DRY per
-`assessment/design-principles.md`. Present one row per principle:
+Always include this subsection.
+
+Evaluate the code against the SOLID principles and DRY per `assessment/design-principles.md`.
+
+Present one row per principle:
 
 | Principle             | Status | Evidence |
 |-----------------------|--------|----------|
@@ -1454,18 +1736,26 @@ Always include this subsection. Evaluate the code against the SOLID principles a
 | Dependency Inversion  |        |          |
 | DRY                   |        |          |
 
-Reuse evidence already gathered for other findings instead of re-investigating it. When a
-violation was already described elsewhere, for example a Liskov Substitution breach logged as a
-contract defect, name and cross-reference that finding here rather than duplicating the analysis.
+Reuse evidence already gathered for other findings instead of re-investigating it.
+
+When a violation was already described elsewhere,
+for example a Liskov Substitution breach logged as a contract defect,
+name and cross-reference that finding here rather than duplicating the analysis.
+
 Mark each principle `N/A` when no source was inspected for it.
 
 ### Data Flow Diagram
 
-Include this subsection only when the system moves data across a trust boundary, per
-`assessment/data-flow.md`. It is the foundation for the Threat Model section.
+Include this subsection only when the system moves data across a trust boundary,
+per `assessment/data-flow.md`.
 
-Present a Level-0 (context) and a Level-1 (decomposition) view. Use a fenced ASCII block or a flow
-table. Then list the trust boundaries.
+It is the foundation for the Threat Model section.
+
+Present a Level-0 (context) and a Level-1 (decomposition) view.
+
+Use a fenced ASCII block or a flow table.
+
+Then list the trust boundaries.
 
 **Level-0 (context)**
 
@@ -1510,14 +1800,18 @@ Use framed nodes with box-drawing characters for every DFD element.
 
 Each frame must have exactly three content rows: an empty line, a centered label, and an empty line.
 
-Set each frame's interior width to its longest label line plus exactly one space of padding on
-each side. A label must never touch, crowd, or overflow the frame border.
+Set each frame's interior width to its longest label line plus exactly one space of padding on each
+side.
 
-Keep exactly one space between the frame border and the label text on all sides. Do not use two
-spaces or asymmetric padding.
+A label must never touch, crowd, or overflow the frame border.
 
-Do not enclose labels in brackets. Write the label as plain centered text without `[..]`, `(..)`, or
-`{..}`.
+Keep exactly one space between the frame border and the label text on all sides.
+
+Do not use two spaces or asymmetric padding.
+
+Do not enclose labels in brackets.
+
+Write the label as plain centered text without `[..]`, `(..)`, or `{..}`.
 
 Flow arrows (`─>`, `│`) must align with the center of the frame they connect to.
 
@@ -1540,8 +1834,9 @@ or anti-pattern with evidence.
 | Strategy       | hybrid search weighting    | PARTIAL    | Hardcoded, not runtime interchangeable           |
 | Factory Method | `build_router` per handler | FAIL       | Duplicated construction logic, anti-pattern      |
 
-Name patterns using their standard GoF or POSA names. Cross-reference any anti-pattern that is also
-a code-origin signal to its `FND-AIP-XXX` finding.
+Name patterns using their standard GoF or POSA names.
+
+Cross-reference any anti-pattern that is also a code-origin signal to its `FND-AIP-XXX` finding.
 
 ### Architecture Decision Records
 
@@ -1562,8 +1857,10 @@ an AI default from absent ADRs.
 
 ## Trade-off Analysis
 
-Present engineering trade-offs immediately after the Architectural Assessment, in the same pass as
-the decisions they discuss. A trade-off is a deliberate exchange of one quality for another.
+Present engineering trade-offs immediately after the Architectural Assessment,
+in the same pass as the decisions they discuss.
+
+A trade-off is a deliberate exchange of one quality for another.
 
 Use a table with this fixed column order:
 
@@ -1602,9 +1899,11 @@ Column meanings:
 
 ## Threat Model
 
-Include this section only when the system has a security-relevant attack surface, per
-`assessment/threat-model.md`. Omit it for a single-user local utility with no trust boundary, and
-note the omission in Scope Exclusions.
+Include this section only when the system has a security-relevant attack surface,
+per `assessment/threat-model.md`.
+
+Omit it for a single-user local utility with no trust boundary,
+and note the omission in Scope Exclusions.
 
 Apply STRIDE to the evidenced trust boundaries in the Data Flow Diagram.
 
@@ -1621,20 +1920,25 @@ with evidence and its linked `FND-XXX` and `RSK-XXX`.
 | API surface     | Denial of Service | No rate limiting                  | None (gap)           | FND-SEC-XXX |
 
 The six STRIDE categories are `Spoofing`, `Tampering`, `Repudiation`, `Information Disclosure`,
-`Denial of Service`, and `Elevation of Privilege`. Every unmitigated threat must trace to a finding
-and a risk. Never output plaintext secrets when describing an information-disclosure threat.
+`Denial of Service`, and `Elevation of Privilege`.
+
+Every unmitigated threat must trace to a finding and a risk.
+
+Never output plaintext secrets when describing an information-disclosure threat.
 
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
 
 ## API Contract Conformance
 
-Include this section only when the system exposes an API, per `assessment/api-contract.md`. Omit it
-entirely for a system with no API surface, and note the omission in Scope Exclusions.
+Include this section only when the system exposes an API, per `assessment/api-contract.md`.
 
-Present a conformance table across the evaluated dimensions, then describe each gap with evidence
-and its linked `FND-XXX`. Map each API security gap to its OWASP API Security Top 10 (2023) code
-where one applies.
+Omit it entirely for a system with no API surface, and note the omission in Scope Exclusions.
+
+Present a conformance table across the evaluated dimensions,
+then describe each gap with evidence and its linked `FND-XXX`.
+
+Map each API security gap to its OWASP API Security Top 10 (2023) code where one applies.
 
 | Dimension                  | Status  | Evidence                                        |
 |----------------------------|---------|-------------------------------------------------|
@@ -1649,9 +1953,11 @@ When the report language is not English, apply the column header translations fr
 
 ## Skill Definition Conformance
 
-Include this section only when the subject is an Agent Skill, a skill collection, or contains
-`SKILL.md` files, per `assessment/skill-definition.md`. Omit it entirely for a project that is
-not and does not contain a skill, and note the omission in Scope Exclusions.
+Include this section only when the subject is an Agent Skill, a skill collection,
+or contains `SKILL.md` files, per `assessment/skill-definition.md`.
+
+Omit it entirely for a project that is not and does not contain a skill,
+and note the omission in Scope Exclusions.
 
 Record the spec baseline used: the `references/agent-skills-specification.md` snapshot date or the
 live-fetch result when the optional check ran.
@@ -1683,7 +1989,9 @@ components - precede the dimension table with a Skills Inventory matrix listing 
 
 Follow the matrix with the dimension table per skill that warrants detail - at minimum every
 non-`PASS` skill and every skill in a collection - then describe each gap with evidence and its
-linked `FND-XXX`. The aggregate status follows the weakest skill.
+linked `FND-XXX`.
+
+The aggregate status follows the weakest skill.
 
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
@@ -1693,19 +2001,23 @@ When the report language is not English, apply the column header translations fr
 Include this section only when the project trains, serves, or materially depends on an AI or
 machine-learning system, per `assessment/ai-system.md`.
 
-Keep this section distinct from AI-generated-code provenance. A project can have AI-assisted source
-without having an AI system, and an AI system can contain no evidence about how its source was
-authored.
+Keep this section distinct from AI-generated-code provenance.
+
+A project can have AI-assisted source without having an AI system,
+and an AI system can contain no evidence about how its source was authored.
 
 Present the evaluated lifecycle, model and data provenance, evaluation evidence, safety boundaries,
-operational controls, and unresolved limitations. Use NIST AI RMF or ISO/IEC 42001 only when the
-selected practices were actually assessed.
+operational controls, and unresolved limitations.
+
+Use NIST AI RMF or ISO/IEC 42001 only when the selected practices were actually assessed.
 
 ## Standards Conformance
 
-Include this section only when the project contains documented development standards, per
-`assessment/standards-conformance.md`. Omit it entirely for a project with no development standards
-documents, and note the omission in Scope Exclusions.
+Include this section only when the project contains documented development standards,
+per `assessment/standards-conformance.md`.
+
+Omit it entirely for a project with no development standards documents,
+and note the omission in Scope Exclusions.
 
 This section evaluates two dimensions: whether the codebase conforms to the project's documented
 development standards, and whether those standards are themselves consistent with established good
@@ -1744,7 +2056,9 @@ When the report language is not English, apply the column header translations fr
 **Standards quality**
 
 Evaluate whether the documented standards are consistent with established good practices for the
-stack. Anchor every judgement to a named external best practice, style guide, or convention:
+stack.
+
+Anchor every judgement to a named external best practice, style guide, or convention:
 
 | Area   | Standards Position             | External Best Practice  | Alignment                      |
 |--------|--------------------------------|-------------------------|--------------------------------|
@@ -1753,15 +2067,19 @@ stack. Anchor every judgement to a named external best practice, style guide, or
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
 
-After the table, describe each divergence with evidence. Name the external source and explain how
-the standards position differs from the established practice. Cross-reference any conformance gap
-that also produces a `FND-XXX` finding.
+After the table, describe each divergence with evidence.
+
+Name the external source and explain how the standards position differs from the established
+practice.
+
+Cross-reference any conformance gap that also produces a `FND-XXX` finding.
 
 ## API Compatibility & Versioning Discipline
 
-Include this section only when the subject is a reusable library or package, per
-`assessment/api-compatibility.md`. Omit it entirely for a deployable service or application, and
-note the omission in Scope Exclusions.
+Include this section only when the subject is a reusable library or package,
+per `assessment/api-compatibility.md`.
+
+Omit it entirely for a deployable service or application, and note the omission in Scope Exclusions.
 
 Present a conformance table across the evaluated dimensions, then describe each gap with evidence
 and its linked `FND-XXX`.
@@ -1778,20 +2096,28 @@ and its linked `FND-XXX`.
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
 
-After the table, list each known future-breaking item and the version it is bound to. An item with
-no target version is open-ended and must be named as such.
+After the table, list each known future-breaking item and the version it is bound to.
 
-Configured tooling is evidence of intent, not proof of execution. Treat a configured gate as
-`Reported` unless the audit can verify it ran.
+An item with no target version is open-ended and must be named as such.
+
+Configured tooling is evidence of intent, not proof of execution.
+
+Treat a configured gate as `Reported` unless the audit can verify it ran.
 
 ## Strengths & What's Working
 
-Add a short section with 5-8 bullet points acknowledging what the system does well. This balances
-the tone of the report and anchors the scorecard with positive baselines.
+Add a short section with 5-8 bullet points acknowledging what the system does well.
 
-Use a bullet list. When a strength requires more than one sentence, start the bullet with a bold
-heading on its own line, then add an empty line, then the body. Anchor every claim to a concrete
-file, pattern, or decision. Examples:
+This balances the tone of the report and anchors the scorecard with positive baselines.
+
+Use a bullet list.
+
+When a strength requires more than one sentence,
+start the bullet with a bold heading on its own line, then add an empty line, then the body.
+
+Anchor every claim to a concrete file, pattern, or decision.
+
+Examples:
 
 ```markdown
 - **TypeScript strict mode is enabled in both backend and frontend**.
@@ -1810,15 +2136,19 @@ For single-sentence strengths, keep them as plain bullets:
   values.
 - JWT bearer authentication is implemented with standard ASP.NET Core middleware.
 
-Do not invent strengths. Only list what is evidenced in the provided files.
+Do not invent strengths.
+
+Only list what is evidenced in the provided files.
 
 Use fewer than the suggested count when evidence is thin and state the limitation.
 
 ## Detailed Technical Findings
 
-Present all findings grouped under six pillars, plus the conditional API Compatibility & Versioning
-Discipline pillar when the subject is a reusable library or package. Each finding receives a unique
-deterministic index.
+Present all findings grouped under six pillars,
+plus the conditional API Compatibility & Versioning Discipline pillar when the subject is a reusable
+library or package.
+
+Each finding receives a unique deterministic index.
 
 **Summary table:**
 
@@ -1862,8 +2192,9 @@ the matching `translations/` file, along with execution states such as `NOT RUN`
 
 **Detailed findings**
 
-After the summary table, write one block per finding in the same order. Use this exact markdown
-block pattern:
+After the summary table, write one block per finding in the same order.
+
+Use this exact markdown block pattern:
 
 ```markdown
 ### FND-[PILLAR]-[NUMBER]: [Clear, Concise Title of Finding]
@@ -1888,25 +2219,39 @@ block pattern:
 When the report language is not English, apply the bullet label translations from the matching
 `translations/` file.
 
-Each finding must cite concrete evidence: file paths, config keys, commands, or direct quotes. Do
-not crowd the bullet list with long prose. Use short sentences separated by blank lines, each
-sentence stands on its own line with an empty line between consecutive sentences.
+Each finding must cite concrete evidence: file paths, config keys, commands, or direct quotes.
 
-Every finding must include a detailed Description, Impact, Remediation Recommendation, and
-Verification Method. A finding with only a title and status is incomplete. The Description must
-explain what the discovered state is, where it is located (citing file paths and line numbers), and
-why it constitutes a finding. The Impact must state the concrete consequence. The Remediation
-Recommendation must provide step-by-step technical guidance. The Verification Method must specify a
-test or command to confirm the fix.
+Do not crowd the bullet list with long prose.
 
-The `Type` field separates fact from judgment per `principles/evaluation-rules.md`: `Observation`
-for a finding stating an independently re-derivable fact, `Concern` for a risk judgment built on
-observations. Most findings are `Concern`.
+Use short sentences separated by blank lines,
+each sentence stands on its own line with an empty line between consecutive sentences.
 
-The `Exploitability Narrative` field is required on every `HIGH` or `CRITICAL` Security &
-Compliance finding, following `references/exploitability-narrative.md`. On a
-network-facing surface it carries the tier and attack-path reasoning. Otherwise it reads `N/A`
-with a one-line reason.
+Every finding must include a detailed Description, Impact, Remediation Recommendation,
+and Verification Method.
+
+A finding with only a title and status is incomplete.
+
+The Description must explain what the discovered state is,
+where it is located (citing file paths and line numbers), and why it constitutes a finding.
+
+The Impact must state the concrete consequence.
+
+The Remediation Recommendation must provide step-by-step technical guidance.
+
+The Verification Method must specify a test or command to confirm the fix.
+
+The `Type` field separates fact from judgment per `principles/evaluation-rules.md`:
+`Observation` for a finding stating an independently re-derivable fact,
+`Concern` for a risk judgment built on observations.
+
+Most findings are `Concern`.
+
+The `Exploitability Narrative` field is required on every `HIGH` or `CRITICAL` Security & Compliance
+finding, following `references/exploitability-narrative.md`.
+
+On a network-facing surface it carries the tier and attack-path reasoning.
+
+Otherwise it reads `N/A` with a one-line reason.
 
 When referencing secrets, credentials, or keys in the Description or Impact fields, replace exact
 values with `[REDACTED]` or generic descriptions such as "plaintext database credentials found in
@@ -1928,8 +2273,10 @@ recommendation links.
 
 ## Technical Debt Register
 
-Include this section only when the assessment surfaces structural debt distinct from risks, per
-`synthesis/debt-register.md`. Omit it when no such debt exists.
+Include this section only when the assessment surfaces structural debt distinct from risks,
+per `synthesis/debt-register.md`.
+
+Omit it when no such debt exists.
 
 This register is distinct from the Unified Risk Register: risks describe what could go wrong, debt
 describes accumulated cost that is already present.
@@ -1947,11 +2294,15 @@ When the report language is not English, apply the column header translations fr
 `translations/` file.
 
 Category is one of the CISQ characteristics: `Reliability`, `Performance Efficiency`, `Security`,
-`Maintainability`. Every item must trace to a `FND-XXX` or be marked `Direct observation` with a
-cited file. Do not duplicate security risks here, those belong in the Unified Risk Register.
+`Maintainability`.
 
-After the table, write one block per debt item in the same order. Use this exact markdown block
-pattern:
+Every item must trace to a `FND-XXX` or be marked `Direct observation` with a cited file.
+
+Do not duplicate security risks here, those belong in the Unified Risk Register.
+
+After the table, write one block per debt item in the same order.
+
+Use this exact markdown block pattern:
 
 ```markdown
 ### TDR-[NUMBER]: [Clear, Concise Title of Debt Item]
@@ -1969,8 +2320,9 @@ When the report language is not English, apply the bullet label translations fro
 
 ## Unified Risk Register
 
-This section builds a cross-referenced risk table from the risks surfaced during assessment. Every
-risk must trace back to a specific finding.
+This section builds a cross-referenced risk table from the risks surfaced during assessment.
+
+Every risk must trace back to a specific finding.
 
 **Table format:**
 
@@ -2031,7 +2383,9 @@ When the report language is not English, apply the axis label translations from 
   directives.
 - Do not output plaintext secrets, passwords, or cryptographic keys in the Risk column.
 
-After the table, write one block per risk in the same order. Use this exact markdown block pattern:
+After the table, write one block per risk in the same order.
+
+Use this exact markdown block pattern:
 
 ```markdown
 ### RSK-[NUMBER]: [Clear, Concise Title of Risk]
@@ -2056,12 +2410,17 @@ When the report language is not English, apply the bullet label translations fro
 
 ## Actionable Remediation Roadmap
 
-This section transforms recommendations into a prioritized, traceable remediation plan. Every
-recommendation must resolve a specific finding.
+This section transforms recommendations into a prioritized, traceable remediation plan.
+
+Every recommendation must resolve a specific finding.
 
 **Prioritized matrix**
 
-Present recommendations as a table. One row per recommendation. Use this fixed column order:
+Present recommendations as a table.
+
+One row per recommendation.
+
+Use this fixed column order:
 
 | Rec ID  | Priority | Finding | Recommendation | Impact         | Effort         | Complexity     | Verification        |
 |---------|----------|---------|----------------|----------------|----------------|----------------|---------------------|
@@ -2094,8 +2453,9 @@ Column meanings:
 - When a recommendation would require information that was never provided, state the missing
   information rather than assuming it.
 
-After the table, write one block per recommendation in the same order. Use this exact markdown block
-pattern:
+After the table, write one block per recommendation in the same order.
+
+Use this exact markdown block pattern:
 
 ```markdown
 ### REC-[NUMBER]: [Clear, Concise Title of Recommendation]
@@ -2123,8 +2483,12 @@ known subtotal.
 Explicitly define the limits of the analysis.
 
 List components or environments that were not inspected unless they were explicitly provided in the
-input scope. Format each exclusion as a bullet with a bold label, followed by an empty line, then
-the explanation. Example:
+input scope.
+
+Format each exclusion as a bullet with a bold label, followed by an empty line,
+then the explanation.
+
+Example:
 
 ```markdown
 - **SQL database schema and stored procedures**.
@@ -2142,8 +2506,9 @@ Typical exclusions include:
 - Data backups or disaster-recovery procedures
 - Penetration-test results or security audits performed by external firms
 
-Mark each item as `NOT INSPECTED` or `EXCLUDED BY SCOPE`. If the user provided some of these, list
-them as `INCLUDED`.
+Mark each item as `NOT INSPECTED` or `EXCLUDED BY SCOPE`.
+
+If the user provided some of these, list them as `INCLUDED`.
 
 State any extrapolations made from sampled code to the whole system.
 
@@ -2183,20 +2548,23 @@ reason.
 
 **Omitted conditional sections**
 
-When a conditional section was omitted because it does not apply (for example, the API
-Contract Conformance section for a system with no API, or the Threat Model for a single-user
-local utility), state the omission here with a one-line justification so the reader knows it
-was deliberate. The Changes Since Previous Audit section is the exception, a first audit has
-no previous report to compare and a fresh audit ignores it, so its absence needs no note in
-either case.
+When a conditional section was omitted because it does not apply (for example,
+the API Contract Conformance section for a system with no API,
+or the Threat Model for a single-user local utility),
+state the omission here with a one-line justification so the reader knows it was deliberate.
+
+The Changes Since Previous Audit section is the exception,
+a first audit has no previous report to compare and a fresh audit ignores it,
+so its absence needs no note in either case.
 
 ## Limitations and Unknowns
 
 List every check that would require execution and was therefore not performed, plus every
 unresolved unknown the report carries.
 
-This section exists because the audit is source-only. An unrun check is a limitation of the
-report, never a defect of the subject.
+This section exists because the audit is source-only.
+
+An unrun check is a limitation of the report, never a defect of the subject.
 
 Use a table:
 
@@ -2226,11 +2594,14 @@ recommendation, per `synthesis/re-audit-plan.md`.
 
 It precedes the Validation Record and References sections.
 
-This section makes the report actionable in a governance sense. It follows ISO 19011 (follow-up
-auditing) and the monitor step of the NIST Risk Management Framework.
+This section makes the report actionable in a governance sense.
 
-Present a table mapping findings to verification ownership and closure evidence. Include one row per
-P1 and P2 finding at minimum.
+It follows ISO 19011 (follow-up auditing)
+and the monitor step of the NIST Risk Management Framework.
+
+Present a table mapping findings to verification ownership and closure evidence.
+
+Include one row per P1 and P2 finding at minimum.
 
 | Finding | Priority | Verification Owner        | Closure Evidence      | Target Re-audit Trigger        |
 |---------|----------|---------------------------|-----------------------|--------------------------------|
@@ -2255,9 +2626,10 @@ assignments.
 
 ## Validation Record
 
-Close the analysis with a self-check table verifying the report's internal consistency. This
-section renders the report's capability set so a future report can diff it mechanically, per
-`process/report-parity.md`.
+Close the analysis with a self-check table verifying the report's internal consistency.
+
+This section renders the report's capability set so a future report can diff it mechanically,
+per `process/report-parity.md`.
 
 Use a table:
 
@@ -2273,19 +2645,23 @@ Rows appear in this order:
    formatting rules.
 3. A `Parity baseline` row naming the report diffed against, or `none found`.
 
-Result values are `Applied`, `PASS`, or `N/A`. An `N/A` always carries a justification in the
-Evidence / Justification column.
+Result values are `Applied`, `PASS`, or `N/A`.
+
+An `N/A` always carries a justification in the Evidence / Justification column.
 
 For multi-project reports, qualify per-project checks with the project identifier.
 
 ## References
 
-This section lists every external source referenced during the audit. It is always the final
-section of the report.
+This section lists every external source referenced during the audit.
 
-Collect references from all sections of the report. Sources include the standards named in Auditing
-Methodology, the external best practices cited in Standards Conformance, and any documentation
-consulted during any assessment category.
+It is always the final section of the report.
+
+Collect references from all sections of the report.
+
+Sources include the standards named in Auditing Methodology,
+the external best practices cited in Standards Conformance,
+and any documentation consulted during any assessment category.
 
 Present the references as a table:
 
@@ -2296,7 +2672,9 @@ Present the references as a table:
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
 
-Only list sources actually consulted during the audit. Do not invent references.
+Only list sources actually consulted during the audit.
+
+Do not invent references.
 
 For each source, record edition/version, publisher, access date, applied controls or claims, and any
 access limitation in the supporting paragraph.
@@ -2309,18 +2687,24 @@ baselines, and avoid claiming full conformance from sampled coverage.
 Offline audits should identify dated cached sources and leave current advisory status unknown when
 it cannot be checked.
 
-After the table, add one paragraph per reference that has a URL. Format each link as a Markdown
-link: `[<title>](<url>)`. Do not put URLs in the table itself, because long URLs make the table
-unreadable in plain text. Group rows by section when the same source is used in multiple sections,
-or list one row per source with all sections in the Used In column separated by commas. Keep the
-order stable: methodology standards first, then standards-conformance best practices, then any other
-sources in the order they first appear in the report.
+After the table, add one paragraph per reference that has a URL.
+
+Format each link as a Markdown link: `[<title>](<url>)`.
+
+Do not put URLs in the table itself, because long URLs make the table unreadable in plain text.
+
+Group rows by section when the same source is used in multiple sections,
+or list one row per source with all sections in the Used In column separated by commas.
+
+Keep the order stable: methodology standards first, then standards-conformance best practices,
+then any other sources in the order they first appear in the report.
 
 ## Pre-Delivery Mechanical Checklist
 
-Run this checklist after writing the report body and before running the formatting script. It
-consolidates the mechanical rules from this file and `principles/output-style.md` in one
-place, every item is mechanical and takes seconds to verify.
+Run this checklist after writing the report body and before running the formatting script.
+
+It consolidates the mechanical rules from this file and `principles/output-style.md` in one place,
+every item is mechanical and takes seconds to verify.
 
 | Check           | Rule                                                                                      |
 |-----------------|-------------------------------------------------------------------------------------------|
@@ -2344,7 +2728,8 @@ place, every item is mechanical and takes seconds to verify.
 | Location        | Report path matches the output directory recorded during intake                           |
 | Ending          | References is the last section, no closing line after it                                  |
 
-`scripts/format-table.py` in the skill repository is the canonical formatting script, copy it into
-the audited repository's `work/` directory before use. `scripts/validate-report.py` runs the
-scriptable items in this checklist plus finding-block field, register cross-reference, and
-PAR-row checks, copy and run it the same way.
+`scripts/format-table.py` in the skill repository is the canonical formatting script,
+copy it into the audited repository's `work/` directory before use.
+
+`scripts/validate-report.py` runs the scriptable items in this checklist plus finding-block field,
+register cross-reference, and PAR-row checks, copy and run it the same way.

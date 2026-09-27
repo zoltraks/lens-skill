@@ -5,9 +5,12 @@
 > **Scope:** Cross-reference between CWE identifiers and ecosystem-specific static analyzer rules
 > **Key items:** rule IDs per stack, enablement evidence, "not yet enabled" reporting
 
-This file maps CWE identifiers to the static-analysis rules that check for the matching code
-pattern in each ecosystem. It is a documentation lookup, not execution: the audit never runs an
-analyzer. The map turns a CWE-tagged finding into a concrete, verifiable follow-up action.
+This file maps CWE identifiers to the static-analysis rules that check for the matching code pattern
+in each ecosystem.
+
+It is a documentation lookup, not execution: the audit never runs an analyzer.
+
+The map turns a CWE-tagged finding into a concrete, verifiable follow-up action.
 
 Apply `principles/evaluation-rules.md` throughout.
 
@@ -77,9 +80,10 @@ The rules below are the ones relevant to common audit findings.
 
 ## Java / JVM
 
-[FindSecBugs](https://find-sec-bugs.github.io/bugs.htm) is the SpotBugs plugin for security
-patterns and covers Java, Kotlin, Scala, and Groovy bytecode. Core SpotBugs also ships a few
-relevant detectors.
+[FindSecBugs](https://find-sec-bugs.github.io/bugs.htm) is the SpotBugs plugin for security patterns
+and covers Java, Kotlin, Scala, and Groovy bytecode.
+
+Core SpotBugs also ships a few relevant detectors.
 
 | CWE     | Weakness                          | FindSecBugs Patterns                                                         |
 |---------|-----------------------------------|------------------------------------------------------------------------------|
@@ -98,8 +102,9 @@ relevant detectors.
 ## JavaScript / TypeScript
 
 The main rule source is
-[`eslint-plugin-security`](https://github.com/eslint-community/eslint-plugin-security). The
-`eslint-plugin-no-unsanitized` plugin covers DOM XSS sinks.
+[`eslint-plugin-security`](https://github.com/eslint-community/eslint-plugin-security).
+
+The `eslint-plugin-no-unsanitized` plugin covers DOM XSS sinks.
 
 | CWE      | Weakness                            | ESLint Rules                                     |
 |----------|-------------------------------------|--------------------------------------------------|
@@ -136,15 +141,18 @@ The main rule source is
 
 ## Rust
 
-There is no CWE-mapped lint set for security patterns. Clippy covers correctness and style, not
-vulnerability classes. Adjacent tooling addresses different scopes.
+There is no CWE-mapped lint set for security patterns.
 
-| CWE class             | Closest Mechanism                                                    |
-|-----------------------|----------------------------------------------------------------------|
-| Memory safety, UB     | `#![forbid(unsafe_code)]`, `cargo-geiger` unsafe census, Miri for UB |
-| Known vulnerabilities | `cargo audit` against [RustSec](https://rustsec.org/) advisories     |
-| Supply-chain policy   | `cargo deny` license and advisory checks                             |
-| Other CWEs (CWE-327…) | None direct, assess manually                                         |
+Clippy covers correctness and style, not vulnerability classes.
+
+Adjacent tooling addresses different scopes.
+
+| CWE class               | Closest Mechanism                                                    |
+|-------------------------|----------------------------------------------------------------------|
+| Memory safety, UB       | `#![forbid(unsafe_code)]`, `cargo-geiger` unsafe census, Miri for UB |
+| Known vulnerabilities   | `cargo audit` against [RustSec](https://rustsec.org/) advisories     |
+| Supply-chain policy     | `cargo deny` license and advisory checks                             |
+| Other CWEs (CWE-327...) | None direct, assess manually                                         |
 
 ## C / C++
 
@@ -161,9 +169,12 @@ Otherwise record "no direct analyzer rule" and cite the relevant CERT rule inste
 
 ## Multi-Language
 
-[Semgrep](https://semgrep.dev/) registry rules carry `metadata.cwe`. When a finding's CWE has no
-stack-specific rule, a Semgrep rule may exist. Cite the rule path from the registry when one is
-identified, and mark the mapping `Reported` from registry metadata.
+[Semgrep](https://semgrep.dev/) registry rules carry `metadata.cwe`.
+
+When a finding's CWE has no stack-specific rule, a Semgrep rule may exist.
+
+Cite the rule path from the registry when one is identified,
+and mark the mapping `Reported` from registry metadata.
 
 ## Enablement Evidence
 

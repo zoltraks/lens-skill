@@ -15,9 +15,10 @@ The convention follows ISO 19011 (guidelines for auditing management systems), w
 follow-up as part of a complete audit, and the monitor step of the NIST Risk Management Framework
 (NIST SP 800-37), which treats verification as continuous.
 
-Apply `principles/evaluation-rules.md` throughout. Owners and dates are placeholders to be filled by
-the user's organization, mark them `NOT SPECIFIED` where the input does not provide them rather than
-inventing names.
+Apply `principles/evaluation-rules.md` throughout.
+
+Owners and dates are placeholders to be filled by the user's organization,
+mark them `NOT SPECIFIED` where the input does not provide them rather than inventing names.
 
 ## When This Applies
 
@@ -28,8 +29,9 @@ Otherwise omit this conditional section and explain the omission in Scope Exclus
 
 ## Table Format
 
-Use this fixed column order. Include one row per P1 and P2 finding at minimum, P3 and P4 findings
-may be grouped.
+Use this fixed column order.
+
+Include one row per P1 and P2 finding at minimum, P3 and P4 findings may be grouped.
 
 | Finding | Priority | Verification Owner | Closure Evidence | Target Re-audit Trigger |
 |---------|----------|--------------------|------------------|-------------------------|
@@ -48,9 +50,13 @@ Column meanings:
 
 ## Sign-off Gates
 
-State which findings gate a re-audit sign-off. As a default rule, every `CRITICAL` and `HIGH`
-finding must be closed before the system is signed off as production-ready. Tie each gate to its
-`RSK-XXX` so the Production Readiness Threshold in the Executive Summary stays consistent.
+State which findings gate a re-audit sign-off.
+
+As a default rule, every `CRITICAL` and `HIGH` finding must be closed before the system is signed
+off as production-ready.
+
+Tie each gate to its `RSK-XXX` so the Production Readiness Threshold in the Executive Summary stays
+consistent.
 
 ## Verification And Sign-off Evidence
 
@@ -84,7 +90,9 @@ not just the edited lines.
 
 ## Re-audit Schedule
 
-State when a follow-up audit should occur. Use evidenced triggers rather than arbitrary dates:
+State when a follow-up audit should occur.
+
+Use evidenced triggers rather than arbitrary dates:
 
 - A targeted re-audit when all P1 findings report closure evidence.
 - A full re-audit before the next major release or on a stated cadence.

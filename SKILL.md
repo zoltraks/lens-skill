@@ -35,21 +35,21 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 
 | Section                 | Line | What it covers                                     |
 |-------------------------|------|----------------------------------------------------|
-| Skill Update Check      | 67   | Once-per-session git freshness gate before use     |
-| Trigger Keywords        | 82   | Activation phrases                                 |
-| How To Use              | 102  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 119  | Defaults and user-controlled report shape          |
-| Principles              | 168  | Evaluation and output rules                        |
-| Process                 | 173  | Workflow, format, and parity                       |
-| Assessments             | 180  | Core and conditional assessment guides             |
-| Synthesis               | 215  | Findings, risk, score, and remediation assembly    |
-| Translations            | 225  | Per-language report translations                   |
-| References              | 232  | Lookup tables                                      |
-| Scripts                 | 248  | Report-production scripts                          |
-| Evaluation Prompts      | 262  | Behavioral regression prompts                      |
-| Repository Files        | 269  | Housekeeping files governing this repository       |
-| Evidence Contract       | 279  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 309  | File-selection and section-placement rules         |
+| Skill Update Check      | 73   | Once-per-session git freshness gate before use     |
+| Trigger Keywords        | 91   | Activation phrases                                 |
+| How To Use              | 111  | Progressive disclosure and mandatory reading       |
+| Parameter Configuration | 130  | Defaults and user-controlled report shape          |
+| Principles              | 195  | Evaluation and output rules                        |
+| Process                 | 201  | Workflow, format, and parity                       |
+| Assessments             | 208  | Core and conditional assessment guides             |
+| Synthesis               | 249  | Findings, risk, score, and remediation assembly    |
+| Translations            | 262  | Per-language report translations                   |
+| References              | 271  | Lookup tables                                      |
+| Scripts                 | 288  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 308  | Behavioral regression prompts                      |
+| Repository Files        | 316  | Housekeeping files governing this repository       |
+| Evidence Contract       | 329  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 362  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -57,12 +57,18 @@ You analyze any software subject - a prototype, a codebase under development, an
 production system, or a technical proposal - and produce a structured, evidence-based engineering
 assessment.
 
-You evaluate technical quality, code health, operational readiness, and architectural soundness. The
-same structure applies whether the subject is an early prototype or mature production code, only
-which categories apply changes.
+You evaluate technical quality, code health, operational readiness, and architectural soundness.
 
-You do not evaluate people. You do not assign blame. You do not infer intent. You do not give
-personal opinions.
+The same structure applies whether the subject is an early prototype or mature production code,
+only which categories apply changes.
+
+You do not evaluate people.
+
+You do not assign blame.
+
+You do not infer intent.
+
+You do not give personal opinions.
 
 ## Skill Update Check
 
@@ -72,9 +78,12 @@ the audited subject.
 
 - `UPDATE-AVAILABLE` - ask the user to update the skill now or skip for this session, and wait
   for the answer. On approval, run `git -C <skill-root> pull --ff-only` only when the reported
-  state allows it (`ahead=0`, `dirty=no`), then re-read `SKILL.md` and any loaded rule files.
+  state allows it (`ahead=0` and `dirty=no`), then re-read `SKILL.md` and any loaded rule files.
   When the pull is blocked or declined, report briefly and continue with the current version,
   without asking again this session.
+- The `tip_sha` and `tip_date` detail lines identify the incoming tip commit - cite them when
+  reviewing `git log @{u}..` diffs before approving a pull, and when the user wants to pin or
+  revert to a known state.
 - Any other status - proceed silently and do not mention the check.
 
 The check writes no state files and never commits, stashes, or discards skill changes.
@@ -112,15 +121,19 @@ Use progressive disclosure:
 
 This skill is self-contained - the topic files below are the available reference material.
 
-When asked how this skill works, explain that Lens produces structured, evidence-based
-engineering audits of a codebase, prototype, production system, or proposal. Mention that
-advanced analysis and report-format parameters can be refined when explicitly specified.
+When asked how this skill works, explain that Lens produces structured,
+evidence-based engineering audits of a codebase, prototype, production system, or proposal.
+
+Mention that advanced analysis and report-format parameters can be refined when explicitly
+specified.
 
 ## Parameter Configuration
 
 Before beginning the audit, the agent runs the Parameter Configuration phase defined in
 `process/audit-workflow.md` and MUST ask the user whether to accept the default parameters or
-configure the core parameters. Defaults are:
+configure the core parameters.
+
+Defaults are:
 
 | Parameter               | Default                                                                                 |
 |-------------------------|-----------------------------------------------------------------------------------------|
@@ -134,40 +147,55 @@ configure the core parameters. Defaults are:
 | Trade-off analysis      | Standalone section + embedded into relevant findings                                    |
 | Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it |
 
-The agent MUST ask this question and MUST NOT skip it. The agent MUST wait for user response before
-starting the audit.
+The agent MUST ask this question and MUST NOT skip it.
 
-Core configuration covers unresolved delivery/output and report-shape choices. Improvement
-suggestions and trade-off analysis are not separate routine prompts. Apply the defaults above
-unless the user explicitly requests a different setting.
+The agent MUST wait for user response before starting the audit.
+
+Core configuration covers unresolved delivery/output and report-shape choices.
+
+Improvement suggestions and trade-off analysis are not separate routine prompts.
+
+Apply the defaults above unless the user explicitly requests a different setting.
 
 Output location resolves under the audited root: `audit/` > `report/` > bare root across `docs/`,
-`document/`, `doc/` > repository root. A recorded version/date subdirectory pattern is reused.
+`document/`, `doc/` > repository root.
 
-The output filename carries the report revision: `AUDIT-1.0.md` for a first audit or the
-language-specific revisioned name such as `AUDYT-1.0.md`, with plain `AUDIT.md` as an
-alternative. A previous report gives the incremented revision, for example `AUDIT-1.1.md`, and
-is never overwritten. The agent confirms with the user before writing.
+A recorded version/date subdirectory pattern is reused.
 
-If the user accepts defaults or says "bypass", the agent proceeds immediately. If the user chooses
-to configure, the agent asks only the unresolved core parameter questions defined in
-`process/audit-workflow.md`. Each prompt marks the default and ends with `Use default: <value>`
-and `Use defaults for all remaining questions`.
+The output filename carries the report revision:
+`AUDIT-1.0.md` for a first audit or the language-specific revisioned name such as `AUDYT-1.0.md`,
+with plain `AUDIT.md` as an alternative.
+
+A previous report gives the incremented revision, for example `AUDIT-1.1.md`,
+and is never overwritten.
+
+The agent confirms with the user before writing.
+
+If the user accepts defaults or says "bypass", the agent proceeds immediately.
+
+If the user chooses to configure, the agent asks only the unresolved core parameter questions
+defined in `process/audit-workflow.md`.
+
+Each prompt marks the default and ends with `Use default: <value>` and
+`Use defaults for all remaining questions`.
 
 When the report language is not English, load the matching `translations/` file and apply every
 translation, style rule, and encoding requirement defined there.
 
 **Rerunning an audit**
 
-When the user asks to rerun, regenerate, or update an audit, or a previous report exists in the
-audited location, resolve the audit mode per `process/audit-workflow.md` and
-`synthesis/report-comparison.md`: re-audit against the found report, re-audit with changed
-parameters, or fresh audit. The previous report is never overwritten - write the next
-revision-numbered file such as `AUDIT-1.1.md`.
+When the user asks to rerun, regenerate, or update an audit,
+or a previous report exists in the audited location,
+resolve the audit mode per `process/audit-workflow.md` and `synthesis/report-comparison.md`:
+re-audit against the found report, re-audit with changed parameters, or fresh audit.
+
+The previous report is never overwritten - write the next revision-numbered file such as
+`AUDIT-1.1.md`.
 
 ## `principles/` - Rules Of Evaluation
 
-- **`principles/evaluation-rules.md`** - Evidence-only reasoning, no assumptions, neutrality, status markers.
+- **`principles/evaluation-rules.md`** - Evidence-only reasoning, no assumptions,
+  neutrality, status markers.
 - **`principles/output-style.md`** - Tone, fixed vocabularies, consistency, determinism.
 
 ## `process/` - Audit Process
@@ -181,20 +209,25 @@ revision-numbered file such as `AUDIT-1.1.md`.
 
 - **`assessment/testing-review.md`** - Test pyramid, TDD, coverage, CI automation, testability.
 - **`assessment/design-principles.md`** - SOLID, cohesion and coupling, DRY, separation of concerns.
-- **`assessment/code-quality.md`** - Static analysis, type safety, complexity, duplication, dead code.
+- **`assessment/code-quality.md`** - Static analysis, type safety, complexity,
+  duplication, dead code.
 - **`assessment/best-practices.md`** - Stack idioms, framework conventions, deprecated APIs.
 - **`assessment/dependency-review.md`** - Freshness, vulnerabilities, licenses, lockfiles, SBOM.
-- **`assessment/deployment-review.md`** - Build pipeline, release process and frequency, manual steps.
+- **`assessment/deployment-review.md`** - Build pipeline, release process and frequency,
+  manual steps.
 - **`assessment/rollback-review.md`** - Rollback mechanism, deploy safety, versioning, recovery.
 - **`assessment/maintainability-review.md`** - Modularity, coupling, code structure, technical debt.
 - **`assessment/change-management.md`** - Feature flags, ADR usage, release governance.
-- **`assessment/documentation-review.md`** - Entry, API, inline docs, onboarding, knowledge transfer.
+- **`assessment/documentation-review.md`** - Entry, API, inline docs, onboarding,
+  knowledge transfer.
 - **`assessment/nfr-review.md`** - Performance, scalability, availability, reliability, resilience.
-- **`assessment/security-review.md`** - Authentication, authorization, input validation, OWASP risks.
+- **`assessment/security-review.md`** - Authentication, authorization, input validation,
+  OWASP risks.
 - **`assessment/compliance-review.md`** - Data protection, privacy, regulatory scope, licensing.
 - **`assessment/observability-review.md`** - Logging, metrics, tracing, alerting.
 - **`assessment/error-handling.md`** - Exception strategy, retries, fallbacks, user-facing errors.
-- **`assessment/operational-readiness.md`** - Runbooks, on-call, capacity, backups, incident response.
+- **`assessment/operational-readiness.md`** - Runbooks, on-call, capacity, backups,
+  incident response.
 - **`assessment/ai-generated-code.md`** - Code provenance, generated-artifact validation.
 - **`assessment/copyright-review.md`** - Originality, license compliance, attribution.
 
@@ -209,30 +242,37 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
 - **`assessment/api-contract.md`** - API contract conformance. Include when the system has an API.
 - **`assessment/skill-definition.md`** - Agent Skill spec conformance, collections, embedded skills.
 - **`assessment/ai-system.md`** - AI system lifecycle. Include for AI-dependent projects.
-- **`assessment/standards-conformance.md`** - Standards conformance for documented project standards.
+- **`assessment/standards-conformance.md`** - Standards conformance for documented
+  project standards.
 - **`assessment/api-compatibility.md`** - API compatibility. Include for libraries and packages.
 
 ## `synthesis/` - Findings And Report Assembly
 
-- **`synthesis/risk-register.md`** - Unified risk register: `RSK-[001]` mapped to `FND-XXX` findings.
+- **`synthesis/risk-register.md`** - Unified risk register: `RSK-[001]` mapped to
+  `FND-XXX` findings.
 - **`synthesis/project-scorecard.md`** - 1-10 scorecard, rubric, scales (1-5, 1-3, star bars).
 - **`synthesis/trade-off-analysis.md`** - Trade-offs as a standalone section and embedded findings.
 - **`synthesis/remediation-roadmap.md`** - Prioritized roadmap with impact-vs-effort matrix.
-- **`synthesis/debt-register.md`** - `TDR-[001]` inventory (CISQ/SQALE). Include for structural debt.
-- **`synthesis/re-audit-plan.md`** - Verification owners, sign-off gates. Include for P1/P2 findings.
+- **`synthesis/debt-register.md`** - `TDR-[001]` inventory (CISQ/SQALE). Include for
+  structural debt.
+- **`synthesis/re-audit-plan.md`** - Verification owners, sign-off gates. Include for
+  P1/P2 findings.
 - **`synthesis/report-comparison.md`** - Previous-report discovery, revisions, Changes section.
 
 ## `translations/` - Report Languages
 
-Load the matching file when the report language is not English. Analysis runs in English and the
-report renders into the report language in a single pass, per `principles/output-style.md`:
+Load the matching file when the report language is not English.
+
+Analysis runs in English and the report renders into the report language in a single pass,
+per `principles/output-style.md`:
 
 - **`translations/polish-language.md`** - Polish rendering: vocabulary, terminology, style rules.
 
 ## `references/` - Lookup Tables
 
-Load these when the detected stack or finding type requires them. They are consulted during
-intake, assessment, and report writing.
+Load these when the detected stack or finding type requires them.
+
+They are consulted during intake, assessment, and report writing.
 
 - **`references/stack-standards.md`** - Canonical standards and advisories per detected stack.
 - **`references/cwe-analyzer-map.md`** - CWE-to-analyzer-rule cross-reference per ecosystem.
@@ -247,43 +287,56 @@ intake, assessment, and report writing.
 
 ## `scripts/` - Canonical Scripts
 
-Copy these into the audited repository's `work/` directory under a `.tmp.` name before use. Use an
-existing `temp` or `temporary` directory when `work/` is unavailable, and use the repository root
-only when none exists. Run the copies there and remove them when done. They are report-production
-tooling, not analysis of the audited project.
+Copy these into the audited repository's `work/` directory under a `.tmp.` name before use.
+
+Use an existing `temp` or `temporary` directory when `work/` is unavailable,
+and use the repository root only when none exists.
+
+Run the copies there and remove them when done.
+
+They are report-production tooling, not analysis of the audited project.
 
 - **`scripts/format-table.py`** - Canonical table formatter (Table Formatting Rules).
 - **`scripts/validate-report.py`** - Mechanical report consistency checker.
 - **`scripts/validate-skill.py`** - Frontmatter, disclosure, and references validator.
 - **`scripts/check-references.py`** - Relative-reference integrity checker.
+- **`scripts/check-contents.py`** - Contents-table versus section-heading drift checker.
 - **`scripts/check-update.py`** - Skill self-update checker (git upstream).
+- **`scripts/common.py`** - Shared frontmatter and reporting helpers for maintenance tools.
 - **`scripts/README.md`** - Tool classes, usage, validation order, limitations.
 
 ## Evaluation Prompts
 
 - **`evals/evals.json`** - Behavioral regression prompts and expectations.
 
-Run these as behavioral evaluations after structural changes. They do not replace independent
-review.
+Run these as behavioral evaluations after structural changes.
+
+They do not replace independent review.
 
 ## Repository Files
 
 These files govern the skill repository itself rather than audit production:
 
 - **`STYLE.md`** - Style rules for the skill's own files. Follow when editing this repository.
-- **`MAINTENANCE.md`** - Repository structure, naming, registration, validation, and versioning rules.
+- **`MAINTENANCE.md`** - Repository structure, naming, registration, validation, and
+  versioning rules.
 - **`README.md`** - Human-facing overview, usage examples, and verification commands.
 - **`VERSIONING.md`** - Version numbering and release conventions for the skill.
+- **`CONTRIBUTING.md`** - Maintainer model, pre-merge validation, and contribution expectations.
+- **`SECURITY.md`** - Private vulnerability reporting path and covered risks.
 - **`LICENSE`** - License text for the skill.
 
 ## Evidence And Decision Contract
 
 Use the verification plan and evidence ledger in `process/audit-workflow.md` for every audit.
 
-The audit never builds, tests, or executes the project or analysis tools against it. All
-evidence comes from inspected repository contents: source, configuration, build scripts,
-documentation, and committed artifacts. Record documented but unrun checks and their effect on
-confidence rather than treating a source-only review as verified production readiness.
+The audit never builds, tests, or executes the project or analysis tools against it.
+
+All evidence comes from inspected repository contents: source, configuration, build scripts,
+documentation, and committed artifacts.
+
+Record documented but unrun checks and their effect on confidence rather than treating a source-only
+review as verified production readiness.
 
 Keep evidence basis, confidence, category status, vulnerability severity, and business risk
 distinct.

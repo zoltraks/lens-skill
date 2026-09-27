@@ -29,21 +29,35 @@ Versions use a two-part decimal format: `<major>.<minor>`.
 
 ## When To Bump
 
-Never bump the version automatically. The version is bumped only when the user explicitly asks for
-it.
+Never bump the version automatically.
 
-Do not bump the version as a side effect of adding features, fixing issues, or refactoring. Wait for
-the user to request a version bump, then apply the increment rules above.
+The version is bumped only when the user explicitly asks for it.
+
+Do not bump the version as a side effect of adding features, fixing issues, or refactoring.
+
+Wait for the user to request a version bump, then apply the increment rules above.
+
+## Release Anchors
+
+Lens does not tag releases.
+
+The commit that bumps `metadata.version` is the release anchor - its hash is the named state
+consumers pin or revert to, since the version alone lives only in frontmatter text.
+
+Record the bump commit's short hash in release notes or issues when a consumer needs to pin a
+specific release.
 
 ## Terminology
 
 The word `version` in this file always means the skill version recorded in `SKILL.md`
 frontmatter.
 
-Audit reports produced by the skill carry a `Report Revision`, not a version. Inside a report,
-the word `version` refers to the audited software, a project, a library, or the skill itself,
-which is shown as `Skill Version`. Report revision rules live in `process/report-format.md`
-and `synthesis/report-comparison.md`.
+Audit reports produced by the skill carry a `Report Revision`, not a version.
+
+Inside a report, the word `version` refers to the audited software, a project, a library,
+or the skill itself, which is shown as `Skill Version`.
+
+Report revision rules live in `process/report-format.md` and `synthesis/report-comparison.md`.
 
 ## Where Version Is Recorded
 

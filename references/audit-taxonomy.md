@@ -17,12 +17,12 @@ Apply `principles/evaluation-rules.md` throughout.
 
 The Coverage Matrix uses exactly these statuses, and no others:
 
-| Status              | Meaning                                                                                   |
-|---------------------|-------------------------------------------------------------------------------------------|
-| `Covered`           | The report answers this audit type's core questions within the source-only evidence model |
-| `Partially` | Some of this type's dimensions are answered, and the named limits remain explicit         |
-| `Not done`     | This is a distinct engagement type the audit deliberately does not run                    |
-| `Not Applicable`    | This audit type does not apply to the subject under audit                                 |
+| Status           | Meaning                                                                                   |
+|------------------|-------------------------------------------------------------------------------------------|
+| `Covered`        | The report answers this audit type's core questions within the source-only evidence model |
+| `Partially`      | Some of this type's dimensions are answered, and the named limits remain explicit         |
+| `Not done`       | This is a distinct engagement type the audit deliberately does not run                    |
+| `Not Applicable` | This audit type does not apply to the subject under audit                                 |
 
 `Not done` declares a scope decision about an engagement kind, never a defect of the subject.
 `Not Applicable` differs: the type's trigger condition is absent entirely, for example an AI
@@ -30,22 +30,24 @@ Governance Audit for a project with no AI dependency.
 
 ## Canonical Audit Types
 
-Render the full row set in every report. The default status applies unless the audit's evidence
-or the subject justifies a different one, and the Rationale column always states why.
+Render the full row set in every report.
 
-| Report type                                 | Answered by                                                        | Default status    |
-|---------------------------------------------|--------------------------------------------------------------------|-------------------|
-| Software Architecture Review                | Architectural Assessment, Trade-off Analysis                       | Covered           |
-| Code Quality Audit                          | Code Quality pillar findings, Technical Debt Register              | Covered           |
-| Security Vulnerability Assessment           | Security pillar findings, Threat Model, CWE mappings               | Covered           |
-| Open Source License Compliance Review       | License & IP Compliance Review, SBOM license pass                  | Covered           |
-| Penetration Test                            | Nothing equivalent, Exploitability Narratives are theoretical only | Not done          |
-| Performance Audit                           | NFR review of stated targets and design, no load measurement       | Partially         |
-| Cloud Infrastructure Audit                  | Deployment and IaC inspection, no live environment state           | Partially         |
-| AI Governance Audit                         | AI System Assessment when applicable                               | Covered or N/A    |
-| Technical Due Diligence                     | Engineering dimensions plus Delivery Practice & Team Continuity    | Partially         |
-| SBOM / Software Composition Analysis        | Software Bill of Materials section, manifest-derived               | Covered           |
-| Compliance Certification (SOC 2, ISO 27001) | Standards used as scoring rubrics only                             | Not done          |
+The default status applies unless the audit's evidence or the subject justifies a different one,
+and the Rationale column always states why.
+
+| Report type                                 | Answered by                                                        | Default status |
+|---------------------------------------------|--------------------------------------------------------------------|----------------|
+| Software Architecture Review                | Architectural Assessment, Trade-off Analysis                       | Covered        |
+| Code Quality Audit                          | Code Quality pillar findings, Technical Debt Register              | Covered        |
+| Security Vulnerability Assessment           | Security pillar findings, Threat Model, CWE mappings               | Covered        |
+| Open Source License Compliance Review       | License & IP Compliance Review, SBOM license pass                  | Covered        |
+| Penetration Test                            | Nothing equivalent, Exploitability Narratives are theoretical only | Not done       |
+| Performance Audit                           | NFR review of stated targets and design, no load measurement       | Partially      |
+| Cloud Infrastructure Audit                  | Deployment and IaC inspection, no live environment state           | Partially      |
+| AI Governance Audit                         | AI System Assessment when applicable                               | Covered or N/A |
+| Technical Due Diligence                     | Engineering dimensions plus Delivery Practice & Team Continuity    | Partially      |
+| SBOM / Software Composition Analysis        | Software Bill of Materials section, manifest-derived               | Covered        |
+| Compliance Certification (SOC 2, ISO 27001) | Standards used as scoring rubrics only                             | Not done       |
 
 The AI Governance Audit row takes `Covered` when the AI System Assessment applies per
 `assessment/ai-system.md`, and `Not Applicable` otherwise.
@@ -54,49 +56,71 @@ The AI Governance Audit row takes `Covered` when the AI System Assessment applie
 
 These defaults keep the matrix honest about what a source-only audit is.
 
-**Software Architecture Review.** Source inspection covers structure, coupling, layering, data
-flow, and recorded decisions. The audit cannot validate behavior under real load or organizational
-ownership, both of which stay visible in Limitations and Unknowns.
+**Software Architecture Review.** Source inspection covers structure, coupling, layering, data flow,
+and recorded decisions.
+
+The audit cannot validate behavior under real load or organizational ownership,
+both of which stay visible in Limitations and Unknowns.
 
 **Code Quality Audit.** The report reviews code by inspection and reasons about complexity,
-duplication, and standards adherence. No metric tooling runs, so figures such as cyclomatic
-complexity appear only when committed reports supply them, labeled `Reported`.
+duplication, and standards adherence.
+
+No metric tooling runs, so figures such as cyclomatic complexity appear only when committed reports
+supply them, labeled `Reported`.
 
 **Security Vulnerability Assessment.** Manual source review plus threat modeling maps to the
-SAST-equivalent tier of a vulnerability assessment. No scanner executes, and CWE-to-analyzer
-mappings from `references/cwe-analyzer-map.md` name checks that would run, not checks that ran.
+SAST-equivalent tier of a vulnerability assessment.
 
-**Open Source License Compliance Review.** License inspection over manifests, notices, and
-vendored code answers the core license-compliance question. Undeterminable dependency licenses are
-recorded as `Unknown` and assessed as a gap, per `references/license-compliance.md`.
+No scanner executes, and CWE-to-analyzer mappings from `references/cwe-analyzer-map.md` name checks
+that would run, not checks that ran.
+
+**Open Source License Compliance Review.** License inspection over manifests, notices,
+and vendored code answers the core license-compliance question.
+
+Undeterminable dependency licenses are recorded as `Unknown` and assessed as a gap,
+per `references/license-compliance.md`.
 
 **Penetration Test.** A penetration test validates exploitability against a running target.
-Source-only audits never execute the subject, so this row is always `Not done` unless the
-engagement scope explicitly lifts the no-execution constraint. Exploitability Narratives carry the
-attack-path reasoning habit at `Theoretical` confidence only.
 
-**Performance Audit.** Stated performance targets, NFR evidence, and design-level scalability are
-reviewable in source. Throughput, latency, and resource consumption are not measurable without
-execution, so the row stays `Partially`.
+Source-only audits never execute the subject,
+so this row is always `Not done` unless the engagement scope explicitly lifts the no-execution
+constraint.
 
-**Cloud Infrastructure Audit.** Committed IaC, deployment configuration, and pipeline files are
-inspectable. Live console state, IAM effective permissions, and runtime configuration drift are
-not, keeping the row `Partially`.
+Exploitability Narratives carry the attack-path reasoning habit at `Theoretical` confidence only.
 
-**AI Governance Audit.** The conditional AI System Assessment covers model, data, and risk-control
-evidence present in source. Certification-grade governance review remains outside scope.
+**Performance Audit.** Stated performance targets, NFR evidence,
+and design-level scalability are reviewable in source.
+
+Throughput, latency, and resource consumption are not measurable without execution,
+so the row stays `Partially`.
+
+**Cloud Infrastructure Audit.** Committed IaC, deployment configuration,
+and pipeline files are inspectable.
+
+Live console state, IAM effective permissions, and runtime configuration drift are not,
+keeping the row `Partially`.
+
+**AI Governance Audit.** The conditional AI System Assessment covers model, data,
+and risk-control evidence present in source.
+
+Certification-grade governance review remains outside scope.
 
 **Technical Due Diligence.** The report covers the engineering pillars of a due diligence
-engagement: architecture, code, security, licensing, and delivery-practice proxies. Interviews,
-team assessment, business fit, and commercial analysis are not performed, so the row stays
-`Partially`.
+engagement: architecture, code, security, licensing, and delivery-practice proxies.
+
+Interviews, team assessment, business fit, and commercial analysis are not performed,
+so the row stays `Partially`.
 
 **SBOM / Software Composition Analysis.** The manifest-derived inventory answers the inventory
-question. It is not a shipped-artifact SBOM and performs no advisory-database lookups, per
-`references/sbom-schema.md`.
+question.
 
-**Compliance Certification.** Standards such as SOC 2, ISO 27001, and PCI-DSS are used as scoring
-rubrics and coverage checklists. The report makes no conformance or certification claim.
+It is not a shipped-artifact SBOM and performs no advisory-database lookups,
+per `references/sbom-schema.md`.
+
+**Compliance Certification.** Standards such as SOC 2, ISO 27001,
+and PCI-DSS are used as scoring rubrics and coverage checklists.
+
+The report makes no conformance or certification claim.
 
 ## Consistency Rules
 
@@ -110,9 +134,11 @@ rubrics and coverage checklists. The report makes no conformance or certificatio
 
 ## Source Corpus
 
-These are the external sources the taxonomy, the coverage model, and the borrowed report
-structures derive from. Cite an entry in the report's References section only when its
-methodology was actually applied, per `process/report-format.md`.
+These are the external sources the taxonomy, the coverage model,
+and the borrowed report structures derive from.
+
+Cite an entry in the report's References section only when its methodology was actually applied,
+per `process/report-format.md`.
 
 | Source                                                             | Publisher       | What it grounds                                                                 |
 |--------------------------------------------------------------------|-----------------|---------------------------------------------------------------------------------|
@@ -132,6 +158,7 @@ methodology was actually applied, per `process/report-format.md`.
 | Cost of Poor Software Quality in the US, 2022 report               | CISQ            | Macro-context figures only, never a scoring input                               |
 | DORA software delivery performance metrics                         | DORA (dora.dev) | The five-metric delivery model behind Delivery Practice & Team Continuity       |
 
-The corpus lists methodology sources, not scoring inputs. Prefer primary standards for report
-citations per `references/stack-standards.md`, while these entries ground the report's structure
-and terminology choices.
+The corpus lists methodology sources, not scoring inputs.
+
+Prefer primary standards for report citations per `references/stack-standards.md`,
+while these entries ground the report's structure and terminology choices.

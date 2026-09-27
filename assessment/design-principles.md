@@ -8,10 +8,12 @@
 This file guides assessment of object and module design quality against established design
 principles.
 
-Apply `principles/evaluation-rules.md` throughout. Assess observable design properties from the
-code, not intent. Architectural module boundaries are assessed in
-`assessment/maintainability-review.md`, code-level metrics in `assessment/code-quality.md`, this
-file covers design principles.
+Apply `principles/evaluation-rules.md` throughout.
+
+Assess observable design properties from the code, not intent.
+
+Architectural module boundaries are assessed in `assessment/maintainability-review.md`,
+code-level metrics in `assessment/code-quality.md`, this file covers design principles.
 
 ## What To Evaluate
 
@@ -74,15 +76,22 @@ Also evaluate the companion principles:
 - Narrow, role-specific interfaces and minimal cross-module coupling.
 - Shared abstractions in place of repeated logic.
 
-Mark each missing signal explicitly rather than inferring its presence. Judge each principle
-separately, a design can satisfy some and violate others, which the notes should make clear.
+Mark each missing signal explicitly rather than inferring its presence.
+
+Judge each principle separately, a design can satisfy some and violate others,
+which the notes should make clear.
 
 ## Render As
 
 Render the evaluation as the `### Design Principles` subsection of the Architectural Assessment,
-per `process/report-format.md`. Present one row per principle with status and evidence. The
-subsection is always present, mark principles `N/A` when no source was inspected for them.
+per `process/report-format.md`.
 
-Reuse evidence already gathered for other findings instead of re-investigating it. When a
-violation was already described elsewhere, for example a Liskov Substitution breach logged as a
-contract defect, name and cross-reference that finding rather than duplicating the analysis.
+Present one row per principle with status and evidence.
+
+The subsection is always present, mark principles `N/A` when no source was inspected for them.
+
+Reuse evidence already gathered for other findings instead of re-investigating it.
+
+When a violation was already described elsewhere,
+for example a Liskov Substitution breach logged as a contract defect,
+name and cross-reference that finding rather than duplicating the analysis.

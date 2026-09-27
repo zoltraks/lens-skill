@@ -6,13 +6,18 @@
 > **Key items:** Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service,
 > Elevation of Privilege, attack surface, trust boundaries
 
-This file guides a structured threat model of the system using the STRIDE framework, anchored to the
-data flow model in `assessment/data-flow.md`. It complements the control-level review in
-`assessment/security-review.md`: security findings are symptoms, the threat model maps the attack
-surface systematically.
+This file guides a structured threat model of the system using the STRIDE framework,
+anchored to the data flow model in `assessment/data-flow.md`.
 
-Apply `principles/evaluation-rules.md` throughout. This is a defensive analysis. Enumerate threats
-from observable structure, do not perform offensive actions or credential harvesting.
+It complements the control-level review in `assessment/security-review.md`:
+security findings are symptoms, the threat model maps the attack surface systematically.
+
+Apply `principles/evaluation-rules.md` throughout.
+
+This is a defensive analysis.
+
+Enumerate threats from observable structure,
+do not perform offensive actions or credential harvesting.
 
 ## When This Applies
 
@@ -20,9 +25,12 @@ This assessment applies when the system has a security-relevant attack surface: 
 an API, an authentication or authorization boundary, multi-tenant data, or any flow that crosses a
 trust boundary.
 
-It does not apply to a single-user local utility with no network surface, no untrusted input, and no
-shared data. In that case, mark the section `N/A` with a one-line justification anchored to the
-deployment model. When in doubt between `N/A` and including the section, include it.
+It does not apply to a single-user local utility with no network surface, no untrusted input,
+and no shared data.
+
+In that case, mark the section `N/A` with a one-line justification anchored to the deployment model.
+
+When in doubt between `N/A` and including the section, include it.
 
 ## Framework
 
@@ -46,18 +54,22 @@ does not by itself establish ASVS conformance.
 
 **Establish the model**
 
-Use the Level-1 data flow model from `assessment/data-flow.md`. List the trust boundaries.
+Use the Level-1 data flow model from `assessment/data-flow.md`.
+
+List the trust boundaries.
 
 **Enumerate per boundary**
 
-For each flow that crosses a trust boundary, ask each of the six STRIDE questions. Record any
-plausible threat as a row.
+For each flow that crosses a trust boundary, ask each of the six STRIDE questions.
+
+Record any plausible threat as a row.
 
 **Link to findings and risks**
 
 Each confirmed threat that rests on a concrete gap becomes or references a finding (`FND-SEC-XXX`)
-and a risk (`RSK-XXX`). Threats that are already mitigated are recorded as mitigated, with the
-control cited.
+and a risk (`RSK-XXX`).
+
+Threats that are already mitigated are recorded as mitigated, with the control cited.
 
 ## Evidence To Look For
 
@@ -72,9 +84,10 @@ control cited.
 
 ## How To Present
 
-Render the threat model as described in `process/report-format.md`. Present one table keyed by trust
-boundary and STRIDE category, then describe each material threat with evidence and its linked
-`FND-XXX` / `RSK-XXX`.
+Render the threat model as described in `process/report-format.md`.
+
+Present one table keyed by trust boundary and STRIDE category,
+then describe each material threat with evidence and its linked `FND-XXX` / `RSK-XXX`.
 
 ## Common Threat Examples
 

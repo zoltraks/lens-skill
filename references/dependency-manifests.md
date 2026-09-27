@@ -5,12 +5,16 @@
 > **Scope:** Source-derivable component inventories from dependency manifests and lockfiles
 > **Key items:** per-ecosystem extraction procedures, component list format, evidence labeling
 
-This file defines a family of text-only manifest readers. Each procedure reads a manifest or
-lockfile as text and produces a lightweight component list in the style of a CycloneDX or SPDX
-inventory. No tool is installed, no package manager is invoked, and nothing is generated.
+This file defines a family of text-only manifest readers.
 
-Apply `principles/evaluation-rules.md` throughout. The derived inventory is `Inspected` evidence
-about the source, not a report from a generation tool.
+Each procedure reads a manifest or lockfile as text and produces a lightweight component list in the
+style of a CycloneDX or SPDX inventory.
+
+No tool is installed, no package manager is invoked, and nothing is generated.
+
+Apply `principles/evaluation-rules.md` throughout.
+
+The derived inventory is `Inspected` evidence about the source, not a report from a generation tool.
 
 ## Output Contract
 
@@ -26,8 +30,10 @@ Every reader produces the same component list shape.
 | Integrity    | Lockfile checksum or hash when present                                                                                                                                        |
 | Source File  | The manifest or lockfile the entry was read from                                                                                                                              |
 
-License fields are rarely present in manifests. Record them only when the file actually declares
-them, otherwise mark `UNKNOWN` rather than copying registry assumptions.
+License fields are rarely present in manifests.
+
+Record them only when the file actually declares them,
+otherwise mark `UNKNOWN` rather than copying registry assumptions.
 
 ## Reading Rules
 
@@ -79,7 +85,9 @@ them, otherwise mark `UNKNOWN` rather than copying registry assumptions.
 | `poetry.lock`      | Each `[[package]]` gives `name`, `version`, and dependency relationships.                                                                               |
 | `uv.lock`          | Each `[[package]]` gives `name`, `version`, `source`, and hashes.                                                                                       |
 
-Relationship is usually `UNKNOWN` for Python unless a lockfile marks it. State that explicitly.
+Relationship is usually `UNKNOWN` for Python unless a lockfile marks it.
+
+State that explicitly.
 
 ## Go
 
@@ -97,8 +105,9 @@ Relationship is usually `UNKNOWN` for Python unless a lockfile marks it. State t
 | `gradle.lockfile`           | Resolved versions per configuration with `=configuration` suffixes.                                                                                                                                                                                             |
 | `verification-metadata.xml` | Checksums and signatures for resolved artifacts.                                                                                                                                                                                                                |
 
-Transitive resolution is not derivable from `pom.xml` or `build.gradle` alone. Mark relationship
-`UNKNOWN` without a lockfile.
+Transitive resolution is not derivable from `pom.xml` or `build.gradle` alone.
+
+Mark relationship `UNKNOWN` without a lockfile.
 
 ## PHP / Ruby / Dart / Elixir / Zig
 
@@ -120,9 +129,12 @@ Transitive resolution is not derivable from `pom.xml` or `build.gradle` alone. M
 
 ## Delphi And Unmanaged Stacks
 
-Delphi and similar ecosystems have no standard manifest. Record components from vendored source
-directories, GetIt package metadata when committed, and documented dependency lists. Mark version
-and relationship `UNKNOWN` when not derivable.
+Delphi and similar ecosystems have no standard manifest.
+
+Record components from vendored source directories, GetIt package metadata when committed,
+and documented dependency lists.
+
+Mark version and relationship `UNKNOWN` when not derivable.
 
 ## Using The Inventory
 

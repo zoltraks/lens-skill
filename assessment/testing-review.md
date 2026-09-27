@@ -10,9 +10,12 @@
 This file guides assessment of how the system verifies its own behavior and how amenable the code is
 to testing.
 
-Apply `principles/evaluation-rules.md` throughout. Presence of a test directory is not evidence of
-effective testing, inspect content. Design-level testability overlaps with the Dependency Inversion
-principle in `assessment/design-principles.md`.
+Apply `principles/evaluation-rules.md` throughout.
+
+Presence of a test directory is not evidence of effective testing, inspect content.
+
+Design-level testability overlaps with the Dependency Inversion principle in
+`assessment/design-principles.md`.
 
 ## What To Evaluate
 
@@ -50,14 +53,18 @@ principle in `assessment/design-principles.md`.
 
 Inventory tests per project and distinguish declared, discovered, and documented result counts.
 
-The audit never executes the suite. Executed, passed, failed, and ignored counts exist only when
-a committed report or documentation records them, cited as `Reported` evidence.
+The audit never executes the suite.
+
+Executed, passed, failed, and ignored counts exist only when a committed report or documentation
+records them, cited as `Reported` evidence.
 
 Classify test layers by the boundaries exercised, not just the directory or test name.
 
 Identify the checks the project documents, for Rust typically `cargo build --locked`,
-`cargo test --locked`, `cargo clippy --locked -- -D warnings`, and `cargo fmt --check`, from
-build scripts, CI configuration, or contributor documentation. Do not run them.
+`cargo test --locked`, `cargo clippy --locked -- -D warnings`, and `cargo fmt --check`,
+from build scripts, CI configuration, or contributor documentation.
+
+Do not run them.
 
 Judge whether tests run automatically on change and whether failures block merge or release from
 pipeline definitions, not from execution.
@@ -78,8 +85,9 @@ Undocumented coverage is `UNKNOWN`, not zero and not a percentage derived from t
 
 **Mutation testing**
 
-Assess mutation testing from committed configuration, harnesses, and reports. Do not run
-[cargo-mutants](https://mutants.rs/) or a stack equivalent.
+Assess mutation testing from committed configuration, harnesses, and reports.
+
+Do not run [cargo-mutants](https://mutants.rs/) or a stack equivalent.
 
 When a mutation score is documented, check whether its numerator, denominator, and excluded
 outcomes are defined.
@@ -142,5 +150,6 @@ success, no unintended side effects, failure handling, and regression coverage.
 - Tests that cover edge cases, boundary conditions, error paths, and negative cases, evidenced by
   assertion variety.
 
-Mark each missing signal explicitly rather than inferring its presence. Do not infer TDD from the
-mere existence of tests, cite a concrete signal.
+Mark each missing signal explicitly rather than inferring its presence.
+
+Do not infer TDD from the mere existence of tests, cite a concrete signal.

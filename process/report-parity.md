@@ -10,8 +10,9 @@
 This file defines what a complete audit report must contain regardless of subject, language,
 or detail level.
 
-Check the list explicitly before finalizing any report. Do not rely on per-run memory of what
-a previous report happened to include.
+Check the list explicitly before finalizing any report.
+
+Do not rely on per-run memory of what a previous report happened to include.
 
 ## Mandatory Core Checklist
 
@@ -37,8 +38,10 @@ a previous report happened to include.
 
 PAR-5 may report `NOT COLLECTED` when Git history is unavailable, silence is not acceptable.
 
-PAR-9 re-derivation means re-selecting references from the current stack lookup for the
-detected stack. Identical output to a prior report is expected when the stack is unchanged,
+PAR-9 re-derivation means re-selecting references from the current stack lookup for the detected
+stack.
+
+Identical output to a prior report is expected when the stack is unchanged,
 the requirement forbids inheriting the list without re-deriving it.
 
 ## Capability Set
@@ -73,20 +76,24 @@ Run this gate before marking a report final.
 7. Record the outcome in the Validation Record, then remove the `State | Draft` row only when the
    structural and semantic gates both pass - a final report carries no `State` row.
 
-A report may be complete and useful while keeping `State | Draft` when a gate fails. Do not
-weaken the report to make the gate pass.
+A report may be complete and useful while keeping `State | Draft` when a gate fails.
 
-When the most recent baseline predates the current skill version, the Validation Record names
-which sections were added for parity versus which compare as content. Added structural sections
-are capability differences, not product changes.
+Do not weaken the report to make the gate pass.
+
+When the most recent baseline predates the current skill version,
+the Validation Record names which sections were added for parity versus which compare as content.
+
+Added structural sections are capability differences, not product changes.
 
 ## Applicability And Justification
 
-An item is `N/A` only when genuinely inapplicable to the subject. `N/A` never means "not
-checked" - the check ran and was judged inapplicable.
+An item is `N/A` only when genuinely inapplicable to the subject.
 
-Justifications live in the Validation Record's Evidence / Justification column. Omitted
-conditional sections also appear in Scope Exclusions.
+`N/A` never means "not checked" - the check ran and was judged inapplicable.
+
+Justifications live in the Validation Record's Evidence / Justification column.
+
+Omitted conditional sections also appear in Scope Exclusions.
 
 ## Discovery Scope
 
@@ -94,11 +101,14 @@ The cross-report diff searches the same locations as previous-report discovery: 
 `report/` directories and bare roots under `docs/`, `document/`, and `doc/`, the repository
 root, and the document structure when governed by another skill.
 
-"Most recent" is the audit report with the highest revision number and latest report date
-among files matching the audit naming pattern. A report the user supplies also counts.
+"Most recent" is the audit report with the highest revision number and latest report date among
+files matching the audit naming pattern.
 
-The gate is bounded by accessible files. Record that bound in the Validation Record when
-discovery finds nothing.
+A report the user supplies also counts.
+
+The gate is bounded by accessible files.
+
+Record that bound in the Validation Record when discovery finds nothing.
 
 ## Rules
 

@@ -5,7 +5,9 @@
 > **Scope:** End-to-end audit process from intake to validated report
 > **Key items:** intake, scope, evidence gathering, per-category assessment, synthesis, validation
 
-This file defines the order of operations for producing an audit. Follow it for every full audit.
+This file defines the order of operations for producing an audit.
+
+Follow it for every full audit.
 
 For a single-dimension request, run the same steps but limit the assessment phase to the one
 requested category.
@@ -14,16 +16,18 @@ requested category.
 
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
-| Step Overview           | 24   | Step Overview guidance           |
-| Intake Checklist        | 1016 | Intake Checklist guidance        |
-| Handling Thin Input     | 1033 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1044 | Single-Dimension Audits guidance |
-| Re-Audit                | 1054 | Re-Audit guidance                |
-| Multi-Project Audits    | 1095 | Multi-Project Audits guidance    |
+| Step Overview           | 26   | Step Overview guidance           |
+| Intake Checklist        | 1210 | Intake Checklist guidance        |
+| Handling Thin Input     | 1227 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1238 | Single-Dimension Audits guidance |
+| Re-Audit                | 1248 | Re-Audit guidance                |
+| Multi-Project Audits    | 1294 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
-The workflow has seven phases. Complete each phase before moving to the next.
+The workflow has seven phases.
+
+Complete each phase before moving to the next.
 
 **Intake**
 
@@ -32,33 +36,43 @@ Read everything the user supplied: description, code, configuration, diagrams, l
 Identify the artifact type: prototype, codebase under development, running production system, or
 written proposal.
 
-Note the source format. Findings from a description are weaker than findings from inspected code or
-configuration.
+Note the source format.
 
-Determine the natural language of the user's request. The report language must match the request
-language unless the user explicitly states otherwise. When the request language is ambiguous or
-cannot be determined, default to English.
+Findings from a description are weaker than findings from inspected code or configuration.
 
-When the report language is not English, also look for project-established terminology in that
-language, such as a project glossary or design documents written in the report language, and
-record the established forms. They take precedence over the defaults in the matching
-`translations/` file.
+Determine the natural language of the user's request.
 
-Record the audit start timestamp from the system clock at the beginning of intake. The elapsed
-time is later written to the `Time taken` row in Document Information.
+The report language must match the request language unless the user explicitly states otherwise.
+
+When the request language is ambiguous or cannot be determined, default to English.
+
+When the report language is not English,
+also look for project-established terminology in that language,
+such as a project glossary or design documents written in the report language,
+and record the established forms.
+
+They take precedence over the defaults in the matching `translations/` file.
+
+Record the audit start timestamp from the system clock at the beginning of intake.
+
+The elapsed time is later written to the `Time taken` row in Document Information.
 
 **Report parity discovery**
 
-When searching for a previous report during intake, also record the most recent audit report
-found for ANY subject in the searched locations, with its path and revision. The consistency
-gate in `process/report-parity.md` diffs the new report's capability set against it before the
-report is marked final.
+When searching for a previous report during intake,
+also record the most recent audit report found for ANY subject in the searched locations,
+with its path and revision.
+
+The consistency gate in `process/report-parity.md` diffs the new report's capability set against it
+before the report is marked final.
 
 **Output location discovery**
 
-During intake, inspect the documentation roots `docs/`, `document/`, and `doc/` and their
-`audit/` and `report/` subdirectories. Record the resolved base output directory, the detected
-subdirectory pattern, the project version used, and the resolved output directory.
+During intake, inspect the documentation roots `docs/`, `document/`,
+and `doc/` and their `audit/` and `report/` subdirectories.
+
+Record the resolved base output directory, the detected subdirectory pattern,
+the project version used, and the resolved output directory.
 
 Classify the subdirectory names inside the resolved base output directory:
 
@@ -70,16 +84,18 @@ Classify the subdirectory names inside the resolved base output directory:
   when neither holds a report, and disclose the choice.
 - `none` - no matching subdirectories.
 
-The recorded result is consumed unchanged by the delivery question and re-checked before the
-report is written. When the user named a full output path in the request, detection still runs
-but the named path wins.
+The recorded result is consumed unchanged by the delivery question and re-checked before the report
+is written.
+
+When the user named a full output path in the request, detection still runs but the named path wins.
 
 **Development standards discovery**
 
-During intake, look for project-internal development standards documents. These are documents that
-prescribe how source code should be written for the project's technology stack: language version,
-project structure, naming conventions, error handling, testing, formatting, dependency management,
-and similar rules.
+During intake, look for project-internal development standards documents.
+
+These are documents that prescribe how source code should be written for the project's technology
+stack: language version, project structure, naming conventions, error handling, testing, formatting,
+dependency management, and similar rules.
 
 Search in these locations, in order:
 
@@ -90,19 +106,23 @@ Search in these locations, in order:
 - Any file referenced from `README.md`, `AGENTS.md`, or `docs/GUIDELINES.md` as a development
   standard
 
-Record whether standards documents exist, their paths, and which technology stack or software type
-each one covers. This determines whether the Standards Conformance assessment applies.
+Record whether standards documents exist, their paths,
+and which technology stack or software type each one covers.
+
+This determines whether the Standards Conformance assessment applies.
 
 When no standards documents are found, the Standards Conformance assessment is omitted and the
 omission is noted in Scope Exclusions.
 
 **Agent skills discovery**
 
-During intake, enumerate every `SKILL.md` inside the audited root: the root itself, `skills/` and
-`plugins/` one level down, agent configuration directories (`.claude/skills/`, `.agents/skills/`,
-`.devin/skills/`, `.cursor/skills/`, `.windsurf/skills/`, `.codeium/skills/`), and any other
-`*/SKILL.md` found one level deep. For each skill found, record its directory path, its declared
-`name`, and whether the name matches the directory name.
+During intake, enumerate every `SKILL.md` inside the audited root: the root itself,
+`skills/` and `plugins/` one level down, agent configuration directories (`.claude/skills/`,
+`.agents/skills/`, `.devin/skills/`, `.cursor/skills/`, `.windsurf/skills/`, `.codeium/skills/`),
+and any other `*/SKILL.md` found one level deep.
+
+For each skill found, record its directory path, its declared `name`,
+and whether the name matches the directory name.
 
 How discovered skills enter the report depends on the subject shape:
 
@@ -113,38 +133,46 @@ How discovered skills enter the report depends on the subject shape:
   per-skill detail for every discovered skill.
 - A non-skill project CONTAINS skills - ask the skills-scope question before Parameter
   Configuration: `Assess skills as components of the project` (recommended) produces the Skills
-  Inventory inside Skill Definition Conformance; `Assess each skill as an independent project`
+  Inventory inside Skill Definition Conformance. `Assess each skill as an independent project`
   routes each skill through the multi-project workflow. Wait for the answer, record it, and do
   not re-ask in the session.
 
 The discovery result decides whether Skill Definition Conformance applies and which shape the
-section takes. When nothing is found, the section is omitted and the omission is noted in Scope
-Exclusions.
+section takes.
+
+When nothing is found, the section is omitted and the omission is noted in Scope Exclusions.
 
 **Project Identification**
 
 After reading the input, identify whether the repository or directory contains one project or
 multiple projects.
 
-A project is a self-contained unit with its own manifest, configuration, or entry point. Signals of
-a project boundary include a package manifest (`package.json`, `Cargo.toml`, `composer.json`,
-`go.mod`, `pom.xml`, `*.csproj`), a dedicated configuration directory, a `SKILL.md` file (for an
-Agent Skill), or a clearly separated component with its own build and entry point.
+A project is a self-contained unit with its own manifest, configuration, or entry point.
 
-A `SKILL.md` found under an agent-skill location is not automatically a separate project. The
-skills-scope decision made during Agent skills discovery routes it: as a component it is
-inventoried inside the parent project's Skill Definition Conformance section, as an independent
-project it joins the multi-project list below.
+Signals of a project boundary include a package manifest (`package.json`, `Cargo.toml`,
+`composer.json`, `go.mod`, `pom.xml`, `*.csproj`), a dedicated configuration directory,
+a `SKILL.md` file (for an Agent Skill), or a clearly separated component with its own build and
+entry point.
+
+A `SKILL.md` found under an agent-skill location is not automatically a separate project.
+
+The skills-scope decision made during Agent skills discovery routes it:
+as a component it is inventoried inside the parent project's Skill Definition Conformance section,
+as an independent project it joins the multi-project list below.
 
 When multiple project manifests or boundaries exist at the top level or in clearly separated
-subdirectories, treat each as an independent project. Record the list of identified projects with
-their paths and, if determinable, their version numbers.
+subdirectories, treat each as an independent project.
+
+Record the list of identified projects with their paths and, if determinable, their version numbers.
 
 When only one project is present, proceed with the standard single-project workflow.
 
-When multiple projects are present, the audit runs independently for each project. Each project
-receives its own complete assessment, findings, scorecard, and risk register within a single
-combined report. See the Multi-Project Audits section below for the per-project workflow.
+When multiple projects are present, the audit runs independently for each project.
+
+Each project receives its own complete assessment, findings, scorecard,
+and risk register within a single combined report.
+
+See the Multi-Project Audits section below for the per-project workflow.
 
 **Stack and subject classification**
 
@@ -155,31 +183,38 @@ Node, `pom.xml` or `build.gradle` for JVM stacks, `pyproject.toml` for Python, a
 Record the detected stacks and consult `references/stack-standards.md` for the canonical
 references to apply during assessment and cite in the report.
 
-Classify each project as a reusable library or package versus a deployable service or
-application. Signals of a library subject include a package manifest with a published name and
-version (`*.nuspec`, a `Cargo.toml` or `package.json` naming a published artifact), library
-guidance in documentation, or consumption by other projects. This classification controls the
-API Compatibility And Versioning Discipline conditional assessment.
+Classify each project as a reusable library or package versus a deployable service or application.
+
+Signals of a library subject include a package manifest with a published name and version
+(`*.nuspec`, a `Cargo.toml` or `package.json` naming a published artifact),
+library guidance in documentation, or consumption by other projects.
+
+This classification controls the API Compatibility And Versioning Discipline conditional assessment.
 
 **Audit mode and previous reports**
 
-When the user asks to rerun, regenerate, or update an audit report, or the audited location
-already contains an audit report, first check whether a previous report exists. Search the
-location indicated in the request, the resolved output directory and its versioned or dated
-subdirectories, the default locations (`audit/` and `report/` directories and the bare root
-under `docs/`, `document/`, and `doc/`, then the repository root), and the rest of the document
-structure, per `synthesis/report-comparison.md`.
+When the user asks to rerun, regenerate, or update an audit report,
+or the audited location already contains an audit report,
+first check whether a previous report exists.
 
-A previous report may be named `AUDIT.md`, `AUDIT-<revision>.md`, or the language-specific
-filename. When several exist, present the one with the highest revision as the candidate
-baseline.
+Search the location indicated in the request,
+the resolved output directory and its versioned or dated subdirectories,
+the default locations (`audit/` and `report/` directories and the bare root under `docs/`,
+`document/`, and `doc/`, then the repository root), and the rest of the document structure,
+per `synthesis/report-comparison.md`.
 
-The audit mode is a user decision, never an assumption from the file system. When a previous
-report exists and the mode is not yet confirmed, ask the audit-mode question and wait for the
-answer before Parameter Configuration, because the answer decides whether parameters are
-recovered or asked. The question is a blocking decision gate: it presents concrete options with
-one marked `(recommended)` and never carries the `Use default` trailing options of routine
-prompts.
+A previous report may be named `AUDIT.md`, `AUDIT-<revision>.md`, or the language-specific filename.
+
+When several exist, present the one with the highest revision as the candidate baseline.
+
+The audit mode is a user decision, never an assumption from the file system.
+
+When a previous report exists and the mode is not yet confirmed,
+ask the audit-mode question and wait for the answer before Parameter Configuration,
+because the answer decides whether parameters are recovered or asked.
+The question is a blocking decision gate:
+it presents concrete options with one marked `(recommended)` and never carries the `Use default`
+trailing options of routine prompts.
 
 - No audit mode was stated and a previous report was found: present the candidate file's path,
   revision, and report date, and ask which audit mode to run. Options: `Re-audit - compare
@@ -196,27 +231,38 @@ prompts.
 - The user asked for a fresh audit: honor it without asking, whether or not a previous report
   exists.
 
-Mark `(recommended)` on the re-audit option when the found report appears to cover the same
-subject, for example a matching system name or a file inside the subject's designated report
-directory, and on the fresh-audit option when it appears to cover a different subject. When
-unsure, recommend re-audit so history stays comparable. Mark the changed-parameters option
-recommended instead only when the user's request already signals a parameter change, for
-example "re-audit at a different scale".
+Mark `(recommended)` on the re-audit option when the found report appears to cover the same subject,
+for example a matching system name or a file inside the subject's designated report directory,
+and on the fresh-audit option when it appears to cover a different subject.
+
+When unsure, recommend re-audit so history stays comparable.
+
+Mark the changed-parameters option recommended instead only when the user's request already signals
+a parameter change, for example "re-audit at a different scale".
 
 On a confirmed re-audit, recover the previous report's detail level, scale, language, filename,
-and Descriptive mode. Recover Descriptive mode from the previous report's Document Information
-row when present, otherwise from the presence or absence of its Glossary section.
+and Descriptive mode.
+
+Recover Descriptive mode from the previous report's Document Information row when present,
+otherwise from the presence or absence of its Glossary section.
 
 Reuse them unless the user asks to change them, then proceed to Scope Definition without repeating
 answered questions.
 
-On `Re-audit with changed parameters`, the audit keeps comparison semantics - identifier
-continuity, the Changes Since Previous Audit section, and the incremented revision - while
-any core parameter may change. Recover the previous report's parameters as defaults, present
-them in a compact summary, and ask one follow-up question listing the core parameters:
-`Which parameters should change?` The user names the parameters to reconfigure. Run the
-parameter prompts only for the named parameters, marking the recovered value
-`(previous, default)` on each option. Parameters not named keep their recovered values.
+On `Re-audit with changed parameters`, the audit keeps comparison semantics - identifier continuity,
+the Changes Since Previous Audit section,
+and the incremented revision - while any core parameter may change.
+
+Recover the previous report's parameters as defaults, present them in a compact summary,
+and ask one follow-up question listing the core parameters:
+
+`Which parameters should change?` The user names the parameters to reconfigure.
+
+Run the parameter prompts only for the named parameters,
+marking the recovered value `(previous, default)` on each option.
+
+Parameters not named keep their recovered values.
+
 Record every parameter that differs from the previous report in the Changes Since Previous
 Audit field table and classify deltas the change produces as capability changes per
 `synthesis/report-comparison.md`, never as product changes.
@@ -224,17 +270,23 @@ Audit field table and classify deltas the change produces as capability changes 
 Record any missing parameters using defaults and disclose them, rather than claiming they were
 specified in the prior report.
 
-On a fresh audit the previous report's content is ignored: no parameters are recovered, the full
-Parameter Configuration phase runs, and no `FND-XXX`, `RSK-XXX`, or `REC-XXX` identifiers carry
-over. The report revision still increments from the highest revision found, the previous file is
-never overwritten, and the new report omits the Changes Since Previous Audit section and the
-`Previous Report` row. The cross-subject parity baseline in `process/report-parity.md` still
-applies.
+On a fresh audit the previous report's content is ignored: no parameters are recovered,
+the full Parameter Configuration phase runs, and no `FND-XXX`, `RSK-XXX`,
+or `REC-XXX` identifiers carry over.
 
-On a confirmed re-audit, do not reuse old execution permissions, tool results, or readiness
-conclusions as current evidence. The previous report is never overwritten. The new report is
-written to a new revision-numbered file and carries a Changes Since Previous Audit section, per
-`synthesis/report-comparison.md` and `process/report-format.md`.
+The report revision still increments from the highest revision found,
+the previous file is never overwritten, and the new report omits the Changes Since Previous Audit
+section and the `Previous Report` row.
+
+The cross-subject parity baseline in `process/report-parity.md` still applies.
+
+On a confirmed re-audit, do not reuse old execution permissions, tool results,
+or readiness conclusions as current evidence.
+
+The previous report is never overwritten.
+
+The new report is written to a new revision-numbered file and carries a Changes Since Previous Audit
+section, per `synthesis/report-comparison.md` and `process/report-format.md`.
 
 If no previous report is found and the conversation context contains no record of previously chosen
 parameters, treat the request as a new audit and run the full Parameter Configuration phase.
@@ -242,7 +294,9 @@ parameters, treat the request as a new audit and run the full Parameter Configur
 **Parameter Configuration**
 
 Before beginning the audit, ask the user whether to accept the default parameters or configure the
-core parameters. Present the defaults in a compact summary.
+core parameters.
+
+Present the defaults in a compact summary.
 
 Default parameters:
 
@@ -257,17 +311,23 @@ Default parameters:
 | Trade-off analysis      | Standalone section + embedded into relevant findings                                    |
 | Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it |
 
-The agent MUST ask the user and MUST NOT skip this step. The agent MUST wait for user response
-before proceeding to Scope Definition.
+The agent MUST ask the user and MUST NOT skip this step.
+
+The agent MUST wait for user response before proceeding to Scope Definition.
 
 Output filename carries the report revision: `AUDIT-1.0.md` for a first English audit, or the
 language-specific revisioned name from the matching `translations/` file such as `AUDYT-1.0.md`.
-When a previous report exists, the filename carries the new revision, for example `AUDIT-1.1.md`,
-per `synthesis/report-comparison.md`. Plain `AUDIT.md` or the language-specific stem remains an
-offered alternative. Used only when delivery is File.
 
-Improvement suggestions and trade-off analysis are advanced parameters. Apply their defaults
-unless the user explicitly specifies another setting.
+When a previous report exists, the filename carries the new revision, for example `AUDIT-1.1.md`,
+per `synthesis/report-comparison.md`.
+
+Plain `AUDIT.md` or the language-specific stem remains an offered alternative.
+
+Used only when delivery is File.
+
+Improvement suggestions and trade-off analysis are advanced parameters.
+
+Apply their defaults unless the user explicitly specifies another setting.
 
 If the user accepts defaults or says "bypass", "defaults", or equivalent, proceed immediately to
 Scope Definition using the values above.
@@ -278,8 +338,9 @@ At each prompt, offer a bypass option to accept the remaining defaults and proce
 
 **Parameter prompts**
 
-Present each prompt as a single question with clear options. After each answer, confirm the
-choice and move to the next parameter.
+Present each prompt as a single question with clear options.
+
+After each answer, confirm the choice and move to the next parameter.
 
 Every routine prompt carries three kinds of choices:
 
@@ -290,15 +351,18 @@ Every routine prompt carries three kinds of choices:
    remaining default and proceeds directly to Scope Definition.
 
 Routine prompts are limited to delivery and output file, detail level, and evaluation scale.
-Report language follows the request language unless the user explicitly specifies another
-language. Advanced parameters use their defaults unless explicitly specified.
+
+Report language follows the request language unless the user explicitly specifies another language.
+
+Advanced parameters use their defaults unless explicitly specified.
 
 **Delivery and output file**
 
-Documentation roots are `docs/`, `document/`, and `doc/`, checked in that order, and each may
-contain `audit/` or `report/` subdirectories. Before asking, resolve the base output directory
-using the following rules, applied in order against the root of the repository or directory
-being audited:
+Documentation roots are `docs/`, `document/`, and `doc/`, checked in that order,
+and each may contain `audit/` or `report/` subdirectories.
+
+Before asking, resolve the base output directory using the following rules,
+applied in order against the root of the repository or directory being audited:
 
 1. If any `<root>/audit/` directory exists, use the first one in the documentation root order
    as the base output directory.
@@ -308,9 +372,12 @@ being audited:
    order as the base output directory.
 4. Otherwise use the root of the audited repository or directory as the base output directory.
 
-After selecting the base output directory, consume the subdirectory pattern recorded during
-Output location discovery at intake. Do not re-detect the pattern here. Resolve the output
-directory deterministically from the record:
+After selecting the base output directory,
+consume the subdirectory pattern recorded during Output location discovery at intake.
+
+Do not re-detect the pattern here.
+
+Resolve the output directory deterministically from the record:
 
 | Recorded pattern   | Resolved output directory                                       |
 |--------------------|-----------------------------------------------------------------|
@@ -322,21 +389,33 @@ directory deterministically from the record:
 When the recorded pattern is `version-numbered` but no project version can be determined,
 resolve to `<base>` and note why in the question context.
 
-The final output location must fit the existing directory structure. Do not mix patterns: if the
-existing structure uses version numbers, use a version subdirectory, if it uses dates, use a
-date subdirectory.
+The final output location must fit the existing directory structure.
 
-When multiple projects are present and each has a different version, resolve the output
-directory once using the repository root. The single combined report is written to one location.
+Do not mix patterns: if the existing structure uses version numbers, use a version subdirectory,
+if it uses dates, use a date subdirectory.
+
+When multiple projects are present and each has a different version,
+resolve the output directory once using the repository root.
+
+The single combined report is written to one location.
+
 Do not create per-project subdirectories unless the user explicitly requests separate files per
 project.
 
-Resolve the filename before asking. The default filename carries the report revision:
-`<stem>-<revision>.md`, where `<stem>` is `AUDIT` for English reports or the language-specific
-stem from the matching `translations/` file. A first audit uses `AUDIT-1.0.md` or the
-language-specific equivalent such as `AUDYT-1.0.md`. When a previous report exists, use the
-incremented filename defined in `synthesis/report-comparison.md`. The plain stem name `AUDIT.md`
-or its language-specific equivalent is offered as an alternative file option.
+Resolve the filename before asking.
+
+The default filename carries the report revision:
+
+`<stem>-<revision>.md`, where `<stem>` is `AUDIT` for English reports or the language-specific stem
+from the matching `translations/` file.
+
+A first audit uses `AUDIT-1.0.md` or the language-specific equivalent such as `AUDYT-1.0.md`.
+
+When a previous report exists, use the incremented filename defined in
+`synthesis/report-comparison.md`.
+
+The plain stem name `AUDIT.md` or its language-specific equivalent is offered as an alternative file
+option.
 
 Ask: "How should the report be delivered?"
 
@@ -362,63 +441,78 @@ Present each applicable option as a concrete choice:
   such as `docs/report/AUDIT.md`, offered as an alternative to the revisioned default.
 - `Custom report file` - ask the user to specify the location and filename.
 
-For example, when `docs/report/` and `document/` exist with no subdirectory pattern, the
-question can offer `docs/report/AUDIT-1.0.md`, `docs/report/<version>/AUDIT-1.0.md`,
-`docs/report/<date>/AUDIT-1.0.md`, `document/AUDIT-1.0.md`, `AUDIT-1.0.md`, and
-`docs/report/AUDIT.md` alongside `Inline` and `Custom report file`. When `docs/report/1.6.7`
-exists and the project version is `1.7.3`, the question instead offers
-`docs/report/1.7.3/AUDIT-1.0.md` as the only structured path, with no date alternative.
+For example, when `docs/report/` and `document/` exist with no subdirectory pattern,
+the question can offer `docs/report/AUDIT-1.0.md`, `docs/report/<version>/AUDIT-1.0.md`,
+`docs/report/<date>/AUDIT-1.0.md`, `document/AUDIT-1.0.md`, `AUDIT-1.0.md`,
+and `docs/report/AUDIT.md` alongside `Inline` and `Custom report file`.
 
-When a subdirectory pattern was recorded at intake, do not offer the alternative pattern. A
-`version-numbered` record yields only the version path, a `date-named` record yields only the
-date path, and `mixed` follows the pattern recorded as most recent. `Custom report file`
-remains the escape hatch.
+When `docs/report/1.6.7` exists and the project version is `1.7.3`,
+the question instead offers `docs/report/1.7.3/AUDIT-1.0.md` as the only structured path,
+with no date alternative.
+
+When a subdirectory pattern was recorded at intake, do not offer the alternative pattern.
+
+A `version-numbered` record yields only the version path,
+a `date-named` record yields only the date path,
+and `mixed` follows the pattern recorded as most recent.
+
+`Custom report file` remains the escape hatch.
 
 Like every routine prompt, the question ends with `Use default: <default option>` and
 `Use defaults for all remaining questions`.
 
-Choosing a subdirectory option creates the subdirectory inside the base directory. Subsequent
-audits then follow the established pattern per the rules above.
+Choosing a subdirectory option creates the subdirectory inside the base directory.
 
-Always place the file inside the audited repository or directory. Do not write to an absolute
-path outside it unless the user explicitly provides one.
+Subsequent audits then follow the established pattern per the rules above.
 
-If the user already named a file or stated an Inline preference in the original request, honor
-it without asking again. Resolve the output directory using the rules above unless a full path
-was given.
+Always place the file inside the audited repository or directory.
+
+Do not write to an absolute path outside it unless the user explicitly provides one.
+
+If the user already named a file or stated an Inline preference in the original request,
+honor it without asking again.
+
+Resolve the output directory using the rules above unless a full path was given.
 
 If the user stated only a File preference without a path, ask the same delivery question with
 `Inline` omitted and the applicable file-location and `Custom report file` options retained.
 
 **Previous report files**
 
-When a previous audit report exists (for example, `AUDIT.md`, `AUDIT-1.0.md`, or a
-language-specific audit file), do not overwrite it. Write the new report to a separate file
-named `<base>-<revision>.md`, for example `AUDIT-1.1.md`.
+When a previous audit report exists (for example, `AUDIT.md`, `AUDIT-1.0.md`,
+or a language-specific audit file), do not overwrite it.
+
+Write the new report to a separate file named `<base>-<revision>.md`, for example `AUDIT-1.1.md`.
 
 Read the `Report Revision` value from the previous report's Document Information section,
 increment the minor component up to 9 (for example, `1.0` becomes `1.1`, `1.9` becomes `2.0`,
-`9.9` becomes `10.0`), and write the incremented revision into the new report. When the
-previous report records no revision, treat it as `1.0` and assign `1.1`. Older reports may
-record the revision as a bold-label `Version` field or a `Field`/`Value` table row, read any
-of these forms.
+`9.9` becomes `10.0`), and write the incremented revision into the new report.
 
-The previous report remains unchanged so that audit history stays comparable. Full rules live
-in `synthesis/report-comparison.md`.
+When the previous report records no revision, treat it as `1.0` and assign `1.1`.
+
+Older reports may record the revision as a bold-label `Version` field or a `Field`/`Value` table
+row, read any of these forms.
+
+The previous report remains unchanged so that audit history stays comparable.
+
+Full rules live in `synthesis/report-comparison.md`.
 
 **Report language**
 
-The default is the language of the user's request. When the request language is ambiguous, mixed,
-or cannot be determined with confidence, default to English and apply the English document style
-rules.
+The default is the language of the user's request.
+
+When the request language is ambiguous, mixed, or cannot be determined with confidence,
+default to English and apply the English document style rules.
 
 When the user explicitly specifies a different report language, apply it without a routine
 follow-up question.
 
-When the report language is not English, load the matching `translations/` file and apply every
-translation, style rule, and encoding requirement defined there. The default filename changes to
-the language-specific filename defined in the translation file, and the report must be written in
-UTF-8 encoding with all language-specific diacritics preserved.
+When the report language is not English,
+load the matching `translations/` file and apply every translation, style rule,
+and encoding requirement defined there.
+
+The default filename changes to the language-specific filename defined in the translation file,
+and the report must be written in UTF-8 encoding with all language-specific diacritics preserved.
 
 Analysis runs in English regardless of the report language: evidence notes, finding drafts, and
 assembled part files are written in English, and the report is rendered into the report language
@@ -456,7 +550,9 @@ The question ends with `Use default: 1-10` and `Use defaults for all remaining q
 
 **Improvement suggestions**
 
-Use **Include with priorities** by default. Do not ask this as a routine prompt.
+Use **Include with priorities** by default.
+
+Do not ask this as a routine prompt.
 
 Apply another option only when the user explicitly specifies it.
 
@@ -467,7 +563,9 @@ Apply another option only when the user explicitly specifies it.
 
 **Trade-off analysis**
 
-Use **Standalone and embedded** by default. Do not ask this as a routine prompt.
+Use **Standalone and embedded** by default.
+
+Do not ask this as a routine prompt.
 
 Apply another option only when the user explicitly specifies it.
 
@@ -477,7 +575,9 @@ Apply another option only when the user explicitly specifies it.
 
 **Descriptive mode**
 
-Use **Enabled** by default. Do not ask this as a routine prompt.
+Use **Enabled** by default.
+
+Do not ask this as a routine prompt.
 
 Apply another option only when the user explicitly specifies it.
 
@@ -500,8 +600,9 @@ State what is in scope and what is not.
 
 List the components, services, or files that were provided.
 
-Record any constraints, goals, or target environment the user stated. Mark unstated constraints as
-`NOT SPECIFIED`.
+Record any constraints, goals, or target environment the user stated.
+
+Mark unstated constraints as `NOT SPECIFIED`.
 
 Determine the maturity level claim, if any, so it can be tested against evidence later.
 
@@ -516,9 +617,11 @@ obligations using the existing assessment categories rather than creating a sepa
 If business artifacts are unavailable, retain those concerns as `UNKNOWN` and request specific
 artifacts, do not present a source-only review as complete business due diligence.
 
-The audit runs source-only. It never compiles, builds, or tests the project and never runs
-linters, scanners, or generators against it, tool availability cannot be assumed and executing
-untrusted code is out of scope.
+The audit runs source-only.
+
+It never compiles, builds, or tests the project and never runs linters, scanners,
+or generators against it, tool availability cannot be assumed and executing untrusted code is out of
+scope.
 
 Analysis rests on repository contents alone: source files, configuration, build scripts,
 pipeline definitions, documentation, and committed artifacts such as coverage or scan reports.
@@ -528,15 +631,20 @@ in scope.
 The audit never installs tools, uploads source, changes project policies, executes builds or
 tests, or accesses live systems.
 
-Record the scope as `source-only`. Documented or committed check results are `Reported`
-evidence, not audit execution.
+Record the scope as `source-only`.
 
-Also record the audit-type coverage decision here: read the canonical rows in
-`references/audit-taxonomy.md` and note which statuses the engagement supports. Under the
-default scope the Penetration Test, Compliance Certification, and interview-dependent
-Technical Due Diligence dimensions stay `Not done` or `Partially`, and any
-explicitly lifted constraint is recorded so the Coverage Matrix and Scope Exclusions can match
-it. The matrix itself is rendered during Synthesis.
+Documented or committed check results are `Reported` evidence, not audit execution.
+
+Also record the audit-type coverage decision here:
+read the canonical rows in `references/audit-taxonomy.md` and note which statuses the engagement
+supports.
+
+Under the default scope the Penetration Test, Compliance Certification,
+and interview-dependent Technical Due Diligence dimensions stay `Not done` or `Partially`,
+and any explicitly lifted constraint is recorded so the Coverage Matrix and Scope Exclusions can
+match it.
+
+The matrix itself is rendered during Synthesis.
 
 For readiness audits, identify required evidence before judging readiness: documented build and
 test results, dependency manifests and lockfiles, committed scan reports, and operational
@@ -547,52 +655,70 @@ recovery documentation.
 For each relevant assessment category, collect concrete anchors: files, config keys, documented
 commands, pipeline steps, documented procedures, committed check output, or direct quotes.
 
-When development standards documents were found during intake, collect evidence of conformance and
-divergence: for each rule in the standards, find representative source files that follow or violate
-it. Also collect the external best practices, style guides, or conventions that the standards
-reference or that apply to the stack, for the standards-quality evaluation in
-`assessment/standards-conformance.md`.
+When development standards documents were found during intake,
+collect evidence of conformance and divergence: for each rule in the standards,
+find representative source files that follow or violate it.
+
+Also collect the external best practices, style guides,
+or conventions that the standards reference or that apply to the stack,
+for the standards-quality evaluation in `assessment/standards-conformance.md`.
 
 For dependency analysis, derive the component inventory from manifests and lockfiles as text,
-per `references/dependency-manifests.md`. The derived list records components, versions,
-relationships, and scopes without running a package manager or an SBOM generator.
+per `references/dependency-manifests.md`.
+
+The derived list records components, versions, relationships,
+and scopes without running a package manager or an SBOM generator.
 
 Build the SBOM table for the report from that inventory per `references/sbom-schema.md` before
-scoring Dependency Health, so the score has a structured artifact behind it. Then run the
-license-classification pass from `references/license-compliance.md` over every SBOM
+scoring Dependency Health, so the score has a structured artifact behind it.
+
+Then run the license-classification pass from `references/license-compliance.md` over every SBOM
 row, populating the License and License Risk cells from inspected declarations only.
 
 For delivery practice, compute the Git-derived proxies and contributor concentration per
-`references/delivery-practice.md`: tag cadence, median commit-to-tag interval,
-top-author share, and active-contributor count. Fields the repository cannot supply stay
-`NOT SPECIFIED` with the reason recorded.
+`references/delivery-practice.md`: tag cadence, median commit-to-tag interval, top-author share,
+and active-contributor count.
+
+Fields the repository cannot supply stay `NOT SPECIFIED` with the reason recorded.
 
 For recurring source and history censuses, apply the canonical counting methods in
 `references/census-commands.md` and record the counting rule beside each figure in the ledger,
 so a re-audit can reproduce the number.
 
-Respect `.gitignore` exclusions for generated, vendored, and build output. Do not inspect files
-that are excluded by `.gitignore` patterns when they hold generated or vendored content (for
-example, `bin/`, `obj/`, `node_modules/`, or build artifacts). If a `.gitignore` file is present,
-use it to filter the file list before analysis. If no `.gitignore` is present, record the fact,
+Respect `.gitignore` exclusions for generated, vendored, and build output.
+
+Do not inspect files that are excluded by `.gitignore` patterns when they hold generated or vendored
+content (for example, `bin/`, `obj/`, `node_modules/`, or build artifacts).
+
+If a `.gitignore` file is present, use it to filter the file list before analysis.
+
+If no `.gitignore` is present, record the fact,
 but raise a finding only if relevant exclusions are required or a concrete exposure is evidenced.
 
-The exclusion targets generated and vendored content, not project-owned configuration that the
-project keeps untracked. When tracked source loads an untracked config or credential file (for
-example an `access.json` or `.env` file referenced by auth code), inspect it for security
-posture. Record such a file as working-tree evidence, never count it in the tracked file
-inventory, and never reproduce secret values per `principles/evaluation-rules.md`.
+The exclusion targets generated and vendored content,
+not project-owned configuration that the project keeps untracked.
+When tracked source loads an untracked config or credential file (for example an `access.json` or
+`.env` file referenced by auth code), inspect it for security posture.
 
-Before asserting that a file is committed repository content, verify its tracked status with
-`git ls-files` and its ignore status with `git check-ignore`, per the Tracked Artifacts methods
-in `references/census-commands.md`. A file present on disk is not committed content until
-`git ls-files` says so.
+Record such a file as working-tree evidence, never count it in the tracked file inventory,
+and never reproduce secret values per `principles/evaluation-rules.md`.
 
-Honor read restrictions the project itself declares, for example rule files that bar reading
-certain directories. An untracked rules directory still governs. Record every honored
-restriction in Scope Exclusions so the reader knows the coverage bound.
+Before asserting that a file is committed repository content,
+verify its tracked status with `git ls-files` and its ignore status with `git check-ignore`,
+per the Tracked Artifacts methods in `references/census-commands.md`.
 
-Do not yet form conclusions. Separate collection from judgement to avoid confirmation bias.
+A file present on disk is not committed content until `git ls-files` says so.
+
+Honor read restrictions the project itself declares,
+for example rule files that bar reading certain directories.
+
+An untracked rules directory still governs.
+
+Record every honored restriction in Scope Exclusions so the reader knows the coverage bound.
+
+Do not yet form conclusions.
+
+Separate collection from judgement to avoid confirmation bias.
 
 When a search or pattern match is ambiguous - for example a dependency scope or a classification
 matched in a different context than the project dependency - confirm the result by reading the
@@ -602,11 +728,15 @@ Where evidence is absent, record the gap explicitly with the appropriate missing
 
 **Collected evidence coverage**
 
-Every material observation collected during this pass must surface in the report. Git history
-signals such as author concentration, commit cadence, and tag history produce at least a
-one-line entry even when no adverse finding results: a Health Dashboard line, a finding, a
-strength, or an explicit note. An item is dropped only with a recorded reason. Nothing
-collected is silently unused.
+Every material observation collected during this pass must surface in the report.
+
+Git history signals such as author concentration, commit cadence,
+and tag history produce at least a one-line entry even when no adverse finding results:
+a Health Dashboard line, a finding, a strength, or an explicit note.
+
+An item is dropped only with a recorded reason.
+
+Nothing collected is silently unused.
 
 **Verification Plan**
 
@@ -616,20 +746,24 @@ Select the checks that would verify material claims from the project's documente
 the relevant assessment guides: build and test commands, lint and formatting rules, dependency
 advisory scans, and license or SBOM checks.
 
-The audit never executes them. For each selected check, record what the repository itself
-shows: a documented command, a pipeline step, a committed report, or nothing at all.
+The audit never executes them.
+
+For each selected check, record what the repository itself shows: a documented command,
+a pipeline step, a committed report, or nothing at all.
 
 Map each check to the ledger as `NOT RUN`, citing where the check is declared or where its
 output is documented when such artifacts exist.
 
-A documented or committed result is `Reported` evidence. It supports the claim it covers,
-never "verified" status.
+A documented or committed result is `Reported` evidence.
+
+It supports the claim it covers, never "verified" status.
 
 If a material claim has no documented result and cannot be resolved from source, record the
 gap, its confidence impact, and the exact next step as a recommendation.
 
-Do not mark the absence of tool execution as a product defect. A missing check is missing
-evidence, not a missing feature.
+Do not mark the absence of tool execution as a product defect.
+
+A missing check is missing evidence, not a missing feature.
 
 **No execution**
 
@@ -650,9 +784,10 @@ Use globally unique evidence IDs within a report, with a project identifier on e
 |-------------|-----------|---------------------|-----------|---------------|---------------|----------|
 | EVD-001     | <project> | <command or source> | <state>   | <observation> | <obs/concern> | <path>   |
 
-Every ledger row carries a `Type`: `Observation` for a fact another auditor could re-derive from
-the same artifact, `Concern` for a risk judgment built on observations. Most ledger rows are
-`Observation`.
+Every ledger row carries a `Type`: `Observation` for a fact another auditor could re-derive from the
+same artifact, `Concern` for a risk judgment built on observations.
+
+Most ledger rows are `Observation`.
 
 The audit produces only two execution states: `NOT RUN` for a check that is documented or
 selected but never executed, and `N/A` for a source observation.
@@ -682,28 +817,36 @@ Treat every material claim in the Executive Summary, Health Dashboard, High-Leve
 scorecard, risk register, roadmap, and readiness decision as a claim that needs a finding or
 evidence reference.
 
-A claim reference must preserve the qualification of its source. Use `Inspected`, `Reported`, or
-`Inferred` evidence labels and retain `UNKNOWN`, `NOT SPECIFIED`, or `INSUFFICIENT INFORMATION`
-when the evidence cannot support a stronger statement.
+A claim reference must preserve the qualification of its source.
 
-Do not promote an inspected source observation into a runtime or production claim. Do not promote a
-reported result from an older revision into current verification. If a material claim has no direct
-reference, add one to the evidence ledger or remove the claim.
+Use `Inspected`, `Reported`, or `Inferred` evidence labels and retain `UNKNOWN`, `NOT SPECIFIED`,
+or `INSUFFICIENT INFORMATION` when the evidence cannot support a stronger statement.
+
+Do not promote an inspected source observation into a runtime or production claim.
+
+Do not promote a reported result from an older revision into current verification.
+
+If a material claim has no direct reference, add one to the evidence ledger or remove the claim.
 
 **Category Assessment**
 
-For each category, open the matching `assessment/` file and apply its checklist. For a full audit,
-this includes the two additional categories `assessment/ai-generated-code.md` and
+For each category, open the matching `assessment/` file and apply its checklist.
+
+For a full audit, this includes the two additional categories `assessment/ai-generated-code.md` and
 `assessment/copyright-review.md`.
 
-Evaluate the inclusion criterion for each conditional assessment, listed in the Conditional Sections
-table of `process/report-format.md`. When the criterion is met, open the matching conditional file
-and apply it: `assessment/data-flow.md`, `assessment/design-patterns.md`,
-`assessment/threat-model.md`, `assessment/api-contract.md`, `assessment/skill-definition.md`,
-`assessment/ai-system.md`, `assessment/standards-conformance.md`, and
-`assessment/api-compatibility.md`. When a criterion is not met, omit that section and record the
-deliberate omission for Scope Exclusions. Do not force a conditional section onto a subject it does
-not fit.
+Evaluate the inclusion criterion for each conditional assessment,
+listed in the Conditional Sections table of `process/report-format.md`.
+
+When the criterion is met, open the matching conditional file and apply it:
+`assessment/data-flow.md`, `assessment/design-patterns.md`, `assessment/threat-model.md`,
+`assessment/api-contract.md`, `assessment/skill-definition.md`, `assessment/ai-system.md`,
+`assessment/standards-conformance.md`, and `assessment/api-compatibility.md`.
+
+When a criterion is not met, omit that section and record the deliberate omission for Scope
+Exclusions.
+
+Do not force a conditional section onto a subject it does not fit.
 
 Assign a status (`PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`) per the rules in
 `principles/evaluation-rules.md`.
@@ -712,26 +855,38 @@ Record evidence, concrete risks, and neutral notes for each category.
 
 **Synthesis**
 
-Render the Audit Type Coverage & Assurance Matrix first, from the fixed row set in
-`references/audit-taxonomy.md`. It is the report's coverage declaration, so it is assembled
-before any other section content and checked against Scope Exclusions during Validation.
+Render the Audit Type Coverage & Assurance Matrix first,
+from the fixed row set in `references/audit-taxonomy.md`.
 
-Tag every finding `Observation` or `Concern` per `principles/evaluation-rules.md`, and attach an
-Exploitability Narrative at an explicit tier to every `HIGH` or `CRITICAL` security finding,
-per `references/exploitability-narrative.md`. Under the default scope the tier is
-`Theoretical` or `Static-Confirmed`.
+It is the report's coverage declaration,
+so it is assembled before any other section content and checked against Scope Exclusions during
+Validation.
 
-Build the unified risk register from the risks surfaced during assessment, using
-`synthesis/risk-register.md`. Every risk must reference its source `FND-XXX`.
+Tag every finding `Observation` or `Concern` per `principles/evaluation-rules.md`,
+and attach an Exploitability Narrative at an explicit tier to every `HIGH` or `CRITICAL` security
+finding, per `references/exploitability-narrative.md`.
+
+Under the default scope the tier is `Theoretical` or `Static-Confirmed`.
+
+Build the unified risk register from the risks surfaced during assessment,
+using `synthesis/risk-register.md`.
+
+Every risk must reference its source `FND-XXX`.
 
 Build the project scorecard using `synthesis/project-scorecard.md` and
-`process/readiness-and-scoring.md`. Present the scoring rubric before the scores. Wherever an
-overall score is stated, report the lowest-scoring applicable dimension and its score alongside
-the mean, so a weak pillar is not hidden inside an average. Record confidence, score caps, and
-readiness gates separately from the mean.
+`process/readiness-and-scoring.md`.
+
+Present the scoring rubric before the scores.
+
+Wherever an overall score is stated, report the lowest-scoring applicable dimension and its score
+alongside the mean, so a weak pillar is not hidden inside an average.
+
+Record confidence, score caps, and readiness gates separately from the mean.
 
 Draft the High-Level Observations section by selecting the top 5 most important findings from the
-Detailed Technical Findings. Keep each observation brief, full detail lives in the finding blocks.
+Detailed Technical Findings.
+
+Keep each observation brief, full detail lives in the finding blocks.
 
 Draft the Strengths & What's Working section by identifying 5-8 evidenced positive baselines from
 the codebase.
@@ -740,11 +895,14 @@ Surface trade-offs both as a standalone Trade-off Analysis section (using
 `synthesis/trade-off-analysis.md`) and embedded into relevant architectural or design findings where
 they directly explain a specific finding.
 
-When structural debt distinct from risks was surfaced, build the Technical Debt Register using
-`synthesis/debt-register.md`. Every debt item must trace to a finding or a cited direct observation.
+When structural debt distinct from risks was surfaced,
+build the Technical Debt Register using `synthesis/debt-register.md`.
 
-Draft the actionable remediation roadmap using `synthesis/remediation-roadmap.md`. Every
-recommendation must resolve a specific `FND-XXX`.
+Every debt item must trace to a finding or a cited direct observation.
+
+Draft the actionable remediation roadmap using `synthesis/remediation-roadmap.md`.
+
+Every recommendation must resolve a specific `FND-XXX`.
 
 When the roadmap contains at least one P1 or P2 recommendation, build the Re-audit And Follow-up
 Plan using `synthesis/re-audit-plan.md`, mapping those findings to verification owners and closure
@@ -754,23 +912,29 @@ When a re-audit was confirmed during intake, build the Changes Since Previous Au
 using `synthesis/report-comparison.md`, comparing findings, risks, scores, and category
 statuses against the previous report.
 
-Draft the Executive Summary last, after all findings, the risk register, and the roadmap are
-final. It is the first section a reader sees but the last one synthesized, so it summarizes only
-completed analysis. Add the Production Readiness Threshold paragraph to it at this stage, tying
-conditions to specific `RSK-XXX` IDs.
+Draft the Executive Summary last, after all findings, the risk register, and the roadmap are final.
+It is the first section a reader sees but the last one synthesized,
+so it summarizes only completed analysis.
+
+Add the Production Readiness Threshold paragraph to it at this stage,
+tying conditions to specific `RSK-XXX` IDs.
 
 **Large report assembly**
 
-When a report is too large to write in one pass, compose it in parts inside the audited
-repository's `work/` directory (or `temp`/`temporary` when that is the convention), then
-concatenate the parts in the fixed section order into the final file. Write one part per
-file-writing call so no single call exceeds the tool's input limit, and never use a shell
-heredoc for large content, since long heredocs are truncated by input limits and leave partial
-files behind.
+When a report is too large to write in one pass,
+compose it in parts inside the audited repository's `work/` directory (or `temp`/`temporary` when
+that is the convention), then concatenate the parts in the fixed section order into the final file.
 
-Parts may be written directly in the report language; a second render pass over the whole
-document is not required and can itself exceed the write limit. The English-mapped validation
-copy described in Validation still covers the mechanical checks for a non-English report.
+Write one part per file-writing call so no single call exceeds the tool's input limit,
+and never use a shell heredoc for large content,
+since long heredocs are truncated by input limits and leave partial files behind.
+
+Parts may be written directly in the report language.
+
+A second render pass over the whole document is not required and can itself exceed the write limit.
+
+The English-mapped validation copy described in Validation still covers the mechanical checks for a
+non-English report.
 
 Run the Pre-Delivery Mechanical Checklist and the formatting script on the assembled file, not
 on the parts, and remove the part files after assembly.
@@ -835,9 +999,11 @@ current evidence, and no identifier from the previous report was reused for a di
 finding.
 
 Confirm each conditional section was evaluated: it is either present because its criterion is met,
-or omitted with a deliberate one-line justification in Scope Exclusions. No conditional section may
-be present-but-empty, and none relevant to the subject may be silently dropped. Changes Since
-Previous Audit is the exception, its absence in a first audit needs no omission note.
+or omitted with a deliberate one-line justification in Scope Exclusions.
+
+No conditional section may be present-but-empty,
+and none relevant to the subject may be silently dropped.
+Changes Since Previous Audit is the exception, its absence in a first audit needs no omission note.
 
 When a Threat Model is present, confirm every unmitigated threat traces to a `FND-XXX` and a
 `RSK-XXX`, and that no plaintext secret appears in a disclosure threat.
@@ -845,19 +1011,26 @@ When a Threat Model is present, confirm every unmitigated threat traces to a `FN
 When an API Contract Conformance section is present, confirm each security gap maps to an OWASP API
 Security Top 10 (2023) code where one applies.
 
-When a Standards Conformance section is present, confirm every conformance judgement cites a
-specific rule in the standards document and a specific file or pattern in the codebase, and that
-every standards-quality judgement cites a named external best practice. Confirm the References
-section lists every external source consulted during the standards-quality evaluation.
+When a Standards Conformance section is present,
+confirm every conformance judgement cites a specific rule in the standards document and a specific
+file or pattern in the codebase, and that every standards-quality judgement cites a named external
+best practice.
 
-Confirm every material evidence item collected during Evidence Gathering surfaces in the report
-as a finding, a risk, a dashboard element, or a strength, or is recorded as deliberately unused
-with a reason. Git history signals such as author concentration, commit cadence, and tag
-history must appear at least as the Team & Continuity line in the Health Dashboard.
+Confirm the References section lists every external source consulted during the standards-quality
+evaluation.
+
+Confirm every material evidence item collected during Evidence Gathering surfaces in the report as a
+finding, a risk, a dashboard element, or a strength,
+or is recorded as deliberately unused with a reason.
+
+Git history signals such as author concentration, commit cadence,
+and tag history must appear at least as the Team & Continuity line in the Health Dashboard.
 
 Confirm every CWE-classified security finding names its equivalent static analyzer rule from
-`references/cwe-analyzer-map.md` with its enablement evidence, or states that no direct rule
-exists for the CWE in that stack. Confirm no finding implies an analyzer ran.
+`references/cwe-analyzer-map.md` with its enablement evidence,
+or states that no direct rule exists for the CWE in that stack.
+
+Confirm no finding implies an analyzer ran.
 
 Confirm the Audit Type Coverage & Assurance Matrix is present after Document Information and
 consistent with Scope Exclusions: every `Not done` row has a matching exclusion bullet and
@@ -870,9 +1043,11 @@ committed advisory evidence exists.
 Confirm every evidence-ledger row and every finding carries an `Observation` or `Concern` tag.
 
 Confirm every `HIGH` or `CRITICAL` Security & Compliance finding carries an Exploitability
-Narrative: the tier and attack-path reasoning on a network-facing surface, `N/A` with a reason
-otherwise. Confirm no narrative claims a tier above the evidence, `Dynamically-Verified` under
-the default scope is a defect.
+Narrative: the tier and attack-path reasoning on a network-facing surface,
+`N/A` with a reason otherwise.
+
+Confirm no narrative claims a tier above the evidence,
+`Dynamically-Verified` under the default scope is a defect.
 
 Confirm the Delivery Practice & Team Continuity section is present per project: computable
 metrics are labeled as proxies, unmeasurable metrics are `NOT SPECIFIED` with reasons, and the
@@ -882,8 +1057,11 @@ Confirm every place an overall score appears reports the lowest-scoring applicab
 and its score in a paragraph below the table, per `synthesis/project-scorecard.md`.
 
 Confirm every numeric dimension has evidence IDs, confidence, and a justified score point or cap.
-Confirm `UNKNOWN` and `N/A` dimensions are excluded from the mean. Confirm the maturity level,
-readiness state, blocking risks, and sign-off status agree with `process/readiness-and-scoring.md`.
+
+Confirm `UNKNOWN` and `N/A` dimensions are excluded from the mean.
+
+Confirm the maturity level, readiness state, blocking risks,
+and sign-off status agree with `process/readiness-and-scoring.md`.
 
 When an API Compatibility And Versioning Discipline section is present, confirm it addresses
 gate presence, versioning-scheme consistency, and breaking-change tracking, and that configured
@@ -901,39 +1079,55 @@ Scope Exclusions state the OWASP category coverage.
 
 Confirm the report follows `process/report-format.md` section by section.
 
-Confirm the report path matches the output directory recorded during Output location
-discovery. If it does not, correct the path before writing.
+Confirm the report path matches the output directory recorded during Output location discovery.
+
+If it does not, correct the path before writing.
 
 Confirm the report follows the Formatting Rules in `process/report-format.md`: headings stop at
 `###`, prose lines over the selected wrap width (default 100) are wrapped, prose contains no
 semicolons, and every table was formatted with an automated script so all `|` separators align
 vertically in plain text.
 
-Run the Pre-Delivery Mechanical Checklist in `process/report-format.md` and require zero
-violations. Copy `scripts/validate-report.py` into the audited repository as
-`validate-report.tmp.py` and run it on the report. The validator prints at most ten problems
-per check, so fix, re-run the formatter, and re-validate until it reports zero issues. When
-the report language is not English,
+Run the Pre-Delivery Mechanical Checklist in `process/report-format.md` and require zero violations.
+
+Copy `scripts/validate-report.py` into the audited repository as `validate-report.tmp.py` and run it
+on the report.
+
+The validator prints at most ten problems per check, so fix, re-run the formatter,
+and re-validate until it reports zero issues.
+
+When the report language is not English,
 first generate an English-mapped working copy that translates the `* **Field:**` finding-block
-labels, fixed-vocabulary values, and section headings, and that remaps the glossary section
-anchor and the `Parity baseline` row label to their English forms. A copy that maps only field
-labels lets the validator skip the required-sections, glossary, and final-state checks instead
-of running them; the fuller mapping makes every check execute on the translated report. Run the
-table formatter on the working copy as well, since anchor remapping changes cell widths. The
-report stays `Draft` while the checklist or the validator reports a violation.
+labels, fixed-vocabulary values, and section headings,
+and that remaps the glossary section anchor and the `Parity baseline` row label to their English
+forms.
+
+A copy that maps only field labels lets the validator skip the required-sections, glossary,
+and final-state checks instead of running them.
+
+The fuller mapping makes every check execute on the translated report.
+
+Run the table formatter on the working copy as well, since anchor remapping changes cell widths.
+
+The report stays `Draft` while the checklist or the validator reports a violation.
 
 Confirm any temporary formatting or validation scripts and any validation working copies were
 removed from the audited repository.
 
-Run the Mandatory Core Checklist and Consistency Gate in `process/report-parity.md`. Write the
-Limitations and Unknowns and Validation Record sections from their outcome. The report is final
-only when the gate passes, at which point no `State` row remains in Document Information.
+Run the Mandatory Core Checklist and Consistency Gate in `process/report-parity.md`.
+
+Write the Limitations and Unknowns and Validation Record sections from their outcome.
+
+The report is final only when the gate passes,
+at which point no `State` row remains in Document Information.
 
 Compute the elapsed time from the intake start timestamp to now and write it as `MM:SS` in the
-`Time taken` row of Document Information. Include the same value in the completion message to
-the user, for example `Time taken 13:45`. When no reliable start timestamp exists - for example
-when revising a report whose audit predates this rule - omit the row instead of inventing a
-duration.
+`Time taken` row of Document Information.
+
+Include the same value in the completion message to the user, for example `Time taken 13:45`.
+
+When no reliable start timestamp exists - for example when revising a report whose audit predates
+this rule - omit the row instead of inventing a duration.
 
 **Evidence and decision checks**
 
@@ -1062,16 +1256,19 @@ and finding IDs.
 Record what changed since the previous audit and which findings moved status, so progress is
 comparable over time.
 
-Every evidence anchor is re-derived from the current tree. When a previous report's anchor does
-not resolve and the tree is unchanged, record the correct anchor and flag the prior citation as
-an evidence correction per `synthesis/report-comparison.md`, never silently substitute it.
+Every evidence anchor is re-derived from the current tree.
 
-When the baseline's `Skill Version` row predates the running skill version, enumerate the
-capability delta before writing: new mandatory sections, new finding or ledger fields, new PAR
-rows, and new scorecard dimensions added between the two versions. Apply the delta so the new
-report satisfies the current format, and classify every structural addition as a capability
-change in the Changes Since Previous Audit section and the Validation Record, not a product
-change.
+When a previous report's anchor does not resolve and the tree is unchanged,
+record the correct anchor and flag the prior citation as an evidence correction per
+`synthesis/report-comparison.md`, never silently substitute it.
+
+When the baseline's `Skill Version` row predates the running skill version,
+enumerate the capability delta before writing: new mandatory sections, new finding or ledger fields,
+new PAR rows, and new scorecard dimensions added between the two versions.
+
+Apply the delta so the new report satisfies the current format,
+and classify every structural addition as a capability change in the Changes Since Previous Audit
+section and the Validation Record, not a product change.
 
 When the scorecard dimension set differs between revisions, restate the mean formula: an added
 or removed dimension changes the denominator, and the resulting score movement is a capability
@@ -1083,14 +1280,16 @@ Build the Changes Since Previous Audit section using `synthesis/report-compariso
 which `FND-XXX` findings changed from `Open` to `Closed`, which `RSK-XXX` risks were mitigated,
 and which findings are new.
 
-Do not overwrite the previous report file. Write the new report to a revision-numbered file
-such as `AUDIT-1.1.md` and record the previous report in the Document Information
-`Previous Report` row.
+Do not overwrite the previous report file.
 
-When `git diff` or the file inventory shows no source delta since the previous report, the
-mandatory reading narrows: format, comparison, parity, style, and evaluation files plus the
-synthesis files for sections the report carries. Category assessment files load only for
-categories with new or changed findings.
+Write the new report to a revision-numbered file such as `AUDIT-1.1.md` and record the previous
+report in the Document Information `Previous Report` row.
+
+When `git diff` or the file inventory shows no source delta since the previous report,
+the mandatory reading narrows: format, comparison, parity, style,
+and evaluation files plus the synthesis files for sections the report carries.
+
+Category assessment files load only for categories with new or changed findings.
 
 ## Multi-Project Audits
 
@@ -1099,26 +1298,36 @@ directory, the audit runs independently for each project.
 
 **Per-project independence**
 
-Each project is assessed as a self-contained subject. Findings, risks, scorecard scores, and
-recommendations for one project must not reference or depend on another project unless the user
-explicitly states that cross-project interactions are in scope.
+Each project is assessed as a self-contained subject.
 
-Finding IDs use the standard pillar abbreviations but are scoped per project. Each project's
-findings start at `FND-XXX-001`. Risk IDs and recommendation IDs also reset per project.
+Findings, risks, scorecard scores, and recommendations for one project must not reference or depend
+on another project unless the user explicitly states that cross-project interactions are in scope.
 
-Inside a project block, the short identifier is sufficient. In shared sections, qualify every
-identifier with the stable project identifier, for example `api-service::FND-SEC-001`,
-`api-service::RSK-001`, and `api-service::REC-001`. Never use ambiguous labels such as `both`,
-`either`, or `the projects` as an identifier.
+Finding IDs use the standard pillar abbreviations but are scoped per project.
+
+Each project's findings start at `FND-XXX-001`.
+
+Risk IDs and recommendation IDs also reset per project.
+
+Inside a project block, the short identifier is sufficient.
+
+In shared sections, qualify every identifier with the stable project identifier,
+for example `api-service::FND-SEC-001`, `api-service::RSK-001`, and `api-service::REC-001`.
+
+Never use ambiguous labels such as `both`, `either`, or `the projects` as an identifier.
 
 The project name or identifier prefixes the finding block heading so the reader can locate the
-project within the report. See `process/report-format.md` for the multi-project report structure.
+project within the report.
+
+See `process/report-format.md` for the multi-project report structure.
 
 **Workflow for multiple projects**
 
-Run the full workflow (Scope Definition through Validation) once per project, in sequence or in
-parallel as the agent's capabilities allow. After all per-project assessments are complete, run a
-single Synthesis phase that combines all projects into one report:
+Run the full workflow (Scope Definition through Validation) once per project,
+in sequence or in parallel as the agent's capabilities allow.
+
+After all per-project assessments are complete,
+run a single Synthesis phase that combines all projects into one report:
 
 1. For each project, run Scope Definition, Evidence Gathering, Category Assessment, and per-project
    Validation.
@@ -1144,18 +1353,28 @@ single Synthesis phase that combines all projects into one report:
 
 **Parameter Configuration for multiple projects**
 
-The Parameter Configuration phase runs once. The chosen parameters (detail level, evaluation scale,
-language, delivery mode, improvement suggestions, trade-off analysis) apply uniformly to all
-projects in the report. Do not re-ask parameters per project.
+The Parameter Configuration phase runs once.
+
+The chosen parameters (detail level, evaluation scale, language, delivery mode,
+improvement suggestions, trade-off analysis) apply uniformly to all projects in the report.
+
+Do not re-ask parameters per project.
 
 **Output location for multiple projects**
 
-The report is a single file. Resolve the output directory once using the rules in the Delivery
-and output file section. When version-numbered subdirectories exist under an `audit/` or
-`report/` documentation directory, use the repository's primary version if one can be
-determined. The primary version is the deployable service or application project's version.
+The report is a single file.
+
+Resolve the output directory once using the rules in the Delivery and output file section.
+
+When version-numbered subdirectories exist under an `audit/` or `report/` documentation directory,
+use the repository's primary version if one can be determined.
+The primary version is the deployable service or application project's version.
+
 When several projects qualify, prefer the project whose version sequence continues the existing
-subdirectory names, and disclose the choice. When date-named subdirectories exist under an
-`audit/` or `report/` documentation directory, use the current date in ISO `YYYY-MM-DD` format.
+subdirectory names, and disclose the choice.
+
+When date-named subdirectories exist under an `audit/` or `report/` documentation directory,
+use the current date in ISO `YYYY-MM-DD` format.
+
 When no single primary version applies and no date pattern exists, use the root of the resolved
 directory without a subdirectory.

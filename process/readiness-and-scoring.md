@@ -25,7 +25,9 @@ Every full audit keeps these outputs separate:
   closure evidence.
 
 A final report - one without a `State` row - means the scoped report passed its report-quality
-gates. It does not mean the subject is production-approved.
+gates.
+
+It does not mean the subject is production-approved.
 
 ## Category Inputs
 

@@ -8,19 +8,25 @@
 > anti-patterns, inconsistent application
 
 This file guides assessment of which design patterns the code uses and whether they are applied
-appropriately. It complements `assessment/design-principles.md` (SOLID) and
-`assessment/maintainability-review.md` (module structure): this file names the concrete patterns and
-judges their fitness.
+appropriately.
 
-Apply `principles/evaluation-rules.md` throughout. Name patterns from observable code, not from
-intent. A pattern that fits the stated context is a strength, a pattern applied inconsistently or
-where it adds no value is an anti-pattern.
+It complements `assessment/design-principles.md` (SOLID)
+and `assessment/maintainability-review.md` (module structure):
+this file names the concrete patterns and judges their fitness.
+
+Apply `principles/evaluation-rules.md` throughout.
+
+Name patterns from observable code, not from intent.
+
+A pattern that fits the stated context is a strength,
+a pattern applied inconsistently or where it adds no value is an anti-pattern.
 
 ## When This Applies
 
-This assessment applies to any codebase large enough to exhibit recurring structure, typically when
-there is more than one module or more than a handful of types. It is most useful for
-production-bound systems and architectural reviews.
+This assessment applies to any codebase large enough to exhibit recurring structure,
+typically when there is more than one module or more than a handful of types.
+
+It is most useful for production-bound systems and architectural reviews.
 
 It may be marked `N/A` for a trivial single-purpose script with no recurring structure, with a
 one-line justification.
@@ -82,9 +88,11 @@ and Strategy with hardcoded weights.
 
 ## How To Present
 
-Render this as a subsection of the Architectural Assessment, as described in
-`process/report-format.md`. Present a table of patterns with their fitness verdict, then describe
-each material pattern or anti-pattern with evidence.
+Render this as a subsection of the Architectural Assessment,
+as described in `process/report-format.md`.
+
+Present a table of patterns with their fitness verdict,
+then describe each material pattern or anti-pattern with evidence.
 
 Where an anti-pattern is also a code-origin signal (for example, a construction helper duplicated by
 an AI tool across files), cross-reference the relevant `FND-AIP-XXX` finding.

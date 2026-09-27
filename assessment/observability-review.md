@@ -7,8 +7,9 @@
 
 This file guides assessment of how well the system can be understood while running.
 
-Apply `principles/evaluation-rules.md` throughout. Operational use of observability data is assessed
-in `assessment/operational-readiness.md`.
+Apply `principles/evaluation-rules.md` throughout.
+
+Operational use of observability data is assessed in `assessment/operational-readiness.md`.
 
 ## What To Evaluate
 

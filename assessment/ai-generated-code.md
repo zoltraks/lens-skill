@@ -79,8 +79,10 @@ Prototype status changes applicable controls, but does not make provenance autom
 Use selected [NIST SSDF practices](https://csrc.nist.gov/pubs/sp/800/218/final) for review, testing,
 artifact protection, and vulnerability response when process evidence is available.
 
-SSDF 1.1 is the current core SSDF baseline for this guidance. Recheck the NIST publications index
-at audit time because supplemental profiles and revisions may change the applicable reference set.
+SSDF 1.1 is the current core SSDF baseline for this guidance.
+
+Recheck the NIST publications index at audit time because supplemental profiles and revisions may
+change the applicable reference set.
 
 When generative-AI or foundation-model development is in scope, consider the applicable
 [SSDF AI community profile](https://csrc.nist.gov/pubs/sp/800/218/a/final) separately from the

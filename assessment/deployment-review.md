@@ -7,8 +7,9 @@
 
 This file guides assessment of how the system goes from source to a running release.
 
-Apply `principles/evaluation-rules.md` throughout. Reverting a release is assessed separately in
-`assessment/rollback-review.md`.
+Apply `principles/evaluation-rules.md` throughout.
+
+Reverting a release is assessed separately in `assessment/rollback-review.md`.
 
 ## What To Evaluate
 
@@ -46,10 +47,11 @@ Record the definition, data sources, observation window, sample size, calculatio
 Use deployment and incident records, Git commits or release tags alone do not establish these
 metrics.
 
-When only repository evidence is available, the git-derived proxies and contributor-concentration
-rubric live in the Delivery Practice & Team Continuity section per
-`references/delivery-practice.md`. Those proxies are labeled as proxies and never
-presented as measured DORA metrics.
+When only repository evidence is available,
+the git-derived proxies and contributor-concentration rubric live in the Delivery Practice & Team
+Continuity section per `references/delivery-practice.md`.
+
+Those proxies are labeled as proxies and never presented as measured DORA metrics.
 
 Mark unavailable measurements `UNKNOWN` and zero-denominator ratios as undefined, not zero.
 

@@ -19,20 +19,20 @@
 |------------------------------------|------|-----------------------------------------------------|
 | Overview                           | 37   | Audit purpose and standard report shape             |
 | What The Skill Does                | 68   | Update check, evidence, assessment, synthesis       |
-| Installation                       | 124  | Clone and update instructions                       |
-| Usage                              | 151  | Activation, parameters, and report delivery         |
-| Example Prompts                    | 177  | Full and focused audit requests                     |
-| Workflow Diagrams                  | 238  | ASCII and Mermaid audit pipelines                   |
-| Evidence And Decision Quality      | 298  | Evidence strength and verification limits           |
-| Core Principles                    | 350  | Evaluation constraints and status rules             |
-| Report Format                      | 366  | Report structure, identifiers, and style            |
-| When To Use This Skill             | 396  | Supported requests and exclusions                   |
-| What's Inside                      | 417  | Documents, references, tools, and conditional files |
-| Document Style                     | 507  | Pointer to the style rules file                     |
-| Specification                      | 516  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 535  | Maintenance checks and regression scenarios         |
-| License                            | 555  | License for the skill itself                        |
-| Credits                            | 561  | Authorship and attribution                          |
+| Installation                       | 138  | Clone and update instructions                       |
+| Usage                              | 168  | Activation, parameters, and report delivery         |
+| Example Prompts                    | 194  | Full and focused audit requests                     |
+| Workflow Diagrams                  | 255  | ASCII and Mermaid audit pipelines                   |
+| Evidence And Decision Quality      | 315  | Evidence strength and verification limits           |
+| Core Principles                    | 372  | Evaluation constraints and status rules             |
+| Report Format                      | 388  | Report structure, identifiers, and style            |
+| When To Use This Skill             | 418  | Supported requests and exclusions                   |
+| What's Inside                      | 439  | Documents, references, tools, and conditional files |
+| Document Style                     | 538  | Pointer to the style rules file                     |
+| Specification                      | 547  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 566  | Maintenance checks and regression scenarios         |
+| License                            | 587  | License for the skill itself                        |
+| Credits                            | 593  | Authorship and attribution                          |
 
 ## Overview
 
@@ -76,43 +76,57 @@ to pull incoming commits before starting, when the skill lives in a git clone.
 
 **Reads everything you supplied**
 
-Code, configuration, documentation, logs, and prior reports. It identifies the artifact type
-(prototype, codebase, production system, or proposal) and records the source format.
+Code, configuration, documentation, logs, and prior reports.
+
+It identifies the artifact type (prototype, codebase, production system, or proposal)
+and records the source format.
 
 **Configures parameters**
 
-Asks whether to accept default parameters or configure the core report parameters. Detail level
-defaults to `Detailed`, improvement suggestions default to a prioritized roadmap, trade-off
-analysis defaults to a standalone section with embedded reasoning, and descriptive mode defaults
-to enabled, adding a `Glossary` section that indexes every abbreviation used, describes
-selected terms in depth, and is linked from every acronym occurrence in the report. Advanced
-parameters can still be changed when explicitly specified.
+Asks whether to accept default parameters or configure the core report parameters.
+
+Detail level defaults to `Detailed`, improvement suggestions default to a prioritized roadmap,
+trade-off analysis defaults to a standalone section with embedded reasoning,
+and descriptive mode defaults to enabled,
+adding a `Glossary` section that indexes every abbreviation used, describes selected terms in depth,
+and is linked from every acronym occurrence in the report.
+
+Advanced parameters can still be changed when explicitly specified.
 
 **Defines scope explicitly**
 
-Lists what is in scope and what is excluded. Marks unstated constraints as `NOT SPECIFIED` rather
-than assuming industry norms.
+Lists what is in scope and what is excluded.
+
+Marks unstated constraints as `NOT SPECIFIED` rather than assuming industry norms.
 
 **Gathers evidence before judging**
 
-Collects concrete anchors - file paths, config keys, documented commands, pipeline steps - before
-forming conclusions. Separates collection from judgment to avoid confirmation bias. The analysis
-never builds, tests, or executes the project.
+Collects concrete anchors - file paths, config keys, documented commands,
+pipeline steps - before forming conclusions.
+
+Separates collection from judgment to avoid confirmation bias.
+
+The analysis never builds, tests, or executes the project.
 
 **Assesses across 18 categories**
 
 Testing, design principles, code quality, stack best practices, dependencies, deployment, rollback,
 maintainability, change management, documentation, non-functional requirements, security,
-compliance, observability, error handling, operational readiness, AI-generated code detection and
-provenance, and copyrights and originality. Each category receives one of five statuses: `PASS`,
-`PARTIAL`, `FAIL`, `UNKNOWN`, or `N/A`. A conditional seventh pillar, API Compatibility & Versioning
-Discipline, applies when the subject is a reusable library or package.
+compliance, observability, error handling, operational readiness,
+AI-generated code detection and provenance, and copyrights and originality.
+
+Each category receives one of five statuses: `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, or `N/A`.
+
+A conditional seventh pillar, API Compatibility & Versioning Discipline,
+applies when the subject is a reusable library or package.
 
 **Synthesizes findings**
 
-Builds a unified risk register with bidirectional cross-referencing to findings, a 1-10
-scorecard from category findings, and an actionable remediation roadmap with prioritized
-impact-vs-effort tracking. Optional scales are `1-5`, `1-3`, `5 stars`, and `3 stars`.
+Builds a unified risk register with bidirectional cross-referencing to findings,
+a 1-10 scorecard from category findings,
+and an actionable remediation roadmap with prioritized impact-vs-effort tracking.
+
+Optional scales are `1-5`, `1-3`, `5 stars`, and `3 stars`.
 
 **Produces a validated report**
 
@@ -139,6 +153,9 @@ Once per session, Lens checks its own Git upstream.
 If an update is available, it asks whether to pull or skip.
 
 It pulls only when the repository is clean and a fast-forward is possible.
+
+The check also reports `tip_sha` and `tip_date` for the incoming upstream tip, so the new
+state can be reviewed and pinned to a specific commit before pulling.
 
 To update the clone manually:
 
@@ -303,23 +320,28 @@ Every audit records a verification plan and evidence ledger with revision, docum
 source, declared tool or report version, recorded result when one exists in the repository,
 artifact, and limitations, including checks that were not run.
 
-The audit inspects repository contents only. It never builds, tests, or executes the project, and
-tool availability is not assumed. Documented or committed check results count as reported
-evidence, not verification.
+The audit inspects repository contents only.
+
+It never builds, tests, or executes the project, and tool availability is not assumed.
+Documented or committed check results count as reported evidence, not verification.
 
 Serious findings receive a counter-check for reachability, existing guards, and alternative
 explanations before they reach the executive summary.
 
-Security findings use justified CWE mappings and CVSS vectors where applicable, while engineering
-and business risks retain the Lens risk matrix. Each CWE-classified finding also names the
-equivalent static-analyzer rule for the detected stack, per `references/cwe-analyzer-map.md`,
-so follow-up verification is concrete.
+Security findings use justified CWE mappings and CVSS vectors where applicable,
+while engineering and business risks retain the Lens risk matrix.
 
-Audits select canonical, stack-specific references from `references/stack-standards.md` rather
-than relying on generic standards alone. Dependency manifests and lockfiles yield a
-source-derived component inventory per `references/dependency-manifests.md`, with no tool
-execution. Every overall score is reported with its lowest-scoring dimension in a paragraph
-below the table, and every material piece of collected evidence must surface in the report.
+Each CWE-classified finding also names the equivalent static-analyzer rule for the detected stack,
+per `references/cwe-analyzer-map.md`, so follow-up verification is concrete.
+
+Audits select canonical, stack-specific references from `references/stack-standards.md` rather than
+relying on generic standards alone.
+
+Dependency manifests and lockfiles yield a source-derived component inventory per
+`references/dependency-manifests.md`, with no tool execution.
+
+Every overall score is reported with its lowest-scoring dimension in a paragraph below the table,
+and every material piece of collected evidence must surface in the report.
 
 The guides cover how to assess documented or committed evidence for baseline checks, coverage,
 mutation and fuzz testing, unsafe-use statistics, dependency advisories, SBOMs, and license
@@ -422,6 +444,8 @@ lens-skill/
 ├── STYLE.md                           # Document style rules for all files in this skill
 ├── MAINTENANCE.md                     # Repository structure, registration, and validation policy
 ├── VERSIONING.md                      # Skill versioning policy
+├── CONTRIBUTING.md                    # Maintainer model and pre-merge validation expectations
+├── SECURITY.md                        # Private vulnerability reporting path
 ├── evals/
 │   └── evals.json                     # Skill-creator behavioral regression prompts
 ├── principles/
@@ -483,7 +507,9 @@ lens-skill/
 │   ├── validate-report.py             # Report structure and traceability validator
 │   ├── validate-skill.py              # Dependency-light Agent Skill validator
 │   ├── check-references.py            # Relative-reference integrity checker
+│   ├── check-contents.py              # Contents-table versus heading drift checker
 │   ├── check-update.py                # Git upstream self-update checker for the skill repo
+│   ├── common.py                      # Shared helpers for skill-maintenance tools
 │   └── README.md                      # Tool usage, safety, and cleanup rules
 └── translations/
     └── polish-language.md             # Polish rendering: vocabulary and style rules
@@ -494,13 +520,18 @@ The `scripts/` utilities are report-production and skill-maintenance tools.
 They do not build, test, scan, or execute the audited project.
 
 Copy report-production scripts into the audited repository's `work/` directory under a `.tmp.` name.
-Use an existing `temp` or `temporary` directory when `work/` is unavailable, and use the repository
-root only when none exists. Run them only against report artifacts and remove the copies after use.
 
-Sections marked *(conditional)* appear in a report only when the subject warrants them. A system
-with no API gets no API Contract section, a single-user local utility with no trust boundary gets no
-Threat Model. The inclusion criteria are defined in the Conditional Sections table of
-`process/report-format.md`.
+Use an existing `temp` or `temporary` directory when `work/` is unavailable,
+and use the repository root only when none exists.
+
+Run them only against report artifacts and remove the copies after use.
+
+Sections marked *(conditional)* appear in a report only when the subject warrants them.
+
+A system with no API gets no API Contract section,
+a single-user local utility with no trust boundary gets no Threat Model.
+
+The inclusion criteria are defined in the Conditional Sections table of `process/report-format.md`.
 
 ---
 
@@ -539,8 +570,9 @@ benchmark suite.
 
 When changing the skill, follow `MAINTENANCE.md` and:
 
+- Run `python scripts/validate-skill.py .`, `python scripts/check-references.py .`, and
+  `python scripts/check-contents.py .` after changing skill files.
 - Run `git diff --check` to detect whitespace errors.
-- Check frontmatter lengths, skill name, unchanged version, and root-router references.
 - Format edited tables using an automated source-width formatter per `STYLE.md`.
 - Check Contents tables in files over 300 lines and preserve encoding and line endings.
 - Review router, workflow, templates, synthesis guides, and translations for agreement.

@@ -8,11 +8,14 @@
 > breaking changes
 
 This file guides assessment of whether a reusable library or package protects its consumers from
-unplanned breaking changes. It is a conditional pillar: include it whenever the audit subject is a
-reusable library or package, and omit it for deployable services and applications. For services,
-the adjacent concern is API Contract Conformance (`assessment/api-contract.md`), which covers
-whether an exposed contract behaves as documented, not whether the public surface stays stable
-across versions.
+unplanned breaking changes.
+
+It is a conditional pillar: include it whenever the audit subject is a reusable library or package,
+and omit it for deployable services and applications.
+
+For services, the adjacent concern is API Contract Conformance (`assessment/api-contract.md`),
+which covers whether an exposed contract behaves as documented,
+not whether the public surface stays stable across versions.
 
 Apply `principles/evaluation-rules.md` throughout.
 
@@ -51,8 +54,10 @@ Apply `principles/evaluation-rules.md` throughout.
 
 ## Per-Stack Tooling
 
-Consult `references/stack-standards.md` for canonical links. The table below names the common
-gate mechanisms so absence can be assessed, not so the tools are run.
+Consult `references/stack-standards.md` for canonical links.
+
+The table below names the common gate mechanisms so absence can be assessed,
+not so the tools are run.
 
 | Stack             | Compatibility Gates                                                                        |
 |-------------------|--------------------------------------------------------------------------------------------|
@@ -97,8 +102,9 @@ gate mechanisms so absence can be assessed, not so the tools are run.
 - A deprecation policy naming how and when members are removed.
 - A maintained list of known breaking changes bound to the next major version.
 
-Mark each missing signal explicitly rather than inferring its presence. Anchor every judgement to
-a specific file, tag, or documented policy.
+Mark each missing signal explicitly rather than inferring its presence.
+
+Anchor every judgement to a specific file, tag, or documented policy.
 
 ## Cross-References
 

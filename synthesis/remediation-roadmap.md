@@ -7,15 +7,22 @@
 > **Key items:** `REC-[001]` indexing, `FND-XXX` traceability, priority tiers, non-prescriptive
 > options
 
-This file guides the remediation roadmap section. The goal is to present a prioritized, traceable
-plan where every recommendation resolves a specific finding.
+This file guides the remediation roadmap section.
 
-Apply `principles/evaluation-rules.md` throughout. Do not issue absolute directives unless the user
-explicitly requests them.
+The goal is to present a prioritized, traceable plan where every recommendation resolves a specific
+finding.
+
+Apply `principles/evaluation-rules.md` throughout.
+
+Do not issue absolute directives unless the user explicitly requests them.
 
 ## Prioritized Matrix
 
-Present recommendations as a table. One row per recommendation. Use this fixed column order:
+Present recommendations as a table.
+
+One row per recommendation.
+
+Use this fixed column order:
 
 | Rec ID | Priority | Finding | Recommendation | Impact | Effort | Complexity | Verification |
 |--------|----------|---------|----------------|--------|--------|------------|--------------|
@@ -119,5 +126,7 @@ Every recommendation must trace back to a finding in the Detailed Technical Find
 the Unified Risk Register.
 
 Trade-off analyses appear both as a standalone Trade-off Analysis section (immediately after the
-Architectural Assessment) and embedded into relevant findings. The roadmap references the relevant
-`FND-XXX` finding regardless of where the trade-off is presented.
+Architectural Assessment) and embedded into relevant findings.
+
+The roadmap references the relevant `FND-XXX` finding regardless of where the trade-off is
+presented.

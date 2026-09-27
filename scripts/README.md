@@ -26,12 +26,16 @@ Run the copied scripts only against the generated report and report-support arti
 Run `format-table.py` before `validate-report.py`, so table-width noise does not drown the
 validator's structural findings.
 
-When the report language is not English, run `validate-report.py` on an English-mapped working
-copy that translates the `* **Field:**` finding-block labels, fixed-vocabulary values, and
-section headings, and that remaps the glossary section anchor and the `Parity baseline` row
-label to English. Mapping only field labels makes the validator skip the required-sections,
-glossary, and final-state checks instead of running them. Anchor remapping changes cell widths,
-so run `format-table.py` on the working copy before validating it.
+When the report language is not English,
+run `validate-report.py` on an English-mapped working copy that translates the `* **Field:**`
+finding-block labels, fixed-vocabulary values, and section headings,
+and that remaps the glossary section anchor and the `Parity baseline` row label to English.
+
+Mapping only field labels makes the validator skip the required-sections, glossary,
+and final-state checks instead of running them.
+
+Anchor remapping changes cell widths, so run `format-table.py` on the working copy before validating
+it.
 
 On Windows consoles, set `PYTHONIOENCODING=utf-8` when running the tools, so non-ASCII report
 text prints legibly.
@@ -50,15 +54,29 @@ Remove every copied script and every validation working copy after validation.
 
 ### Skill-Maintenance Tools
 
-Run `validate-skill.py`, `check-references.py`, and `check-update.py` from the Lens repository.
+Run `validate-skill.py`, `check-references.py`, `check-contents.py`, and `check-update.py` from
+the Lens repository.
 
 These tools inspect the skill itself and do not need to be copied into an audited project.
 
 `check-references.py` validates the skill's own `SKILL.md` and `README.md` navigation documents.
 It is never run on a report artifact or inside an audited repository.
 
+`check-contents.py` verifies that `## Contents` tables in the skill's own documents still anchor to
+real `##` section headings.
+
+Run it whenever a document's sections move.
+
 `check-update.py` reports the git upstream status of the skill repository for the once-per-session
 Skill Update Check in `SKILL.md`, and always exits `0` with a `STATUS` verdict line.
+
+Its verdicts after upstream resolution carry `tip_sha` and `tip_date` details identifying the
+incoming tip commit.
+
+`common.py` is a shared helper module imported by the skill-maintenance tools.
+
+It is not a tool, it is never copied, and it must never be imported by report-production tools -
+those stay self-contained single files so the `.tmp.` copy contract keeps working.
 
 They use the Python standard library and do not require PyYAML or a package manager.
 
@@ -67,6 +85,7 @@ They use the Python standard library and do not require PyYAML or a package mana
 ```text
 python scripts/validate-skill.py .
 python scripts/check-references.py .
+python scripts/check-contents.py .
 python scripts/check-update.py
 python scripts/format-table.py path/to/AUDIT.md
 python scripts/validate-report.py path/to/AUDIT.md
@@ -81,7 +100,7 @@ Exit code `1` means one or more checks failed.
 Run maintenance checks in this order:
 
 1. Validate skill metadata and file references.
-2. Review changed documents and Contents tables.
+2. Check Contents tables with `check-contents.py` when document sections moved.
 3. Format edited tables with `format-table.py`.
 4. Validate generated reports with `validate-report.py`.
 5. Run `git diff --check`.

@@ -6,11 +6,15 @@
 > star-bar scales
 > **Key items:** fixed dimensions, integer scores, star bars, evidence per score, unknown handling
 
-This file defines the comparative project scorecard. It appears in the report under the heading
-"Project Scorecard". Derive each score from the matching `assessment/` findings.
+This file defines the comparative project scorecard.
 
-Apply `principles/evaluation-rules.md` throughout. A score is a summary of evidence, not an
-impression.
+It appears in the report under the heading "Project Scorecard".
+
+Derive each score from the matching `assessment/` findings.
+
+Apply `principles/evaluation-rules.md` throughout.
+
+A score is a summary of evidence, not an impression.
 
 ## Table Format
 
@@ -39,20 +43,26 @@ Use this fixed column order and dimension set:
 Keep the dimension names and order identical across every audit so scores are comparable.
 
 The Delivery & Continuity dimension summarizes the Delivery Practice & Team Continuity section:
-delivery-practice proxies and contributor concentration per
-`references/delivery-practice.md`. It is `N/A` when Git history was not in scope.
+
+delivery-practice proxies and contributor concentration per `references/delivery-practice.md`.
+
+It is `N/A` when Git history was not in scope.
 
 The API Compatibility dimension applies only when the subject is a reusable library or package,
-per `assessment/api-compatibility.md`. For a deployable service or application it is `N/A`.
+per `assessment/api-compatibility.md`.
+
+For a deployable service or application it is `N/A`.
 
 When the report language is not English, apply the column header and dimension name translations
 from the matching `translations/` file.
 
 ## Scoring Rubric
 
-The default scale is integers from `1` to `10`. Explicit alternatives are `1-5`, `1-3`,
-`5 stars`, and `3 stars`. Star scales use the matching numeric rubric and render the score as a
-star bar.
+The default scale is integers from `1` to `10`.
+
+Explicit alternatives are `1-5`, `1-3`, `5 stars`, and `3 stars`.
+
+Star scales use the matching numeric rubric and render the score as a star bar.
 
 **Zero is not a score.** The value `0` is reserved and never used as a rated score in any scale.
 When a dimension cannot apply, mark it `N/A` rather than assigning a numeric value.
@@ -138,11 +148,13 @@ the matching `translations/` file.
 
 Use `★` for each filled position and `☆` for each empty position.
 
-For `5 stars`, use the `1-5` rubric and five positions. Examples: `★★★★★` for `5`,
-`★★★☆☆` for `3`, and `★☆☆☆☆` for `1`.
+For `5 stars`, use the `1-5` rubric and five positions.
 
-For `3 stars`, use the `1-3` rubric and three positions. Examples: `★★★` for `3`, `★★☆` for
-`2`, and `★☆☆` for `1`.
+Examples: `★★★★★` for `5`, `★★★☆☆` for `3`, and `★☆☆☆☆` for `1`.
+
+For `3 stars`, use the `1-3` rubric and three positions.
+
+Examples: `★★★` for `3`, `★★☆` for `2`, and `★☆☆` for `1`.
 
 Render `UNKNOWN` and `N/A` as text, not as star bars.
 
@@ -153,8 +165,9 @@ the exact mean in parentheses, for example `★★★☆☆ (3.4/5)`.
 
 Do not assign the minimum score when evidence is simply missing.
 
-When evidence is absent, leave the score blank or write `UNKNOWN` and explain in the notes. Reserve
-the minimum score for evidenced absence of a required capability.
+When evidence is absent, leave the score blank or write `UNKNOWN` and explain in the notes.
+
+Reserve the minimum score for evidenced absence of a required capability.
 
 ## Handling Not Applicable
 
@@ -163,9 +176,11 @@ it.
 
 Put the applicability justification in the notes, anchored to the deployment model.
 
-Do not let `N/A` dimensions drag a summary score. A dimension that cannot apply is excluded, not
-counted as zero. Use `N/A` only under the contextual-applicability rule in
-`principles/evaluation-rules.md`.
+Do not let `N/A` dimensions drag a summary score.
+
+A dimension that cannot apply is excluded, not counted as zero.
+
+Use `N/A` only under the contextual-applicability rule in `principles/evaluation-rules.md`.
 
 ## Dimension To Category Mapping
 
@@ -230,9 +245,10 @@ Do not invent extra scores or claim the existing dimensions cover every characte
 Operational Safety is broader than ISO Safety, map only evidenced hazards and harm-prevention
 controls to Safety.
 
-Delivery & Continuity has no direct ISO 25010 product-quality characteristic. It measures process
-and team evidence and stays complementary to the product-quality crosswalk, it is not mapped onto
-a characteristic.
+Delivery & Continuity has no direct ISO 25010 product-quality characteristic.
+
+It measures process and team evidence and stays complementary to the product-quality crosswalk,
+it is not mapped onto a characteristic.
 
 ## Score Confidence And Aggregation
 
@@ -249,12 +265,17 @@ versus applicable dimensions, excluding `UNKNOWN` and `N/A` from the numeric den
 Always disclose the floor next to the mean: the overall-score cell holds only the score display,
 such as `5.8/10 (Average)` or `★★★☆☆ (3.4/5)`, and the lowest-scoring applicable dimension and
 its score go in a paragraph directly below the table, for example "Lowest-scoring dimensions:
-Security ★★☆☆☆". When several dimensions tie for the lowest score, name them all. The floor
-disclosure appears wherever the overall score appears, including the Executive Summary and the
-Health Dashboard.
 
-In a multi-project report, state the floor per project. Do not collapse unrelated projects into
-one aggregate.
+Security ★★☆☆☆".
+
+When several dimensions tie for the lowest score, name them all.
+
+The floor disclosure appears wherever the overall score appears,
+including the Executive Summary and the Health Dashboard.
+
+In a multi-project report, state the floor per project.
+
+Do not collapse unrelated projects into one aggregate.
 
 Disclose missing coverage beside the result, and do not compare aggregates with different scopes
 without explaining the difference.
