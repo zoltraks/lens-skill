@@ -21,7 +21,7 @@ Use this fixed column order:
 |---------|------|----------------|--------|------------|----------|------------|
 
 When the report language is not English, apply the column header translations from the matching
-`translation/` file.
+`translations/` file.
 
 Column meanings:
 

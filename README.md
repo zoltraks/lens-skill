@@ -10,26 +10,28 @@
 > development, and already-running production systems.
 >
 > [Versioning Policy](./VERSIONING.md)
+> [Agent Skills Specification](https://agentskills.io/specification)
 
 ## Contents
 
 | Section                            | Line | What it covers                                      |
 |------------------------------------|------|-----------------------------------------------------|
-| Overview                           | 34   | Audit purpose and standard report shape             |
-| What The Skill Does                | 65   | Update check, evidence, assessment, synthesis       |
-| Installation                       | 121  | Clone and update instructions                       |
-| Usage                              | 148  | Activation, parameters, and report delivery         |
-| Example Prompts                    | 174  | Full and focused audit requests                     |
-| Workflow Diagrams                  | 235  | ASCII and Mermaid audit pipelines                   |
-| Evidence And Decision Quality      | 295  | Evidence strength and verification limits           |
-| Core Principles                    | 347  | Evaluation constraints and status rules             |
-| Report Format                      | 363  | Report structure, identifiers, and style            |
-| When To Use This Skill             | 393  | Supported requests and exclusions                   |
-| What's Inside                      | 413  | Documents, references, tools, and conditional files |
-| Document Style                     | 502  | Pointer to the style rules file                     |
-| Verification For Skill Maintenance | 511  | Maintenance checks and regression scenarios         |
-| License                            | 531  | License for the skill itself                        |
-| Credits                            | 537  | Authorship and attribution                          |
+| Overview                           | 35   | Audit purpose and standard report shape             |
+| What The Skill Does                | 66   | Update check, evidence, assessment, synthesis       |
+| Installation                       | 122  | Clone and update instructions                       |
+| Usage                              | 149  | Activation, parameters, and report delivery         |
+| Example Prompts                    | 175  | Full and focused audit requests                     |
+| Workflow Diagrams                  | 236  | ASCII and Mermaid audit pipelines                   |
+| Evidence And Decision Quality      | 296  | Evidence strength and verification limits           |
+| Core Principles                    | 348  | Evaluation constraints and status rules             |
+| Report Format                      | 364  | Report structure, identifiers, and style            |
+| When To Use This Skill             | 394  | Supported requests and exclusions                   |
+| What's Inside                      | 414  | Documents, references, tools, and conditional files |
+| Document Style                     | 503  | Pointer to the style rules file                     |
+| Specification                      | 512  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 531  | Maintenance checks and regression scenarios         |
+| License                            | 551  | License for the skill itself                        |
+| Credits                            | 557  | Authorship and attribution                          |
 
 ## Overview
 
@@ -120,7 +122,7 @@ emotional language, every claim anchored to a concrete fact.
 
 ## Installation
 
-Lens is a filesystem-based Agent Skill.
+Lens is a filesystem-based [Agent Skill](https://agentskills.io/specification).
 
 Clone the repository and place the `lens-skill/` directory in your agent's configured skills
 directory:
@@ -378,7 +380,7 @@ The skill uses a hybrid table-paragraph format throughout:
   ```
 
 - **Severities** are shown as `SEVERITY: CRITICAL` inline after the finding title. Severity,
-  status, and execution-state tokens localize per the report language's `translation/` file.
+  status, and execution-state tokens localize per the report language's `translations/` file.
 - **High-Level Observations** provide a fast-skim path for non-technical readers.
 - **Strengths & What's Working** balances the tone with 5-8 acknowledged positives.
 - **Trade-off Analysis** surfaces architectural tensions in a dedicated table.
@@ -473,18 +475,18 @@ lens-skill/
 │   ├── license-compliance.md        # License classes, copyleft, notices, ownership checks
 │   ├── delivery-practice.md         # DORA proxies, bus-factor rubric, continuity evidence
 │   └── exploitability-narrative.md  # Theoretical attack-path narrative format and tiers
-├── tools/
+├── scripts/
 │   ├── format-table.py              # Source-width Markdown table formatter
 │   ├── validate-report.py           # Report structure and traceability validator
 │   ├── validate-skill.py            # Dependency-light Agent Skill validator
 │   ├── check-references.py          # Relative-reference integrity checker
 │   ├── check-update.py              # Git upstream self-update checker for the skill repo
 │   └── README.md                    # Tool usage, safety, and cleanup rules
-└── translation/
+└── translations/
     └── polish-language.md           # Polish rendering: vocabulary and style rules
 ```
 
-The `tools/` scripts are report-production and skill-maintenance utilities.
+The `scripts/` utilities are report-production and skill-maintenance tools.
 
 They do not build, test, scan, or execute the audited project.
 
@@ -505,6 +507,25 @@ Every document that is part of this skill must follow the rules specified in [ST
 
 That file compiles Markdown text style, table formatting, and Agent Skills document requirements
 into a single reference.
+
+---
+
+## Specification
+
+Lens conforms to the [Agent Skills specification](https://agentskills.io/specification).
+
+`SKILL.md` declares `name`, `description`, `license`, `compatibility`, `metadata`, and
+`allowed-tools` in YAML frontmatter, and the repository follows the conventional `scripts/`,
+`references/` layout with progressive disclosure.
+
+Verify the structure and file references:
+
+```text
+python scripts/validate-skill.py .
+python scripts/check-references.py .
+```
+
+`assessment/skill-definition.md` encodes the same conformance rules for auditing other skills.
 
 ---
 

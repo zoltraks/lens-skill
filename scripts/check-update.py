@@ -15,7 +15,7 @@ Verdicts:
 - UP-TO-DATE       no incoming commits on the upstream branch
 - UPDATE-AVAILABLE incoming commits exist, with behind/ahead/dirty details
 
-Usage: python tools/check-update.py [skill-directory]
+Usage: python scripts/check-update.py [skill-directory]
 """
 
 from __future__ import annotations

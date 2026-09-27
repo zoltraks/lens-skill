@@ -77,7 +77,7 @@ Use `#` for the document title, `##` for top-level sections, and `###` for subse
 or register blocks. Do not use `####` or deeper headings.
 
 Use Title Case for English section names and keep them short, avoid trailing punctuation and
-descriptive qualifiers in parentheses. The matching `translation/` file defines the casing rule for
+descriptive qualifiers in parentheses. The matching `translations/` file defines the casing rule for
 non-English reports.
 
 Keep column headers identical to the templates below across every audit. When the user requests a
@@ -169,7 +169,7 @@ table, measure every cell width in source text including formatting characters, 
 column maximum, and rebuild each separator as the column width plus two hyphens. Handle both `\n`
 and `\r\n` input and preserve the file's original line-ending style.
 
-`tools/format-table.py` in the skill repository is the canonical implementation. Copy it into the
+`scripts/format-table.py` in the skill repository is the canonical implementation. Copy it into the
 audited repository under a `.tmp.` name, for example `format-table.tmp.py`, instead of writing a
 new formatter by hand.
 
@@ -545,7 +545,7 @@ carrying the new revision in its name, for example `AUDIT-1.1.md`, per
 `synthesis/report-comparison.md`.
 
 When the report language is not English, apply the label translations from the matching
-`translation/` file. Descriptive values such as `State`, `Detail Level`, `Evaluation Scale`,
+`translations/` file. Descriptive values such as `State`, `Detail Level`, `Evaluation Scale`,
 `Audit Purpose`, and `Verification Scope` are rendered per the same file.
 
 ## Audit Type Coverage & Assurance Matrix
@@ -579,7 +579,7 @@ Status values come from the fixed vocabulary in `references/audit-taxonomy.md`: 
 are defined there. A status other than the default carries its reason in the Rationale column.
 
 When the report language is not English, apply the column header, report-type, and status
-translations from the matching `translation/` file.
+translations from the matching `translations/` file.
 
 The matrix must agree with Scope Exclusions: every `Not done` row has a matching exclusion
 bullet, and no `Covered` row is later disclaimed. PAR-11 checks this consistency.
@@ -693,7 +693,7 @@ command names, or fixed vocabulary tokens that are complete words such as `PASS`
 does not establish, describe the term's role instead.
 
 When the report language is not English, keep each term in its original form and write the
-definition in the report language, per the matching `translation/` file.
+definition in the report language, per the matching `translations/` file.
 
 ## Multi-Project Report Structure
 
@@ -717,7 +717,7 @@ path, version, and a one-line description.
 ```
 
 When the report language is not English, apply the column header translations from the matching
-`translation/` file.
+`translations/` file.
 
 **Combined summary sections** appear immediately after the Project Inventory, so orientation
 material precedes per-project detail.
@@ -818,7 +818,7 @@ Use a key-value table:
 
 Maturity level is one of: `Prototype`, `Early development`, `Pre-production`, `Production-ready`, or
 `Undetermined`. When the report language is not English, the value is rendered per the matching
-`translation/` file.
+`translations/` file.
 
 For numeric scales, use `<mean>/<scale> (<band>)` and `<score>/<scale>`. For `5 stars` or
 `3 stars`, use the rounded star bar followed by the exact mean in parentheses, for example
@@ -831,7 +831,7 @@ dimensions from both values. When several dimensions tie for the lowest score, n
 Omit the row and the paragraph only when no dimensions were scored.
 
 When the report language is not English, apply the table header and field name translations from the
-matching `translation/` file.
+matching `translations/` file.
 
 Do not add a "Summary description" row to this table. Long descriptive text in a table cell makes
 the table unreadable in plain text. The summary description belongs in a paragraph after the table,
@@ -840,7 +840,7 @@ as described below.
 **Summary description**
 
 When the report language is not English, apply the heading translation from the matching
-`translation/` file.
+`translations/` file.
 
 Write one paragraph immediately after the table. State the system's purpose in one sentence.
 Summarize the overall condition in one sentence. Note the maturity level and anchor it to evidence
@@ -864,7 +864,7 @@ does not apply.
 **Production Readiness Threshold**
 
 When the report language is not English, apply the heading translation from the matching
-`translation/` file.
+`translations/` file.
 
 State the conditions and evidence required to justify `Production-ready` for the stated deployment.
 
@@ -913,7 +913,7 @@ When parameters differ between reports, state the difference in a paragraph belo
 before comparing content, since a scale or detail-level change affects comparability.
 
 When the report language is not English, apply the column header translations from the matching
-`translation/` file.
+`translations/` file.
 
 **Finding transitions**
 
@@ -965,7 +965,7 @@ Describe the system as understood from the input. Present the factual context wi
 | Assumptions            | <only if explicitly stated, else `NOT SPECIFIED`> |
 
 When the report language is not English, apply the table header and aspect name translations from
-the matching `translation/` file.
+the matching `translations/` file.
 
 Mark any unknown aspect as `NOT SPECIFIED`.
 
@@ -1035,7 +1035,7 @@ When no dependency manifest or lockfile exists in the project, state `No depende
 lockfiles found` in place of the table rather than omitting the section.
 
 When the report language is not English, apply the column header translations from the matching
-`translation/` file.
+`translations/` file.
 
 ## License & IP Compliance Review
 
@@ -1065,7 +1065,7 @@ Below the table, state in short paragraphs:
   would resolve it.
 
 When the report language is not English, apply the column header translations from the matching
-`translation/` file.
+`translations/` file.
 
 ## Health Dashboard
 
@@ -1084,7 +1084,7 @@ Provide a consolidated Likelihood vs Impact matrix summarizing the top risks. Us
 | LOW      |     |        |      |
 
 When the report language is not English, apply the axis label translations from the matching
-`translation/` file.
+`translations/` file.
 
 Populate cells with `RSK-XXX` identifiers from the Unified Risk Register. Leave empty cells blank.
 Do not include plaintext secrets, passwords, or cryptographic keys in this summary. Use generic
@@ -1093,7 +1093,7 @@ descriptions or masked placeholders.
 **Scorecard Summary**
 
 When the report language is not English, apply the heading translation from the matching
-`translation/` file.
+`translations/` file.
 
 Provide a compact summary of the project scorecard dimensions.
 
@@ -1130,7 +1130,7 @@ Render each Score cell in the selected evaluation scale: `7/10` for `1-10`, `4/5
 `2/3` for `1-3`, `★★★★☆` for `5 stars`, and `★★☆` for `3 stars`. Render `UNKNOWN` and `N/A`
 as text, not as star bars.
 
-When the report language is not English, apply the translations from the matching `translation/`
+When the report language is not English, apply the translations from the matching `translations/`
 file.
 
 **Team & Continuity**
@@ -1146,7 +1146,7 @@ This line is the at-a-glance summary. The full delivery-practice proxies and con
 live in the Delivery Practice & Team Continuity section.
 
 When the report language is not English, apply the heading translation from the matching
-`translation/` file.
+`translations/` file.
 
 ## Delivery Practice & Team Continuity
 
@@ -1184,7 +1184,7 @@ continuity-relevant `FND-INF` or `RSK-XXX` references. Keep the content aggregat
 never a personal assessment.
 
 When the report language is not English, apply the heading, column header, and status
-translations from the matching `translation/` file.
+translations from the matching `translations/` file.
 
 ## High-Level Observations
 
@@ -1199,7 +1199,7 @@ Use this single-column table:
 | <observation> |
 
 When the report language is not English, apply the table header translation from the matching
-`translation/` file.
+`translations/` file.
 
 Write one paragraph per observation immediately after the table, in the same order as the table
 rows. Start each paragraph with a bold heading on its own line (the observation text, abbreviated if
@@ -1219,7 +1219,7 @@ The earlier dashboard is a summary, its scores refer to the methodology and rubr
 **Methodology overview**
 
 When the report language is not English, apply the heading translation from the matching
-`translation/` file.
+`translations/` file.
 
 State that the audit uses evidence-based reasoning across 18 core assessment categories grouped into
 six pillars, plus conditional assessments (data flow, design patterns, threat model, API contract,
@@ -1241,12 +1241,12 @@ API Compatibility & Versioning Discipline pillar for libraries and packages. Lis
   package.
 
 When the report language is not English, apply the pillar name translations from the matching
-`translation/` file.
+`translations/` file.
 
 **Reference standards**
 
 When the report language is not English, apply the heading translation from the matching
-`translation/` file.
+`translations/` file.
 
 Name the external standards the audit aligns with, so the methodology is credible to an external
 reader. Cite only the standards actually applied to the subject. Typical references:
@@ -1278,7 +1278,7 @@ list a standard that was not applied.
 **Audit evidence statement**
 
 When the report language is not English, apply the heading translation from the matching
-`translation/` file.
+`translations/` file.
 
 Begin the Methodology section with 2-3 sentences stating exactly what was inspected. Include:
 
@@ -1305,7 +1305,7 @@ Include the per-project check summary and evidence records from `process/audit-w
 The `Type` column carries `Observation` or `Concern` per `principles/evaluation-rules.md`:
 `Observation` for a fact another auditor could re-derive from the same artifact, `Concern` for a
 risk judgment built on observations. Most ledger rows are `Observation`. The tag is enforced
-mechanically: `tools/validate-report.py` flags every `| EVD-` row and every finding block whose
+mechanically: `scripts/validate-report.py` flags every `| EVD-` row and every finding block whose
 `Type` cell or field is missing or carries another value, so the Validation Record attestation
 is backed by a check rather than memory.
 
@@ -1333,7 +1333,7 @@ previous report's evidence as `EVD-XXX` plus the report name, for example `EVD-0
 **Severity definitions**
 
 When the report language is not English, apply the heading translation from the matching
-`translation/` file.
+`translations/` file.
 
 Add a 4-row rubric defining each qualitative severity band. These definitions anchor the severity
 values used in findings and risks.
@@ -1354,7 +1354,7 @@ or confuse CVSS with this matrix.
 Use `UNKNOWN` for an unsupported rating and list unrated risks separately from the risk map.
 
 When the report language is not English, apply the column header and severity description
-translations from the matching `translation/` file.
+translations from the matching `translations/` file.
 
 Use these definitions consistently across the Detailed Technical Findings and the Unified Risk
 Register.
@@ -1383,7 +1383,7 @@ For the `1-10` scale:
 | Poor      | 1-3         | Capability is minimal, fragmentary, or absent where required |
 
 When the report language is not English, apply the band name and definition translations from
-the matching `translation/` file.
+the matching `translations/` file.
 
 For the `1-5` and `5 stars` scales:
 
@@ -1404,7 +1404,7 @@ For the `1-3` and `3 stars` scales:
 | Poor      | 1     | Capability is minimal, limited, or absent where required    |
 
 When the report language is not English, apply the same band translations from the matching
-`translation/` file.
+`translations/` file.
 
 For `5 stars`, render each score as a five-position star bar using `★` for filled positions and
 `☆` for empty positions, such as `★★★☆☆` for `3`. For `3 stars`, use three positions, such as
@@ -1571,7 +1571,7 @@ Use a table with this fixed column order:
 |-----------|---------|-----------------------|-----------------------|----------|-------------|
 
 When the report language is not English, apply the column header translations from the matching
-`translation/` file.
+`translations/` file.
 
 Column meanings:
 
@@ -1625,7 +1625,7 @@ The six STRIDE categories are `Spoofing`, `Tampering`, `Repudiation`, `Informati
 and a risk. Never output plaintext secrets when describing an information-disclosure threat.
 
 When the report language is not English, apply the column header translations from the matching
-`translation/` file.
+`translations/` file.
 
 ## API Contract Conformance
 
@@ -1645,7 +1645,7 @@ where one applies.
 | Spec-to-code agreement     | PARTIAL | `/health` marked `security: []` but behind auth |
 
 When the report language is not English, apply the column header translations from the matching
-`translation/` file.
+`translations/` file.
 
 ## Skill Definition Conformance
 
@@ -1668,7 +1668,7 @@ and its linked `FND-XXX`.
 | Body content quality     | PASS    | Instructions, examples, and edge cases present         |
 
 When the report language is not English, apply the column header translations from the matching
-`translation/` file.
+`translations/` file.
 
 ## AI System Assessment
 
@@ -1702,7 +1702,7 @@ List the development standards documents found in the project:
 | <title>  | <path> | <languages, frameworks, software type> |
 
 When the report language is not English, apply the column header translations from the matching
-`translation/` file.
+`translations/` file.
 
 **Code conformance**
 
@@ -1721,7 +1721,7 @@ evidence and its linked `FND-XXX`:
 | Security              | <rule from standards> | FAIL    | <file or pattern violating the rule>      |
 
 When the report language is not English, apply the column header translations from the matching
-`translation/` file.
+`translations/` file.
 
 **Standards quality**
 
@@ -1733,7 +1733,7 @@ stack. Anchor every judgement to a named external best practice, style guide, or
 | <area> | <what the standards prescribe> | <named external source> | Aligned / Partially / Diverges |
 
 When the report language is not English, apply the column header translations from the matching
-`translation/` file.
+`translations/` file.
 
 After the table, describe each divergence with evidence. Name the external source and explain how
 the standards position differs from the established practice. Cross-reference any conformance gap
@@ -1758,7 +1758,7 @@ and its linked `FND-XXX`.
 | Breaking changes tracked   | FAIL    | Known items bound to a named future major version |
 
 When the report language is not English, apply the column header translations from the matching
-`translation/` file.
+`translations/` file.
 
 After the table, list each known future-breaking item and the version it is bound to. An item with
 no target version is open-ended and must be named as such.
@@ -1805,7 +1805,7 @@ deterministic index.
 **Summary table:**
 
 When the report language is not English, apply the heading translation from the matching
-`translation/` file.
+`translations/` file.
 
 Present a compact summary of all findings:
 
@@ -1820,7 +1820,7 @@ Present a compact summary of all findings:
 | FND-API-001 | API Compatibility & Versioning Discipline | <severity> | <title> | <status> | Open               |
 
 When the report language is not English, apply the column header translations from the matching
-`translation/` file.
+`translations/` file.
 
 Pillar abbreviations for IDs:
 
@@ -1833,13 +1833,13 @@ Pillar abbreviations for IDs:
 - `API` - API Compatibility & Versioning Discipline (conditional, libraries and packages only)
 
 When the report language is not English, apply the pillar name translations from the matching
-`translation/` file.
+`translations/` file.
 
 Severity values: `CRITICAL`, `HIGH`, `MEDIUM`, `LOW`.
 Status values: `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`.
 
 When the report language is not English, these tokens render in the localized forms defined by
-the matching `translation/` file, along with execution states such as `NOT RUN`, `NOT ASSESSED`,
+the matching `translations/` file, along with execution states such as `NOT RUN`, `NOT ASSESSED`,
 `NOT INSPECTED`, `EXCLUDED BY SCOPE`, and `INSUFFICIENT INFORMATION`.
 
 **Detailed findings**
@@ -1868,7 +1868,7 @@ block pattern:
 ```
 
 When the report language is not English, apply the bullet label translations from the matching
-`translation/` file.
+`translations/` file.
 
 Each finding must cite concrete evidence: file paths, config keys, commands, or direct quotes. Do
 not crowd the bullet list with long prose. Use short sentences separated by blank lines, each
@@ -1926,7 +1926,7 @@ Use this fixed column order:
 | TDR-001 | <debt item> | <characteristic> | <FND ID>       | <range or gap>   | <cost or gap> | Open   |
 
 When the report language is not English, apply the column header translations from the matching
-`translation/` file.
+`translations/` file.
 
 Category is one of the CISQ characteristics: `Reliability`, `Performance Efficiency`, `Security`,
 `Maintainability`. Every item must trace to a `FND-XXX` or be marked `Direct observation` with a
@@ -1947,7 +1947,7 @@ pattern:
 ```
 
 When the report language is not English, apply the bullet label translations from the matching
-`translation/` file.
+`translations/` file.
 
 ## Unified Risk Register
 
@@ -1961,7 +1961,7 @@ risk must trace back to a specific finding.
 | RSK-001 | <concrete risk> | FND-XXX        | <consequence> | <probability> | <severity> | <action>   |
 
 When the report language is not English, apply the column header translations from the matching
-`translation/` file.
+`translations/` file.
 
 Column meanings:
 
@@ -2000,7 +2000,7 @@ Likelihood bands:
 | LOW                 | LOW    | LOW      | MEDIUM   |
 
 When the report language is not English, apply the axis label translations from the matching
-`translation/` file.
+`translations/` file.
 
 **Rules**
 
@@ -2034,7 +2034,7 @@ After the table, write one block per risk in the same order. Use this exact mark
 ```
 
 When the report language is not English, apply the bullet label translations from the matching
-`translation/` file.
+`translations/` file.
 
 ## Actionable Remediation Roadmap
 
@@ -2050,7 +2050,7 @@ Present recommendations as a table. One row per recommendation. Use this fixed c
 | REC-001 | <P1-P4>  | FND-XXX | <action>       | <High/Med/Low> | <High/Med/Low> | <High/Med/Low> | <verification step> |
 
 When the report language is not English, apply the column header translations from the matching
-`translation/` file.
+`translations/` file.
 
 Column meanings:
 
@@ -2092,7 +2092,7 @@ pattern:
 ```
 
 When the report language is not English, apply the bullet label translations from the matching
-`translation/` file.
+`translations/` file.
 
 For readiness or due diligence, include the supported cost rollup and dependency ordering from
 `synthesis/remediation-roadmap.md`, counting shared work only once.
@@ -2219,7 +2219,7 @@ P1 and P2 finding at minimum.
 | FND-XXX | P1       | <role or `NOT SPECIFIED`> | <verifiable artifact> | <milestone or `NOT SPECIFIED`> |
 
 When the report language is not English, apply the column header translations from the matching
-`translation/` file.
+`translations/` file.
 
 After the table, state sign-off gates tied to project-qualified `RSK-XXX` IDs and an evidenced
 re-audit schedule.
@@ -2276,7 +2276,7 @@ Present the references as a table:
 | <title>   | <publisher or author> | <section names> |
 
 When the report language is not English, apply the column header translations from the matching
-`translation/` file.
+`translations/` file.
 
 Only list sources actually consulted during the audit. Do not invent references.
 
@@ -2326,7 +2326,7 @@ place, every item is mechanical and takes seconds to verify.
 | Location        | Report path matches the output directory recorded during intake                           |
 | Ending          | References is the last section, no closing line after it                                  |
 
-`tools/format-table.py` in the skill repository is the canonical formatting script, copy it into
-the audited repository's `work/` directory before use. `tools/validate-report.py` runs the
+`scripts/format-table.py` in the skill repository is the canonical formatting script, copy it into
+the audited repository's `work/` directory before use. `scripts/validate-report.py` runs the
 scriptable items in this checklist plus finding-block field, register cross-reference, and
 PAR-row checks, copy and run it the same way.

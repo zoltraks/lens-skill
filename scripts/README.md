@@ -65,11 +65,11 @@ They use the Python standard library and do not require PyYAML or a package mana
 ## Commands
 
 ```text
-python tools/validate-skill.py .
-python tools/check-references.py .
-python tools/check-update.py
-python tools/format-table.py path/to/AUDIT.md
-python tools/validate-report.py path/to/AUDIT.md
+python scripts/validate-skill.py .
+python scripts/check-references.py .
+python scripts/check-update.py
+python scripts/format-table.py path/to/AUDIT.md
+python scripts/validate-report.py path/to/AUDIT.md
 ```
 
 Exit code `0` means all checks passed.

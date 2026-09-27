@@ -47,7 +47,7 @@ Present trade-offs as one table. One row per trade-off. Use this fixed column or
 |-----------|---------|-----------------------|-----------------------|----------|-------------|
 
 When the report language is not English, apply the column header translations from the matching
-`translation/` file.
+`translations/` file.
 
 Column meanings:
 

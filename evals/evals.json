@@ -142,7 +142,7 @@
       "expected_output": "A self-update check that runs before any audit step, asks the user to update or skip for the session, and honors the answer without re-asking.",
       "files": [],
       "expectations": [
-        "The agent runs python <skill-root>/tools/check-update.py against the skill's own repository before any other step, never against the audited subject.",
+        "The agent runs python <skill-root>/scripts/check-update.py against the skill's own repository before any other step, never against the audited subject.",
         "On UPDATE-AVAILABLE the agent asks whether to update the skill now or skip for this session and waits for the answer.",
         "On approval the agent runs git pull --ff-only only when the reported tree state allows it, then re-reads SKILL.md and loaded rule files.",
         "On skip or a blocked pull the agent continues with the current version and does not ask again in the session.",
@@ -205,7 +205,7 @@
     {
       "id": 17,
       "prompt": "Write the audit report in Polish for a repository with manifests, a HIGH network-facing security finding, and partial git history. Use the skill's Polish rendering rules.",
-      "expected_output": "A Polish report whose new sections and tags match translation/polish-language.md verbatim, preserving machine tokens and settled terminology.",
+      "expected_output": "A Polish report whose new sections and tags match translations/polish-language.md verbatim, preserving machine tokens and settled terminology.",
       "files": [],
       "expectations": [
         "New section headings match the dictionary verbatim: Macierz pokrycia typów audytu i poziomu zapewnienia, Zestawienie składników oprogramowania, Przegląd zgodności licencyjnej i IP, Praktyka dostarczania i ciągłość zespołu.",

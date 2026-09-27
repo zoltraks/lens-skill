@@ -158,7 +158,7 @@ def validate_evals(root: Path, fields: dict[str, str], issues: list[str]) -> Non
 
 def main() -> int:
     if len(sys.argv) != 2:
-        print("Usage: python tools/validate-skill.py <skill-directory>")
+        print("Usage: python scripts/validate-skill.py <skill-directory>")
         return 1
 
     root = Path(sys.argv[1]).resolve()

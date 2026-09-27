@@ -22,7 +22,7 @@ directory and the user confirmed it as the re-audit baseline in the audit-mode q
 A previous report is identified by the audit report Document Information section, a
 `Software Audit Report` title with `Report Revision`, `Report Date`, `State`, and
 `Detail Level` rows, or by the audit filename convention: `AUDIT.md`, `AUDIT-<revision>.md`,
-or the language-specific filename defined in `translation/`.
+or the language-specific filename defined in `translations/`.
 
 A file that shares the report directory but lacks these identification markers is not a previous
 audit report. Status snapshots, state documents such as `current-state.md`, coverage or scan
@@ -104,7 +104,7 @@ Never overwrite a previous report file. Each revision is a separate file so that
 stays comparable.
 
 The default filename is `<base>-<revision>.md`, where `<base>` is the language-specific default
-stem (`AUDIT` for English, the stem defined in `translation/` otherwise) and `<revision>` is the
+stem (`AUDIT` for English, the stem defined in `translations/` otherwise) and `<revision>` is the
 new report revision. For example, `AUDIT-1.1.md` or `AUDYT-1.1.md`. A first audit uses revision
 `1.0`, producing `AUDIT-1.0.md` or `AUDYT-1.0.md`, with the plain stem `AUDIT.md` offered as an
 alternative at delivery time.

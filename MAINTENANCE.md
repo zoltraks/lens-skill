@@ -14,20 +14,20 @@ Use `SKILL.md` as the resource router and follow it when deciding which files to
 
 `VERSIONING.md` governs skill-version changes.
 
-`tools/README.md` governs tool usage, safety, and validation order.
+`scripts/README.md` governs tool usage, safety, and validation order.
 
 ## Directory Roles
 
-| Directory      | Role                                                      |
-|----------------|-----------------------------------------------------------|
-| `assessment/`  | Core and conditional engineering-audit categories         |
-| `principles/`  | Evidence rules, neutrality, and report-output conventions |
-| `process/`     | Audit workflow, report structure, parity, and scoring     |
-| `synthesis/`   | Report sections for findings, risks, scoring, and actions |
-| `references/`  | Taxonomies, schemas, and lookup guidance                  |
-| `translation/` | Per-language report rendering and terminology             |
-| `tools/`       | Report-production and skill-maintenance scripts           |
-| `evals/`       | Behavioral regression prompts and expectations            |
+| Directory       | Role                                                      |
+|-----------------|-----------------------------------------------------------|
+| `assessment/`   | Core and conditional engineering-audit categories         |
+| `principles/`   | Evidence rules, neutrality, and report-output conventions |
+| `process/`      | Audit workflow, report structure, parity, and scoring     |
+| `synthesis/`    | Report sections for findings, risks, scoring, and actions |
+| `references/`   | Taxonomies, schemas, and lookup guidance                  |
+| `translations/` | Per-language report rendering and terminology             |
+| `scripts/`      | Report-production and skill-maintenance scripts           |
+| `evals/`        | Behavioral regression prompts and expectations            |
 
 Root files govern the repository itself: `SKILL.md`, `README.md`, `STYLE.md`,
 `MAINTENANCE.md`, `VERSIONING.md`, and `LICENSE`.
@@ -46,10 +46,10 @@ Use lowercase kebab-case for assessment, process, principle, synthesis, and refe
 Follow the naming pattern of the target directory and choose a name that describes the file's
 responsibility, such as `security-review.md` or `report-parity.md`.
 
-Name translation files `translation/<language>-language.md`, following the existing
+Name translation files `translations/<language>-language.md`, following the existing
 `polish-language.md` pattern.
 
-Name tools `tools/<verb>-<object>.py` and use the Python standard library unless an additional
+Name tools `scripts/<verb>-<object>.py` and use the Python standard library unless an additional
 dependency is documented.
 
 Keep conventional uppercase names for root files, including `README.md`, `STYLE.md`,
@@ -114,8 +114,8 @@ Distinguish consulted reference material from evidence that a tool or external c
 
 ## Adding A Report Language
 
-Create `translation/<language>-language.md` following the structure of the existing
-`translation/polish-language.md` file.
+Create `translations/<language>-language.md` following the structure of the existing
+`translations/polish-language.md` file.
 
 Define report terminology, translated section labels, prompt phrasing, style requirements, and
 expected diacritics or encoding requirements as applicable.
@@ -129,7 +129,7 @@ Add or update regression prompts that exercise the translated report output.
 Create tools with a descriptive verb-object filename and standard-library dependencies unless
 additional dependencies are documented.
 
-Classify each tool in `tools/README.md` as report-production or skill-maintenance.
+Classify each tool in `scripts/README.md` as report-production or skill-maintenance.
 
 Report-production tools are copied into the audited repository under a `.tmp.` name and run only
 against report artifacts and report-support files.
@@ -152,8 +152,8 @@ behavior.
 Run the skill-maintenance validators after structural changes:
 
 ```text
-python tools/validate-skill.py .
-python tools/check-references.py .
+python scripts/validate-skill.py .
+python scripts/check-references.py .
 ```
 
 Run `git diff --check` before delivery.
@@ -162,7 +162,7 @@ Format tables in edited skill documents with a temporary source-width formatter 
 
 Preserve the encoding and line-ending style of existing files.
 
-For report-format changes, use `tools/validate-report.py` only on a report artifact, not on a rule
+For report-format changes, use `scripts/validate-report.py` only on a report artifact, not on a rule
 or maintenance document.
 
 Exercise relevant regression scenarios from `evals/evals.json` and `process/audit-workflow.md`

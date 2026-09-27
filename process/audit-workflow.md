@@ -42,7 +42,7 @@ cannot be determined, default to English.
 When the report language is not English, also look for project-established terminology in that
 language, such as a project glossary or design documents written in the report language, and
 record the established forms. They take precedence over the defaults in the matching
-`translation/` file.
+`translations/` file.
 
 Record the audit start timestamp from the system clock at the beginning of intake. The elapsed
 time is later written to the `Time taken` row in Document Information.
@@ -231,7 +231,7 @@ The agent MUST ask the user and MUST NOT skip this step. The agent MUST wait for
 before proceeding to Scope Definition.
 
 Output filename carries the report revision: `AUDIT-1.0.md` for a first English audit, or the
-language-specific revisioned name from the matching `translation/` file such as `AUDYT-1.0.md`.
+language-specific revisioned name from the matching `translations/` file such as `AUDYT-1.0.md`.
 When a previous report exists, the filename carries the new revision, for example `AUDIT-1.1.md`,
 per `synthesis/report-comparison.md`. Plain `AUDIT.md` or the language-specific stem remains an
 offered alternative. Used only when delivery is File.
@@ -303,7 +303,7 @@ project.
 
 Resolve the filename before asking. The default filename carries the report revision:
 `<stem>-<revision>.md`, where `<stem>` is `AUDIT` for English reports or the language-specific
-stem from the matching `translation/` file. A first audit uses `AUDIT-1.0.md` or the
+stem from the matching `translations/` file. A first audit uses `AUDIT-1.0.md` or the
 language-specific equivalent such as `AUDYT-1.0.md`. When a previous report exists, use the
 incremented filename defined in `synthesis/report-comparison.md`. The plain stem name `AUDIT.md`
 or its language-specific equivalent is offered as an alternative file option.
@@ -385,7 +385,7 @@ rules.
 When the user explicitly specifies a different report language, apply it without a routine
 follow-up question.
 
-When the report language is not English, load the matching `translation/` file and apply every
+When the report language is not English, load the matching `translations/` file and apply every
 translation, style rule, and encoding requirement defined there. The default filename changes to
 the language-specific filename defined in the translation file, and the report must be written in
 UTF-8 encoding with all language-specific diacritics preserved.
@@ -756,9 +756,9 @@ re-audit that upgrades a prior revision, apply these mechanical-edit rules:
   which is not necessarily the occurrence inside the intended block.
 - Never edit table separator rows or splice cells by regular expression. A pattern such as
   `[-\s|]+` can cross a line boundary and merge the next data row into the separator. Rewrite
-  the whole table block, then run `tools/format-table.py` to rebuild padding and separators.
-- After every scripted edit, re-run `tools/format-table.py` and then
-  `tools/validate-report.py`. The validator prints at most ten problems per check, so iterate
+  the whole table block, then run `scripts/format-table.py` to rebuild padding and separators.
+- After every scripted edit, re-run `scripts/format-table.py` and then
+  `scripts/validate-report.py`. The validator prints at most ten problems per check, so iterate
   until it reports zero rather than assuming the first fix pass cleared everything.
 - Preserve the report's existing line-ending style when a script writes the file.
 
@@ -880,7 +880,7 @@ semicolons, and every table was formatted with an automated script so all `|` se
 vertically in plain text.
 
 Run the Pre-Delivery Mechanical Checklist in `process/report-format.md` and require zero
-violations. Copy `tools/validate-report.py` into the audited repository as
+violations. Copy `scripts/validate-report.py` into the audited repository as
 `validate-report.tmp.py` and run it on the report. The validator prints at most ten problems
 per check, so fix, re-run the formatter, and re-validate until it reports zero issues. When
 the report language is not English,

@@ -46,7 +46,7 @@ The API Compatibility dimension applies only when the subject is a reusable libr
 per `assessment/api-compatibility.md`. For a deployable service or application it is `N/A`.
 
 When the report language is not English, apply the column header and dimension name translations
-from the matching `translation/` file.
+from the matching `translations/` file.
 
 ## Scoring Rubric
 
@@ -69,7 +69,7 @@ Present this rubric matrix in the report so that scores are objective and reprod
 | Poor      | 1-3         | Capability is minimal, fragmentary, or absent where required |
 
 When the report language is not English, apply the band name and definition translations from the
-matching `translation/` file.
+matching `translations/` file.
 
 Per-score meanings:
 
@@ -87,7 +87,7 @@ Per-score meanings:
 | 1     | Capability is absent where required, with evidence of absence |
 
 When the report language is not English, apply the header and per-score description translations
-from the matching `translation/` file.
+from the matching `translations/` file.
 
 ### Alternative Rubric (1-5)
 
@@ -102,7 +102,7 @@ Use this scale when the user selects `1-5` or `5 stars`.
 | Bad       | 1           | Capability is absent or negligible where required           |
 
 When the report language is not English, apply the same band translations from the matching
-`translation/` file.
+`translations/` file.
 
 | Score | Meaning                                                       |
 |-------|---------------------------------------------------------------|
@@ -113,7 +113,7 @@ When the report language is not English, apply the same band translations from t
 | 1     | Capability is absent where required, with evidence of absence |
 
 When the report language is not English, apply the header and description translations from the
-matching `translation/` file.
+matching `translations/` file.
 
 ### Compact Rubric (1-3)
 
@@ -132,7 +132,7 @@ Use this scale when the user selects `1-3` or `3 stars`.
 | 1     | Capability is absent where required, with evidence of absence |
 
 When the report language is not English, apply the same band and description translations from
-the matching `translation/` file.
+the matching `translations/` file.
 
 ### Star Display
 

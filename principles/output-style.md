@@ -203,7 +203,7 @@ determined, default to English.
 
 Analysis runs in English regardless of the report language. Evidence notes, finding drafts,
 partial conclusions, and assembled part files are written in English, and the report is rendered
-into the report language in a single pass that applies the matching `translation/` file.
+into the report language in a single pass that applies the matching `translations/` file.
 
 Reasoning in English keeps the analysis anchored to the English rules, rubrics, and fixed
 vocabularies in this skill, and a single render pass applies one terminology convention to the
@@ -217,11 +217,11 @@ Direct quotes, code, configuration keys, file paths, and machine tokens are neve
 
 **Translation files**
 
-Translation rules for each supported language live in the `translation/` directory. Each file is
-named after the language (for example, `translation/polish-language.md`). When the report language
+Translation rules for each supported language live in the `translations/` directory. Each file is
+named after the language (for example, `translations/polish-language.md`). When the report language
 is not English, load the matching translation file and apply every translation defined there.
 
-To add support for a new language, create a new file in `translation/` following the structure of
+To add support for a new language, create a new file in `translations/` following the structure of
 the existing files. The file must define translations for status and severity vocabulary, section
 headings, table headers, style rules, and any language-specific encoding or diacritics requirements.
 
@@ -243,7 +243,7 @@ headings, table headers, style rules, and any language-specific encoding or diac
 - All descriptive fixed values: maturity levels (`Prototype`, `Early development`,
   `Pre-production`, `Production-ready`, `Undetermined`), report state (`Draft`, `Final`), detail
   level, evaluation scale names, readiness states, and audit-purpose values, rendered per the
-  matching `translation/` file
+  matching `translations/` file
 
 **What stays in English (fixed vocabularies):**
 

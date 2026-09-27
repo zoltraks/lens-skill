@@ -2,19 +2,16 @@
 name: lens-skill
 description: >-
   Software audit skill. Produces structured, evidence-based engineering
-  assessments of any software subject: prototypes, codebases under
-  development, production systems, and technical proposals. Covers testing,
-  design principles (SOLID), code quality, dependencies, deployment, rollback,
-  maintainability, documentation, NFRs, security, compliance, observability,
-  error handling, operational readiness, AI-generated code detection,
-  copyrights, and conformance with project-internal development standards.
-  Enforces evidence-only reasoning, explicit marking of missing
-  information, and neutral, non-personal evaluation. Use whenever the user
-  asks for a software audit, architecture audit, prototype review, production
-  code audit, technical due diligence, readiness assessment, risk register,
-  scorecard, or remediation roadmap. Triggers on phrases like audit this
-  codebase, engineering assessment, production readiness, run lens, lens
-  audit, and perform lens on. See the full trigger list in the body.
+  assessments of prototypes, codebases, production systems, and technical
+  proposals. Covers testing, design principles (SOLID), code quality,
+  dependencies, deployment, rollback, maintainability, documentation, NFRs,
+  security, compliance, observability, error handling, operational
+  readiness, AI-generated code detection, copyrights, and development
+  standards conformance. Enforces evidence-only reasoning and neutral,
+  non-personal evaluation. Use for software audits, architecture audits,
+  prototype reviews, production readiness, technical due diligence, risk
+  registers, scorecards, or remediation roadmaps. Triggers on audit this
+  codebase, engineering assessment, run lens, lens audit, perform lens on.
 license: MIT
 compatibility: >-
   Designed for agent coding environments with file system access (Claude Code,
@@ -23,8 +20,9 @@ compatibility: >-
   executes the project. No network access required for the audit itself,
   optional web fetch for external documentation or CVE lookups.
 metadata:
-  version: "1.3"
+  version: "1.4"
   author: Filip Golewski
+allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
 
 # Software Audit Skill
@@ -37,21 +35,21 @@ metadata:
 
 | Section                 | Line | What it covers                                     |
 |-------------------------|------|----------------------------------------------------|
-| Skill Update Check      | 69   | Once-per-session git freshness gate before use     |
-| Trigger Keywords        | 84   | Activation phrases                                 |
-| How To Use              | 106  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 123  | Defaults and user-controlled report shape          |
-| Principles              | 180  | Evaluation and output rules                        |
-| Process                 | 188  | Workflow, format, and parity                       |
-| Assessments             | 200  | Core and conditional assessment guides             |
-| Synthesis               | 265  | Findings, risk, score, and remediation assembly    |
-| Translation             | 284  | Per-language report translations                   |
-| References              | 293  | Lookup tables                                      |
-| Tools                   | 322  | Report-production scripts                          |
-| Evaluation Prompts      | 342  | Behavioral regression prompts                      |
-| Repository Files        | 351  | Housekeeping files governing this repository       |
-| Evidence Contract       | 361  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 391  | File-selection and section-placement rules         |
+| Skill Update Check      | 67   | Once-per-session git freshness gate before use     |
+| Trigger Keywords        | 82   | Activation phrases                                 |
+| How To Use              | 101  | Progressive disclosure and mandatory reading       |
+| Parameter Configuration | 118  | Defaults and user-controlled report shape          |
+| Principles              | 167  | Evaluation and output rules                        |
+| Process                 | 172  | Workflow, format, and parity                       |
+| Assessments             | 179  | Core and conditional assessment guides             |
+| Synthesis               | 214  | Findings, risk, score, and remediation assembly    |
+| Translations            | 224  | Per-language report translations                   |
+| References              | 231  | Lookup tables                                      |
+| Scripts                 | 246  | Report-production scripts                          |
+| Evaluation Prompts      | 260  | Behavioral regression prompts                      |
+| Repository Files        | 267  | Housekeeping files governing this repository       |
+| Evidence Contract       | 277  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 307  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -68,7 +66,7 @@ personal opinions.
 
 ## Skill Update Check
 
-Before any other step, once per session, run `python <skill-root>/tools/check-update.py`, where
+Before any other step, once per session, run `python <skill-root>/scripts/check-update.py`, where
 `<skill-root>` is the directory containing this `SKILL.md` - the skill's own repository, never
 the audited subject.
 
@@ -83,24 +81,21 @@ The check writes no state files and never commits, stashes, or discards skill ch
 
 ## Trigger Keywords
 
-The skill activates on any of these phrases:
+The skill activates on phrases such as:
 
-- audit requests: software audit, architecture audit, prototype audit, production code audit,
-  code audit, audit this system, audit this codebase, engineering assessment, technical due
-  diligence, production readiness, review this codebase
-- analysis artifacts: risk register, scorecard, maturity assessment, trade-off analysis,
-  NFR review
-- focused reviews: security review, dependency audit, supply chain review, code quality review,
-  SOLID, design principles, TDD, test coverage, test pyramid, testability, license audit, SBOM
+- audit requests: software audit, architecture audit, prototype audit, code audit, audit this
+  system, audit this codebase, engineering assessment, technical due diligence, production
+  readiness, review this codebase
+- analysis artifacts: risk register, scorecard, maturity assessment, trade-off analysis, NFR
   review
+- focused reviews: security review, dependency audit, supply chain review, code quality review,
+  SOLID, design principles, TDD, test coverage, testability, license audit, SBOM review
 - operational reviews: observability review, operational readiness, rollback strategy,
   deployment strategy review, maintainability assessment
-- conventions: best practices, best practices review, idiomatic code, coding conventions, stack
-  conventions, framework conventions, standards conformance, development standards review,
-  coding standards audit, stack standards conformance
+- conventions: best practices, idiomatic code, coding conventions, stack conventions, framework
+  conventions, standards conformance, development standards review, coding standards audit
 - lens invocations: perform lens on, make audit report on, run lens, lens audit
-- skill audits: audit this skill, skill audit, skill definition review, skill conformance,
-  skill spec conformance
+- skill audits: audit this skill, skill audit, skill definition review, skill spec conformance
 - library reviews: api compatibility, api versioning audit, library audit
 
 ## How To Use This Skill
@@ -158,192 +153,113 @@ to configure, the agent asks only the unresolved core parameter questions define
 `process/audit-workflow.md`. Each prompt marks the default and ends with `Use default: <value>`
 and `Use defaults for all remaining questions`.
 
-When the report language is not English, load the matching `translation/` file and apply every
+When the report language is not English, load the matching `translations/` file and apply every
 translation, style rule, and encoding requirement defined there.
 
 **Rerunning an audit**
 
-When the user asks to rerun, regenerate, or update an audit, or the audited location already
-contains an audit report, check whether a previous report exists, per
-`synthesis/report-comparison.md`. When one is found, ask the user to confirm the audit mode
-before parameter questions: a re-audit compares against that report, a re-audit with changed
-parameters compares while reconfiguring core parameters with recovered values as defaults, and
-a fresh audit ignores its content while the revision still increments. A re-audit request still
-requires confirming the found file as the intended baseline, offering the other modes instead.
-When a requested re-audit finds no previous report, ask before proceeding as a fresh audit at
-revision `1.0`. On a confirmed re-audit, reuse the parameters recorded in its Document
-Information section. On changed parameters, re-ask only the named parameters. The previous
-report is never overwritten: write the new report to a revision-numbered file such as
-`AUDIT-1.1.md`, adding the Changes Since Previous Audit section on a re-audit only. If none
-exists, run the full Parameter Configuration phase.
+When the user asks to rerun, regenerate, or update an audit, or a previous report exists in the
+audited location, resolve the audit mode per `process/audit-workflow.md` and
+`synthesis/report-comparison.md`: re-audit against the found report, re-audit with changed
+parameters, or fresh audit. The previous report is never overwritten - write the next
+revision-numbered file such as `AUDIT-1.1.md`.
 
 ## `principles/` - Rules Of Evaluation
 
-- **`principles/evaluation-rules.md`** - Evidence-based reasoning, no assumptions, no personal
-  judgement, architectural neutrality, status markers (`PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`),
-  and critical constraints.
-- **`principles/output-style.md`** - Output style, terminology, status and severity vocabularies,
-  and consistency rules across audits.
+- **`principles/evaluation-rules.md`** - Evidence-only reasoning, no assumptions, neutrality, status markers.
+- **`principles/output-style.md`** - Tone, fixed vocabularies, consistency, determinism.
 
 ## `process/` - Audit Process
 
-- **`process/audit-workflow.md`** - Step-by-step audit workflow: intake, scope definition, evidence
-  gathering, category assessment, synthesis, and validation.
-- **`process/report-format.md`** - The required report structure and the table-driven template the
-  final output must follow. Section headings are unnumbered.
-- **`process/report-parity.md`** - The mandatory core checklist applied to every report and the
-  consistency gate that runs before a report is marked final, diffing the report's capability set against the
-  checklist and the most recent report found for any subject.
-- **`process/readiness-and-scoring.md`** - Deterministic score aggregation, evidence confidence,
-  maturity levels, readiness gates, and production sign-off limits.
+- **`process/audit-workflow.md`** - End-to-end audit process: intake to validated report.
+- **`process/report-format.md`** - Report structure, table-driven template, unnumbered headings.
+- **`process/report-parity.md`** - Mandatory core checklist and consistency gate.
+- **`process/readiness-and-scoring.md`** - Score aggregation, confidence, maturity, readiness gates.
 
 ## `assessment/` - Assessment Categories
 
-- **`assessment/testing-review.md`** - Test pyramid (unit, integration, end-to-end), TDD practice,
-  coverage, CI automation, and design-for-testability.
-- **`assessment/design-principles.md`** - SOLID principles, cohesion and coupling, DRY, and
-  separation of concerns.
-- **`assessment/code-quality.md`** - Static analysis, type safety, complexity, duplication, dead
-  code, and style enforcement.
-- **`assessment/best-practices.md`** - Stack-specific best practices: language idioms, framework
-  conventions, ecosystem layout, recommended libraries, deprecated APIs, and version-appropriate
-  patterns.
-- **`assessment/dependency-review.md`** - Dependency freshness, known vulnerabilities, license
-  compliance, lockfiles, and SBOM.
-- **`assessment/deployment-review.md`** - Build pipeline, release process, release frequency, and
-  manual steps.
-- **`assessment/rollback-review.md`** - Rollback mechanism, deployment safety, versioning, and
-  recovery.
-- **`assessment/maintainability-review.md`** - Modularity, coupling, code structure, and
-  technical-debt signals.
-- **`assessment/change-management.md`** - Feature flags, ADR usage, and release governance.
-- **`assessment/documentation-review.md`** - Entry, API, and inline docs, onboarding, and knowledge
-  transfer.
-- **`assessment/nfr-review.md`** - Performance, scalability, availability, reliability, and
-  resilience.
-- **`assessment/security-review.md`** - Authentication, authorization, input validation, OWASP
-  risks, and data exposure.
-- **`assessment/compliance-review.md`** - Data protection, privacy, regulatory scope, licensing, and
-  auditability.
-- **`assessment/observability-review.md`** - Logging, metrics, tracing, and alerting.
-- **`assessment/error-handling.md`** - Exception strategy, retries, fallbacks, and user-facing error
-  handling.
-- **`assessment/operational-readiness.md`** - Runbooks, on-call, capacity, backups, and incident
-  response.
-- **`assessment/ai-generated-code.md`** - Explicit code provenance, generated-artifact validation,
-  and evidenced secure-development controls, without style-based authorship inference.
-- **`assessment/copyright-review.md`** - Code originality, license compliance, attribution, and
-  dependency license compatibility.
+- **`assessment/testing-review.md`** - Test pyramid, TDD, coverage, CI automation, testability.
+- **`assessment/design-principles.md`** - SOLID, cohesion and coupling, DRY, separation of concerns.
+- **`assessment/code-quality.md`** - Static analysis, type safety, complexity, duplication, dead code.
+- **`assessment/best-practices.md`** - Stack idioms, framework conventions, deprecated APIs.
+- **`assessment/dependency-review.md`** - Freshness, vulnerabilities, licenses, lockfiles, SBOM.
+- **`assessment/deployment-review.md`** - Build pipeline, release process and frequency, manual steps.
+- **`assessment/rollback-review.md`** - Rollback mechanism, deploy safety, versioning, recovery.
+- **`assessment/maintainability-review.md`** - Modularity, coupling, code structure, technical debt.
+- **`assessment/change-management.md`** - Feature flags, ADR usage, release governance.
+- **`assessment/documentation-review.md`** - Entry, API, inline docs, onboarding, knowledge transfer.
+- **`assessment/nfr-review.md`** - Performance, scalability, availability, reliability, resilience.
+- **`assessment/security-review.md`** - Authentication, authorization, input validation, OWASP risks.
+- **`assessment/compliance-review.md`** - Data protection, privacy, regulatory scope, licensing.
+- **`assessment/observability-review.md`** - Logging, metrics, tracing, alerting.
+- **`assessment/error-handling.md`** - Exception strategy, retries, fallbacks, user-facing errors.
+- **`assessment/operational-readiness.md`** - Runbooks, on-call, capacity, backups, incident response.
+- **`assessment/ai-generated-code.md`** - Code provenance, generated-artifact validation.
+- **`assessment/copyright-review.md`** - Originality, license compliance, attribution.
 
 ### Conditional Assessment Files
 
 Load these only when the subject meets the inclusion criterion in the Conditional Sections table of
 `process/report-format.md`.
 
-- **`assessment/data-flow.md`** - Data flow diagrams, trust boundaries, and inter-process flows.
-  Include when the system crosses a trust boundary.
-- **`assessment/design-patterns.md`** - GoF and POSA pattern identification, fitness, and
-  anti-pattern detection. Include when the codebase exhibits recurring structure.
-- **`assessment/threat-model.md`** - STRIDE threat enumeration mapped to trust boundaries. Include
-  when the system has a security-relevant attack surface.
-- **`assessment/api-contract.md`** - API specification conformance, RFC 9457 error format, and OWASP
-  API Security Top 10 (2023). Include when the system defines, exposes, or consumes an API
-  contract.
-- **`assessment/skill-definition.md`** - Agent Skills specification conformance, frontmatter
-  validity, progressive disclosure, triggering description quality, and file reference integrity.
-  Include when the subject is an Agent Skill (has a `SKILL.md` file).
-- **`assessment/ai-system.md`** - AI and machine-learning system lifecycle, model and data
-  provenance, evaluation, safety, authorization boundaries, monitoring, and rollback. Include only
-  when the project trains, serves, or materially depends on an AI system.
-- **`assessment/standards-conformance.md`** - Project-internal development standards:
-  code-to-standards conformance, standards-to-best-practices quality, and external reference
-  collection. Include when the project contains documented development standards.
-- **`assessment/api-compatibility.md`** - API compatibility gates, versioning-scheme consistency,
-  and breaking-change tracking. Include when the subject is a reusable library or package rather
-  than a deployable service.
+- **`assessment/data-flow.md`** - Data flows, trust boundaries. Include for cross-boundary systems.
+- **`assessment/design-patterns.md`** - GoF/POSA pattern fitness. Include for recurring structure.
+- **`assessment/threat-model.md`** - STRIDE threats. Include for a security-relevant attack surface.
+- **`assessment/api-contract.md`** - API contract conformance. Include when the system has an API.
+- **`assessment/skill-definition.md`** - Agent Skill spec conformance. Include for SKILL.md subjects.
+- **`assessment/ai-system.md`** - AI system lifecycle. Include for AI-dependent projects.
+- **`assessment/standards-conformance.md`** - Standards conformance for documented project standards.
+- **`assessment/api-compatibility.md`** - API compatibility. Include for libraries and packages.
 
 ## `synthesis/` - Findings And Report Assembly
 
-- **`synthesis/risk-register.md`** - Unified risk register with bidirectional cross-referencing to
-  findings (`RSK-[001]` mapping to `FND-XXX`).
-- **`synthesis/project-scorecard.md`** - The 1-10 project scorecard, dimensions, and scoring
-  rubric (1-5, 1-3, 5 stars, and 3 stars options).
-- **`synthesis/trade-off-analysis.md`** - Surfacing engineering trade-offs in a standalone section
-  and embedded into findings.
-- **`synthesis/remediation-roadmap.md`** - Actionable remediation roadmap with prioritized
-  impact-vs-effort matrix and verification steps.
-- **`synthesis/debt-register.md`** - Formal technical debt inventory (`TDR-[001]`) using CISQ and
-  SQALE cost model. Conditional: include when structural debt distinct from risks is surfaced.
-- **`synthesis/re-audit-plan.md`** - Verification ownership, sign-off gates, and re-audit triggers
-  following ISO 19011 and NIST RMF. Conditional: include when the roadmap has a P1 or P2
-  recommendation.
-- **`synthesis/report-comparison.md`** - Previous report discovery, iterative report revisions,
-  revision-numbered output filenames, and the Changes Since Previous Audit section. Conditional:
-  include when a previous audit report exists.
+- **`synthesis/risk-register.md`** - Unified risk register: `RSK-[001]` mapped to `FND-XXX` findings.
+- **`synthesis/project-scorecard.md`** - 1-10 scorecard, rubric, scales (1-5, 1-3, star bars).
+- **`synthesis/trade-off-analysis.md`** - Trade-offs as a standalone section and embedded findings.
+- **`synthesis/remediation-roadmap.md`** - Prioritized roadmap with impact-vs-effort matrix.
+- **`synthesis/debt-register.md`** - `TDR-[001]` inventory (CISQ/SQALE). Include for structural debt.
+- **`synthesis/re-audit-plan.md`** - Verification owners, sign-off gates. Include for P1/P2 findings.
+- **`synthesis/report-comparison.md`** - Previous-report discovery, revisions, Changes section.
 
-## `translation/` - Report Languages
+## `translations/` - Report Languages
 
 Load the matching file when the report language is not English. Analysis runs in English and the
 report renders into the report language in a single pass, per `principles/output-style.md`:
 
-- **`translation/polish-language.md`** - Polish rendering of the audit report and parameter
-  prompts: vocabulary, terminology dictionary, prompt phrasing, headings, table headers, style
-  rules, diacritics, and encoding. Load when the report language is Polish.
+- **`translations/polish-language.md`** - Polish rendering: vocabulary, terminology, style rules.
 
 ## `references/` - Lookup Tables
 
 Load these when the detected stack or finding type requires them. They are consulted during
 intake, assessment, and report writing.
 
-- **`references/stack-standards.md`** - Canonical standards, guidelines, security advisories, and
-  compatibility tooling per detected stack. Selects the references the audit applies and cites.
-- **`references/cwe-analyzer-map.md`** - CWE-to-static-analyzer-rule cross-reference per
-  ecosystem, with enablement evidence sources. Gives every CWE-classified security finding a
-  concrete follow-up check.
-- **`references/dependency-manifests.md`** - Text-only readers for dependency manifests and
-  lockfiles per ecosystem, producing a CycloneDX/SPDX-style source-derived component inventory
-  without executing anything.
-- **`references/census-commands.md`** - Canonical counting methods for recurring audit censuses:
-  git history, conditional directives, catch clauses, test inventory, and tracked artifacts.
-  Produces figures a re-audit can reproduce.
-- **`references/audit-taxonomy.md`** - Canonical audit/report types, fixed coverage statuses, and
-  the assurance boundaries behind the Audit Type Coverage & Assurance Matrix. Consulted at
-  intake and again during synthesis, includes the methodology source corpus.
-- **`references/sbom-schema.md`** - Report-level schema for the source-derived component
-  inventory, extending `references/dependency-manifests.md` with license, risk, and advisory
-  columns. Load when building the per-project SBOM section.
-- **`references/license-compliance.md`** - License classes, copyleft-trap patterns,
-  notice, attribution, and ownership-evidence checks for the License & IP Compliance Review.
-- **`references/delivery-practice.md`** - DORA proxy procedure and bus-factor rubric
-  behind the Delivery Practice & Team Continuity section.
-- **`references/exploitability-narrative.md`** - Theoretical attack-path narrative
-  format, confidence tiers, and placement rules for HIGH/CRITICAL security findings.
+- **`references/stack-standards.md`** - Canonical standards and advisories per detected stack.
+- **`references/cwe-analyzer-map.md`** - CWE-to-analyzer-rule cross-reference per ecosystem.
+- **`references/dependency-manifests.md`** - Text-only manifest readers, source-derived inventory.
+- **`references/census-commands.md`** - Reproducible census and counting methods.
+- **`references/audit-taxonomy.md`** - Audit types, coverage statuses, methodology corpus.
+- **`references/sbom-schema.md`** - Source-derived inventory report schema.
+- **`references/license-compliance.md`** - License classes, copyleft, attribution, ownership checks.
+- **`references/delivery-practice.md`** - DORA proxies, bus-factor rubric.
+- **`references/exploitability-narrative.md`** - Attack-path narrative format and tiers.
 
-## `tools/` - Canonical Scripts
+## `scripts/` - Canonical Scripts
 
 Copy these into the audited repository's `work/` directory under a `.tmp.` name before use. Use an
 existing `temp` or `temporary` directory when `work/` is unavailable, and use the repository root
 only when none exists. Run the copies there and remove them when done. They are report-production
 tooling, not analysis of the audited project.
 
-- **`tools/format-table.py`** - Canonical implementation of the Table Formatting Rules in
-  `process/report-format.md`. Rebuilds every table with aligned pipes and width-plus-two
-  separators, preserving the file's line-ending style.
-- **`tools/validate-report.py`** - Mechanical consistency checker covering the scriptable items
-  of the Pre-Delivery Mechanical Checklist, report traceability, score disclosure, and parity rows.
-- **`tools/validate-skill.py`** - Dependency-light validator for frontmatter, disclosure limits,
-  Contents sections, and root references.
-- **`tools/check-references.py`** - Relative-reference integrity checker for the root router and
-  README.
-- **`tools/check-update.py`** - Skill self-update checker reporting git upstream status. Run once
-  per session from the Lens repository, before any audit work.
-- **`tools/README.md`** - Tool classes, safe usage, validation order, dependencies, and limitations.
+- **`scripts/format-table.py`** - Canonical table formatter (Table Formatting Rules).
+- **`scripts/validate-report.py`** - Mechanical report consistency checker.
+- **`scripts/validate-skill.py`** - Frontmatter, disclosure, and references validator.
+- **`scripts/check-references.py`** - Relative-reference integrity checker.
+- **`scripts/check-update.py`** - Skill self-update checker (git upstream).
+- **`scripts/README.md`** - Tool classes, usage, validation order, limitations.
 
 ## Evaluation Prompts
 
-- **`evals/evals.json`** - Skill-creator regression prompts and evidence-oriented expectations for
-  full audits, re-audits, multi-project reports, due diligence, skill conformance, translation,
-  AI-system assessment, and the session update check.
+- **`evals/evals.json`** - Behavioral regression prompts and expectations.
 
 Run these as behavioral evaluations after structural changes. They do not replace independent
 review.
@@ -486,7 +402,7 @@ when maintaining the skill.
 - For a multi-project report, a condensed combined Executive Summary and a combined Changes
   Since Previous Audit follow the Project Inventory, and a combined Trade-off Analysis holds
   only cross-project trade-offs per `synthesis/trade-off-analysis.md`.
-- Each `translation/` file defines one report language and loads only when the report language is
+- Each `translations/` file defines one report language and loads only when the report language is
   not English. Add a language with a new file following the existing structure.
 - Prefer the narrowest assessment file that directly matches the request. For a single-dimension
   request (for example "review security" or "audit dependencies"), load that one assessment file

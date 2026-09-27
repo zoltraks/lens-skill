@@ -155,7 +155,7 @@ Use these readiness states:
 | `Not assessed`     | Readiness was outside the requested audit purpose       |
 
 When the report language is not English, the readiness state is rendered per the matching
-`translation/` file.
+`translations/` file.
 
 `Ready` requires current closure evidence for every blocking gate.
 
