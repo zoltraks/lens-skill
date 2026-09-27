@@ -240,6 +240,42 @@
         "Finding, risk, and recommendation identifiers keep continuity, and the Changes Since Previous Audit section lists the parameter differences as capability changes.",
         "The report revision and filename still increment from the previous report's revision, and the previous file is not overwritten."
       ]
+    },
+    {
+      "id": 20,
+      "prompt": "Audit this repository, which is a collection of Agent Skills under skills/ with one SKILL.md per subdirectory. Check each skill against the Agent Skills specification.",
+      "expected_output": "A Skill Definition Conformance section holding a Skills Inventory matrix that covers every discovered skill, with per-skill detail for non-PASS skills.",
+      "files": [],
+      "expectations": [
+        "The Skills Inventory matrix lists every discovered SKILL.md with its path, name-directory match, status, and key gaps.",
+        "Every non-PASS skill receives dimension-level detail with evidence and FND identifiers.",
+        "Duplicate name declarations or name-directory mismatches are reported as findings.",
+        "The aggregate conformance status follows the weakest skill rather than an average."
+      ]
+    },
+    {
+      "id": 21,
+      "prompt": "Audit this application repository. Alongside the application code it ships agent skills under .claude/skills/, each with its own SKILL.md.",
+      "expected_output": "An audit that resolves the skills-scope question before assessing the embedded skills.",
+      "files": [],
+      "expectations": [
+        "Intake discovers the SKILL.md files under .claude/skills/ and asks whether to assess them as components or as independent projects before Parameter Configuration.",
+        "On the components choice, the embedded skills appear in a Skills Inventory inside the parent project's Skill Definition Conformance section rather than as separate project blocks.",
+        "Each inventoried skill is checked against the specification: frontmatter, name-directory match, disclosure, and reference integrity.",
+        "The chosen scope is recorded so a re-audit does not re-ask the question in the same session."
+      ]
+    },
+    {
+      "id": 22,
+      "prompt": "Audit this Agent Skill for specification conformance. State which authoritative baseline the checks ran against.",
+      "expected_output": "A Skill Definition Conformance assessment anchored to the bundled spec corpus with the baseline recorded.",
+      "files": [],
+      "expectations": [
+        "The report records the spec baseline used: the references/agent-skills-specification.md snapshot date, or the live-fetch result when the optional check ran.",
+        "When the specification cannot be fetched, conformance runs against the bundled snapshot and the limitation is disclosed rather than hidden.",
+        "A spec drift between the snapshot and a fetched live version is reported in Limitations and Unknowns, not silently applied.",
+        "External validation such as skills-ref is recorded only when a committed or supplied result exists, marked as Reported evidence."
+      ]
     }
   ]
 }

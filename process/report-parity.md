@@ -33,6 +33,7 @@ a previous report happened to include.
 | PAR-14 | Every `HIGH` or `CRITICAL` Security & Compliance finding on a network-facing surface carries an Exploitability Narrative with an explicit confidence tier                                                                          | `references/exploitability-narrative.md` |
 | PAR-15 | The Delivery Practice & Team Continuity section is present per project, DORA-proxy fields are correctly marked as proxies or `NOT SPECIFIED`, and a bus-factor rating is given (`NOT COLLECTED` when Git history was out of scope) | `references/delivery-practice.md`        |
 | PAR-16 | In a non-English report, every section heading and scored-dimension name matches the governing `translations/` file verbatim                                                                                                       | `translations/` files                    |
+| PAR-17 | When the subject is or contains Agent Skills, the Skills Inventory lists every discovered `SKILL.md` with a per-skill status and the spec baseline used is recorded                                                                | `assessment/skill-definition.md`         |
 
 PAR-5 may report `NOT COLLECTED` when Git history is unavailable, silence is not acceptable.
 

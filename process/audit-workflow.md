@@ -15,11 +15,11 @@ requested category.
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 24   | Step Overview guidance           |
-| Intake Checklist        | 986  | Intake Checklist guidance        |
-| Handling Thin Input     | 1003 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1014 | Single-Dimension Audits guidance |
-| Re-Audit                | 1024 | Re-Audit guidance                |
-| Multi-Project Audits    | 1065 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1016 | Intake Checklist guidance        |
+| Handling Thin Input     | 1033 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1044 | Single-Dimension Audits guidance |
+| Re-Audit                | 1054 | Re-Audit guidance                |
+| Multi-Project Audits    | 1095 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -96,6 +96,31 @@ each one covers. This determines whether the Standards Conformance assessment ap
 When no standards documents are found, the Standards Conformance assessment is omitted and the
 omission is noted in Scope Exclusions.
 
+**Agent skills discovery**
+
+During intake, enumerate every `SKILL.md` inside the audited root: the root itself, `skills/` and
+`plugins/` one level down, agent configuration directories (`.claude/skills/`, `.agents/skills/`,
+`.devin/skills/`, `.cursor/skills/`, `.windsurf/skills/`, `.codeium/skills/`), and any other
+`*/SKILL.md` found one level deep. For each skill found, record its directory path, its declared
+`name`, and whether the name matches the directory name.
+
+How discovered skills enter the report depends on the subject shape:
+
+- The subject IS a skill (root `SKILL.md` and nothing else) - run Skill Definition Conformance
+  directly against it, no inventory needed.
+- The subject IS a collection (multiple `SKILL.md` under skill directories and no dominant
+  product project) - Skill Definition Conformance holds the Skills Inventory matrix plus
+  per-skill detail for every discovered skill.
+- A non-skill project CONTAINS skills - ask the skills-scope question before Parameter
+  Configuration: `Assess skills as components of the project` (recommended) produces the Skills
+  Inventory inside Skill Definition Conformance; `Assess each skill as an independent project`
+  routes each skill through the multi-project workflow. Wait for the answer, record it, and do
+  not re-ask in the session.
+
+The discovery result decides whether Skill Definition Conformance applies and which shape the
+section takes. When nothing is found, the section is omitted and the omission is noted in Scope
+Exclusions.
+
 **Project Identification**
 
 After reading the input, identify whether the repository or directory contains one project or
@@ -105,6 +130,11 @@ A project is a self-contained unit with its own manifest, configuration, or entr
 a project boundary include a package manifest (`package.json`, `Cargo.toml`, `composer.json`,
 `go.mod`, `pom.xml`, `*.csproj`), a dedicated configuration directory, a `SKILL.md` file (for an
 Agent Skill), or a clearly separated component with its own build and entry point.
+
+A `SKILL.md` found under an agent-skill location is not automatically a separate project. The
+skills-scope decision made during Agent skills discovery routes it: as a component it is
+inventoried inside the parent project's Skill Definition Conformance section, as an independent
+project it joins the multi-project list below.
 
 When multiple project manifests or boundaries exist at the top level or in clearly separated
 subdirectories, treat each as an independent project. Record the list of identified projects with

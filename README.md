@@ -17,22 +17,22 @@
 
 | Section                            | Line | What it covers                                      |
 |------------------------------------|------|-----------------------------------------------------|
-| Overview                           | 35   | Audit purpose and standard report shape             |
-| What The Skill Does                | 66   | Update check, evidence, assessment, synthesis       |
-| Installation                       | 122  | Clone and update instructions                       |
-| Usage                              | 149  | Activation, parameters, and report delivery         |
-| Example Prompts                    | 175  | Full and focused audit requests                     |
-| Workflow Diagrams                  | 236  | ASCII and Mermaid audit pipelines                   |
-| Evidence And Decision Quality      | 296  | Evidence strength and verification limits           |
-| Core Principles                    | 348  | Evaluation constraints and status rules             |
-| Report Format                      | 364  | Report structure, identifiers, and style            |
-| When To Use This Skill             | 394  | Supported requests and exclusions                   |
-| What's Inside                      | 414  | Documents, references, tools, and conditional files |
-| Document Style                     | 503  | Pointer to the style rules file                     |
-| Specification                      | 512  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 531  | Maintenance checks and regression scenarios         |
-| License                            | 551  | License for the skill itself                        |
-| Credits                            | 557  | Authorship and attribution                          |
+| Overview                           | 37   | Audit purpose and standard report shape             |
+| What The Skill Does                | 68   | Update check, evidence, assessment, synthesis       |
+| Installation                       | 124  | Clone and update instructions                       |
+| Usage                              | 151  | Activation, parameters, and report delivery         |
+| Example Prompts                    | 177  | Full and focused audit requests                     |
+| Workflow Diagrams                  | 238  | ASCII and Mermaid audit pipelines                   |
+| Evidence And Decision Quality      | 298  | Evidence strength and verification limits           |
+| Core Principles                    | 350  | Evaluation constraints and status rules             |
+| Report Format                      | 366  | Report structure, identifiers, and style            |
+| When To Use This Skill             | 396  | Supported requests and exclusions                   |
+| What's Inside                      | 417  | Documents, references, tools, and conditional files |
+| Document Style                     | 507  | Pointer to the style rules file                     |
+| Specification                      | 516  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 535  | Maintenance checks and regression scenarios         |
+| License                            | 555  | License for the skill itself                        |
+| Credits                            | 561  | Authorship and attribution                          |
 
 ## Overview
 
@@ -406,6 +406,7 @@ This format keeps the report readable in plain-text consoles while preserving de
 | "Review only the security posture"               | **Yes** - single-dimension audit                    |
 | "Check if this code is idiomatic for its stack"  | **Yes** - use `assessment/best-practices.md`        |
 | "Audit this skill for spec conformance"          | **Yes** - use `assessment/skill-definition.md`      |
+| "Audit our skills collection"                    | **Yes** - per-skill conformance matrix              |
 | "Check conformance with our dev standards"       | **Yes** - use `assessment/standards-conformance.md` |
 | "Compare these two architectural options"        | **Yes** - embed trade-offs into relevant findings   |
 | "Write the feature for me"                       | No - this skill assesses, it does not build         |
@@ -417,74 +418,75 @@ This format keeps the report readable in plain-text consoles while preserving de
 
 ```
 lens-skill/
-├── SKILL.md                         # Root router - load this first
-├── STYLE.md                         # Document style rules for all files in this skill
-├── MAINTENANCE.md                   # Repository structure, registration, and validation policy
-├── VERSIONING.md                    # Skill versioning policy
+├── SKILL.md                           # Root router - load this first
+├── STYLE.md                           # Document style rules for all files in this skill
+├── MAINTENANCE.md                     # Repository structure, registration, and validation policy
+├── VERSIONING.md                      # Skill versioning policy
 ├── evals/
-│   └── evals.json                   # Skill-creator behavioral regression prompts
+│   └── evals.json                     # Skill-creator behavioral regression prompts
 ├── principles/
-│   ├── evaluation-rules.md          # Evidence-only, no assumptions, neutrality, status markers, constraints
-│   └── output-style.md              # Tone, fixed vocabularies, consistency, determinism
+│   ├── evaluation-rules.md            # Evidence-only, no assumptions, neutrality, status markers, constraints
+│   └── output-style.md                # Tone, fixed vocabularies, consistency, determinism
 ├── process/
-│   ├── audit-workflow.md            # Intake, scope, evidence, assessment, synthesis, validation
-│   ├── report-format.md             # The table-driven, unnumbered report template
-│   ├── report-parity.md             # Mandatory core checklist and consistency gate before final
-│   └── readiness-and-scoring.md     # Deterministic scores, confidence, maturity, and readiness gates
+│   ├── audit-workflow.md              # Intake, scope, evidence, assessment, synthesis, validation
+│   ├── report-format.md               # The table-driven, unnumbered report template
+│   ├── report-parity.md               # Mandatory core checklist and consistency gate before final
+│   └── readiness-and-scoring.md       # Deterministic scores, confidence, maturity, and readiness gates
 ├── assessment/
-│   ├── testing-review.md            # Test pyramid (unit/integration/e2e), TDD, coverage, testability
-│   ├── design-principles.md         # SOLID, cohesion and coupling, DRY, separation of concerns
-│   ├── code-quality.md              # Static analysis, type safety, complexity, duplication, dead code
-│   ├── best-practices.md            # Stack idioms, framework conventions, ecosystem layout, deprecated APIs
-│   ├── dependency-review.md         # Dependency freshness, vulnerabilities, licenses, lockfiles, SBOM
-│   ├── deployment-review.md         # Build pipeline, release process, frequency, manual steps
-│   ├── rollback-review.md           # Rollback mechanism, deploy safety, versioning
-│   ├── maintainability-review.md    # Modularity, coupling, structure, technical debt
-│   ├── change-management.md         # Feature flags, ADRs, release governance
-│   ├── documentation-review.md      # Entry, API, inline docs, onboarding, knowledge transfer
-│   ├── nfr-review.md                # Performance, scalability, availability, reliability, resilience
-│   ├── security-review.md           # Auth, authorization, input validation, OWASP, data exposure
-│   ├── compliance-review.md         # Data protection, privacy, regulatory scope, licensing, audit trail
-│   ├── observability-review.md      # Logging, metrics, tracing, alerting
-│   ├── error-handling.md            # Exceptions, retries, fallbacks, user-facing errors
-│   ├── operational-readiness.md     # Runbooks, on-call, capacity, backups, incident response
-│   ├── ai-generated-code.md         # Explicit provenance, generated-artifact validation, SDLC evidence
-│   ├── ai-system.md                 # (conditional) AI lifecycle, evaluation, safety, and provenance
-│   ├── copyright-review.md          # Code originality, license compliance, attribution
-│   ├── data-flow.md                 # (conditional) DFD, trust boundaries, inter-process flows
-│   ├── design-patterns.md           # (conditional) GoF/POSA pattern fitness and anti-patterns
-│   ├── threat-model.md              # (conditional) STRIDE threat enumeration per trust boundary
-│   ├── api-contract.md              # (conditional) API spec conformance, RFC 9457, OWASP API Top 10
-│   ├── skill-definition.md          # (conditional) Agent Skills spec conformance
-│   ├── standards-conformance.md     # (conditional) Project development standards conformance and quality
-│   └── api-compatibility.md         # (conditional) API compat gates, versioning, breaking-change tracking
+│   ├── testing-review.md              # Test pyramid (unit/integration/e2e), TDD, coverage, testability
+│   ├── design-principles.md           # SOLID, cohesion and coupling, DRY, separation of concerns
+│   ├── code-quality.md                # Static analysis, type safety, complexity, duplication, dead code
+│   ├── best-practices.md              # Stack idioms, framework conventions, ecosystem layout, deprecated APIs
+│   ├── dependency-review.md           # Dependency freshness, vulnerabilities, licenses, lockfiles, SBOM
+│   ├── deployment-review.md           # Build pipeline, release process, frequency, manual steps
+│   ├── rollback-review.md             # Rollback mechanism, deploy safety, versioning
+│   ├── maintainability-review.md      # Modularity, coupling, structure, technical debt
+│   ├── change-management.md           # Feature flags, ADRs, release governance
+│   ├── documentation-review.md        # Entry, API, inline docs, onboarding, knowledge transfer
+│   ├── nfr-review.md                  # Performance, scalability, availability, reliability, resilience
+│   ├── security-review.md             # Auth, authorization, input validation, OWASP, data exposure
+│   ├── compliance-review.md           # Data protection, privacy, regulatory scope, licensing, audit trail
+│   ├── observability-review.md        # Logging, metrics, tracing, alerting
+│   ├── error-handling.md              # Exceptions, retries, fallbacks, user-facing errors
+│   ├── operational-readiness.md       # Runbooks, on-call, capacity, backups, incident response
+│   ├── ai-generated-code.md           # Explicit provenance, generated-artifact validation, SDLC evidence
+│   ├── ai-system.md                   # (conditional) AI lifecycle, evaluation, safety, and provenance
+│   ├── copyright-review.md            # Code originality, license compliance, attribution
+│   ├── data-flow.md                   # (conditional) DFD, trust boundaries, inter-process flows
+│   ├── design-patterns.md             # (conditional) GoF/POSA pattern fitness and anti-patterns
+│   ├── threat-model.md                # (conditional) STRIDE threat enumeration per trust boundary
+│   ├── api-contract.md                # (conditional) API spec conformance, RFC 9457, OWASP API Top 10
+│   ├── skill-definition.md            # (conditional) Agent Skills spec conformance
+│   ├── standards-conformance.md       # (conditional) Project development standards conformance and quality
+│   └── api-compatibility.md           # (conditional) API compat gates, versioning, breaking-change tracking
 ├── synthesis/
-│   ├── risk-register.md             # Unified risk register with FND cross-referencing
-│   ├── project-scorecard.md         # Project scorecard, rubric, and scale display rules
-│   ├── trade-off-analysis.md        # Engineering trade-offs in standalone table and embedded findings
-│   ├── remediation-roadmap.md       # Actionable remediation roadmap with priority matrix
-│   ├── debt-register.md             # (conditional) TDR inventory with CISQ/SQALE cost model
-│   ├── re-audit-plan.md             # (conditional) Verification ownership, sign-off gates, re-audit triggers
-│   └── report-comparison.md         # (conditional) Previous report discovery, revisions, comparison
+│   ├── risk-register.md               # Unified risk register with FND cross-referencing
+│   ├── project-scorecard.md           # Project scorecard, rubric, and scale display rules
+│   ├── trade-off-analysis.md          # Engineering trade-offs in standalone table and embedded findings
+│   ├── remediation-roadmap.md         # Actionable remediation roadmap with priority matrix
+│   ├── debt-register.md               # (conditional) TDR inventory with CISQ/SQALE cost model
+│   ├── re-audit-plan.md               # (conditional) Verification ownership, sign-off gates, re-audit triggers
+│   └── report-comparison.md           # (conditional) Previous report discovery, revisions, comparison
 ├── references/
-│   ├── stack-standards.md           # Stack, supply-chain, and AI reference sources
-│   ├── cwe-analyzer-map.md          # CWE to static-analyzer-rule cross-reference per ecosystem
-│   ├── dependency-manifests.md      # Text-only manifest readers, source-derived component inventory
-│   ├── census-commands.md           # Canonical reproducible census methods
-│   ├── audit-taxonomy.md            # Canonical audit types, coverage statuses, source corpus
-│   ├── sbom-schema.md               # Report-level source-derived component inventory schema
-│   ├── license-compliance.md        # License classes, copyleft, notices, ownership checks
-│   ├── delivery-practice.md         # DORA proxies, bus-factor rubric, continuity evidence
-│   └── exploitability-narrative.md  # Theoretical attack-path narrative format and tiers
+│   ├── stack-standards.md             # Stack, supply-chain, and AI reference sources
+│   ├── cwe-analyzer-map.md            # CWE to static-analyzer-rule cross-reference per ecosystem
+│   ├── dependency-manifests.md        # Text-only manifest readers, source-derived component inventory
+│   ├── census-commands.md             # Canonical reproducible census methods
+│   ├── audit-taxonomy.md              # Canonical audit types, coverage statuses, source corpus
+│   ├── sbom-schema.md                 # Report-level source-derived component inventory schema
+│   ├── license-compliance.md          # License classes, copyleft, notices, ownership checks
+│   ├── delivery-practice.md           # DORA proxies, bus-factor rubric, continuity evidence
+│   ├── exploitability-narrative.md    # Theoretical attack-path narrative format and tiers
+│   └── agent-skills-specification.md  # Agent Skills specification corpus, live-check baseline
 ├── scripts/
-│   ├── format-table.py              # Source-width Markdown table formatter
-│   ├── validate-report.py           # Report structure and traceability validator
-│   ├── validate-skill.py            # Dependency-light Agent Skill validator
-│   ├── check-references.py          # Relative-reference integrity checker
-│   ├── check-update.py              # Git upstream self-update checker for the skill repo
-│   └── README.md                    # Tool usage, safety, and cleanup rules
+│   ├── format-table.py                # Source-width Markdown table formatter
+│   ├── validate-report.py             # Report structure and traceability validator
+│   ├── validate-skill.py              # Dependency-light Agent Skill validator
+│   ├── check-references.py            # Relative-reference integrity checker
+│   ├── check-update.py                # Git upstream self-update checker for the skill repo
+│   └── README.md                      # Tool usage, safety, and cleanup rules
 └── translations/
-    └── polish-language.md           # Polish rendering: vocabulary and style rules
+    └── polish-language.md             # Polish rendering: vocabulary and style rules
 ```
 
 The `scripts/` utilities are report-production and skill-maintenance tools.

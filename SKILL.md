@@ -20,7 +20,7 @@ compatibility: >-
   executes the project. No network access required for the audit itself,
   optional web fetch for external documentation or CVE lookups.
 metadata:
-  version: "1.4"
+  version: "1.5"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -37,19 +37,19 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 |-------------------------|------|----------------------------------------------------|
 | Skill Update Check      | 67   | Once-per-session git freshness gate before use     |
 | Trigger Keywords        | 82   | Activation phrases                                 |
-| How To Use              | 101  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 118  | Defaults and user-controlled report shape          |
-| Principles              | 167  | Evaluation and output rules                        |
-| Process                 | 172  | Workflow, format, and parity                       |
-| Assessments             | 179  | Core and conditional assessment guides             |
-| Synthesis               | 214  | Findings, risk, score, and remediation assembly    |
-| Translations            | 224  | Per-language report translations                   |
-| References              | 231  | Lookup tables                                      |
-| Scripts                 | 246  | Report-production scripts                          |
-| Evaluation Prompts      | 260  | Behavioral regression prompts                      |
-| Repository Files        | 267  | Housekeeping files governing this repository       |
-| Evidence Contract       | 277  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 307  | File-selection and section-placement rules         |
+| How To Use              | 102  | Progressive disclosure and mandatory reading       |
+| Parameter Configuration | 119  | Defaults and user-controlled report shape          |
+| Principles              | 168  | Evaluation and output rules                        |
+| Process                 | 173  | Workflow, format, and parity                       |
+| Assessments             | 180  | Core and conditional assessment guides             |
+| Synthesis               | 215  | Findings, risk, score, and remediation assembly    |
+| Translations            | 225  | Per-language report translations                   |
+| References              | 232  | Lookup tables                                      |
+| Scripts                 | 248  | Report-production scripts                          |
+| Evaluation Prompts      | 262  | Behavioral regression prompts                      |
+| Repository Files        | 269  | Housekeeping files governing this repository       |
+| Evidence Contract       | 279  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 309  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -95,7 +95,8 @@ The skill activates on phrases such as:
 - conventions: best practices, idiomatic code, coding conventions, stack conventions, framework
   conventions, standards conformance, development standards review, coding standards audit
 - lens invocations: perform lens on, make audit report on, run lens, lens audit
-- skill audits: audit this skill, skill audit, skill definition review, skill spec conformance
+- skill audits: audit this skill, skill audit, skill definition review, skill spec conformance,
+  skill collection audit, skills inventory
 - library reviews: api compatibility, api versioning audit, library audit
 
 ## How To Use This Skill
@@ -206,7 +207,7 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
 - **`assessment/design-patterns.md`** - GoF/POSA pattern fitness. Include for recurring structure.
 - **`assessment/threat-model.md`** - STRIDE threats. Include for a security-relevant attack surface.
 - **`assessment/api-contract.md`** - API contract conformance. Include when the system has an API.
-- **`assessment/skill-definition.md`** - Agent Skill spec conformance. Include for SKILL.md subjects.
+- **`assessment/skill-definition.md`** - Agent Skill spec conformance, collections, embedded skills.
 - **`assessment/ai-system.md`** - AI system lifecycle. Include for AI-dependent projects.
 - **`assessment/standards-conformance.md`** - Standards conformance for documented project standards.
 - **`assessment/api-compatibility.md`** - API compatibility. Include for libraries and packages.
@@ -242,6 +243,7 @@ intake, assessment, and report writing.
 - **`references/license-compliance.md`** - License classes, copyleft, attribution, ownership checks.
 - **`references/delivery-practice.md`** - DORA proxies, bus-factor rubric.
 - **`references/exploitability-narrative.md`** - Attack-path narrative format and tiers.
+- **`references/agent-skills-specification.md`** - Agent Skills spec corpus and live-check baseline.
 
 ## `scripts/` - Canonical Scripts
 
@@ -352,8 +354,9 @@ when maintaining the skill.
 - API specification conformance and the OWASP API Security Top 10 belong in
   `assessment/api-contract.md`, ADR gap assessment belongs in `assessment/change-management.md`.
 - Agent Skills specification conformance, frontmatter validity, progressive disclosure, and
-  triggering description quality belong in `assessment/skill-definition.md`, include it only when
-  the subject is an Agent Skill (has a `SKILL.md` file).
+  triggering description quality belong in `assessment/skill-definition.md`, include it when the
+  subject is an Agent Skill, a skill collection, or contains `SKILL.md` files, using
+  `references/agent-skills-specification.md` as the conformance baseline.
 - Project-internal development standards conformance and standards-quality evaluation belong in
   `assessment/standards-conformance.md`, include it only when the project contains documented
   development standards. The report's References section lists every external source consulted

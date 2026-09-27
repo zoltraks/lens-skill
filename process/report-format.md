@@ -44,20 +44,20 @@ missing section hides it.
 | Threat Model                                | 1603 | STRIDE analysis                                       |
 | API Contract Conformance                    | 1630 | API contract and security conformance                 |
 | Skill Definition Conformance                | 1650 | Agent Skill conformance                               |
-| AI System Assessment                        | 1673 | Conditional AI-system review                          |
-| Standards Conformance                       | 1686 | Internal standards quality and code conformance       |
-| API Compatibility & Versioning Discipline   | 1742 | Library compatibility gates                           |
-| Strengths & What's Working                  | 1769 | Evidence-based positive baselines                     |
-| Detailed Technical Findings                 | 1799 | Finding summary and detail blocks                     |
-| Technical Debt Register                     | 1911 | Distinct accumulated debt                             |
-| Unified Risk Register                       | 1952 | Cross-referenced risks                                |
-| Actionable Remediation Roadmap              | 2039 | Prioritized recommendations                           |
-| Scope Exclusions                            | 2103 | Explicit coverage limits                              |
-| Limitations and Unknowns                    | 2175 | Unrun checks and missing evidence                     |
-| Re-audit And Follow-up Plan                 | 2204 | Closure evidence and ownership                        |
-| Validation Record                           | 2238 | Mechanical and semantic gate results                  |
-| References                                  | 2263 | Consulted external sources                            |
-| Pre-Delivery Mechanical Checklist           | 2301 | Final mechanical checks                               |
+| AI System Assessment                        | 1691 | Conditional AI-system review                          |
+| Standards Conformance                       | 1704 | Internal standards quality and code conformance       |
+| API Compatibility & Versioning Discipline   | 1760 | Library compatibility gates                           |
+| Strengths & What's Working                  | 1787 | Evidence-based positive baselines                     |
+| Detailed Technical Findings                 | 1817 | Finding summary and detail blocks                     |
+| Technical Debt Register                     | 1929 | Distinct accumulated debt                             |
+| Unified Risk Register                       | 1970 | Cross-referenced risks                                |
+| Actionable Remediation Roadmap              | 2057 | Prioritized recommendations                           |
+| Scope Exclusions                            | 2121 | Explicit coverage limits                              |
+| Limitations and Unknowns                    | 2193 | Unrun checks and missing evidence                     |
+| Re-audit And Follow-up Plan                 | 2222 | Closure evidence and ownership                        |
+| Validation Record                           | 2256 | Mechanical and semantic gate results                  |
+| References                                  | 2281 | Consulted external sources                            |
+| Pre-Delivery Mechanical Checklist           | 2319 | Final mechanical checks                               |
 
 ## Formatting Rules
 
@@ -364,7 +364,7 @@ assessment file that governs it:
 | Architecture Decision Records (in Architectural Assessment) | The system is production-bound with significant decisions     | `assessment/change-management.md`     |
 | Threat Model (standalone)                                   | The system has a security-relevant attack surface or boundary | `assessment/threat-model.md`          |
 | API Contract Conformance (standalone)                       | The system defines, exposes, or consumes an API contract      | `assessment/api-contract.md`          |
-| Skill Definition Conformance (standalone)                   | The subject is an Agent Skill with a `SKILL.md` file          | `assessment/skill-definition.md`      |
+| Skill Definition Conformance (standalone)                   | The subject is an Agent Skill or contains `SKILL.md` files    | `assessment/skill-definition.md`      |
 | AI System Assessment (standalone)                           | The project trains, serves, or materially depends on AI       | `assessment/ai-system.md`             |
 | Standards Conformance (standalone)                          | The project contains documented development standards         | `assessment/standards-conformance.md` |
 | API Compatibility & Versioning Discipline (standalone)      | The subject is a reusable library or package                  | `assessment/api-compatibility.md`     |
@@ -1649,8 +1649,12 @@ When the report language is not English, apply the column header translations fr
 
 ## Skill Definition Conformance
 
-Include this section only when the subject is an Agent Skill, per `assessment/skill-definition.md`.
-Omit it entirely for a project that is not a skill, and note the omission in Scope Exclusions.
+Include this section only when the subject is an Agent Skill, a skill collection, or contains
+`SKILL.md` files, per `assessment/skill-definition.md`. Omit it entirely for a project that is
+not and does not contain a skill, and note the omission in Scope Exclusions.
+
+Record the spec baseline used: the `references/agent-skills-specification.md` snapshot date or the
+live-fetch result when the optional check ran.
 
 Present a conformance table across the evaluated dimensions, then describe each gap with evidence
 and its linked `FND-XXX`.
@@ -1666,6 +1670,20 @@ and its linked `FND-XXX`.
 | File reference integrity | FAIL    | `references/missing.md` referenced but does not exist  |
 | Description triggering   | PARTIAL | Description lacks specific trigger keywords            |
 | Body content quality     | PASS    | Instructions, examples, and edge cases present         |
+
+When the subject contains more than one skill - a collection, or embedded skills assessed as
+components - precede the dimension table with a Skills Inventory matrix listing every discovered
+`SKILL.md`:
+
+| Skill         | Path                          | Name Match | Status  | Key Gaps                        |
+|---------------|-------------------------------|------------|---------|---------------------------------|
+| pdf-toolkit   | `skills/pdf-toolkit/`         | Yes        | PASS    | None                            |
+| code-reviewer | `.claude/skills/code-review/` | No         | PARTIAL | `name` does not match directory |
+| legacy-bot    | `plugins/legacy/`             | Yes        | FAIL    | Missing `description` field     |
+
+Follow the matrix with the dimension table per skill that warrants detail - at minimum every
+non-`PASS` skill and every skill in a collection - then describe each gap with evidence and its
+linked `FND-XXX`. The aggregate status follows the weakest skill.
 
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
