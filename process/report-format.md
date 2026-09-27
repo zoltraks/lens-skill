@@ -28,41 +28,41 @@ A present-but-empty section signals a gap, a missing section hides it.
 | Formatting Rules                            | 67   | Formatting Rules guidance                             |
 | Report Delivery And Parameter Configuration | 285  | Report delivery and output configuration              |
 | Detail Level Configuration                  | 331  | Standard, detailed, and brief reports                 |
-| Conditional Sections                        | 421  | Inclusion criteria for conditional sections           |
-| Section Order                               | 470  | Single-project and multi-project order                |
-| Document Information                        | 553  | Report metadata and revisions                         |
-| Audit Type Coverage & Assurance Matrix      | 656  | Coverage of canonical audit types                     |
-| Glossary                                    | 699  | Abbreviation and acronym definitions                  |
-| Multi-Project Report Structure              | 835  | Combined and project-specific sections                |
-| Executive Summary                           | 959  | Executive summary and readiness threshold             |
-| Changes Since Previous Audit                | 1077 | Re-audit comparison structure                         |
-| System Context                              | 1146 | Context and technology stack                          |
-| Software Bill of Materials                  | 1215 | Source-derived component inventory                    |
-| License & IP Compliance Review              | 1244 | License classification and copyleft conflicts         |
-| Health Dashboard                            | 1275 | Risk map, scorecard, and continuity                   |
-| Delivery Practice & Team Continuity         | 1372 | Delivery proxies and contributor concentration        |
-| High-Level Observations                     | 1419 | Reader-facing finding summary                         |
-| Auditing Methodology                        | 1453 | Method, standards, and evidence ledger                |
-| Scoring Rubrics                             | 1625 | Score bands and ISO crosswalk                         |
-| Architectural Assessment                    | 1693 | Architecture, principles, and conditional subsections |
-| Trade-off Analysis                          | 1858 | Neutral engineering trade-offs                        |
-| Threat Model                                | 1900 | STRIDE analysis                                       |
-| API Contract Conformance                    | 1932 | API contract and security conformance                 |
-| Skill Definition Conformance                | 1954 | Agent Skill conformance                               |
-| AI System Assessment                        | 1999 | Conditional AI-system review                          |
-| Standards Conformance                       | 2014 | Internal standards quality and code conformance       |
-| API Compatibility & Versioning Discipline   | 2077 | Library compatibility gates                           |
-| Strengths & What's Working                  | 2107 | Evidence-based positive baselines                     |
-| Detailed Technical Findings                 | 2145 | Finding summary and detail blocks                     |
-| Technical Debt Register                     | 2274 | Distinct accumulated debt                             |
-| Unified Risk Register                       | 2321 | Cross-referenced risks                                |
-| Actionable Remediation Roadmap              | 2411 | Prioritized recommendations                           |
-| Scope Exclusions                            | 2481 | Explicit coverage limits                              |
-| Limitations and Unknowns                    | 2560 | Unrun checks and missing evidence                     |
-| Re-audit And Follow-up Plan                 | 2590 | Closure evidence and ownership                        |
-| Validation Record                           | 2627 | Mechanical and semantic gate results                  |
-| References                                  | 2654 | Consulted external sources                            |
-| Pre-Delivery Mechanical Checklist           | 2702 | Final mechanical checks                               |
+| Conditional Sections                        | 425  | Inclusion criteria for conditional sections           |
+| Section Order                               | 474  | Single-project and multi-project order                |
+| Document Information                        | 557  | Report metadata and revisions                         |
+| Audit Type Coverage & Assurance Matrix      | 660  | Coverage of canonical audit types                     |
+| Glossary                                    | 703  | Abbreviation and acronym definitions                  |
+| Multi-Project Report Structure              | 863  | Combined and project-specific sections                |
+| Executive Summary                           | 987  | Executive summary and readiness threshold             |
+| Changes Since Previous Audit                | 1105 | Re-audit comparison structure                         |
+| System Context                              | 1174 | Context and technology stack                          |
+| Software Bill of Materials                  | 1243 | Source-derived component inventory                    |
+| License & IP Compliance Review              | 1272 | License classification and copyleft conflicts         |
+| Health Dashboard                            | 1303 | Risk map, scorecard, and continuity                   |
+| Delivery Practice & Team Continuity         | 1400 | Delivery proxies and contributor concentration        |
+| High-Level Observations                     | 1447 | Reader-facing finding summary                         |
+| Auditing Methodology                        | 1481 | Method, standards, and evidence ledger                |
+| Scoring Rubrics                             | 1653 | Score bands and ISO crosswalk                         |
+| Architectural Assessment                    | 1721 | Architecture, principles, and conditional subsections |
+| Trade-off Analysis                          | 1886 | Neutral engineering trade-offs                        |
+| Threat Model                                | 1928 | STRIDE analysis                                       |
+| API Contract Conformance                    | 1960 | API contract and security conformance                 |
+| Skill Definition Conformance                | 1982 | Agent Skill conformance                               |
+| AI System Assessment                        | 2027 | Conditional AI-system review                          |
+| Standards Conformance                       | 2042 | Internal standards quality and code conformance       |
+| API Compatibility & Versioning Discipline   | 2105 | Library compatibility gates                           |
+| Strengths & What's Working                  | 2135 | Evidence-based positive baselines                     |
+| Detailed Technical Findings                 | 2173 | Finding summary and detail blocks                     |
+| Technical Debt Register                     | 2302 | Distinct accumulated debt                             |
+| Unified Risk Register                       | 2349 | Cross-referenced risks                                |
+| Actionable Remediation Roadmap              | 2439 | Prioritized recommendations                           |
+| Scope Exclusions                            | 2509 | Explicit coverage limits                              |
+| Limitations and Unknowns                    | 2588 | Unrun checks and missing evidence                     |
+| Re-audit And Follow-up Plan                 | 2618 | Closure evidence and ownership                        |
+| Validation Record                           | 2655 | Mechanical and semantic gate results                  |
+| References                                  | 2682 | Consulted external sources                            |
+| Pre-Delivery Mechanical Checklist           | 2730 | Final mechanical checks                               |
 
 ## Formatting Rules
 
@@ -339,12 +339,16 @@ explicitly requests them.
 
 **Standard**
 
-All seventeen baseline sections are present in full, subject to explicit parameter exclusions:
+All twenty-one baseline sections are present in full, subject to explicit parameter exclusions:
 
 - Document Information
+- Audit Type Coverage & Assurance Matrix
 - Executive Summary
 - System Context (including the Technology Stack subsection)
+- Software Bill of Materials
+- License & IP Compliance Review
 - Health Dashboard
+- Delivery Practice & Team Continuity
 - High-Level Observations
 - Auditing Methodology
 - Scoring Rubrics
@@ -591,8 +595,8 @@ Rows appear in this order, each label in the first column and its value in the s
 - `Dirty-Tree State` - the working tree state at audit time, written only when the tree is dirty.
   Omit the row when the tree is clean.
 - `Skill Version` - the version of the audit skill that produced the report.
-- `Time taken` - elapsed audit time in `MM:SS`, measured from the start timestamp recorded at
-  intake.
+- `Time taken` - elapsed audit time in `MM:SS`, measured from the start timestamp recorded after
+  parameter questions were resolved to the final clock reading before report delivery.
 - `Previous Report` - the previous report path and revision, only on a confirmed re-audit. Omit
   the row on a fresh audit.
 - `Projects` - the audited project names, multi-project reports only.
@@ -808,6 +812,30 @@ Three discipline notes keep new prose from reintroducing failures the pass just 
 - The compound-name exemption fails in both directions: a standalone acronym left unlinked is
   flagged, and a linked acronym adjacent to a capitalized compound word is flagged too, so
   `the [VPS](#glossary) deployment` passes while `Traefik [VPS](#glossary)` does not.
+
+**Mechanical traps**
+
+The validator enforces these additional rules that routine drafting tends to violate.
+
+State them here so the prose contract and the mechanical check agree.
+
+- `SLO`, `RPO`, and `RTO` are always indexed. The index table must carry a row for each even
+  when the report body never uses them, for example a subject with no service-level vocabulary.
+- A spaced slash does not form a compound. `SBOM / Software` still requires `[SBOM](#glossary)`
+  on the acronym, only the adjacent form `SBOM/Software` is exempt.
+- `* **Field:** TERM` labels do not create the compound exemption, the markup on the preceding
+  token breaks the capitalized-word test, so `* **Priority:** P2` still links as
+  `* **Priority:** [P2](#glossary)`.
+- Parenthesized terms such as `HTTP(S)` cannot carry a `###` description, the term is parsed
+  before the parenthesis, keep them index-only.
+- A link must point at the term's own anchor: `[SLO](#slo...)` when the term has a `###`
+  subsection, `[API](#glossary)` when it does not. Linking a described term to `#glossary`,
+  or an index-only term to a `###` slug, both fail.
+- References tables are not exempt: standalone publisher cells such as `| ISO |` and
+  `| NIST |` link like any other occurrence.
+- Link text must be the term or a known variant exactly: `[EVD](#glossary)` passes,
+  `[EVD-001](#glossary)` fails because `EVD-001` is not a term, cite the bare `EVD-001`
+  unlinked instead, the hyphenated form is already exempt.
 
 **Coverage**
 
@@ -2639,7 +2667,7 @@ Use a table:
 
 Rows appear in this order:
 
-1. One row per Mandatory Core Checklist item, `PAR-1` through `PAR-16`, in fixed order.
+1. One row per Mandatory Core Checklist item, `PAR-1` through `PAR-17`, in fixed order.
 2. Internal consistency checks: `FND-XXX`/`RSK-XXX`/`REC-XXX` cross-referencing, count
    reconciliation across summary tables and registers, conditional-section evaluation, and
    formatting rules.
@@ -2722,7 +2750,7 @@ every item is mechanical and takes seconds to verify.
 | SBOM            | Every License cell populated or `Unknown`, direct components manifest-sourced             |
 | Type tags       | `Observation` or `Concern` on every evidence-ledger row and every finding                 |
 | Exploitability  | Narrative present on every `HIGH`/`CRITICAL` security finding, `N/A` justified            |
-| Glossary        | 587                                                                                       |
+| Glossary        | Every acronym indexed, every body occurrence linked to its anchor                         |
 | Diagrams        | Fenced, untagged, no leading or trailing blank line inside the fence                      |
 | Registers       | Every RSK cites an FND, every REC cites an FND, risk-map covers rated risks               |
 | Location        | Report path matches the output directory recorded during intake                           |

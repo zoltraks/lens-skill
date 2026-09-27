@@ -504,6 +504,7 @@ lens-skill/
 │   └── agent-skills-specification.md  # Agent Skills specification corpus, live-check baseline
 ├── scripts/
 │   ├── format-table.py                # Source-width Markdown table formatter
+│   ├── link-glossary.py               # Glossary body-link inserter, run before the formatter
 │   ├── validate-report.py             # Report structure and traceability validator
 │   ├── validate-skill.py              # Dependency-light Agent Skill validator
 │   ├── check-references.py            # Relative-reference integrity checker

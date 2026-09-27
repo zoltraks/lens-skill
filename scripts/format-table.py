@@ -44,7 +44,7 @@ def main(path):
             rows = [parse_row(l) for l in block]
             ncols = max(len(r) for r in rows)
             rows = [r + [""] * (ncols - len(r)) for r in rows]
-            widths = [1] * ncols
+            widths = [0] * ncols
             for r in rows:
                 if is_sep(r):
                     continue
@@ -66,4 +66,7 @@ def main(path):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1])
+    if len(sys.argv) != 2:
+        print("Usage: python format-table.py <report.md>")
+        raise SystemExit(1)
+    raise SystemExit(main(sys.argv[1]))

@@ -75,6 +75,12 @@ parity, navigation, and evaluation material together.
 
 Keep `evals/evals.json` aligned with supported behaviors and regression expectations.
 
+When a rule is mechanically enforced, state it in the document the validator mirrors.
+
+Bounds such as baseline section counts, `PAR` row counts, and required glossary terms must be
+identical in the prose contract and in `scripts/validate-report.py`, update both in the same
+change so the written rule and the check never drift apart.
+
 ## Extending Assessment And Report Resources
 
 ### Adding An Assessment Category

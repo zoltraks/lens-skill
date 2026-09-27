@@ -10,12 +10,15 @@ These scripts support deterministic maintenance of Lens and production of audit 
 
 They do not build, test, scan, install dependencies for, or execute the audited project.
 
+All scripts require Python 3.8 or later (the walrus operator is used in
+`check-contents.py`).
+
 ## Tool Classes
 
 ### Report-Production Tools
 
-Copy `format-table.py` and `validate-report.py` into the audited repository's `work/` directory
-under a `.tmp.` name before use.
+Copy `link-glossary.py`, `format-table.py`, and `validate-report.py` into the audited
+repository's `work/` directory under a `.tmp.` name before use.
 
 If `work/` does not exist, use an existing `temp` or `temporary` directory.
 
@@ -23,8 +26,8 @@ Use the repository root only when none of those directories exists.
 
 Run the copied scripts only against the generated report and report-support artifacts.
 
-Run `format-table.py` before `validate-report.py`, so table-width noise does not drown the
-validator's structural findings.
+Run `link-glossary.py` first to insert glossary body links, then `format-table.py` before
+`validate-report.py`, so table-width noise does not drown the validator's structural findings.
 
 When the report language is not English,
 run `validate-report.py` on an English-mapped working copy that translates the `* **Field:**`

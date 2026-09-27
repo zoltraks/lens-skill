@@ -16,9 +16,10 @@ license: MIT
 compatibility: >-
   Designed for agent coding environments with file system access (Claude Code,
   Claude Desktop, Windsurf, Devin, and similar). Requires the ability to read
-  source files and write Markdown reports. The audit never builds, tests, or
-  executes the project. No network access required for the audit itself,
-  optional web fetch for external documentation or CVE lookups.
+  source files and write Markdown reports, and Python 3.8+ for the bundled
+  scripts. The audit never builds, tests, or executes the project. No network
+  access required for the audit itself, optional web fetch for external
+  documentation or CVE lookups.
 metadata:
   version: "1.5"
   author: Filip Golewski
@@ -297,6 +298,7 @@ Run the copies there and remove them when done.
 They are report-production tooling, not analysis of the audited project.
 
 - **`scripts/format-table.py`** - Canonical table formatter (Table Formatting Rules).
+- **`scripts/link-glossary.py`** - Glossary body-link inserter, run before the formatter.
 - **`scripts/validate-report.py`** - Mechanical report consistency checker.
 - **`scripts/validate-skill.py`** - Frontmatter, disclosure, and references validator.
 - **`scripts/check-references.py`** - Relative-reference integrity checker.

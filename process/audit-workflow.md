@@ -17,11 +17,11 @@ requested category.
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 26   | Step Overview guidance           |
-| Intake Checklist        | 1210 | Intake Checklist guidance        |
-| Handling Thin Input     | 1227 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1238 | Single-Dimension Audits guidance |
-| Re-Audit                | 1248 | Re-Audit guidance                |
-| Multi-Project Audits    | 1294 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1229 | Intake Checklist guidance        |
+| Handling Thin Input     | 1246 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1257 | Single-Dimension Audits guidance |
+| Re-Audit                | 1267 | Re-Audit guidance                |
+| Multi-Project Audits    | 1313 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -53,9 +53,9 @@ and record the established forms.
 
 They take precedence over the defaults in the matching `translations/` file.
 
-Record the audit start timestamp from the system clock at the beginning of intake.
+The audit start timestamp is recorded later, at the end of Parameter Configuration.
 
-The elapsed time is later written to the `Time taken` row in Document Information.
+See the timing rule under Parameter Configuration.
 
 **Report parity discovery**
 
@@ -336,6 +336,14 @@ If the user chooses to configure, ask only the unresolved core parameter prompts
 delivery and output file, detail level, and evaluation scale.
 At each prompt, offer a bypass option to accept the remaining defaults and proceed.
 
+When every parameter question is resolved - defaults accepted, configured answers given, or a
+bypass taken - read the current system time and record it as the audit start timestamp.
+
+Do this before any auditing work begins in Scope Definition and Evidence Gathering, so the
+elapsed time measures the audit itself rather than the parameter discussion.
+
+The elapsed time is later written to the `Time taken` row in Document Information.
+
 **Parameter prompts**
 
 Present each prompt as a single question with clear options.
@@ -524,7 +532,7 @@ Ask: "What level of detail should the report include?"
 
 - **Detailed** (default) - full report plus extended remediation steps, additional verification
   methods, deeper architectural critique, and expanded impact analysis.
-- **Standard** - full report with all seventeen baseline sections, subject to explicit parameter
+- **Standard** - full report with all twenty-one baseline sections, subject to explicit parameter
   exclusions plus any conditional sections whose criteria are met, complete findings, risk
   register, scorecard, and remediation roadmap.
 - **Brief** - Executive Summary, Health Dashboard (scorecard summary and risk map only),
@@ -1088,6 +1096,14 @@ Confirm the report follows the Formatting Rules in `process/report-format.md`: h
 semicolons, and every table was formatted with an automated script so all `|` separators align
 vertically in plain text.
 
+Produce the report in this order so each mechanical pass is effective:
+
+1. Finish all section content first. Every later cell-text edit changes column widths.
+2. Run `scripts/link-glossary.py` on the report to insert glossary body links.
+3. Run `scripts/format-table.py` once content is stable, so table alignment is computed once.
+4. Run `scripts/validate-report.py` and fix whole issue classes per run, not one problem at a time.
+5. Re-run the glossary pass and formatter whenever report prose changes, then re-validate.
+
 Run the Pre-Delivery Mechanical Checklist in `process/report-format.md` and require zero violations.
 
 Copy `scripts/validate-report.py` into the audited repository as `validate-report.tmp.py` and run it
@@ -1121,8 +1137,11 @@ Write the Limitations and Unknowns and Validation Record sections from their out
 The report is final only when the gate passes,
 at which point no `State` row remains in Document Information.
 
-Compute the elapsed time from the intake start timestamp to now and write it as `MM:SS` in the
-`Time taken` row of Document Information.
+Read the current system time again as the last operation when producing the report, after the
+checklist, validator, and parity gate have all passed.
+
+Compute the elapsed time from the post-configuration start timestamp to that final reading and
+write it as `MM:SS` in the `Time taken` row of Document Information.
 
 Include the same value in the completion message to the user, for example `Time taken 13:45`.
 

@@ -12,7 +12,7 @@ Verdicts:
 - NO-UPSTREAM      the current branch has no upstream configured
 - FETCH-FAILED     the fetch could not complete (offline, auth, timeout)
 - CHECK-FAILED     an unexpected git query failed after a successful fetch
-- UP-TO-DATE       no incoming commits on the upstream branch
+- UP-TO-DATE       no incoming commits on the upstream branch, with ahead detail
 - UPDATE-AVAILABLE incoming commits exist, with behind/ahead/dirty details
 
 Verdicts after upstream resolution also carry tip detail lines:
@@ -104,7 +104,7 @@ def main() -> int:
     ahead, behind = parts
 
     if behind == "0":
-        return verdict("UP-TO-DATE", upstream=upstream_ref, **tip)
+        return verdict("UP-TO-DATE", upstream=upstream_ref, ahead=ahead, **tip)
 
     status = git(root, "status", "--porcelain")
     dirty = "yes" if status is not None and status.stdout.strip() else "no"

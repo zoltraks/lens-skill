@@ -80,6 +80,8 @@ def validate_body(root: Path, body: str, issues: list[str]) -> None:
     for path in root.rglob("*.md"):
         if path == root / "SKILL.md":
             continue
+        if path.name.startswith(("AUDIT", "AUDYT")):
+            continue
         try:
             line_count = len(path.read_text(encoding="utf-8").splitlines())
         except UnicodeDecodeError:

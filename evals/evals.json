@@ -148,7 +148,9 @@
         "The agent reviews the incoming upstream changes and cites the tip_sha and tip_date detail lines before or when asking to pull.",
         "On skip or a blocked pull the agent continues with the current version and does not ask again in the session.",
         "A status other than UPDATE-AVAILABLE produces no user-facing mention of the check.",
-        "The check writes no state files and never commits, stashes, or discards changes in the skill repository."
+        "The check writes no state files and never commits, stashes, or discards changes in the skill repository.",
+        "Commits ahead of upstream alone do not trigger UPDATE-AVAILABLE; the verdict requires upstream commits missing locally.",
+        "The ahead and behind details describe local commits not yet upstream and upstream commits missing locally, respectively."
       ]
     },
     {
@@ -276,6 +278,44 @@
         "When the specification cannot be fetched, conformance runs against the bundled snapshot and the limitation is disclosed rather than hidden.",
         "A spec drift between the snapshot and a fetched live version is reported in Limitations and Unknowns, not silently applied.",
         "External validation such as skills-ref is recorded only when a committed or supplied result exists, marked as Reported evidence."
+      ]
+    },
+    {
+      "id": 23,
+      "prompt": "Audit this repository with default parameters after answering the parameter questions. Explain how the report's Time taken value is produced.",
+      "expected_output": "A report whose Time taken measures only the audit work, from the clock reading taken after parameter resolution to a final clock reading made as the last operation before delivery.",
+      "files": [],
+      "expectations": [
+        "The start timestamp is read from the system clock immediately after all parameter questions are resolved, not at the start of intake.",
+        "A final system-clock reading is taken as the last operation of report production, after the checklist, validator, and parity gate have passed.",
+        "The Time taken row shows MM:SS computed from the post-configuration reading to the final reading.",
+        "When no reliable start timestamp exists, the Time taken row is omitted rather than estimated.",
+        "The completion message reports the same elapsed value as the report row."
+      ]
+    },
+    {
+      "id": 24,
+      "prompt": "Produce an audit report with a Glossary for a subject rich in acronyms. Describe how glossary body links are inserted and kept correct across later prose edits.",
+      "expected_output": "A scripted glossary-linking pass that runs before table formatting, applies the validator's exemption rules, and re-runs whenever report prose changes.",
+      "files": [],
+      "expectations": [
+        "The glossary index terms are collected before body linking, and each link targets the term's own anchor: #glossary for index-only terms and the ### slug for described terms.",
+        "Linking is performed by the scripts/link-glossary.py helper rather than by hand-inserted links.",
+        "The linking pass runs before format-table.py and re-runs whenever report prose containing acronyms changes.",
+        "Occurrences inside fenced code, inline code, headings, URLs, existing links, hyphenated identifiers, and capitalized compound names stay unlinked.",
+        "Variant forms such as HTTPS for HTTP(S), P2 for P1-P4, and the plural SLOs are linked to the indexed term."
+      ]
+    },
+    {
+      "id": 25,
+      "prompt": "Change the report contract to add a section or parity row. What keeps the prose contract and the mechanical validator in agreement?",
+      "expected_output": "A change that updates the prose contract and scripts/validate-report.py in the same commit, verified by validating a produced report.",
+      "files": [],
+      "expectations": [
+        "The baseline section count and names stated in process/report-format.md match the required-section check in scripts/validate-report.py.",
+        "The PAR row coverage stated in the Validation Record contract matches the parity-row loop in scripts/validate-report.py.",
+        "The required glossary terms and linking rules stated in the contract match the glossary checks in scripts/validate-report.py.",
+        "The change is verified by formatting and validating a produced report to zero issues, not by reading the documents alone."
       ]
     }
   ]
