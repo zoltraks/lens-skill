@@ -10,6 +10,7 @@
 > development, and already-running production systems.
 >
 > [Versioning Policy](./VERSIONING.md)
+>
 > [Agent Skills Specification](https://agentskills.io/specification)
 
 ## Contents
