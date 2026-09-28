@@ -319,6 +319,42 @@
         "Helper blocks mirrored verbatim between link-glossary.py and validate-report.py are updated together in the same change.",
         "The change is verified by formatting and validating a produced report to zero issues, not by reading the documents alone."
       ]
+    },
+    {
+      "id": 26,
+      "prompt": "Review PREPARATION.md and produce amendment instructions. The document describes how to prepare a repository for work with code-generation tools.",
+      "expected_output": "A Review report that evaluates the document and lists corrections and amendment instructions without executing the documented procedure.",
+      "files": [],
+      "expectations": [
+        "The report follows the review contract: a Reviewed baseline and Review date statement, Assessment, a Findings and Corrections table with Existing section, Finding, and Required correction columns, Required Changes, Suggested Amendment Order, and a Public Source Register with [S#] citations.",
+        "Required Changes and Suggested Amendment Order are present even when the review finds no required changes.",
+        "The report carries a revisioned REVIEW-<revision>.md filename such as REVIEW-1.0.md.",
+        "The report does not claim the documented procedure was executed, and unrun checks are marked NOT RUN.",
+        "The report carries no audit-only sections such as the Audit Type Coverage & Assurance Matrix, scorecard, risk register, or PAR parity rows."
+      ]
+    },
+    {
+      "id": 27,
+      "prompt": "Review this codebase and tell me whether it is ready for production. Do not produce a review report.",
+      "expected_output": "An Audit report: the ambiguous wording without an explicit review-report request keeps the default audit type.",
+      "files": [],
+      "expectations": [
+        "The agent produces an Audit report, not a Review report, because no review report with amendments was explicitly requested.",
+        "The Report type row in the parameter summary reads Audit.",
+        "The report carries an AUDIT-<revision>.md filename."
+      ]
+    },
+    {
+      "id": 28,
+      "prompt": "Write the review report in Polish. Review the supplied instruction document and produce amendment instructions per the Polish rendering rules.",
+      "expected_output": "A Polish Review report using the review mappings from translations/polish-language.md with a PRZEGLĄD filename.",
+      "files": [],
+      "expectations": [
+        "Review headings render in Polish: Ocena, Ustalenia i poprawki, Wymagane zmiany w <subject>, Sugerowana kolejność zmian, Rejestr źródeł publicznych.",
+        "The findings table headers render Istniejąca sekcja, Ustalenie, and Wymagana poprawka.",
+        "The filename uses the PRZEGLĄD stem, such as PRZEGLĄD-1.0.md.",
+        "Source-register identifiers S1-Sn stay unchanged and are cited inline as [S#]."
+      ]
     }
   ]
 }

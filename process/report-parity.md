@@ -10,6 +10,11 @@
 This file defines what a complete audit report must contain regardless of subject, language,
 or detail level.
 
+The checklist and gate bind audit reports.
+
+A review report produced per `process/review-report.md` is validated by the review contract
+instead, and neither report type serves as a parity baseline for the other.
+
 Check the list explicitly before finalizing any report.
 
 Do not rely on per-run memory of what a previous report happened to include.
@@ -103,6 +108,8 @@ root, and the document structure when governed by another skill.
 
 "Most recent" is the audit report with the highest revision number and latest report date among
 files matching the audit naming pattern.
+
+Review reports are not audit baselines and never enter this diff.
 
 A report the user supplies also counts.
 

@@ -69,8 +69,9 @@ Use backtick code spans around the file path in the `See instead` column.
 
 Include a Contents table in files longer than 300 lines.
 
-Files whose names begin with `AUDIT` or `AUDYT` are exempt, their layout is governed by
-`process/report-format.md` instead.
+Report files are exempt: names beginning with `AUDIT`, `AUDYT`, `REVIEW`, or `PRZEGLĄD`,
+or ending in `-REVIEW` or `-PRZEGLĄD`, have their layout governed by
+`process/report-format.md` or `process/review-report.md` instead.
 
 ```markdown
 ## Contents
@@ -545,8 +546,10 @@ Every new topic file must include at minimum:
 - `## Purpose` section
 - One or more main content sections
 
-Files over 300 lines must also include a `## Contents` table, except `AUDIT`- and
-`AUDYT`-prefixed report files, which follow `process/report-format.md`.
+Files over 300 lines must also include a `## Contents` table, except report files:
+`AUDIT`-, `AUDYT`-, `REVIEW`-, or `PRZEGLĄD`-prefixed names and `-REVIEW`- or
+`-PRZEGLĄD`-suffixed names, which follow `process/report-format.md` or
+`process/review-report.md`.
 
 ## File Maintenance
 

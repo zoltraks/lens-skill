@@ -50,6 +50,12 @@ pattern under the same parent.
 It mechanically enforces the Observation/Concern tag rule: every `| EVD-` ledger row must carry
 a tag cell, and every `### FND-` block's `Type` field must read `Observation` or `Concern`.
 
+`validate-report.py` detects a review report by a `REVIEW`-family or `PRZEGLĄD`-family
+filename or a title ending in `Review and Amendment Instructions`, and then applies the
+review contract from `process/review-report.md` instead of the audit checks.
+
+`link-glossary.py` applies to audit reports only: review reports carry no Glossary.
+
 The validator prints at most ten problems per check, so fix, re-run the formatter, and
 re-validate until it reports zero issues rather than stopping after the first batch.
 
@@ -65,8 +71,9 @@ These tools inspect the skill itself and do not need to be copied into an audite
 `validate-skill.py` checks `SKILL.md` frontmatter, router references, file budgets, and
 `evals/evals.json`.
 
-It exempts files whose names begin with `AUDIT` or `AUDYT` from the large-file Contents check,
-because audit reports follow `process/report-format.md`.
+It exempts report artifacts from the large-file Contents check: files whose names begin with
+`AUDIT`, `AUDYT`, `REVIEW`, or `PRZEGLĄD`, or end in `-REVIEW` or `-PRZEGLĄD`, because
+reports follow `process/report-format.md` or `process/review-report.md` instead.
 
 `check-references.py` validates the skill's own `SKILL.md` and `README.md` navigation documents.
 It is never run on a report artifact or inside an audited repository.

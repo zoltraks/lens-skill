@@ -54,6 +54,15 @@ explicit request, per `VERSIONING.md`.
 
 Releases are anchored by the commit that bumps `metadata.version` - no git tags are used.
 
+## Commit Messages
+
+The subject line is one short, general sentence.
+
+Optional detail goes in the body after a blank line as a few sentences of description.
+
+The message carries no author lines, sign-offs, or other metadata trailers beyond the
+AI-involvement disclosure described in AI-Assisted Contributions when it applies.
+
 ## Security Issues
 
 Do not open pull requests or public issues for vulnerabilities - follow `SECURITY.md`.

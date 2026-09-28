@@ -27,8 +27,15 @@ A previous report is identified by the audit report Document Information section
 `Detail Level` rows, or by the audit filename convention: `AUDIT.md`, `AUDIT-<revision>.md`,
 or the language-specific filename defined in `translations/`.
 
+For a review engagement, the same rules apply to the review filename family: `REVIEW.md`,
+`REVIEW-<revision>.md`, and the language-specific stem such as `PRZEGLĄD-<revision>.md`,
+identified by a `<subject> Review and Amendment Instructions` title or a `Reviewed baseline`
+preamble instead of Document Information.
+
 A file that shares the report directory but lacks these identification markers is not a previous
-audit report.
+report.
+
+An audit report never baselines a review, and a review report never baselines an audit.
 
 Status snapshots, state documents such as `current-state.md`, coverage or scan output,
 and stakeholder documents are `Reported` evidence or context, never comparison baselines.

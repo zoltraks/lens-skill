@@ -1,4 +1,4 @@
-# Lens - Software Audit Skill
+# Lens - Software Audit And Review Skill
 
 ```
  /\_/\
@@ -7,7 +7,8 @@
 ```
 
 > Evidence-based engineering audits of any software subject - prototypes, codebases under
-> development, and already-running production systems.
+> development, and already-running production systems - plus explicit review reports with
+> amendment instructions.
 >
 > [Versioning Policy](./VERSIONING.md)
 >
@@ -17,22 +18,22 @@
 
 | Section                            | Line | What it covers                                      |
 |------------------------------------|------|-----------------------------------------------------|
-| Overview                           | 37   | Audit purpose and standard report shape             |
-| What The Skill Does                | 68   | Update check, evidence, assessment, synthesis       |
-| Installation                       | 138  | Clone and update instructions                       |
-| Usage                              | 168  | Activation, parameters, and report delivery         |
-| Example Prompts                    | 194  | Full and focused audit requests                     |
-| Workflow Diagrams                  | 255  | ASCII and Mermaid audit pipelines                   |
-| Evidence And Decision Quality      | 315  | Evidence strength and verification limits           |
-| Core Principles                    | 372  | Evaluation constraints and status rules             |
-| Report Format                      | 388  | Report structure, identifiers, and style            |
-| When To Use This Skill             | 418  | Supported requests and exclusions                   |
-| What's Inside                      | 439  | Documents, references, tools, and conditional files |
-| Document Style                     | 554  | Pointer to the style rules file                     |
-| Specification                      | 563  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 582  | Maintenance checks and regression scenarios         |
-| License                            | 604  | License for the skill itself                        |
-| Credits                            | 610  | Authorship and attribution                          |
+| Overview                           | 38   | Audit purpose and standard report shape             |
+| What The Skill Does                | 77   | Update check, evidence, assessment, synthesis       |
+| Installation                       | 147  | Clone and update instructions                       |
+| Usage                              | 177  | Activation, parameters, and report delivery         |
+| Example Prompts                    | 208  | Full and focused audit requests                     |
+| Workflow Diagrams                  | 274  | ASCII and Mermaid audit pipelines                   |
+| Evidence And Decision Quality      | 334  | Evidence strength and verification limits           |
+| Core Principles                    | 391  | Evaluation constraints and status rules             |
+| Report Format                      | 407  | Report structure, identifiers, and style            |
+| When To Use This Skill             | 442  | Supported requests and exclusions                   |
+| What's Inside                      | 465  | Documents, references, tools, and conditional files |
+| Document Style                     | 581  | Pointer to the style rules file                     |
+| Specification                      | 590  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 609  | Maintenance checks and regression scenarios         |
+| License                            | 631  | License for the skill itself                        |
+| Credits                            | 637  | Authorship and attribution                          |
 
 ## Overview
 
@@ -46,7 +47,10 @@ Unlike a generic "review my code" prompt, Lens enforces a fixed workflow: intake
 configuration, scope definition, evidence gathering, per-category assessment, synthesis, and
 validation.
 
-The output is a standardized report with twenty-one baseline sections: Document Information, the
+The intake, evidence gathering, and assessment pipeline is shared by both report types;
+only the synthesis stage and the validation contract differ.
+
+The default output is an Audit report with twenty-one baseline sections: Document Information, the
 Audit Type Coverage & Assurance Matrix, Executive Summary, System Context (including the technology
 stack), a source-derived Software Bill of Materials, License & IP Compliance Review, Health
 Dashboard, Delivery Practice & Team Continuity, High-Level Observations, Auditing Methodology,
@@ -62,6 +66,11 @@ Technical Debt Register, Changes Since Previous Audit, and Re-audit Plan.
 
 Every section uses a hybrid table-paragraph format for scannable summaries backed by detailed
 evidence.
+
+An explicit request for a review report, a set of corrections, or an improvement plan produces a
+Review report instead: the same evidence discipline in a compact findings-and-corrections layout
+with required changes, a suggested amendment order, and a public source register, defined in
+`process/review-report.md`.
 
 ---
 
@@ -174,6 +183,11 @@ roadmap.
 Name the software subject and the audit or assessment you want, such as an architecture audit,
 production-readiness assessment, dependency review, or technical due diligence.
 
+Audit remains the default report type.
+
+An explicit request to review a document or subject and produce corrections, amendments, or an
+improvement plan selects the Review report type, which supports any subject.
+
 Before a new audit, Lens asks whether to accept the default parameters or configure the core report
 settings.
 
@@ -250,6 +264,11 @@ project.
 > Skills specification, verify all file references resolve, and assess whether the description
 > triggers correctly.
 
+**Review report**
+> Review PREPARATION.md and produce amendment instructions. (The agent writes a Review report -
+> findings and corrections, required changes, a suggested amendment order, and a public source
+> register - to `REVIEW-1.0.md` unless you name a different file.)
+
 ---
 
 ## Workflow Diagrams
@@ -267,7 +286,7 @@ User request
 Once-per-session update check
     |
     v
-Intake: identify subject, project boundaries, and prior reports
+Intake: classify report type, subject, boundaries, and prior reports
     |
     v
 Resolve prior-report mode or baseline when applicable
@@ -299,7 +318,7 @@ Deliver inline or to a file
 ```mermaid
 flowchart TD
     A[User request] --> B[Once-per-session update check]
-    B --> C[Intake: identify subject, project boundaries, and prior reports]
+    B --> C[Intake: classify report type, subject, boundaries, and prior reports]
     C --> D[Resolve prior-report mode or baseline when applicable]
     D --> E[Configure parameters or reuse confirmed re-audit settings]
     E --> F[Define scope]
@@ -387,7 +406,7 @@ Every audit follows these non-negotiable rules:
 
 ## Report Format
 
-The skill uses a hybrid table-paragraph format throughout:
+Audit and Review reports share a hybrid table-paragraph format throughout:
 
 - **Tables** provide scannable summaries with one to three words per cell.
 - **Paragraphs** below each table provide detailed evidence, file paths, and reasoning.
@@ -413,6 +432,11 @@ The skill uses a hybrid table-paragraph format throughout:
 
 This format keeps the report readable in plain-text consoles while preserving depth.
 
+Audit reports follow `process/report-format.md` and carry `AUDIT-<revision>.md` filenames.
+
+Review reports follow the compact findings-and-corrections contract in
+`process/review-report.md` and carry `REVIEW-<revision>.md` filenames.
+
 ---
 
 ## When To Use This Skill
@@ -431,6 +455,8 @@ This format keeps the report readable in plain-text consoles while preserving de
 | "Audit our skills collection"                    | **Yes** - per-skill conformance matrix              |
 | "Check conformance with our dev standards"       | **Yes** - use `assessment/standards-conformance.md` |
 | "Compare these two architectural options"        | **Yes** - embed trade-offs into relevant findings   |
+| "Review this document and list required changes" | **Yes** - Review report type                        |
+| "Prepare an improvement plan for this guide"     | **Yes** - Review report type                        |
 | "Write the feature for me"                       | No - this skill assesses, it does not build         |
 | "Tell me which team member caused this"          | No - this skill never evaluates people              |
 
@@ -456,7 +482,7 @@ lens-skill/
 │   └── output-style.md                # Tone, fixed vocabularies, consistency, determinism
 ├── process/
 │   ├── audit-workflow.md              # Intake, scope, evidence, assessment, synthesis, validation
-│   ├── report-format.md               # Report format index: rules, section order, spec map
+│   ├── report-format.md               # Audit report format index: rules, section order, spec map
 │   ├── report-format/                 # Per-section report specifications
 │   │   ├── opening.md                 # Document Information, coverage matrix, Glossary
 │   │   ├── multi-project.md           # Combined multi-project report structure
@@ -469,8 +495,9 @@ lens-skill/
 │   │   ├── conformance.md             # Conditional conformance sections
 │   │   ├── findings-and-registers.md  # Findings, debt, risk, and roadmap registers
 │   │   └── closing.md                 # Exclusions, limitations, validation, references
-│   ├── report-parity.md               # Mandatory core checklist and consistency gate before final
-│   └── readiness-and-scoring.md       # Deterministic scores, confidence, maturity, and readiness gates
+│   ├── report-parity.md               # Audit parity checklist and consistency gate before final
+│   ├── readiness-and-scoring.md       # Deterministic scores, confidence, maturity, and readiness gates
+│   └── review-report.md               # Review report contract: sections, amendments, naming
 ├── assessment/
 │   ├── testing-review.md              # Test pyramid (unit/integration/e2e), TDD, coverage, testability
 │   ├── design-principles.md           # SOLID, cohesion and coupling, DRY, separation of concerns
@@ -520,7 +547,7 @@ lens-skill/
 ├── scripts/
 │   ├── format-table.py                # Source-width Markdown table formatter
 │   ├── link-glossary.py               # Glossary body-link inserter, run before the formatter
-│   ├── validate-report.py             # Report structure and traceability validator
+│   ├── validate-report.py             # Audit and Review report validator
 │   ├── validate-skill.py              # Dependency-light Agent Skill validator
 │   ├── check-references.py            # Relative-reference integrity checker
 │   ├── check-contents.py              # Contents-table versus heading drift checker

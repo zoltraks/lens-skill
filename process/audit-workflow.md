@@ -12,16 +12,19 @@ Follow it for every full audit.
 For a single-dimension request, run the same steps but limit the assessment phase to the one
 requested category.
 
+A review report applies the same phases with the deltas defined in
+`process/review-report.md`.
+
 ## Contents
 
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
-| Step Overview           | 26   | Step Overview guidance           |
-| Intake Checklist        | 1229 | Intake Checklist guidance        |
-| Handling Thin Input     | 1246 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1257 | Single-Dimension Audits guidance |
-| Re-Audit                | 1267 | Re-Audit guidance                |
-| Multi-Project Audits    | 1313 | Multi-Project Audits guidance    |
+| Step Overview           | 29   | Step Overview guidance           |
+| Intake Checklist        | 1260 | Intake Checklist guidance        |
+| Handling Thin Input     | 1278 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1289 | Single-Dimension Audits guidance |
+| Re-Audit                | 1299 | Re-Audit guidance                |
+| Multi-Project Audits    | 1345 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -39,6 +42,10 @@ written proposal.
 Note the source format.
 
 Findings from a description are weaker than findings from inspected code or configuration.
+
+Determine the report type per `process/review-report.md`: `Audit` by default, `Review`
+only when the request explicitly asks for a review deliverable with amendment instructions
+or an improvement plan.
 
 Determine the natural language of the user's request.
 
@@ -205,6 +212,12 @@ per `synthesis/report-comparison.md`.
 
 A previous report may be named `AUDIT.md`, `AUDIT-<revision>.md`, or the language-specific filename.
 
+When the resolved report type is `Review`, the same rules apply to the review filename
+family: `REVIEW.md`, `REVIEW-<revision>.md`, and the language-specific stem such as
+`PRZEGLĄD-1.0.md`, and the audit-mode wording reads "re-review".
+
+An audit report never baselines a review, and a review report never baselines an audit.
+
 When several exist, present the one with the highest revision as the candidate baseline.
 
 The audit mode is a user decision, never an assumption from the file system.
@@ -302,6 +315,7 @@ Default parameters:
 
 | Parameter               | Default                                                                                 |
 |-------------------------|-----------------------------------------------------------------------------------------|
+| Report type             | Audit - Review only on an explicit review, amendment, or improvement-plan request       |
 | Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/`, else Inline |
 | Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit  |
 | Report language         | Match the language of the user's request                                                |
@@ -317,6 +331,8 @@ The agent MUST wait for user response before proceeding to Scope Definition.
 
 Output filename carries the report revision: `AUDIT-1.0.md` for a first English audit, or the
 language-specific revisioned name from the matching `translations/` file such as `AUDYT-1.0.md`.
+
+For a review report the stem is `REVIEW` instead, producing `REVIEW-1.0.md`.
 
 When a previous report exists, the filename carries the new revision, for example `AUDIT-1.1.md`,
 per `synthesis/report-comparison.md`.
@@ -359,6 +375,9 @@ Every routine prompt carries three kinds of choices:
    remaining default and proceeds directly to Scope Definition.
 
 Routine prompts are limited to delivery and output file, detail level, and evaluation scale.
+
+For a review report the evaluation-scale prompt is skipped and Descriptive mode does not
+apply, since the review carries no scorecard and no Glossary.
 
 Report language follows the request language unless the user explicitly specifies another language.
 
@@ -863,6 +882,9 @@ Record evidence, concrete risks, and neutral notes for each category.
 
 **Synthesis**
 
+For a review report, synthesize the sections defined in `process/review-report.md`
+instead of the audit sections below.
+
 Render the Audit Type Coverage & Assurance Matrix first,
 from the fixed row set in `references/audit-taxonomy.md`.
 
@@ -965,6 +987,11 @@ re-audit that upgrades a prior revision, apply these mechanical-edit rules:
 - Preserve the report's existing line-ending style when a script writes the file.
 
 **Validation**
+
+For a review report, run the review validation contract in `process/review-report.md`
+instead of the audit checks below.
+
+`scripts/validate-report.py` detects the review shape and applies the review contract.
 
 Re-check every finding against `principles/evaluation-rules.md`.
 
@@ -1225,6 +1252,10 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Non-Git subject                            | Delivery Practice section `NOT COLLECTED`                       |
 | Evidence ledger written                    | Every row carries `Observation` or `Concern`                    |
 | Polish-language report                     | Headings and dimension names match glossary verbatim            |
+| Explicit review-and-amend request          | `REVIEW-1.0.md` with the review structure                       |
+| Bare "review this codebase" request        | Audit stays the default, single-dimension when scoped           |
+| Existing `REVIEW-1.0.md`, new review       | `REVIEW-1.1.md` written, previous kept                          |
+| Review request, `AUDIT-1.0.md` exists      | Audit report never baselines a review                           |
 
 ## Intake Checklist
 
@@ -1232,6 +1263,7 @@ Use this checklist to confirm you understand the input before assessing.
 
 | Question                                     | Record As                                            |
 |----------------------------------------------|------------------------------------------------------|
+| What report type was resolved?               | `Audit` / `Review`                                   |
 | What artifact type is this?                  | Prototype / Codebase / Production system / Proposal  |
 | What is the source format?                   | Running / Inspected code / Description               |
 | What components were provided?               | List of components in scope                          |

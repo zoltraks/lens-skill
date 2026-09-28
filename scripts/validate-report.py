@@ -1,8 +1,12 @@
-"""Mechanical consistency checker for Lens audit reports.
+"""Mechanical consistency checker for Lens audit and review reports.
 
 Runs structural, formatting, traceability, score-disclosure, and parity checks.
 Copy into the audited repository's report-production directory as
 ``validate-report.tmp.py`` when validating a generated report.
+
+Review reports per ``process/review-report.md`` are detected by an H1 ending in
+``Review and Amendment Instructions`` or a ``REVIEW``-family or ``PRZEGLĄD``-family
+filename, and validated against the review contract instead of the audit checks.
 
 Usage: python validate-report.py <report.md>
 Exit code 0 means all checks pass, 1 means failures were found.
@@ -491,6 +495,81 @@ def check_glossary_body_links(text: str, terms: list[str], sub_slugs: dict[str, 
     return failures
 
 
+def is_review_report(path: str, text: str) -> bool:
+    stem = Path(path).stem.upper()
+    if re.search(r"(?:^|[-_])(?:REVIEW|PRZEGLĄD|PRZEGLAD)(?:-|$)", stem):
+        return True
+    return bool(re.search(r"^#\s+.+\bReview and Amendment Instructions\s*$", text, re.MULTILINE))
+
+
+def section_block(text: str, heading_pattern: str) -> str:
+    match = re.search(heading_pattern, text, re.MULTILINE)
+    if not match:
+        return ""
+    block = text[match.end():]
+    following = re.search(r"^##\s+", block, re.MULTILINE)
+    return block[: following.start()] if following else block
+
+
+def check_review_sections(text: str) -> list[str]:
+    failures: list[str] = []
+    for pattern, label in (
+        (r"^##\s+Assessment\s*$", "Assessment"),
+        (r"^###\s+Findings and Corrections\s*$", "Findings and Corrections"),
+        (r"^##\s+Required Changes\b", "Required Changes"),
+        (r"^##\s+Suggested Amendment Order\s*$", "Suggested Amendment Order"),
+        (r"^##\s+Public Source Register\s*$", "Public Source Register"),
+    ):
+        if not re.search(pattern, text, re.MULTILINE):
+            failures.append(f"missing required review section: {label}")
+    return failures
+
+
+def check_review_findings_table(text: str) -> list[str]:
+    block = section_block(text, r"^###\s+Findings and Corrections\s*$")
+    if not block:
+        return []
+    header = next(
+        (line for line in block.split("\n") if line.startswith("|") and "Finding" in line),
+        None,
+    )
+    if header is None:
+        return ["Findings and Corrections has no findings table"]
+    cells = [cell.strip() for cell in raw_cells(header)]
+    failures = []
+    if "Finding" not in cells:
+        failures.append("findings table lacks a Finding column")
+    if "Required correction" not in cells:
+        failures.append("findings table lacks a Required correction column")
+    return failures
+
+
+def check_review_change_groups(text: str) -> list[str]:
+    block = section_block(text, r"^##\s+Required Changes\b.*$")
+    if not block:
+        return []
+    if not re.search(r"^###\s+", block, re.MULTILINE):
+        return ["Required Changes has no ### change group"]
+    return []
+
+
+def check_review_sources(text: str) -> list[str]:
+    register = section_block(text, r"^##\s+Public Source Register\s*$")
+    if not register:
+        return []
+    rows = set(re.findall(r"^\|\s*(S\d+)\s*\|", register, re.MULTILINE))
+    body = text[: re.search(r"^##\s+Public Source Register\s*$", text, re.MULTILINE).start()]
+    cited: set[str] = set()
+    for group in re.findall(r"\[([^\]\[]+)\]", body):
+        if re.fullmatch(r"[S\d,\s]+", group):
+            cited.update(re.findall(r"S\d+", group))
+    failures = [f"citation [{missing}] has no register row" for missing in sorted(cited - rows)]
+    failures.extend(
+        f"register row {unused} is never cited in the body" for unused in sorted(rows - cited)
+    )
+    return failures
+
+
 def check_required_sections(text: str) -> list[str]:
     if "Document Information" not in text:
         return []
@@ -586,24 +665,40 @@ def main(path: str) -> int:
     text = Path(path).read_text(encoding="utf-8")
     lines = text.replace("\r\n", "\n").split("\n")
     fences = split_code(lines)
+    review = is_review_report(path, text)
     checks = [
         ("headings", check_headings(lines, fences)),
-        ("required sections", check_required_sections(text)),
         ("semicolons", check_semicolons(lines, fences)),
         ("non-ASCII dashes and arrows", check_dashes(lines, fences)),
         ("tables", check_tables(lines, fences)),
-        ("FND/RSK/REC cross-references", check_ids(text)),
-        ("finding-block fields", check_finding_blocks(lines)),
-        ("security classifications", check_security_classification(lines)),
-        ("score disclosure", check_score_disclosure(lines)),
-        ("project qualification", check_project_qualification(text)),
-        ("PAR-1..PAR-17", check_par_rows(text)),
-        ("Observation/Concern tags", check_type_tags(lines, fences)),
-        ("glossary", check_glossary(text)),
-        ("final-state gate", check_final_state(text)),
         ("location pattern", check_location(path)),
         ("trailing whitespace and ending", check_trailing(lines)),
     ]
+    if review:
+        checks.extend(
+            [
+                ("review sections", check_review_sections(text)),
+                ("review findings table", check_review_findings_table(text)),
+                ("review change groups", check_review_change_groups(text)),
+                ("review source register", check_review_sources(text)),
+            ]
+        )
+    else:
+        checks.extend(
+            [
+                ("required sections", check_required_sections(text)),
+                ("FND/RSK/REC cross-references", check_ids(text)),
+                ("finding-block fields", check_finding_blocks(lines)),
+                ("security classifications", check_security_classification(lines)),
+                ("score disclosure", check_score_disclosure(lines)),
+                ("project qualification", check_project_qualification(text)),
+                ("PAR-1..PAR-17", check_par_rows(text)),
+                ("Observation/Concern tags", check_type_tags(lines, fences)),
+                ("glossary", check_glossary(text)),
+                ("final-state gate", check_final_state(text)),
+            ]
+        )
+    print(f"report type: {'review' if review else 'audit'}")
     failures = 0
     for name, problems in checks:
         status = "FAIL" if problems else "PASS"

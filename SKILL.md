@@ -10,8 +10,11 @@ description: >-
   standards conformance. Enforces evidence-only reasoning and neutral,
   non-personal evaluation. Use for software audits, architecture audits,
   prototype reviews, production readiness, technical due diligence, risk
-  registers, scorecards, or remediation roadmaps. Triggers on audit this
-  codebase, engineering assessment, run lens, lens audit, perform lens on.
+  registers, scorecards, or remediation roadmaps. On explicit request it
+  also produces review reports of any subject, ending in required changes
+  and amendment instructions. Triggers on audit this codebase, engineering
+  assessment, run lens, lens audit, perform lens on, review and amend,
+  improvement plan.
 license: MIT
 compatibility: >-
   Designed for agent coding environments with file system access (Claude Code,
@@ -21,7 +24,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "1.5"
+  version: "1.6"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -36,21 +39,21 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 
 | Section                 | Line | What it covers                                     |
 |-------------------------|------|----------------------------------------------------|
-| Skill Update Check      | 74   | Once-per-session git freshness gate before use     |
-| Trigger Keywords        | 92   | Activation phrases                                 |
-| How To Use              | 112  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 131  | Defaults and user-controlled report shape          |
-| Principles              | 196  | Evaluation and output rules                        |
-| Process                 | 202  | Workflow, format, and parity                       |
-| Assessments             | 226  | Core and conditional assessment guides             |
-| Synthesis               | 267  | Findings, risk, score, and remediation assembly    |
-| Translations            | 280  | Per-language report translations                   |
-| References              | 289  | Lookup tables                                      |
-| Scripts                 | 306  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 327  | Behavioral regression prompts                      |
-| Repository Files        | 335  | Housekeeping files governing this repository       |
-| Evidence Contract       | 348  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 381  | File-selection and section-placement rules         |
+| Skill Update Check      | 77   | Once-per-session git freshness gate before use     |
+| Trigger Keywords        | 95   | Activation phrases                                 |
+| How To Use              | 116  | Progressive disclosure and mandatory reading       |
+| Parameter Configuration | 136  | Defaults and user-controlled report shape          |
+| Principles              | 201  | Evaluation and output rules                        |
+| Process                 | 207  | Workflow, format, and parity                       |
+| Assessments             | 232  | Core and conditional assessment guides             |
+| Synthesis               | 273  | Findings, risk, score, and remediation assembly    |
+| Translations            | 286  | Per-language report translations                   |
+| References              | 295  | Lookup tables                                      |
+| Scripts                 | 312  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 333  | Behavioral regression prompts                      |
+| Repository Files        | 338  | Housekeeping files governing this repository       |
+| Evidence Contract       | 351  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 385  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -108,6 +111,7 @@ The skill activates on phrases such as:
 - skill audits: audit this skill, skill audit, skill definition review, skill spec conformance,
   skill collection audit, skills inventory
 - library reviews: api compatibility, api versioning audit, library audit
+- review requests: review and amend, amendment instructions, improvement plan
 
 ## How To Use This Skill
 
@@ -122,8 +126,9 @@ Use progressive disclosure:
 
 This skill is self-contained - the topic files below are the available reference material.
 
-When asked how this skill works, explain that Lens produces structured,
-evidence-based engineering audits of a codebase, prototype, production system, or proposal.
+When asked how this skill works, explain that Lens produces structured, evidence-based
+engineering audits of a codebase, prototype, production system, or proposal, and - only on
+an explicit review request - review reports ending in amendment instructions.
 
 Mention that advanced analysis and report-format parameters can be refined when explicitly
 specified.
@@ -138,6 +143,7 @@ Defaults are:
 
 | Parameter               | Default                                                                                 |
 |-------------------------|-----------------------------------------------------------------------------------------|
+| Report type             | Audit - Review only on an explicit review, amendment, or improvement-plan request       |
 | Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/`, else Inline |
 | Output location         | Resolved across `docs/`, `document/`, `doc/` roots or the repository root               |
 | Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit  |
@@ -148,9 +154,8 @@ Defaults are:
 | Trade-off analysis      | Standalone section + embedded into relevant findings                                    |
 | Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it |
 
-The agent MUST ask this question and MUST NOT skip it.
-
-The agent MUST wait for user response before starting the audit.
+The agent MUST ask this question, MUST NOT skip it, and MUST wait for the user response
+before starting the audit.
 
 Core configuration covers unresolved delivery/output and report-shape choices.
 
@@ -164,8 +169,8 @@ Output location resolves under the audited root: `audit/` > `report/` > bare roo
 A recorded version/date subdirectory pattern is reused.
 
 The output filename carries the report revision:
-`AUDIT-1.0.md` for a first audit or the language-specific revisioned name such as `AUDYT-1.0.md`,
-with plain `AUDIT.md` as an alternative.
+`AUDIT-1.0.md` for a first audit (`REVIEW-1.0.md` for a review) or the language-specific
+revisioned name such as `AUDYT-1.0.md`, with the plain stem as an alternative.
 
 A previous report gives the incremented revision, for example `AUDIT-1.1.md`,
 and is never overwritten.
@@ -220,6 +225,7 @@ The previous report is never overwritten - write the next revision-numbered file
   roadmap.
 - **`process/report-format/closing.md`** - Exclusions, Limitations, Re-audit, Validation,
   References.
+- **`process/review-report.md`** - Review report type for explicit amendment requests.
 - **`process/report-parity.md`** - Mandatory core checklist and consistency gate.
 - **`process/readiness-and-scoring.md`** - Score aggregation, confidence, maturity, readiness gates.
 
@@ -326,11 +332,8 @@ They are report-production tooling, not analysis of the audited project.
 
 ## Evaluation Prompts
 
-- **`evals/evals.json`** - Behavioral regression prompts and expectations.
-
-Run these as behavioral evaluations after structural changes.
-
-They do not replace independent review.
+- **`evals/evals.json`** - Behavioral regression prompts and expectations, run after
+  structural changes. They do not replace independent review.
 
 ## Repository Files
 
@@ -347,7 +350,8 @@ These files govern the skill repository itself rather than audit production:
 
 ## Evidence And Decision Contract
 
-Use the verification plan and evidence ledger in `process/audit-workflow.md` for every audit.
+Use the verification plan and evidence ledger in `process/audit-workflow.md` for every audit
+and every review.
 
 The audit never builds, tests, or executes the project or analysis tools against it.
 
@@ -381,15 +385,17 @@ when maintaining the skill.
 ## Navigation Rules
 
 - Always apply `principles/evaluation-rules.md` and `principles/output-style.md` to every section of
-  every audit.
+  every report.
+- The audit report is the default deliverable. Produce the review report per
+  `process/review-report.md` only on an explicit review, amendment, or improvement-plan request.
 - Never compile, build, test, or execute the audited project, and never run linters, scanners,
   or generators against it. Verification claims rest on inspected repository contents,
   documented results are `Reported` evidence.
-- Assemble the report skeleton from `process/report-format.md` and the section files under
+- Assemble the audit report skeleton from `process/report-format.md` and the section files under
   `process/report-format/` before filling in findings, present
   every section as a table and use unnumbered headings.
-- Every report opens with the Audit Type Coverage & Assurance Matrix built from the fixed types
-  and statuses in `references/audit-taxonomy.md`, kept consistent with Scope Exclusions.
+- Every audit report opens with the Audit Type Coverage & Assurance Matrix built from the fixed
+  types and statuses in `references/audit-taxonomy.md`, kept consistent with Scope Exclusions.
 - Every finding and every Evidence Ledger row carries a `Type` tag: `Observation` for an
   independently re-derivable fact, `Concern` for a risk judgment built on observations.
 - The generated report follows the skill's own Markdown style rules, adapted by the Formatting

@@ -80,7 +80,10 @@ def validate_body(root: Path, body: str, issues: list[str]) -> None:
     for path in root.rglob("*.md"):
         if path == root / "SKILL.md":
             continue
-        if path.name.startswith(("AUDIT", "AUDYT")):
+        stem = path.stem
+        if stem.startswith(("AUDIT", "AUDYT", "REVIEW", "PRZEGLĄD")) or stem.endswith(
+            ("-REVIEW", "-PRZEGLĄD")
+        ):
             continue
         try:
             line_count = len(path.read_text(encoding="utf-8").splitlines())

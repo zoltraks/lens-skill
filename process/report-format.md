@@ -11,6 +11,9 @@
 This file defines the exact shape of the audit report and indexes the per-section
 specifications under `process/report-format/`.
 
+The review report type produced on explicit review requests follows
+`process/review-report.md` instead of this file.
+
 Produce the sections in this order.
 
 The report applies to any software subject: a prototype, a codebase under development,
@@ -26,13 +29,13 @@ A present-but-empty section signals a gap, a missing section hides it.
 
 | Section                                     | Line | What it covers                              |
 |---------------------------------------------|------|---------------------------------------------|
-| Formatting Rules                            | 36   | Formatting Rules guidance                   |
-| Report Delivery And Parameter Configuration | 254  | Report delivery and output configuration    |
-| Detail Level Configuration                  | 300  | Standard, detailed, and brief reports       |
-| Conditional Sections                        | 394  | Inclusion criteria for conditional sections |
-| Section Order                               | 444  | Single-project and multi-project order      |
-| Specification Files                         | 529  | Per-section specification file index        |
-| Pre-Delivery Mechanical Checklist           | 553  | Final mechanical checks                     |
+| Formatting Rules                            | 40   | Formatting Rules guidance                   |
+| Report Delivery And Parameter Configuration | 258  | Report delivery and output configuration    |
+| Detail Level Configuration                  | 304  | Standard, detailed, and brief reports       |
+| Conditional Sections                        | 398  | Inclusion criteria for conditional sections |
+| Section Order                               | 447  | Single-project and multi-project order      |
+| Specification Files                         | 532  | Per-section specification file index        |
+| Pre-Delivery Mechanical Checklist           | 556  | Final mechanical checks                     |
 
 ## Formatting Rules
 
