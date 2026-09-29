@@ -160,21 +160,17 @@ before starting the audit.
 Core configuration covers unresolved delivery/output and report-shape choices.
 
 Improvement suggestions and trade-off analysis are not separate routine prompts.
-
 Apply the defaults above unless the user explicitly requests a different setting.
 
 Output location resolves under the audited root: `audit/` > `report/` > bare root across `docs/`,
 `document/`, `doc/` > repository root.
-
 A recorded version/date subdirectory pattern is reused.
 
 The output filename carries the report revision:
 `AUDIT-1.0.md` for a first audit (`REVIEW-1.0.md` for a review) or the language-specific
 revisioned name such as `AUDYT-1.0.md`, with the plain stem as an alternative.
-
 A previous report gives the incremented revision, for example `AUDIT-1.1.md`,
 and is never overwritten.
-
 The agent confirms with the user before writing.
 
 If the user accepts defaults or says "bypass", the agent proceeds immediately.
@@ -184,6 +180,8 @@ defined in `process/audit-workflow.md`.
 
 Each prompt marks the default and ends with `Use default: <value>` and
 `Use defaults for all remaining questions`.
+When the request asks for parameters in JSON or another machine-readable format, or names a
+diagnostic or verbose mode, apply `process/json-exchange.md` to every pending question surface.
 
 When the report language is not English, load the matching `translations/` file and apply every
 translation, style rule, and encoding requirement defined there.
@@ -225,6 +223,8 @@ The previous report is never overwritten - write the next revision-numbered file
   roadmap, recommendation classification.
 - **`process/report-format/closing.md`** - Exclusions, Limitations, Re-audit, Validation,
   References.
+- **`process/json-exchange.md`** - Machine-readable parameter documents for every intake
+  question surface, emitted or consumed as JSON.
 - **`process/review-report.md`** - Review report type for explicit amendment requests.
 - **`process/report-parity.md`** - Mandatory core checklist and consistency gate.
 - **`process/readiness-and-scoring.md`** - Score aggregation, confidence, maturity, readiness gates.

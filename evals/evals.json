@@ -457,6 +457,41 @@
     "The Agent Artifacts table lists every discovered item with a per-item status, and hard violations become findings.",
     "The section records which baseline (snapshot or live fetch) was used per format."
    ]
+  },
+  {
+   "id": 37,
+   "prompt": "Audit this repository and give me the intake parameters in JSON.",
+   "expected_output": "A JSON parameter document per process/json-exchange.md replaces the question menus: description, project, mode, date, time, and an intake array with the pending questions.",
+   "files": [],
+   "expectations": [
+    "The document carries description, project, mode, date, and time context fields plus an intake array.",
+    "Each parameter object keeps the fixed key order id, question, answer, description, type, menu, open, default, with default last.",
+    "Pending surfaces emit with catalog ids such as audit-mode, skills-scope, project-inclusion, parameters-acceptance, report-delivery, detail-level, and evaluation-scale, with correct choice/selection/text types.",
+    "The Use default and Use defaults for all remaining questions trailing options do not appear as menu entries; defaults are carried by the default key."
+   ]
+  },
+  {
+   "id": 38,
+   "prompt": "Run a diagnostic/verbose audit of this repository and show me the pending parameters.",
+   "expected_output": "The JSON parameter document is emitted first, then a text description of the pending decisions, then the question menus run in full.",
+   "files": [],
+   "expectations": [
+    "Emission order is: JSON document, then context description, then the question menus.",
+    "The document is informational only - every pending question is still asked as a menu or checkbox list.",
+    "Answers may still arrive as menu selections, natural language, or a returned JSON document."
+   ]
+  },
+  {
+   "id": 39,
+   "prompt": "Here are my audit answers embedded in a note: looks good overall. {\"response\": {\"project-inclusion\": [\"A\", \"C\"], \"detail-level\": \"\", \"bogus-param\": \"X\"}} - proceed with the audit.",
+   "expected_output": "The embedded returned document is consumed: project-inclusion applies the given selection, detail-level applies its default, bogus-param is ignored, and remaining unanswered questions are still asked.",
+   "files": [],
+   "expectations": [
+    "A returned document embedded in natural language is accepted; surrounding text is treated as context, not answers.",
+    "The empty detail-level answer applies the parameter's default rather than failing.",
+    "The unknown bogus-param id is ignored.",
+    "Surfaces not answered in the document still run through their normal question flow."
+   ]
   }
  ]
 }

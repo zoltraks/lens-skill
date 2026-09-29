@@ -20,11 +20,11 @@ A review report applies the same phases with the deltas defined in
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 1313 | Intake Checklist guidance        |
-| Handling Thin Input     | 1332 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1343 | Single-Dimension Audits guidance |
-| Re-Audit                | 1353 | Re-Audit guidance                |
-| Multi-Project Audits    | 1400 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1325 | Intake Checklist guidance        |
+| Handling Thin Input     | 1344 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1355 | Single-Dimension Audits guidance |
+| Re-Audit                | 1365 | Re-Audit guidance                |
+| Multi-Project Audits    | 1412 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -152,7 +152,8 @@ How discovered authored skills enter the report depends on the subject shape:
   Configuration: `Assess skills as components of the project` (recommended) produces the Skills
   Inventory inside Skill Definition Conformance. `Assess each skill as an independent project`
   routes each skill through the multi-project workflow. Wait for the answer, record it, and do
-  not re-ask in the session.
+  not re-ask in the session. Under JSON exchange this is the `skills-scope` `choice` parameter
+  per `process/json-exchange.md`.
 
 Installed skills bypass the skills-scope question entirely.
 
@@ -198,10 +199,11 @@ Usually all projects belong in the audit, so the question exists to focus or exc
 confirm the obvious.
 
 Wait for the answer, record the included and excluded lists with reasons, and do not re-ask in
-the session.
+the session. Under JSON exchange this is the `project-inclusion` `selection` parameter per
+`process/json-exchange.md`, with recommended projects in `default`.
 
 An answer that unchecks every project asks the user to confirm cancelling the audit rather
-than producing an empty report.
+than producing an empty report - the `cancel-confirmation` `choice` parameter under exchange.
 
 Excluded projects are disclosed once in Scope Exclusions with their reason, and excluded skill
 directories still appear in the Skills Inventory marked `Out of scope`.
@@ -260,6 +262,8 @@ because the answer decides whether parameters are recovered or asked.
 The question is a blocking decision gate:
 it presents concrete options with one marked `(recommended)` and never carries the `Use default`
 trailing options of routine prompts.
+Under JSON exchange it emits as the `audit-mode` `choice` parameter per
+`process/json-exchange.md`.
 
 - No audit mode was stated and a previous report was found: present the candidate file's path,
   revision, and report date, and ask which audit mode to run. Options: `Re-audit - compare
@@ -301,7 +305,8 @@ and the incremented revision - while any core parameter may change.
 Recover the previous report's parameters as defaults, present them in a compact summary,
 and ask one follow-up question listing the core parameters:
 
-`Which parameters should change?` The user names the parameters to reconfigure.
+`Which parameters should change?` The user names the parameters to reconfigure - the
+`parameters-to-change` `selection` parameter under JSON exchange.
 
 Run the parameter prompts only for the named parameters,
 marking the recovered value `(previous, default)` on each option.
@@ -339,7 +344,7 @@ parameters, treat the request as a new audit and run the full Parameter Configur
 **Parameter Configuration**
 
 Before beginning the audit, ask the user whether to accept the default parameters or configure the
-core parameters.
+core parameters - the `parameters-acceptance` `choice` parameter under JSON exchange.
 
 Present the defaults in a compact summary.
 
@@ -393,6 +398,10 @@ elapsed time measures the audit itself rather than the parameter discussion.
 The elapsed time is later written to the `Time taken` row in Document Information.
 
 **Parameter prompts**
+
+When the request asks for machine-readable parameters or names a diagnostic or verbose mode, all
+pending question surfaces emit per `process/json-exchange.md` instead of, or ahead of, the menus
+below.
 
 Present each prompt as a single question with clear options.
 
@@ -519,6 +528,7 @@ and `mixed` follows the pattern recorded as most recent.
 
 Like every routine prompt, the question ends with `Use default: <default option>` and
 `Use defaults for all remaining questions`.
+Under JSON exchange this is the `report-delivery` `choice` parameter.
 
 Choosing a subdirectory option creates the subdirectory inside the base directory.
 
@@ -590,6 +600,7 @@ Ask: "What level of detail should the report include?"
   top risks only, and key recommendations. Detailed findings are summarized, not itemized.
 
 The question ends with `Use default: Detailed` and `Use defaults for all remaining questions`.
+Under JSON exchange this is the `detail-level` `choice` parameter.
 
 **Evaluation scale**
 
@@ -606,6 +617,7 @@ Ask: "Which evaluation scale should be used for the scorecard?"
 Always present all five options in this order so `3 stars` stays visible alongside the others.
 
 The question ends with `Use default: 1-10` and `Use defaults for all remaining questions`.
+Under JSON exchange this is the `evaluation-scale` `choice` parameter.
 
 **Improvement suggestions**
 

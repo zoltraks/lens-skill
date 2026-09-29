@@ -20,20 +20,20 @@
 |------------------------------------|------|-----------------------------------------------------|
 | Overview                           | 38   | Audit purpose and standard report shape             |
 | What The Skill Does                | 81   | Update check, evidence, assessment, synthesis       |
-| Installation                       | 155  | Clone and update instructions                       |
-| Usage                              | 185  | Activation, parameters, and report delivery         |
-| Example Prompts                    | 216  | Full and focused audit requests                     |
-| Workflow Diagrams                  | 282  | ASCII and Mermaid audit pipelines                   |
-| Evidence And Decision Quality      | 342  | Evidence strength and verification limits           |
-| Core Principles                    | 399  | Evaluation constraints and status rules             |
-| Report Format                      | 415  | Report structure, identifiers, and style            |
-| When To Use This Skill             | 450  | Supported requests and exclusions                   |
-| What's Inside                      | 473  | Documents, references, tools, and conditional files |
-| Document Style                     | 590  | Pointer to the style rules file                     |
-| Specification                      | 599  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 620  | Maintenance checks and regression scenarios         |
-| License                            | 642  | License for the skill itself                        |
-| Credits                            | 648  | Authorship and attribution                          |
+| Installation                       | 159  | Clone and update instructions                       |
+| Usage                              | 189  | Activation, parameters, and report delivery         |
+| Example Prompts                    | 220  | Full and focused audit requests                     |
+| Workflow Diagrams                  | 286  | ASCII and Mermaid audit pipelines                   |
+| Evidence And Decision Quality      | 346  | Evidence strength and verification limits           |
+| Core Principles                    | 403  | Evaluation constraints and status rules             |
+| Report Format                      | 419  | Report structure, identifiers, and style            |
+| When To Use This Skill             | 454  | Supported requests and exclusions                   |
+| What's Inside                      | 477  | Documents, references, tools, and conditional files |
+| Document Style                     | 595  | Pointer to the style rules file                     |
+| Specification                      | 604  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 625  | Maintenance checks and regression scenarios         |
+| License                            | 647  | License for the skill itself                        |
+| Credits                            | 653  | Authorship and attribution                          |
 
 ## Overview
 
@@ -105,6 +105,10 @@ adding a `Glossary` section that indexes every abbreviation used, describes sele
 and is linked from every acronym occurrence in the report.
 
 Advanced parameters can still be changed when explicitly specified.
+
+When the request asks for machine-readable parameters, every pending intake question emits as a
+JSON parameter document per `process/json-exchange.md`; under a diagnostic or verbose request the
+document is emitted for information first, then the question menus still run.
 
 **Defines scope explicitly**
 
@@ -490,6 +494,7 @@ lens-skill/
 │   └── output-style.md                # Tone, fixed vocabularies, consistency, determinism
 ├── process/
 │   ├── audit-workflow.md              # Intake, scope, evidence, assessment, synthesis, validation
+│   ├── json-exchange.md               # Machine-readable parameter documents for intake questions
 │   ├── report-format.md               # Audit report format index: rules, section order, spec map
 │   ├── report-format/                 # Per-section report specifications
 │   │   ├── opening.md                 # Document Information, coverage matrix, Glossary
