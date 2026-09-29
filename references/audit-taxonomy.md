@@ -71,7 +71,7 @@ supply them, labeled `Reported`.
 **Security Vulnerability Assessment.** Manual source review plus threat modeling maps to the
 SAST-equivalent tier of a vulnerability assessment.
 
-No scanner executes, and CWE-to-analyzer mappings from `references/cwe-analyzer-map.md` name checks
+No scanner executes, and CWE-to-analyzer mappings from `references/cwe-analyzer.md` name checks
 that would run, not checks that ran.
 
 **Open Source License Compliance Review.** License inspection over manifests, notices,

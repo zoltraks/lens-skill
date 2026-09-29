@@ -22,7 +22,11 @@ Information and before the Project Inventory.
 
 **Project Inventory** appears after the Coverage Matrix.
 
-It lists each project with its path, version, and a one-line description.
+It lists each project confirmed at the intake inclusion question with its path, version, and a
+one-line description.
+
+Projects the user unchecked, or that intake classified as installed or external, do not appear
+here: they are disclosed once in Scope Exclusions with their exclusion reason.
 
 ```
 | Project        | Path           | Version | Description            |
@@ -119,7 +123,7 @@ When no cross-project trade-off qualifies,
 the section stays present and the table carries a single `N/A` row with a one-line justification.
 
 The Scope Exclusions, Limitations and Unknowns, Validation Record,
-and Re-audit sections cover all projects.
+and Re-audit sections cover all projects and carry the exclusion disclosures.
 
 Qualify rows per project using the project identifier.
 

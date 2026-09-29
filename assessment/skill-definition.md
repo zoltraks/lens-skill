@@ -2,20 +2,23 @@
 
 ## Purpose
 
-> **Scope:** Agent Skills specification conformance, skill structure, skill discovery,
-> progressive disclosure, triggering description quality, file reference integrity, skill
-> collections
+> **Scope:** Agent Skills specification conformance, agent-facing artifact discovery, authored
+> versus installed classification, skill structure, progressive disclosure, triggering
+> description quality, file reference integrity, skill collections, agent configuration formats
 > **Key items:** SKILL.md frontmatter, directory structure, embedded skills, per-skill matrix,
-> description triggering, spec baseline, file references
+> description triggering, spec baseline, file references, artifact inventory
 
 This file guides assessment of whether a project that is an Agent Skill, contains Agent Skills,
-or is a skill collection conforms to the
+is a skill collection, or ships other agent-facing configuration conforms to the
 [Agent Skills specification](https://agentskills.io/specification) and follows the quality
 practices defined by the skill-creator skill.
 
-`references/agent-skills-specification.md` is the conformance baseline.
+`references/agent-skills.md` is the `SKILL.md` conformance baseline.
 
-It distills the checkable constraints and defines the optional live-check procedure.
+`references/agent-configuration.md` is the baseline for every other agent-facing
+format.
+
+They distill the checkable constraints and define the optional live-check procedure.
 
 Record which baseline was used - snapshot date or live fetch - in the report's evidence.
 
@@ -30,11 +33,11 @@ Assess only what the files show.
 
 Treat a frontmatter field that contradicts the spec as a conformance finding.
 
-## Skill Discovery
+## Agent-Facing Artifact Discovery
 
-Enumerate every `SKILL.md` inside the audited root before evaluating.
+Enumerate every agent-facing artifact inside the audited root before evaluating.
 
-Search these locations:
+Search these locations for `SKILL.md`:
 
 - The repository root itself.
 - `skills/` and `plugins/` directories, one level down (`skills/<name>/SKILL.md`).
@@ -42,8 +45,26 @@ Search these locations:
   `.cursor/skills/`, `.windsurf/skills/`, `.codeium/skills/`.
 - Any other `*/SKILL.md` found one level deep as a fallback sweep.
 
+Also enumerate every other agent-facing format:
+
+- `AGENTS.md` at root and nested (nearest file scopes to its subtree).
+- `CLAUDE.md`, `GEMINI.md`, `.claude/CLAUDE.md`, `.claude/rules/`, and deprecated
+  `CLAUDE.local.md`.
+- `.cursor/rules/*.mdc` and deprecated `.cursorrules`.
+- `.devin/rules/` and `.windsurf/rules/` directories plus deprecated `.windsurfrules`.
+- `.claude/agents/` subagent definitions.
+- `.claude-plugin/` plugin and marketplace manifests, and `plugins/` directories.
+- `.github/copilot-instructions.md` and `.github/instructions/*.instructions.md`.
+- `.mcp.json` and equivalent MCP server configuration.
+
+`references/agent-skills.md` is the `SKILL.md` baseline,
+`references/agent-configuration.md` the baseline for every other format.
+
 For each discovered skill, record its directory path, the `name` declared in frontmatter, and
 whether the name matches the directory name.
+
+For each discovered non-skill artifact, record its path, format, and scope (which subtree or
+surface it configures).
 
 How discovered skills enter the report depends on the intake skills-scope decision:
 
@@ -56,21 +77,54 @@ How discovered skills enter the report depends on the intake skills-scope decisi
 A project with exactly one root `SKILL.md` is the simple case: no matrix is needed, run the
 dimension table directly against it.
 
+## Authored Versus Installed
+
+Not every discovered skill directory is an audit subject: skills installed from external
+sources are runtime content, not authored work.
+
+Classify each discovered skill directory as `authored`, `installed`, or `undetermined` using
+repository signals:
+
+| Signal                                                                                                                                                                                                 | Classification weight   |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------|
+| Inside a dependency or vendor directory (`node_modules/`, `vendor/`, `.venv/`, `site-packages/`)                                                                                                       | Installed               |
+| Under an agent configuration directory (`.claude/skills/`, `.agents/skills/`, `.devin/skills/`, `.cursor/skills/`, `.codeium/skills/`) inside a subject that is not itself a skill or skill collection | Probably installed      |
+| Listed by a marketplace manifest, plugin manifest, or install lockfile                                                                                                                                 | Installed               |
+| Documented as installed or third-party in README or catalog files                                                                                                                                      | Installed               |
+| Git history shows incremental in-repo edits and review                                                                                                                                                 | Authored                |
+| Git history shows a single wholesale import commit                                                                                                                                                     | Weighs toward installed |
+| Referenced by the subject's own build, tests, or evals                                                                                                                                                 | Authored                |
+| No signal either way                                                                                                                                                                                   | Undetermined            |
+
+The classification feeds the intake project-inclusion question: `authored` directories are
+recommended for audit, `installed` ones are listed unchecked, and `undetermined` ones stay
+checked but annotated. A user answer overrides every heuristic.
+
+Non-skill agent artifacts (rules directories, memory files, manifests) follow the same
+classification where location makes sense, but most are authored configuration of the subject
+itself.
+
+Excluded items are still recorded in the inventory, marked out of scope, never silently dropped.
+
 ## When This Applies
 
 This assessment applies when the subject is an Agent Skill, is a skill collection, or contains
-`SKILL.md` files under the discovered locations.
+agent-facing artifacts in the discovered locations.
 
-It does not apply to a conventional codebase, library, or service that has no `SKILL.md`.
+It does not apply to a conventional codebase, library, or service with no agent-facing
+configuration.
 
 In that case, mark the section `N/A` with a one-line justification.
+
+When every discovered artifact is excluded as installed, omit the section and disclose the
+excluded items in Scope Exclusions instead.
 
 Do not invent skill-conformance findings for a project that is not a skill.
 
 ## What To Evaluate
 
-Evaluate each discovered skill on these dimensions, then evaluate the collection as a whole when
-more than one skill exists:
+Evaluate each discovered in-scope skill on these dimensions, then each non-skill artifact, then
+the collection as a whole when more than one skill exists:
 
 - **Frontmatter presence and validity**: whether `SKILL.md` contains YAML frontmatter with the
   required `name` and `description` fields.
@@ -101,6 +155,25 @@ more than one skill exists:
 - **Spec baseline**: whether the audit ran against the bundled snapshot or a live fetch, with the
   date or fetch result recorded.
 
+Then evaluate each discovered non-skill agent artifact against its format baseline in
+`references/agent-configuration.md`:
+
+- **Memory files** (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`): location conventions, resolvable
+  imports and file references, deprecated variants (`AGENT.md`, `CLAUDE.local.md`), and
+  conflicting instructions across files.
+- **Rules directories** (`.cursor/rules/`, `.windsurf/rules/`, `.devin/rules/`, `.claude/rules/`):
+  per-file frontmatter validity against the format's fields and activation modes, dead `globs`
+  or `paths` that match nothing, ignored file extensions, character limits, and deprecated flat
+  files left alongside.
+- **Plugin manifests** (`.claude-plugin/`): manifest JSON validity, required `name`, resolvable
+  component paths, legacy `commands/` usage, and `${CLAUDE_PLUGIN_ROOT}` portability.
+- **Subagent definitions** (`.claude/agents/`): required `name` and `description`, valid optional
+  fields, no unsupported fields on plugin-shipped agents, no hidden `name` duplicates.
+- **Instruction files** (`.github/copilot-instructions.md`, `*.instructions.md`): location
+  conventions and `applyTo` globs that match real paths.
+- **MCP configuration** (`.mcp.json`): `mcpServers` shape, resolvable commands, and no plaintext
+  secrets in `env` blocks.
+
 ## Collection-Level Checks
 
 When the subject contains more than one skill, also evaluate:
@@ -112,10 +185,12 @@ When the subject contains more than one skill, also evaluate:
   collection behaves uniformly under progressive disclosure.
 - **Inventory completeness**: whether every discovered `SKILL.md` appears in the Skills
   Inventory matrix - a skill missing from the matrix is a report defect, not a subject defect.
+  The same completeness rule covers the Agent Artifacts table: every discovered non-skill
+  agent-facing artifact must appear there, included or marked out of scope.
 
 ## Agent Skills Specification Reference
 
-Use the constraint tables in `references/agent-skills-specification.md` when evaluating frontmatter
+Use the constraint tables in `references/agent-skills.md` when evaluating frontmatter
 conformance:
 
 | Field           | Required | Constraints                                                         |
@@ -129,18 +204,21 @@ conformance:
 
 ## Evidence To Look For
 
-| Signal                   | Where It Appears                                        |
-|--------------------------|---------------------------------------------------------|
-| Skill inventory          | `SKILL.md` files under root and known skill directories |
-| Frontmatter              | YAML block at top of each `SKILL.md`                    |
-| Name conformance         | `name` field value vs directory name                    |
-| Description quality      | `description` field content and length                  |
-| Optional fields          | `license`, `compatibility`, `metadata`, `allowed-tools` |
-| Directory structure      | `scripts/`, `references/`, `assets/` directories        |
-| Progressive disclosure   | `SKILL.md` line count, referenced files                 |
-| File reference integrity | Paths in `SKILL.md` body resolving to existing files    |
-| Body content             | Instructions, examples, edge cases in `SKILL.md`        |
-| Spec baseline            | Snapshot date or live-fetch result in evidence          |
+| Signal                   | Where It Appears                                                  |
+|--------------------------|-------------------------------------------------------------------|
+| Skill inventory          | `SKILL.md` files under root and known skill directories           |
+| Skill provenance         | Directory location, install manifests, catalog notes, git history |
+| Other agent artifacts    | `AGENTS.md`, `CLAUDE.md`, rules dirs, manifests, MCP config       |
+| Frontmatter              | YAML block at top of each `SKILL.md`                              |
+| Name conformance         | `name` field value vs directory name                              |
+| Description quality      | `description` field content and length                            |
+| Optional fields          | `license`, `compatibility`, `metadata`, `allowed-tools`           |
+| Directory structure      | `scripts/`, `references/`, `assets/` directories                  |
+| Progressive disclosure   | `SKILL.md` line count, referenced files                           |
+| File reference integrity | Paths in `SKILL.md` body resolving to existing files              |
+| Body content             | Instructions, examples, edge cases in `SKILL.md`                  |
+| Artifact validity        | Per-format frontmatter, manifests, globs, size limits             |
+| Spec baseline            | Snapshot date or live-fetch result in evidence                    |
 
 ## Status Criteria
 
@@ -159,6 +237,15 @@ For a multi-skill subject, report a status per skill in the Skills Inventory mat
 The aggregate conformance status follows the weakest skill - a collection is `PARTIAL` when any
 skill fails required-field checks, never averaged to `PASS`.
 
+Non-skill artifacts use the same tokens against their format baselines:
+
+- `PASS`: the artifact conforms to every checkable constraint of its format.
+- `PARTIAL`: the artifact works but carries gaps, such as a deprecated location, a dead glob, or
+  a missing recommended field.
+- `FAIL`: the artifact is unreadable, invalid, or violates a hard constraint such as missing
+  required frontmatter fields or a manifest without `name`.
+- `Out of scope`: the artifact was excluded from audit, with the reason recorded alongside.
+
 ## Common Risks
 
 - A description exceeding 1024 characters may be silently truncated by spec-compliant agents, losing
@@ -172,6 +259,12 @@ skill fails required-field checks, never averaged to `PASS`.
 - Deeply nested reference chains make it hard for the agent to locate the right file.
 - Duplicate `name` values inside one collection make activation ambiguous.
 - Skills buried in undocumented directories escape both the catalog and the audit.
+- Installed third-party skills audited as authored inflate findings with work the subject never
+  wrote.
+- Authored skills misclassified as installed silently escape the audit.
+- Dead rule globs, deprecated flat files, and conflicting instructions across agent formats
+  silently disable or corrupt agent guidance.
+- A plaintext secret in an `env` block of `.mcp.json` leaks credentials.
 
 ## What Raises Confidence
 
@@ -184,7 +277,8 @@ skill fails required-field checks, never averaged to `PASS`.
 - Optional fields like `license` and `compatibility` are present and conform to spec constraints.
 - The body includes examples, edge cases, and clear step-by-step instructions.
 - Reference files are focused and loaded on demand, not bundled into `SKILL.md`.
-- Every discovered skill appears in the Skills Inventory with a name-directory match verified.
+- Every discovered skill appears in the Skills Inventory with a name-directory match verified,
+  and every other agent-facing artifact appears in the Agent Artifacts table.
 
 Mark each missing signal explicitly rather than inferring its presence.
 

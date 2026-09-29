@@ -16,6 +16,10 @@ Snapshot date: 2026-09-27.
 
 `assessment/skill-definition.md` consumes this file.
 
+`references/agent-configuration.md` holds the baselines for every other agent-facing
+format discovered alongside `SKILL.md`, such as `AGENTS.md`, rules directories, and plugin
+manifests.
+
 When the live-check clause below applies,
 record the fetched result as the baseline instead of this snapshot.
 
@@ -27,15 +31,16 @@ A skill is a directory containing, at minimum, a `SKILL.md` file.
 
 ## Frontmatter Fields
 
-| Field           | Required | Constraints                                                             |
-|-----------------|----------|-------------------------------------------------------------------------|
-| `name`          | Yes      | 1-64 chars, lowercase alphanumerics and hyphens, no leading/trailing or |
-|                 |          | consecutive hyphens, must match the parent directory name               |
-| `description`   | Yes      | 1-1024 chars, non-empty, states what the skill does and when to use it  |
-| `license`       | No       | License name or reference to a bundled license file                     |
-| `compatibility` | No       | 1-500 chars, environment requirements                                   |
-| `metadata`      | No       | Map of string keys to string values                                     |
-| `allowed-tools` | No       | Space-separated string of pre-approved tools, experimental              |
+| Field           | Required | Constraints                                                            |
+|-----------------|----------|------------------------------------------------------------------------|
+| `name`          | Yes      | 1-64 chars, unicode lowercase alphanumerics and hyphens, no            |
+|                 |          | leading/trailing or consecutive hyphens, must match the parent         |
+|                 |          | directory name                                                         |
+| `description`   | Yes      | 1-1024 chars, non-empty, states what the skill does and when to use it |
+| `license`       | No       | License name or reference to a bundled license file                    |
+| `compatibility` | No       | 1-500 chars, environment requirements                                  |
+| `metadata`      | No       | Map of string keys to string values                                    |
+| `allowed-tools` | No       | Space-separated string of pre-approved tools, experimental             |
 
 ## Progressive Disclosure
 

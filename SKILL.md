@@ -24,7 +24,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "1.7"
+  version: "1.8"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -300,7 +300,7 @@ Load these when the detected stack or finding type requires them.
 They are consulted during intake, assessment, and report writing.
 
 - **`references/stack-standards.md`** - Canonical standards and advisories per detected stack.
-- **`references/cwe-analyzer-map.md`** - CWE-to-analyzer-rule cross-reference per ecosystem.
+- **`references/cwe-analyzer.md`** - CWE-to-analyzer-rule cross-reference per ecosystem.
 - **`references/dependency-manifests.md`** - Text-only manifest readers, source-derived inventory.
 - **`references/census-commands.md`** - Reproducible census and counting methods.
 - **`references/audit-taxonomy.md`** - Audit types, coverage statuses, methodology corpus.
@@ -308,7 +308,9 @@ They are consulted during intake, assessment, and report writing.
 - **`references/license-compliance.md`** - License classes, copyleft, attribution, ownership checks.
 - **`references/delivery-practice.md`** - DORA proxies, bus-factor rubric.
 - **`references/exploitability-narrative.md`** - Attack-path narrative format and tiers.
-- **`references/agent-skills-specification.md`** - Agent Skills spec corpus and live-check baseline.
+- **`references/agent-skills.md`** - Agent Skills spec corpus and live-check baseline.
+- **`references/agent-configuration.md`** - AGENTS.md, rules, plugin, subagent, and MCP
+  format baselines.
 
 ## `scripts/` - Canonical Scripts
 
@@ -385,8 +387,7 @@ when maintaining the skill.
 
 ## Navigation Rules
 
-- Always apply `principles/evaluation-rules.md` and `principles/output-style.md` to every section of
-  every report.
+- Always apply `principles/evaluation-rules.md` and `principles/output-style.md` to every report.
 - The audit report is the default deliverable. Produce the review report per
   `process/review-report.md` only on an explicit review, amendment, or improvement-plan request.
 - Never compile, build, test, or execute the audited project, and never run linters, scanners,
@@ -398,10 +399,9 @@ when maintaining the skill.
   types and statuses in `references/audit-taxonomy.md`, kept consistent with Scope Exclusions.
 - Every finding and every Evidence Ledger row carries a `Type` tag: `Observation` for an
   independently re-derivable fact, `Concern` for a risk judgment built on observations.
-- The generated report follows the skill's own Markdown style rules, adapted by the Formatting
-  Rules in `process/report-format.md`: `#`/`##`/`###` headings only, short one-sentence paragraphs,
-  prose wrapping at a selectable width (default 100), no semicolons in prose, and every table
-  aligned with a temporary automated formatting script. Do not add a Contents table to the report.
+- The generated report follows the skill's Markdown rules adapted by `process/report-format.md`:
+  `#`/`##`/`###` headings only, one-sentence paragraphs, wrap at a selectable width (default 100),
+  no semicolons, tables aligned by a formatting script, no Contents table.
 - Test layers, TDD, coverage, and design-for-testability belong in `assessment/testing-review.md`.
 - SOLID and design principles (SRP, OCP, LSP, ISP, DIP), cohesion, coupling, and DRY belong in
   `assessment/design-principles.md`, code-level metrics (lint, type safety, complexity, duplication)
@@ -434,17 +434,18 @@ when maintaining the skill.
   `assessment/api-contract.md`, ADR gap assessment belongs in `assessment/change-management.md`.
 - Agent Skills specification conformance, frontmatter validity, progressive disclosure, and
   triggering description quality belong in `assessment/skill-definition.md`, include it when the
-  subject is an Agent Skill, a skill collection, or contains `SKILL.md` files, using
-  `references/agent-skills-specification.md` as the conformance baseline.
+  subject holds `SKILL.md` files or other agent-facing artifacts, with
+  `references/agent-skills.md` and `references/agent-configuration.md` as
+  the conformance baselines. Installed or external skill directories are not audit subjects:
+  intake classifies each discovered skill as authored, installed, or undetermined.
 - Project-internal development standards conformance and standards-quality evaluation belong in
-  `assessment/standards-conformance.md`, include it only when the project contains documented
-  development standards. The report's References section lists every external source consulted
-  during the standards-quality evaluation and any other assessment category.
+  `assessment/standards-conformance.md`, include it only for documented development standards.
+  References lists every external source consulted for this and any other category.
 - Canonical stack references are re-derived from `references/stack-standards.md` during intake
   on every audit and cited in Auditing Methodology and References, never copied verbatim from a
   prior report. Generic standards alone are not a substitute for stack-specific sources.
 - Every CWE-classified security finding names its equivalent static analyzer rule from
-  `references/cwe-analyzer-map.md` and its enablement state, or states that no direct rule exists
+  `references/cwe-analyzer.md` and its enablement state, or states that no direct rule exists
   for that CWE in the stack. The lookup is documentation, it never implies an analyzer ran.
 - Source-derived dependency inventories follow `references/dependency-manifests.md`: manifests and
   lockfiles are read as text and produce a CycloneDX/SPDX-style component list, never an executed
@@ -469,8 +470,7 @@ when maintaining the skill.
   it cannot apply, and note the omission in Scope Exclusions - never force one (for example an API
   Contract section on a project with no API).
 - The Technical Debt Register (`synthesis/debt-register.md`) is distinct from the Unified Risk
-  Register: debt is accumulated cost already present, risk is what could go wrong. Do not duplicate
-  entries between them.
+  Register: debt is cost already present, risk is what could go wrong. Never duplicate entries.
 - The Re-audit And Follow-up Plan (`synthesis/re-audit-plan.md`) precedes Validation Record and
   References when present and maps P1 and P2 findings to verification owners and closure evidence.
 - Every absent-capability finding carries an `Absence` field built from repository signals
@@ -485,9 +485,9 @@ when maintaining the skill.
 - Limitations and Unknowns lists every unperformed check that would require execution.
   Validation Record closes the report with the Mandatory Core Checklist result and the
   `process/report-parity.md` gate outcome. The report is final - no `State` row - when it passes.
-- For a multi-project report, a condensed combined Executive Summary and a combined Changes
-  Since Previous Audit follow the Project Inventory, and a combined Trade-off Analysis holds
-  only cross-project trade-offs per `synthesis/trade-off-analysis.md`.
+- For a multi-project report confirmed at the intake inclusion question, a condensed combined
+  Executive Summary and combined Changes follow the Project Inventory, and a combined Trade-off
+  Analysis holds only cross-project trade-offs per `synthesis/trade-off-analysis.md`.
 - Each `translations/` file defines one report language and loads only when the report language is
   not English. Add a language with a new file following the existing structure.
 - Prefer the narrowest assessment file that directly matches the request. For a single-dimension

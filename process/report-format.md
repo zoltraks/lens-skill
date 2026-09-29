@@ -417,22 +417,22 @@ The following sections and subsections are conditional.
 
 Each lists its inclusion criterion and the assessment file that governs it:
 
-| Section / Subsection                                        | Include When                                                  | Governing File                        |
-|-------------------------------------------------------------|---------------------------------------------------------------|---------------------------------------|
-| Data Flow Diagram (in Architectural Assessment)             | The system moves data across one or more trust boundaries     | `assessment/data-flow.md`             |
-| Design Patterns (in Architectural Assessment)               | The codebase is large enough to exhibit recurring structure   | `assessment/design-patterns.md`       |
-| Architecture Decision Records (in Architectural Assessment) | The system is production-bound with significant decisions     | `assessment/change-management.md`     |
-| Threat Model (standalone)                                   | The system has a security-relevant attack surface or boundary | `assessment/threat-model.md`          |
-| API Contract Conformance (standalone)                       | The system defines, exposes, or consumes an API contract      | `assessment/api-contract.md`          |
-| Skill Definition Conformance (standalone)                   | The subject is an Agent Skill or contains `SKILL.md` files    | `assessment/skill-definition.md`      |
-| AI System Assessment (standalone)                           | The project trains, serves, or materially depends on AI       | `assessment/ai-system.md`             |
-| Standards Conformance (standalone)                          | The project contains documented development standards         | `assessment/standards-conformance.md` |
-| API Compatibility & Versioning Discipline (standalone)      | The subject is a reusable library or package                  | `assessment/api-compatibility.md`     |
-| Technical Debt Register (standalone)                        | Structural debt distinct from risks is surfaced               | `synthesis/debt-register.md`          |
-| Re-audit And Follow-up Plan (standalone)                    | The roadmap contains a P1 or P2 recommendation                | `synthesis/re-audit-plan.md`          |
-| Changes Since Previous Audit (standalone)                   | Previous report found and confirmed as the re-audit baseline  | `synthesis/report-comparison.md`      |
-| Glossary (standalone)                                       | Descriptive mode is enabled (default)                         | `process/report-format.md`            |
-| Recommendation Classification (standalone)                  | Detail level is Standard or Detailed and the roadmap exists   | `synthesis/remediation-roadmap.md`    |
+| Section / Subsection                                        | Include When                                                       | Governing File                        |
+|-------------------------------------------------------------|--------------------------------------------------------------------|---------------------------------------|
+| Data Flow Diagram (in Architectural Assessment)             | The system moves data across one or more trust boundaries          | `assessment/data-flow.md`             |
+| Design Patterns (in Architectural Assessment)               | The codebase is large enough to exhibit recurring structure        | `assessment/design-patterns.md`       |
+| Architecture Decision Records (in Architectural Assessment) | The system is production-bound with significant decisions          | `assessment/change-management.md`     |
+| Threat Model (standalone)                                   | The system has a security-relevant attack surface or boundary      | `assessment/threat-model.md`          |
+| API Contract Conformance (standalone)                       | The system defines, exposes, or consumes an API contract           | `assessment/api-contract.md`          |
+| Skill Definition Conformance (standalone)                   | The subject holds `SKILL.md` files or other agent-facing artifacts | `assessment/skill-definition.md`      |
+| AI System Assessment (standalone)                           | The project trains, serves, or materially depends on AI            | `assessment/ai-system.md`             |
+| Standards Conformance (standalone)                          | The project contains documented development standards              | `assessment/standards-conformance.md` |
+| API Compatibility & Versioning Discipline (standalone)      | The subject is a reusable library or package                       | `assessment/api-compatibility.md`     |
+| Technical Debt Register (standalone)                        | Structural debt distinct from risks is surfaced                    | `synthesis/debt-register.md`          |
+| Re-audit And Follow-up Plan (standalone)                    | The roadmap contains a P1 or P2 recommendation                     | `synthesis/re-audit-plan.md`          |
+| Changes Since Previous Audit (standalone)                   | Previous report found and confirmed as the re-audit baseline       | `synthesis/report-comparison.md`      |
+| Glossary (standalone)                                       | Descriptive mode is enabled (default)                              | `process/report-format.md`            |
+| Recommendation Classification (standalone)                  | Detail level is Standard or Detailed and the roadmap exists        | `synthesis/remediation-roadmap.md`    |
 
 In a multi-project report, evaluate each criterion independently per project.
 
@@ -564,28 +564,29 @@ Run this checklist after writing the report body and before running the formatti
 It consolidates the mechanical rules from this file and `principles/output-style.md` in one place,
 every item is mechanical and takes seconds to verify.
 
-| Check           | Rule                                                                                      |
-|-----------------|-------------------------------------------------------------------------------------------|
-| Headings        | `#` title, `##` sections, `###` subsections and blocks, never `####` or deeper            |
-| Heading space   | Exactly one empty line after every heading                                                |
-| Delimiters      | Pipe-delimited columns, one space inside leading and trailing pipes                       |
-| Separators      | Hyphens contiguous with pipes, width equals column width plus two                         |
-| Alignment       | Every column aligned by the formatting script, never padded by hand                       |
-| Semicolons      | None outside code blocks, inline code, and file paths                                     |
-| Dashes          | ASCII `-` only, no em dash or en dash                                                     |
-| Arrows          | ASCII `->` in prose, no Unicode arrow                                                     |
-| Prose width     | Lines broken near the selected width (default 100), exempt table rows, URLs, links, paths |
-| Finding blocks  | Every required field present, see the template in Detailed Technical Findings             |
-| Coverage matrix | Present after Document Information, consistent with Scope Exclusions                      |
-| SBOM            | Every License cell populated or `Unknown`, direct components manifest-sourced             |
-| Type tags       | `Observation` or `Concern` on every evidence-ledger row and every finding                 |
+| Check           | Rule                                                                                        |
+|-----------------|---------------------------------------------------------------------------------------------|
+| Headings        | `#` title, `##` sections, `###` subsections and blocks, never `####` or deeper              |
+| Heading space   | Exactly one empty line after every heading                                                  |
+| Delimiters      | Pipe-delimited columns, one space inside leading and trailing pipes                         |
+| Separators      | Hyphens contiguous with pipes, width equals column width plus two                           |
+| Alignment       | Every column aligned by the formatting script, never padded by hand                         |
+| Semicolons      | None outside code blocks, inline code, and file paths                                       |
+| Dashes          | ASCII `-` only, no em dash or en dash                                                       |
+| Arrows          | ASCII `->` in prose, no Unicode arrow                                                       |
+| Prose width     | Lines broken near the selected width (default 100), exempt table rows, URLs, links, paths   |
+| Finding blocks  | Every required field present, see the template in Detailed Technical Findings               |
+| Coverage matrix | Present after Document Information, consistent with Scope Exclusions                        |
+| SBOM            | Every License cell populated or `Unknown`, direct components manifest-sourced               |
+| Type tags       | `Observation` or `Concern` on every evidence-ledger row and every finding                   |
 | Exploitability  | `Exploitability` field present on every `HIGH`/`CRITICAL` security finding, `N/A` justified |
-| Glossary        | Every acronym indexed, every body occurrence linked to its anchor                         |
-| Diagrams        | Fenced, untagged, no leading or trailing blank line inside the fence                      |
-| Registers       | Every RSK cites an FND, every REC cites an FND, risk-map covers rated risks               |
-| Classification  | At Standard/Detailed, Recommendation Classification lists every REC exactly once          |
-| Location        | Report path matches the output directory recorded during intake                           |
-| Ending          | References is the last section, no closing line after it                                  |
+| Glossary        | Every acronym indexed, every body occurrence linked to its anchor                           |
+| Diagrams        | Fenced, untagged, no leading or trailing blank line inside the fence                        |
+| Registers       | Every RSK cites an FND, every REC cites an FND, risk-map covers rated risks                 |
+| Classification  | At Standard/Detailed, Recommendation Classification lists every REC exactly once            |
+| Project scope   | Inventory lists only intake-confirmed projects, exclusions disclosed in Scope Exclusions    |
+| Location        | Report path matches the output directory recorded during intake                             |
+| Ending          | References is the last section, no closing line after it                                    |
 
 `scripts/format-table.py` in the skill repository is the canonical formatting script,
 copy it into the audited repository's `work/` directory before use.

@@ -538,6 +538,10 @@ Use a single lowercase word for single-concept files: `cpu.md`, `sound.md`, `mem
 
 Use hyphens for multi-word names: `dasm-assembler.md`, `risk-register.md`.
 
+Match the word-count convention already used in the directory. If a directory consistently uses
+two-word names, new files in it keep two-word names. If a directory mixes word counts, use the
+lowest word count present as the minimum and pick the best-fitting name at or above it.
+
 ### Required Sections
 
 Every new topic file must include at minimum:

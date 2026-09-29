@@ -20,20 +20,20 @@
 |------------------------------------|------|-----------------------------------------------------|
 | Overview                           | 38   | Audit purpose and standard report shape             |
 | What The Skill Does                | 81   | Update check, evidence, assessment, synthesis       |
-| Installation                       | 151  | Clone and update instructions                       |
-| Usage                              | 181  | Activation, parameters, and report delivery         |
-| Example Prompts                    | 212  | Full and focused audit requests                     |
-| Workflow Diagrams                  | 278  | ASCII and Mermaid audit pipelines                   |
-| Evidence And Decision Quality      | 338  | Evidence strength and verification limits           |
-| Core Principles                    | 395  | Evaluation constraints and status rules             |
-| Report Format                      | 411  | Report structure, identifiers, and style            |
-| When To Use This Skill             | 446  | Supported requests and exclusions                   |
-| What's Inside                      | 469  | Documents, references, tools, and conditional files |
-| Document Style                     | 585  | Pointer to the style rules file                     |
-| Specification                      | 594  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 613  | Maintenance checks and regression scenarios         |
-| License                            | 635  | License for the skill itself                        |
-| Credits                            | 641  | Authorship and attribution                          |
+| Installation                       | 155  | Clone and update instructions                       |
+| Usage                              | 185  | Activation, parameters, and report delivery         |
+| Example Prompts                    | 216  | Full and focused audit requests                     |
+| Workflow Diagrams                  | 282  | ASCII and Mermaid audit pipelines                   |
+| Evidence And Decision Quality      | 342  | Evidence strength and verification limits           |
+| Core Principles                    | 399  | Evaluation constraints and status rules             |
+| Report Format                      | 415  | Report structure, identifiers, and style            |
+| When To Use This Skill             | 450  | Supported requests and exclusions                   |
+| What's Inside                      | 473  | Documents, references, tools, and conditional files |
+| Document Style                     | 590  | Pointer to the style rules file                     |
+| Specification                      | 599  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 620  | Maintenance checks and regression scenarios         |
+| License                            | 642  | License for the skill itself                        |
+| Credits                            | 648  | Authorship and attribution                          |
 
 ## Overview
 
@@ -109,6 +109,10 @@ Advanced parameters can still be changed when explicitly specified.
 **Defines scope explicitly**
 
 Lists what is in scope and what is excluded.
+
+When several projects are found, intake asks a confirmation question listing every project,
+with authored work checked by default and externally installed directories such as vendored
+skills listed unchecked.
 
 Marks unstated constraints as `NOT SPECIFIED` rather than assuming industry norms.
 
@@ -355,7 +359,7 @@ Security findings use justified CWE mappings and CVSS vectors where applicable,
 while engineering and business risks retain the Lens risk matrix.
 
 Each CWE-classified finding also names the equivalent static-analyzer rule for the detected stack,
-per `references/cwe-analyzer-map.md`, so follow-up verification is concrete.
+per `references/cwe-analyzer.md`, so follow-up verification is concrete.
 
 Audits select canonical, stack-specific references from `references/stack-standards.md` rather than
 relying on generic standards alone.
@@ -539,7 +543,7 @@ lens-skill/
 │   └── report-comparison.md           # (conditional) Previous report discovery, revisions, comparison
 ├── references/
 │   ├── stack-standards.md             # Stack, supply-chain, and AI reference sources
-│   ├── cwe-analyzer-map.md            # CWE to static-analyzer-rule cross-reference per ecosystem
+│   ├── cwe-analyzer.md            # CWE to static-analyzer-rule cross-reference per ecosystem
 │   ├── dependency-manifests.md        # Text-only manifest readers, source-derived component inventory
 │   ├── census-commands.md             # Canonical reproducible census methods
 │   ├── audit-taxonomy.md              # Canonical audit types, coverage statuses, source corpus
@@ -547,7 +551,8 @@ lens-skill/
 │   ├── license-compliance.md          # License classes, copyleft, notices, ownership checks
 │   ├── delivery-practice.md           # DORA proxies, bus-factor rubric, continuity evidence
 │   ├── exploitability-narrative.md    # Theoretical attack-path narrative format and tiers
-│   └── agent-skills-specification.md  # Agent Skills specification corpus, live-check baseline
+│   ├── agent-skills.md  # Agent Skills specification corpus, live-check baseline
+│   └── agent-configuration.md # AGENTS.md, rules, plugin, subagent, MCP format baselines
 ├── scripts/
 │   ├── format-table.py                # Source-width Markdown table formatter
 │   ├── link-glossary.py               # Glossary body-link inserter, run before the formatter
@@ -606,7 +611,9 @@ python scripts/validate-skill.py .
 python scripts/check-references.py .
 ```
 
-`assessment/skill-definition.md` encodes the same conformance rules for auditing other skills.
+`assessment/skill-definition.md` encodes the same conformance rules for auditing other skills,
+and `references/agent-configuration.md` extends the coverage to `AGENTS.md`, rules
+directories, plugin manifests, subagent definitions, instruction files, and MCP configuration.
 
 ---
 

@@ -20,11 +20,11 @@ A review report applies the same phases with the deltas defined in
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 1281 | Intake Checklist guidance        |
-| Handling Thin Input     | 1299 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1310 | Single-Dimension Audits guidance |
-| Re-Audit                | 1320 | Re-Audit guidance                |
-| Multi-Project Audits    | 1367 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1313 | Intake Checklist guidance        |
+| Handling Thin Input     | 1332 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1343 | Single-Dimension Audits guidance |
+| Re-Audit                | 1353 | Re-Audit guidance                |
+| Multi-Project Audits    | 1400 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -121,28 +121,40 @@ This determines whether the Standards Conformance assessment applies.
 When no standards documents are found, the Standards Conformance assessment is omitted and the
 omission is noted in Scope Exclusions.
 
-**Agent skills discovery**
+**Agent-facing artifact discovery**
 
-During intake, enumerate every `SKILL.md` inside the audited root: the root itself,
-`skills/` and `plugins/` one level down, agent configuration directories (`.claude/skills/`,
-`.agents/skills/`, `.devin/skills/`, `.cursor/skills/`, `.windsurf/skills/`, `.codeium/skills/`),
-and any other `*/SKILL.md` found one level deep.
+During intake, enumerate every agent-facing artifact inside the audited root: `SKILL.md` at the
+root, under `skills/` and `plugins/` one level down, under agent configuration directories
+(`.claude/skills/`, `.agents/skills/`, `.devin/skills/`, `.cursor/skills/`, `.windsurf/skills/`,
+`.codeium/skills/`), and any other `*/SKILL.md` found one level deep, plus `AGENTS.md`,
+`CLAUDE.md`, `GEMINI.md`, rules directories (`.cursor/rules/`, `.windsurf/rules/`,
+`.devin/rules/`, `.claude/rules/`), deprecated flat files (`.cursorrules`, `.windsurfrules`,
+`CLAUDE.local.md`), `.claude/agents/` definitions, `.claude-plugin/` manifests,
+`.github/copilot-instructions.md`, `.github/instructions/`, and MCP server configuration such
+as `.mcp.json`.
 
-For each skill found, record its directory path, its declared `name`,
-and whether the name matches the directory name.
+For each skill directory found, record its path, its declared `name`, whether the name matches
+the directory name, and its provenance classification: `authored`, `installed`, or
+`undetermined`, per the signal table in `assessment/skill-definition.md`. Skills inside
+dependency or vendor directories, referenced by install or marketplace manifests, or documented
+as third-party are `installed`, not audit subjects by default.
 
-How discovered skills enter the report depends on the subject shape:
+For each non-skill artifact, record its path, format, and scope.
+
+How discovered authored skills enter the report depends on the subject shape:
 
 - The subject IS a skill (root `SKILL.md` and nothing else) - run Skill Definition Conformance
   directly against it, no inventory needed.
 - The subject IS a collection (multiple `SKILL.md` under skill directories and no dominant
   product project) - Skill Definition Conformance holds the Skills Inventory matrix plus
   per-skill detail for every discovered skill.
-- A non-skill project CONTAINS skills - ask the skills-scope question before Parameter
+- A non-skill project CONTAINS authored skills - ask the skills-scope question before Parameter
   Configuration: `Assess skills as components of the project` (recommended) produces the Skills
   Inventory inside Skill Definition Conformance. `Assess each skill as an independent project`
   routes each skill through the multi-project workflow. Wait for the answer, record it, and do
   not re-ask in the session.
+
+Installed skills bypass the skills-scope question entirely.
 
 The discovery result decides whether Skill Definition Conformance applies and which shape the
 section takes.
@@ -163,18 +175,38 @@ entry point.
 
 A `SKILL.md` found under an agent-skill location is not automatically a separate project.
 
-The skills-scope decision made during Agent skills discovery routes it:
+The skills-scope decision made during agent-facing artifact discovery routes it:
 as a component it is inventoried inside the parent project's Skill Definition Conformance section,
 as an independent project it joins the multi-project list below.
 
 When multiple project manifests or boundaries exist at the top level or in clearly separated
 subdirectories, treat each as an independent project.
 
-Record the list of identified projects with their paths and, if determinable, their version numbers.
+Record the list of identified projects with their paths and, if determinable, their version
+numbers, marking each project `recommended` or `not recommended` for inclusion: a directory
+classified `installed` during agent-facing artifact discovery, or any dependency/vendor path,
+is `not recommended`, and everything else defaults to `recommended`.
 
-When only one project is present, proceed with the standard single-project workflow.
+When only one project is present, proceed with the standard single-project workflow without
+asking.
 
-When multiple projects are present, the audit runs independently for each project.
+When multiple projects are present, ask the project-inclusion question before Parameter
+Configuration: a blocking decision gate presenting a checkbox-style multi-select list of every
+identified project with its path and kind. Recommended projects are checked by default and
+not-recommended ones are listed unchecked with their reason, such as `installed/external`.
+Usually all projects belong in the audit, so the question exists to focus or exclude, not to
+confirm the obvious.
+
+Wait for the answer, record the included and excluded lists with reasons, and do not re-ask in
+the session.
+
+An answer that unchecks every project asks the user to confirm cancelling the audit rather
+than producing an empty report.
+
+Excluded projects are disclosed once in Scope Exclusions with their reason, and excluded skill
+directories still appear in the Skills Inventory marked `Out of scope`.
+
+The included projects then run independently through the audit.
 
 Each project receives its own complete assessment, findings, scorecard,
 and risk register within a single combined report.
@@ -1083,7 +1115,7 @@ Git history signals such as author concentration, commit cadence,
 and tag history must appear at least as the Team & Continuity line in the Health Dashboard.
 
 Confirm every CWE-classified security finding names its equivalent static analyzer rule from
-`references/cwe-analyzer-map.md` with its enablement evidence,
+`references/cwe-analyzer.md` with its enablement evidence,
 or states that no direct rule exists for the CWE in that stack.
 
 Confirm no finding implies an analyzer ran.
@@ -1282,19 +1314,20 @@ These are reasoning checks, not proof of improvement from an independent model b
 
 Use this checklist to confirm you understand the input before assessing.
 
-| Question                                     | Record As                                            |
-|----------------------------------------------|------------------------------------------------------|
-| What report type was resolved?               | `Audit` / `Review`                                   |
-| What artifact type is this?                  | Prototype / Codebase / Production system / Proposal  |
-| What is the source format?                   | Running / Inspected code / Description               |
-| What components were provided?               | List of components in scope                          |
-| What was explicitly excluded?                | Out-of-scope list                                    |
-| What constraints did the user state?         | Constraints, or `NOT SPECIFIED`                      |
-| What maturity does the user claim, if any?   | Claimed maturity, or none                            |
-| What is the natural language of the request? | Language code or name, or English (default)          |
-| How many projects are in the directory?      | One / Multiple (list each with path and version)     |
-| What output subdirectory pattern exists?     | `version-numbered` / `date-named` / `mixed` / `none` |
-| Was a previous report found, and which mode? | none / re-audit / re-audit + changed params / fresh  |
+| Question                                        | Record As                                            |
+|-------------------------------------------------|------------------------------------------------------|
+| What report type was resolved?                  | `Audit` / `Review`                                   |
+| What artifact type is this?                     | Prototype / Codebase / Production system / Proposal  |
+| What is the source format?                      | Running / Inspected code / Description               |
+| What components were provided?                  | List of components in scope                          |
+| What was explicitly excluded?                   | Out-of-scope list                                    |
+| What constraints did the user state?            | Constraints, or `NOT SPECIFIED`                      |
+| What maturity does the user claim, if any?      | Claimed maturity, or none                            |
+| What is the natural language of the request?    | Language code or name, or English (default)          |
+| How many projects are in the directory?         | One / Multiple (list each with path and version)     |
+| Which projects are included after the question? | Included list / excluded list with reasons           |
+| What output subdirectory pattern exists?        | `version-numbered` / `date-named` / `mixed` / `none` |
+| Was a previous report found, and which mode?    | none / re-audit / re-audit + changed params / fresh  |
 
 ## Handling Thin Input
 
@@ -1367,7 +1400,8 @@ Category assessment files load only for categories with new or changed findings.
 ## Multi-Project Audits
 
 When the Project Identification step in Intake detects more than one project in the repository or
-directory, the audit runs independently for each project.
+directory, the project-inclusion question confirms which ones are in scope, and the audit runs
+independently for each included project.
 
 **Per-project independence**
 

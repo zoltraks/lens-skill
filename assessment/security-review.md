@@ -111,14 +111,14 @@ Do not apply CVSS to bus factor, debt, licensing uncertainty, or missing runbook
 
 ## Analyzer Cross-Reference
 
-For every CWE-classified finding, consult `references/cwe-analyzer-map.md` for the equivalent
+For every CWE-classified finding, consult `references/cwe-analyzer.md` for the equivalent
 static analyzer rule in the detected stack.
 
 When a rule exists, record it in the finding with its enablement state,
 for example "the equivalent automated check is `CA5359`, not yet enabled".
 
 Enablement is determined from repository evidence such as `.editorconfig` entries, ruleset files,
-or CI steps, per the enablement table in `references/cwe-analyzer-map.md`.
+or CI steps, per the enablement table in `references/cwe-analyzer.md`.
 
 When no direct rule exists for the CWE in the stack, state that plainly,
 for example "no direct analyzer rule exists for CWE-327 in Rust".

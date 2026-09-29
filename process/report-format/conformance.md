@@ -30,13 +30,16 @@ When the report language is not English, apply the column header translations fr
 ## Skill Definition Conformance
 
 Include this section only when the subject is an Agent Skill, a skill collection,
-or contains `SKILL.md` files, per `assessment/skill-definition.md`.
+or contains agent-facing artifacts such as `SKILL.md` files, `AGENTS.md`, `CLAUDE.md`, rules
+directories, plugin manifests, subagent definitions, instruction files, or MCP configuration,
+per `assessment/skill-definition.md`.
 
-Omit it entirely for a project that is not and does not contain a skill,
+Omit it entirely for a project with no in-scope agent-facing artifacts,
 and note the omission in Scope Exclusions.
 
-Record the spec baseline used: the `references/agent-skills-specification.md` snapshot date or the
-live-fetch result when the optional check ran.
+Record the spec baseline used for each format: the `references/agent-skills.md`
+and `references/agent-configuration.md` snapshot dates or the live-fetch results when
+the optional check ran.
 
 Present a conformance table across the evaluated dimensions, then describe each gap with evidence
 and its linked `FND-XXX`.
@@ -57,17 +60,34 @@ When the subject contains more than one skill - a collection, or embedded skills
 components - precede the dimension table with a Skills Inventory matrix listing every discovered
 `SKILL.md`:
 
-| Skill         | Path                          | Name Match | Status  | Key Gaps                        |
-|---------------|-------------------------------|------------|---------|---------------------------------|
-| pdf-toolkit   | `skills/pdf-toolkit/`         | Yes        | PASS    | None                            |
-| code-reviewer | `.claude/skills/code-review/` | No         | PARTIAL | `name` does not match directory |
-| legacy-bot    | `plugins/legacy/`             | Yes        | FAIL    | Missing `description` field     |
+| Skill         | Path                          | Name Match | Status       | Key Gaps                        |
+|---------------|-------------------------------|------------|--------------|---------------------------------|
+| pdf-toolkit   | `skills/pdf-toolkit/`         | Yes        | PASS         | None                            |
+| code-reviewer | `.claude/skills/code-review/` | No         | PARTIAL      | `name` does not match directory |
+| legacy-bot    | `plugins/legacy/`             | Yes        | FAIL         | Missing `description` field     |
+| helper-bot    | `.claude/skills/helper/`      | Yes        | Out of scope | Installed, excluded at intake   |
+
+Every discovered `SKILL.md` appears in the matrix, including ones excluded as installed or
+unchecked at intake, which carry `Out of scope` as their status and the exclusion reason as the
+gap note.
+
+When non-skill agent-facing artifacts exist, follow the Skills Inventory with an Agent Artifacts
+table listing every discovered memory file, rules directory, subagent definition, plugin
+manifest, instruction file, or MCP configuration:
+
+| Artifact        | Type        | Path               | Status       | Notes                         |
+|-----------------|-------------|--------------------|--------------|-------------------------------|
+| Project memory  | `AGENTS.md` | `AGENTS.md`        | PASS         | Covers build and test         |
+| Cursor rules    | Rules dir   | `.cursor/rules/`   | PARTIAL      | One rule has a dead `globs`   |
+| Greeting plugin | Plugin      | `plugins/greeter/` | PASS         | Manifest `name` present       |
+| Vendor rules    | Rules dir   | `.windsurf/rules/` | Out of scope | Installed, excluded at intake |
 
 Follow the matrix with the dimension table per skill that warrants detail - at minimum every
 non-`PASS` skill and every skill in a collection - then describe each gap with evidence and its
-linked `FND-XXX`.
+linked `FND-XXX`. Apply the same per-artifact detail rule to every non-`PASS`, non-excluded row
+of the Agent Artifacts table.
 
-The aggregate status follows the weakest skill.
+The aggregate status follows the weakest in-scope item.
 
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.

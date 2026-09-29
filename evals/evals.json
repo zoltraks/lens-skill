@@ -1,426 +1,462 @@
 {
-  "skill_name": "lens-skill",
-  "evals": [
-    {
-      "id": 1,
-      "prompt": "Audit this small HTTP service from the supplied repository. Produce a source-only report with security findings, a threat model, an evidence ledger, a risk register, readiness gates, and a remediation roadmap.",
-      "expected_output": "A report that separates inspected evidence from unrun verification and traces security gaps through findings, risks, and recommendations.",
-      "files": [],
-      "expectations": [
-        "The report states that no project build, test, scan, or runtime execution was performed.",
-        "Every security finding has a CWE identifier, UNKNOWN, or justified N/A and an evidence reference.",
-        "The report distinguishes readiness state from the report's final state (no State row).",
-        "Every risk and recommendation resolves to a finding identifier."
-      ]
-    },
-    {
-      "id": 2,
-      "prompt": "Review this reusable library for release safety and API compatibility. The repository contains a package manifest, a changelog, public API declarations, and several release tags.",
-      "expected_output": "A library-focused audit that includes API compatibility and versioning discipline without applying service-only controls.",
-      "files": [],
-      "expectations": [
-        "The report includes API Compatibility & Versioning Discipline.",
-        "The report evaluates public-surface tracking, compatibility gates, versioning consistency, and breaking-change tracking.",
-        "The report does not treat a deployable-service API contract section as a substitute for library compatibility analysis."
-      ]
-    },
-    {
-      "id": 3,
-      "prompt": "Audit a repository containing a PHP server, a React administration panel, and two Go utilities. Produce one combined report while keeping each project independently assessable.",
-      "expected_output": "A multi-project report with project inventory, independent findings and scorecards, combined cross-project trade-offs, and qualified shared references.",
-      "files": [],
-      "expectations": [
-        "Each project receives an independent assessment and scorecard.",
-        "Shared-section finding, risk, and recommendation references are project-qualified.",
-        "The combined trade-off section contains only decisions that affect more than one project.",
-        "The report does not use ambiguous project labels such as both or either."
-      ]
-    },
-    {
-      "id": 4,
-      "prompt": "Re-audit this repository after a previous audit report. The current source revision is unchanged, but the report format has gained new parity and evidence requirements.",
-      "expected_output": "A new revisioned report that preserves the previous report, distinguishes product changes from capability changes, and re-derives current evidence.",
-      "files": [],
-      "expectations": [
-        "Before reusing the previous report as a baseline, the agent presents the found file and asks the user to confirm it is the intended re-audit baseline, offering a re-audit with changed parameters or a fresh audit instead.",
-        "The previous report is not overwritten.",
-        "The new report contains Changes Since Previous Audit and a revisioned filename.",
-        "Historical execution results are labeled Reported rather than current verification.",
-        "Structural additions caused by the skill version are distinguished from product changes.",
-        "A baseline produced by an older skill version gets the current capability set applied, named as a capability change in the Validation Record.",
-        "Field and column names that differ between the baseline report's schema and the current contract are read through the legacy field-name mapping, and the rename is recorded as a capability change rather than a product change."
-      ]
-    },
-    {
-      "id": 5,
-      "prompt": "Perform a thin-input technical due-diligence audit from a short project description and a dependency manifest. Identify exactly what can and cannot be concluded.",
-      "expected_output": "A bounded report that preserves unknown business, support, cost, security, and operational inputs and lists artifacts needed to raise confidence.",
-      "files": [],
-      "expectations": [
-        "Missing information is marked UNKNOWN, NOT SPECIFIED, or INSUFFICIENT INFORMATION rather than guessed.",
-        "The report does not invent owners, budgets, SLOs, or production evidence.",
-        "The report includes a concrete list of missing artifacts and next verification steps."
-      ]
-    },
-    {
-      "id": 6,
-      "prompt": "Audit this Agent Skill for specification conformance and report quality. Check its frontmatter, progressive disclosure, registered references, scripts, and report-production behavior.",
-      "expected_output": "A skill-definition assessment that checks the Agent Skills specification and the skill's own maintenance controls.",
-      "files": [],
-      "expectations": [
-        "The report includes Skill Definition Conformance.",
-        "The report checks frontmatter, name and description constraints, reference integrity, and progressive disclosure.",
-        "The report distinguishes structural conformance from future-agent behavioral verification."
-      ]
-    },
-    {
-      "id": 7,
-      "prompt": "Write the audit report in Polish. Preserve identifiers and verbatim evidence while translating headings, labels, findings, tokens, and explanatory prose.",
-      "expected_output": "A UTF-8 Polish report with complete heading and table-header coverage, dictionary-consistent terminology, localized report tokens, and unchanged identifiers and evidence.",
-      "files": [],
-      "expectations": [
-        "The report uses Polish prose and headings with preserved diacritics.",
-        "Severity, status, and execution-state tokens render in Polish (WYSOKA, N/D, NIEZNANE, NIEURUCHOMIONE) with gender agreement, while IDs (FND, RSK, REC, EVD), CWE identifiers, commands, and verbatim evidence stay unchanged.",
-        "Conditional headings that appear in the report are translated.",
-        "The report applies the Polish terminology dictionary (ustalenie, zalecenie, plik blokady zależności, proces CI) and avoids literal calques such as rozjazd, dryf, brama, or potok.",
-        "Descriptive fixed values are rendered in Polish (Polski, Szczegółowy, Etap przedprodukcyjny), the Stan and Stan prac rows are omitted for a final report on a clean tree, and no Tryb opisowy row appears in Document Information.",
-        "The star-scale legend is labeled Skala oceny and names every band, including Zła for one star and Słaba for two stars."
-      ]
-    },
-    {
-      "id": 8,
-      "prompt": "Audit a project that serves a retrieval-augmented language model with tool access. Assess model and data provenance, evaluation, prompt and tool boundaries, safety, monitoring, and rollback without auditing live behavior.",
-      "expected_output": "A conditional AI-system assessment separate from AI-generated-code provenance and general application security.",
-      "files": [],
-      "expectations": [
-        "The report includes the AI System Assessment only because an AI runtime is in scope.",
-        "The report evaluates model and dataset provenance, evaluation evidence, authorization boundaries, and rollback.",
-        "The report does not infer AI authorship from code style or ordinary use of an AI coding assistant.",
-        "The report does not claim NIST AI RMF or ISO/IEC 42001 conformance from repository inspection alone."
-      ]
-    },
-    {
-      "id": 9,
-      "prompt": "Audit this small service from the supplied repository with default report parameters. The report must remain readable to a non-specialist audience.",
-      "expected_output": "A default audit that includes a Glossary section indexing every abbreviation and acronym used, carrying longer descriptions for selected terms, with every acronym occurrence in the report body linking to its description or the index table.",
-      "files": [],
-      "expectations": [
-        "The report contains a Glossary section after Document Information or Project Inventory and before Executive Summary.",
-        "The Glossary index table lists every acronym alphabetically, and terms with a longer description link to their ### subsection below the table.",
-        "Every acronym occurrence in the report body is a markdown link to its glossary description, or to #glossary when the term has no description.",
-        "Acronyms that are part of capitalized compound names such as 'AI Provenance' or 'API Compatibility' are not linked.",
-        "The Glossary covers report-internal identifier prefixes and technology and standard abbreviations used in the report.",
-        "When Descriptive mode is disabled, the Glossary is omitted and the omission is justified in Scope Exclusions."
-      ]
-    },
-    {
-      "id": 10,
-      "prompt": "Audit this repository and walk me through the report parameters before starting. The repository contains a document/ directory but no docs/ directory, and no previous audit report exists.",
-      "expected_output": "A parameter configuration phase that presents the full option set: all five evaluation scales and all applicable report locations with a revisioned default filename.",
-      "files": [],
-      "expectations": [
-        "The evaluation-scale prompt offers all five options in order: 1-10 (default), 1-5, 1-3, 5 stars, and 3 stars.",
-        "For a first audit the delivery question proposes the revisioned filename AUDIT-1.0.md and offers plain AUDIT.md as an alternative.",
-        "The document/ directory is proposed as a file location alongside Inline and Custom report file, and a date-named document/report/<date> alternative is offered when applicable.",
-        "Each prompt ends with the named options 'Use default: <value>' and 'Use defaults for all remaining questions'."
-      ]
-    },
-    {
-      "id": 11,
-      "prompt": "Audit this repository with default report parameters. The repository contains docs/report/ with existing version-numbered subdirectories 1.6.7 and 1.7.0, and the project version is 1.7.3.",
-      "expected_output": "The intake records the version-numbered convention, the delivery question offers only the version-based path, and the report is written to docs/report/1.7.3/ with a revisioned filename.",
-      "files": [],
-      "expectations": [
-        "Intake records the docs/report/ subdirectory pattern as version-numbered and resolves the output directory to docs/report/1.7.3.",
-        "The delivery question offers docs/report/1.7.3/<revisioned filename> and does not offer a date-named alternative such as docs/report/<current-date>/.",
-        "The report path offered at delivery matches the output directory recorded at intake and is not re-derived differently.",
-        "The report is written to docs/report/1.7.3/ and the written path is re-checked against the intake record before delivery."
-      ]
-    },
-    {
-      "id": 12,
-      "prompt": "Start an audit of this repository. The skill directory is a git clone that currently sits three commits behind its upstream branch.",
-      "expected_output": "A self-update check that runs before any audit step, asks the user to update or skip for the session, and honors the answer without re-asking.",
-      "files": [],
-      "expectations": [
-        "The agent runs python <skill-root>/scripts/check-update.py against the skill's own repository before any other step, never against the audited subject.",
-        "On UPDATE-AVAILABLE the agent asks whether to update the skill now or skip for this session and waits for the answer.",
-        "On approval the agent runs git pull --ff-only only when the reported tree state allows it, then re-reads SKILL.md and loaded rule files.",
-        "The agent reviews the incoming upstream changes and cites the tip_sha and tip_date detail lines before or when asking to pull.",
-        "On skip or a blocked pull the agent continues with the current version and does not ask again in the session.",
-        "A status other than UPDATE-AVAILABLE produces no user-facing mention of the check.",
-        "The check writes no state files and never commits, stashes, or discards changes in the skill repository.",
-        "Commits ahead of upstream alone do not trigger UPDATE-AVAILABLE; the verdict requires upstream commits missing locally.",
-        "The ahead and behind details describe local commits not yet upstream and upstream commits missing locally, respectively."
-      ]
-    },
-    {
-      "id": 13,
-      "prompt": "Audit this repository with default parameters. The user expects a security-focused review and asks whether the report is a penetration test and a SOC 2 assessment.",
-      "expected_output": "A report whose Audit Type Coverage & Assurance Matrix states exactly which canonical audit types are covered, partially covered, or not performed, with rationale tied to report sections.",
-      "files": [],
-      "expectations": [
-        "The report includes an Audit Type Coverage & Assurance Matrix immediately after Document Information, using only the fixed statuses Covered, Partially, Not done, and Not Applicable.",
-        "Penetration Test is marked Not done and the rationale distinguishes source-level security review from live exploitation.",
-        "Compliance Certification is marked Not done or Not Applicable, and referenced standards appear only as scoring rubrics.",
-        "Every matrix status is consistent with Scope Exclusions: nothing marked Covered is disclaimed there and vice versa.",
-        "Technical Due Diligence is not marked fully Covered when team interviews, business fit, cost, support, or ownership evidence is absent."
-      ]
-    },
-    {
-      "id": 14,
-      "prompt": "Audit this repository, which has dependency manifests and lockfiles but no committed SBOM, no license files in vendored code, and no ownership or contractor-assignment documents.",
-      "expected_output": "A report with a source-derived Software Bill of Materials section and a License & IP Compliance Review that keep undeterminable fields explicitly unknown.",
-      "files": [],
-      "expectations": [
-        "The Software Bill of Materials section states that no shipped-artifact SBOM was provided and presents the manifest-derived inventory as Inspected source evidence, not a generated or shipped SBOM.",
-        "Every SBOM row carries component, version, ecosystem, relationship, license, and evidence columns, with license cells reading Unknown rather than registry guesses.",
-        "The License & IP Compliance Review separates observed license facts from inferred concerns and records missing ownership or assignment evidence as UNKNOWN.",
-        "The absent shipped SBOM is reported as an inventory gap, not as a vulnerability or compliance violation.",
-        "No license violation, copyright infringement, or legal obligation is claimed without specific evidence."
-      ]
-    },
-    {
-      "id": 15,
-      "prompt": "Audit this repository, which has nine months of git history, quarterly release tags, a single dominant commit author, and no CI pipeline or incident data. Assess delivery health.",
-      "expected_output": "A Delivery Practice & Team Continuity section that reports source-derived DORA proxies, marks telemetry-dependent metrics NOT SPECIFIED, and rates key-person concentration.",
-      "files": [],
-      "expectations": [
-        "All five DORA metrics appear: change lead time, deployment frequency, failed deployment recovery time, change fail rate, and deployment rework rate.",
-        "Deployment frequency and change lead time carry computed proxy values labeled as source-derived proxies, while the three telemetry-dependent metrics read NOT SPECIFIED.",
-        "A bus-factor rating is derived from commit-author concentration using the documented thresholds.",
-        "Commit data is presented as aggregate evidence without inferring individual competence or assigning blame.",
-        "Missing support, cost, and supplier-obligation evidence is recorded as UNKNOWN rather than omitted.",
-        "The absent CI/CD pipeline is still recorded as a finding, and its `Absence` field classifies the absence from repository signals (Appears intentional, Appears an oversight, or Undetermined) without attributing motive."
-      ]
-    },
-    {
-      "id": 16,
-      "prompt": "Audit this repository, which contains an unauthenticated file-upload endpoint rated HIGH severity. Assess findings structure and exploitability reasoning.",
-      "expected_output": "Findings that carry a Type tag separating observation from concern, and an exploitability narrative in the Exploitability field of the network-facing security finding that stays theoretical.",
-      "files": [],
-      "expectations": [
-        "Every finding carries a Type field reading Observation or Concern, and every Evidence Ledger row carries the same tag.",
-        "The HIGH security finding on the upload endpoint carries an Exploitability field with a tier, preconditions, attack-path steps, trust boundaries, impact, and uncertainty.",
-        "The narrative is marked Theoretical and NOT EXECUTED, states the live validation needed, and never claims exploitation occurred.",
-        "The Scope Exclusions name dynamic penetration testing as not performed by default and point to a separately commissioned engagement.",
-        "No finding, risk, or recommendation asserts verified runtime exploitability."
-      ]
-    },
-    {
-      "id": 17,
-      "prompt": "Write the audit report in Polish for a repository with manifests, a HIGH network-facing security finding, and partial git history. Use the skill's Polish rendering rules.",
-      "expected_output": "A Polish report whose new sections and tags match translations/polish-language.md verbatim, preserving machine tokens and settled terminology.",
-      "files": [],
-      "expectations": [
-        "New section headings match the dictionary verbatim: Macierz pokrycia typów audytu i poziomu zapewnienia, Zestawienie składników oprogramowania, Przegląd zgodności licencyjnej i IP, Praktyka dostarczania i ciągłość zespołu.",
-        "Coverage statuses render as OBJĘTE, CZĘŚCIOWO OBJĘTE, NIEPRZEPROWADZONE, or NIE DOTYCZY, and finding Type tags render Obserwacja or Zastrzeżenie.",
-        "Exploitability tiers render TEORETYCZNY, POTWIERDZONE STATYCZNIE, or ZWERYFIKOWANE DYNAMICZNIE, while IDs, CWE references, and file paths stay unchanged.",
-        "The scorecard dimension renders Dostarczanie i ciągłość, and DORA metric names follow the dictionary.",
-        "Loanwords such as commit, pull request, copyleft, SBOM, and due diligence stay untranslated and established terms such as Ważność, Panel zdrowia, and kryterium jakości are used."
-      ]
-    },
-    {
-      "id": 18,
-      "prompt": "Audit this repository. A previous audit report exists in docs/report/ but the user asks for a fresh audit that does not compare against it.",
-      "expected_output": "A new revisioned report that leaves the previous report untouched, ignores its content, and restarts finding, risk, and recommendation identifiers.",
-      "files": [],
-      "expectations": [
-        "The audit-mode confirmation is skipped because the user already stated a fresh audit.",
-        "The report revision and filename still increment from the previous report's revision, and the previous file is not overwritten.",
-        "The report omits the Changes Since Previous Audit section and the Previous Report row in Document Information.",
-        "Finding, risk, and recommendation identifiers restart at -001 rather than continuing the previous report's sequences.",
-        "The full Parameter Configuration phase runs because no parameters are recovered from the previous report."
-      ]
-    },
-    {
-      "id": 19,
-      "prompt": "Re-audit this repository, but change the detail level to Brief and the evaluation scale to 1-5.",
-      "expected_output": "A re-audit that preserves comparison semantics while applying the new parameters, with the parameter differences flagged as capability changes.",
-      "files": [],
-      "expectations": [
-        "When a previous report is found and the mode is unstated, the audit-mode question offers three options: re-audit, re-audit with changed parameters, and fresh audit.",
-        "A parameter-change request selects or is offered the re-audit-with-changed-parameters mode rather than a fresh audit.",
-        "Recovered parameters become defaults, and only the parameters the user names are re-asked, with the recovered value marked as the previous default.",
-        "Finding, risk, and recommendation identifiers keep continuity, and the Changes Since Previous Audit section lists the parameter differences as capability changes.",
-        "The report revision and filename still increment from the previous report's revision, and the previous file is not overwritten.",
-        "The Brief report omits the Recommendation Classification section and records the omission in Scope Exclusions."
-      ]
-    },
-    {
-      "id": 20,
-      "prompt": "Audit this repository, which is a collection of Agent Skills under skills/ with one SKILL.md per subdirectory. Check each skill against the Agent Skills specification.",
-      "expected_output": "A Skill Definition Conformance section holding a Skills Inventory matrix that covers every discovered skill, with per-skill detail for non-PASS skills.",
-      "files": [],
-      "expectations": [
-        "The Skills Inventory matrix lists every discovered SKILL.md with its path, name-directory match, status, and key gaps.",
-        "Every non-PASS skill receives dimension-level detail with evidence and FND identifiers.",
-        "Duplicate name declarations or name-directory mismatches are reported as findings.",
-        "The aggregate conformance status follows the weakest skill rather than an average."
-      ]
-    },
-    {
-      "id": 21,
-      "prompt": "Audit this application repository. Alongside the application code it ships agent skills under .claude/skills/, each with its own SKILL.md.",
-      "expected_output": "An audit that resolves the skills-scope question before assessing the embedded skills.",
-      "files": [],
-      "expectations": [
-        "Intake discovers the SKILL.md files under .claude/skills/ and asks whether to assess them as components or as independent projects before Parameter Configuration.",
-        "On the components choice, the embedded skills appear in a Skills Inventory inside the parent project's Skill Definition Conformance section rather than as separate project blocks.",
-        "Each inventoried skill is checked against the specification: frontmatter, name-directory match, disclosure, and reference integrity.",
-        "The chosen scope is recorded so a re-audit does not re-ask the question in the same session."
-      ]
-    },
-    {
-      "id": 22,
-      "prompt": "Audit this Agent Skill for specification conformance. State which authoritative baseline the checks ran against.",
-      "expected_output": "A Skill Definition Conformance assessment anchored to the bundled spec corpus with the baseline recorded.",
-      "files": [],
-      "expectations": [
-        "The report records the spec baseline used: the references/agent-skills-specification.md snapshot date, or the live-fetch result when the optional check ran.",
-        "When the specification cannot be fetched, conformance runs against the bundled snapshot and the limitation is disclosed rather than hidden.",
-        "A spec drift between the snapshot and a fetched live version is reported in Limitations and Unknowns, not silently applied.",
-        "External validation such as skills-ref is recorded only when a committed or supplied result exists, marked as Reported evidence."
-      ]
-    },
-    {
-      "id": 23,
-      "prompt": "Audit this repository with default parameters after answering the parameter questions. Explain how the report's Time taken value is produced.",
-      "expected_output": "A report whose Time taken measures only the audit work, from the clock reading taken after parameter resolution to a final clock reading made as the last operation before delivery.",
-      "files": [],
-      "expectations": [
-        "The start timestamp is read from the system clock immediately after all parameter questions are resolved, not at the start of intake.",
-        "A final system-clock reading is taken as the last operation of report production, after the checklist, validator, and parity gate have passed.",
-        "The Time taken row shows MM:SS computed from the post-configuration reading to the final reading.",
-        "When no reliable start timestamp exists, the Time taken row is omitted rather than estimated.",
-        "The completion message reports the same elapsed value as the report row."
-      ]
-    },
-    {
-      "id": 24,
-      "prompt": "Produce an audit report with a Glossary for a subject rich in acronyms. Describe how glossary body links are inserted and kept correct across later prose edits.",
-      "expected_output": "A scripted glossary-linking pass that runs before table formatting, applies the validator's exemption rules, and re-runs whenever report prose changes.",
-      "files": [],
-      "expectations": [
-        "The glossary index terms are collected before body linking, and each link targets the term's own anchor: #glossary for index-only terms and the ### slug for described terms.",
-        "Linking is performed by the scripts/link-glossary.py helper rather than by hand-inserted links.",
-        "The linking pass runs before format-table.py and re-runs whenever report prose containing acronyms changes.",
-        "Occurrences inside fenced code, inline code, headings, URLs, existing links, hyphenated identifiers, and capitalized compound names stay unlinked.",
-        "Variant forms such as HTTPS for HTTP(S), P2 for P1-P4, and the plural SLOs are linked to the indexed term.",
-        "The linking pass preserves the report's existing line-ending style rather than normalizing the file."
-      ]
-    },
-    {
-      "id": 25,
-      "prompt": "Change the report contract to add a section or parity row. What keeps the prose contract and the mechanical validator in agreement?",
-      "expected_output": "A change that updates the prose contract and scripts/validate-report.py in the same commit, verified by validating a produced report.",
-      "files": [],
-      "expectations": [
-        "The baseline section count and names stated in process/report-format.md match the required-section check in scripts/validate-report.py.",
-        "The PAR row coverage stated in the Validation Record contract matches the parity-row loop in scripts/validate-report.py.",
-        "The required glossary terms and linking rules stated in the contract match the glossary checks in scripts/validate-report.py.",
-        "Helper blocks mirrored verbatim between link-glossary.py and validate-report.py are updated together in the same change.",
-        "The change is verified by formatting and validating a produced report to zero issues, not by reading the documents alone."
-      ]
-    },
-    {
-      "id": 26,
-      "prompt": "Review PREPARATION.md and produce amendment instructions. The document describes how to prepare a repository for work with code-generation tools.",
-      "expected_output": "A Review report that evaluates the document and lists corrections and amendment instructions without executing the documented procedure.",
-      "files": [],
-      "expectations": [
-        "The report follows the review contract: a Reviewed baseline and Review date statement, Assessment, a Findings and Corrections table with Existing section, Finding, and Required correction columns, Required Changes, Suggested Amendment Order, and a Public Source Register with [S#] citations.",
-        "Required Changes and Suggested Amendment Order are present even when the review finds no required changes.",
-        "The report carries a revisioned REVIEW-<revision>.md filename such as REVIEW-1.0.md.",
-        "The report does not claim the documented procedure was executed, and unrun checks are marked NOT RUN.",
-        "The report carries no audit-only sections such as the Audit Type Coverage & Assurance Matrix, scorecard, risk register, or PAR parity rows."
-      ]
-    },
-    {
-      "id": 27,
-      "prompt": "Review this codebase and tell me whether it is ready for production. Do not produce a review report.",
-      "expected_output": "An Audit report: the ambiguous wording without an explicit review-report request keeps the default audit type.",
-      "files": [],
-      "expectations": [
-        "The agent produces an Audit report, not a Review report, because no review report with amendments was explicitly requested.",
-        "The Report type row in the parameter summary reads Audit.",
-        "The report carries an AUDIT-<revision>.md filename."
-      ]
-    },
-    {
-      "id": 28,
-      "prompt": "Write the review report in Polish. Review the supplied instruction document and produce amendment instructions per the Polish rendering rules.",
-      "expected_output": "A Polish Review report using the review mappings from translations/polish-language.md with a PRZEGLĄD filename.",
-      "files": [],
-      "expectations": [
-        "Review headings render in Polish: Ocena, Ustalenia i poprawki, Wymagane zmiany w <subject>, Sugerowana kolejność zmian, Rejestr źródeł publicznych.",
-        "The findings table headers render Istniejąca sekcja, Ustalenie, and Wymagana poprawka.",
-        "The filename uses the PRZEGLĄD stem, such as PRZEGLĄD-1.0.md.",
-        "Source-register identifiers S1-Sn stay unchanged and are cited inline as [S#]."
-      ]
-    },
-    {
-      "id": 29,
-      "prompt": "Audit this repository, whose documentation references automated checks and a .github/workflows directory that does not exist in the tree. Assess how the report treats the missing pipeline.",
-      "expected_output": "A report that still records the absent CI/CD capability as a finding and classifies the absence from repository signals.",
-      "files": [],
-      "expectations": [
-        "The absent CI/CD capability produces a finding rather than being dropped as out of scope.",
-        "The finding's Absence field reads Appears an oversight, citing the signals such as pipeline references or automation-adjacent directories.",
-        "The assessment is grounded in observable repository evidence and does not claim to know the authors' intent.",
-        "Recommendations resolving the finding land in the Recommendation Classification with a class that reflects the undetermined intent."
-      ]
-    },
-    {
-      "id": 30,
-      "prompt": "Audit this repository with the default Standard detail level. The report is intended to seed change documents, so recommendations need a disposition.",
-      "expected_output": "A report whose Recommendation Classification section follows the roadmap and dispositions every recommendation.",
-      "files": [],
-      "expectations": [
-        "A Recommendation Classification section appears after the Actionable Remediation Roadmap and before Scope Exclusions.",
-        "Every REC-XXX from the roadmap appears exactly once with a class of Recommended, Optional, or Not recommended and a short basis.",
-        "A recommendation whose finding's intent or timing is undetermined is classified Not recommended, with a note on what evidence would reclassify it.",
-        "P1-P4 priority is preserved separately from the class.",
-        "No new findings or recommendations are introduced by the section."
-      ]
-    },
-    {
-      "id": 31,
-      "prompt": "Audit this repository with default report parameters. Check that the report uses the current one-word field vocabulary.",
-      "expected_output": "A report whose finding and risk blocks and register tables use the renamed field schema.",
-      "files": [],
-      "expectations": [
-        "Finding blocks carry the contract fields in order: Pillar, Severity, Type, Security, Status, Targets, Basis, Absence, Description, Impact, Recommendation, Method, Verified, Confidence, Countercheck, Exploitability, Evidence.",
-        "No legacy field names appear: Target Files/Modules, Requirement Basis, Verification State, Counter-check, Security Classification, Remediation Recommendation, Verification Method, Exploitability Narrative, or Remediation Status.",
-        "The findings summary table uses Finding, Result, Status, and Verification columns, with Verification limited to Verified, Confirmed, Reported, or empty.",
-        "Risk blocks use Severity, Likelihood, Residual, Status, Owner, Description, Impact, Trigger, Controls, Mitigation, Closure, Source, Confidence order, and the risk table uses Source rather than Source Finding.",
-        "Debt and recommendation tables use the harmonized headers: Debt/Item/Source/Cost/Delay and Rec."
-      ]
-    },
-    {
-      "id": 32,
-      "prompt": "Audit this repository with default report parameters. Check the table shapes in the generated report.",
-      "expected_output": "A report whose ledger, scorecard, threat model, and standards tables follow the trimmed column contract.",
-      "files": [],
-      "expectations": [
-        "The Verification And Evidence Ledger has no Execution column, and no Project column in a single-project report.",
-        "A documented but unrun check records NOT RUN in the Result column.",
-        "The Scorecard Summary omits rows whose score is N/A, and at Detailed names each excluded dimension with its reason in a paragraph below the table.",
-        "The Threat Model table uses STRIDE, Threat Description, Control, and Finding columns, and a threat with no linked finding leaves the Finding cell empty.",
-        "The Standards Conformance table uses the Area column header."
-      ]
-    },
-    {
-      "id": 33,
-      "prompt": "Re-audit this repository against the previous report, which was written under the old field schema with Remediation Status, Source Finding, and Exploitability Narrative fields.",
-      "expected_output": "A re-audit that still compares transitions correctly by reading the old report through the legacy field-name mapping.",
-      "files": [],
-      "expectations": [
-        "Legacy field names in the previous report are interpreted through the mapping in synthesis/report-comparison.md, for example Remediation Status as Status plus Verification.",
-        "Finding transitions still key on FND-XXX despite the renamed columns and fields.",
-        "The schema rename is recorded as a capability change, not as a finding transition or product change.",
-        "The new report itself uses only the current field names."
-      ]
-    }
-  ]
+ "skill_name": "lens-skill",
+ "evals": [
+  {
+   "id": 1,
+   "prompt": "Audit this small HTTP service from the supplied repository. Produce a source-only report with security findings, a threat model, an evidence ledger, a risk register, readiness gates, and a remediation roadmap.",
+   "expected_output": "A report that separates inspected evidence from unrun verification and traces security gaps through findings, risks, and recommendations.",
+   "files": [],
+   "expectations": [
+    "The report states that no project build, test, scan, or runtime execution was performed.",
+    "Every security finding has a CWE identifier, UNKNOWN, or justified N/A and an evidence reference.",
+    "The report distinguishes readiness state from the report's final state (no State row).",
+    "Every risk and recommendation resolves to a finding identifier."
+   ]
+  },
+  {
+   "id": 2,
+   "prompt": "Review this reusable library for release safety and API compatibility. The repository contains a package manifest, a changelog, public API declarations, and several release tags.",
+   "expected_output": "A library-focused audit that includes API compatibility and versioning discipline without applying service-only controls.",
+   "files": [],
+   "expectations": [
+    "The report includes API Compatibility & Versioning Discipline.",
+    "The report evaluates public-surface tracking, compatibility gates, versioning consistency, and breaking-change tracking.",
+    "The report does not treat a deployable-service API contract section as a substitute for library compatibility analysis."
+   ]
+  },
+  {
+   "id": 3,
+   "prompt": "Audit a repository containing a PHP server, a React administration panel, and two Go utilities. Produce one combined report while keeping each project independently assessable.",
+   "expected_output": "A multi-project report with project inventory, independent findings and scorecards, combined cross-project trade-offs, and qualified shared references.",
+   "files": [],
+   "expectations": [
+    "Each project receives an independent assessment and scorecard.",
+    "Shared-section finding, risk, and recommendation references are project-qualified.",
+    "The combined trade-off section contains only decisions that affect more than one project.",
+    "The report does not use ambiguous project labels such as both or either."
+   ]
+  },
+  {
+   "id": 4,
+   "prompt": "Re-audit this repository after a previous audit report. The current source revision is unchanged, but the report format has gained new parity and evidence requirements.",
+   "expected_output": "A new revisioned report that preserves the previous report, distinguishes product changes from capability changes, and re-derives current evidence.",
+   "files": [],
+   "expectations": [
+    "Before reusing the previous report as a baseline, the agent presents the found file and asks the user to confirm it is the intended re-audit baseline, offering a re-audit with changed parameters or a fresh audit instead.",
+    "The previous report is not overwritten.",
+    "The new report contains Changes Since Previous Audit and a revisioned filename.",
+    "Historical execution results are labeled Reported rather than current verification.",
+    "Structural additions caused by the skill version are distinguished from product changes.",
+    "A baseline produced by an older skill version gets the current capability set applied, named as a capability change in the Validation Record.",
+    "Field and column names that differ between the baseline report's schema and the current contract are read through the legacy field-name mapping, and the rename is recorded as a capability change rather than a product change."
+   ]
+  },
+  {
+   "id": 5,
+   "prompt": "Perform a thin-input technical due-diligence audit from a short project description and a dependency manifest. Identify exactly what can and cannot be concluded.",
+   "expected_output": "A bounded report that preserves unknown business, support, cost, security, and operational inputs and lists artifacts needed to raise confidence.",
+   "files": [],
+   "expectations": [
+    "Missing information is marked UNKNOWN, NOT SPECIFIED, or INSUFFICIENT INFORMATION rather than guessed.",
+    "The report does not invent owners, budgets, SLOs, or production evidence.",
+    "The report includes a concrete list of missing artifacts and next verification steps."
+   ]
+  },
+  {
+   "id": 6,
+   "prompt": "Audit this Agent Skill for specification conformance and report quality. Check its frontmatter, progressive disclosure, registered references, scripts, and report-production behavior.",
+   "expected_output": "A skill-definition assessment that checks the Agent Skills specification and the skill's own maintenance controls.",
+   "files": [],
+   "expectations": [
+    "The report includes Skill Definition Conformance.",
+    "The report checks frontmatter, name and description constraints, reference integrity, and progressive disclosure.",
+    "The report distinguishes structural conformance from future-agent behavioral verification."
+   ]
+  },
+  {
+   "id": 7,
+   "prompt": "Write the audit report in Polish. Preserve identifiers and verbatim evidence while translating headings, labels, findings, tokens, and explanatory prose.",
+   "expected_output": "A UTF-8 Polish report with complete heading and table-header coverage, dictionary-consistent terminology, localized report tokens, and unchanged identifiers and evidence.",
+   "files": [],
+   "expectations": [
+    "The report uses Polish prose and headings with preserved diacritics.",
+    "Severity, status, and execution-state tokens render in Polish (WYSOKA, N/D, NIEZNANE, NIEURUCHOMIONE) with gender agreement, while IDs (FND, RSK, REC, EVD), CWE identifiers, commands, and verbatim evidence stay unchanged.",
+    "Conditional headings that appear in the report are translated.",
+    "The report applies the Polish terminology dictionary (ustalenie, zalecenie, plik blokady zależności, proces CI) and avoids literal calques such as rozjazd, dryf, brama, or potok.",
+    "Descriptive fixed values are rendered in Polish (Polski, Szczegółowy, Etap przedprodukcyjny), the Stan and Stan prac rows are omitted for a final report on a clean tree, and no Tryb opisowy row appears in Document Information.",
+    "The star-scale legend is labeled Skala oceny and names every band, including Zła for one star and Słaba for two stars."
+   ]
+  },
+  {
+   "id": 8,
+   "prompt": "Audit a project that serves a retrieval-augmented language model with tool access. Assess model and data provenance, evaluation, prompt and tool boundaries, safety, monitoring, and rollback without auditing live behavior.",
+   "expected_output": "A conditional AI-system assessment separate from AI-generated-code provenance and general application security.",
+   "files": [],
+   "expectations": [
+    "The report includes the AI System Assessment only because an AI runtime is in scope.",
+    "The report evaluates model and dataset provenance, evaluation evidence, authorization boundaries, and rollback.",
+    "The report does not infer AI authorship from code style or ordinary use of an AI coding assistant.",
+    "The report does not claim NIST AI RMF or ISO/IEC 42001 conformance from repository inspection alone."
+   ]
+  },
+  {
+   "id": 9,
+   "prompt": "Audit this small service from the supplied repository with default report parameters. The report must remain readable to a non-specialist audience.",
+   "expected_output": "A default audit that includes a Glossary section indexing every abbreviation and acronym used, carrying longer descriptions for selected terms, with every acronym occurrence in the report body linking to its description or the index table.",
+   "files": [],
+   "expectations": [
+    "The report contains a Glossary section after Document Information or Project Inventory and before Executive Summary.",
+    "The Glossary index table lists every acronym alphabetically, and terms with a longer description link to their ### subsection below the table.",
+    "Every acronym occurrence in the report body is a markdown link to its glossary description, or to #glossary when the term has no description.",
+    "Acronyms that are part of capitalized compound names such as 'AI Provenance' or 'API Compatibility' are not linked.",
+    "The Glossary covers report-internal identifier prefixes and technology and standard abbreviations used in the report.",
+    "When Descriptive mode is disabled, the Glossary is omitted and the omission is justified in Scope Exclusions."
+   ]
+  },
+  {
+   "id": 10,
+   "prompt": "Audit this repository and walk me through the report parameters before starting. The repository contains a document/ directory but no docs/ directory, and no previous audit report exists.",
+   "expected_output": "A parameter configuration phase that presents the full option set: all five evaluation scales and all applicable report locations with a revisioned default filename.",
+   "files": [],
+   "expectations": [
+    "The evaluation-scale prompt offers all five options in order: 1-10 (default), 1-5, 1-3, 5 stars, and 3 stars.",
+    "For a first audit the delivery question proposes the revisioned filename AUDIT-1.0.md and offers plain AUDIT.md as an alternative.",
+    "The document/ directory is proposed as a file location alongside Inline and Custom report file, and a date-named document/report/<date> alternative is offered when applicable.",
+    "Each prompt ends with the named options 'Use default: <value>' and 'Use defaults for all remaining questions'."
+   ]
+  },
+  {
+   "id": 11,
+   "prompt": "Audit this repository with default report parameters. The repository contains docs/report/ with existing version-numbered subdirectories 1.6.7 and 1.7.0, and the project version is 1.7.3.",
+   "expected_output": "The intake records the version-numbered convention, the delivery question offers only the version-based path, and the report is written to docs/report/1.7.3/ with a revisioned filename.",
+   "files": [],
+   "expectations": [
+    "Intake records the docs/report/ subdirectory pattern as version-numbered and resolves the output directory to docs/report/1.7.3.",
+    "The delivery question offers docs/report/1.7.3/<revisioned filename> and does not offer a date-named alternative such as docs/report/<current-date>/.",
+    "The report path offered at delivery matches the output directory recorded at intake and is not re-derived differently.",
+    "The report is written to docs/report/1.7.3/ and the written path is re-checked against the intake record before delivery."
+   ]
+  },
+  {
+   "id": 12,
+   "prompt": "Start an audit of this repository. The skill directory is a git clone that currently sits three commits behind its upstream branch.",
+   "expected_output": "A self-update check that runs before any audit step, asks the user to update or skip for the session, and honors the answer without re-asking.",
+   "files": [],
+   "expectations": [
+    "The agent runs python <skill-root>/scripts/check-update.py against the skill's own repository before any other step, never against the audited subject.",
+    "On UPDATE-AVAILABLE the agent asks whether to update the skill now or skip for this session and waits for the answer.",
+    "On approval the agent runs git pull --ff-only only when the reported tree state allows it, then re-reads SKILL.md and loaded rule files.",
+    "The agent reviews the incoming upstream changes and cites the tip_sha and tip_date detail lines before or when asking to pull.",
+    "On skip or a blocked pull the agent continues with the current version and does not ask again in the session.",
+    "A status other than UPDATE-AVAILABLE produces no user-facing mention of the check.",
+    "The check writes no state files and never commits, stashes, or discards changes in the skill repository.",
+    "Commits ahead of upstream alone do not trigger UPDATE-AVAILABLE; the verdict requires upstream commits missing locally.",
+    "The ahead and behind details describe local commits not yet upstream and upstream commits missing locally, respectively."
+   ]
+  },
+  {
+   "id": 13,
+   "prompt": "Audit this repository with default parameters. The user expects a security-focused review and asks whether the report is a penetration test and a SOC 2 assessment.",
+   "expected_output": "A report whose Audit Type Coverage & Assurance Matrix states exactly which canonical audit types are covered, partially covered, or not performed, with rationale tied to report sections.",
+   "files": [],
+   "expectations": [
+    "The report includes an Audit Type Coverage & Assurance Matrix immediately after Document Information, using only the fixed statuses Covered, Partially, Not done, and Not Applicable.",
+    "Penetration Test is marked Not done and the rationale distinguishes source-level security review from live exploitation.",
+    "Compliance Certification is marked Not done or Not Applicable, and referenced standards appear only as scoring rubrics.",
+    "Every matrix status is consistent with Scope Exclusions: nothing marked Covered is disclaimed there and vice versa.",
+    "Technical Due Diligence is not marked fully Covered when team interviews, business fit, cost, support, or ownership evidence is absent."
+   ]
+  },
+  {
+   "id": 14,
+   "prompt": "Audit this repository, which has dependency manifests and lockfiles but no committed SBOM, no license files in vendored code, and no ownership or contractor-assignment documents.",
+   "expected_output": "A report with a source-derived Software Bill of Materials section and a License & IP Compliance Review that keep undeterminable fields explicitly unknown.",
+   "files": [],
+   "expectations": [
+    "The Software Bill of Materials section states that no shipped-artifact SBOM was provided and presents the manifest-derived inventory as Inspected source evidence, not a generated or shipped SBOM.",
+    "Every SBOM row carries component, version, ecosystem, relationship, license, and evidence columns, with license cells reading Unknown rather than registry guesses.",
+    "The License & IP Compliance Review separates observed license facts from inferred concerns and records missing ownership or assignment evidence as UNKNOWN.",
+    "The absent shipped SBOM is reported as an inventory gap, not as a vulnerability or compliance violation.",
+    "No license violation, copyright infringement, or legal obligation is claimed without specific evidence."
+   ]
+  },
+  {
+   "id": 15,
+   "prompt": "Audit this repository, which has nine months of git history, quarterly release tags, a single dominant commit author, and no CI pipeline or incident data. Assess delivery health.",
+   "expected_output": "A Delivery Practice & Team Continuity section that reports source-derived DORA proxies, marks telemetry-dependent metrics NOT SPECIFIED, and rates key-person concentration.",
+   "files": [],
+   "expectations": [
+    "All five DORA metrics appear: change lead time, deployment frequency, failed deployment recovery time, change fail rate, and deployment rework rate.",
+    "Deployment frequency and change lead time carry computed proxy values labeled as source-derived proxies, while the three telemetry-dependent metrics read NOT SPECIFIED.",
+    "A bus-factor rating is derived from commit-author concentration using the documented thresholds.",
+    "Commit data is presented as aggregate evidence without inferring individual competence or assigning blame.",
+    "Missing support, cost, and supplier-obligation evidence is recorded as UNKNOWN rather than omitted.",
+    "The absent CI/CD pipeline is still recorded as a finding, and its `Absence` field classifies the absence from repository signals (Appears intentional, Appears an oversight, or Undetermined) without attributing motive."
+   ]
+  },
+  {
+   "id": 16,
+   "prompt": "Audit this repository, which contains an unauthenticated file-upload endpoint rated HIGH severity. Assess findings structure and exploitability reasoning.",
+   "expected_output": "Findings that carry a Type tag separating observation from concern, and an exploitability narrative in the Exploitability field of the network-facing security finding that stays theoretical.",
+   "files": [],
+   "expectations": [
+    "Every finding carries a Type field reading Observation or Concern, and every Evidence Ledger row carries the same tag.",
+    "The HIGH security finding on the upload endpoint carries an Exploitability field with a tier, preconditions, attack-path steps, trust boundaries, impact, and uncertainty.",
+    "The narrative is marked Theoretical and NOT EXECUTED, states the live validation needed, and never claims exploitation occurred.",
+    "The Scope Exclusions name dynamic penetration testing as not performed by default and point to a separately commissioned engagement.",
+    "No finding, risk, or recommendation asserts verified runtime exploitability."
+   ]
+  },
+  {
+   "id": 17,
+   "prompt": "Write the audit report in Polish for a repository with manifests, a HIGH network-facing security finding, and partial git history. Use the skill's Polish rendering rules.",
+   "expected_output": "A Polish report whose new sections and tags match translations/polish-language.md verbatim, preserving machine tokens and settled terminology.",
+   "files": [],
+   "expectations": [
+    "New section headings match the dictionary verbatim: Macierz pokrycia typów audytu i poziomu zapewnienia, Zestawienie składników oprogramowania, Przegląd zgodności licencyjnej i IP, Praktyka dostarczania i ciągłość zespołu.",
+    "Coverage statuses render as OBJĘTE, CZĘŚCIOWO OBJĘTE, NIEPRZEPROWADZONE, or NIE DOTYCZY, and finding Type tags render Obserwacja or Zastrzeżenie.",
+    "Exploitability tiers render TEORETYCZNY, POTWIERDZONE STATYCZNIE, or ZWERYFIKOWANE DYNAMICZNIE, while IDs, CWE references, and file paths stay unchanged.",
+    "The scorecard dimension renders Dostarczanie i ciągłość, and DORA metric names follow the dictionary.",
+    "Loanwords such as commit, pull request, copyleft, SBOM, and due diligence stay untranslated and established terms such as Ważność, Panel zdrowia, and kryterium jakości are used."
+   ]
+  },
+  {
+   "id": 18,
+   "prompt": "Audit this repository. A previous audit report exists in docs/report/ but the user asks for a fresh audit that does not compare against it.",
+   "expected_output": "A new revisioned report that leaves the previous report untouched, ignores its content, and restarts finding, risk, and recommendation identifiers.",
+   "files": [],
+   "expectations": [
+    "The audit-mode confirmation is skipped because the user already stated a fresh audit.",
+    "The report revision and filename still increment from the previous report's revision, and the previous file is not overwritten.",
+    "The report omits the Changes Since Previous Audit section and the Previous Report row in Document Information.",
+    "Finding, risk, and recommendation identifiers restart at -001 rather than continuing the previous report's sequences.",
+    "The full Parameter Configuration phase runs because no parameters are recovered from the previous report."
+   ]
+  },
+  {
+   "id": 19,
+   "prompt": "Re-audit this repository, but change the detail level to Brief and the evaluation scale to 1-5.",
+   "expected_output": "A re-audit that preserves comparison semantics while applying the new parameters, with the parameter differences flagged as capability changes.",
+   "files": [],
+   "expectations": [
+    "When a previous report is found and the mode is unstated, the audit-mode question offers three options: re-audit, re-audit with changed parameters, and fresh audit.",
+    "A parameter-change request selects or is offered the re-audit-with-changed-parameters mode rather than a fresh audit.",
+    "Recovered parameters become defaults, and only the parameters the user names are re-asked, with the recovered value marked as the previous default.",
+    "Finding, risk, and recommendation identifiers keep continuity, and the Changes Since Previous Audit section lists the parameter differences as capability changes.",
+    "The report revision and filename still increment from the previous report's revision, and the previous file is not overwritten.",
+    "The Brief report omits the Recommendation Classification section and records the omission in Scope Exclusions."
+   ]
+  },
+  {
+   "id": 20,
+   "prompt": "Audit this repository, which is a collection of Agent Skills under skills/ with one SKILL.md per subdirectory. Check each skill against the Agent Skills specification.",
+   "expected_output": "A Skill Definition Conformance section holding a Skills Inventory matrix that covers every discovered skill, with per-skill detail for non-PASS skills.",
+   "files": [],
+   "expectations": [
+    "The Skills Inventory matrix lists every discovered SKILL.md with its path, name-directory match, status, and key gaps.",
+    "Every non-PASS skill receives dimension-level detail with evidence and FND identifiers.",
+    "Duplicate name declarations or name-directory mismatches are reported as findings.",
+    "The aggregate conformance status follows the weakest skill rather than an average."
+   ]
+  },
+  {
+   "id": 21,
+   "prompt": "Audit this application repository. Alongside the application code it contains agent skill directories under .claude/skills/, each with its own SKILL.md, some vendored from a marketplace and some written for this project.",
+   "expected_output": "An audit that classifies each discovered skill as authored or installed, asks the skills-scope question for the authored ones, and keeps installed skills visible but excluded.",
+   "files": [],
+   "expectations": [
+    "Intake discovers the SKILL.md files under .claude/skills/ and classifies each as authored, installed, or undetermined from repository signals before scoping.",
+    "The skills-scope question is asked only for authored skills, deciding components versus independent projects before Parameter Configuration.",
+    "Installed or externally installed skill directories are not audit subjects: they appear in the project-inclusion list unchecked with an installed/external annotation.",
+    "Excluded skills still appear in the Skills Inventory marked Out of scope, and the exclusion is disclosed in Scope Exclusions."
+   ]
+  },
+  {
+   "id": 22,
+   "prompt": "Audit this Agent Skill for specification conformance. State which authoritative baseline the checks ran against.",
+   "expected_output": "A Skill Definition Conformance assessment anchored to the bundled spec corpus with the baseline recorded.",
+   "files": [],
+   "expectations": [
+    "The report records the spec baseline used: the references/agent-skills.md snapshot date, or the live-fetch result when the optional check ran.",
+    "When the specification cannot be fetched, conformance runs against the bundled snapshot and the limitation is disclosed rather than hidden.",
+    "A spec drift between the snapshot and a fetched live version is reported in Limitations and Unknowns, not silently applied.",
+    "External validation such as skills-ref is recorded only when a committed or supplied result exists, marked as Reported evidence."
+   ]
+  },
+  {
+   "id": 23,
+   "prompt": "Audit this repository with default parameters after answering the parameter questions. Explain how the report's Time taken value is produced.",
+   "expected_output": "A report whose Time taken measures only the audit work, from the clock reading taken after parameter resolution to a final clock reading made as the last operation before delivery.",
+   "files": [],
+   "expectations": [
+    "The start timestamp is read from the system clock immediately after all parameter questions are resolved, not at the start of intake.",
+    "A final system-clock reading is taken as the last operation of report production, after the checklist, validator, and parity gate have passed.",
+    "The Time taken row shows MM:SS computed from the post-configuration reading to the final reading.",
+    "When no reliable start timestamp exists, the Time taken row is omitted rather than estimated.",
+    "The completion message reports the same elapsed value as the report row."
+   ]
+  },
+  {
+   "id": 24,
+   "prompt": "Produce an audit report with a Glossary for a subject rich in acronyms. Describe how glossary body links are inserted and kept correct across later prose edits.",
+   "expected_output": "A scripted glossary-linking pass that runs before table formatting, applies the validator's exemption rules, and re-runs whenever report prose changes.",
+   "files": [],
+   "expectations": [
+    "The glossary index terms are collected before body linking, and each link targets the term's own anchor: #glossary for index-only terms and the ### slug for described terms.",
+    "Linking is performed by the scripts/link-glossary.py helper rather than by hand-inserted links.",
+    "The linking pass runs before format-table.py and re-runs whenever report prose containing acronyms changes.",
+    "Occurrences inside fenced code, inline code, headings, URLs, existing links, hyphenated identifiers, and capitalized compound names stay unlinked.",
+    "Variant forms such as HTTPS for HTTP(S), P2 for P1-P4, and the plural SLOs are linked to the indexed term.",
+    "The linking pass preserves the report's existing line-ending style rather than normalizing the file."
+   ]
+  },
+  {
+   "id": 25,
+   "prompt": "Change the report contract to add a section or parity row. What keeps the prose contract and the mechanical validator in agreement?",
+   "expected_output": "A change that updates the prose contract and scripts/validate-report.py in the same commit, verified by validating a produced report.",
+   "files": [],
+   "expectations": [
+    "The baseline section count and names stated in process/report-format.md match the required-section check in scripts/validate-report.py.",
+    "The PAR row coverage stated in the Validation Record contract matches the parity-row loop in scripts/validate-report.py.",
+    "The required glossary terms and linking rules stated in the contract match the glossary checks in scripts/validate-report.py.",
+    "Helper blocks mirrored verbatim between link-glossary.py and validate-report.py are updated together in the same change.",
+    "The change is verified by formatting and validating a produced report to zero issues, not by reading the documents alone."
+   ]
+  },
+  {
+   "id": 26,
+   "prompt": "Review PREPARATION.md and produce amendment instructions. The document describes how to prepare a repository for work with code-generation tools.",
+   "expected_output": "A Review report that evaluates the document and lists corrections and amendment instructions without executing the documented procedure.",
+   "files": [],
+   "expectations": [
+    "The report follows the review contract: a Reviewed baseline and Review date statement, Assessment, a Findings and Corrections table with Existing section, Finding, and Required correction columns, Required Changes, Suggested Amendment Order, and a Public Source Register with [S#] citations.",
+    "Required Changes and Suggested Amendment Order are present even when the review finds no required changes.",
+    "The report carries a revisioned REVIEW-<revision>.md filename such as REVIEW-1.0.md.",
+    "The report does not claim the documented procedure was executed, and unrun checks are marked NOT RUN.",
+    "The report carries no audit-only sections such as the Audit Type Coverage & Assurance Matrix, scorecard, risk register, or PAR parity rows."
+   ]
+  },
+  {
+   "id": 27,
+   "prompt": "Review this codebase and tell me whether it is ready for production. Do not produce a review report.",
+   "expected_output": "An Audit report: the ambiguous wording without an explicit review-report request keeps the default audit type.",
+   "files": [],
+   "expectations": [
+    "The agent produces an Audit report, not a Review report, because no review report with amendments was explicitly requested.",
+    "The Report type row in the parameter summary reads Audit.",
+    "The report carries an AUDIT-<revision>.md filename."
+   ]
+  },
+  {
+   "id": 28,
+   "prompt": "Write the review report in Polish. Review the supplied instruction document and produce amendment instructions per the Polish rendering rules.",
+   "expected_output": "A Polish Review report using the review mappings from translations/polish-language.md with a PRZEGLĄD filename.",
+   "files": [],
+   "expectations": [
+    "Review headings render in Polish: Ocena, Ustalenia i poprawki, Wymagane zmiany w <subject>, Sugerowana kolejność zmian, Rejestr źródeł publicznych.",
+    "The findings table headers render Istniejąca sekcja, Ustalenie, and Wymagana poprawka.",
+    "The filename uses the PRZEGLĄD stem, such as PRZEGLĄD-1.0.md.",
+    "Source-register identifiers S1-Sn stay unchanged and are cited inline as [S#]."
+   ]
+  },
+  {
+   "id": 29,
+   "prompt": "Audit this repository, whose documentation references automated checks and a .github/workflows directory that does not exist in the tree. Assess how the report treats the missing pipeline.",
+   "expected_output": "A report that still records the absent CI/CD capability as a finding and classifies the absence from repository signals.",
+   "files": [],
+   "expectations": [
+    "The absent CI/CD capability produces a finding rather than being dropped as out of scope.",
+    "The finding's Absence field reads Appears an oversight, citing the signals such as pipeline references or automation-adjacent directories.",
+    "The assessment is grounded in observable repository evidence and does not claim to know the authors' intent.",
+    "Recommendations resolving the finding land in the Recommendation Classification with a class that reflects the undetermined intent."
+   ]
+  },
+  {
+   "id": 30,
+   "prompt": "Audit this repository with the default Standard detail level. The report is intended to seed change documents, so recommendations need a disposition.",
+   "expected_output": "A report whose Recommendation Classification section follows the roadmap and dispositions every recommendation.",
+   "files": [],
+   "expectations": [
+    "A Recommendation Classification section appears after the Actionable Remediation Roadmap and before Scope Exclusions.",
+    "Every REC-XXX from the roadmap appears exactly once with a class of Recommended, Optional, or Not recommended and a short basis.",
+    "A recommendation whose finding's intent or timing is undetermined is classified Not recommended, with a note on what evidence would reclassify it.",
+    "P1-P4 priority is preserved separately from the class.",
+    "No new findings or recommendations are introduced by the section."
+   ]
+  },
+  {
+   "id": 31,
+   "prompt": "Audit this repository with default report parameters. Check that the report uses the current one-word field vocabulary.",
+   "expected_output": "A report whose finding and risk blocks and register tables use the renamed field schema.",
+   "files": [],
+   "expectations": [
+    "Finding blocks carry the contract fields in order: Pillar, Severity, Type, Security, Status, Targets, Basis, Absence, Description, Impact, Recommendation, Method, Verified, Confidence, Countercheck, Exploitability, Evidence.",
+    "No legacy field names appear: Target Files/Modules, Requirement Basis, Verification State, Counter-check, Security Classification, Remediation Recommendation, Verification Method, Exploitability Narrative, or Remediation Status.",
+    "The findings summary table uses Finding, Result, Status, and Verification columns, with Verification limited to Verified, Confirmed, Reported, or empty.",
+    "Risk blocks use Severity, Likelihood, Residual, Status, Owner, Description, Impact, Trigger, Controls, Mitigation, Closure, Source, Confidence order, and the risk table uses Source rather than Source Finding.",
+    "Debt and recommendation tables use the harmonized headers: Debt/Item/Source/Cost/Delay and Rec."
+   ]
+  },
+  {
+   "id": 32,
+   "prompt": "Audit this repository with default report parameters. Check the table shapes in the generated report.",
+   "expected_output": "A report whose ledger, scorecard, threat model, and standards tables follow the trimmed column contract.",
+   "files": [],
+   "expectations": [
+    "The Verification And Evidence Ledger has no Execution column, and no Project column in a single-project report.",
+    "A documented but unrun check records NOT RUN in the Result column.",
+    "The Scorecard Summary omits rows whose score is N/A, and at Detailed names each excluded dimension with its reason in a paragraph below the table.",
+    "The Threat Model table uses STRIDE, Threat Description, Control, and Finding columns, and a threat with no linked finding leaves the Finding cell empty.",
+    "The Standards Conformance table uses the Area column header."
+   ]
+  },
+  {
+   "id": 33,
+   "prompt": "Re-audit this repository against the previous report, which was written under the old field schema with Remediation Status, Source Finding, and Exploitability Narrative fields.",
+   "expected_output": "A re-audit that still compares transitions correctly by reading the old report through the legacy field-name mapping.",
+   "files": [],
+   "expectations": [
+    "Legacy field names in the previous report are interpreted through the mapping in synthesis/report-comparison.md, for example Remediation Status as Status plus Verification.",
+    "Finding transitions still key on FND-XXX despite the renamed columns and fields.",
+    "The schema rename is recorded as a capability change, not as a finding transition or product change.",
+    "The new report itself uses only the current field names."
+   ]
+  },
+  {
+   "id": 34,
+   "prompt": "Audit this repository, which contains a backend service, a frontend application, and a utility library in sibling directories. Produce a combined audit.",
+   "expected_output": "An intake that collects the project list and confirms inclusion through a multi-select question before Parameter Configuration, then produces a multi-project report covering the confirmed projects.",
+   "files": [],
+   "expectations": [
+    "Intake collects the list of identified projects with paths before configuring parameters.",
+    "A blocking project-inclusion question presents every project as a checkbox item with recommended projects checked by default.",
+    "Unchecked projects are disclosed in Scope Exclusions with their reason and receive no per-project report block.",
+    "The confirmed projects each receive their own findings, scorecard, and registers inside one combined report."
+   ]
+  },
+  {
+   "id": 35,
+   "prompt": "Audit this repository that ships two authored skills under skills/ and also has third-party skills installed under .claude/skills/.",
+   "expected_output": "A report whose authored skills are audited and whose installed skills are listed unchecked at intake and marked out of scope in the inventory.",
+   "files": [],
+   "expectations": [
+    "Authored skills under skills/ are recommended for inclusion and checked by default in the inclusion question.",
+    "Installed skills under .claude/skills/ are listed unchecked with an installed/external annotation and bypass the skills-scope question.",
+    "The Skills Inventory still lists excluded skills with an Out of scope status and the exclusion reason.",
+    "The report does not produce findings, scorecards, or register rows for excluded skills."
+   ]
+  },
+  {
+   "id": 36,
+   "prompt": "Audit this repository that contains no SKILL.md but ships AGENTS.md, a .cursor/rules/ directory of .mdc files, a legacy .windsurfrules file, and a .claude-plugin/plugin.json manifest.",
+   "expected_output": "A Skill Definition Conformance section that inventories every agent-facing artifact and checks each against its format baseline from references/agent-configuration.md.",
+   "files": [],
+   "expectations": [
+    "Discovery finds AGENTS.md, the Cursor rules directory, the deprecated .windsurfrules file, and the plugin manifest even without any SKILL.md.",
+    "Each artifact is checked against its format baseline: .mdc frontmatter fields, deprecated flat files, manifest name and resolvable component paths.",
+    "The Agent Artifacts table lists every discovered item with a per-item status, and hard violations become findings.",
+    "The section records which baseline (snapshot or live fetch) was used per format."
+   ]
+  }
+ ]
 }
