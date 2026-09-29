@@ -2,18 +2,21 @@
 
 ## Purpose
 
-> **Scope:** Strengths, detailed findings, and the debt, risk, and roadmap registers
-> **Key items:** finding blocks, TDR items, RSK items, REC items, severity and priority vocabularies
+> **Scope:** Strengths, detailed findings, the debt, risk, and roadmap registers, and the
+> recommendation classification
+> **Key items:** finding blocks, TDR items, RSK items, REC items, severity and priority
+> vocabularies, recommendation classes
 
 ## Contents
 
-| Section                        | Line | What it covers                    |
-|--------------------------------|------|-----------------------------------|
-| Strengths & What's Working     | 18   | Evidence-based positive baselines |
-| Detailed Technical Findings    | 56   | Finding summary and detail blocks |
-| Technical Debt Register        | 188  | Distinct accumulated debt         |
-| Unified Risk Register          | 236  | Cross-referenced risks            |
-| Actionable Remediation Roadmap | 327  | Prioritized recommendations       |
+| Section                        | Line | What it covers                       |
+|--------------------------------|------|--------------------------------------|
+| Strengths & What's Working     | 18   | Evidence-based positive baselines    |
+| Detailed Technical Findings    | 56   | Finding summary and detail blocks    |
+| Technical Debt Register        | 219  | Distinct accumulated debt            |
+| Unified Risk Register          | 267  | Cross-referenced risks               |
+| Actionable Remediation Roadmap | 358  | Prioritized recommendations          |
+| Recommendation Classification  | 429  | Recommended/Optional/Not recommended |
 
 ## Strengths & What's Working
 
@@ -68,15 +71,25 @@ When the report language is not English, apply the heading translation from the 
 
 Present a compact summary of all findings:
 
-| Finding ID  | Pillar                                    | Severity   | Title   | Status   | Remediation Status |
-|-------------|-------------------------------------------|------------|---------|----------|--------------------|
-| FND-ARC-001 | Architecture & Design                     | <severity> | <title> | <status> | Open               |
-| FND-CQY-001 | Code Quality                              | <severity> | <title> | <status> | Open               |
-| FND-SEC-001 | Security & Compliance                     | <severity> | <title> | <status> | Open               |
-| FND-INF-001 | Infrastructure & CI/CD                    | <severity> | <title> | <status> | Open               |
-| FND-AIP-001 | AI Provenance & Code Origin               | <severity> | <title> | <status> | Open               |
-| FND-CPR-001 | Copyrights & Originality                  | <severity> | <title> | <status> | Open               |
-| FND-API-001 | API Compatibility & Versioning Discipline | <severity> | <title> | <status> | Open               |
+| Finding     | Pillar                                    | Severity   | Title   | Result   | Status | Verification |
+|-------------|-------------------------------------------|------------|---------|----------|--------|--------------|
+| FND-ARC-001 | Architecture & Design                     | <severity> | <title> | <result> | Open   | <verifier>   |
+| FND-CQY-001 | Code Quality                              | <severity> | <title> | <result> | Open   | <verifier>   |
+| FND-SEC-001 | Security & Compliance                     | <severity> | <title> | <result> | Open   | <verifier>   |
+| FND-INF-001 | Infrastructure & CI/CD                    | <severity> | <title> | <result> | Open   | <verifier>   |
+| FND-AIP-001 | AI Provenance & Code Origin               | <severity> | <title> | <result> | Open   | <verifier>   |
+| FND-CPR-001 | Copyrights & Originality                  | <severity> | <title> | <result> | Open   | <verifier>   |
+| FND-API-001 | API Compatibility & Versioning Discipline | <severity> | <title> | <result> | Open   | <verifier>   |
+
+Column meanings:
+
+- **Finding**: the `FND-XXX` identifier.
+- **Result**: the assessment status of the evaluated control,
+  `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, or `N/A`.
+- **Status**: the finding lifecycle, `New`, `Open`, `Closed`, or `PASS` for a re-verified
+  passing control.
+- **Verification**: the evidence qualifier, `Verified`, `Confirmed`, `Reported`, or empty for
+  a `New` finding.
 
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
@@ -95,10 +108,12 @@ When the report language is not English, apply the pillar name translations from
 `translations/` file.
 
 Severity values: `CRITICAL`, `HIGH`, `MEDIUM`, `LOW`.
-Status values: `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`.
+Result values: `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`.
+Status values: `New`, `Open`, `Closed`, `PASS`.
 
 When the report language is not English, these tokens render in the localized forms defined by
-the matching `translations/` file, along with execution states such as `NOT RUN`, `NOT ASSESSED`,
+the matching `translations/` file, along with verification qualifiers `Verified`, `Confirmed`,
+and `Reported`, and result markers such as `NOT RUN`, `NOT ASSESSED`,
 `NOT INSPECTED`, `EXCLUDED BY SCOPE`, and `INSUFFICIENT INFORMATION`.
 
 **Detailed findings**
@@ -115,19 +130,22 @@ Use this exact markdown block pattern:
   Versioning Discipline]
 * **Severity:** [Critical | High | Medium | Low]
 * **Type:** [Observation | Concern]
-* **Target Files/Modules:** [Exact paths or components evaluated]
-* **Requirement Basis:** [Applicable requirement or explicitly optional improvement]
-* **Evidence:** [EVD IDs, source lines, and inspected/executed/reported/inferred basis]
-* **Confidence:** [HIGH / MEDIUM / LOW with rationale]
-* **Verification State:** [Observed result, or pending with limitations]
-* **Counter-check:** [Refuting evidence examined and remaining uncertainty]
-* **Security Classification:** [CWE and rationale, CVSS version/vector/score or gap, or N/A]
+* **Security:** [CWE and rationale, CVSS version/vector/score or gap, or N/A]
+* **Status:** [New | Open | Closed | PASS]
+* **Targets:** [Exact paths or components evaluated]
+* **Basis:** [Applicable requirement or explicitly optional improvement]
+* **Absence:** [Appears intentional | Appears an oversight | Undetermined | N/A] -
+  [one-line evidence basis]
 * **Description:** [Detailed technical explanation of the discovered state, architectural
   anti-pattern, or code flaw]
 * **Impact:** [Concrete operational, business, or security consequence if left unremediated]
-* **Remediation Recommendation:** [Step-by-step technical guidance to resolve the finding]
-* **Verification Method:** [Specific test, command, or process to confirm the fix is successful]
-* **Exploitability Narrative:** [Tier + attack-path reasoning, or N/A with reason]
+* **Recommendation:** [Step-by-step technical guidance to resolve the finding]
+* **Method:** [Specific test, command, or process to confirm the fix is successful]
+* **Verified:** [yes | no, with a short qualifier]
+* **Confidence:** [HIGH / MEDIUM / LOW with rationale]
+* **Countercheck:** [Refuting evidence examined and remaining uncertainty]
+* **Exploitability:** [Tier + attack-path reasoning, or N/A with reason]
+* **Evidence:** [EVD IDs, source lines, and inspected/reported/inferred basis]
 ```
 
 When the report language is not English, apply the bullet label translations from the matching
@@ -140,8 +158,8 @@ Do not crowd the bullet list with long prose.
 Use short sentences separated by blank lines,
 each sentence stands on its own line with an empty line between consecutive sentences.
 
-Every finding must include a detailed Description, Impact, Remediation Recommendation,
-and Verification Method.
+Every finding must include a detailed Description, Impact, Recommendation,
+and Method.
 
 A finding with only a title and status is incomplete.
 
@@ -150,17 +168,30 @@ where it is located (citing file paths and line numbers), and why it constitutes
 
 The Impact must state the concrete consequence.
 
-The Remediation Recommendation must provide step-by-step technical guidance.
+The Recommendation must provide step-by-step technical guidance.
 
-The Verification Method must specify a test or command to confirm the fix.
+The Method must specify a test or command to confirm the fix.
+
+The `Verified` field states whether the current audit verified the claim:
+`yes` for a re-derived or confirmed observation, `no` for pending verification,
+each with a short qualifier such as `yes - observed in source`.
+
+The `Status` field carries the lifecycle state: `New`, `Open`, `Closed`,
+or `PASS` for a re-verified passing control.
 
 The `Type` field separates fact from judgment per `principles/evaluation-rules.md`:
 `Observation` for a finding stating an independently re-derivable fact,
 `Concern` for a risk judgment built on observations.
 
+The `Absence` field carries the token from `principles/evaluation-rules.md` on every
+finding that records an absent capability: `Appears intentional`, `Appears an oversight`, or
+`Undetermined`, each followed by a one-line evidence basis.
+
+On every other finding the field reads `N/A` with a one-line reason.
+
 Most findings are `Concern`.
 
-The `Exploitability Narrative` field is required on every `HIGH` or `CRITICAL` Security & Compliance
+The `Exploitability` field is required on every `HIGH` or `CRITICAL` Security & Compliance
 finding, following `references/exploitability-narrative.md`.
 
 On a network-facing surface it carries the tier and attack-path reasoning.
@@ -200,9 +231,9 @@ full method application only when its models were used.
 
 Use this fixed column order:
 
-| Debt ID | Debt Item   | Category         | Source Finding | Remediation Cost | Cost of Delay | Status |
-|---------|-------------|------------------|----------------|------------------|---------------|--------|
-| TDR-001 | <debt item> | <characteristic> | <FND ID>       | <range or gap>   | <cost or gap> | Open   |
+| Debt    | Item        | Category         | Source   | Cost           | Delay         | Status |
+|---------|-------------|------------------|----------|----------------|---------------|--------|
+| TDR-001 | <debt item> | <characteristic> | <FND ID> | <range or gap> | <cost or gap> | Open   |
 
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
@@ -222,11 +253,11 @@ Use this exact markdown block pattern:
 ### TDR-[NUMBER]: [Clear, Concise Title of Debt Item]
 
 * **Category:** [Reliability | Performance Efficiency | Security | Maintainability]
-* **Source Finding:** [FND-XXX or Direct observation]
+* **Source:** [FND-XXX or Direct observation]
 * **Description:** [Detailed technical explanation of the debt, what it is, where it is located,
   and why it constitutes debt]
-* **Remediation Cost:** [Supported effort range, unit, basis, confidence, or gap token]
-* **Cost of Delay:** [Supported ongoing cost, horizon, basis, confidence, or gap token]
+* **Cost:** [Supported effort range, unit, basis, confidence, or gap token]
+* **Delay:** [Supported ongoing cost, horizon, basis, confidence, or gap token]
 * **Status:** [Open | In progress | Resolved]
 ```
 
@@ -241,18 +272,18 @@ Every risk must trace back to a specific finding.
 
 **Table format:**
 
-| Risk ID | Risk            | Source Finding | Impact        | Likelihood    | Severity   | Mitigation |
-|---------|-----------------|----------------|---------------|---------------|------------|------------|
-| RSK-001 | <concrete risk> | FND-XXX        | <consequence> | <probability> | <severity> | <action>   |
+| Risk    | Description     | Source  | Impact        | Likelihood    | Severity   | Mitigation |
+|---------|-----------------|---------|---------------|---------------|------------|------------|
+| RSK-001 | <concrete risk> | FND-XXX | <consequence> | <probability> | <severity> | <action>   |
 
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
 
 Column meanings:
 
-- **Risk ID**: `RSK-[001]` ascending.
-- **Risk**: a concrete technical risk, stated neutrally.
-- **Source Finding**: the `FND-XXX` identifier that produced this risk.
+- **Risk**: `RSK-[001]` ascending.
+- **Description**: a concrete technical risk, stated neutrally.
+- **Source**: the `FND-XXX` identifier that produced this risk.
 - **Impact**: the consequence if the risk is realized.
 - **Likelihood**: how probable the risk is given the evidence.
 - **Severity**: one of `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`.
@@ -305,20 +336,20 @@ Use this exact markdown block pattern:
 ```markdown
 ### RSK-[NUMBER]: [Clear, Concise Title of Risk]
 
-* **Source Finding:** [FND-XXX]
+* **Severity:** [LOW | MEDIUM | HIGH | CRITICAL]
+* **Likelihood:** [How probable the risk is given the evidence, with justification]
+* **Residual:** [Remaining risk after the proposed mitigation, or `UNKNOWN`]
+* **Status:** [Open | Accepted | Transferred | Monitoring | Closed]
+* **Owner:** [Role or `NOT SPECIFIED`]
 * **Description:** [Detailed technical explanation of the risk, what could go wrong, and under
   what conditions]
 * **Impact:** [Concrete consequence if the risk is realized]
-* **Likelihood:** [How probable the risk is given the evidence, with justification]
-* **Severity:** [LOW | MEDIUM | HIGH | CRITICAL]
-* **Confidence:** [HIGH | MEDIUM | LOW with rationale]
-* **Triggering Condition:** [Threat, failure event, or predisposing condition]
-* **Existing Controls:** [Present controls and verification state]
+* **Trigger:** [Threat, failure event, or predisposing condition]
+* **Controls:** [Present controls and verification state]
 * **Mitigation:** [Neutral, optional action that would reduce the risk]
-* **Residual Risk:** [Remaining risk after the proposed mitigation, or `UNKNOWN`]
-* **Treatment State:** [Open | Accepted | Transferred | Monitoring | Closed]
-* **Owner:** [Role or `NOT SPECIFIED`]
-* **Closure Trigger:** [Evidence or event that starts re-verification]
+* **Closure:** [Evidence or event that starts re-verification]
+* **Source:** [FND-XXX]
+* **Confidence:** [HIGH | MEDIUM | LOW with rationale]
 ```
 
 When the report language is not English, apply the bullet label translations from the matching
@@ -338,7 +369,7 @@ One row per recommendation.
 
 Use this fixed column order:
 
-| Rec ID  | Priority | Finding | Recommendation | Impact         | Effort         | Complexity     | Verification        |
+| Rec     | Priority | Finding | Recommendation | Impact         | Effort         | Complexity     | Verification        |
 |---------|----------|---------|----------------|----------------|----------------|----------------|---------------------|
 | REC-001 | <P1-P4>  | FND-XXX | <action>       | <High/Med/Low> | <High/Med/Low> | <High/Med/Low> | <verification step> |
 
@@ -347,7 +378,7 @@ When the report language is not English, apply the column header translations fr
 
 Column meanings:
 
-- **Rec ID**: `REC-[001]` ascending.
+- **Rec**: `REC-[001]` ascending.
 - **Priority**: `P1` (immediate), `P2` (short-term), `P3` (medium-term), `P4` (long-term).
 - **Finding**: the `FND-XXX` identifier this recommendation resolves.
 - **Recommendation**: a concise, actionable technical step.
@@ -394,3 +425,46 @@ For readiness or due diligence, include the supported cost rollup and dependency
 
 Numeric totals require evidence-based compatible units, unknown work remains visible beside any
 known subtotal.
+
+## Recommendation Classification
+
+Include this section when the detail level is `Standard` or `Detailed` and the Actionable
+Remediation Roadmap is present.
+
+Omit it at `Brief`, or when improvement suggestions are disabled, and record the omission in
+Scope Exclusions.
+
+The section follows the Actionable Remediation Roadmap and precedes Scope Exclusions.
+
+It assigns every recommendation a disposition class so the report can serve directly as a basis
+for change documents.
+
+Not every accurate finding warrants action at the current moment, the class records that judgment.
+
+Use this fixed column order:
+
+| Rec     | Recommendation | Class            | Basis          |
+|---------|----------------|------------------|----------------|
+| REC-001 | <action>       | <class>          | <short reason> |
+
+When the report language is not English, apply the column header translations from the matching
+`translations/` file.
+
+Column meanings:
+
+- **Rec**: the `REC-[001]` identifier from the Actionable Remediation Roadmap.
+- **Recommendation**: the recommendation summary from the roadmap row.
+- **Class**: one of `Recommended`, `Optional`, or `Not recommended`.
+- **Basis**: a short reason for the classification, such as `blocks readiness gate`,
+  `optional improvement`, or `intent undetermined`.
+
+**Rules**
+
+- Every `REC-XXX` in the roadmap appears exactly once in this table.
+- The class complements the P1-P4 priority: priority orders urgency, class records whether the
+  report advises acting now given current evidence.
+- A `Not recommended` row keeps its priority for the moment its blocking uncertainty resolves.
+- After the table, write one paragraph per `Not recommended` entry naming the evidence or decision
+  that would reclassify it, using the bold-heading paragraph pattern.
+- The section introduces no new findings and no new recommendations.
+- In a multi-project report the section is per-project, following that project's roadmap.

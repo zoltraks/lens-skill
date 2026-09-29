@@ -107,9 +107,15 @@ all findings are based on static inspection of the repository contents."
 
 Include the per-project check summary and evidence records from `process/audit-workflow.md`.
 
-| Evidence ID | Project   | Check / Source      | Execution | Result   | Type          | Artifact      |
-|-------------|-----------|---------------------|-----------|----------|---------------|---------------|
-| EVD-001     | <project> | <source or command> | <state>   | <result> | <obs/concern> | <path or gap> |
+| Evidence | Check / Source      | Result   | Type          | Artifact      |
+|----------|---------------------|----------|---------------|---------------|
+| EVD-001  | <source or command> | <result> | <obs/concern> | <path or gap> |
+
+The audit never executes checks, so there is no execution column: a documented but unrun check
+writes `NOT RUN - <what the check would establish>` in `Result`, and a source observation
+carries the observed result directly.
+
+A `Project` column follows `Evidence` only in a multi-project report.
 
 The `Type` column carries `Observation` or `Concern` per `principles/evaluation-rules.md`:
 
@@ -230,7 +236,7 @@ for empty positions, such as `★★★☆☆` for `3`.
 
 For `3 stars`, use three positions, such as `★★☆` for `2`.
 
-Render `UNKNOWN` and `N/A` as text, not as star bars.
+Render `UNKNOWN` as text, not as a star bar; `N/A` rows are omitted from the table entirely.
 
 **Zero is not a score.** The value `0` is reserved and never used.
 

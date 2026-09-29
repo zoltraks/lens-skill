@@ -35,22 +35,22 @@ Do not duplicate the risk register here.
 
 Use this fixed column order:
 
-| Debt ID | Debt Item | Category | Source Finding | Remediation Cost | Cost of Delay | Status |
-|---------|-----------|----------|----------------|------------------|---------------|--------|
+| Debt | Item | Category | Source | Cost | Delay | Status |
+|------|------|----------|--------|------|-------|--------|
 
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
 
 Column meanings:
 
-- **Debt ID**: `TDR-[001]` ascending sequentially.
-- **Debt Item**: a concrete, neutrally stated debt, anchored to a file or pattern.
+- **Debt**: `TDR-[001]` ascending sequentially.
+- **Item**: a concrete, neutrally stated debt, anchored to a file or pattern.
 - **Category**: one of the CISQ characteristics the debt degrades: `Reliability`,
   `Performance Efficiency`, `Security`, `Maintainability`.
-- **Source Finding**: the `FND-XXX` identifier that produced this item, or `Direct observation` when
+- **Source**: the `FND-XXX` identifier that produced this item, or `Direct observation` when
   it stems from code review without a standalone finding.
-- **Remediation Cost**: evidence-based person-hour/day range, or `INSUFFICIENT INFORMATION`.
-- **Cost of Delay**: quantified ongoing cost over a stated horizon, or `INSUFFICIENT INFORMATION`.
+- **Cost**: evidence-based person-hour/day range, or `INSUFFICIENT INFORMATION`.
+- **Delay**: quantified ongoing cost over a stated horizon, or `INSUFFICIENT INFORMATION`.
 - **Status**: `Open` by default.
 
 ## What Belongs Here

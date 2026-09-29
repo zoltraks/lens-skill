@@ -42,6 +42,12 @@ Use this fixed column order and dimension set:
 
 Keep the dimension names and order identical across every audit so scores are comparable.
 
+Omit rows whose score is `N/A` from the rendered table entirely: the table lists scored
+dimensions only.
+
+At the `Detailed` level, add a paragraph below the table naming each omitted `N/A` dimension and
+its applicability reason.
+
 The Delivery & Continuity dimension summarizes the Delivery Practice & Team Continuity section:
 
 delivery-practice proxies and contributor concentration per `references/delivery-practice.md`.
@@ -156,7 +162,7 @@ For `3 stars`, use the `1-3` rubric and three positions.
 
 Examples: `★★★` for `3`, `★★☆` for `2`, and `★☆☆` for `1`.
 
-Render `UNKNOWN` and `N/A` as text, not as star bars.
+Render `UNKNOWN` as text, not as a star bar; `N/A` rows are omitted from the table entirely.
 
 For an overall mean under a star scale, round to the nearest integer for the star bar and keep
 the exact mean in parentheses, for example `★★★☆☆ (3.4/5)`.
@@ -172,9 +178,10 @@ Reserve the minimum score for evidenced absence of a required capability.
 ## Handling Not Applicable
 
 When every source category for a dimension is `N/A`, mark the dimension `N/A` rather than scoring
-it.
+it, and omit its row from the rendered table.
 
-Put the applicability justification in the notes, anchored to the deployment model.
+Carry the applicability justification in the `Detailed`-level paragraph below the table,
+anchored to the deployment model.
 
 Do not let `N/A` dimensions drag a summary score.
 

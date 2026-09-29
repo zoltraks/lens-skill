@@ -65,16 +65,22 @@ so no score appears before its band is defined.
 | Skill Definition        |       |       |
 | API Compatibility       |       |       |
 
+Omit rows whose Score is `N/A` from the table entirely: the table lists scored dimensions only.
+
 The Delivery & Continuity dimension is `N/A` when Git history was not in scope, per
 `references/delivery-practice.md`.
 
 The API Compatibility dimension is `N/A` unless the subject is a reusable library or package,
 per `assessment/api-compatibility.md`.
 
+At the `Detailed` level, add a paragraph below the table naming each omitted `N/A` dimension and
+its applicability reason, for example `API Compatibility - the subject is not a reusable library
+or package`.
+
 Render each Score cell in the selected evaluation scale: `7/10` for `1-10`, `4/5` for `1-5`,
 `2/3` for `1-3`, `★★★★☆` for `5 stars`, and `★★☆` for `3 stars`.
 
-Render `UNKNOWN` and `N/A` as text, not as star bars.
+Render `UNKNOWN` as text, not as a star bar; `N/A` rows are omitted from the table entirely.
 
 When the report language is not English, apply the translations from the matching `translations/`
 file.

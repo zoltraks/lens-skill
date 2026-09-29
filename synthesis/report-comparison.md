@@ -16,6 +16,24 @@ A comparison claim follows the same evidence rules as any finding.
 A status transition is asserted only from evidence in the current audit,
 never assumed from the previous report alone.
 
+## Contents
+
+| Section                        | Line | What it covers                                   |
+|--------------------------------|------|--------------------------------------------------|
+| When This Applies              | 37   | Baseline discovery and confirmation              |
+| Fresh Audit                    | 91   | What does and does not carry over                |
+| Cross-Subject Parity Baseline  | 111  | Any-subject baseline for the parity gate         |
+| Report Revision                | 122  | Revision numbering                               |
+| Output Filename                | 141  | Revisioned filename rules                        |
+| Comparison Content             | 173  | What the Changes section compares                |
+| Re-Audit With Changed Params   | 195  | Parameter-change comparison                      |
+| Evidence Transitions           | 213  | Finding, evidence, and capability deltas         |
+| Observation Folding            | 232  | Attaching new defects to existing findings       |
+| Identifier Continuity          | 243  | FND/RSK/REC sequence rules                       |
+| Status And Verification        | 266  | Status/Verification vocabulary for re-audits     |
+| Legacy Field Names             | 285  | Old-schema-to-current name mapping               |
+| Rules                          | 329  | Comparison constraints                           |
+
 ## When This Applies
 
 Apply this file when a previously created audit report exists in the audited repository or
@@ -88,7 +106,7 @@ What does not apply:
 - No `Previous Report` row in Document Information.
 - No parameter recovery from the previous report.
 - No `FND-XXX`, `RSK-XXX`, or `REC-XXX` identifier continuity, sequences restart at `-001`.
-- No Remediation Status carryover, comparison tables, or score deltas.
+- No `Status` carryover, comparison tables, or score deltas.
 
 ## Cross-Subject Parity Baseline
 
@@ -245,19 +263,68 @@ example "Dependencies (both)" or "API Contract", create the covering finding und
 pillar sequence and mark it `New` in the finding transitions, do not carry a dangling
 reference forward.
 
-## Remediation Status
+## Status And Verification
 
-Use this fixed vocabulary in the Remediation Status column during a re-audit.
+Use this fixed vocabulary in the `Status` and `Verification` columns during a re-audit.
 
-| Status              | Meaning                                                                |
-|---------------------|------------------------------------------------------------------------|
-| `Open - Confirmed`  | The finding's anchor was re-inspected and still reproduces             |
-| `Open - Reported`   | Only historical executed evidence supports it, nothing was re-verified |
-| `Closed - Verified` | Current-audit evidence closes it, cite the closing evidence            |
-| `New`               | Minted in this revision                                                |
-| `PASS`              | A passing control, re-verified                                         |
+| Status   | Verification | Meaning                                                              |
+|----------|--------------|----------------------------------------------------------------------|
+| `Open`   | `Confirmed`  | The finding's anchor was re-inspected and still reproduces           |
+| `Open`   | `Reported`   | Only historical executed evidence supports it, nothing re-verified   |
+| `Closed` | `Verified`   | Current-audit evidence closes it, cite the closing evidence          |
+| `New`    |              | Minted in this revision                                              |
+| `PASS`   | `Verified`   | A passing control, re-verified                                       |
 
-Carry the evidence qualification inside the status rather than inventing new markers.
+Carry the evidence qualification in the `Verification` column rather than inventing new markers.
+
+A previous report may combine these in a single `Remediation Status` column:
+`Open - Confirmed` maps to `Status` `Open` plus `Verification` `Confirmed`,
+`Open - Reported` to `Open` plus `Reported`, `Closed - Verified` to `Closed` plus `Verified`,
+and `New` or `PASS` to the same `Status` with an empty `Verification`.
+
+## Legacy Field Names
+
+Reports produced by older skill versions use different field and column names.
+
+Read every previous report through this mapping before comparing, and treat the rename itself
+as a capability change per the Evidence Transitions rules.
+
+Finding block fields:
+
+| Legacy                    | Current        |
+|---------------------------|----------------|
+| Security Classification   | `Security`     |
+| Remediation Status        | `Status`       |
+| Target Files/Modules      | `Targets`      |
+| Requirement Basis         | `Basis`        |
+| Remediation Recommendation| `Recommendation`|
+| Verification Method       | `Method`       |
+| Verification State        | `Verified`     |
+| Counter-check             | `Countercheck` |
+| Exploitability Narrative  | `Exploitability`|
+
+Risk block fields: `Source Finding` -> `Source`, `Triggering Condition` -> `Trigger`,
+`Existing Controls` -> `Controls`, `Residual Risk` -> `Residual`, `Treatment State` -> `Status`,
+`Closure Trigger` -> `Closure`.
+
+Debt register: `Debt ID` -> `Debt`, `Debt Item` -> `Item`, `Source Finding` -> `Source`,
+`Remediation Cost` -> `Cost`, `Cost of Delay` -> `Delay`.
+
+Summary and register tables: `Finding ID` -> `Finding`, `Risk ID` -> `Risk` with the old `Risk`
+column read as `Description`, `Rec ID` -> `Rec`, `Evidence ID` -> `Evidence`, and the findings
+summary `Status` column holds what the current `Result` column carries.
+
+Evidence ledger: a `Project` column and an `Execution` column appear only in older reports -
+`Execution` values `NOT RUN`/`N/A` map to the current `Result` column's `NOT RUN` marker, and the
+`Project` column is present only in multi-project reports.
+
+Threat Model: `STRIDE class` -> `STRIDE`, `Existing control` -> `Control`,
+`Linked finding` -> `Finding`, and a `none` cell reads as empty.
+
+Standards Conformance: `Standard area` -> `Area`.
+
+A previous report's Scorecard Summary may list `N/A` dimensions as rows;
+the current format omits them and explains them in prose at `Detailed`.
 
 ## Rules
 

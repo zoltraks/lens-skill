@@ -21,17 +21,17 @@ Every risk must reference its source finding.
 
 Use this fixed column order:
 
-| Risk ID | Risk | Source Finding | Impact | Likelihood | Severity | Mitigation |
-|---------|------|----------------|--------|------------|----------|------------|
+| Risk | Description | Source | Impact | Likelihood | Severity | Mitigation |
+|------|-------------|--------|--------|------------|----------|------------|
 
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
 
 Column meanings:
 
-- **Risk ID**: `RSK-[001]` ascending sequentially.
-- **Risk**: a concrete technical risk, stated neutrally.
-- **Source Finding**: the `FND-[PILLAR]-[NNN]` identifier that produced this risk.
+- **Risk**: `RSK-[001]` ascending sequentially.
+- **Description**: a concrete technical risk, stated neutrally.
+- **Source**: the `FND-[PILLAR]-[NNN]` identifier that produced this risk.
 - **Impact**: the consequence if the risk is realized.
 - **Likelihood**: how probable the risk is given the evidence.
 - **Severity**: one of `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`.
@@ -95,8 +95,8 @@ Explain any difference between technical vulnerability severity and the contextu
 
 Keep confidence and verification limits visible in risk detail.
 
-For material risks, also record the triggering condition, existing controls, residual risk,
-treatment state, owner or `NOT SPECIFIED`, and closure or re-audit trigger.
+For material risks, also record the trigger, controls, residual,
+status, owner or `NOT SPECIFIED`, and closure or re-audit trigger.
 
 These fields may appear in the risk detail block when the summary table would become too wide.
 
@@ -139,3 +139,6 @@ List unrated risks beside the risk map instead of placing them in an invented ce
 ```text
 | RSK-001 | Hardcoded JWT signing key in committed config | FND-SEC-001 | Authentication bypass or token forgery | High | CRITICAL | Move key to secrets manager and rotate |
 ```
+
+The example columns follow the table order: `Risk`, `Description`, `Source`, `Impact`,
+`Likelihood`, `Severity`, `Mitigation`.

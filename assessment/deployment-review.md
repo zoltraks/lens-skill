@@ -3,7 +3,8 @@
 ## Purpose
 
 > **Scope:** Build pipeline, release process, release frequency, manual steps
-> **Key items:** reproducible builds, automation, release cadence, manual intervention points
+> **Key items:** reproducible builds, automation, release cadence, manual intervention points,
+> absent-automation assessment
 
 This file guides assessment of how the system goes from source to a running release.
 
@@ -17,6 +18,8 @@ Reverting a release is assessed separately in `assessment/rollback-review.md`.
 - Release process: how artifacts reach each environment.
 - Frequency: how often releases happen, and whether cadence is sustainable.
 - Manual steps: which steps require human action, and where errors can enter.
+- Absent automation: whether a missing pipeline or CI configuration appears intentional or an
+  oversight, per `principles/evaluation-rules.md`.
 
 ## Evidence To Look For
 
@@ -28,6 +31,27 @@ Reverting a release is assessed separately in `assessment/rollback-review.md`.
 | Release automation    | Deploy jobs, infrastructure-as-code, release scripts |
 | Manual procedures     | Runbooks, checklists, documented manual steps        |
 | Release cadence       | Changelogs, tags, release history                    |
+
+## Absent Automation
+
+When no pipeline definition or CI configuration exists in the supplied files, record the finding
+anyway and classify the absence per `principles/evaluation-rules.md`.
+
+| Signal                | Example                                                            |
+|-----------------------|--------------------------------------------------------------------|
+| Envisaged but missing | `CONTRIBUTING.md` or `README` prescribes checks that nothing runs  |
+| Envisaged but missing | `.github/` or `.gitlab/` exists without workflow definitions       |
+| Envisaged but missing | Badges, pull request templates, or branch rules reference checks   |
+| Envisaged but missing | Build, release, or deploy scripts exist that nothing invokes       |
+| Deliberate omission   | Documentation limits the delivery model: prototype, local-only     |
+| Deliberate omission   | A documented manual release process replaces automation            |
+| Deliberate omission   | No delivery or release process is envisaged at all                 |
+
+State the reading plainly, for example "no CI configuration was found and the repository shows no
+signal that automation was envisaged" or "the documented validation steps have no pipeline behind
+them".
+
+When the signals conflict or are absent, classify `Undetermined`.
 
 ## Delivery Performance
 
@@ -72,6 +96,10 @@ Use comparable service-level trends to assess change over time.
 - `FAIL`: Releases are entirely manual and undocumented where automation is clearly required, with
   evidence.
 - `UNKNOWN`: Build and release artifacts were not provided.
+
+The status records the capability state.
+
+The absent-capability token records the intent reading alongside it, it does not change the status.
 
 ## Common Risks
 

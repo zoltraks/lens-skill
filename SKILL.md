@@ -24,7 +24,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "1.6"
+  version: "1.7"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -47,13 +47,13 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 | Process                 | 207  | Workflow, format, and parity                       |
 | Assessments             | 232  | Core and conditional assessment guides             |
 | Synthesis               | 273  | Findings, risk, score, and remediation assembly    |
-| Translations            | 286  | Per-language report translations                   |
-| References              | 295  | Lookup tables                                      |
-| Scripts                 | 312  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 333  | Behavioral regression prompts                      |
-| Repository Files        | 338  | Housekeeping files governing this repository       |
-| Evidence Contract       | 351  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 385  | File-selection and section-placement rules         |
+| Translations            | 288  | Per-language report translations                   |
+| References              | 297  | Lookup tables                                      |
+| Scripts                 | 314  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 335  | Behavioral regression prompts                      |
+| Repository Files        | 340  | Housekeeping files governing this repository       |
+| Evidence Contract       | 353  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 387  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -201,7 +201,7 @@ The previous report is never overwritten - write the next revision-numbered file
 ## `principles/` - Rules Of Evaluation
 
 - **`principles/evaluation-rules.md`** - Evidence-only reasoning, no assumptions,
-  neutrality, status markers.
+  neutrality, status markers, absent-capability assessment.
 - **`principles/output-style.md`** - Tone, fixed vocabularies, consistency, determinism.
 
 ## `process/` - Audit Process
@@ -222,7 +222,7 @@ The previous report is never overwritten - write the next revision-numbered file
 - **`process/report-format/analysis.md`** - Trade-off Analysis, Threat Model.
 - **`process/report-format/conformance.md`** - Conditional conformance sections.
 - **`process/report-format/findings-and-registers.md`** - Strengths, findings, debt, risk,
-  roadmap.
+  roadmap, recommendation classification.
 - **`process/report-format/closing.md`** - Exclusions, Limitations, Re-audit, Validation,
   References.
 - **`process/review-report.md`** - Review report type for explicit amendment requests.
@@ -238,7 +238,7 @@ The previous report is never overwritten - write the next revision-numbered file
 - **`assessment/best-practices.md`** - Stack idioms, framework conventions, deprecated APIs.
 - **`assessment/dependency-review.md`** - Freshness, vulnerabilities, licenses, lockfiles, SBOM.
 - **`assessment/deployment-review.md`** - Build pipeline, release process and frequency,
-  manual steps.
+  manual steps, absent-automation assessment.
 - **`assessment/rollback-review.md`** - Rollback mechanism, deploy safety, versioning, recovery.
 - **`assessment/maintainability-review.md`** - Modularity, coupling, code structure, technical debt.
 - **`assessment/change-management.md`** - Feature flags, ADR usage, release governance.
@@ -276,12 +276,13 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
   `FND-XXX` findings.
 - **`synthesis/project-scorecard.md`** - 1-10 scorecard, rubric, scales (1-5, 1-3, star bars).
 - **`synthesis/trade-off-analysis.md`** - Trade-offs as a standalone section and embedded findings.
-- **`synthesis/remediation-roadmap.md`** - Prioritized roadmap with impact-vs-effort matrix.
+- **`synthesis/remediation-roadmap.md`** - Prioritized roadmap with impact-vs-effort matrix and
+  the Recommended/Optional/Not recommended classification.
 - **`synthesis/debt-register.md`** - `TDR-[001]` inventory (CISQ/SQALE). Include for
   structural debt.
 - **`synthesis/re-audit-plan.md`** - Verification owners, sign-off gates. Include for
   P1/P2 findings.
-- **`synthesis/report-comparison.md`** - Previous-report discovery, revisions, Changes section.
+- **`synthesis/report-comparison.md`** - Re-audit discovery, revisions, Changes, legacy names.
 
 ## `translations/` - Report Languages
 
@@ -391,9 +392,8 @@ when maintaining the skill.
 - Never compile, build, test, or execute the audited project, and never run linters, scanners,
   or generators against it. Verification claims rest on inspected repository contents,
   documented results are `Reported` evidence.
-- Assemble the audit report skeleton from `process/report-format.md` and the section files under
-  `process/report-format/` before filling in findings, present
-  every section as a table and use unnumbered headings.
+- Assemble the audit report skeleton from `process/report-format.md` and its section files before
+  filling in findings, present every section as a table and use unnumbered headings.
 - Every audit report opens with the Audit Type Coverage & Assurance Matrix built from the fixed
   types and statuses in `references/audit-taxonomy.md`, kept consistent with Scope Exclusions.
 - Every finding and every Evidence Ledger row carries a `Type` tag: `Observation` for an
@@ -453,10 +453,10 @@ when maintaining the skill.
   distinguishing it from a shipped-artifact SBOM and keeping underivable fields `Unknown`.
 - The License & IP Compliance Review follows `references/license-compliance.md` and
   separates observed license facts from inferred concerns without legal conclusions.
-- The Delivery Practice & Team Continuity section follows
-  `references/delivery-practice.md`: five DORA metrics with source-derived proxies
-  labeled, telemetry-dependent metrics `NOT SPECIFIED`, and a bus-factor rating.
-- Every `HIGH`/`CRITICAL` Security & Compliance finding carries an Exploitability Narrative per
+- The Delivery Practice & Team Continuity section follows `references/delivery-practice.md`:
+  five DORA metrics with labeled source-derived proxies, telemetry-dependent metrics
+  `NOT SPECIFIED`, and a bus-factor rating.
+- Every `HIGH`/`CRITICAL` Security & Compliance finding carries an `Exploitability` field per
   `references/exploitability-narrative.md`: `Theoretical` tier by default, marked not
   executed, never a claim that exploitation occurred.
 - API compatibility gates, versioning consistency, and breaking-change tracking belong in
@@ -464,23 +464,27 @@ when maintaining the skill.
   package rather than a deployable service.
 - Wherever an overall score appears, the lowest-scoring applicable dimension and its score are
   reported in a paragraph below the table, per `synthesis/project-scorecard.md`.
-- Conditional sections appear only when their inclusion criterion is met. Evaluate each criterion in
-  the Conditional Sections table of `process/report-format.md`. Omit a conditional section entirely
-  when it cannot apply, and note the deliberate omission in Scope Exclusions. Never force an
-  irrelevant section (for example, an API Contract section for a project with no API, or a Standards
-  Conformance section for a project with no development standards).
+- Conditional sections appear only when their inclusion criterion is met. Evaluate each criterion
+  in the Conditional Sections table of `process/report-format.md`, omit the section entirely when
+  it cannot apply, and note the omission in Scope Exclusions - never force one (for example an API
+  Contract section on a project with no API).
 - The Technical Debt Register (`synthesis/debt-register.md`) is distinct from the Unified Risk
   Register: debt is accumulated cost already present, risk is what could go wrong. Do not duplicate
   entries between them.
 - The Re-audit And Follow-up Plan (`synthesis/re-audit-plan.md`) precedes Validation Record and
   References when present and maps P1 and P2 findings to verification owners and closure evidence.
+- Every absent-capability finding carries an `Absence` field built from repository signals
+  (`Appears intentional`, `Appears an oversight`, or `Undetermined`) per
+  `principles/evaluation-rules.md`, never a claim about the authors' motives.
+- The Recommendation Classification section (`synthesis/remediation-roadmap.md`) follows the
+  roadmap at Standard and Detailed, assigns every `REC-XXX` one class (`Recommended`, `Optional`,
+  `Not recommended`), and is omitted at Brief with a Scope Exclusions note.
 - The Changes Since Previous Audit section (`synthesis/report-comparison.md`) appears only when a
   previous audit report was found during intake. The previous file is never overwritten, the new
   report uses a revision-numbered filename such as `AUDIT-1.1.md` and the next minor revision.
-- Limitations and Unknowns lists every check that would require execution and was not performed.
-  Validation Record closes the report with the Mandatory Core Checklist result and the consistency
-  gate outcome from `process/report-parity.md`. The report is final - and carries no `State` row -
-  only when the gate passes.
+- Limitations and Unknowns lists every unperformed check that would require execution.
+  Validation Record closes the report with the Mandatory Core Checklist result and the
+  `process/report-parity.md` gate outcome. The report is final - no `State` row - when it passes.
 - For a multi-project report, a condensed combined Executive Summary and a combined Changes
   Since Previous Audit follow the Project Inventory, and a combined Trade-off Analysis holds
   only cross-project trade-offs per `synthesis/trade-off-analysis.md`.
@@ -489,9 +493,8 @@ when maintaining the skill.
 - Prefer the narrowest assessment file that directly matches the request. For a single-dimension
   request (for example "review security" or "audit dependencies"), load that one assessment file
   plus `principles/` and produce the matching finding pillar and risk row only.
-- Trade-off analyses appear as a standalone Trade-off Analysis section (right after Architectural
-  Assessment) and embedded into relevant architectural or design findings (under Description or
-  Impact bullets). Use `synthesis/trade-off-analysis.md` for the standalone table format.
+- Trade-off analyses appear as the Trade-off Analysis section after Architectural Assessment and
+  embedded in findings under Description or Impact, per `synthesis/trade-off-analysis.md`.
 - For a full audit, load `principles/`, `process/`, every relevant `assessment/` file, and all
-  `synthesis/` files. Mark categories that cannot apply to the subject as `N/A` with justification
-  rather than dropping them.
+  `synthesis/` files. Mark inapplicable categories `N/A` with justification rather than dropping
+  them.

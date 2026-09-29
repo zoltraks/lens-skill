@@ -110,9 +110,9 @@ The audit never executes checks, externally produced results are `Reported`.
 
 Confidence uses `HIGH`, `MEDIUM`, and `LOW`, separately from severity.
 
-Ledger execution states produced by the audit are `NOT RUN` for documented checks that were not
-executed and `N/A` for source observations, separately from category status or scanner
-findings.
+The evidence ledger has no execution column: the audit never executes checks, so a documented
+but unrun check writes `NOT RUN` in its `Result` cell and a source observation carries the
+observed result, separately from category status or scanner findings.
 
 Validation Record results are `Applied`, `PASS`, or `N/A`, separately from category status.
 
@@ -317,7 +317,7 @@ The English markers (`PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`, `LOW`, `MEDIUM
 `CRITICAL`, `Score:`, `SEVERITY:`) are the default.
 
 Each translation file defines the equivalents for its language,
-which may localize the markers themselves, including execution states such as `NOT RUN`,
+which may localize the markers themselves, including result markers such as `NOT RUN`,
 `NOT ASSESSED`, and `INSUFFICIENT INFORMATION`.
 
 The English forms remain the analysis and validation vocabulary.

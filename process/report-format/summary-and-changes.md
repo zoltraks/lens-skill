@@ -147,6 +147,10 @@ When the previous report records no revision, show `1.0 (assumed)` in the Revisi
 When parameters differ between reports, state the difference in a paragraph below the table
 before comparing content, since a scale or detail-level change affects comparability.
 
+When the previous report predates the current schema, read its field and column names through
+the legacy mapping in `synthesis/report-comparison.md` and name the rename as a capability
+change in this section.
+
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
 

@@ -20,11 +20,11 @@ A review report applies the same phases with the deltas defined in
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 1260 | Intake Checklist guidance        |
-| Handling Thin Input     | 1278 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1289 | Single-Dimension Audits guidance |
-| Re-Audit                | 1299 | Re-Audit guidance                |
-| Multi-Project Audits    | 1345 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1281 | Intake Checklist guidance        |
+| Handling Thin Input     | 1299 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1310 | Single-Dimension Audits guidance |
+| Re-Audit                | 1320 | Re-Audit guidance                |
+| Multi-Project Audits    | 1367 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -805,24 +805,28 @@ runtime-verified behavior.
 
 **Evidence ledger**
 
-Use globally unique evidence IDs within a report, with a project identifier on each row.
+Use globally unique evidence IDs within a report, with a project identifier on each row in a
+multi-project report.
 
-| Evidence ID | Project   | Check / Source      | Execution | Result        | Type          | Artifact |
-|-------------|-----------|---------------------|-----------|---------------|---------------|----------|
-| EVD-001     | <project> | <command or source> | <state>   | <observation> | <obs/concern> | <path>   |
+| Evidence | Check / Source      | Result        | Type          | Artifact |
+|----------|---------------------|---------------|---------------|----------|
+| EVD-001  | <command or source> | <observation> | <obs/concern> | <path>   |
+
+A `Project` column follows `Evidence` only in a multi-project report.
 
 Every ledger row carries a `Type`: `Observation` for a fact another auditor could re-derive from the
 same artifact, `Concern` for a risk judgment built on observations.
 
 Most ledger rows are `Observation`.
 
-The audit produces only two execution states: `NOT RUN` for a check that is documented or
-selected but never executed, and `N/A` for a source observation.
+The audit never executes checks, so there is no execution column:
+a documented or selected check that was never executed writes `NOT RUN` in `Result`
+with a note on what the check would establish, and a source observation writes the observed
+result directly.
 
-They are separate from category statuses and from what the check discovered.
+Result markers are separate from category statuses and from what the check discovered.
 
-For a source observation rather than a check, use `N/A` for execution and identify its evidence
-basis as Inspected, Reported, or Inferred as appropriate.
+Identify each row's evidence basis as Inspected, Reported, or Inferred as appropriate.
 
 Below each row, record the documented command or the file and line range, revision and
 dirty-tree state, date, declared tool or report version, and sanitized artifact path.
@@ -878,6 +882,9 @@ Do not force a conditional section onto a subject it does not fit.
 Assign a status (`PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`) per the rules in
 `principles/evaluation-rules.md`.
 
+For each finding that records an absent capability, also record its absence assessment per
+`principles/evaluation-rules.md`.
+
 Record evidence, concrete risks, and neutral notes for each category.
 
 **Synthesis**
@@ -893,7 +900,7 @@ so it is assembled before any other section content and checked against Scope Ex
 Validation.
 
 Tag every finding `Observation` or `Concern` per `principles/evaluation-rules.md`,
-and attach an Exploitability Narrative at an explicit tier to every `HIGH` or `CRITICAL` security
+and attach an `Exploitability` narrative at an explicit tier to every `HIGH` or `CRITICAL` security
 finding, per `references/exploitability-narrative.md`.
 
 Under the default scope the tier is `Theoretical` or `Static-Confirmed`.
@@ -933,6 +940,10 @@ Every debt item must trace to a finding or a cited direct observation.
 Draft the actionable remediation roadmap using `synthesis/remediation-roadmap.md`.
 
 Every recommendation must resolve a specific `FND-XXX`.
+
+At `Standard` and `Detailed` detail levels, classify every `REC-XXX` as `Recommended`,
+`Optional`, or `Not recommended` for the Recommendation Classification section per
+`synthesis/remediation-roadmap.md`.
 
 When the roadmap contains at least one P1 or P2 recommendation, build the Re-audit And Follow-up
 Plan using `synthesis/re-audit-plan.md`, mapping those findings to verification owners and closure
@@ -1004,6 +1015,12 @@ Confirm every `RSK-XXX` references its source `FND-XXX`.
 
 Confirm every `REC-XXX` resolves a specific `FND-XXX`.
 
+Confirm every `REC-XXX` appears exactly once in the Recommendation Classification section when
+the detail level is Standard or Detailed.
+
+Confirm every finding that records an absent capability carries an `Absence` token
+with a one-line evidence basis.
+
 Confirm identifiers cited in narrative prose match register rows: a `RSK-XXX`, `FND-XXX`, or
 `REC-XXX` named in a summary, readiness paragraph, or changes section must exist in the
 corresponding register and refer to the same item.
@@ -1020,13 +1037,17 @@ count when the input supports fewer, rather than padding the report.
 Confirm the Trade-off Analysis section uses the standard table format and frames each trade-off
 against a stated constraint.
 
-Confirm every adverse finding in an initial audit has Remediation Status `Open`.
+Confirm every adverse finding in an initial audit has `Status` `Open`.
 
 For re-audits, preserve IDs and update closure states only from the required evidence.
 
 On a fresh audit over an existing report, confirm the new report carries no Changes Since
 Previous Audit section, no `Previous Report` row, and no identifier or remediation status
 carried over from the previous report, while its revision still increments.
+
+When the previous report predates the current schema, read its field and column names through
+the legacy mapping in `synthesis/report-comparison.md` before comparing, and name the rename as
+a capability change in the Changes Since Previous Audit section.
 
 When a Changes Since Previous Audit section is present, confirm the previous report file was
 left unchanged, the new filename carries the incremented revision, every transition cites
@@ -1244,7 +1265,7 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Matrix row marked `Covered`                | No Scope Exclusions bullet disclaims that type                  |
 | Manifest has no license fields             | SBOM License cells `Unknown`, gap feeds findings                |
 | Committed advisory report absent           | `Advisory Checked` stays `N` for every component                |
-| Critical finding on public endpoint        | Exploitability Narrative present, `Theoretical` tier            |
+| Critical finding on public endpoint        | `Exploitability` narrative present, `Theoretical` tier          |
 | Narrative claims dynamic verification      | Defect: scope never lifted, tier forced down                    |
 | Security finding on internal-only code     | Narrative field present as `N/A` with reason                    |
 | Git subject, no tags                       | Deployment frequency proxy `NOT SPECIFIED`                      |
@@ -1325,7 +1346,8 @@ When the scorecard dimension set differs between revisions, restate the mean for
 or removed dimension changes the denominator, and the resulting score movement is a capability
 change recorded outside the score-delta table per `synthesis/report-comparison.md`.
 
-Update the Remediation Status column for findings that were closed since the previous audit.
+Update the `Status` and `Verification` columns for findings that were closed since the
+previous audit.
 
 Build the Changes Since Previous Audit section using `synthesis/report-comparison.md`, noting
 which `FND-XXX` findings changed from `Open` to `Closed`, which `RSK-XXX` risks were mitigated,
@@ -1386,7 +1408,8 @@ run a single Synthesis phase that combines all projects into one report:
 3. Each project gets its own complete set of sections: Executive Summary, System Context (with the
    Technology Stack subsection), Health Dashboard, High-Level Observations, Auditing Methodology,
    Scoring Rubrics, Architectural Assessment, Trade-off Analysis, conditional sections, Strengths,
-   Detailed Technical Findings, Unified Risk Register, and Actionable Remediation Roadmap.
+   Detailed Technical Findings, Unified Risk Register, Actionable Remediation Roadmap, and
+   Recommendation Classification.
 4. Finding IDs, risk IDs, and recommendation IDs are scoped per project. Use the project identifier
    as a prefix in the finding heading so the reader can navigate. For example,
    `### FND-ARC-001: [api-service] Missing input validation`.

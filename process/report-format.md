@@ -33,9 +33,9 @@ A present-but-empty section signals a gap, a missing section hides it.
 | Report Delivery And Parameter Configuration | 258  | Report delivery and output configuration    |
 | Detail Level Configuration                  | 304  | Standard, detailed, and brief reports       |
 | Conditional Sections                        | 398  | Inclusion criteria for conditional sections |
-| Section Order                               | 447  | Single-project and multi-project order      |
-| Specification Files                         | 532  | Per-section specification file index        |
-| Pre-Delivery Mechanical Checklist           | 556  | Final mechanical checks                     |
+| Section Order                               | 448  | Single-project and multi-project order      |
+| Specification Files                         | 535  | Per-section specification file index        |
+| Pre-Delivery Mechanical Checklist           | 560  | Final mechanical checks                     |
 
 ## Formatting Rules
 
@@ -328,8 +328,8 @@ All twenty-one baseline sections are present in full, subject to explicit parame
 - Architectural Assessment
 - Trade-off Analysis
 - Strengths & What's Working
-- Detailed Technical Findings (all findings with full Description, Impact, Remediation, and
-  Verification)
+- Detailed Technical Findings (all findings with full Description, Impact, Recommendation, and
+  Method)
 - Unified Risk Register
 - Actionable Remediation Roadmap (full matrix with P1-P4, impact/effort/complexity, verification)
 - Scope Exclusions
@@ -388,7 +388,7 @@ Condensed output for rapid review:
 
 Omitted in Brief: full Auditing Methodology, Scoring Rubrics, the System Context aspects beyond
 the Technology Stack subsection, Architectural Assessment critique, full findings, full risk
-register, full trade-offs, and full roadmap.
+register, full trade-offs, full roadmap, and Recommendation Classification.
 
 Retain a compact check summary and evidence IDs in Scope Exclusions, and blocked/unrun checks in
 Limitations and Unknowns.
@@ -432,6 +432,7 @@ Each lists its inclusion criterion and the assessment file that governs it:
 | Re-audit And Follow-up Plan (standalone)                    | The roadmap contains a P1 or P2 recommendation                | `synthesis/re-audit-plan.md`          |
 | Changes Since Previous Audit (standalone)                   | Previous report found and confirmed as the re-audit baseline  | `synthesis/report-comparison.md`      |
 | Glossary (standalone)                                       | Descriptive mode is enabled (default)                         | `process/report-format.md`            |
+| Recommendation Classification (standalone)                  | Detail level is Standard or Detailed and the roadmap exists   | `synthesis/remediation-roadmap.md`    |
 
 In a multi-project report, evaluate each criterion independently per project.
 
@@ -482,6 +483,7 @@ For a **single-project** audit:
 - Technical Debt Register *(conditional)*
 - Unified Risk Register
 - Actionable Remediation Roadmap
+- Recommendation Classification *(conditional)*
 - Scope Exclusions
 - Limitations and Unknowns
 - Re-audit And Follow-up Plan *(conditional)*
@@ -522,6 +524,7 @@ In summary:
   - Technical Debt Register *(conditional)*
   - Unified Risk Register
   - Actionable Remediation Roadmap
+  - Recommendation Classification *(conditional)*
 - Trade-off Analysis (combined, cross-project trade-offs only)
 - Scope Exclusions (once, shared)
 - Limitations and Unknowns (once, shared)
@@ -549,7 +552,8 @@ Each report section is specified in a file under `process/report-format/`.
 | `conformance.md`                | API Contract, Skill Definition, AI System, Standards,         |
 |                                 | API Compatibility & Versioning Discipline                     |
 | `findings-and-registers.md`     | Strengths, Detailed Technical Findings, Technical Debt        |
-|                                 | Register, Unified Risk Register, Remediation Roadmap          |
+|                                 | Register, Unified Risk Register, Remediation Roadmap,         |
+|                                 | Recommendation Classification                                 |
 | `closing.md`                    | Scope Exclusions, Limitations and Unknowns, Re-audit And      |
 |                                 | Follow-up Plan, Validation Record, References                 |
 
@@ -575,10 +579,11 @@ every item is mechanical and takes seconds to verify.
 | Coverage matrix | Present after Document Information, consistent with Scope Exclusions                      |
 | SBOM            | Every License cell populated or `Unknown`, direct components manifest-sourced             |
 | Type tags       | `Observation` or `Concern` on every evidence-ledger row and every finding                 |
-| Exploitability  | Narrative present on every `HIGH`/`CRITICAL` security finding, `N/A` justified            |
+| Exploitability  | `Exploitability` field present on every `HIGH`/`CRITICAL` security finding, `N/A` justified |
 | Glossary        | Every acronym indexed, every body occurrence linked to its anchor                         |
 | Diagrams        | Fenced, untagged, no leading or trailing blank line inside the fence                      |
 | Registers       | Every RSK cites an FND, every REC cites an FND, risk-map covers rated risks               |
+| Classification  | At Standard/Detailed, Recommendation Classification lists every REC exactly once          |
 | Location        | Report path matches the output directory recorded during intake                           |
 | Ending          | References is the last section, no closing line after it                                  |
 

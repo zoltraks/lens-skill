@@ -26,11 +26,12 @@ If a finding cannot satisfy these rules, mark it as unknown rather than guessing
 | Architectural Neutrality            | 162  | Judging within stated constraints     |
 | Status Markers                      | 175  | PASS, PARTIAL, FAIL, UNKNOWN, N/A     |
 | Contextual Applicability            | 194  | N/A usage for inapplicable categories |
-| Evidence Citation                   | 223  | Anchoring claims to sources           |
-| Confidence And Scope Limits         | 234  | Confidence and scope boundaries       |
-| Information Security And Redaction  | 245  | Secret handling rules                 |
-| Indexing And Traceability           | 261  | ID schemes and ordering               |
-| Critical Constraints                | 330  | Non-negotiable hard limits            |
+| Absent Capability Assessment        | 223  | Intentional-versus-oversight tokens   |
+| Evidence Citation                   | 256  | Anchoring claims to sources           |
+| Confidence And Scope Limits         | 267  | Confidence and scope boundaries       |
+| Information Security And Redaction  | 278  | Secret handling rules                 |
+| Indexing And Traceability           | 294  | ID schemes and ordering               |
+| Critical Constraints                | 363  | Non-negotiable hard limits            |
 
 ## Evidence-Based Reasoning
 
@@ -220,6 +221,39 @@ A category marked `N/A` is excluded from scoring, not scored zero.
 
 See `synthesis/project-scorecard.md`.
 
+## Absent Capability Assessment
+
+When a finding records an absent capability - a configuration, control, automation, or artifact
+that could apply to the subject but is not present - include a short assessment of whether the
+absence appears intentional or is an oversight, recorded in the finding block's `Absence` field.
+
+Use exactly these tokens:
+
+| Token                  | Meaning                                                         |
+|------------------------|-----------------------------------------------------------------|
+| `Appears intentional`  | Evidence indicates the capability was deliberately not adopted  |
+| `Appears an oversight` | Evidence indicates the capability was envisaged but is missing  |
+| `Undetermined`         | The signals conflict or are absent                              |
+| `N/A`                  | The finding does not record an absent capability                |
+
+Signals of an oversight include documentation that prescribes the missing check, automation-adjacent
+directories without the pipeline itself such as `.github/` without `workflows/`, badges or pull
+request templates that reference automated checks, helper scripts that nothing invokes, and a
+documented release process with no automation behind it.
+
+Signals of an intentional absence include documented scope limits such as a prototype or local-only
+delivery model, a documented manual process, and no envisaged delivery or release process at all.
+
+Classify `Undetermined` when the signals conflict or are absent.
+
+Never guess, a clearly marked unknown is more valuable than a confident guess.
+
+The assessment classifies observable repository evidence only.
+
+It never attributes motive to a person or team, and it carries the confidence the signals support.
+
+Cite the signals that produced the reading in one line after the token.
+
 ## Evidence Citation
 
 For every status, record the evidence that supports it.
@@ -286,7 +320,7 @@ Do not reuse or skip numbers within a single audit.
 Format: `RSK-[001]`
 
 - Sequential across the entire audit.
-- Every `RSK-XXX` entry must reference its source `FND-XXX` in the Source Finding column.
+- Every `RSK-XXX` entry must reference its source `FND-XXX` in the `Source` column.
 
 **Recommendation IDs**
 

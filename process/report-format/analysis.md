@@ -63,11 +63,13 @@ ASVS Level 2 coverage merely because a threat table exists.
 Present one table keyed by trust boundary and STRIDE category, then describe each material threat
 with evidence and its linked `FND-XXX` and `RSK-XXX`.
 
-| Boundary        | Threat (STRIDE)   | Threat Description                | Mitigating Control   | Finding     |
+| Boundary        | STRIDE            | Threat Description                | Control              | Finding     |
 |-----------------|-------------------|-----------------------------------|----------------------|-------------|
 | Network ingress | Spoofing          | Token forgery if signing key weak | JWT HS256 validation | FND-SEC-XXX |
 | Write path      | Tampering         | Path traversal on write           | None (gap)           | FND-SEC-XXX |
 | API surface     | Denial of Service | No rate limiting                  | None (gap)           | FND-SEC-XXX |
+
+A threat with no linked finding leaves the `Finding` cell empty rather than writing `none`.
 
 The six STRIDE categories are `Spoofing`, `Tampering`, `Repudiation`, `Information Disclosure`,
 `Denial of Service`, and `Elevation of Privilege`.

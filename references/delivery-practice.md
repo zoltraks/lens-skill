@@ -80,6 +80,9 @@ This file covers only the git-derived delivery metrics and contributor concentra
 
 Do not duplicate pipeline findings into the Delivery Practice section, reference them.
 
+When no pipeline exists at all, the absence assessment lives in `assessment/deployment-review.md`
+per `principles/evaluation-rules.md`, not here.
+
 ## Rules
 
 - A proxy is never presented as a measured DORA metric. Label each computed value as a proxy.

@@ -24,15 +24,15 @@ One row per recommendation.
 
 Use this fixed column order:
 
-| Rec ID | Priority | Finding | Recommendation | Impact | Effort | Complexity | Verification |
-|--------|----------|---------|----------------|--------|--------|------------|--------------|
+| Rec | Priority | Finding | Recommendation | Impact | Effort | Complexity | Verification |
+|-----|----------|---------|----------------|--------|--------|------------|--------------|
 
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
 
 Column meanings:
 
-- **Rec ID**: `REC-[001]` ascending sequentially.
+- **Rec**: `REC-[001]` ascending sequentially.
 - **Priority**: `P1` (immediate), `P2` (short-term), `P3` (medium-term), `P4` (long-term).
 - **Finding**: the `FND-[PILLAR]-[NNN]` identifier this recommendation resolves.
 - **Recommendation**: a concise, actionable technical step.
@@ -117,6 +117,35 @@ Check proposed library APIs and platform support against the intended versions b
 exact replacement call.
 
 If an option only corrects documentation, do not claim it delivers the missing feature.
+
+## Recommendation Classification
+
+At `Standard` and `Detailed` detail levels, classify every `REC-XXX` for the Recommendation
+Classification section that follows the roadmap, per
+`process/report-format/findings-and-registers.md`.
+
+Use exactly these classes:
+
+- `Recommended` - the finding has an established requirement basis or an evidenced risk, and action
+  is advised now.
+- `Optional` - the recommendation is a beneficial improvement that is not required at the current
+  state of the project.
+- `Not recommended` - there is no certainty that the moment is right, or the intent behind the
+  finding is unknown.
+
+An absent capability assessed `Appears intentional` or `Undetermined` per
+`principles/evaluation-rules.md` lands in `Not recommended`, since the report cannot tell whether
+the gap is deliberate.
+
+Every `REC-XXX` receives exactly one class.
+
+The class is orthogonal to the P1-P4 priority: priority orders urgency, class records whether
+action is advised at the report's state of knowledge.
+
+A `Not recommended` entry keeps its priority for when its blocking uncertainty resolves.
+
+The classification does not change the Re-audit And Follow-up Plan trigger, which stays a P1 or
+P2 recommendation present in the roadmap.
 
 ## Relationship To Other Sections
 

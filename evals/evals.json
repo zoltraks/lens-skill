@@ -47,7 +47,8 @@
         "The new report contains Changes Since Previous Audit and a revisioned filename.",
         "Historical execution results are labeled Reported rather than current verification.",
         "Structural additions caused by the skill version are distinguished from product changes.",
-        "A baseline produced by an older skill version gets the current capability set applied, named as a capability change in the Validation Record."
+        "A baseline produced by an older skill version gets the current capability set applied, named as a capability change in the Validation Record.",
+        "Field and column names that differ between the baseline report's schema and the current contract are read through the legacy field-name mapping, and the rename is recorded as a capability change rather than a product change."
       ]
     },
     {
@@ -189,17 +190,18 @@
         "Deployment frequency and change lead time carry computed proxy values labeled as source-derived proxies, while the three telemetry-dependent metrics read NOT SPECIFIED.",
         "A bus-factor rating is derived from commit-author concentration using the documented thresholds.",
         "Commit data is presented as aggregate evidence without inferring individual competence or assigning blame.",
-        "Missing support, cost, and supplier-obligation evidence is recorded as UNKNOWN rather than omitted."
+        "Missing support, cost, and supplier-obligation evidence is recorded as UNKNOWN rather than omitted.",
+        "The absent CI/CD pipeline is still recorded as a finding, and its `Absence` field classifies the absence from repository signals (Appears intentional, Appears an oversight, or Undetermined) without attributing motive."
       ]
     },
     {
       "id": 16,
       "prompt": "Audit this repository, which contains an unauthenticated file-upload endpoint rated HIGH severity. Assess findings structure and exploitability reasoning.",
-      "expected_output": "Findings that carry a Type tag separating observation from concern, and an exploitability narrative on the network-facing security finding that stays theoretical.",
+      "expected_output": "Findings that carry a Type tag separating observation from concern, and an exploitability narrative in the Exploitability field of the network-facing security finding that stays theoretical.",
       "files": [],
       "expectations": [
         "Every finding carries a Type field reading Observation or Concern, and every Evidence Ledger row carries the same tag.",
-        "The HIGH security finding on the upload endpoint carries an Exploitability Narrative with a tier, preconditions, attack-path steps, trust boundaries, impact, and uncertainty.",
+        "The HIGH security finding on the upload endpoint carries an Exploitability field with a tier, preconditions, attack-path steps, trust boundaries, impact, and uncertainty.",
         "The narrative is marked Theoretical and NOT EXECUTED, states the live validation needed, and never claims exploitation occurred.",
         "The Scope Exclusions name dynamic penetration testing as not performed by default and point to a separately commissioned engagement.",
         "No finding, risk, or recommendation asserts verified runtime exploitability."
@@ -241,7 +243,8 @@
         "A parameter-change request selects or is offered the re-audit-with-changed-parameters mode rather than a fresh audit.",
         "Recovered parameters become defaults, and only the parameters the user names are re-asked, with the recovered value marked as the previous default.",
         "Finding, risk, and recommendation identifiers keep continuity, and the Changes Since Previous Audit section lists the parameter differences as capability changes.",
-        "The report revision and filename still increment from the previous report's revision, and the previous file is not overwritten."
+        "The report revision and filename still increment from the previous report's revision, and the previous file is not overwritten.",
+        "The Brief report omits the Recommendation Classification section and records the omission in Scope Exclusions."
       ]
     },
     {
@@ -354,6 +357,69 @@
         "The findings table headers render Istniejąca sekcja, Ustalenie, and Wymagana poprawka.",
         "The filename uses the PRZEGLĄD stem, such as PRZEGLĄD-1.0.md.",
         "Source-register identifiers S1-Sn stay unchanged and are cited inline as [S#]."
+      ]
+    },
+    {
+      "id": 29,
+      "prompt": "Audit this repository, whose documentation references automated checks and a .github/workflows directory that does not exist in the tree. Assess how the report treats the missing pipeline.",
+      "expected_output": "A report that still records the absent CI/CD capability as a finding and classifies the absence from repository signals.",
+      "files": [],
+      "expectations": [
+        "The absent CI/CD capability produces a finding rather than being dropped as out of scope.",
+        "The finding's Absence field reads Appears an oversight, citing the signals such as pipeline references or automation-adjacent directories.",
+        "The assessment is grounded in observable repository evidence and does not claim to know the authors' intent.",
+        "Recommendations resolving the finding land in the Recommendation Classification with a class that reflects the undetermined intent."
+      ]
+    },
+    {
+      "id": 30,
+      "prompt": "Audit this repository with the default Standard detail level. The report is intended to seed change documents, so recommendations need a disposition.",
+      "expected_output": "A report whose Recommendation Classification section follows the roadmap and dispositions every recommendation.",
+      "files": [],
+      "expectations": [
+        "A Recommendation Classification section appears after the Actionable Remediation Roadmap and before Scope Exclusions.",
+        "Every REC-XXX from the roadmap appears exactly once with a class of Recommended, Optional, or Not recommended and a short basis.",
+        "A recommendation whose finding's intent or timing is undetermined is classified Not recommended, with a note on what evidence would reclassify it.",
+        "P1-P4 priority is preserved separately from the class.",
+        "No new findings or recommendations are introduced by the section."
+      ]
+    },
+    {
+      "id": 31,
+      "prompt": "Audit this repository with default report parameters. Check that the report uses the current one-word field vocabulary.",
+      "expected_output": "A report whose finding and risk blocks and register tables use the renamed field schema.",
+      "files": [],
+      "expectations": [
+        "Finding blocks carry the contract fields in order: Pillar, Severity, Type, Security, Status, Targets, Basis, Absence, Description, Impact, Recommendation, Method, Verified, Confidence, Countercheck, Exploitability, Evidence.",
+        "No legacy field names appear: Target Files/Modules, Requirement Basis, Verification State, Counter-check, Security Classification, Remediation Recommendation, Verification Method, Exploitability Narrative, or Remediation Status.",
+        "The findings summary table uses Finding, Result, Status, and Verification columns, with Verification limited to Verified, Confirmed, Reported, or empty.",
+        "Risk blocks use Severity, Likelihood, Residual, Status, Owner, Description, Impact, Trigger, Controls, Mitigation, Closure, Source, Confidence order, and the risk table uses Source rather than Source Finding.",
+        "Debt and recommendation tables use the harmonized headers: Debt/Item/Source/Cost/Delay and Rec."
+      ]
+    },
+    {
+      "id": 32,
+      "prompt": "Audit this repository with default report parameters. Check the table shapes in the generated report.",
+      "expected_output": "A report whose ledger, scorecard, threat model, and standards tables follow the trimmed column contract.",
+      "files": [],
+      "expectations": [
+        "The Verification And Evidence Ledger has no Execution column, and no Project column in a single-project report.",
+        "A documented but unrun check records NOT RUN in the Result column.",
+        "The Scorecard Summary omits rows whose score is N/A, and at Detailed names each excluded dimension with its reason in a paragraph below the table.",
+        "The Threat Model table uses STRIDE, Threat Description, Control, and Finding columns, and a threat with no linked finding leaves the Finding cell empty.",
+        "The Standards Conformance table uses the Area column header."
+      ]
+    },
+    {
+      "id": 33,
+      "prompt": "Re-audit this repository against the previous report, which was written under the old field schema with Remediation Status, Source Finding, and Exploitability Narrative fields.",
+      "expected_output": "A re-audit that still compares transitions correctly by reading the old report through the legacy field-name mapping.",
+      "files": [],
+      "expectations": [
+        "Legacy field names in the previous report are interpreted through the mapping in synthesis/report-comparison.md, for example Remediation Status as Status plus Verification.",
+        "Finding transitions still key on FND-XXX despite the renamed columns and fields.",
+        "The schema rename is recorded as a capability change, not as a finding transition or product change.",
+        "The new report itself uses only the current field names."
       ]
     }
   ]

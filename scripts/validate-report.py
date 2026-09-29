@@ -192,33 +192,198 @@ def check_ids(text: str) -> list[str]:
     return failures
 
 
+FINDING_REQUIRED = [
+    "Pillar:",
+    "Severity:",
+    "Type:",
+    "Security:",
+    "Status:",
+    "Targets:",
+    "Basis:",
+    "Absence:",
+    "Description:",
+    "Impact:",
+    "Recommendation:",
+    "Method:",
+    "Verified:",
+    "Confidence:",
+    "Countercheck:",
+    "Exploitability:",
+    "Evidence:",
+]
+RISK_REQUIRED = [
+    "Severity:",
+    "Likelihood:",
+    "Residual:",
+    "Status:",
+    "Owner:",
+    "Description:",
+    "Impact:",
+    "Trigger:",
+    "Controls:",
+    "Mitigation:",
+    "Closure:",
+    "Source:",
+    "Confidence:",
+]
+FINDING_STATUS = ("New", "Open", "Closed", "PASS")
+RISK_STATUS = ("Open", "Accepted", "Transferred", "Monitoring", "Closed")
+VERIFICATION_QUALIFIERS = ("Verified", "Confirmed", "Reported")
+ABSENCE_VALUES = ("Appears intentional", "Appears an oversight", "Undetermined", "N/A")
+
+
+def field_value(block: str, field: str) -> str:
+    match = re.search(rf"\*\*{re.escape(field)}:\*\*\s*(.*)", block)
+    return match.group(1).strip() if match else ""
+
+
 def check_finding_blocks(lines: list[str]) -> list[str]:
-    required = [
-        "Pillar:",
-        "Severity:",
-        "Type:",
-        "Target Files/Modules:",
-        "Requirement Basis:",
-        "Evidence:",
-        "Confidence:",
-        "Verification State:",
-        "Counter-check:",
-        "Security Classification:",
-        "Description:",
-        "Impact:",
-        "Remediation Recommendation:",
-        "Verification Method:",
-        "Exploitability Narrative:",
-    ]
     failures: list[str] = []
     starts = [index for index, line in enumerate(lines) if line.startswith("### FND-")]
     for position, start in enumerate(starts):
         end = starts[position + 1] if position + 1 < len(starts) else len(lines)
         block = NL.join(lines[start:end])
         name = lines[start][4:][:70]
-        for field in required:
+        for field in FINDING_REQUIRED:
             if f"**{field}**" not in block:
                 failures.append(f"{name}: missing {field}")
+        status = field_value(block, "Status")
+        if status and not re.match(rf"^({'|'.join(FINDING_STATUS)})\b", status):
+            failures.append(f"{name}: Status is not a lifecycle value (New/Open/Closed/PASS)")
+        absence = field_value(block, "Absence")
+        if absence and not re.match(rf"^({'|'.join(ABSENCE_VALUES)})\b", absence):
+            failures.append(f"{name}: Absence is not an allowed token")
+        verified = field_value(block, "Verified")
+        if verified and not re.match(r"^(yes|no)\b", verified, re.IGNORECASE):
+            failures.append(f"{name}: Verified does not start with yes or no")
+    return failures
+
+
+def check_risk_blocks(lines: list[str]) -> list[str]:
+    failures: list[str] = []
+    starts = [index for index, line in enumerate(lines) if line.startswith("### RSK-")]
+    for position, start in enumerate(starts):
+        end = starts[position + 1] if position + 1 < len(starts) else len(lines)
+        block = NL.join(lines[start:end])
+        name = lines[start][4:][:70]
+        for field in RISK_REQUIRED:
+            if f"**{field}**" not in block:
+                failures.append(f"{name}: missing {field}")
+        status = field_value(block, "Status")
+        if status and not re.match(rf"^({'|'.join(RISK_STATUS)})\b", status):
+            failures.append(f"{name}: Status is not a treatment value (Open/Accepted/Transferred/Monitoring/Closed)")
+    return failures
+
+
+LEGACY_FIELDS = [
+    "Target Files/Modules",
+    "Requirement Basis",
+    "Absence Assessment",
+    "Verification State",
+    "Counter-check",
+    "Security Classification",
+    "Remediation Status",
+    "Remediation Recommendation",
+    "Verification Method",
+    "Exploitability Narrative",
+    "Source Finding",
+    "Triggering Condition",
+    "Existing Controls",
+    "Residual Risk",
+    "Treatment State",
+    "Closure Trigger",
+    "Remediation Cost",
+    "Cost of Delay",
+]
+
+
+def check_legacy_fields(lines: list[str], fences: list[bool]) -> list[str]:
+    failures: list[str] = []
+    pattern = re.compile(r"\*\*(" + "|".join(re.escape(f) for f in LEGACY_FIELDS) + r"):\*\*")
+    for index, (line, fenced) in enumerate(zip(lines, fences)):
+        match = pattern.search(line)
+        if match and not fenced:
+            failures.append(f"line {index + 1}: legacy field name {match.group(1)}")
+    return failures
+
+
+def check_finding_summary(text: str) -> list[str]:
+    block = section_block(text, r"^#{2,3}\s+Detailed Technical Findings\s*$")
+    if not block:
+        return []
+    lines = block.split("\n")
+    header_index = next(
+        (index for index, line in enumerate(lines) if line.startswith("|") and "FND-" not in line),
+        None,
+    )
+    if header_index is None:
+        return []
+    cells = [cell.strip() for cell in raw_cells(lines[header_index])]
+    failures = []
+    for wanted in ("Finding", "Result", "Status", "Verification"):
+        if wanted not in cells:
+            failures.append(f"findings summary table lacks a {wanted} column")
+    for legacy in ("Finding ID", "Remediation Status"):
+        if legacy in cells:
+            failures.append(f"findings summary table still uses legacy column {legacy}")
+    status_idx = cells.index("Status") if "Status" in cells else -1
+    verification_idx = cells.index("Verification") if "Verification" in cells else -1
+    for row in lines[header_index + 2 :]:
+        if not row.startswith("|"):
+            break
+        row_cells = [cell.strip() for cell in raw_cells(row)]
+        if not any("FND-" in cell for cell in row_cells):
+            continue
+        if status_idx >= 0 and len(row_cells) > status_idx:
+            value = row_cells[status_idx]
+            if value and value.split(" ")[0] not in FINDING_STATUS:
+                failures.append(f"findings summary row has non-lifecycle Status '{value}'")
+        if verification_idx >= 0 and len(row_cells) > verification_idx:
+            value = row_cells[verification_idx]
+            if value and value.split(" ")[0] not in VERIFICATION_QUALIFIERS:
+                failures.append(f"findings summary row has bad Verification '{value}'")
+    return failures
+
+
+def check_ledger_columns(text: str) -> list[str]:
+    failures: list[str] = []
+    ledger = section_block(text, r"Verification And Evidence Ledger")
+    if not ledger:
+        return []
+    header = None
+    for line in ledger.split("\n"):
+        if line.startswith("|"):
+            header = line
+            break
+    if header is None:
+        return []
+    cells = [cell.strip() for cell in raw_cells(header)]
+    if "Execution" in cells:
+        failures.append("evidence ledger still has an Execution column")
+    if "Evidence ID" in cells:
+        failures.append("evidence ledger still uses legacy header Evidence ID")
+    if "Project" in cells and "Project Inventory" not in text:
+        failures.append("single-project ledger carries a Project column")
+    return failures
+
+
+def check_scorecard_na(text: str) -> list[str]:
+    failures: list[str] = []
+    marker = re.search(r"\*\*Scorecard Summary\*\*", text)
+    if not marker:
+        return []
+    rest = text[marker.end():]
+    rows = []
+    for line in rest.split("\n"):
+        if line.startswith("|"):
+            rows.append(line)
+            continue
+        if rows:
+            break
+    for row in rows[2:]:
+        cells = [cell.strip() for cell in raw_cells(row)]
+        if len(cells) >= 2 and cells[1] == "N/A":
+            failures.append(f"scorecard summary keeps an N/A row: {cells[0]}")
     return failures
 
 
@@ -230,11 +395,11 @@ def check_security_classification(lines: list[str]) -> list[str]:
         block = NL.join(lines[start:end])
         if "**Pillar:** Security & Compliance" not in block:
             continue
-        match = re.search(r"\* \*\*Security Classification:\*\*\s*(.*)", block)
+        match = re.search(r"\* \*\*Security:\*\*\s*(.*)", block)
         if not match or not re.search(r"CWE-[0-9]+|\bUNKNOWN\b|\bN/A\b|\bN/D\b|\bNIEZNANE\b", match.group(1)):
             failures.append(f"{lines[start][4:70]}: security classification lacks CWE or an unknown/not-applicable token")
         severity = re.search(r"\* \*\*Severity:\*\*\s*(.*)", block)
-        narrative = re.search(r"\* \*\*Exploitability Narrative:\*\*\s*(.*)", block)
+        narrative = re.search(r"\* \*\*Exploitability:\*\*\s*(.*)", block)
         if severity and narrative and re.search(r"\b(critical|high|krytyczna|wysoka)\b", severity.group(1), re.IGNORECASE):
             if re.fullmatch(r"N/?A|N/D", narrative.group(1).strip()):
                 failures.append(f"{lines[start][4:70]}: HIGH/CRITICAL security finding's exploitability narrative is bare N/A without a reason")
@@ -261,7 +426,7 @@ def check_type_tags(lines: list[str], fences: list[bool]) -> list[str]:
 
 def check_par_rows(text: str) -> list[str]:
     failures: list[str] = []
-    for number in range(1, 18):
+    for number in range(1, 19):
         if not re.search(rf"^\|\s*PAR-{number}(?:\s|\||:)", text, re.MULTILINE):
             failures.append(f"missing Validation Record row PAR-{number}")
     return failures
@@ -574,9 +739,51 @@ def check_required_sections(text: str) -> list[str]:
     if "Document Information" not in text:
         return []
     detail = re.search(r"\|\s*Detail Level\s*\|\s*([^|]+)", text)
-    required = BRIEF_SECTIONS if detail and detail.group(1).strip() == "Brief" else set(BASELINE_SECTIONS)
+    brief = detail is not None and detail.group(1).strip() == "Brief"
+    required = set(BRIEF_SECTIONS if brief else BASELINE_SECTIONS)
+    ordered = list(BASELINE_SECTIONS)
+    if not brief:
+        required.add("Recommendation Classification")
+        ordered.append("Recommendation Classification")
     headings = set(re.findall(r"^#{2,3}\s+(.+?)\s*$", text, re.MULTILINE))
-    return [f"missing required section: {section}" for section in BASELINE_SECTIONS if section in required and section not in headings]
+    return [f"missing required section: {section}" for section in ordered if section in required and section not in headings]
+
+
+def check_rec_classification(text: str) -> list[str]:
+    failures: list[str] = []
+    starts = [
+        match.end()
+        for match in re.finditer(r"^#{2,3}\s+Recommendation Classification\s*$", text, re.MULTILINE)
+    ]
+    if not starts:
+        return failures
+    classified: list[str] = []
+    for end in starts:
+        rest = text[end:]
+        following = re.search(r"^#{1,3}\s", rest, re.MULTILINE)
+        section = rest[: following.start()] if following else rest
+        classified += re.findall(r"REC-\d{3}", section)
+        table = [line for line in section.split("\n") if line.startswith("|")]
+        if len(table) >= 2:
+            header = [cell.strip() for cell in raw_cells(table[0])]
+            if "Class" in header:
+                class_idx = header.index("Class")
+                for row in table[2:]:
+                    row_cells = [cell.strip() for cell in raw_cells(row)]
+                    if len(row_cells) <= class_idx or not re.search(r"REC-\d{3}", row):
+                        continue
+                    if row_cells[class_idx] not in ("Recommended", "Optional", "Not recommended"):
+                        failures.append(f"classification row has invalid class '{row_cells[class_idx]}'")
+    defined = re.findall(r"^###\s+(REC-\d{3})", text, re.MULTILINE)
+    for rec in sorted(set(defined)):
+        if classified.count(rec) != defined.count(rec):
+            failures.append(
+                f"{rec} appears {classified.count(rec)} time(s) in classification sections, "
+                f"expected {defined.count(rec)}"
+            )
+    for rec in sorted(set(classified) - set(defined)):
+        failures.append(f"classification cites unknown {rec}")
+    return failures
 
 
 def check_final_state(text: str) -> list[str]:
@@ -689,10 +896,16 @@ def main(path: str) -> int:
                 ("required sections", check_required_sections(text)),
                 ("FND/RSK/REC cross-references", check_ids(text)),
                 ("finding-block fields", check_finding_blocks(lines)),
+                ("risk-block fields", check_risk_blocks(lines)),
+                ("legacy field names", check_legacy_fields(lines, fences)),
+                ("findings summary columns", check_finding_summary(text)),
+                ("ledger columns", check_ledger_columns(text)),
+                ("scorecard N/A rows", check_scorecard_na(text)),
                 ("security classifications", check_security_classification(lines)),
                 ("score disclosure", check_score_disclosure(lines)),
                 ("project qualification", check_project_qualification(text)),
-                ("PAR-1..PAR-17", check_par_rows(text)),
+                ("PAR-1..PAR-18", check_par_rows(text)),
+                ("recommendation classification", check_rec_classification(text)),
                 ("Observation/Concern tags", check_type_tags(lines, fences)),
                 ("glossary", check_glossary(text)),
                 ("final-state gate", check_final_state(text)),

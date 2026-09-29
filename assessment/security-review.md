@@ -133,8 +133,8 @@ It never implies the analyzer ran during the audit.
 
 ## Exploitability Narrative
 
-Every `HIGH` or `CRITICAL` finding on a network-facing surface carries an Exploitability Narrative
-in its finding block, per `references/exploitability-narrative.md`.
+Every `HIGH` or `CRITICAL` finding on a network-facing surface carries an exploitability narrative
+in its `Exploitability` field, per `references/exploitability-narrative.md`.
 
 The narrative reasons through precondition, attack path, and impact at an explicit confidence tier.
 

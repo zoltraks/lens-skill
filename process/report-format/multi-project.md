@@ -81,6 +81,7 @@ followed by the full set of report sections for that project:
 - Technical Debt Register *(conditional)*
 - Unified Risk Register
 - Actionable Remediation Roadmap
+- Recommendation Classification *(conditional)*
 
 Use level-3 headings (`###`) for subsections within each project block.
 

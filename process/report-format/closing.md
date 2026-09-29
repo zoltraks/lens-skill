@@ -46,7 +46,7 @@ Every report carries these statements in the same register, matching the `Not do
 the Audit Type Coverage & Assurance Matrix:
 
 - **Dynamic/runtime penetration testing** - `NOT PERFORMED` by default. Security findings on
-  network-facing surfaces carry a `Theoretical`-tier Exploitability Narrative only. A scoped, live
+  network-facing surfaces carry a `Theoretical`-tier `Exploitability` narrative only. A scoped, live
   penetration test is a distinct, separately-commissioned engagement.
 - **Organizational and team interviews, business-fit assessment** - `NOT PERFORMED` by default.
   The report covers the engineering dimensions of a technical due diligence (architecture, code,
@@ -167,7 +167,7 @@ Use a table:
 
 Rows appear in this order:
 
-1. One row per Mandatory Core Checklist item, `PAR-1` through `PAR-17`, in fixed order.
+1. One row per Mandatory Core Checklist item, `PAR-1` through `PAR-18`, in fixed order.
 2. Internal consistency checks: `FND-XXX`/`RSK-XXX`/`REC-XXX` cross-referencing, count
    reconciliation across summary tables and registers, conditional-section evaluation, and
    formatting rules.

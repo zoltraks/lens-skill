@@ -69,6 +69,10 @@ Do not run them.
 Judge whether tests run automatically on change and whether failures block merge or release from
 pipeline definitions, not from execution.
 
+When no pipeline definitions exist, record the finding and classify the absence per
+`principles/evaluation-rules.md`, reusing the CI/CD signal guidance in
+`assessment/deployment-review.md`.
+
 Keep compilation claims, inspected test counts, and documented passing results separate.
 
 **Coverage**
