@@ -18,23 +18,33 @@ Use `SKILL.md` as the resource router and follow it when deciding which files to
 
 ## Directory Roles
 
-| Directory       | Role                                                      |
-|-----------------|-----------------------------------------------------------|
-| `assessment/`   | Core and conditional engineering-audit categories         |
-| `principles/`   | Evidence rules, neutrality, and report-output conventions |
-| `process/`      | Audit workflow, report structure, parity, and scoring     |
-| `synthesis/`    | Report sections for findings, risks, scoring, and actions |
-| `references/`   | Taxonomies, schemas, and lookup guidance                  |
-| `translations/` | Per-language report rendering and terminology             |
-| `scripts/`      | Report-production and skill-maintenance scripts           |
-| `evals/`        | Behavioral regression prompts and expectations            |
+| Directory       | Role                                                         |
+|-----------------|--------------------------------------------------------------|
+| `assessment/`   | Core and conditional engineering-audit categories            |
+| `principles/`   | Evidence rules, neutrality, and report-output conventions    |
+| `process/`      | Audit workflow, report structure, parity, and scoring        |
+| `synthesis/`    | Report sections for findings, risks, scoring, and actions    |
+| `references/`   | Taxonomies, schemas, and lookup guidance                     |
+| `translations/` | Per-language report rendering and terminology                |
+| `scripts/`      | Report-production and skill-maintenance scripts              |
+| `evals/`        | Behavioral regression prompts and expectations               |
+| `docs/`         | Repository-governance documents, indexed by `docs/README.md` |
 
-Root files govern the repository itself: `SKILL.md`, `README.md`, `STYLE.md`,
-`MAINTENANCE.md`, `VERSIONING.md`, `CONTRIBUTING.md`, `SECURITY.md`, and `LICENSE`.
+Root files govern the repository itself: `SKILL.md`, `README.md`, `AGENTS.md`, and `LICENSE`.
+
+The `docs/` directory holds the governance documents (`README.md`, `STYLE.md`,
+`MAINTENANCE.md`, `VERSIONING.md`, `CONTRIBUTING.md`, `SECURITY.md`).
+
+Root `docs/` is repository governance; it is unrelated to the `docs/audit/` report-location
+convention in audited projects.
 
 Keep resource files one level deep under their directory.
 
 Do not add nested resource directories unless a documented format requires them.
+
+The corpus directories `references/stacks/`, `references/methodology/`, and
+`references/topics/` are the sanctioned exception: they hold distilled external-source
+digests indexed by `references/source-catalog.md`.
 
 When a new resource directory is justified, register it in `SKILL.md` and mirror it in the
 `README.md` tree.
@@ -52,8 +62,8 @@ Name translation files `translations/<language>-language.md`, following the exis
 Name tools `scripts/<verb>-<object>.py` and use the Python standard library unless an additional
 dependency is documented.
 
-Keep conventional uppercase names for root files, including `README.md`, `STYLE.md`,
-`MAINTENANCE.md`, `VERSIONING.md`, and `LICENSE`.
+Keep conventional uppercase names for root and governance files, including `README.md`,
+`AGENTS.md`, `LICENSE`, and the documents under `docs/`.
 
 Keep evaluation prompts in `evals/evals.json`.
 
@@ -63,9 +73,17 @@ Register every new or renamed resource in `SKILL.md` under the section for its d
 
 Each router entry states what the file covers and when to load it.
 
+A resource counts as registered in a document when its filename appears there, or when an
+ancestor directory appears as a backticked `path/` token; `scripts/validate-skill.py` enforces
+both cases.
+
+Files inside a directory registered by token, such as the corpus directories, are indexed by
+`references/source-catalog.md` rather than listed individually in `SKILL.md`.
+
 Mirror root-level and resource-layout changes in the `README.md` directory tree.
 
-Update `## Contents` line numbers in `SKILL.md` and `README.md` when section locations change.
+Update `## Contents` line numbers in `SKILL.md` and `README.md` when section locations change,
+or run `python scripts/check-contents.py --fix .` to re-anchor them mechanically.
 
 Update all references when a file moves or is renamed, including references in assessment,
 workflow, synthesis, and translation files.
@@ -83,9 +101,9 @@ change so the written rule and the check never drift apart.
 
 The same rule applies to logic mirrored between tools.
 
-The glossary variant and compound-name exemption helpers shared verbatim between
-`scripts/link-glossary.py` and `scripts/validate-report.py` must be updated together in the
-same change, since a copied implementation drifts the same way a written rule does.
+The glossary variant, compound-name exemption, and fixed-field-label helpers shared verbatim
+between `scripts/link-glossary.py` and `scripts/validate-report.py` must be updated together in
+the same change, since a copied implementation drifts the same way a written rule does.
 
 ## Extending Assessment And Report Resources
 
@@ -119,11 +137,37 @@ Keep report section order, conditional criteria, checklist coverage, and router 
 
 ### Adding References
 
-Add reference material under `references/` and register it in `SKILL.md` with its use conditions.
+Add reference material under `references/` and register it in `SKILL.md` with its use
+conditions; digests distilled from external sources go under the corpus directories and are
+indexed by `references/source-catalog.md` instead of `SKILL.md`.
 
 Update the assessment or synthesis guide that consumes it.
 
 Distinguish consulted reference material from evidence that a tool or external check was executed.
+
+### Refreshing The Source Corpus
+
+The corpus under `references/stacks/`, `references/methodology/`, and `references/topics/` is
+maintainer-refreshed, never fetched at audit time.
+
+To refresh a digest, fetch the URLs its `references/source-catalog.md` rows name, update the
+distilled rules where the source changed, advance the digest's snapshot date, and mark the
+catalog rows `distilled`.
+
+When a canonical URL fails, record the working alternate in the catalog's Unresolved And
+Alternate Addresses table and mark the row `alternate`; paywalled or bot-blocked sources keep
+their canonical URL and a `paywalled` or `restricted` status.
+
+Distill checkable rules and conclusions, never copy a source's full normative text into the
+repository.
+
+### Report Workspace Retention
+
+Report parts, copied `.tmp.` tool files, and validation working copies live in the audited
+repository's `work/` tree (or its `temp`/`temporary` convention) during assembly.
+
+They are deleted before delivery - `work/` is a scratch area, not a retention location, and
+the validation phase confirms the cleanup.
 
 ## Adding A Report Language
 
@@ -177,6 +221,9 @@ python scripts/check-contents.py .
 Run `git diff --check` before delivery.
 
 Format tables in edited skill documents with a temporary source-width formatter per `STYLE.md`.
+
+Check comment alignment in edited plain-text blocks with
+`python scripts/align-comments.py <file> --check`.
 
 Generic document checkers flag several sanctioned patterns in this repository. Treat these as
 expected noise, not defects:

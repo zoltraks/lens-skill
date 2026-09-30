@@ -9,6 +9,8 @@ remove the copy.
 Usage: python format-table.py <report.md>
 """
 
+from __future__ import annotations
+
 import sys
 
 

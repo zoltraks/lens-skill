@@ -31,11 +31,11 @@ Run the skill-maintenance validators before requesting review:
 python scripts/validate-skill.py .
 python scripts/check-references.py .
 python scripts/check-contents.py .
+python scripts/align-comments.py <file> --check
 git diff --check
 ```
 
-The maintainer runs the same validators before merging, and the `validate` workflow runs them
-on every pull request.
+The maintainer runs the same validators before merging.
 
 ## AI-Assisted Contributions
 

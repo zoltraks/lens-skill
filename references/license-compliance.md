@@ -45,6 +45,25 @@ Nothing else counts.
 
 Absence of a declaration produces `Unknown`, not a best guess.
 
+The per-ecosystem file and field locations this pass reads are catalogued in
+`references/topics/license-evidence.md`.
+
+## Declaration Normalization
+
+Normalize declarations to SPDX identifiers before classifying.
+
+Common non-SPDX spellings (`Apache 2.0`, `Apache License`, `BSD`, `GPL`) map to their SPDX
+identifiers, and an unmapped or misspelled identifier is recorded verbatim with the
+normalization attempted - never silently corrected.
+
+The [REUSE specification](https://reuse.software/spec/) convention - per-file
+`SPDX-License-Identifier` headers plus a `LICENSES/` directory - is the strongest declaration
+posture and is recorded as such when present.
+
+When the project publishes a permitted-license list or policy, reconcile every classified row
+against it: a component outside the permitted list is a policy finding separate from the
+copyleft check, and the policy file itself is the declaration that governs.
+
 ## The Copyleft Trap
 
 The finding most likely to force legal remediation is a strong-copyleft component linked into a work

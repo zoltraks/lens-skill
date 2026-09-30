@@ -118,6 +118,13 @@ The `eslint-plugin-no-unsanitized` plugin covers DOM XSS sinks.
 | CWE-352  | Missing CSRF before method override | `security/detect-no-csrf-before-method-override` |
 | CWE-208  | Possible timing attack              | `security/detect-possible-timing-attacks`        |
 | CWE-79   | DOM XSS                             | `no-unsanitized/*` plugin rules                  |
+| CWE-798  | Hardcoded credentials               | `no-secrets` community plugin, secret scanners   |
+| CWE-532  | Sensitive data in logs              | None direct - trace `console`/`logger` arguments |
+| CWE-770  | Unbounded resource allocation       | None direct - check body-parser limits           |
+| CWE-209  | Error details in responses          | None direct - check error middleware output      |
+| CWE-693  | Protection mechanism failure        | None direct - assess middleware wiring           |
+| CWE-326  | Inadequate encryption strength      | None direct - inspect `crypto` algorithm choices |
+| CWE-1188 | Insecure default initialization     | None direct - review config defaults             |
 | CWE-327  | Weak cryptography                   | None direct                                      |
 | CWE-295  | Certificate validation disabled     | None direct                                      |
 

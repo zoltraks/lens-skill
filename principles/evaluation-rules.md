@@ -19,19 +19,19 @@ If a finding cannot satisfy these rules, mark it as unknown rather than guessing
 
 | Section                             | Line | What it covers                        |
 |-------------------------------------|------|---------------------------------------|
-| Evidence-Based Reasoning            | 35   | Traceability and missing-info tokens  |
-| Evidence Strength And Claim Control | 52   | Evidence bases, types, confidence     |
-| No Assumptions                      | 134  | The no-assumption rule                |
-| No Personal Judgement               | 148  | Neutrality toward people              |
-| Architectural Neutrality            | 162  | Judging within stated constraints     |
-| Status Markers                      | 175  | PASS, PARTIAL, FAIL, UNKNOWN, N/A     |
-| Contextual Applicability            | 194  | N/A usage for inapplicable categories |
-| Absent Capability Assessment        | 223  | Intentional-versus-oversight tokens   |
-| Evidence Citation                   | 256  | Anchoring claims to sources           |
-| Confidence And Scope Limits         | 267  | Confidence and scope boundaries       |
-| Information Security And Redaction  | 278  | Secret handling rules                 |
-| Indexing And Traceability           | 294  | ID schemes and ordering               |
-| Critical Constraints                | 363  | Non-negotiable hard limits            |
+| Evidence-Based Reasoning            | 36   | Traceability and missing-info tokens  |
+| Evidence Strength And Claim Control | 53   | Evidence bases, types, confidence     |
+| No Assumptions                      | 148  | The no-assumption rule                |
+| No Personal Judgement               | 162  | Neutrality toward people              |
+| Architectural Neutrality            | 176  | Judging within stated constraints     |
+| Status Markers                      | 189  | PASS, PARTIAL, FAIL, UNKNOWN, N/A     |
+| Contextual Applicability            | 208  | N/A usage for inapplicable categories |
+| Absent Capability Assessment        | 237  | Intentional-versus-oversight tokens   |
+| Evidence Citation                   | 271  | Anchoring claims to sources           |
+| Confidence And Scope Limits         | 282  | Confidence and scope boundaries       |
+| Information Security And Redaction  | 293  | Secret handling rules                 |
+| Indexing And Traceability           | 309  | ID schemes and ordering               |
+| Critical Constraints                | 378  | Non-negotiable hard limits            |
 
 ## Evidence-Based Reasoning
 
@@ -128,6 +128,19 @@ Cite the requirement and its applicability before recording nonconformance.
 
 A standard's popularity does not make its adoption mandatory, and a recommendation does not
 become a requirement merely because the report lists it.
+
+**Baseline consultation order**
+
+When a judgement needs an external standard, consult sources in this order:
+
+1. The subject's own development standards documents.
+2. The bundled corpus digests under `references/stacks/`, `references/methodology/`,
+   `references/topics/`, and the flat `references/` files, located through
+   `references/stack-standards.md` and `references/source-catalog.md`.
+3. The live authoritative URL named by the digest, only when the earlier sources leave the
+   question open and fetching is permitted.
+
+Record which baseline decided the judgement and, for corpus files, the snapshot date.
 
 Do not infer code originality, authorship, review history, or organizational practices from
 source style or absence of contrary evidence.

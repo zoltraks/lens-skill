@@ -22,6 +22,11 @@ Proxy figures are derived evidence about the repository, not measurements of a p
 
 ## DORA Metrics Under A Source-Only Audit
 
+The distilled DORA model, SLO definitions, and NIST SSDF practice anchors live in
+`references/methodology/delivery-metrics.md`.
+
+Consult that digest before citing the live DORA source.
+
 The current DORA model has five metrics.
 
 Two are approximable from Git history, three are not:

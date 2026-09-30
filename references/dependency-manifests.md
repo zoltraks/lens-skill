@@ -136,6 +136,24 @@ and documented dependency lists.
 
 Mark version and relationship `UNKNOWN` when not derivable.
 
+## Lockfile Conventions
+
+- Library-versus-application: an application lockfile is expected evidence, while a published
+  library may legitimately ship none because registries resolve `dependencies` ranges at
+  install time. An absent lockfile in a library subject is an observation, not a defect, when
+  the manifest declares ranges and CI installs them - see `references/stacks/nodejs.md`.
+- The npm lockfile license census: `package-lock.json` v2+ entries may carry a `license`
+  field, but coverage is partial and reflects the publisher's manifest declaration, not the
+  package's LICENSE text. Record lockfile licenses as `Reported` evidence and mark `Unknown`
+  when the field is absent - the authoritative per-package declaration locations are listed in
+  `references/topics/license-evidence.md`.
+- `composer.lock` carries `packages` and `packages-dev` with `license` arrays per package -
+  the strongest manifest-derived license evidence of the covered ecosystems.
+- `packages.lock.json` and `go.sum` carry integrity data, not licenses; license fields must
+  come from the NuGet `.nuspec` metadata or module documentation respectively.
+- A lockfile newer than its manifest signals drift; record both file timestamps and the
+  delta per the manifest-lockfile drift rule above.
+
 ## Using The Inventory
 
 - The inventory feeds Dependencies and Supply Chain (`assessment/dependency-review.md`), license

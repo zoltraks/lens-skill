@@ -115,6 +115,15 @@ The audit never executes checks, so there is no execution column: a documented b
 writes `NOT RUN - <what the check would establish>` in `Result`, and a source observation
 carries the observed result directly.
 
+A `NOT RUN` row is its own ledger class: the check is documented or was selected by the
+verification plan, and the audit recorded rather than executed it.
+
+`NOT RUN` bounds the verification claim - it never weakens a finding that rests on positive
+inspected evidence, and every such row feeds the Limitations and Unknowns table per
+`process/report-format/closing.md`.
+
+The full convention is codified in `references/topics/evidence-recipes.md`.
+
 A `Project` column follows `Evidence` only in a multi-project report.
 
 The `Type` column carries `Observation` or `Concern` per `principles/evaluation-rules.md`:

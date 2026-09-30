@@ -32,6 +32,18 @@ Reverting a release is assessed separately in `assessment/rollback-review.md`.
 | Manual procedures     | Runbooks, checklists, documented manual steps        |
 | Release cadence       | Changelogs, tags, release history                    |
 
+**Pipeline integrity**
+
+For each CI workflow found, run the pin-discipline check from
+`references/stacks/ci-github-actions.md`: every `uses:` reference is pinned to a commit SHA or
+a versioned tag of a trusted publisher, mutable refs such as `@main` or floating major tags on
+third-party actions are recorded, and unpinned first-party actions follow the project's own
+policy.
+
+The check reads workflow files as text - it never fetches the referenced actions.
+
+A mutable third-party ref is a supply-chain exposure finding class, not a style note.
+
 ## Absent Automation
 
 When no pipeline definition or CI configuration exists in the supplied files, record the finding

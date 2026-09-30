@@ -76,7 +76,7 @@ Mention any critical finding that the reader should know first.
 
 Keep the paragraph to four sentences maximum.
 
-Break lines that exceed the selected wrap width (default 100) per `STYLE.md`.
+Break lines that exceed the selected wrap width (default 100) per `docs/STYLE.md`.
 
 The maturity level must be justified by evidence in later sections, not asserted.
 

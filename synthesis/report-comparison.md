@@ -26,13 +26,13 @@ never assumed from the previous report alone.
 | Report Revision                  | 122  | Revision numbering                         |
 | Output Filename                  | 141  | Revisioned filename rules                  |
 | Comparison Content               | 173  | What the Changes section compares          |
-| Re-Audit With Changed Params     | 195  | Parameter-change comparison                |
-| Evidence Transitions             | 215  | Finding, evidence, and capability deltas   |
-| Observation Folding              | 234  | Attaching new defects to existing findings |
-| Identifier Continuity            | 245  | FND/RSK/REC sequence rules                 |
-| Status, Change, And Verification | 268  | Status/Change vocabulary for re-audits     |
-| Legacy Field Names               | 294  | Old-schema-to-current name mapping         |
-| Rules                            | 339  | Comparison constraints                     |
+| Re-Audit With Changed Params     | 206  | Parameter-change comparison                |
+| Evidence Transitions             | 226  | Finding, evidence, and capability deltas   |
+| Observation Folding              | 245  | Attaching new defects to existing findings |
+| Identifier Continuity            | 256  | FND/RSK/REC sequence rules                 |
+| Status, Change, And Verification | 279  | Status/Change vocabulary for re-audits     |
+| Legacy Field Names               | 305  | Old-schema-to-current name mapping         |
+| Rules                            | 350  | Comparison constraints                     |
 
 ## When This Applies
 
@@ -174,6 +174,17 @@ audits.
 
 Build the comparison from the previous report's Document Information, category assessments,
 Detailed Technical Findings, Unified Risk Register, and Scorecard Summary.
+
+Drive it from the prior-finding mapping table built during the Re-Audit phase of
+`process/audit-workflow.md` - every prior `FND-XXX` resolves to a disposition
+(`carried`, `closed`, `superseded`, `dropped`) with its current identifier and evidence before
+the Changes section is written.
+
+Remediation records - a claimed fix, a tracking issue, a changelog entry - never close a
+finding on their own.
+
+Each claimed closure is verified against current-tree evidence per the Status, Change, And
+Verification vocabulary below.
 
 Compare at least:
 

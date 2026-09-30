@@ -17,8 +17,9 @@ All scripts require Python 3.8 or later (the walrus operator is used in
 
 ### Report-Production Tools
 
-Copy `link-glossary.py`, `format-table.py`, `validate-report.py`, and - for Polish reports -
-`lint-polish.py` into the audited repository's `work/` directory under a `.tmp.` name before use.
+Copy `link-glossary.py`, `format-table.py`, `align-comments.py`, `validate-report.py`, and -
+for Polish reports - `lint-polish.py` into the audited repository's `work/` directory under a
+`.tmp.` name before use.
 
 If `work/` does not exist, use an existing `temp` or `temporary` directory.
 
@@ -26,8 +27,34 @@ Use the repository root only when none of those directories exists.
 
 Run the copied scripts only against the generated report and report-support artifacts.
 
-Run `link-glossary.py` first to insert glossary body links, then `format-table.py` before
-`validate-report.py`, so table-width noise does not drown the validator's structural findings.
+The edit-format-validate cycle is: edit the report, run `link-glossary.py` to insert glossary
+body links, run `format-table.py`, then `validate-report.py`, repeating until the validator
+reports zero issues.
+
+`finalize-report.py` runs that cycle's three steps in one command when copied alongside them
+under a `.tmp.` name, locating its siblings by filename.
+
+`lint-prose.py` lints draft report text before assembly for the prose rules the validator
+enforces: heading depth, heading blank-line spacing, semicolons outside code spans, and the
+typographic characters the ASCII convention forbids.
+
+`align-comments.py` aligns trailing `#` comments inside untagged fenced blocks and shell-tagged
+blocks to one shared column per block - the established column when most comments already
+share one, otherwise the longest entry plus two spaces.
+
+`--compact` moves the column to the minimum; `--check` reports misalignment without writing.
+
+A block whose opening fence is preceded by `<!-- align-comments: off -->` - optionally with one
+blank line between the marker and the fence - is skipped entirely, so deliberate examples of
+misalignment stay untouched.
+
+Run it on any document that contains directory trees, file listings, or commented plain-text
+blocks, including the skill's own files.
+
+`link-glossary.py` never links glossary terms inside the value of a `* **Field:**` bullet
+(Pillar, Severity, Type, Security, Status, Change, Absence, Verified, Confidence, Class,
+Result, Priority, Likelihood, Residual, Owner, Exploitability), because those positions hold
+fixed-vocabulary tokens the validator compares literally.
 
 When the report language is not English,
 run `validate-report.py` on an English-mapped working copy that translates the `* **Field:**`
@@ -75,6 +102,9 @@ the Lens repository.
 
 These tools inspect the skill itself and do not need to be copied into an audited project.
 
+They honor the repository's root `.gitignore`, so the `work/` tree of audit artifacts and
+session documents is never scanned.
+
 `validate-skill.py` checks `SKILL.md` frontmatter, router references, file budgets, and
 `evals/evals.json`.
 
@@ -87,6 +117,9 @@ It is never run on a report artifact or inside an audited repository.
 
 `check-contents.py` verifies that `## Contents` tables in the skill's own documents still anchor to
 real `##` section headings.
+
+Pass `--fix` to rewrite each row's recorded line to its section heading; when rows and headings
+pair one-to-one they are re-anchored in order.
 
 Run it whenever a document's sections move.
 
@@ -110,9 +143,12 @@ python scripts/validate-skill.py .
 python scripts/check-references.py .
 python scripts/check-contents.py .
 python scripts/check-update.py
+python scripts/lint-prose.py path/to/draft.md
 python scripts/format-table.py path/to/AUDIT.md
+python scripts/align-comments.py path/to/AUDIT.md [--check]
 python scripts/validate-report.py path/to/AUDIT.md
 python scripts/lint-polish.py path/to/AUDYT.md
+python scripts/finalize-report.py [--polish] path/to/AUDIT.md
 ```
 
 Exit code `0` means all checks passed.

@@ -357,6 +357,83 @@ def check_finding_summary(text: str) -> list[str]:
     return failures
 
 
+def check_finding_counts(text: str) -> list[str]:
+    failures: list[str] = []
+    pattern = re.compile(r"^#{2,3}\s+Detailed Technical Findings\s*$", re.MULTILINE)
+    for match in pattern.finditer(text):
+        rest = text[match.end() :]
+        end = re.search(r"^#{2,3}\s+(?!FND-)", rest, re.MULTILINE)
+        block = rest[: end.start()] if end else rest
+        blocks = len(re.findall(r"^###\s+FND-", block, re.MULTILINE))
+        first_block = re.search(r"^###\s+FND-", block, re.MULTILINE)
+        summary_part = block[: first_block.start()] if first_block else block
+        rows = 0
+        for line in summary_part.split("\n"):
+            if line.startswith("|") and "FND-" in line:
+                rows += 1
+        if blocks and rows != blocks:
+            failures.append(
+                f"Detailed Technical Findings: summary cites {rows} finding row(s) "
+                f"but the section defines {blocks} ### FND- block(s)"
+            )
+    return failures
+
+
+SCORE_PAIR = re.compile(r"(\d+(?:\.\d+)?)/(\d+)")
+
+
+def check_scorecard_mean(text: str) -> list[str]:
+    failures: list[str] = []
+    summaries: list[tuple[float, int]] = []
+    for marker in re.finditer(r"\*\*Scorecard Summary\*\*", text):
+        rest = text[marker.end() :]
+        lines = rest.split("\n")
+        table = []
+        for line in lines:
+            if line.startswith("|"):
+                table.append(line)
+            elif table:
+                break
+        if len(table) < 3:
+            continue
+        header = [cell.strip() for cell in raw_cells(table[0])]
+        score_idx = header.index("Score") if "Score" in header else -1
+        if score_idx < 0:
+            continue
+        values: list[float] = []
+        for row in table[2:]:
+            cells = [cell.strip() for cell in raw_cells(row)]
+            if len(cells) <= score_idx:
+                continue
+            pairs = SCORE_PAIR.findall(cells[score_idx])
+            if pairs:
+                num, denom = float(pairs[-1][0]), float(pairs[-1][1])
+                if denom:
+                    values.append(num / denom)
+        if values:
+            summaries.append((sum(values) / len(values), len(values)))
+    overalls: list[tuple[float, int]] = []
+    for line in text.split("\n"):
+        if not line.startswith("|"):
+            continue
+        cells = [cell.strip() for cell in raw_cells(line)]
+        if len(cells) >= 2 and cells[0] == "Overall score":
+            pairs = SCORE_PAIR.findall(cells[1])
+            if pairs:
+                num, denom = float(pairs[-1][0]), float(pairs[-1][1])
+                if denom:
+                    overalls.append((num / denom, int(denom)))
+    if len(overalls) != len(summaries):
+        return failures
+    for index, ((mean, count), (stated, denom)) in enumerate(zip(summaries, overalls), 1):
+        if abs(mean - stated) > 0.5 / denom + 1e-9:
+            failures.append(
+                f"scorecard {index}: stated overall {stated * denom:g}/{denom} does not match "
+                f"the mean of {count} dimension scores"
+            )
+    return failures
+
+
 def check_ledger_columns(text: str) -> list[str]:
     failures: list[str] = []
     ledger = section_block(text, r"Verification And Evidence Ledger")
@@ -526,6 +603,37 @@ def _compound_word(token: str, trailing: bool) -> str:
     return re.sub(r"^[^A-Za-z0-9]+", "", token)
 
 
+FIELD_VALUE_LABELS = (
+    "Pillar",
+    "Severity",
+    "Type",
+    "Security",
+    "Status",
+    "Change",
+    "Absence",
+    "Verified",
+    "Confidence",
+    "Class",
+    "Result",
+    "Priority",
+    "Likelihood",
+    "Residual",
+    "Owner",
+    "Exploitability",
+)
+
+FIELD_LINE = re.compile(
+    r"^\s*[*-]\s+\*\*(?:" + "|".join(FIELD_VALUE_LABELS) + r"):\*\*"
+)
+
+
+def mask_field_value(masked: str) -> str:
+    match = FIELD_LINE.match(masked)
+    if not match:
+        return masked
+    return masked[: match.end()] + " " * (len(masked) - match.end())
+
+
 def slugify(heading: str) -> str:
     return re.sub(r"[^a-z0-9 _-]", "", heading.lower()).replace(" ", "-")
 
@@ -656,6 +764,7 @@ def check_glossary_body_links(text: str, terms: list[str], sub_slugs: dict[str, 
         masked = re.sub(r"\[[^\]]*\]\([^)]*\)", lambda m: " " * len(m.group(0)), masked)
         masked = re.sub(r"https?://\S+", lambda m: " " * len(m.group(0)), masked)
         masked = re.sub(r"\[[^\]]*\]", lambda m: " " * len(m.group(0)), masked)
+        masked = mask_field_value(masked)
         for match in pattern.finditer(masked):
             start, end = match.start(), match.end()
             before = masked[start - 1] if start else " "
@@ -774,8 +883,9 @@ def check_rec_classification(text: str) -> list[str]:
         rest = text[end:]
         following = re.search(r"^#{1,3}\s", rest, re.MULTILINE)
         section = rest[: following.start()] if following else rest
-        classified += re.findall(r"REC-\d{3}", section)
         table = [line for line in section.split("\n") if line.startswith("|")]
+        for line in table:
+            classified += re.findall(r"REC-\d{3}", line)
         if len(table) >= 2:
             header = [cell.strip() for cell in raw_cells(table[0])]
             if "Class" in header:
@@ -911,6 +1021,8 @@ def main(path: str) -> int:
                 ("risk-block fields", check_risk_blocks(lines)),
                 ("legacy field names", check_legacy_fields(lines, fences)),
                 ("findings summary columns", check_finding_summary(text)),
+                ("findings count", check_finding_counts(text)),
+                ("scorecard mean", check_scorecard_mean(text)),
                 ("ledger columns", check_ledger_columns(text)),
                 ("scorecard N/A rows", check_scorecard_na(text)),
                 ("security classifications", check_security_classification(lines)),
@@ -927,9 +1039,12 @@ def main(path: str) -> int:
     failures = 0
     for name, problems in checks:
         status = "FAIL" if problems else "PASS"
-        print(f"[{status}] {name}")
+        total = f" ({len(problems)} issue(s))" if problems else ""
+        print(f"[{status}] {name}{total}")
         for problem in problems[:10]:
             print(f"       {problem}")
+        if len(problems) > 10:
+            print(f"       ... and {len(problems) - 10} more")
         failures += len(problems)
     print(f"{failures} issue(s) found")
     return 1 if failures else 0

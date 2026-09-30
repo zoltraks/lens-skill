@@ -16,6 +16,8 @@ this script. Polish audit reports must pass with zero errors before delivery,
 and the Validation Record records the run.
 """
 
+from __future__ import annotations
+
 import argparse
 import re
 import sys

@@ -99,6 +99,14 @@ Prefix each finding heading with the project identifier so the reader can naviga
 
 For example: `### FND-ARC-001: [api-service] Missing input validation`.
 
+On a re-audit, a prior cross-cutting finding that now maps to one project keeps its identifier
+and gains that project's `[project]` prefix, and the mapping is recorded in the Changes Since
+Previous Audit section.
+
+A prior finding that applies to several projects splits into one scoped finding per project,
+each carrying the same base identifier under its own project prefix, and the split is recorded
+in the Changes section.
+
 **Shared sections** appear once at the end of the report, after all per-project sections:
 
 - Trade-off Analysis (combined)

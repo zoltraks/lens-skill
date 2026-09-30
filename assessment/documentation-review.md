@@ -89,6 +89,29 @@ equivalents.
 The absence of `SECURITY.md` is a named finding, not a silent gap, whenever the audited subject
 has any security-relevant surface and is published for external consumption.
 
+The file conventions and `SECURITY.md` semantics are baselined in
+`references/topics/project-health.md`.
+
+## Documented-Claim Verification
+
+Two mechanical drift checks apply to every documented surface.
+
+The documented-figure check recalculates every quantitative claim in the docs - file counts,
+test counts, coverage percentages, version numbers, supported-platform lists - against the
+measured repository.
+
+A documented figure that no census reproduces is a drift finding, and the measured figure is
+recorded beside the claim.
+
+The docs-to-code check diffs documented commands, options, environment variables, and file
+paths against the implemented surface - every documented `npm run` script, CLI flag, env var,
+and config key must resolve to the code.
+
+A documented-but-unimplemented item is `NOT SPECIFIED` coverage drift; an implemented-but-
+undocumented surface is a documentation gap.
+
+Both directions are findings, never prose generalizations.
+
 ## Status Criteria
 
 - `PASS`: Entry, setup, and interface documentation exist and match the code, with evidence.

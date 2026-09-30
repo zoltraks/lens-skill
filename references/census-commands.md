@@ -97,6 +97,31 @@ Use a declaration-shaped pattern or an explicit enumeration of declaring lines.
 A directory present on disk is not committed content until `git ls-files` or
 `git check-ignore` says otherwise.
 
+## Source Probes
+
+These read-only probes answer recurring audit questions.
+
+Each is a search pattern or file enumeration, never an executed build or test.
+
+| Probe                  | Method                                                                                                                                                   | What it bounds                                                                         |
+|------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
+| Import census          | Enumerate `import`/`require`/`use`/`using`/`#include` statements per file, dedupe to the external-module set                                             | Which declared dependencies are actually used, and which imports lack a manifest entry |
+| Engines drift          | Compare `engines`, `requires-*`, `go`, or `<TargetFramework>` floors against syntax features used                                                        | Whether code can run at the declared floor                                             |
+| Secret-shape scan      | Search credential-shaped patterns (`AKIA`, `BEGIN.*PRIVATE KEY`, `password\s*=`, `api[_-]?key\s*[:=]`); count and locate matches, never reproduce values | Candidate secret locations for tracing                                                 |
+| Missing-file checklist | Enumerate expected files per stack (`LICENSE`, `README`, lockfile, CI config, `.gitignore`) against `git ls-files`                                       | Absent baseline artifacts                                                              |
+| Lockfile census        | Count resolved entries per lockfile (`package-lock.json` `packages` keys, `Cargo.lock` `[[package]]`, `go.sum` module lines)                             | Component totals, direct/transitive split                                              |
+| Compose-env parity     | Diff `environment`/`env_file` keys in `compose.*` against env vars read by the code                                                                      | Undeclared or dead configuration                                                       |
+| Dockerfile surface     | Enumerate `FROM`, `USER`, `EXPOSE`, `HEALTHCHECK`, `ADD`/`COPY` sources, and `ENV`/`ARG` literals                                                        | Image provenance, privilege, exposed surface                                           |
+| Annotation floor       | Count framework attributes/decorators (`@Controller`, `[Route]`, `@app.route`) vs handler declarations                                                   | Whether declared surface matches registered surface                                    |
+| Workflow pin census    | List every `uses:` ref in workflow files and its pin form (SHA, tag, branch)                                                                             | Mutable third-party action references                                                  |
+| Registration diff      | Diff shipped files on disk against files registered in `SKILL.md`, manifests, or index files                                                             | Unregistered or dangling resources                                                     |
+| Derived-literal census | Search literals that duplicate declared configuration (URLs, timeouts, limits hardcoded where a config key exists)                                       | Configuration drift candidates                                                         |
+
+Count what the probe counts and record the pattern beside the figure.
+
+A probe result is a candidate set - each candidate is confirmed by reading the file before it
+becomes a finding.
+
 ## Anchor Precision
 
 Anchor every observation to a file and line range.

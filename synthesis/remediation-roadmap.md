@@ -138,6 +138,15 @@ An absent capability assessed `No documented rationale` or `Undetermined` per
 the gap is deliberate; `Deliberate - recorded decision` lands there only when the recorded
 decision still holds under current evidence.
 
+Worked example: a subject ships no rate limiting and no documented reason for its absence, so
+`Absence` reads `Undetermined`, the roadmap entry is classified `Not recommended`, and its
+paragraph names the evidence that would reclassify it - a documented decision, a threat model
+showing no hostile caller, or a deployment constraint.
+
+A P1 entry classified `Not recommended` still states the residual risk of not acting in its
+reclassification paragraph - declining an immediate action never erases the finding's
+consequence.
+
 Every `REC-XXX` receives exactly one class.
 
 The class is orthogonal to the P1-P4 priority: priority orders urgency, class records whether

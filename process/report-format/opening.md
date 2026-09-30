@@ -10,8 +10,8 @@
 | Section                                | Line | What it covers                       |
 |----------------------------------------|------|--------------------------------------|
 | Document Information                   | 16   | Report metadata and revisions        |
-| Audit Type Coverage & Assurance Matrix | 119  | Coverage of canonical audit types    |
-| Glossary                               | 162  | Abbreviation and acronym definitions |
+| Audit Type Coverage & Assurance Matrix | 121  | Coverage of canonical audit types    |
+| Glossary                               | 165  | Abbreviation and acronym definitions |
 
 ## Document Information
 
@@ -198,7 +198,12 @@ context.
 **Long descriptions**
 
 Terms that need more than an expansion get a `###` subsection below the index table,
-still inside `## Glossary`, sorted alphabetically by term.
+still inside `## Glossary`, sorted alphabetically by term ignoring case, matching the index
+table's ordering rule.
+
+A term serving as a fixed identifier prefix throughout the report - `EVD`, `FND`, `RSK`,
+`REC`, `TDR`, `PAR` - carries a `###` description rather than an index-only row, since the
+reader meets it in every register and finding block.
 
 Name each subsection `### TERM (Expansion)` when the expansion is established,
 or `### TERM` when it is not.
@@ -285,9 +290,17 @@ State them here so the prose contract and the mechanical check agree.
   when the report body never uses them, for example a subject with no service-level vocabulary.
 - A spaced slash does not form a compound. `SBOM / Software` still requires `[SBOM](#glossary)`
   on the acronym, only the adjacent form `SBOM/Software` is exempt.
-- `* **Field:** TERM` labels do not create the compound exemption, the markup on the preceding
-  token breaks the capitalized-word test, so `* **Priority:** P2` still links as
-  `* **Priority:** [P2](#glossary)`.
+- Machine-readable `* **Field:**` value positions are exempt from linking when the field
+  carries a fixed-vocabulary token. The exempt labels are `Pillar`, `Severity`, `Type`,
+  `Security`, `Status`, `Change`, `Absence`, `Verified`, `Confidence`, `Class`, `Result`,
+  `Priority`, `Likelihood`, `Residual`, `Owner`, and `Exploitability`. The value of such a
+  line stays literal even when the token is a glossary term, so `* **Priority:** P2` keeps a
+  bare `P2` and `* **Absence:** N/A` keeps a bare `N/A`. A `* **Field:**` label not on this
+  list still links normally.
+- The status tokens that populate those fields - `N/A`, `PASS`, `FAIL`, `UNKNOWN`,
+  `NOT RUN`, `NOT PERFORMED`, `NOT SPECIFIED`, `INSUFFICIENT INFORMATION`, `NO BASELINE`,
+  `NO GAPS` - are a fixed vocabulary. They may be indexed as terms when the report uses them
+  in prose, but inside the exempt field values above they are data, not glossary terms.
 - Parenthesized terms such as `HTTP(S)` cannot carry a `###` description, the term is parsed
   before the parenthesis, keep them index-only.
 - A link must point at the term's own anchor: `[SLO](#slo...)` when the term has a `###`

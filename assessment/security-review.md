@@ -62,6 +62,34 @@ OS.
 
 Do not collect real credentials to demonstrate exposure.
 
+**Scope and trust-boundary checks**
+
+Apply four scoping checks before severity is assigned.
+
+Permission-surface scoping records which actor the finding assumes: local user, network caller,
+authenticated principal, or the operator themselves.
+
+A defect reachable only by the machine's owner is scoped differently than one reachable by a
+remote caller, and the assumed actor is stated in the finding.
+
+Secret fallback-chain tracing follows every credential reference through its resolution order -
+environment, file, vault, default literal - per the recipe in
+`references/topics/evidence-recipes.md`.
+
+Each fallback step is evidence; a chain terminating in a committed file or a default literal is
+the finding, and the finding cites the chain, not just the leak site.
+
+The user-code-by-design rubric, shared with `references/exploitability-narrative.md`, separates
+intentional execution of supplied code - plugin systems, template engines, scripting surfaces -
+from unintended execution.
+
+Code execution that the feature exists to provide is not an injection finding; the review
+focuses on whether inputs escape the intended sandbox or trust level.
+
+The config trust-boundary check maps which configuration inputs the code trusts without
+validation: a config file read as authoritative is one boundary class, while config values
+crossing into commands, queries, or deserialized objects are another and carry injection weight.
+
 ## Weakness And Vulnerability Classification
 
 For each security finding, record the most specific supported CWE root cause, its title, and a

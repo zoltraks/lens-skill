@@ -170,3 +170,11 @@ The corpus lists methodology sources, not scoring inputs.
 
 Prefer primary standards for report citations per `references/stack-standards.md`,
 while these entries ground the report's structure and terminology choices.
+
+Several rows now have bundled digests that carry the distilled rules - consult them before the
+live source: `references/methodology/delivery-metrics.md` for the DORA row,
+`references/methodology/sbom-licensing.md` for the CISA SBOM row,
+`references/methodology/versioning-release.md` for release documentation sources, and
+`references/methodology/quality-models.md` for the CISQ row.
+
+`references/source-catalog.md` records each source's consolidation status.

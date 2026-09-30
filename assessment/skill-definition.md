@@ -202,6 +202,14 @@ conformance:
 | `metadata`      | No       | Map of string keys to string values                                 |
 | `allowed-tools` | No       | Space-separated string of pre-approved tools (experimental)         |
 
+Convert each spec clause from `references/agent-skills.md` into a checkable row - frontmatter
+field constraints, the 500-line disclosure budget, directory conventions, and file-reference
+rules - before judging conformance, so every verdict cites a clause rather than the spec as a
+whole.
+
+Record whether the clause baseline was the bundled snapshot or a live-fetch result, with its
+date.
+
 ## Evidence To Look For
 
 | Signal                   | Where It Appears                                                  |

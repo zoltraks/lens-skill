@@ -496,6 +496,182 @@
     "The unknown bogus-param id is ignored.",
     "Surfaces not answered in the document still run through their normal question flow."
    ]
+  },
+  {
+   "id": 40,
+   "prompt": "A report draft has `* **Absence:** N/A` and `* **Exploitability:** N/A - internal-only` field lines, and the glossary indexes N/A. Run the linking pass.",
+   "expected_output": "The glossary linker leaves the fixed field values literal and links only standalone prose occurrences of N/A.",
+   "files": [],
+   "expectations": [
+    "`* **Absence:** N/A` and `* **Exploitability:** N/A` keep literal values after `link-glossary.py`.",
+    "A bare `N/A` in a prose sentence still becomes a link.",
+    "`validate-report.py` does not flag the field-value tokens as unlinked glossary terms."
+   ]
+  },
+  {
+   "id": 41,
+   "prompt": "Draft a report glossary where `### rto` was written before `### API` and the index lists `RPO` after `api`.",
+   "expected_output": "Index rows and `###` description subsections are both sorted alphabetically ignoring case.",
+   "files": [],
+   "expectations": [
+    "The index table sorts case-insensitively.",
+    "The `###` description subsections sort case-insensitively in the same order.",
+    "SLO, RPO, and RTO are indexed even when unused in the body."
+   ]
+  },
+  {
+   "id": 42,
+   "prompt": "Before composing a large audit report, verify the report-production tooling works on this checkout.",
+   "expected_output": "A stub report carrying one canonical instance of every fixed field token is run through link-glossary, format-table, and validate-report (or finalize-report) before drafting.",
+   "files": [],
+   "expectations": [
+    "The tooling probe runs the copied `.tmp.` scripts on a stub report first.",
+    "A probe failure is treated as a toolchain problem, not a report problem.",
+    "The stub exercises `* **Absence:**`-style fixed-vocabulary field lines."
+   ]
+  },
+  {
+   "id": 43,
+   "prompt": "You added `references/notes-new.md` to the skill but did not touch SKILL.md or README.md.",
+   "expected_output": "`validate-skill.py` reports the file as unregistered.",
+   "files": [],
+   "expectations": [
+    "The registration check compares the file tree against SKILL.md and README.md registrations.",
+    "A file under a backticked `dir/` registered directory counts as registered.",
+    "Unregistered files fail validation."
+   ]
+  },
+  {
+   "id": 44,
+   "prompt": "This Node.js service declares 40 dependencies in package.json but imports only 12. Report the dependency finding.",
+   "expected_output": "Unused manifest entries are reported from the import census, distinguishing direct declarations from transitives.",
+   "files": [],
+   "expectations": [
+    "The import census enumerates imported modules per file before judging.",
+    "Unused direct dependencies are a finding; transitives are not blamed on the manifest.",
+    "Dev-tooling imports still count toward devDependencies."
+   ]
+  },
+  {
+   "id": 45,
+   "prompt": "compose.yaml maps `env_file: .env` and the code reads `process.env.DB_PASS`; `.env` is untracked. How is this reported?",
+   "expected_output": "The env chain is traced from compose to code to the untracked file; the untracked file is inspected for posture but never counted as tracked content or reproduced.",
+   "files": [],
+   "expectations": [
+    "Secret values are never reproduced in findings or the ledger.",
+    "The untracked `.env` is working-tree evidence, not tracked inventory.",
+    "The compose-env parity check records keys the code reads versus keys the file declares."
+   ]
+  },
+  {
+   "id": 46,
+   "prompt": "package.json says `\"test\": \"echo ok\"` and CI runs `npm test`. Assess the test story.",
+   "expected_output": "The stub test script is flagged: CI invokes it, so the gate exists structurally but asserts nothing.",
+   "files": [],
+   "expectations": [
+    "A test script that prints a fixed string is a stub finding, not a passing suite.",
+    "The CI step is recorded as evidence the harness is invoked.",
+    "The finding distinguishes harness presence from assertion content."
+   ]
+  },
+  {
+   "id": 47,
+   "prompt": "This repo has a Dockerfile but no `.dockerignore`. Report it.",
+   "expected_output": "A missing `.dockerignore` is reported as a build-context finding per the Docker stack digest.",
+   "files": [],
+   "expectations": [
+    "Absent `.dockerignore` beside a Dockerfile is a named finding class.",
+    "The finding cites build-context leakage (secrets, .git) as the risk.",
+    "Severity reflects what the context could leak, not the file's absence alone."
+   ]
+  },
+  {
+   "id": 48,
+   "prompt": "This PHP service has admin endpoints with no authorization checks. Build the finding.",
+   "expected_output": "Endpoints are enumerated and checked against authn/authz middleware; unauthenticated admin routes map to OWASP API categories with per-endpoint evidence.",
+   "files": [],
+   "expectations": [
+    "The dispatch enumeration lists every route before judging coverage.",
+    "Each unauthenticated endpoint is diffed against the declared contract.",
+    "PHP-specific conventions from `references/stacks/php.md` apply."
+   ]
+  },
+  {
+   "id": 49,
+   "prompt": "The project's own spec document promises rate limiting but no code implements it. How severe is the absence?",
+   "expected_output": "The spec-promised-control rule applies: severity grades against the documented promise, not generic best practice.",
+   "files": [],
+   "expectations": [
+    "A spec-promised control absent from code is a spec violation.",
+    "Its severity is anchored to the documented promise.",
+    "The Absence field still records the intent reading separately."
+   ]
+  },
+  {
+   "id": 50,
+   "prompt": "User input flows into a config file path that is then evaluated as PHP. Assess injection likelihood.",
+   "expected_output": "Configuration-expression review applies: config in the language itself is code, and untrusted input reaching it is assessed as injection.",
+   "files": [],
+   "expectations": [
+    "Executable config files receive code-level review on interpreted stacks.",
+    "The likelihood reasoning follows the config trust-boundary check in `assessment/security-review.md`.",
+    "The finding cites the resolution chain from input to evaluation."
+   ]
+  },
+  {
+   "id": 51,
+   "prompt": "An endpoint in the OpenAPI spec returns a hardcoded JSON blob in the implementation. Report it.",
+   "expected_output": "The handler is a stub: spec drift finding citing both the spec entry and the fixed-payload implementation.",
+   "files": [],
+   "expectations": [
+    "Simulated or stub endpoints are detected via the stub-detection recipe.",
+    "The spec entry satisfied by a stub is contract drift, not implemented surface.",
+    "Both the spec line and the handler anchor are cited."
+   ]
+  },
+  {
+   "id": 52,
+   "prompt": "You are auditing offline with no network access. The subject's standards doc is silent on dependency pinning.",
+   "expected_output": "Consult the bundled corpus digest before any live URL; record the digest's snapshot date as the baseline.",
+   "files": [],
+   "expectations": [
+    "Consultation order is subject standard, bundled digest, then live URL when permitted.",
+    "The digest snapshot date is recorded as the baseline used.",
+    "No fetch is attempted when offline; the gap is marked explicitly."
+   ]
+  },
+  {
+   "id": 53,
+   "prompt": "jest.config declares `testMatch` covering `src/**` but `tests/` holds 30 spec files outside it. Report.",
+   "expected_output": "The include-pattern census reports the dead test tree: files outside the declared pattern never execute.",
+   "files": [],
+   "expectations": [
+    "Declared include patterns are compared against the test tree on disk.",
+    "Tests no pattern selects are reported as never-run, whatever they contain.",
+    "The finding cites both the config pattern and the uncovered paths."
+   ]
+  },
+  {
+   "id": 54,
+   "prompt": "This PWA registered a service worker two versions ago but the activate handler never deletes old caches. Assess.",
+   "expected_output": "Stale-cache risk is reported: unpurged cache versions serve outdated code indefinitely.",
+   "files": [],
+   "expectations": [
+    "The service-worker lifecycle rules from `references/topics/offline-cache.md` apply.",
+    "An `activate` handler without cache-version cleanup is the finding.",
+    "`skipWaiting`/`clients.claim` usage is recorded as activation posture."
+   ]
+  },
+  {
+   "id": 55,
+   "prompt": "This Electron app ships unsigned installers built by a CI job that downloads a script with `curl | bash`. Assess the update path.",
+   "expected_output": "Unsigned-update and curl-pipe-execute are reported under CWE-494 with the release-integrity rules from `references/topics/git-integrity.md`.",
+   "files": [],
+   "expectations": [
+    "`curl | bash` in a build script is an unsigned-execution finding.",
+    "Missing installer signing or update signature checks are named.",
+    "TUF-style role separation is the referenced hardening model."
+   ]
   }
  ]
 }

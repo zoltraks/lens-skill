@@ -122,6 +122,30 @@ Do not invent a universal behavioral-to-struct-test ratio or coverage target.
 Derive acceptance criteria from required behavior, including unauthorized rejection, permitted
 success, no unintended side effects, failure handling, and regression coverage.
 
+**Reconciliation checks**
+
+Apply three mechanical checks before judging coverage.
+
+The include-pattern census lists the test-selection patterns the project declares - framework
+config (`testMatch`, `testpaths`, `include`), CI step filters, and script invocations - and
+compares them against the test tree on disk.
+
+A test file that no include pattern selects never runs, whatever its content.
+
+The harness-versus-specs check compares declared frameworks and harnesses in manifests and CI
+against the imports and runners the test files actually use - a declared harness with no
+consuming test is configuration drift, and a used harness with no declaration is an
+undocumented dependency.
+
+The verification-coverage row maps each enumerated dispatch entry point - HTTP routes, CLI
+commands, consumers, scheduled jobs, per `references/topics/evidence-recipes.md` - to the
+tests that name it.
+
+An entry point no test references is a coverage gap to report, not to assume tested.
+
+Apply the stub-detection recipe from `references/topics/evidence-recipes.md` to the suite:
+tests that only re-assert a stub's fixed output evidence nothing about the subject.
+
 ## Status Criteria
 
 - `PASS`: Tests exist across the layers the system needs in a balanced pyramid, the code is

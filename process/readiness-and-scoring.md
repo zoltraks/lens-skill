@@ -78,6 +78,14 @@ Convert caps proportionally for other numeric scales.
 
 A cap is a reporting rule, not a severity assignment.
 
+Severity and conformance anchor two further rules:
+
+- A control the subject's own documentation, specification, or contract promises but the code
+  does not implement is a spec violation - its severity grades against the documented promise,
+  not against generic best practice.
+- A deviation from the subject's own development standards is a conformance finding even when
+  the deviation is otherwise defensible - governance evidence weighs on its own.
+
 ## Overall Score
 
 Use the unweighted arithmetic mean of numeric dimension scores.
@@ -152,6 +160,11 @@ At minimum, assess:
 - Operational objectives and recovery evidence for operated systems.
 - Dependency and artifact identity for shipped software.
 - Business, legal, support, cost, and data artifacts for due diligence.
+
+When the project defines no gates of its own, reconstruct the minimum set above from the
+subject's deployment model and stated purpose.
+
+A gate the evidence cannot satisfy stays open - silence never waives a reconstructed gate.
 
 Use these readiness states:
 

@@ -76,6 +76,16 @@ An OpenAPI `info.version` need not equal the binary package version unless the p
 
 A version mismatch alone does not demonstrate schema drift or require URL versioning.
 
+Apply the stub-detection recipe from `references/topics/evidence-recipes.md` to the endpoint
+surface: a handler returning a fixed payload, raising `NotImplementedError`, or delegating to a
+simulated service is a stub finding, and the spec entry it satisfies is spec drift, not an
+implemented contract.
+
+Diff authentication requirements per endpoint between the spec (`security` blocks, documented
+auth rules) and the code (middleware, decorators, guards): an endpoint the spec marks
+authenticated but the code serves without a check is a contract violation, and the reverse
+direction - code-enforced auth the spec never declares - is a documentation gap.
+
 ## OWASP API Security Top 10 (2023) Reference
 
 Use these category codes when an API security gap maps to one:

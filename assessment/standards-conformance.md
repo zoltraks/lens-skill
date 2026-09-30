@@ -124,6 +124,27 @@ Record that silence as a coverage gap where relevant, and assess the implementat
 An external best practice supports advice unless it was adopted as a requirement or implements a
 necessary security invariant.
 
+**Clause-to-checklist conversion**
+
+Convert every prescriptive clause in the standards document into a checkable row before judging
+conformance: the clause, its modal strength (`must`, `should`, `may`), its scope, and the
+source pattern that satisfies or violates it.
+
+Judgements cite checklist rows, not the document as a whole - a verdict against "the standard"
+without a clause is not anchored.
+
+**Declared-runtime-floor check**
+
+The declared minimum runtime version is itself a standard the code must satisfy.
+
+Read the floor from the manifests (`requires-python`, `engines`, `go` directive,
+`<TargetFramework>`, CI matrix minimums) and check the syntax and APIs the code uses against
+that floor, per the version-feature tables in the matching `references/stacks/` digest - for
+example the PEP 585/604 boundary catalogued in `references/stacks/python.md`.
+
+Code using a feature newer than the declared floor is a conformance finding against the
+project's own declared contract.
+
 ## External References
 
 When this assessment is included, collect every external source referenced during the

@@ -136,6 +136,9 @@ Label computed values as proxies, never as measured DORA metrics.
 A project with no tags reports the proxy rows as `NOT SPECIFIED` with the reason,
 commits are not deployments.
 
+A repository with no tags and no release or deployment data reports `NOT SPECIFIED` on all
+five rows: no proxy is computable and nothing else is measurable from source.
+
 When Git history was not in scope, mark the whole table `NOT COLLECTED`.
 
 **Contributor concentration**

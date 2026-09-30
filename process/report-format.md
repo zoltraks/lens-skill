@@ -101,9 +101,9 @@ For actual section or subsection titles, use markdown header syntax (`##` or `##
 rather than bold text.
 
 Break prose lines that exceed the selected wrap width - 100 characters by default - at a natural
-boundary such as after a comma or clause end, per `STYLE.md`.
+boundary such as after a comma or clause end, per `docs/STYLE.md`.
 
-Offer the width choice per the Selecting The Wrap Width rules in `STYLE.md` before wrapping.
+Offer the width choice per the Selecting The Wrap Width rules in `docs/STYLE.md` before wrapping.
 
 Do not break inside inline code, file paths, or URLs.
 
@@ -114,7 +114,7 @@ Do not use the semicolon character in prose.
 
 Join closely related clauses with a comma or split them into separate sentences.
 
-The rule does not apply to code blocks, inline code, or file paths, per `STYLE.md`.
+The rule does not apply to code blocks, inline code, or file paths, per `docs/STYLE.md`.
 
 Use a language tag on fenced code blocks that contain code.
 
@@ -123,7 +123,7 @@ and do not leave a blank line as the first or last line inside a fenced block.
 
 Do not add a Contents or table-of-contents section.
 
-`STYLE.md` requires one in documents over 300 lines,
+`docs/STYLE.md` requires one in documents over 300 lines,
 but the report navigates by its fixed section order and the Health Dashboard,
 so the omission is deliberate.
 
@@ -191,7 +191,7 @@ The compacted version - minimum width that fits every cell - is the correct vers
 
 Format every table with a script, do not count column widths by hand.
 
-Manual counting is error-prone and produces misaligned columns, per `STYLE.md`.
+Manual counting is error-prone and produces misaligned columns, per `docs/STYLE.md`.
 
 Before delivering a File-mode report, run a script that implements the checklist above:
 parse each table, measure every cell width in source text including formatting characters,
@@ -591,5 +591,11 @@ every item is mechanical and takes seconds to verify.
 `scripts/format-table.py` in the skill repository is the canonical formatting script,
 copy it into the audited repository's `work/` directory before use.
 
+`scripts/lint-prose.py` runs the prose rules (semicolons, typographic dashes, arrows, heading
+spacing) on draft parts before assembly, copy it the same way.
+
 `scripts/validate-report.py` runs the scriptable items in this checklist plus finding-block field,
 register cross-reference, and PAR-row checks, copy and run it the same way.
+
+`scripts/finalize-report.py` orchestrates the full sequence - glossary linking, table
+formatting, then report validation - against sibling `.tmp.` copies in one call.

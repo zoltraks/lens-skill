@@ -14,6 +14,8 @@ on the report file before `format-table.py`, then remove the copy.
 Usage: python link-glossary.py <report.md>
 """
 
+from __future__ import annotations
+
 import re
 import sys
 
@@ -80,6 +82,30 @@ def compound_context(line: str, start: int, end: int) -> bool:
     return False
 
 
+FIELD_VALUE_LABELS = (
+    "Pillar",
+    "Severity",
+    "Type",
+    "Security",
+    "Status",
+    "Change",
+    "Absence",
+    "Verified",
+    "Confidence",
+    "Class",
+    "Result",
+    "Priority",
+    "Likelihood",
+    "Residual",
+    "Owner",
+    "Exploitability",
+)
+
+FIELD_LINE = re.compile(
+    r"^\s*[*-]\s+\*\*(?:" + "|".join(FIELD_VALUE_LABELS) + r"):\*\*"
+)
+
+
 def slugify(heading: str) -> str:
     return re.sub(r"[^a-z0-9 _-]", "", heading.lower()).replace(" ", "-")
 
@@ -129,6 +155,9 @@ def mask_line(line: str) -> str:
     masked = re.sub(r"\[[^\]]*\]\([^)]*\)", lambda m: " " * len(m.group(0)), masked)
     masked = re.sub(r"https?://\S+", lambda m: " " * len(m.group(0)), masked)
     masked = re.sub(r"\[[^\]]*\]", lambda m: " " * len(m.group(0)), masked)
+    field = FIELD_LINE.match(masked)
+    if field:
+        masked = masked[: field.end()] + " " * (len(masked) - field.end())
     return masked
 
 
@@ -147,9 +176,8 @@ def main(path: str) -> int:
     linked = 0
     skipped = 0
     in_fence = False
-    in_glossary = False
     out: list[str] = []
-    for lineno, line in enumerate(lines, 1):
+    for index, line in enumerate(lines):
         if line.lstrip().startswith("```"):
             in_fence = not in_fence
             out.append(line)
@@ -157,16 +185,9 @@ def main(path: str) -> int:
         if in_fence:
             out.append(line)
             continue
-        if lineno == g_start:
-            in_glossary = True
+        if g_start <= index < g_end:
             out.append(line)
             continue
-        if in_glossary:
-            if lineno == g_end:
-                in_glossary = False
-            else:
-                out.append(line)
-                continue
         if re.match(r"^#{1,6}\s", line):
             out.append(line)
             continue

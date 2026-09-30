@@ -20,11 +20,11 @@ A review report applies the same phases with the deltas defined in
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 1334 | Intake Checklist guidance        |
-| Handling Thin Input     | 1353 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1364 | Single-Dimension Audits guidance |
-| Re-Audit                | 1374 | Re-Audit guidance                |
-| Multi-Project Audits    | 1421 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1380 | Intake Checklist guidance        |
+| Handling Thin Input     | 1399 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1410 | Single-Dimension Audits guidance |
+| Re-Audit                | 1420 | Re-Audit guidance                |
+| Multi-Project Audits    | 1486 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -120,6 +120,30 @@ This determines whether the Standards Conformance assessment applies.
 
 When no standards documents are found, the Standards Conformance assessment is omitted and the
 omission is noted in Scope Exclusions.
+
+**Nested repository and working-tree census**
+
+During intake, detect nested repositories: directories carrying their own `.git`, including
+submodules, vendored checkouts, and embedded clones.
+
+Each nested repository has its own history and is a project-boundary signal.
+
+Record each with its path and its classification: submodule per `.gitmodules`, vendored
+dependency per manifest or ignore rules, or an unclassified embedded repository.
+
+Vendored and installed trees are `not recommended` for inclusion per the project-inclusion
+rules below.
+
+Census manifests and lockfiles in the working tree, not only tracked paths.
+
+An untracked manifest or lockfile means dependency evidence differs from the committed state.
+
+Record untracked manifests separately and never count them in the tracked inventory, per the
+tracked-artifact rules under Evidence Gathering.
+
+Prior-audit discovery stays bounded: search only the locations named under Audit mode and
+previous reports, and never descend into dependency, vendor, or nested-repository trees to
+find reports.
 
 **Agent-facing artifact discovery**
 
@@ -223,6 +247,18 @@ Node, `pom.xml` or `build.gradle` for JVM stacks, `pyproject.toml` for Python, a
 
 Record the detected stacks and consult `references/stack-standards.md` for the canonical
 references to apply during assessment and cite in the report.
+
+Baseline consultation order for every conformance judgement:
+
+1. The subject's own development standards documents, when found during intake.
+2. The bundled corpus digests under `references/stacks/`, `references/methodology/`,
+   `references/topics/`, and the flat `references/` files, mapped through
+   `references/source-catalog.md`.
+3. The live authoritative URL named by the digest, only when the two earlier sources leave
+   the question open and fetching is permitted.
+
+Record which baseline decided each judgement, and record the digest's snapshot date when a
+corpus file supplied it.
 
 Classify each project as a reusable library or package versus a deployable service or application.
 
@@ -1197,6 +1233,16 @@ contradict one another - a `production system` claim against a `pre-production` 
 context, or an `AI Governance Audit` exclusion used to suppress AI-provenance findings, is a
 defect to resolve before delivery.
 
+Before composing the report body, run a tooling probe against the report-production scripts:
+
+copy `scripts/link-glossary.py`, `scripts/format-table.py`, and `scripts/validate-report.py`
+(or `scripts/finalize-report.py`, which orchestrates all three) into the audited repository
+under `.tmp.` names, run them on a stub report carrying one canonical instance of every fixed
+field token (`* **Absence:**`, `* **Exploitability:**`, `* **Status:**`, and so on),
+and confirm the tools behave as specified.
+
+A probe failure means the toolchain, not the report, needs attention first.
+
 Produce the report in this order so each mechanical pass is effective:
 
 1. Finish all section content first. Every later cell-text edit changes column widths.
@@ -1379,8 +1425,27 @@ Overview.
 When re-auditing after changes, keep the same categories, statuses vocabulary, scorecard dimensions,
 and finding IDs.
 
+Re-read the governing contract files before composing: `process/report-format.md` and its
+sub-files, `synthesis/report-comparison.md`, and `process/report-parity.md`.
+
+The baseline report encodes the format of the skill version that wrote it, not the current one.
+
 Record what changed since the previous audit and which findings moved status, so progress is
 comparable over time.
+
+Build a prior-finding mapping table in the working notes before synthesis:
+one row per prior `FND-XXX` recording its current disposition (`carried`, `closed`,
+`superseded`, `dropped`), the evidence that justifies it, and the current identifier it maps to.
+
+The Changes Since Previous Audit section is assembled from this table, not improvised from
+memory of the baseline.
+
+Verify remediation claims from current-tree evidence, never from changelogs, commit messages,
+or issue trackers alone.
+
+A finding marked `Closed` requires inspected evidence that the remediation landed.
+
+A claimed fix without current evidence keeps `Open` and records the unverified claim.
 
 Every evidence anchor is re-derived from the current tree.
 

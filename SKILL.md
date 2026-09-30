@@ -43,17 +43,17 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 | Trigger Keywords        | 95   | Activation phrases                                 |
 | How To Use              | 116  | Progressive disclosure and mandatory reading       |
 | Parameter Configuration | 136  | Defaults and user-controlled report shape          |
-| Principles              | 201  | Evaluation and output rules                        |
-| Process                 | 207  | Workflow, format, and parity                       |
-| Assessments             | 232  | Core and conditional assessment guides             |
-| Synthesis               | 273  | Findings, risk, score, and remediation assembly    |
-| Translations            | 288  | Per-language report translations                   |
-| References              | 297  | Lookup tables                                      |
-| Scripts                 | 314  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 335  | Behavioral regression prompts                      |
-| Repository Files        | 340  | Housekeeping files governing this repository       |
-| Evidence Contract       | 353  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 387  | File-selection and section-placement rules         |
+| Principles              | 199  | Evaluation and output rules                        |
+| Process                 | 205  | Workflow, format, and parity                       |
+| Assessments             | 227  | Core and conditional assessment guides             |
+| Synthesis               | 267  | Findings, risk, score, and remediation assembly    |
+| Translations            | 281  | Per-language report translations                   |
+| References              | 290  | Lookup tables                                      |
+| Scripts                 | 313  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 338  | Behavioral regression prompts                      |
+| Repository Files        | 342  | Housekeeping files governing this repository       |
+| Evidence Contract       | 354  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 388  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -205,26 +205,21 @@ The previous report is never overwritten - write the next revision-numbered file
 ## `process/` - Audit Process
 
 - **`process/audit-workflow.md`** - End-to-end audit process: intake to validated report.
-- **`process/report-format.md`** - Report format index: formatting rules, parameters, section
-  order, specification-file map, pre-delivery checklist.
+- **`process/report-format.md`** - Report format index: rules, parameters, spec-file map.
 - **`process/report-format/opening.md`** - Document Information, coverage matrix, Glossary.
 - **`process/report-format/multi-project.md`** - Combined multi-project report structure.
-- **`process/report-format/summary-and-changes.md`** - Executive Summary, Changes Since Previous
-  Audit.
+- **`process/report-format/summary-and-changes.md`** - Executive Summary and Changes.
 - **`process/report-format/context-and-compliance.md`** - System Context, SBOM, License & IP.
-- **`process/report-format/dashboard-and-observations.md`** - Health Dashboard, delivery practice,
-  observations.
+- **`process/report-format/dashboard-and-observations.md`** - Health Dashboard and delivery
+  practice.
 - **`process/report-format/methodology-and-scoring.md`** - Auditing Methodology, Scoring Rubrics.
-- **`process/report-format/architectural-assessment.md`** - Architectural Assessment and
-  subsections.
+- **`process/report-format/architectural-assessment.md`** - Architectural Assessment.
 - **`process/report-format/analysis.md`** - Trade-off Analysis, Threat Model.
 - **`process/report-format/conformance.md`** - Conditional conformance sections.
 - **`process/report-format/findings-and-registers.md`** - Strengths, findings, debt, risk,
-  roadmap, recommendation classification.
-- **`process/report-format/closing.md`** - Exclusions, Limitations, Re-audit, Validation,
-  References.
-- **`process/json-exchange.md`** - Machine-readable parameter documents for every intake
-  question surface, emitted or consumed as JSON.
+  roadmap.
+- **`process/report-format/closing.md`** - Exclusions, Limitations, Re-audit, Validation.
+- **`process/json-exchange.md`** - JSON parameter documents for intake question surfaces.
 - **`process/review-report.md`** - Review report type for explicit amendment requests.
 - **`process/report-parity.md`** - Mandatory core checklist and consistency gate.
 - **`process/readiness-and-scoring.md`** - Score aggregation, confidence, maturity, readiness gates.
@@ -250,8 +245,7 @@ The previous report is never overwritten - write the next revision-numbered file
 - **`assessment/compliance-review.md`** - Data protection, privacy, regulatory scope, licensing.
 - **`assessment/observability-review.md`** - Logging, metrics, tracing, alerting.
 - **`assessment/error-handling.md`** - Exception strategy, retries, fallbacks, user-facing errors.
-- **`assessment/operational-readiness.md`** - Runbooks, on-call, capacity, backups,
-  incident response.
+- **`assessment/operational-readiness.md`** - Runbooks, on-call, capacity, backups.
 - **`assessment/ai-generated-code.md`** - Code provenance, generated-artifact validation.
 - **`assessment/copyright-review.md`** - Originality, license compliance, attribution.
 
@@ -311,6 +305,10 @@ They are consulted during intake, assessment, and report writing.
 - **`references/agent-skills.md`** - Agent Skills spec corpus and live-check baseline.
 - **`references/agent-configuration.md`** - AGENTS.md, rules, plugin, subagent, and MCP
   format baselines.
+- **`references/source-catalog.md`** - Authoritative external-source registry and corpus index.
+- **`references/stacks/`** - Per-stack offline baselines, indexed in `source-catalog.md`.
+- **`references/methodology/`** - Methodology digests, indexed in `source-catalog.md`.
+- **`references/topics/`** - Domain digests indexed in `source-catalog.md`.
 
 ## `scripts/` - Canonical Scripts
 
@@ -324,32 +322,34 @@ Run the copies there and remove them when done.
 They are report-production tooling, not analysis of the audited project.
 
 - **`scripts/format-table.py`** - Canonical table formatter (Table Formatting Rules).
+- **`scripts/align-comments.py`** - Plain-text `#` comment column aligner.
 - **`scripts/link-glossary.py`** - Glossary body-link inserter, run before the formatter.
 - **`scripts/validate-report.py`** - Mechanical report consistency checker.
 - **`scripts/validate-skill.py`** - Frontmatter, disclosure, and references validator.
 - **`scripts/check-references.py`** - Relative-reference integrity checker.
 - **`scripts/check-contents.py`** - Contents-table versus section-heading drift checker.
 - **`scripts/check-update.py`** - Skill self-update checker (git upstream).
+- **`scripts/finalize-report.py`** - Runs link, format, and validate in order on a report.
+- **`scripts/lint-polish.py`** - Polish report linter for calques and typography.
+- **`scripts/lint-prose.py`** - Pre-assembly prose linter for report drafts.
 - **`scripts/common.py`** - Shared frontmatter and reporting helpers for maintenance tools.
 - **`scripts/README.md`** - Tool classes, usage, validation order, limitations.
 
 ## Evaluation Prompts
 
-- **`evals/evals.json`** - Behavioral regression prompts and expectations, run after
-  structural changes. They do not replace independent review.
+- **`evals/evals.json`** - Behavioral regression prompts and expectations.
 
 ## Repository Files
 
 These files govern the skill repository itself rather than audit production:
 
-- **`STYLE.md`** - Style rules for the skill's own files. Follow when editing this repository.
-- **`MAINTENANCE.md`** - Repository structure, naming, registration, validation, and
-  versioning rules.
+- **`AGENTS.md`** - Agent-facing entry point for repository authoring and maintenance.
 - **`README.md`** - Human-facing overview, usage examples, and verification commands.
-- **`VERSIONING.md`** - Version numbering and release conventions for the skill.
-- **`CONTRIBUTING.md`** - Maintainer model, pre-merge validation, and contribution expectations.
-- **`SECURITY.md`** - Private vulnerability reporting path and covered risks.
-- **`LICENSE`** - License text for the skill.
+- **`docs/STYLE.md`** - Style rules for the skill's own documents.
+- **`docs/MAINTENANCE.md`** - Repository structure, registration, and validation rules.
+- **`docs/VERSIONING.md`** - Version numbering and release conventions.
+- **`docs/CONTRIBUTING.md`** - Maintainer model and pre-merge validation expectations.
+- **`docs/SECURITY.md`** - Private vulnerability reporting path and covered risks.
 
 ## Evidence And Decision Contract
 

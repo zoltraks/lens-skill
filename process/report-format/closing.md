@@ -179,6 +179,11 @@ Result values are `Applied`, `PASS`, or `N/A`.
 
 An `N/A` always carries a justification in the Evidence / Justification column.
 
+The `State` row in Document Information is removed only after this record is complete and the
+consistency gate in `process/report-parity.md` passes - removal is the last structural edit,
+before the final timestamp is written, so a report that still shows `Draft` has not passed its
+own gate.
+
 For multi-project reports, qualify per-project checks with the project identifier.
 
 ## References

@@ -83,7 +83,11 @@ A description near the 1024-character limit risks truncation in spec-compliant a
 
 ## Best-Practice Signals
 
-The skill-creation guides add quality signals beyond the required format:
+The skill-creation guides add quality signals beyond the required format.
+
+The Anthropic best-practices document at
+`https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices` is the
+authoritative source for these signals:
 
 - Each bundled file gets explicit when-to-load guidance, not a generic "see the directory" note.
 - `scripts/` entries are self-contained or document their dependencies.

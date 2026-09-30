@@ -11,7 +11,58 @@ stay self-contained: they are copied into audited repositories under a
 
 from __future__ import annotations
 
+import fnmatch
 import re
+from pathlib import Path
+
+
+def gitignore_patterns(root: Path) -> list[str]:
+    patterns: list[str] = []
+    ignore_file = root / ".gitignore"
+    if not ignore_file.is_file():
+        return patterns
+    for raw in ignore_file.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if line and not line.startswith(("#", "!")):
+            patterns.append(line)
+    return patterns
+
+
+def is_ignored(relative: Path, patterns: list[str]) -> bool:
+    parts = relative.parts
+    posix = relative.as_posix()
+    for pattern in patterns:
+        anchored = pattern.startswith("/")
+        bare = pattern.rstrip("/").lstrip("/")
+        if not bare:
+            continue
+        if "/" in bare:
+            if anchored:
+                matched = posix == bare or posix.startswith(bare + "/")
+            else:
+                matched = fnmatch.fnmatch(posix, bare) or fnmatch.fnmatch(posix, bare + "/*")
+        elif anchored:
+            matched = fnmatch.fnmatch(parts[0], bare)
+        else:
+            matched = any(fnmatch.fnmatch(part, bare) for part in parts)
+        if matched:
+            return True
+    return False
+
+
+def resource_files(root: Path, suffix: str) -> list[Path]:
+    """Return non-ignored files with the given suffix, honoring the root .gitignore."""
+    patterns = gitignore_patterns(root)
+    return [
+        path
+        for path in sorted(root.rglob(f"*{suffix}"))
+        if ".git" not in path.parts and not is_ignored(path.relative_to(root), patterns)
+    ]
+
+
+def markdown_files(root: Path) -> list[Path]:
+    """Return non-ignored Markdown files under root, honoring the root .gitignore."""
+    return resource_files(root, ".md")
 
 
 def parse_frontmatter(text: str, issues: list[str]) -> tuple[dict[str, str], str]:

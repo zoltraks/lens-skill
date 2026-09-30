@@ -8,7 +8,7 @@ import re
 import sys
 from pathlib import Path
 
-from common import parse_frontmatter, report
+from common import markdown_files, parse_frontmatter, report, resource_files
 
 
 ALLOWED_FIELDS = {"name", "description", "license", "compatibility", "metadata", "allowed-tools"}
@@ -77,7 +77,7 @@ def validate_body(root: Path, body: str, issues: list[str]) -> None:
         if not (root / candidate).is_file():
             issue(f"root reference does not resolve: {relative}", issues)
 
-    for path in root.rglob("*.md"):
+    for path in markdown_files(root):
         if path == root / "SKILL.md":
             continue
         stem = path.stem
@@ -126,6 +126,41 @@ def validate_evals(root: Path, fields: dict[str, str], issues: list[str]) -> Non
             issue(f"eval {position} has no expectations", issues)
 
 
+def registered_in(path: Path, text: str) -> bool:
+    if path.name in text:
+        return True
+    parts = path.parent.parts
+    for depth in range(len(parts), 0, -1):
+        if f"`{'/'.join(parts[:depth])}/`" in text:
+            return True
+    return False
+
+
+def validate_registration(root: Path, issues: list[str]) -> None:
+    """Every shipped resource must be named in SKILL.md and mirrored in README.md.
+
+    A file counts as registered when its own name appears in the document, or
+    when an ancestor directory is registered as a backticked ``path/`` token.
+    """
+    skill_text = (root / "SKILL.md").read_text(encoding="utf-8")
+    readme = root / "README.md"
+    readme_text = readme.read_text(encoding="utf-8") if readme.is_file() else ""
+    resources = markdown_files(root)
+    resources.extend(resource_files(root, ".py"))
+    for path in resources:
+        relative = path.relative_to(root)
+        if path.name in ("SKILL.md", "README.md"):
+            continue
+        stem = path.stem
+        if stem.startswith(("AUDIT", "AUDYT", "REVIEW", "PRZEGLĄD")) or stem.endswith(
+            ("-REVIEW", "-PRZEGLĄD")
+        ):
+            continue
+        for label, text in (("SKILL.md", skill_text), ("README.md", readme_text)):
+            if not registered_in(relative, text):
+                issue(f"{relative} is not registered in {label}", issues)
+
+
 def main() -> int:
     if len(sys.argv) != 2:
         print("Usage: python scripts/validate-skill.py <skill-directory>")
@@ -144,6 +179,7 @@ def main() -> int:
         validate_frontmatter(root, fields, issues)
         validate_body(root, body, issues)
         validate_evals(root, fields, issues)
+        validate_registration(root, issues)
 
     return report(issues, "skill metadata, references, and disclosure limits")
 

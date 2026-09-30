@@ -45,6 +45,16 @@ STRIDE enumerates six threat categories, each the inverse of a security property
 | Denial of Service      | Availability    | Can the system be made unavailable?                 |
 | Elevation of Privilege | Authorization   | Can an actor gain rights beyond their grant?        |
 
+STRIDE originates with Microsoft threat-modeling practice and its current anchor is the
+Microsoft Threat Modeling Tool documentation alongside the OWASP Threat Modeling project - the
+distilled rules and source status live in
+`references/methodology/risk-and-threat-modeling.md`.
+
+Each category maps to a cheat-sheet family in
+`references/methodology/owasp-baselines.md` - for example Tampering to integrity and
+deserialization sheets, Information Disclosure to logging and transport sheets - so a STRIDE
+row can name the concrete control guidance that would mitigate it.
+
 ## Method
 
 Use STRIDE for threat enumeration and NIST SP 800-30 where its risk-assessment process is applied.

@@ -15,14 +15,14 @@ Every document created or modified as part of this skill must follow the rules b
 | Section                    | Line | What it covers                                  |
 |----------------------------|------|-------------------------------------------------|
 | Document Structure         | 27   | Titles, purpose blocks, and contents tables     |
-| Paragraphs And Wrapping    | 90   | Sentence structure and line width               |
-| Headings And Lists         | 146  | Heading depth, lists, and spacing               |
-| Code And Inline Formatting | 197  | Fences, code spans, and special characters      |
-| Tables                     | 267  | Source-width alignment and automated formatting |
-| Characters And Language    | 433  | Box-drawing, emoji, and per-language rules      |
-| File References            | 454  | Relative paths and backticked file paths        |
-| Skill Requirements         | 468  | Frontmatter and progressive disclosure          |
-| Maintenance                | 529  | File naming, encoding, and registration         |
+| Paragraphs And Wrapping    | 91   | Sentence structure and line width               |
+| Headings And Lists         | 147  | Heading depth, lists, and spacing               |
+| Code And Inline Formatting | 198  | Fences, code spans, and special characters      |
+| Tables                     | 276  | Source-width alignment and automated formatting |
+| Characters And Language    | 442  | Box-drawing, emoji, and per-language rules      |
+| File References            | 453  | Relative paths and backticked file paths        |
+| Skill Requirements         | 477  | Frontmatter and progressive disclosure          |
+| Maintenance                | 538  | File naming, encoding, and registration         |
 
 ## Document Structure
 
@@ -237,6 +237,11 @@ Recompute the column and re-pad the whole block after adding, removing, or renam
 
 The rule applies per block: different fenced blocks may use different comment columns.
 
+Align comments with `scripts/align-comments.py` or an equivalent script, not by hand.
+
+A block that must stay misaligned on purpose is exempted by placing `<!-- align-comments: off -->`
+before its opening fence, optionally with one blank line between the marker and the fence.
+
 ## Inline Formatting
 
 Prefer standard ASCII characters for normal text.
@@ -250,6 +255,10 @@ Use bold text for key term definitions: **Term**: definition.
 Use italics sparingly.
 
 Do not overuse emphasis.
+
+Report field examples such as `* **Absence:** N/A` carry fixed-vocabulary tokens as literal
+values - the token is data in that position, so it is written plainly and is exempt from the
+report's glossary-linking rules per `process/report-format/opening.md`.
 
 ## Semicolons
 

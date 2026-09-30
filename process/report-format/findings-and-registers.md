@@ -13,10 +13,10 @@
 |--------------------------------|------|--------------------------------------|
 | Strengths & What's Working     | 21   | Evidence-based positive baselines    |
 | Detailed Technical Findings    | 59   | Finding summary and detail blocks    |
-| Technical Debt Register        | 232  | Distinct accumulated debt            |
-| Unified Risk Register          | 280  | Cross-referenced risks               |
-| Actionable Remediation Roadmap | 371  | Prioritized recommendations          |
-| Recommendation Classification  | 442  | Recommended/Optional/Not recommended |
+| Technical Debt Register        | 237  | Distinct accumulated debt            |
+| Unified Risk Register          | 285  | Cross-referenced risks               |
+| Actionable Remediation Roadmap | 376  | Prioritized recommendations          |
+| Recommendation Classification  | 447  | Recommended/Optional/Not recommended |
 
 ## Strengths & What's Working
 
@@ -228,6 +228,11 @@ Place strengths in Strengths & What's Working rather than using `PASS` as a seve
 
 In shared sections, qualify IDs with the project identifier, including evidence, debt, risk, and
 recommendation links.
+
+Every identifier is a compound token written whole and plainly: `FND-SEC-001`,
+`api-service::FND-SEC-001`, `REC-003`, `PAR-10`.
+
+The compound is never split, partially linked, or abbreviated to a bare prefix in prose.
 
 ## Technical Debt Register
 
@@ -479,5 +484,8 @@ Column meanings:
 - A `Not recommended` row keeps its priority for the moment its blocking uncertainty resolves.
 - After the table, write one paragraph per `Not recommended` entry naming the evidence or decision
   that would reclassify it, using the bold-heading paragraph pattern.
+- The paragraph's `REC-XXX` appears once, in the bold heading. Its body cites the `FND-XXX` the
+  recommendation resolves, never the `REC-XXX` again - the classification table owns the
+  `REC-XXX` occurrence count.
 - The section introduces no new findings and no new recommendations.
 - In a multi-project report the section is per-project, following that project's roadmap.

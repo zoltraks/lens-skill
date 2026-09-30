@@ -66,8 +66,20 @@ A lockfile entry proves resolution intent, not what a released binary or contain
 Use the current CISA Minimum Elements for an SBOM as a completeness reference when judging how much
 of a real SBOM the table approximates.
 
+The CISA baseline (2026 edition per
+`references/methodology/sbom-licensing.md`) names these data fields: supplier name, component
+name, component version, unique identifiers, dependency relationship, SBOM author, and
+timestamp - plus automation-support and practices guidance.
+
 The 2026 edition makes Component License a minimum element,
 which is why `Unknown` license cells are surfaced rather than silently omitted.
+
+The CycloneDX component model distinguishes what the table records (name, version, `purl`,
+dependency relationship as the `direct`/`transitive` split) from what a generated SBOM adds:
+component `type` (`library`, `application`, `framework`, `container`, `operating-system`),
+hashes, and the separate `dependencies` graph.
+
+Record which of those fields the source-derived table can and cannot populate.
 
 Do not state or imply the table satisfies those elements.
 
