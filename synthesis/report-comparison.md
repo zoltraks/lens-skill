@@ -18,21 +18,21 @@ never assumed from the previous report alone.
 
 ## Contents
 
-| Section                       | Line | What it covers                               |
-|-------------------------------|------|----------------------------------------------|
-| When This Applies             | 37   | Baseline discovery and confirmation          |
-| Fresh Audit                   | 91   | What does and does not carry over            |
-| Cross-Subject Parity Baseline | 111  | Any-subject baseline for the parity gate     |
-| Report Revision               | 122  | Revision numbering                           |
-| Output Filename               | 141  | Revisioned filename rules                    |
-| Comparison Content            | 173  | What the Changes section compares            |
-| Re-Audit With Changed Params  | 195  | Parameter-change comparison                  |
-| Evidence Transitions          | 213  | Finding, evidence, and capability deltas     |
-| Observation Folding           | 232  | Attaching new defects to existing findings   |
-| Identifier Continuity         | 243  | FND/RSK/REC sequence rules                   |
-| Status And Verification       | 266  | Status/Verification vocabulary for re-audits |
-| Legacy Field Names            | 285  | Old-schema-to-current name mapping           |
-| Rules                         | 329  | Comparison constraints                       |
+| Section                          | Line | What it covers                             |
+|----------------------------------|------|--------------------------------------------|
+| When This Applies                | 37   | Baseline discovery and confirmation        |
+| Fresh Audit                      | 91   | What does and does not carry over          |
+| Cross-Subject Parity Baseline    | 111  | Any-subject baseline for the parity gate   |
+| Report Revision                  | 122  | Revision numbering                         |
+| Output Filename                  | 141  | Revisioned filename rules                  |
+| Comparison Content               | 173  | What the Changes section compares          |
+| Re-Audit With Changed Params     | 195  | Parameter-change comparison                |
+| Evidence Transitions             | 215  | Finding, evidence, and capability deltas   |
+| Observation Folding              | 234  | Attaching new defects to existing findings |
+| Identifier Continuity            | 245  | FND/RSK/REC sequence rules                 |
+| Status, Change, And Verification | 268  | Status/Change vocabulary for re-audits     |
+| Legacy Field Names               | 294  | Old-schema-to-current name mapping         |
+| Rules                            | 339  | Comparison constraints                     |
 
 ## When This Applies
 
@@ -265,24 +265,31 @@ example "Dependencies (both)" or "API Contract", create the covering finding und
 pillar sequence and mark it `New` in the finding transitions, do not carry a dangling
 reference forward.
 
-## Status And Verification
+## Status, Change, And Verification
 
-Use this fixed vocabulary in the `Status` and `Verification` columns during a re-audit.
+Use this fixed vocabulary in the `Status`, `Change`, and `Verification` columns during
+a re-audit.
 
-| Status   | Verification | Meaning                                                            |
-|----------|--------------|--------------------------------------------------------------------|
-| `Open`   | `Confirmed`  | The finding's anchor was re-inspected and still reproduces         |
-| `Open`   | `Reported`   | Only historical executed evidence supports it, nothing re-verified |
-| `Closed` | `Verified`   | Current-audit evidence closes it, cite the closing evidence        |
-| `New`    |              | Minted in this revision                                            |
-| `PASS`   | `Verified`   | A passing control, re-verified                                     |
+| Status   | Change      | Verification | Meaning                                                            |
+|----------|-------------|--------------|--------------------------------------------------------------------|
+| `Open`   | `Unchanged` | `Confirmed`  | The finding's anchor was re-inspected and still reproduces         |
+| `Open`   | `Unchanged` | `Reported`   | Only historical executed evidence supports it, nothing re-verified |
+| `Closed` | `Closed`    | `Verified`   | Current-audit evidence closes it, cite the closing evidence        |
+| `Open`   | `New`       |              | Minted in this revision                                            |
+| `Open`   | `Reopened`  | `Confirmed`  | A closed finding reproduces again under current evidence           |
+| `PASS`   | `Unchanged` | `Verified`   | A passing control, re-verified                                     |
+
+`Status` is the lifecycle (`Open`, `Closed`, `PASS`); `Change` is the movement since the
+previous audit (`New`, `Unchanged`, `Reopened`, `Closed`) - provenance never doubles as a
+lifecycle state, so a first-audit finding reads `Status: Open`, `Change: New`.
 
 Carry the evidence qualification in the `Verification` column rather than inventing new markers.
 
 A previous report may combine these in a single `Remediation Status` column:
 `Open - Confirmed` maps to `Status` `Open` plus `Verification` `Confirmed`,
 `Open - Reported` to `Open` plus `Reported`, `Closed - Verified` to `Closed` plus `Verified`,
-and `New` or `PASS` to the same `Status` with an empty `Verification`.
+and `New` or `PASS` to the same `Status` with an empty `Verification` - a `New` status in an
+older report reads as `Status` `Open` plus `Change` `New` under the current schema.
 
 ## Legacy Field Names
 
@@ -293,17 +300,18 @@ as a capability change per the Evidence Transitions rules.
 
 Finding block fields:
 
-| Legacy                     | Current          |
-|----------------------------|------------------|
-| Security Classification    | `Security`       |
-| Remediation Status         | `Status`         |
-| Target Files/Modules       | `Targets`        |
-| Requirement Basis          | `Basis`          |
-| Remediation Recommendation | `Recommendation` |
-| Verification Method        | `Method`         |
-| Verification State         | `Verified`       |
-| Counter-check              | `Countercheck`   |
-| Exploitability Narrative   | `Exploitability` |
+| Legacy                     | Current              |
+|----------------------------|----------------------|
+| Security Classification    | `Security`           |
+| Remediation Status         | `Status`             |
+| Target Files/Modules       | `Targets`            |
+| Requirement Basis          | `Basis`              |
+| Remediation Recommendation | `Recommendation`     |
+| Verification Method        | `Method`             |
+| Verification State         | `Verified`           |
+| Counter-check              | `Mitigating factors` |
+| Countercheck               | `Mitigating factors` |
+| Exploitability Narrative   | `Exploitability`     |
 
 Risk block fields: `Source Finding` -> `Source`, `Triggering Condition` -> `Trigger`,
 `Existing Controls` -> `Controls`, `Residual Risk` -> `Residual`, `Treatment State` -> `Status`,

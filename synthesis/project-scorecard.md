@@ -165,7 +165,8 @@ Examples: `★★★` for `3`, `★★☆` for `2`, and `★☆☆` for `1`.
 Render `UNKNOWN` as text, not as a star bar; `N/A` rows are omitted from the table entirely.
 
 For an overall mean under a star scale, round to the nearest integer for the star bar and keep
-the exact mean in parentheses, for example `★★★☆☆ (3.4/5)`.
+the exact mean in parentheses, for example `★★★☆☆ (3.4/5)`. A star scale is ordinal, so the
+per-dimension distribution appears beside the bar per `process/readiness-and-scoring.md`.
 
 ## Handling Unknowns
 

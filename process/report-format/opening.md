@@ -49,7 +49,9 @@ Rows appear in this order, each label in the first column and its value in the s
 - `Language` - the report language.
 - `Audit Purpose` - engineering improvement, production readiness, or technical due diligence.
 - `Target Environment` - where the software runs or ships.
-- `Verification Scope` - always `source-only`.
+- `Verification Scope` - always `static repository analysis (code, configuration,
+  documentation, git history) - no execution`; the short token `source-only` may stand
+  when a previous revision already established it.
 - `Subject Revision` - the audited revision of the subject, such as a commit hash.
 - `Dirty-Tree State` - the working tree state at audit time, written only when the tree is dirty.
   Omit the row when the tree is clean.
@@ -130,19 +132,20 @@ report.
 
 Present the fixed table from `references/audit-taxonomy.md`, one row per canonical audit type:
 
-|  | Report type                                 | Status   | Rationale                              |
-|--|---------------------------------------------|----------|----------------------------------------|
-|  | Software Architecture Review                | <status> | <why this status holds for this audit> |
-|  | Code Quality Audit                          | <status> | <why this status holds for this audit> |
-|  | Security Vulnerability Assessment           | <status> | <why this status holds for this audit> |
-|  | Open Source License Compliance Review       | <status> | <why this status holds for this audit> |
-|  | Penetration Test                            | <status> | <why this status holds for this audit> |
-|  | Performance Audit                           | <status> | <why this status holds for this audit> |
-|  | Cloud Infrastructure Audit                  | <status> | <why this status holds for this audit> |
-|  | AI Governance Audit                         | <status> | <why this status holds for this audit> |
-|  | Technical Due Diligence                     | <status> | <why this status holds for this audit> |
-|  | SBOM / Software Composition Analysis        | <status> | <why this status holds for this audit> |
-|  | Compliance Certification (SOC 2, ISO 27001) | <status> | <why this status holds for this audit> |
+|  | Report type                           | Status   | Rationale                              |
+|--|---------------------------------------|----------|----------------------------------------|
+|  | Software Architecture Review          | <status> | <why this status holds for this audit> |
+|  | Code Quality Audit                    | <status> | <why this status holds for this audit> |
+|  | Security Vulnerability Assessment     | <status> | <why this status holds for this audit> |
+|  | Open Source License Compliance Review | <status> | <why this status holds for this audit> |
+|  | Penetration Test                      | <status> | <why this status holds for this audit> |
+|  | Performance Audit                     | <status> | <why this status holds for this audit> |
+|  | Cloud Infrastructure Audit            | <status> | <why this status holds for this audit> |
+|  | AI Governance Audit                   | <status> | <why this status holds for this audit> |
+|  | Technical Due Diligence               | <status> | <why this status holds for this audit> |
+|  | SBOM / Software Composition Analysis  | <status> | <why this status holds for this audit> |
+|  | ISO/IEC 27001 Certification           | <status> | <why this status holds for this audit> |
+|  | SOC 2 Attestation Examination         | <status> | <why this status holds for this audit> |
 
 Status values come from the fixed vocabulary in `references/audit-taxonomy.md`: `Covered`,
 `Partially`, `Not done`, `Not Applicable`.

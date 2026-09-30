@@ -35,19 +35,20 @@ Render the full row set in every report.
 The default status applies unless the audit's evidence or the subject justifies a different one,
 and the Rationale column always states why.
 
-| Report type                                 | Answered by                                                        | Default status |
-|---------------------------------------------|--------------------------------------------------------------------|----------------|
-| Software Architecture Review                | Architectural Assessment, Trade-off Analysis                       | Covered        |
-| Code Quality Audit                          | Code Quality pillar findings, Technical Debt Register              | Covered        |
-| Security Vulnerability Assessment           | Security pillar findings, Threat Model, CWE mappings               | Covered        |
-| Open Source License Compliance Review       | License & IP Compliance Review, SBOM license pass                  | Covered        |
-| Penetration Test                            | Nothing equivalent, Exploitability Narratives are theoretical only | Not done       |
-| Performance Audit                           | NFR review of stated targets and design, no load measurement       | Partially      |
-| Cloud Infrastructure Audit                  | Deployment and IaC inspection, no live environment state           | Partially      |
-| AI Governance Audit                         | AI System Assessment when applicable                               | Covered or N/A |
-| Technical Due Diligence                     | Engineering dimensions plus Delivery Practice & Team Continuity    | Partially      |
-| SBOM / Software Composition Analysis        | Software Bill of Materials section, manifest-derived               | Covered        |
-| Compliance Certification (SOC 2, ISO 27001) | Standards used as scoring rubrics only                             | Not done       |
+| Report type                           | Answered by                                                        | Default status |
+|---------------------------------------|--------------------------------------------------------------------|----------------|
+| Software Architecture Review          | Architectural Assessment, Trade-off Analysis                       | Covered        |
+| Code Quality Audit                    | Code Quality pillar findings, Technical Debt Register              | Covered        |
+| Security Vulnerability Assessment     | Security pillar findings, Threat Model, CWE mappings               | Covered        |
+| Open Source License Compliance Review | License & IP Compliance Review, SBOM license pass                  | Covered        |
+| Penetration Test                      | Nothing equivalent, Exploitability Narratives are theoretical only | Not done       |
+| Performance Audit                     | NFR review of stated targets and design, no load measurement       | Partially      |
+| Cloud Infrastructure Audit            | Deployment and IaC inspection, no live environment state           | Partially      |
+| AI Governance Audit                   | AI System Assessment when applicable                               | Covered or N/A |
+| Technical Due Diligence               | Engineering dimensions plus Delivery Practice & Team Continuity    | Partially      |
+| SBOM / Software Composition Analysis  | Software Bill of Materials section, manifest-derived               | Covered        |
+| ISO/IEC 27001 Certification           | Standard used as a scoring rubric only                             | Not done       |
+| SOC 2 Attestation Examination         | Framework used as a coverage checklist only                        | Not done       |
 
 The AI Governance Audit row takes `Covered` when the AI System Assessment applies per
 `assessment/ai-system.md`, and `Not Applicable` otherwise.
@@ -117,10 +118,17 @@ question.
 It is not a shipped-artifact SBOM and performs no advisory-database lookups,
 per `references/sbom-schema.md`.
 
-**Compliance Certification.** Standards such as SOC 2, ISO 27001,
-and PCI-DSS are used as scoring rubrics and coverage checklists.
+**ISO/IEC 27001 Certification.** The standard's requirements are used as a scoring rubric
+and coverage checklist.
 
-The report makes no conformance or certification claim.
+The report makes no certification claim - certification of an information-security
+management system is a separate accredited process.
+
+**SOC 2 Attestation Examination.** The framework's criteria are used as a coverage
+checklist.
+
+The report makes no attestation claim - a SOC 2 report is an examination performed by a
+CPA firm, not a certification.
 
 ## Consistency Rules
 

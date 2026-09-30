@@ -84,6 +84,12 @@ Use the unweighted arithmetic mean of numeric dimension scores.
 
 Exclude `UNKNOWN` and `N/A` dimensions from the denominator.
 
+When the scale is ordinal - `5 stars`, `3 stars`, or a rubric whose levels are ordered
+labels rather than measured intervals - report the per-dimension distribution beside any
+mean (for example `11 dimensions: good, 3: average`), or prefer the distribution alone.
+
+A decimal mean such as `3.8/5` implies interval precision the rubric does not supply.
+
 Report the formula, scored dimension count, rounding rule, mean, and lowest-scoring applicable
 dimension together.
 

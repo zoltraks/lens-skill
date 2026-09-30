@@ -474,7 +474,7 @@ when maintaining the skill.
 - The Re-audit And Follow-up Plan (`synthesis/re-audit-plan.md`) precedes Validation Record and
   References when present and maps P1 and P2 findings to verification owners and closure evidence.
 - Every absent-capability finding carries an `Absence` field built from repository signals
-  (`Appears intentional`, `Appears an oversight`, or `Undetermined`) per
+  (`No documented rationale`, `Deliberate - recorded decision`, or `Undetermined`) per
   `principles/evaluation-rules.md`, never a claim about the authors' motives.
 - The Recommendation Classification section (`synthesis/remediation-roadmap.md`) follows the
   roadmap at Standard and Detailed, assigns every `REC-XXX` one class (`Recommended`, `Optional`,

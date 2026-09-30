@@ -224,25 +224,26 @@ See `synthesis/project-scorecard.md`.
 ## Absent Capability Assessment
 
 When a finding records an absent capability - a configuration, control, automation, or artifact
-that could apply to the subject but is not present - include a short assessment of whether the
-absence appears intentional or is an oversight, recorded in the finding block's `Absence` field.
+that could apply to the subject but is not present - record the documentary status of the
+absence in the finding block's `Absence` field, never an inferred motive.
 
 Use exactly these tokens:
 
-| Token                  | Meaning                                                         |
-|------------------------|-----------------------------------------------------------------|
-| `Appears intentional`  | Evidence indicates the capability was deliberately not adopted  |
-| `Appears an oversight` | Evidence indicates the capability was envisaged but is missing  |
-| `Undetermined`         | The signals conflict or are absent                              |
-| `N/A`                  | The finding does not record an absent capability                |
+| Token                            | Meaning                                                               |
+|----------------------------------|-----------------------------------------------------------------------|
+| `No documented rationale`        | The repository holds no record explaining the absence                 |
+| `Deliberate - recorded decision` | A decision record, documented scope limit, or equivalent entry exists |
+| `Undetermined`                   | The signals conflict or are absent                                    |
+| `N/A`                            | The finding does not record an absent capability                      |
 
-Signals of an oversight include documentation that prescribes the missing check, automation-adjacent
-directories without the pipeline itself such as `.github/` without `workflows/`, badges or pull
-request templates that reference automated checks, helper scripts that nothing invokes, and a
-documented release process with no automation behind it.
-
-Signals of an intentional absence include documented scope limits such as a prototype or local-only
+Signals of a deliberate absence include documented scope limits such as a prototype or local-only
 delivery model, a documented manual process, and no envisaged delivery or release process at all.
+
+Signals only ever support the `Deliberate` token when they point at an actual record -
+documentation that prescribes the missing check, automation-adjacent directories without the
+pipeline itself such as `.github/` without `workflows/`, badges or pull request templates that
+reference automated checks, or helper scripts that nothing invokes describe a gap, not a motive,
+and stay under `No documented rationale` or `Undetermined`.
 
 Classify `Undetermined` when the signals conflict or are absent.
 

@@ -84,7 +84,9 @@
     "Conditional headings that appear in the report are translated.",
     "The report applies the Polish terminology dictionary (ustalenie, zalecenie, plik blokady zależności, proces CI) and avoids literal calques such as rozjazd, dryf, brama, or potok.",
     "Descriptive fixed values are rendered in Polish (Polski, Szczegółowy, Etap przedprodukcyjny), the Stan and Stan prac rows are omitted for a final report on a clean tree, and no Tryb opisowy row appears in Document Information.",
-    "The star-scale legend is labeled Skala oceny and names every band, including Zła for one star and Słaba for two stars."
+    "The star-scale legend is labeled Skala oceny and names every band, including Zła for one star and Słaba for two stars.",
+    "The report output uses ASCII punctuation only - straight quotes, spaced hyphens for dashes, and '...' - with no typographic quotes, em-dashes, en-dashes, or arrow characters.",
+    "scripts/lint-polish.py reports zero errors on the rendered report and the Validation Record records the Polish-language checks."
    ]
   },
   {
@@ -213,11 +215,13 @@
    "expected_output": "A Polish report whose new sections and tags match translations/polish-language.md verbatim, preserving machine tokens and settled terminology.",
    "files": [],
    "expectations": [
-    "New section headings match the dictionary verbatim: Macierz pokrycia typów audytu i poziomu zapewnienia, Zestawienie składników oprogramowania, Przegląd zgodności licencyjnej i IP, Praktyka dostarczania i ciągłość zespołu.",
-    "Coverage statuses render as OBJĘTE, CZĘŚCIOWO OBJĘTE, NIEPRZEPROWADZONE, or NIE DOTYCZY, and finding Type tags render Obserwacja or Zastrzeżenie.",
+    "New section headings match the dictionary verbatim: Macierz zakresu audytu, Zestawienie składników oprogramowania, Przegląd zgodności licencyjnej i IP, Praktyka dostarczania i ciągłość zespołu.",
+    "Coverage statuses render as OBJĘTE, CZĘŚCIOWO, NIEWYKONANE, or NIE DOTYCZY, and finding Type tags render Obserwacja or Wniosek.",
     "Exploitability tiers render TEORETYCZNY, POTWIERDZONE STATYCZNIE, or ZWERYFIKOWANE DYNAMICZNIE, while IDs, CWE references, and file paths stay unchanged.",
     "The scorecard dimension renders Dostarczanie i ciągłość, and DORA metric names follow the dictionary.",
-    "Loanwords such as commit, pull request, copyleft, SBOM, and due diligence stay untranslated and established terms such as Ważność, Panel zdrowia, and kryterium jakości are used."
+    "Loanwords such as commit, pull request, copyleft, SBOM, and due diligence stay untranslated and established terms such as Ważność, Panel oceny projektu, and kryterium jakości are used.",
+    "The findings table separates lifecycle (Status: Otwarte/Zamknięte/OK) from movement since the previous audit (Zmiana: Nowe/Bez zmian/Wznowione/Zamknięte), and the Charakter odstępstwa field uses only Brak udokumentowanego uzasadnienia, Świadome - udokumentowana decyzja, Nieokreślone, or N/D.",
+    "The compliance rows are split into Certyfikacja ISO/IEC 27001 and Badanie atestacyjne SOC 2, and the matrix never claims an assurance level."
    ]
   },
   {

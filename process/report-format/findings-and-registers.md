@@ -11,12 +11,12 @@
 
 | Section                        | Line | What it covers                       |
 |--------------------------------|------|--------------------------------------|
-| Strengths & What's Working     | 18   | Evidence-based positive baselines    |
-| Detailed Technical Findings    | 56   | Finding summary and detail blocks    |
-| Technical Debt Register        | 219  | Distinct accumulated debt            |
-| Unified Risk Register          | 267  | Cross-referenced risks               |
-| Actionable Remediation Roadmap | 358  | Prioritized recommendations          |
-| Recommendation Classification  | 429  | Recommended/Optional/Not recommended |
+| Strengths & What's Working     | 21   | Evidence-based positive baselines    |
+| Detailed Technical Findings    | 59   | Finding summary and detail blocks    |
+| Technical Debt Register        | 232  | Distinct accumulated debt            |
+| Unified Risk Register          | 280  | Cross-referenced risks               |
+| Actionable Remediation Roadmap | 371  | Prioritized recommendations          |
+| Recommendation Classification  | 442  | Recommended/Optional/Not recommended |
 
 ## Strengths & What's Working
 
@@ -71,25 +71,30 @@ When the report language is not English, apply the heading translation from the 
 
 Present a compact summary of all findings:
 
-| Finding     | Pillar                                    | Severity   | Title   | Result   | Status | Verification |
-|-------------|-------------------------------------------|------------|---------|----------|--------|--------------|
-| FND-ARC-001 | Architecture & Design                     | <severity> | <title> | <result> | Open   | <verifier>   |
-| FND-CQY-001 | Code Quality                              | <severity> | <title> | <result> | Open   | <verifier>   |
-| FND-SEC-001 | Security & Compliance                     | <severity> | <title> | <result> | Open   | <verifier>   |
-| FND-INF-001 | Infrastructure & CI/CD                    | <severity> | <title> | <result> | Open   | <verifier>   |
-| FND-AIP-001 | AI Provenance & Code Origin               | <severity> | <title> | <result> | Open   | <verifier>   |
-| FND-CPR-001 | Copyrights & Originality                  | <severity> | <title> | <result> | Open   | <verifier>   |
-| FND-API-001 | API Compatibility & Versioning Discipline | <severity> | <title> | <result> | Open   | <verifier>   |
+| Finding     | Pillar                                    | Severity   | Title   | Result   | Status | Change | Verification |
+|-------------|-------------------------------------------|------------|---------|----------|--------|--------|--------------|
+| FND-ARC-001 | Architecture & Design                     | <severity> | <title> | <result> | Open   | New    | <verifier>   |
+| FND-CQY-001 | Code Quality                              | <severity> | <title> | <result> | Open   | New    | <verifier>   |
+| FND-SEC-001 | Security & Compliance                     | <severity> | <title> | <result> | Open   | New    | <verifier>   |
+| FND-INF-001 | Infrastructure & CI/CD                    | <severity> | <title> | <result> | Open   | New    | <verifier>   |
+| FND-AIP-001 | AI Provenance & Code Origin               | <severity> | <title> | <result> | Open   | New    | <verifier>   |
+| FND-CPR-001 | Copyrights & Originality                  | <severity> | <title> | <result> | Open   | New    | <verifier>   |
+| FND-API-001 | API Compatibility & Versioning Discipline | <severity> | <title> | <result> | Open   | New    | <verifier>   |
+
+The `Title` column copies the finding's `### FND-…` heading verbatim - the summary never
+rephrases a heading.
 
 Column meanings:
 
 - **Finding**: the `FND-XXX` identifier.
 - **Result**: the assessment status of the evaluated control,
   `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, or `N/A`.
-- **Status**: the finding lifecycle, `New`, `Open`, `Closed`, or `PASS` for a re-verified
+- **Status**: the finding lifecycle state, `Open`, `Closed`, or `PASS` for a re-verified
   passing control.
+- **Change**: how the finding moved since the previous audit - `New`, `Unchanged`,
+  `Reopened`, or `Closed`; first-audit findings always carry `New`.
 - **Verification**: the evidence qualifier, `Verified`, `Confirmed`, `Reported`, or empty for
-  a `New` finding.
+  a finding whose `Change` is `New`.
 
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
@@ -109,7 +114,8 @@ When the report language is not English, apply the pillar name translations from
 
 Severity values: `CRITICAL`, `HIGH`, `MEDIUM`, `LOW`.
 Result values: `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`.
-Status values: `New`, `Open`, `Closed`, `PASS`.
+Status values: `Open`, `Closed`, `PASS`.
+Change values: `New`, `Unchanged`, `Reopened`, `Closed`.
 
 When the report language is not English, these tokens render in the localized forms defined by
 the matching `translations/` file, along with verification qualifiers `Verified`, `Confirmed`,
@@ -131,11 +137,12 @@ Use this exact markdown block pattern:
 * **Severity:** [Critical | High | Medium | Low]
 * **Type:** [Observation | Concern]
 * **Security:** [CWE and rationale, CVSS version/vector/score or gap, or N/A]
-* **Status:** [New | Open | Closed | PASS]
+* **Status:** [Open | Closed | PASS]
+* **Change:** [New | Unchanged | Reopened | Closed]
 * **Targets:** [Exact paths or components evaluated]
 * **Basis:** [Applicable requirement or explicitly optional improvement]
-* **Absence:** [Appears intentional | Appears an oversight | Undetermined | N/A] -
-  [one-line evidence basis]
+* **Absence:** [No documented rationale | Deliberate - recorded decision | Undetermined |
+  N/A] - [one-line evidence basis]
 * **Description:** [Detailed technical explanation of the discovered state, architectural
   anti-pattern, or code flaw]
 * **Impact:** [Concrete operational, business, or security consequence if left unremediated]
@@ -143,7 +150,7 @@ Use this exact markdown block pattern:
 * **Method:** [Specific test, command, or process to confirm the fix is successful]
 * **Verified:** [yes | no, with a short qualifier]
 * **Confidence:** [HIGH / MEDIUM / LOW with rationale]
-* **Countercheck:** [Refuting evidence examined and remaining uncertainty]
+* **Mitigating factors:** [Refuting evidence examined and remaining uncertainty]
 * **Exploitability:** [Tier + attack-path reasoning, or N/A with reason]
 * **Evidence:** [EVD IDs, source lines, and inspected/reported/inferred basis]
 ```
@@ -176,16 +183,22 @@ The `Verified` field states whether the current audit verified the claim:
 `yes` for a re-derived or confirmed observation, `no` for pending verification,
 each with a short qualifier such as `yes - observed in source`.
 
-The `Status` field carries the lifecycle state: `New`, `Open`, `Closed`,
+The `Status` field carries the lifecycle state: `Open`, `Closed`,
 or `PASS` for a re-verified passing control.
+
+The `Change` field carries the movement since the previous audit: `New`, `Unchanged`,
+`Reopened`, or `Closed` - it records provenance, never a lifecycle state.
 
 The `Type` field separates fact from judgment per `principles/evaluation-rules.md`:
 `Observation` for a finding stating an independently re-derivable fact,
 `Concern` for a risk judgment built on observations.
 
 The `Absence` field carries the token from `principles/evaluation-rules.md` on every
-finding that records an absent capability: `Appears intentional`, `Appears an oversight`, or
-`Undetermined`, each followed by a one-line evidence basis.
+finding that records an absent capability: `No documented rationale`, `Deliberate -
+recorded decision`, or `Undetermined`, each followed by a one-line evidence basis.
+
+Assert intent only when a documented decision or an equivalent record exists -
+absence evidence alone never earns the `Deliberate` token.
 
 On every other finding the field reads `N/A` with a one-line reason.
 
@@ -443,9 +456,9 @@ Not every accurate finding warrants action at the current moment, the class reco
 
 Use this fixed column order:
 
-| Rec     | Recommendation | Class            | Basis          |
-|---------|----------------|------------------|----------------|
-| REC-001 | <action>       | <class>          | <short reason> |
+| Rec     | Recommendation | Class   | Basis          |
+|---------|----------------|---------|----------------|
+| REC-001 | <action>       | <class> | <short reason> |
 
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.

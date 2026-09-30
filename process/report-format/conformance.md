@@ -16,6 +16,11 @@ then describe each gap with evidence and its linked `FND-XXX`.
 
 Map each API security gap to its OWASP API Security Top 10 (2023) code where one applies.
 
+A deviation from the declared contract is not automatically API8 `Security
+Misconfiguration` - classify by the deviation's character (missing controls, unsafe
+defaults, excessive exposure) or map to a CWE instead, and leave the mapping empty when
+no category genuinely fits.
+
 | Dimension                  | Status  | Evidence                                        |
 |----------------------------|---------|-------------------------------------------------|
 | Specification present      | PASS    | `openapi/openapi.yaml`                          |
@@ -101,6 +106,10 @@ Keep this section distinct from AI-generated-code provenance.
 
 A project can have AI-assisted source without having an AI system,
 and an AI system can contain no evidence about how its source was authored.
+
+An `AI Governance Audit` row marked `Not Applicable` in the coverage matrix never
+suppresses AI-provenance findings in the `AIP` pillar - the matrix row answers whether
+governance of an AI system was assessed, the pillar answers how the source was authored.
 
 Present the evaluated lifecycle, model and data provenance, evaluation evidence, safety boundaries,
 operational controls, and unresolved limitations.

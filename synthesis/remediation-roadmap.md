@@ -133,9 +133,10 @@ Use exactly these classes:
 - `Not recommended` - there is no certainty that the moment is right, or the intent behind the
   finding is unknown.
 
-An absent capability assessed `Appears intentional` or `Undetermined` per
+An absent capability assessed `No documented rationale` or `Undetermined` per
 `principles/evaluation-rules.md` lands in `Not recommended`, since the report cannot tell whether
-the gap is deliberate.
+the gap is deliberate; `Deliberate - recorded decision` lands there only when the recorded
+decision still holds under current evidence.
 
 Every `REC-XXX` receives exactly one class.
 

@@ -52,7 +52,8 @@ the Audit Type Coverage & Assurance Matrix:
   The report covers the engineering dimensions of a technical due diligence (architecture, code,
   security, licensing, delivery-practice proxies) but not the interview-based team, leadership,
   and problem-fit pillars a formal TDD engagement adds.
-- **Compliance certification** - the report is not a SOC 2, ISO 27001, or PCI-DSS conformance
+- **Compliance certification and attestation** - the report is not an ISO/IEC 27001
+  certification and not a SOC 2 attestation examination, nor a PCI-DSS conformance
   assessment. Referenced standards such as ISO/IEC 25010, OWASP ASVS, and NIST SP 800-30 are used
   as scoring rubrics and coverage checklists only.
 
@@ -124,7 +125,8 @@ It precedes the Validation Record and References sections.
 
 This section makes the report actionable in a governance sense.
 
-It follows ISO 19011 (follow-up auditing)
+It borrows the follow-up-audit practice of ISO 19011:2026 (guidelines for auditing
+management systems, applied here as supporting principles only)
 and the monitor step of the NIST Risk Management Framework.
 
 Present a table mapping findings to verification ownership and closure evidence.

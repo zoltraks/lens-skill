@@ -20,11 +20,11 @@ A review report applies the same phases with the deltas defined in
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 1325 | Intake Checklist guidance        |
-| Handling Thin Input     | 1344 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1355 | Single-Dimension Audits guidance |
-| Re-Audit                | 1365 | Re-Audit guidance                |
-| Multi-Project Audits    | 1412 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1334 | Intake Checklist guidance        |
+| Handling Thin Input     | 1353 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1364 | Single-Dimension Audits guidance |
+| Re-Audit                | 1374 | Re-Audit guidance                |
+| Multi-Project Audits    | 1421 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -710,10 +710,10 @@ Also record the audit-type coverage decision here:
 read the canonical rows in `references/audit-taxonomy.md` and note which statuses the engagement
 supports.
 
-Under the default scope the Penetration Test, Compliance Certification,
-and interview-dependent Technical Due Diligence dimensions stay `Not done` or `Partially`,
-and any explicitly lifted constraint is recorded so the Coverage Matrix and Scope Exclusions can
-match it.
+Under the default scope the Penetration Test, ISO/IEC 27001 Certification, SOC 2 Attestation
+Examination, and interview-dependent Technical Due Diligence dimensions stay `Not done` or
+`Partially`, and any explicitly lifted constraint is recorded so the Coverage Matrix and Scope
+Exclusions can match it.
 
 The matrix itself is rendered during Synthesis.
 
@@ -1187,6 +1187,15 @@ Confirm the report follows the Formatting Rules in `process/report-format.md`: h
 `###`, prose lines over the selected wrap width (default 100) are wrapped, prose contains no
 semicolons, and every table was formatted with an automated script so all `|` separators align
 vertically in plain text.
+
+When the report language is not English, confirm the rendered language checks in the matching
+`translations/` file pass: all calque-table forms absent, status tokens rendered in the report
+language, and the language-consistency checks clean.
+
+Confirm `System type`, `Maturity level`, `Audit Purpose`, and the readiness gates do not
+contradict one another - a `production system` claim against a `pre-production` engagement
+context, or an `AI Governance Audit` exclusion used to suppress AI-provenance findings, is a
+defect to resolve before delivery.
 
 Produce the report in this order so each mechanical pass is effective:
 

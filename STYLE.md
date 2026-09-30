@@ -18,11 +18,11 @@ Every document created or modified as part of this skill must follow the rules b
 | Paragraphs And Wrapping    | 90   | Sentence structure and line width               |
 | Headings And Lists         | 146  | Heading depth, lists, and spacing               |
 | Code And Inline Formatting | 197  | Fences, code spans, and special characters      |
-| Tables                     | 263  | Source-width alignment and automated formatting |
-| Characters And Language    | 429  | Box-drawing, emoji, and per-language rules      |
-| File References            | 450  | Relative paths and backticked file paths        |
-| Skill Requirements         | 464  | Frontmatter and progressive disclosure          |
-| Maintenance                | 525  | File naming, encoding, and registration         |
+| Tables                     | 267  | Source-width alignment and automated formatting |
+| Characters And Language    | 433  | Box-drawing, emoji, and per-language rules      |
+| File References            | 454  | Relative paths and backticked file paths        |
+| Skill Requirements         | 468  | Frontmatter and progressive disclosure          |
+| Maintenance                | 529  | File naming, encoding, and registration         |
 
 ## Document Structure
 
@@ -255,9 +255,12 @@ Do not overuse emphasis.
 
 Do not use the semicolon character in prose.
 
-Join two closely related clauses with a comma instead.
+Separate independent clauses with a full stop, a colon (when the second clause explains
+the first), or a conjunction - never a bare comma.
 
-Split the clauses into separate sentences when they express separate thoughts.
+A comma joins clauses only when they are subordinate or share a subject and structure.
+
+A semicolon may appear in an enumeration whose members themselves contain commas.
 
 This rule does not apply to code blocks, inline code, or file paths.
 

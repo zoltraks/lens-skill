@@ -24,51 +24,52 @@ This file is loaded only when the report language is Polish.
 |---------------------------------------------|------|---------------------------------------------|
 | Analysis And Rendering                      | 73   | Analysis model and terminology precedence   |
 | Status And Severity Vocabulary              | 95   | Status And Severity Vocabulary guidance     |
-| Fixed Vocabulary Values                     | 165  | Polish renderings of descriptive values     |
-| Terminology                                 | 206  | English to Polish technical dictionary      |
-| Parameter Prompts                           | 332  | Polish phrasing for configuration questions |
-| Style Rules                                 | 379  | Style Rules guidance                        |
-| Diacritics Frequently Misspelled            | 459  | Diacritics Frequently Misspelled guidance   |
-| Output Filename                             | 494  | Output Filename guidance                    |
-| Document Information                        | 506  | Document Information guidance               |
-| Audit Type Coverage & Assurance Matrix      | 545  | Coverage and assurance rendering            |
-| Project Inventory                           | 568  | Project Inventory guidance                  |
-| Glossary                                    | 577  | Glossary guidance                           |
-| Technology Stack                            | 603  | Technology Stack guidance                   |
-| Executive Summary                           | 620  | Executive Summary guidance                  |
-| Health Dashboard                            | 638  | Health Dashboard guidance                   |
-| Scorecard                                   | 649  | Scorecard guidance                          |
-| Scoring Rubrics                             | 674  | Scoring Rubrics guidance                    |
-| Delivery Practice & Team Continuity         | 698  | Delivery and continuity rendering           |
-| High-Level Observations                     | 722  | High-Level Observations guidance            |
-| Auditing Methodology                        | 729  | Auditing Methodology guidance               |
-| System Context                              | 743  | System Context guidance                     |
-| Software Bill of Materials                  | 756  | SBOM section rendering                      |
-| License & IP Compliance Review              | 774  | License and IP section rendering            |
-| Architectural Assessment                    | 792  | Architectural Assessment guidance           |
-| Architectural Subsections                   | 799  | Architectural Subsections guidance          |
-| Skill Definition Conformance                | 810  | Skill Definition Conformance guidance       |
-| AI System Assessment                        | 818  | AI System Assessment guidance               |
-| Standards Conformance                       | 829  | Standards Conformance guidance              |
-| References                                  | 850  | References guidance                         |
-| Strengths And What's Working                | 859  | Strengths And What's Working guidance       |
-| Detailed Technical Findings                 | 865  | Detailed Technical Findings guidance        |
-| Technical Debt Register                     | 905  | Technical Debt Register guidance            |
-| Unified Risk Register                       | 917  | Unified Risk Register guidance              |
-| Trade-off Analysis                          | 937  | Trade-off Analysis guidance                 |
-| Actionable Remediation Roadmap              | 949  | Actionable Remediation Roadmap guidance     |
-| Recommendation Classification               | 963  | Recommendation Classification guidance      |
-| Changes Since Previous Audit                | 978  | Changes Since Previous Audit guidance       |
-| Scope Exclusions                            | 1010 | Scope Exclusions guidance                   |
-| Limitations And Unknowns                    | 1018 | Limitations And Unknowns guidance           |
-| Re-audit And Follow-up Plan                 | 1030 | Re-audit And Follow-up Plan guidance        |
-| Validation Record                           | 1040 | Validation Record guidance                  |
-| Threat Model                                | 1051 | Threat Model guidance                       |
-| API Contract Conformance                    | 1061 | API Contract Conformance guidance           |
-| API Compatibility And Versioning Discipline | 1069 | API Compatibility And Versioning guidance   |
-| Evidence And Decision Terms                 | 1078 | Evidence And Decision Terms guidance        |
-| Skill Definition Conformance Table          | 1139 | Skill Definition Conformance Table guidance |
-| Review Report                               | 1154 | Review Report guidance                      |
+| Fixed Vocabulary Values                     | 180  | Polish renderings of descriptive values     |
+| Terminology                                 | 226  | English to Polish technical dictionary      |
+| Calque And Style Replacements               | 362  | Forbidden calques and their replacements    |
+| Parameter Prompts                           | 439  | Polish phrasing for configuration questions |
+| Style Rules                                 | 486  | Style Rules guidance                        |
+| Diacritics Frequently Misspelled            | 609  | Diacritics Frequently Misspelled guidance   |
+| Output Filename                             | 644  | Output Filename guidance                    |
+| Document Information                        | 656  | Document Information guidance               |
+| Audit Type Coverage & Assurance Matrix      | 695  | Coverage and assurance rendering            |
+| Project Inventory                           | 729  | Project Inventory guidance                  |
+| Glossary                                    | 738  | Glossary guidance                           |
+| Technology Stack                            | 791  | Technology Stack guidance                   |
+| Executive Summary                           | 808  | Executive Summary guidance                  |
+| Health Dashboard                            | 826  | Health Dashboard guidance                   |
+| Scorecard                                   | 837  | Scorecard guidance                          |
+| Scoring Rubrics                             | 862  | Scoring Rubrics guidance                    |
+| Delivery Practice & Team Continuity         | 886  | Delivery and continuity rendering           |
+| High-Level Observations                     | 910  | High-Level Observations guidance            |
+| Auditing Methodology                        | 917  | Auditing Methodology guidance               |
+| System Context                              | 931  | System Context guidance                     |
+| Software Bill of Materials                  | 944  | SBOM section rendering                      |
+| License & IP Compliance Review              | 962  | License and IP section rendering            |
+| Architectural Assessment                    | 980  | Architectural Assessment guidance           |
+| Architectural Subsections                   | 987  | Architectural Subsections guidance          |
+| Skill Definition Conformance                | 998  | Skill Definition Conformance guidance       |
+| AI System Assessment                        | 1006 | AI System Assessment guidance               |
+| Standards Conformance                       | 1017 | Standards Conformance guidance              |
+| References                                  | 1038 | References guidance                         |
+| Strengths And What's Working                | 1047 | Strengths And What's Working guidance       |
+| Detailed Technical Findings                 | 1053 | Detailed Technical Findings guidance        |
+| Technical Debt Register                     | 1094 | Technical Debt Register guidance            |
+| Unified Risk Register                       | 1106 | Unified Risk Register guidance              |
+| Trade-off Analysis                          | 1126 | Trade-off Analysis guidance                 |
+| Actionable Remediation Roadmap              | 1138 | Actionable Remediation Roadmap guidance     |
+| Recommendation Classification               | 1152 | Recommendation Classification guidance      |
+| Changes Since Previous Audit                | 1167 | Changes Since Previous Audit guidance       |
+| Scope Exclusions                            | 1201 | Scope Exclusions guidance                   |
+| Limitations And Unknowns                    | 1209 | Limitations And Unknowns guidance           |
+| Re-audit And Follow-up Plan                 | 1221 | Re-audit And Follow-up Plan guidance        |
+| Validation Record                           | 1231 | Validation Record guidance                  |
+| Threat Model                                | 1256 | Threat Model guidance                       |
+| API Contract Conformance                    | 1266 | API Contract Conformance guidance           |
+| API Compatibility And Versioning Discipline | 1274 | API Compatibility And Versioning guidance   |
+| Evidence And Decision Terms                 | 1283 | Evidence And Decision Terms guidance        |
+| Skill Definition Conformance Table          | 1344 | Skill Definition Conformance Table guidance |
+| Review Report                               | 1359 | Review Report guidance                      |
 
 ## Analysis And Rendering
 
@@ -123,14 +124,16 @@ Statuses and result markers use fixed label forms:
 | `Not done`                 | `NIEWYKONANE`                 |
 | `Not Applicable`           | `NIE DOTYCZY`                 |
 | `Observation`              | `OBSERWACJA`                  |
-| `Concern`                  | `ZASTRZEŻENIE`                |
+| `Concern`                  | `WNIOSEK`                     |
 | `Theoretical`              | `TEORETYCZNY`                 |
 | `Static-Confirmed`         | `POTWIERDZONE STATYCZNIE`     |
 | `Dynamically-Verified`     | `ZWERYFIKOWANE DYNAMICZNIE`   |
 
-`Observation` and `Concern` are the evidence/finding type tags.
+`Observation` and `Concern` are the evidence/finding type tags:
+`Obserwacja` records an independently re-derivable fact,
+`Wniosek` is a judgment built on observations.
 
-In `* **Field:**` bullet lists they render title-cased `Obserwacja`/`Zastrzeżenie`.
+In `* **Field:**` bullet lists they render title-cased `Obserwacja`/`Wniosek`.
 
 The Due Diligence Coverage column named `Concern` keeps its separate rendering `Obszar ryzyka`,
 the two uses are not the same word's job.
@@ -155,6 +158,19 @@ and token-definition tables use the uppercase forms.
 In `* **Field:**` bullet lists, values use title case consistent with neighboring values,
 for example `Ważność: Wysoka` next to `Status: Otwarte` - never `NISKIE` next to `Otwarte`.
 
+Uppercase token forms appear only in token-definition tables and in the `Wynik`, `Ważność`,
+`Status`, and `Zmiana` columns. Inline references in prose and in narrative cells use title
+case - `ustalenie o statusie Otwarte` in a table, `ustalenie pozostaje otwarte` in prose.
+
+A `Wynik`/`Result` column draws its values only from `OK`, `CZĘŚCIOWO`, `NIEZALICZONE`,
+`NIEZNANE`, `N/D`, `NIEURUCHOMIONE`, `NIEOCENIONE`, `NIEZBADANE`, `POZA ZAKRESEM`,
+`Zastosowane`, and the numeric or star forms the selected scale defines.
+
+The `Status` column carries only lifecycle states - `Otwarte`, `Zamknięte`, `OK` -
+and the `Zmiana` column carries only movement since the previous audit:
+`Nowe`, `Bez zmian`, `Wznowione`, `Zamknięte`. The two columns never share values
+on the same row beyond the deliberate `Zamknięte` overlap.
+
 Record identifiers (`FND-001`, `EVD-042`, `RSK-010`), priority codes (`P1`-`P4`), `CWE-####`,
 CVSS vectors, commands, and anything inside verbatim evidence stay unchanged.
 
@@ -169,37 +185,42 @@ Descriptive values are rendered in Polish and agree in gender with the noun they
 `ważność` take `Wysoka`/`Średnia`/`Niska`, `prawdopodobieństwo` and `ryzyko` take
 `Wysokie`/`Średnie`/`Niskie`.
 
-| English                   | Polish                                   |
-|---------------------------|------------------------------------------|
-| `Draft`                   | `Roboczy`                                |
-| `Final`                   | `Gotowy`                                 |
-| `Detailed`                | `Szczegółowy`                            |
-| `Standard`                | `Standardowy`                            |
-| `Brief`                   | `Skrócony`                               |
-| `5 stars`                 | `5 gwiazdek`                             |
-| `3 stars`                 | `3 gwiazdki`                             |
-| `Enabled`                 | `Włączony` or `Aktywny`                  |
-| `Error`                   | `Błąd`                                   |
-| `Disabled`                | `Wyłączony`                              |
-| `Prototype`               | `Prototyp`                               |
-| `Early development`       | `Wczesny rozwój`                         |
-| `Pre-production`          | `Etap przedprodukcyjny`                  |
-| `Production-ready`        | `Gotowość produkcyjna`                   |
-| `Undetermined`            | `Nieokreślony`                           |
-| `Ready`                   | `Gotowy`                                 |
-| `Not ready`               | `Niegotowy`                              |
-| `Pending evidence`        | `Oczekuje na dowody`                     |
-| `Not assessed`            | `Nieoceniony`                            |
-| `Full`                    | `Pełna`                                  |
-| `Partial`                 | `Częściowa`                              |
-| `None`                    | `Brak`                                   |
-| `Not applicable`          | `nie dotyczy`                            |
-| `source-only`             | `wyłącznie na podstawie kodu źródłowego` |
-| `engineering improvement` | `doskonalenie inżynieryjne`              |
-| `production readiness`    | `gotowość produkcyjna`                   |
-| `technical due diligence` | `due diligence techniczne`               |
-| `Appears intentional`     | `Najwyraźniej zamierzone`                |
-| `Appears an oversight`    | `Najwyraźniej przeoczenie`               |
+| English                          | Polish                                   |
+|----------------------------------|------------------------------------------|
+| `Draft`                          | `Roboczy`                                |
+| `Final`                          | `Gotowy`                                 |
+| `Detailed`                       | `Szczegółowy`                            |
+| `Standard`                       | `Standardowy`                            |
+| `Brief`                          | `Skrócony`                               |
+| `5 stars`                        | `5 gwiazdek`                             |
+| `3 stars`                        | `3 gwiazdki`                             |
+| `Enabled`                        | `Włączony` or `Aktywny`                  |
+| `Error`                          | `Błąd`                                   |
+| `Disabled`                       | `Wyłączony`                              |
+| `Prototype`                      | `Prototyp`                               |
+| `Early development`              | `Wczesny rozwój`                         |
+| `Pre-production`                 | `Etap przedprodukcyjny`                  |
+| `Production-ready`               | `Gotowość produkcyjna`                   |
+| `Undetermined`                   | `Nieokreślony`                           |
+| `Ready`                          | `Gotowy`                                 |
+| `Not ready`                      | `Niegotowy`                              |
+| `Pending evidence`               | `Oczekuje na dowody`                     |
+| `Not assessed`                   | `Nieoceniony`                            |
+| `Full`                           | `Pełna`                                  |
+| `Partial`                        | `Częściowa`                              |
+| `None`                           | `Brak`                                   |
+| `Not applicable`                 | `nie dotyczy`                            |
+| `source-only`                    | `wyłącznie na podstawie kodu źródłowego` |
+| `engineering improvement`        | `doskonalenie inżynieryjne`              |
+| `production readiness`           | `gotowość produkcyjna`                   |
+| `technical due diligence`        | `due diligence techniczne`               |
+| `No documented rationale`        | `Brak udokumentowanego uzasadnienia`     |
+| `Deliberate - recorded decision` | `Świadome - udokumentowana decyzja`      |
+| `New`                            | `Nowe`                                   |
+| `Unchanged`                      | `Bez zmian`                              |
+| `Reopened`                       | `Wznowione`                              |
+| `Closed`                         | `Zamknięte`                              |
+| `Confirmed`                      | `Potwierdzone`                           |
 
 Numeric scales `1-10`, `1-5`, and `1-3` stay unchanged.
 
@@ -214,7 +235,7 @@ identically.
 | English                                | Polish                                                           |
 |----------------------------------------|------------------------------------------------------------------|
 | AI-assisted development workflow       | proces wytwarzania oprogramowania wspomagany przez AI            |
-| absence assessment                     | ocena braku                                                      |
+| absence assessment                     | charakter odstępstwa                                             |
 | access token                           | token dostępu                                                    |
 | API contract validation                | kontrola poprawności kontraktu API                               |
 | attack path                            | ścieżka ataku                                                    |
@@ -224,6 +245,7 @@ identically.
 | authoritative source                   | źródło autorytatywne                                             |
 | automated compliance check/enforcement | automatyczna weryfikacja zgodności                               |
 | automated enforcement                  | automatyczne egzekwowanie reguł                                  |
+| baseline                               | wartość bazowa / lista zaakceptowanych odchyleń                  |
 | backup restore                         | odtworzenie z kopii zapasowej                                    |
 | backup restore test                    | test odtwarzania kopii zapasowej                                 |
 | backup retention                       | retencja kopii zapasowych                                        |
@@ -231,11 +253,12 @@ identically.
 | build artifact                         | artefakt wynikowy / artefakt wdrożeniowy                         |
 | build job                              | zadanie budowania                                                |
 | build reproducibility                  | powtarzalność procesu budowania                                  |
-| bus factor                             | czynnik autobusowy                                               |
+| bus factor                             | bus factor (ryzyko koncentracji wiedzy)                          |
 | code provenance                        | pochodzenie kodu                                                 |
 | code provenance traceability           | identyfikowalność pochodzenia kodu                               |
 | Common Weakness Enumeration            | klasyfikacja typowych błędów bezpieczeństwa oprogramowania       |
-| concern (evidence/finding tag)         | zastrzeżenie                                                     |
+| concern (evidence/finding tag)         | wniosek                                                          |
+| control execution                      | kontrola dynamiczna                                              |
 | contract test                          | test zgodności kontraktu / test kontraktowy                      |
 | contract/implementation mismatch       | rozbieżność między kontraktem a implementacją                    |
 | copyleft                               | copyleft (nie tłumaczyć)                                         |
@@ -253,12 +276,13 @@ identically.
 | endpoint                               | punkt końcowy API / endpoint                                     |
 | error-report intake                    | przyjęcie raportów błędów                                        |
 | evidence                               | materiał dowodowy / dowód                                        |
-| evidence register                      | rejestr materiału dowodowego                                     |
+| evidence register                      | rejestr dowodów audytowych                                       |
 | exploitability narrative               | narracja wykorzystania podatności                                |
 | fail-closed                            | odmowa dostępu / zamknięcie w przypadku błędu                    |
 | fail-fast                              | natychmiastowe przerwanie przy błędzie                           |
 | fallback                               | mechanizm awaryjny / obsługa zastępcza                           |
 | finding                                | ustalenie                                                        |
+| guard                                  | mechanizm ochronny                                               |
 | host key pinning                       | przypięcie klucza hosta                                          |
 | installation package                   | pakiet instalacyjny                                              |
 | join                                   | łączenie                                                         |
@@ -268,13 +292,16 @@ identically.
 | lockfile                               | plik blokady zależności                                          |
 | lookup                                 | wyszukiwanie                                                     |
 | maintainability                        | utrzymywalność                                                   |
+| materialized risk                      | ryzyko się zrealizowało                                          |
 | manual deployment gate                 | ręczne zatwierdzenie wdrożenia                                   |
 | maturity level                         | poziom dojrzałości                                               |
 | mitigation                             | środek ograniczający ryzyko                                      |
 | mismatch                               | rozbieżność / niezgodność                                        |
+| network surface                        | powierzchnia ataku dostępna przez sieć                           |
 | non-conformity / gap                   | niezgodność / luka                                               |
 | observability                          | obserwowalność                                                   |
 | observation                            | obserwacja                                                       |
+| parity                                 | zgodność / równoważność                                          |
 | operational readiness                  | gotowość operacyjna                                              |
 | operational security                   | bezpieczeństwo operacyjne                                        |
 | package                                | pakiet                                                           |
@@ -282,6 +309,7 @@ identically.
 | prefetch                               | wstępne pobranie / pobranie                                      |
 | pre-production                         | etap przedprodukcyjny / środowisko przedprodukcyjne              |
 | production / prod                      | środowisko produkcyjne                                           |
+| re-audit                               | ponowny audyt                                                    |
 | production-ready                       | gotowość produkcyjna                                             |
 | public error-report intake             | publiczny punkt przyjęcia raportów błędów                        |
 | quality gate                           | kryterium jakości / warunek jakości                              |
@@ -309,6 +337,7 @@ identically.
 | source of truth                        | źródło prawdy                                                    |
 | source-only                            | wyłącznie na podstawie kodu źródłowego                           |
 | stakeholder                            | interesariusz                                                    |
+| surface area of code                   | zakres kodu                                                      |
 | testability                            | testowalność                                                     |
 | test inventory                         | rozbudowany zakres testów                                        |
 | threat                                 | zagrożenie                                                       |
@@ -317,8 +346,10 @@ identically.
 | token reuse                            | ponowne użycie tokenu                                            |
 | toolchain                              | łańcuch narzędzi                                                 |
 | trade-off                              | kompromis                                                        |
+| triage                                 | przegląd i klasyfikacja                                          |
 | trust boundary                         | granica zaufania                                                 |
 | unauthenticated                        | bez uwierzytelnienia                                             |
+| verified in sources                    | zweryfikowane w repozytorium                                     |
 | version drift                          | rozbieżność wersji / niespójność wersjonowania                   |
 | version pinning                        | zamrożenie wersji                                                |
 | visual designer                        | projektowanie wizualne                                           |
@@ -328,6 +359,83 @@ identically.
 | weakness                               | błąd bezpieczeństwa / podatność bezpieczeństwa                   |
 | weakness classification                | klasyfikacja błędów bezpieczeństwa                               |
 | workflow                               | przepływ pracy / proces                                          |
+
+## Calque And Style Replacements
+
+This table is machine-readable - `scripts/lint-polish.py` parses it and flags every
+`Instead of` form it finds in Polish report output.
+
+Keep entries as single words or short fixed phrases the checker can match literally.
+
+| Instead of               | Use                                              | Note                                                  |
+|--------------------------|--------------------------------------------------|-------------------------------------------------------|
+| rozjazd                  | rozbieżność / niezgodność                        | calque of English drift/mismatch                      |
+| dryf dokumentacji        | dezaktualizacja dokumentacji                     | drift is `narastająca rozbieżność` elsewhere          |
+| dryf                     | narastająca rozbieżność / odchylenie             | context-dependent                                     |
+| baseline                 | wartość bazowa / lista zaakceptowanych odchyleń  | spell out or keep English only in tool output         |
+| brama                    | warunek / kontrola blokująca                     | `gate`, `quality gate`, `lint gate`                   |
+| bramka                   | warunek / kontrola blokująca                     | same calque, diminutive                               |
+| martwa brama             | nieskuteczna kontrola                            | dead gate                                             |
+| strażnik                 | mechanizm ochronny                               | guard                                                 |
+| triaż                    | przegląd i klasyfikacja                          | vulnerability triage                                  |
+| parzystość               | zgodność / równoważność                          | parity is not parzystość                              |
+| paritet                  | zgodność / równoważność                          | parity is not paritet                                 |
+| powierzchnia kodu        | zakres kodu                                      | surface area of code                                  |
+| powierzchnia sieci       | powierzchnia ataku dostępna przez sieć           | network surface                                       |
+| kontrola wykonawcza      | kontrola dynamiczna                              | control execution                                     |
+| zmaterializowane ryzyko  | ryzyko się zrealizowało                          | name the concrete effect where possible               |
+| czynnik autobusowy       | bus factor (ryzyko koncentracji wiedzy)          | gloss at first use, then `bus factor`                 |
+| commitowany              | commit / dodany do repozytorium                  | jargon derivative - use the loanword or a description |
+| onboardowanie            | wdrażanie nowych osób / wprowadzenie             | onboarding                                            |
+| progresywne ujawnianie   | stopniowe ujawnianie                             | progressive disclosure                                |
+| wielorazowy              | wielokrotnego użytku                             | reusable                                              |
+| linkowanych              | połączonych / powiązanych                        | linked                                                |
+| multi-agentowy           | wieloagentowy                                    | multi-agent                                           |
+| dostawczone              | dostarczone                                      | misspelling of dostarczone                            |
+| wydawniczy               | wydaniowy                                        | release lifecycle, not publishing                     |
+| siostrzana gałąź         | pozostała gałąź / gałąź równoległa               | sibling branch                                        |
+| siostrzany               | pozostały / równoległy                           | sibling                                               |
+| konsumowana              | używana / pobierana                              | consumed                                              |
+| zaadresować              | rozwiązać / uwzględnić                           | address an issue                                      |
+| celują w                 | kierują do / dotyczą                             | aim at                                                |
+| kosztują kontekst        | zajmują kontekst / zużywają kontekst             | cost context                                          |
+| przypięty (wersja)       | zamrożony (wersja)                               | `przypięcie` is reserved for host keys                |
+| nieprzypięty toolchain   | nieustalona wersja środowiska                    | unpinned toolchain                                    |
+| pod                      | poniżej / w ramach / zgodnie z                   | `under` calque: `pod nagłówkiem` → `w sekcji`         |
+| plus (spójnik)           | oraz / a także                                   | `plus` never joins Polish clauses                     |
+| per (przyimek)           | dla każdego / na                                 | `per project` → `dla każdego projektu`                |
+| niesie (cecha)           | wnosi / powoduje                                 | a branch does not carry traits like a person          |
+| dotyka                   | dotyczy / zmienia                                | touches                                               |
+| zyskuje                  | zostaje wzbogacony o / otrzymuje                 | gains                                                 |
+| właściciel (dokumentu)   | dokument nadrzędny                               | owner of a document                                   |
+| mieszkają                | znajdują się / są umieszczone                    | files do not live                                     |
+| żyje (plik)              | znajduje się                                     | same personification                                  |
+| lustro                   | kopia struktury / kopia                          | mirror                                                |
+| ładunek                  | zawartość / blok danych                          | payload                                               |
+| zakotwiczone             | osadzone / utrwalone                             | anchored                                              |
+| wskaźnik (odnośnik)      | odnośnik / wskaźnik                              | `wskaźnik` is a metric, a link is `odnośnik`          |
+| wyposażenie              | zawartość / skład                                | files are not equipped                                |
+| rekursują                | przechodzą rekurencyjnie / schodzą rekurencyjnie | recurse                                               |
+| zastany                  | istniejący wcześniej / odziedziczony             | pre-existing                                          |
+| delta kodowa             | zakres zmian w kodzie                            | code delta                                            |
+| rozdzielczy (rzeczownik) | plik kierujący                                   | router file                                           |
+| paczka                   | pakiet                                           | package                                               |
+| joiny                    | łączenia                                         | joins                                                 |
+| lookupy                  | wyszukiwania                                     | lookups                                               |
+| tylko, gdy               | tylko wtedy, gdy                                 | syntax                                                |
+| w. (skrót wierszy)       | wiersze / linie                                  | no `w.` abbreviation                                  |
+| potok                    | proces / proces CI                               | pipeline                                              |
+| deployować               | wdrażać                                          | deploy                                                |
+| requestować              | zgłaszać                                         | request                                               |
+| fixować                  | poprawiać                                        | fix                                                   |
+| kastomizacja             | dostosowanie                                     | customization                                         |
+| stakeholderzy            | interesariusze                                   | stakeholders                                          |
+| ownerzy biznesowi        | właściciele biznesowi                            | business owners                                       |
+| status report            | raport o statusie                                |                                                       |
+| meeting minutes          | protokół zebrania                                |                                                       |
+| dane skrapane            | dane skrapowane                                  | scraped data                                          |
+| usankcjonować            | sankcjonować / formalizować                      | misspelling                                           |
+| prozatorski              | opisowy / narracyjny                             | prosaic                                               |
 
 ## Parameter Prompts
 
@@ -370,7 +478,7 @@ Apply these phrasing rules:
   projekty?` with options `Oceń jako komponenty projektu` (zalecane) and `Oceń każdą umiejętność
   jako niezależny projekt`.
 - JSON parameter documents per `process/json-exchange.md` keep English keys, parameter `id`s, and
-  `menu` letters untranslated; only `question` and `description` text and option labels render in
+  `menu` letters untranslated. Only `question` and `description` text and option labels render in
   Polish.
 - The diagnostic-mode context description following the emitted document is `Oczekujące decyzje:
   <lista parametrów>. Dokument JSON powyżej ma charakter informacyjny - pytania zostaną zadane
@@ -455,6 +563,49 @@ Apply these phrasing rules:
 - The verb `rozejść się` uses the past-tense forms `rozszedł się`, `rozeszła się`,
   `rozeszło się`, and `rozeszli`/`rozeszły się`, never `rozeszedł się`, for example `kontrakt
   rozszedł się z implementacją`.
+- Keep one thought per sentence. Most prose sentences run 15-25 words,
+  and approximately 35 words is the practical upper limit.
+  Split longer sentences instead of chaining clauses.
+- Never join two independent clauses with a bare comma. Use a full stop,
+  a colon when the second clause explains the first, or a conjunction
+  (`więc`, `natomiast`, `ponieważ`).
+- Every prose sentence carries an explicit predicate. Nominal fragments belong
+  in table cells and bullet labels, not in running prose.
+- The grammatical subject that performs an action is a person, a tool, or a process.
+  Files, branches, sections, and repositories do not act - describe their state with a
+  passive or nominal construction: `gałąź została rozszerzona` or `rozszerzenie gałęzi`,
+  not `gałąź dodaje`.
+- An adverbial participle (`imiesłów przysłówkowy`) is allowed only when its subject
+  matches the main clause's subject: `przechodząc do` is wrong when the subject of the
+  main clause is a document or a table.
+- Keep enumeration members in the same grammatical form. Prefer a bulleted list once
+  an enumeration exceeds four members or carries nested structure.
+- Noun chains stop at three members - expand beyond that into a prepositional phrase.
+- One concept carries one name through the whole report. Precedence order: established
+  Polish term, then a settled English loanword used uninflected and glossed at first use,
+  then a Polish description. Jargon derivatives such as `commitowany` or `onboardowanie`
+  are replaced by the loanword or a description.
+- Technical names keep canonical spelling - `Git`, `SemVer`, `Docker`, `Node.js` -
+  and product names decline normally where grammar requires (`Dockera`).
+  Filenames, commands, and identifiers never decline and take a generic noun instead:
+  `plik \`AGENTS.md\``, `system GitLab`. Abbreviations expand at first use and enter
+  the Słownik: `MR`, `SAST`. Do not abbreviate `wierszy` as `w.`.
+- Verbatim foreign-language quotations are marked as quotations and carry a Polish gloss
+  beside them, and they are never woven into Polish grammar. Own renderings are paraphrased
+  or marked as translations, not presented as quotes.
+- Polish report output uses ASCII punctuation by default: straight quotes `"` and `'`,
+  the spaced hyphen ` - ` for dashes, `...` for an ellipsis, and `->` or a word
+  (`→` spelled out) for arrows. Typographic forms (`„…"`, `–`, `—`, `→`, `…`) appear only
+  when the task or the source document explicitly establishes them - for audit reports
+  they are never introduced on the writer's own initiative.
+- Defined Polish names are used verbatim mid-sentence without extra capitalization:
+  `źródła prawdy`, not `Źródła Prawdy`, in the middle of a sentence.
+- `referencja Git (ref)` at first use, then `ref`.
+- Finding titles in summary tables are copied verbatim from the `### FND-…` headings -
+  never rephrased.
+- A `Typ systemu` value, `Poziom dojrzałości`, `Cel audytu`, and readiness gates must not
+  contradict one another: a `środowisko produkcyjne` claim alongside an
+  `etap przedprodukcyjny` engagement context is a defect to fix before delivery.
 
 ## Diacritics Frequently Misspelled
 
@@ -544,26 +695,37 @@ Value cells use the Fixed Vocabulary Values table for `State`, `Detail Level`, `
 
 ## Audit Type Coverage & Assurance Matrix
 
-| English                                     | Polish                                              |
-|---------------------------------------------|-----------------------------------------------------|
-| Audit Type Coverage & Assurance Matrix      | Macierz pokrycia typów audytu i poziomu zapewnienia |
-| Report type                                 | Typ raportu                                         |
-| Status                                      | Status                                              |
-| Rationale                                   | Uzasadnienie                                        |
-| Software Architecture Review                | Przegląd architektury oprogramowania                |
-| Code Quality Audit                          | Audyt jakości kodu                                  |
-| Security Vulnerability Assessment           | Ocena podatności bezpieczeństwa                     |
-| Open Source License Compliance Review       | Przegląd zgodności licencji open source             |
-| Penetration Test                            | Test penetracyjny                                   |
-| Performance Audit                           | Audyt wydajności                                    |
-| Cloud Infrastructure Audit                  | Audyt infrastruktury chmurowej                      |
-| AI Governance Audit                         | Audyt zarządzania AI                                |
-| Technical Due Diligence                     | Techniczne due diligence                            |
-| SBOM / Software Composition Analysis        | SBOM / analiza składu oprogramowania                |
-| Compliance Certification (SOC 2, ISO 27001) | Certyfikacja zgodności (SOC 2, ISO 27001)           |
+| English                                | Polish                                  |
+|----------------------------------------|-----------------------------------------|
+| Audit Type Coverage & Assurance Matrix | Macierz zakresu audytu                  |
+| Report type                            | Typ raportu                             |
+| Status                                 | Status                                  |
+| Rationale                              | Uzasadnienie                            |
+| Software Architecture Review           | Przegląd architektury oprogramowania    |
+| Code Quality Audit                     | Audyt jakości kodu                      |
+| Security Vulnerability Assessment      | Ocena podatności bezpieczeństwa         |
+| Open Source License Compliance Review  | Przegląd zgodności licencji open source |
+| Penetration Test                       | Test penetracyjny                       |
+| Performance Audit                      | Audyt wydajności                        |
+| Cloud Infrastructure Audit             | Audyt infrastruktury chmurowej          |
+| AI Governance Audit                    | Audyt zarządzania AI                    |
+| Technical Due Diligence                | Techniczne due diligence                |
+| SBOM / Software Composition Analysis   | SBOM / analiza składu oprogramowania    |
+| ISO/IEC 27001 Certification            | Certyfikacja ISO/IEC 27001              |
+| SOC 2 Attestation Examination          | Badanie atestacyjne SOC 2               |
 
 The four coverage statuses render per Status And Severity Vocabulary: `OBJĘTE`,
 `CZĘŚCIOWO`, `NIEWYKONANE`, `NIE DOTYCZY`.
+
+SOC 2 is an attestation examination performed by a CPA firm, not a certification -
+keep the two rows separate and never write `certyfikacja SOC 2`.
+
+The matrix records which audit types the report does and does not answer,
+and it never claims an assurance level the audit does not define.
+
+`NIE DOTYCZY` in the `Audyt zarządzania AI` row never suppresses AI-provenance
+findings in the `Pochodzenie AI` pillar - the row answers whether governance of an
+AI system was assessed, the pillar answers how the source was authored.
 
 ## Project Inventory
 
@@ -600,6 +762,33 @@ Identifier descriptions in `###` subsections prefer short, direct phrasing, for 
 `Identyfikatory obowiązują tylko w tym raporcie i w kolejnych wersjach mogą być inne.` and
 `Identyfikator zalecenia w planie działań naprawczych`.
 
+Every acronym used anywhere in the report gets a Słownik entry.
+
+The entry names the class of the thing precisely - an organization, a standard, a
+specification, a framework, a metric set, a file format - not just the expansion:
+
+- `OWASP` is an organization and its project names - `Fundacja OWASP` - never `standard OWASP`.
+- `REST` is an architectural style - `styl architektoniczny` - not a contract or a protocol.
+- `E2E` names whole-flow tests - `testy całego przepływu` - not a synonym for `UI tests`.
+- `API` is `interfejs programowania aplikacji`.
+- `ASVS` is `standard weryfikacji bezpieczeństwa aplikacji OWASP`.
+- `DORA` is the metrics set - `metryki DORA` - not a process.
+- `JWT` is `token JSON podpisany i opcjonalnie szyfrowany`.
+- `RBAC` is `kontrola dostępu oparta na rolach`.
+- `SSH` is `szyfrowana powłoka i protokół zdalnego dostępu`.
+- `UI` is `interfejs użytkownika`.
+- `ADR` is `rejestr decyzji architektonicznych` - a decision record, not a directory.
+- `NFR` is `wymaganie niefunkcjonalne`.
+- `OSS` is `oprogramowanie o otwartym kodzie źródłowym`.
+- `RMF` is `ramy zarządzania ryzykiem NIST`.
+- `CVE` is `identyfikator konkretnej podatności` - distinguished from `CWE`, which classifies
+  weakness types.
+- `ISO` is the organization `Międzynarodowa Organizacja Normalizacyjna` and `IEC` is
+  `Międzynarodowa Komisja Elektrotechniczna` - separate entries, joint standards carry
+  both marks as `ISO/IEC`.
+- `TDD` collides with `test-driven development` - spell out `due diligence techniczne`
+  in full and never abbreviate it `TDD` in a Polish report.
+
 ## Technology Stack
 
 | English          | Polish                              |
@@ -621,7 +810,7 @@ Identifier descriptions in `###` subsections prefer short, direct phrasing, for 
 
 | English                        | Polish                      |
 |--------------------------------|-----------------------------|
-| Executive Summary              | Podsumowanie wykonawcze     |
+| Executive Summary              | Podsumowanie zarządcze      |
 | Field                          | Obszar                      |
 | Value                          | Wartość                     |
 | System type                    | Typ systemu                 |
@@ -639,7 +828,7 @@ Identifier descriptions in `###` subsections prefer short, direct phrasing, for 
 
 | English           | Polish                     |
 |-------------------|----------------------------|
-| Health Dashboard  | Panel zdrowia              |
+| Health Dashboard  | Panel oceny projektu       |
 | Risk Map          | Mapa ryzyk                 |
 | Impact            | Wpływ                      |
 | Likelihood        | Prawdopodobieństwo         |
@@ -710,7 +899,7 @@ selected scale:
 | Basis                               | Podstawa                                 |
 | Observed / proxy                    | Zmierzone / zastępcze                    |
 | Commit-author concentration         | Koncentracja autorstwa commitów          |
-| Bus-factor rating                   | Ocena czynnika autobusowego              |
+| Bus-factor rating                   | Ocena bus factor                         |
 | High concentration risk             | Wysokie ryzyko koncentracji              |
 | Moderate                            | Umiarkowane                              |
 | Low                                 | Niskie                                   |
@@ -874,19 +1063,20 @@ License-class cells use the feminine adjective forms shown, agreeing with `licen
 | Title                       | Tytuł                            |
 | Result                      | Wynik                            |
 | Status                      | Status                           |
+| Change                      | Zmiana                           |
 | Verification                | Weryfikacja                      |
 | Type                        | Typ                              |
 | Security                    | Bezpieczeństwo                   |
 | Targets                     | Obiekty                          |
 | Basis                       | Podstawa                         |
-| Absence                     | Ocena braku                      |
+| Absence                     | Charakter odstępstwa             |
 | Description                 | Opis                             |
 | Impact                      | Wpływ                            |
 | Recommendation              | Zalecenie                        |
 | Method                      | Metoda                           |
 | Verified                    | Zweryfikowane                    |
 | Confidence                  | Pewność oceny                    |
-| Countercheck                | Kontrargument                    |
+| Mitigating factors          | Czynniki łagodzące               |
 | Exploitability              | Wykorzystanie podatności         |
 | Evidence                    | Dowód                            |
 
@@ -929,7 +1119,7 @@ License-class cells use the feminine adjective forms shown, agreeing with `licen
 | Confidence            | Pewność oceny               |
 | Trigger               | Wyzwalacz                   |
 | Controls              | Mechanizmy kontrolne        |
-| Residual              | Rezydualne                  |
+| Residual              | Ryzyko rezydualne           |
 | Status                | Status                      |
 | Owner                 | Właściciel                  |
 | Closure               | Zamknięcie                  |
@@ -973,7 +1163,7 @@ License-class cells use the feminine adjective forms shown, agreeing with `licen
 | Optional                      | Opcjonalne              |
 | Not recommended               | Niezalecane             |
 
-Wartość `Undetermined` w polu `Ocena braku` przyjmuje formę żeńską `Nieokreślona`.
+Wartość `Undetermined` w polu `Charakter odstępstwa` przyjmuje formę `Nieokreślone`.
 
 ## Changes Since Previous Audit
 
@@ -990,6 +1180,7 @@ Wartość `Undetermined` w polu `Ocena braku` przyjmuje formę żeńską `Nieokr
 | Detail level                 | Poziom szczegółowości         |
 | Evaluation scale             | Skala oceny                   |
 | Finding transitions          | Zmiany ustaleń                |
+| Change                       | Zmiana                        |
 | Finding                      | Ustalenie                     |
 | Previous                     | Poprzedni                     |
 | Current                      | Bieżący                       |
@@ -1001,6 +1192,7 @@ Wartość `Undetermined` w polu `Ocena braku` przyjmuje formę żeńską `Nieokr
 | Down                         | W dół                         |
 | Unchanged                    | Bez zmian                     |
 | New                          | Nowe                          |
+| Reopened                     | Wznowione                     |
 | Open                         | Otwarte                       |
 | Closed                       | Zamknięte                     |
 | Verified                     | Zweryfikowane                 |
@@ -1039,14 +1231,28 @@ Wartość `Undetermined` w polu `Ocena braku` przyjmuje formę żeńską `Nieokr
 
 ## Validation Record
 
-| English                  | Polish                     |
-|--------------------------|----------------------------|
-| Validation Record        | Weryfikacja raportu        |
-| Check                    | Kontrola                   |
-| Result                   | Wynik                      |
-| Evidence / Justification | Dowód / uzasadnienie       |
-| Applied                  | Zastosowane                |
-| Parity baseline          | Punkt odniesienia paritetu |
+| English                  | Polish                      |
+|--------------------------|-----------------------------|
+| Validation Record        | Weryfikacja raportu         |
+| Check                    | Kontrola                    |
+| Result                   | Wynik                       |
+| Evidence / Justification | Dowód / uzasadnienie        |
+| Applied                  | Zastosowane                 |
+| Parity baseline          | Punkt odniesienia zgodności |
+
+A Polish report adds these rows to the Validation Record after the PAR checks,
+each with `Zastosowane`, `PASS`, or `N/D` plus justification:
+
+- `Kontrola pisowni` - a spell-check pass (LanguageTool, Hunspell, or an equivalent
+  method named in the Evidence column) ran over the rendered Polish text.
+- `Skan kalk językowych` - `scripts/lint-polish.py` ran clean, or every hit is
+  justified in the Evidence column.
+- `Długość zdań` - a sentence-length review confirmed prose stays inside the
+  Style Rules limits.
+- `Zgodność tabel z prozą` - every number and status in prose reconciles with the
+  tables that state it.
+- `Zgodność tytułów ustaleń` - every summary-table title matches its `### FND-…`
+  heading verbatim.
 
 ## Threat Model
 
@@ -1080,56 +1286,56 @@ Wartość `Undetermined` w polu `Ocena braku` przyjmuje formę żeńską `Nieokr
 Translate prose labels below, while preserving machine tokens such as `EVD-001`, CWE IDs, CVSS
 vectors, tool commands, and execution-state codes.
 
-| English                          | Polish                                     |
-|----------------------------------|--------------------------------------------|
-| Evidence And Decision Limits     | Dowody i ograniczenia decyzji              |
-| Verification And Evidence Ledger | Rejestr weryfikacji i materiału dowodowego |
-| Evidence                         | Dowód                                      |
-| Check / Source                   | Kontrola / źródło                          |
-| Result                           | Wynik                                      |
-| Artifact                         | Artefakt                                   |
-| Basis                            | Podstawa                                   |
-| Absence                          | Ocena braku                                |
-| Confidence                       | Pewność oceny                              |
-| Verified                         | Zweryfikowane                              |
-| Countercheck                     | Kontrargument                              |
-| Security                         | Bezpieczeństwo                             |
-| Inspected                        | Sprawdzone w źródłach                      |
-| Reported                         | Zadeklarowane                              |
-| Inferred                         | Wnioskowane                                |
-| Readiness Cost                   | Koszt osiągnięcia gotowości                |
-| Operational Objectives           | Cele operacyjne                            |
-| Due Diligence Coverage           | Zakres weryfikacji                         |
-| Work Item                        | Pakiet prac                                |
-| Source Recommendations           | Zalecenia źródłowe                         |
-| Effort Range                     | Zakres nakładu pracy                       |
-| Basis                            | Podstawa                                   |
-| Dependencies                     | Zależności                                 |
-| Metric                           | Metryka                                    |
-| Target                           | Cel                                        |
-| Measured Result                  | Wynik pomiaru                              |
-| Window                           | Okres pomiaru                              |
-| Source                           | Źródło                                     |
-| Owner                            | Właściciel                                 |
-| Concern                          | Obszar ryzyka                              |
-| Missing Artifact / Next Step     | Brakujący artefakt / kolejny krok          |
-| Meaning                          | Znaczenie                                  |
-| Readiness Treatment              | Obsługa gotowości produkcyjnej             |
-| Quality Characteristic           | Charakterystyka jakości                    |
-| Lens Evidence                    | Dowody w Lens                              |
-| Functional Suitability           | Przydatność funkcjonalna                   |
-| Performance Efficiency           | Efektywność wydajnościowa                  |
-| Compatibility                    | Kompatybilność                             |
-| Interaction Capability           | Zdolność interakcji                        |
-| Reliability                      | Niezawodność                               |
-| Flexibility                      | Elastyczność                               |
-| Safety                           | Bezpieczeństwo przed szkodami              |
-| Support Continuity               | Ciągłość wsparcia                          |
-| Ownership Cost                   | Koszt utrzymania                           |
-| Roadmap Feasibility              | Wykonalność planu rozwoju                  |
-| Supplier Continuity              | Ciągłość dostawcy                          |
-| IP Rights                        | Prawa własności intelektualnej             |
-| Data Obligations                 | Obowiązki dotyczące danych                 |
+| English                          | Polish                            |
+|----------------------------------|-----------------------------------|
+| Evidence And Decision Limits     | Dowody i ograniczenia decyzji     |
+| Verification And Evidence Ledger | Rejestr dowodów audytowych        |
+| Evidence                         | Dowód                             |
+| Check / Source                   | Kontrola / źródło                 |
+| Result                           | Wynik                             |
+| Artifact                         | Artefakt                          |
+| Basis                            | Podstawa                          |
+| Absence                          | Charakter odstępstwa              |
+| Confidence                       | Pewność oceny                     |
+| Verified                         | Zweryfikowane                     |
+| Mitigating factors               | Czynniki łagodzące                |
+| Security                         | Bezpieczeństwo                    |
+| Inspected                        | Zweryfikowane w repozytorium      |
+| Reported                         | Zadeklarowane                     |
+| Inferred                         | Wnioskowane                       |
+| Readiness Cost                   | Koszt osiągnięcia gotowości       |
+| Operational Objectives           | Cele operacyjne                   |
+| Due Diligence Coverage           | Zakres weryfikacji                |
+| Work Item                        | Pakiet prac                       |
+| Source Recommendations           | Zalecenia źródłowe                |
+| Effort Range                     | Zakres nakładu pracy              |
+| Basis                            | Podstawa                          |
+| Dependencies                     | Zależności                        |
+| Metric                           | Metryka                           |
+| Target                           | Cel                               |
+| Measured Result                  | Wynik pomiaru                     |
+| Window                           | Okres pomiaru                     |
+| Source                           | Źródło                            |
+| Owner                            | Właściciel                        |
+| Concern                          | Obszar ryzyka                     |
+| Missing Artifact / Next Step     | Brakujący artefakt / kolejny krok |
+| Meaning                          | Znaczenie                         |
+| Readiness Treatment              | Obsługa gotowości produkcyjnej    |
+| Quality Characteristic           | Charakterystyka jakości           |
+| Lens Evidence                    | Dowody w Lens                     |
+| Functional Suitability           | Przydatność funkcjonalna          |
+| Performance Efficiency           | Efektywność wydajnościowa         |
+| Compatibility                    | Kompatybilność                    |
+| Interaction Capability           | Zdolność interakcji               |
+| Reliability                      | Niezawodność                      |
+| Flexibility                      | Elastyczność                      |
+| Safety                           | Bezpieczeństwo przed szkodami     |
+| Support Continuity               | Ciągłość wsparcia                 |
+| Ownership Cost                   | Koszt utrzymania                  |
+| Roadmap Feasibility              | Wykonalność planu rozwoju         |
+| Supplier Continuity              | Ciągłość dostawcy                 |
+| IP Rights                        | Prawa własności intelektualnej    |
+| Data Obligations                 | Obowiązki dotyczące danych        |
 
 Result markers produced by the audit render in Polish: `NIEURUCHOMIONE`, `NIEOCENIONE`,
 `NIEZBADANE`, `POZA ZAKRESEM`, `NIEWYSTARCZAJĄCE INFORMACJE`, and `N/D`.

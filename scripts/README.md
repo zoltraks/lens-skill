@@ -17,8 +17,8 @@ All scripts require Python 3.8 or later (the walrus operator is used in
 
 ### Report-Production Tools
 
-Copy `link-glossary.py`, `format-table.py`, and `validate-report.py` into the audited
-repository's `work/` directory under a `.tmp.` name before use.
+Copy `link-glossary.py`, `format-table.py`, `validate-report.py`, and - for Polish reports -
+`lint-polish.py` into the audited repository's `work/` directory under a `.tmp.` name before use.
 
 If `work/` does not exist, use an existing `temp` or `temporary` directory.
 
@@ -49,6 +49,13 @@ pattern under the same parent.
 
 It mechanically enforces the Observation/Concern tag rule: every `| EVD-` ledger row must carry
 a tag cell, and every `### FND-` block's `Type` field must read `Observation` or `Concern`.
+
+`lint-polish.py` lints Polish report output for the calques listed in the
+`Calque And Style Replacements` table of `translations/polish-language.md`, plus
+comma splices, `tylko, gdy`, bare `per`, the `w.` abbreviation, semicolons, and typographic
+characters that the ASCII convention forbids. Run it on every Polish report before delivery;
+its result is recorded in the Validation Record. Like the other report tools it is copied
+into the audited repository under a `.tmp.` name before use.
 
 `validate-report.py` detects a review report by a `REVIEW`-family or `PRZEGLĄD`-family
 filename or a title ending in `Review and Amendment Instructions`, and then applies the
@@ -105,6 +112,7 @@ python scripts/check-contents.py .
 python scripts/check-update.py
 python scripts/format-table.py path/to/AUDIT.md
 python scripts/validate-report.py path/to/AUDIT.md
+python scripts/lint-polish.py path/to/AUDYT.md
 ```
 
 Exit code `0` means all checks passed.

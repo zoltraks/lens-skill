@@ -198,6 +198,7 @@ FINDING_REQUIRED = [
     "Type:",
     "Security:",
     "Status:",
+    "Change:",
     "Targets:",
     "Basis:",
     "Absence:",
@@ -207,7 +208,7 @@ FINDING_REQUIRED = [
     "Method:",
     "Verified:",
     "Confidence:",
-    "Countercheck:",
+    "Mitigating factors:",
     "Exploitability:",
     "Evidence:",
 ]
@@ -226,10 +227,12 @@ RISK_REQUIRED = [
     "Source:",
     "Confidence:",
 ]
-FINDING_STATUS = ("New", "Open", "Closed", "PASS")
+FINDING_STATUS = ("Open", "Closed", "PASS")
+CHANGE_VALUES = ("New", "Unchanged", "Reopened", "Closed")
 RISK_STATUS = ("Open", "Accepted", "Transferred", "Monitoring", "Closed")
 VERIFICATION_QUALIFIERS = ("Verified", "Confirmed", "Reported")
-ABSENCE_VALUES = ("Appears intentional", "Appears an oversight", "Undetermined", "N/A")
+ABSENCE_VALUES = ("No documented rationale", "Deliberate - recorded decision",
+                  "Undetermined", "N/A")
 
 
 def field_value(block: str, field: str) -> str:
@@ -249,7 +252,10 @@ def check_finding_blocks(lines: list[str]) -> list[str]:
                 failures.append(f"{name}: missing {field}")
         status = field_value(block, "Status")
         if status and not re.match(rf"^({'|'.join(FINDING_STATUS)})\b", status):
-            failures.append(f"{name}: Status is not a lifecycle value (New/Open/Closed/PASS)")
+            failures.append(f"{name}: Status is not a lifecycle value (Open/Closed/PASS)")
+        change = field_value(block, "Change")
+        if change and not re.match(rf"^({'|'.join(CHANGE_VALUES)})\b", change):
+            failures.append(f"{name}: Change is not a provenance value (New/Unchanged/Reopened/Closed)")
         absence = field_value(block, "Absence")
         if absence and not re.match(rf"^({'|'.join(ABSENCE_VALUES)})\b", absence):
             failures.append(f"{name}: Absence is not an allowed token")
@@ -280,6 +286,7 @@ LEGACY_FIELDS = [
     "Requirement Basis",
     "Absence Assessment",
     "Verification State",
+    "Countercheck",
     "Counter-check",
     "Security Classification",
     "Remediation Status",
@@ -320,13 +327,14 @@ def check_finding_summary(text: str) -> list[str]:
         return []
     cells = [cell.strip() for cell in raw_cells(lines[header_index])]
     failures = []
-    for wanted in ("Finding", "Result", "Status", "Verification"):
+    for wanted in ("Finding", "Result", "Status", "Change", "Verification"):
         if wanted not in cells:
             failures.append(f"findings summary table lacks a {wanted} column")
     for legacy in ("Finding ID", "Remediation Status"):
         if legacy in cells:
             failures.append(f"findings summary table still uses legacy column {legacy}")
     status_idx = cells.index("Status") if "Status" in cells else -1
+    change_idx = cells.index("Change") if "Change" in cells else -1
     verification_idx = cells.index("Verification") if "Verification" in cells else -1
     for row in lines[header_index + 2 :]:
         if not row.startswith("|"):
@@ -338,6 +346,10 @@ def check_finding_summary(text: str) -> list[str]:
             value = row_cells[status_idx]
             if value and value.split(" ")[0] not in FINDING_STATUS:
                 failures.append(f"findings summary row has non-lifecycle Status '{value}'")
+        if change_idx >= 0 and len(row_cells) > change_idx:
+            value = row_cells[change_idx]
+            if value and value.split(" ")[0] not in CHANGE_VALUES:
+                failures.append(f"findings summary row has non-provenance Change '{value}'")
         if verification_idx >= 0 and len(row_cells) > verification_idx:
             value = row_cells[verification_idx]
             if value and value.split(" ")[0] not in VERIFICATION_QUALIFIERS:
