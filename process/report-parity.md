@@ -79,6 +79,8 @@ Run this gate before marking a report final.
 5. When no other report is accessible, record `none found` and gate on the checklist alone.
 6. Run the semantic consistency checks for identifiers, scores, risk placement, evidence references,
    conditional-section justifications, translation tokens, and project-qualified shared references.
+   On a confirmed re-audit, also verify that the baseline file still matches the checksum recorded
+   at intake, and keep `State | Draft` on a mismatch.
 7. Record the outcome in the Validation Record, then remove the `State | Draft` row only when the
    structural and semantic gates both pass - a final report carries no `State` row.
 

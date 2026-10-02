@@ -29,11 +29,11 @@
 | Report Format                      | 419  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 454  | Supported requests and exclusions                   |
 | What's Inside                      | 477  | Documents, references, tools, and conditional files |
-| Document Style                     | 603  | Pointer to the style rules file                     |
-| Specification                      | 613  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 634  | Maintenance checks and regression scenarios         |
-| License                            | 656  | License for the skill itself                        |
-| Credits                            | 662  | Authorship and attribution                          |
+| Document Style                     | 607  | Pointer to the style rules file                     |
+| Specification                      | 617  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 638  | Maintenance checks and regression scenarios         |
+| License                            | 664  | License for the skill itself                        |
+| Credits                            | 670  | Authorship and attribution                          |
 
 ## Overview
 
@@ -591,6 +591,10 @@ and use the repository root only when none exists.
 
 Run them only against report artifacts and remove the copies after use.
 
+File-mode reports are composed as `.tmp.<stem>-part-NN.md` part files in the same scratch
+locations, concatenated in section order into the output file, and the parts are deleted only
+after the assembled report passes validation - they are checkpoints against mid-flight loss.
+
 Sections marked *(conditional)* appear in a report only when the subject warrants them.
 
 A system with no API gets no API Contract section,
@@ -649,6 +653,10 @@ When changing the skill, follow `docs/MAINTENANCE.md` and:
 
 Name temporary validation scripts with a `.tmp.` infix, place them in `work/` when it exists and in
 the repository root otherwise, and remove them after use.
+
+Report part files follow the same `.tmp.` infix and scratch placement,
+and may sit beside the output file during assembly when the scratch tree is not writable by
+file tools.
 
 Structural checks do not prove that future agents will follow the instructions, a fresh audit or
 independent model evaluation is a separate behavioral verification step.

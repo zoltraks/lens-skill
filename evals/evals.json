@@ -749,6 +749,30 @@
     "The fetch-and-merge path is classified under the CWE-494 unsigned-update finding class.",
     "No runtime verification is claimed - the finding cites the script source only."
    ]
+  },
+  {
+   "id": 63,
+   "prompt": "Audit this repository and deliver the report as a file.",
+   "expected_output": "A file-mode report composed as ordered .tmp. part files that are concatenated into the output file and removed only after validation gates pass.",
+   "files": [],
+   "expectations": [
+    "The report is composed as `.tmp.<stem>-part-NN.md` part files in the audited repository's scratch tree, never as a single monolithic write.",
+    "No shell heredoc or shell redirection is used to write report content - each part is written through the file-writing tool.",
+    "Parts are concatenated in the report's fixed section order and retained until the assembled file passes formatting, validation, checklist, and parity gates, then deleted before delivery.",
+    "When the scratch tree cannot be written by file tools, `.tmp.` parts sit beside the output file under the same retention rule and are deleted before delivery.",
+    "The `Time taken` value spans the whole window from the post-configuration start timestamp through assembly and validation, and an interrupted or re-done assembly does not reset it."
+   ]
+  },
+  {
+   "id": 64,
+   "prompt": "Re-audit this repository - an earlier AUDIT-1.0.md exists in docs/.",
+   "expected_output": "A re-audit that records the baseline report's checksum at intake, re-verifies it before assembly and before delivery, and states in the completion message that the baseline is unchanged.",
+   "files": [],
+   "expectations": [
+    "The previous report's checksum, or byte size and line count when hashing is unavailable, is recorded at baseline confirmation.",
+    "The baseline file is re-verified against the recorded checksum before concatenation and again at the consistency gate, and a mismatch stops delivery and keeps `State | Draft`.",
+    "The completion message states the output path, skill version, validation result, elapsed time, and that the baseline file is unchanged from the intake record."
+   ]
   }
  ]
 }

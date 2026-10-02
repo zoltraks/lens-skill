@@ -10,8 +10,8 @@
 | Section              | Line | What it covers                       |
 |----------------------|------|--------------------------------------|
 | Document Information | 16   | Report metadata and revisions        |
-| Audit Type Coverage  | 121  | Coverage of canonical audit types    |
-| Glossary             | 171  | Abbreviation and acronym definitions |
+| Audit Type Coverage  | 123  | Coverage of canonical audit types    |
+| Glossary             | 173  | Abbreviation and acronym definitions |
 
 ## Document Information
 
@@ -57,7 +57,9 @@ Rows appear in this order, each label in the first column and its value in the s
   Omit the row when the tree is clean.
 - `Skill Version` - the version of the audit skill that produced the report.
 - `Time taken` - elapsed audit time in `MM:SS`, measured from the start timestamp recorded after
-  parameter questions were resolved to the final clock reading before report delivery.
+  parameter questions were resolved to the final clock reading before report delivery. The
+  window spans report part composition, concatenation, formatting, and validation, and an
+  interrupted or re-done assembly does not reset the start timestamp.
 - `Previous Report` - the previous report path and revision, only on a confirmed re-audit. Omit
   the row on a fresh audit.
 - `Projects` - the audited project names, multi-project reports only.

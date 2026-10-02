@@ -20,11 +20,11 @@ A review report applies the same phases with the deltas defined in
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 1384 | Intake Checklist guidance        |
-| Handling Thin Input     | 1403 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1414 | Single-Dimension Audits guidance |
-| Re-Audit                | 1424 | Re-Audit guidance                |
-| Multi-Project Audits    | 1490 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1427 | Intake Checklist guidance        |
+| Handling Thin Input     | 1446 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1457 | Single-Dimension Audits guidance |
+| Re-Audit                | 1467 | Re-Audit guidance                |
+| Multi-Project Audits    | 1533 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -370,6 +370,9 @@ On a confirmed re-audit, do not reuse old execution permissions, tool results,
 or readiness conclusions as current evidence.
 
 The previous report is never overwritten.
+
+On confirmation, record the previous report's checksum - or byte size and line count when hashing
+is unavailable - in working notes as the baseline-integrity record.
 
 The new report is written to a new revision-numbered file and carries a Changes Since Previous Audit
 section, per `synthesis/report-comparison.md` and `process/report-format/summary-and-changes.md`.
@@ -1041,15 +1044,40 @@ so it summarizes only completed analysis.
 Add the Production Readiness Threshold paragraph to it at this stage,
 tying conditions to specific `RSK-XXX` IDs.
 
-**Large report assembly**
+**Report part assembly**
 
-When a report is too large to write in one pass,
-compose it in parts inside the audited repository's `work/` directory (or `temp`/`temporary` when
-that is the convention), then concatenate the parts in the fixed section order into the final file.
+Compose every File-mode report as ordered parts, never as a single write.
 
-Write one part per file-writing call so no single call exceeds the tool's input limit,
-and never use a shell heredoc for large content,
-since long heredocs are truncated by input limits and leave partial files behind.
+A report delivered as Inline text is exempt, and a Brief report delivered to a file may be
+written in one pass.
+
+Parts are checkpoints: a lost or deleted output file, or a session that ends mid-synthesis,
+resumes from the last written part instead of regenerating the whole report from context,
+which also bounds the memory any single step can consume.
+
+Write one part per file-writing call, each holding one or a few `##` sections,
+so no call approaches the tool's input limit.
+
+Never author report content through a shell heredoc or shell redirection:
+long heredocs are truncated by input limits and leave silently partial files behind.
+
+Joining existing part files into the output file is a mechanical copy, not authoring.
+
+Name each part `.tmp.<stem>-part-NN.md` so it reads as scratch wherever it appears,
+and write parts inside the audited repository's `work/` directory, an existing `temp` or
+`temporary` directory when `work/` is unavailable, and the repository root only when none exists.
+
+When the scratch directory exists but the file-writing tool cannot write it - for example when
+the tooling refuses a gitignored path - place the `.tmp.` part files beside the output file.
+
+They follow the retention rule below like any other parts and must never survive delivery as
+visible litter in the output tree.
+
+When a baseline-integrity record exists, re-verify that the previous report file still matches
+the recorded checksum before concatenating, and stop and surface the discrepancy on a mismatch.
+
+Concatenate the parts in the fixed section order into the final file with a mechanical file
+join, never by rewriting the document from context.
 
 Parts may be written directly in the report language.
 
@@ -1058,8 +1086,12 @@ A second render pass over the whole document is not required and can itself exce
 The English-mapped validation copy described in Validation still covers the mechanical checks for a
 non-English report.
 
+Keep the part files until the assembled report passes the formatting script,
+`validate-report.py` with zero issues, the Pre-Delivery Mechanical Checklist,
+and the parity gate, then remove them before the completion message.
+
 Run the Pre-Delivery Mechanical Checklist and the formatting script on the assembled file, not
-on the parts, and remove the part files after assembly.
+on the parts.
 
 When the audit edits an existing report file instead of composing parts, for example on a
 re-audit that upgrades a prior revision, apply these mechanical-edit rules:
@@ -1133,8 +1165,9 @@ When the previous report predates the current schema, read its field and column 
 the legacy mapping in `synthesis/report-comparison.md` before comparing, and name the rename as
 a capability change in the Changes Since Previous Audit section.
 
-When a Changes Since Previous Audit section is present, confirm the previous report file was
-left unchanged, the new filename carries the incremented revision, every transition cites
+When a Changes Since Previous Audit section is present, confirm the previous report file still
+matches the checksum recorded at baseline confirmation, the new filename carries the incremented
+revision, every transition cites
 current evidence, and no identifier from the previous report was reused for a different
 finding.
 
@@ -1296,6 +1329,12 @@ write it as `MM:SS` in the `Time taken` row of Document Information.
 
 Include the same value in the completion message to the user, for example `Time taken 13:45`.
 
+The measured window spans part composition, concatenation, formatting, and validation:
+an interrupted or re-done assembly does not reset the start timestamp.
+
+On a re-audit, state in the same completion message that the baseline file is unchanged from
+the intake record.
+
 When no reliable start timestamp exists - for example when revising a report whose audit predates
 this rule - omit the row instead of inventing a duration.
 
@@ -1358,6 +1397,12 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Scripted edit anchors on `## frontend`     | Complete heading line matched, no `###` hit                     |
 | Regex splice touches a table separator     | Whole block rewritten, formatter re-run                         |
 | Validator reports more than 10 problems    | Fix and re-run until zero, first-10 display limit               |
+| File-mode report at any size               | Parts written in order, concatenated, removed after gates       |
+| Heredoc carries report content             | Forbidden - part writes via the file tool only                  |
+| Scratch dir unwritable by file tool        | `.tmp.` parts beside the output file, deleted after assembly    |
+| Previous report confirmed at intake        | Checksum recorded, re-verified at assembly and delivery         |
+| Baseline checksum mismatch at re-verify    | Stop and surface, never deliver silently                        |
+| Assembly interrupted or output lost        | Resume from parts, `Time taken` keeps original start            |
 | Comment-only catch bodies                  | Counted separately from empty bodies                            |
 | Evaluation scale prompt shown              | All five options: 1-10, 1-5, 1-3, 5 stars, 3 stars              |
 | No previous report exists                  | Default `AUDIT-1.0.md`, `AUDIT.md` as alternative               |

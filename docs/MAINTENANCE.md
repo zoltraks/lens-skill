@@ -164,10 +164,15 @@ repository.
 ### Report Workspace Retention
 
 Report parts, copied `.tmp.` tool files, and validation working copies live in the audited
-repository's `work/` tree (or its `temp`/`temporary` convention) during assembly.
+repository's `work/` tree (or its `temp`/`temporary` convention) during assembly, and report
+parts carry a `.tmp.` infix so they read as scratch anywhere they appear.
 
-They are deleted before delivery - `work/` is a scratch area, not a retention location, and
-the validation phase confirms the cleanup.
+When the scratch tree exists but file tools cannot write it, `.tmp.` parts may sit beside the
+output file during assembly under the same retention rule.
+
+Parts are checkpoints, so they are retained until the assembled report passes the formatting,
+validation, checklist, and parity gates, then deleted before delivery - `work/` is a scratch
+area, not a retention location, and the validation phase confirms the cleanup.
 
 ## Adding A Report Language
 
