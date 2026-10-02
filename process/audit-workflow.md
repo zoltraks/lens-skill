@@ -20,11 +20,11 @@ A review report applies the same phases with the deltas defined in
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 1380 | Intake Checklist guidance        |
-| Handling Thin Input     | 1399 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1410 | Single-Dimension Audits guidance |
-| Re-Audit                | 1420 | Re-Audit guidance                |
-| Multi-Project Audits    | 1486 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1384 | Intake Checklist guidance        |
+| Handling Thin Input     | 1403 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1414 | Single-Dimension Audits guidance |
+| Re-Audit                | 1424 | Re-Audit guidance                |
+| Multi-Project Audits    | 1490 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -972,7 +972,7 @@ Record evidence, concrete risks, and neutral notes for each category.
 For a review report, synthesize the sections defined in `process/review-report.md`
 instead of the audit sections below.
 
-Render the Audit Type Coverage & Assurance Matrix first,
+Render the Audit Type Coverage table first,
 from the fixed row set in `references/audit-taxonomy.md`.
 
 It is the report's coverage declaration,
@@ -980,8 +980,9 @@ so it is assembled before any other section content and checked against Scope Ex
 Validation.
 
 Tag every finding `Observation` or `Concern` per `principles/evaluation-rules.md`,
-and attach an `Exploitability` narrative at an explicit tier to every `HIGH` or `CRITICAL` security
-finding, per `references/exploitability-narrative.md`.
+and attach an `Exploitability` narrative at an explicit tier to every `HIGH` or `CRITICAL`
+Security & Compliance finding on a network-facing surface,
+per `references/exploitability-narrative.md`.
 
 Under the default scope the tier is `Theoretical` or `Static-Confirmed`.
 
@@ -1101,6 +1102,9 @@ the detail level is Standard or Detailed.
 Confirm every finding that records an absent capability carries an `Absence` token
 with a one-line evidence basis.
 
+Confirm no `Security`, `Exploitability`, or `Absence` field line renders `N/A` - the field is
+omitted instead - and no `Owner` line renders an unspecified value.
+
 Confirm identifiers cited in narrative prose match register rows: a `RSK-XXX`, `FND-XXX`, or
 `REC-XXX` named in a summary, readiness paragraph, or changes section must exist in the
 corresponding register and refer to the same item.
@@ -1168,7 +1172,7 @@ or states that no direct rule exists for the CWE in that stack.
 
 Confirm no finding implies an analyzer ran.
 
-Confirm the Audit Type Coverage & Assurance Matrix is present after Document Information and
+Confirm the Audit Type Coverage table is present after Document Information and
 consistent with Scope Exclusions: every `Not done` row has a matching exclusion bullet and
 no `Covered` row is disclaimed later.
 
@@ -1178,9 +1182,9 @@ committed advisory evidence exists.
 
 Confirm every evidence-ledger row and every finding carries an `Observation` or `Concern` tag.
 
-Confirm every `HIGH` or `CRITICAL` Security & Compliance finding carries an Exploitability
-Narrative: the tier and attack-path reasoning on a network-facing surface,
-`N/A` with a reason otherwise.
+Confirm every `HIGH` or `CRITICAL` Security & Compliance finding on a network-facing surface
+carries an Exploitability narrative with the tier and attack-path reasoning,
+and that the field is omitted on every other finding.
 
 Confirm no narrative claims a tier above the evidence,
 `Dynamically-Verified` under the default scope is a defect.
@@ -1237,8 +1241,8 @@ Before composing the report body, run a tooling probe against the report-product
 
 copy `scripts/link-glossary.py`, `scripts/format-table.py`, and `scripts/validate-report.py`
 (or `scripts/finalize-report.py`, which orchestrates all three) into the audited repository
-under `.tmp.` names, run them on a stub report carrying one canonical instance of every fixed
-field token (`* **Absence:**`, `* **Exploitability:**`, `* **Status:**`, and so on),
+under `.tmp.` names, run them on a stub report carrying one canonical populated instance of every
+fixed field token (`* **Absence:**`, `* **Exploitability:**`, `* **Status:**`, and so on),
 and confirm the tools behave as specified.
 
 A probe failure means the toolchain, not the report, needs attention first.
@@ -1366,9 +1370,9 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Committed advisory report absent           | `Advisory Checked` stays `N` for every component                |
 | Critical finding on public endpoint        | `Exploitability` narrative present, `Theoretical` tier          |
 | Narrative claims dynamic verification      | Defect: scope never lifted, tier forced down                    |
-| Security finding on internal-only code     | Narrative field present as `N/A` with reason                    |
+| Security finding on internal-only code     | Narrative field omitted                                         |
 | Git subject, no tags                       | Deployment frequency proxy `NOT SPECIFIED`                      |
-| Single-author repository                   | Bus-factor `High`, Team & Continuity line present               |
+| Single-author repository                   | Bus-factor `HIGH`, Team & Continuity line present               |
 | Non-Git subject                            | Delivery Practice section `NOT COLLECTED`                       |
 | Evidence ledger written                    | Every row carries `Observation` or `Concern`                    |
 | Polish-language report                     | Headings and dimension names match glossary verbatim            |

@@ -4,15 +4,16 @@
 
 > **Scope:** Checkable requirements of the Agent Skills specification used as the conformance
 > baseline for the Skill Definition Conformance assessment
-> **Key items:** frontmatter field constraints, directory conventions, progressive disclosure,
-> file-reference rules, live-check drift procedure
+> **Key items:** frontmatter field constraints, platform constraints, directory conventions,
+> progressive disclosure, file-reference rules, skill security surface, live-check drift
+> procedure
 
 This file distills the [Agent Skills specification](https://agentskills.io/specification)
 into the constraints an audit can check mechanically.
 
 The specification site is the authoritative source.
 
-Snapshot date: 2026-09-27.
+Snapshot date: 2026-10-02.
 
 `assessment/skill-definition.md` consumes this file.
 
@@ -41,6 +42,19 @@ A skill is a directory containing, at minimum, a `SKILL.md` file.
 | `compatibility` | No       | 1-500 chars, environment requirements                                  |
 | `metadata`      | No       | Map of string keys to string values                                    |
 | `allowed-tools` | No       | Space-separated string of pre-approved tools, experimental             |
+
+## Platform Constraints
+
+Anthropic's skill documentation at
+`https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview` adds constraints
+that are not in the agentskills.io specification but apply to skills targeting its products:
+
+- `name` must not contain the reserved substrings `anthropic` or `claude`.
+- `name` and `description` must not contain XML tags.
+- `description` is injected into the system prompt, so it must be written in third person -
+  first- or second-person phrasing disrupts skill discovery.
+
+An audit records these as platform-constraint findings distinct from spec violations.
 
 ## Progressive Disclosure
 
@@ -93,6 +107,33 @@ authoritative source for these signals:
 - `scripts/` entries are self-contained or document their dependencies.
 - `metadata` key names are reasonably unique to avoid conflicts.
 - `allowed-tools` lists only the tools the skill's procedures actually invoke.
+- Skill names prefer gerund form (`processing-pdfs`, `analyzing-spreadsheets`) and avoid vague or
+  generic names (`helper`, `utils`, `documents`, `data`).
+- Instruction specificity matches task fragility: exact scripts for fragile low-freedom steps,
+  goal-level guidance for tolerant high-freedom steps.
+- Every paragraph is expected to justify its token cost - content the agent already knows is
+  waste, not completeness.
+- The quality floor is at least three evaluation prompts exercised against real usage, across
+  the model tiers the skill targets.
+- Anti-patterns the guide names: Windows-style paths, offering too many near-duplicate options,
+  and unjustified "voodoo" constants in scripts.
+
+## Skill Security Surface
+
+The overview's security considerations define the checkable surface for an audited skill,
+treating an untrusted skill like installing third-party software:
+
+- Every bundled file is reviewed - `SKILL.md`, scripts, and resources - for unexpected network
+  calls, file access outside the skill's declared scope, and operations that do not match its
+  stated purpose.
+- Instructions or scripts that fetch content from external URLs are a distinct risk class: the
+  fetched content is mutable and unpinnable, so a trustworthy skill can turn malicious when its
+  dependencies change.
+- Tool invocations exceeding the `allowed-tools` declaration, and reads or writes of sensitive
+  data with no stated need, are exposure findings.
+- The OWASP Agentic Skills Top 10 vocabulary in `references/methodology/owasp-baselines.md`
+  (AST01-AST10) anchors these finding classes; update-drift findings (AST07) pair with the
+  integrity rules in `references/topics/git-integrity.md`.
 
 ## Live Check
 

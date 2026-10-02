@@ -24,11 +24,11 @@ ENDASH = chr(0x2013)
 ARROW = chr(0x2192)
 BASELINE_SECTIONS = [
     "Document Information",
-    "Audit Type Coverage & Assurance Matrix",
+    "Audit Type Coverage",
     "Executive Summary",
     "System Context",
     "Software Bill of Materials",
-    "License & IP Compliance Review",
+    "License Compliance Review",
     "Health Dashboard",
     "Delivery Practice & Team Continuity",
     "High-Level Observations",
@@ -47,7 +47,7 @@ BASELINE_SECTIONS = [
 ]
 BRIEF_SECTIONS = {
     "Document Information",
-    "Audit Type Coverage & Assurance Matrix",
+    "Audit Type Coverage",
     "Executive Summary",
     "System Context",
     "Health Dashboard",
@@ -196,12 +196,10 @@ FINDING_REQUIRED = [
     "Pillar:",
     "Severity:",
     "Type:",
-    "Security:",
     "Status:",
     "Change:",
     "Targets:",
     "Basis:",
-    "Absence:",
     "Description:",
     "Impact:",
     "Recommendation:",
@@ -209,7 +207,6 @@ FINDING_REQUIRED = [
     "Verified:",
     "Confidence:",
     "Mitigating factors:",
-    "Exploitability:",
     "Evidence:",
 ]
 RISK_REQUIRED = [
@@ -217,7 +214,6 @@ RISK_REQUIRED = [
     "Likelihood:",
     "Residual:",
     "Status:",
-    "Owner:",
     "Description:",
     "Impact:",
     "Trigger:",
@@ -232,7 +228,8 @@ CHANGE_VALUES = ("New", "Unchanged", "Reopened", "Closed")
 RISK_STATUS = ("Open", "Accepted", "Transferred", "Monitoring", "Closed")
 VERIFICATION_QUALIFIERS = ("Verified", "Confirmed", "Reported")
 ABSENCE_VALUES = ("No documented rationale", "Deliberate - recorded decision",
-                  "Undetermined", "N/A")
+                  "Undetermined")
+EMPTY_FIELD_VALUE = re.compile(r"^(N/?A|N/D|NOT SPECIFIED|NIEOKREŚLON)\b", re.IGNORECASE)
 
 
 def field_value(block: str, field: str) -> str:
@@ -257,8 +254,13 @@ def check_finding_blocks(lines: list[str]) -> list[str]:
         if change and not re.match(rf"^({'|'.join(CHANGE_VALUES)})\b", change):
             failures.append(f"{name}: Change is not a provenance value (New/Unchanged/Reopened/Closed)")
         absence = field_value(block, "Absence")
-        if absence and not re.match(rf"^({'|'.join(ABSENCE_VALUES)})\b", absence):
+        if absence and not EMPTY_FIELD_VALUE.match(absence) \
+                and not re.match(rf"^({'|'.join(ABSENCE_VALUES)})\b", absence):
             failures.append(f"{name}: Absence is not an allowed token")
+        for field in ("Security", "Exploitability", "Absence"):
+            value = field_value(block, field)
+            if EMPTY_FIELD_VALUE.match(value):
+                failures.append(f"{name}: {field} renders {value.split(' ')[0]} - omit the line entirely")
         verified = field_value(block, "Verified")
         if verified and not re.match(r"^(yes|no)\b", verified, re.IGNORECASE):
             failures.append(f"{name}: Verified does not start with yes or no")
@@ -278,6 +280,11 @@ def check_risk_blocks(lines: list[str]) -> list[str]:
         status = field_value(block, "Status")
         if status and not re.match(rf"^({'|'.join(RISK_STATUS)})\b", status):
             failures.append(f"{name}: Status is not a treatment value (Open/Accepted/Transferred/Monitoring/Closed)")
+        owner = field_value(block, "Owner")
+        if owner and EMPTY_FIELD_VALUE.match(owner):
+            failures.append(f"{name}: Owner renders an unspecified value - omit the line entirely")
+        if re.search(r"^\*\s+\*\*Owner:\*\*\s*$", block, re.MULTILINE):
+            failures.append(f"{name}: Owner renders an empty value - omit the line entirely")
     return failures
 
 
@@ -482,11 +489,12 @@ def check_security_classification(lines: list[str]) -> list[str]:
     for position, start in enumerate(starts):
         end = starts[position + 1] if position + 1 < len(starts) else len(lines)
         block = NL.join(lines[start:end])
+        match = re.search(r"\* \*\*Security:\*\*\s*(.*)", block)
+        if match and not EMPTY_FIELD_VALUE.match(match.group(1).strip()) \
+                and not re.search(r"CWE-[0-9]+|\bUNKNOWN\b|\bNIEZNANE\b", match.group(1)):
+            failures.append(f"{lines[start][4:70]}: security classification lacks CWE or an unknown token")
         if "**Pillar:** Security & Compliance" not in block:
             continue
-        match = re.search(r"\* \*\*Security:\*\*\s*(.*)", block)
-        if not match or not re.search(r"CWE-[0-9]+|\bUNKNOWN\b|\bN/A\b|\bN/D\b|\bNIEZNANE\b", match.group(1)):
-            failures.append(f"{lines[start][4:70]}: security classification lacks CWE or an unknown/not-applicable token")
         severity = re.search(r"\* \*\*Severity:\*\*\s*(.*)", block)
         narrative = re.search(r"\* \*\*Exploitability:\*\*\s*(.*)", block)
         if severity and narrative and re.search(r"\b(critical|high|krytyczna|wysoka)\b", severity.group(1), re.IGNORECASE):
@@ -870,6 +878,25 @@ def check_required_sections(text: str) -> list[str]:
     return [f"missing required section: {section}" for section in ordered if section in required and section not in headings]
 
 
+def check_coverage_rows(text: str) -> list[str]:
+    start = re.search(r"^##\s+Audit Type Coverage\s*$", text, re.MULTILINE)
+    if not start:
+        return []
+    rest = text[start.end() :]
+    following = re.search(r"^#{1,3}\s", rest, re.MULTILINE)
+    section = rest[: following.start()] if following else rest
+    table = [line for line in section.split("\n") if line.startswith("|")]
+    failures: list[str] = []
+    for row in table[2:]:
+        cells = [cell.strip() for cell in raw_cells(row)]
+        if len(cells) >= 3 and cells[2] and cells[2] not in ("Covered", "Partially", "Not done"):
+            failures.append(
+                f"coverage row '{cells[1]}' has status '{cells[2]}', "
+                "expected Covered, Partially, or Not done - omit Not Applicable rows"
+            )
+    return failures
+
+
 def check_rec_classification(text: str) -> list[str]:
     failures: list[str] = []
     starts = [
@@ -1016,6 +1043,7 @@ def main(path: str) -> int:
         checks.extend(
             [
                 ("required sections", check_required_sections(text)),
+                ("coverage rows", check_coverage_rows(text)),
                 ("FND/RSK/REC cross-references", check_ids(text)),
                 ("finding-block fields", check_finding_blocks(lines)),
                 ("risk-block fields", check_risk_blocks(lines)),

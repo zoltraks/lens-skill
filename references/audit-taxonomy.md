@@ -7,7 +7,7 @@
 > **Key items:** audit-type table, coverage statuses, source corpus, coverage matrix rules
 
 This file names the audit types a synthesis report distinguishes and defines the fixed status
-vocabulary used by the Audit Type Coverage & Assurance Matrix in `process/report-format/opening.md`.
+vocabulary used by the Audit Type Coverage table in `process/report-format/opening.md`.
 It also registers the external sources the skill's audit-type rules were derived from, so the
 report's References section can cite them the same way it cites standards.
 
@@ -22,15 +22,15 @@ The Coverage Matrix uses exactly these statuses, and no others:
 | `Covered`        | The report answers this audit type's core questions within the source-only evidence model |
 | `Partially`      | Some of this type's dimensions are answered, and the named limits remain explicit         |
 | `Not done`       | This is a distinct engagement type the audit deliberately does not run                    |
-| `Not Applicable` | This audit type does not apply to the subject under audit                                 |
+| `Not Applicable` | This audit type does not apply to the subject under audit, the row is omitted             |
 
 `Not done` declares a scope decision about an engagement kind, never a defect of the subject.
 `Not Applicable` differs: the type's trigger condition is absent entirely, for example an AI
-Governance Audit for a project with no AI dependency.
+Governance Audit for a project with no AI dependency, and a row carrying it is never rendered.
 
 ## Canonical Audit Types
 
-Render the full row set in every report.
+Render one row per canonical type whose status is not `Not Applicable`.
 
 The default status applies unless the audit's evidence or the subject justifies a different one,
 and the Rationale column always states why.
@@ -40,7 +40,7 @@ and the Rationale column always states why.
 | Software Architecture Review          | Architectural Assessment, Trade-off Analysis                       | Covered        |
 | Code Quality Audit                    | Code Quality pillar findings, Technical Debt Register              | Covered        |
 | Security Vulnerability Assessment     | Security pillar findings, Threat Model, CWE mappings               | Covered        |
-| Open Source License Compliance Review | License & IP Compliance Review, SBOM license pass                  | Covered        |
+| Open Source License Compliance Review | License Compliance Review, SBOM license pass                       | Covered        |
 | Penetration Test                      | Nothing equivalent, Exploitability Narratives are theoretical only | Not done       |
 | Performance Audit                     | NFR review of stated targets and design, no load measurement       | Partially      |
 | Cloud Infrastructure Audit            | Deployment and IaC inspection, no live environment state           | Partially      |
@@ -51,7 +51,7 @@ and the Rationale column always states why.
 | SOC 2 Attestation Examination         | Framework used as a coverage checklist only                        | Not done       |
 
 The AI Governance Audit row takes `Covered` when the AI System Assessment applies per
-`assessment/ai-system.md`, and `Not Applicable` otherwise.
+`assessment/ai-system.md`, and is omitted when it does not.
 
 ## Per-Type Rationale
 
@@ -132,7 +132,8 @@ CPA firm, not a certification.
 
 ## Consistency Rules
 
-- The matrix rows are fixed. Do not add, drop, or rename rows inside a report.
+- Do not add or rename rows inside a report, and omit the row when the status is
+  `Not Applicable`.
 - A status other than the default carries a one-line justification in the Rationale column.
 - The matrix must agree with Scope Exclusions: no `Covered` row may be disclaimed later, and no
   exclusion may contradict a `Covered` status. PAR-11 enforces this.

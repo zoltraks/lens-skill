@@ -7,7 +7,7 @@
 > **Key items:** license classes, declaration sources, copyleft trap, Unknown handling
 
 This file defines the license-classification pass that runs over the SBOM table
-(`references/sbom-schema.md`) and feeds the License & IP Compliance Review section and
+(`references/sbom-schema.md`) and feeds the License Compliance Review section and
 `assessment/copyright-review.md` findings.
 
 Apply `principles/evaluation-rules.md` throughout.

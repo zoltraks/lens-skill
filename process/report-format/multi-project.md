@@ -17,7 +17,7 @@ The title uses the repository or directory name, not a single project name.
 
 Include a `Projects` row in the table listing the audited projects.
 
-The **Audit Type Coverage & Assurance Matrix** appears once, immediately after Document
+The **Audit Type Coverage** table appears once, immediately after Document
 Information and before the Project Inventory.
 
 **Project Inventory** appears after the Coverage Matrix.
@@ -66,7 +66,7 @@ followed by the full set of report sections for that project:
 - Executive Summary
 - System Context (with the Technology Stack subsection)
 - Software Bill of Materials
-- License & IP Compliance Review
+- License Compliance Review
 - Health Dashboard
 - Delivery Practice & Team Continuity
 - High-Level Observations

@@ -17,8 +17,9 @@ follow-up as part of a complete audit, and the monitor step of the NIST Risk Man
 
 Apply `principles/evaluation-rules.md` throughout.
 
-Owners and dates are placeholders to be filled by the user's organization,
-mark them `NOT SPECIFIED` where the input does not provide them rather than inventing names.
+Owners and dates are placeholders to be filled by the user's organization:
+an owner cell stays empty where the input provides none, a date renders `NOT SPECIFIED`,
+rather than inventing names.
 
 ## When This Applies
 
@@ -43,7 +44,8 @@ Column meanings:
 
 - **Finding**: the `FND-XXX` identifier to be verified.
 - **Priority**: the priority tier from the remediation roadmap (`P1`-`P4`).
-- **Verification Owner**: the role responsible for confirming the fix, or `NOT SPECIFIED`.
+- **Verification Owner**: the role responsible for confirming the fix - the cell stays empty
+  when the input establishes none.
 - **Closure Evidence**: the specific artifact, test, or check required to close the finding.
 - **Target Re-audit Trigger**: the milestone or date that should trigger re-verification, or
   `NOT SPECIFIED`.
@@ -73,7 +75,7 @@ runtime-validated closure from a proposed test or unrelated clean scan.
 
 Every gate needs a confirmed verification owner and acceptance evidence.
 
-Leave unknown assignments `NOT SPECIFIED`, and list a suggested role separately as proposed,
+Leave unknown assignments empty, and list a suggested role separately as proposed,
 awaiting confirmation.
 
 Missing owners or required evidence keep sign-off pending even if the report itself is final.
@@ -120,7 +122,8 @@ recommended trigger neutrally.
 ## Rules
 
 - Every row must reference a specific `FND-XXX`.
-- Do not invent owner names or dates. Use `NOT SPECIFIED` where the input is silent.
+- Do not invent owner names or dates. Leave owner cells empty and mark dates `NOT SPECIFIED`
+  where the input is silent.
 - Closure evidence must be a concrete, verifiable artifact, not a vague assurance.
 - Keep sign-off gates consistent with the Production Readiness Threshold and the Unified Risk
   Register.

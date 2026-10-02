@@ -7,11 +7,11 @@
 
 ## Contents
 
-| Section                                | Line | What it covers                       |
-|----------------------------------------|------|--------------------------------------|
-| Document Information                   | 16   | Report metadata and revisions        |
-| Audit Type Coverage & Assurance Matrix | 121  | Coverage of canonical audit types    |
-| Glossary                               | 165  | Abbreviation and acronym definitions |
+| Section              | Line | What it covers                       |
+|----------------------|------|--------------------------------------|
+| Document Information | 16   | Report metadata and revisions        |
+| Audit Type Coverage  | 121  | Coverage of canonical audit types    |
+| Glossary             | 171  | Abbreviation and acronym definitions |
 
 ## Document Information
 
@@ -118,19 +118,23 @@ apply the label translations from the matching `translations/` file.
 Descriptive values such as `State`, `Detail Level`, `Evaluation Scale`, `Audit Purpose`,
 and `Verification Scope` are rendered per the same file.
 
-## Audit Type Coverage & Assurance Matrix
+## Audit Type Coverage
 
 State at a glance which canonical audit types this report answers and which it deliberately does
-not.
+not run.
 
-The matrix makes the report's coverage explicit so it cannot be mistaken for a penetration test,
+The table makes the report's coverage explicit so it cannot be mistaken for a penetration test,
 a certifying audit, or a full technical due diligence.
 
 The section appears once per report, immediately after `## Document Information` and before
 `## Project Inventory` in a multi-project report, or before `## Glossary` in a single-project
 report.
 
-Present the fixed table from `references/audit-taxonomy.md`, one row per canonical audit type:
+Present the fixed table from `references/audit-taxonomy.md`, one row per canonical audit type
+whose status is not `Not Applicable`.
+
+A type classified `Not Applicable` produces no row - the table never mentions audit types that
+do not apply to the subject.
 
 |  | Report type                           | Status   | Rationale                              |
 |--|---------------------------------------|----------|----------------------------------------|
@@ -149,6 +153,8 @@ Present the fixed table from `references/audit-taxonomy.md`, one row per canonic
 
 Status values come from the fixed vocabulary in `references/audit-taxonomy.md`: `Covered`,
 `Partially`, `Not done`, `Not Applicable`.
+
+A `Not Applicable` status is decided per type but never rendered as a row.
 
 Default statuses and per-type rationale are defined there.
 
@@ -171,7 +177,7 @@ and omitted when Descriptive mode is `Disabled`.
 
 When omitted, record the deliberate omission with a one-line justification in Scope Exclusions.
 
-The section appears immediately after `## Audit Type Coverage & Assurance Matrix`, or after
+The section appears immediately after `## Audit Type Coverage`, or after
 `## Project Inventory` in a multi-project report, and always before `## Executive Summary`.
 A multi-project report carries one shared Glossary covering terms used in every project block.
 

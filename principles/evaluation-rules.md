@@ -27,11 +27,11 @@ If a finding cannot satisfy these rules, mark it as unknown rather than guessing
 | Status Markers                      | 189  | PASS, PARTIAL, FAIL, UNKNOWN, N/A     |
 | Contextual Applicability            | 208  | N/A usage for inapplicable categories |
 | Absent Capability Assessment        | 237  | Intentional-versus-oversight tokens   |
-| Evidence Citation                   | 271  | Anchoring claims to sources           |
-| Confidence And Scope Limits         | 282  | Confidence and scope boundaries       |
-| Information Security And Redaction  | 293  | Secret handling rules                 |
-| Indexing And Traceability           | 309  | ID schemes and ordering               |
-| Critical Constraints                | 378  | Non-negotiable hard limits            |
+| Evidence Citation                   | 272  | Anchoring claims to sources           |
+| Confidence And Scope Limits         | 283  | Confidence and scope boundaries       |
+| Information Security And Redaction  | 294  | Secret handling rules                 |
+| Indexing And Traceability           | 310  | ID schemes and ordering               |
+| Critical Constraints                | 379  | Non-negotiable hard limits            |
 
 ## Evidence-Based Reasoning
 
@@ -247,7 +247,8 @@ Use exactly these tokens:
 | `No documented rationale`        | The repository holds no record explaining the absence                 |
 | `Deliberate - recorded decision` | A decision record, documented scope limit, or equivalent entry exists |
 | `Undetermined`                   | The signals conflict or are absent                                    |
-| `N/A`                            | The finding does not record an absent capability                      |
+
+A finding that does not record an absent capability omits the `Absence` field entirely.
 
 Signals of a deliberate absence include documented scope limits such as a prototype or local-only
 delivery model, a documented manual process, and no envisaged delivery or release process at all.

@@ -159,12 +159,12 @@
   {
    "id": 13,
    "prompt": "Audit this repository with default parameters. The user expects a security-focused review and asks whether the report is a penetration test and a SOC 2 assessment.",
-   "expected_output": "A report whose Audit Type Coverage & Assurance Matrix states exactly which canonical audit types are covered, partially covered, or not performed, with rationale tied to report sections.",
+   "expected_output": "A report whose Audit Type Coverage table states exactly which canonical audit types are covered, partially covered, or not performed, with rationale tied to report sections.",
    "files": [],
    "expectations": [
-    "The report includes an Audit Type Coverage & Assurance Matrix immediately after Document Information, using only the fixed statuses Covered, Partially, Not done, and Not Applicable.",
+    "The report includes an Audit Type Coverage table immediately after Document Information, rendering only the statuses Covered, Partially, and Not done, with rows classified Not Applicable omitted entirely.",
     "Penetration Test is marked Not done and the rationale distinguishes source-level security review from live exploitation.",
-    "Compliance Certification is marked Not done or Not Applicable, and referenced standards appear only as scoring rubrics.",
+    "Compliance Certification is marked Not done or omitted as Not Applicable, and referenced standards appear only as scoring rubrics.",
     "Every matrix status is consistent with Scope Exclusions: nothing marked Covered is disclaimed there and vice versa.",
     "Technical Due Diligence is not marked fully Covered when team interviews, business fit, cost, support, or ownership evidence is absent."
    ]
@@ -172,12 +172,12 @@
   {
    "id": 14,
    "prompt": "Audit this repository, which has dependency manifests and lockfiles but no committed SBOM, no license files in vendored code, and no ownership or contractor-assignment documents.",
-   "expected_output": "A report with a source-derived Software Bill of Materials section and a License & IP Compliance Review that keep undeterminable fields explicitly unknown.",
+   "expected_output": "A report with a source-derived Software Bill of Materials section and a License Compliance Review that keep undeterminable fields explicitly unknown.",
    "files": [],
    "expectations": [
     "The Software Bill of Materials section states that no shipped-artifact SBOM was provided and presents the manifest-derived inventory as Inspected source evidence, not a generated or shipped SBOM.",
     "Every SBOM row carries component, version, ecosystem, relationship, license, and evidence columns, with license cells reading Unknown rather than registry guesses.",
-    "The License & IP Compliance Review separates observed license facts from inferred concerns and records missing ownership or assignment evidence as UNKNOWN.",
+    "The License Compliance Review separates observed license facts from inferred concerns and records missing ownership or assignment evidence as UNKNOWN.",
     "The absent shipped SBOM is reported as an inventory gap, not as a vulnerability or compliance violation.",
     "No license violation, copyright infringement, or legal obligation is claimed without specific evidence."
    ]
@@ -215,13 +215,13 @@
    "expected_output": "A Polish report whose new sections and tags match translations/polish-language.md verbatim, preserving machine tokens and settled terminology.",
    "files": [],
    "expectations": [
-    "New section headings match the dictionary verbatim: Macierz zakresu audytu, Zestawienie składników oprogramowania, Przegląd zgodności licencyjnej i IP, Praktyka dostarczania i ciągłość zespołu.",
-    "Coverage statuses render as OBJĘTE, CZĘŚCIOWO, NIEWYKONANE, or NIE DOTYCZY, and finding Type tags render Obserwacja or Wniosek.",
+    "New section headings match the dictionary verbatim: Zakres typów audytu, Zestawienie składników oprogramowania, Przegląd zgodności licencyjnej i IP, Praktyka dostarczania i ciągłość zespołu.",
+    "Coverage statuses render as OBJĘTE, CZĘŚCIOWO, or NIEWYKONANE, NIE DOTYCZY rows are omitted, and finding Type tags render Obserwacja or Wniosek.",
     "Exploitability tiers render TEORETYCZNY, POTWIERDZONE STATYCZNIE, or ZWERYFIKOWANE DYNAMICZNIE, while IDs, CWE references, and file paths stay unchanged.",
     "The scorecard dimension renders Dostarczanie i ciągłość, and DORA metric names follow the dictionary.",
     "Loanwords such as commit, pull request, copyleft, SBOM, and due diligence stay untranslated and established terms such as Ważność, Panel oceny projektu, and kryterium jakości are used.",
     "The findings table separates lifecycle (Status: Otwarte/Zamknięte/OK) from movement since the previous audit (Zmiana: Nowe/Bez zmian/Wznowione/Zamknięte), and the Charakter odstępstwa field uses only Brak udokumentowanego uzasadnienia, Świadome - udokumentowana decyzja, Nieokreślone, or N/D.",
-    "The compliance rows are split into Certyfikacja ISO/IEC 27001 and Badanie atestacyjne SOC 2, and the matrix never claims an assurance level."
+    "The compliance rows are split into Certyfikacja ISO/IEC 27001 and Badanie atestacyjne SOC 2, and the coverage table never claims an assurance level."
    ]
   },
   {
@@ -337,7 +337,7 @@
     "Required Changes and Suggested Amendment Order are present even when the review finds no required changes.",
     "The report carries a revisioned REVIEW-<revision>.md filename such as REVIEW-1.0.md.",
     "The report does not claim the documented procedure was executed, and unrun checks are marked NOT RUN.",
-    "The report carries no audit-only sections such as the Audit Type Coverage & Assurance Matrix, scorecard, risk register, or PAR parity rows."
+    "The report carries no audit-only sections such as the Audit Type Coverage table, scorecard, risk register, or PAR parity rows."
    ]
   },
   {
@@ -394,10 +394,11 @@
    "expected_output": "A report whose finding and risk blocks and register tables use the renamed field schema.",
    "files": [],
    "expectations": [
-    "Finding blocks carry the contract fields in order: Pillar, Severity, Type, Security, Status, Targets, Basis, Absence, Description, Impact, Recommendation, Method, Verified, Confidence, Countercheck, Exploitability, Evidence.",
+    "Finding blocks carry the contract fields in order: Pillar, Severity, Type, Security, Status, Targets, Basis, Absence, Description, Impact, Recommendation, Method, Verified, Confidence, Mitigating factors, Exploitability, Evidence, with Security, Absence, and Exploitability omitted whenever their value would be N/A.",
+    "No finding or risk detail line renders an N/A or NOT SPECIFIED value - the line is omitted instead.",
     "No legacy field names appear: Target Files/Modules, Requirement Basis, Verification State, Counter-check, Security Classification, Remediation Recommendation, Verification Method, Exploitability Narrative, or Remediation Status.",
     "The findings summary table uses Finding, Result, Status, and Verification columns, with Verification limited to Verified, Confirmed, Reported, or empty.",
-    "Risk blocks use Severity, Likelihood, Residual, Status, Owner, Description, Impact, Trigger, Controls, Mitigation, Closure, Source, Confidence order, and the risk table uses Source rather than Source Finding.",
+    "Risk blocks use Severity, Likelihood, Residual, Status, Description, Impact, Trigger, Controls, Mitigation, Closure, Source, Confidence order, with Owner appearing between Status and Description only when a responsible role is established, and the risk table uses Source rather than Source Finding.",
     "Debt and recommendation tables use the harmonized headers: Debt/Item/Source/Cost/Delay and Rec."
    ]
   },
@@ -671,6 +672,82 @@
     "`curl | bash` in a build script is an unsigned-execution finding.",
     "Missing installer signing or update signature checks are named.",
     "TUF-style role separation is the referenced hardening model."
+   ]
+  },
+  {
+   "id": 56,
+   "prompt": "Audit this repository. The subject has no AI or machine-learning component. Produce the report.",
+   "expected_output": "An Audit Type Coverage table that renders only the audit types that apply or were deliberately not run.",
+   "files": [],
+   "expectations": [
+    "The Audit Type Coverage section is present immediately after Document Information.",
+    "The table contains no AI Governance Audit row and no `Not Applicable` status cell.",
+    "Statuses that render are limited to Covered, Partially, and Not done."
+   ]
+  },
+  {
+   "id": 57,
+   "prompt": "Audit this repository from a thin project description. Several System Context aspects and stack layers cannot be established.",
+   "expected_output": "A System Context section that lists only established aspects and stack layers.",
+   "files": [],
+   "expectations": [
+    "No row in the System Context aspect table carries a `NOT SPECIFIED` value; an unestablished aspect such as Assumptions is omitted.",
+    "No row in the Technology Stack table carries a `NOT SPECIFIED` layer.",
+    "When nothing is established, one prose sentence states that instead of an empty table."
+   ]
+  },
+  {
+   "id": 58,
+   "prompt": "Audit this repository. Every resolved component carries a permissive license and no copyleft, proprietary, or undetermined licenses exist.",
+   "expected_output": "A License Compliance Review table listing only license classes that have components.",
+   "files": [],
+   "expectations": [
+    "License-class rows with a zero Components count are omitted from the classification table.",
+    "Absence of a class may still be stated in prose below the table.",
+    "When no components were classified at all, prose states that instead of rendering an empty table."
+   ]
+  },
+  {
+   "id": 59,
+   "prompt": "Audit this repository whose git history shows a single dominant author. Report the delivery practice.",
+   "expected_output": "A Delivery Practice & Team Continuity section whose concentration rating uses the fixed-vocabulary tokens.",
+   "files": [],
+   "expectations": [
+    "The bus-factor concentration rating renders as `HIGH`, `MODERATE`, or `LOW` in uppercase, matching `NOT SPECIFIED` and `NOT COLLECTED` usage.",
+    "Telemetry-dependent DORA metrics still read `NOT SPECIFIED` with the reason."
+   ]
+  },
+  {
+   "id": 60,
+   "prompt": "work on lens-skill",
+   "expected_output": "A standby confirmation for skill maintenance with no edits and no further file loading.",
+   "files": [],
+   "expectations": [
+    "The agent reads AGENTS.md and SKILL.md including the router's usage notes.",
+    "The agent confirms readiness for skill maintenance and waits for a named operation.",
+    "The agent loads no additional skill documents, resumes no pending plans, and edits nothing on assumption."
+   ]
+  },
+  {
+   "id": 61,
+   "prompt": "Audit this Agent Skill repository. Its SKILL.md declares `name: claude-data-tools` and a description written in second person.",
+   "expected_output": "A skill conformance finding that cites the platform constraints on the name and description fields.",
+   "files": [],
+   "expectations": [
+    "The `name` containing the reserved substring `claude` is reported as a platform-constraint finding, attributed to the Anthropic platform docs rather than the agentskills.io specification.",
+    "A second-person `description` is flagged because the platform injects it into the system prompt.",
+    "The findings record which baseline - bundled snapshot or live fetch - the audit used."
+   ]
+  },
+  {
+   "id": 62,
+   "prompt": "Audit this repository. It ships a self-update script that runs `git fetch` and merges the remote tip reported as an abbreviated `%h` hash.",
+   "expected_output": "A finding anchoring the unverified update path to CWE-494 that recommends full-hash pinning.",
+   "files": [],
+   "expectations": [
+    "The abbreviated-hash pin is reported as weaker than the full object name, citing the SHA-1 collision history from the git-integrity corpus.",
+    "The fetch-and-merge path is classified under the CWE-494 unsigned-update finding class.",
+    "No runtime verification is claimed - the finding cites the script source only."
    ]
   }
  ]

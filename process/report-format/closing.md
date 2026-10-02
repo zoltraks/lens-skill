@@ -43,7 +43,7 @@ State any extrapolations made from sampled code to the whole system.
 **Standard engagement-type exclusions**
 
 Every report carries these statements in the same register, matching the `Not done` rows of
-the Audit Type Coverage & Assurance Matrix:
+the Audit Type Coverage table:
 
 - **Dynamic/runtime penetration testing** - `NOT PERFORMED` by default. Security findings on
   network-facing surfaces carry a `Theoretical`-tier `Exploitability` narrative only. A scoped, live

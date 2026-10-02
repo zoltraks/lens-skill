@@ -82,14 +82,14 @@ The maturity level must be justified by evidence in later sections, not asserted
 
 **Coverage and risk flags**
 
-Point the reader at the Audit Type Coverage & Assurance Matrix in one line,
+Point the reader at the Audit Type Coverage table in one line,
 naming only the statuses that matter for reading the report,
 for example "This report covers the engineering audit types.
 
 No penetration test or compliance certification was performed".
 
-Flag a `High` contributor-concentration rating from Delivery Practice & Team Continuity and any
-`Conflict` license risk from License & IP Compliance Review here, one line each,
+Flag a `HIGH` contributor-concentration rating from Delivery Practice & Team Continuity and any
+`Conflict` license risk from License Compliance Review here, one line each,
 since both are material deal-level facts a summary reader should not have to dig for.
 
 Omit a flag line when it does not apply.

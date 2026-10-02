@@ -107,8 +107,8 @@ Keep this section distinct from AI-generated-code provenance.
 A project can have AI-assisted source without having an AI system,
 and an AI system can contain no evidence about how its source was authored.
 
-An `AI Governance Audit` row marked `Not Applicable` in the coverage matrix never
-suppresses AI-provenance findings in the `AIP` pillar - the matrix row answers whether
+An `AI Governance Audit` row omitted from the coverage table as `Not Applicable` never
+suppresses AI-provenance findings in the `AIP` pillar - the row answers whether
 governance of an AI system was assessed, the pillar answers how the source was authored.
 
 Present the evaluated lifecycle, model and data provenance, evaluation evidence, safety boundaries,

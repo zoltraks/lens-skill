@@ -95,8 +95,8 @@ crossing into commands, queries, or deserialized objects are another and carry i
 For each security finding, record the most specific supported CWE root cause, its title, and a
 short mapping rationale, or `UNKNOWN` if the evidence does not support a mapping.
 
-Use `N/A` for findings that are not security weaknesses, including general documentation or
-organizational gaps.
+Omit the `Security` field for findings that are not security weaknesses, including general
+documentation or organizational gaps.
 
 Follow [MITRE root-cause mapping guidance](https://cwe.mitre.org/documents/cwe_usage/guidance.html).
 
@@ -172,7 +172,7 @@ Under the default source-only scope the tier is `Theoretical` or `Static-Confirm
 A network-facing surface is a component reachable across a trust boundary: endpoints, listeners,
 message consumers, and parsers of externally supplied input.
 
-Findings on internal-only code paths carry the field as `N/A` with a one-line reason.
+Findings on internal-only code paths omit the field entirely.
 
 ## Standards Coverage
 
@@ -180,6 +180,10 @@ Use [OWASP Top 10:2025](https://owasp.org/Top10/2025/) as an awareness taxonomy,
 A01 Broken Access Control and A03 Software Supply Chain Failures where relevant.
 
 For APIs, retain the distinct OWASP API Security Top 10:2023 mapping.
+
+For subjects that are or orchestrate agents, anchor findings to the ASI and AST vocabularies in
+`references/methodology/owasp-baselines.md` - ASI codes for agent-orchestrating systems, AST
+codes for Agent Skill packages - as vocabulary anchors, not severity claims.
 
 For control verification, select applicable requirements from
 [OWASP ASVS 5.0.0](https://github.com/OWASP/ASVS) and record the chosen level and rationale.

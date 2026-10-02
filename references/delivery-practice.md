@@ -62,13 +62,13 @@ Score contributor concentration from `git log --no-merges --format="%an"` per
 
 | Share of commits from the top author | Concentration rating |
 |--------------------------------------|----------------------|
-| >= 80%                               | High                 |
-| 50-79%                               | Moderate             |
-| < 50% with >= 2 active contributors  | Low                  |
+| >= 80%                               | HIGH                 |
+| 50-79%                               | MODERATE             |
+| < 50% with >= 2 active contributors  | LOW                  |
 
 "Active" means commits in the observed window, not lifetime contributors.
 
-A single-author project is always `High`.
+A single-author project is always `HIGH`.
 
 Record the top-author share, the active-contributor count, and the window.
 

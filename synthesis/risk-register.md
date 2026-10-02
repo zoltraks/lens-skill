@@ -96,7 +96,7 @@ Explain any difference between technical vulnerability severity and the contextu
 Keep confidence and verification limits visible in risk detail.
 
 For material risks, also record the trigger, controls, residual,
-status, owner or `NOT SPECIFIED`, and closure or re-audit trigger.
+status, an owner when a responsible role is established, and closure or re-audit trigger.
 
 These fields may appear in the risk detail block when the summary table would become too wide.
 

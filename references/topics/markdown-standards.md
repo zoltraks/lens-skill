@@ -9,7 +9,7 @@
 This file distills the CommonMark spec and Diataxis sources listed in
 `references/source-catalog.md` into constraints an audit can verify from repository source.
 
-Snapshot date: 2026-09-30.
+Snapshot date: 2026-10-02.
 
 Feeds `assessment/documentation-review.md` and the style surface of `docs/STYLE.md`-governed docs.
 
@@ -28,6 +28,15 @@ From https://spec.commonmark.org/0.31.2/ (version pinned for stability).
   unclosed emphasis markers are the common defects.
 - Fence info strings are free-form. Non-alphanumeric info strings may not render per
   renderer.
+- Section 4.5 makes `~~~` and ```` ``` ```` fences equivalent and forbids mixing them in one
+  block: the closing fence must use the same character and run at least as long as the opening
+  fence. A Markdown-processing tool that only tracks the backtick prefix handles tilde-fenced
+  code as live document content - a real defect class, not a corner case.
+- A backtick fence's info string may not contain backticks; a tilde fence's may. Both fences
+  allow up to three leading spaces, and the same indentation is stripped from content lines.
+- An unclosed fence runs to the end of the containing block or document - there is no
+  backtracking - and a fence may interrupt a paragraph with no blank line required. Fence
+  content is literal text, never parsed as inlines.
 
 ## Diataxis
 

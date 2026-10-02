@@ -41,6 +41,11 @@ Keep each rule in its owning document and link to it instead of duplicating it.
   an explicit request, per `docs/VERSIONING.md`.
 - Do not claim validation that did not run.
 - Never commit automatically; propose a one-sentence commit message per `docs/CONTRIBUTING.md`.
+- A bare `work on lens-skill` request that names no operation is standby - read this file and
+  `SKILL.md`, follow the router's usage notes, confirm readiness, and wait for the named
+  operation without loading further files, resuming plans, or editing on assumption.
+- On a named operation, decide which additional skill documents the task needs and read them
+  first, loading the smallest useful set per the router.
 
 ## Local Workspace
 

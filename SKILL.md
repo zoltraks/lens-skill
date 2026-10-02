@@ -24,7 +24,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "1.8"
+  version: "1.9"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -40,20 +40,20 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 | Section                 | Line | What it covers                                     |
 |-------------------------|------|----------------------------------------------------|
 | Skill Update Check      | 77   | Once-per-session git freshness gate before use     |
-| Trigger Keywords        | 95   | Activation phrases                                 |
-| How To Use              | 116  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 136  | Defaults and user-controlled report shape          |
-| Principles              | 199  | Evaluation and output rules                        |
-| Process                 | 205  | Workflow, format, and parity                       |
-| Assessments             | 227  | Core and conditional assessment guides             |
-| Synthesis               | 267  | Findings, risk, score, and remediation assembly    |
-| Translations            | 281  | Per-language report translations                   |
-| References              | 290  | Lookup tables                                      |
-| Scripts                 | 313  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 338  | Behavioral regression prompts                      |
-| Repository Files        | 342  | Housekeeping files governing this repository       |
-| Evidence Contract       | 354  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 388  | File-selection and section-placement rules         |
+| Trigger Keywords        | 94   | Activation phrases                                 |
+| How To Use              | 119  | Progressive disclosure and mandatory reading       |
+| Parameter Configuration | 139  | Defaults and user-controlled report shape          |
+| Principles              | 202  | Evaluation and output rules                        |
+| Process                 | 208  | Workflow, format, and parity                       |
+| Assessments             | 230  | Core and conditional assessment guides             |
+| Synthesis               | 270  | Findings, risk, score, and remediation assembly    |
+| Translations            | 284  | Per-language report translations                   |
+| References              | 293  | Lookup tables                                      |
+| Scripts                 | 315  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 337  | Behavioral regression prompts                      |
+| Repository Files        | 341  | Housekeeping files governing this repository       |
+| Evidence Contract       | 353  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 387  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -86,8 +86,7 @@ the audited subject.
   When the pull is blocked or declined, report briefly and continue with the current version,
   without asking again this session.
 - The `tip_sha` and `tip_date` detail lines identify the incoming tip commit - cite them when
-  reviewing `git log @{u}..` diffs before approving a pull, and when the user wants to pin or
-  revert to a known state.
+  reviewing `git log @{u}..` diffs before a pull or when pinning or reverting to a known state.
 - Any other status - proceed silently and do not mention the check.
 
 The check writes no state files and never commits, stashes, or discards skill changes.
@@ -112,6 +111,10 @@ The skill activates on phrases such as:
   skill collection audit, skills inventory
 - library reviews: api compatibility, api versioning audit, library audit
 - review requests: review and amend, amendment instructions, improvement plan
+- skill maintenance: work on lens-skill, work on this skill, maintain this skill
+
+A bare `work on lens-skill` request that names no operation enters standby per `AGENTS.md`: read
+`AGENTS.md` and this router's usage notes, confirm readiness, and wait for the named operation.
 
 ## How To Use This Skill
 
@@ -209,7 +212,7 @@ The previous report is never overwritten - write the next revision-numbered file
 - **`process/report-format/opening.md`** - Document Information, coverage matrix, Glossary.
 - **`process/report-format/multi-project.md`** - Combined multi-project report structure.
 - **`process/report-format/summary-and-changes.md`** - Executive Summary and Changes.
-- **`process/report-format/context-and-compliance.md`** - System Context, SBOM, License & IP.
+- **`process/report-format/context-and-compliance.md`** - System Context, SBOM, License Compliance.
 - **`process/report-format/dashboard-and-observations.md`** - Health Dashboard and delivery
   practice.
 - **`process/report-format/methodology-and-scoring.md`** - Auditing Methodology, Scoring Rubrics.
@@ -289,9 +292,8 @@ per `principles/output-style.md`:
 
 ## `references/` - Lookup Tables
 
-Load these when the detected stack or finding type requires them.
-
-They are consulted during intake, assessment, and report writing.
+Load these during intake, assessment, and report writing when the detected stack or finding
+type requires them.
 
 - **`references/stack-standards.md`** - Canonical standards and advisories per detected stack.
 - **`references/cwe-analyzer.md`** - CWE-to-analyzer-rule cross-reference per ecosystem.
@@ -312,12 +314,9 @@ They are consulted during intake, assessment, and report writing.
 
 ## `scripts/` - Canonical Scripts
 
-Copy these into the audited repository's `work/` directory under a `.tmp.` name before use.
-
-Use an existing `temp` or `temporary` directory when `work/` is unavailable,
-and use the repository root only when none exists.
-
-Run the copies there and remove them when done.
+Copy these into the audited repository's `work/` directory under a `.tmp.` name - an existing
+`temp` or `temporary` directory when `work/` is unavailable, the repository root only when none
+exists - run the copies there, and remove them when done.
 
 They are report-production tooling, not analysis of the audited project.
 
@@ -395,7 +394,7 @@ when maintaining the skill.
   documented results are `Reported` evidence.
 - Assemble the audit report skeleton from `process/report-format.md` and its section files before
   filling in findings, present every section as a table and use unnumbered headings.
-- Every audit report opens with the Audit Type Coverage & Assurance Matrix built from the fixed
+- Every audit report opens with the Audit Type Coverage table built from the fixed
   types and statuses in `references/audit-taxonomy.md`, kept consistent with Scope Exclusions.
 - Every finding and every Evidence Ledger row carries a `Type` tag: `Observation` for an
   independently re-derivable fact, `Concern` for a risk judgment built on observations.
@@ -452,7 +451,7 @@ when maintaining the skill.
   SBOM.
 - The per-project SBOM section renders that inventory per `references/sbom-schema.md`, always
   distinguishing it from a shipped-artifact SBOM and keeping underivable fields `Unknown`.
-- The License & IP Compliance Review follows `references/license-compliance.md` and
+- The License Compliance Review follows `references/license-compliance.md` and
   separates observed license facts from inferred concerns without legal conclusions.
 - The Delivery Practice & Team Continuity section follows `references/delivery-practice.md`:
   five DORA metrics with labeled source-derived proxies, telemetry-dependent metrics

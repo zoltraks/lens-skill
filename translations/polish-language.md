@@ -32,44 +32,44 @@ This file is loaded only when the report language is Polish.
 | Diacritics Frequently Misspelled            | 610  | Diacritics Frequently Misspelled guidance   |
 | Output Filename                             | 645  | Output Filename guidance                    |
 | Document Information                        | 657  | Document Information guidance               |
-| Audit Type Coverage & Assurance Matrix      | 696  | Coverage and assurance rendering            |
-| Project Inventory                           | 730  | Project Inventory guidance                  |
-| Glossary                                    | 739  | Glossary guidance                           |
-| Technology Stack                            | 792  | Technology Stack guidance                   |
-| Executive Summary                           | 809  | Executive Summary guidance                  |
-| Health Dashboard                            | 827  | Health Dashboard guidance                   |
-| Scorecard                                   | 838  | Scorecard guidance                          |
-| Scoring Rubrics                             | 863  | Scoring Rubrics guidance                    |
-| Delivery Practice & Team Continuity         | 887  | Delivery and continuity rendering           |
-| High-Level Observations                     | 911  | High-Level Observations guidance            |
-| Auditing Methodology                        | 918  | Auditing Methodology guidance               |
-| System Context                              | 932  | System Context guidance                     |
-| Software Bill of Materials                  | 945  | SBOM section rendering                      |
-| License & IP Compliance Review              | 963  | License and IP section rendering            |
-| Architectural Assessment                    | 981  | Architectural Assessment guidance           |
-| Architectural Subsections                   | 988  | Architectural Subsections guidance          |
-| Skill Definition Conformance                | 999  | Skill Definition Conformance guidance       |
-| AI System Assessment                        | 1007 | AI System Assessment guidance               |
-| Standards Conformance                       | 1018 | Standards Conformance guidance              |
-| References                                  | 1039 | References guidance                         |
-| Strengths And What's Working                | 1048 | Strengths And What's Working guidance       |
-| Detailed Technical Findings                 | 1054 | Detailed Technical Findings guidance        |
-| Technical Debt Register                     | 1095 | Technical Debt Register guidance            |
-| Unified Risk Register                       | 1107 | Unified Risk Register guidance              |
-| Trade-off Analysis                          | 1127 | Trade-off Analysis guidance                 |
-| Actionable Remediation Roadmap              | 1139 | Actionable Remediation Roadmap guidance     |
-| Recommendation Classification               | 1153 | Recommendation Classification guidance      |
-| Changes Since Previous Audit                | 1168 | Changes Since Previous Audit guidance       |
-| Scope Exclusions                            | 1202 | Scope Exclusions guidance                   |
-| Limitations And Unknowns                    | 1210 | Limitations And Unknowns guidance           |
-| Re-audit And Follow-up Plan                 | 1222 | Re-audit And Follow-up Plan guidance        |
-| Validation Record                           | 1232 | Validation Record guidance                  |
-| Threat Model                                | 1257 | Threat Model guidance                       |
-| API Contract Conformance                    | 1267 | API Contract Conformance guidance           |
-| API Compatibility And Versioning Discipline | 1275 | API Compatibility And Versioning guidance   |
-| Evidence And Decision Terms                 | 1284 | Evidence And Decision Terms guidance        |
-| Skill Definition Conformance Table          | 1345 | Skill Definition Conformance Table guidance |
-| Review Report                               | 1360 | Review Report guidance                      |
+| Audit Type Coverage                         | 696  | Coverage rendering                          |
+| Project Inventory                           | 732  | Project Inventory guidance                  |
+| Glossary                                    | 741  | Glossary guidance                           |
+| Technology Stack                            | 794  | Technology Stack guidance                   |
+| Executive Summary                           | 811  | Executive Summary guidance                  |
+| Health Dashboard                            | 829  | Health Dashboard guidance                   |
+| Scorecard                                   | 840  | Scorecard guidance                          |
+| Scoring Rubrics                             | 865  | Scoring Rubrics guidance                    |
+| Delivery Practice & Team Continuity         | 889  | Delivery and continuity rendering           |
+| High-Level Observations                     | 913  | High-Level Observations guidance            |
+| Auditing Methodology                        | 920  | Auditing Methodology guidance               |
+| System Context                              | 934  | System Context guidance                     |
+| Software Bill of Materials                  | 947  | SBOM section rendering                      |
+| License Compliance Review                   | 965  | License and IP section rendering            |
+| Architectural Assessment                    | 983  | Architectural Assessment guidance           |
+| Architectural Subsections                   | 990  | Architectural Subsections guidance          |
+| Skill Definition Conformance                | 1001 | Skill Definition Conformance guidance       |
+| AI System Assessment                        | 1009 | AI System Assessment guidance               |
+| Standards Conformance                       | 1020 | Standards Conformance guidance              |
+| References                                  | 1041 | References guidance                         |
+| Strengths And What's Working                | 1050 | Strengths And What's Working guidance       |
+| Detailed Technical Findings                 | 1056 | Detailed Technical Findings guidance        |
+| Technical Debt Register                     | 1097 | Technical Debt Register guidance            |
+| Unified Risk Register                       | 1109 | Unified Risk Register guidance              |
+| Trade-off Analysis                          | 1129 | Trade-off Analysis guidance                 |
+| Actionable Remediation Roadmap              | 1141 | Actionable Remediation Roadmap guidance     |
+| Recommendation Classification               | 1155 | Recommendation Classification guidance      |
+| Changes Since Previous Audit                | 1170 | Changes Since Previous Audit guidance       |
+| Scope Exclusions                            | 1204 | Scope Exclusions guidance                   |
+| Limitations And Unknowns                    | 1212 | Limitations And Unknowns guidance           |
+| Re-audit And Follow-up Plan                 | 1224 | Re-audit And Follow-up Plan guidance        |
+| Validation Record                           | 1234 | Validation Record guidance                  |
+| Threat Model                                | 1259 | Threat Model guidance                       |
+| API Contract Conformance                    | 1269 | API Contract Conformance guidance           |
+| API Compatibility And Versioning Discipline | 1277 | API Compatibility And Versioning guidance   |
+| Evidence And Decision Terms                 | 1286 | Evidence And Decision Terms guidance        |
+| Skill Definition Conformance Table          | 1347 | Skill Definition Conformance Table guidance |
+| Review Report                               | 1362 | Review Report guidance                      |
 
 ## Analysis And Rendering
 
@@ -693,37 +693,39 @@ and a re-audit recovers it that way.
 Value cells use the Fixed Vocabulary Values table for `State`, `Detail Level`, `Evaluation Scale`,
 `Audit Purpose`, and `Verification Scope`, and `Polski` for `Language`.
 
-## Audit Type Coverage & Assurance Matrix
+## Audit Type Coverage
 
-| English                                | Polish                                  |
-|----------------------------------------|-----------------------------------------|
-| Audit Type Coverage & Assurance Matrix | Macierz zakresu audytu                  |
-| Report type                            | Typ raportu                             |
-| Status                                 | Status                                  |
-| Rationale                              | Uzasadnienie                            |
-| Software Architecture Review           | Przegląd architektury oprogramowania    |
-| Code Quality Audit                     | Audyt jakości kodu                      |
-| Security Vulnerability Assessment      | Ocena podatności bezpieczeństwa         |
-| Open Source License Compliance Review  | Przegląd zgodności licencji open source |
-| Penetration Test                       | Test penetracyjny                       |
-| Performance Audit                      | Audyt wydajności                        |
-| Cloud Infrastructure Audit             | Audyt infrastruktury chmurowej          |
-| AI Governance Audit                    | Audyt zarządzania AI                    |
-| Technical Due Diligence                | Techniczne due diligence                |
-| SBOM / Software Composition Analysis   | SBOM / analiza składu oprogramowania    |
-| ISO/IEC 27001 Certification            | Certyfikacja ISO/IEC 27001              |
-| SOC 2 Attestation Examination          | Badanie atestacyjne SOC 2               |
+| English                               | Polish                                  |
+|---------------------------------------|-----------------------------------------|
+| Audit Type Coverage                   | Zakres typów audytu                     |
+| Report type                           | Typ raportu                             |
+| Status                                | Status                                  |
+| Rationale                             | Uzasadnienie                            |
+| Software Architecture Review          | Przegląd architektury oprogramowania    |
+| Code Quality Audit                    | Audyt jakości kodu                      |
+| Security Vulnerability Assessment     | Ocena podatności bezpieczeństwa         |
+| Open Source License Compliance Review | Przegląd zgodności licencji open source |
+| Penetration Test                      | Test penetracyjny                       |
+| Performance Audit                     | Audyt wydajności                        |
+| Cloud Infrastructure Audit            | Audyt infrastruktury chmurowej          |
+| AI Governance Audit                   | Audyt zarządzania AI                    |
+| Technical Due Diligence               | Techniczne due diligence                |
+| SBOM / Software Composition Analysis  | SBOM / analiza składu oprogramowania    |
+| ISO/IEC 27001 Certification           | Certyfikacja ISO/IEC 27001              |
+| SOC 2 Attestation Examination         | Badanie atestacyjne SOC 2               |
 
 The four coverage statuses render per Status And Severity Vocabulary: `OBJĘTE`,
 `CZĘŚCIOWO`, `NIEWYKONANE`, `NIE DOTYCZY`.
 
+A row classified `NIE DOTYCZY` is omitted from the table entirely.
+
 SOC 2 is an attestation examination performed by a CPA firm, not a certification -
 keep the two rows separate and never write `certyfikacja SOC 2`.
 
-The matrix records which audit types the report does and does not answer,
+The table records which audit types the report does and does not answer,
 and it never claims an assurance level the audit does not define.
 
-`NIE DOTYCZY` in the `Audyt zarządzania AI` row never suppresses AI-provenance
+An `Audyt zarządzania AI` row omitted as `NIE DOTYCZY` never suppresses AI-provenance
 findings in the `Pochodzenie AI` pillar - the row answers whether governance of an
 AI system was assessed, the pillar answers how the source was authored.
 
@@ -900,9 +902,9 @@ selected scale:
 | Observed / proxy                    | Zmierzone / zastępcze                    |
 | Commit-author concentration         | Koncentracja autorstwa commitów          |
 | Bus-factor rating                   | Ocena bus factor                         |
-| High concentration risk             | Wysokie ryzyko koncentracji              |
-| Moderate                            | Umiarkowane                              |
-| Low                                 | Niskie                                   |
+| `HIGH`                              | `WYSOKIE`                                |
+| `MODERATE`                          | `UMIARKOWANE`                            |
+| `LOW`                               | `NISKIE`                                 |
 | Support / cost obligations          | Zobowiązania wsparcia i kosztów          |
 
 Metric cells keep machine-readable `NOT SPECIFIED` rendering as `NIEOKREŚLONE`, matching the
@@ -960,11 +962,11 @@ fixed-vocabulary treatment of missing organizational data.
 | manifest-derived           | wyprowadzone z manifestów             |
 | machine-readable SBOM      | maszynowy format zestawienia          |
 
-## License & IP Compliance Review
+## License Compliance Review
 
 | English                         | Polish                                  |
 |---------------------------------|-----------------------------------------|
-| License & IP Compliance Review  | Przegląd zgodności licencyjnej i IP     |
+| License Compliance Review       | Przegląd zgodności licencyjnej          |
 | License class                   | Klasa licencji                          |
 | Permissive                      | Permisyjna                              |
 | Weak-copyleft                   | Słabe copyleft                          |

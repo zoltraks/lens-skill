@@ -51,8 +51,8 @@ The intake, evidence gathering, and assessment pipeline is shared by both report
 only the synthesis stage and the validation contract differ.
 
 The default output is an Audit report with twenty-one baseline sections: Document Information, the
-Audit Type Coverage & Assurance Matrix, Executive Summary, System Context (including the technology
-stack), a source-derived Software Bill of Materials, License & IP Compliance Review, Health
+Audit Type Coverage table, Executive Summary, System Context (including the technology
+stack), a source-derived Software Bill of Materials, License Compliance Review, Health
 Dashboard, Delivery Practice & Team Continuity, High-Level Observations, Auditing Methodology,
 Scoring Rubrics, Architectural Assessment, Trade-off Analysis, Strengths & What's Working, Detailed
 Technical Findings with theoretical exploitability narratives on serious security findings, Unified
@@ -500,7 +500,7 @@ lens-skill/
 │   │   ├── opening.md                     # Document Information, coverage matrix, Glossary
 │   │   ├── multi-project.md               # Combined multi-project report structure
 │   │   ├── summary-and-changes.md         # Executive Summary, Changes Since Previous Audit
-│   │   ├── context-and-compliance.md      # System Context, SBOM, License & IP review
+│   │   ├── context-and-compliance.md      # System Context, SBOM, License Compliance review
 │   │   ├── dashboard-and-observations.md  # Health Dashboard, delivery, observations
 │   │   ├── methodology-and-scoring.md     # Auditing Methodology, Scoring Rubrics
 │   │   ├── architectural-assessment.md    # Architectural Assessment and subsections

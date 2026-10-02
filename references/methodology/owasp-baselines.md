@@ -4,12 +4,13 @@
 
 > **Scope:** Checkable vocabulary and category anchors from the OWASP flagship documents
 > **Key items:** Top 10 and API Top 10 category names, ASVS level structure, LLM Top 10,
-> cheat-sheet index, SAMM maturity levels, Secure Headers checklist
+> agentic ASI and AST vocabularies, cheat-sheet index, SAMM maturity levels, Secure Headers
+> checklist
 
 This file distills the OWASP sources listed in `references/source-catalog.md` into the
 classification anchors an audit uses for security findings.
 
-Snapshot date: 2026-09-30.
+Snapshot date: 2026-10-02.
 
 Feeds `assessment/security-review.md`, `assessment/threat-model.md`, and
 `references/cwe-analyzer.md`.
@@ -78,6 +79,53 @@ From https://genai.owasp.org/llm-top-10/.
   supply the governance-maturity vocabulary.
 - The Cheat Sheet Series index (https://cheatsheetseries.owasp.org/) names every sheet.
   stack-specific rules live in the per-stack digests that link them.
+
+## Agentic Vocabularies
+
+From the OWASP GenAI Security Project - the LLM Top 10 portal at
+https://owasp.org/www-project-top-10-for-large-language-model-applications/ points at
+genai.owasp.org for all current lists.
+
+The OWASP Top 10 for Agentic Applications 2026 (ASI codes) anchors findings against subjects
+that build or orchestrate AI agents:
+
+| Code  | Category                             |
+|-------|--------------------------------------|
+| ASI01 | Agent Goal Hijack                    |
+| ASI02 | Tool Misuse and Exploitation         |
+| ASI03 | Identity and Privilege Abuse         |
+| ASI04 | Agentic Supply Chain Vulnerabilities |
+| ASI05 | Unexpected Code Execution            |
+| ASI06 | Memory and Context Poisoning         |
+| ASI07 | Insecure Inter-Agent Communication   |
+| ASI08 | Cascading Failures                   |
+| ASI09 | Human-Agent Trust Exploitation       |
+| ASI10 | Rogue Agents                         |
+
+ASI04 is the supply-chain class for agent ecosystems - poisoned tool registries, mutable
+runtime components, and untrusted dynamic loading.
+
+The OWASP Agentic Skills Top 10 (AST10) anchors findings specifically against Agent Skill
+subjects - the skill is the behavior layer between the model and its tools:
+
+| Code  | Risk                            | Severity |
+|-------|---------------------------------|----------|
+| AST01 | Malicious Skills                | Critical |
+| AST02 | Supply Chain Compromise         | Critical |
+| AST03 | Over-Privileged Skills          | High     |
+| AST04 | Insecure Metadata               | High     |
+| AST05 | Untrusted External Instructions | High     |
+| AST06 | Weak Isolation                  | High     |
+| AST07 | Update Drift                    | Medium   |
+| AST08 | Poor Scanning                   | Medium   |
+| AST09 | No Governance                   | Medium   |
+| AST10 | Cross-Platform Reuse            | Medium   |
+
+Each AST risk maps to the CSA MAESTRO 7-layer threat model, and AST02 maps onward to LLM03,
+ASVS V14.2, and CWE-494.
+
+Pick the vocabulary that matches the subject: LLM codes for LLM-integrated systems, ASI codes
+for agent-orchestrating systems, AST codes for Agent Skill packages themselves.
 
 ## Secure Headers
 

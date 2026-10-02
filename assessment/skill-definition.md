@@ -33,6 +33,21 @@ Assess only what the files show.
 
 Treat a frontmatter field that contradicts the spec as a conformance finding.
 
+## Contents
+
+| Section                            | Line | What it covers                                  |
+|------------------------------------|------|-------------------------------------------------|
+| Agent-Facing Artifact Discovery    | 51   | Locating skills and agent configuration files   |
+| Authored Versus Installed          | 95   | Classification signals and exclusion handling   |
+| When This Applies                  | 124  | Applicability and N/A conditions                |
+| What To Evaluate                   | 139  | Per-skill conformance dimensions                |
+| Collection-Level Checks            | 201  | Multi-skill consistency and inventory           |
+| Agent Skills Specification Reference | 215 | Field-constraint table and clause citations     |
+| Evidence To Look For               | 237  | Source signals per dimension                    |
+| Status Criteria                    | 256  | PASS through N/A verdict definitions            |
+| Common Risks                       | 282  | Typical failure modes                           |
+| What Raises Confidence             | 304  | Positive evidence signals                       |
+
 ## Agent-Facing Artifact Discovery
 
 Enumerate every agent-facing artifact inside the audited root before evaluating.
@@ -130,10 +145,14 @@ the collection as a whole when more than one skill exists:
   required `name` and `description` fields.
 - **Name field conformance**: whether `name` is 1-64 characters, lowercase alphanumeric and hyphens
   only, does not start or end with a hyphen, contains no consecutive hyphens, and matches the parent
-  directory name.
+  directory name. Anthropic's platform docs additionally forbid the reserved substrings
+  `anthropic` and `claude` and any XML tags - record those as platform-constraint findings,
+  distinct from spec violations.
 - **Description field conformance**: whether `description` is 1-1024 characters, describes both what
-  the skill does and when to use it, and includes trigger keywords or contexts. Flag descriptions
-  above roughly 80% of the limit as a truncation-risk warning, not a violation.
+  the skill does and when to use it, and includes trigger keywords or contexts. Platform docs also
+  require third-person voice and no XML tags, since the description is injected into the system
+  prompt. Flag descriptions above roughly 80% of the limit as a truncation-risk warning, not a
+  violation.
 - **Optional field validity**: whether `license`, `compatibility` (max 500 characters), `metadata`
   (string-to-string map), and `allowed-tools` (space-separated tool names) fields, when present,
   conform to the spec constraints.
@@ -152,6 +171,11 @@ the collection as a whole when more than one skill exists:
   and outputs, and coverage of common edge cases.
 - **Script quality**: whether bundled `scripts/` are self-contained or document dependencies,
   carry a shebang or usage note, and match the tools declared in `allowed-tools`.
+- **Skill security surface**: whether the bundled files show the risk patterns the platform
+  security guidance names - unexpected network calls, file access outside the declared scope,
+  tool invocations exceeding `allowed-tools`, instructions fetched from mutable external URLs,
+  and unexplained access to sensitive data. Anchor findings to the AST vocabulary in
+  `references/methodology/owasp-baselines.md`.
 - **Spec baseline**: whether the audit ran against the bundled snapshot or a live fetch, with the
   date or fetch result recorded.
 
@@ -226,6 +250,7 @@ date.
 | File reference integrity | Paths in `SKILL.md` body resolving to existing files              |
 | Body content             | Instructions, examples, edge cases in `SKILL.md`                  |
 | Artifact validity        | Per-format frontmatter, manifests, globs, size limits             |
+| Security surface         | Network calls, external URL fetching, tool use vs `allowed-tools` |
 | Spec baseline            | Snapshot date or live-fetch result in evidence                    |
 
 ## Status Criteria
@@ -273,6 +298,8 @@ Non-skill artifacts use the same tokens against their format baselines:
 - Dead rule globs, deprecated flat files, and conflicting instructions across agent formats
   silently disable or corrupt agent guidance.
 - A plaintext secret in an `env` block of `.mcp.json` leaks credentials.
+- A skill whose instructions or scripts fetch mutable external content can turn malicious after
+  install, even when the shipped files are benign.
 
 ## What Raises Confidence
 

@@ -144,8 +144,11 @@ When Git history was not in scope, mark the whole table `NOT COLLECTED`.
 **Contributor concentration**
 
 State the bus-factor rating from `references/delivery-practice.md`: the top-author commit share,
-the active-contributor count, the observation window, and the resulting `High`, `Moderate`,
-or `Low` concentration rating, anchored to `EVD-XXX` rows.
+the active-contributor count, the observation window, and the resulting `HIGH`, `MODERATE`,
+or `LOW` concentration rating, anchored to `EVD-XXX` rows.
+
+The rating renders as a fixed-vocabulary token in uppercase, matching `NOT SPECIFIED` and
+`NOT COLLECTED` usage in the same section.
 
 Reviewer diversity is `NOT SPECIFIED` unless the repository itself records review data,
 pull-request reviews do not live in Git history.

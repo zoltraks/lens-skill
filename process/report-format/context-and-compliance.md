@@ -11,18 +11,21 @@ Describe the system as understood from the input.
 
 Present the factual context without critique.
 
-| Aspect                 | Detail                                            |
-|------------------------|---------------------------------------------------|
-| Functional description | <what the system does>                            |
-| Architecture overview  | <high-level structure>                            |
-| Key components         | <named components or modules>                     |
-| External dependencies  | <services, libraries, platforms>                  |
-| Assumptions            | <only if explicitly stated, else `NOT SPECIFIED`> |
+| Aspect                 | Detail                           |
+|------------------------|----------------------------------|
+| Functional description | <what the system does>           |
+| Architecture overview  | <high-level structure>           |
+| Key components         | <named components or modules>    |
+| External dependencies  | <services, libraries, platforms> |
+| Assumptions            | <only when explicitly stated>    |
+
+Omit a row for any aspect the input does not establish.
+
+When no aspect is established at all, state that in one prose sentence instead of rendering an
+empty table.
 
 When the report language is not English, apply the table header and aspect name translations from
 the matching `translations/` file.
-
-Mark any unknown aspect as `NOT SPECIFIED`.
 
 ### Technology Stack
 
@@ -32,21 +35,21 @@ Describe the stack only, do not judge it here.
 
 Use a key-value table:
 
-| Layer            | Technology                                            |
-|------------------|-------------------------------------------------------|
-| Languages        | <languages and versions>                              |
-| Frameworks       | <application and UI frameworks>                       |
-| Runtime/Platform | <runtime, OS, or host platform>                       |
-| Build tooling    | <build system, bundler, compilers>                    |
-| Test tooling     | <test frameworks and runners>                         |
-| Package manager  | <dependency and package manager>                      |
-| Key libraries    | <notable third-party libraries>                       |
-| Data stores      | <databases, caches, file formats>, or `NOT SPECIFIED` |
-| Target platforms | <where the software runs or ships>                    |
+| Layer            | Technology                         |
+|------------------|------------------------------------|
+| Languages        | <languages and versions>           |
+| Frameworks       | <application and UI frameworks>    |
+| Runtime/Platform | <runtime, OS, or host platform>    |
+| Build tooling    | <build system, bundler, compilers> |
+| Test tooling     | <test frameworks and runners>      |
+| Package manager  | <dependency and package manager>   |
+| Key libraries    | <notable third-party libraries>    |
+| Data stores      | <databases, caches, file formats>  |
+| Target platforms | <where the software runs or ships> |
 
 Anchor each entry to evidence, such as a manifest, lockfile, or config file.
 
-Mark any layer the input does not reveal as `NOT SPECIFIED`.
+Omit a layer row the input does not reveal.
 
 Add or omit rows to fit the subject, but keep the layer names in this column and translate them into
 the report language.
@@ -103,7 +106,7 @@ lockfiles found` in place of the table rather than omitting the section.
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
 
-## License & IP Compliance Review
+## License Compliance Review
 
 Summarize the license-classification pass run over the SBOM table per
 `references/license-compliance.md`.
@@ -120,6 +123,10 @@ Present the classification counts:
 |  | Strong-copyleft | <count>    | <notable components, linkage evidence> |
 |  | Proprietary     | <count>    | <notable components>                   |
 |  | Unknown         | <count>    | share of total, hygiene implication    |
+
+Omit a `License class` row whose `Components` count is zero.
+
+When no components were classified at all, state that in prose instead of rendering the table.
 
 Below the table, state in short paragraphs:
 

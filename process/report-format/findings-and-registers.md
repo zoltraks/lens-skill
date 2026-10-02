@@ -13,10 +13,10 @@
 |--------------------------------|------|--------------------------------------|
 | Strengths & What's Working     | 21   | Evidence-based positive baselines    |
 | Detailed Technical Findings    | 59   | Finding summary and detail blocks    |
-| Technical Debt Register        | 237  | Distinct accumulated debt            |
-| Unified Risk Register          | 285  | Cross-referenced risks               |
-| Actionable Remediation Roadmap | 376  | Prioritized recommendations          |
-| Recommendation Classification  | 447  | Recommended/Optional/Not recommended |
+| Technical Debt Register        | 240  | Distinct accumulated debt            |
+| Unified Risk Register          | 288  | Cross-referenced risks               |
+| Actionable Remediation Roadmap | 382  | Prioritized recommendations          |
+| Recommendation Classification  | 453  | Recommended/Optional/Not recommended |
 
 ## Strengths & What's Working
 
@@ -136,13 +136,13 @@ Use this exact markdown block pattern:
   Versioning Discipline]
 * **Severity:** [Critical | High | Medium | Low]
 * **Type:** [Observation | Concern]
-* **Security:** [CWE and rationale, CVSS version/vector/score or gap, or N/A]
+* **Security:** [CWE and rationale, CVSS version/vector/score or gap] *(omit when N/A)*
 * **Status:** [Open | Closed | PASS]
 * **Change:** [New | Unchanged | Reopened | Closed]
 * **Targets:** [Exact paths or components evaluated]
 * **Basis:** [Applicable requirement or explicitly optional improvement]
-* **Absence:** [No documented rationale | Deliberate - recorded decision | Undetermined |
-  N/A] - [one-line evidence basis]
+* **Absence:** [No documented rationale | Deliberate - recorded decision | Undetermined] -
+  [one-line evidence basis] *(omit when no capability is absent)*
 * **Description:** [Detailed technical explanation of the discovered state, architectural
   anti-pattern, or code flaw]
 * **Impact:** [Concrete operational, business, or security consequence if left unremediated]
@@ -151,12 +151,16 @@ Use this exact markdown block pattern:
 * **Verified:** [yes | no, with a short qualifier]
 * **Confidence:** [HIGH / MEDIUM / LOW with rationale]
 * **Mitigating factors:** [Refuting evidence examined and remaining uncertainty]
-* **Exploitability:** [Tier + attack-path reasoning, or N/A with reason]
+* **Exploitability:** [Tier + attack-path reasoning] *(omit when N/A)*
 * **Evidence:** [EVD IDs, source lines, and inspected/reported/inferred basis]
 ```
 
 When the report language is not English, apply the bullet label translations from the matching
 `translations/` file.
+
+Omit a field line entirely when its value would be `N/A` or an unspecified token: `Security`,
+`Exploitability`, and `Absence` render only when they carry information, and the same applies
+in every report language.
 
 Each finding must cite concrete evidence: file paths, config keys, commands, or direct quotes.
 
@@ -200,16 +204,15 @@ recorded decision`, or `Undetermined`, each followed by a one-line evidence basi
 Assert intent only when a documented decision or an equivalent record exists -
 absence evidence alone never earns the `Deliberate` token.
 
-On every other finding the field reads `N/A` with a one-line reason.
+On every other finding the field is omitted.
 
 Most findings are `Concern`.
 
 The `Exploitability` field is required on every `HIGH` or `CRITICAL` Security & Compliance
-finding, following `references/exploitability-narrative.md`.
+finding whose target sits on a network-facing surface, where it carries the tier and
+attack-path reasoning per `references/exploitability-narrative.md`.
 
-On a network-facing surface it carries the tier and attack-path reasoning.
-
-Otherwise it reads `N/A` with a one-line reason.
+On every other finding the field is omitted.
 
 When referencing secrets, credentials, or keys in the Description or Impact fields, replace exact
 values with `[REDACTED]` or generic descriptions such as "plaintext database credentials found in
@@ -358,7 +361,7 @@ Use this exact markdown block pattern:
 * **Likelihood:** [How probable the risk is given the evidence, with justification]
 * **Residual:** [Remaining risk after the proposed mitigation, or `UNKNOWN`]
 * **Status:** [Open | Accepted | Transferred | Monitoring | Closed]
-* **Owner:** [Role or `NOT SPECIFIED`]
+* **Owner:** [Role] *(omit when unspecified)*
 * **Description:** [Detailed technical explanation of the risk, what could go wrong, and under
   what conditions]
 * **Impact:** [Concrete consequence if the risk is realized]
@@ -372,6 +375,9 @@ Use this exact markdown block pattern:
 
 When the report language is not English, apply the bullet label translations from the matching
 `translations/` file.
+
+Omit `Owner` when the input establishes no responsible role - the field never renders
+`NOT SPECIFIED` or an empty value.
 
 ## Actionable Remediation Roadmap
 

@@ -4,13 +4,13 @@
 
 > **Scope:** Checkable anchors for commit signing, release provenance, and update-path
 > integrity
-> **Key items:** signing mechanics, Sigstore keyless model, TUF roles, unsigned-update finding
-> class (CWE-494)
+> **Key items:** signing mechanics, Sigstore keyless model, TUF roles, hash-pinning rule,
+> unsigned-update finding class (CWE-494)
 
 This file distills the Git signing chapter, Sigstore, and TUF sources listed in
 `references/source-catalog.md` into constraints an audit can verify from repository source.
 
-Snapshot date: 2026-09-30.
+Snapshot date: 2026-10-02.
 
 Feeds `assessment/deployment-review.md`, `references/topics/project-health.md`, and the
 integrity portions of desktop/release subjects.
@@ -52,6 +52,22 @@ From https://theupdateframework.io/.
   `autoUpdater` without signature checks, `pip install` of unpinned packages.
 - A repo's own updater script that downloads and executes without a signature/hash check is
   a finding, not a missing feature.
+
+## Hash Pinning
+
+From https://shattered.io/.
+
+- SHAttered (2017, CWI Amsterdam + Google) produced the first practical SHA-1 collision: two
+  distinct PDFs sharing `38762cf7f55934b34d179ae6a4c80cadccbb7f0a`, at ~9 quintillion SHA-1
+  computations (~6,500 CPU-years + 110 GPU-years).
+- The follow-on "SHA-1 is a Shambles" chosen-prefix work (2020) cut the cost to roughly $45k;
+  NIST formally retired SHA-1 in December 2022 with a 2030 phase-out deadline, and Git added
+  collision detection.
+- Checkable rule: an update path that pins or merges by an abbreviated hash (short prefix,
+  `%h` output) is a weaker integrity pin than the full object name - audit evidence should name
+  the full-length pin (`%H`) the merge actually targets.
+- A fetch-and-merge update path that never compares the remote tip against a recorded pin
+  anchors the CWE-494 finding class alongside unsigned-download cases.
 
 ## Live Check
 

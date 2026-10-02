@@ -315,11 +315,11 @@ explicitly requests them.
 All twenty-one baseline sections are present in full, subject to explicit parameter exclusions:
 
 - Document Information
-- Audit Type Coverage & Assurance Matrix
+- Audit Type Coverage
 - Executive Summary
 - System Context (including the Technology Stack subsection)
 - Software Bill of Materials
-- License & IP Compliance Review
+- License Compliance Review
 - Health Dashboard
 - Delivery Practice & Team Continuity
 - High-Level Observations
@@ -457,13 +457,13 @@ table is met.
 For a **single-project** audit:
 
 - Document Information
-- Audit Type Coverage & Assurance Matrix
+- Audit Type Coverage
 - Glossary *(when Descriptive mode is enabled)*
 - Executive Summary
 - Changes Since Previous Audit *(conditional)*
 - System Context (contains the Technology Stack subsection)
 - Software Bill of Materials
-- License & IP Compliance Review
+- License Compliance Review
 - Health Dashboard
 - Delivery Practice & Team Continuity
 - High-Level Observations
@@ -497,7 +497,7 @@ See `process/report-format/multi-project.md` for the full layout.
 In summary:
 
 - Document Information (once)
-- Audit Type Coverage & Assurance Matrix (once)
+- Audit Type Coverage (once)
 - Project Inventory (once)
 - Glossary *(when Descriptive mode is enabled)* (once)
 - Executive Summary (condensed, combined)
@@ -506,7 +506,7 @@ In summary:
   - Executive Summary
   - System Context (with the Technology Stack subsection)
   - Software Bill of Materials
-  - License & IP Compliance Review
+  - License Compliance Review
   - Health Dashboard
   - Delivery Practice & Team Continuity
   - High-Level Observations
@@ -536,26 +536,26 @@ In summary:
 
 Each report section is specified in a file under `process/report-format/`.
 
-| File                            | Sections                                                      |
-|---------------------------------|---------------------------------------------------------------|
-| `opening.md`                    | Document Information, Audit Type Coverage & Assurance Matrix, |
-|                                 | Glossary                                                      |
-| `multi-project.md`              | Multi-Project Report Structure                                |
-| `summary-and-changes.md`        | Executive Summary, Changes Since Previous Audit               |
-| `context-and-compliance.md`     | System Context, Software Bill of Materials, License & IP      |
-|                                 | Compliance Review                                             |
-| `dashboard-and-observations.md` | Health Dashboard, Delivery Practice & Team Continuity,        |
-|                                 | High-Level Observations                                       |
-| `methodology-and-scoring.md`    | Auditing Methodology, Scoring Rubrics                         |
-| `architectural-assessment.md`   | Architectural Assessment and its conditional subsections      |
-| `analysis.md`                   | Trade-off Analysis, Threat Model                              |
-| `conformance.md`                | API Contract, Skill Definition, AI System, Standards,         |
-|                                 | API Compatibility & Versioning Discipline                     |
-| `findings-and-registers.md`     | Strengths, Detailed Technical Findings, Technical Debt        |
-|                                 | Register, Unified Risk Register, Remediation Roadmap,         |
-|                                 | Recommendation Classification                                 |
-| `closing.md`                    | Scope Exclusions, Limitations and Unknowns, Re-audit And      |
-|                                 | Follow-up Plan, Validation Record, References                 |
+| File                            | Sections                                                 |
+|---------------------------------|----------------------------------------------------------|
+| `opening.md`                    | Document Information, Audit Type Coverage,               |
+|                                 | Glossary                                                 |
+| `multi-project.md`              | Multi-Project Report Structure                           |
+| `summary-and-changes.md`        | Executive Summary, Changes Since Previous Audit          |
+| `context-and-compliance.md`     | System Context, Software Bill of Materials, License      |
+|                                 | Compliance Review                                        |
+| `dashboard-and-observations.md` | Health Dashboard, Delivery Practice & Team Continuity,   |
+|                                 | High-Level Observations                                  |
+| `methodology-and-scoring.md`    | Auditing Methodology, Scoring Rubrics                    |
+| `architectural-assessment.md`   | Architectural Assessment and its conditional subsections |
+| `analysis.md`                   | Trade-off Analysis, Threat Model                         |
+| `conformance.md`                | API Contract, Skill Definition, AI System, Standards,    |
+|                                 | API Compatibility & Versioning Discipline                |
+| `findings-and-registers.md`     | Strengths, Detailed Technical Findings, Technical Debt   |
+|                                 | Register, Unified Risk Register, Remediation Roadmap,    |
+|                                 | Recommendation Classification                            |
+| `closing.md`                    | Scope Exclusions, Limitations and Unknowns, Re-audit And |
+|                                 | Follow-up Plan, Validation Record, References            |
 
 ## Pre-Delivery Mechanical Checklist
 

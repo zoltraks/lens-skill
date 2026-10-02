@@ -20,11 +20,12 @@ identifiers and names), `alternate` (fallback address for the row above).
 
 ## Contents
 
-| Section               | Line | What it covers                                   |
-|-----------------------|------|--------------------------------------------------|
-| Sources               | 29   | Source registry grouped by consuming corpus file |
-| Session-Derived Files | 430  | Corpus files built from session knowledge        |
-| Maintenance           | 440  | Row-addition and canonicalization rules          |
+| Section                            | Line | What it covers                                   |
+|------------------------------------|------|--------------------------------------------------|
+| Sources                            | 30   | Source registry grouped by consuming corpus file |
+| Session-Derived Files              | 436  | Corpus files built from session knowledge        |
+| Unresolved And Alternate Addresses | 446  | Fetch failures and working alternates            |
+| Maintenance                        | 466  | Row-addition and canonicalization rules          |
 
 ## Sources
 
@@ -253,16 +254,19 @@ identifiers and names), `alternate` (fallback address for the row above).
 
 ### references/methodology/owasp-baselines.md
 
-| Source                     | Publisher | URL                                                                       | Status    |
-|----------------------------|-----------|---------------------------------------------------------------------------|-----------|
-| OWASP Top 10               | OWASP     | https://owasp.org/www-project-top-ten/                                    | distilled |
-| OWASP ASVS                 | OWASP     | https://owasp.org/www-project-application-security-verification-standard/ | distilled |
-| OWASP API Security project | OWASP     | https://owasp.org/API-Security/                                           | distilled |
-| OWASP API Top 10 2023      | OWASP     | https://owasp.org/API-Security/editions/2023/en/0x11-t10/                 | distilled |
-| OWASP LLM Top 10           | OWASP     | https://genai.owasp.org/llm-top-10/                                       | distilled |
-| Cheat Sheet Series index   | OWASP     | https://cheatsheetseries.owasp.org/                                       | distilled |
-| OWASP SAMM                 | OWASP     | https://owaspsamm.org/                                                    | distilled |
-| OWASP Secure Headers       | OWASP     | https://owasp.org/www-project-secure-headers/                             | distilled |
+| Source                      | Publisher | URL                                                                              | Status    |
+|-----------------------------|-----------|----------------------------------------------------------------------------------|-----------|
+| OWASP Top 10                | OWASP     | https://owasp.org/www-project-top-ten/                                           | distilled |
+| OWASP ASVS                  | OWASP     | https://owasp.org/www-project-application-security-verification-standard/        | distilled |
+| OWASP API Security project  | OWASP     | https://owasp.org/API-Security/                                                  | distilled |
+| OWASP API Top 10 2023       | OWASP     | https://owasp.org/API-Security/editions/2023/en/0x11-t10/                        | distilled |
+| OWASP LLM Top 10            | OWASP     | https://genai.owasp.org/llm-top-10/                                              | distilled |
+| LLM Top 10 project portal   | OWASP     | https://owasp.org/www-project-top-10-for-large-language-model-applications/      | alternate |
+| OWASP Agentic Skills Top 10 | OWASP     | https://owasp.org/www-project-agentic-skills-top-10/                             | distilled |
+| Agentic Applications 2026   | OWASP     | https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/ | distilled |
+| Cheat Sheet Series index    | OWASP     | https://cheatsheetseries.owasp.org/                                              | distilled |
+| OWASP SAMM                  | OWASP     | https://owaspsamm.org/                                                           | distilled |
+| OWASP Secure Headers        | OWASP     | https://owasp.org/www-project-secure-headers/                                    | distilled |
 
 ### references/methodology/risk-and-threat-modeling.md
 
@@ -395,11 +399,12 @@ identifiers and names), `alternate` (fallback address for the row above).
 
 ### references/topics/git-integrity.md
 
-| Source              | Publisher   | URL                                                        | Status    |
-|---------------------|-------------|------------------------------------------------------------|-----------|
-| Git signing chapter | git-scm.com | https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work | distilled |
-| Sigstore gitsign    | Sigstore    | https://docs.sigstore.dev/                                 | distilled |
-| TUF specification   | TUF         | https://theupdateframework.io/                             | distilled |
+| Source              | Publisher    | URL                                                        | Status    |
+|---------------------|--------------|------------------------------------------------------------|-----------|
+| Git signing chapter | git-scm.com  | https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work | distilled |
+| Sigstore gitsign    | Sigstore     | https://docs.sigstore.dev/                                 | distilled |
+| TUF specification   | TUF          | https://theupdateframework.io/                             | distilled |
+| SHAttered collision | shattered.io | https://shattered.io/                                      | distilled |
 
 ### references/topics/markdown-standards.md
 
@@ -415,6 +420,7 @@ Feeds `references/agent-skills.md` and `references/agent-configuration.md`.
 | Source                     | Publisher      | URL                                                                              | Status    |
 |----------------------------|----------------|----------------------------------------------------------------------------------|-----------|
 | Agent Skills specification | agentskills.io | https://agentskills.io/specification                                             | distilled |
+| Agent Skills overview      | Anthropic      | https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview       | distilled |
 | Agent skill best practices | Anthropic      | https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices | distilled |
 | AGENTS.md convention       | agents.md      | https://agents.md/                                                               | distilled |
 | MCP specification          | MCP project    | https://modelcontextprotocol.io/specification                                    | distilled |
@@ -439,20 +445,23 @@ These corpus files consolidate session knowledge rather than fetched sources.
 
 ## Unresolved And Alternate Addresses
 
-Eight registered URLs did not return a retrievable page during the 2026-09-30 fetch.
+Ten registered URLs did not return a retrievable page during the 2026-09-30 and 2026-10-02
+fetches.
 
 The working alternates below carry the distilled content where a replacement exists.
 
-| Registered URL                                                                          | Fetch status | Disposition                                                                                           |
-|-----------------------------------------------------------------------------------------|--------------|-------------------------------------------------------------------------------------------------------|
-| https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_for_Java_Cheat_Sheet.html | 404          | Renamed upstream - use https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_Cheat_Sheet.html |
-| https://docs.stoplight.io/docs/spectral/                                                | 404          | Moved - use https://docs.stoplight.io/docs/spectral/674b27b261c3c-overview                            |
-| https://docwiki.embarcadero.com/RADStudio/en/                                           | 403          | Bot-blocked - readable in a browser, treated as restricted                                            |
-| https://learn.microsoft.com/en-us/compliance/assurance/assurance-threat-modeling        | 404          | Retired - use https://learn.microsoft.com/en-us/azure/security/develop/threat-modeling-tool           |
-| https://micrometer.io/docs/registry/prometheus                                          | 404          | Moved - use https://docs.micrometer.io/micrometer/reference/implementations/prometheus.html           |
-| https://wiki.sei.cmu.edu/confluence/display/c                                           | timeout      | Space path unreliable - use https://wiki.sei.cmu.edu/confluence/display/c/SEI+CERT+C+Coding+Standard  |
-| https://www.iso.org/standard/70017.html                                                 | 403          | ISO catalogue page bot-blocked - standard text is paywalled                                           |
-| https://www.iso.org/standard/78176.html                                                 | 403          | ISO catalogue page bot-blocked - standard text is paywalled                                           |
+| Registered URL                                                                                       | Fetch status | Disposition                                                                                                      |
+|------------------------------------------------------------------------------------------------------|--------------|------------------------------------------------------------------------------------------------------------------|
+| https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_for_Java_Cheat_Sheet.html              | 404          | Renamed upstream - use https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_Cheat_Sheet.html            |
+| https://docs.stoplight.io/docs/spectral/                                                             | 404          | Moved - use https://docs.stoplight.io/docs/spectral/674b27b261c3c-overview                                       |
+| https://docwiki.embarcadero.com/RADStudio/en/                                                        | 403          | Bot-blocked - readable in a browser, treated as restricted                                                       |
+| https://learn.microsoft.com/en-us/compliance/assurance/assurance-threat-modeling                     | 404          | Retired - use https://learn.microsoft.com/en-us/azure/security/develop/threat-modeling-tool                      |
+| https://micrometer.io/docs/registry/prometheus                                                       | 404          | Moved - use https://docs.micrometer.io/micrometer/reference/implementations/prometheus.html                      |
+| https://wiki.sei.cmu.edu/confluence/display/c                                                        | timeout      | Space path unreliable - use https://wiki.sei.cmu.edu/confluence/display/c/SEI+CERT+C+Coding+Standard             |
+| https://www.iso.org/standard/70017.html                                                              | 403          | ISO catalogue page bot-blocked - standard text is paywalled                                                      |
+| https://www.iso.org/standard/78176.html                                                              | 403          | ISO catalogue page bot-blocked - standard text is paywalled                                                      |
+| https://genai.owasp.org/download/52117                                                               | 403          | Permission-gated download - use https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/ |
+| https://owasp.org/www-project-agentic-skills-top-10/assets/publications/ast10-top10-whitepaper-2.pdf | binary       | PDF not text-retrievable - list content lives at https://owasp.org/www-project-agentic-skills-top-10/            |
 
 ## Maintenance
 
