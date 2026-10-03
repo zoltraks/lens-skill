@@ -89,7 +89,7 @@
     "The star-scale legend is labeled Skala oceny and names every band, including Zła for one star and Słaba for two stars.",
     "The report output uses ASCII punctuation only - straight quotes, spaced hyphens for dashes, and '...' - with no typographic quotes, em-dashes, en-dashes, or arrow characters.",
     "scripts/lint-polish.py reports zero errors on the rendered report and the Validation Record records the Polish-language checks.",
-    "Headings render Podsumowanie wykonawcze and the summary column header Ryzyka, and the skill-version row carries a bare semver such as `2.0.0`.",
+    "Headings render Podsumowanie wykonawcze and the summary column header Ryzyka, and the skill-version row carries a bare semver such as `2.0.2`.",
     "The not-run scope sentence names skanowania podatności, and readiness or severity adjectives used in prose render in declined lowercase bold (for example **niegotowa**, **wysokiej**) rather than uppercase."
    ]
   },
@@ -122,10 +122,11 @@
   {
    "id": 10,
    "prompt": "Audit this repository and walk me through the report parameters before starting. The repository contains a document/ directory but no docs/ directory, and no previous audit report exists.",
-   "expected_output": "A parameter configuration phase that presents the full option set: all five evaluation scales and all applicable report locations with a revisioned default filename.",
+   "expected_output": "A parameter configuration phase that presents the full option set: all four evaluation-scale options plus the star-count follow-up, and all applicable report locations with a revisioned default filename.",
    "files": [],
    "expectations": [
-    "The evaluation-scale prompt offers all five options in order: 1-10 (default), 1-5, 1-3, 5 stars, and 3 stars.",
+    "The evaluation-scale prompt offers four options in order: 1-10 (default), 1-5, 1-3, and Stars.",
+    "Selecting Stars triggers a follow-up question offering 5 stars (default) and 3 stars, and the resolved scale is named 5 stars or 3 stars.",
     "For a first audit the delivery question proposes the revisioned filename AUDIT-1.0.md and offers plain AUDIT.md as an alternative.",
     "The document/ directory is proposed as a file location alongside Inline and Custom report file, and a date-named document/report/<date> alternative is offered when applicable.",
     "Each prompt ends with the named options 'Use default: <value>' and 'Use defaults for all remaining questions'."
@@ -298,7 +299,7 @@
    "expected_output": "A report whose Time taken measures only the audit work, from the clock reading taken after parameter resolution to a final clock reading made as the last operation before delivery.",
    "files": [],
    "expectations": [
-    "The start timestamp is read from the system clock immediately after all parameter questions are resolved, not at the start of intake.",
+    "The start timestamp is read from the system clock immediately after all parameter questions are resolved, not at the start of intake, and before the remaining audit rule documents are loaded so document familiarization counts toward the elapsed time.",
     "A final system-clock reading is taken as the last operation of report production, after the checklist, validator, and parity gate have passed.",
     "The Time taken row shows MM:SS computed from the post-configuration reading to the final reading.",
     "When no reliable start timestamp exists, the Time taken row is omitted rather than estimated.",
@@ -777,6 +778,18 @@
     "The previous report's checksum, or byte size and line count when hashing is unavailable, is recorded at baseline confirmation.",
     "The baseline file is re-verified against the recorded checksum before concatenation and again at the consistency gate, and a mismatch stops delivery and keeps `State | Draft`.",
     "The completion message states the output path, skill version, validation result, elapsed time, and that the baseline file is unchanged from the intake record."
+   ]
+  },
+  {
+   "id": 65,
+   "prompt": "Audit this repository and answer the parameter questions in Polish.",
+   "expected_output": "Polish-language parameter prompts that follow translations/polish-language.md phrasing: the file option without the revision number, the detail-level options, and the two-step scale question.",
+   "files": [],
+   "expectations": [
+    "The delivery or file-save prompt offers the revision-free filename as Plik bez numeru rewizji, never Stem.",
+    "The detail-level prompt asks Jaki poziom szczegółowości powinien mieć raport? with options Szczegółowy (domyślny), Standardowy, and Skrócony.",
+    "The evaluation-scale prompt offers 1-10 (domyślna), 1-5, 1-3, and Gwiazdy, and a Gwiazdy answer triggers the follow-up Ile gwiazd ma mieć skala? with 5 gwiazd (domyślnie) and 3 gwiazdy.",
+    "The trailing bypass options render as Użyj wartości domyślnej: <wartość> and Użyj wartości domyślnych dla wszystkich pozostałych pytań."
    ]
   }
  ]

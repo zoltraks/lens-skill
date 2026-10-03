@@ -20,11 +20,11 @@ A review report applies the same phases with the deltas defined in
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 1429 | Intake Checklist guidance        |
-| Handling Thin Input     | 1448 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1459 | Single-Dimension Audits guidance |
-| Re-Audit                | 1469 | Re-Audit guidance                |
-| Multi-Project Audits    | 1535 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1446 | Intake Checklist guidance        |
+| Handling Thin Input     | 1465 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1476 | Single-Dimension Audits guidance |
+| Re-Audit                | 1486 | Re-Audit guidance                |
+| Multi-Project Audits    | 1552 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -60,7 +60,8 @@ and record the established forms.
 
 They take precedence over the defaults in the matching `translations/` file.
 
-The audit start timestamp is recorded later, at the end of Parameter Configuration.
+The audit start timestamp is recorded later, the moment the last parameter question is
+resolved, before the remaining skill rule documents are loaded.
 
 See the timing rule under Parameter Configuration.
 
@@ -396,7 +397,7 @@ Default parameters:
 | Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit  |
 | Report language         | Match the language of the user's request                                                |
 | Detail level            | Detailed                                                                                |
-| Evaluation scale        | 1-10 (options: 1-5, 1-3, 5 stars, 3 stars)                                              |
+| Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                   |
 | Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                 |
 | Trade-off analysis      | Standalone section + embedded into relevant findings                                    |
 | Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it |
@@ -413,7 +414,8 @@ For a review report the stem is `REVIEW` instead, producing `REVIEW-1.0.md`.
 When a previous report exists, the filename carries the new revision, for example `AUDIT-1.1.md`,
 per `synthesis/report-comparison.md`.
 
-Plain `AUDIT.md` or the language-specific stem remains an offered alternative.
+Plain `AUDIT.md` or the language-specific filename without the revision number remains an
+offered alternative.
 
 Used only when delivery is File.
 
@@ -429,10 +431,13 @@ delivery and output file, detail level, and evaluation scale.
 At each prompt, offer a bypass option to accept the remaining defaults and proceed.
 
 When every parameter question is resolved - defaults accepted, configured answers given, or a
-bypass taken - read the current system time and record it as the audit start timestamp.
+bypass taken - read the current system time immediately and record it as the audit start
+timestamp.
 
-Do this before any auditing work begins in Scope Definition and Evidence Gathering, so the
-elapsed time measures the audit itself rather than the parameter discussion.
+Do this before loading the remaining audit rule documents (report-format, assessment,
+synthesis, and reference files) and before any auditing work begins in Scope Definition and
+Evidence Gathering, so the elapsed time covers document familiarization as well as the audit
+itself rather than the parameter discussion.
 
 The elapsed time is later written to the `Time taken` row in Document Information.
 
@@ -521,8 +526,8 @@ A first audit uses `AUDIT-1.0.md` or the language-specific equivalent such as `A
 When a previous report exists, use the incremented filename defined in
 `synthesis/report-comparison.md`.
 
-The plain stem name `AUDIT.md` or its language-specific equivalent is offered as an alternative file
-option.
+The filename without the revision number, `AUDIT.md` or its language-specific equivalent, is
+offered as an alternative file option.
 
 Ask: "How should the report be delivered?"
 
@@ -544,8 +549,9 @@ Present each applicable option as a concrete choice:
   date. Offer this only when the recorded pattern is `none`. When the base is a bare
   documentation root, offer `<base>/report/<current-date>/<filename>` instead. For example,
   `docs/report/<date>/AUDIT-1.0.md` for a first audit.
-- `File - <resolved-path with plain stem>` - the resolved path using the plain stem filename,
-  such as `docs/report/AUDIT.md`, offered as an alternative to the revisioned default.
+- `File - <resolved-path>/<filename without the revision number>` - the resolved path using
+  the filename without the revision number, such as `docs/report/AUDIT.md`, offered as an
+  alternative to the revisioned default.
 - `Custom report file` - ask the user to specify the location and filename.
 
 For example, when `docs/report/` and `document/` exist with no subdirectory pattern,
@@ -649,14 +655,24 @@ Ask: "Which evaluation scale should be used for the scorecard?"
   (7-8), Excellent (9-10).
 - **1-5** - compact numeric scale.
 - **1-3** - minimal numeric scale.
-- **5 stars** - uses the `1-5` rubric and displays filled and empty star bars, such as
-  `★★★☆☆`.
-- **3 stars** - uses the `1-3` rubric and displays filled and empty star bars, such as `★★☆`.
+- **Stars** - a star-bar scale whose star count is resolved by a follow-up question.
 
-Always present all five options in this order so `3 stars` stays visible alongside the others.
+Always present all four options in this order.
 
 The question ends with `Use default: 1-10` and `Use defaults for all remaining questions`.
 Under JSON exchange this is the `evaluation-scale` `choice` parameter.
+
+When `Stars` is selected, ask the follow-up question:
+"How many stars should the scale use?"
+
+- **5 stars** (default) - uses the `1-5` rubric and displays filled and empty star bars, such as
+  `★★★☆☆`.
+- **3 stars** - uses the `1-3` rubric and displays filled and empty star bars, such as `★★☆`.
+
+The follow-up is the last routine prompt, so it ends with `Use default: 5 stars` alone.
+Under JSON exchange it is the `star-count` `choice` parameter.
+
+The resolved scale is named `5 stars` or `3 stars` wherever the report records the scale.
 
 **Improvement suggestions**
 
@@ -1329,7 +1345,8 @@ write it as `MM:SS` in the `Time taken` row of Document Information.
 
 Include the same value in the completion message to the user, for example `Time taken 13:45`.
 
-The measured window spans part composition, concatenation, formatting, and validation:
+The measured window spans loading the audit rule documents, evidence gathering, part
+composition, concatenation, formatting, and validation:
 an interrupted or re-done assembly does not reset the start timestamp.
 
 On a re-audit, state in the same completion message that the baseline file is unchanged from
@@ -1404,7 +1421,7 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Baseline checksum mismatch at re-verify    | Stop and surface, never deliver silently                        |
 | Assembly interrupted or output lost        | Resume from parts, `Time taken` keeps original start            |
 | Comment-only catch bodies                  | Counted separately from empty bodies                            |
-| Evaluation scale prompt shown              | All five options: 1-10, 1-5, 1-3, 5 stars, 3 stars              |
+| Evaluation scale prompt shown              | Four options: 1-10, 1-5, 1-3, Stars - count via follow-up       |
 | No previous report exists                  | Default `AUDIT-1.0.md`, `AUDIT.md` as alternative               |
 | `document/` exists, `docs/` does not       | Resolved base is `document/`, offered as a location             |
 | Document prose already wraps near 60       | Offer 60 alongside the default 100 at wrap time                 |

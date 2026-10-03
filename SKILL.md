@@ -24,7 +24,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.0.1"
+  version: "2.0.2"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -43,17 +43,17 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 | Trigger Keywords        | 94   | Activation phrases                                 |
 | How To Use              | 119  | Progressive disclosure and mandatory reading       |
 | Parameter Configuration | 139  | Defaults and user-controlled report shape          |
-| Principles              | 202  | Evaluation and output rules                        |
-| Process                 | 208  | Workflow, format, and parity                       |
-| Assessments             | 230  | Core and conditional assessment guides             |
-| Synthesis               | 270  | Findings, risk, score, and remediation assembly    |
-| Translations            | 284  | Per-language report translations                   |
-| References              | 293  | Lookup tables                                      |
-| Scripts                 | 315  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 337  | Behavioral regression prompts                      |
-| Repository Files        | 341  | Housekeeping files governing this repository       |
-| Evidence Contract       | 353  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 387  | File-selection and section-placement rules         |
+| Principles              | 203  | Evaluation and output rules                        |
+| Process                 | 209  | Workflow, format, and parity                       |
+| Assessments             | 231  | Core and conditional assessment guides             |
+| Synthesis               | 271  | Findings, risk, score, and remediation assembly    |
+| Translations            | 285  | Per-language report translations                   |
+| References              | 294  | Lookup tables                                      |
+| Scripts                 | 316  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 338  | Behavioral regression prompts                      |
+| Repository Files        | 342  | Housekeeping files governing this repository       |
+| Evidence Contract       | 354  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 388  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -152,7 +152,7 @@ Defaults are:
 | Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit  |
 | Report language         | Match the language of the user's request                                                |
 | Detail level            | Detailed                                                                                |
-| Evaluation scale        | 1-10 (options: 1-5, 1-3, 5 stars, 3 stars)                                              |
+| Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                   |
 | Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                 |
 | Trade-off analysis      | Standalone section + embedded into relevant findings                                    |
 | Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it |
@@ -171,7 +171,8 @@ A recorded version/date subdirectory pattern is reused.
 
 The output filename carries the report revision:
 `AUDIT-1.0.md` for a first audit (`REVIEW-1.0.md` for a review) or the language-specific
-revisioned name such as `AUDYT-1.0.md`, with the plain stem as an alternative.
+revisioned name such as `AUDYT-1.0.md`, with the filename without the revision number as an
+alternative.
 A previous report gives the incremented revision, for example `AUDIT-1.1.md`,
 and is never overwritten.
 The agent confirms with the user before writing.

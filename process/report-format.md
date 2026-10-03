@@ -294,7 +294,7 @@ determines whether a version-numbered, date-named, or plain base path is offered
 
 The default filename carries the report revision: `AUDIT-1.0.md` for a first English audit,
 or the language-specific revisioned name such as `AUDYT-1.0.md`,
-with the plain stem offered as an alternative.
+with the filename without the revision number offered as an alternative.
 
 When a previous audit report exists, the filename carries the new revision whether the audit mode is
 re-audit or fresh audit, for example `AUDIT-2.0.md`, and the previous file is never overwritten.

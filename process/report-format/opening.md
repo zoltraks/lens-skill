@@ -10,8 +10,8 @@
 | Section              | Line | What it covers                       |
 |----------------------|------|--------------------------------------|
 | Document Information | 16   | Report metadata and revisions        |
-| Audit Type Coverage  | 133  | Coverage of canonical audit types    |
-| Glossary             | 183  | Abbreviation and acronym definitions |
+| Audit Type Coverage  | 134  | Coverage of canonical audit types    |
+| Glossary             | 184  | Abbreviation and acronym definitions |
 
 ## Document Information
 
@@ -56,11 +56,12 @@ Rows appear in this order, each label in the first column and its value in the s
 - `Dirty-Tree State` - the working tree state at audit time, written only when the tree is dirty.
   Omit the row when the tree is clean.
 - `Skill Version` - the version of the audit skill that produced the report, written as the
-  bare version string (for example `2.0.1`), never prefixed with the skill name.
-- `Time taken` - elapsed audit time in `MM:SS`, measured from the start timestamp recorded after
-  parameter questions were resolved to the final clock reading before report delivery. The
-  window spans report part composition, concatenation, formatting, and validation, and an
-  interrupted or re-done assembly does not reset the start timestamp.
+  bare version string (for example `2.0.2`), never prefixed with the skill name.
+- `Time taken` - elapsed audit time in `MM:SS`, measured from the start timestamp recorded the
+  moment parameter questions were resolved - before the remaining skill rule documents are
+  loaded - to the final clock reading before report delivery. The window spans document
+  familiarization, evidence gathering, report part composition, concatenation, formatting, and
+  validation, and an interrupted or re-done assembly does not reset the start timestamp.
 - `Previous Report` - the previous report path and revision, only on a confirmed re-audit. Omit
   the row on a fresh audit.
 - `Projects` - the audited project names, multi-project reports only.
