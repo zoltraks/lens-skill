@@ -21,6 +21,20 @@ denominator.
 When the previous report used a different method, restate the figure under the canonical method
 and record the change as an evidence correction per `synthesis/report-comparison.md`.
 
+## Snapshot Identity
+
+| Measurement  | Method                                                   |
+|--------------|----------------------------------------------------------|
+| Commit       | `git rev-parse HEAD` per audited repository root         |
+| Branch       | `git branch --show-current`, or detached-HEAD state      |
+| Dirty tree   | `git status --porcelain` - clean, or the dirty path list |
+| Capture time | The clock reading at intake when no VCS metadata exists  |
+
+These values feed Document Information.
+
+Every claim in the report binds to this snapshot, and a re-audit on a different snapshot is a
+different tree until proven otherwise.
+
 ## Git History
 
 | Measurement          | Method                                                                             |
@@ -107,7 +121,7 @@ Each is a search pattern or file enumeration, never an executed build or test.
 |------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
 | Import census          | Enumerate `import`/`require`/`use`/`using`/`#include` statements per file, dedupe to the external-module set                                             | Which declared dependencies are actually used, and which imports lack a manifest entry |
 | Engines drift          | Compare `engines`, `requires-*`, `go`, or `<TargetFramework>` floors against syntax features used                                                        | Whether code can run at the declared floor                                             |
-| Secret-shape scan      | Search credential-shaped patterns (`AKIA`, `BEGIN.*PRIVATE KEY`, `password\s*=`, `api[_-]?key\s*[:=]`); count and locate matches, never reproduce values | Candidate secret locations for tracing                                                 |
+| Secret-shape scan      | Search credential-shaped patterns (`AKIA`, `BEGIN.*PRIVATE KEY`, `password\s*=`, `api[_-]?key\s*[:=]`). Count and locate matches, never reproduce values | Candidate secret locations for tracing                                                 |
 | Missing-file checklist | Enumerate expected files per stack (`LICENSE`, `README`, lockfile, CI config, `.gitignore`) against `git ls-files`                                       | Absent baseline artifacts                                                              |
 | Lockfile census        | Count resolved entries per lockfile (`package-lock.json` `packages` keys, `Cargo.lock` `[[package]]`, `go.sum` module lines)                             | Component totals, direct/transitive split                                              |
 | Compose-env parity     | Diff `environment`/`env_file` keys in `compose.*` against env vars read by the code                                                                      | Undeclared or dead configuration                                                       |

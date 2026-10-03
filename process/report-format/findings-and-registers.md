@@ -13,10 +13,10 @@
 |--------------------------------|------|--------------------------------------|
 | Strengths & What's Working     | 21   | Evidence-based positive baselines    |
 | Detailed Technical Findings    | 59   | Finding summary and detail blocks    |
-| Technical Debt Register        | 251  | Distinct accumulated debt            |
-| Unified Risk Register          | 299  | Cross-referenced risks               |
-| Actionable Remediation Roadmap | 393  | Prioritized recommendations          |
-| Recommendation Classification  | 464  | Recommended/Optional/Not recommended |
+| Technical Debt Register        | 276  | Distinct accumulated debt            |
+| Unified Risk Register          | 324  | Cross-referenced risks               |
+| Actionable Remediation Roadmap | 418  | Prioritized recommendations          |
+| Recommendation Classification  | 489  | Recommended/Optional/Not recommended |
 
 ## Strengths & What's Working
 
@@ -160,10 +160,15 @@ Use this exact markdown block pattern:
 * **Recommendation:** [Step-by-step technical guidance to resolve the finding]
 * **Method:** [Specific test, command, or process to confirm the fix is successful]
 * **Verified:** [yes | no, with a short qualifier]
+* **Runtime confirmed:** [yes | no | not applicable, with a short qualifier]
+* **Breaking change:** [None | Internal | Public API - surfaces and migration note]
+  *(omit when N/A)*
+* **Applicability:** [applicable | conditional | inapplicable | unverified - reachability
+  basis] *(dependency-advisory findings only)*
 * **Confidence:** [HIGH / MEDIUM / LOW with rationale]
 * **Mitigating factors:** [Refuting evidence examined and remaining uncertainty]
 * **Exploitability:** [Tier + attack-path reasoning] *(omit when N/A)*
-* **Evidence:** [EVD IDs, source lines, and inspected/reported/inferred basis]
+* **Evidence:** [EVD IDs, `path:line` ranges, and inspected/reported/inferred/executed basis]
 ```
 
 When the report language is not English, apply the bullet label translations from the matching
@@ -197,6 +202,26 @@ The Method must specify a test or command to confirm the fix.
 The `Verified` field states whether the current audit verified the claim:
 `yes` for a re-derived or confirmed observation, `no` for pending verification,
 each with a short qualifier such as `yes - observed in source`.
+
+`Verified` covers source-level re-derivation only.
+
+The `Runtime confirmed` field states whether the claimed behavior was confirmed by execution:
+`yes` only under `executed-readonly` or documented runtime evidence, `no` for a static
+inference awaiting confirmation, `not applicable` when no runtime claim exists.
+
+Every runtime-claiming summary must match this field - a `Runtime confirmed: no` finding
+never appears as verified in a summary table.
+
+The `Breaking change` field records the remediation's compatibility impact: `None`,
+`Internal` (callers inside the codebase adapt), or `Public API` (consumers, wire protocol,
+configuration, stored data, credentials, or deployment prerequisites change), with the
+affected surfaces and any migration note.
+
+The `Applicability` field is required on dependency-advisory findings and states whether the
+vulnerable code path is `applicable`, `conditional` on a named feature or configuration,
+`inapplicable` with the disabling evidence cited, or `unverified`.
+
+Advisory presence in a lockfile is not exploitability.
 
 The `Status` field carries the lifecycle state: `Open`, `Closed`,
 or `PASS` for a re-verified passing control.

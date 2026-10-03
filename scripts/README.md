@@ -77,6 +77,28 @@ pattern under the same parent.
 It mechanically enforces the Observation/Concern tag rule: every `| EVD-` ledger row must carry
 a tag cell, and every `### FND-` block's `Type` field must read `Observation` or `Concern`.
 
+Its snapshot-identity check requires `Subject Revision`, `Report Style`, and `Evidence Mode`
+rows in Document Information, and its evidence-sections check requires `Operator Verification
+Handoff` for source-only reports or `Executed Evidence Log` for executed-readonly reports.
+
+Its summary-verification check rejects a `Verified` or `Confirmed` cell in the findings summary
+when the finding block says `Verified: no` or lacks a positive `Runtime confirmed` value.
+
+Its fresh-audit check rejects comparative claims against a previous report whenever the report
+has no `Changes Since Previous Audit` section.
+
+Its roadmap check requires a `Breaking` column in every `Actionable Remediation Roadmap` table
+whenever finding blocks assess `Breaking change`.
+
+Its scorecard-mean check recomputes each `Scorecard Summary` table's overall from the displayed
+dimension scores and compares it to the stated `Overall score` at one decimal place.
+
+Pass `--repo-root <dir>` to also verify that `path:line` citations in finding `Targets` and
+`Evidence` fields resolve to real files whose recorded line numbers are within file length.
+
+When the `Report Style` row reads `hunt`, it applies the hunt section contract from
+`process/report-format/hunt-style.md` instead of the baseline section list.
+
 `lint-polish.py` lints Polish report output for the calques listed in the
 `Calque And Style Replacements` table of `translations/polish-language.md`, plus
 comma splices, `tylko, gdy`, bare `per`, the `w.` abbreviation, semicolons, and typographic
@@ -146,7 +168,7 @@ python scripts/check-update.py
 python scripts/lint-prose.py path/to/draft.md
 python scripts/format-table.py path/to/AUDIT.md
 python scripts/align-comments.py path/to/AUDIT.md [--check]
-python scripts/validate-report.py path/to/AUDIT.md
+python scripts/validate-report.py path/to/AUDIT.md [--repo-root path/to/repo]
 python scripts/lint-polish.py path/to/AUDYT.md
 python scripts/finalize-report.py [--polish] path/to/AUDIT.md
 ```

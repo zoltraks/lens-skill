@@ -89,6 +89,21 @@ Severity and conformance anchor two further rules:
 - A deviation from the subject's own development standards is a conformance finding even when
   the deviation is otherwise defensible - governance evidence weighs on its own.
 
+**Functional-defect gates**
+
+A documented or advertised capability that the code does not implement - a supported workflow
+that fails end to end, a stub behind an advertised feature, a builder image that cannot
+compile the code - is a spec violation and a hard readiness gate.
+
+While such a gate stays open the readiness state is `NOT READY` or `PENDING EVIDENCE`
+regardless of dimension scores, and its dimension is capped per the finding's severity.
+
+Severity starts at `MEDIUM`. An advertised core journey that fails end to end is at least
+`HIGH`.
+
+An overall mean never hides a broken advertised capability - every readiness statement and
+verdict names it explicitly.
+
 ## Overall Score
 
 Use the unweighted arithmetic mean of numeric dimension scores.
@@ -158,6 +173,7 @@ For a readiness or due-diligence audit, define the gates before the final summar
 At minimum, assess:
 
 - Applicable `CRITICAL` and `HIGH` findings.
+- Advertised-workflow integrity: every documented capability traces to working implementation.
 - Required build, test, scan, recovery, and deployment evidence.
 - Confirmed verification ownership.
 - Operational objectives and recovery evidence for operated systems.

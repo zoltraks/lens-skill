@@ -8,12 +8,16 @@ Review reports per ``process/review-report.md`` are detected by an H1 ending in
 ``Review and Amendment Instructions`` or a ``REVIEW``-family or ``PRZEGLĄD``-family
 filename, and validated against the review contract instead of the audit checks.
 
-Usage: python validate-report.py <report.md>
+Usage: python validate-report.py <report.md> [--repo-root <dir>]
 Exit code 0 means all checks pass, 1 means failures were found.
+
+With ``--repo-root`` the validator also checks that ``path:line`` citations in
+finding ``Targets``/``Evidence`` fields resolve to real files within range.
 """
 
 from __future__ import annotations
 
+import math
 import re
 import sys
 from pathlib import Path
@@ -205,6 +209,7 @@ FINDING_REQUIRED = [
     "Recommendation:",
     "Method:",
     "Verified:",
+    "Runtime confirmed:",
     "Confidence:",
     "Mitigating factors:",
     "Evidence:",
@@ -264,6 +269,19 @@ def check_finding_blocks(lines: list[str]) -> list[str]:
         verified = field_value(block, "Verified")
         if verified and not re.match(r"^(yes|no)\b", verified, re.IGNORECASE):
             failures.append(f"{name}: Verified does not start with yes or no")
+        runtime = field_value(block, "Runtime confirmed")
+        if runtime and not re.match(r"^(yes|no|not applicable)\b", runtime, re.IGNORECASE):
+            failures.append(
+                f"{name}: Runtime confirmed does not start with yes, no, or not applicable"
+            )
+        breaking = field_value(block, "Breaking change")
+        if breaking and not re.match(r"^(None|Internal|Public API)\b", breaking):
+            failures.append(f"{name}: Breaking change is not None/Internal/Public API")
+        applicability = field_value(block, "Applicability")
+        if applicability and not re.match(
+            r"^(applicable|conditional|inapplicable|unverified)\b", applicability
+        ):
+            failures.append(f"{name}: Applicability is not an allowed token")
     return failures
 
 
@@ -430,13 +448,20 @@ def check_scorecard_mean(text: str) -> list[str]:
                 num, denom = float(pairs[-1][0]), float(pairs[-1][1])
                 if denom:
                     overalls.append((num / denom, int(denom)))
-    if len(overalls) != len(summaries):
-        return failures
+    if len(summaries) > len(overalls):
+        failures.append(
+            f"{len(summaries)} scorecard table(s) found but only "
+            f"{len(overalls)} 'Overall score' row(s) - every scorecard must state its overall"
+        )
     for index, ((mean, count), (stated, denom)) in enumerate(zip(summaries, overalls), 1):
-        if abs(mean - stated) > 0.5 / denom + 1e-9:
+        expected_even = round(mean * denom, 1)
+        expected_up = math.floor(mean * denom * 10 + 0.5) / 10
+        stated_display = stated * denom
+        if abs(stated_display - expected_even) > 1e-9 and abs(stated_display - expected_up) > 1e-9:
             failures.append(
-                f"scorecard {index}: stated overall {stated * denom:g}/{denom} does not match "
-                f"the mean of {count} dimension scores"
+                f"scorecard {index}: stated overall {stated_display:g}/{denom} does not equal "
+                f"the recomputed mean {expected_up:g}/{denom} of {count} displayed "
+                "dimension scores"
             )
     return failures
 
@@ -867,6 +892,13 @@ def check_review_sources(text: str) -> list[str]:
 def check_required_sections(text: str) -> list[str]:
     if "Document Information" not in text:
         return []
+    if report_style(text) == "hunt":
+        headings = set(re.findall(r"^#{2,3}\s+(.+?)\s*$", text, re.MULTILINE))
+        return [
+            f"missing required section: {section}"
+            for section in HUNT_SECTIONS
+            if section not in headings
+        ]
     detail = re.search(r"\|\s*Detail Level\s*\|\s*([^|]+)", text)
     brief = detail is not None and detail.group(1).strip() == "Brief"
     required = set(BRIEF_SECTIONS if brief else BASELINE_SECTIONS)
@@ -987,6 +1019,172 @@ def check_trailing(lines: list[str]) -> list[str]:
     return failures
 
 
+HUNT_SECTIONS = [
+    "Document Information",
+    "Audit Type Coverage",
+    "Verdict",
+    "System Context",
+    "Methodology And Evidence",
+    "Journey Traces",
+    "Domain Findings",
+    "Risk Register",
+    "Remediation Phases",
+    "Scope Exclusions",
+    "Limitations and Unknowns",
+    "Validation Record",
+    "References",
+]
+
+
+def report_style(text: str) -> str:
+    match = re.search(r"\|\s*Report Style\s*\|\s*([^|]+)", text)
+    return match.group(1).strip().lower() if match else "audit"
+
+
+def evidence_mode(text: str) -> str:
+    match = re.search(r"\|\s*Evidence Mode\s*\|\s*([^|]+)", text)
+    return match.group(1).strip().lower() if match else "source-only"
+
+
+def check_snapshot_identity(text: str) -> list[str]:
+    if "Document Information" not in text:
+        return []
+    failures: list[str] = []
+    if not re.search(r"\|\s*Subject Revision\s*\|\s*\S", text):
+        failures.append("Document Information lacks a Subject Revision snapshot anchor")
+    if not re.search(r"\|\s*Report Style\s*\|", text):
+        failures.append("Document Information lacks a Report Style row")
+    if not re.search(r"\|\s*Evidence Mode\s*\|", text):
+        failures.append("Document Information lacks an Evidence Mode row")
+    return failures
+
+
+def check_evidence_sections(text: str) -> list[str]:
+    if "Document Information" not in text:
+        return []
+    if evidence_mode(text) == "executed-readonly":
+        if not re.search(r"^#{2,3}\s+Executed Evidence Log\s*$", text, re.MULTILINE):
+            return ["executed-readonly report has no Executed Evidence Log section"]
+        return []
+    if not re.search(r"^#{2,3}\s+Operator Verification Handoff\s*$", text, re.MULTILINE):
+        return ["source-only report has no Operator Verification Handoff section"]
+    return []
+
+
+def check_summary_verified(text: str) -> list[str]:
+    failures: list[str] = []
+    for match in re.finditer(r"^#{2,3}\s+Detailed Technical Findings\s*$", text, re.MULTILINE):
+        rest = text[match.end() :]
+        end = re.search(r"^#{1,2}\s", rest, re.MULTILINE)
+        block = rest[: end.start()] if end else rest
+        details = {
+            m.group(1): block[m.start() :]
+            for m in re.finditer(r"^###\s+(FND-[A-Z]{3}-\d{3})", block, re.MULTILINE)
+        }
+        rows = block.split("\n")
+        header_index = next(
+            (i for i, line in enumerate(rows) if line.startswith("|") and "FND-" not in line),
+            None,
+        )
+        if header_index is None:
+            continue
+        header = [cell.strip() for cell in raw_cells(rows[header_index])]
+        if "Verification" not in header:
+            continue
+        vidx = header.index("Verification")
+        for row in rows[header_index + 2 :]:
+            if not row.startswith("|"):
+                break
+            cells = [cell.strip() for cell in raw_cells(row)]
+            fid = next(
+                (
+                    cell.split("::")[-1]
+                    for cell in cells
+                    if re.fullmatch(r"(?:[\w.-]+::)?FND-[A-Z]{3}-\d{3}", cell)
+                ),
+                None,
+            )
+            if not fid or fid not in details:
+                continue
+            detail = details[fid]
+            claimed = cells[vidx] if len(cells) > vidx else ""
+            verified = field_value(detail, "Verified").lower()
+            runtime = field_value(detail, "Runtime confirmed").lower()
+            if claimed.startswith("Verified") and verified.startswith("no"):
+                failures.append(f"{fid}: summary says Verified but block says Verified: no")
+            if claimed.startswith("Confirmed") and not runtime.startswith("yes"):
+                failures.append(f"{fid}: summary says Confirmed but block does not confirm it")
+    return failures
+
+
+def check_fresh_audit_claims(lines: list[str], fences: list[bool]) -> list[str]:
+    text = NL.join(lines)
+    if re.search(r"^#{2,3}\s+Changes Since Previous Audit\s*$", text, re.MULTILINE):
+        return []
+    failures: list[str] = []
+    for index, (line, fenced) in enumerate(zip(lines, fences)):
+        if fenced or re.search(r"parity baseline|industry baseline", line, re.IGNORECASE):
+            continue
+        if re.search(r"baseline|previous (audit|report|revision)", line, re.IGNORECASE) and re.search(
+            r"better|improv|differ|regress|compar|since", line, re.IGNORECASE
+        ):
+            failures.append(
+                f"line {index + 1}: comparative claim against a previous report in a fresh audit"
+            )
+    return failures
+
+
+def check_roadmap_breaking(text: str) -> list[str]:
+    if "**Breaking change:**" not in text:
+        return []
+    failures: list[str] = []
+    for match in re.finditer(r"^#{2,3}\s+Actionable Remediation Roadmap\s*$", text, re.MULTILINE):
+        rest = text[match.end() :]
+        end = re.search(r"^#{1,2}\s", rest, re.MULTILINE)
+        block = rest[: end.start()] if end else rest
+        header = next(
+            (line for line in block.split("\n") if line.startswith("|") and "Rec" in line),
+            None,
+        )
+        if header is None:
+            continue
+        cells = [cell.strip() for cell in raw_cells(header)]
+        if "Breaking" not in cells:
+            failures.append("roadmap table lacks a Breaking column though findings assess it")
+    return failures
+
+
+PATH_LINE = re.compile(r"(?:[\w.\-]+/)*[\w.\-]+\.[A-Za-z]{1,6}:\d+(?:-\d+)?")
+
+
+def check_evidence_paths(text: str, repo_root: str | None) -> list[str]:
+    if repo_root is None:
+        return []
+    root = Path(repo_root).resolve()
+    failures: list[str] = []
+    seen: set[str] = set()
+    for line in text.split("\n"):
+        if "**Targets:**" not in line and "**Evidence:**" not in line:
+            continue
+        for citation in PATH_LINE.findall(line):
+            if citation in seen:
+                continue
+            seen.add(citation)
+            rel, _, span = citation.rpartition(":")
+            first = int(span.split("-")[0])
+            target = root / rel
+            if not target.is_file():
+                failures.append(f"evidence path does not exist: {citation}")
+                continue
+            with target.open(encoding="utf-8", errors="replace") as handle:
+                total = sum(1 for _ in handle)
+            if first > total:
+                failures.append(f"evidence line {first} beyond file length {total}: {citation}")
+            if len(failures) > 20:
+                return failures
+    return failures
+
+
 VERSION_DIR = re.compile(r"v?\d+\.\d+(?:\.\d+)?")
 DATE_DIR = re.compile(r"\d{4}-\d{2}-\d{2}")
 
@@ -1017,7 +1215,7 @@ def check_location(path: str) -> list[str]:
     return []
 
 
-def main(path: str) -> int:
+def main(path: str, repo_root: str | None = None) -> int:
     text = Path(path).read_text(encoding="utf-8")
     lines = text.replace("\r\n", "\n").split("\n")
     fences = split_code(lines)
@@ -1059,6 +1257,12 @@ def main(path: str) -> int:
                 ("PAR-1..PAR-18", check_par_rows(text)),
                 ("recommendation classification", check_rec_classification(text)),
                 ("Observation/Concern tags", check_type_tags(lines, fences)),
+                ("snapshot identity", check_snapshot_identity(text)),
+                ("evidence sections", check_evidence_sections(text)),
+                ("summary verification labels", check_summary_verified(text)),
+                ("fresh-audit claims", check_fresh_audit_claims(lines, fences)),
+                ("roadmap breaking column", check_roadmap_breaking(text)),
+                ("evidence paths", check_evidence_paths(text, repo_root)),
                 ("glossary", check_glossary(text)),
                 ("final-state gate", check_final_state(text)),
             ]
@@ -1079,7 +1283,7 @@ def main(path: str) -> int:
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python validate-report.py <report.md>")
+    if len(sys.argv) not in (2, 4) or (len(sys.argv) == 4 and sys.argv[2] != "--repo-root"):
+        print("Usage: python validate-report.py <report.md> [--repo-root <dir>]")
         raise SystemExit(1)
-    raise SystemExit(main(sys.argv[1]))
+    raise SystemExit(main(sys.argv[1], sys.argv[3] if len(sys.argv) == 4 else None))

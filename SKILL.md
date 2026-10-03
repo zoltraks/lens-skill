@@ -24,7 +24,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.0.2"
+  version: "2.0.3"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -43,17 +43,17 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 | Trigger Keywords        | 94   | Activation phrases                                 |
 | How To Use              | 119  | Progressive disclosure and mandatory reading       |
 | Parameter Configuration | 139  | Defaults and user-controlled report shape          |
-| Principles              | 203  | Evaluation and output rules                        |
-| Process                 | 209  | Workflow, format, and parity                       |
-| Assessments             | 231  | Core and conditional assessment guides             |
-| Synthesis               | 271  | Findings, risk, score, and remediation assembly    |
-| Translations            | 285  | Per-language report translations                   |
-| References              | 294  | Lookup tables                                      |
-| Scripts                 | 316  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 338  | Behavioral regression prompts                      |
-| Repository Files        | 342  | Housekeeping files governing this repository       |
-| Evidence Contract       | 354  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 388  | File-selection and section-placement rules         |
+| Principles              | 205  | Evaluation and output rules                        |
+| Process                 | 211  | Workflow, format, and parity                       |
+| Assessments             | 235  | Core and conditional assessment guides             |
+| Synthesis               | 275  | Findings, risk, score, and remediation assembly    |
+| Translations            | 291  | Per-language report translations                   |
+| References              | 300  | Lookup tables                                      |
+| Scripts                 | 324  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 346  | Behavioral regression prompts                      |
+| Repository Files        | 350  | Housekeeping files governing this repository       |
+| Evidence Contract       | 362  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 398  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -147,6 +147,7 @@ Defaults are:
 | Parameter               | Default                                                                                 |
 |-------------------------|-----------------------------------------------------------------------------------------|
 | Report type             | Audit - Review only on an explicit review, amendment, or improvement-plan request       |
+| Report style            | `audit` governance report (default) or `hunt` defect-hunt report                        |
 | Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/`, else Inline |
 | Output location         | Resolved across `docs/`, `document/`, `doc/` roots or the repository root               |
 | Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit  |
@@ -156,6 +157,7 @@ Defaults are:
 | Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                 |
 | Trade-off analysis      | Standalone section + embedded into relevant findings                                    |
 | Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it |
+| Evidence mode           | `source-only` (default) or `executed-readonly` for commissioned analyzers               |
 
 The agent MUST ask this question, MUST NOT skip it, and MUST wait for the user response
 before starting the audit.
@@ -223,6 +225,8 @@ The previous report is never overwritten - write the next revision-numbered file
 - **`process/report-format/findings-and-registers.md`** - Strengths, findings, debt, risk,
   roadmap.
 - **`process/report-format/closing.md`** - Exclusions, Limitations, Re-audit, Validation.
+- **`process/report-format/hunt-style.md`** - `hunt` report style: verdict, domain register,
+  journey traces, remediation phases.
 - **`process/json-exchange.md`** - JSON parameter documents for intake question surfaces.
 - **`process/review-report.md`** - Review report type for explicit amendment requests.
 - **`process/report-parity.md`** - Mandatory core checklist and consistency gate.
@@ -281,6 +285,8 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
 - **`synthesis/re-audit-plan.md`** - Verification owners, sign-off gates. Include for
   P1/P2 findings.
 - **`synthesis/report-comparison.md`** - Re-audit discovery, revisions, Changes, legacy names.
+- **`synthesis/report-triangulation.md`** - Contradiction register and second-opinion rules
+  for prior or external reports of the same subject.
 
 ## `translations/` - Report Languages
 
@@ -304,6 +310,8 @@ type requires them.
 - **`references/sbom-schema.md`** - Source-derived inventory report schema.
 - **`references/license-compliance.md`** - License classes, copyleft, attribution, ownership checks.
 - **`references/delivery-practice.md`** - DORA proxies, bus-factor rubric.
+- **`references/domain-profiles.md`** - Project-nature classification and mandatory
+  evidence probes per nature.
 - **`references/exploitability-narrative.md`** - Attack-path narrative format and tiers.
 - **`references/agent-skills.md`** - Agent Skills spec corpus and live-check baseline.
 - **`references/agent-configuration.md`** - AGENTS.md, rules, plugin, subagent, and MCP
@@ -356,7 +364,9 @@ These files govern the skill repository itself rather than audit production:
 Use the verification plan and evidence ledger in `process/audit-workflow.md` for every audit
 and every review.
 
-The audit never builds, tests, or executes the project or analysis tools against it.
+The audit never builds, tests, or executes the project. Under the `executed-readonly`
+evidence mode it may additionally run commissioned non-mutating analyzers, recorded in the
+Executed Evidence Log.
 
 All evidence comes from inspected repository contents: source, configuration, build scripts,
 documentation, and committed artifacts.
@@ -391,7 +401,8 @@ when maintaining the skill.
 - The audit report is the default deliverable. Produce the review report per
   `process/review-report.md` only on an explicit review, amendment, or improvement-plan request.
 - Never compile, build, test, or execute the audited project, and never run linters, scanners,
-  or generators against it. Verification claims rest on inspected repository contents,
+  or generators against it. Under `executed-readonly` only the commissioned non-mutating
+  analyzers run. Verification claims rest on inspected repository contents,
   documented results are `Reported` evidence.
 - Assemble the audit report skeleton from `process/report-format.md` and its section files before
   filling in findings, present every section as a table and use unnumbered headings.
@@ -432,67 +443,55 @@ when maintaining the skill.
   it distinct from the SOLID principles in `assessment/design-principles.md`.
 - API specification conformance and the OWASP API Security Top 10 belong in
   `assessment/api-contract.md`, ADR gap assessment belongs in `assessment/change-management.md`.
-- Agent Skills specification conformance, frontmatter validity, progressive disclosure, and
-  triggering description quality belong in `assessment/skill-definition.md`, include it when the
-  subject holds `SKILL.md` files or other agent-facing artifacts, with
-  `references/agent-skills.md` and `references/agent-configuration.md` as
-  the conformance baselines. Installed or external skill directories are not audit subjects:
-  intake classifies each discovered skill as authored, installed, or undetermined.
-- Project-internal development standards conformance and standards-quality evaluation belong in
-  `assessment/standards-conformance.md`, include it only for documented development standards.
-  References lists every external source consulted for this and any other category.
+- Agent Skills specification conformance belongs in `assessment/skill-definition.md` when the
+  subject holds `SKILL.md` files or agent-facing artifacts, with `references/agent-skills.md`
+  and `references/agent-configuration.md` as baselines. Intake classifies each discovered
+  skill as authored, installed, or undetermined. Installed skills are not audit subjects.
+- Standards conformance belongs in `assessment/standards-conformance.md`, only for documented
+  development standards. References lists every external source consulted.
 - Canonical stack references are re-derived from `references/stack-standards.md` during intake
-  on every audit and cited in Auditing Methodology and References, never copied verbatim from a
-  prior report. Generic standards alone are not a substitute for stack-specific sources.
+  and cited in Auditing Methodology and References, never copied verbatim from a prior report.
 - Every CWE-classified security finding names its equivalent static analyzer rule from
-  `references/cwe-analyzer.md` and its enablement state, or states that no direct rule exists
-  for that CWE in the stack. The lookup is documentation, it never implies an analyzer ran.
-- Source-derived dependency inventories follow `references/dependency-manifests.md`: manifests and
-  lockfiles are read as text and produce a CycloneDX/SPDX-style component list, never an executed
-  SBOM.
-- The per-project SBOM section renders that inventory per `references/sbom-schema.md`, always
-  distinguishing it from a shipped-artifact SBOM and keeping underivable fields `Unknown`.
+  `references/cwe-analyzer.md` or states none exists. The lookup never implies an analyzer ran.
+- Source-derived dependency inventories follow `references/dependency-manifests.md` (manifests
+  and lockfiles read as text) and render per `references/sbom-schema.md` with underivable
+  fields `Unknown`, never an executed or shipped-artifact SBOM.
 - The License Compliance Review follows `references/license-compliance.md` and
   separates observed license facts from inferred concerns without legal conclusions.
 - The Delivery Practice & Team Continuity section follows `references/delivery-practice.md`:
   five DORA metrics with labeled source-derived proxies, telemetry-dependent metrics
   `NOT SPECIFIED`, and a bus-factor rating.
 - Every `HIGH`/`CRITICAL` Security & Compliance finding carries an `Exploitability` field per
-  `references/exploitability-narrative.md`: `Theoretical` tier by default, marked not
-  executed, never a claim that exploitation occurred.
+  `references/exploitability-narrative.md`: `Theoretical` tier by default, never a claim that
+  exploitation occurred.
 - API compatibility gates, versioning consistency, and breaking-change tracking belong in
-  `assessment/api-compatibility.md`, include it only when the subject is a reusable library or
-  package rather than a deployable service.
+  `assessment/api-compatibility.md`, only for a reusable library or package.
 - Wherever an overall score appears, the lowest-scoring applicable dimension and its score are
   reported in a paragraph below the table, per `synthesis/project-scorecard.md`.
-- Conditional sections appear only when their inclusion criterion is met. Evaluate each criterion
-  in the Conditional Sections table of `process/report-format.md`, omit the section entirely when
-  it cannot apply, and note the omission in Scope Exclusions - never force one (for example an API
-  Contract section on a project with no API).
+- Conditional sections appear only when their inclusion criterion is met per the table in
+  `process/report-format.md`, with omissions noted in Scope Exclusions - never force one.
 - The Technical Debt Register (`synthesis/debt-register.md`) is distinct from the Unified Risk
   Register: debt is cost already present, risk is what could go wrong. Never duplicate entries.
 - The Re-audit And Follow-up Plan (`synthesis/re-audit-plan.md`) precedes Validation Record and
-  References when present and maps P1 and P2 findings to verification owners and closure evidence.
-- Every absent-capability finding carries an `Absence` field built from repository signals
-  (`No documented rationale`, `Deliberate - recorded decision`, or `Undetermined`) per
+  maps P1/P2 findings to verification owners and closure evidence.
+- Every absent-capability finding carries an `Absence` field built from repository signals per
   `principles/evaluation-rules.md`, never a claim about the authors' motives.
-- The Recommendation Classification section (`synthesis/remediation-roadmap.md`) follows the
-  roadmap at Standard and Detailed, assigns every `REC-XXX` one class (`Recommended`, `Optional`,
-  `Not recommended`), and is omitted at Brief with a Scope Exclusions note.
-- The Changes Since Previous Audit section (`synthesis/report-comparison.md`) appears only when a
-  previous audit report was found during intake. The previous file is never overwritten, the new
-  report uses a revision-numbered filename such as `AUDIT-1.1.md` and the next minor revision.
-- Limitations and Unknowns lists every unperformed check that would require execution.
-  Validation Record closes the report with the Mandatory Core Checklist result and the
-  `process/report-parity.md` gate outcome. The report is final - no `State` row - when it passes.
-- For a multi-project report confirmed at the intake inclusion question, a condensed combined
-  Executive Summary and combined Changes follow the Project Inventory, and a combined Trade-off
-  Analysis holds only cross-project trade-offs per `synthesis/trade-off-analysis.md`.
-- Each `translations/` file defines one report language and loads only when the report language is
-  not English. Add a language with a new file following the existing structure.
-- Prefer the narrowest assessment file that directly matches the request. For a single-dimension
-  request (for example "review security" or "audit dependencies"), load that one assessment file
-  plus `principles/` and produce the matching finding pillar and risk row only.
+- The Recommendation Classification section (`synthesis/remediation-roadmap.md`) assigns every
+  `REC-XXX` one class at Standard and Detailed, omitted at Brief with a Scope Exclusions note.
+- The Changes Since Previous Audit section (`synthesis/report-comparison.md`) appears only when
+  a previous report was found. The previous file is never overwritten and the new report
+  carries the next minor revision.
+- `report-style: hunt` renders the same evidence base per `process/report-format/hunt-style.md`.
+  Intake records the commit snapshot, and external reports of the same subject are reconciled
+  per `synthesis/report-triangulation.md`, never merged or adopted.
+- Limitations and Unknowns lists every unperformed check. Validation Record closes the report
+  with the Mandatory Core Checklist result and the `process/report-parity.md` gate outcome.
+- For a multi-project report confirmed at intake, a condensed combined Executive Summary and
+  Changes follow the Project Inventory, and a combined Trade-off Analysis holds only
+  cross-project trade-offs per `synthesis/trade-off-analysis.md`.
+- Each `translations/` file defines one report language, loaded only when needed.
+- Prefer the narrowest assessment file matching the request: a single-dimension request loads
+  that one file plus `principles/` and produces the matching finding pillar and risk row only.
 - Trade-off analyses appear as the Trade-off Analysis section after Architectural Assessment and
   embedded in findings under Description or Impact, per `synthesis/trade-off-analysis.md`.
 - For a full audit, load `principles/`, `process/`, every relevant `assessment/` file, and all

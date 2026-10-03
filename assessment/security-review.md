@@ -57,6 +57,13 @@ concurrent changes in an isolated fixture, not against real system files.
 For local credential storage, evaluate file permissions or ACLs, inheritance, token lifetime,
 backup exposure, and the OS threat model before rating severity.
 
+Verify lifecycle completeness from source for identity, session, token, and credential
+objects: issuance, expiry, revocation, rotation, and behavior after identity removal or
+demotion - including the residual-access window of already-issued tokens and live sessions.
+
+Issuance and verification alone do not establish lifecycle completeness. A missing
+revocation or expiry path is a finding of absence with the searched hops cited.
+
 Do not assert that process arguments or environment variables are readable by every user on every
 OS.
 
@@ -76,14 +83,14 @@ Secret fallback-chain tracing follows every credential reference through its res
 environment, file, vault, default literal - per the recipe in
 `references/topics/evidence-recipes.md`.
 
-Each fallback step is evidence; a chain terminating in a committed file or a default literal is
+Each fallback step is evidence. A chain terminating in a committed file or a default literal is
 the finding, and the finding cites the chain, not just the leak site.
 
 The user-code-by-design rubric, shared with `references/exploitability-narrative.md`, separates
 intentional execution of supplied code - plugin systems, template engines, scripting surfaces -
 from unintended execution.
 
-Code execution that the feature exists to provide is not an injection finding; the review
+Code execution that the feature exists to provide is not an injection finding. The review
 focuses on whether inputs escape the intended sandbox or trust level.
 
 The config trust-boundary check maps which configuration inputs the code trusts without

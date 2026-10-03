@@ -44,20 +44,36 @@ The check reads workflow files as text - it never fetches the referenced actions
 
 A mutable third-party ref is a supply-chain exposure finding class, not a style note.
 
+## Buildability And Defaults
+
+Check toolchain compatibility statically: compare builder and CI image versions, manifest
+toolchain floors, and documented prerequisites against the language features and APIs the
+code uses and each dependency's declared minimum.
+
+A builder image that predates a used feature is a build defect raised from source alone -
+record the feature, its requirement evidence, and the image tag.
+
+Census the shipped defaults: ports, bind addresses, credentials, debug endpoints, transport
+security, file permissions, and healthcheck semantics, checked against least-privilege
+expectations and documented operator obligations.
+
+Check portability assumptions: path separators, shell-string construction, and
+platform-specific behavior against the supported-platform claims.
+
 ## Absent Automation
 
 When no pipeline definition or CI configuration exists in the supplied files, record the finding
 anyway and classify the absence per `principles/evaluation-rules.md`.
 
-| Signal                | Example                                                            |
-|-----------------------|--------------------------------------------------------------------|
-| Envisaged but missing | `CONTRIBUTING.md` or `README` prescribes checks that nothing runs  |
-| Envisaged but missing | `.github/` or `.gitlab/` exists without workflow definitions       |
-| Envisaged but missing | Badges, pull request templates, or branch rules reference checks   |
-| Envisaged but missing | Build, release, or deploy scripts exist that nothing invokes       |
-| Deliberate omission   | Documentation limits the delivery model: prototype, local-only     |
-| Deliberate omission   | A documented manual release process replaces automation            |
-| Deliberate omission   | No delivery or release process is envisaged at all                 |
+| Signal                | Example                                                           |
+|-----------------------|-------------------------------------------------------------------|
+| Envisaged but missing | `CONTRIBUTING.md` or `README` prescribes checks that nothing runs |
+| Envisaged but missing | `.github/` or `.gitlab/` exists without workflow definitions      |
+| Envisaged but missing | Badges, pull request templates, or branch rules reference checks  |
+| Envisaged but missing | Build, release, or deploy scripts exist that nothing invokes      |
+| Deliberate omission   | Documentation limits the delivery model: prototype, local-only    |
+| Deliberate omission   | A documented manual release process replaces automation           |
+| Deliberate omission   | No delivery or release process is envisaged at all                |
 
 State the reading plainly, for example "no CI configuration was found and the repository shows no
 signal that automation was envisaged" or "the documented validation steps have no pipeline behind

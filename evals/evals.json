@@ -791,6 +791,58 @@
     "The evaluation-scale prompt offers 1-10 (domyślna), 1-5, 1-3, and Gwiazdy, and a Gwiazdy answer triggers the follow-up Ile gwiazd ma mieć skala? with 5 gwiazd (domyślnie) and 3 gwiazdy.",
     "The trailing bypass options render as Użyj wartości domyślnej: <wartość> and Użyj wartości domyślnych dla wszystkich pozostałych pytań."
    ]
+  },
+  {
+   "id": 66,
+   "prompt": "Audit this repository. Accept all default choices.",
+   "expected_output": "A governance-oriented audit report produced under the audit style with the snapshot metadata contract.",
+   "files": [],
+   "expectations": [
+    "Document Information records Report Style as audit and Evidence Mode as source-only.",
+    "Document Information records a Subject Revision anchor naming the inspected commit or tree state.",
+    "The report carries an Operator Verification Handoff section listing runtime checks for the operator.",
+    "Every finding block carries a Runtime confirmed field with a yes, no, or not applicable value.",
+    "The stated overall score equals the recomputed one-decimal mean of the displayed dimension scores.",
+    "Every Actionable Remediation Roadmap table carries a Breaking column when findings assess Breaking change."
+   ]
+  },
+  {
+   "id": 67,
+   "prompt": "Run a defect hunt on this repository - report style hunt - and emphasize cross-module functional journeys and reproducibility over governance scoring.",
+   "expected_output": "A hunt-style report organized around journeys and domain findings rather than governance scorecards.",
+   "files": [],
+   "expectations": [
+    "Document Information records Report Style as hunt.",
+    "The report carries Verdict, Journey Traces, Domain Findings, Risk Register, and Remediation Phases sections.",
+    "Finding blocks keep the FND-<pillar> schema with the same evidence and verification fields.",
+    "The numeric scorecard and Recommendation Classification section are replaced by domain verdicts and remediation phases.",
+    "Project purpose, technology stack, and inventory discovery still complete before findings are written."
+   ]
+  },
+  {
+   "id": 68,
+   "prompt": "Audit this repository with evidence mode executed-readonly: you may run its linter and test suite and record results.",
+   "expected_output": "An audit whose executed evidence is declared, labeled, and separately logged from source inspection.",
+   "files": [],
+   "expectations": [
+    "Document Information records Evidence Mode as executed-readonly.",
+    "The report carries an Executed Evidence Log naming each command, version, scope, and exit status.",
+    "Runtime confirmed fields on findings can read yes only for behaviors the recorded execution actually exercised.",
+    "Findings not exercised by execution still carry Runtime confirmed: no rather than an unverified claim.",
+    "Scanner or test output is never presented as proof of exploitability or application behavior."
+   ]
+  },
+  {
+   "id": 69,
+   "prompt": "Audit this repository, then reconcile it against the supplied third-party report REPORT-X.md, which disagrees with several facts.",
+   "expected_output": "A reconciliation that classifies each external claim instead of merging it.",
+   "files": [],
+   "expectations": [
+    "External claims are classified candidate, confirmed, refuted, or unresolved against the declared snapshot.",
+    "Contradicting factual claims are listed in a contradiction register with the decisive evidence reference.",
+    "No externally supplied severity label is adopted without an applicability analysis against this codebase.",
+    "The audit's own findings keep restarted identifiers and are never renumbered to match the external report."
+   ]
   }
  ]
 }

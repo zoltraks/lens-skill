@@ -107,10 +107,18 @@ The docs-to-code check diffs documented commands, options, environment variables
 paths against the implemented surface - every documented `npm run` script, CLI flag, env var,
 and config key must resolve to the code.
 
-A documented-but-unimplemented item is `NOT SPECIFIED` coverage drift; an implemented-but-
+A documented-but-unimplemented item is `NOT SPECIFIED` coverage drift. An implemented-but-
 undocumented surface is a documentation gap.
 
 Both directions are findings, never prose generalizations.
+
+The embedded-code check diffs normative and reference code blocks inside documentation
+against the implementation.
+
+Classify each passage as normative design, illustrative pseudocode, or a
+current-implementation excerpt before proposing correction: an excerpt that drifted is a
+documentation defect, while a normative requirement the code violates is an implementation
+defect.
 
 ## Status Criteria
 

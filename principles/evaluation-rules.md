@@ -21,17 +21,17 @@ If a finding cannot satisfy these rules, mark it as unknown rather than guessing
 |-------------------------------------|------|---------------------------------------|
 | Evidence-Based Reasoning            | 36   | Traceability and missing-info tokens  |
 | Evidence Strength And Claim Control | 53   | Evidence bases, types, confidence     |
-| No Assumptions                      | 148  | The no-assumption rule                |
-| No Personal Judgement               | 162  | Neutrality toward people              |
-| Architectural Neutrality            | 176  | Judging within stated constraints     |
-| Status Markers                      | 189  | PASS, PARTIAL, FAIL, UNKNOWN, N/A     |
-| Contextual Applicability            | 208  | N/A usage for inapplicable categories |
-| Absent Capability Assessment        | 237  | Intentional-versus-oversight tokens   |
-| Evidence Citation                   | 272  | Anchoring claims to sources           |
-| Confidence And Scope Limits         | 283  | Confidence and scope boundaries       |
-| Information Security And Redaction  | 294  | Secret handling rules                 |
-| Indexing And Traceability           | 310  | ID schemes and ordering               |
-| Critical Constraints                | 379  | Non-negotiable hard limits            |
+| No Assumptions                      | 155  | The no-assumption rule                |
+| No Personal Judgement               | 169  | Neutrality toward people              |
+| Architectural Neutrality            | 183  | Judging within stated constraints     |
+| Status Markers                      | 196  | PASS, PARTIAL, FAIL, UNKNOWN, N/A     |
+| Contextual Applicability            | 215  | N/A usage for inapplicable categories |
+| Absent Capability Assessment        | 244  | Intentional-versus-oversight tokens   |
+| Evidence Citation                   | 279  | Anchoring claims to sources           |
+| Confidence And Scope Limits         | 290  | Confidence and scope boundaries       |
+| Information Security And Redaction  | 301  | Secret handling rules                 |
+| Indexing And Traceability           | 317  | ID schemes and ordering               |
+| Critical Constraints                | 386  | Non-negotiable hard limits            |
 
 ## Evidence-Based Reasoning
 
@@ -63,10 +63,17 @@ Distinguish these evidence bases in finding detail:
 - **Reported**: supplied by documentation, a stakeholder, a prior report, or a committed artifact
   such as CI output, a coverage report, or a scan result.
 - **Inferred**: reasoned from cited evidence, with prerequisites and uncertainty stated.
+- **Executed**: produced by a non-mutating analyzer the user commissioned under
+  `executed-readonly` evidence mode, recorded with tool, version, command, and timestamp.
 
-The audit never executes checks itself.
+The audit never executes checks itself under `source-only`. Under `executed-readonly` only the
+commissioned non-mutating analyzers run, and the project is still never built, tested, or run.
 
 Results produced outside the audit are `Reported` evidence, regardless of who ran them.
+
+A `Reported` claim - documentation, changelog, policy file, or recorded decision - establishes
+intent, never the current control. Before such a claim can support a verified control, a
+score, or a readiness gate, it must be re-derived from code at the audited snapshot.
 
 These labels describe evidence, not replacement category statuses.
 
@@ -392,4 +399,6 @@ These constraints are absolute:
   or generators against it. Tool availability cannot be assumed. Analysis rests on repository
   contents alone: source files, configuration, build scripts, pipeline definitions,
   documentation, and committed artifacts. Read-only inspection commands such as file listing,
-  search, and version control history remain in scope.
+  search, and version control history remain in scope. The single exception is the
+  `executed-readonly` evidence mode: non-mutating analyzers the user explicitly commissions
+  may run, while the project itself is still never built, tested, or executed.

@@ -14,6 +14,9 @@ specifications under `process/report-format/`.
 The review report type produced on explicit review requests follows
 `process/review-report.md` instead of this file.
 
+The `hunt` report style follows `process/report-format/hunt-style.md`, which reuses the
+finding, risk, and roadmap contracts defined here under its own section order.
+
 Produce the sections in this order.
 
 The report applies to any software subject: a prototype, a codebase under development,
@@ -29,13 +32,13 @@ A present-but-empty section signals a gap, a missing section hides it.
 
 | Section                                     | Line | What it covers                              |
 |---------------------------------------------|------|---------------------------------------------|
-| Formatting Rules                            | 40   | Formatting Rules guidance                   |
-| Report Delivery And Parameter Configuration | 261  | Report delivery and output configuration    |
-| Detail Level Configuration                  | 307  | Standard, detailed, and brief reports       |
-| Conditional Sections                        | 401  | Inclusion criteria for conditional sections |
-| Section Order                               | 451  | Single-project and multi-project order      |
-| Specification Files                         | 538  | Per-section specification file index        |
-| Pre-Delivery Mechanical Checklist           | 563  | Final mechanical checks                     |
+| Formatting Rules                            | 43   | Formatting Rules guidance                   |
+| Report Delivery And Parameter Configuration | 264  | Report delivery and output configuration    |
+| Detail Level Configuration                  | 310  | Standard, detailed, and brief reports       |
+| Conditional Sections                        | 404  | Inclusion criteria for conditional sections |
+| Section Order                               | 457  | Single-project and multi-project order      |
+| Specification Files                         | 548  | Per-section specification file index        |
+| Pre-Delivery Mechanical Checklist           | 575  | Final mechanical checks                     |
 
 ## Formatting Rules
 
@@ -436,6 +439,9 @@ Each lists its inclusion criterion and the assessment file that governs it:
 | Changes Since Previous Audit (standalone)                   | Previous report found and confirmed as the re-audit baseline       | `synthesis/report-comparison.md`      |
 | Glossary (standalone)                                       | Descriptive mode is enabled (default)                              | `process/report-format.md`            |
 | Recommendation Classification (standalone)                  | Detail level is Standard or Detailed and the roadmap exists        | `synthesis/remediation-roadmap.md`    |
+| Contradiction Register (standalone or in Limitations)       | An external or prior report asserts conflicting claims             | `synthesis/report-triangulation.md`   |
+| Operator Verification Handoff (standalone)                  | `source-only` evidence mode - the default                          | `process/report-format/closing.md`    |
+| Executed Evidence Log (standalone)                          | `executed-readonly` evidence mode                                  | `process/report-format/closing.md`    |
 
 In a multi-project report, evaluate each criterion independently per project.
 
@@ -489,6 +495,8 @@ For a **single-project** audit:
 - Recommendation Classification *(conditional)*
 - Scope Exclusions
 - Limitations and Unknowns
+- Operator Verification Handoff *(source-only mode)* / Executed Evidence Log
+  *(executed-readonly mode, conditional)*
 - Re-audit And Follow-up Plan *(conditional)*
 - Validation Record
 - References
@@ -531,6 +539,8 @@ In summary:
 - Trade-off Analysis (combined, cross-project trade-offs only)
 - Scope Exclusions (once, shared)
 - Limitations and Unknowns (once, shared)
+- Operator Verification Handoff *(source-only mode)* / Executed Evidence Log
+  *(executed-readonly mode, conditional)* (once, shared)
 - Re-audit And Follow-up Plan *(conditional)* (once, shared)
 - Validation Record (once, shared)
 - References (once, shared)
@@ -559,6 +569,8 @@ Each report section is specified in a file under `process/report-format/`.
 |                                 | Recommendation Classification                            |
 | `closing.md`                    | Scope Exclusions, Limitations and Unknowns, Re-audit And |
 |                                 | Follow-up Plan, Validation Record, References            |
+| `hunt-style.md`                 | Hunt report style: verdict, domain register, journey     |
+|                                 | traces, remediation phases                               |
 
 ## Pre-Delivery Mechanical Checklist
 

@@ -29,11 +29,11 @@
 | Report Format                      | 419  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 454  | Supported requests and exclusions                   |
 | What's Inside                      | 477  | Documents, references, tools, and conditional files |
-| Document Style                     | 607  | Pointer to the style rules file                     |
-| Specification                      | 617  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 638  | Maintenance checks and regression scenarios         |
-| License                            | 664  | License for the skill itself                        |
-| Credits                            | 670  | Authorship and attribution                          |
+| Document Style                     | 610  | Pointer to the style rules file                     |
+| Specification                      | 620  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 641  | Maintenance checks and regression scenarios         |
+| License                            | 667  | License for the skill itself                        |
+| Credits                            | 673  | Authorship and attribution                          |
 
 ## Overview
 
@@ -507,7 +507,8 @@ lens-skill/
 │   │   ├── analysis.md                    # Trade-off Analysis, Threat Model
 │   │   ├── conformance.md                 # Conditional conformance sections
 │   │   ├── findings-and-registers.md      # Findings, debt, risk, roadmap, and classification
-│   │   └── closing.md                     # Exclusions, limitations, validation, references
+│   │   ├── hunt-style.md                  # `hunt` report style: verdict, journeys, domain findings
+│   │   └── closing.md                     # Exclusions, limitations, handoff, validation, references
 │   ├── report-parity.md                   # Audit parity checklist and consistency gate before final
 │   ├── readiness-and-scoring.md           # Deterministic scores, confidence, maturity, and readiness gates
 │   └── review-report.md                   # Review report contract: sections, amendments, naming
@@ -543,6 +544,7 @@ lens-skill/
 │   ├── project-scorecard.md               # Project scorecard, rubric, and scale display rules
 │   ├── trade-off-analysis.md              # Engineering trade-offs in standalone table and embedded findings
 │   ├── remediation-roadmap.md             # Actionable remediation roadmap with priority matrix and classification
+│   ├── report-triangulation.md            # Contradiction register and external-report reconciliation
 │   ├── debt-register.md                   # (conditional) TDR inventory with CISQ/SQALE cost model
 │   ├── re-audit-plan.md                   # (conditional) Verification ownership, sign-off gates, re-audit triggers
 │   └── report-comparison.md               # (conditional) Previous report discovery, revisions, comparison
@@ -551,6 +553,7 @@ lens-skill/
 │   ├── cwe-analyzer.md                    # CWE to static-analyzer-rule cross-reference per ecosystem
 │   ├── dependency-manifests.md            # Text-only manifest readers, source-derived component inventory
 │   ├── census-commands.md                 # Canonical reproducible census methods
+│   ├── domain-profiles.md                 # Project-nature classification and mandatory stack/purpose checks
 │   ├── audit-taxonomy.md                  # Canonical audit types, coverage statuses, source corpus
 │   ├── sbom-schema.md                     # Report-level source-derived component inventory schema
 │   ├── license-compliance.md              # License classes, copyleft, notices, ownership checks

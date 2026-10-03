@@ -74,6 +74,26 @@ Record suppressions with their rationale, owner, and expiry, never silently add 
 Do not call a replacement crate safe or maintained without checking its current provenance,
 advisories, compatibility, and support signals.
 
+Under `executed-readonly` evidence mode, a commissioned scanner run is `EXECUTED` evidence:
+record the tool, version, advisory database revision, exact command, exit code, and retained
+output per `process/report-format/closing.md`.
+
+A repository policy file (`deny.toml`, `audit.toml`, Dependabot configuration, a recorded
+exception) establishes the intended check, never its result - treat it as `Reported` intent
+unless executed evidence exists.
+
+Every advisory-derived finding carries an applicability verdict: `applicable`, `conditional`
+with the enabling feature or configuration named, `inapplicable` with the disabling evidence
+cited, or `unverified`.
+
+Advisory presence in a lockfile is not exploitability.
+
+Check manifest metadata completeness: `license` or `license-file`, the toolchain floor field,
+`repository`, and description fields per the stack's manifest spec.
+
+A missing machine-readable license field is a packaging-metadata finding, distinct from
+license compliance itself.
+
 ## SBOM And License Evidence
 
 For executable deliverables, check for a machine-readable component inventory tied to the audited

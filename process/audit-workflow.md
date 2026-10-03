@@ -20,11 +20,11 @@ A review report applies the same phases with the deltas defined in
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 1446 | Intake Checklist guidance        |
-| Handling Thin Input     | 1465 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1476 | Single-Dimension Audits guidance |
-| Re-Audit                | 1486 | Re-Audit guidance                |
-| Multi-Project Audits    | 1552 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1617 | Intake Checklist guidance        |
+| Handling Thin Input     | 1636 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1647 | Single-Dimension Audits guidance |
+| Re-Audit                | 1657 | Re-Audit guidance                |
+| Multi-Project Audits    | 1723 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -145,6 +145,27 @@ tracked-artifact rules under Evidence Gathering.
 Prior-audit discovery stays bounded: search only the locations named under Audit mode and
 previous reports, and never descend into dependency, vendor, or nested-repository trees to
 find reports.
+
+**Snapshot identity**
+
+During intake, record the audited tree's identity so every claim can be anchored:
+
+- For each audited repository root, record `git rev-parse HEAD`, the current branch or
+  detached state, and `git status --porcelain` to classify the tree as clean or dirty.
+- A dirty tree lists its dirty paths in the evidence ledger, not in Document Information.
+- When no VCS metadata exists, record `unversioned working tree` plus the capture timestamp.
+
+These values render in Document Information per `process/report-format/opening.md`, and every
+claim in the report binds to this snapshot.
+
+**External report discovery**
+
+During intake, look for audit or assessment reports of the same subject produced outside
+this workflow, in the documentation roots and the repository root.
+
+Each external report is triangulation input per `synthesis/report-triangulation.md`:
+contradictory claims become Contradiction Register rows resolved against the declared
+snapshot, never adopted truth and never dismissed.
 
 **Agent-facing artifact discovery**
 
@@ -327,7 +348,7 @@ Mark the changed-parameters option recommended instead only when the user's requ
 a parameter change, for example "re-audit at a different scale".
 
 On a confirmed re-audit, recover the previous report's detail level, scale, language, filename,
-and Descriptive mode.
+report style, and Descriptive mode.
 
 Recover Descriptive mode from the previous report's Document Information row when present,
 otherwise from the presence or absence of its Glossary section.
@@ -393,6 +414,7 @@ Default parameters:
 | Parameter               | Default                                                                                 |
 |-------------------------|-----------------------------------------------------------------------------------------|
 | Report type             | Audit - Review only on an explicit review, amendment, or improvement-plan request       |
+| Report style            | `audit` - the governance contract, `hunt` produces the defect-hunt genre                |
 | Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/`, else Inline |
 | Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit  |
 | Report language         | Match the language of the user's request                                                |
@@ -401,6 +423,7 @@ Default parameters:
 | Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                 |
 | Trade-off analysis      | Standalone section + embedded into relevant findings                                    |
 | Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it |
+| Evidence mode           | `source-only` - `executed-readonly` runs commissioned non-mutating analyzers only       |
 
 The agent MUST ask the user and MUST NOT skip this step.
 
@@ -427,7 +450,7 @@ If the user accepts defaults or says "bypass", "defaults", or equivalent, procee
 Scope Definition using the values above.
 
 If the user chooses to configure, ask only the unresolved core parameter prompts in this order:
-delivery and output file, detail level, and evaluation scale.
+delivery and output file, report style, detail level, and evaluation scale.
 At each prompt, offer a bypass option to accept the remaining defaults and proceed.
 
 When every parameter question is resolved - defaults accepted, configured answers given, or a
@@ -459,7 +482,8 @@ Every routine prompt carries three kinds of choices:
 3. A fixed trailing option `Use defaults for all remaining questions` that accepts every
    remaining default and proceeds directly to Scope Definition.
 
-Routine prompts are limited to delivery and output file, detail level, and evaluation scale.
+Routine prompts are limited to delivery and output file, report style, detail level, and
+evaluation scale.
 
 For a review report the evaluation-scale prompt is skipped and Descriptive mode does not
 apply, since the review carries no scorecard and no Glossary.
@@ -632,6 +656,42 @@ Analysis runs in English regardless of the report language: evidence notes, find
 assembled part files are written in English, and the report is rendered into the report language
 in a single pass, per `principles/output-style.md`.
 
+**Report style**
+
+Ask: "Which report style should the report use?"
+
+- **`audit`** (default) - the governance contract defined across `process/report-format/`:
+  per-project assurance blocks, scorecard, risk and debt registers, validation record.
+- **`hunt`** - the defect-hunt genre defined in `process/report-format/hunt-style.md`:
+  a verdict-first, domain-organized engineering report with `file:line` evidence,
+  journey traces, breaking-change assessment, and a phase-mapped roadmap.
+  Both styles share the same evidence rigor, finding schema, and completeness rules -
+  style changes presentation, never what must be found.
+
+The question ends with `Use default: audit` and `Use defaults for all remaining questions`.
+Under JSON exchange this is the `report-style` `choice` parameter.
+
+For a review report this prompt is skipped, since the review format is fixed.
+
+**Evidence mode**
+
+Use **`source-only`** by default.
+
+Do not ask this as a routine prompt.
+
+Apply `executed-readonly` only when the user explicitly commissions it.
+
+- **`source-only`** (default) - the audit executes nothing: no build, test, linter, scanner,
+  or generator runs against the project, and verification steps become Operator
+  Verification Handoff entries.
+- **`executed-readonly`** - additionally runs non-mutating, read-only analyzers the user
+  names, such as dependency advisory or policy scanners (`cargo audit`, `cargo deny check`).
+  The project itself is still never built, tested, or run, no tool is installed or upgraded
+  for the audit, and every executed check is recorded in the Executed Evidence Log with
+  tool, version, exact command, and timestamp per `process/report-format/closing.md`.
+
+Under JSON exchange this is the `evidence-mode` `choice` parameter.
+
 **Detail level**
 
 Ask: "What level of detail should the report include?"
@@ -732,6 +792,18 @@ Mark unstated constraints as `NOT SPECIFIED`.
 
 Determine the maturity level claim, if any, so it can be tested against evidence later.
 
+**Domain profile**
+
+Classify each in-scope project's nature and purpose from its manifests, entry points,
+protocols, persisted data, and documentation claims, per `references/domain-profiles.md`.
+
+Record the primary nature and any secondary natures, and load the matching probe set:
+each activated probe is mandatory Evidence Gathering work, and a skipped probe needs a
+recorded reason.
+
+The domain profile also decides which documentation claims count as advertised workflows
+for the journey traces below.
+
 **Audit Purpose And Verification Scope**
 
 Record whether the decision is engineering improvement, production readiness, or technical due
@@ -743,7 +815,7 @@ obligations using the existing assessment categories rather than creating a sepa
 If business artifacts are unavailable, retain those concerns as `UNKNOWN` and request specific
 artifacts, do not present a source-only review as complete business due diligence.
 
-The audit runs source-only.
+Under the default `source-only` evidence mode the audit executes nothing.
 
 It never compiles, builds, or tests the project and never runs linters, scanners,
 or generators against it, tool availability cannot be assumed and executing untrusted code is out of
@@ -757,7 +829,15 @@ in scope.
 The audit never installs tools, uploads source, changes project policies, executes builds or
 tests, or accesses live systems.
 
-Record the scope as `source-only`.
+Under `executed-readonly` evidence mode the agent may additionally run the non-mutating,
+read-only analyzers the user explicitly commissioned, such as dependency advisory or policy
+scanners.
+
+The project itself is still never built, tested, or run, no tool is installed or upgraded for
+the audit, and every executed check lands in the Executed Evidence Log per
+`process/report-format/closing.md`.
+
+Record the scope as `source-only` or `executed-readonly`.
 
 Documented or committed check results are `REPORTED` evidence, not audit execution.
 
@@ -788,6 +868,51 @@ find representative source files that follow or violate it.
 Also collect the external best practices, style guides,
 or conventions that the standards reference or that apply to the stack,
 for the standards-quality evaluation in `assessment/standards-conformance.md`.
+
+**Cross-boundary traces**
+
+Module-by-module reading is not sufficient evidence for capabilities that span components.
+
+For every identifier or value that crosses a component boundary - document paths, session or
+request identifiers, tokens and claims, configuration keys, error shapes - build a
+producer/consumer trace: name each producer site, the representation it emits, every consumer
+site, and the representation each expects.
+
+A representation mismatch across a boundary is a finding.
+
+Record the trace itself as evidence so conformance or absence claims cite traced hops, not
+searched files.
+
+For each advertised workflow named by the domain profile, trace the declared path through its
+producer and consumer hops and record conforming and failing hops.
+
+Advertised workflows come from the documentation and the profile, not only from observed code.
+
+**Advertised-capability reality check**
+
+For every capability the subject's documentation advertises, confirm a non-trivial
+implementation exists: read the code path and verify it produces real behavior rather than a
+placeholder, stub, or uniform default.
+
+A documented capability backed by a stub is a spec violation per
+`process/readiness-and-scoring.md`.
+
+**Toolchain compatibility check**
+
+Compare declared toolchain requirements - manifest `rust-version` and edition, builder and CI
+image versions, documented prerequisites - against the language features, APIs, and dependency
+minimum requirements the code uses.
+
+Record the comparison as evidence even when everything is compatible.
+
+**Lifecycle and defaults sweep**
+
+For identity, session, token, key, and credential objects, trace issuance, expiry, revocation,
+rotation, and behavior after identity removal or demotion.
+
+For deployment and configuration, census the shipped defaults - ports, addresses,
+credentials, debug endpoints, transport security, and file permissions - against
+least-privilege expectations.
 
 For dependency analysis, derive the component inventory from manifests and lockfiles as text,
 per `references/dependency-manifests.md`.
@@ -864,6 +989,10 @@ An item is dropped only with a recorded reason.
 
 Nothing collected is silently unused.
 
+Also record the read depth of each source file - full read, sampled, or listed only - so the
+Auditing Methodology section can publish the read-depth table per
+`process/report-format/methodology-and-scoring.md`.
+
 **Verification Plan**
 
 Build a small verification matrix per project before assessment.
@@ -872,7 +1001,12 @@ Select the checks that would verify material claims from the project's documente
 the relevant assessment guides: build and test commands, lint and formatting rules, dependency
 advisory scans, and license or SBOM checks.
 
-The audit never executes them.
+Under `source-only` the audit never executes them. The matrix becomes the Operator
+Verification Handoff.
+
+Under `executed-readonly` only the commissioned non-mutating analyzers run - builds, tests,
+and the project itself still never execute - and their results are `EXECUTED` evidence in the
+Executed Evidence Log rather than `NOT RUN` rows.
 
 For each selected check, record what the repository itself shows: a documented command,
 a pipeline step, a committed report, or nothing at all.
@@ -894,7 +1028,8 @@ A missing check is missing evidence, not a missing feature.
 **No execution**
 
 The audit never compiles, builds, or tests the project and never runs linters, scanners, or
-generators against it.
+generators against it, except the commissioned non-mutating analyzers under
+`executed-readonly`.
 
 Read-only inspection of repository contents is still used: file listing, search, and version
 control history.
@@ -978,6 +1113,9 @@ Exclusions.
 
 Do not force a conditional section onto a subject it does not fit.
 
+Run every probe activated by the domain profile before assigning statuses. A skipped probe
+needs a recorded reason.
+
 Assign a status (`PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`) per the rules in
 `principles/evaluation-rules.md`.
 
@@ -990,6 +1128,10 @@ Record evidence, concrete risks, and neutral notes for each category.
 
 For a review report, synthesize the sections defined in `process/review-report.md`
 instead of the audit sections below.
+
+When the report style is `hunt`, synthesize per `process/report-format/hunt-style.md`.
+That style reuses the finding, risk, and roadmap schemas below with its own section order
+and adds the journey-trace matrix, per-domain ratings, and the phase-mapped roadmap.
 
 Render the Audit Type Coverage table first,
 from the fixed row set in `references/audit-taxonomy.md`.
@@ -1285,6 +1427,35 @@ Confirm `System type`, `Maturity level`, `Audit Purpose`, and the readiness gate
 contradict one another - a `production system` claim against a `pre-production` engagement
 context, or an `AI Governance Audit` exclusion used to suppress AI-provenance findings, is a
 defect to resolve before delivery.
+
+Confirm Document Information carries `Subject Revision` with the recorded commit SHA or the
+`unversioned working tree` token, `Dirty-Tree State` when the tree is dirty, and the evidence
+mode.
+
+When an external report was found during intake, confirm the Contradiction Register is present
+with a status on every row per `synthesis/report-triangulation.md`.
+
+Confirm every finding's `Evidence` field cites `path:line` ranges wherever the claim rests on
+source code. A file-level citation is acceptable only for an absence claim that also names the
+search performed or the hops traced.
+
+Recompute the scorecard's stated overall from the displayed applicable dimensions and confirm
+it equals the reported mean after the documented rounding rule. `UNKNOWN` and `N/A` dimensions
+stay out of the denominator.
+
+Confirm no summary table promotes a finding's verification status beyond what its block
+carries - a `Runtime confirmed: no` finding cannot appear as verified in any summary.
+
+Under `executed-readonly`, confirm the Executed Evidence Log lists every executed check with
+tool, version, exact command, and timestamp, and that the report claims no build, test, or
+project run.
+
+Under `source-only`, confirm the Operator Verification Handoff covers every material claim
+that could not be resolved from source, each entry naming command, pass criteria, and the
+finding it would confirm or close.
+
+When the report style is `hunt`, confirm the layout, verdict block, and rating columns match
+`process/report-format/hunt-style.md`.
 
 Before composing the report body, run a tooling probe against the report-production scripts:
 

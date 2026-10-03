@@ -146,6 +146,17 @@ An entry point no test references is a coverage gap to report, not to assume tes
 Apply the stub-detection recipe from `references/topics/evidence-recipes.md` to the suite:
 tests that only re-assert a stub's fixed output evidence nothing about the subject.
 
+**Test-double adequacy**
+
+Inventory the test doubles and fixtures - fake repositories, in-memory stores, stub
+transports, hand-built responses - and map which production boundary each one replaces.
+
+A journey whose tests exercise only doubles never saw production behavior: record which
+advertised workflows from `references/domain-profiles.md` have real-backend coverage versus
+double-only coverage, and which components no test touches.
+
+Test quantity is a census figure, not an adequacy statement.
+
 ## Status Criteria
 
 - `PASS`: Tests exist across the layers the system needs in a balanced pyramid, the code is

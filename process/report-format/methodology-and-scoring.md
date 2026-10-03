@@ -103,6 +103,23 @@ Git commit history was reviewed for the last 15 commits.
 No builds, tests, or tools were executed,
 all findings are based on static inspection of the repository contents."
 
+**Read-depth table**
+
+At `Standard` and `Detailed` detail levels, the Methodology section carries a read-depth table
+disclosing how deep each source area was examined, so a reader can tell what absence of a
+finding means:
+
+| Area | Files | Read depth |
+|------|-------|------------|
+
+Read-depth values: `Full read` (every file read), `Sampled` (named subset read, the sampling
+rule stated), or `Listed` (counted but not read).
+
+A `Listed` area supports no conformance claim. Mark its categories `UNKNOWN` where applicable.
+
+Group rows by module or directory so the table stays compact. It is a coverage disclosure,
+not a per-file list.
+
 **Verification And Evidence Ledger**
 
 Include the per-project check summary and evidence records from `process/audit-workflow.md`.
@@ -245,7 +262,7 @@ for empty positions, such as `★★★☆☆` for `3`.
 
 For `3 stars`, use three positions, such as `★★☆` for `2`.
 
-Render `UNKNOWN` as text, not as a star bar; `N/A` rows are omitted from the table entirely.
+Render `UNKNOWN` as text, not as a star bar. `N/A` rows are omitted from the table entirely.
 
 **Zero is not a score.** The value `0` is reserved and never used.
 

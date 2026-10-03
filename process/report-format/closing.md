@@ -116,6 +116,41 @@ live validation has confirmed.
 
 For multi-project reports, qualify each row with the project identifier.
 
+## Operator Verification Handoff
+
+This section turns the source-only boundary into an actionable follow-up.
+
+It is always present under `source-only` evidence mode.
+
+Under `executed-readonly` it lists only the checks outside the commissioned analyzer set.
+
+Each row names one material claim the audit could not resolve from source, the exact check
+that resolves it, and the finding, risk, or rating the check would confirm or close:
+
+| Claim              | Command / Procedure          | Pass Criteria               | Resolves         |
+|--------------------|------------------------------|-----------------------------|------------------|
+| <unresolved claim> | <exact command or procedure> | <observable pass condition> | FND-XXX / rating |
+
+Commands come from the project's documented tooling where it exists.
+
+A claim with no proposed check is a defect of the audit, not of the subject.
+
+## Executed Evidence Log
+
+Present only under `executed-readonly` evidence mode.
+
+One row per commissioned analyzer run:
+
+| Check | Tool & Version | Command | Timestamp | Result | Resolves |
+|-------|----------------|---------|-----------|--------|----------|
+
+Each row records the exact command, the tool and advisory-database or ruleset revision, the
+exit status or outcome, and a retained-output reference (sanitized artifact path or digest)
+when output exists.
+
+Rows are `EXECUTED` evidence. They describe analyzer output, never project behavior, and
+never imply a build, test, or run of the subject occurred.
+
 ## Re-audit And Follow-up Plan
 
 Include this section only when the Actionable Remediation Roadmap contains at least one P1 or P2

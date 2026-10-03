@@ -24,8 +24,8 @@ One row per recommendation.
 
 Use this fixed column order:
 
-| Rec | Priority | Finding | Recommendation | Impact | Effort | Complexity | Verification |
-|-----|----------|---------|----------------|--------|--------|------------|--------------|
+| Rec | Priority | Finding | Recommendation | Impact | Effort | Complexity | Breaking | Verification |
+|-----|----------|---------|----------------|--------|--------|------------|----------|--------------|
 
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
@@ -40,6 +40,8 @@ Column meanings:
 - **Effort**: the estimated engineering effort to implement (`High`, `Medium`, `Low`).
 - **Complexity**: the architectural or organizational complexity of the change (`High`, `Medium`,
   `Low`).
+- **Breaking**: the compatibility impact of the change (`None`, `Internal`, or `Public API`),
+  matching the finding's `Breaking change` field.
 - **Verification**: a specific test, command, or process to confirm the fix is successful.
 
 ## Priority Tiers
@@ -71,6 +73,9 @@ Priority expresses urgency, not a delivery commitment, use only supplied or appr
 - Any recommendation stated in the Trade-off Analysis must also appear as a `REC-XXX` in this
   roadmap, traced to the same `FND-XXX`. Do not allow recommendations to exist only in the trade-off
   table.
+- Disposition completeness: every open non-PASS finding maps to at least one `REC-XXX` or to an
+  explicit `Accepted`, `Deferred`, or `Rejected` disposition with its rationale recorded next to
+  the finding. No adverse finding is silently unactioned.
 
 ## Cost To Reach Readiness
 
@@ -135,7 +140,7 @@ Use exactly these classes:
 
 An absent capability assessed `No documented rationale` or `Undetermined` per
 `principles/evaluation-rules.md` lands in `Not recommended`, since the report cannot tell whether
-the gap is deliberate; `Deliberate - recorded decision` lands there only when the recorded
+the gap is deliberate. `Deliberate - recorded decision` lands there only when the recorded
 decision still holds under current evidence.
 
 Worked example: a subject ships no rate limiting and no documented reason for its absence, so
