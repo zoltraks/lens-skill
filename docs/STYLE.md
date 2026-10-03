@@ -19,10 +19,10 @@ Every document created or modified as part of this skill must follow the rules b
 | Headings And Lists         | 147  | Heading depth, lists, and spacing               |
 | Code And Inline Formatting | 198  | Fences, code spans, and special characters      |
 | Tables                     | 276  | Source-width alignment and automated formatting |
-| Characters And Language    | 442  | Box-drawing, emoji, and per-language rules      |
-| File References            | 453  | Relative paths and backticked file paths        |
-| Skill Requirements         | 477  | Frontmatter and progressive disclosure          |
-| Maintenance                | 538  | File naming, encoding, and registration         |
+| Characters And Language    | 455  | Box-drawing, emoji, and per-language rules      |
+| File References            | 476  | Relative paths and backticked file paths        |
+| Skill Requirements         | 490  | Frontmatter and progressive disclosure          |
+| Maintenance                | 551  | File naming, encoding, and registration         |
 
 ## Document Structure
 
@@ -304,6 +304,19 @@ This means the separator contains the calculated column width plus two hyphens.
 The extra hyphens account for the single space before and after each cell value.
 
 The minimum width of any column is three characters.
+
+### Empty Cells
+
+A cell may be empty only in a column the separator row declares.
+
+Every separator cell carries at least one hyphen.
+
+A space-only separator cell is a defect, not a layout choice.
+
+A column that stays empty in every row is not a column - delete it.
+
+An intentionally empty first cell keeps the single-pipe start and padding like any other
+cell - `||` is never a valid row start.
 
 ### Cell Padding
 

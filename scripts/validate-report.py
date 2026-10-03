@@ -144,15 +144,57 @@ def is_separator(cells: list[str]) -> bool:
     return bool(cells) and all(cell and set(cell) <= {"-"} for cell in cells)
 
 
+def sep_like(cells: list[str]) -> bool:
+    return (
+        bool(cells)
+        and all(set(cell) <= {"-", ":"} for cell in cells)
+        and any("-" in cell for cell in cells)
+    )
+
+
 def check_tables(lines: list[str], fences: list[bool]) -> list[str]:
     failures: list[str] = []
     for start, rows in table_blocks(lines, fences):
+        for offset, row in enumerate(rows):
+            if row.startswith("||"):
+                failures.append(f"line {start + offset + 1}: table row starts with '||'")
         if len(rows) < 2:
             continue
-        header = content_cells(rows[0])
-        separator = content_cells(rows[1])
-        if not is_separator(separator):
+        sep_index = next(
+            (index for index, row in enumerate(rows) if sep_like(content_cells(row))),
+            None,
+        )
+        if sep_index is None:
+            failures.append(f"line {start + 1}: table has no separator row")
             continue
+        if sep_index != 1:
+            failures.append(
+                f"line {start + sep_index + 1}: separator row is not the second table row"
+            )
+        for index, cell in enumerate(content_cells(rows[sep_index])):
+            if "-" not in cell:
+                failures.append(
+                    f"line {start + sep_index + 1}: separator cell {index + 1} has no hyphen"
+                )
+        data_rows = [
+            row
+            for index, row in enumerate(rows)
+            if index != sep_index and not is_separator(content_cells(row))
+        ]
+        if data_rows:
+            ncols = max(len(content_cells(row)) for row in data_rows)
+            for column in range(ncols):
+                if all(
+                    column >= len(content_cells(row))
+                    or content_cells(row)[column] == ""
+                    for row in data_rows
+                ):
+                    failures.append(
+                        f"line {start + 1}: column {column + 1} is empty in every row"
+                    )
+        if sep_index != 1:
+            continue
+        header = content_cells(rows[0])
         widths = [len(cell) for cell in header]
         for row in rows[2:]:
             cells = content_cells(row)
@@ -919,11 +961,21 @@ def check_coverage_rows(text: str) -> list[str]:
     section = rest[: following.start()] if following else rest
     table = [line for line in section.split("\n") if line.startswith("|")]
     failures: list[str] = []
+    if len(table) < 3:
+        return failures
+    header = [cell.strip() for cell in raw_cells(table[0])]
+    if "Status" not in header:
+        return failures
+    status_idx = header.index("Status")
+    name_idx = header.index("Report type") if "Report type" in header else 0
     for row in table[2:]:
         cells = [cell.strip() for cell in raw_cells(row)]
-        if len(cells) >= 3 and cells[2] and cells[2] not in ("Covered", "Partially", "Not done"):
+        if len(cells) <= status_idx:
+            continue
+        if cells[status_idx] and cells[status_idx] not in ("Covered", "Partially", "Not done"):
+            name = cells[name_idx] if len(cells) > name_idx and cells[name_idx] else row
             failures.append(
-                f"coverage row '{cells[1]}' has status '{cells[2]}', "
+                f"coverage row '{name}' has status '{cells[status_idx]}', "
                 "expected Covered, Partially, or Not done - omit Not Applicable rows"
             )
     return failures

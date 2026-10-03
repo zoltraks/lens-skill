@@ -140,6 +140,8 @@ def parse_glossary(lines: list[str]) -> tuple[list[str], dict[str, str], int, in
         if not row.startswith("|") or re.match(r"^\|[\s\-:|]+\|?$", row):
             continue
         cell = row.split("|")[1].strip()
+        if not cell:
+            continue
         link = re.fullmatch(r"\[([^\]]+)\]\(#([^)]+)\)", cell)
         if link:
             terms.append(link.group(1))

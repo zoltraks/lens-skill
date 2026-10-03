@@ -34,6 +34,11 @@ reports zero issues.
 `finalize-report.py` runs that cycle's three steps in one command when copied alongside them
 under a `.tmp.` name, locating its siblings by filename.
 
+`format-table.py` warns when a row begins with `||` or a column is empty in every row.
+
+`--drop-empty-columns` removes columns that are empty in every row, and separator-shaped
+cells lacking hyphens are normalized on every run.
+
 `lint-prose.py` lints draft report text before assembly for the prose rules the validator
 enforces: heading depth, heading blank-line spacing, semicolons outside code spans, and the
 typographic characters the ASCII convention forbids.
@@ -166,7 +171,7 @@ python scripts/check-references.py .
 python scripts/check-contents.py .
 python scripts/check-update.py
 python scripts/lint-prose.py path/to/draft.md
-python scripts/format-table.py path/to/AUDIT.md
+python scripts/format-table.py path/to/AUDIT.md [--check] [--drop-empty-columns]
 python scripts/align-comments.py path/to/AUDIT.md [--check]
 python scripts/validate-report.py path/to/AUDIT.md [--repo-root path/to/repo]
 python scripts/lint-polish.py path/to/AUDYT.md

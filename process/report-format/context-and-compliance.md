@@ -88,9 +88,9 @@ not a shipped-artifact SBOM and not a claim of SPDX or CycloneDX conformance.
 Build the table per `references/sbom-schema.md` from the manifests and lockfiles read per
 `references/dependency-manifests.md`:
 
-|  | Component | Version | Ecosystem | Relationship | License | License Risk | Advisory Checked | Source File |
-|--|-----------|---------|-----------|--------------|---------|--------------|------------------|-------------|
-|  | <name>    | <ver>   | <purl>    | direct       | <lic>   | <flag>       | N                | <path>      |
+| Component | Version | Ecosystem | Relationship | License | License Risk | Advisory Checked | Source File |
+|-----------|---------|-----------|--------------|---------|--------------|------------------|-------------|
+| <name>    | <ver>   | <purl>    | direct       | <lic>   | <flag>       | N                | <path>      |
 
 License values come from inspected declarations only, `Unknown` otherwise.
 
@@ -116,13 +116,13 @@ detail lives in `FND-CPR` findings, this section states what the pass concluded.
 
 Present the classification counts:
 
-|  | License class   | Components | Notes                                  |
-|--|-----------------|------------|----------------------------------------|
-|  | Permissive      | <count>    | <notable components>                   |
-|  | Weak-copyleft   | <count>    | <notable components>                   |
-|  | Strong-copyleft | <count>    | <notable components, linkage evidence> |
-|  | Proprietary     | <count>    | <notable components>                   |
-|  | Unknown         | <count>    | share of total, hygiene implication    |
+| License class   | Components | Notes                                  |
+|-----------------|------------|----------------------------------------|
+| Permissive      | <count>    | <notable components>                   |
+| Weak-copyleft   | <count>    | <notable components>                   |
+| Strong-copyleft | <count>    | <notable components, linkage evidence> |
+| Proprietary     | <count>    | <notable components>                   |
+| Unknown         | <count>    | share of total, hygiene implication    |
 
 Omit a `License class` row whose `Components` count is zero.
 

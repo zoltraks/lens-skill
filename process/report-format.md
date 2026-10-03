@@ -33,12 +33,12 @@ A present-but-empty section signals a gap, a missing section hides it.
 | Section                                     | Line | What it covers                              |
 |---------------------------------------------|------|---------------------------------------------|
 | Formatting Rules                            | 43   | Formatting Rules guidance                   |
-| Report Delivery And Parameter Configuration | 264  | Report delivery and output configuration    |
-| Detail Level Configuration                  | 310  | Standard, detailed, and brief reports       |
-| Conditional Sections                        | 404  | Inclusion criteria for conditional sections |
-| Section Order                               | 457  | Single-project and multi-project order      |
-| Specification Files                         | 548  | Per-section specification file index        |
-| Pre-Delivery Mechanical Checklist           | 575  | Final mechanical checks                     |
+| Report Delivery And Parameter Configuration | 276  | Report delivery and output configuration    |
+| Detail Level Configuration                  | 322  | Standard, detailed, and brief reports       |
+| Conditional Sections                        | 416  | Inclusion criteria for conditional sections |
+| Section Order                               | 469  | Single-project and multi-project order      |
+| Specification Files                         | 560  | Per-section specification file index        |
+| Pre-Delivery Mechanical Checklist           | 587  | Final mechanical checks                     |
 
 ## Formatting Rules
 
@@ -163,6 +163,16 @@ Incorrect separator format (spaces around hyphens):
 | ------- | ------ |
 ```
 
+**Empty cells**: A cell may be empty only in a column the separator row declares.
+
+Every separator cell carries at least one hyphen - a space-only separator cell is a defect,
+not a layout choice.
+
+A column that is empty in every row is not a column - delete it.
+
+An intentionally empty first cell keeps the single-pipe start and padding like any other
+cell - `||` is never a valid row start.
+
 **Cell padding**: Pad every cell with trailing spaces so it matches the widest cell in that column.
 
 Empty cells must also be padded.
@@ -189,6 +199,8 @@ The compacted version - minimum width that fits every cell - is the correct vers
 - Determine the maximum width per column.
 - Pad every cell with trailing spaces to match the column maximum.
 - Build the separator with hyphens equal to the column width plus two, no spaces.
+- Keep at least one hyphen in every separator cell, and drop any column that stays empty in
+  every row.
 - Verify all `|` separators align vertically in plain text.
 - Never put a literal `|` inside a cell, even inside backticks or code spans. Table parsers split
   on every `|` regardless of code formatting, so write "pipe" or use a different character.

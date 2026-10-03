@@ -155,20 +155,20 @@ whose status is not `NOT APPLICABLE`.
 A type classified `NOT APPLICABLE` produces no row - the table never mentions audit types that
 do not apply to the subject.
 
-|  | Report type                           | Status   | Rationale                              |
-|--|---------------------------------------|----------|----------------------------------------|
-|  | Software Architecture Review          | <status> | <why this status holds for this audit> |
-|  | Code Quality Audit                    | <status> | <why this status holds for this audit> |
-|  | Security Vulnerability Assessment     | <status> | <why this status holds for this audit> |
-|  | Open Source License Compliance Review | <status> | <why this status holds for this audit> |
-|  | Penetration Test                      | <status> | <why this status holds for this audit> |
-|  | Performance Audit                     | <status> | <why this status holds for this audit> |
-|  | Cloud Infrastructure Audit            | <status> | <why this status holds for this audit> |
-|  | AI Governance Audit                   | <status> | <why this status holds for this audit> |
-|  | Technical Due Diligence               | <status> | <why this status holds for this audit> |
-|  | SBOM / Software Composition Analysis  | <status> | <why this status holds for this audit> |
-|  | ISO/IEC 27001 Certification           | <status> | <why this status holds for this audit> |
-|  | SOC 2 Attestation Examination         | <status> | <why this status holds for this audit> |
+| Report type                           | Status   | Rationale                              |
+|---------------------------------------|----------|----------------------------------------|
+| Software Architecture Review          | <status> | <why this status holds for this audit> |
+| Code Quality Audit                    | <status> | <why this status holds for this audit> |
+| Security Vulnerability Assessment     | <status> | <why this status holds for this audit> |
+| Open Source License Compliance Review | <status> | <why this status holds for this audit> |
+| Penetration Test                      | <status> | <why this status holds for this audit> |
+| Performance Audit                     | <status> | <why this status holds for this audit> |
+| Cloud Infrastructure Audit            | <status> | <why this status holds for this audit> |
+| AI Governance Audit                   | <status> | <why this status holds for this audit> |
+| Technical Due Diligence               | <status> | <why this status holds for this audit> |
+| SBOM / Software Composition Analysis  | <status> | <why this status holds for this audit> |
+| ISO/IEC 27001 Certification           | <status> | <why this status holds for this audit> |
+| SOC 2 Attestation Examination         | <status> | <why this status holds for this audit> |
 
 Status values come from the fixed vocabulary in `references/audit-taxonomy.md`: `COVERED`,
 `PARTIALLY`, `NOT DONE`, `NOT APPLICABLE`.

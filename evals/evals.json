@@ -843,6 +843,18 @@
     "No externally supplied severity label is adopted without an applicability analysis against this codebase.",
     "The audit's own findings keep restarted identifiers and are never renumbered to match the external report."
    ]
+  },
+  {
+   "id": 70,
+   "prompt": "A report draft contains tables whose rows begin with `||` or `|  |`, a separator row with a space-only cell, and a column that is empty in every row. Run the format and validation pass and state what it reports.",
+   "expected_output": "The pass reports every defect: `||` row starts, the dashless separator cell, and the fully empty column - and fixes them only on request.",
+   "files": [],
+   "expectations": [
+    "Rows beginning with `||` are reported as defects, not rendered as an intended empty first cell.",
+    "A separator-shaped row whose cell carries no hyphen is normalized to a hyphen separator.",
+    "A column empty in every row is reported and removed only via an explicit drop-columns option.",
+    "Legitimate empty cells - a declared matrix corner or a continuation row under a named column - are preserved untouched."
+   ]
   }
  ]
 }

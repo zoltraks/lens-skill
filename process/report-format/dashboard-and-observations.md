@@ -123,13 +123,13 @@ Present the DORA five-metric view.
 Two metrics are computable as Git-derived proxies,
 three are not measurable from source and must stay `NOT SPECIFIED` with the reason:
 
-|  | DORA metric                     | Result           | Basis                                   |
-|--|---------------------------------|------------------|-----------------------------------------|
-|  | Change lead time                | <proxy interval> | Proxy: median commit-to-tag interval    |
-|  | Deployment frequency            | <proxy cadence>  | Proxy: tag cadence over observed window |
-|  | Failed deployment recovery time | `NOT SPECIFIED`  | Requires incident and deployment data   |
-|  | Change fail rate                | `NOT SPECIFIED`  | Requires incident and rollback data     |
-|  | Deployment rework rate          | `NOT SPECIFIED`  | Requires production incident data       |
+| DORA metric                     | Result           | Basis                                   |
+|---------------------------------|------------------|-----------------------------------------|
+| Change lead time                | <proxy interval> | Proxy: median commit-to-tag interval    |
+| Deployment frequency            | <proxy cadence>  | Proxy: tag cadence over observed window |
+| Failed deployment recovery time | `NOT SPECIFIED`  | Requires incident and deployment data   |
+| Change fail rate                | `NOT SPECIFIED`  | Requires incident and rollback data     |
+| Deployment rework rate          | `NOT SPECIFIED`  | Requires production incident data       |
 
 Label computed values as proxies, never as measured DORA metrics.
 
