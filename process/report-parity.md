@@ -33,14 +33,14 @@ Do not rely on per-run memory of what a previous report happened to include.
 | PAR-8  | The Validation Record self-check table is present and complete                                                                                                                                                                                                    | `process/report-format/closing.md`                    |
 | PAR-9  | Reference standards were re-derived from the per-stack lookup for the detected stack, never copied verbatim from a prior report                                                                                                                                   | `references/stack-standards.md`                       |
 | PAR-10 | When Descriptive mode is enabled, the Glossary indexes every acronym used and every body occurrence links to its description or the index table                                                                                                                   | `process/report-format/opening.md`                    |
-| PAR-11 | The Audit Type Coverage table is present after Document Information and consistent with Scope Exclusions: no `Covered` type is later disclaimed, every `Not done` row has a matching exclusion bullet, and no `Not Applicable` row is rendered                    | `references/audit-taxonomy.md`                        |
+| PAR-11 | The Audit Type Coverage table is present after Document Information and consistent with Scope Exclusions: no `COVERED` type is later disclaimed, every `NOT DONE` row has a matching exclusion bullet, and no `NOT APPLICABLE` row is rendered                    | `references/audit-taxonomy.md`                        |
 | PAR-12 | Every SBOM entry has a License cell populated from an inspected declaration or marked `Unknown`, and every direct component is manifest-sourced                                                                                                                   | `references/sbom-schema.md`                           |
 | PAR-13 | Every Evidence Ledger row and every finding carries an `Observation` or `Concern` tag                                                                                                                                                                             | `principles/evaluation-rules.md`                      |
 | PAR-14 | Every `HIGH` or `CRITICAL` Security & Compliance finding on a network-facing surface carries an `Exploitability` narrative with an explicit confidence tier                                                                                                       | `references/exploitability-narrative.md`              |
 | PAR-15 | The Delivery Practice & Team Continuity section is present per project, DORA-proxy fields are correctly marked as proxies or `NOT SPECIFIED`, and a bus-factor rating is given (`NOT COLLECTED` when Git history was out of scope)                                | `references/delivery-practice.md`                     |
 | PAR-16 | In a non-English report, every section heading and scored-dimension name matches the governing `translations/` file verbatim                                                                                                                                      | `translations/` files                                 |
 | PAR-17 | When the subject holds agent-facing artifacts, the Skills Inventory and Agent Artifacts table list every discovered `SKILL.md` and artifact with a per-item status, excluded items carry an explicit out-of-scope marking, and the spec baseline used is recorded | `assessment/skill-definition.md`                      |
-| PAR-18 | At Standard and Detailed detail levels the Recommendation Classification section is present and every `REC-XXX` in the roadmap appears exactly once with a class of `Recommended`, `Optional`, or `Not recommended`                                               | `synthesis/remediation-roadmap.md`                    |
+| PAR-18 | At Standard and Detailed detail levels the Recommendation Classification section is present and every `REC-XXX` in the roadmap appears exactly once with a class of `RECOMMENDED`, `OPTIONAL`, or `NOT RECOMMENDED`                                               | `synthesis/remediation-roadmap.md`                    |
 
 PAR-5 may report `NOT COLLECTED` when Git history is unavailable, silence is not acceptable.
 
@@ -67,7 +67,7 @@ The Validation Record renders this set so a future report can diff it mechanical
 Run this gate before marking a report final.
 
 1. Build the report's capability set.
-2. Diff it against the Mandatory Core Checklist: every item is `Applied` or `N/A` with an
+2. Diff it against the Mandatory Core Checklist: every item is `APPLIED` or `N/A` with an
    applicability justification.
 3. Diff it against the most recent audit report found for ANY subject during intake
    discovery. Extract that report's capability set from its Validation Record when present,

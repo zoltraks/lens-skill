@@ -30,12 +30,12 @@ A present-but-empty section signals a gap, a missing section hides it.
 | Section                                     | Line | What it covers                              |
 |---------------------------------------------|------|---------------------------------------------|
 | Formatting Rules                            | 40   | Formatting Rules guidance                   |
-| Report Delivery And Parameter Configuration | 258  | Report delivery and output configuration    |
-| Detail Level Configuration                  | 304  | Standard, detailed, and brief reports       |
-| Conditional Sections                        | 398  | Inclusion criteria for conditional sections |
-| Section Order                               | 448  | Single-project and multi-project order      |
-| Specification Files                         | 535  | Per-section specification file index        |
-| Pre-Delivery Mechanical Checklist           | 560  | Final mechanical checks                     |
+| Report Delivery And Parameter Configuration | 261  | Report delivery and output configuration    |
+| Detail Level Configuration                  | 307  | Standard, detailed, and brief reports       |
+| Conditional Sections                        | 401  | Inclusion criteria for conditional sections |
+| Section Order                               | 451  | Single-project and multi-project order      |
+| Specification Files                         | 538  | Per-section specification file index        |
+| Pre-Delivery Mechanical Checklist           | 563  | Final mechanical checks                     |
 
 ## Formatting Rules
 
@@ -72,6 +72,9 @@ avoid trailing punctuation and descriptive qualifiers in parentheses.
 The matching `translations/` file defines the casing rule for non-English reports.
 
 Keep column headers identical to the templates below across every audit.
+
+Prefer single-word column headers where the shorter form stays unambiguous -
+multi-word headers wrap badly in narrow plain-text layouts.
 
 When the user requests a specific language,
 translate the column headers into that language while keeping the structure identical.

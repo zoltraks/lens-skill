@@ -91,7 +91,7 @@ met, or missed - with the subject anchor that supports it.
 Unchanged.
 
 The review is source-only: it never executes, builds, tests, or scans the subject,
-and externally produced results are `Reported` evidence.
+and externally produced results are `REPORTED` evidence.
 
 The evidence ledger stays internal working material.
 
@@ -211,9 +211,9 @@ and why later groups depend on them.
 An intro line states when the sources were reviewed and what they support versus what
 remains a tailored proposal.
 
-| ID | Source    | Relevance and limit             |
-|----|-----------|---------------------------------|
-| S1 | <source>  | <what it grounds and its limit> |
+| ID | Source   | Relevance and limit             |
+|----|----------|---------------------------------|
+| S1 | <source> | <what it grounds and its limit> |
 
 Every `[S#]` cited in the body resolves to a register row, and every register row is cited
 in the body.

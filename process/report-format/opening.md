@@ -10,8 +10,8 @@
 | Section              | Line | What it covers                       |
 |----------------------|------|--------------------------------------|
 | Document Information | 16   | Report metadata and revisions        |
-| Audit Type Coverage  | 123  | Coverage of canonical audit types    |
-| Glossary             | 173  | Abbreviation and acronym definitions |
+| Audit Type Coverage  | 133  | Coverage of canonical audit types    |
+| Glossary             | 183  | Abbreviation and acronym definitions |
 
 ## Document Information
 
@@ -55,7 +55,8 @@ Rows appear in this order, each label in the first column and its value in the s
 - `Subject Revision` - the audited revision of the subject, such as a commit hash.
 - `Dirty-Tree State` - the working tree state at audit time, written only when the tree is dirty.
   Omit the row when the tree is clean.
-- `Skill Version` - the version of the audit skill that produced the report.
+- `Skill Version` - the version of the audit skill that produced the report, written as the
+  bare version string (for example `2.0.1`), never prefixed with the skill name.
 - `Time taken` - elapsed audit time in `MM:SS`, measured from the start timestamp recorded after
   parameter questions were resolved to the final clock reading before report delivery. The
   window spans report part composition, concatenation, formatting, and validation, and an
@@ -65,6 +66,12 @@ Rows appear in this order, each label in the first column and its value in the s
 - `Projects` - the audited project names, multi-project reports only.
 
 Omit a row entirely when the input does not establish its value.
+
+Descriptive value cells share one casing convention: capitalize each descriptive value's first
+letter when other values in the column start uppercase.
+
+Literal values - versions, dates, paths, revisions, identifiers, links, and code - stay
+verbatim.
 
 Never write an empty value cell or a `NOT SPECIFIED` token in this table.
 
@@ -91,6 +98,9 @@ to a different tree.
 
 A report without a `State` row is final: the scoped report is complete, which does not mean the
 system is approved for production.
+
+This distinction is audit-internal semantics - the report itself never carries a sentence
+disclaiming production acceptance.
 
 **Report revision**
 
@@ -133,9 +143,9 @@ The section appears once per report, immediately after `## Document Information`
 report.
 
 Present the fixed table from `references/audit-taxonomy.md`, one row per canonical audit type
-whose status is not `Not Applicable`.
+whose status is not `NOT APPLICABLE`.
 
-A type classified `Not Applicable` produces no row - the table never mentions audit types that
+A type classified `NOT APPLICABLE` produces no row - the table never mentions audit types that
 do not apply to the subject.
 
 |  | Report type                           | Status   | Rationale                              |
@@ -153,10 +163,10 @@ do not apply to the subject.
 |  | ISO/IEC 27001 Certification           | <status> | <why this status holds for this audit> |
 |  | SOC 2 Attestation Examination         | <status> | <why this status holds for this audit> |
 
-Status values come from the fixed vocabulary in `references/audit-taxonomy.md`: `Covered`,
-`Partially`, `Not done`, `Not Applicable`.
+Status values come from the fixed vocabulary in `references/audit-taxonomy.md`: `COVERED`,
+`PARTIALLY`, `NOT DONE`, `NOT APPLICABLE`.
 
-A `Not Applicable` status is decided per type but never rendered as a row.
+A `NOT APPLICABLE` status is decided per type but never rendered as a row.
 
 Default statuses and per-type rationale are defined there.
 
@@ -165,8 +175,8 @@ A status other than the default carries its reason in the Rationale column.
 When the report language is not English, apply the column header, report-type, and status
 translations from the matching `translations/` file.
 
-The matrix must agree with Scope Exclusions: every `Not done` row has a matching exclusion bullet,
-and no `Covered` row is later disclaimed.
+The matrix must agree with Scope Exclusions: every `NOT DONE` row has a matching exclusion bullet,
+and no `COVERED` row is later disclaimed.
 
 PAR-11 checks this consistency.
 

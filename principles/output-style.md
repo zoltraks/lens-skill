@@ -21,12 +21,12 @@ Two audits of similar systems should produce reports of similar shape, vocabular
 | Tone And Register              | 31   | Neutral, precise report voice    |
 | Structure Preferences          | 45   | Tables over paragraphs, ordering |
 | Fixed Vocabularies             | 77   | Status and severity word lists   |
-| Consistency Rules              | 141  | Same input, same output shape    |
-| Plain-Text Friendly Formatting | 157  | Terminal and diff readability    |
-| Multilingual Output            | 246  | Non-English report rendering     |
-| Information Security In Output | 334  | Redaction and disclosure limits  |
-| Report Termination             | 349  | End-of-report rules              |
-| Determinism                    | 358  | Repeatability guarantees         |
+| Consistency Rules              | 151  | Same input, same output shape    |
+| Plain-Text Friendly Formatting | 167  | Terminal and diff readability    |
+| Multilingual Output            | 256  | Non-English report rendering     |
+| Information Security In Output | 363  | Redaction and disclosure limits  |
+| Report Termination             | 378  | End-of-report rules              |
+| Determinism                    | 387  | Repeatability guarantees         |
 
 ## Tone And Register
 
@@ -106,7 +106,7 @@ Use `UNKNOWN` for a missing severity rating, not as a new severity band.
 
 Evidence basis labels are Inspected, Reported, and Inferred.
 
-The audit never executes checks, externally produced results are `Reported`.
+The audit never executes checks, externally produced results are `REPORTED`.
 
 Confidence uses `HIGH`, `MEDIUM`, and `LOW`, separately from severity.
 
@@ -114,9 +114,19 @@ The evidence ledger has no execution column: the audit never executes checks, so
 but unrun check writes `NOT RUN` in its `Result` cell and a source observation carries the
 observed result, separately from category status or scanner findings.
 
-Validation Record results are `Applied`, `PASS`, or `N/A`, separately from category status.
+Validation Record results are `APPLIED`, `PASS`, or `N/A`, separately from category status.
 
 An `N/A` always carries a justification.
+
+A cell drawn from a fixed vocabulary renders the canonical token: a single uppercase word, or
+an established phrase token such as `IN PROGRESS`, `NOT APPLICABLE`, or
+`INSUFFICIENT INFORMATION` where the vocabulary defines one.
+
+This covers status, severity, result, verification, lifecycle, change, readiness, and
+classification columns in every report language.
+
+`* **Field:**` bullet values and running prose keep natural casing - the uppercase token form
+belongs to token columns and token-definition tables only.
 
 **Machine tokens**: Keep status markers, validation results, execution states, evidence IDs,
 finding IDs, risk IDs, recommendation IDs, debt IDs, CWE IDs, CVSS vectors, OWASP IDs,
@@ -330,6 +340,25 @@ Each translation file may override English style rules where the target language
 
 For example, heading capitalization, gender rules for acronyms, diacritics preservation,
 and encoding requirements are defined per language in the translation file.
+
+**Grammatical agreement:**
+
+Where the report language declines adjectives, a declinable cell or `* **Field:**` value takes
+the form that agrees with the noun named by its column header.
+
+In a two-column key-value table, the row label's head noun governs instead.
+
+Each translation file defines the agreement paradigms, the governing noun of each governed
+column and field, and the tokens that do not decline.
+
+**Tokens in running prose:**
+
+When prose cites a fixed-vocabulary value - a severity, a readiness state, a result marker -
+it renders as a bold natural-case word of the report language, declined as grammar requires,
+for example `**high**` or `**not ready**`.
+
+Literal token forms appear only in token columns, `* **Field:**` bullet values, and the tables
+that define the vocabulary.
 
 ## Information Security In Output
 

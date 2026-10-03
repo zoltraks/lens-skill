@@ -156,14 +156,18 @@ Cross-reference any anti-pattern that is also a code-origin signal to its `FND-A
 Include this subsection only when the system is production-bound with significant decisions, per the
 ADR gap guidance in `assessment/change-management.md`.
 
-Present a table of decisions that should carry an ADR, each marked `Recorded` or `Missing`, anchored
+Present a table of decisions that should carry an ADR, each marked `RECORDED` or `MISSING`, anchored
 to the code that embodies the decision.
+
+Name each decision by the artifact or mechanism it governs in a few words -
+`Schema migration`, not `Automated schema migration` - manner qualifiers that state the obvious
+only lengthen the label.
 
 | Decision             | Location                  | ADR Status |
 |----------------------|---------------------------|------------|
-| Data store choice    | `Cargo.toml`, `src/db.rs` | Missing    |
-| Web framework choice | `Cargo.toml`              | Missing    |
-| Session state model  | `main.rs`                 | Missing    |
+| Data store choice    | `Cargo.toml`, `src/db.rs` | MISSING    |
+| Web framework choice | `Cargo.toml`              | MISSING    |
+| Session state model  | `main.rs`                 | MISSING    |
 
 Missing decision rationale limits confidence regardless of origin, do not infer AI authorship or
 an AI default from absent ADRs.

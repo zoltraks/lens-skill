@@ -42,7 +42,7 @@ State any extrapolations made from sampled code to the whole system.
 
 **Standard engagement-type exclusions**
 
-Every report carries these statements in the same register, matching the `Not done` rows of
+Every report carries these statements in the same register, matching the `NOT DONE` rows of
 the Audit Type Coverage table:
 
 - **Dynamic/runtime penetration testing** - `NOT PERFORMED` by default. Security findings on
@@ -165,7 +165,7 @@ Use a table:
 
 | Check | Result  | Evidence / Justification          |
 |-------|---------|-----------------------------------|
-| PAR-1 | Applied | <evidence or `N/A` justification> |
+| PAR-1 | APPLIED | <evidence or `N/A` justification> |
 
 Rows appear in this order:
 
@@ -175,7 +175,7 @@ Rows appear in this order:
    formatting rules.
 3. A `Parity baseline` row naming the report diffed against, or `none found`.
 
-Result values are `Applied`, `PASS`, or `N/A`.
+Result values are `APPLIED`, `PASS`, or `N/A`.
 
 An `N/A` always carries a justification in the Evidence / Justification column.
 

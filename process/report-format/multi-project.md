@@ -45,7 +45,7 @@ The **Executive Summary** is a condensed combined summary.
 Write a short orientation paragraph, then a compact table with one row per project:
 
 ```
-| Project        | Score                   | Lowest              | Top Risks               | Readiness         |
+| Project        | Score                   | Lowest              | Risks                   | Readiness         |
 |----------------|-------------------------|---------------------|-------------------------|-------------------|
 | <project name> | <mean>/<scale> (<band>) | <dimension> <score> | <top RSK-XXX or `NONE`> | <readiness state> |
 ```
@@ -95,16 +95,17 @@ Each project's findings start at `FND-XXX-001`.
 
 Risk IDs and recommendation IDs also reset per project.
 
-Prefix each finding heading with the project identifier so the reader can navigate.
+Qualify each finding heading with the project identifier as a trailing parenthetical so the
+reader can navigate.
 
-For example: `### FND-ARC-001: [api-service] Missing input validation`.
+For example: `### FND-ARC-001: Missing input validation (api-service)`.
 
 On a re-audit, a prior cross-cutting finding that now maps to one project keeps its identifier
-and gains that project's `[project]` prefix, and the mapping is recorded in the Changes Since
+and gains that project's `(<project>)` suffix, and the mapping is recorded in the Changes Since
 Previous Audit section.
 
 A prior finding that applies to several projects splits into one scoped finding per project,
-each carrying the same base identifier under its own project prefix, and the split is recorded
+each carrying the same base identifier under its own project suffix, and the split is recorded
 in the Changes section.
 
 **Shared sections** appear once at the end of the report, after all per-project sections:

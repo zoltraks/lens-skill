@@ -29,6 +29,9 @@ gates.
 
 It does not mean the subject is production-approved.
 
+This distinction is audit-internal semantics - the report itself never carries a sentence
+disclaiming production acceptance.
+
 ## Category Inputs
 
 Start each score from the applicable source categories in `synthesis/project-scorecard.md`.
@@ -125,7 +128,7 @@ A high score with low confidence must remain visible as a high-uncertainty resul
 
 A low score with high confidence describes a strongly evidenced gap.
 
-Runtime claims require runtime evidence or a clearly labeled `Reported` artifact.
+Runtime claims require runtime evidence or a clearly labeled `REPORTED` artifact.
 
 Source inspection alone does not verify runtime behavior.
 
@@ -170,15 +173,15 @@ Use these readiness states:
 
 | State              | Meaning                                                 |
 |--------------------|---------------------------------------------------------|
-| `Ready`            | Stated gates are evidenced and no blocking item remains |
-| `Not ready`        | One or more applicable blocking gates remain open       |
-| `Pending evidence` | Decision depends on missing or unrun evidence           |
-| `Not assessed`     | Readiness was outside the requested audit purpose       |
+| `READY`            | Stated gates are evidenced and no blocking item remains |
+| `NOT READY`        | One or more applicable blocking gates remain open       |
+| `PENDING EVIDENCE` | Decision depends on missing or unrun evidence           |
+| `NOT ASSESSED`     | Readiness was outside the requested audit purpose       |
 
 When the report language is not English, the readiness state is rendered per the matching
 `translations/` file.
 
-`Ready` requires current closure evidence for every blocking gate.
+`READY` requires current closure evidence for every blocking gate.
 
 A proposed gate is not an approved requirement until the responsible stakeholder confirms it.
 

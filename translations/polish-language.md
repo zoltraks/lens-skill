@@ -24,52 +24,52 @@ This file is loaded only when the report language is Polish.
 |---------------------------------------------|------|---------------------------------------------|
 | Analysis And Rendering                      | 74   | Analysis model and terminology precedence   |
 | Status And Severity Vocabulary              | 96   | Status And Severity Vocabulary guidance     |
-| Fixed Vocabulary Values                     | 181  | Polish renderings of descriptive values     |
-| Terminology                                 | 227  | English to Polish technical dictionary      |
-| Calque And Style Replacements               | 363  | Forbidden calques and their replacements    |
-| Parameter Prompts                           | 440  | Polish phrasing for configuration questions |
-| Style Rules                                 | 487  | Style Rules guidance                        |
-| Diacritics Frequently Misspelled            | 610  | Diacritics Frequently Misspelled guidance   |
-| Output Filename                             | 645  | Output Filename guidance                    |
-| Document Information                        | 657  | Document Information guidance               |
-| Audit Type Coverage                         | 696  | Coverage rendering                          |
-| Project Inventory                           | 732  | Project Inventory guidance                  |
-| Glossary                                    | 741  | Glossary guidance                           |
-| Technology Stack                            | 794  | Technology Stack guidance                   |
-| Executive Summary                           | 811  | Executive Summary guidance                  |
-| Health Dashboard                            | 829  | Health Dashboard guidance                   |
-| Scorecard                                   | 840  | Scorecard guidance                          |
-| Scoring Rubrics                             | 865  | Scoring Rubrics guidance                    |
-| Delivery Practice & Team Continuity         | 889  | Delivery and continuity rendering           |
-| High-Level Observations                     | 913  | High-Level Observations guidance            |
-| Auditing Methodology                        | 920  | Auditing Methodology guidance               |
-| System Context                              | 934  | System Context guidance                     |
-| Software Bill of Materials                  | 947  | SBOM section rendering                      |
-| License Compliance Review                   | 965  | License and IP section rendering            |
-| Architectural Assessment                    | 983  | Architectural Assessment guidance           |
-| Architectural Subsections                   | 990  | Architectural Subsections guidance          |
-| Skill Definition Conformance                | 1001 | Skill Definition Conformance guidance       |
-| AI System Assessment                        | 1009 | AI System Assessment guidance               |
-| Standards Conformance                       | 1020 | Standards Conformance guidance              |
-| References                                  | 1041 | References guidance                         |
-| Strengths And What's Working                | 1050 | Strengths And What's Working guidance       |
-| Detailed Technical Findings                 | 1056 | Detailed Technical Findings guidance        |
-| Technical Debt Register                     | 1097 | Technical Debt Register guidance            |
-| Unified Risk Register                       | 1109 | Unified Risk Register guidance              |
-| Trade-off Analysis                          | 1129 | Trade-off Analysis guidance                 |
-| Actionable Remediation Roadmap              | 1141 | Actionable Remediation Roadmap guidance     |
-| Recommendation Classification               | 1155 | Recommendation Classification guidance      |
-| Changes Since Previous Audit                | 1170 | Changes Since Previous Audit guidance       |
-| Scope Exclusions                            | 1204 | Scope Exclusions guidance                   |
-| Limitations And Unknowns                    | 1212 | Limitations And Unknowns guidance           |
-| Re-audit And Follow-up Plan                 | 1224 | Re-audit And Follow-up Plan guidance        |
-| Validation Record                           | 1234 | Validation Record guidance                  |
-| Threat Model                                | 1259 | Threat Model guidance                       |
-| API Contract Conformance                    | 1269 | API Contract Conformance guidance           |
-| API Compatibility And Versioning Discipline | 1277 | API Compatibility And Versioning guidance   |
-| Evidence And Decision Terms                 | 1286 | Evidence And Decision Terms guidance        |
-| Skill Definition Conformance Table          | 1347 | Skill Definition Conformance Table guidance |
-| Review Report                               | 1362 | Review Report guidance                      |
+| Fixed Vocabulary Values                     | 236  | Polish renderings of descriptive values     |
+| Terminology                                 | 282  | English to Polish technical dictionary      |
+| Calque And Style Replacements               | 418  | Forbidden calques and their replacements    |
+| Parameter Prompts                           | 505  | Polish phrasing for configuration questions |
+| Style Rules                                 | 552  | Style Rules guidance                        |
+| Diacritics Frequently Misspelled            | 688  | Diacritics Frequently Misspelled guidance   |
+| Output Filename                             | 723  | Output Filename guidance                    |
+| Document Information                        | 735  | Document Information guidance               |
+| Audit Type Coverage                         | 774  | Coverage rendering                          |
+| Project Inventory                           | 810  | Project Inventory guidance                  |
+| Glossary                                    | 819  | Glossary guidance                           |
+| Technology Stack                            | 872  | Technology Stack guidance                   |
+| Executive Summary                           | 889  | Executive Summary guidance                  |
+| Health Dashboard                            | 907  | Health Dashboard guidance                   |
+| Scorecard                                   | 918  | Scorecard guidance                          |
+| Scoring Rubrics                             | 943  | Scoring Rubrics guidance                    |
+| Delivery Practice & Team Continuity         | 967  | Delivery and continuity rendering           |
+| High-Level Observations                     | 991  | High-Level Observations guidance            |
+| Auditing Methodology                        | 998  | Auditing Methodology guidance               |
+| System Context                              | 1012 | System Context guidance                     |
+| Software Bill of Materials                  | 1025 | SBOM section rendering                      |
+| License Compliance Review                   | 1043 | License and IP section rendering            |
+| Architectural Assessment                    | 1061 | Architectural Assessment guidance           |
+| Architectural Subsections                   | 1068 | Architectural Subsections guidance          |
+| Skill Definition Conformance                | 1083 | Skill Definition Conformance guidance       |
+| AI System Assessment                        | 1091 | AI System Assessment guidance               |
+| Standards Conformance                       | 1102 | Standards Conformance guidance              |
+| References                                  | 1123 | References guidance                         |
+| Strengths And What's Working                | 1132 | Strengths And What's Working guidance       |
+| Detailed Technical Findings                 | 1138 | Detailed Technical Findings guidance        |
+| Technical Debt Register                     | 1188 | Technical Debt Register guidance            |
+| Unified Risk Register                       | 1200 | Unified Risk Register guidance              |
+| Trade-off Analysis                          | 1220 | Trade-off Analysis guidance                 |
+| Actionable Remediation Roadmap              | 1232 | Actionable Remediation Roadmap guidance     |
+| Recommendation Classification               | 1246 | Recommendation Classification guidance      |
+| Changes Since Previous Audit                | 1261 | Changes Since Previous Audit guidance       |
+| Scope Exclusions                            | 1295 | Scope Exclusions guidance                   |
+| Limitations And Unknowns                    | 1303 | Limitations And Unknowns guidance           |
+| Re-audit And Follow-up Plan                 | 1315 | Re-audit And Follow-up Plan guidance        |
+| Validation Record                           | 1325 | Validation Record guidance                  |
+| Threat Model                                | 1350 | Threat Model guidance                       |
+| API Contract Conformance                    | 1360 | API Contract Conformance guidance           |
+| API Compatibility And Versioning Discipline | 1369 | API Compatibility And Versioning guidance   |
+| Evidence And Decision Terms                 | 1378 | Evidence And Decision Terms guidance        |
+| Skill Definition Conformance Table          | 1439 | Skill Definition Conformance Table guidance |
+| Review Report                               | 1454 | Review Report guidance                      |
 
 ## Analysis And Rendering
 
@@ -100,34 +100,22 @@ Fixed report tokens render in Polish in the report body.
 The English forms remain the analysis and validation vocabulary - mechanical checks run on the
 English-mapped working copy.
 
-Statuses and result markers use fixed label forms:
+Tokens that do not decline keep fixed label forms:
 
 | English token              | Polish render                 |
 |----------------------------|-------------------------------|
 | `PASS`                     | `OK`                          |
-| `PARTIAL`                  | `CZĘŚCIOWO`                   |
-| `FAIL`                     | `NIEZALICZONE`                |
-| `UNKNOWN`                  | `NIEZNANE`                    |
+| `PARTIAL` / `Partially`    | `CZĘŚCIOWO`                   |
 | `N/A`                      | `N/D`                         |
 | `ERROR`                    | `BŁĄD`                        |
-| `NOT RUN`                  | `NIEURUCHOMIONE`              |
-| `NOT ASSESSED`             | `NIEOCENIONE`                 |
-| `NOT INSPECTED`            | `NIEZBADANE`                  |
-| `NOT COLLECTED`            | `NIEZEBRANE`                  |
 | `EXCLUDED BY SCOPE`        | `POZA ZAKRESEM`               |
 | `Out of scope`             | `POZA ZAKRESEM`               |
+| `Not Applicable`           | `NIE DOTYCZY`                 |
 | `INSUFFICIENT INFORMATION` | `NIEWYSTARCZAJĄCE INFORMACJE` |
 | `SEVERITY:`                | `WAŻNOŚĆ:`                    |
 | `Score:`                   | `Wynik:`                      |
-| `Covered`                  | `OBJĘTE`                      |
-| `Partially`                | `CZĘŚCIOWO`                   |
-| `Not done`                 | `NIEWYKONANE`                 |
-| `Not Applicable`           | `NIE DOTYCZY`                 |
 | `Observation`              | `OBSERWACJA`                  |
 | `Concern`                  | `WNIOSEK`                     |
-| `Theoretical`              | `TEORETYCZNY`                 |
-| `Static-Confirmed`         | `POTWIERDZONE STATYCZNIE`     |
-| `Dynamically-Verified`     | `ZWERYFIKOWANE DYNAMICZNIE`   |
 
 `Observation` and `Concern` are the evidence/finding type tags:
 `Obserwacja` records an independently re-derivable fact,
@@ -138,38 +126,105 @@ In `* **Field:**` bullet lists they render title-cased `Obserwacja`/`Wniosek`.
 The Due Diligence Coverage column named `Concern` keeps its separate rendering `Obszar ryzyka`,
 the two uses are not the same word's job.
 
-Severity agrees in gender with the governed noun: feminine for `ważność`, `pewność`, and
-`złożoność`, masculine for `wpływ`, `priorytet`, and `wysiłek`, neuter for `prawdopodobieństwo`
-and `ryzyko`.
+Declinable values agree in gender with the noun their column header or `* **Field:**` label
+names.
 
-| English    | Feminine  | Masculine | Neuter    |
-|------------|-----------|-----------|-----------|
-| `CRITICAL` | KRYTYCZNA | KRYTYCZNY | KRYTYCZNE |
-| `HIGH`     | WYSOKA    | WYSOKI    | WYSOKIE   |
-| `MEDIUM`   | ŚREDNIA   | ŚREDNI    | ŚREDNIE   |
-| `LOW`      | NISKA     | NISKI     | NISKIE    |
+The governed nouns are masculine `wynik`, `status`, `charakter odstępstwa`, `wpływ`,
+`wysiłek`, `priorytet`, and `poziom`, feminine `ważność`, `złożoność`, `pewność oceny`,
+`gotowość`, `zmiana`, `weryfikacja`, `klasa`, `ocena`, `zgodność`, and `licencja`, and neuter
+`prawdopodobieństwo`, `wykorzystanie podatności`, `ryzyko rezydualne`, and
+`ryzyko licencyjne`.
 
-In prose, decline the token naturally: `ustalenia o ważności WYSOKIEJ`, `na poziomie WYSOKIM`,
-`ryzyko NISKIE`.
+In a two-column key-value table the row label's head noun governs - `Poziom szczegółowości`
+takes `Szczegółowy` and `Gotowość` takes `NIEGOTOWA`.
 
-Token columns in tables (`Ważność`, `Wpływ`, `Status`, `Wynik`)
-and token-definition tables use the uppercase forms.
+A header that names no declinable noun - `Bezpośredni/przechodni`, `Podstawa`, `Uwagi`,
+`Poprzedni`, `Bieżący` - defers to the row's subject noun, so a transition-table cell
+describing an `ustalenie` renders the neuter form `OTWARTE`/`NOWE`/`ZAMKNIĘTE` and a
+`Bezpośredni/przechodni` cell for a `zależność` renders `deweloperska`.
 
-In `* **Field:**` bullet lists, values use title case consistent with neighboring values,
-for example `Ważność: Wysoka` next to `Status: Otwarte` - never `NISKIE` next to `Otwarte`.
+| English                  | Masculine                 | Feminine                  | Neuter                    |
+|--------------------------|---------------------------|---------------------------|---------------------------|
+| `CRITICAL`               | KRYTYCZNY                 | KRYTYCZNA                 | KRYTYCZNE                 |
+| `HIGH`                   | WYSOKI                    | WYSOKA                    | WYSOKIE                   |
+| `MEDIUM`                 | ŚREDNI                    | ŚREDNIA                   | ŚREDNIE                   |
+| `LOW`                    | NISKI                     | NISKA                     | NISKIE                    |
+| `MODERATE`               | UMIARKOWANY               | UMIARKOWANA               | UMIARKOWANE               |
+| `FAIL`                   | NIEZALICZONY              | NIEZALICZONA              | NIEZALICZONE              |
+| `UNKNOWN`                | NIEZNANY                  | NIEZNANA                  | NIEZNANE                  |
+| `NOT RUN`                | NIEURUCHOMIONY            | NIEURUCHOMIONA            | NIEURUCHOMIONE            |
+| `NOT ASSESSED`           | NIEOCENIONY               | NIEOCENIONA               | NIEOCENIONE               |
+| `NOT INSPECTED`          | NIEZBADANY                | NIEZBADANA                | NIEZBADANE                |
+| `NOT COLLECTED`          | NIEZEBRANY                | NIEZEBRANA                | NIEZEBRANE                |
+| `NOT SPECIFIED`          | NIEOKREŚLONY              | NIEOKREŚLONA              | NIEOKREŚLONE              |
+| `COVERED`                | OBJĘTY                    | OBJĘTA                    | OBJĘTE                    |
+| `NOT DONE`               | NIEWYKONANY               | NIEWYKONANA               | NIEWYKONANE               |
+| `OPEN`                   | OTWARTY                   | OTWARTA                   | OTWARTE                   |
+| `CLOSED`                 | ZAMKNIĘTY                 | ZAMKNIĘTA                 | ZAMKNIĘTE                 |
+| `IN PROGRESS`            | TRWAJĄCY                  | TRWAJĄCA                  | TRWAJĄCE                  |
+| `RESOLVED`               | ROZWIĄZANY                | ROZWIĄZANA                | ROZWIĄZANE                |
+| `ACCEPTED`               | ZAAKCEPTOWANY             | ZAAKCEPTOWANA             | ZAAKCEPTOWANE             |
+| `TRANSFERRED`            | PRZENIESIONY              | PRZENIESIONA              | PRZENIESIONE              |
+| `MONITORING`             | MONITOROWANY              | MONITOROWANA              | MONITOROWANE              |
+| `NEW`                    | NOWY                      | NOWA                      | NOWE                      |
+| `UNCHANGED`              | NIEZMIENIONY              | NIEZMIENIONA              | NIEZMIENIONE              |
+| `REOPENED`               | WZNOWIONY                 | WZNOWIONA                 | WZNOWIONE                 |
+| `VERIFIED` / `INSPECTED` | ZWERYFIKOWANY             | ZWERYFIKOWANA             | ZWERYFIKOWANE             |
+| `CONFIRMED`              | POTWIERDZONY              | POTWIERDZONA              | POTWIERDZONE              |
+| `REPORTED`               | ZADEKLAROWANY             | ZADEKLAROWANA             | ZADEKLAROWANE             |
+| `INFERRED`               | WNIOSEKOWANY              | WNIOSEKOWANA              | WNIOSEKOWANE              |
+| `APPLIED`                | ZASTOSOWANY               | ZASTOSOWANA               | ZASTOSOWANE               |
+| `READY`                  | GOTOWY                    | GOTOWA                    | GOTOWE                    |
+| `NOT READY`              | NIEGOTOWY                 | NIEGOTOWA                 | NIEGOTOWE                 |
+| `PENDING EVIDENCE`       | OCZEKUJĄCY                | OCZEKUJĄCA                | OCZEKUJĄCE                |
+| `RECOMMENDED`            | ZALECANY                  | ZALECANA                  | ZALECANE                  |
+| `OPTIONAL`               | OPCJONALNY                | OPCJONALNA                | OPCJONALNE                |
+| `NOT RECOMMENDED`        | NIEZALECANY               | NIEZALECANA               | NIEZALECANE               |
+| `THEORETICAL`            | TEORETYCZNY               | TEORETYCZNA               | TEORETYCZNE               |
+| `STATIC-CONFIRMED`       | POTWIERDZONY STATYCZNIE   | POTWIERDZONA STATYCZNIE   | POTWIERDZONE STATYCZNIE   |
+| `DYNAMICALLY-VERIFIED`   | ZWERYFIKOWANY DYNAMICZNIE | ZWERYFIKOWANA DYNAMICZNIE | ZWERYFIKOWANE DYNAMICZNIE |
+| `DELIBERATE`             | ŚWIADOMY                  | ŚWIADOMA                  | ŚWIADOME                  |
 
-Uppercase token forms appear only in token-definition tables and in the `Wynik`, `Ważność`,
-`Status`, and `Zmiana` columns. Inline references in prose and in narrative cells use title
-case - `ustalenie o statusie Otwarte` in a table, `ustalenie pozostaje otwarte` in prose.
+Token columns (`Wynik`, `Status`, `Zmiana`, `Weryfikacja`, `Ważność`, `Wpływ`,
+`Prawdopodobieństwo`, `Klasa`, `Ocena`, `Gotowość`, `Pewność oceny`,
+`Charakter odstępstwa`) and token-definition tables use the uppercase agreed form.
 
-A `Wynik`/`Result` column draws its values only from `OK`, `CZĘŚCIOWO`, `NIEZALICZONE`,
-`NIEZNANE`, `N/D`, `NIEURUCHOMIONE`, `NIEOCENIONE`, `NIEZBADANE`, `POZA ZAKRESEM`,
-`Zastosowane`, and the numeric or star forms the selected scale defines.
+A token-column cell is one word - only the indeclinable phrase tokens (`CZĘŚCIOWO`,
+`POZA ZAKRESEM`, `NIE DOTYCZY`, `NIEWYSTARCZAJĄCE INFORMACJE`) run longer.
 
-The `Status` column carries only lifecycle states - `Otwarte`, `Zamknięte`, `OK` -
-and the `Zmiana` column carries only movement since the previous audit:
-`Nowe`, `Bez zmian`, `Wznowione`, `Zamknięte`. The two columns never share values
-on the same row beyond the deliberate `Zamknięte` overlap.
+In `* **Field:**` bullet lists, values keep title case consistent with neighboring values,
+for example `Ważność: Wysoka` next to `Status: Otwarty` - never `NISKIE` next to `Otwarty`.
+
+Running prose cites a token as a bold declined lowercase word - `ustalenia o ważności
+**wysokiej**`, `gotowość oceniona jako **niegotowa**`, `wynik **nieokreślony**`.
+
+Narrative table cells use natural sentence case - `sześć ustaleń wysokich`.
+
+A `Wynik`/`Result` column draws its values only from `OK`, `CZĘŚCIOWO`, `NIEZALICZONY`,
+`NIEZNANY`, `N/D`, `NIEURUCHOMIONY`, `NIEOCENIONY`, `NIEZBADANY`, `POZA ZAKRESEM`,
+`ZASTOSOWANY`, `ZWERYFIKOWANY`, `ZADEKLAROWANY`, `WNIOSEKOWANY`, and the numeric or star
+forms the selected scale defines.
+
+The `Status` column carries lifecycle states - `OTWARTY`, `ZAMKNIĘTY`, `OK`, `TRWAJĄCY`,
+`ROZWIĄZANY`, `ZAAKCEPTOWANY`, `PRZENIESIONY`, `MONITOROWANY` - and coverage states `OBJĘTY`,
+`CZĘŚCIOWO`, `NIEWYKONANY`, `NIE DOTYCZY`.
+
+The `Zmiana` column carries only movement since the previous audit: `NOWA`, `NIEZMIENIONA`,
+`WZNOWIONA`, `ZAMKNIĘTA`. The `Status` and `Zmiana` columns never share values on the same
+row beyond the deliberate `ZAMKNIĘTY`/`ZAMKNIĘTA` overlap.
+
+The `Weryfikacja` state column carries `ZWERYFIKOWANA`, `POTWIERDZONA`, or `ZADEKLAROWANA`
+and stays empty for a `NOWA` finding.
+
+The `Klasa` column carries `ZALECANA`, `OPCJONALNA`, or `NIEZALECANA`, the `Ocena` column
+carries `OK`, `CZĘŚCIOWO`, `NIEZALICZONA`, or `N/D`, and the `Gotowość` column and
+`Gotowość` key-value rows carry `GOTOWA`, `NIEGOTOWA`, `OCZEKUJĄCA`, or `NIEOCENIONA`.
+
+The `Charakter odstępstwa` bullet values are `Brak udokumentowanego uzasadnienia`,
+`Świadomy - udokumentowana decyzja`, `Nieokreślony`, or `N/D`.
+
+Reports written before this revision carried neuter fixed forms (`Otwarte`, `Nowe`,
+`NIEZALICZONE`) in governed columns - a re-audit reads both forms.
 
 Record identifiers (`FND-001`, `EVD-042`, `RSK-010`), priority codes (`P1`-`P4`), `CWE-####`,
 CVSS vectors, commands, and anything inside verbatim evidence stay unchanged.
@@ -204,7 +259,7 @@ Descriptive values are rendered in Polish and agree in gender with the noun they
 | `Undetermined`                   | `Nieokreślony`                           |
 | `Ready`                          | `Gotowy`                                 |
 | `Not ready`                      | `Niegotowy`                              |
-| `Pending evidence`               | `Oczekuje na dowody`                     |
+| `Pending evidence`               | `Oczekujące`                             |
 | `Not assessed`                   | `Nieoceniony`                            |
 | `Full`                           | `Pełna`                                  |
 | `Partial`                        | `Częściowa`                              |
@@ -217,7 +272,7 @@ Descriptive values are rendered in Polish and agree in gender with the noun they
 | `No documented rationale`        | `Brak udokumentowanego uzasadnienia`     |
 | `Deliberate - recorded decision` | `Świadome - udokumentowana decyzja`      |
 | `New`                            | `Nowe`                                   |
-| `Unchanged`                      | `Bez zmian`                              |
+| `Unchanged`                      | `Niezmienione`                           |
 | `Reopened`                       | `Wznowione`                              |
 | `Closed`                         | `Zamknięte`                              |
 | `Confirmed`                      | `Potwierdzone`                           |
@@ -349,7 +404,7 @@ identically.
 | triage                                 | przegląd i klasyfikacja                                          |
 | trust boundary                         | granica zaufania                                                 |
 | unauthenticated                        | bez uwierzytelnienia                                             |
-| verified in sources                    | zweryfikowane w repozytorium                                     |
+| verified in sources                    | zweryfikowany w repozytorium                                     |
 | version drift                          | rozbieżność wersji / niespójność wersjonowania                   |
 | version pinning                        | zamrożenie wersji                                                |
 | visual designer                        | projektowanie wizualne                                           |
@@ -401,9 +456,9 @@ Keep entries as single words or short fixed phrases the checker can match litera
 | kosztują kontekst        | zajmują kontekst / zużywają kontekst             | cost context                                          |
 | przypięty (wersja)       | zamrożony (wersja)                               | `przypięcie` is reserved for host keys                |
 | nieprzypięty toolchain   | nieustalona wersja środowiska                    | unpinned toolchain                                    |
-| pod                      | poniżej / w ramach / zgodnie z                   | `under` calque: `pod nagłówkiem` → `w sekcji`         |
+| pod                      | poniżej / w ramach / zgodnie z                   | `under` calque: `pod nagłówkiem` -> `w sekcji`        |
 | plus (spójnik)           | oraz / a także                                   | `plus` never joins Polish clauses                     |
-| per (przyimek)           | dla każdego / na                                 | `per project` → `dla każdego projektu`                |
+| per (przyimek)           | dla każdego / na                                 | `per project` -> `dla każdego projektu`               |
 | niesie (cecha)           | wnosi / powoduje                                 | a branch does not carry traits like a person          |
 | dotyka                   | dotyczy / zmienia                                | touches                                               |
 | zyskuje                  | zostaje wzbogacony o / otrzymuje                 | gains                                                 |
@@ -436,6 +491,16 @@ Keep entries as single words or short fixed phrases the checker can match litera
 | dane skrapane            | dane skrapowane                                  | scraped data                                          |
 | usankcjonować            | sankcjonować / formalizować                      | misspelling                                           |
 | prozatorski              | opisowy / narracyjny                             | prosaic                                               |
+| tier                     | poziom                                           | exploitability tier                                   |
+| drift                    | rozbieżność / dezaktualizacja                    | English word inside Polish prose                      |
+| uplok                    | wgrywanie / przesyłanie                          | misspelled `upload`                                   |
+| upload                   | wgrywanie / przesyłanie                          | upload to a remote store                              |
+| seed                     | dane inicjalizacyjne / wpis inicjalizacyjny      | seed data, seeded account                             |
+| fallback                 | mechanizm awaryjny / obsługa zastępcza           | bare noun - `fallbackData` in code stays verbatim     |
+| pipeline                 | proces CI / proces                               | bare noun - a job name in code stays verbatim         |
+| konsumuj                 | używają / pobierają                              | consume                                               |
+| skanery podatności       | skanowanie podatności                            | the unrun activity, not the tools                     |
+| skanerów podatności      | skanowania podatności                            | same phrase, genitive                                 |
 
 ## Parameter Prompts
 
@@ -528,7 +593,19 @@ Apply these phrasing rules:
 - `CRLF`, `CR`, and `LF` are character codes, do not expand or describe them.
 - Use `odpowiednie do przedmiotu` for "applicable to the subject", not `stosowne do przedmiotu`.
 - Within a table column, keep capitalization consistent: when most cells in a column start with an
-  uppercase letter, capitalize the first letter of every value in that column.
+  uppercase letter, capitalize the first letter of every value in that column. The rule covers the
+  value column of the `Informacje o dokumencie` table the same way - `Doskonalenie inżynieryjne`,
+  `Wewnętrzne środowisko produkcyjne` - while literal values (versions, dates, paths, revisions,
+  links) stay verbatim.
+- A value cell that carries a fixed-vocabulary token renders the agreed uppercase form, and the
+  `Wersja umiejętności` cell carries the bare version (`2.0.1`), never a product-name prefix.
+- When one modifier governs a likelihood-impact pair in prose, name `prawdopodobieństwo` first
+  and join with `oraz`: `o wysokim prawdopodobieństwie oraz wpływie`.
+- The static-scope sentence reads `Nie uruchamiano aplikacji, testów, budowania ani skanowania
+  podatności.` - `skanowanie` names the unrun activity, `skanery` would name tools.
+- In a multi-project report the project tag trails the title or heading as a parenthetical -
+  `Brak pliku LICENSE (backend)`, `### FND-SEC-001: Tytuł (backend)` - never a `[backend]`
+  prefix.
 - `* **Field:**` bullet-list values start with an uppercase letter, for example
   `Podstawa: Kontrola dostępu bez uwierzytelnienia`. Values that start with a code span
   or link stay verbatim.
@@ -545,7 +622,8 @@ Apply these phrasing rules:
   (`przypięcie klucza hosta`, `przypięcie known_hosts`).
 - `new endpoint` as a unit of change reads `nowa operacja`, and the standalone anglicism `endpoint`
   stays.
-- `Inferred` renders `Wnioskowane`, not `Wywnioskowane`.
+- `Inferred` renders `Wnioskowane` in descriptive use and `WNIOSEKOWANY`/`WNIOSEKOWANA`/
+  `WNIOSEKOWANE` in token columns, never `Wywnioskowane`.
 - Keep one register per report. The default register is everyday Polish software-engineering
   usage (`audyt`, `audytor`, `audytowanie`), not the ISO-standards register that writes
   `audit`/`auditor`. The ISO spelling is a documented exception only, never mixed in with the
@@ -714,8 +792,8 @@ Value cells use the Fixed Vocabulary Values table for `State`, `Detail Level`, `
 | ISO/IEC 27001 Certification           | Certyfikacja ISO/IEC 27001              |
 | SOC 2 Attestation Examination         | Badanie atestacyjne SOC 2               |
 
-The four coverage statuses render per Status And Severity Vocabulary: `OBJĘTE`,
-`CZĘŚCIOWO`, `NIEWYKONANE`, `NIE DOTYCZY`.
+The four coverage statuses render per Status And Severity Vocabulary: `OBJĘTY`,
+`CZĘŚCIOWO`, `NIEWYKONANY`, `NIE DOTYCZY`.
 
 A row classified `NIE DOTYCZY` is omitted from the table entirely.
 
@@ -812,7 +890,7 @@ specification, a framework, a metric set, a file format - not just the expansion
 
 | English                        | Polish                      |
 |--------------------------------|-----------------------------|
-| Executive Summary              | Podsumowanie zarządcze      |
+| Executive Summary              | Podsumowanie wykonawcze     |
 | Field                          | Obszar                      |
 | Value                          | Wartość                     |
 | System type                    | Typ systemu                 |
@@ -823,7 +901,7 @@ specification, a framework, a metric set, a file format - not just the expansion
 | Summary description            | Opis podsumowujący          |
 | Production Readiness Threshold | Próg gotowości produkcyjnej |
 | Lowest                         | Najniższy                   |
-| Top Risks                      | Najważniejsze ryzyka        |
+| Risks                          | Ryzyka                      |
 | Readiness                      | Gotowość                    |
 
 ## Health Dashboard
@@ -907,7 +985,7 @@ selected scale:
 | `LOW`                               | `NISKIE`                                 |
 | Support / cost obligations          | Zobowiązania wsparcia i kosztów          |
 
-Metric cells keep machine-readable `NOT SPECIFIED` rendering as `NIEOKREŚLONE`, matching the
+Metric cells keep machine-readable `NOT SPECIFIED` rendering as `NIEOKREŚLONY`, matching the
 fixed-vocabulary treatment of missing organizational data.
 
 ## High-Level Observations
@@ -989,14 +1067,18 @@ License-class cells use the feminine adjective forms shown, agreeing with `licen
 
 ## Architectural Subsections
 
-| English                       | Polish                              |
-|-------------------------------|-------------------------------------|
-| What Works                    | Co działa                           |
-| What Needs Attention          | Co wymaga uwagi                     |
-| Data Flow Diagram             | Diagram przepływu danych            |
-| Design Patterns               | Wzorce projektowe                   |
-| Architecture Decision Records | Rejestry decyzji architektonicznych |
-| Industry Baseline Comparison  | Porównanie z praktyką branżową      |
+| English                       | Polish                             |
+|-------------------------------|------------------------------------|
+| What Works                    | Co działa                          |
+| What Needs Attention          | Co wymaga uwagi                    |
+| Data Flow Diagram             | Diagram przepływu danych           |
+| Design Patterns               | Wzorce projektowe                  |
+| Architecture Decision Records | Rejestr decyzji architektonicznych |
+| ADR                           | ADR                                |
+| Industry Baseline Comparison  | Porównanie z praktyką branżową     |
+
+`Rejestr decyzji architektonicznych` is the in-section label. Where the decisions list stands as
+a main section, `Decyzje architektoniczne` is also correct.
 
 ## Skill Definition Conformance
 
@@ -1082,6 +1164,15 @@ License-class cells use the feminine adjective forms shown, agreeing with `licen
 | Exploitability              | Wykorzystanie podatności         |
 | Evidence                    | Dowód                            |
 
+The `Zweryfikowane` field takes the value `tak` or `nie` followed by the evidence note, for
+example `* **Zweryfikowane:** tak - obserwacja w źródłach`.
+`Pewność oceny` and `Wykorzystanie podatności` carry token values (`WYSOKA`, `TEORETYCZNE`),
+while `Ważność`, `Status`, `Zmiana`, `Typ`, and `Charakter odstępstwa` take title-case phrases
+(`Wysoka`, `Otwarty`, `Nowa`, `Obserwacja`, `Nieokreślony`).
+
+The exploitability narrative labels translate as `Warunek wstępny:`, `Ścieżka:`, `Wpływ:`, and
+`Niepewność:` - they are part of the narrative prose, not fixed tokens.
+
 ### Pillar Names
 
 | English                                   | Polish                                  |
@@ -1130,7 +1221,7 @@ License-class cells use the feminine adjective forms shown, agreeing with `licen
 
 | English               | Polish                |
 |-----------------------|-----------------------|
-| Trade-off Analysis    | Analiza kompromisów   |
+| Trade-off Analysis    | Przegląd kompromisów  |
 | Trade-off             | Kompromis             |
 | Context               | Kontekst              |
 | Option A: gain / cost | Opcja A: zysk / koszt |
@@ -1161,11 +1252,11 @@ License-class cells use the feminine adjective forms shown, agreeing with `licen
 | Recommendation                | Zalecenie               |
 | Class                         | Klasa                   |
 | Basis                         | Podstawa                |
-| Recommended                   | Zalecane                |
-| Optional                      | Opcjonalne              |
-| Not recommended               | Niezalecane             |
+| Recommended                   | ZALECANA                |
+| Optional                      | OPCJONALNA              |
+| Not recommended               | NIEZALECANA             |
 
-Wartość `Undetermined` w polu `Charakter odstępstwa` przyjmuje formę `Nieokreślone`.
+Wartość `Undetermined` w polu `Charakter odstępstwa` przyjmuje formę `Nieokreślony`.
 
 ## Changes Since Previous Audit
 
@@ -1190,16 +1281,16 @@ Wartość `Undetermined` w polu `Charakter odstępstwa` przyjmuje formę `Nieokr
 | Score delta                  | Zmiana wyników                |
 | Dimension                    | Wymiar                        |
 | Direction                    | Kierunek                      |
-| Up                           | W górę                        |
-| Down                         | W dół                         |
-| Unchanged                    | Bez zmian                     |
-| New                          | Nowe                          |
-| Reopened                     | Wznowione                     |
-| Open                         | Otwarte                       |
-| Closed                       | Zamknięte                     |
-| Verified                     | Zweryfikowane                 |
-| Confirmed                    | Potwierdzone                  |
-| Reported                     | Zadeklarowane                 |
+| Up                           | W GÓRĘ                        |
+| Down                         | W DÓŁ                         |
+| Unchanged                    | NIEZMIENIONA                  |
+| New                          | NOWA                          |
+| Reopened                     | WZNOWIONA                     |
+| Open                         | OTWARTY                       |
+| Closed                       | ZAMKNIĘTA / ZAMKNIĘTY         |
+| Verified                     | ZWERYFIKOWANA                 |
+| Confirmed                    | POTWIERDZONA                  |
+| Reported                     | ZADEKLAROWANA                 |
 
 ## Scope Exclusions
 
@@ -1239,11 +1330,11 @@ Wartość `Undetermined` w polu `Charakter odstępstwa` przyjmuje formę `Nieokr
 | Check                    | Kontrola                    |
 | Result                   | Wynik                       |
 | Evidence / Justification | Dowód / uzasadnienie        |
-| Applied                  | Zastosowane                 |
+| Applied                  | ZASTOSOWANY                 |
 | Parity baseline          | Punkt odniesienia zgodności |
 
 A Polish report adds these rows to the Validation Record after the PAR checks,
-each with `Zastosowane`, `PASS`, or `N/D` plus justification:
+each with `ZASTOSOWANY`, `OK`, or `N/D` plus justification:
 
 - `Kontrola pisowni` - a spell-check pass (LanguageTool, Hunspell, or an equivalent
   method named in the Evidence column) ran over the rendered Polish text.
@@ -1268,11 +1359,12 @@ each with `Zastosowane`, `PASS`, or `N/D` plus justification:
 
 ## API Contract Conformance
 
-| English   | Polish |
-|-----------|--------|
-| Dimension | Wymiar |
-| Status    | Status |
-| Evidence  | Dowód  |
+| English                  | Polish             |
+|--------------------------|--------------------|
+| API Contract Conformance | Zgodność kontraktu |
+| Dimension                | Wymiar             |
+| Status                   | Status             |
+| Evidence                 | Dowód              |
 
 ## API Compatibility And Versioning Discipline
 
@@ -1302,9 +1394,9 @@ vectors, tool commands, and execution-state codes.
 | Verified                         | Zweryfikowane                     |
 | Mitigating factors               | Czynniki łagodzące                |
 | Security                         | Bezpieczeństwo                    |
-| Inspected                        | Zweryfikowane w repozytorium      |
-| Reported                         | Zadeklarowane                     |
-| Inferred                         | Wnioskowane                       |
+| Inspected                        | ZWERYFIKOWANY                     |
+| Reported                         | ZADEKLAROWANY                     |
+| Inferred                         | WNIOSEKOWANY                      |
 | Readiness Cost                   | Koszt osiągnięcia gotowości       |
 | Operational Objectives           | Cele operacyjne                   |
 | Due Diligence Coverage           | Zakres weryfikacji                |
@@ -1339,8 +1431,8 @@ vectors, tool commands, and execution-state codes.
 | IP Rights                        | Prawa własności intelektualnej    |
 | Data Obligations                 | Obowiązki dotyczące danych        |
 
-Result markers produced by the audit render in Polish: `NIEURUCHOMIONE`, `NIEOCENIONE`,
-`NIEZBADANE`, `POZA ZAKRESEM`, `NIEWYSTARCZAJĄCE INFORMACJE`, and `N/D`.
+Result markers produced by the audit render in Polish: `NIEURUCHOMIONY`, `NIEOCENIONY`,
+`NIEZBADANY`, `NIEOKREŚLONY`, `POZA ZAKRESEM`, `NIEWYSTARCZAJĄCE INFORMACJE`, and `N/D`.
 
 Record identifiers, CWE IDs, CVSS vectors, tool commands, and code stay unchanged.
 

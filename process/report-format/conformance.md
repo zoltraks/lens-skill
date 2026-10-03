@@ -67,13 +67,13 @@ components - precede the dimension table with a Skills Inventory matrix listing 
 
 | Skill         | Path                          | Name Match | Status       | Key Gaps                        |
 |---------------|-------------------------------|------------|--------------|---------------------------------|
-| pdf-toolkit   | `skills/pdf-toolkit/`         | Yes        | PASS         | None                            |
-| code-reviewer | `.claude/skills/code-review/` | No         | PARTIAL      | `name` does not match directory |
-| legacy-bot    | `plugins/legacy/`             | Yes        | FAIL         | Missing `description` field     |
-| helper-bot    | `.claude/skills/helper/`      | Yes        | Out of scope | Installed, excluded at intake   |
+| pdf-toolkit   | `skills/pdf-toolkit/`         | YES        | PASS         | None                            |
+| code-reviewer | `.claude/skills/code-review/` | NO         | PARTIAL      | `name` does not match directory |
+| legacy-bot    | `plugins/legacy/`             | YES        | FAIL         | Missing `description` field     |
+| helper-bot    | `.claude/skills/helper/`      | YES        | OUT OF SCOPE | Installed, excluded at intake   |
 
 Every discovered `SKILL.md` appears in the matrix, including ones excluded as installed or
-unchecked at intake, which carry `Out of scope` as their status and the exclusion reason as the
+unchecked at intake, which carry `OUT OF SCOPE` as their status and the exclusion reason as the
 gap note.
 
 When non-skill agent-facing artifacts exist, follow the Skills Inventory with an Agent Artifacts
@@ -85,7 +85,7 @@ manifest, instruction file, or MCP configuration:
 | Project memory  | `AGENTS.md` | `AGENTS.md`        | PASS         | Covers build and test         |
 | Cursor rules    | Rules dir   | `.cursor/rules/`   | PARTIAL      | One rule has a dead `globs`   |
 | Greeting plugin | Plugin      | `plugins/greeter/` | PASS         | Manifest `name` present       |
-| Vendor rules    | Rules dir   | `.windsurf/rules/` | Out of scope | Installed, excluded at intake |
+| Vendor rules    | Rules dir   | `.windsurf/rules/` | OUT OF SCOPE | Installed, excluded at intake |
 
 Follow the matrix with the dimension table per skill that warrants detail - at minimum every
 non-`PASS` skill and every skill in a collection - then describe each gap with evidence and its
@@ -107,7 +107,7 @@ Keep this section distinct from AI-generated-code provenance.
 A project can have AI-assisted source without having an AI system,
 and an AI system can contain no evidence about how its source was authored.
 
-An `AI Governance Audit` row omitted from the coverage table as `Not Applicable` never
+An `AI Governance Audit` row omitted from the coverage table as `NOT APPLICABLE` never
 suppresses AI-provenance findings in the `AIP` pillar - the row answers whether
 governance of an AI system was assessed, the pillar answers how the source was authored.
 
@@ -167,7 +167,7 @@ Anchor every judgement to a named external best practice, style guide, or conven
 
 | Area   | Standards Position             | External Best Practice  | Alignment                      |
 |--------|--------------------------------|-------------------------|--------------------------------|
-| <area> | <what the standards prescribe> | <named external source> | Aligned / Partially / Diverges |
+| <area> | <what the standards prescribe> | <named external source> | ALIGNED / PARTIALLY / DIVERGES |
 
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
@@ -207,4 +207,4 @@ An item with no target version is open-ended and must be named as such.
 
 Configured tooling is evidence of intent, not proof of execution.
 
-Treat a configured gate as `Reported` unless the audit can verify it ran.
+Treat a configured gate as `REPORTED` unless the audit can verify it ran.

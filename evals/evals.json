@@ -33,7 +33,9 @@
     "Each project receives an independent assessment and scorecard.",
     "Shared-section finding, risk, and recommendation references are project-qualified.",
     "The combined trade-off section contains only decisions that affect more than one project.",
-    "The report does not use ambiguous project labels such as both or either."
+    "The report does not use ambiguous project labels such as both or either.",
+    "The combined summary table header reads Risks, not Top Risks.",
+    "Per-project subjects are qualified with a trailing parenthetical such as `(backend)`, not a leading bracketed prefix."
    ]
   },
   {
@@ -45,7 +47,7 @@
     "Before reusing the previous report as a baseline, the agent presents the found file and asks the user to confirm it is the intended re-audit baseline, offering a re-audit with changed parameters or a fresh audit instead.",
     "The previous report is not overwritten.",
     "The new report contains Changes Since Previous Audit and a revisioned filename.",
-    "Historical execution results are labeled Reported rather than current verification.",
+    "Historical execution results are labeled REPORTED rather than current verification.",
     "Structural additions caused by the skill version are distinguished from product changes.",
     "A baseline produced by an older skill version gets the current capability set applied, named as a capability change in the Validation Record.",
     "Field and column names that differ between the baseline report's schema and the current contract are read through the legacy field-name mapping, and the rename is recorded as a capability change rather than a product change."
@@ -80,13 +82,15 @@
    "files": [],
    "expectations": [
     "The report uses Polish prose and headings with preserved diacritics.",
-    "Severity, status, and execution-state tokens render in Polish (WYSOKA, N/D, NIEZNANE, NIEURUCHOMIONE) with gender agreement, while IDs (FND, RSK, REC, EVD), CWE identifiers, commands, and verbatim evidence stay unchanged.",
+    "Severity, status, and execution-state tokens render in Polish (WYSOKA, N/D, NIEZNANY, NIEURUCHOMIONY, OTWARTY, NOWA) as single uppercase words agreeing with the column noun, while IDs (FND, RSK, REC, EVD), CWE identifiers, commands, and verbatim evidence stay unchanged.",
     "Conditional headings that appear in the report are translated.",
     "The report applies the Polish terminology dictionary (ustalenie, zalecenie, plik blokady zależności, proces CI) and avoids literal calques such as rozjazd, dryf, brama, or potok.",
     "Descriptive fixed values are rendered in Polish (Polski, Szczegółowy, Etap przedprodukcyjny), the Stan and Stan prac rows are omitted for a final report on a clean tree, and no Tryb opisowy row appears in Document Information.",
     "The star-scale legend is labeled Skala oceny and names every band, including Zła for one star and Słaba for two stars.",
     "The report output uses ASCII punctuation only - straight quotes, spaced hyphens for dashes, and '...' - with no typographic quotes, em-dashes, en-dashes, or arrow characters.",
-    "scripts/lint-polish.py reports zero errors on the rendered report and the Validation Record records the Polish-language checks."
+    "scripts/lint-polish.py reports zero errors on the rendered report and the Validation Record records the Polish-language checks.",
+    "Headings render Podsumowanie wykonawcze and the summary column header Ryzyka, and the skill-version row carries a bare semver such as `2.0.0`.",
+    "The not-run scope sentence names skanowania podatności, and readiness or severity adjectives used in prose render in declined lowercase bold (for example **niegotowa**, **wysokiej**) rather than uppercase."
    ]
   },
   {
@@ -162,11 +166,11 @@
    "expected_output": "A report whose Audit Type Coverage table states exactly which canonical audit types are covered, partially covered, or not performed, with rationale tied to report sections.",
    "files": [],
    "expectations": [
-    "The report includes an Audit Type Coverage table immediately after Document Information, rendering only the statuses Covered, Partially, and Not done, with rows classified Not Applicable omitted entirely.",
-    "Penetration Test is marked Not done and the rationale distinguishes source-level security review from live exploitation.",
-    "Compliance Certification is marked Not done or omitted as Not Applicable, and referenced standards appear only as scoring rubrics.",
-    "Every matrix status is consistent with Scope Exclusions: nothing marked Covered is disclaimed there and vice versa.",
-    "Technical Due Diligence is not marked fully Covered when team interviews, business fit, cost, support, or ownership evidence is absent."
+    "The report includes an Audit Type Coverage table immediately after Document Information, rendering only the statuses COVERED, PARTIALLY, and NOT DONE, with rows classified NOT APPLICABLE omitted entirely.",
+    "Penetration Test is marked NOT DONE and the rationale distinguishes source-level security review from live exploitation.",
+    "Compliance Certification is marked NOT DONE or omitted as NOT APPLICABLE, and referenced standards appear only as scoring rubrics.",
+    "Every matrix status is consistent with Scope Exclusions: nothing marked COVERED is disclaimed there and vice versa.",
+    "Technical Due Diligence is not marked fully COVERED when team interviews, business fit, cost, support, or ownership evidence is absent."
    ]
   },
   {
@@ -175,7 +179,7 @@
    "expected_output": "A report with a source-derived Software Bill of Materials section and a License Compliance Review that keep undeterminable fields explicitly unknown.",
    "files": [],
    "expectations": [
-    "The Software Bill of Materials section states that no shipped-artifact SBOM was provided and presents the manifest-derived inventory as Inspected source evidence, not a generated or shipped SBOM.",
+    "The Software Bill of Materials section states that no shipped-artifact SBOM was provided and presents the manifest-derived inventory as INSPECTED source evidence, not a generated or shipped SBOM.",
     "Every SBOM row carries component, version, ecosystem, relationship, license, and evidence columns, with license cells reading Unknown rather than registry guesses.",
     "The License Compliance Review separates observed license facts from inferred concerns and records missing ownership or assignment evidence as UNKNOWN.",
     "The absent shipped SBOM is reported as an inventory gap, not as a vulnerability or compliance violation.",
@@ -216,12 +220,13 @@
    "files": [],
    "expectations": [
     "New section headings match the dictionary verbatim: Zakres typów audytu, Zestawienie składników oprogramowania, Przegląd zgodności licencyjnej i IP, Praktyka dostarczania i ciągłość zespołu.",
-    "Coverage statuses render as OBJĘTE, CZĘŚCIOWO, or NIEWYKONANE, NIE DOTYCZY rows are omitted, and finding Type tags render Obserwacja or Wniosek.",
-    "Exploitability tiers render TEORETYCZNY, POTWIERDZONE STATYCZNIE, or ZWERYFIKOWANE DYNAMICZNIE, while IDs, CWE references, and file paths stay unchanged.",
+    "Coverage statuses render as OBJĘTY, CZĘŚCIOWO, or NIEWYKONANY, NIE DOTYCZY rows are omitted, and finding Type tags render Obserwacja or Wniosek.",
+    "Exploitability tiers render TEORETYCZNE, POTWIERDZONE STATYCZNIE, or ZWERYFIKOWANE DYNAMICZNIE, agreeing with `wykorzystanie podatności`, while IDs, CWE references, and file paths stay unchanged.",
     "The scorecard dimension renders Dostarczanie i ciągłość, and DORA metric names follow the dictionary.",
     "Loanwords such as commit, pull request, copyleft, SBOM, and due diligence stay untranslated and established terms such as Ważność, Panel oceny projektu, and kryterium jakości are used.",
-    "The findings table separates lifecycle (Status: Otwarte/Zamknięte/OK) from movement since the previous audit (Zmiana: Nowe/Bez zmian/Wznowione/Zamknięte), and the Charakter odstępstwa field uses only Brak udokumentowanego uzasadnienia, Świadome - udokumentowana decyzja, Nieokreślone, or N/D.",
-    "The compliance rows are split into Certyfikacja ISO/IEC 27001 and Badanie atestacyjne SOC 2, and the coverage table never claims an assurance level."
+    "The findings table separates lifecycle (Status: OTWARTY/ZAMKNIĘTY/OK) from movement since the previous audit (Zmiana: NOWA/NIEZMIENIONA/WZNOWIONA/ZAMKNIĘTA), and the Charakter odstępstwa field uses only Brak udokumentowanego uzasadnienia, Świadomy - udokumentowana decyzja, Nieokreślony, or N/D.",
+    "The compliance rows are split into Certyfikacja ISO/IEC 27001 and Badanie atestacyjne SOC 2, and the coverage table never claims an assurance level.",
+    "Architectural subsection headings render Rejestr decyzji architektonicznych, Przegląd kompromisów, and Zgodność kontraktu; per-project subjects carry a trailing (project) qualifier."
    ]
   },
   {
@@ -272,7 +277,7 @@
     "Intake discovers the SKILL.md files under .claude/skills/ and classifies each as authored, installed, or undetermined from repository signals before scoping.",
     "The skills-scope question is asked only for authored skills, deciding components versus independent projects before Parameter Configuration.",
     "Installed or externally installed skill directories are not audit subjects: they appear in the project-inclusion list unchecked with an installed/external annotation.",
-    "Excluded skills still appear in the Skills Inventory marked Out of scope, and the exclusion is disclosed in Scope Exclusions."
+    "Excluded skills still appear in the Skills Inventory marked OUT OF SCOPE, and the exclusion is disclosed in Scope Exclusions."
    ]
   },
   {
@@ -284,7 +289,7 @@
     "The report records the spec baseline used: the references/agent-skills.md snapshot date, or the live-fetch result when the optional check ran.",
     "When the specification cannot be fetched, conformance runs against the bundled snapshot and the limitation is disclosed rather than hidden.",
     "A spec drift between the snapshot and a fetched live version is reported in Limitations and Unknowns, not silently applied.",
-    "External validation such as skills-ref is recorded only when a committed or supplied result exists, marked as Reported evidence."
+    "External validation such as skills-ref is recorded only when a committed or supplied result exists, marked as REPORTED evidence."
    ]
   },
   {
@@ -382,8 +387,8 @@
    "files": [],
    "expectations": [
     "A Recommendation Classification section appears after the Actionable Remediation Roadmap and before Scope Exclusions.",
-    "Every REC-XXX from the roadmap appears exactly once with a class of Recommended, Optional, or Not recommended and a short basis.",
-    "A recommendation whose finding's intent or timing is undetermined is classified Not recommended, with a note on what evidence would reclassify it.",
+    "Every REC-XXX from the roadmap appears exactly once with a class of RECOMMENDED, OPTIONAL, or NOT RECOMMENDED and a short basis.",
+    "A recommendation whose finding's intent or timing is undetermined is classified NOT RECOMMENDED, with a note on what evidence would reclassify it.",
     "P1-P4 priority is preserved separately from the class.",
     "No new findings or recommendations are introduced by the section."
    ]
@@ -397,7 +402,7 @@
     "Finding blocks carry the contract fields in order: Pillar, Severity, Type, Security, Status, Targets, Basis, Absence, Description, Impact, Recommendation, Method, Verified, Confidence, Mitigating factors, Exploitability, Evidence, with Security, Absence, and Exploitability omitted whenever their value would be N/A.",
     "No finding or risk detail line renders an N/A or NOT SPECIFIED value - the line is omitted instead.",
     "No legacy field names appear: Target Files/Modules, Requirement Basis, Verification State, Counter-check, Security Classification, Remediation Recommendation, Verification Method, Exploitability Narrative, or Remediation Status.",
-    "The findings summary table uses Finding, Result, Status, and Verification columns, with Verification limited to Verified, Confirmed, Reported, or empty.",
+    "The findings summary table uses Finding, Result, Status, and Verification columns, with Verification limited to VERIFIED, CONFIRMED, REPORTED, or empty.",
     "Risk blocks use Severity, Likelihood, Residual, Status, Description, Impact, Trigger, Controls, Mitigation, Closure, Source, Confidence order, with Owner appearing between Status and Description only when a responsible role is established, and the risk table uses Source rather than Source Finding.",
     "Debt and recommendation tables use the harmonized headers: Debt/Item/Source/Cost/Delay and Rec."
    ]
@@ -447,7 +452,7 @@
    "expectations": [
     "Authored skills under skills/ are recommended for inclusion and checked by default in the inclusion question.",
     "Installed skills under .claude/skills/ are listed unchecked with an installed/external annotation and bypass the skills-scope question.",
-    "The Skills Inventory still lists excluded skills with an Out of scope status and the exclusion reason.",
+    "The Skills Inventory still lists excluded skills with an OUT OF SCOPE status and the exclusion reason.",
     "The report does not produce findings, scorecards, or register rows for excluded skills."
    ]
   },
@@ -681,8 +686,8 @@
    "files": [],
    "expectations": [
     "The Audit Type Coverage section is present immediately after Document Information.",
-    "The table contains no AI Governance Audit row and no `Not Applicable` status cell.",
-    "Statuses that render are limited to Covered, Partially, and Not done."
+    "The table contains no AI Governance Audit row and no `NOT APPLICABLE` status cell.",
+    "Statuses that render are limited to COVERED, PARTIALLY, and NOT DONE."
    ]
   },
   {

@@ -80,6 +80,9 @@ Break lines that exceed the selected wrap width (default 100) per `docs/STYLE.md
 
 The maturity level must be justified by evidence in later sections, not asserted.
 
+The Executive Summary never carries a sentence disclaiming that the final report is not a
+production acceptance - readiness and sign-off state are expressed through the readiness fields.
+
 **Coverage and risk flags**
 
 Point the reader at the Audit Type Coverage table in one line,
@@ -161,11 +164,11 @@ previous report:
 
 | Finding | Previous | Current | Note               |
 |---------|----------|---------|--------------------|
-| FND-XXX | Open     | Closed  | <closing evidence> |
-| FND-XXX | Open     | Open    | still reproduces   |
-| FND-XXX | -        | New     | first reported     |
+| FND-XXX | OPEN     | CLOSED  | <closing evidence> |
+| FND-XXX | OPEN     | OPEN    | still reproduces   |
+| FND-XXX | -        | NEW     | first reported     |
 
-A previous finding that no longer reproduces stays in the table as `Closed` with the evidence
+A previous finding that no longer reproduces stays in the table as `CLOSED` with the evidence
 that closes it, it is never silently dropped.
 
 **Score delta**
@@ -174,9 +177,9 @@ Present a per-dimension score comparison:
 
 | Dimension | Previous | Current | Direction |
 |-----------|----------|---------|-----------|
-| <name>    | <score>  | <score> | Up        |
+| <name>    | <score>  | <score> | UP        |
 
-Direction uses `Up`, `Down`, or `Unchanged`.
+Direction uses `UP`, `DOWN`, or `UNCHANGED`.
 
 When the evaluation scale changed between reports,
 mark the direction `UNKNOWN` for affected dimensions instead of comparing raw numbers.
@@ -190,7 +193,7 @@ Anchor every claim to a `FND-XXX`, `RSK-XXX`, or `EVD-XXX` in the current report
 
 **Rules**
 
-- New findings keep their assigned `FND-XXX` IDs and appear as `New` in the transition table.
+- New findings keep their assigned `FND-XXX` IDs and appear as `NEW` in the transition table.
 - Mark a comparison element `UNKNOWN` when the previous report cannot supply it, do not guess.
 - For multi-project reports, place this section inside each project block and qualify every
   identifier with the project identifier.

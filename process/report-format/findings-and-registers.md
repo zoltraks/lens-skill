@@ -13,10 +13,10 @@
 |--------------------------------|------|--------------------------------------|
 | Strengths & What's Working     | 21   | Evidence-based positive baselines    |
 | Detailed Technical Findings    | 59   | Finding summary and detail blocks    |
-| Technical Debt Register        | 240  | Distinct accumulated debt            |
-| Unified Risk Register          | 288  | Cross-referenced risks               |
-| Actionable Remediation Roadmap | 382  | Prioritized recommendations          |
-| Recommendation Classification  | 453  | Recommended/Optional/Not recommended |
+| Technical Debt Register        | 251  | Distinct accumulated debt            |
+| Unified Risk Register          | 299  | Cross-referenced risks               |
+| Actionable Remediation Roadmap | 393  | Prioritized recommendations          |
+| Recommendation Classification  | 464  | Recommended/Optional/Not recommended |
 
 ## Strengths & What's Working
 
@@ -73,28 +73,36 @@ Present a compact summary of all findings:
 
 | Finding     | Pillar                                    | Severity   | Title   | Result   | Status | Change | Verification |
 |-------------|-------------------------------------------|------------|---------|----------|--------|--------|--------------|
-| FND-ARC-001 | Architecture & Design                     | <severity> | <title> | <result> | Open   | New    | <verifier>   |
-| FND-CQY-001 | Code Quality                              | <severity> | <title> | <result> | Open   | New    | <verifier>   |
-| FND-SEC-001 | Security & Compliance                     | <severity> | <title> | <result> | Open   | New    | <verifier>   |
-| FND-INF-001 | Infrastructure & CI/CD                    | <severity> | <title> | <result> | Open   | New    | <verifier>   |
-| FND-AIP-001 | AI Provenance & Code Origin               | <severity> | <title> | <result> | Open   | New    | <verifier>   |
-| FND-CPR-001 | Copyrights & Originality                  | <severity> | <title> | <result> | Open   | New    | <verifier>   |
-| FND-API-001 | API Compatibility & Versioning Discipline | <severity> | <title> | <result> | Open   | New    | <verifier>   |
+| FND-ARC-001 | Architecture & Design                     | <severity> | <title> | <result> | OPEN   | NEW    | <verifier>   |
+| FND-CQY-001 | Code Quality                              | <severity> | <title> | <result> | OPEN   | NEW    | <verifier>   |
+| FND-SEC-001 | Security & Compliance                     | <severity> | <title> | <result> | OPEN   | NEW    | <verifier>   |
+| FND-INF-001 | Infrastructure & CI/CD                    | <severity> | <title> | <result> | OPEN   | NEW    | <verifier>   |
+| FND-AIP-001 | AI Provenance & Code Origin               | <severity> | <title> | <result> | OPEN   | NEW    | <verifier>   |
+| FND-CPR-001 | Copyrights & Originality                  | <severity> | <title> | <result> | OPEN   | NEW    | <verifier>   |
+| FND-API-001 | API Compatibility & Versioning Discipline | <severity> | <title> | <result> | OPEN   | NEW    | <verifier>   |
 
 The `Title` column copies the finding's `### FND-…` heading verbatim - the summary never
 rephrases a heading.
+
+A cell drawn from a fixed vocabulary renders the canonical token of the report language: a
+single uppercase word, declined to agree with the column header's noun where the language
+declines adjectives, per `principles/output-style.md`.
+
+Established phrase tokens such as `IN PROGRESS` or `NOT APPLICABLE` stay phrases.
+
+Title and description columns are prose, not tokens - they keep natural casing.
 
 Column meanings:
 
 - **Finding**: the `FND-XXX` identifier.
 - **Result**: the assessment status of the evaluated control,
   `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, or `N/A`.
-- **Status**: the finding lifecycle state, `Open`, `Closed`, or `PASS` for a re-verified
+- **Status**: the finding lifecycle state, `OPEN`, `CLOSED`, or `PASS` for a re-verified
   passing control.
-- **Change**: how the finding moved since the previous audit - `New`, `Unchanged`,
-  `Reopened`, or `Closed`; first-audit findings always carry `New`.
-- **Verification**: the evidence qualifier, `Verified`, `Confirmed`, `Reported`, or empty for
-  a finding whose `Change` is `New`.
+- **Change**: how the finding moved since the previous audit - `NEW`, `UNCHANGED`,
+  `REOPENED`, or `CLOSED` - first-audit findings always carry `NEW`.
+- **Verification**: the evidence qualifier, `VERIFIED`, `CONFIRMED`, `REPORTED`, or empty for
+  a finding whose `Change` is `NEW`.
 
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
@@ -114,13 +122,16 @@ When the report language is not English, apply the pillar name translations from
 
 Severity values: `CRITICAL`, `HIGH`, `MEDIUM`, `LOW`.
 Result values: `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`.
-Status values: `Open`, `Closed`, `PASS`.
-Change values: `New`, `Unchanged`, `Reopened`, `Closed`.
+Status values: `OPEN`, `CLOSED`, `PASS`.
+Change values: `NEW`, `UNCHANGED`, `REOPENED`, `CLOSED`.
 
 When the report language is not English, these tokens render in the localized forms defined by
-the matching `translations/` file, along with verification qualifiers `Verified`, `Confirmed`,
-and `Reported`, and result markers such as `NOT RUN`, `NOT ASSESSED`,
+the matching `translations/` file, along with verification qualifiers `VERIFIED`, `CONFIRMED`,
+and `REPORTED`, and result markers such as `NOT RUN`, `NOT ASSESSED`,
 `NOT INSPECTED`, `EXCLUDED BY SCOPE`, and `INSUFFICIENT INFORMATION`.
+
+`* **Field:**` bullet values in the detailed blocks keep natural title case - the uppercase
+form belongs to token columns only.
 
 **Detailed findings**
 
@@ -254,7 +265,7 @@ Use this fixed column order:
 
 | Debt    | Item        | Category         | Source   | Cost           | Delay         | Status |
 |---------|-------------|------------------|----------|----------------|---------------|--------|
-| TDR-001 | <debt item> | <characteristic> | <FND ID> | <range or gap> | <cost or gap> | Open   |
+| TDR-001 | <debt item> | <characteristic> | <FND ID> | <range or gap> | <cost or gap> | OPEN   |
 
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
@@ -395,7 +406,7 @@ Use this fixed column order:
 
 | Rec     | Priority | Finding | Recommendation | Impact         | Effort         | Complexity     | Verification        |
 |---------|----------|---------|----------------|----------------|----------------|----------------|---------------------|
-| REC-001 | <P1-P4>  | FND-XXX | <action>       | <High/Med/Low> | <High/Med/Low> | <High/Med/Low> | <verification step> |
+| REC-001 | <P1-P4>  | FND-XXX | <action>       | <HIGH/MED/LOW> | <HIGH/MED/LOW> | <HIGH/MED/LOW> | <verification step> |
 
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
@@ -406,10 +417,10 @@ Column meanings:
 - **Priority**: `P1` (immediate), `P2` (short-term), `P3` (medium-term), `P4` (long-term).
 - **Finding**: the `FND-XXX` identifier this recommendation resolves.
 - **Recommendation**: a concise, actionable technical step.
-- **Impact**: the business or technical impact of applying this fix (`High`, `Medium`, `Low`).
-- **Effort**: the estimated engineering effort to implement (`High`, `Medium`, `Low`).
-- **Complexity**: the architectural or organizational complexity of the change (`High`, `Medium`,
-  `Low`).
+- **Impact**: the business or technical impact of applying this fix (`HIGH`, `MEDIUM`, `LOW`).
+- **Effort**: the estimated engineering effort to implement (`HIGH`, `MEDIUM`, `LOW`).
+- **Complexity**: the architectural or organizational complexity of the change (`HIGH`, `MEDIUM`,
+  `LOW`).
 - **Verification**: a specific test, command, or process to confirm the fix is successful.
 
 **Rules**
@@ -478,7 +489,7 @@ Column meanings:
 
 - **Rec**: the `REC-[001]` identifier from the Actionable Remediation Roadmap.
 - **Recommendation**: the recommendation summary from the roadmap row.
-- **Class**: one of `Recommended`, `Optional`, or `Not recommended`.
+- **Class**: one of `RECOMMENDED`, `OPTIONAL`, or `NOT RECOMMENDED`.
 - **Basis**: a short reason for the classification, such as `blocks readiness gate`,
   `optional improvement`, or `intent undetermined`.
 
@@ -487,8 +498,8 @@ Column meanings:
 - Every `REC-XXX` in the roadmap appears exactly once in this table.
 - The class complements the P1-P4 priority: priority orders urgency, class records whether the
   report advises acting now given current evidence.
-- A `Not recommended` row keeps its priority for the moment its blocking uncertainty resolves.
-- After the table, write one paragraph per `Not recommended` entry naming the evidence or decision
+- A `NOT RECOMMENDED` row keeps its priority for the moment its blocking uncertainty resolves.
+- After the table, write one paragraph per `NOT RECOMMENDED` entry naming the evidence or decision
   that would reclassify it, using the bold-heading paragraph pattern.
 - The paragraph's `REC-XXX` appears once, in the bold heading. Its body cites the `FND-XXX` the
   recommendation resolves, never the `REC-XXX` again - the classification table owns the

@@ -20,11 +20,11 @@ A review report applies the same phases with the deltas defined in
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 1427 | Intake Checklist guidance        |
-| Handling Thin Input     | 1446 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1457 | Single-Dimension Audits guidance |
-| Re-Audit                | 1467 | Re-Audit guidance                |
-| Multi-Project Audits    | 1533 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1429 | Intake Checklist guidance        |
+| Handling Thin Input     | 1448 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1459 | Single-Dimension Audits guidance |
+| Re-Audit                | 1469 | Re-Audit guidance                |
+| Multi-Project Audits    | 1535 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -743,15 +743,15 @@ tests, or accesses live systems.
 
 Record the scope as `source-only`.
 
-Documented or committed check results are `Reported` evidence, not audit execution.
+Documented or committed check results are `REPORTED` evidence, not audit execution.
 
 Also record the audit-type coverage decision here:
 read the canonical rows in `references/audit-taxonomy.md` and note which statuses the engagement
 supports.
 
 Under the default scope the Penetration Test, ISO/IEC 27001 Certification, SOC 2 Attestation
-Examination, and interview-dependent Technical Due Diligence dimensions stay `Not done` or
-`Partially`, and any explicitly lifted constraint is recorded so the Coverage Matrix and Scope
+Examination, and interview-dependent Technical Due Diligence dimensions stay `NOT DONE` or
+`PARTIALLY`, and any explicitly lifted constraint is recorded so the Coverage Matrix and Scope
 Exclusions can match it.
 
 The matrix itself is rendered during Synthesis.
@@ -864,7 +864,7 @@ a pipeline step, a committed report, or nothing at all.
 Map each check to the ledger as `NOT RUN`, citing where the check is declared or where its
 output is documented when such artifacts exist.
 
-A documented or committed result is `Reported` evidence.
+A documented or committed result is `REPORTED` evidence.
 
 It supports the claim it covers, never "verified" status.
 
@@ -917,7 +917,7 @@ dirty-tree state, date, declared tool or report version, and sanitized artifact 
 For committed scanner or coverage reports, record the producing tool, report timestamp or
 revision, ruleset, exclusions, suppressions, and coverage.
 
-For supplied or committed CI output, record the run or revision and label it `Reported`
+For supplied or committed CI output, record the run or revision and label it `REPORTED`
 evidence, noting any mismatch with the audited tree.
 
 Preserve complete sanitized logs or machine-readable output when they exist in the repository,
@@ -933,7 +933,7 @@ evidence reference.
 
 A claim reference must preserve the qualification of its source.
 
-Use `Inspected`, `Reported`, or `Inferred` evidence labels and retain `UNKNOWN`, `NOT SPECIFIED`,
+Use `INSPECTED`, `REPORTED`, or `INFERRED` evidence labels and retain `UNKNOWN`, `NOT SPECIFIED`,
 or `INSUFFICIENT INFORMATION` when the evidence cannot support a stronger statement.
 
 Do not promote an inspected source observation into a runtime or production claim.
@@ -1025,8 +1025,8 @@ Draft the actionable remediation roadmap using `synthesis/remediation-roadmap.md
 
 Every recommendation must resolve a specific `FND-XXX`.
 
-At `Standard` and `Detailed` detail levels, classify every `REC-XXX` as `Recommended`,
-`Optional`, or `Not recommended` for the Recommendation Classification section per
+At `Standard` and `Detailed` detail levels, classify every `REC-XXX` as `RECOMMENDED`,
+`OPTIONAL`, or `NOT RECOMMENDED` for the Recommendation Classification section per
 `synthesis/remediation-roadmap.md`.
 
 When the roadmap contains at least one P1 or P2 recommendation, build the Re-audit And Follow-up
@@ -1206,8 +1206,8 @@ or states that no direct rule exists for the CWE in that stack.
 Confirm no finding implies an analyzer ran.
 
 Confirm the Audit Type Coverage table is present after Document Information and
-consistent with Scope Exclusions: every `Not done` row has a matching exclusion bullet and
-no `Covered` row is disclaimed later.
+consistent with Scope Exclusions: every `NOT DONE` row has a matching exclusion bullet and
+no `COVERED` row is disclaimed later.
 
 Confirm every SBOM row has a License cell populated from an inspected declaration or marked
 `Unknown`, every direct component is manifest-sourced, and `Advisory Checked` is `Y` only where
@@ -1409,8 +1409,8 @@ These are reasoning checks, not proof of improvement from an independent model b
 | `document/` exists, `docs/` does not       | Resolved base is `document/`, offered as a location             |
 | Document prose already wraps near 60       | Offer 60 alongside the default 100 at wrap time                 |
 | Version-named subdirs under `docs/report/` | Only the version path offered, no date alternative              |
-| Full audit report generated                | Coverage matrix present, pentest row `Not done`                 |
-| Matrix row marked `Covered`                | No Scope Exclusions bullet disclaims that type                  |
+| Full audit report generated                | Coverage matrix present, pentest row `NOT DONE`                 |
+| Matrix row marked `COVERED`                | No Scope Exclusions bullet disclaims that type                  |
 | Manifest has no license fields             | SBOM License cells `Unknown`, gap feeds findings                |
 | Committed advisory report absent           | `Advisory Checked` stays `N` for every component                |
 | Critical finding on public endpoint        | `Exploitability` narrative present, `Theoretical` tier          |
@@ -1558,8 +1558,8 @@ for example `api-service::FND-SEC-001`, `api-service::RSK-001`, and `api-service
 
 Never use ambiguous labels such as `both`, `either`, or `the projects` as an identifier.
 
-The project name or identifier prefixes the finding block heading so the reader can locate the
-project within the report.
+The project name or identifier trails the finding block heading as a parenthetical so the
+reader can locate the project within the report.
 
 See `process/report-format/multi-project.md` for the multi-project report structure.
 
@@ -1579,9 +1579,9 @@ run a single Synthesis phase that combines all projects into one report:
    Scoring Rubrics, Architectural Assessment, Trade-off Analysis, conditional sections, Strengths,
    Detailed Technical Findings, Unified Risk Register, Actionable Remediation Roadmap, and
    Recommendation Classification.
-4. Finding IDs, risk IDs, and recommendation IDs are scoped per project. Use the project identifier
-   as a prefix in the finding heading so the reader can navigate. For example,
-   `### FND-ARC-001: [api-service] Missing input validation`.
+4. Finding IDs, risk IDs, and recommendation IDs are scoped per project. Use the project
+   identifier as a trailing parenthetical in the finding heading so the reader can navigate.
+   For example, `### FND-ARC-001: Missing input validation (api-service)`.
 5. The Document Information section appears once at the top of the report and lists all audited
    projects.
 6. A Project Inventory table immediately after Document Information lists each project with its

@@ -4,26 +4,32 @@ This document defines the versioning rules for the `lens-skill` Agent Skill.
 
 ## Format
 
-Versions use a two-part decimal format: `<major>.<minor>`.
+Versions use a three-part decimal format: `<major>.<minor>.<patch>`.
 
 - `major` - increments when the skill undergoes structural or breaking changes
-- `minor` - increments for additive features, new assessment categories, or format refinements
+- `minor` - increments for additive features or new assessment categories
+- `patch` - increments for corrections and format refinements that change no capability boundary
 
 ## Increment Rules
 
-1. **Increment minor by 0.1** for each release that adds or refines capability without breaking
-   existing behavior.
+1. **Increment patch by 1** for each release that fixes or refines behavior without adding
+   capability.
 
-2. **Minor rolls over at 9**. When minor would reach 10, increment major by 1 and reset minor to 0.
+2. **Increment minor by 1 and reset patch to 0** for each release that adds capability without
+   breaking existing behavior.
 
-   | Before | After | Reason         |
-   |--------|-------|----------------|
-   | 0.8    | 0.9   | minor + 1      |
-   | 0.9    | 1.0   | minor rollover |
-   | 1.9    | 2.0   | minor rollover |
-   | 9.9    | 10.0  | minor rollover |
+3. **Minor rolls over at 9**. When minor would reach 10, increment major by 1 and reset minor
+   and patch to 0.
 
-3. **Major increments only through minor rollover**. Minor numbers are never skipped: even
+   | Before  | After   | Reason         |
+   |---------|---------|----------------|
+   | 0.8.0   | 0.8.1   | patch + 1      |
+   | 0.8.1   | 0.9.0   | minor + 1      |
+   | 0.9.9   | 1.0.0   | minor rollover |
+   | 1.9.9   | 2.0.0   | minor rollover |
+   | 9.9.9   | 10.0.0  | minor rollover |
+
+4. **Major increments only through minor rollover**. Minor numbers are never skipped: even
    structural releases (new mandatory sections, scoring-semantics changes) take the next minor
    number, and the major digit advances only when minor rolls over at 9.
 
@@ -67,7 +73,7 @@ The version lives in `SKILL.md` frontmatter under `metadata.version`:
 ---
 name: lens-skill
 metadata:
-  version: "X.Y"
+  version: "X.Y.Z"
 ---
 ```
 
