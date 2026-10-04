@@ -222,7 +222,7 @@ identifiers and names), `alternate` (fallback address for the row above).
 | Docker security cheat sheet | OWASP               | https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html | distilled |
 | Compose file reference      | Docker Inc.         | https://docs.docker.com/compose/compose-file/                                   | distilled |
 
-### references/stacks/ci-github-actions.md
+### references/stacks/github-actions.md
 
 | Source                     | Publisher | URL                                                                                                                  | Status    |
 |----------------------------|-----------|----------------------------------------------------------------------------------------------------------------------|-----------|
@@ -268,7 +268,7 @@ identifiers and names), `alternate` (fallback address for the row above).
 | OWASP SAMM                  | OWASP     | https://owaspsamm.org/                                                           | distilled |
 | OWASP Secure Headers        | OWASP     | https://owasp.org/www-project-secure-headers/                                    | distilled |
 
-### references/methodology/risk-and-threat-modeling.md
+### references/methodology/risk-modeling.md
 
 | Source                    | Publisher | URL                                                                                   | Status    |
 |---------------------------|-----------|---------------------------------------------------------------------------------------|-----------|
@@ -343,7 +343,7 @@ identifiers and names), `alternate` (fallback address for the row above).
 | REUSE specification             | FSFE                   | https://reuse.software/spec/                                                                      | distilled |
 | OSI license list                | Open Source Initiative | https://opensource.org/licenses                                                                   | distilled |
 
-### references/methodology/crypto-and-auth.md
+### references/methodology/crypto-auth.md
 
 | Source                       | Publisher    | URL                                                                                      | Status    |
 |------------------------------|--------------|------------------------------------------------------------------------------------------|-----------|
@@ -358,7 +358,7 @@ identifiers and names), `alternate` (fallback address for the row above).
 | 12-factor config             | 12factor.net | https://12factor.net/config                                                              | distilled |
 | Logging cheat sheet          | OWASP        | https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html                  | distilled |
 
-### references/topics/accessibility.md
+### references/topics/accessibility-baseline.md
 
 | Source                   | Publisher | URL                                                        | Status    |
 |--------------------------|-----------|------------------------------------------------------------|-----------|
@@ -367,7 +367,7 @@ identifiers and names), `alternate` (fallback address for the row above).
 | ARIA Authoring Practices | W3C WAI   | https://www.w3.org/WAI/ARIA/apg/                           | distilled |
 | MDN accessibility        | MDN       | https://developer.mozilla.org/en-US/docs/Web/Accessibility | distilled |
 
-### references/topics/web-frontend-security.md
+### references/topics/frontend-security.md
 
 | Source                       | Publisher | URL                                                                                             | Status    |
 |------------------------------|-----------|-------------------------------------------------------------------------------------------------|-----------|

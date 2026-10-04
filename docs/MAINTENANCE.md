@@ -53,6 +53,11 @@ When a new resource directory is justified, register it in `SKILL.md` and mirror
 
 Use lowercase kebab-case for assessment, process, principle, synthesis, and reference files.
 
+Name each resource file with exactly two words joined by a hyphen, `<word>-<word>.md`.
+
+Stack digests under `references/stacks/` named after a single technology keep one-word names,
+such as `go.md` or `php.md`.
+
 Follow the naming pattern of the target directory and choose a name that describes the file's
 responsibility, such as `security-review.md` or `report-parity.md`.
 

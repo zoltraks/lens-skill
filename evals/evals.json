@@ -890,6 +890,33 @@
     "A vendored document older than its canonical source is reported as stale guidance.",
     "The finding records the vendored version and the canonical version as evidence."
    ]
+  },
+  {
+   "id": 74,
+   "prompt": "Wykonaj przegląd zmian w tym repozytorium dla zakresu zatwierdzeń `a1b2c3d..e4f5g6h` i przygotuj raport przeglądu po polsku.",
+   "expected_output": "A Polish change-review report `PRZEGLĄD-1.0.md` that follows the change-review variant contract.",
+   "files": [],
+   "expectations": [
+    "The report opens with a key-value identification table with an empty header row, holding labels such as `Przegląd zmian`, `Gałęzie kodu`, `Zakres zatwierdzeń`, `Lista autorów`, `Data przeglądu`, `Wielkość zmiany`, and `Decyzja`.",
+    "Sections appear in canonical order without numbers: `Podsumowanie zmian`, `Zakres przeglądu`, `Lista ustaleń`, `Ocena wymiarów`, `Weryfikacja i testy`, `Gotowość produkcyjna`, `Propozycja działań`.",
+    "The findings table carries `Identyfikator`, `Waga`, `Lokalizacja`, `Rekomendacja`, `Status` and no description column; severity values come from `Krytyczna`/`Wysoka`/`Średnia`/`Niska`.",
+    "Each finding has an `<a id=\"f-xx\">` anchor and a `**F-xx**` description paragraph below the table, and every `F-xx` outside the `Identyfikator` column renders as a `[F-xx](#f-xx)` link.",
+    "The report uses `zatwierdzenia` rather than `commity`, keeps SHA literals verbatim, omits rows whose values are unavailable, and carries no history section for a first review.",
+    "The verdict enum stays verbatim (for example `REQUEST CHANGES`) inside the `Decyzja` row.",
+    "The actions table carries `Działanie`, `Właściciel`, `Powiązane identyfikatory`, `Termin / warunek`, `Status` and no ordinal column."
+   ]
+  },
+  {
+   "id": 75,
+   "prompt": "Validate the report file REVIEW-LENS-NOTES.md, a review document whose section names come from a user-supplied template.",
+   "expected_output": "The validator classifies the file as `custom` and runs only the shared mechanical checks.",
+   "files": [],
+   "expectations": [
+    "A `REVIEW`-family filename with a custom suffix resolves to report type `custom`, not `review`.",
+    "The canonical review section contract and the change-review contract do not run on a custom report.",
+    "Mechanical checks - headings, semicolons, non-ASCII dashes, tables, location pattern, trailing whitespace - still apply.",
+    "A bare `REVIEW`/`REVIEW-<revision>`/`PRZEGLĄD-<revision>` stem still resolves to `review`, and the change-review variant is selected by `## Findings` plus `## Action Proposals` with no `### Findings and Corrections`."
+   ]
   }
  ]
 }

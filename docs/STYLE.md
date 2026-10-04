@@ -258,7 +258,7 @@ Do not overuse emphasis.
 
 Report field examples such as `* **Absence:** N/A` carry fixed-vocabulary tokens as literal
 values - the token is data in that position, so it is written plainly and is exempt from the
-report's glossary-linking rules per `process/report-format/opening.md`.
+report's glossary-linking rules per `process/report-format/report-opening.md`.
 
 ## Semicolons
 

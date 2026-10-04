@@ -48,7 +48,7 @@ STRIDE enumerates six threat categories, each the inverse of a security property
 STRIDE originates with Microsoft threat-modeling practice and its current anchor is the
 Microsoft Threat Modeling Tool documentation alongside the OWASP Threat Modeling project - the
 distilled rules and source status live in
-`references/methodology/risk-and-threat-modeling.md`.
+`references/methodology/risk-modeling.md`.
 
 Each category maps to a cheat-sheet family in
 `references/methodology/owasp-baselines.md` - for example Tampering to integrity and
@@ -94,7 +94,7 @@ Threats that are already mitigated are recorded as mitigated, with the control c
 
 ## How To Present
 
-Render the threat model as described in `process/report-format/analysis.md`.
+Render the threat model as described in `process/report-format/report-analysis.md`.
 
 Present one table keyed by trust boundary and STRIDE category,
 then describe each material threat with evidence and its linked `FND-XXX` / `RSK-XXX`.

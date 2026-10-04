@@ -17,6 +17,22 @@ A review report evaluates a subject and specifies the changes needed to improve 
 The subject may be anything the user supplies: a document, a specification, a plan,
 a configuration set, a codebase, or a proposal.
 
+## Contents
+
+| Section                             | Line | What it covers                   |
+|-------------------------------------|------|----------------------------------|
+| Report Type Resolution              | 36   | Report Type Resolution guidance  |
+| Subject Scope                       | 66   | Subject Scope guidance           |
+| Workflow Deltas                     | 73   | Workflow Deltas guidance         |
+| Report Structure                    | 152  | Report Structure guidance        |
+| Change Review Variant               | 246  | Change Review Variant guidance   |
+| What A Review Report Never Contains | 353  | Excluded report machinery        |
+| Formatting                          | 371  | Formatting guidance              |
+| Re-Review And Revisions             | 379  | Re-Review And Revisions guidance |
+| Detail Levels                       | 389  | Detail Levels guidance           |
+| Languages                           | 399  | Languages guidance               |
+| Validation                          | 406  | Validation guidance              |
+
 ## Report Type Resolution
 
 The report type is resolved during intake from the request's wording.
@@ -33,6 +49,9 @@ and "suggest corrections to".
 
 A bare "review this codebase" or "review only the security posture" stays an audit
 or a single-dimension audit, per `process/audit-workflow.md`.
+
+A review request that scopes the subject to a change set - a commit range, a pull or
+merge request, or a branch diff - resolves to the Change Review Variant defined below.
 
 When the request is ambiguous, use `Audit` and say so in the Parameter Configuration
 summary so the user can correct the choice before work proceeds.
@@ -125,6 +144,10 @@ Output-location resolution is unchanged.
 
 The filename stem is `REVIEW`, so a first review of a subject defaults to
 `REVIEW-1.0.md` with plain `REVIEW.md` offered as the alternative.
+
+The change-review variant shares the `REVIEW` filename family and revision numbering:
+a `REVIEW`-family name carrying a custom suffix marks the report custom and relaxes
+the section contract, per Validation.
 
 ## Report Structure
 
@@ -220,13 +243,125 @@ in the body.
 
 The report ends after the register with no closing line.
 
+## Change Review Variant
+
+The change-review variant is a second form of the review report: a source-only
+evaluation of a code change set - a commit range, a pull or merge request, or a branch
+diff - that ends in findings, a readiness assessment, and proposed actions.
+
+### Variant Resolution
+
+The variant applies when the request scopes the subject to a change set rather than a
+whole artifact: "review these commits", "review this pull request", "przegląd zmian".
+
+A request to review a repository, codebase, or document as a whole stays an audit or a
+canonical review report.
+
+The resolved variant appears in the Parameter Configuration summary next to the report
+type.
+
+### Change Review Structure
+
+The variant carries exactly these elements, in this order.
+
+### Identification Table
+
+A key-value table opens the report directly under the title with an empty header row:
+the labels are self-describing, so header cells stay blank while the separator row is
+kept.
+
+Rows render only for established facts.
+
+A row whose value is unavailable is omitted rather than filled with `UNKNOWN` or a
+translated equivalent.
+
+Canonical labels are `Change review` (the MR/PR reference, or `On-request review` when
+no MR/PR exists), `Branches`, `Commit range`, `Authors`, `Review date`, `Change size`,
+`Change documents`, and `Decision`.
+
+`Authors` lists human authors only and never names the agent, the tool, or the skill.
+
+`Decision` carries the verdict enum verbatim - `APPROVE`, `APPROVE WITH COMMENTS`,
+`REQUEST CHANGES`, or `REJECT` - and is the verdict's only home: no dedicated decision
+section exists.
+
+### Change Summary
+
+`## Change Summary` summarizes the change set in a table keyed by `Category`, `Files`,
+and `Key change`: the changed content first, the review process second.
+
+### Review Scope
+
+`## Review Scope` states what was reviewed - the range, the source-only method, any
+exclusions, and which evidence is reported rather than observed.
+
+### Findings
+
+`## Findings` is two-layered.
+
+A scan table carries `Identifier`, `Severity`, `Location`, `Recommendation`, and
+`Status` - no description column, since table cells hold neither paragraphs nor
+per-row anchors.
+
+Severity is a closed adjectival scale - `Critical`, `High`, `Medium`, `Low` - and `Low`
+covers informational findings.
+
+Below the table, each finding renders an `<a id="f-xx">` anchor, a `**F-xx**` bold
+label, and a paragraph carrying the fact plus its consequence.
+
+Identifiers inside the scan table stay plain text.
+
+Every `F-xx` in prose or another table is a `[F-xx](#f-xx)` link to its description.
+
+### Dimension Assessment
+
+`## Dimension Assessment` evaluates the review dimensions in a table whose `Evidence`
+column holds finding links or source anchors.
+
+### Verification And Testing
+
+`## Verification and Testing` states which verification ran - usually none, since the
+review is source-only - and what remains for testers.
+
+### Production Readiness
+
+`## Production Readiness` carries the risk level and merge conditions in prose.
+
+### Action Proposals
+
+`## Action Proposals` closes the report with a table of proposed actions whose columns
+are `Action`, `Owner`, `Related identifiers`, `Deadline / condition`, and `Status`.
+
+The table carries no ordinal column - row order already expresses the sequence, and
+findings are referenced through `Related identifiers` links rather than row numbers.
+
+### Change Review Conventions
+
+Headings carry no section numbers and use the shortest complete two-word names.
+
+A one-off change review carries no history section: an iteration record appears only
+when the review revision exceeds `1.0`.
+
+Descriptive cells in every table follow the capitalization rule of
+`principles/output-style.md`: they start uppercase, while identifiers, branch names,
+user names, proper names, and code spans stay verbatim.
+
+A column is dropped when its values carry no information beyond the other columns, and
+dropping one edits the header, the separator, and every row - then
+`scripts/format-table.py --drop-empty-columns` removes leftovers.
+
 ## What A Review Report Never Contains
 
-A review report never carries audit-report machinery: Document Information, the coverage
+A canonical review report never carries audit-report machinery: Document Information,
+the coverage
 and assurance matrix, Glossary, Executive Summary, scorecard or rubrics, risk or debt
 registers, a remediation roadmap with `REC-` identifiers, `EVD`/`FND`/`RSK` identifiers,
 Scope Exclusions, a dedicated Limitations section, a Validation Record, or a References
 section.
+
+The change-review variant additionally never carries the canonical review machinery:
+Assessment, Findings and Corrections, Required Changes, Suggested Amendment Order, or
+a Public Source Register.
 
 The Public Source Register takes the place of References.
 
@@ -271,8 +406,8 @@ The Polish filename stem is `PRZEGLĄD`, defined in `translations/polish-languag
 ## Validation
 
 `scripts/validate-report.py` detects a review report by an H1 ending in
-`Review and Amendment Instructions` or by a `REVIEW`-family or `PRZEGLĄD`-family
-filename, and then runs:
+`Review and Amendment Instructions` or by a canonical `REVIEW`-family or
+`PRZEGLĄD`-family filename (a bare stem or a `-<revision>` suffix), and then runs:
 
 - The shared mechanical checks: heading depth and spacing, semicolons, non-ASCII dashes
   and arrows, table alignment, output-location pattern, and trailing whitespace.
@@ -282,6 +417,27 @@ filename, and then runs:
 - Required Changes holds at least one `###` change group.
 - Every `[S#]` citation resolves to a register row and every register row is cited in
   the body.
+
+A `REVIEW`-family filename carrying a custom suffix - a subject, slug, or date instead
+of a revision number - is a custom report and receives the shared mechanical checks
+only: a user-supplied template overrides the canonical section contract.
+
+A canonical review filename carrying `## Findings` and `## Action Proposals` but no
+`### Findings and Corrections` selects the change-review contract instead:
+
+- The seven canonical sections present in order: Change Summary, Review Scope,
+  Findings, Dimension Assessment, Verification and Testing, Production Readiness,
+  Action Proposals.
+- The first table of the report is the identification table: an empty header row and
+  no row rendering an unavailable value.
+- The findings table carries `Identifier`, `Severity`, `Location`, `Recommendation`,
+  `Status`, and no description column.
+- The actions table carries `Action`, `Owner`, `Related identifiers`, `Status`, and no
+  ordinal column.
+- Severity values come from the closed `Critical`/`High`/`Medium`/`Low` scale.
+- Every `F-xx` row resolves to an `<a id="f-xx">` anchor and a `**F-xx**` description
+  label, and every `[F-xx](#f-xx)` link resolves to an anchor.
+- Every `F-xx` outside the identifier column is a link.
 
 Audit-only checks - baseline sections, `FND`/`RSK`/`REC` cross-references, finding blocks,
 PAR rows, glossary, and the final-state gate - do not run on a review report.

@@ -40,7 +40,7 @@ https://github.com/ossf/scorecard/blob/main/docs/checks.md.
 - Source-inspectable equivalents the audit can verify without running Scorecard: presence of
   `SECURITY.md`, `LICENSE`, branch-protection settings are NOT source-visible (record
   `NOT RUN` for API-gated checks), pinned CI actions (see
-  `references/stacks/ci-github-actions.md`), checked-in binaries, fuzz harness files.
+  `references/stacks/github-actions.md`), checked-in binaries, fuzz harness files.
 - Scorecard results in a repo's README badge are `Reported` evidence unless the underlying
   artifact is present.
 

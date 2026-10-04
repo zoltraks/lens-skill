@@ -497,20 +497,20 @@ lens-skill/
 │   ├── json-exchange.md                   # Machine-readable parameter documents for intake questions
 │   ├── report-format.md                   # Audit report format index: rules, section order, spec map
 │   ├── report-format/                     # Per-section report specifications
-│   │   ├── opening.md                     # Document Information, coverage matrix, Glossary
+│   │   ├── report-opening.md              # Document Information, coverage matrix, Glossary
 │   │   ├── multi-project.md               # Combined multi-project report structure
-│   │   ├── summary-and-changes.md         # Executive Summary, Changes Since Previous Audit
-│   │   ├── context-and-compliance.md      # System Context, SBOM, License Compliance review
-│   │   ├── dashboard-and-observations.md  # Health Dashboard, delivery, observations
-│   │   ├── methodology-and-scoring.md     # Auditing Methodology, Scoring Rubrics
+│   │   ├── summary-changes.md             # Executive Summary, Changes Since Previous Audit
+│   │   ├── context-compliance.md          # System Context, SBOM, License Compliance review
+│   │   ├── dashboard-observations.md      # Health Dashboard, delivery, observations
+│   │   ├── methodology-scoring.md         # Auditing Methodology, Scoring Rubrics
 │   │   ├── architectural-assessment.md    # Architectural Assessment and subsections
-│   │   ├── analysis.md                    # Trade-off Analysis, Threat Model
-│   │   ├── conformance.md                 # Conditional conformance sections
-│   │   ├── findings-and-registers.md      # Findings, debt, risk, roadmap, and classification
+│   │   ├── report-analysis.md             # Trade-off Analysis, Threat Model
+│   │   ├── conditional-conformance.md     # Conditional conformance sections
+│   │   ├── findings-registers.md          # Findings, debt, risk, roadmap, and classification
 │   │   ├── hunt-style.md                  # `hunt` report style: verdict, journeys, domain findings
-│   │   └── closing.md                     # Exclusions, limitations, handoff, validation, references
+│   │   └── report-closing.md              # Exclusions, limitations, handoff, validation, references
 │   ├── report-parity.md                   # Audit parity checklist and consistency gate before final
-│   ├── readiness-and-scoring.md           # Deterministic scores, confidence, maturity, and readiness gates
+│   ├── readiness-scoring.md               # Deterministic scores, confidence, maturity, and readiness gates
 │   └── review-report.md                   # Review report contract: sections, amendments, naming
 ├── assessment/
 │   ├── testing-review.md                  # Test pyramid (unit/integration/e2e), TDD, coverage, testability
@@ -529,7 +529,7 @@ lens-skill/
 │   ├── observability-review.md            # Logging, metrics, tracing, alerting
 │   ├── error-handling.md                  # Exceptions, retries, fallbacks, user-facing errors
 │   ├── operational-readiness.md           # Runbooks, on-call, capacity, backups, incident response
-│   ├── ai-generated-code.md               # Explicit provenance, generated-artifact validation, SDLC evidence
+│   ├── generated-code.md                  # Explicit provenance, generated-artifact validation, SDLC evidence
 │   ├── ai-system.md                       # (conditional) AI lifecycle, evaluation, safety, and provenance
 │   ├── copyright-review.md                # Code originality, license compliance, attribution
 │   ├── data-flow.md                       # (conditional) DFD, trust boundaries, inter-process flows
@@ -543,11 +543,11 @@ lens-skill/
 ├── synthesis/
 │   ├── risk-register.md                   # Unified risk register with FND cross-referencing
 │   ├── project-scorecard.md               # Project scorecard, rubric, and scale display rules
-│   ├── trade-off-analysis.md              # Engineering trade-offs in standalone table and embedded findings
+│   ├── tradeoff-analysis.md               # Engineering trade-offs in standalone table and embedded findings
 │   ├── remediation-roadmap.md             # Actionable remediation roadmap with priority matrix and classification
 │   ├── report-triangulation.md            # Contradiction register and external-report reconciliation
 │   ├── debt-register.md                   # (conditional) TDR inventory with CISQ/SQALE cost model
-│   ├── re-audit-plan.md                   # (conditional) Verification ownership, sign-off gates, re-audit triggers
+│   ├── reaudit-plan.md                    # (conditional) Verification ownership, sign-off gates, re-audit triggers
 │   └── report-comparison.md               # (conditional) Previous report discovery, revisions, comparison
 ├── references/
 │   ├── stack-standards.md                 # Stack, supply-chain, and AI reference sources

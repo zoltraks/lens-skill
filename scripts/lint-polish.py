@@ -146,6 +146,19 @@ def check_forbidden(lineno, text, pairs, findings):
             else:
                 pattern = re.compile(r"\b" + re.escape(root) + r"\w*")
         for match in pattern.finditer(lowered):
+            # ALL-CAPS tokens are data - enum labels (REQUEST CHANGES), acronyms,
+            # identifier prefixes - not prose using the calque stem.
+            token = text[match.start():match.end()]
+            if len(token) >= 2 and token.isupper():
+                continue
+            # A table cell whose whole content is the token is a label, not
+            # prose - e.g. a 'Właściciel' column header naming action owners.
+            cell = re.compile(
+                r"\|\s*" + re.escape(token) + r"\s*\|", re.IGNORECASE
+            )
+            around = text[max(0, match.start() - 8):match.end() + 8]
+            if cell.search(around):
+                continue
             severity = "warn" if word_is_soft(forbidden) else "error"
             findings.append(
                 (severity, lineno,
@@ -173,18 +186,27 @@ def check_mechanical(lineno, text, findings, splice=True):
         findings.append(("error", lineno, "semicolon in prose"))
 
     # Comma-splice heuristic: a comma followed by a word that opens neither a
-    # subordinate clause nor a prepositional phrase. Tables and list items are
-    # skipped - their commas are usually enumerations.
+    # subordinate clause nor a prepositional phrase. Tables, list items, and
+    # headings are skipped - their commas are usually enumerations. Commas
+    # inside parentheses are masked out, a comma closing a parenthesized
+    # enumeration item is allowed, and a comma before an identifier token such
+    # as F-02 or ADR-3 separates list items.
     if not splice:
         return
-    for match in re.finditer(r",\s+(\w+)", text.lower()):
+    masked = re.sub(r"\([^()]*\)", "()", text.lower())
+    for match in re.finditer(r",\s+([a-z0-9]+(?:-[a-z0-9]+)*)", masked):
         word = match.group(1)
-        if word not in COMMA_OK and not word[0].isdigit():
-            findings.append(
-                ("warn", lineno,
-                 "possible spliced clause - ', %s' does not open a "
-                 "subordinate phrase" % word)
-            )
+        if word in COMMA_OK or word[0].isdigit():
+            continue
+        if re.fullmatch(r"[a-z]+-\d+", word):
+            continue
+        if masked[: match.start()].rstrip().endswith(")"):
+            continue
+        findings.append(
+            ("warn", lineno,
+             "possible spliced clause - ', %s' does not open a "
+             "subordinate phrase" % word)
+        )
 
 
 def main():
@@ -207,9 +229,10 @@ def main():
             continue
         is_table = stripped.startswith("|")
         is_list = bool(re.match(r"^[-*+]\s|^\d+\.\s|^\s+[-*+]\s", text))
+        is_heading = stripped.startswith("#")
         check_forbidden(lineno, text, pairs, findings)
         check_mechanical(lineno, text, findings,
-                         splice=not (is_table or is_list))
+                         splice=not (is_table or is_list or is_heading))
 
     errors = sum(1 for f in findings if f[0] == "error")
     for severity, lineno, message in findings:

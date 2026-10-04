@@ -167,7 +167,7 @@ ecosystem best-practice guides, and standards documents for the software type.
 `references/stack-standards.md` provides the canonical starting set per detected stack.
 
 These references appear in the References section at the end of the audit report,
-per `process/report-format/closing.md`.
+per `process/report-format/report-closing.md`.
 
 Record each reference with its title, publisher or author, and URL when available.
 

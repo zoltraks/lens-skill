@@ -13,7 +13,7 @@ Apply `principles/evaluation-rules.md` throughout.
 
 | Out of scope                 | See instead                       |
 |------------------------------|-----------------------------------|
-| Code authorship or origin    | `assessment/ai-generated-code.md` |
+| Code authorship or origin    | `assessment/generated-code.md`    |
 | General application security | `assessment/security-review.md`   |
 | Personal-data obligations    | `assessment/compliance-review.md` |
 | Dependency inventory         | `assessment/dependency-review.md` |
@@ -27,7 +27,7 @@ harnesses, or documentation that makes AI behavior a material system function.
 Do not include it because a project used an AI coding assistant.
 
 When the system only contains ordinary generated source and no AI runtime or model lifecycle, use
-`assessment/ai-generated-code.md` instead.
+`assessment/generated-code.md` instead.
 
 ## What To Evaluate
 
@@ -142,7 +142,7 @@ Record the exact practices or outcomes assessed and list unassessed areas.
 ## How To Present
 
 Render this assessment as a conditional section or as findings in the appropriate technical pillars,
-according to `process/report-format/conformance.md`.
+according to `process/report-format/conditional-conformance.md`.
 
 Keep AI-system risks separate from AI-generated-code provenance findings.
 

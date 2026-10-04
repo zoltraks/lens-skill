@@ -12,7 +12,7 @@ assessments use.
 
 Snapshot date: 2026-09-30.
 
-Feeds `references/delivery-practice.md`, `process/readiness-and-scoring.md`, and
+Feeds `references/delivery-practice.md`, `process/readiness-scoring.md`, and
 `assessment/deployment-review.md`.
 
 ## DORA Metrics

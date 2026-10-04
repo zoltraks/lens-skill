@@ -6,32 +6,35 @@ This document defines the versioning rules for the `lens-skill` Agent Skill.
 
 Versions use a three-part decimal format: `<major>.<minor>.<patch>`.
 
-- `major` - increments when the skill undergoes structural or breaking changes
-- `minor` - increments for additive features or new assessment categories
-- `patch` - increments for corrections and format refinements that change no capability boundary
+- `patch` - the least significant component, which every release increments
+- `minor` - advances only when `patch` rolls over at 9
+- `major` - advances only when `minor` rolls over at 9
+
+There is no qualitative weight classification: the kind of change never selects the
+incremented component.
 
 ## Increment Rules
 
-1. **Increment patch by 1** for each release that fixes or refines behavior without adding
-   capability.
+1. **Increment patch by 1** for every release, whatever the change contains -
+   corrections, refinements, additive features, or structural changes.
 
-2. **Increment minor by 1 and reset patch to 0** for each release that adds capability without
-   breaking existing behavior.
+2. **Patch rolls over at 9**. When patch would reach 10, increment minor by 1 and
+   reset patch to 0.
 
-3. **Minor rolls over at 9**. When minor would reach 10, increment major by 1 and reset minor
-   and patch to 0.
+3. **Minor rolls over at 9**. When minor would reach 10, increment major by 1 and
+   reset minor and patch to 0.
 
    | Before  | After   | Reason         |
    |---------|---------|----------------|
    | 0.8.0   | 0.8.1   | patch + 1      |
-   | 0.8.1   | 0.9.0   | minor + 1      |
+   | 0.8.9   | 0.9.0   | patch rollover |
    | 0.9.9   | 1.0.0   | minor rollover |
    | 1.9.9   | 2.0.0   | minor rollover |
    | 9.9.9   | 10.0.0  | minor rollover |
 
-4. **Major increments only through minor rollover**. Minor numbers are never skipped: even
-   structural releases (new mandatory sections, scoring-semantics changes) take the next minor
-   number, and the major digit advances only when minor rolls over at 9.
+4. **Components advance only through rollover**. Minor and major numbers are never
+   incremented directly and never skipped: each digit moves only when the digit below
+   it rolls over at 9.
 
 ## When To Bump
 
@@ -63,7 +66,8 @@ Audit reports produced by the skill carry a `Report Revision`, not a version.
 Inside a report, the word `version` refers to the audited software, a project, a library,
 or the skill itself, which is shown as `Skill Version`.
 
-Report revision rules live in `process/report-format/opening.md` and `synthesis/report-comparison.md`.
+Report revision rules live in `process/report-format/report-opening.md` and
+`synthesis/report-comparison.md`.
 
 ## Where Version Is Recorded
 

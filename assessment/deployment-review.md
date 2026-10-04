@@ -35,7 +35,7 @@ Reverting a release is assessed separately in `assessment/rollback-review.md`.
 **Pipeline integrity**
 
 For each CI workflow found, run the pin-discipline check from
-`references/stacks/ci-github-actions.md`: every `uses:` reference is pinned to a commit SHA or
+`references/stacks/github-actions.md`: every `uses:` reference is pinned to a commit SHA or
 a versioned tag of a trusted publisher, mutable refs such as `@main` or floating major tags on
 third-party actions are recorded, and unpinned first-party actions follow the project's own
 policy.

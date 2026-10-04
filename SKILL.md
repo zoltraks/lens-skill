@@ -24,7 +24,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.0.3"
+  version: "2.0.4"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -212,25 +212,25 @@ The previous report is never overwritten - write the next revision-numbered file
 
 - **`process/audit-workflow.md`** - End-to-end audit process: intake to validated report.
 - **`process/report-format.md`** - Report format index: rules, parameters, spec-file map.
-- **`process/report-format/opening.md`** - Document Information, coverage matrix, Glossary.
+- **`process/report-format/report-opening.md`** - Document Information, coverage matrix, Glossary.
 - **`process/report-format/multi-project.md`** - Combined multi-project report structure.
-- **`process/report-format/summary-and-changes.md`** - Executive Summary and Changes.
-- **`process/report-format/context-and-compliance.md`** - System Context, SBOM, License Compliance.
-- **`process/report-format/dashboard-and-observations.md`** - Health Dashboard and delivery
+- **`process/report-format/summary-changes.md`** - Executive Summary and Changes.
+- **`process/report-format/context-compliance.md`** - System Context, SBOM, License Compliance.
+- **`process/report-format/dashboard-observations.md`** - Health Dashboard and delivery
   practice.
-- **`process/report-format/methodology-and-scoring.md`** - Auditing Methodology, Scoring Rubrics.
+- **`process/report-format/methodology-scoring.md`** - Auditing Methodology, Scoring Rubrics.
 - **`process/report-format/architectural-assessment.md`** - Architectural Assessment.
-- **`process/report-format/analysis.md`** - Trade-off Analysis, Threat Model.
-- **`process/report-format/conformance.md`** - Conditional conformance sections.
-- **`process/report-format/findings-and-registers.md`** - Strengths, findings, debt, risk,
+- **`process/report-format/report-analysis.md`** - Trade-off Analysis, Threat Model.
+- **`process/report-format/conditional-conformance.md`** - Conditional conformance sections.
+- **`process/report-format/findings-registers.md`** - Strengths, findings, debt, risk,
   roadmap.
-- **`process/report-format/closing.md`** - Exclusions, Limitations, Re-audit, Validation.
+- **`process/report-format/report-closing.md`** - Exclusions, Limitations, Re-audit, Validation.
 - **`process/report-format/hunt-style.md`** - `hunt` report style: verdict, domain register,
   journey traces, remediation phases.
 - **`process/json-exchange.md`** - JSON parameter documents for intake question surfaces.
 - **`process/review-report.md`** - Review report type for explicit amendment requests.
 - **`process/report-parity.md`** - Mandatory core checklist and consistency gate.
-- **`process/readiness-and-scoring.md`** - Score aggregation, confidence, maturity, readiness gates.
+- **`process/readiness-scoring.md`** - Score aggregation, confidence, maturity, readiness gates.
 
 ## `assessment/` - Assessment Categories
 
@@ -253,7 +253,7 @@ The previous report is never overwritten - write the next revision-numbered file
 - **`assessment/observability-review.md`** - Logging, metrics, tracing, alerting.
 - **`assessment/error-handling.md`** - Exception strategy, retries, fallbacks, user-facing errors.
 - **`assessment/operational-readiness.md`** - Runbooks, on-call, capacity, backups.
-- **`assessment/ai-generated-code.md`** - Code provenance, generated-artifact validation.
+- **`assessment/generated-code.md`** - Code provenance, generated-artifact validation.
 - **`assessment/copyright-review.md`** - Originality, license compliance, attribution.
 
 ### Conditional Assessment Files
@@ -276,12 +276,12 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
 - **`synthesis/risk-register.md`** - Unified risk register: `RSK-[001]` mapped to
   `FND-XXX` findings.
 - **`synthesis/project-scorecard.md`** - 1-10 scorecard, rubric, scales (1-5, 1-3, star bars).
-- **`synthesis/trade-off-analysis.md`** - Trade-offs as a standalone section and embedded findings.
+- **`synthesis/tradeoff-analysis.md`** - Trade-offs as a standalone section and embedded findings.
 - **`synthesis/remediation-roadmap.md`** - Prioritized roadmap with impact-vs-effort matrix and
   the Recommended/Optional/Not recommended classification.
 - **`synthesis/debt-register.md`** - `TDR-[001]` inventory (CISQ/SQALE). Include for
   structural debt.
-- **`synthesis/re-audit-plan.md`** - Verification owners, sign-off gates. Include for
+- **`synthesis/reaudit-plan.md`** - Verification owners, sign-off gates. Include for
   P1/P2 findings.
 - **`synthesis/report-comparison.md`** - Re-audit discovery, revisions, Changes, legacy names.
 - **`synthesis/report-triangulation.md`** - Contradiction register and second-opinion rules
@@ -387,7 +387,7 @@ For technical due diligence, also load `assessment/operational-readiness.md`,
 Use `synthesis/project-scorecard.md` for the ISO/IEC 25010:2023 crosswalk without changing Lens
 scores into purported ISO ratings.
 
-Treat unknown authorship as unknown, using `assessment/ai-generated-code.md`, not style heuristics.
+Treat unknown authorship as unknown, using `assessment/generated-code.md`, not style heuristics.
 
 Validate summaries against evidence and run the regression scenarios in `process/audit-workflow.md`
 when maintaining the skill.
@@ -430,7 +430,7 @@ when maintaining the skill.
 - Logging and metrics belong in `assessment/observability-review.md`, failure handling in code
   belongs in `assessment/error-handling.md`.
 - Data protection, privacy, and licensing belong in `assessment/compliance-review.md`.
-- Code provenance and generated-artifact validation belong in `assessment/ai-generated-code.md`,
+- Code provenance and generated-artifact validation belong in `assessment/generated-code.md`,
   concrete quality defects remain in their technical categories regardless of origin.
 - Code originality, license compliance, and attribution belong in `assessment/copyright-review.md`.
 - Data flow modeling and trust boundaries belong in `assessment/data-flow.md`, STRIDE threat
@@ -472,7 +472,7 @@ when maintaining the skill.
   `process/report-format.md`, with omissions noted in Scope Exclusions - never force one.
 - The Technical Debt Register (`synthesis/debt-register.md`) is distinct from the Unified Risk
   Register: debt is cost already present, risk is what could go wrong. Never duplicate entries.
-- The Re-audit And Follow-up Plan (`synthesis/re-audit-plan.md`) precedes Validation Record and
+- The Re-audit And Follow-up Plan (`synthesis/reaudit-plan.md`) precedes Validation Record and
   maps P1/P2 findings to verification owners and closure evidence.
 - Every absent-capability finding carries an `Absence` field built from repository signals per
   `principles/evaluation-rules.md`, never a claim about the authors' motives.
@@ -488,12 +488,12 @@ when maintaining the skill.
   with the Mandatory Core Checklist result and the `process/report-parity.md` gate outcome.
 - For a multi-project report confirmed at intake, a condensed combined Executive Summary and
   Changes follow the Project Inventory, and a combined Trade-off Analysis holds only
-  cross-project trade-offs per `synthesis/trade-off-analysis.md`.
+  cross-project trade-offs per `synthesis/tradeoff-analysis.md`.
 - Each `translations/` file defines one report language, loaded only when needed.
 - Prefer the narrowest assessment file matching the request: a single-dimension request loads
   that one file plus `principles/` and produces the matching finding pillar and risk row only.
 - Trade-off analyses appear as the Trade-off Analysis section after Architectural Assessment and
-  embedded in findings under Description or Impact, per `synthesis/trade-off-analysis.md`.
+  embedded in findings under Description or Impact, per `synthesis/tradeoff-analysis.md`.
 - For a full audit, load `principles/`, `process/`, every relevant `assessment/` file, and all
   `synthesis/` files. Mark inapplicable categories `N/A` with justification rather than dropping
   them.

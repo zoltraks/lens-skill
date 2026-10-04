@@ -76,7 +76,7 @@ advisories, compatibility, and support signals.
 
 Under `executed-readonly` evidence mode, a commissioned scanner run is `EXECUTED` evidence:
 record the tool, version, advisory database revision, exact command, exit code, and retained
-output per `process/report-format/closing.md`.
+output per `process/report-format/report-closing.md`.
 
 A repository policy file (`deny.toml`, `audit.toml`, Dependabot configuration, a recorded
 exception) establishes the intended check, never its result - treat it as `Reported` intent

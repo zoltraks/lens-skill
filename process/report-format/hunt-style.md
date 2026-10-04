@@ -21,21 +21,21 @@ Style changes presentation, never what must be found.
 
 The following carry over unchanged from `process/report-format.md` and its spec files:
 
-- Document Information per `opening.md`, including `Report Style: hunt`.
-- Audit Type Coverage per `opening.md`.
-- The finding block schema per `findings-and-registers.md`, with the same field vocabulary.
+- Document Information per `report-opening.md`, including `Report Style: hunt`.
+- Audit Type Coverage per `report-opening.md`.
+- The finding block schema per `findings-registers.md`, with the same field vocabulary.
 - The risk register schema per `synthesis/risk-register.md`, the roadmap classification rules
   per `synthesis/remediation-roadmap.md`, and scoring semantics per
-  `process/readiness-and-scoring.md` wherever gates or confidence apply.
+  `process/readiness-scoring.md` wherever gates or confidence apply.
 - Snapshot identity, read-depth table, evidence ledger, and claim traceability rules per
   `process/audit-workflow.md`.
 - The Contradiction Register per `synthesis/report-triangulation.md` whenever an external
   report was found at intake.
 - Scope Exclusions, Limitations and Unknowns, Validation Record, and References per
-  `closing.md`.
+  `report-closing.md`.
 
 Hunt adds two mandatory finding fields everywhere the shared schema applies: `Breaking
-change` and `Runtime confirmed` per `findings-and-registers.md`.
+change` and `Runtime confirmed` per `findings-registers.md`.
 
 ## Section Order
 
@@ -75,7 +75,7 @@ It carries, in order:
 
 The verdict never hides a broken advertised workflow behind an average: any open hard-fail
 gate makes the verdict `Not ready` regardless of other ratings, per
-`process/readiness-and-scoring.md`.
+`process/readiness-scoring.md`.
 
 ## Domain Ratings
 
@@ -154,7 +154,7 @@ Recommendation classification (`Recommended`, `Optional`, `Not recommended`) app
 
 Under `source-only` this mandatory section lists every material claim the audit could not
 resolve from source: the exact command or procedure, its pass criteria, and the finding or
-rating it would confirm or close, per `closing.md`.
+rating it would confirm or close, per `report-closing.md`.
 
 Under `executed-readonly` the section is replaced by the Executed Evidence Log plus any
 remaining handoff entries for checks outside the commissioned set.

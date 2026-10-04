@@ -20,11 +20,11 @@ A review report applies the same phases with the deltas defined in
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 1629 | Intake Checklist guidance        |
-| Handling Thin Input     | 1648 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1659 | Single-Dimension Audits guidance |
-| Re-Audit                | 1669 | Re-Audit guidance                |
-| Multi-Project Audits    | 1735 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1638 | Intake Checklist guidance        |
+| Handling Thin Input     | 1657 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1668 | Single-Dimension Audits guidance |
+| Re-Audit                | 1678 | Re-Audit guidance                |
+| Multi-Project Audits    | 1744 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -46,6 +46,9 @@ Findings from a description are weaker than findings from inspected code or conf
 Determine the report type per `process/review-report.md`: `Audit` by default, `Review`
 only when the request explicitly asks for a review deliverable with amendment instructions
 or an improvement plan.
+
+A `Review` request scoped to a change set - a commit range, pull or merge request, or
+branch diff - resolves to the change-review variant per `process/review-report.md`.
 
 Determine the natural language of the user's request.
 
@@ -160,7 +163,7 @@ During intake, record the audited tree's identity so every claim can be anchored
 - A dirty tree lists its dirty paths in the evidence ledger, not in Document Information.
 - When no VCS metadata exists, record `unversioned working tree` plus the capture timestamp.
 
-These values render in Document Information per `process/report-format/opening.md`, and every
+These values render in Document Information per `process/report-format/report-opening.md`, and every
 claim in the report binds to this snapshot.
 
 **External report discovery**
@@ -316,6 +319,10 @@ When the resolved report type is `Review`, the same rules apply to the review fi
 family: `REVIEW.md`, `REVIEW-<revision>.md`, and the language-specific stem such as
 `PRZEGLĄD-1.0.md`, and the audit-mode wording reads "re-review".
 
+The change-review variant shares the `REVIEW` filename family: a previous change review
+baselines a new change review, while a `REVIEW`-family file carrying a custom suffix is
+treated as a custom report and still appears as a baseline candidate.
+
 An audit report never baselines a review, and a review report never baselines an audit.
 
 When several exist, present the one with the highest revision as the candidate baseline.
@@ -405,7 +412,7 @@ On confirmation, record the previous report's checksum - or byte size and line c
 is unavailable - in working notes as the baseline-integrity record.
 
 The new report is written to a new revision-numbered file and carries a Changes Since Previous Audit
-section, per `synthesis/report-comparison.md` and `process/report-format/summary-and-changes.md`.
+section, per `synthesis/report-comparison.md` and `process/report-format/summary-changes.md`.
 
 If no previous report is found and the conversation context contains no record of previously chosen
 parameters, treat the request as a new audit and run the full Parameter Configuration phase.
@@ -700,7 +707,7 @@ Apply `executed-readonly` only when the user explicitly commissions it.
   names, such as dependency advisory or policy scanners (`cargo audit`, `cargo deny check`).
   The project itself is still never built, tested, or run, no tool is installed or upgraded
   for the audit, and every executed check is recorded in the Executed Evidence Log with
-  tool, version, exact command, and timestamp per `process/report-format/closing.md`.
+  tool, version, exact command, and timestamp per `process/report-format/report-closing.md`.
 
 Under JSON exchange this is the `evidence-mode` `choice` parameter.
 
@@ -847,7 +854,7 @@ scanners.
 
 The project itself is still never built, tested, or run, no tool is installed or upgraded for
 the audit, and every executed check lands in the Executed Evidence Log per
-`process/report-format/closing.md`.
+`process/report-format/report-closing.md`.
 
 Record the scope as `source-only` or `executed-readonly`.
 
@@ -907,7 +914,7 @@ implementation exists: read the code path and verify it produces real behavior r
 placeholder, stub, or uniform default.
 
 A documented capability backed by a stub is a spec violation per
-`process/readiness-and-scoring.md`.
+`process/readiness-scoring.md`.
 
 **Toolchain compatibility check**
 
@@ -1003,7 +1010,7 @@ Nothing collected is silently unused.
 
 Also record the read depth of each source file - full read, sampled, or listed only - so the
 Auditing Methodology section can publish the read-depth table per
-`process/report-format/methodology-and-scoring.md`.
+`process/report-format/methodology-scoring.md`.
 
 **Verification Plan**
 
@@ -1109,7 +1116,7 @@ If a material claim has no direct reference, add one to the evidence ledger or r
 
 For each category, open the matching `assessment/` file and apply its checklist.
 
-For a full audit, this includes the two additional categories `assessment/ai-generated-code.md` and
+For a full audit, this includes the two additional categories `assessment/generated-code.md` and
 `assessment/copyright-review.md`.
 
 Evaluate the inclusion criterion for each conditional assessment,
@@ -1165,7 +1172,7 @@ using `synthesis/risk-register.md`.
 Every risk must reference its source `FND-XXX`.
 
 Build the project scorecard using `synthesis/project-scorecard.md` and
-`process/readiness-and-scoring.md`.
+`process/readiness-scoring.md`.
 
 Present the scoring rubric before the scores.
 
@@ -1183,7 +1190,7 @@ Draft the Strengths & What's Working section by identifying 5-8 evidenced positi
 the codebase.
 
 Surface trade-offs both as a standalone Trade-off Analysis section (using
-`synthesis/trade-off-analysis.md`) and embedded into relevant architectural or design findings where
+`synthesis/tradeoff-analysis.md`) and embedded into relevant architectural or design findings where
 they directly explain a specific finding.
 
 When structural debt distinct from risks was surfaced,
@@ -1200,7 +1207,7 @@ At `Standard` and `Detailed` detail levels, classify every `REC-XXX` as `RECOMME
 `synthesis/remediation-roadmap.md`.
 
 When the roadmap contains at least one P1 or P2 recommendation, build the Re-audit And Follow-up
-Plan using `synthesis/re-audit-plan.md`, mapping those findings to verification owners and closure
+Plan using `synthesis/reaudit-plan.md`, mapping those findings to verification owners and closure
 evidence.
 
 When a re-audit was confirmed during intake, build the Changes Since Previous Audit section
@@ -1282,7 +1289,8 @@ re-audit that upgrades a prior revision, apply these mechanical-edit rules:
 
 **Validation**
 
-For a review report, run the review validation contract in `process/review-report.md`
+For a review report, run the review validation contract in `process/review-report.md`,
+where the change-review variant runs its own contract.
 instead of the audit checks below.
 
 `scripts/validate-report.py` detects the review shape and applies the review contract.
@@ -1404,7 +1412,7 @@ Confirm every numeric dimension has evidence IDs, confidence, and a justified sc
 Confirm `UNKNOWN` and `N/A` dimensions are excluded from the mean.
 
 Confirm the maturity level, readiness state, blocking risks,
-and sign-off status agree with `process/readiness-and-scoring.md`.
+and sign-off status agree with `process/readiness-scoring.md`.
 
 When an API Compatibility And Versioning Discipline section is present, confirm it addresses
 gate presence, versioning-scheme consistency, and breaking-change tracking, and that configured
@@ -1622,6 +1630,7 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Evidence ledger written                    | Every row carries `Observation` or `Concern`                    |
 | Polish-language report                     | Headings and dimension names match glossary verbatim            |
 | Explicit review-and-amend request          | `REVIEW-1.0.md` with the review structure                       |
+| Explicit change-set review request         | `REVIEW-1.0.md` with the change-review structure                |
 | Bare "review this codebase" request        | Audit stays the default, single-dimension when scoped           |
 | Existing `REVIEW-1.0.md`, new review       | `REVIEW-1.1.md` written, previous kept                          |
 | Review request, `AUDIT-1.0.md` exists      | Audit report never baselines a review                           |
@@ -1791,7 +1800,7 @@ run a single Synthesis phase that combines all projects into one report:
 8. The combined Trade-off Analysis, Scope Exclusions, Limitations and Unknowns, Re-audit and
    Follow-up Plan, Validation Record, and References are shared sections at the end of the
    report, covering all projects. The combined Trade-off Analysis holds only cross-project
-   trade-offs per `synthesis/trade-off-analysis.md`.
+   trade-offs per `synthesis/tradeoff-analysis.md`.
 
 **Parameter Configuration for multiple projects**
 

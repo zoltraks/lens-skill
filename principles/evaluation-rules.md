@@ -381,7 +381,7 @@ Documentation or contract drift is not evidence of AI-generated code unless expl
 links the defect to a generated artifact or AI workflow.
 
 Use `AIP` only for provenance and validation-control findings governed by
-`assessment/ai-generated-code.md`.
+`assessment/generated-code.md`.
 
 ## Critical Constraints
 

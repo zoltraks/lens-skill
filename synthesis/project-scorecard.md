@@ -166,7 +166,7 @@ Render `UNKNOWN` as text, not as a star bar; `N/A` rows are omitted from the tab
 
 For an overall mean under a star scale, round to the nearest integer for the star bar and keep
 the exact mean in parentheses, for example `★★★☆☆ (3.4/5)`. A star scale is ordinal, so the
-per-dimension distribution appears beside the bar per `process/readiness-and-scoring.md`.
+per-dimension distribution appears beside the bar per `process/readiness-scoring.md`.
 
 ## Handling Unknowns
 
@@ -260,7 +260,7 @@ it is not mapped onto a characteristic.
 
 ## Score Confidence And Aggregation
 
-Apply `process/readiness-and-scoring.md` for status-to-score mapping, confidence, score caps,
+Apply `process/readiness-scoring.md` for status-to-score mapping, confidence, score caps,
 readiness gates, and multi-project aggregation.
 
 Cite supporting evidence IDs, material findings, and confidence for each scored dimension.

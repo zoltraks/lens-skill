@@ -13,7 +13,7 @@ This file distills the WHATWG HTML/DOM, ECMA-262, and MDN sources listed in
 Snapshot date: 2026-09-30.
 
 Feeds `assessment/best-practices.md`, `assessment/security-review.md`,
-`assessment/nfr-review.md`, and `references/topics/accessibility.md` consumers for vanilla-web
+`assessment/nfr-review.md`, and `references/topics/accessibility-baseline.md` consumers for vanilla-web
 subjects.
 
 ## HTML Structure
@@ -39,7 +39,7 @@ From https://dom.spec.whatwg.org/ and https://developer.mozilla.org/en-US/docs/W
   inline `on*` handler attributes mix markup with behavior and defeat CSP.
 - `textContent` (not `innerHTML`) is the safe sink for untrusted strings. `innerHTML`,
   `outerHTML`, `insertAdjacentHTML`, and `document.write` are the injection sinks that
-  `references/topics/web-frontend-security.md` enumerates.
+  `references/topics/frontend-security.md` enumerates.
 - `querySelector` returns the first match. `id` duplication makes selection and label
   association ambiguous - duplicate ids are a defect.
 - ECMA-262 semantics: `===` comparison, `const`/`let` over `var`, no implicit globals

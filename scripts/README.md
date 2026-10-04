@@ -111,9 +111,19 @@ characters that the ASCII convention forbids. Run it on every Polish report befo
 its result is recorded in the Validation Record. Like the other report tools it is copied
 into the audited repository under a `.tmp.` name before use.
 
-`validate-report.py` detects a review report by a `REVIEW`-family or `PRZEGLĄD`-family
-filename or a title ending in `Review and Amendment Instructions`, and then applies the
-review contract from `process/review-report.md` instead of the audit checks.
+`validate-report.py` detects a review report by a canonical `REVIEW`-family or
+`PRZEGLĄD`-family filename - a bare stem or a `-<revision>` suffix - or a title ending
+in `Review and Amendment Instructions`, and then applies the review contract from
+`process/review-report.md` instead of the audit checks.
+
+A canonical review file carrying `## Findings` and `## Action Proposals` but no
+`### Findings and Corrections` selects the change-review contract, which checks the
+seven canonical sections in order, the identification table, the findings scan table
+and its severity scale, and the `F-xx` anchor-and-link discipline.
+
+A `REVIEW`-family filename with a custom suffix is classified `custom` and receives the
+shared mechanical checks only, since a user-supplied template overrides the canonical
+section contract.
 
 `link-glossary.py` applies to audit reports only: review reports carry no Glossary.
 

@@ -127,7 +127,7 @@ If an option only corrects documentation, do not claim it delivers the missing f
 
 At `Standard` and `Detailed` detail levels, classify every `REC-XXX` for the Recommendation
 Classification section that follows the roadmap, per
-`process/report-format/findings-and-registers.md`.
+`process/report-format/findings-registers.md`.
 
 Use exactly these classes:
 

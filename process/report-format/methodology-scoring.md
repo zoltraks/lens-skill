@@ -137,7 +137,7 @@ verification plan, and the audit recorded rather than executed it.
 
 `NOT RUN` bounds the verification claim - it never weakens a finding that rests on positive
 inspected evidence, and every such row feeds the Limitations and Unknowns table per
-`process/report-format/closing.md`.
+`process/report-format/report-closing.md`.
 
 The full convention is codified in `references/topics/evidence-recipes.md`.
 
@@ -213,7 +213,7 @@ Register.
 
 Present the scoring framework after Auditing Methodology and before detailed finding assessments.
 
-Apply `process/readiness-and-scoring.md` for deterministic status-to-score mapping, confidence,
+Apply `process/readiness-scoring.md` for deterministic status-to-score mapping, confidence,
 score caps, maturity, readiness gates, and multi-project aggregation.
 
 The earlier dashboard summarizes these scores and should reference this rubric.

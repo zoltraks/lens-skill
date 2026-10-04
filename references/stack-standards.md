@@ -20,7 +20,7 @@ Apply `principles/evaluation-rules.md` throughout.
 - Load the matching row or rows and consult the listed references when assessing Stack Best
   Practices, Security Posture, Dependency Review, Standards Conformance, and API Compatibility.
 - Name the consulted sources in the Auditing Methodology's "Reference standards" step and in the
-  References section, per `process/report-format/closing.md`.
+  References section, per `process/report-format/report-closing.md`.
 - Cite only sources actually consulted. A row in this map is a pointer, not a citation.
 - A bundled corpus digest counts as the consulted baseline when its snapshot answered the
   question - follow the consultation order in `principles/evaluation-rules.md` and record
@@ -57,7 +57,7 @@ Apply `principles/evaluation-rules.md` throughout.
 | Shell / Batch / PowerShell   | `*.sh`, `*.bat`, `*.cmd`, `*.ps1`                   | [ShellCheck wiki](https://www.shellcheck.net/wiki/), [Google Shell Style Guide](https://google.github.io/styleguide/shellguide.html), [Windows commands reference](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/windows-commands), [PowerShell approved verbs](https://learn.microsoft.com/en-us/powershell/scripting/developer/cmdlet/approved-verbs-for-windows-powershell-commands) | [PSScriptAnalyzer](https://github.com/PowerShell/PSScriptAnalyzer), ShellCheck rule pages                                                                                                                                                         | Not applicable                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | OpenAPI / REST contract      | `openapi.yaml`, `openapi.json`, `swagger.*`         | [OpenAPI Specification](https://spec.openapis.org/oas/v3.1), [JSON Schema](https://json-schema.org/draft/2020-12/json-schema-validation), [RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457)                                                                                                                                                                                                                        | [OWASP API Security Top 10](https://owasp.org/API-Security/)                                                                                                                                                                                      | [Spectral](https://docs.stoplight.io/docs/spectral/) for linting, `oasdiff` for breaking-change review                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | PHP                          | `composer.json`, `composer.lock`, `*.php`           | [PHP documentation](https://www.php.net/docs.php), [Composer documentation](https://getcomposer.org/doc/), [PHPUnit documentation](https://docs.phpunit.de/)                                                                                                                                                                                                                                                               | [PHP security manual](https://www.php.net/manual/en/security.php), [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)                                                                                                                | [Composer SemVer constraints](https://getcomposer.org/doc/articles/versions.md), `composer audit`                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| GitHub Actions / CI          | `.github/workflows/*.yml`, `*.gitlab-ci.yml`        | [GitHub Actions documentation](https://docs.github.com/en/actions), [workflow syntax](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions), [GitLab CI reference](https://docs.gitlab.com/ee/ci/yaml/)                                                                                                                                                                                         | [GitHub Actions security hardening](https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions), [OpenSSF Scorecard checks](https://github.com/ossf/scorecard/blob/main/docs/checks.md) | Action pin conventions per `references/stacks/ci-github-actions.md`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| GitHub Actions / CI          | `.github/workflows/*.yml`, `*.gitlab-ci.yml`        | [GitHub Actions documentation](https://docs.github.com/en/actions), [workflow syntax](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions), [GitLab CI reference](https://docs.gitlab.com/ee/ci/yaml/)                                                                                                                                                                                         | [GitHub Actions security hardening](https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions), [OpenSSF Scorecard checks](https://github.com/ossf/scorecard/blob/main/docs/checks.md) | Action pin conventions per `references/stacks/github-actions.md`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | Agent-facing package         | `SKILL.md`, `AGENTS.md`, `.mcp.json`, rules dirs    | [Agent Skills specification](https://agentskills.io/specification), [AGENTS.md convention](https://agents.md/), [Anthropic skill best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices)                                                                                                                                                                                         | [MCP specification](https://modelcontextprotocol.io/specification)                                                                                                                                                                                | Agent Skills spec versioning follows the published spec revision                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 
 ## Corpus Digests
@@ -68,43 +68,43 @@ The bundled corpus under `references/stacks/`, `references/methodology/`, and
 Consult the matching digest first - it records the snapshot date, the distilled checkable
 rules, and the live-check procedure.
 
-| Detection signal                    | Digest                                               |
-|-------------------------------------|------------------------------------------------------|
-| `package.json`, Node runtime        | `references/stacks/nodejs.md`                        |
-| `tsconfig.json`, `*.ts`             | `references/stacks/typescript.md`                    |
-| `pyproject.toml`, `*.py`            | `references/stacks/python.md`                        |
-| `composer.json`, `*.php`            | `references/stacks/php.md`                           |
-| `go.mod`, `*.go`                    | `references/stacks/go.md`                            |
-| `pom.xml`, `build.gradle`, `*.java` | `references/stacks/java-spring.md`                   |
-| `*.csproj`, `*.sln`                 | `references/stacks/dotnet-aspnet.md`                 |
-| `Cargo.toml`, `*.rs`                | `references/stacks/rust.md`                          |
-| `*.c`, `*.cpp`, `CMakeLists.txt`    | `references/stacks/c-cpp.md`                         |
-| `*.sh`, `*.ps1`, `*.bat`            | `references/stacks/shell.md`                         |
-| `*.html`, `*.css`, vanilla `*.js`   | `references/stacks/web.md`                           |
-| SPA framework manifests             | `references/stacks/spa.md`                           |
-| Electron `package.json`             | `references/stacks/electron-desktop.md`              |
-| `Dockerfile`, `compose.*`           | `references/stacks/docker.md`                        |
-| `.github/workflows/`                | `references/stacks/ci-github-actions.md`             |
-| `openapi.yaml`, `swagger.*`         | `references/stacks/openapi-rest.md`                  |
-| `*.dpr`, `*.pas`                    | `references/stacks/delphi.md`                        |
-| `build.zig`, `*.zig`                | `references/stacks/zig.md`                           |
-| OWASP and review methodology        | `references/methodology/owasp-baselines.md`          |
-| Risk, threat modeling, CVSS         | `references/methodology/risk-and-threat-modeling.md` |
-| Quality models, ISO 25010           | `references/methodology/quality-models.md`           |
-| DORA, SLO, SSDF                     | `references/methodology/delivery-metrics.md`         |
-| SLSA, Scorecard, provenance         | `references/methodology/supply-chain.md`             |
-| SemVer, changelogs, commits         | `references/methodology/versioning-release.md`       |
-| SBOM, SPDX, licenses                | `references/methodology/sbom-licensing.md`           |
-| Auth, crypto, secrets handling      | `references/methodology/crypto-and-auth.md`          |
-| Accessibility checks                | `references/topics/accessibility.md`                 |
-| Frontend security surface           | `references/topics/web-frontend-security.md`         |
-| Service workers, offline            | `references/topics/offline-cache.md`                 |
-| Project health files                | `references/topics/project-health.md`                |
-| Signing and update integrity        | `references/topics/git-integrity.md`                 |
-| Documentation standards             | `references/topics/markdown-standards.md`            |
-| Mechanical evidence patterns        | `references/topics/evidence-recipes.md`              |
-| SSH deployment paths                | `references/topics/deployment-ssh.md`                |
-| License declaration locations       | `references/topics/license-evidence.md`              |
+| Detection signal                    | Digest                                         |
+|-------------------------------------|------------------------------------------------|
+| `package.json`, Node runtime        | `references/stacks/nodejs.md`                  |
+| `tsconfig.json`, `*.ts`             | `references/stacks/typescript.md`              |
+| `pyproject.toml`, `*.py`            | `references/stacks/python.md`                  |
+| `composer.json`, `*.php`            | `references/stacks/php.md`                     |
+| `go.mod`, `*.go`                    | `references/stacks/go.md`                      |
+| `pom.xml`, `build.gradle`, `*.java` | `references/stacks/java-spring.md`             |
+| `*.csproj`, `*.sln`                 | `references/stacks/dotnet-aspnet.md`           |
+| `Cargo.toml`, `*.rs`                | `references/stacks/rust.md`                    |
+| `*.c`, `*.cpp`, `CMakeLists.txt`    | `references/stacks/c-cpp.md`                   |
+| `*.sh`, `*.ps1`, `*.bat`            | `references/stacks/shell.md`                   |
+| `*.html`, `*.css`, vanilla `*.js`   | `references/stacks/web.md`                     |
+| SPA framework manifests             | `references/stacks/spa.md`                     |
+| Electron `package.json`             | `references/stacks/electron-desktop.md`        |
+| `Dockerfile`, `compose.*`           | `references/stacks/docker.md`                  |
+| `.github/workflows/`                | `references/stacks/github-actions.md`          |
+| `openapi.yaml`, `swagger.*`         | `references/stacks/openapi-rest.md`            |
+| `*.dpr`, `*.pas`                    | `references/stacks/delphi.md`                  |
+| `build.zig`, `*.zig`                | `references/stacks/zig.md`                     |
+| OWASP and review methodology        | `references/methodology/owasp-baselines.md`    |
+| Risk, threat modeling, CVSS         | `references/methodology/risk-modeling.md`      |
+| Quality models, ISO 25010           | `references/methodology/quality-models.md`     |
+| DORA, SLO, SSDF                     | `references/methodology/delivery-metrics.md`   |
+| SLSA, Scorecard, provenance         | `references/methodology/supply-chain.md`       |
+| SemVer, changelogs, commits         | `references/methodology/versioning-release.md` |
+| SBOM, SPDX, licenses                | `references/methodology/sbom-licensing.md`     |
+| Auth, crypto, secrets handling      | `references/methodology/crypto-auth.md`        |
+| Accessibility checks                | `references/topics/accessibility-baseline.md`  |
+| Frontend security surface           | `references/topics/frontend-security.md`       |
+| Service workers, offline            | `references/topics/offline-cache.md`           |
+| Project health files                | `references/topics/project-health.md`          |
+| Signing and update integrity        | `references/topics/git-integrity.md`           |
+| Documentation standards             | `references/topics/markdown-standards.md`      |
+| Mechanical evidence patterns        | `references/topics/evidence-recipes.md`        |
+| SSH deployment paths                | `references/topics/deployment-ssh.md`          |
+| License declaration locations       | `references/topics/license-evidence.md`        |
 
 `references/source-catalog.md` maps every digest back to its authoritative URLs and records
 each source's consolidation status.
@@ -148,4 +148,4 @@ Do not apply those references to ordinary software that only has unknown code au
   separately in Standards Conformance. Internal standards complement canonical sources and never
   replace them in the References section.
 - When a cited page could not be consulted during the audit, do not list it in References. List
-  only consulted sources, per `process/report-format/closing.md`.
+  only consulted sources, per `process/report-format/report-closing.md`.

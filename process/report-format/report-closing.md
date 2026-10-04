@@ -154,7 +154,7 @@ never imply a build, test, or run of the subject occurred.
 ## Re-audit And Follow-up Plan
 
 Include this section only when the Actionable Remediation Roadmap contains at least one P1 or P2
-recommendation, per `synthesis/re-audit-plan.md`.
+recommendation, per `synthesis/reaudit-plan.md`.
 
 It precedes the Validation Record and References sections.
 
@@ -178,12 +178,12 @@ When the report language is not English, apply the column header translations fr
 After the table, state sign-off gates tied to project-qualified `RSK-XXX` IDs and an evidenced
 re-audit schedule.
 
-Include the two standard triggers from `synthesis/re-audit-plan.md` when they apply: an SBOM-drift
+Include the two standard triggers from `synthesis/reaudit-plan.md` when they apply: an SBOM-drift
 re-audit on manifest or lockfile change, and a pentest-escalation trigger naming a scoped live
 penetration test when a `HIGH` or `CRITICAL` network-facing finding remains `Theoretical` after
 remediation planning.
 
-Apply `synthesis/re-audit-plan.md` for confirmed ownership, revision-specific closure evidence,
+Apply `synthesis/reaudit-plan.md` for confirmed ownership, revision-specific closure evidence,
 residual risk, and the separation of final-report state from production sign-off.
 
 Unknown owners or missing required verification leave sign-off pending, proposed roles are not

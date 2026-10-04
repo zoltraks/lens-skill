@@ -435,26 +435,26 @@ The following sections and subsections are conditional.
 
 Each lists its inclusion criterion and the assessment file that governs it:
 
-| Section / Subsection                                        | Include When                                                       | Governing File                        |
-|-------------------------------------------------------------|--------------------------------------------------------------------|---------------------------------------|
-| Data Flow Diagram (in Architectural Assessment)             | The system moves data across one or more trust boundaries          | `assessment/data-flow.md`             |
-| Design Patterns (in Architectural Assessment)               | The codebase is large enough to exhibit recurring structure        | `assessment/design-patterns.md`       |
-| Architecture Decision Records (in Architectural Assessment) | The system is production-bound with significant decisions          | `assessment/change-management.md`     |
-| Threat Model (standalone)                                   | The system has a security-relevant attack surface or boundary      | `assessment/threat-model.md`          |
-| API Contract Conformance (standalone)                       | The system defines, exposes, or consumes an API contract           | `assessment/api-contract.md`          |
-| Skill Definition Conformance (standalone)                   | The subject holds `SKILL.md` files or other agent-facing artifacts | `assessment/skill-definition.md`      |
-| Agent Guidance Conformance (standalone)                     | The subject carries a structured agent-guidance documentation set  | `assessment/agent-guidance.md`        |
-| AI System Assessment (standalone)                           | The project trains, serves, or materially depends on AI            | `assessment/ai-system.md`             |
-| Standards Conformance (standalone)                          | The project contains documented development standards              | `assessment/standards-conformance.md` |
-| API Compatibility & Versioning Discipline (standalone)      | The subject is a reusable library or package                       | `assessment/api-compatibility.md`     |
-| Technical Debt Register (standalone)                        | Structural debt distinct from risks is surfaced                    | `synthesis/debt-register.md`          |
-| Re-audit And Follow-up Plan (standalone)                    | The roadmap contains a P1 or P2 recommendation                     | `synthesis/re-audit-plan.md`          |
-| Changes Since Previous Audit (standalone)                   | Previous report found and confirmed as the re-audit baseline       | `synthesis/report-comparison.md`      |
-| Glossary (standalone)                                       | Descriptive mode is enabled (default)                              | `process/report-format.md`            |
-| Recommendation Classification (standalone)                  | Detail level is Standard or Detailed and the roadmap exists        | `synthesis/remediation-roadmap.md`    |
-| Contradiction Register (standalone or in Limitations)       | An external or prior report asserts conflicting claims             | `synthesis/report-triangulation.md`   |
-| Operator Verification Handoff (standalone)                  | `source-only` evidence mode - the default                          | `process/report-format/closing.md`    |
-| Executed Evidence Log (standalone)                          | `executed-readonly` evidence mode                                  | `process/report-format/closing.md`    |
+| Section / Subsection                                        | Include When                                                       | Governing File                            |
+|-------------------------------------------------------------|--------------------------------------------------------------------|-------------------------------------------|
+| Data Flow Diagram (in Architectural Assessment)             | The system moves data across one or more trust boundaries          | `assessment/data-flow.md`                 |
+| Design Patterns (in Architectural Assessment)               | The codebase is large enough to exhibit recurring structure        | `assessment/design-patterns.md`           |
+| Architecture Decision Records (in Architectural Assessment) | The system is production-bound with significant decisions          | `assessment/change-management.md`         |
+| Threat Model (standalone)                                   | The system has a security-relevant attack surface or boundary      | `assessment/threat-model.md`              |
+| API Contract Conformance (standalone)                       | The system defines, exposes, or consumes an API contract           | `assessment/api-contract.md`              |
+| Skill Definition Conformance (standalone)                   | The subject holds `SKILL.md` files or other agent-facing artifacts | `assessment/skill-definition.md`          |
+| Agent Guidance Conformance (standalone)                     | The subject carries a structured agent-guidance documentation set  | `assessment/agent-guidance.md`            |
+| AI System Assessment (standalone)                           | The project trains, serves, or materially depends on AI            | `assessment/ai-system.md`                 |
+| Standards Conformance (standalone)                          | The project contains documented development standards              | `assessment/standards-conformance.md`     |
+| API Compatibility & Versioning Discipline (standalone)      | The subject is a reusable library or package                       | `assessment/api-compatibility.md`         |
+| Technical Debt Register (standalone)                        | Structural debt distinct from risks is surfaced                    | `synthesis/debt-register.md`              |
+| Re-audit And Follow-up Plan (standalone)                    | The roadmap contains a P1 or P2 recommendation                     | `synthesis/reaudit-plan.md`               |
+| Changes Since Previous Audit (standalone)                   | Previous report found and confirmed as the re-audit baseline       | `synthesis/report-comparison.md`          |
+| Glossary (standalone)                                       | Descriptive mode is enabled (default)                              | `process/report-format.md`                |
+| Recommendation Classification (standalone)                  | Detail level is Standard or Detailed and the roadmap exists        | `synthesis/remediation-roadmap.md`        |
+| Contradiction Register (standalone or in Limitations)       | An external or prior report asserts conflicting claims             | `synthesis/report-triangulation.md`       |
+| Operator Verification Handoff (standalone)                  | `source-only` evidence mode - the default                          | `process/report-format/report-closing.md` |
+| Executed Evidence Log (standalone)                          | `executed-readonly` evidence mode                                  | `process/report-format/report-closing.md` |
 
 In a multi-project report, evaluate each criterion independently per project.
 
@@ -564,29 +564,29 @@ In summary:
 
 Each report section is specified in a file under `process/report-format/`.
 
-| File                            | Sections                                                 |
-|---------------------------------|----------------------------------------------------------|
-| `opening.md`                    | Document Information, Audit Type Coverage,               |
-|                                 | Glossary                                                 |
-| `multi-project.md`              | Multi-Project Report Structure                           |
-| `summary-and-changes.md`        | Executive Summary, Changes Since Previous Audit          |
-| `context-and-compliance.md`     | System Context, Software Bill of Materials, License      |
-|                                 | Compliance Review                                        |
-| `dashboard-and-observations.md` | Health Dashboard, Delivery Practice & Team Continuity,   |
-|                                 | High-Level Observations                                  |
-| `methodology-and-scoring.md`    | Auditing Methodology, Scoring Rubrics                    |
-| `architectural-assessment.md`   | Architectural Assessment and its conditional subsections |
-| `analysis.md`                   | Trade-off Analysis, Threat Model                         |
-| `conformance.md`                | API Contract, Skill Definition, Agent Guidance,          |
-|                                 | AI System, Standards,                                    |
-|                                 | API Compatibility & Versioning Discipline                |
-| `findings-and-registers.md`     | Strengths, Detailed Technical Findings, Technical Debt   |
-|                                 | Register, Unified Risk Register, Remediation Roadmap,    |
-|                                 | Recommendation Classification                            |
-| `closing.md`                    | Scope Exclusions, Limitations and Unknowns, Re-audit And |
-|                                 | Follow-up Plan, Validation Record, References            |
-| `hunt-style.md`                 | Hunt report style: verdict, domain register, journey     |
-|                                 | traces, remediation phases                               |
+| File                          | Sections                                                 |
+|-------------------------------|----------------------------------------------------------|
+| `report-opening.md`           | Document Information, Audit Type Coverage,               |
+|                               | Glossary                                                 |
+| `multi-project.md`            | Multi-Project Report Structure                           |
+| `summary-changes.md`          | Executive Summary, Changes Since Previous Audit          |
+| `context-compliance.md`       | System Context, Software Bill of Materials, License      |
+|                               | Compliance Review                                        |
+| `dashboard-observations.md`   | Health Dashboard, Delivery Practice & Team Continuity,   |
+|                               | High-Level Observations                                  |
+| `methodology-scoring.md`      | Auditing Methodology, Scoring Rubrics                    |
+| `architectural-assessment.md` | Architectural Assessment and its conditional subsections |
+| `report-analysis.md`          | Trade-off Analysis, Threat Model                         |
+| `conditional-conformance.md`  | API Contract, Skill Definition, Agent Guidance,          |
+|                               | AI System, Standards,                                    |
+|                               | API Compatibility & Versioning Discipline                |
+| `findings-registers.md`       | Strengths, Detailed Technical Findings, Technical Debt   |
+|                               | Register, Unified Risk Register, Remediation Roadmap,    |
+|                               | Recommendation Classification                            |
+| `report-closing.md`           | Scope Exclusions, Limitations and Unknowns, Re-audit And |
+|                               | Follow-up Plan, Validation Record, References            |
+| `hunt-style.md`               | Hunt report style: verdict, domain register, journey     |
+|                               | traces, remediation phases                               |
 
 ## Pre-Delivery Mechanical Checklist
 

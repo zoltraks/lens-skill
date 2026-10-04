@@ -126,8 +126,8 @@ Use these category codes when an API security gap maps to one:
 
 ## How To Present
 
-Render this as a standalone section, as described in `process/report-format/conformance.md`,
-only when the system exposes an API.
+Render this as a standalone section, as described in
+`process/report-format/conditional-conformance.md`, only when the system exposes an API.
 
 Present a conformance table across the evaluated dimensions,
 then describe each gap with evidence and its linked `FND-XXX`.

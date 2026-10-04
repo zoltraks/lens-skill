@@ -5,8 +5,13 @@ Copy into the audited repository's report-production directory as
 ``validate-report.tmp.py`` when validating a generated report.
 
 Review reports per ``process/review-report.md`` are detected by an H1 ending in
-``Review and Amendment Instructions`` or a ``REVIEW``-family or ``PRZEGLĄD``-family
-filename, and validated against the review contract instead of the audit checks.
+``Review and Amendment Instructions`` or a ``REVIEW``/``PRZEGLĄD``-family filename
+carrying a revision suffix, and validated against the review contract instead of
+the audit checks. The contract has two variants: the amendment structure
+(``### Findings and Corrections`` present) and the change-review structure
+(``## Findings`` plus ``## Action Proposals`` present). Files in the
+``REVIEW``/``PRZEGLĄD`` family whose names carry no revision suffix run as
+``custom`` reports - shared mechanical checks only, no structural contract.
 
 Usage: python validate-report.py <report.md> [--repo-root <dir>]
 Exit code 0 means all checks pass, 1 means failures were found.
@@ -856,11 +861,44 @@ def check_glossary_body_links(text: str, terms: list[str], sub_slugs: dict[str, 
     return failures
 
 
-def is_review_report(path: str, text: str) -> bool:
+REVIEW_CANONICAL_STEM = re.compile(r"^(?:REVIEW|PRZEGLĄD|PRZEGLAD)(?:-\d+(?:\.\d+)?)?$")
+REVIEW_FAMILY_STEM = re.compile(r"(?:^|[-_])(?:REVIEW|PRZEGLĄD|PRZEGLAD)(?:-|$)")
+REVIEW_TITLE = re.compile(
+    r"^#\s+.+\bReview and Amendment Instructions\s*$", re.MULTILINE
+)
+
+
+def report_kind(path: str, text: str) -> str:
+    """Classify the file as 'review', 'custom', or 'audit'.
+
+    Canonical review filenames are bare REVIEW/PRZEGLĄD or carry a revision
+    suffix (REVIEW-1.0); other names in the same family are custom reports -
+    validated mechanically only. An H1 ending in 'Review and Amendment
+    Instructions' always means review, regardless of filename.
+    """
     stem = Path(path).stem.upper()
-    if re.search(r"(?:^|[-_])(?:REVIEW|PRZEGLĄD|PRZEGLAD)(?:-|$)", stem):
-        return True
-    return bool(re.search(r"^#\s+.+\bReview and Amendment Instructions\s*$", text, re.MULTILINE))
+    if REVIEW_CANONICAL_STEM.fullmatch(stem) or REVIEW_TITLE.search(text):
+        return "review"
+    if REVIEW_FAMILY_STEM.search(stem):
+        return "custom"
+    return "audit"
+
+
+def review_variant(text: str) -> str:
+    """Return 'amendment' or 'change' for a review report.
+
+    The amendment structure is detected by its `### Findings and Corrections`
+    subsection; the change-review structure by `## Findings` together with
+    `## Action Proposals`. Anything unresolved defaults to the amendment
+    contract so missing sections are reported against it.
+    """
+    if re.search(r"^###\s+Findings and Corrections\s*$", text, re.MULTILINE):
+        return "amendment"
+    if re.search(r"^##\s+Findings\s*$", text, re.MULTILINE) and re.search(
+        r"^##\s+Action Proposals\s*$", text, re.MULTILINE
+    ):
+        return "change"
+    return "amendment"
 
 
 def section_block(text: str, heading_pattern: str) -> str:
@@ -928,6 +966,156 @@ def check_review_sources(text: str) -> list[str]:
     failures.extend(
         f"register row {unused} is never cited in the body" for unused in sorted(rows - cited)
     )
+    return failures
+
+
+CHANGE_REVIEW_SECTIONS = [
+    "Change Summary",
+    "Review Scope",
+    "Findings",
+    "Dimension Assessment",
+    "Verification and Testing",
+    "Production Readiness",
+    "Action Proposals",
+]
+CHANGE_REVIEW_FINDINGS_COLUMNS = [
+    "Identifier",
+    "Severity",
+    "Location",
+    "Recommendation",
+    "Status",
+]
+CHANGE_REVIEW_SEVERITY = ("Critical", "High", "Medium", "Low")
+
+
+def check_change_review_sections(text: str) -> list[str]:
+    headings = [
+        match.group(1).strip()
+        for match in re.finditer(r"^##\s+(.+?)\s*$", text, re.MULTILINE)
+    ]
+    failures = [
+        f"missing required change-review section: {section}"
+        for section in CHANGE_REVIEW_SECTIONS
+        if section not in headings
+    ]
+    present = [h for h in headings if h in CHANGE_REVIEW_SECTIONS]
+    if present != [s for s in CHANGE_REVIEW_SECTIONS if s in present]:
+        failures.append("change-review sections are not in the canonical order")
+    return failures
+
+
+def check_change_review_opening(text: str) -> list[str]:
+    failures: list[str] = []
+    lines = text.split("\n")
+    header_index = next(
+        (
+            i
+            for i, line in enumerate(lines[:-1])
+            if line.startswith("|")
+            and is_separator([cell.strip() for cell in raw_cells(lines[i + 1])])
+        ),
+        None,
+    )
+    if header_index is None:
+        return ["change-review report opens without an identification table"]
+    if any(cell.strip() for cell in raw_cells(lines[header_index])):
+        failures.append("change-review identification table has a non-empty header row")
+    i = header_index + 2
+    while i < len(lines) and lines[i].startswith("|"):
+        cells = content_cells(lines[i])
+        value = cells[1] if len(cells) > 1 else ""
+        if value.upper() in ("UNKNOWN", "BRAK DANYCH", "NOT SPECIFIED", "N/A"):
+            failures.append(
+                f"line {i + 1}: identification row renders an unavailable value - "
+                "omit the row instead"
+            )
+        i += 1
+    return failures
+
+
+def check_change_review_findings(text: str) -> list[str]:
+    failures: list[str] = []
+    block = section_block(text, r"^##\s+Findings\s*$")
+    if not block:
+        return failures
+    table = [line for line in block.split("\n") if line.startswith("|")]
+    if not table:
+        return ["change-review Findings section has no findings table"]
+    header = [cell.strip() for cell in raw_cells(table[0])]
+    for wanted in CHANGE_REVIEW_FINDINGS_COLUMNS:
+        if wanted not in header:
+            failures.append(f"change-review findings table lacks a {wanted} column")
+    if "Description" in header:
+        failures.append(
+            "change-review findings table carries a description column - "
+            "descriptions belong in the **F-xx** blocks below the table"
+        )
+    identifiers: list[str] = []
+    severity_index = header.index("Severity") if "Severity" in header else -1
+    for row in table[2:]:
+        cells = [cell.strip() for cell in raw_cells(row)]
+        if not cells or not cells[0]:
+            continue
+        fid = cells[0]
+        if not re.fullmatch(r"F-\d+", fid):
+            failures.append(f"change-review findings table row lacks an F-xx identifier: {fid}")
+            continue
+        identifiers.append(fid)
+        if severity_index >= 0 and len(cells) > severity_index:
+            if cells[severity_index] not in CHANGE_REVIEW_SEVERITY:
+                failures.append(
+                    f"change-review finding {fid} has severity '{cells[severity_index]}'"
+                )
+    anchors = set(re.findall(r'<a\s+id="(f-\d+)"\s*>\s*</a>', text))
+    labels = set(re.findall(r"^\*\*(F-\d+)\*\*\s*$", text, re.MULTILINE))
+    for fid in identifiers:
+        if fid.lower() not in anchors:
+            failures.append(f"change-review finding {fid} has no <a id=\"{fid.lower()}\"> anchor")
+        if fid not in labels:
+            failures.append(f"change-review finding {fid} has no **{fid}** description label")
+    for link_text, anchor in re.findall(r"\[(F-\d+)\]\(#(f-\d+)\)", text):
+        if link_text.lower() != anchor:
+            failures.append(f"link [{link_text}](#{anchor}) points at a different finding")
+        if anchor not in anchors:
+            failures.append(f"link [{link_text}](#{anchor}) has no matching anchor")
+    return failures
+
+
+CHANGE_REVIEW_ACTION_COLUMNS = ["Action", "Owner", "Related identifiers", "Status"]
+CHANGE_REVIEW_ORDINAL_HEADERS = ("#", "no", "nr", "lp")
+
+
+def check_change_review_actions(text: str) -> list[str]:
+    failures: list[str] = []
+    block = section_block(text, r"^##\s+Action Proposals\s*$")
+    if not block:
+        return failures
+    table = [line for line in block.split("\n") if line.startswith("|")]
+    if not table:
+        return ["change-review Action Proposals section has no actions table"]
+    header = [cell.strip() for cell in raw_cells(table[0])]
+    if header and header[0].lower() in CHANGE_REVIEW_ORDINAL_HEADERS:
+        failures.append(
+            "change-review actions table carries an ordinal column - "
+            "row order already expresses the sequence"
+        )
+    for wanted in CHANGE_REVIEW_ACTION_COLUMNS:
+        if wanted not in header:
+            failures.append(f"change-review actions table lacks a {wanted} column")
+    return failures
+
+
+def check_change_review_links(text: str) -> list[str]:
+    failures: list[str] = []
+    for lineno, line in enumerate(text.split("\n"), 1):
+        masked = re.sub(r"\[F-\d+\]\(#f-\d+\)", "", line)
+        masked = re.sub(r"\*\*F-\d+\*\*", "", masked)
+        masked = re.sub(r'<a\s+id="f-\d+"\s*>\s*</a>', "", masked)
+        masked = re.sub(r"^\|\s*F-\d+", "", masked)
+        for match in re.finditer(r"F-\d+", masked):
+            failures.append(
+                f"line {lineno}: finding reference {match.group(0)} is not a link"
+            )
     return failures
 
 
@@ -1271,7 +1459,7 @@ def main(path: str, repo_root: str | None = None) -> int:
     text = Path(path).read_text(encoding="utf-8")
     lines = text.replace("\r\n", "\n").split("\n")
     fences = split_code(lines)
-    review = is_review_report(path, text)
+    kind = report_kind(path, text)
     checks = [
         ("headings", check_headings(lines, fences)),
         ("semicolons", check_semicolons(lines, fences)),
@@ -1280,16 +1468,29 @@ def main(path: str, repo_root: str | None = None) -> int:
         ("location pattern", check_location(path)),
         ("trailing whitespace and ending", check_trailing(lines)),
     ]
-    if review:
-        checks.extend(
-            [
-                ("review sections", check_review_sections(text)),
-                ("review findings table", check_review_findings_table(text)),
-                ("review change groups", check_review_change_groups(text)),
-                ("review source register", check_review_sources(text)),
-            ]
-        )
-    else:
+    variant = ""
+    if kind == "review":
+        variant = review_variant(text)
+        if variant == "change":
+            checks.extend(
+                [
+                    ("change-review sections", check_change_review_sections(text)),
+                    ("change-review opening", check_change_review_opening(text)),
+                    ("change-review findings", check_change_review_findings(text)),
+                    ("change-review actions", check_change_review_actions(text)),
+                    ("change-review links", check_change_review_links(text)),
+                ]
+            )
+        else:
+            checks.extend(
+                [
+                    ("review sections", check_review_sections(text)),
+                    ("review findings table", check_review_findings_table(text)),
+                    ("review change groups", check_review_change_groups(text)),
+                    ("review source register", check_review_sources(text)),
+                ]
+            )
+    elif kind == "audit":
         checks.extend(
             [
                 ("required sections", check_required_sections(text)),
@@ -1319,7 +1520,8 @@ def main(path: str, repo_root: str | None = None) -> int:
                 ("final-state gate", check_final_state(text)),
             ]
         )
-    print(f"report type: {'review' if review else 'audit'}")
+    label = kind if not variant else f"{kind} ({variant})"
+    print(f"report type: {label}")
     failures = 0
     for name, problems in checks:
         status = "FAIL" if problems else "PASS"
