@@ -24,14 +24,14 @@ a configuration set, a codebase, or a proposal.
 | Report Type Resolution              | 36   | Report Type Resolution guidance  |
 | Subject Scope                       | 66   | Subject Scope guidance           |
 | Workflow Deltas                     | 73   | Workflow Deltas guidance         |
-| Report Structure                    | 152  | Report Structure guidance        |
-| Change Review Variant               | 246  | Change Review Variant guidance   |
-| What A Review Report Never Contains | 353  | Excluded report machinery        |
-| Formatting                          | 371  | Formatting guidance              |
-| Re-Review And Revisions             | 379  | Re-Review And Revisions guidance |
-| Detail Levels                       | 389  | Detail Levels guidance           |
-| Languages                           | 399  | Languages guidance               |
-| Validation                          | 406  | Validation guidance              |
+| Report Structure                    | 163  | Report Structure guidance        |
+| Change Review Variant               | 257  | Change Review Variant guidance   |
+| What A Review Report Never Contains | 364  | Excluded report machinery        |
+| Formatting                          | 382  | Formatting guidance              |
+| Re-Review And Revisions             | 390  | Re-Review And Revisions guidance |
+| Detail Levels                       | 400  | Detail Levels guidance           |
+| Languages                           | 410  | Languages guidance               |
+| Validation                          | 417  | Validation guidance              |
 
 ## Report Type Resolution
 
@@ -140,9 +140,20 @@ The audit parity gate in `process/report-parity.md` does not run on review repor
 
 **Delivery**
 
-Output-location resolution is unchanged.
+Output-location resolution gains one review-family rule: a dedicated `review/` or
+`reviews/` directory under a documentation root is the review-purpose base, resolved
+before `report/`, per `process/audit-workflow.md`.
 
-The filename stem is `REVIEW`, so a first review of a subject defaults to
+When the resolved base establishes the dated review convention - a `review/` or
+`report/review/` base holding `YYYY-MM-DD/` subdirectories - each review lands in its
+own date-named subdirectory holding a `REVIEW.md` file, for example
+`docs/review/2026-04-10/REVIEW.md`.
+
+The dated convention keeps the plain stem canonical: `REVIEW.md` is the default filename
+inside the date-named directory, and a second review landing in the same directory
+carries the next revision suffix such as `REVIEW-1.1.md`.
+
+Otherwise the filename stem is `REVIEW`, so a first review of a subject defaults to
 `REVIEW-1.0.md` with plain `REVIEW.md` offered as the alternative.
 
 The change-review variant shares the `REVIEW` filename family and revision numbering:

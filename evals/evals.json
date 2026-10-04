@@ -917,6 +917,18 @@
     "Mechanical checks - headings, semicolons, non-ASCII dashes, tables, location pattern, trailing whitespace - still apply.",
     "A bare `REVIEW`/`REVIEW-<revision>`/`PRZEGLĄD-<revision>` stem still resolves to `review`, and the change-review variant is selected by `## Findings` plus `## Action Proposals` with no `### Findings and Corrections`."
    ]
+  },
+  {
+   "id": 76,
+   "prompt": "Review the change set `46d522a..9922d61` and write the review report. The repository contains docs/review/2026-04-10/REVIEW.md and no audit/ or report/ directories.",
+   "expected_output": "A review report that resolves the dedicated review directory and lands in its own dated subdirectory without disturbing the previous review.",
+   "files": [],
+   "expectations": [
+    "Intake records `docs/review/` as the review-purpose base and its `YYYY-MM-DD` subdirectories as the date-named pattern.",
+    "The resolved output directory is `docs/review/<current-date>/`, not `docs/`, `docs/report/`, or the repository root.",
+    "The report is written as `REVIEW.md` inside the new date-named subdirectory, and the previous `REVIEW.md` is never overwritten.",
+    "A same-date landing that would collide with an existing `REVIEW.md` carries the next revision suffix such as `REVIEW-1.1.md`."
+   ]
   }
  ]
 }

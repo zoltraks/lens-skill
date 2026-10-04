@@ -20,11 +20,11 @@ A review report applies the same phases with the deltas defined in
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 1638 | Intake Checklist guidance        |
-| Handling Thin Input     | 1657 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1668 | Single-Dimension Audits guidance |
-| Re-Audit                | 1678 | Re-Audit guidance                |
-| Multi-Project Audits    | 1744 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1651 | Intake Checklist guidance        |
+| Handling Thin Input     | 1670 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1681 | Single-Dimension Audits guidance |
+| Re-Audit                | 1691 | Re-Audit guidance                |
+| Multi-Project Audits    | 1757 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -80,7 +80,8 @@ before the report is marked final.
 **Output location discovery**
 
 During intake, inspect the documentation roots `docs/`, `document/`,
-and `doc/` and their `audit/` and `report/` subdirectories.
+and `doc/` and their `audit/`, `report/`, and review-family (`review/`, `reviews/`)
+subdirectories.
 
 Record the resolved base output directory, the detected subdirectory pattern,
 the project version used, and the resolved output directory.
@@ -89,6 +90,10 @@ When the resolved base is a `report/` directory that contains a subdirectory mat
 report kind - `audit/` for an audit report, `review/` for a review report - descend into that
 subdirectory and record it as the base, so a `docs/report/audit/` landing zone wins over the
 bare `docs/report/` for an audit report.
+
+A dedicated `review/` or `reviews/` directory under a documentation root is the
+review-purpose base for a review report, and its date-named subdirectories record
+the `date-named` pattern for the subdirectory grouping.
 
 Classify the subdirectory names inside the resolved base output directory:
 
@@ -313,6 +318,9 @@ per `synthesis/report-comparison.md`.
 Inside a `report/` directory, also search its `audit/` subdirectory when the report kind is
 audit, or its `review/` subdirectory when the report kind is review.
 
+For a review report, also search dedicated `review/` and `reviews/` directories under the
+documentation roots, including their dated subdirectories.
+
 A previous report may be named `AUDIT.md`, `AUDIT-<revision>.md`, or the language-specific filename.
 
 When the resolved report type is `Review`, the same rules apply to the review filename
@@ -510,18 +518,23 @@ Advanced parameters use their defaults unless explicitly specified.
 **Delivery and output file**
 
 Documentation roots are `docs/`, `document/`, and `doc/`, checked in that order,
-and each may contain `audit/` or `report/` subdirectories.
+and each may contain `audit/`, `report/`, or review-family (`review/`, `reviews/`)
+subdirectories.
 
 Before asking, resolve the base output directory using the following rules,
 applied in order against the root of the repository or directory being audited:
 
-1. If any `<root>/audit/` directory exists, use the first one in the documentation root order
-   as the base output directory.
-2. Else if any `<root>/report/` directory exists, use the first one in the documentation root
+1. For a review report, if any `<root>/review/` or `<root>/reviews/` directory exists, use the
+   first one in the documentation root order as the base output directory.
+2. For an audit report, if any `<root>/audit/` directory exists, use the first one in the
+   documentation root order as the base output directory.
+3. Else if any `<root>/report/` directory exists, use the first one in the documentation root
    order as the base output directory.
-3. Else if any bare documentation root exists, use the first one in the documentation root
+4. Else if the report is a review and any `<root>/audit/` directory exists, use the first one
+   in the documentation root order as the base output directory.
+5. Else if any bare documentation root exists, use the first one in the documentation root
    order as the base output directory.
-4. Otherwise use the root of the audited repository or directory as the base output directory.
+6. Otherwise use the root of the audited repository or directory as the base output directory.
 
 When the resolved base is a `report/` directory containing a subdirectory that matches the
 report kind - `audit/` for an audit report, `review/` for a review report - descend into it:

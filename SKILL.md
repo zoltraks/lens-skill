@@ -43,17 +43,17 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 | Trigger Keywords        | 94   | Activation phrases                                 |
 | How To Use              | 119  | Progressive disclosure and mandatory reading       |
 | Parameter Configuration | 139  | Defaults and user-controlled report shape          |
-| Principles              | 205  | Evaluation and output rules                        |
-| Process                 | 211  | Workflow, format, and parity                       |
-| Assessments             | 235  | Core and conditional assessment guides             |
-| Synthesis               | 274  | Findings, risk, score, and remediation assembly    |
-| Translations            | 290  | Per-language report translations                   |
-| References              | 299  | Lookup tables                                      |
-| Scripts                 | 321  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 343  | Behavioral regression prompts                      |
-| Repository Files        | 347  | Housekeeping files governing this repository       |
-| Evidence Contract       | 359  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 395  | File-selection and section-placement rules         |
+| Principles              | 207  | Evaluation and output rules                        |
+| Process                 | 213  | Workflow, format, and parity                       |
+| Assessments             | 237  | Core and conditional assessment guides             |
+| Synthesis               | 276  | Findings, risk, score, and remediation assembly    |
+| Translations            | 292  | Per-language report translations                   |
+| References              | 301  | Lookup tables                                      |
+| Scripts                 | 323  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 345  | Behavioral regression prompts                      |
+| Repository Files        | 349  | Housekeeping files governing this repository       |
+| Evidence Contract       | 361  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 397  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -144,20 +144,20 @@ configure the core parameters.
 
 Defaults are:
 
-| Parameter               | Default                                                                                 |
-|-------------------------|-----------------------------------------------------------------------------------------|
-| Report type             | Audit - Review only on an explicit review, amendment, or improvement-plan request       |
-| Report style            | `audit` governance report (default) or `hunt` defect-hunt report                        |
-| Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/`, else Inline |
-| Output location         | Resolved across `docs/`, `document/`, `doc/` roots or the repository root               |
-| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit  |
-| Report language         | Match the language of the user's request                                                |
-| Detail level            | Detailed                                                                                |
-| Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                   |
-| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                 |
-| Trade-off analysis      | Standalone section + embedded into relevant findings                                    |
-| Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it |
-| Evidence mode           | `source-only` (default) or `executed-readonly` for commissioned analyzers               |
+| Parameter               | Default                                                                                                                                |
+|-------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| Report type             | Audit - Review only on an explicit review, amendment, or improvement-plan request                                                      |
+| Report style            | `audit` governance report (default) or `hunt` defect-hunt report                                                                       |
+| Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/` - `review/` or `reviews/` for a review report - else Inline |
+| Output location         | Resolved across `docs/`, `document/`, `doc/` roots or the repository root                                                              |
+| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit                                                 |
+| Report language         | Match the language of the user's request                                                                                               |
+| Detail level            | Detailed                                                                                                                               |
+| Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                                                  |
+| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                                                                |
+| Trade-off analysis      | Standalone section + embedded into relevant findings                                                                                   |
+| Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it                                                |
+| Evidence mode           | `source-only` (default) or `executed-readonly` for commissioned analyzers                                                              |
 
 The agent MUST ask this question, MUST NOT skip it, and MUST wait for the user response
 before starting the audit.
@@ -169,8 +169,9 @@ Apply the defaults above unless the user explicitly requests a different setting
 
 Output location resolves under the audited root: `audit/` > `report/` > bare root across `docs/`,
 `document/`, `doc/` > repository root, with a `report/` base descending into its purpose-named
-`audit/` or `review/` subdirectory matching the report kind. A recorded version/date
-subdirectory pattern is reused.
+`audit/` or `review/` subdirectory matching the report kind; review reports additionally prefer a
+dedicated `review/` or `reviews/` directory, including the dated `review/<YYYY-MM-DD>/REVIEW.md`
+convention per `process/review-report.md`. A recorded version/date subdirectory pattern is reused.
 
 The output filename carries the report revision:
 `AUDIT-1.0.md` for a first audit (`REVIEW-1.0.md` for a review) or the language-specific
