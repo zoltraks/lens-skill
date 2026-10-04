@@ -3,7 +3,8 @@
 ## Purpose
 
 > **Scope:** Code, API, and user documentation, onboarding, knowledge transfer
-> **Key items:** README accuracy, API docs, inline docs, setup/onboarding, decision records
+> **Key items:** README accuracy, API docs, inline docs, setup/onboarding, decision records,
+> contract references, calibration captures
 
 This file guides assessment of whether the system is documented well enough to be understood,
 operated, and extended.
@@ -19,6 +20,11 @@ Assess whether documentation exists and matches the code, not its prose style.
 - Inline documentation: whether non-obvious code carries explanatory comments.
 - Onboarding: whether a new contributor can build and run the system from the docs.
 - Knowledge transfer: whether key decisions and operational facts are recorded rather than tacit.
+- Contract and usage references: whether interface-contract or per-surface usage documents are
+  maintained in lockstep with the implemented surface.
+- Environment calibration: whether captured environment or target-application quirks are
+  recorded separately from normative rules, so behavior-specific facts stay out of portable
+  standards.
 - Community health files: whether `SECURITY.md`, `CONTRIBUTING.md`, and `CODE_OF_CONDUCT.md`, or the
   stack's equivalents, exist.
 
@@ -32,6 +38,9 @@ Assess whether documentation exists and matches the code, not its prose style.
 | Inline docs        | Comments on non-obvious logic, doc comments            |
 | Decision records   | ADRs, design docs, recorded rationale                  |
 | Doc-code agreement | Docs that match current commands and structure         |
+| Contract docs      | Usage or interface references tracking the surface     |
+| Calibration docs   | Quirk captures stored apart from normative rules       |
+| Workspace contract | Disposable-workspace rules - location, marker, cleanup |
 | Health files       | `SECURITY.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md` |
 
 ## Architecture Documentation Coverage
@@ -60,6 +69,9 @@ artifacts as system continuity risks, not individual performance.
 
 Inspect ownership files, support procedures, reviewer coverage, onboarding evidence, and maintenance
 of critical subsystems.
+
+A dedicated maintainer-onboarding document (a `HANDOVER.md`-style walkthrough for the next
+maintainer) is continuity evidence distinct from contributor-facing `CONTRIBUTING.md` material.
 
 A bounded Git summary such as `git shortlog -sn --no-merges HEAD` can inform contributor
 concentration when history is in scope.
@@ -119,6 +131,15 @@ Classify each passage as normative design, illustrative pseudocode, or a
 current-implementation excerpt before proposing correction: an excerpt that drifted is a
 documentation defect, while a normative requirement the code violates is an implementation
 defect.
+
+## Agent-Facing Documentation
+
+Agent-facing guidance documents are assessed elsewhere and cross-referenced here, not
+duplicated: per-artifact format conformance belongs to `assessment/skill-definition.md`,
+set-level topology and authority to `assessment/agent-guidance.md`.
+
+When those assessments report drift in agent-facing documents, record it there and keep this
+file's findings to the human-facing surface.
 
 ## Status Criteria
 

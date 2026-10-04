@@ -16,6 +16,15 @@ Assess processes and artifacts, not the people who run them.
 - Feature flags: whether changes can be enabled and disabled without redeploying.
 - Architecture decision records: whether significant decisions are recorded with context and
   consequences.
+- Change-record lifecycle: whether change requests and their implementation plans are separate
+  records paired by a shared identifier, and whether executed changes carry an outcome or
+  completion record rather than staying permanently open.
+- Proportional thresholds: whether the governance policy records which changes are exempt from
+  the full record path. A recorded exemption for small fixes is governance, an unrecorded gap
+  is not.
+- Reserved decisions: whether the set records which calls stay with a human - commit
+  authorship, version bumps, release-baseline selection - rather than leaving authority
+  implicit.
 - Release governance: how changes are reviewed, approved, and traced to requirements.
 
 ## Evidence To Look For
@@ -24,6 +33,10 @@ Assess processes and artifacts, not the people who run them.
 |---------------------|--------------------------------------------------|
 | Feature flag system | Flag configuration, flag libraries, toggles      |
 | Decision records    | ADR directory, design docs, recorded rationale   |
+| Change records      | Change-request directories, per-change status    |
+| Plan pairing        | Implementation plans sharing the change's number |
+| Outcome records     | Completion or status fields on executed changes  |
+| Reserved decisions  | Recorded human-only commit, version, baseline    |
 | Change review       | Pull request templates, review rules, approvals  |
 | Traceability        | Links between changes and requirements or issues |
 | Changelog           | Maintained changelog or release notes            |
@@ -52,6 +65,9 @@ rather than describing the existing per-change documents as sufficient.
 
 - A feature flag mechanism with clear ownership and cleanup.
 - Decision records that capture context, options, and consequences.
+- Change requests and plans paired by shared numbering, with executed changes closed out.
+- A recorded proportionality threshold exempting small fixes from the full record path.
+- Reserved decisions recorded explicitly - which baseline ships, whether the version bumps.
 - A consistent, evidenced review and approval path.
 - Changes traceable to requirements or tracked work items.
 

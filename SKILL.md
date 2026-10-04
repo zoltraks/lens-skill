@@ -46,14 +46,14 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 | Principles              | 205  | Evaluation and output rules                        |
 | Process                 | 211  | Workflow, format, and parity                       |
 | Assessments             | 235  | Core and conditional assessment guides             |
-| Synthesis               | 275  | Findings, risk, score, and remediation assembly    |
-| Translations            | 291  | Per-language report translations                   |
-| References              | 300  | Lookup tables                                      |
-| Scripts                 | 324  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 346  | Behavioral regression prompts                      |
-| Repository Files        | 350  | Housekeeping files governing this repository       |
-| Evidence Contract       | 362  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 398  | File-selection and section-placement rules         |
+| Synthesis               | 274  | Findings, risk, score, and remediation assembly    |
+| Translations            | 290  | Per-language report translations                   |
+| References              | 299  | Lookup tables                                      |
+| Scripts                 | 321  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 343  | Behavioral regression prompts                      |
+| Repository Files        | 347  | Housekeeping files governing this repository       |
+| Evidence Contract       | 359  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 395  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -108,7 +108,7 @@ The skill activates on phrases such as:
   conventions, standards conformance, development standards review, coding standards audit
 - lens invocations: perform lens on, make audit report on, run lens, lens audit
 - skill audits: audit this skill, skill audit, skill definition review, skill spec conformance,
-  skill collection audit, skills inventory
+  skill collection audit, skills inventory, agent-guidance review
 - library reviews: api compatibility, api versioning audit, library audit
 - review requests: review and amend, amendment instructions, improvement plan
 - skill maintenance: work on lens-skill, work on this skill, maintain this skill
@@ -168,8 +168,9 @@ Improvement suggestions and trade-off analysis are not separate routine prompts.
 Apply the defaults above unless the user explicitly requests a different setting.
 
 Output location resolves under the audited root: `audit/` > `report/` > bare root across `docs/`,
-`document/`, `doc/` > repository root.
-A recorded version/date subdirectory pattern is reused.
+`document/`, `doc/` > repository root, with a `report/` base descending into its purpose-named
+`audit/` or `review/` subdirectory matching the report kind. A recorded version/date
+subdirectory pattern is reused.
 
 The output filename carries the report revision:
 `AUDIT-1.0.md` for a first audit (`REVIEW-1.0.md` for a review) or the language-specific
@@ -194,10 +195,9 @@ translation, style rule, and encoding requirement defined there.
 
 **Rerunning an audit**
 
-When the user asks to rerun, regenerate, or update an audit,
-or a previous report exists in the audited location,
-resolve the audit mode per `process/audit-workflow.md` and `synthesis/report-comparison.md`:
-re-audit against the found report, re-audit with changed parameters, or fresh audit.
+When the user asks to rerun, regenerate, or update an audit, or a previous report exists in the
+audited location, resolve the audit mode per `process/audit-workflow.md` and
+`synthesis/report-comparison.md`: re-audit, re-audit with changed parameters, or fresh audit.
 
 The previous report is never overwritten - write the next revision-numbered file such as
 `AUDIT-1.1.md`.
@@ -245,8 +245,7 @@ The previous report is never overwritten - write the next revision-numbered file
 - **`assessment/rollback-review.md`** - Rollback mechanism, deploy safety, versioning, recovery.
 - **`assessment/maintainability-review.md`** - Modularity, coupling, code structure, technical debt.
 - **`assessment/change-management.md`** - Feature flags, ADR usage, release governance.
-- **`assessment/documentation-review.md`** - Entry, API, inline docs, onboarding,
-  knowledge transfer.
+- **`assessment/documentation-review.md`** - Documentation coverage, onboarding, transfer.
 - **`assessment/nfr-review.md`** - Performance, scalability, availability, reliability, resilience.
 - **`assessment/security-review.md`** - Authentication, authorization, input validation,
   OWASP risks.
@@ -267,9 +266,9 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
 - **`assessment/threat-model.md`** - STRIDE threats. Include for a security-relevant attack surface.
 - **`assessment/api-contract.md`** - API contract conformance. Include when the system has an API.
 - **`assessment/skill-definition.md`** - Agent Skill spec conformance, collections, embedded skills.
+- **`assessment/agent-guidance.md`** - Agent-guidance set topology. Include for guidance sets.
 - **`assessment/ai-system.md`** - AI system lifecycle. Include for AI-dependent projects.
-- **`assessment/standards-conformance.md`** - Standards conformance for documented
-  project standards.
+- **`assessment/standards-conformance.md`** - Project development standards conformance.
 - **`assessment/api-compatibility.md`** - API compatibility. Include for libraries and packages.
 
 ## `synthesis/` - Findings And Report Assembly
@@ -310,12 +309,10 @@ type requires them.
 - **`references/sbom-schema.md`** - Source-derived inventory report schema.
 - **`references/license-compliance.md`** - License classes, copyleft, attribution, ownership checks.
 - **`references/delivery-practice.md`** - DORA proxies, bus-factor rubric.
-- **`references/domain-profiles.md`** - Project-nature classification and mandatory
-  evidence probes per nature.
+- **`references/domain-profiles.md`** - Project-nature classification and mandatory probes.
 - **`references/exploitability-narrative.md`** - Attack-path narrative format and tiers.
 - **`references/agent-skills.md`** - Agent Skills spec corpus and live-check baseline.
-- **`references/agent-configuration.md`** - AGENTS.md, rules, plugin, subagent, and MCP
-  format baselines.
+- **`references/agent-configuration.md`** - AGENTS.md, rules, plugin, MCP, guidance-set baselines.
 - **`references/source-catalog.md`** - Authoritative external-source registry and corpus index.
 - **`references/stacks/`** - Per-stack offline baselines, indexed in `source-catalog.md`.
 - **`references/methodology/`** - Methodology digests, indexed in `source-catalog.md`.
@@ -447,6 +444,9 @@ when maintaining the skill.
   subject holds `SKILL.md` files or agent-facing artifacts, with `references/agent-skills.md`
   and `references/agent-configuration.md` as baselines. Intake classifies each discovered
   skill as authored, installed, or undetermined. Installed skills are not audit subjects.
+- Agent-guidance set topology - entry routes, index of record, topic owners, role resolution -
+  belongs in `assessment/agent-guidance.md` for a structured guidance set. Per-artifact format
+  conformance stays with `assessment/skill-definition.md`.
 - Standards conformance belongs in `assessment/standards-conformance.md`, only for documented
   development standards. References lists every external source consulted.
 - Canonical stack references are re-derived from `references/stack-standards.md` during intake

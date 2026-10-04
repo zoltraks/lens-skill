@@ -77,6 +77,7 @@ followed by the full set of report sections for that project:
 - Threat Model *(conditional)*
 - API Contract Conformance *(conditional)*
 - Skill Definition Conformance *(conditional)*
+- Agent Guidance Conformance *(conditional)*
 - AI System Assessment *(conditional)*
 - Standards Conformance *(conditional)*
 - API Compatibility & Versioning Discipline *(conditional)*

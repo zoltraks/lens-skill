@@ -27,7 +27,13 @@ When no such documents exist, omit this category and note the omission in Scope 
   preferred, naming conventions, project structure, or technology-stack rules.
 - **Standards scope**: whether the standards cover the relevant dimensions for the stack: language
   version, project structure, naming conventions, error handling, testing, formatting and linting,
-  dependency management, build, comments, and security considerations.
+  dependency management, build, comments, and security considerations. Standards may also cover
+  domains or activities beyond per-stack files - an automation-domain standard or an
+  inline-language standard alongside the language standard is breadth evidence, not a gap.
+- **Standards portability**: whether each standard stays generic to its subject. A standard that
+  leaks project-specific identifiers - executable names, repository paths, product names - or
+  absorbs project facts that belong in decision or reference documents is a standards-quality
+  finding, because the standard can no longer be reused or judged against the stack.
 - **Code conformance**: whether the codebase follows the documented standards across the areas the
   standards cover.
 - **Standards quality**: whether the documented standards are themselves consistent with the
@@ -53,6 +59,7 @@ When no such documents exist, omit this category and note the omission in Scope 
 | Testing rules                | Standards file prescribing test framework and coverage               |
 | Formatting and linting rules | Standards file prescribing formatters, linters, and CI checks        |
 | Tooling enforcement          | CI config, pre-commit hooks, editor config matching the standards    |
+| Convention checkers          | Project scripts validating naming, structure, or hygiene rules       |
 | Code conformance             | Source files matching or diverging from the documented rules         |
 
 ## Status Criteria
@@ -91,6 +98,10 @@ When no such documents exist, omit this category and note the omission in Scope 
 - Standards that align with established good practices for the language, framework, and software
   type.
 - Tooling that enforces the standards in CI or pre-commit, so conformance is verified automatically.
+- Convention-checker scripts that validate rules a linter cannot express, such as structure or
+  documentation conventions.
+- Living-standard mechanisms: a findings or session-review appendix that indexes each surfaced
+  wound back to the rule that now prevents it.
 - Standards kept current with the language and framework versions the project actually uses.
 - Standards referenced from `README.md` or `AGENTS.md` so they are discoverable and treated as
   authoritative.

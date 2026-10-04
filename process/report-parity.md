@@ -41,6 +41,7 @@ Do not rely on per-run memory of what a previous report happened to include.
 | PAR-16 | In a non-English report, every section heading and scored-dimension name matches the governing `translations/` file verbatim                                                                                                                                      | `translations/` files                                 |
 | PAR-17 | When the subject holds agent-facing artifacts, the Skills Inventory and Agent Artifacts table list every discovered `SKILL.md` and artifact with a per-item status, excluded items carry an explicit out-of-scope marking, and the spec baseline used is recorded | `assessment/skill-definition.md`                      |
 | PAR-18 | At Standard and Detailed detail levels the Recommendation Classification section is present and every `REC-XXX` in the roadmap appears exactly once with a class of `RECOMMENDED`, `OPTIONAL`, or `NOT RECOMMENDED`                                               | `synthesis/remediation-roadmap.md`                    |
+| PAR-19 | When the subject carries a structured agent-guidance set, the Agent Guidance Conformance section lists every discovered guidance document with a status, excluded items carry an explicit out-of-scope marking, and the baseline used is recorded                 | `assessment/agent-guidance.md`                        |
 
 PAR-5 may report `NOT COLLECTED` when Git history is unavailable, silence is not acceptable.
 
@@ -106,8 +107,9 @@ Omitted conditional sections also appear in Scope Exclusions.
 ## Discovery Scope
 
 The cross-report diff searches the same locations as previous-report discovery: `audit/` and
-`report/` directories and bare roots under `docs/`, `document/`, and `doc/`, the repository
-root, and the document structure when governed by another skill.
+`report/` directories - including a `report/` directory's purpose-named `audit/` or `review/`
+subdirectory matching the report kind - and bare roots under `docs/`, `document/`, and `doc/`,
+the repository root, and the document structure when governed by another skill.
 
 "Most recent" is the audit report with the highest revision number and latest report date among
 files matching the audit naming pattern.

@@ -36,9 +36,9 @@ A present-but-empty section signals a gap, a missing section hides it.
 | Report Delivery And Parameter Configuration | 276  | Report delivery and output configuration    |
 | Detail Level Configuration                  | 322  | Standard, detailed, and brief reports       |
 | Conditional Sections                        | 416  | Inclusion criteria for conditional sections |
-| Section Order                               | 469  | Single-project and multi-project order      |
-| Specification Files                         | 560  | Per-section specification file index        |
-| Pre-Delivery Mechanical Checklist           | 587  | Final mechanical checks                     |
+| Section Order                               | 470  | Single-project and multi-project order      |
+| Specification Files                         | 563  | Per-section specification file index        |
+| Pre-Delivery Mechanical Checklist           | 591  | Final mechanical checks                     |
 
 ## Formatting Rules
 
@@ -359,8 +359,8 @@ In addition, any conditional sections whose criteria are met are included in ful
 
 See the Conditional Sections rule below for the inclusion criteria of the Data Flow Diagram,
 Design Patterns, Architecture Decision Records, Threat Model, API Contract Conformance,
-Skill Definition Conformance, Standards Conformance, Technical Debt Register,
-and Re-audit And Follow-up Plan.
+Skill Definition Conformance, Agent Guidance Conformance, Standards Conformance,
+Technical Debt Register, and Re-audit And Follow-up Plan.
 
 **Detailed**
 
@@ -443,6 +443,7 @@ Each lists its inclusion criterion and the assessment file that governs it:
 | Threat Model (standalone)                                   | The system has a security-relevant attack surface or boundary      | `assessment/threat-model.md`          |
 | API Contract Conformance (standalone)                       | The system defines, exposes, or consumes an API contract           | `assessment/api-contract.md`          |
 | Skill Definition Conformance (standalone)                   | The subject holds `SKILL.md` files or other agent-facing artifacts | `assessment/skill-definition.md`      |
+| Agent Guidance Conformance (standalone)                     | The subject carries a structured agent-guidance documentation set  | `assessment/agent-guidance.md`        |
 | AI System Assessment (standalone)                           | The project trains, serves, or materially depends on AI            | `assessment/ai-system.md`             |
 | Standards Conformance (standalone)                          | The project contains documented development standards              | `assessment/standards-conformance.md` |
 | API Compatibility & Versioning Discipline (standalone)      | The subject is a reusable library or package                       | `assessment/api-compatibility.md`     |
@@ -496,6 +497,7 @@ For a **single-project** audit:
 - Threat Model *(conditional)*
 - API Contract Conformance *(conditional)*
 - Skill Definition Conformance *(conditional)*
+- Agent Guidance Conformance *(conditional)*
 - AI System Assessment *(conditional)*
 - Standards Conformance *(conditional)*
 - API Compatibility & Versioning Discipline *(conditional)*
@@ -540,6 +542,7 @@ In summary:
   - Threat Model *(conditional)*
   - API Contract Conformance *(conditional)*
   - Skill Definition Conformance *(conditional)*
+  - Agent Guidance Conformance *(conditional)*
   - Standards Conformance *(conditional)*
   - API Compatibility & Versioning Discipline *(conditional)*
   - Strengths & What's Working
@@ -574,7 +577,8 @@ Each report section is specified in a file under `process/report-format/`.
 | `methodology-and-scoring.md`    | Auditing Methodology, Scoring Rubrics                    |
 | `architectural-assessment.md`   | Architectural Assessment and its conditional subsections |
 | `analysis.md`                   | Trade-off Analysis, Threat Model                         |
-| `conformance.md`                | API Contract, Skill Definition, AI System, Standards,    |
+| `conformance.md`                | API Contract, Skill Definition, Agent Guidance,          |
+|                                 | AI System, Standards,                                    |
 |                                 | API Compatibility & Versioning Discipline                |
 | `findings-and-registers.md`     | Strengths, Detailed Technical Findings, Technical Debt   |
 |                                 | Register, Unified Risk Register, Remediation Roadmap,    |

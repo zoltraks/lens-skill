@@ -29,11 +29,11 @@
 | Report Format                      | 419  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 454  | Supported requests and exclusions                   |
 | What's Inside                      | 477  | Documents, references, tools, and conditional files |
-| Document Style                     | 610  | Pointer to the style rules file                     |
-| Specification                      | 620  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 641  | Maintenance checks and regression scenarios         |
-| License                            | 667  | License for the skill itself                        |
-| Credits                            | 673  | Authorship and attribution                          |
+| Document Style                     | 611  | Pointer to the style rules file                     |
+| Specification                      | 621  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 642  | Maintenance checks and regression scenarios         |
+| License                            | 668  | License for the skill itself                        |
+| Credits                            | 674  | Authorship and attribution                          |
 
 ## Overview
 
@@ -537,6 +537,7 @@ lens-skill/
 │   ├── threat-model.md                    # (conditional) STRIDE threat enumeration per trust boundary
 │   ├── api-contract.md                    # (conditional) API spec conformance, RFC 9457, OWASP API Top 10
 │   ├── skill-definition.md                # (conditional) Agent Skills spec conformance
+│   ├── agent-guidance.md                  # (conditional) Agent-guidance set topology and authority
 │   ├── standards-conformance.md           # (conditional) Project development standards conformance and quality
 │   └── api-compatibility.md               # (conditional) API compat gates, versioning, breaking-change tracking
 ├── synthesis/
@@ -560,7 +561,7 @@ lens-skill/
 │   ├── delivery-practice.md               # DORA proxies, bus-factor rubric, continuity evidence
 │   ├── exploitability-narrative.md        # Theoretical attack-path narrative format and tiers
 │   ├── agent-skills.md                    # Agent Skills specification corpus, live-check baseline
-│   ├── agent-configuration.md             # AGENTS.md, rules, plugin, subagent, MCP format baselines
+│   ├── agent-configuration.md             # AGENTS.md, rules, plugin, subagent, MCP, guidance-set baselines
 │   ├── source-catalog.md                  # Authoritative source registry and corpus index
 │   ├── stacks/                            # Per-stack offline baselines, indexed in source-catalog.md
 │   ├── methodology/                       # Methodology digests, indexed in source-catalog.md

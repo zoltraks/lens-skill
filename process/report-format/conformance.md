@@ -3,7 +3,8 @@
 ## Purpose
 
 > **Scope:** The conditional conformance sections of the report
-> **Key items:** API contract, skill definition, AI system, standards, API compatibility
+> **Key items:** API contract, skill definition, agent guidance, AI system, standards,
+> API compatibility
 
 ## API Contract Conformance
 
@@ -93,6 +94,36 @@ linked `FND-XXX`. Apply the same per-artifact detail rule to every non-`PASS`, n
 of the Agent Artifacts table.
 
 The aggregate status follows the weakest in-scope item.
+
+When the report language is not English, apply the column header translations from the matching
+`translations/` file.
+
+## Agent Guidance Conformance
+
+Include this section only when the subject carries a structured agent-guidance documentation
+set, per `assessment/agent-guidance.md`.
+
+Omit it entirely for a project whose agent-facing material is a lone thin entry file or less,
+and note the omission in Scope Exclusions.
+
+Record the baseline used: the `references/agent-configuration.md` Guidance Set Baselines
+snapshot date, or the live-fetch result when the optional check ran.
+
+Present a conformance table across the evaluated dimensions, then describe each gap with
+evidence and its linked `FND-XXX`.
+
+| Dimension              | Status  | Evidence                                                       |
+|------------------------|---------|----------------------------------------------------------------|
+| Guidance inventory     | PASS    | every discovered guidance document listed, in or out of scope  |
+| Entry route            | PASS    | `AGENTS.md` read order resolves to `docs/standard/` files      |
+| Index of record        | FAIL    | rules restated in `README.md` and `docs/GUIDELINES.md`         |
+| Consolidated topology  | PASS    | `AGENTS.md` recorded as the central rules document             |
+| Owner selection        | PARTIAL | workflow and testing owned, style and versioning unrecorded    |
+| Role resolution        | PASS    | declared roles resolve to `docs/changes/` and `docs/plans/`    |
+| Restricted directories | UNKNOWN | no read-boundary statements found                              |
+| Vendored documents     | PARTIAL | vendored `PREPARATION.md` marker older than the canonical file |
+
+The aggregate status follows the weakest evaluated dimension.
 
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.

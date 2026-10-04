@@ -36,6 +36,13 @@ The classification records which documentation claims count as advertised workfl
 A capability named in README, specifications, or contract surfaces is an advertised workflow
 even when the implementation is thin.
 
+A root `SKILL.md` does not by itself make the subject `agent-tooling` primary: distinguish a
+repository that IS the skill - `SKILL.md` is the product entry and the payload is instructions -
+from a software repository that ships a `SKILL.md` capability catalog alongside compiled or
+runtime payloads, which classifies by its deliverable and keeps `agent-tooling` secondary.
+Cross-reference the authored-versus-installed rules in `assessment/skill-definition.md` so a
+catalog of the project's own utilities is not misfiled as a separate skill project.
+
 ## Mandatory Probes
 
 Each nature activates its probe set during Evidence Gathering.

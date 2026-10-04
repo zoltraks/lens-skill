@@ -22,57 +22,58 @@ This file is loaded only when the report language is Polish.
 
 | Section                                     | Line | What it covers                              |
 |---------------------------------------------|------|---------------------------------------------|
-| Analysis And Rendering                      | 77   | Analysis model and terminology precedence   |
-| Status And Severity Vocabulary              | 99   | Status And Severity Vocabulary guidance     |
-| Fixed Vocabulary Values                     | 239  | Polish renderings of descriptive values     |
-| Terminology                                 | 291  | English to Polish technical dictionary      |
-| Calque And Style Replacements               | 427  | Forbidden calques and their replacements    |
-| Parameter Prompts                           | 515  | Polish phrasing for configuration questions |
-| Style Rules                                 | 568  | Style Rules guidance                        |
-| Diacritics Frequently Misspelled            | 704  | Diacritics Frequently Misspelled guidance   |
-| Output Filename                             | 739  | Output Filename guidance                    |
-| Document Information                        | 751  | Document Information guidance               |
-| Audit Type Coverage                         | 792  | Coverage rendering                          |
-| Project Inventory                           | 828  | Project Inventory guidance                  |
-| Glossary                                    | 837  | Glossary guidance                           |
-| Technology Stack                            | 890  | Technology Stack guidance                   |
-| Executive Summary                           | 907  | Executive Summary guidance                  |
-| Health Dashboard                            | 925  | Health Dashboard guidance                   |
-| Scorecard                                   | 936  | Scorecard guidance                          |
-| Scoring Rubrics                             | 961  | Scoring Rubrics guidance                    |
-| Delivery Practice & Team Continuity         | 985  | Delivery and continuity rendering           |
-| High-Level Observations                     | 1009 | High-Level Observations guidance            |
-| Auditing Methodology                        | 1016 | Auditing Methodology guidance               |
-| System Context                              | 1030 | System Context guidance                     |
-| Software Bill of Materials                  | 1043 | SBOM section rendering                      |
-| License Compliance Review                   | 1061 | License and IP section rendering            |
-| Architectural Assessment                    | 1079 | Architectural Assessment guidance           |
-| Architectural Subsections                   | 1086 | Architectural Subsections guidance          |
-| Skill Definition Conformance                | 1101 | Skill Definition Conformance guidance       |
-| AI System Assessment                        | 1109 | AI System Assessment guidance               |
-| Standards Conformance                       | 1120 | Standards Conformance guidance              |
-| References                                  | 1141 | References guidance                         |
-| Strengths And What's Working                | 1150 | Strengths And What's Working guidance       |
-| Detailed Technical Findings                 | 1156 | Detailed Technical Findings guidance        |
-| Technical Debt Register                     | 1215 | Technical Debt Register guidance            |
-| Unified Risk Register                       | 1227 | Unified Risk Register guidance              |
-| Trade-off Analysis                          | 1247 | Trade-off Analysis guidance                 |
-| Actionable Remediation Roadmap              | 1259 | Actionable Remediation Roadmap guidance     |
-| Recommendation Classification               | 1274 | Recommendation Classification guidance      |
-| Changes Since Previous Audit                | 1289 | Changes Since Previous Audit guidance       |
-| Scope Exclusions                            | 1323 | Scope Exclusions guidance                   |
-| Limitations And Unknowns                    | 1331 | Limitations And Unknowns guidance           |
-| Re-audit And Follow-up Plan                 | 1343 | Re-audit And Follow-up Plan guidance        |
-| Operator Verification Handoff               | 1353 | Operator Verification Handoff guidance      |
-| Executed Evidence Log                       | 1366 | Executed Evidence Log guidance              |
-| Hunt Style Sections                         | 1379 | Hunt Style Sections guidance                |
-| Validation Record                           | 1397 | Validation Record guidance                  |
-| Threat Model                                | 1422 | Threat Model guidance                       |
-| API Contract Conformance                    | 1432 | API Contract Conformance guidance           |
-| API Compatibility And Versioning Discipline | 1441 | API Compatibility And Versioning guidance   |
-| Evidence And Decision Terms                 | 1450 | Evidence And Decision Terms guidance        |
-| Skill Definition Conformance Table          | 1511 | Skill Definition Conformance Table guidance |
-| Review Report                               | 1526 | Review Report guidance                      |
+| Analysis And Rendering                      | 78   | Analysis model and terminology precedence   |
+| Status And Severity Vocabulary              | 100  | Status And Severity Vocabulary guidance     |
+| Fixed Vocabulary Values                     | 240  | Polish renderings of descriptive values     |
+| Terminology                                 | 292  | English to Polish technical dictionary      |
+| Calque And Style Replacements               | 428  | Forbidden calques and their replacements    |
+| Parameter Prompts                           | 516  | Polish phrasing for configuration questions |
+| Style Rules                                 | 569  | Style Rules guidance                        |
+| Diacritics Frequently Misspelled            | 705  | Diacritics Frequently Misspelled guidance   |
+| Output Filename                             | 740  | Output Filename guidance                    |
+| Document Information                        | 752  | Document Information guidance               |
+| Audit Type Coverage                         | 793  | Coverage rendering                          |
+| Project Inventory                           | 829  | Project Inventory guidance                  |
+| Glossary                                    | 838  | Glossary guidance                           |
+| Technology Stack                            | 891  | Technology Stack guidance                   |
+| Executive Summary                           | 908  | Executive Summary guidance                  |
+| Health Dashboard                            | 926  | Health Dashboard guidance                   |
+| Scorecard                                   | 937  | Scorecard guidance                          |
+| Scoring Rubrics                             | 962  | Scoring Rubrics guidance                    |
+| Delivery Practice & Team Continuity         | 986  | Delivery and continuity rendering           |
+| High-Level Observations                     | 1010 | High-Level Observations guidance            |
+| Auditing Methodology                        | 1017 | Auditing Methodology guidance               |
+| System Context                              | 1031 | System Context guidance                     |
+| Software Bill of Materials                  | 1044 | SBOM section rendering                      |
+| License Compliance Review                   | 1062 | License and IP section rendering            |
+| Architectural Assessment                    | 1080 | Architectural Assessment guidance           |
+| Architectural Subsections                   | 1087 | Architectural Subsections guidance          |
+| Skill Definition Conformance                | 1102 | Skill Definition Conformance guidance       |
+| Agent Guidance Conformance                  | 1110 | Agent Guidance Conformance guidance         |
+| AI System Assessment                        | 1124 | AI System Assessment guidance               |
+| Standards Conformance                       | 1135 | Standards Conformance guidance              |
+| References                                  | 1156 | References guidance                         |
+| Strengths And What's Working                | 1165 | Strengths And What's Working guidance       |
+| Detailed Technical Findings                 | 1171 | Detailed Technical Findings guidance        |
+| Technical Debt Register                     | 1230 | Technical Debt Register guidance            |
+| Unified Risk Register                       | 1242 | Unified Risk Register guidance              |
+| Trade-off Analysis                          | 1262 | Trade-off Analysis guidance                 |
+| Actionable Remediation Roadmap              | 1274 | Actionable Remediation Roadmap guidance     |
+| Recommendation Classification               | 1289 | Recommendation Classification guidance      |
+| Changes Since Previous Audit                | 1304 | Changes Since Previous Audit guidance       |
+| Scope Exclusions                            | 1338 | Scope Exclusions guidance                   |
+| Limitations And Unknowns                    | 1346 | Limitations And Unknowns guidance           |
+| Re-audit And Follow-up Plan                 | 1358 | Re-audit And Follow-up Plan guidance        |
+| Operator Verification Handoff               | 1368 | Operator Verification Handoff guidance      |
+| Executed Evidence Log                       | 1381 | Executed Evidence Log guidance              |
+| Hunt Style Sections                         | 1394 | Hunt Style Sections guidance                |
+| Validation Record                           | 1412 | Validation Record guidance                  |
+| Threat Model                                | 1437 | Threat Model guidance                       |
+| API Contract Conformance                    | 1447 | API Contract Conformance guidance           |
+| API Compatibility And Versioning Discipline | 1456 | API Compatibility And Versioning guidance   |
+| Evidence And Decision Terms                 | 1465 | Evidence And Decision Terms guidance        |
+| Skill Definition Conformance Table          | 1526 | Skill Definition Conformance Table guidance |
+| Review Report                               | 1541 | Review Report guidance                      |
 
 ## Analysis And Rendering
 
@@ -1105,6 +1106,20 @@ a main section, `Decyzje architektoniczne` is also correct.
 | Skill Definition Conformance | Zgodność definicji umiejętności |
 | Skills Inventory             | Inwentaryzacja umiejętności     |
 | Agent Artifacts              | Artefakty agentowe              |
+
+## Agent Guidance Conformance
+
+| English                    | Polish                         |
+|----------------------------|--------------------------------|
+| Agent Guidance Conformance | Zgodność wytycznych agentowych |
+| Guidance inventory         | Inwentaryzacja wytycznych      |
+| Entry route                | Ścieżka wejścia                |
+| Index of record            | Indeks podstawowy              |
+| Consolidated topology      | Topologia scalona              |
+| Owner selection            | Dobór właściciela              |
+| Role resolution            | Rozwiązanie ról                |
+| Restricted directories     | Katalogi zastrzeżone           |
+| Vendored documents         | Dokumenty dołączone            |
 
 ## AI System Assessment
 

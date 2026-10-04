@@ -20,11 +20,11 @@ A review report applies the same phases with the deltas defined in
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 1617 | Intake Checklist guidance        |
-| Handling Thin Input     | 1636 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1647 | Single-Dimension Audits guidance |
-| Re-Audit                | 1657 | Re-Audit guidance                |
-| Multi-Project Audits    | 1723 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1629 | Intake Checklist guidance        |
+| Handling Thin Input     | 1648 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1659 | Single-Dimension Audits guidance |
+| Re-Audit                | 1669 | Re-Audit guidance                |
+| Multi-Project Audits    | 1735 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -81,6 +81,11 @@ and `doc/` and their `audit/` and `report/` subdirectories.
 
 Record the resolved base output directory, the detected subdirectory pattern,
 the project version used, and the resolved output directory.
+
+When the resolved base is a `report/` directory that contains a subdirectory matching the
+report kind - `audit/` for an audit report, `review/` for a review report - descend into that
+subdirectory and record it as the base, so a `docs/report/audit/` landing zone wins over the
+bare `docs/report/` for an audit report.
 
 Classify the subdirectory names inside the resolved base output directory:
 
@@ -302,6 +307,9 @@ the default locations (`audit/` and `report/` directories and the bare root unde
 `document/`, and `doc/`, then the repository root), and the rest of the document structure,
 per `synthesis/report-comparison.md`.
 
+Inside a `report/` directory, also search its `audit/` subdirectory when the report kind is
+audit, or its `review/` subdirectory when the report kind is review.
+
 A previous report may be named `AUDIT.md`, `AUDIT-<revision>.md`, or the language-specific filename.
 
 When the resolved report type is `Review`, the same rules apply to the review filename
@@ -507,6 +515,10 @@ applied in order against the root of the repository or directory being audited:
 3. Else if any bare documentation root exists, use the first one in the documentation root
    order as the base output directory.
 4. Otherwise use the root of the audited repository or directory as the base output directory.
+
+When the resolved base is a `report/` directory containing a subdirectory that matches the
+report kind - `audit/` for an audit report, `review/` for a review report - descend into it:
+the base becomes `<root>/report/audit/` or `<root>/report/review/` respectively.
 
 After selecting the base output directory,
 consume the subdirectory pattern recorded during Output location discovery at intake.

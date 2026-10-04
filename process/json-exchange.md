@@ -153,6 +153,11 @@ letters for `selection`, or free text for `text`.
 
 Other keys may be echoed or omitted.
 
+Interoperating tools may emit a catalog form of the parameter document - the full parameter
+surface with a `pending` marker and a prefilled `answer` per entry rather than pending questions
+only. A returned document carrying those keys is tolerated, not malformed. Lens itself keeps
+emitting pending questions with empty `answer` fields only.
+
 In the condensed form, each key is a parameter `id` and each value is its `answer`.
 
 An empty or missing `answer` - including an `id` absent from the condensed object - applies the

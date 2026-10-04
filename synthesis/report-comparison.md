@@ -21,18 +21,18 @@ never assumed from the previous report alone.
 | Section                          | Line | What it covers                             |
 |----------------------------------|------|--------------------------------------------|
 | When This Applies                | 37   | Baseline discovery and confirmation        |
-| Fresh Audit                      | 91   | What does and does not carry over          |
-| Cross-Subject Parity Baseline    | 111  | Any-subject baseline for the parity gate   |
-| Report Revision                  | 122  | Revision numbering                         |
-| Output Filename                  | 141  | Revisioned filename rules                  |
-| Comparison Content               | 173  | What the Changes section compares          |
-| Re-Audit With Changed Params     | 206  | Parameter-change comparison                |
-| Evidence Transitions             | 226  | Finding, evidence, and capability deltas   |
-| Observation Folding              | 245  | Attaching new defects to existing findings |
-| Identifier Continuity            | 256  | FND/RSK/REC sequence rules                 |
-| Status, Change, And Verification | 279  | Status/Change vocabulary for re-audits     |
-| Legacy Field Names               | 305  | Old-schema-to-current name mapping         |
-| Rules                            | 350  | Comparison constraints                     |
+| Fresh Audit                      | 93   | What does and does not carry over          |
+| Cross-Subject Parity Baseline    | 113  | Any-subject baseline for the parity gate   |
+| Report Revision                  | 124  | Revision numbering                         |
+| Output Filename                  | 143  | Revisioned filename rules                  |
+| Comparison Content               | 175  | What the Changes section compares          |
+| Re-Audit With Changed Params     | 208  | Parameter-change comparison                |
+| Evidence Transitions             | 228  | Finding, evidence, and capability deltas   |
+| Observation Folding              | 247  | Attaching new defects to existing findings |
+| Identifier Continuity            | 258  | FND/RSK/REC sequence rules                 |
+| Status, Change, And Verification | 281  | Status/Change vocabulary for re-audits     |
+| Legacy Field Names               | 307  | Old-schema-to-current name mapping         |
+| Rules                            | 352  | Comparison constraints                     |
 
 ## When This Applies
 
@@ -69,6 +69,8 @@ Search for previous reports in this order:
 - The resolved output directory, including its version-numbered or date-named subdirectories.
 - The default designated locations: `audit/` and `report/` directories and the bare roots under
   `docs/`, `document/`, and `doc/`, then the repository or directory root.
+- The purpose-named subdirectory matching the report kind inside a `report/` directory -
+  `report/audit/` for an audit report, `report/review/` for a review report.
 - Any other location in the document structure where an audit report file is found.
 
 When several previous reports exist, compare against the one with the highest revision.

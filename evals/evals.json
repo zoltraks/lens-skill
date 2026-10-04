@@ -855,6 +855,41 @@
     "A column empty in every row is reported and removed only via an explicit drop-columns option.",
     "Legitimate empty cells - a declared matrix corner or a continuation row under a named column - are preserved untouched."
    ]
+  },
+  {
+   "id": 71,
+   "prompt": "Audit this repository. It has a fat root AGENTS.md serving as the central rules document, plural flat numbered docs/changes/ and docs/plans/ directories sharing a counter, a docs/decisions/ directory, a root references/ directory, and docs/report/audit/ holding previous audits. Produce a default audit report.",
+   "expected_output": "An audit that recognizes the recorded guidance topology, resolves output into docs/report/audit/, and flags no drift for the recorded non-default conventions.",
+   "files": [],
+   "expectations": [
+    "The report includes Agent Guidance Conformance because the repository carries a structured agent-guidance set.",
+    "AGENTS.md serving as the central rules document is evaluated as a consolidated topology and conforms when the repository records that role.",
+    "Plural flat numbered change and plan directories are treated as recorded conventions, not as drift against a canonical singular or version-grouped layout.",
+    "The delivery resolution descends into docs/report/audit/ for the audit report rather than offering bare docs/report/ as the primary path.",
+    "Previously written reports under docs/report/audit/ are discovered as prior-audit candidates."
+   ]
+  },
+  {
+   "id": 72,
+   "prompt": "Audit this repository: a .NET CLI tool suite whose root SKILL.md catalogs the compiled utilities it ships, alongside src/ projects and an MCP server project.",
+   "expected_output": "Classification by deliverable - the repository is a CLI product carrying an agent-facing capability catalog, not an Agent Skill package.",
+   "files": [],
+   "expectations": [
+    "The project's primary nature is its compiled deliverable (cli), with agent-tooling secondary for the catalog and MCP bridge.",
+    "The root SKILL.md is treated as authored configuration of the project, not as a separate skill project in the project-inclusion list.",
+    "Skill Definition Conformance still checks the SKILL.md's format conformance, but the audit does not produce skill-package findings for the repository as a whole."
+   ]
+  },
+  {
+   "id": 73,
+   "prompt": "Audit this repository, which vendors a PREPARATION.md repository-preparation document carrying a Version marker that is two releases behind the canonical copy.",
+   "expected_output": "The stale vendored document is reported under Agent Guidance Conformance rather than silently trusted.",
+   "files": [],
+   "expectations": [
+    "The vendored document's version marker is compared against the canonical source when determinable.",
+    "A vendored document older than its canonical source is reported as stale guidance.",
+    "The finding records the vendored version and the canonical version as evidence."
+   ]
   }
  ]
 }

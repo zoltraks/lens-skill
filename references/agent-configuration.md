@@ -3,9 +3,11 @@
 ## Purpose
 
 > **Scope:** Checkable constraints for agent-facing configuration formats other than `SKILL.md`,
-> used as the conformance baseline for the Skill Definition Conformance assessment
+> used as the conformance baseline for the Skill Definition Conformance assessment, plus
+> set-level baselines for the Agent Guidance Conformance assessment
 > **Key items:** memory files, rules directories, plugin manifests, subagent definitions,
-> instruction files, MCP configuration, per-format baselines, live-check procedure
+> instruction files, MCP configuration, per-format baselines, live-check procedure,
+> guidance-set baselines
 
 This file distills the documented constraints of each agent-facing configuration format into what
 an audit can check mechanically.
@@ -14,7 +16,9 @@ an audit can check mechanically.
 
 This file covers every other format discovered during agent-facing artifact discovery.
 
-`assessment/skill-definition.md` consumes this file.
+`assessment/skill-definition.md` consumes the per-format sections.
+
+`assessment/agent-guidance.md` consumes the Guidance Set Baselines section.
 
 ## Sources And Baselines
 
@@ -177,3 +181,36 @@ Signals that apply across formats:
   is documented as intentional when it appears inside the repository.
 - Instructions that conflict across formats for the same scope are a finding, regardless of
   which file an agent happens to load first.
+
+## Guidance Set Baselines
+
+Set-level constraints for repositories carrying a structured agent-guidance set - a central
+rules document, layered instruction files, or a Sources-of-Truth-style index.
+
+These are conformance conventions a repository declares, not formats to impose: their absence
+is a finding only where repository scale makes the missing structure material.
+
+Checkable constraints:
+
+- Entry route: every documented agent entry file carries an explicit read-and-follow
+  instruction toward the central rules document, and the chain resolves without broken links,
+  circular imports, or conflicting copies of the same rule.
+- Index of record: at most one document declares which documents are authoritative. A second
+  declaration - a README block restating rules, a second guidelines root - is a parallel-
+  authority finding.
+- Consolidated topology: a single `AGENTS.md` serving as the central rules document conforms
+  when the repository records that role; consolidation alone is not a violation.
+- Topic ownership: workflow, testing or verification, document style, and versioning each
+  resolve to exactly one recorded owning document or an explicit `N/A`. The same rule text
+  duplicated across two owners is drift.
+- Role resolution: every declared documentation role - change records, plans, decisions,
+  standards, references, reports, archive, templates, disposable workspace - resolves to a
+  path that exists. A recorded layout map satisfies the traceability requirement.
+- Restricted directories: historical, report, or reference directories that must not be
+  scanned for unrelated work carry an explicit read-boundary statement.
+- Execution policy: the set records who may commit, integrate, bump versions, or select
+  release baselines. Decisions reserved for a human are recorded as reserved, not implied.
+- Vendored documents: a vendored instruction or preparation document carrying a `Version:`
+  marker older than its canonical source is stale and reportable.
+- Custom agent definitions: schema conformance is checked against the tool's current
+  documentation with the checked version or date recorded, per the live-check procedure above.
