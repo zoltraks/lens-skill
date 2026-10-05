@@ -17,6 +17,10 @@ The review report type produced on explicit review requests follows
 The `hunt` report style follows `process/report-format/hunt-style.md`, which reuses the
 finding, risk, and roadmap contracts defined here under its own section order.
 
+For a fast mechanical view before producing a report, `process/report-contract.md` lists
+only the validator-enforced constraints, and `scripts/validate-report.py --dump-contract`
+emits the same surface as JSON.
+
 Produce the sections in this order.
 
 The report applies to any software subject: a prototype, a codebase under development,
@@ -32,13 +36,13 @@ A present-but-empty section signals a gap, a missing section hides it.
 
 | Section                                     | Line | What it covers                              |
 |---------------------------------------------|------|---------------------------------------------|
-| Formatting Rules                            | 43   | Formatting Rules guidance                   |
-| Report Delivery And Parameter Configuration | 276  | Report delivery and output configuration    |
-| Detail Level Configuration                  | 322  | Standard, detailed, and brief reports       |
-| Conditional Sections                        | 416  | Inclusion criteria for conditional sections |
-| Section Order                               | 470  | Single-project and multi-project order      |
-| Specification Files                         | 563  | Per-section specification file index        |
-| Pre-Delivery Mechanical Checklist           | 591  | Final mechanical checks                     |
+| Formatting Rules                            | 47   | Formatting Rules guidance                   |
+| Report Delivery And Parameter Configuration | 280  | Report delivery and output configuration    |
+| Detail Level Configuration                  | 332  | Standard, detailed, and brief reports       |
+| Conditional Sections                        | 426  | Inclusion criteria for conditional sections |
+| Section Order                               | 480  | Single-project and multi-project order      |
+| Specification Files                         | 573  | Per-section specification file index        |
+| Pre-Delivery Mechanical Checklist           | 601  | Final mechanical checks                     |
 
 ## Formatting Rules
 
@@ -311,8 +315,14 @@ The default filename carries the report revision: `AUDIT-1.0.md` for a first Eng
 or the language-specific revisioned name such as `AUDYT-1.0.md`,
 with the filename without the revision number offered as an alternative.
 
+A `hunt`-style report uses the `HUNT` stem instead - or the language-specific stem such as
+`POLOWANIE` - and defaults to the bare `HUNT.md` for a first report, with `HUNT-1.0.md`
+offered as the revisioned alternative.
+
 When a previous audit report exists, the filename carries the new revision whether the audit mode is
 re-audit or fresh audit, for example `AUDIT-2.0.md`, and the previous file is never overwritten.
+A bare `<stem>.md` previous report is renamed to `<stem>-<revision>.md` before the new report
+is written, per `synthesis/report-comparison.md`.
 
 `Custom report file` asks the user to specify the location and filename before writing.
 
@@ -629,4 +639,9 @@ spacing) on draft parts before assembly, copy it the same way.
 register cross-reference, and PAR-row checks, copy and run it the same way.
 
 `scripts/finalize-report.py` orchestrates the full sequence - glossary linking, table
-formatting, then report validation - against sibling `.tmp.` copies in one call.
+formatting, then report validation - against sibling `.tmp.` copies in one call, or against
+the skill repository directly with `--skill-root <path>` or `LENS_SKILL_ROOT`.
+
+`scripts/new-report.py --style audit|hunt` emits a validated skeleton carrying these
+sections, table headers, and field-labeled template blocks, so the structure is correct
+before any content is written.

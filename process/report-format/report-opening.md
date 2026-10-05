@@ -10,8 +10,8 @@
 | Section              | Line | What it covers                       |
 |----------------------|------|--------------------------------------|
 | Document Information | 16   | Report metadata and revisions        |
-| Audit Type Coverage  | 140  | Coverage of canonical audit types    |
-| Glossary             | 190  | Abbreviation and acronym definitions |
+| Audit Type Coverage  | 143  | Coverage of canonical audit types    |
+| Glossary             | 193  | Abbreviation and acronym definitions |
 
 ## Document Information
 
@@ -127,6 +127,9 @@ or a `Field`/`Value` table with a `Version` row.
 Read any of these forms as the report revision.
 
 The previous report file is never overwritten.
+
+A bare `<stem>.md` previous report may be renamed to its revisioned name per
+`synthesis/report-comparison.md`; its content is never changed.
 
 The new report is written to a separate file carrying the new revision in its name,
 for example `AUDIT-1.1.md`, per `synthesis/report-comparison.md`.

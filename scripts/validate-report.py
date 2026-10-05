@@ -13,15 +13,23 @@ the audit checks. The contract has two variants: the amendment structure
 ``REVIEW``/``PRZEGLĄD`` family whose names carry no revision suffix run as
 ``custom`` reports - shared mechanical checks only, no structural contract.
 
-Usage: python validate-report.py <report.md> [--repo-root <dir>]
+Usage:
+  python validate-report.py <report.md> [--repo-root <dir>]
+  python validate-report.py --dump-contract
+
 Exit code 0 means all checks pass, 1 means failures were found.
 
 With ``--repo-root`` the validator also checks that ``path:line`` citations in
 finding ``Targets``/``Evidence`` fields resolve to real files within range.
+
+``--dump-contract`` prints the mechanically enforced contract as JSON - required
+sections, field lists, token sets, and the hunt-specific rules - so an agent can
+load the machine-readable surface without parsing the documentation corpus.
 """
 
 from __future__ import annotations
 
+import json
 import math
 import re
 import sys
@@ -104,7 +112,10 @@ def check_semicolons(lines: list[str], fences: list[bool]) -> list[str]:
     failures: list[str] = []
     for index, (line, fenced) in enumerate(zip(lines, fences)):
         if not fenced and ";" in strip_spans(line):
-            failures.append(f"line {index + 1}: semicolon in prose: {line[:80]}")
+            failures.append(
+                f"line {index + 1}: semicolon in prose - use a comma or split the "
+                f"sentence: {line[:80]}"
+            )
     return failures
 
 
@@ -116,7 +127,10 @@ def check_dashes(lines: list[str], fences: list[bool]) -> list[str]:
         value = strip_spans(line)
         for character, name in ((EMDASH, "em dash"), (ENDASH, "en dash"), (ARROW, "arrow")):
             if character in value:
-                failures.append(f"line {index + 1}: {name} found: {line[:80]}")
+                failures.append(
+                    f"line {index + 1}: {name} found - use ASCII '-' or '->': "
+                    f"{line[:80]}"
+                )
     return failures
 
 
@@ -279,6 +293,8 @@ FINDING_STATUS = ("Open", "Closed", "PASS")
 CHANGE_VALUES = ("New", "Unchanged", "Reopened", "Closed")
 RISK_STATUS = ("Open", "Accepted", "Transferred", "Monitoring", "Closed")
 VERIFICATION_QUALIFIERS = ("Verified", "Confirmed", "Reported")
+FINDING_PILLARS = ("ARC", "CQY", "SEC", "INF", "AIP", "CPR", "API")
+FINDING_ID = re.compile(r"FND-(?:ARC|CQY|SEC|INF|AIP|CPR|API)-\d{3}")
 ABSENCE_VALUES = ("No documented rationale", "Deliberate - recorded decision",
                   "Undetermined")
 EMPTY_FIELD_VALUE = re.compile(r"^(N/?A|N/D|NOT SPECIFIED|NIEOKREŚLON)\b", re.IGNORECASE)
@@ -296,9 +312,18 @@ def check_finding_blocks(lines: list[str]) -> list[str]:
         end = starts[position + 1] if position + 1 < len(starts) else len(lines)
         block = NL.join(lines[start:end])
         name = lines[start][4:][:70]
+        pillar = re.match(r"FND-([A-Z]{3})-\d{3}", name)
+        if pillar and pillar.group(1) not in FINDING_PILLARS:
+            failures.append(
+                f"{name}: pillar code '{pillar.group(1)}' is not one of "
+                f"{'/'.join(FINDING_PILLARS)} - expected FND-<pillar>-NNN"
+            )
         for field in FINDING_REQUIRED:
             if f"**{field}**" not in block:
-                failures.append(f"{name}: missing {field}")
+                failures.append(
+                    f"{name}: missing {field[:-1]} - expected literal "
+                    f"'* **{field}** <value>'"
+                )
         status = field_value(block, "Status")
         if status and not re.match(rf"^({'|'.join(FINDING_STATUS)})\b", status):
             failures.append(f"{name}: Status is not a lifecycle value (Open/Closed/PASS)")
@@ -341,7 +366,10 @@ def check_risk_blocks(lines: list[str]) -> list[str]:
         name = lines[start][4:][:70]
         for field in RISK_REQUIRED:
             if f"**{field}**" not in block:
-                failures.append(f"{name}: missing {field}")
+                failures.append(
+                    f"{name}: missing {field[:-1]} - expected literal "
+                    f"'* **{field}** <value>'"
+                )
         status = field_value(block, "Status")
         if status and not re.match(rf"^({'|'.join(RISK_STATUS)})\b", status):
             failures.append(f"{name}: Status is not a treatment value (Open/Accepted/Transferred/Monitoring/Closed)")
@@ -382,12 +410,21 @@ def check_legacy_fields(lines: list[str], fences: list[bool]) -> list[str]:
     for index, (line, fenced) in enumerate(zip(lines, fences)):
         match = pattern.search(line)
         if match and not fenced:
-            failures.append(f"line {index + 1}: legacy field name {match.group(1)}")
+            failures.append(
+                f"line {index + 1}: legacy field name {match.group(1)} - "
+                "expected the current field name per findings-registers.md"
+            )
     return failures
 
 
+def findings_heading(text: str) -> str:
+    if report_style(text) == "hunt":
+        return "Domain Findings"
+    return "Detailed Technical Findings"
+
+
 def check_finding_summary(text: str) -> list[str]:
-    block = section_block(text, r"^#{2,3}\s+Detailed Technical Findings\s*$")
+    block = section_block(text, rf"^#{{2,3}}\s+{findings_heading(text)}\s*$")
     if not block:
         return []
     lines = block.split("\n")
@@ -417,27 +454,47 @@ def check_finding_summary(text: str) -> list[str]:
         if status_idx >= 0 and len(row_cells) > status_idx:
             value = row_cells[status_idx]
             if value and value.split(" ")[0] not in FINDING_STATUS:
-                failures.append(f"findings summary row has non-lifecycle Status '{value}'")
+                failures.append(
+                    f"findings summary row has non-lifecycle Status '{value}' - "
+                    "expected Open/Closed/PASS"
+                )
         if change_idx >= 0 and len(row_cells) > change_idx:
             value = row_cells[change_idx]
             if value and value.split(" ")[0] not in CHANGE_VALUES:
-                failures.append(f"findings summary row has non-provenance Change '{value}'")
+                failures.append(
+                    f"findings summary row has non-provenance Change '{value}' - "
+                    "expected New/Unchanged/Reopened/Closed"
+                )
         if verification_idx >= 0 and len(row_cells) > verification_idx:
             value = row_cells[verification_idx]
             if value and value.split(" ")[0] not in VERIFICATION_QUALIFIERS:
-                failures.append(f"findings summary row has bad Verification '{value}'")
+                failures.append(
+                    f"findings summary row has bad Verification '{value}' - "
+                    "expected Verified/Confirmed/Reported or empty"
+                )
     return failures
 
 
 def check_finding_counts(text: str) -> list[str]:
     failures: list[str] = []
-    pattern = re.compile(r"^#{2,3}\s+Detailed Technical Findings\s*$", re.MULTILINE)
+    heading = findings_heading(text)
+    hunt = heading == "Domain Findings"
+    pattern = re.compile(rf"^#{{2,3}}\s+{re.escape(heading)}\s*$", re.MULTILINE)
     for match in pattern.finditer(text):
         rest = text[match.end() :]
-        end = re.search(r"^#{2,3}\s+(?!FND-)", rest, re.MULTILINE)
+        if hunt:
+            # ### domain headings interleave with ### FND- blocks inside the register,
+            # so only a level-2 heading ends the section.
+            end = re.search(r"^##\s", rest, re.MULTILINE)
+        else:
+            end = re.search(r"^#{2,3}\s+(?!FND-)", rest, re.MULTILINE)
         block = rest[: end.start()] if end else rest
         blocks = len(re.findall(r"^###\s+FND-", block, re.MULTILINE))
-        first_block = re.search(r"^###\s+FND-", block, re.MULTILINE)
+        # The hunt register opens its per-domain ### headings after the summary table,
+        # so the summary ends at the first ### heading of any kind.
+        first_block = re.search(
+            r"^###\s+\S" if hunt else r"^###\s+FND-", block, re.MULTILINE
+        )
         summary_part = block[: first_block.start()] if first_block else block
         rows = 0
         for line in summary_part.split("\n"):
@@ -445,7 +502,7 @@ def check_finding_counts(text: str) -> list[str]:
                 rows += 1
         if blocks and rows != blocks:
             failures.append(
-                f"Detailed Technical Findings: summary cites {rows} finding row(s) "
+                f"{heading}: summary cites {rows} finding row(s) "
                 f"but the section defines {blocks} ### FND- block(s)"
             )
     return failures
@@ -739,7 +796,7 @@ def check_glossary(text: str) -> list[str]:
     sub_terms: list[str] = []
     for match in re.finditer(r"^###\s+(.+?)\s*$", text[heading.end() : g_end], re.MULTILINE):
         sub_heading = match.group(1)
-        term = re.split(r"\s*\(", sub_heading, 1)[0].strip()
+        term = re.split(r"\s*\(", sub_heading, maxsplit=1)[0].strip()
         sub_terms.append(term)
         sub_slugs[term] = slugify(sub_heading)
     if sub_terms != sorted(sub_terms, key=str.lower):
@@ -1275,6 +1332,235 @@ HUNT_SECTIONS = [
     "References",
 ]
 
+HUNT_DOMAINS = (
+    "Correctness",
+    "Security",
+    "Reliability",
+    "Performance",
+    "Dependencies",
+    "Deployment",
+    "Testability",
+    "Documentation",
+    "Maintainability",
+    "Provenance",
+)
+HUNT_RATINGS = ("Red", "Amber", "Green", "Not assessed")
+HUNT_VERDICTS = ("Ready", "Conditionally ready", "Not ready")
+HUNT_GATE_RESULTS = ("Met", "Not met", "Not assessable")
+HUNT_HOP_STATUS = ("conforming", "failing", "not assessable")
+HUNT_MATCH_VALUES = ("conforming", "partially conforming", "failing", "not assessable")
+
+
+def tables_in(block: str) -> list[list[str]]:
+    tables: list[list[str]] = []
+    current: list[str] = []
+    for line in block.split("\n"):
+        if line.startswith("|"):
+            current.append(line)
+        elif current:
+            tables.append(current)
+            current = []
+    if current:
+        tables.append(current)
+    return tables
+
+
+def table_cells(table: list[str]) -> tuple[list[str], list[list[str]]]:
+    header = [cell.strip() for cell in raw_cells(table[0])]
+    rows = [
+        [cell.strip() for cell in raw_cells(row)]
+        for row in table[2:]
+        if row.startswith("|")
+    ]
+    return header, rows
+
+
+def check_hunt_ratings(text: str) -> list[str]:
+    verdict = section_block(text, r"^##\s+Verdict\s*$")
+    if not verdict:
+        return []
+    table = next(
+        (
+            candidate
+            for candidate in tables_in(verdict)
+            if {"Domain", "Rating"}
+            <= {cell.strip() for cell in raw_cells(candidate[0])}
+        ),
+        None,
+    )
+    if table is None:
+        return [
+            "verdict section has no domain ratings table "
+            "(expected header 'Domain | Rating | Basis')"
+        ]
+    header, rows = table_cells(table)
+    rating_idx = header.index("Rating")
+    basis_idx = header.index("Basis") if "Basis" in header else -1
+    failures: list[str] = []
+    seen: set[str] = set()
+    for row in rows:
+        if len(row) <= rating_idx or not row[0]:
+            continue
+        domain = row[0]
+        seen.add(domain)
+        rating = row[rating_idx]
+        if rating not in HUNT_RATINGS:
+            failures.append(
+                f"domain '{domain}' has rating '{rating}' - "
+                f"expected one of {'/'.join(HUNT_RATINGS)}"
+            )
+            continue
+        basis = row[basis_idx] if 0 <= basis_idx < len(row) else ""
+        if rating in ("Red", "Amber") and not re.search(r"FND-[A-Z]{3}-\d{3}", basis):
+            failures.append(
+                f"{rating} domain '{domain}' names no FND- finding in its Basis cell"
+            )
+    for domain in HUNT_DOMAINS:
+        if domain not in seen:
+            failures.append(f"domain ratings table lacks the fixed domain '{domain}'")
+    return failures
+
+
+def check_hunt_verdict(text: str) -> list[str]:
+    verdict = section_block(text, r"^##\s+Verdict\s*$")
+    if not verdict:
+        return []
+    failures: list[str] = []
+    if not re.search(
+        r"Verdict\s*[:*]*\s*\**(Conditionally ready|Not ready|Ready)\b", verdict
+    ):
+        failures.append(
+            "verdict section states no verdict token - "
+            "expected 'Verdict: Ready', 'Conditionally ready', or 'Not ready'"
+        )
+    gates = next(
+        (
+            candidate
+            for candidate in tables_in(verdict)
+            if {"Gate", "Result"}
+            <= {cell.strip() for cell in raw_cells(candidate[0])}
+        ),
+        None,
+    )
+    if gates is None:
+        failures.append(
+            "verdict section has no hard-gates table "
+            "(expected header 'Gate | Result | Basis')"
+        )
+    else:
+        header, rows = table_cells(gates)
+        result_idx = header.index("Result")
+        for row in rows:
+            if len(row) > result_idx and row[result_idx] \
+                    and row[result_idx] not in HUNT_GATE_RESULTS:
+                failures.append(
+                    f"gate '{row[0][:50]}' has result '{row[result_idx]}' - "
+                    f"expected {'/'.join(HUNT_GATE_RESULTS)}"
+                )
+    if not re.search(r"[Tt]op[- ]five", verdict):
+        failures.append("verdict section lacks a top-five action list")
+    elif not re.search(
+        r"(?m)^\s*(?:\d+\.|[-*])\s+.*\b(REC-\d{3}|FND-[A-Z]{3}-\d{3})", verdict
+    ):
+        failures.append("top-five actions do not cite REC- or FND- identifiers")
+    strengths = 0
+    seen_marker = False
+    for line in verdict.split("\n"):
+        if re.match(r"^Strengths\b", line):
+            seen_marker = True
+            continue
+        if not seen_marker:
+            continue
+        if re.match(r"^[-*]\s", line):
+            strengths += 1
+        elif re.match(r"^#{1,3}\s", line):
+            break
+    if strengths > 5:
+        failures.append(f"verdict lists {strengths} strengths - the cap is five")
+    return failures
+
+
+def check_hunt_journeys(text: str) -> list[str]:
+    block = section_block(text, r"^##\s+Journey Traces\s*$")
+    if not block:
+        return []
+    failures: list[str] = []
+    findings = set(re.findall(r"FND-[A-Z]{3}-\d{3}", text))
+    hop_tables = 0
+    for table in tables_in(block):
+        if not table:
+            continue
+        header, rows = table_cells(table)
+        if {"Hop", "Status"} <= set(header):
+            hop_tables += 1
+            status_idx = header.index("Status")
+            for row in rows:
+                if len(row) <= status_idx or not row[status_idx]:
+                    continue
+                status = row[status_idx].strip().lower()
+                if status not in HUNT_HOP_STATUS:
+                    failures.append(
+                        f"journey hop '{row[0][:50]}' has status '{row[status_idx]}' - "
+                        f"expected {'/'.join(HUNT_HOP_STATUS)}"
+                    )
+                    continue
+                cited = re.findall(r"FND-[A-Z]{3}-\d{3}", " ".join(row))
+                if status == "failing":
+                    if not cited:
+                        failures.append(
+                            f"failing hop '{row[0][:50]}' cites no FND- finding"
+                        )
+                    for fid in cited:
+                        if fid not in findings:
+                            failures.append(
+                                f"failing hop '{row[0][:50]}' cites undefined {fid}"
+                            )
+        elif "Representation match" in header:
+            match_idx = header.index("Representation match")
+            for row in rows:
+                if len(row) > match_idx and row[match_idx]:
+                    value = row[match_idx].strip().lower()
+                    if value not in HUNT_MATCH_VALUES:
+                        failures.append(
+                            f"producer/consumer row '{row[0][:50]}' has match "
+                            f"'{row[match_idx]}' - expected {'/'.join(HUNT_MATCH_VALUES)}"
+                        )
+    if hop_tables == 0:
+        failures.append(
+            "journey traces has no hop table (expected header 'Hop | Status | Evidence')"
+        )
+    return failures
+
+
+def check_hunt_disposition(text: str) -> list[str]:
+    phases = section_block(text, r"^##\s+Remediation Phases\s*$")
+    if not phases:
+        return []
+    mentioned = set(
+        re.findall(r"[\w.-]+::FND-[A-Z]{3}-\d{3}|FND-[A-Z]{3}-\d{3}", phases)
+    )
+    failures: list[str] = []
+    for match in re.finditer(r"^###\s+FND-[A-Z]{3}-\d{3}[^\n]*", text, re.MULTILINE):
+        heading = match.group(0)
+        fid = re.search(r"FND-[A-Z]{3}-\d{3}", heading).group(0)
+        qualifier = re.search(r"\(([\w.-]+)\)\s*$", heading)
+        label = f"{qualifier.group(1)}::{fid}" if qualifier else fid
+        if label not in mentioned:
+            failures.append(
+                f"finding {label} maps to no remediation phase and no "
+                "'Accepted - no action' disposition"
+            )
+    return failures
+
+
+def check_hunt_classification(text: str) -> list[str]:
+    if re.search(r"^#{2,3}\s+Recommendation Classification\s*$", text, re.MULTILINE):
+        return [
+            "hunt report carries a Recommendation Classification section - "
+            "disposition lives in Remediation Phases"
+        ]
+    return []
+
 
 def report_style(text: str) -> str:
     match = re.search(r"\|\s*Report Style\s*\|\s*([^|]+)", text)
@@ -1313,7 +1599,10 @@ def check_evidence_sections(text: str) -> list[str]:
 
 def check_summary_verified(text: str) -> list[str]:
     failures: list[str] = []
-    for match in re.finditer(r"^#{2,3}\s+Detailed Technical Findings\s*$", text, re.MULTILINE):
+    heading = findings_heading(text)
+    for match in re.finditer(
+        rf"^#{{2,3}}\s+{re.escape(heading)}\s*$", text, re.MULTILINE
+    ):
         rest = text[match.end() :]
         end = re.search(r"^#{1,2}\s", rest, re.MULTILINE)
         block = rest[: end.start()] if end else rest
@@ -1455,6 +1744,87 @@ def check_location(path: str) -> list[str]:
     return []
 
 
+def report_contract() -> dict:
+    """The mechanically enforced contract, generated from the live constants."""
+    return {
+        "schema": "lens-report-contract/1",
+        "field_syntax": "* **Field:** value - asterisk bullet, bold name, colon outside the bold",
+        "id_patterns": {
+            "finding": "FND-<pillar>-NNN",
+            "finding_pillars": list(FINDING_PILLARS),
+            "project_qualified": "<project>::FND-<pillar>-NNN",
+            "risk": "RSK-NNN",
+            "recommendation": "REC-NNN",
+        },
+        "styles": {
+            "audit": {
+                "sections": BASELINE_SECTIONS + ["Recommendation Classification"],
+                "brief_sections": sorted(BRIEF_SECTIONS),
+                "findings_section": "Detailed Technical Findings",
+                "recommendation_classification": "required at Standard/Detailed",
+            },
+            "hunt": {
+                "sections": HUNT_SECTIONS,
+                "conditional_sections": [
+                    "Glossary",
+                    "Contradiction Register",
+                    "Operator Verification Handoff",
+                    "Executed Evidence Log",
+                ],
+                "findings_section": "Domain Findings",
+                "domains": list(HUNT_DOMAINS),
+                "ratings": list(HUNT_RATINGS),
+                "verdicts": list(HUNT_VERDICTS),
+                "gate_results": list(HUNT_GATE_RESULTS),
+                "hop_status": list(HUNT_HOP_STATUS),
+                "match_values": list(HUNT_MATCH_VALUES),
+                "strengths_cap": 5,
+                "recommendation_classification": "forbidden - disposition lives in Remediation Phases",
+            },
+        },
+        "fields": {
+            "finding_required": [field.rstrip(":") for field in FINDING_REQUIRED],
+            "risk_required": [field.rstrip(":") for field in RISK_REQUIRED],
+            "legacy_forbidden": LEGACY_FIELDS,
+        },
+        "tokens": {
+            "finding_status": list(FINDING_STATUS),
+            "change": list(CHANGE_VALUES),
+            "risk_status": list(RISK_STATUS),
+            "verification": list(VERIFICATION_QUALIFIERS),
+            "absence": list(ABSENCE_VALUES),
+            "breaking_change": ["None", "Internal", "Public API"],
+            "applicability": ["applicable", "conditional", "inapplicable", "unverified"],
+            "recommendation_class": ["Recommended", "Optional", "Not recommended"],
+            "coverage_status": ["Covered", "Partially", "Not done"],
+        },
+        "tables": {
+            "findings_summary_columns": [
+                "Finding",
+                "Result",
+                "Status",
+                "Change",
+                "Verification",
+            ],
+            "evidence_ledger": "no Execution column, no legacy Evidence ID header, "
+            "type tags Observation/Concern, Project column only in multi-project",
+            "coverage": "Status cells must be Covered, Partially, or Not done",
+        },
+        "rules": [
+            "headings no deeper than ###, followed by one blank line",
+            "no semicolons in prose, no em/en dashes or Unicode arrows outside code",
+            "scorecard means are recomputed from numeric Score cells; 'Overall score' "
+            "rows belong to the Executive Summary table and must match the mean",
+            "every stated overall score needs the word 'lowest' within six lines",
+            "no ambiguous project labels ('both', 'either', 'the projects') in "
+            "shared tables when a Project Inventory exists",
+            "failing journey hops must cite a defined FND- identifier",
+            "every hunt finding maps to a Remediation Phase or an "
+            "'Accepted - no action' disposition",
+        ],
+    }
+
+
 def main(path: str, repo_root: str | None = None) -> int:
     text = Path(path).read_text(encoding="utf-8")
     lines = text.replace("\r\n", "\n").split("\n")
@@ -1520,6 +1890,16 @@ def main(path: str, repo_root: str | None = None) -> int:
                 ("final-state gate", check_final_state(text)),
             ]
         )
+        if report_style(text) == "hunt":
+            checks.extend(
+                [
+                    ("hunt domain ratings", check_hunt_ratings(text)),
+                    ("hunt verdict elements", check_hunt_verdict(text)),
+                    ("hunt journey traces", check_hunt_journeys(text)),
+                    ("hunt finding disposition", check_hunt_disposition(text)),
+                    ("hunt classification ban", check_hunt_classification(text)),
+                ]
+            )
     label = kind if not variant else f"{kind} ({variant})"
     print(f"report type: {label}")
     failures = 0
@@ -1537,7 +1917,10 @@ def main(path: str, repo_root: str | None = None) -> int:
 
 
 if __name__ == "__main__":
+    if sys.argv[1:] == ["--dump-contract"]:
+        print(json.dumps(report_contract(), indent=2))
+        raise SystemExit(0)
     if len(sys.argv) not in (2, 4) or (len(sys.argv) == 4 and sys.argv[2] != "--repo-root"):
-        print("Usage: python validate-report.py <report.md> [--repo-root <dir>]")
+        print("Usage: python validate-report.py <report.md> [--repo-root <dir>] | --dump-contract")
         raise SystemExit(1)
     raise SystemExit(main(sys.argv[1], sys.argv[3] if len(sys.argv) == 4 else None))

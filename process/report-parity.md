@@ -40,10 +40,14 @@ Do not rely on per-run memory of what a previous report happened to include.
 | PAR-15 | The Delivery Practice & Team Continuity section is present per project, DORA-proxy fields are correctly marked as proxies or `NOT SPECIFIED`, and a bus-factor rating is given (`NOT COLLECTED` when Git history was out of scope)                                | `references/delivery-practice.md`                 |
 | PAR-16 | In a non-English report, every section heading and scored-dimension name matches the governing `translations/` file verbatim                                                                                                                                      | `translations/` files                             |
 | PAR-17 | When the subject holds agent-facing artifacts, the Skills Inventory and Agent Artifacts table list every discovered `SKILL.md` and artifact with a per-item status, excluded items carry an explicit out-of-scope marking, and the spec baseline used is recorded | `assessment/skill-definition.md`                  |
-| PAR-18 | At Standard and Detailed detail levels the Recommendation Classification section is present and every `REC-XXX` in the roadmap appears exactly once with a class of `RECOMMENDED`, `OPTIONAL`, or `NOT RECOMMENDED`                                               | `synthesis/remediation-roadmap.md`                |
+| PAR-18 | At Standard and Detailed detail levels the Recommendation Classification section is present and every `REC-XXX` in the roadmap appears exactly once with a class of `Recommended`, `Optional`, or `Not recommended`                                               | `synthesis/remediation-roadmap.md`                |
 | PAR-19 | When the subject carries a structured agent-guidance set, the Agent Guidance Conformance section lists every discovered guidance document with a status, excluded items carry an explicit out-of-scope marking, and the baseline used is recorded                 | `assessment/agent-guidance.md`                    |
 
 PAR-5 may report `NOT COLLECTED` when Git history is unavailable, silence is not acceptable.
+
+PAR-18 reports `N/A` under `Report Style: hunt` - a hunt report carries no Recommendation
+Classification section, disposition lives in Remediation Phases, per
+`process/report-format/hunt-style.md`.
 
 PAR-9 re-derivation means re-selecting references from the current stack lookup for the detected
 stack.

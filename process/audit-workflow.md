@@ -20,11 +20,11 @@ A review report applies the same phases with the deltas defined in
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 1651 | Intake Checklist guidance        |
-| Handling Thin Input     | 1670 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1681 | Single-Dimension Audits guidance |
-| Re-Audit                | 1691 | Re-Audit guidance                |
-| Multi-Project Audits    | 1757 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1708 | Intake Checklist guidance        |
+| Handling Thin Input     | 1727 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1738 | Single-Dimension Audits guidance |
+| Re-Audit                | 1748 | Re-Audit guidance                |
+| Multi-Project Audits    | 1814 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -323,6 +323,9 @@ documentation roots, including their dated subdirectories.
 
 A previous report may be named `AUDIT.md`, `AUDIT-<revision>.md`, or the language-specific filename.
 
+For a `hunt` report style the same rules apply to the hunt filename family: `HUNT.md`,
+`HUNT-<revision>.md`, and the language-specific stem such as `POLOWANIE-<revision>.md`.
+
 When the resolved report type is `Review`, the same rules apply to the review filename
 family: `REVIEW.md`, `REVIEW-<revision>.md`, and the language-specific stem such as
 `PRZEGLĄD-1.0.md`, and the audit-mode wording reads "re-review".
@@ -331,7 +334,8 @@ The change-review variant shares the `REVIEW` filename family: a previous change
 baselines a new change review, while a `REVIEW`-family file carrying a custom suffix is
 treated as a custom report and still appears as a baseline candidate.
 
-An audit report never baselines a review, and a review report never baselines an audit.
+An audit report never baselines a review, a review report never baselines an audit,
+and a hunt report never baselines an `audit`-style report or a review.
 
 When several exist, present the one with the highest revision as the candidate baseline.
 
@@ -434,19 +438,19 @@ Present the defaults in a compact summary.
 
 Default parameters:
 
-| Parameter               | Default                                                                                 |
-|-------------------------|-----------------------------------------------------------------------------------------|
-| Report type             | Audit - Review only on an explicit review, amendment, or improvement-plan request       |
-| Report style            | `audit` - the governance contract, `hunt` produces the defect-hunt genre                |
-| Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/`, else Inline |
-| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit  |
-| Report language         | Match the language of the user's request                                                |
-| Detail level            | Detailed                                                                                |
-| Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                   |
-| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                 |
-| Trade-off analysis      | Standalone section + embedded into relevant findings                                    |
-| Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it |
-| Evidence mode           | `source-only` - `executed-readonly` runs commissioned non-mutating analyzers only       |
+| Parameter               | Default                                                                                                             |
+|-------------------------|---------------------------------------------------------------------------------------------------------------------|
+| Report type             | Audit - Review only on an explicit review, amendment, or improvement-plan request                                   |
+| Report style            | `audit` - the governance contract, `hunt` produces the defect-hunt genre                                            |
+| Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/`, else Inline                             |
+| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md` for a first hunt |
+| Report language         | Match the language of the user's request                                                                            |
+| Detail level            | Detailed                                                                                                            |
+| Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                               |
+| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                                             |
+| Trade-off analysis      | Standalone section + embedded into relevant findings                                                                |
+| Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it                             |
+| Evidence mode           | `source-only` - `executed-readonly` runs commissioned non-mutating analyzers only                                   |
 
 The agent MUST ask the user and MUST NOT skip this step.
 
@@ -457,8 +461,16 @@ language-specific revisioned name from the matching `translations/` file such as
 
 For a review report the stem is `REVIEW` instead, producing `REVIEW-1.0.md`.
 
+For the `hunt` report style the stem is `HUNT` - or the language-specific stem such as
+`POLOWANIE` - and a first hunt defaults to the bare stem `HUNT.md`, with `HUNT-1.0.md`
+offered as the revisioned alternative.
+
 When a previous report exists, the filename carries the new revision, for example `AUDIT-1.1.md`,
 per `synthesis/report-comparison.md`.
+
+When the previous report is a bare `<stem>.md` file in the resolved output directory, it is
+renamed to `<stem>-<revision>.md` before the new report is written, per
+`synthesis/report-comparison.md`.
 
 Plain `AUDIT.md` or the language-specific filename without the revision number remains an
 offered alternative.
@@ -486,6 +498,23 @@ Evidence Gathering, so the elapsed time covers document familiarization as well 
 itself rather than the parameter discussion.
 
 The elapsed time is later written to the `Time taken` row in Document Information.
+
+**Saved parameters (`work/lens-params.json`)**
+
+Once intake resolves, write the resolved values to `work/lens-params.json` in the audited
+repository - a plain JSON object carrying `subject`, `revision`, `projects`, `report_style`,
+`report_language`, `detail_level`, `evaluation_scale`, `evidence_mode`, `output_dir`, and
+`output_filename`.
+
+The file locks intake for the session: a later request for another report style - or a re-run
+after an aborted assembly - reads the saved values instead of re-asking the parameter
+questions, and `scripts/new-report.py --params` consumes them when scaffolding the next
+report.
+
+A request that explicitly changes a parameter overrides the file and rewrites it.
+
+The file never carries secrets, credentials, or fetched content - resolved intake values only -
+and it changes nothing about the source-only boundary.
 
 **Parameter prompts**
 
@@ -574,16 +603,25 @@ Resolve the filename before asking.
 
 The default filename carries the report revision:
 
-`<stem>-<revision>.md`, where `<stem>` is `AUDIT` for English reports or the language-specific stem
-from the matching `translations/` file.
+`<stem>-<revision>.md`, where `<stem>` is `AUDIT` for English audit reports, `REVIEW` for
+review reports, `HUNT` for `hunt`-style reports, or the language-specific stem from the
+matching `translations/` file.
 
 A first audit uses `AUDIT-1.0.md` or the language-specific equivalent such as `AUDYT-1.0.md`.
+
+A first hunt report instead defaults to the bare stem `HUNT.md` or its language-specific
+equivalent such as `POLOWANIE.md`, with `HUNT-1.0.md` offered as the revisioned alternative.
 
 When a previous report exists, use the incremented filename defined in
 `synthesis/report-comparison.md`.
 
+When that previous report is a bare `<stem>.md` file in the resolved output directory,
+rename it to `<stem>-<revision>.md` before writing the new report, per
+`synthesis/report-comparison.md`.
+
 The filename without the revision number, `AUDIT.md` or its language-specific equivalent, is
-offered as an alternative file option.
+offered as an alternative file option for audit-style reports, and is the default for a first
+hunt report.
 
 Ask: "How should the report be delivered?"
 
@@ -607,7 +645,8 @@ Present each applicable option as a concrete choice:
   `docs/report/<date>/AUDIT-1.0.md` for a first audit.
 - `File - <resolved-path>/<filename without the revision number>` - the resolved path using
   the filename without the revision number, such as `docs/report/AUDIT.md`, offered as an
-  alternative to the revisioned default.
+  alternative to the revisioned default. For a `hunt`-style report this option is the default
+  and the revisioned filename becomes the alternative.
 - `Custom report file` - ask the user to specify the location and filename.
 
 For example, when `docs/report/` and `document/` exist with no subdirectory pattern,
@@ -1024,6 +1063,24 @@ Nothing collected is silently unused.
 Also record the read depth of each source file - full read, sampled, or listed only - so the
 Auditing Methodology section can publish the read-depth table per
 `process/report-format/methodology-scoring.md`.
+
+**Shared evidence capture (`work/evidence.json`)**
+
+When the session plans more than one report - for example an `audit` and a `hunt` over the
+same snapshot - the evidence pass may write its registers once to
+`work/evidence.json` in the audited repository so each style renders from a single capture
+instead of re-deriving them.
+
+The file is a plain JSON object: `evidence` (ledger rows as `id`, `check`, `result`, `type`,
+`artifact`), `read_depth` (per-area rows), `boundary_traces` (producer/consumer rows),
+`journeys` (workflow names with per-hop `hop`, `status`, `evidence`, `fnd`), and `notes`.
+
+Both report styles read the same object: the audit renders its ledger, methodology, and
+register sections from it, the hunt renders the same rows plus the journey traces - style
+changes presentation, never the captured evidence.
+
+The file is optional, stays inside `work/` with the other scratch artifacts, carries no
+secrets, and never replaces the read-depth and traceability rules above.
 
 **Verification Plan**
 

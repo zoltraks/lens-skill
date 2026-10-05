@@ -42,18 +42,18 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 | Skill Update Check      | 77   | Once-per-session git freshness gate before use     |
 | Trigger Keywords        | 94   | Activation phrases                                 |
 | How To Use              | 119  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 139  | Defaults and user-controlled report shape          |
-| Principles              | 207  | Evaluation and output rules                        |
-| Process                 | 213  | Workflow, format, and parity                       |
-| Assessments             | 237  | Core and conditional assessment guides             |
-| Synthesis               | 276  | Findings, risk, score, and remediation assembly    |
-| Translations            | 292  | Per-language report translations                   |
-| References              | 301  | Lookup tables                                      |
-| Scripts                 | 323  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 345  | Behavioral regression prompts                      |
-| Repository Files        | 349  | Housekeeping files governing this repository       |
-| Evidence Contract       | 361  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 397  | File-selection and section-placement rules         |
+| Parameter Configuration | 142  | Defaults and user-controlled report shape          |
+| Principles              | 209  | Evaluation and output rules                        |
+| Process                 | 215  | Workflow, format, and parity                       |
+| Assessments             | 240  | Core and conditional assessment guides             |
+| Synthesis               | 279  | Findings, risk, score, and remediation assembly    |
+| Translations            | 295  | Per-language report translations                   |
+| References              | 304  | Lookup tables                                      |
+| Scripts                 | 326  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 347  | Behavioral regression prompts                      |
+| Repository Files        | 351  | Housekeeping files governing this repository       |
+| Evidence Contract       | 363  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 399  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -124,6 +124,9 @@ Use progressive disclosure:
 - Read `principles/evaluation-rules.md` (evidence-only reasoning, no-assumption rule, neutrality,
   status markers, hard constraints) and `process/audit-workflow.md` (the end-to-end audit process
   from intake to final report) before producing any audit. They are mandatory for every audit.
+- For report production, `process/report-contract.md` is the first read - the mechanically
+  enforced contract - then the selected style file (`process/report-format.md` or
+  `process/report-format/hunt-style.md`); `--dump-contract` emits the same surface as JSON.
 - Open only the assessment files that match the system under audit.
 - Use the synthesis files to assemble the final report sections.
 
@@ -150,7 +153,7 @@ Defaults are:
 | Report style            | `audit` governance report (default) or `hunt` defect-hunt report                                                                       |
 | Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/` - `review/` or `reviews/` for a review report - else Inline |
 | Output location         | Resolved across `docs/`, `document/`, `doc/` roots or the repository root                                                              |
-| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit                                                 |
+| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md` for a first hunt                    |
 | Report language         | Match the language of the user's request                                                                                               |
 | Detail level            | Detailed                                                                                                                               |
 | Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                                                  |
@@ -174,11 +177,11 @@ dedicated `review/` or `reviews/` directory, including the dated `review/<YYYY-M
 convention per `process/review-report.md`. A recorded version/date subdirectory pattern is reused.
 
 The output filename carries the report revision:
-`AUDIT-1.0.md` for a first audit (`REVIEW-1.0.md` for a review) or the language-specific
-revisioned name such as `AUDYT-1.0.md`, with the filename without the revision number as an
-alternative.
-A previous report gives the incremented revision, for example `AUDIT-1.1.md`,
-and is never overwritten.
+`AUDIT-1.0.md` for a first audit (`REVIEW-1.0.md` for a review, bare `HUNT.md` for a first
+hunt) or the language-specific revisioned name such as `AUDYT-1.0.md`, with the bare filename
+as an alternative for audit and review reports.
+A previous report gives the incremented revision, for example `AUDIT-1.1.md`, and is never
+overwritten - a bare `<stem>.md` in the output directory is renamed to its revisioned name.
 The agent confirms with the user before writing.
 
 If the user accepts defaults or says "bypass", the agent proceeds immediately.
@@ -201,7 +204,7 @@ audited location, resolve the audit mode per `process/audit-workflow.md` and
 `synthesis/report-comparison.md`: re-audit, re-audit with changed parameters, or fresh audit.
 
 The previous report is never overwritten - write the next revision-numbered file such as
-`AUDIT-1.1.md`.
+`AUDIT-1.1.md`, renaming a bare `<stem>.md` previous report to its revisioned name first.
 
 ## `principles/` - Rules Of Evaluation
 
@@ -213,6 +216,7 @@ The previous report is never overwritten - write the next revision-numbered file
 
 - **`process/audit-workflow.md`** - End-to-end audit process: intake to validated report.
 - **`process/report-format.md`** - Report format index: rules, parameters, spec-file map.
+- **`process/report-contract.md`** - One-page mechanically enforced report contract.
 - **`process/report-format/report-opening.md`** - Document Information, coverage matrix, Glossary.
 - **`process/report-format/multi-project.md`** - Combined multi-project report structure.
 - **`process/report-format/summary-changes.md`** - Executive Summary and Changes.
@@ -321,16 +325,15 @@ type requires them.
 
 ## `scripts/` - Canonical Scripts
 
-Copy these into the audited repository's `work/` directory under a `.tmp.` name - an existing
-`temp` or `temporary` directory when `work/` is unavailable, the repository root only when none
-exists - run the copies there, and remove them when done.
-
-They are report-production tooling, not analysis of the audited project.
+They are report-production tooling, not analysis of the audited project. Run them from the
+skill tree via `finalize-report.py --skill-root <path>`, or copy them into the audited
+repository's `work/` directory under a `.tmp.` name and remove the copies when done.
 
 - **`scripts/format-table.py`** - Canonical table formatter (Table Formatting Rules).
 - **`scripts/align-comments.py`** - Plain-text `#` comment column aligner.
 - **`scripts/link-glossary.py`** - Glossary body-link inserter, run before the formatter.
-- **`scripts/validate-report.py`** - Mechanical report consistency checker.
+- **`scripts/validate-report.py`** - Mechanical report checker, `--dump-contract` emits the contract.
+- **`scripts/new-report.py`** - Report skeleton generator (`--style`, `--projects`, `--params`).
 - **`scripts/validate-skill.py`** - Frontmatter, disclosure, and references validator.
 - **`scripts/check-references.py`** - Relative-reference integrity checker.
 - **`scripts/check-contents.py`** - Contents-table versus section-heading drift checker.
@@ -467,8 +470,8 @@ when maintaining the skill.
   exploitation occurred.
 - API compatibility gates, versioning consistency, and breaking-change tracking belong in
   `assessment/api-compatibility.md`, only for a reusable library or package.
-- Wherever an overall score appears, the lowest-scoring applicable dimension and its score are
-  reported in a paragraph below the table, per `synthesis/project-scorecard.md`.
+- An overall score always reports the lowest-scoring applicable dimension beside it, per
+  `synthesis/project-scorecard.md`.
 - Conditional sections appear only when their inclusion criterion is met per the table in
   `process/report-format.md`, with omissions noted in Scope Exclusions - never force one.
 - The Technical Debt Register (`synthesis/debt-register.md`) is distinct from the Unified Risk
@@ -477,24 +480,21 @@ when maintaining the skill.
   maps P1/P2 findings to verification owners and closure evidence.
 - Every absent-capability finding carries an `Absence` field built from repository signals per
   `principles/evaluation-rules.md`, never a claim about the authors' motives.
-- The Recommendation Classification section (`synthesis/remediation-roadmap.md`) assigns every
-  `REC-XXX` one class at Standard and Detailed, omitted at Brief with a Scope Exclusions note.
-- The Changes Since Previous Audit section (`synthesis/report-comparison.md`) appears only when
-  a previous report was found. The previous file is never overwritten and the new report
-  carries the next minor revision.
-- `report-style: hunt` renders the same evidence base per `process/report-format/hunt-style.md`.
-  Intake records the commit snapshot, and external reports of the same subject are reconciled
-  per `synthesis/report-triangulation.md`, never merged or adopted.
+- Recommendation Classification (`synthesis/remediation-roadmap.md`) classes every `REC-XXX`,
+  omitted at Brief with a Scope Exclusions note.
+- The Changes Since Previous Audit section (`synthesis/report-comparison.md`) appears only
+  when a previous report exists - never overwritten, the new file carries the next revision.
+- `report-style: hunt` renders the same evidence base per `process/report-format/hunt-style.md` -
+  intake records the snapshot, external reports reconcile per `synthesis/report-triangulation.md`.
 - Limitations and Unknowns lists every unperformed check. Validation Record closes the report
   with the Mandatory Core Checklist result and the `process/report-parity.md` gate outcome.
-- For a multi-project report confirmed at intake, a condensed combined Executive Summary and
-  Changes follow the Project Inventory, and a combined Trade-off Analysis holds only
-  cross-project trade-offs per `synthesis/tradeoff-analysis.md`.
+- Multi-project reports: a condensed combined Executive Summary and Changes follow the
+  Project Inventory, combined Trade-off Analysis holds only cross-project trade-offs.
 - Each `translations/` file defines one report language, loaded only when needed.
 - Prefer the narrowest assessment file matching the request: a single-dimension request loads
   that one file plus `principles/` and produces the matching finding pillar and risk row only.
-- Trade-off analyses appear as the Trade-off Analysis section after Architectural Assessment and
-  embedded in findings under Description or Impact, per `synthesis/tradeoff-analysis.md`.
+- Trade-offs appear in Trade-off Analysis after Architectural Assessment and embedded in
+  findings, per `synthesis/tradeoff-analysis.md`.
 - For a full audit, load `principles/`, `process/`, every relevant `assessment/` file, and all
   `synthesis/` files. Mark inapplicable categories `N/A` with justification rather than dropping
   them.

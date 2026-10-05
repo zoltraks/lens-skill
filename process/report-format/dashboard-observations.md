@@ -80,7 +80,13 @@ or package`.
 Render each Score cell in the selected evaluation scale: `7/10` for `1-10`, `4/5` for `1-5`,
 `2/3` for `1-3`, `★★★★☆` for `5 stars`, and `★★☆` for `3 stars`.
 
-Render `UNKNOWN` as text, not as a star bar; `N/A` rows are omitted from the table entirely.
+Render `UNKNOWN` as text, not as a star bar - `N/A` rows are omitted from the table entirely.
+
+Never add an `Overall score` row to this table: the validator recomputes the mean from every
+numeric Score cell, and a numeric overall row enters that mean and corrupts it. The overall
+score belongs to the Executive Summary key-value table, per
+`process/report-format/summary-changes.md`, and the validator compares the stated overall
+against the recomputed mean - they must agree under the documented rounding.
 
 When the report language is not English, apply the translations from the matching `translations/`
 file.

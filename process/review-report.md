@@ -24,14 +24,14 @@ a configuration set, a codebase, or a proposal.
 | Report Type Resolution              | 36   | Report Type Resolution guidance  |
 | Subject Scope                       | 66   | Subject Scope guidance           |
 | Workflow Deltas                     | 73   | Workflow Deltas guidance         |
-| Report Structure                    | 163  | Report Structure guidance        |
-| Change Review Variant               | 257  | Change Review Variant guidance   |
-| What A Review Report Never Contains | 364  | Excluded report machinery        |
-| Formatting                          | 382  | Formatting guidance              |
-| Re-Review And Revisions             | 390  | Re-Review And Revisions guidance |
-| Detail Levels                       | 400  | Detail Levels guidance           |
-| Languages                           | 410  | Languages guidance               |
-| Validation                          | 417  | Validation guidance              |
+| Report Structure                    | 169  | Report Structure guidance        |
+| Change Review Variant               | 263  | Change Review Variant guidance   |
+| What A Review Report Never Contains | 370  | Excluded report machinery        |
+| Formatting                          | 388  | Formatting guidance              |
+| Re-Review And Revisions             | 396  | Re-Review And Revisions guidance |
+| Detail Levels                       | 407  | Detail Levels guidance           |
+| Languages                           | 417  | Languages guidance               |
+| Validation                          | 424  | Validation guidance              |
 
 ## Report Type Resolution
 
@@ -152,9 +152,15 @@ own date-named subdirectory holding a `REVIEW.md` file, for example
 The dated convention keeps the plain stem canonical: `REVIEW.md` is the default filename
 inside the date-named directory, and a second review landing in the same directory
 carries the next revision suffix such as `REVIEW-1.1.md`.
+Under this convention `REVIEW.md` stays canonical inside its own dated directory and is not
+renamed; the rename rule in `synthesis/report-comparison.md` applies only when a bare stem
+shares the resolved output directory with the new report.
 
 Otherwise the filename stem is `REVIEW`, so a first review of a subject defaults to
 `REVIEW-1.0.md` with plain `REVIEW.md` offered as the alternative.
+A previous report kept as a bare `REVIEW.md` in the resolved output directory is renamed to
+`REVIEW-<revision>.md` before the new review is written, per
+`synthesis/report-comparison.md`.
 
 The change-review variant shares the `REVIEW` filename family and revision numbering:
 a `REVIEW`-family name carrying a custom suffix marks the report custom and relaxes
@@ -392,7 +398,8 @@ No Contents section is added: the report navigates by its fixed section order.
 The first review of a subject is revision `1.0` and defaults to `REVIEW-1.0.md`.
 
 Each subsequent review increments the revision and writes a new file per
-`synthesis/report-comparison.md`, and the previous file is never overwritten.
+`synthesis/report-comparison.md`, and the previous file is never overwritten; a bare
+`REVIEW.md` in the same output directory is renamed to `REVIEW-<revision>.md` first.
 
 A re-review re-evaluates the subject's current revision and carries no dedicated
 comparison section: the `Reviewed baseline` preamble records what was evaluated.

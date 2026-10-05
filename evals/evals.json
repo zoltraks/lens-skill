@@ -816,7 +816,8 @@
     "The report carries Verdict, Journey Traces, Domain Findings, Risk Register, and Remediation Phases sections.",
     "Finding blocks keep the FND-<pillar> schema with the same evidence and verification fields.",
     "The numeric scorecard and Recommendation Classification section are replaced by domain verdicts and remediation phases.",
-    "Project purpose, technology stack, and inventory discovery still complete before findings are written."
+    "Project purpose, technology stack, and inventory discovery still complete before findings are written.",
+    "The output filename uses the HUNT stem: bare HUNT.md is the default for a first hunt report, with HUNT-1.0.md offered as the revisioned alternative."
    ]
   },
   {
@@ -928,6 +929,105 @@
     "The resolved output directory is `docs/review/<current-date>/`, not `docs/`, `docs/report/`, or the repository root.",
     "The report is written as `REVIEW.md` inside the new date-named subdirectory, and the previous `REVIEW.md` is never overwritten.",
     "A same-date landing that would collide with an existing `REVIEW.md` carries the next revision suffix such as `REVIEW-1.1.md`."
+   ]
+  },
+  {
+   "id": 77,
+   "prompt": "Run a fresh defect hunt on this repository - report style hunt. A previous bare HUNT.md exists in docs/report/2026-10-05/ next to where the new report will land.",
+   "expected_output": "A hunt report written to a revisioned filename after normalizing the bare previous report's name.",
+   "files": [],
+   "expectations": [
+    "The bare HUNT.md in the resolved output directory is renamed to HUNT-1.0.md - or to its recorded Report Revision when one is present - before the new report is written.",
+    "The new hunt report carries the next revision, for example HUNT-1.1.md, and the previous file's content is never changed.",
+    "The rename applies to every report stem, so a bare AUDIT.md or REVIEW.md in the output directory is normalized the same way.",
+    "If the target revisioned name is already taken, the renamed file uses the next free revision slot and the rename is recorded in working notes."
+   ]
+  },
+  {
+   "id": 78,
+   "prompt": "Write the defect-hunt report in Polish - report style hunt - for a repository with no previous hunt report.",
+   "expected_output": "A Polish hunt-style report using the POLOWANIE filename stem.",
+   "files": [],
+   "expectations": [
+    "The output filename uses the POLOWANIE stem: bare POLOWANIE.md is the default for a first Polish hunt report, with POLOWANIE-1.0.md offered as the revisioned alternative.",
+    "A subsequent Polish hunt writes POLOWANIE-<revision>.md and renames a bare POLOWANIE.md previous report to its revisioned name first."
+   ]
+  },
+  {
+   "id": 79,
+   "prompt": "Validate a hunt report whose Verdict domain ratings table rates Security `Yellow` and omits the Provenance row.",
+   "expected_output": "The validator fails the `hunt domain ratings` check.",
+   "files": [],
+   "expectations": [
+    "Domain rating cells are limited to `Red`, `Amber`, `Green`, and `Not assessed` - any other value fails with the expected token list.",
+    "Every fixed domain - Correctness, Security, Reliability, Performance, Dependencies, Deployment, Testability, Documentation, Maintainability, Provenance - must appear; a missing row fails.",
+    "A `Red` or `Amber` row whose Basis cell names no `FND-` identifier fails, since a degraded rating must trace to findings."
+   ]
+  },
+  {
+   "id": 80,
+   "prompt": "Validate a hunt report whose Verdict section states no verdict token, carries no gates table, and lists seven strengths.",
+   "expected_output": "The validator fails the `hunt verdict elements` check.",
+   "files": [],
+   "expectations": [
+    "The verdict must state `Verdict:` followed by `Ready`, `Conditionally ready`, or `Not ready`.",
+    "The Verdict section must carry a hard-gates table whose Result cells are `Met`, `Not met`, or `Not assessable`.",
+    "The Verdict section must carry a top-five action list whose items cite `REC-` or `FND-` identifiers, and the strengths list is capped at five."
+   ]
+  },
+  {
+   "id": 81,
+   "prompt": "Validate a hunt report whose Journey Traces mark a hop `failing` without citing any FND- identifier, and another hop marked `broken`.",
+   "expected_output": "The validator fails the `hunt journey traces` check.",
+   "files": [],
+   "expectations": [
+    "Hop tables carry a `Status` column whose cells are `conforming`, `failing`, or `not assessable` - `broken` fails with the expected vocabulary.",
+    "Every `failing` hop must cite an `FND-` identifier that is defined as a finding block in the report - a missing or undefined cite fails.",
+    "A Journey Traces section with no `Hop | Status | Evidence` table at all fails as missing."
+   ]
+  },
+  {
+   "id": 82,
+   "prompt": "Validate a hunt report where one `### FND-` finding is mapped to no remediation phase and no `Accepted - no action` disposition row.",
+   "expected_output": "The validator fails the `hunt finding disposition` check.",
+   "files": [],
+   "expectations": [
+    "Every `### FND-` block in the report must be cited inside Remediation Phases - in a phase table, a `### REC-` Target field, or an `Accepted - no action` disposition row.",
+    "In a multi-project hunt, a finding heading suffixed `(api-service)` is dispositioned by a matching `api-service::FND-` cite, not a bare identifier.",
+    "An accepted no-action finding is an explicit disposition, not an omission from the roadmap."
+   ]
+  },
+  {
+   "id": 83,
+   "prompt": "Validate a hunt report that carries a `### Recommendation Classification` section under Remediation Phases.",
+   "expected_output": "The validator fails the `hunt classification ban` check.",
+   "files": [],
+   "expectations": [
+    "Under `Report Style: hunt` the Recommendation Classification section is forbidden - disposition judgment lives in the Remediation Phases.",
+    "The same section remains required at Standard and Detailed detail levels under `Report Style: audit`."
+   ]
+  },
+  {
+   "id": 84,
+   "prompt": "Validate an audit report whose findings summary table renders `OPEN` and `NEW` in the Status and Change columns.",
+   "expected_output": "The validator fails the `findings summary columns` check and names the expected title-case tokens.",
+   "files": [],
+   "expectations": [
+    "Uppercase lifecycle tokens fail - English summary cells render `Open`, `Closed`, `PASS` and `New`, `Unchanged`, `Reopened`, `Closed`.",
+    "The failure message names the expected values, not just the offending cell.",
+    "The uppercase forms remain correct only as canonical vocabulary names in the specification documents and as localized renderings defined by a `translations/` file."
+   ]
+  },
+  {
+   "id": 85,
+   "prompt": "Scaffold a new hunt report with `python scripts/new-report.py --style hunt --projects api,worker --output HUNT-1.0.md`, then validate the generated skeleton.",
+   "expected_output": "A structurally valid hunt skeleton that passes the validator with zero issues.",
+   "files": [],
+   "expectations": [
+    "The skeleton carries every required hunt section, the fixed domain-ratings rows, a gates table, an empty producer/consumer matrix, a hop table, the PAR-1..PAR-18 record, and one fully labeled `### FND-`, `### RSK-`, and `### REC-` template block.",
+    "`new-report.py` runs `format-table.py` on `--output` when the formatter resolves next to the script or under `LENS_SKILL_ROOT`.",
+    "`--params work/lens-params.json` prefills the style and project list from the saved intake file, with command-line options taking precedence.",
+    "`python scripts/validate-report.py --dump-contract` prints the enforced contract as JSON generated from the live constants."
    ]
   }
  ]

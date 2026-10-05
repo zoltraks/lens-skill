@@ -137,6 +137,15 @@ and Re-audit sections cover all projects and carry the exclusion disclosures.
 
 Qualify rows per project using the project identifier.
 
+The validator enforces three multi-project rules once a `Project Inventory` exists:
+
+- A shared-table cell never carries an ambiguous project label - `both`, `either`, and
+  `the projects` all fail, so split the row or name each project explicitly.
+- Identifiers in shared sections qualify with the project name and a `::` separator,
+  `api-service::FND-SEC-001`, so a reader can tell which register owns the entry.
+- The Project column appears only in combined and shared tables - a single-project report
+  without a Project Inventory must not carry one, and the evidence ledger follows the same rule.
+
 **Single-project reports** use the standard structure without the Project Inventory table and
 without per-project level-2 headings.
 

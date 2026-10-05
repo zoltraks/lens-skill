@@ -32,7 +32,21 @@ body links, run `format-table.py`, then `validate-report.py`, repeating until th
 reports zero issues.
 
 `finalize-report.py` runs that cycle's three steps in one command when copied alongside them
-under a `.tmp.` name, locating its siblings by filename.
+under a `.tmp.` name, locating its siblings by filename. When the copies are absent, pass
+`--skill-root <path>` (or set `LENS_SKILL_ROOT`) pointing at the skill repository so the tools
+resolve in its `scripts/` directory - running it straight from the skill tree needs no flag at
+all.
+
+`new-report.py --style audit|hunt [--projects a,b] [--params work/lens-params.json] [--output
+file]` emits a structurally valid report skeleton - required sections, table headers, and one
+field-labeled template block per register - and runs `format-table.py` on `--output` when the
+formatter resolves next to the script or under `LENS_SKILL_ROOT`. `--params` reads the saved
+intake values from `work/lens-params.json`, so a second report style in the same session
+reuses the locked parameters.
+
+`validate-report.py --dump-contract` prints the mechanically enforced contract - required
+sections, field lists, token sets, hunt-specific rules - as JSON generated from the live
+constants, for agents that want the contract without reading the documentation corpus.
 
 `format-table.py` warns when a row begins with `||` or a column is empty in every row.
 
@@ -184,8 +198,10 @@ python scripts/lint-prose.py path/to/draft.md
 python scripts/format-table.py path/to/AUDIT.md [--check] [--drop-empty-columns]
 python scripts/align-comments.py path/to/AUDIT.md [--check]
 python scripts/validate-report.py path/to/AUDIT.md [--repo-root path/to/repo]
+python scripts/validate-report.py --dump-contract
+python scripts/new-report.py --style hunt --projects api,cli --output path/to/HUNT.md
 python scripts/lint-polish.py path/to/AUDYT.md
-python scripts/finalize-report.py [--polish] path/to/AUDIT.md
+python scripts/finalize-report.py [--polish] [--skill-root path/to/lens-skill] path/to/AUDIT.md
 ```
 
 Exit code `0` means all checks passed.

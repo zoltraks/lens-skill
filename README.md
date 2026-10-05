@@ -29,11 +29,11 @@
 | Report Format                      | 419  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 454  | Supported requests and exclusions                   |
 | What's Inside                      | 477  | Documents, references, tools, and conditional files |
-| Document Style                     | 611  | Pointer to the style rules file                     |
-| Specification                      | 621  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 642  | Maintenance checks and regression scenarios         |
-| License                            | 668  | License for the skill itself                        |
-| Credits                            | 674  | Authorship and attribution                          |
+| Document Style                     | 613  | Pointer to the style rules file                     |
+| Specification                      | 623  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 644  | Maintenance checks and regression scenarios         |
+| License                            | 670  | License for the skill itself                        |
+| Credits                            | 676  | Authorship and attribution                          |
 
 ## Overview
 
@@ -509,6 +509,7 @@ lens-skill/
 │   │   ├── findings-registers.md          # Findings, debt, risk, roadmap, and classification
 │   │   ├── hunt-style.md                  # `hunt` report style: verdict, journeys, domain findings
 │   │   └── report-closing.md              # Exclusions, limitations, handoff, validation, references
+│   ├── report-contract.md                 # One-page mechanically enforced report contract
 │   ├── report-parity.md                   # Audit parity checklist and consistency gate before final
 │   ├── readiness-scoring.md               # Deterministic scores, confidence, maturity, and readiness gates
 │   └── review-report.md                   # Review report contract: sections, amendments, naming
@@ -570,7 +571,8 @@ lens-skill/
 │   ├── format-table.py                    # Source-width Markdown table formatter
 │   ├── align-comments.py                  # Plain-text `#` comment column aligner
 │   ├── link-glossary.py                   # Glossary body-link inserter, run before the formatter
-│   ├── validate-report.py                 # Audit and Review report validator
+│   ├── validate-report.py                 # Audit and Review report validator (`--dump-contract` JSON)
+│   ├── new-report.py                      # Report skeleton generator (audit or hunt)
 │   ├── finalize-report.py                 # Runs link, format, and validate in order on a report
 │   ├── validate-skill.py                  # Dependency-light Agent Skill validator
 │   ├── check-references.py                # Relative-reference integrity checker

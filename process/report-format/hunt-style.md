@@ -24,8 +24,8 @@ The following carry over unchanged from `process/report-format.md` and its spec 
 - Document Information per `report-opening.md`, including `Report Style: hunt`.
 - Audit Type Coverage per `report-opening.md`.
 - The finding block schema per `findings-registers.md`, with the same field vocabulary.
-- The risk register schema per `synthesis/risk-register.md`, the roadmap classification rules
-  per `synthesis/remediation-roadmap.md`, and scoring semantics per
+- The risk register schema per `synthesis/risk-register.md`, the roadmap priority and phasing
+  rules per `synthesis/remediation-roadmap.md`, and scoring semantics per
   `process/readiness-scoring.md` wherever gates or confidence apply.
 - Snapshot identity, read-depth table, evidence ledger, and claim traceability rules per
   `process/audit-workflow.md`.
@@ -122,16 +122,24 @@ A mandatory section carrying the cross-boundary evidence gathered per
 `process/audit-workflow.md`:
 
 - A producer/consumer matrix for every identifier or value crossing a component boundary,
-  naming each site and the representation it emits or expects.
-- A per-workflow trace for each advertised workflow, marking every hop `conforming`,
-  `failing`, or `not assessable` with its evidence ID.
+  naming each site and the representation it emits or expects. Its `Representation match`
+  column takes `Conforming`, `Partially conforming`, `Failing`, or `Not assessable`.
+- A per-workflow trace for each advertised workflow in `Hop | Status | Evidence` tables,
+  marking every hop `conforming`, `failing`, or `not assessable` with its evidence ID.
 
-A failing hop must trace to a `FND-XXX`. A conforming hop is recorded, not celebrated.
+A failing hop must trace to a `FND-XXX` defined in the report - the validator rejects a
+failing hop that cites no finding or an undefined one. A conforming hop is recorded, not
+celebrated.
 
 ## Domain Findings
 
 One findings register organized under `###` domain headings (the Domain Ratings set), each
 finding keeping its shared `FND-<pillar>-NNN` identifier and full block schema.
+
+The section opens with a summary table carrying the shared columns (`Finding`, `Result`,
+`Status`, `Change`, `Verification`, plus `Project` when multi-project), and the validator
+reconciles its row count against the `### FND-` blocks - the `###` domain headings do not
+close the section, only the next `##` does.
 
 Every finding cites `path:line` evidence and carries `Breaking change` and `Runtime
 confirmed` fields.
@@ -147,8 +155,9 @@ criteria, verification steps, and the findings each closes.
 
 Every finding maps to a phase or to an explicit `Accepted - no action` disposition.
 
-Recommendation classification (`Recommended`, `Optional`, `Not recommended`) applies per
-`synthesis/remediation-roadmap.md`.
+A hunt report has no Recommendation Classification section - the phases themselves record the
+disposition judgment, and the validator flags the section when it appears under
+`Report Style: hunt`.
 
 ## Operator Verification Handoff
 
@@ -166,3 +175,14 @@ methods and deeper journey analysis.
 
 `Brief` keeps Document Information, Verdict, the top five findings, the phase summary, the
 handoff or executed log, and the closing sections.
+
+## Output Filename
+
+The hunt filename stem is `HUNT`, or the language-specific stem from the matching
+`translations/` file such as `POLOWANIE` for Polish.
+
+A first hunt report defaults to the bare stem `HUNT.md`, with `HUNT-1.0.md` offered as the
+revisioned alternative at delivery time.
+
+When a previous hunt report exists, the filename carries the new revision, for example
+`HUNT-1.1.md`, per `synthesis/report-comparison.md`.

@@ -276,3 +276,8 @@ paragraph.
 If an overall score is shown, disclose its formula, weights, rounding, and coverage denominator.
 State the lowest-scoring applicable dimension and its score in a paragraph below the table, per
 `synthesis/project-scorecard.md`.
+
+Keep the overall out of the Scorecard Summary table itself - a numeric `Overall score` Score
+cell enters the recomputed mean and fails validation. Place it in the Executive Summary
+key-value table instead, and keep the word `lowest` in the same paragraph as each stated
+overall score: the validator checks a six-line window after every `Overall score` value.
