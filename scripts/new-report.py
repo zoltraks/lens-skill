@@ -7,7 +7,7 @@ file. Placeholder cells carry ``<...>`` markers: content-bearing checks fail
 until the author replaces them, which is deliberate.
 
 Usage:
-  python new-report.py --style audit|hunt [--projects a,b] [--params file]
+  python new-report.py --style audit|hunt|check [--projects a,b] [--params file]
                        [--output report.md]
 
 ``--params`` reads a saved intake file (``work/lens-params.json``) carrying
@@ -153,6 +153,8 @@ def document_info(style: str, projects: list[str], params: dict) -> str:
             value = style
         elif field == "Detail Level":
             value = params.get("detail_level", "Standard")
+        elif field == "Evidence Mode":
+            value = params.get("evidence_mode", "source-only")
         rows.append(f"| {field} | {value} |")
     if projects:
         rows.append(f"| Projects | {', '.join(projects)} |")
@@ -363,7 +365,7 @@ def hunt_skeleton(projects: list[str], params: dict) -> str:
     for domain in ("Security",):
         parts.append(heading(3, domain))
         parts.append(
-            FINDING_BLOCK.format(
+            HUNT_FINDING_BLOCK.format(
                 suffix=f" ({projects[0]})" if multi else "",
                 targets=qualified(projects[0] if multi else ""),
             )
@@ -401,6 +403,134 @@ def hunt_skeleton(projects: list[str], params: dict) -> str:
     return "".join(parts)
 
 
+HUNT_FINDING_BLOCK = FINDING_BLOCK.replace(
+    "* **Runtime confirmed:**",
+    "* **Defect scenario:** <initial conditions, steps, expected result, observed result, "
+    "confirmation level - required on HIGH/CRITICAL>\n* **Runtime confirmed:**",
+)
+
+CHECK_FINDING_BLOCK = HUNT_FINDING_BLOCK.replace(
+    "* **Evidence:**",
+    "* **Evidence level:** Source - <inspected basis>\n* **Evidence:**",
+)
+
+
+def check_skeleton(projects: list[str], params: dict) -> str:
+    multi = len(projects) > 1
+    executed = params.get("evidence_mode", "source-only") != "source-only"
+    suffix = f" ({projects[0]})" if multi else ""
+    target = qualified(projects[0] if multi else "")
+    parts = [
+        "# <subject> - Lens check report\n\n",
+        heading(2, "Document Information"),
+        document_info("check", projects, params),
+        heading(2, "Audit Type Coverage"),
+        COVERAGE_HEADER + "\n",
+    ]
+    if multi:
+        parts += [heading(2, "Project Inventory"), inventory(projects)]
+    parts += [
+        heading(2, "Verdict"),
+        "<purpose statement - what the subject is, what was checked, at which snapshot>\n\n",
+        "Verdict: **Not ready**. <one sentence on what the verdict does not mean>\n\n",
+        table(
+            "| Domain | Rating | Basis |",
+            "|---|---|---|",
+            [f"| {domain} | Not assessed | <no scoreable evidence yet> |\n" for domain in HUNT_DOMAINS],
+        ),
+        "Hard readiness gates:\n\n",
+        table(
+            "| Gate | Result | Basis |",
+            "|---|---|---|",
+            ["| <gate> | Not assessable | <basis> |\n"],
+        ),
+        "Top five actions:\n\n",
+        "1. REC-001 - <first remediation step> (FND-SEC-001).\n\n",
+        "Strengths:\n\n",
+        "- <evidenced positive>\n\n",
+        heading(2, "System Context"),
+        "<purpose, stack with locked versions, component inventory, runtime environment>\n\n",
+        table("| Component | Lines | Role |", "|---|---|---|"),
+        heading(2, "Check Plan And Methodology"),
+        "Checks selected, the criterion each evaluates, the evidence level each reaches, "
+        "and the commands the user commissioned:\n\n",
+        table("| Check | Criterion | Evidence level |", "|---|---|---|"),
+        "Read-depth table:\n\n",
+        table("| Area | Files | Read depth |", "|---|---|---|"),
+        "Evidence ledger:\n\n",
+        ledger_table(multi),
+        heading(2, "Execution Register"),
+        "One row per check. `Result` is PASS, FAIL, ERROR, BLOCKED, SKIPPED, NOT RUN, "
+        "or N/A - `ERROR`/`BLOCKED` are runner states, never product failures, and "
+        "`NOT RUN` is never a pass. Every non-PASS row states its Interpretation.\n\n",
+        table(
+            "| Check | Command | Cwd | Tool & Version | Timestamp | Input revision | Exit status | Result | Interpretation | Artifact |",
+            "|---|---|---|---|---|---|---|---|---|---|",
+            [
+                "| <check> | <exact command> | <cwd> | <tool and version> | <timestamp> | "
+                "<revision> | <exit code> | NOT RUN | <why or outcome meaning> | <artifact or `None retained`> |\n"
+            ],
+        ),
+        heading(2, "Domain Findings"),
+        finding_summary_table(projects),
+        heading(3, "Security"),
+        CHECK_FINDING_BLOCK.format(suffix=suffix, targets=target) + "\n",
+        heading(2, "Risk Register"),
+        RISK_BLOCK.format(suffix=suffix) + "\n",
+        heading(2, "Improvement Plan"),
+        heading(3, "Stabilize"),
+        table(
+            "| Rec | Recommendation | Resolves | Effort | Breaking |",
+            "|---|---|---|---|---|",
+            [f"| REC-001 | <recommendation> | {target} | <effort> | None |\n"],
+        ),
+        REC_BLOCK.format(suffix=suffix, target=target) + "\n",
+        heading(3, "Accepted - no action"),
+        table("| Finding | Disposition |", "|---|---|"),
+        heading(2, "Retest Register"),
+        "One row per `FAIL`, `ERROR`, or `BLOCKED` register row - omit the section when "
+        "no such rows exist.\n\n",
+        table(
+            "| Check | Register result | Blocking condition | Retest command | Closes |",
+            "|---|---|---|---|---|",
+        ),
+    ]
+    if executed:
+        parts += [
+            heading(2, "Metrics Snapshot"),
+            table("| Metric | Value | Scope |", "|---|---|---|"),
+            heading(2, "Artifact Manifest"),
+            table(
+                "| Artifact | Check | Location / Digest | Notes |",
+                "|---|---|---|---|",
+            ),
+            heading(2, "Operator Verification Handoff"),
+            "Checks outside the commissioned set, with the exact command or procedure "
+            "and its pass criteria.\n\n",
+        ]
+    else:
+        parts += [
+            heading(2, "Operator Verification Handoff"),
+            "Every material claim the check could not resolve from source, with the\n"
+            "exact command or procedure and its pass criteria.\n\n",
+        ]
+    parts += [
+        heading(2, "Scope Exclusions"),
+        "- Glossary omitted - Descriptive mode disabled.\n"
+        "- Artifact Manifest omitted - `source-only` evidence mode retains no "
+        "artifacts.\n\n"
+        if not executed
+        else "- Glossary omitted - Descriptive mode disabled.\n\n",
+        heading(2, "Limitations and Unknowns"),
+        "- <each check that stayed NOT RUN and every unresolved unknown>\n\n",
+        heading(2, "Validation Record"),
+        validation_record() + "\n",
+        heading(2, "References"),
+        "- <external source>\n\n",
+    ]
+    return "".join(parts)
+
+
 def parse_args(argv: list[str]) -> dict:
     options: dict = {"style": None, "projects": [], "params": None, "output": None}
     index = 1
@@ -423,15 +553,20 @@ def main(argv: list[str]) -> int:
     if options["params"]:
         params = json.loads(Path(options["params"]).read_text(encoding="utf-8"))
     style = options["style"] or params.get("report_style") or "audit"
-    if style not in ("audit", "hunt"):
-        print(f"unknown style '{style}' - expected audit or hunt")
+    if style not in ("audit", "hunt", "check"):
+        print(f"unknown style '{style}' - expected audit, hunt, or check")
         return 1
     projects = (
         [name.strip() for name in options["projects"].split(",") if name.strip()]
         if options["projects"]
         else list(params.get("projects", []))
     )
-    body = hunt_skeleton(projects, params) if style == "hunt" else audit_skeleton(projects, params)
+    if style == "hunt":
+        body = hunt_skeleton(projects, params)
+    elif style == "check":
+        body = check_skeleton(projects, params)
+    else:
+        body = audit_skeleton(projects, params)
     if options["output"]:
         target = Path(options["output"])
         target.write_text(body, encoding="utf-8")

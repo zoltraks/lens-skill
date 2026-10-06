@@ -13,10 +13,10 @@
 |--------------------------------|------|--------------------------------------|
 | Strengths & What's Working     | 21   | Evidence-based positive baselines    |
 | Detailed Technical Findings    | 59   | Finding summary and detail blocks    |
-| Technical Debt Register        | 292  | Distinct accumulated debt            |
-| Unified Risk Register          | 340  | Cross-referenced risks               |
-| Actionable Remediation Roadmap | 434  | Prioritized recommendations          |
-| Recommendation Classification  | 505  | Recommended/Optional/Not recommended |
+| Technical Debt Register        | 310  | Distinct accumulated debt            |
+| Unified Risk Register          | 358  | Cross-referenced risks               |
+| Actionable Remediation Roadmap | 452  | Prioritized recommendations          |
+| Recommendation Classification  | 528  | Recommended/Optional/Not recommended |
 
 ## Strengths & What's Working
 
@@ -163,8 +163,13 @@ Use this exact markdown block pattern:
 * **Impact:** [Concrete operational, business, or security consequence if left unremediated]
 * **Recommendation:** [Step-by-step technical guidance to resolve the finding]
 * **Method:** [Specific test, command, or process to confirm the fix is successful]
+* **Defect scenario:** [Initial conditions; reproduction steps; expected result; observed
+  result; confirmation level] *(required on HIGH/CRITICAL findings under `Report Style:
+  hunt`, optional otherwise)*
 * **Verified:** [yes | no, with a short qualifier]
 * **Runtime confirmed:** [yes | no | not applicable, with a short qualifier]
+* **Evidence level:** [Source | Model | App | Deployed | Unknown] *(required under
+  `Report Style: check`, optional otherwise)*
 * **Breaking change:** [None | Internal | Public API - surfaces and migration note]
   *(omit when N/A)*
 * **Applicability:** [applicable | conditional | inapplicable | unverified - reachability
@@ -238,6 +243,19 @@ vulnerable code path is `applicable`, `conditional` on a named feature or config
 `inapplicable` with the disabling evidence cited, or `unverified`.
 
 Advisory presence in a lockfile is not exploitability.
+
+The `Defect scenario` field turns a defect into a scenario another person can run: initial
+conditions, the reproduction steps, the expected result, the observed result, and the
+confirmation level reached (`Source`, `Model`, `App`, `Deployed`, or `Unknown`). It is
+required on every `HIGH` or `CRITICAL` finding under `Report Style: hunt` - a source-only
+hunt still supplies a precise operator scenario - and optional elsewhere.
+
+The `Evidence level` field records the strongest level the cited evidence reaches:
+`Source` (read in code or configuration), `Model` (an isolated reproduction or harness),
+`App` (the real application running locally), `Deployed` (a deployed environment), or
+`Unknown`. It is required on every finding under `Report Style: check` - the validator
+rejects a check finding without it - and optional elsewhere. A `Model` reproduction
+demonstrates a mechanism - it never upgrades application-wide reachability claims.
 
 The `Status` field carries the lifecycle state: `Open`, `Closed`,
 or `PASS` for a re-verified passing control.
@@ -491,6 +509,11 @@ Use this exact markdown block pattern:
 * **Effort:** [Estimated engineering effort with one-line justification]
 * **Complexity:** [Architectural or organizational complexity with one-line justification]
 * **Verification:** [Specific test, command, or process to confirm the fix is successful]
+* **Owner:** [Role or UNASSIGNED] *(omit when the report does not assign ownership)*
+* **Depends on:** [REC-XXX or `none`] *(omit when the action stands alone)*
+* **Acceptance milestone:** [Milestone or gate the fix feeds] *(omit when none is set)*
+* **Closure evidence:** [Artifact that proves the action landed] *(omit when Verification
+  already names it)*
 ```
 
 When the report language is not English, apply the bullet label translations from the matching

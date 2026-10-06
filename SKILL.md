@@ -24,7 +24,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.0.4"
+  version: "2.0.5"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -42,18 +42,18 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 | Skill Update Check      | 77   | Once-per-session git freshness gate before use     |
 | Trigger Keywords        | 94   | Activation phrases                                 |
 | How To Use              | 119  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 142  | Defaults and user-controlled report shape          |
-| Principles              | 209  | Evaluation and output rules                        |
-| Process                 | 215  | Workflow, format, and parity                       |
-| Assessments             | 240  | Core and conditional assessment guides             |
-| Synthesis               | 279  | Findings, risk, score, and remediation assembly    |
-| Translations            | 295  | Per-language report translations                   |
-| References              | 304  | Lookup tables                                      |
-| Scripts                 | 326  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 347  | Behavioral regression prompts                      |
-| Repository Files        | 351  | Housekeeping files governing this repository       |
-| Evidence Contract       | 363  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 399  | File-selection and section-placement rules         |
+| Parameter Configuration | 140  | Defaults and user-controlled report shape          |
+| Principles              | 206  | Evaluation and output rules                        |
+| Process                 | 212  | Workflow, format, and parity                       |
+| Assessments             | 239  | Core and conditional assessment guides             |
+| Synthesis               | 278  | Findings, risk, score, and remediation assembly    |
+| Translations            | 294  | Per-language report translations                   |
+| References              | 303  | Lookup tables                                      |
+| Scripts                 | 325  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 346  | Behavioral regression prompts                      |
+| Repository Files        | 350  | Housekeeping files governing this repository       |
+| Evidence Contract       | 362  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 398  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -125,19 +125,17 @@ Use progressive disclosure:
   status markers, hard constraints) and `process/audit-workflow.md` (the end-to-end audit process
   from intake to final report) before producing any audit. They are mandatory for every audit.
 - For report production, `process/report-contract.md` is the first read - the mechanically
-  enforced contract - then the selected style file (`process/report-format.md` or
-  `process/report-format/hunt-style.md`); `--dump-contract` emits the same surface as JSON.
+  enforced contract - then the selected style file (`process/report-format.md` or the
+  `hunt-style.md`/`check-style.md` under it) - `--dump-contract` emits the same JSON surface.
 - Open only the assessment files that match the system under audit.
 - Use the synthesis files to assemble the final report sections.
 
 This skill is self-contained - the topic files below are the available reference material.
 
 When asked how this skill works, explain that Lens produces structured, evidence-based
-engineering audits of a codebase, prototype, production system, or proposal, and - only on
-an explicit review request - review reports ending in amendment instructions.
-
-Mention that advanced analysis and report-format parameters can be refined when explicitly
-specified.
+engineering reports (audit, hunt, or check style) of a codebase, prototype, production
+system, or proposal, and - only on an explicit review request - review reports ending in
+amendment instructions. Advanced parameters can be refined when explicitly specified.
 
 ## Parameter Configuration
 
@@ -150,10 +148,10 @@ Defaults are:
 | Parameter               | Default                                                                                                                                |
 |-------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
 | Report type             | Audit - Review only on an explicit review, amendment, or improvement-plan request                                                      |
-| Report style            | `audit` governance report (default) or `hunt` defect-hunt report                                                                       |
+| Report style            | `audit` governance report (default), `hunt` defect-hunt report, or `check` execution-register report                                   |
 | Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/` - `review/` or `reviews/` for a review report - else Inline |
 | Output location         | Resolved across `docs/`, `document/`, `doc/` roots or the repository root                                                              |
-| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md` for a first hunt                    |
+| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md`/`CHECK.md` for a first hunt/check   |
 | Report language         | Match the language of the user's request                                                                                               |
 | Detail level            | Detailed                                                                                                                               |
 | Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                                                  |
@@ -165,21 +163,20 @@ Defaults are:
 The agent MUST ask this question, MUST NOT skip it, and MUST wait for the user response
 before starting the audit.
 
-Core configuration covers unresolved delivery/output and report-shape choices.
-
-Improvement suggestions and trade-off analysis are not separate routine prompts.
-Apply the defaults above unless the user explicitly requests a different setting.
+Core configuration covers unresolved delivery/output and report-shape choices - improvement
+suggestions and trade-off analysis apply the defaults above unless the user explicitly
+requests a different setting - they are not separate routine prompts.
 
 Output location resolves under the audited root: `audit/` > `report/` > bare root across `docs/`,
 `document/`, `doc/` > repository root, with a `report/` base descending into its purpose-named
-`audit/` or `review/` subdirectory matching the report kind; review reports additionally prefer a
+`audit/` or `review/` subdirectory matching the report kind - review reports additionally prefer a
 dedicated `review/` or `reviews/` directory, including the dated `review/<YYYY-MM-DD>/REVIEW.md`
 convention per `process/review-report.md`. A recorded version/date subdirectory pattern is reused.
 
 The output filename carries the report revision:
-`AUDIT-1.0.md` for a first audit (`REVIEW-1.0.md` for a review, bare `HUNT.md` for a first
-hunt) or the language-specific revisioned name such as `AUDYT-1.0.md`, with the bare filename
-as an alternative for audit and review reports.
+`AUDIT-1.0.md` for a first audit (`REVIEW-1.0.md` for a review, bare `HUNT.md`/`CHECK.md`
+for a first hunt or check) or the language-specific revisioned name such as `AUDYT-1.0.md`,
+with the bare filename as an alternative for audit and review reports.
 A previous report gives the incremented revision, for example `AUDIT-1.1.md`, and is never
 overwritten - a bare `<stem>.md` in the output directory is renamed to its revisioned name.
 The agent confirms with the user before writing.
@@ -232,6 +229,8 @@ The previous report is never overwritten - write the next revision-numbered file
 - **`process/report-format/report-closing.md`** - Exclusions, Limitations, Re-audit, Validation.
 - **`process/report-format/hunt-style.md`** - `hunt` report style: verdict, domain register,
   journey traces, remediation phases.
+- **`process/report-format/check-style.md`** - `check` report style: execution register,
+  evidence levels, retest register.
 - **`process/json-exchange.md`** - JSON parameter documents for intake question surfaces.
 - **`process/review-report.md`** - Review report type for explicit amendment requests.
 - **`process/report-parity.md`** - Mandatory core checklist and consistency gate.
@@ -484,8 +483,9 @@ when maintaining the skill.
   omitted at Brief with a Scope Exclusions note.
 - The Changes Since Previous Audit section (`synthesis/report-comparison.md`) appears only
   when a previous report exists - never overwritten, the new file carries the next revision.
-- `report-style: hunt` renders the same evidence base per `process/report-format/hunt-style.md` -
-  intake records the snapshot, external reports reconcile per `synthesis/report-triangulation.md`.
+- `report-style: hunt` or `check` renders the same evidence base per
+  `process/report-format/hunt-style.md`/`check-style.md` - intake records the snapshot,
+  external reports reconcile per `synthesis/report-triangulation.md`.
 - Limitations and Unknowns lists every unperformed check. Validation Record closes the report
   with the Mandatory Core Checklist result and the `process/report-parity.md` gate outcome.
 - Multi-project reports: a condensed combined Executive Summary and Changes follow the

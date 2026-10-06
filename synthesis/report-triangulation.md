@@ -58,7 +58,12 @@ No row is silently dropped.
 - Never interleave two reports' finding sets. Contradicting facts, different ID schemes,
   and different severity scales make concatenation misleading.
 - Never import an external finding as an established fact. Re-inspect the cited location at
-  the audited snapshot, then record the outcome.
+  the audited snapshot, then record the outcome. Until then the claim stays `Reported`
+  evidence and its citation names the source report and its snapshot - a result from a
+  different commit is never presented as this run's measurement.
+- When a finding is retained on the external report's authority alone, name that provenance
+  in the finding's Evidence field (for example `Reported - CHECK-1.1 S-4`) so the claim
+  chain stays reconstructable.
 - Never discard a recorded control merely because an external report contradicts it. Keep
   it provisional until the register resolves the row.
 - Distinguish report defects (errors provable from a document alone, such as arithmetic)

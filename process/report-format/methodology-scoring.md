@@ -5,6 +5,13 @@
 > **Scope:** Auditing methodology and scoring rubric sections
 > **Key items:** method, standards, evidence ledger, score bands, ISO crosswalk
 
+## Contents
+
+| Section              | Line | What it covers                             |
+|----------------------|------|--------------------------------------------|
+| Auditing Methodology | 15   | Method, standards, criteria matrix, ledger |
+| Scoring Rubrics      | 231  | Score bands, grouping, ISO crosswalk       |
+
 ## Auditing Methodology
 
 Define how the audit was conducted and the framework used to evaluate findings.
@@ -78,6 +85,18 @@ not optional decoration.
 Cite a standard only when its corresponding section or assessment is present in the report.
 
 Do not list a standard that was not applied.
+
+**Criteria matrix**
+
+For each quality attribute the audit scores, a short matrix binds the evaluation objective
+to its outcome, so the presence of a section or tool is never mistaken for the result:
+
+| Attribute   | Criterion                  | Method                        | Evidence | Outcome  |
+|-------------|----------------------------|-------------------------------|----------|----------|
+| <attribute> | <what makes it acceptable> | <inspection or check applied> | EVD-XXX  | <result> |
+
+This is an adaptation of the ISO/IEC 25040 evaluation objective/criterion/method chain -
+it traces the audit's own reasoning, it does not claim ISO conformity.
 
 **Audit evidence statement**
 
@@ -269,6 +288,16 @@ Render `UNKNOWN` as text, not as a star bar. `N/A` rows are omitted from the tab
 When a dimension cannot apply, mark it `N/A`.
 
 Apply the ISO/IEC 25010:2023 crosswalk in `synthesis/project-scorecard.md` and show coverage gaps.
+
+The scorecard distinguishes three groups when the subject warrants it: product quality
+(code and architecture dimensions), process maturity (delivery, testing, dependency
+hygiene), and governance (documentation, licensing, continuity). Strong governance or
+agent tooling never lifts a product-quality or security score on its own - each group is
+aggregated and reported separately before any combined mean.
+
+Static test-structure assessment is separated from effectiveness: the count and
+organization of test files is inspectable evidence, while pass/fail and coverage are
+`Reported` or `NOT RUN` until executed.
 
 For every numeric or star score, include evidence references and confidence in its supporting
 paragraph.

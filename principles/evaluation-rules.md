@@ -21,17 +21,17 @@ If a finding cannot satisfy these rules, mark it as unknown rather than guessing
 |-------------------------------------|------|---------------------------------------|
 | Evidence-Based Reasoning            | 36   | Traceability and missing-info tokens  |
 | Evidence Strength And Claim Control | 53   | Evidence bases, types, confidence     |
-| No Assumptions                      | 155  | The no-assumption rule                |
-| No Personal Judgement               | 169  | Neutrality toward people              |
-| Architectural Neutrality            | 183  | Judging within stated constraints     |
-| Status Markers                      | 196  | PASS, PARTIAL, FAIL, UNKNOWN, N/A     |
-| Contextual Applicability            | 215  | N/A usage for inapplicable categories |
-| Absent Capability Assessment        | 244  | Intentional-versus-oversight tokens   |
-| Evidence Citation                   | 279  | Anchoring claims to sources           |
-| Confidence And Scope Limits         | 290  | Confidence and scope boundaries       |
-| Information Security And Redaction  | 301  | Secret handling rules                 |
-| Indexing And Traceability           | 317  | ID schemes and ordering               |
-| Critical Constraints                | 386  | Non-negotiable hard limits            |
+| No Assumptions                      | 169  | The no-assumption rule                |
+| No Personal Judgement               | 183  | Neutrality toward people              |
+| Architectural Neutrality            | 197  | Judging within stated constraints     |
+| Status Markers                      | 210  | PASS, PARTIAL, FAIL, UNKNOWN, N/A     |
+| Contextual Applicability            | 229  | N/A usage for inapplicable categories |
+| Absent Capability Assessment        | 258  | Intentional-versus-oversight tokens   |
+| Evidence Citation                   | 293  | Anchoring claims to sources           |
+| Confidence And Scope Limits         | 304  | Confidence and scope boundaries       |
+| Information Security And Redaction  | 315  | Secret handling rules                 |
+| Indexing And Traceability           | 331  | ID schemes and ordering               |
+| Critical Constraints                | 400  | Non-negotiable hard limits            |
 
 ## Evidence-Based Reasoning
 
@@ -64,10 +64,24 @@ Distinguish these evidence bases in finding detail:
   such as CI output, a coverage report, or a scan result.
 - **Inferred**: reasoned from cited evidence, with prerequisites and uncertainty stated.
 - **Executed**: produced by a non-mutating analyzer the user commissioned under
-  `executed-readonly` evidence mode, recorded with tool, version, command, and timestamp.
+  `executed-readonly` evidence mode, or by a commissioned non-mutating command such as a
+  test suite or isolated reproduction harness under `executed-checks`, recorded with tool,
+  version, command, and timestamp.
 
 The audit never executes checks itself under `source-only`. Under `executed-readonly` only the
 commissioned non-mutating analyzers run, and the project is still never built, tested, or run.
+Under `executed-checks` the explicitly commissioned non-mutating commands run - including
+tests, builds, and reproduction harnesses - while the subject is still never deployed,
+mutated, or connected to live systems.
+
+Executed output carries a fixed status vocabulary - `PASS`, `FAIL`, `ERROR`, `BLOCKED`,
+`SKIPPED`, `NOT RUN`, `N/A`. `ERROR` and `BLOCKED` describe the runner, never the product,
+and `NOT RUN` never counts toward a pass.
+
+Where a finding's reach matters, record its evidence level separately from its evidence
+basis: `Source` (read in code), `Model` (isolated reproduction), `App` (the real
+application locally), `Deployed` (a live environment), or `Unknown`. A `Model`
+reproduction demonstrates a mechanism and never upgrades application-wide claims.
 
 Results produced outside the audit are `Reported` evidence, regardless of who ran them.
 
@@ -399,6 +413,8 @@ These constraints are absolute:
   or generators against it. Tool availability cannot be assumed. Analysis rests on repository
   contents alone: source files, configuration, build scripts, pipeline definitions,
   documentation, and committed artifacts. Read-only inspection commands such as file listing,
-  search, and version control history remain in scope. The single exception is the
-  `executed-readonly` evidence mode: non-mutating analyzers the user explicitly commissions
-  may run, while the project itself is still never built, tested, or executed.
+  search, and version control history remain in scope. The exceptions are the opt-in evidence
+  modes: `executed-readonly` permits non-mutating analyzers the user explicitly commissions,
+  and `executed-checks` additionally permits explicitly commissioned non-mutating commands
+  such as tests, builds, and isolated reproduction harnesses, while the subject is still
+  never deployed, mutated, or connected to live systems.

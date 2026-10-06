@@ -183,6 +183,20 @@ At minimum, assess:
 When the project defines no gates of its own, reconstruct the minimum set above from the
 subject's deployment model and stated purpose.
 
+**Permitted-use profiles**
+
+When the subject is pre-production, the report states which use profile each gate guards:
+
+- `Laboratory` - the defect exists and matters, but isolated experiments may proceed.
+- `Controlled sharing` - the defect must be closed before the artifact reaches a bounded
+  group of users or another team.
+- `Production` - the defect must be closed before real data or untrusted users.
+
+A gate scoped to a later profile stays open for that profile without blocking the current
+one - a missing SLO is a conditional production requirement, not automatically a present
+laboratory defect. An incorrect authorization check or a broken declared invariant is a
+defect under every profile: laboratory status never legitimizes it.
+
 A gate the evidence cannot satisfy stays open - silence never waives a reconstructed gate.
 
 Use these readiness states:

@@ -30,20 +30,24 @@ Keep each rule in its owning document and link to it instead of duplicating it.
 - The skill is a routed instruction set: Markdown content becomes agent instructions, so
   content integrity issues are security issues - follow `docs/SECURITY.md` for them.
 - Audits are source-only by default: never add instructions that build, test, or execute the
-  audited project. The sole exception is the opt-in `executed-readonly` evidence mode, which
-  permits only non-mutating, read-only analyzers (such as dependency advisory or policy
-  scanners) the user explicitly commissions - the project itself is still never built, tested,
-  or run.
+  audited project without an opt-in evidence mode. `executed-readonly` permits only
+  non-mutating, read-only analyzers (such as dependency advisory or policy scanners) the
+  user explicitly commissions - the project itself is still never built, tested, or run.
+  `executed-checks` additionally permits explicitly commissioned non-mutating commands
+  such as test suites, builds, and isolated reproduction harnesses - the subject is still
+  never deployed, mutated, or connected to live systems.
 - Keep `SKILL.md` lean: it routes to resources and must stay below 500 lines.
 - Register every new or renamed resource in `SKILL.md` and mirror it in the `README.md` tree,
   per `docs/MAINTENANCE.md`.
 - Follow `docs/STYLE.md` for every shipped document: H1 plus Purpose, one sentence per
   paragraph, wrap width per `docs/STYLE.md`, tables aligned by source width.
+- Never embed real names, paths, or identifiers of audited projects in shipped files -
+  generalize examples per `docs/MAINTENANCE.md`.
 - Keep `evals/evals.json` in sync when a change alters skill behavior.
-- Never bump `metadata.version` as a side effect of a change; the skill version moves only on
-  an explicit request, per `docs/VERSIONING.md`.
+- Bump `metadata.version` by one patch with every shipped change set - a set of edits that
+  will be committed or delivered together, per `docs/VERSIONING.md`.
 - Do not claim validation that did not run.
-- Never commit automatically; propose a one-sentence commit message per `docs/CONTRIBUTING.md`.
+- Never commit automatically - propose a one-sentence commit message per `docs/CONTRIBUTING.md`.
 - A bare `work on lens-skill` request that names no operation is standby - read this file and
   `SKILL.md`, follow the router's usage notes, confirm readiness, and wait for the named
   operation without loading further files, resuming plans, or editing on assumption.
@@ -55,7 +59,7 @@ Keep each rule in its owning document and link to it instead of duplicating it.
 Audit reports, session reviews, and other local working artifacts live in the gitignored
 `work/` directory.
 
-Shipped skill files never depend on workspace content; temporary validation scripts carry a
+Shipped skill files never depend on workspace content - temporary validation scripts carry a
 `.tmp.` infix and are removed after use, per `README.md`.
 
 ## Validation

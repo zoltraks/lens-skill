@@ -21,18 +21,18 @@ never assumed from the previous report alone.
 | Section                          | Line | What it covers                             |
 |----------------------------------|------|--------------------------------------------|
 | When This Applies                | 37   | Baseline discovery and confirmation        |
-| Fresh Audit                      | 100  | What does and does not carry over          |
-| Cross-Subject Parity Baseline    | 121  | Any-subject baseline for the parity gate   |
-| Report Revision                  | 132  | Revision numbering                         |
-| Output Filename                  | 151  | Revisioned filename rules                  |
-| Comparison Content               | 202  | What the Changes section compares          |
-| Re-Audit With Changed Params     | 235  | Parameter-change comparison                |
-| Evidence Transitions             | 255  | Finding, evidence, and capability deltas   |
-| Observation Folding              | 274  | Attaching new defects to existing findings |
-| Identifier Continuity            | 285  | FND/RSK/REC sequence rules                 |
-| Status, Change, And Verification | 308  | Status/Change vocabulary for re-audits     |
-| Legacy Field Names               | 334  | Old-schema-to-current name mapping         |
-| Rules                            | 379  | Comparison constraints                     |
+| Fresh Audit                      | 104  | What does and does not carry over          |
+| Cross-Subject Parity Baseline    | 125  | Any-subject baseline for the parity gate   |
+| Report Revision                  | 136  | Revision numbering                         |
+| Output Filename                  | 155  | Revisioned filename rules                  |
+| Comparison Content               | 208  | What the Changes section compares          |
+| Re-Audit With Changed Params     | 241  | Parameter-change comparison                |
+| Evidence Transitions             | 261  | Finding, evidence, and capability deltas   |
+| Observation Folding              | 280  | Attaching new defects to existing findings |
+| Identifier Continuity            | 291  | FND/RSK/REC sequence rules                 |
+| Status, Change, And Verification | 314  | Status/Change vocabulary for re-audits     |
+| Legacy Field Names               | 340  | Old-schema-to-current name mapping         |
+| Rules                            | 385  | Comparison constraints                     |
 
 ## When This Applies
 
@@ -49,6 +49,10 @@ For a `hunt`-style report, the same rules apply to the hunt filename family: `HU
 `HUNT-<revision>.md`, and the language-specific stem such as `POLOWANIE-<revision>.md`,
 identified by a `Report Style` row reading `hunt` in Document Information.
 
+For a `check`-style report, the same rules apply to the check filename family: `CHECK.md`,
+`CHECK-<revision>.md`, and the language-specific stem such as `SPRAWDZENIE-<revision>.md`,
+identified by a `Report Style` row reading `check` in Document Information.
+
 For a review engagement, the same rules apply to the review filename family: `REVIEW.md`,
 `REVIEW-<revision>.md`, and the language-specific stem such as `PRZEGLĄD-<revision>.md`,
 identified by a `<subject> Review and Amendment Instructions` title or a `Reviewed baseline`
@@ -58,7 +62,7 @@ A file that shares the report directory but lacks these identification markers i
 report.
 
 An audit report never baselines a review, a review report never baselines an audit,
-and a hunt report never baselines an `audit`-style report or a review.
+and a hunt or check report never baselines a report of another style or kind.
 
 Status snapshots, state documents such as `current-state.md`, coverage or scan output,
 and stakeholder documents are `Reported` evidence or context, never comparison baselines.
@@ -156,17 +160,19 @@ Each revision is a separate file so that audit history stays comparable.
 
 The default filename is `<base>-<revision>.md`,
 where `<base>` is the language-specific default stem for the report type (`AUDIT` for an
-English audit, `REVIEW` for a review, `HUNT` for a `hunt`-style report, the stem defined in
-`translations/` otherwise) and `<revision>` is the new report revision.
+English audit, `REVIEW` for a review, `HUNT` for a `hunt`-style report, `CHECK` for a
+`check`-style report, the stem defined in `translations/` otherwise) and `<revision>` is
+the new report revision.
 
 For example, `AUDIT-1.1.md` or `AUDYT-1.1.md`.
 
 A first audit uses revision `1.0`, producing `AUDIT-1.0.md` or `AUDYT-1.0.md`,
 with the plain stem `AUDIT.md` offered as an alternative at delivery time.
 
-A first `hunt`-style report inverts this default: the plain stem `HUNT.md` (or the
-language-specific stem such as `POLOWANIE.md`) is the default filename, and the revisioned
-`HUNT-1.0.md` is offered as the alternative.
+A first `hunt`- or `check`-style report inverts this default: the plain stem `HUNT.md` or
+`CHECK.md` (or the language-specific stem such as `POLOWANIE.md` or `SPRAWDZENIE.md`) is
+the default filename, and the revisioned name such as `HUNT-1.0.md` is offered as the
+alternative.
 
 When the identified previous report is a bare `<stem>.md` file without a revision suffix
 sitting in the resolved output directory, rename it to `<stem>-<revision>.md` before writing
@@ -319,7 +325,7 @@ a re-audit.
 | `Open`   | `Reopened`  | `Confirmed`  | A closed finding reproduces again under current evidence           |
 | `PASS`   | `Unchanged` | `Verified`   | A passing control, re-verified                                     |
 
-`Status` is the lifecycle (`Open`, `Closed`, `PASS`); `Change` is the movement since the
+`Status` is the lifecycle (`Open`, `Closed`, `PASS`), `Change` is the movement since the
 previous audit (`New`, `Unchanged`, `Reopened`, `Closed`) - provenance never doubles as a
 lifecycle state, so a first-audit finding reads `Status: Open`, `Change: New`.
 
@@ -373,13 +379,13 @@ Threat Model: `STRIDE class` -> `STRIDE`, `Existing control` -> `Control`,
 
 Standards Conformance: `Standard area` -> `Area`.
 
-A previous report's Scorecard Summary may list `N/A` dimensions as rows;
+A previous report's Scorecard Summary may list `N/A` dimensions as rows,
 the current format omits them and explains them in prose at `Detailed`.
 
 ## Rules
 
 - Do not overwrite or delete the previous report file. A bare `<stem>.md` previous report is
-  renamed to its revisioned name per Output Filename; its content is never touched.
+  renamed to its revisioned name per Output Filename, and its content is never touched.
 - Do not present a parameter difference as a product change. A score that moved because the
   scale changed is not an improvement.
 - Do not copy conclusions, tool results, or readiness claims from the previous report into the

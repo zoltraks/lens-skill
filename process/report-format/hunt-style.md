@@ -34,8 +34,9 @@ The following carry over unchanged from `process/report-format.md` and its spec 
 - Scope Exclusions, Limitations and Unknowns, Validation Record, and References per
   `report-closing.md`.
 
-Hunt adds two mandatory finding fields everywhere the shared schema applies: `Breaking
-change` and `Runtime confirmed` per `findings-registers.md`.
+Hunt adds three mandatory finding fields where the shared schema applies: `Breaking
+change` and `Runtime confirmed` on every finding, and `Defect scenario` on every
+`HIGH` or `CRITICAL` finding, per `findings-registers.md`.
 
 ## Section Order
 
@@ -69,7 +70,9 @@ It carries, in order:
 2. A one-paragraph plain verdict: `Ready`, `Conditionally ready`, or `Not ready`, plus one
    sentence on what the verdict does not mean.
 3. The domain ratings table below.
-4. The hard readiness gates: every gate listed with `Met`, `Not met`, or `Not assessable`.
+4. The hard readiness gates: every gate listed with `Met`, `Not met`, or `Not assessable`,
+   and each gate named against the permitted-use profile it guards - laboratory,
+   controlled sharing, or production - when the report frames staged use.
 5. A top-five action list naming the first remediation steps with their finding IDs.
 6. A strengths list of at most five evidenced positives.
 
@@ -95,7 +98,14 @@ Ratings use a defined scale, not judgment:
 - `Green` - no `HIGH` or `CRITICAL` finding is open and capabilities trace clean.
 - `Not assessed` - no scoreable evidence, never folded into a positive rating.
 
-The Basis cell names the finding IDs that set the rating.
+The rating aggregates, it does not judge: a domain stays `Not assessed` when no scoreable
+evidence exists, and unassessed package health never renders `Amber` merely because the
+scanning process is weak - Dependencies separates "scanning did not run" (a `Not assessed`
+package state with a process finding) from "scanning ran clean".
+
+The Basis cell names the finding IDs that set the rating, and the report states the
+permitted-use profile - laboratory, controlled sharing, or production - against which a
+degraded rating is argued.
 
 An external quality model such as ISO/IEC 25010 may be mapped beside the domain table when
 the audit applies it, citing the edition and the mapping per
@@ -131,6 +141,15 @@ A failing hop must trace to a `FND-XXX` defined in the report - the validator re
 failing hop that cites no finding or an undefined one. A conforming hop is recorded, not
 celebrated.
 
+A journey is assessed against the complete guard chain: a missing upper-layer check does
+not prove a lower-layer guard ineffective, so a hop or journey is `failing` only when the
+full path it names is broken, and `conforming` only when every guard on the path holds.
+
+Every guarded workflow also traces its negative variants - the anonymous caller, the
+wrong-instance caller, the revoked session, the insufficient role - as their own hops or
+rows, rather than only rearranging the happy path. Negative-variant traces are where the
+hunt finds what the finding list missed.
+
 ## Domain Findings
 
 One findings register organized under `###` domain headings (the Domain Ratings set), each
@@ -142,7 +161,8 @@ reconciles its row count against the `### FND-` blocks - the `###` domain headin
 close the section, only the next `##` does.
 
 Every finding cites `path:line` evidence and carries `Breaking change` and `Runtime
-confirmed` fields.
+confirmed` fields, and every `HIGH` or `CRITICAL` finding carries `Defect scenario` -
+the validator rejects the missing field.
 
 In a multi-project report the register stays single and unified. Each finding records its
 project in `Targets` and the summary table carries a `Project` column.
@@ -153,7 +173,17 @@ The roadmap groups recommendations into phases ordered by dependency - for examp
 `Stabilize`, `Harden`, `Improve` - where each phase lists its recommendations, acceptance
 criteria, verification steps, and the findings each closes.
 
-Every finding maps to a phase or to an explicit `Accepted - no action` disposition.
+Each recommendation block or phase row carries the tracker fields from
+`synthesis/remediation-roadmap.md` - `Owner` (a role or `UNASSIGNED`), `Depends on`,
+`Acceptance milestone`, and `Closure evidence` - so a phase is actionable without
+reinterpreting the report.
+
+Every finding maps to a phase or to an explicit `Accepted - no action` disposition -
+the validator reconciles the mapping.
+
+A defect leaves the register only with repair evidence or an explicit accepted decision.
+When the report revisits earlier findings (a re-hunt), a `### Retest` block inside this
+section records the finding's previous status, current result, and remaining limits.
 
 A hunt report has no Recommendation Classification section - the phases themselves record the
 disposition judgment, and the validator flags the section when it appears under

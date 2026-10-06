@@ -75,7 +75,11 @@ Priority expresses urgency, not a delivery commitment, use only supplied or appr
   table.
 - Disposition completeness: every open non-PASS finding maps to at least one `REC-XXX` or to an
   explicit `Accepted`, `Deferred`, or `Rejected` disposition with its rationale recorded next to
-  the finding. No adverse finding is silently unactioned.
+  the finding. No adverse finding is silently unactioned. The validator reconciles the
+  mapping and flags an unmapped finding.
+- An action is usable without reinterpreting the report: a recommendation block may carry
+  `Owner` (a role or `UNASSIGNED`), `Depends on`, `Acceptance milestone`, and `Closure
+  evidence` fields so the roadmap functions as an action tracker.
 
 ## Cost To Reach Readiness
 

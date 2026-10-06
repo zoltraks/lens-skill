@@ -20,11 +20,11 @@ A review report applies the same phases with the deltas defined in
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 1708 | Intake Checklist guidance        |
-| Handling Thin Input     | 1727 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1738 | Single-Dimension Audits guidance |
-| Re-Audit                | 1748 | Re-Audit guidance                |
-| Multi-Project Audits    | 1814 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1741 | Intake Checklist guidance        |
+| Handling Thin Input     | 1760 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1771 | Single-Dimension Audits guidance |
+| Re-Audit                | 1781 | Re-Audit guidance                |
+| Multi-Project Audits    | 1847 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -325,6 +325,8 @@ A previous report may be named `AUDIT.md`, `AUDIT-<revision>.md`, or the languag
 
 For a `hunt` report style the same rules apply to the hunt filename family: `HUNT.md`,
 `HUNT-<revision>.md`, and the language-specific stem such as `POLOWANIE-<revision>.md`.
+For a `check` report style the family is `CHECK.md`, `CHECK-<revision>.md`, and the
+language-specific stem such as `SPRAWDZENIE-<revision>.md`.
 
 When the resolved report type is `Review`, the same rules apply to the review filename
 family: `REVIEW.md`, `REVIEW-<revision>.md`, and the language-specific stem such as
@@ -335,7 +337,7 @@ baselines a new change review, while a `REVIEW`-family file carrying a custom su
 treated as a custom report and still appears as a baseline candidate.
 
 An audit report never baselines a review, a review report never baselines an audit,
-and a hunt report never baselines an `audit`-style report or a review.
+and a hunt or check report never baselines a report of another style or kind.
 
 When several exist, present the one with the highest revision as the candidate baseline.
 
@@ -438,19 +440,19 @@ Present the defaults in a compact summary.
 
 Default parameters:
 
-| Parameter               | Default                                                                                                             |
-|-------------------------|---------------------------------------------------------------------------------------------------------------------|
-| Report type             | Audit - Review only on an explicit review, amendment, or improvement-plan request                                   |
-| Report style            | `audit` - the governance contract, `hunt` produces the defect-hunt genre                                            |
-| Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/`, else Inline                             |
-| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md` for a first hunt |
-| Report language         | Match the language of the user's request                                                                            |
-| Detail level            | Detailed                                                                                                            |
-| Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                               |
-| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                                             |
-| Trade-off analysis      | Standalone section + embedded into relevant findings                                                                |
-| Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it                             |
-| Evidence mode           | `source-only` - `executed-readonly` runs commissioned non-mutating analyzers only                                   |
+| Parameter               | Default                                                                                                                                                          |
+|-------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Report type             | Audit - Review only on an explicit review, amendment, or improvement-plan request                                                                                |
+| Report style            | `audit` - the governance contract, `hunt` the defect-hunt genre, `check` the execution-register genre                                                            |
+| Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/`, else Inline                                                                          |
+| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md` for a first hunt, `CHECK.md` for a first check                |
+| Report language         | Match the language of the user's request                                                                                                                         |
+| Detail level            | Detailed                                                                                                                                                         |
+| Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                                                                            |
+| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                                                                                          |
+| Trade-off analysis      | Standalone section + embedded into relevant findings                                                                                                             |
+| Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it                                                                          |
+| Evidence mode           | `source-only` - `executed-readonly` runs commissioned non-mutating analyzers, `executed-checks` adds commissioned non-mutating commands such as tests and builds |
 
 The agent MUST ask the user and MUST NOT skip this step.
 
@@ -463,7 +465,8 @@ For a review report the stem is `REVIEW` instead, producing `REVIEW-1.0.md`.
 
 For the `hunt` report style the stem is `HUNT` - or the language-specific stem such as
 `POLOWANIE` - and a first hunt defaults to the bare stem `HUNT.md`, with `HUNT-1.0.md`
-offered as the revisioned alternative.
+offered as the revisioned alternative. For `check` the stem is `CHECK` - or the
+language-specific stem such as `SPRAWDZENIE` - under the same bare-first default.
 
 When a previous report exists, the filename carries the new revision, for example `AUDIT-1.1.md`,
 per `synthesis/report-comparison.md`.
@@ -604,13 +607,14 @@ Resolve the filename before asking.
 The default filename carries the report revision:
 
 `<stem>-<revision>.md`, where `<stem>` is `AUDIT` for English audit reports, `REVIEW` for
-review reports, `HUNT` for `hunt`-style reports, or the language-specific stem from the
-matching `translations/` file.
+review reports, `HUNT` for `hunt`-style reports, `CHECK` for `check`-style reports, or the
+language-specific stem from the matching `translations/` file.
 
 A first audit uses `AUDIT-1.0.md` or the language-specific equivalent such as `AUDYT-1.0.md`.
 
-A first hunt report instead defaults to the bare stem `HUNT.md` or its language-specific
-equivalent such as `POLOWANIE.md`, with `HUNT-1.0.md` offered as the revisioned alternative.
+A first hunt or check report instead defaults to the bare stem `HUNT.md`/`CHECK.md` or its
+language-specific equivalent such as `POLOWANIE.md`/`SPRAWDZENIE.md`, with the revisioned
+name offered as the alternative.
 
 When a previous report exists, use the incremented filename defined in
 `synthesis/report-comparison.md`.
@@ -621,7 +625,7 @@ rename it to `<stem>-<revision>.md` before writing the new report, per
 
 The filename without the revision number, `AUDIT.md` or its language-specific equivalent, is
 offered as an alternative file option for audit-style reports, and is the default for a first
-hunt report.
+hunt or check report.
 
 Ask: "How should the report be delivered?"
 
@@ -645,8 +649,8 @@ Present each applicable option as a concrete choice:
   `docs/report/<date>/AUDIT-1.0.md` for a first audit.
 - `File - <resolved-path>/<filename without the revision number>` - the resolved path using
   the filename without the revision number, such as `docs/report/AUDIT.md`, offered as an
-  alternative to the revisioned default. For a `hunt`-style report this option is the default
-  and the revisioned filename becomes the alternative.
+  alternative to the revisioned default. For a `hunt`- or `check`-style report this option is
+  the default and the revisioned filename becomes the alternative.
 - `Custom report file` - ask the user to specify the location and filename.
 
 For example, when `docs/report/` and `document/` exist with no subdirectory pattern,
@@ -736,8 +740,13 @@ Ask: "Which report style should the report use?"
 - **`hunt`** - the defect-hunt genre defined in `process/report-format/hunt-style.md`:
   a verdict-first, domain-organized engineering report with `file:line` evidence,
   journey traces, breaking-change assessment, and a phase-mapped roadmap.
-  Both styles share the same evidence rigor, finding schema, and completeness rules -
-  style changes presentation, never what must be found.
+- **`check`** - the execution-oriented genre defined in
+  `process/report-format/check-style.md`: a run register of commissioned checks with
+  per-check status, evidence levels, a verdict with permitted-use gates, and a retest
+  register.
+
+All three styles share the same evidence rigor, finding schema, and completeness rules -
+style changes presentation, never what must be found.
 
 The question ends with `Use default: audit` and `Use defaults for all remaining questions`.
 Under JSON exchange this is the `report-style` `choice` parameter.
@@ -750,7 +759,8 @@ Use **`source-only`** by default.
 
 Do not ask this as a routine prompt.
 
-Apply `executed-readonly` only when the user explicitly commissions it.
+Apply `executed-readonly` or `executed-checks` only when the user explicitly commissions
+the mode.
 
 - **`source-only`** (default) - the audit executes nothing: no build, test, linter, scanner,
   or generator runs against the project, and verification steps become Operator
@@ -760,6 +770,14 @@ Apply `executed-readonly` only when the user explicitly commissions it.
   The project itself is still never built, tested, or run, no tool is installed or upgraded
   for the audit, and every executed check is recorded in the Executed Evidence Log with
   tool, version, exact command, and timestamp per `process/report-format/report-closing.md`.
+- **`executed-checks`** - additionally runs the explicitly commissioned non-mutating
+  commands the user names, which may include test suites, builds, lint, typecheck,
+  coverage runs, and isolated reproduction harnesses. The subject is still never
+  deployed, mutated, or connected to live systems, no tool is installed or upgraded
+  unless the user commissioned it, and every executed command lands in the Executed
+  Evidence Log - or the Execution Register under `Report Style: check` - with tool,
+  version, exact command, timestamp, exit status, and result per
+  `process/report-format/report-closing.md`.
 
 Under JSON exchange this is the `evidence-mode` `choice` parameter.
 
@@ -904,11 +922,17 @@ Under `executed-readonly` evidence mode the agent may additionally run the non-m
 read-only analyzers the user explicitly commissioned, such as dependency advisory or policy
 scanners.
 
-The project itself is still never built, tested, or run, no tool is installed or upgraded for
-the audit, and every executed check lands in the Executed Evidence Log per
+Under `executed-checks` evidence mode the agent may additionally run the commissioned
+non-mutating commands the user named - tests, builds, lint, typecheck, coverage, isolated
+reproduction harnesses - while the subject is still never deployed, mutated, or connected
+to live systems.
+
+The project itself is still never run outside the commissioned set, no tool is installed or
+upgraded for the audit unless commissioned, and every executed check lands in the Executed
+Evidence Log - or the Execution Register under `Report Style: check` - per
 `process/report-format/report-closing.md`.
 
-Record the scope as `source-only` or `executed-readonly`.
+Record the scope as `source-only`, `executed-readonly`, or `executed-checks`.
 
 Documented or committed check results are `REPORTED` evidence, not audit execution.
 
@@ -1095,7 +1119,10 @@ Verification Handoff.
 
 Under `executed-readonly` only the commissioned non-mutating analyzers run - builds, tests,
 and the project itself still never execute - and their results are `EXECUTED` evidence in the
-Executed Evidence Log rather than `NOT RUN` rows.
+Executed Evidence Log rather than `NOT RUN` rows. Under `executed-checks` the commissioned
+non-mutating commands run - tests and builds included - and land in the same register, or in
+the Execution Register under `Report Style: check`, each with its status token
+(`PASS`/`FAIL`/`ERROR`/`BLOCKED`/`SKIPPED`/`NOT RUN`/`N/A`).
 
 For each selected check, record what the repository itself shows: a documented command,
 a pipeline step, a committed report, or nothing at all.
@@ -1118,7 +1145,7 @@ A missing check is missing evidence, not a missing feature.
 
 The audit never compiles, builds, or tests the project and never runs linters, scanners, or
 generators against it, except the commissioned non-mutating analyzers under
-`executed-readonly`.
+`executed-readonly` and the commissioned non-mutating commands under `executed-checks`.
 
 Read-only inspection of repository contents is still used: file listing, search, and version
 control history.
@@ -1221,6 +1248,10 @@ instead of the audit sections below.
 When the report style is `hunt`, synthesize per `process/report-format/hunt-style.md`.
 That style reuses the finding, risk, and roadmap schemas below with its own section order
 and adds the journey-trace matrix, per-domain ratings, and the phase-mapped roadmap.
+
+When the report style is `check`, synthesize per `process/report-format/check-style.md`.
+That style reuses the same schemas and adds the execution register, evidence levels, and
+the retest register.
 
 Render the Audit Type Coverage table first,
 from the fixed row set in `references/audit-taxonomy.md`.
@@ -1538,14 +1569,16 @@ carries - a `Runtime confirmed: no` finding cannot appear as verified in any sum
 
 Under `executed-readonly`, confirm the Executed Evidence Log lists every executed check with
 tool, version, exact command, and timestamp, and that the report claims no build, test, or
-project run.
+project run. Under `executed-checks`, confirm the same provenance in the log or Execution
+Register and that only the commissioned commands ran.
 
 Under `source-only`, confirm the Operator Verification Handoff covers every material claim
 that could not be resolved from source, each entry naming command, pass criteria, and the
 finding it would confirm or close.
 
-When the report style is `hunt`, confirm the layout, verdict block, and rating columns match
-`process/report-format/hunt-style.md`.
+When the report style is `hunt` or `check`, confirm the layout, verdict block, and rating
+columns match `process/report-format/hunt-style.md` or
+`process/report-format/check-style.md`.
 
 Before composing the report body, run a tooling probe against the report-production scripts:
 

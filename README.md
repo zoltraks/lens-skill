@@ -29,11 +29,11 @@
 | Report Format                      | 419  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 454  | Supported requests and exclusions                   |
 | What's Inside                      | 477  | Documents, references, tools, and conditional files |
-| Document Style                     | 613  | Pointer to the style rules file                     |
-| Specification                      | 623  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 644  | Maintenance checks and regression scenarios         |
-| License                            | 670  | License for the skill itself                        |
-| Credits                            | 676  | Authorship and attribution                          |
+| Document Style                     | 614  | Pointer to the style rules file                     |
+| Specification                      | 624  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 645  | Maintenance checks and regression scenarios         |
+| License                            | 671  | License for the skill itself                        |
+| Credits                            | 677  | Authorship and attribution                          |
 
 ## Overview
 
@@ -47,7 +47,7 @@ Unlike a generic "review my code" prompt, Lens enforces a fixed workflow: intake
 configuration, scope definition, evidence gathering, per-category assessment, synthesis, and
 validation.
 
-The intake, evidence gathering, and assessment pipeline is shared by both report types;
+The intake, evidence gathering, and assessment pipeline is shared by all report types -
 only the synthesis stage and the validation contract differ.
 
 The default output is an Audit report with twenty-one baseline sections: Document Information, the
@@ -107,7 +107,7 @@ and is linked from every acronym occurrence in the report.
 Advanced parameters can still be changed when explicitly specified.
 
 When the request asks for machine-readable parameters, every pending intake question emits as a
-JSON parameter document per `process/json-exchange.md`; under a diagnostic or verbose request the
+JSON parameter document per `process/json-exchange.md` - under a diagnostic or verbose request the
 document is emitted for information first, then the question menus still run.
 
 **Defines scope explicitly**
@@ -508,6 +508,7 @@ lens-skill/
 │   │   ├── conditional-conformance.md     # Conditional conformance sections
 │   │   ├── findings-registers.md          # Findings, debt, risk, roadmap, and classification
 │   │   ├── hunt-style.md                  # `hunt` report style: verdict, journeys, domain findings
+│   │   ├── check-style.md                 # `check` report style: execution register, evidence levels, retests
 │   │   └── report-closing.md              # Exclusions, limitations, handoff, validation, references
 │   ├── report-contract.md                 # One-page mechanically enforced report contract
 │   ├── report-parity.md                   # Audit parity checklist and consistency gate before final
@@ -572,7 +573,7 @@ lens-skill/
 │   ├── align-comments.py                  # Plain-text `#` comment column aligner
 │   ├── link-glossary.py                   # Glossary body-link inserter, run before the formatter
 │   ├── validate-report.py                 # Audit and Review report validator (`--dump-contract` JSON)
-│   ├── new-report.py                      # Report skeleton generator (audit or hunt)
+│   ├── new-report.py                      # Report skeleton generator (audit, hunt, or check)
 │   ├── finalize-report.py                 # Runs link, format, and validate in order on a report
 │   ├── validate-skill.py                  # Dependency-light Agent Skill validator
 │   ├── check-references.py                # Relative-reference integrity checker

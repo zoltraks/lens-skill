@@ -22,58 +22,59 @@ This file is loaded only when the report language is Polish.
 
 | Section                                     | Line | What it covers                              |
 |---------------------------------------------|------|---------------------------------------------|
-| Analysis And Rendering                      | 78   | Analysis model and terminology precedence   |
-| Status And Severity Vocabulary              | 100  | Status And Severity Vocabulary guidance     |
-| Fixed Vocabulary Values                     | 240  | Polish renderings of descriptive values     |
-| Terminology                                 | 292  | English to Polish technical dictionary      |
-| Calque And Style Replacements               | 442  | Forbidden calques and their replacements    |
-| Parameter Prompts                           | 530  | Polish phrasing for configuration questions |
-| Style Rules                                 | 585  | Style Rules guidance                        |
-| Diacritics Frequently Misspelled            | 721  | Diacritics Frequently Misspelled guidance   |
-| Output Filename                             | 756  | Output Filename guidance                    |
-| Document Information                        | 776  | Document Information guidance               |
-| Audit Type Coverage                         | 817  | Coverage rendering                          |
-| Project Inventory                           | 853  | Project Inventory guidance                  |
-| Glossary                                    | 862  | Glossary guidance                           |
-| Technology Stack                            | 915  | Technology Stack guidance                   |
-| Executive Summary                           | 932  | Executive Summary guidance                  |
-| Health Dashboard                            | 950  | Health Dashboard guidance                   |
-| Scorecard                                   | 961  | Scorecard guidance                          |
-| Scoring Rubrics                             | 986  | Scoring Rubrics guidance                    |
-| Delivery Practice & Team Continuity         | 1010 | Delivery and continuity rendering           |
-| High-Level Observations                     | 1034 | High-Level Observations guidance            |
-| Auditing Methodology                        | 1041 | Auditing Methodology guidance               |
-| System Context                              | 1055 | System Context guidance                     |
-| Software Bill of Materials                  | 1068 | SBOM section rendering                      |
-| License Compliance Review                   | 1086 | License and IP section rendering            |
-| Architectural Assessment                    | 1104 | Architectural Assessment guidance           |
-| Architectural Subsections                   | 1111 | Architectural Subsections guidance          |
-| Skill Definition Conformance                | 1126 | Skill Definition Conformance guidance       |
-| Agent Guidance Conformance                  | 1134 | Agent Guidance Conformance guidance         |
-| AI System Assessment                        | 1148 | AI System Assessment guidance               |
-| Standards Conformance                       | 1159 | Standards Conformance guidance              |
-| References                                  | 1180 | References guidance                         |
-| Strengths And What's Working                | 1189 | Strengths And What's Working guidance       |
-| Detailed Technical Findings                 | 1195 | Detailed Technical Findings guidance        |
-| Technical Debt Register                     | 1254 | Technical Debt Register guidance            |
-| Unified Risk Register                       | 1266 | Unified Risk Register guidance              |
-| Trade-off Analysis                          | 1286 | Trade-off Analysis guidance                 |
-| Actionable Remediation Roadmap              | 1298 | Actionable Remediation Roadmap guidance     |
-| Recommendation Classification               | 1313 | Recommendation Classification guidance      |
-| Changes Since Previous Audit                | 1328 | Changes Since Previous Audit guidance       |
-| Scope Exclusions                            | 1362 | Scope Exclusions guidance                   |
-| Limitations And Unknowns                    | 1370 | Limitations And Unknowns guidance           |
-| Re-audit And Follow-up Plan                 | 1382 | Re-audit And Follow-up Plan guidance        |
-| Operator Verification Handoff               | 1392 | Operator Verification Handoff guidance      |
-| Executed Evidence Log                       | 1405 | Executed Evidence Log guidance              |
-| Hunt Style Sections                         | 1418 | Hunt Style Sections guidance                |
-| Validation Record                           | 1436 | Validation Record guidance                  |
-| Threat Model                                | 1461 | Threat Model guidance                       |
-| API Contract Conformance                    | 1471 | API Contract Conformance guidance           |
-| API Compatibility And Versioning Discipline | 1480 | API Compatibility And Versioning guidance   |
-| Evidence And Decision Terms                 | 1489 | Evidence And Decision Terms guidance        |
-| Skill Definition Conformance Table          | 1550 | Skill Definition Conformance Table guidance |
-| Review Report                               | 1565 | Review Report guidance                      |
+| Analysis And Rendering                      | 79   | Analysis model and terminology precedence   |
+| Status And Severity Vocabulary              | 101  | Status And Severity Vocabulary guidance     |
+| Fixed Vocabulary Values                     | 245  | Polish renderings of descriptive values     |
+| Terminology                                 | 304  | English to Polish technical dictionary      |
+| Calque And Style Replacements               | 454  | Forbidden calques and their replacements    |
+| Parameter Prompts                           | 542  | Polish phrasing for configuration questions |
+| Style Rules                                 | 598  | Style Rules guidance                        |
+| Diacritics Frequently Misspelled            | 734  | Diacritics Frequently Misspelled guidance   |
+| Output Filename                             | 769  | Output Filename guidance                    |
+| Document Information                        | 793  | Document Information guidance               |
+| Audit Type Coverage                         | 834  | Coverage rendering                          |
+| Project Inventory                           | 870  | Project Inventory guidance                  |
+| Glossary                                    | 879  | Glossary guidance                           |
+| Technology Stack                            | 932  | Technology Stack guidance                   |
+| Executive Summary                           | 949  | Executive Summary guidance                  |
+| Health Dashboard                            | 967  | Health Dashboard guidance                   |
+| Scorecard                                   | 978  | Scorecard guidance                          |
+| Scoring Rubrics                             | 1003 | Scoring Rubrics guidance                    |
+| Delivery Practice & Team Continuity         | 1027 | Delivery and continuity rendering           |
+| High-Level Observations                     | 1051 | High-Level Observations guidance            |
+| Auditing Methodology                        | 1058 | Auditing Methodology guidance               |
+| System Context                              | 1072 | System Context guidance                     |
+| Software Bill of Materials                  | 1085 | SBOM section rendering                      |
+| License Compliance Review                   | 1103 | License and IP section rendering            |
+| Architectural Assessment                    | 1121 | Architectural Assessment guidance           |
+| Architectural Subsections                   | 1128 | Architectural Subsections guidance          |
+| Skill Definition Conformance                | 1143 | Skill Definition Conformance guidance       |
+| Agent Guidance Conformance                  | 1151 | Agent Guidance Conformance guidance         |
+| AI System Assessment                        | 1165 | AI System Assessment guidance               |
+| Standards Conformance                       | 1176 | Standards Conformance guidance              |
+| References                                  | 1197 | References guidance                         |
+| Strengths And What's Working                | 1206 | Strengths And What's Working guidance       |
+| Detailed Technical Findings                 | 1212 | Detailed Technical Findings guidance        |
+| Technical Debt Register                     | 1271 | Technical Debt Register guidance            |
+| Unified Risk Register                       | 1283 | Unified Risk Register guidance              |
+| Trade-off Analysis                          | 1303 | Trade-off Analysis guidance                 |
+| Actionable Remediation Roadmap              | 1315 | Actionable Remediation Roadmap guidance     |
+| Recommendation Classification               | 1330 | Recommendation Classification guidance      |
+| Changes Since Previous Audit                | 1345 | Changes Since Previous Audit guidance       |
+| Scope Exclusions                            | 1379 | Scope Exclusions guidance                   |
+| Limitations And Unknowns                    | 1387 | Limitations And Unknowns guidance           |
+| Re-audit And Follow-up Plan                 | 1399 | Re-audit And Follow-up Plan guidance        |
+| Operator Verification Handoff               | 1409 | Operator Verification Handoff guidance      |
+| Executed Evidence Log                       | 1422 | Executed Evidence Log guidance              |
+| Hunt Style Sections                         | 1435 | Hunt Style Sections guidance                |
+| Check Style Sections                        | 1453 | Check Style Sections guidance               |
+| Validation Record                           | 1479 | Validation Record guidance                  |
+| Threat Model                                | 1504 | Threat Model guidance                       |
+| API Contract Conformance                    | 1514 | API Contract Conformance guidance           |
+| API Compatibility And Versioning Discipline | 1523 | API Compatibility And Versioning guidance   |
+| Evidence And Decision Terms                 | 1532 | Evidence And Decision Terms guidance        |
+| Skill Definition Conformance Table          | 1593 | Skill Definition Conformance Table guidance |
+| Review Report                               | 1608 | Review Report guidance                      |
 
 ## Analysis And Rendering
 
@@ -188,6 +189,10 @@ describing an `ustalenie` renders the neuter form `OTWARTE`/`NOWE`/`ZAMKNIĘTE` 
 | `STATIC-CONFIRMED`       | POTWIERDZONY STATYCZNIE   | POTWIERDZONA STATYCZNIE   | POTWIERDZONE STATYCZNIE   |
 | `DYNAMICALLY-VERIFIED`   | ZWERYFIKOWANY DYNAMICZNIE | ZWERYFIKOWANA DYNAMICZNIE | ZWERYFIKOWANE DYNAMICZNIE |
 | `DELIBERATE`             | ŚWIADOMY                  | ŚWIADOMA                  | ŚWIADOME                  |
+| `BLOCKED`                | ZABLOKOWANY               | ZABLOKOWANA               | ZABLOKOWANE               |
+| `SKIPPED`                | POMINIĘTY                 | POMINIĘTA                 | POMINIĘTE                 |
+| `PLANNED`                | ZAPLANOWANY               | ZAPLANOWANA               | ZAPLANOWANE               |
+| `UNRESOLVED`             | NIEROZSTRZYGNIĘTY         | NIEROZSTRZYGNIĘTA         | NIEROZSTRZYGNIĘTE         |
 
 Token columns (`Wynik`, `Status`, `Zmiana`, `Weryfikacja`, `Ważność`, `Wpływ`,
 `Prawdopodobieństwo`, `Klasa`, `Ocena`, `Gotowość`, `Pewność oceny`,
@@ -272,8 +277,15 @@ Descriptive values are rendered in Polish and agree in gender with the noun they
 | `Not applicable`                 | `nie dotyczy`                            |
 | `source-only`                    | `wyłącznie na podstawie kodu źródłowego` |
 | `executed-readonly`              | `wykonanie tylko do odczytu`             |
+| `executed-checks`                | `wykonanie zleconych kontroli`           |
 | `audit` (report style)           | `audyt`                                  |
 | `hunt` (report style)            | `polowanie na usterki`                   |
+| `check` (report style)           | `sprawdzenie`                            |
+| `Source` (evidence level)        | `Źródło`                                 |
+| `Model` (evidence level)         | `Model`                                  |
+| `App` (evidence level)           | `Aplikacja`                              |
+| `Deployed` (evidence level)      | `Wdrożenie`                              |
+| `Unknown` (evidence level)       | `Nieznany`                               |
 | `Internal` (breaking change)     | `wewnętrzne`                             |
 | `Public API` (breaking change)   | `publiczne API`                          |
 | `engineering improvement`        | `doskonalenie inżynieryjne`              |
@@ -536,8 +548,9 @@ Apply these phrasing rules:
   Ask `Jak dostarczyć raport?` or `Gdzie zapisać plik raportu?`.
 - The file option without the revision number is `Plik bez numeru rewizji` (for example
   `docs/report/AUDYT.md`). The English `stem` is never used in a Polish prompt.
-  For a `polowanie na usterki` report this bare option (`docs/report/POLOWANIE.md`) is the
-  default and the revisioned `POLOWANIE-1.0.md` is the alternative.
+  For a `polowanie na usterki` or `sprawdzenie` report this bare option
+  (`docs/report/POLOWANIE.md`, `docs/report/SPRAWDZENIE.md`) is the default and the
+  revisioned `POLOWANIE-1.0.md`/`SPRAWDZENIE-1.0.md` is the alternative.
 - Date-named subdirectory options use `katalogi dzienne` or `ścieżka daty`/`ścieżka dzienna`.
   `Datowy` and `datowa` are not proper Polish words and must not be used.
 - The detail-level question is `Jaki poziom szczegółowości powinien mieć raport?` with options
@@ -768,6 +781,10 @@ A review report uses the `PRZEGLĄD` stem instead: `PRZEGLĄD-1.0.md` for a firs
 A `polowanie na usterki` report uses the `POLOWANIE` stem and inverts the default:
 `POLOWANIE.md` for a first hunt, with `POLOWANIE-1.0.md` offered as the revisioned
 alternative, and `POLOWANIE-<revision>.md` once a previous hunt report exists.
+
+A `sprawdzenie` report uses the `SPRAWDZENIE` stem under the same bare-first default:
+`SPRAWDZENIE.md` for a first check, `SPRAWDZENIE-1.0.md` as the revisioned alternative,
+and `SPRAWDZENIE-<revision>.md` once a previous check report exists.
 
 When the previous report is a bare `<podstawa>.md` file in the resolved output directory,
 it is renamed to `<podstawa>-<rewizja>.md` before the new report is written - for example
@@ -1432,6 +1449,32 @@ The log records every bounded execution an `wykonanie tylko do odczytu` report p
 
 A `polowanie na usterki` report replaces the scorecard and recommendation classification with
 domain verdicts and remediation phases, and `Kontekst systemu` carries the project discovery.
+
+## Check Style Sections
+
+| English                    | Polish                      |
+|----------------------------|-----------------------------|
+| Check Plan And Methodology | Plan kontroli i metodologia |
+| Execution Register         | Rejestr wykonania           |
+| Check                      | Kontrola                    |
+| Command                    | Polecenie                   |
+| Interpretation             | Interpretacja               |
+| Artifact                   | Artefakt                    |
+| Improvement Plan           | Plan poprawy                |
+| Retest Register            | Rejestr retestów            |
+| Metrics Snapshot           | Zestawienie metryk          |
+| Artifact Manifest          | Manifest artefaktów         |
+| Evidence level             | Poziom dowodu               |
+| Defect scenario            | Scenariusz usterki          |
+| Disposition                | Dyspozycja                  |
+
+A `sprawdzenie` report replaces the scorecard and recommendation classification with the
+execution register and improvement plan. The `Rejestr wykonania` `Wynik` column carries
+`OK`, `NIEZALICZONY`, `BŁĄD`, `ZABLOKOWANY`, `POMINIĘTY`, `NIEURUCHOMIONY`, or `N/D` -
+the masculine forms agree with `wynik`. The `Dyspozycja` column carries `ZAPLANOWANA`,
+`ODROCZONA`, `ZAAKCEPTOWANA - brak działania`, or `NIEROZSTRZYGNIĘTA`. A `Poziom dowodu`
+field takes `Źródło`, `Model`, `Aplikacja`, `Wdrożenie`, or `Nieznany`, and a permitted-use
+profile renders `laboratoryjny`, `kontrolowane udostępnienie`, or `produkcyjny`.
 
 ## Validation Record
 

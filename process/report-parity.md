@@ -45,9 +45,14 @@ Do not rely on per-run memory of what a previous report happened to include.
 
 PAR-5 may report `NOT COLLECTED` when Git history is unavailable, silence is not acceptable.
 
-PAR-18 reports `N/A` under `Report Style: hunt` - a hunt report carries no Recommendation
-Classification section, disposition lives in Remediation Phases, per
-`process/report-format/hunt-style.md`.
+PAR-18 reports `N/A` under `Report Style: hunt` or `check` - neither style carries a
+Recommendation Classification section, disposition lives in Remediation Phases or the
+Improvement Plan, per `process/report-format/hunt-style.md` and
+`process/report-format/check-style.md`.
+
+A checklist row is `APPLIED` only when the requirement is met as written - a partially met
+item records its actual state with a justification rather than redefining the requirement
+to earn `APPLIED`.
 
 PAR-9 re-derivation means re-selecting references from the current stack lookup for the detected
 stack.

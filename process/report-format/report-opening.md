@@ -10,8 +10,8 @@
 | Section              | Line | What it covers                       |
 |----------------------|------|--------------------------------------|
 | Document Information | 16   | Report metadata and revisions        |
-| Audit Type Coverage  | 143  | Coverage of canonical audit types    |
-| Glossary             | 193  | Abbreviation and acronym definitions |
+| Audit Type Coverage  | 145  | Coverage of canonical audit types    |
+| Glossary             | 195  | Abbreviation and acronym definitions |
 
 ## Document Information
 
@@ -44,7 +44,8 @@ Rows appear in this order, each label in the first column and its value in the s
 - `Report Date` - the audit date.
 - `State` - `Draft` only. Write the row while the report is still in progress and omit it when the
   report is final, which is the expected end state and needs no marker.
-- `Report Style` - `audit` or `hunt`, per `process/report-format/hunt-style.md`.
+- `Report Style` - `audit`, `hunt`, or `check`, per `process/report-format/hunt-style.md`
+  and `process/report-format/check-style.md`.
 - `Detail Level` - `Standard`, `Detailed`, or `Brief`.
 - `Evaluation Scale` - `1-10`, `1-5`, `1-3`, `5 stars`, or `3 stars`.
 - `Language` - the report language.
@@ -52,15 +53,16 @@ Rows appear in this order, each label in the first column and its value in the s
 - `Target Environment` - where the software runs or ships.
 - `Verification Scope` - `static repository analysis (code, configuration,
   documentation, git history) - no execution` for `source-only`, or the same phrase plus
-  `; commissioned non-mutating analyzers executed` under `executed-readonly`; the short token
+  `; commissioned non-mutating analyzers executed` under `executed-readonly` or
+  `; commissioned non-mutating commands executed` under `executed-checks` - the short token
   `source-only` may stand when a previous revision already established it.
-- `Evidence Mode` - `source-only` or `executed-readonly`.
+- `Evidence Mode` - `source-only`, `executed-readonly`, or `executed-checks`.
 - `Subject Revision` - the audited revision of the subject: the commit SHA with branch or
   detached state in parentheses when VCS metadata exists, or `unversioned working tree` with
   the capture timestamp when it does not. This row is never omitted - a report without a
   snapshot anchor cannot be reconciled against another audit.
 - `Dirty-Tree State` - the working tree state at audit time, written only when the tree is dirty.
-  Omit the row when the tree is clean; a dirty tree lists its paths in the evidence ledger.
+  Omit the row when the tree is clean - a dirty tree lists its paths in the evidence ledger.
 - `Skill Version` - the version of the audit skill that produced the report, written as the
   bare version string (for example `2.0.2`), never prefixed with the skill name.
 - `Time taken` - elapsed audit time in `MM:SS`, measured from the start timestamp recorded the
@@ -129,7 +131,7 @@ Read any of these forms as the report revision.
 The previous report file is never overwritten.
 
 A bare `<stem>.md` previous report may be renamed to its revisioned name per
-`synthesis/report-comparison.md`; its content is never changed.
+`synthesis/report-comparison.md` - its content is never changed.
 
 The new report is written to a separate file carrying the new revision in its name,
 for example `AUDIT-1.1.md`, per `synthesis/report-comparison.md`.

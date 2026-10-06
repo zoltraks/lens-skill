@@ -72,6 +72,23 @@ Keep conventional uppercase names for root and governance files, including `READ
 
 Keep evaluation prompts in `evals/evals.json`.
 
+## Anonymized Examples
+
+Shipped files never mention real names, paths, or identifiers of projects the skill has
+audited or been applied to - no project names, repository paths, hostnames, author names,
+or report filenames drawn from a real engagement.
+
+Examples and eval prompts use skill-owned generic subjects: a placeholder project such as
+`the project` or `example-service`, placeholder filenames such as `AUDIT-1.1.md`, and
+invented finding identifiers.
+
+When a shipped document needs an illustration taken from real work, generalize it first -
+strip the subject to its archetype, rename files and identifiers, and drop any detail that
+would re-identify the source.
+
+Working artifacts that name real projects live only in the gitignored `work/` directory
+and are never shipped.
+
 ## Registration Contract
 
 Register every new or renamed resource in `SKILL.md` under the section for its directory.

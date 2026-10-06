@@ -3,7 +3,7 @@
 ## Purpose
 
 > **Scope:** The mechanically enforced surface of every Lens report
-> **Key items:** required sections, field syntax, token vocabularies, hunt-specific rules
+> **Key items:** required sections, field syntax, token vocabularies, style-specific rules
 
 This file lists only what `scripts/validate-report.py` enforces - nothing more.
 
@@ -27,7 +27,8 @@ Rationale and detail live in the section specs under `process/report-format/` an
 - Document Information carries `Report Style`, `Evidence Mode`, and a `Subject Revision`
   snapshot anchor.
 - A report under `Evidence Mode: source-only` carries an `Operator Verification Handoff` -
-  under `executed-readonly` an `Executed Evidence Log` replaces it.
+  under `executed-readonly` or `executed-checks` an `Executed Evidence Log` replaces it,
+  and an executed `check`-style report additionally carries an Artifact Manifest.
 - The Audit Type Coverage table keeps only `Covered`, `Partially`, and `Not done` status
   cells - `Not Applicable` rows are omitted entirely.
 - The Validation Record carries rows `PAR-1` through `PAR-18` in fixed order.
@@ -110,3 +111,27 @@ executed-log section when conditional.
   multi-project findings match by `<project>::FND-` qualification.
 - A `Recommendation Classification` section is forbidden under hunt - phases carry the
   disposition.
+- Every `HIGH` or `CRITICAL` finding carries a `Defect scenario` field - initial
+  conditions, steps, expected result, observed result, confirmation level.
+
+## Check Style
+
+Under `Report Style: check` the required sections are Document Information, Audit Type
+Coverage, Verdict, System Context, Check Plan And Methodology, Execution Register, Domain
+Findings, Risk Register, Improvement Plan, Scope Exclusions, Limitations and Unknowns,
+Validation Record, References - plus the conditional Retest Register, Metrics Snapshot,
+Artifact Manifest, Glossary, Contradiction Register, and the handoff section.
+
+- The Verdict carries the same verdict token, domain ratings, gates, top-five, and
+  strengths rules as hunt.
+- The Execution Register table carries `Check`, `Command`, and `Result` columns, and `Result`
+  cells take `PASS`, `FAIL`, `ERROR`, `BLOCKED`, `SKIPPED`, `NOT RUN`, or `N/A`, and every
+  non-`PASS` row states an `Interpretation`.
+- Every `### FND-` block carries an `Evidence level` field valued `Source`, `Model`,
+  `App`, `Deployed`, or `Unknown`.
+- A `FAIL`, `ERROR`, or `BLOCKED` register row requires a Retest Register section covering
+  the failed check.
+- Improvement Plan `Disposition` cells take `Planned`, `Deferred`, `Accepted - no action`,
+  or `Unresolved`.
+- Every `### FND-` block maps to a phase or an explicit disposition, and a
+  `Recommendation Classification` section is forbidden.

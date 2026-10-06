@@ -37,16 +37,19 @@ under a `.tmp.` name, locating its siblings by filename. When the copies are abs
 resolve in its `scripts/` directory - running it straight from the skill tree needs no flag at
 all.
 
-`new-report.py --style audit|hunt [--projects a,b] [--params work/lens-params.json] [--output
-file]` emits a structurally valid report skeleton - required sections, table headers, and one
-field-labeled template block per register - and runs `format-table.py` on `--output` when the
-formatter resolves next to the script or under `LENS_SKILL_ROOT`. `--params` reads the saved
-intake values from `work/lens-params.json`, so a second report style in the same session
-reuses the locked parameters.
+`new-report.py --style audit|hunt|check [--projects a,b] [--params work/lens-params.json]
+[--output file]` emits a structurally valid report skeleton - required sections, table
+headers, and one field-labeled template block per register - and runs `format-table.py` on
+`--output` when the formatter resolves next to the script or under `LENS_SKILL_ROOT`.
+`--params` reads the saved intake values from `work/lens-params.json`, so a second report
+style in the same session reuses the locked parameters. For `--style check`, an
+`evidence-mode` of `executed-readonly` or `executed-checks` in the params file adds the
+Artifact Manifest section to the skeleton.
 
 `validate-report.py --dump-contract` prints the mechanically enforced contract - required
-sections, field lists, token sets, hunt-specific rules - as JSON generated from the live
-constants, for agents that want the contract without reading the documentation corpus.
+sections, field lists, token sets, hunt- and check-specific rules - as JSON generated from
+the live constants, for agents that want the contract without reading the documentation
+corpus.
 
 `format-table.py` warns when a row begins with `||` or a column is empty in every row.
 
@@ -61,7 +64,7 @@ typographic characters the ASCII convention forbids.
 blocks to one shared column per block - the established column when most comments already
 share one, otherwise the longest entry plus two spaces.
 
-`--compact` moves the column to the minimum; `--check` reports misalignment without writing.
+`--compact` moves the column to the minimum - `--check` reports misalignment without writing.
 
 A block whose opening fence is preceded by `<!-- align-comments: off -->` - optionally with one
 blank line between the marker and the fence - is skipped entirely, so deliberate examples of
@@ -115,13 +118,16 @@ dimension scores and compares it to the stated `Overall score` at one decimal pl
 Pass `--repo-root <dir>` to also verify that `path:line` citations in finding `Targets` and
 `Evidence` fields resolve to real files whose recorded line numbers are within file length.
 
-When the `Report Style` row reads `hunt`, it applies the hunt section contract from
-`process/report-format/hunt-style.md` instead of the baseline section list.
+When the `Report Style` row reads `hunt` or `check`, it applies that style's section
+contract from `process/report-format/hunt-style.md` or
+`process/report-format/check-style.md` instead of the baseline section list. A `check`
+report also validates the Execution Register rows, check statuses, `Evidence level` fields,
+and the Retest Register trigger.
 
 `lint-polish.py` lints Polish report output for the calques listed in the
 `Calque And Style Replacements` table of `translations/polish-language.md`, plus
 comma splices, `tylko, gdy`, bare `per`, the `w.` abbreviation, semicolons, and typographic
-characters that the ASCII convention forbids. Run it on every Polish report before delivery;
+characters that the ASCII convention forbids. Run it on every Polish report before delivery -
 its result is recorded in the Validation Record. Like the other report tools it is copied
 into the audited repository under a `.tmp.` name before use.
 
@@ -169,7 +175,7 @@ It is never run on a report artifact or inside an audited repository.
 `check-contents.py` verifies that `## Contents` tables in the skill's own documents still anchor to
 real `##` section headings.
 
-Pass `--fix` to rewrite each row's recorded line to its section heading; when rows and headings
+Pass `--fix` to rewrite each row's recorded line to its section heading - when rows and headings
 pair one-to-one they are re-anchored in order.
 
 Run it whenever a document's sections move.

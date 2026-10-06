@@ -134,11 +134,11 @@ Every pending question surface emits with a stable kebab-case `id`:
 | `parameters-acceptance` | `choice`    | Accept default parameters or configure                                                                                            |
 | `parameters-to-change`  | `selection` | Re-audit-with-changed-parameters follow-up naming core parameters                                                                 |
 | `report-delivery`       | `choice`    | Delivery and output-file prompt                                                                                                   |
-| `report-style`          | `choice`    | `audit` (default) or `hunt`                                                                                                       |
+| `report-style`          | `choice`    | `audit` (default), `hunt`, or `check`                                                                                             |
 | `detail-level`          | `choice`    | Brief, Standard, or Detailed                                                                                                      |
 | `evaluation-scale`      | `choice`    | Four options in fixed order: `1-10`, `1-5`, `1-3`, `Stars`                                                                        |
 | `star-count`            | `choice`    | Star count follow-up (`5 stars` default, `3 stars`) - applies only when `evaluation-scale` resolves to `Stars`, ignored otherwise |
-| `evidence-mode`         | `choice`    | `source-only` (default) or `executed-readonly` - advanced parameter, emitted only when named                                      |
+| `evidence-mode`         | `choice`    | `source-only` (default), `executed-readonly`, or `executed-checks` - advanced parameter, emitted only when named                  |
 
 Thin-input clarifications emit as `text` or `choice` parameters as they arise, with `open: true`
 when free input is appropriate.

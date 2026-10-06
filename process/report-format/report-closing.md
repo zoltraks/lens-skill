@@ -122,7 +122,10 @@ This section turns the source-only boundary into an actionable follow-up.
 
 It is always present under `source-only` evidence mode.
 
-Under `executed-readonly` it lists only the checks outside the commissioned analyzer set.
+Under `executed-readonly` or `executed-checks` it lists only the checks outside the
+commissioned set - for a `check`-style report those deferred rows live in the Execution
+Register instead, so this section appears only when deferred checks need their own
+follow-up register.
 
 Each row names one material claim the audit could not resolve from source, the exact check
 that resolves it, and the finding, risk, or rating the check would confirm or close:
@@ -137,9 +140,10 @@ A claim with no proposed check is a defect of the audit, not of the subject.
 
 ## Executed Evidence Log
 
-Present only under `executed-readonly` evidence mode.
+Present under `executed-readonly` or `executed-checks` evidence mode in `audit` and `hunt`
+reports - a `check` report records the same provenance in its Execution Register instead.
 
-One row per commissioned analyzer run:
+One row per commissioned execution:
 
 | Check | Tool & Version | Command | Timestamp | Result | Resolves |
 |-------|----------------|---------|-----------|--------|----------|
@@ -148,8 +152,14 @@ Each row records the exact command, the tool and advisory-database or ruleset re
 exit status or outcome, and a retained-output reference (sanitized artifact path or digest)
 when output exists.
 
-Rows are `EXECUTED` evidence. They describe analyzer output, never project behavior, and
-never imply a build, test, or run of the subject occurred.
+Result cells take the check-status vocabulary - `PASS`, `FAIL`, `ERROR`, `BLOCKED`,
+`SKIPPED`, `NOT RUN`, `N/A` - where `ERROR` and `BLOCKED` describe the runner, never the
+product.
+
+Rows are `Executed` evidence. Under `executed-readonly` they describe analyzer output and
+never imply a build, test, or run of the subject occurred. Under `executed-checks` they may
+describe commissioned non-mutating commands - tests, builds, isolated reproductions - and
+still never imply the subject was deployed, mutated, or connected to live systems.
 
 ## Re-audit And Follow-up Plan
 

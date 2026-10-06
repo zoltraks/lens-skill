@@ -1029,6 +1029,80 @@
     "`--params work/lens-params.json` prefills the style and project list from the saved intake file, with command-line options taking precedence.",
     "`python scripts/validate-report.py --dump-contract` prints the enforced contract as JSON generated from the live constants."
    ]
+  },
+  {
+   "id": 86,
+   "prompt": "Scaffold a new check report with `python scripts/new-report.py --style check --output CHECK-1.0.md`, then validate the generated skeleton.",
+   "expected_output": "A structurally valid check skeleton that passes the validator with zero issues.",
+   "files": [],
+   "expectations": [
+    "The skeleton carries every required check section: Document Information, Audit Type Coverage, Verdict, System Context, Check Plan And Methodology, Execution Register, Domain Findings, Risk Register, Improvement Plan, Scope Exclusions, Limitations and Unknowns, Validation Record, and References.",
+    "The Execution Register template row carries command, cwd, tool and version, timestamp, input revision, exit status, result, interpretation, and artifact columns.",
+    "The `### FND-` template block carries an `Evidence level` field and the Improvement Plan carries a disposition column or field.",
+    "An `evidence-mode` of `executed-readonly` or `executed-checks` in the params file adds the Artifact Manifest section."
+   ]
+  },
+  {
+   "id": 87,
+   "prompt": "Validate a check report whose Execution Register contains a row with result `OK` and another row marked `NOT RUN` that the report counts as passing.",
+   "expected_output": "The validator fails the `check execution register` check.",
+   "files": [],
+   "expectations": [
+    "Result cells are limited to `PASS`, `FAIL`, `ERROR`, `BLOCKED`, `SKIPPED`, `NOT RUN`, and `N/A` - `OK` fails with the expected token list.",
+    "`NOT RUN` is never counted as a pass, and every non-pass row carries an interpretation.",
+    "`ERROR` and `BLOCKED` are runner states, not product failures."
+   ]
+  },
+  {
+   "id": 88,
+   "prompt": "Validate a check report where one `### FND-` finding block lacks an `Evidence level` field and another sets it to `Tested`.",
+   "expected_output": "The validator fails the `check evidence levels` check.",
+   "files": [],
+   "expectations": [
+    "Every `### FND-` block under Domain Findings carries an `Evidence level` field.",
+    "The field value is one of `Source`, `Model`, `App`, `Deployed`, or `Unknown` - `Tested` fails with the expected vocabulary.",
+    "A `Model` reproduction does not upgrade an application-wide reachability claim."
+   ]
+  },
+  {
+   "id": 89,
+   "prompt": "Validate a check report whose Execution Register marks the test run `FAIL` but the report carries no Retest Register section.",
+   "expected_output": "The validator fails the `check retest register` check.",
+   "files": [],
+   "expectations": [
+    "Any `FAIL`, `ERROR`, or `BLOCKED` execution-register row requires a Retest Register section.",
+    "The register maps each failing check to a retest owner and a closure condition."
+   ]
+  },
+  {
+   "id": 90,
+   "prompt": "Validate a check report with `Evidence mode: executed-checks` that records executed rows in the Execution Register but carries no Artifact Manifest.",
+   "expected_output": "The validator fails the `check artifact manifest` check.",
+   "files": [],
+   "expectations": [
+    "Under `executed-readonly` or `executed-checks` a check report must carry an Artifact Manifest mapping each executed row to its captured output artifact.",
+    "Under `source-only` the manifest is omitted or carries an explicit statement that no artifacts exist."
+   ]
+  },
+  {
+   "id": 91,
+   "prompt": "Validate a check report that carries a `### Recommendation Classification` section under its Improvement Plan.",
+   "expected_output": "The validator fails the `check classification ban` check.",
+   "files": [],
+   "expectations": [
+    "Under `Report Style: check` the Recommendation Classification section is forbidden - dispositions live in the Improvement Plan.",
+    "Check dispositions are `Planned`, `Deferred`, `Accepted - no action`, or `Unresolved`."
+   ]
+  },
+  {
+   "id": 92,
+   "prompt": "Write the check report in Polish - report style check - for a repository with no previous check report.",
+   "expected_output": "A Polish check-style report using the SPRAWDZENIE filename stem.",
+   "files": [],
+   "expectations": [
+    "The output filename uses the SPRAWDZENIE stem: bare SPRAWDZENIE.md is the default for a first Polish check report, with SPRAWDZENIE-1.0.md offered as the revisioned alternative.",
+    "Machine-readable identifiers, commands, and status tokens stay in English; prose and section headings render in Polish per `translations/polish-language.md`."
+   ]
   }
  ]
 }

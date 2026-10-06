@@ -38,13 +38,11 @@ incremented component.
 
 ## When To Bump
 
-Never bump the version automatically.
+Bump the version with every shipped change set - a set of edits that will be committed or
+delivered together increments `patch` by 1, whatever the change contains.
 
-The version is bumped only when the user explicitly asks for it.
-
-Do not bump the version as a side effect of adding features, fixing issues, or refactoring.
-
-Wait for the user to request a version bump, then apply the increment rules above.
+Apply the increment rules above once per change set, at the point the set is complete and
+validated - not once per edit and not once per file.
 
 ## Release Anchors
 
