@@ -71,6 +71,7 @@ python scripts/validate-skill.py .
 python scripts/check-references.py .
 python scripts/check-contents.py .
 python scripts/align-comments.py <file> --check
+python -m unittest discover -s tests -v
 git diff --check
 ```
 

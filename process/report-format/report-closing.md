@@ -214,7 +214,7 @@ Use a table:
 
 Rows appear in this order:
 
-1. One row per Mandatory Core Checklist item, `PAR-1` through `PAR-18`, in fixed order.
+1. One row per Mandatory Core Checklist item, `PAR-1` through `PAR-19`, in fixed order.
 2. Internal consistency checks: `FND-XXX`/`RSK-XXX`/`REC-XXX` cross-referencing, count
    reconciliation across summary tables and registers, conditional-section evaluation, and
    formatting rules.

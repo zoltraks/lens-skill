@@ -25,17 +25,22 @@ mechanism.
   or renamed resource is registered in `SKILL.md` and mirrored in the `README.md` tree.
 - Keep `evals/evals.json` in sync when a change alters skill behavior.
 
-Run the skill-maintenance validators before requesting review:
+Run the skill-maintenance validators and the script test suite before requesting review:
 
 ```text
 python scripts/validate-skill.py .
 python scripts/check-references.py .
 python scripts/check-contents.py .
 python scripts/align-comments.py <file> --check
+python -m unittest discover -s tests -v
 git diff --check
 ```
 
-The maintainer runs the same validators before merging.
+The repository runs no CI workflow by deliberate choice: the checklist above is the standing
+pre-merge gate, and the maintainer runs it on every change before merging.
+
+Skipping it leaves regressions in the tools and documents undetected, so treat it as required,
+not advisory.
 
 ## AI-Assisted Contributions
 
@@ -49,8 +54,8 @@ the expected state under low AI usage rather than a sign of undisclosed use.
 
 ## Versioning And Releases
 
-Never bump `metadata.version` as a side effect of a change - the skill version moves only on an
-explicit request, per `VERSIONING.md`.
+Bump `metadata.version` per `VERSIONING.md` - every shipped change set increments the patch
+component once, at the point the set is complete and validated.
 
 Releases are anchored by the commit that bumps `metadata.version` - no git tags are used.
 

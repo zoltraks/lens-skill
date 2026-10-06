@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import re
 import sys
+from pathlib import Path
 
 
 GLOSSARY_VARIANTS: dict[str, list[str]] = {
@@ -164,7 +165,7 @@ def mask_line(line: str) -> str:
 
 
 def main(path: str) -> int:
-    raw = open(path, "rb").read()
+    raw = Path(path).read_bytes()
     crlf = b"\r\n" in raw
     lines = raw.decode("utf-8").replace("\r\n", "\n").split("\n")
     terms, anchors, g_start, g_end = parse_glossary(lines)
@@ -212,7 +213,7 @@ def main(path: str) -> int:
         linked += len(inserts)
         out.append(line)
     eol = "\r\n" if crlf else "\n"
-    open(path, "wb").write(eol.join(out).encode("utf-8"))
+    Path(path).write_bytes(eol.join(out).encode("utf-8"))
     print(f"linked {linked} occurrence(s), skipped {skipped} compound-context occurrence(s)")
     return 0
 

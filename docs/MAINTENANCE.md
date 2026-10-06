@@ -27,6 +27,7 @@ Use `SKILL.md` as the resource router and follow it when deciding which files to
 | `references/`   | Taxonomies, schemas, and lookup guidance                     |
 | `translations/` | Per-language report rendering and terminology                |
 | `scripts/`      | Report-production and skill-maintenance scripts              |
+| `tests/`        | Focused `unittest` contract tests for the scripts            |
 | `evals/`        | Behavioral regression prompts and expectations               |
 | `docs/`         | Repository-governance documents, indexed by `docs/README.md` |
 
@@ -237,12 +238,13 @@ behavior.
 
 ## Validation After Changes
 
-Run the skill-maintenance validators after structural changes:
+Run the skill-maintenance validators and script tests after structural changes:
 
 ```text
 python scripts/validate-skill.py .
 python scripts/check-references.py .
 python scripts/check-contents.py .
+python -m unittest discover -s tests
 ```
 
 Run `git diff --check` before delivery.
@@ -280,8 +282,8 @@ behavior.
 
 The skill version is recorded in `SKILL.md` frontmatter under `metadata.version`.
 
-Follow `VERSIONING.md` for increments and bump the version only when the user explicitly requests
-it.
+Follow `VERSIONING.md` for increments: every shipped change set bumps the patch component once,
+at the point the set is complete and validated.
 
 ## File Encoding
 

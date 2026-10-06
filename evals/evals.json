@@ -867,7 +867,8 @@
     "AGENTS.md serving as the central rules document is evaluated as a consolidated topology and conforms when the repository records that role.",
     "Plural flat numbered change and plan directories are treated as recorded conventions, not as drift against a canonical singular or version-grouped layout.",
     "The delivery resolution descends into docs/report/audit/ for the audit report rather than offering bare docs/report/ as the primary path.",
-    "Previously written reports under docs/report/audit/ are discovered as prior-audit candidates."
+    "Previously written reports under docs/report/audit/ are discovered as prior-audit candidates.",
+    "The Validation Record carries rows PAR-1 through PAR-19 in fixed order, and PAR-19 records the Agent Guidance Conformance inventory as evidence."
    ]
   },
   {
@@ -950,7 +951,9 @@
    "files": [],
    "expectations": [
     "The output filename uses the POLOWANIE stem: bare POLOWANIE.md is the default for a first Polish hunt report, with POLOWANIE-1.0.md offered as the revisioned alternative.",
-    "A subsequent Polish hunt writes POLOWANIE-<revision>.md and renames a bare POLOWANIE.md previous report to its revisioned name first."
+    "A subsequent Polish hunt writes POLOWANIE-<revision>.md and renames a bare POLOWANIE.md previous report to its revisioned name first.",
+    "Section names render per translations/polish-language.md: Werdykt, Oceny domen, Ustalenia domenowe, Fazy naprawcze, and the conditional Rejestr sprzeczności.",
+    "The verdict paragraph takes Gotowy, Warunkowo gotowy, or Niegotowy, and domain ratings take Czerwona, Bursztynowa, Zielona, or Nieoceniona."
    ]
   },
   {
@@ -1024,7 +1027,7 @@
    "expected_output": "A structurally valid hunt skeleton that passes the validator with zero issues.",
    "files": [],
    "expectations": [
-    "The skeleton carries every required hunt section, the fixed domain-ratings rows, a gates table, an empty producer/consumer matrix, a hop table, the PAR-1..PAR-18 record, and one fully labeled `### FND-`, `### RSK-`, and `### REC-` template block.",
+    "The skeleton carries every required hunt section, the fixed domain-ratings rows, a gates table, an empty producer/consumer matrix, a hop table, the PAR-1..PAR-19 record, and one fully labeled `### FND-`, `### RSK-`, and `### REC-` template block.",
     "`new-report.py` runs `format-table.py` on `--output` when the formatter resolves next to the script or under `LENS_SKILL_ROOT`.",
     "`--params work/lens-params.json` prefills the style and project list from the saved intake file, with command-line options taking precedence.",
     "`python scripts/validate-report.py --dump-contract` prints the enforced contract as JSON generated from the live constants."
@@ -1101,7 +1104,9 @@
    "files": [],
    "expectations": [
     "The output filename uses the SPRAWDZENIE stem: bare SPRAWDZENIE.md is the default for a first Polish check report, with SPRAWDZENIE-1.0.md offered as the revisioned alternative.",
-    "Machine-readable identifiers, commands, and status tokens stay in English; prose and section headings render in Polish per `translations/polish-language.md`."
+    "Machine-readable identifiers, commands, and status tokens stay in English; prose and section headings render in Polish per `translations/polish-language.md`.",
+    "Section names render per translations/polish-language.md: Werdykt, Plan kontroli i metodologia, Rejestr wykonania, Ustalenia domenowe, Plan poprawy, and Manifest artefaktów when the evidence mode requires it.",
+    "The Validation Record carries PAR-1 through PAR-19 rows with PAR-18 rendered N/D, since the check style has no Recommendation Classification section."
    ]
   }
  ]

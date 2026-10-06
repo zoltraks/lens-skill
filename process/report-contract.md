@@ -31,7 +31,7 @@ Rationale and detail live in the section specs under `process/report-format/` an
   and an executed `check`-style report additionally carries an Artifact Manifest.
 - The Audit Type Coverage table keeps only `Covered`, `Partially`, and `Not done` status
   cells - `Not Applicable` rows are omitted entirely.
-- The Validation Record carries rows `PAR-1` through `PAR-18` in fixed order.
+- The Validation Record carries rows `PAR-1` through `PAR-19` in fixed order.
 - `FND`, `RSK`, and `REC` references must resolve to defined entries - a `REC-XXX` or
   `RSK-XXX` cite of a nonexistent `FND-` fails.
 - A `State | Draft` row marks a report in progress and skips the final-state gate, and a

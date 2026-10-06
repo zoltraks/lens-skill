@@ -29,11 +29,11 @@
 | Report Format                      | 419  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 454  | Supported requests and exclusions                   |
 | What's Inside                      | 477  | Documents, references, tools, and conditional files |
-| Document Style                     | 614  | Pointer to the style rules file                     |
-| Specification                      | 624  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 645  | Maintenance checks and regression scenarios         |
-| License                            | 671  | License for the skill itself                        |
-| Credits                            | 677  | Authorship and attribution                          |
+| Document Style                     | 615  | Pointer to the style rules file                     |
+| Specification                      | 625  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 646  | Maintenance checks and regression scenarios         |
+| License                            | 674  | License for the skill itself                        |
+| Credits                            | 680  | Authorship and attribution                          |
 
 ## Overview
 
@@ -583,6 +583,7 @@ lens-skill/
 │   ├── lint-prose.py                      # Pre-assembly prose linter for report drafts
 │   ├── common.py                          # Shared helpers for skill-maintenance tools
 │   └── README.md                          # Tool usage, safety, and cleanup rules
+├── tests/                                 # Focused `unittest` contract tests for the tools
 └── translations/
     └── polish-language.md                 # Polish rendering: vocabulary and style rules
 ```
@@ -649,9 +650,11 @@ benchmark suite.
 
 When changing the skill, follow `docs/MAINTENANCE.md` and:
 
-- Run `python scripts/validate-skill.py .`, `python scripts/check-references.py .`, and
-  `python scripts/check-contents.py .` after changing skill files.
-- The maintainer runs the same validators before merging a pull request.
+- Run `python scripts/validate-skill.py .`, `python scripts/check-references.py .`,
+  `python scripts/check-contents.py .`, and the `tests/` suite
+  (`python -m unittest discover -s tests`) after changing skill files.
+- The repository runs no CI workflow by deliberate choice - the checklist above is the standing
+  pre-merge gate, and the maintainer runs it on every change before merging.
 - Run `git diff --check` to detect whitespace errors.
 - Format edited tables using an automated source-width formatter per `docs/STYLE.md`.
 - Check Contents tables in files over 300 lines and preserve encoding and line endings.

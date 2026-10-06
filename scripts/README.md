@@ -193,6 +193,9 @@ those stay self-contained single files so the `.tmp.` copy contract keeps workin
 
 They use the Python standard library and do not require PyYAML or a package manager.
 
+The `tests/` directory at the repository root holds focused `unittest` contract tests for the
+scripts - run them with `python -m unittest discover -s tests` after changing a tool.
+
 ## Commands
 
 ```text
@@ -208,6 +211,7 @@ python scripts/validate-report.py --dump-contract
 python scripts/new-report.py --style hunt --projects api,cli --output path/to/HUNT.md
 python scripts/lint-polish.py path/to/AUDYT.md
 python scripts/finalize-report.py [--polish] [--skill-root path/to/lens-skill] path/to/AUDIT.md
+python -m unittest discover -s tests
 ```
 
 Exit code `0` means all checks passed.

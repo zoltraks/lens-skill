@@ -653,7 +653,7 @@ def check_type_tags(lines: list[str], fences: list[bool]) -> list[str]:
 
 def check_par_rows(text: str) -> list[str]:
     failures: list[str] = []
-    for number in range(1, 19):
+    for number in range(1, 20):
         if not re.search(rf"^\|\s*PAR-{number}(?:\s|\||:)", text, re.MULTILINE):
             failures.append(f"missing Validation Record row PAR-{number}")
     return failures
@@ -2253,7 +2253,7 @@ def main(path: str, repo_root: str | None = None) -> int:
                 ("security classifications", check_security_classification(lines)),
                 ("score disclosure", check_score_disclosure(lines)),
                 ("project qualification", check_project_qualification(text)),
-                ("PAR-1..PAR-18", check_par_rows(text)),
+                ("PAR-1..PAR-19", check_par_rows(text)),
                 ("recommendation classification", check_rec_classification(text)),
                 ("Observation/Concern tags", check_type_tags(lines, fences)),
                 ("snapshot identity", check_snapshot_identity(text)),
