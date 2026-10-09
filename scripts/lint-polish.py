@@ -4,7 +4,8 @@
 Reads the `Calque And Style Replacements` table ("Instead of / Use") from
 translations/polish-language.md and reports each forbidden form in the target
 document. Also runs heuristic checks: comma splices, "tylko, gdy", bare "per",
-typographic characters under the ASCII convention, and "w." as an abbreviation.
+typographic characters under the ASCII convention, "w." as an abbreviation,
+and all-caps renderings of the title-case fixed vocabulary.
 
 Errors exit non-zero; warnings are advisory and never fail the run.
 
@@ -12,8 +13,9 @@ Usage:
     lint-polish.py <file.md> [--rules <rulefile.md> ...]
 
 When --rules is omitted, translations/polish-language.md is loaded relative to
-this script. Polish audit reports must pass with zero errors before delivery,
-and the Validation Record records the run.
+this script. Polish audit reports must pass with zero errors before delivery;
+it is a translation-quality gate and earns no row in the Validation Record,
+which mirrors the English report row for row.
 """
 
 from __future__ import annotations
@@ -54,6 +56,24 @@ COMMA_OK = {
     "lecz", "czego", "czym", "kim", "podczas", "jako", "ponadto", "wobec",
     "nigdy", "zawsze", "stąd", "wszędzie", "gdziekolwiek", "gdyby",
 }
+
+# All-caps Polish words are never valid report renderings - the fixed
+# vocabulary is title-case and true abbreviations (`OK`, `N/D`) stay short.
+# A diacritic marks a word as Polish outright; the ASCII-only prefixes cover
+# the rest of the fixed vocabulary (severity, status, type tags, markers).
+CAPS_TOKEN_PREFIXES = (
+    "NIE", "GOTOW", "NOW", "OTWART", "ZAMKNI", "ZASTOSOWA", "POTWIERDZON",
+    "ZAAKCEPTOWA", "ZAPLANOWA", "ZABLOKOWA", "MONITOROWA", "PRZENIESIO",
+    "ZALECAN", "OPCJONALN", "ZADEKLAROWA", "WZNOWION", "ZWERYFIKOWA",
+    "OBSERWACJ", "KRYTYCZN", "TEORETYCZN", "WYSOK", "NISK", "UMIARKOWA",
+    "ODROCZON", "STATYCZNIE", "DYNAMICZNIE", "DOTYCZY", "ZAKRESEM",
+    "INFORMACJE", "POZA", "WNIOSEK", "BLAD",
+)
+
+# Polish filename stems stay uppercase - they are literals, not vocabulary.
+CAPS_TOKEN_KEEP = {"POLOWANIE", "SPRAWDZENIE", "PRZEGLĄD", "AUDYT"}
+
+POLISH_DIACRITICS = "ĄĆĘŁŃÓŚŹŻ"
 
 TYPOGRAPHIC = {
     "„": "typographic open quote", "”": "typographic close quote",
@@ -166,6 +186,22 @@ def check_forbidden(lineno, text, pairs, findings):
             )
 
 
+def check_token_case(lineno, text, findings):
+    """Flag all-caps renderings of the title-case fixed vocabulary."""
+    for match in re.finditer(r"\b[A-ZĄĆĘŁŃÓŚŹŻ]{3,}\b", text):
+        word = match.group(0)
+        if word in CAPS_TOKEN_KEEP:
+            continue
+        if any(c in POLISH_DIACRITICS for c in word) or word.startswith(
+            CAPS_TOKEN_PREFIXES
+        ):
+            findings.append(
+                ("error", lineno,
+                 "all-caps Polish token '%s' - the fixed vocabulary renders "
+                 "title-case" % word)
+            )
+
+
 def check_mechanical(lineno, text, findings, splice=True):
     if "tylko, gdy" in text.lower():
         findings.append(("error", lineno, "'tylko, gdy' - write 'tylko wtedy, gdy'"))
@@ -231,6 +267,7 @@ def main():
         is_list = bool(re.match(r"^[-*+]\s|^\d+\.\s|^\s+[-*+]\s", text))
         is_heading = stripped.startswith("#")
         check_forbidden(lineno, text, pairs, findings)
+        check_token_case(lineno, text, findings)
         check_mechanical(lineno, text, findings,
                          splice=not (is_table or is_list or is_heading))
 

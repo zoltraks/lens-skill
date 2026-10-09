@@ -126,9 +126,10 @@ and the Retest Register trigger.
 
 `lint-polish.py` lints Polish report output for the calques listed in the
 `Calque And Style Replacements` table of `translations/polish-language.md`, plus
-comma splices, `tylko, gdy`, bare `per`, the `w.` abbreviation, semicolons, and typographic
-characters that the ASCII convention forbids. Run it on every Polish report before delivery -
-its result is recorded in the Validation Record. Like the other report tools it is copied
+comma splices, `tylko, gdy`, bare `per`, the `w.` abbreviation, semicolons, typographic
+characters that the ASCII convention forbids, and all-caps renderings of the title-case
+fixed vocabulary. Run it on every Polish report before delivery -
+a pre-delivery gate, not a Validation Record row. Like the other report tools it is copied
 into the audited repository under a `.tmp.` name before use.
 
 `validate-report.py` detects a review report by a canonical `REVIEW`-family or

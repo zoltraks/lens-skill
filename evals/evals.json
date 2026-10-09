@@ -82,13 +82,13 @@
    "files": [],
    "expectations": [
     "The report uses Polish prose and headings with preserved diacritics.",
-    "Severity, status, and execution-state tokens render in Polish (WYSOKA, N/D, NIEZNANY, NIEURUCHOMIONY, OTWARTY, NOWA) as single uppercase words agreeing with the column noun, while IDs (FND, RSK, REC, EVD), CWE identifiers, commands, and verbatim evidence stay unchanged.",
+    "Severity, status, and execution-state tokens render in Polish (Wysoka, N/D, Nieznany, Nieuruchomiony, Otwarty, Nowa) as title-case declined forms agreeing with the column noun, while IDs (FND, RSK, REC, EVD), CWE identifiers, commands, and verbatim evidence stay unchanged.",
     "Conditional headings that appear in the report are translated.",
     "The report applies the Polish terminology dictionary (ustalenie, zalecenie, plik blokady zależności, proces CI) and avoids literal calques such as rozjazd, dryf, brama, or potok.",
     "Descriptive fixed values are rendered in Polish (Polski, Szczegółowy, Etap przedprodukcyjny), the Stan and Stan prac rows are omitted for a final report on a clean tree, and no Tryb opisowy row appears in Document Information.",
     "The star-scale legend is labeled Skala oceny and names every band, including Zła for one star and Słaba for two stars.",
     "The report output uses ASCII punctuation only - straight quotes, spaced hyphens for dashes, and '...' - with no typographic quotes, em-dashes, en-dashes, or arrow characters.",
-    "scripts/lint-polish.py reports zero errors on the rendered report and the Validation Record records the Polish-language checks.",
+    "scripts/lint-polish.py reports zero errors on the rendered report, and the Validation Record mirrors the English rows without adding Polish-language checks.",
     "Headings render Podsumowanie wykonawcze and the summary column header Ryzyka, and the skill-version row carries a bare semver such as `2.0.2`.",
     "The not-run scope sentence names skanowania podatności, and readiness or severity adjectives used in prose render in declined lowercase bold (for example **niegotowa**, **wysokiej**) rather than uppercase."
    ]
@@ -217,15 +217,15 @@
   {
    "id": 17,
    "prompt": "Write the audit report in Polish for a repository with manifests, a HIGH network-facing security finding, and partial git history. Use the skill's Polish rendering rules.",
-   "expected_output": "A Polish report whose new sections and tags match translations/polish-language.md verbatim, preserving machine tokens and settled terminology.",
+   "expected_output": "A Polish report whose new sections and tags match translations/polish-language.md verbatim, rendering machine tokens in Polish with structural parity preserved.",
    "files": [],
    "expectations": [
     "New section headings match the dictionary verbatim: Zakres typów audytu, Zestawienie składników oprogramowania, Przegląd zgodności licencyjnej i IP, Praktyka dostarczania i ciągłość zespołu.",
-    "Coverage statuses render as OBJĘTY, CZĘŚCIOWO, or NIEWYKONANY, NIE DOTYCZY rows are omitted, and finding Type tags render Obserwacja or Wniosek.",
-    "Exploitability tiers render TEORETYCZNE, POTWIERDZONE STATYCZNIE, or ZWERYFIKOWANE DYNAMICZNIE, agreeing with `wykorzystanie podatności`, while IDs, CWE references, and file paths stay unchanged.",
+    "Coverage statuses render as Objęty, Częściowo, or Niewykonany, Nie dotyczy rows are omitted, and finding Type tags render Obserwacja or Zastrzeżenie.",
+    "Exploitability tiers render Teoretyczne, Potwierdzone statycznie, or Zweryfikowane dynamicznie, agreeing with `wykorzystanie podatności`, while IDs, CWE references, and file paths stay unchanged.",
     "The scorecard dimension renders Dostarczanie i ciągłość, and DORA metric names follow the dictionary.",
     "Loanwords such as commit, pull request, copyleft, SBOM, and due diligence stay untranslated and established terms such as Ważność, Panel oceny projektu, and kryterium jakości are used.",
-    "The findings table separates lifecycle (Status: OTWARTY/ZAMKNIĘTY/OK) from movement since the previous audit (Zmiana: NOWA/NIEZMIENIONA/WZNOWIONA/ZAMKNIĘTA), and the Charakter odstępstwa field uses only Brak udokumentowanego uzasadnienia, Świadomy - udokumentowana decyzja, Nieokreślony, or N/D.",
+    "The findings table separates lifecycle (Status: Otwarty/Zamknięty/OK) from movement since the previous audit (Zmiana: Nowa/Niezmieniona/Wznowiona/Zamknięta), and the Charakter odstępstwa field uses only Brak udokumentowanego uzasadnienia, Świadomy - udokumentowana decyzja, Nieokreślony, or N/D.",
     "The compliance rows are split into Certyfikacja ISO/IEC 27001 and Badanie atestacyjne SOC 2, and the coverage table never claims an assurance level.",
     "Architectural subsection headings render Rejestr decyzji architektonicznych, Przegląd kompromisów, and Zgodność kontraktu; per-project subjects carry a trailing (project) qualifier."
    ]
