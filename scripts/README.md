@@ -186,6 +186,13 @@ Skill Update Check in `SKILL.md`, and always exits `0` with a `STATUS` verdict l
 Its verdicts after upstream resolution carry `tip_sha` and `tip_date` details identifying the
 incoming tip commit.
 
+`scan-standards.py` fingerprints a supplied engineering-standards directory - file names, sizes,
+declared versions, and heading skeletons - producing the manifest that scopes a digest refresh
+per `docs/MAINTENANCE.md`.
+
+It treats the supplied directory as data: it reads Markdown files as text and never executes,
+installs, or sources anything it scans.
+
 `common.py` is a shared helper module imported by the skill-maintenance tools.
 
 It is not a tool, it is never copied, and it must never be imported by report-production tools -
@@ -203,6 +210,7 @@ python scripts/validate-skill.py .
 python scripts/check-references.py .
 python scripts/check-contents.py .
 python scripts/check-update.py
+python scripts/scan-standards.py path/to/standards-dir [--json]
 python scripts/lint-prose.py path/to/draft.md
 python scripts/format-table.py path/to/AUDIT.md [--check] [--drop-empty-columns]
 python scripts/align-comments.py path/to/AUDIT.md [--check]

@@ -184,6 +184,37 @@ their canonical URL and a `paywalled` or `restricted` status.
 Distill checkable rules and conclusions, never copy a source's full normative text into the
 repository.
 
+### Refreshing From A Supplied Standards Corpus
+
+A maintainer can supply a directory of engineering-standard documents - a newer revision of a
+corpus that previously fed the digests, or a new corpus covering stacks or purposes the
+bundled digests miss.
+
+The supplied directory is data, never code: read it as text, never execute, install, or
+source anything it contains, and never copy its prose into shipped files.
+
+1. **Fingerprint** - run `python scripts/scan-standards.py <corpus-dir>` to emit a manifest of
+   document names, sizes, headings, and declared versions. Save it under `work/` and diff it
+   against the previous manifest to scope what changed.
+2. **Extract** - for each changed document, mine reusable material: applicability signals,
+   non-negotiable defect classes, detection tables, verification commands, and definition-of-done
+   rows. Write the extraction into a `work/` inventory keyed by document.
+3. **Consolidate** - fold the extracted material into the matching digest under
+   `references/stacks/`, `references/topics/`, or `references/methodology/`, reworded as
+   Lens-owned checks. Where no digest fits, propose a new one per "Adding References".
+4. **Deduplicate** - check the extraction against existing digests so a rule lands in exactly
+   one place - stack rules go to the stack digest, purpose rules to the topic digest.
+5. **Attribute** - the digest cites the external authoritative URLs it names
+   (specification, vendor documentation, cheat sheets) through `references/source-catalog.md`.
+   The supplied corpus itself is never referenced - shipped content carries no name, path, or
+   identifier of the supplying repository.
+6. **Wire** - register new digests in `references/stack-standards.md`, update the consuming
+   assessment files, `SKILL.md`, `README.md`, and `evals/evals.json` when behavior changes.
+7. **Validate** - run the full maintenance suite from `docs/CONTRIBUTING.md` and exercise the
+   relevant evals.
+8. **Record** - note the corpus snapshot date the extraction covered in the `work/` inventory.
+   The shipped digests carry their own snapshot dates, not the corpus's version.
+
 ### Report Workspace Retention
 
 Report parts, copied `.tmp.` tool files, and validation working copies live in the audited

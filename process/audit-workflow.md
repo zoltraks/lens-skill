@@ -20,11 +20,11 @@ A review report applies the same phases with the deltas defined in
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 1741 | Intake Checklist guidance        |
-| Handling Thin Input     | 1760 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1771 | Single-Dimension Audits guidance |
-| Re-Audit                | 1781 | Re-Audit guidance                |
-| Multi-Project Audits    | 1847 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1747 | Intake Checklist guidance        |
+| Handling Thin Input     | 1766 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1777 | Single-Dimension Audits guidance |
+| Re-Audit                | 1787 | Re-Audit guidance                |
+| Multi-Project Audits    | 1853 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -294,6 +294,12 @@ Baseline consultation order for every conformance judgement:
 
 Record which baseline decided each judgement, and record the digest's snapshot date when a
 corpus file supplied it.
+
+The selected stack and nature together decide which purpose-baseline digests under
+`references/topics/` apply (CLI contract, MCP server, UI automation, performance budgets,
+inline scripting, data persistence) - apply a purpose digest only when its applicability
+signals fire, never as a universal checklist. These rows feed the conditional Engineering
+Baseline Conformance section per `assessment/baseline-conformance.md`.
 
 Classify each project as a reusable library or package versus a deployable service or application.
 

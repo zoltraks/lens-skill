@@ -13,7 +13,8 @@ from repository source.
 Snapshot date: 2026-09-30.
 
 Feeds `assessment/best-practices.md`, `assessment/dependency-review.md`,
-`assessment/security-review.md`, and `assessment/api-compatibility.md` for Go subjects.
+`assessment/security-review.md`, `assessment/api-compatibility.md`, and
+`assessment/baseline-conformance.md` for Go subjects.
 
 ## Module And Dependency Rules
 
@@ -83,6 +84,12 @@ From https://github.com/spf13/cobra and https://clig.dev/.
   `persistent`/`local` scopes, `--help` generated automatically.
 - The clig.dev conventions apply: stderr for errors, stdout for output, non-zero exit codes,
   `NO_COLOR` support, stdin where sensible.
+- `os.Exit` codes are semantic and documented: usage errors (flag parse failure, missing
+  argument) exit `2` under `flag` convention and must not collide with runtime-failure codes.
+- Parsing completes before side effects: a `flag.Parse` that runs after a file write makes
+  every usage error a partial mutation.
+- The full CLI contract lives in `references/topics/cli-contract.md` - this section carries
+  the Go-specific shape only.
 
 ## Live Check
 

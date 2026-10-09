@@ -28,12 +28,12 @@
 | Core Principles                    | 403  | Evaluation constraints and status rules             |
 | Report Format                      | 419  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 454  | Supported requests and exclusions                   |
-| What's Inside                      | 477  | Documents, references, tools, and conditional files |
-| Document Style                     | 615  | Pointer to the style rules file                     |
-| Specification                      | 625  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 646  | Maintenance checks and regression scenarios         |
-| License                            | 674  | License for the skill itself                        |
-| Credits                            | 680  | Authorship and attribution                          |
+| What's Inside                      | 478  | Documents, references, tools, and conditional files |
+| Document Style                     | 618  | Pointer to the style rules file                     |
+| Specification                      | 628  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 649  | Maintenance checks and regression scenarios         |
+| License                            | 677  | License for the skill itself                        |
+| Credits                            | 683  | Authorship and attribution                          |
 
 ## Overview
 
@@ -453,24 +453,25 @@ Review reports follow the compact findings-and-corrections contract in
 
 ## When To Use This Skill
 
-| Situation                                        | Use this skill?                                     |
-|--------------------------------------------------|-----------------------------------------------------|
-| "Audit the architecture of this system"          | **Yes**                                             |
-| "Audit this production codebase"                 | **Yes**                                             |
-| "Review this prototype for production readiness" | **Yes**                                             |
-| "Do technical due diligence on this codebase"    | **Yes**                                             |
-| "Audit our dependencies and supply chain"        | **Yes** - use `assessment/dependency-review.md`     |
-| "Build me a risk register and scorecard"         | **Yes**                                             |
-| "Review only the security posture"               | **Yes** - single-dimension audit                    |
-| "Check if this code is idiomatic for its stack"  | **Yes** - use `assessment/best-practices.md`        |
-| "Audit this skill for spec conformance"          | **Yes** - use `assessment/skill-definition.md`      |
-| "Audit our skills collection"                    | **Yes** - per-skill conformance matrix              |
-| "Check conformance with our dev standards"       | **Yes** - use `assessment/standards-conformance.md` |
-| "Compare these two architectural options"        | **Yes** - embed trade-offs into relevant findings   |
-| "Review this document and list required changes" | **Yes** - Review report type                        |
-| "Prepare an improvement plan for this guide"     | **Yes** - Review report type                        |
-| "Write the feature for me"                       | No - this skill assesses, it does not build         |
-| "Tell me which team member caused this"          | No - this skill never evaluates people              |
+| Situation                                            | Use this skill?                                     |
+|------------------------------------------------------|-----------------------------------------------------|
+| "Audit the architecture of this system"              | **Yes**                                             |
+| "Audit this production codebase"                     | **Yes**                                             |
+| "Review this prototype for production readiness"     | **Yes**                                             |
+| "Do technical due diligence on this codebase"        | **Yes**                                             |
+| "Audit our dependencies and supply chain"            | **Yes** - use `assessment/dependency-review.md`     |
+| "Build me a risk register and scorecard"             | **Yes**                                             |
+| "Review only the security posture"                   | **Yes** - single-dimension audit                    |
+| "Check if this code is idiomatic for its stack"      | **Yes** - use `assessment/best-practices.md`        |
+| "Audit this skill for spec conformance"              | **Yes** - use `assessment/skill-definition.md`      |
+| "Audit our skills collection"                        | **Yes** - per-skill conformance matrix              |
+| "Check conformance with our dev standards"           | **Yes** - use `assessment/standards-conformance.md` |
+| "Does this project meet the usual engineering floor" | **Yes** - use `assessment/baseline-conformance.md`  |
+| "Compare these two architectural options"            | **Yes** - embed trade-offs into relevant findings   |
+| "Review this document and list required changes"     | **Yes** - Review report type                        |
+| "Prepare an improvement plan for this guide"         | **Yes** - Review report type                        |
+| "Write the feature for me"                           | No - this skill assesses, it does not build         |
+| "Tell me which team member caused this"              | No - this skill never evaluates people              |
 
 ---
 
@@ -541,6 +542,7 @@ lens-skill/
 │   ├── skill-definition.md                # (conditional) Agent Skills spec conformance
 │   ├── agent-guidance.md                  # (conditional) Agent-guidance set topology and authority
 │   ├── standards-conformance.md           # (conditional) Project development standards conformance and quality
+│   ├── baseline-conformance.md            # (conditional) Engineering floor against bundled stack/purpose baselines
 │   └── api-compatibility.md               # (conditional) API compat gates, versioning, breaking-change tracking
 ├── synthesis/
 │   ├── risk-register.md                   # Unified risk register with FND cross-referencing
@@ -579,6 +581,7 @@ lens-skill/
 │   ├── check-references.py                # Relative-reference integrity checker
 │   ├── check-contents.py                  # Contents-table versus heading drift checker
 │   ├── check-update.py                    # Git upstream self-update checker for the skill repo
+│   ├── scan-standards.py                  # Supplied-standards corpus manifest for digest refresh
 │   ├── lint-polish.py                     # Polish report linter for calques and typography
 │   ├── lint-prose.py                      # Pre-assembly prose linter for report drafts
 │   ├── common.py                          # Shared helpers for skill-maintenance tools

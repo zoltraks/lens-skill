@@ -13,7 +13,8 @@ audit can verify from repository source.
 Snapshot date: 2026-09-30.
 
 Feeds `assessment/security-review.md`, `assessment/best-practices.md`, and
-`assessment/deployment-review.md` for desktop subjects.
+`assessment/deployment-review.md`, and `assessment/baseline-conformance.md` for desktop
+subjects.
 
 ## Security Checklist
 

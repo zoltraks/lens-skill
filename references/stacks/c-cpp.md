@@ -14,8 +14,8 @@ Snapshot date: 2026-09-30.
 The CERT Coding Standards (SEI) are license-restricted: only rule identifiers and public rule
 titles are distilled here, never rule text.
 
-Feeds `assessment/code-quality.md` and `assessment/security-review.md` for native-code
-subjects.
+Feeds `assessment/code-quality.md`, `assessment/security-review.md`, and
+`assessment/baseline-conformance.md` for native-code subjects.
 
 ## C++ Core Guidelines
 

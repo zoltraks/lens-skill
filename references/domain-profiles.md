@@ -29,6 +29,9 @@ project:
 | `retrieval`     | Indexing, embedding, search or ranking over stored content                      |
 | `agent-tooling` | Skill definitions, tool schemas, protocol bridges such as MCP                   |
 | `frontend`      | Rendered UI, routing, client-side state                                         |
+| `automation`    | Drives or inspects a separate live application: UI Automation or WebDriver      |
+|                 | against a user-operated target, accessibility-tree traversal, desktop process   |
+|                 | and window integration                                                          |
 | `unclassified`  | None of the above fits. Record the closest profile used as a fallback           |
 
 The classification records which documentation claims count as advertised workflows.
@@ -43,22 +46,29 @@ runtime payloads, which classifies by its deliverable and keeps `agent-tooling` 
 Cross-reference the authored-versus-installed rules in `assessment/skill-definition.md` so a
 catalog of the project's own utilities is not misfiled as a separate skill project.
 
+`automation` is distinct from ordinary product UI testing: a Playwright suite against the
+subject's own frontend is testing evidence, not the nature. The nature activates when the
+subject inspects or drives a separate application the user may be operating at the same time -
+the read-only contract, live-user cohabitation, and calibration probes below then apply.
+`references/topics/ui-automation.md` carries the checkable baseline.
+
 ## Mandatory Probes
 
 Each nature activates its probe set during Evidence Gathering.
 
 A probe produces evidence rows. It never produces a finding by itself.
 
-| Nature          | Mandatory probes                                                                                                                                                                                         |
-|-----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `service`       | Session/request lifecycle (issuance, expiry, revocation, eviction). Rate and size limits per endpoint. Graceful shutdown path. Request concurrency bounds                                                |
-| `library`       | Public-surface inventory. Compatibility and versioning discipline. Consumer-visible error taxonomy                                                                                                       |
-| `cli`           | Credential and token persistence (store, permissions, rotation). Argument and exit-code contract. CWD versus config-location resolution. Proxy/stdio bridges                                             |
-| `pipeline`      | Idempotency and partial-failure resume. Input validation. Ordering and backpressure bounds                                                                                                               |
-| `retrieval`     | Index-path and identifier producer/consumer trace across ingest, query, fetch, watch, and sync paths. Embedding pipeline reality (real inference versus stub). Stale-row handling on deletes and renames |
-| `agent-tooling` | Protocol conformance per declared spec version. Tool registry consistency across transports. Attribution fields the caller controls                                                                      |
-| `frontend`      | Route and state boundary checks. Secret-bearing surface in shipped bundles                                                                                                                               |
-| `unclassified`  | Closest profile's probes plus an explicit Scope Exclusions note                                                                                                                                          |
+| Nature          | Mandatory probes                                                                                                                                                                                                             |
+|-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `service`       | Session/request lifecycle (issuance, expiry, revocation, eviction). Rate and size limits per endpoint. Graceful shutdown path. Request concurrency bounds                                                                    |
+| `library`       | Public-surface inventory. Compatibility and versioning discipline. Consumer-visible error taxonomy                                                                                                                           |
+| `cli`           | Credential and token persistence (store, permissions, rotation). Argument and exit-code contract. CWD versus config-location resolution. Proxy/stdio bridges                                                                 |
+| `pipeline`      | Idempotency and partial-failure resume. Input validation. Ordering and backpressure bounds                                                                                                                                   |
+| `retrieval`     | Index-path and identifier producer/consumer trace across ingest, query, fetch, watch, and sync paths. Embedding pipeline reality (real inference versus stub). Stale-row handling on deletes and renames                     |
+| `agent-tooling` | Protocol conformance per declared spec version. Tool registry consistency across transports. Attribution fields the caller controls                                                                                          |
+| `frontend`      | Route and state boundary checks. Secret-bearing surface in shipped bundles                                                                                                                                                   |
+| `automation`    | Read-path purity (no invoke/click/focus outside explicit opt-in). Warning coverage on every tolerated side effect. Bounded enumeration and polling. Live-target calibration evidence. Session and integrity-level boundaries |
+| `unclassified`  | Closest profile's probes plus an explicit Scope Exclusions note                                                                                                                                                              |
 
 ## Cross-Cutting Probes
 

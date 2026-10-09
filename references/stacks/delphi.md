@@ -14,7 +14,8 @@ Snapshot date: 2026-09-30.
 The DocWiki index (docwiki.embarcadero.com) was unreachable at snapshot time. This file keeps
 the stable conventions distilled from the Embarcadero style guide and ecosystem practice.
 
-Feeds `assessment/best-practices.md` and `assessment/code-quality.md` for Delphi subjects.
+Feeds `assessment/best-practices.md`, `assessment/code-quality.md`, and
+`assessment/baseline-conformance.md` for Delphi subjects.
 
 ## Naming And Layout
 
@@ -48,6 +49,26 @@ From https://edn.embarcadero.com/article/10280 (the classic Object Pascal style 
 - Third-party units under `vendor/`-style paths should carry license notices. Delphi
   redistributable units have their own terms.
 - `resourcestring` for user-visible text is the localization-ready convention.
+
+## UI And Threading Rules
+
+- VCL controls are main-thread only. `TThread.Synchronize`/`Queue` is the checkable boundary -
+  direct VCL access from a worker thread is a defect.
+- `Application.ProcessMessages` inside a loop is a reentrancy hazard - a real wait uses
+  `WaitFor`-style blocking or a message-driven design.
+- `with` blocks hide identifier scope - on any block longer than a couple of lines they are a
+  maintainability finding.
+- Empty `except` blocks swallow every exception including `EOutOfMemory` - an `except` that
+  does not re-raise or handle narrowly is a defect.
+- Form units hold event wiring only: business logic inside `.dfm`-paired units couples
+  behavior to the designer surface and is untestable.
+
+## Database And Tests
+
+- FireDAC pooled connections and explicit transactions are the checkable shape - a
+  `TFDConnection` opened per query or SQL built with `Format` interpolation is a finding.
+- DUnitX (`TDUnitX`) is the conventional test harness - a test project referencing it
+  satisfies the "has tests" floor for Delphi subjects.
 
 ## Live Check
 

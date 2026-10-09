@@ -13,7 +13,8 @@ source.
 Snapshot date: 2026-09-30.
 
 Feeds `assessment/best-practices.md`, `assessment/code-quality.md`, and
-`assessment/security-review.md` for script-heavy subjects.
+`assessment/security-review.md`, and `assessment/baseline-conformance.md` for script-heavy
+subjects.
 
 ## ShellCheck Rule Classes
 

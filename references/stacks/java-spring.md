@@ -14,7 +14,8 @@ constraints an audit can verify from repository source.
 Snapshot date: 2026-09-30.
 
 Feeds `assessment/security-review.md`, `assessment/dependency-review.md`,
-`assessment/api-compatibility.md`, and `assessment/best-practices.md` for JVM subjects.
+`assessment/api-compatibility.md`, `assessment/best-practices.md`, and
+`assessment/baseline-conformance.md` for JVM subjects.
 
 ## Spring Security
 
@@ -85,6 +86,25 @@ https://kotlinlang.org/docs/coding-conventions.html.
   classes, `val` preferred over `var`, named arguments for multi-parameter calls.
 - Kotlin null-safety is the language contract. `!!` operators and platform-type leaks across
   Java interop are reviewable.
+
+## Persistence And Transactions
+
+From https://jakarta.ee/specifications/persistence/ and
+https://docs.spring.io/spring-framework/reference/data-access/transaction.html.
+
+- `@Transactional` belongs on the service boundary, not the repository or controller. A
+  transaction spanning a network call or `.await`-equivalent widens the lock window.
+- Lazy fetching is the default for collections: `FetchType.EAGER` on a `@OneToMany` is a
+  reviewable choice, and the N+1 pattern it produces is the checkable defect.
+- `ddl-auto` outside `validate`/`none` on a non-disposable environment is a finding - real
+  schema changes go through versioned migrations (Flyway/Liquibase), and a released migration
+  is never edited.
+- Tests run against the real engine through Testcontainers or the declared equivalent - an
+  H2 substitute accepts DDL and dialect the target rejects.
+- `@Version` optimistic locking is the default answer to concurrent writes - destructive
+  concurrent updates are a finding.
+- The shared contract lives in `references/topics/data-persistence.md` - this section only
+  carries the JVM-specific shape.
 
 ## Live Check
 

@@ -13,7 +13,8 @@ This file distills the authoritative Node.js, npm, Express, Fastify, and OWASP s
 Snapshot date: 2026-09-30.
 
 Feeds `assessment/best-practices.md`, `assessment/security-review.md`,
-`assessment/dependency-review.md`, and `assessment/testing-review.md` for JavaScript backends.
+`assessment/dependency-review.md`, `assessment/testing-review.md`, and
+`assessment/baseline-conformance.md` for JavaScript backends.
 
 ## Runtime Floor
 
@@ -27,6 +28,9 @@ machine-readable mirror (https://endoflife.date/api/node.json) give the support 
 - `engines.node` in `package.json` should express the floor the code actually uses. The floor
   has no effect unless `.npmrc` sets `engine-strict=true` or the installer runs with
   `--engine-strict`.
+- `.nvmrc` (or `.node-version`) pins the development runtime independently of `engines` -
+  the two agreeing is the reproducible posture - `engines` alone only constrains installers
+  that opt in.
 - A runtime older than the oldest Maintenance LTS line is a finding regardless of test status.
 
 ## Manifest And Lockfile
@@ -46,6 +50,8 @@ https://docs.npmjs.com/cli/v11/commands/npm-audit).
   lockfile, and fails when the manifest and lockfile disagree, so it is the CI form.
 - `lockfileVersion` 3 is the npm 9+ default. Version 1 lacks the hidden lockfile metadata.
 - `npm audit` output is advisory evidence, not execution evidence of vulnerable code paths.
+- `npm audit --omit=dev` in CI is the checkable gate form: it keeps dev-only advisories from
+  drowning the production signal.
 - `npm publish --provenance` emits a Sigstore attestation tying the artifact to a public repo
   and workflow. Its absence is at most an observation.
 

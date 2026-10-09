@@ -13,7 +13,7 @@ repository source.
 Snapshot date: 2026-09-30.
 
 Feeds `assessment/best-practices.md`, `assessment/security-review.md`, and
-`assessment/api-compatibility.md` for .NET subjects.
+`assessment/api-compatibility.md`, and `assessment/baseline-conformance.md` for .NET subjects.
 
 ## Design And Compatibility
 
@@ -73,6 +73,28 @@ From https://learn.microsoft.com/nuget/consume-packages/package-references-in-pr
   floating references in a committed build are a reproducibility finding.
 - Central Package Management (`Directory.Packages.props`) is the monorepo convention for
   version consistency.
+
+## Build And Analysis Floor
+
+From https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props and
+https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/overview.
+
+- `TreatWarningsAsErrors` plus `EnforceCodeStyleInBuild` makes the analyzer set a gate rather
+  than a suggestion - `<WarningsAsErrors>`-without-`<NoWarn>` sprawl is the checkable posture.
+- A `global.json` pins the SDK band so a machine with a newer SDK does not silently shift the
+  build. Its absence is an observation, not a defect.
+- `dotnet format --verify-no-changes` is the CI check mode - a build that runs `format`
+  without `--verify-no-changes` mutates the tree instead of checking it.
+- `<Nullable>enable</Nullable>` is the reference floor. `#nullable disable` regions and
+  `!` suppression on public API surfaces are reviewable per-site.
+- `GenerateDocumentationFile` plus `<NoWarn>1591</NoWarn>`-free builds keep XML doc
+  generation honest - an empty `<summary>` count is a signal, not a rule.
+- Platform-specific code behind `SupportedOSPlatform`/CA1416-aware seams is the checkable
+  shape - `OperatingSystem.IsWindows()`-style guards that callers can skip are the softer
+  alternative.
+- `PublishAot`/`PublishTrimmed` turns IL2xxx/IL3xxx trim/analyzer warnings into the contract:
+  reflection-heavy libraries need `[DynamicallyAccessedMembers]` or source-generated
+  serialization instead of runtime `JsonSerializer` defaults.
 
 ## Live Check
 

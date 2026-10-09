@@ -43,9 +43,9 @@ A present-but-empty section signals a gap, a missing section hides it.
 | Report Delivery And Parameter Configuration | 283  | Report delivery and output configuration    |
 | Detail Level Configuration                  | 336  | Standard, detailed, and brief reports       |
 | Conditional Sections                        | 430  | Inclusion criteria for conditional sections |
-| Section Order                               | 486  | Single-project and multi-project order      |
-| Specification Files                         | 579  | Per-section specification file index        |
-| Pre-Delivery Mechanical Checklist           | 609  | Final mechanical checks                     |
+| Section Order                               | 487  | Single-project and multi-project order      |
+| Specification Files                         | 582  | Per-section specification file index        |
+| Pre-Delivery Mechanical Checklist           | 612  | Final mechanical checks                     |
 
 ## Formatting Rules
 
@@ -374,7 +374,7 @@ In addition, any conditional sections whose criteria are met are included in ful
 See the Conditional Sections rule below for the inclusion criteria of the Data Flow Diagram,
 Design Patterns, Architecture Decision Records, Threat Model, API Contract Conformance,
 Skill Definition Conformance, Agent Guidance Conformance, Standards Conformance,
-Technical Debt Register, and Re-audit And Follow-up Plan.
+Engineering Baseline Conformance, Technical Debt Register, and Re-audit And Follow-up Plan.
 
 **Detailed**
 
@@ -460,6 +460,7 @@ Each lists its inclusion criterion and the assessment file that governs it:
 | Agent Guidance Conformance (standalone)                     | The subject carries a structured agent-guidance documentation set  | `assessment/agent-guidance.md`            |
 | AI System Assessment (standalone)                           | The project trains, serves, or materially depends on AI            | `assessment/ai-system.md`                 |
 | Standards Conformance (standalone)                          | The project contains documented development standards              | `assessment/standards-conformance.md`     |
+| Engineering Baseline Conformance (standalone)               | The subject ships code a bundled stack or purpose baseline covers  | `assessment/baseline-conformance.md`      |
 | API Compatibility & Versioning Discipline (standalone)      | The subject is a reusable library or package                       | `assessment/api-compatibility.md`         |
 | Technical Debt Register (standalone)                        | Structural debt distinct from risks is surfaced                    | `synthesis/debt-register.md`              |
 | Re-audit And Follow-up Plan (standalone)                    | The roadmap contains a P1 or P2 recommendation                     | `synthesis/reaudit-plan.md`               |
@@ -516,6 +517,7 @@ For a **single-project** audit:
 - Agent Guidance Conformance *(conditional)*
 - AI System Assessment *(conditional)*
 - Standards Conformance *(conditional)*
+- Engineering Baseline Conformance *(conditional)*
 - API Compatibility & Versioning Discipline *(conditional)*
 - Strengths & What's Working
 - Detailed Technical Findings
@@ -560,6 +562,7 @@ In summary:
   - Skill Definition Conformance *(conditional)*
   - Agent Guidance Conformance *(conditional)*
   - Standards Conformance *(conditional)*
+  - Engineering Baseline Conformance *(conditional)*
   - API Compatibility & Versioning Discipline *(conditional)*
   - Strengths & What's Working
   - Detailed Technical Findings
@@ -594,7 +597,7 @@ Each report section is specified in a file under `process/report-format/`.
 | `architectural-assessment.md` | Architectural Assessment and its conditional subsections |
 | `report-analysis.md`          | Trade-off Analysis, Threat Model                         |
 | `conditional-conformance.md`  | API Contract, Skill Definition, Agent Guidance,          |
-|                               | AI System, Standards,                                    |
+|                               | AI System, Standards, Engineering Baseline,              |
 |                               | API Compatibility & Versioning Discipline                |
 | `findings-registers.md`       | Strengths, Detailed Technical Findings, Technical Debt   |
 |                               | Register, Unified Risk Register, Remediation Roadmap,    |

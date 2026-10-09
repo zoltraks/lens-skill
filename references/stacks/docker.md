@@ -13,7 +13,8 @@ into constraints an audit can verify from repository source.
 Snapshot date: 2026-09-30.
 
 Feeds `assessment/deployment-review.md`, `assessment/security-review.md`, and
-`assessment/dependency-review.md` for containerized subjects.
+`assessment/dependency-review.md`, and `assessment/baseline-conformance.md` for containerized
+subjects.
 
 ## Dockerfile Rules
 

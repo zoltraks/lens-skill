@@ -210,6 +210,33 @@ practice.
 
 Cross-reference any conformance gap that also produces a `FND-XXX` finding.
 
+## Engineering Baseline Conformance
+
+Include this section when the subject ships or develops executable source and at least one
+bundled baseline digest covers its detected stack or nature,
+per `assessment/baseline-conformance.md`.
+
+Omit it entirely for a subject with no code or no covering baseline,
+and note the omission in Scope Exclusions.
+
+Record which baselines governed the judgement - the digest files and their snapshot dates, or
+the subject's own standards where they overrode - in the Auditing Methodology section.
+
+Present a conformance table across the evaluated baseline rows, then describe each gap with
+evidence and its linked `FND-XXX`.
+
+| Baseline                   | Status  | Evidence                                          |
+|----------------------------|---------|---------------------------------------------------|
+| Runtime/toolchain pinning  | PASS    | `.nvmrc` and `engines.node` agree                 |
+| Dependency reproducibility | PASS    | `package-lock.json` committed, `npm ci` in CI     |
+| Lint/format gate           | PARTIAL | `eslint.config.*` present, no CI step consumes it |
+| Test floor                 | PASS    | `tests/` exercised by the CI workflow             |
+| Secrets hygiene            | PASS    | no secrets in source, `.env` gitignored           |
+| CLI output contract        | N/A     | subject is not a `cli` nature                     |
+
+When the report language is not English, apply the column header translations from the matching
+`translations/` file.
+
 ## API Compatibility & Versioning Discipline
 
 Include this section only when the subject is a reusable library or package,

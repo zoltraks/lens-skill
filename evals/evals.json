@@ -1108,6 +1108,32 @@
     "Section names render per translations/polish-language.md: Werdykt, Plan kontroli i metodologia, Rejestr wykonania, Ustalenia domenowe, Plan poprawy, and Manifest artefaktów when the evidence mode requires it.",
     "The Validation Record carries PAR-1 through PAR-19 rows with PAR-18 rendered N/D, since the check style has no Recommendation Classification section."
    ]
+  },
+  {
+   "id": 93,
+   "prompt": "Audit this Node.js command-line tool. The project documents no development standards of its own. Check whether it meets the engineering floor a well-governed CLI would carry.",
+   "expected_output": "An audit whose Engineering Baseline Conformance section checks the universal floor plus the CLI contract digest, with baselines recorded.",
+   "files": [],
+   "expectations": [
+    "Engineering Baseline Conformance appears because the subject is code-bearing and the bundled digests cover its stack and cli nature; Standards Conformance is omitted with a Scope Exclusions note since no project standards exist.",
+    "The baseline table checks the universal floor rows - runtime pinning, lockfile, lint/format gate, test floor, secrets hygiene, error propagation, bounded work - and the cli-purpose rows for stdout/stderr separation, semantic exit codes, and --help/--version.",
+    "The audit records which baseline governed each judgement and the digest snapshot date in Auditing Methodology.",
+    "A configured-but-unexercised check, such as an eslint config no CI step runs, is reported as documented-not-enforced rather than a pass.",
+    "The report does not execute the CLI and does not claim its output contract was verified at runtime."
+   ]
+  },
+  {
+   "id": 94,
+   "prompt": "Audit this repository: it ships a stdio MCP server plus a set of UI-automation utilities that inspect a desktop application a user may be running. What purpose-specific baselines apply?",
+   "expected_output": "An audit activating the agent-tooling and automation natures, applying the MCP and UI-automation baselines only where their signals fire.",
+   "files": [],
+   "expectations": [
+    "The domain classification records agent-tooling and automation natures, and the automation nature is distinguished from ordinary product UI testing.",
+    "The MCP baseline checks that stdout is reserved for the JSON-RPC protocol, tool names and schemas are single-sourced, permissions gate at dispatch, and every external invocation is bounded.",
+    "The UI-automation baseline checks read-path purity, warnings on tolerated side effects, bounded enumeration, and live-target calibration evidence.",
+    "Purpose baselines are applied conditionally - the MCP rows apply to the server project, the automation rows to the inspection utilities, not universally.",
+    "The audit verifies baseline conformance from source and configuration evidence; it does not launch the target application or send protocol messages unless an executed evidence mode was commissioned."
+   ]
   }
  ]
 }

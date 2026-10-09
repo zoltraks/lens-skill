@@ -12,8 +12,8 @@ This file distills the React documentation and MDN Service Worker source listed 
 Snapshot date: 2026-09-30.
 
 Feeds `assessment/best-practices.md`, `assessment/code-quality.md`, and
-`assessment/security-review.md` for SPA subjects. `references/topics/offline-cache.md` covers
-service-worker caching strategy.
+`assessment/security-review.md`, and `assessment/baseline-conformance.md` for SPA subjects.
+`references/topics/offline-cache.md` covers service-worker caching strategy.
 
 ## Rules Of Hooks
 

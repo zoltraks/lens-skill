@@ -105,6 +105,13 @@ rules, and the live-check procedure.
 | Mechanical evidence patterns        | `references/topics/evidence-recipes.md`        |
 | SSH deployment paths                | `references/topics/deployment-ssh.md`          |
 | License declaration locations       | `references/topics/license-evidence.md`        |
+| CLI output and exit contracts       | `references/topics/cli-contract.md`            |
+| MCP server conformance              | `references/topics/mcp-server.md`              |
+| UI/live-app automation              | `references/topics/ui-automation.md`           |
+| Performance budget gates            | `references/topics/performance-budgets.md`     |
+| `.bat`/`.ps1`/embedded scripts      | `references/topics/inline-scripting.md`        |
+| Persistence and migration rules     | `references/topics/data-persistence.md`        |
+| Subject's own standards anatomy     | `references/topics/standards-anatomy.md`       |
 
 `references/source-catalog.md` maps every digest back to its authoritative URLs and records
 each source's consolidation status.

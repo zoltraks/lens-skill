@@ -13,8 +13,9 @@ Playwright, Testing Library, Vite, Zustand, and Jest documentation listed in
 
 Snapshot date: 2026-09-30.
 
-Feeds `assessment/code-quality.md`, `assessment/testing-review.md`, and
-`assessment/best-practices.md` for TypeScript and browser-toolchain subjects.
+Feeds `assessment/code-quality.md`, `assessment/testing-review.md`,
+`assessment/best-practices.md`, and `assessment/baseline-conformance.md` for TypeScript and
+browser-toolchain subjects.
 
 ## Compiler Strictness
 
@@ -98,6 +99,18 @@ From https://zustand.docs.pmnd.rs/ and https://jestjs.io/docs/configuration.
   `include` does.
 - `ts-jest` versus `babel-jest` versus `esbuild-jest` is a toolchain choice. Duplicate
   transpile paths in one repo are a consistency observation.
+
+## Boundary Validation
+
+From https://zod.dev/ and https://valibot.dev/.
+
+- Types are erased at runtime: data entering over IO (HTTP bodies, env vars, file reads,
+  storage) is `unknown` at the boundary and validated into a typed shape with a schema
+  library (zod, valibot, typia) - an `as T` cast on inbound data is a trust finding.
+- `JSON.parse` returns `any`: unchecked results flowing into typed code defeat the strict
+  floor. The schema parse (`schema.parse`) or a validated wrapper is the checkable shape.
+- Env var access goes through a validated config object built at startup - scattered
+  `process.env.X` reads mean no startup-time validation and late failures.
 
 ## Live Check
 

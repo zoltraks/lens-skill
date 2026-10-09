@@ -41,6 +41,42 @@ class TestCheckContents(unittest.TestCase):
         self.assertEqual(self.checker.TOLERANCE, 3)
 
 
+class TestScanStandards(unittest.TestCase):
+    def setUp(self):
+        self.scanner = load_script("scan-standards.py")
+
+    def test_skeleton_extracts_headings_and_version(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "example-standard.md"
+            path.write_text(
+                "# Example Standard\n\n**Version:** 1.4\n\n## Scope\n\n## Rules\n",
+                encoding="utf-8",
+            )
+            row = self.scanner.skeleton(path)
+            self.assertEqual(row["file"], "example-standard.md")
+            self.assertEqual(row["version"], "1.4")
+            self.assertEqual(row["headings"], ["Scope", "Rules"])
+            self.assertEqual(row["title"], "Example Standard")
+
+    def test_scan_is_sorted_and_markdown_only(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "b-standard.md").write_text("# B\n", encoding="utf-8")
+            (root / "a-standard.md").write_text("# A\n", encoding="utf-8")
+            (root / "notes.txt").write_text("not markdown\n", encoding="utf-8")
+            rows = self.scanner.scan(root)
+            self.assertEqual([row["file"] for row in rows], ["a-standard.md", "b-standard.md"])
+
+    def test_missing_version_marker(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "plain.md"
+            path.write_text("# Plain\n\n## Body\n", encoding="utf-8")
+            self.assertEqual(self.scanner.skeleton(path)["version"], "-")
+
+    def test_main_rejects_non_directory(self):
+        self.assertEqual(self.scanner.main(["definitely-missing-dir-xyz"]), 2)
+
+
 class TestCommon(unittest.TestCase):
     def setUp(self):
         self.common = load_script("common.py")

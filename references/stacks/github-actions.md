@@ -12,8 +12,8 @@ YAML.
 
 Snapshot date: 2026-09-30.
 
-Feeds `assessment/security-review.md` (CI pin discipline) and `assessment/deployment-review.md`
-for CI/CD subjects.
+Feeds `assessment/security-review.md` (CI pin discipline), `assessment/deployment-review.md`,
+and `assessment/baseline-conformance.md` for CI/CD subjects.
 
 ## Action Pinning
 

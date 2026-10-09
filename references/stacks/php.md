@@ -13,7 +13,8 @@ from repository source.
 Snapshot date: 2026-09-30.
 
 Feeds `assessment/best-practices.md`, `assessment/security-review.md`,
-`assessment/dependency-review.md`, and `assessment/testing-review.md` for PHP subjects.
+`assessment/dependency-review.md`, `assessment/testing-review.md`, and
+`assessment/baseline-conformance.md` for PHP subjects.
 
 ## Autoload And Style
 

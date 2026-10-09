@@ -12,7 +12,8 @@ source.
 
 Snapshot date: 2026-09-30.
 
-Feeds `assessment/api-contract.md` and `assessment/best-practices.md` for API subjects.
+Feeds `assessment/api-contract.md`, `assessment/best-practices.md`, and
+`assessment/baseline-conformance.md` for API subjects.
 
 ## OpenAPI Structure
 
@@ -72,6 +73,20 @@ From https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.ht
 - `Content-Type`/`Accept` handling with 406/415 responses on unsupported media types.
 - CORS allowlists origins for browser-facing APIs. `Access-Control-Allow-Origin: *` with
   credentials is a defect.
+
+## Contract Discipline
+
+- The spec is the contract of record when the project declares contract-first: implementation
+  drift from the spec is a finding in whichever direction it goes - an undocumented route is
+  as much a gap as an unimplemented documented one.
+- Composition keywords are chosen deliberately: `allOf` for extension, `oneOf`/`anyOf` for
+  alternation - a `oneOf` where `anyOf` is meant rejects valid payloads.
+- Examples are everywhere a consumer copies from: every schema carries `example`/`examples`,
+  and every operation shows at least one success and one error body.
+- `x-` extensions are the extension mechanism: their use is documented at the root or in a
+  companion README so a reader knows which are load-bearing.
+- Generated artifacts (clients, server stubs, HTML docs) are either committed with a pinned
+  generator version or regenerated in CI - a half-committed generated tree drifts silently.
 
 ## Live Check
 

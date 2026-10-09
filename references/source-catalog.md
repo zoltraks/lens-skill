@@ -23,9 +23,9 @@ identifiers and names), `alternate` (fallback address for the row above).
 | Section                            | Line | What it covers                                   |
 |------------------------------------|------|--------------------------------------------------|
 | Sources                            | 30   | Source registry grouped by consuming corpus file |
-| Session-Derived Files              | 436  | Corpus files built from session knowledge        |
-| Unresolved And Alternate Addresses | 446  | Fetch failures and working alternates            |
-| Maintenance                        | 466  | Row-addition and canonicalization rules          |
+| Session-Derived Files              | 497  | Corpus files built from session knowledge        |
+| Unresolved And Alternate Addresses | 508  | Fetch failures and working alternates            |
+| Maintenance                        | 528  | Row-addition and canonicalization rules          |
 
 ## Sources
 
@@ -78,6 +78,8 @@ identifiers and names), `alternate` (fallback address for the row above).
 | Vite guide                 | Vite project              | https://vite.dev/guide/                                 | distilled |
 | Zustand documentation      | Poimandres                | https://zustand.docs.pmnd.rs/                           | distilled |
 | Jest configuration         | Meta/OpenJS               | https://jestjs.io/docs/configuration                    | distilled |
+| zod                        | zod project               | https://zod.dev/                                        | distilled |
+| valibot                    | valibot project           | https://valibot.dev/                                    | distilled |
 
 ### references/stacks/python.md
 
@@ -141,6 +143,8 @@ identifiers and names), `alternate` (fallback address for the row above).
 | japicmp                              | japicmp project     | https://github.com/siom79/japicmp                                                                   | distilled |
 | Revapi                               | Revapi project      | https://revapi.org/                                                                                 | distilled |
 | Kotlin coding conventions            | JetBrains           | https://kotlinlang.org/docs/coding-conventions.html                                                 | distilled |
+| Jakarta Persistence                  | Eclipse             | https://jakarta.ee/specifications/persistence/                                                      | distilled |
+| Spring transaction reference         | Spring project      | https://docs.spring.io/spring-framework/reference/data-access/transaction.html                      | distilled |
 
 ### references/stacks/dotnet-aspnet.md
 
@@ -154,15 +158,18 @@ identifiers and names), `alternate` (fallback address for the row above).
 | Rate limiting middleware         | Microsoft | https://learn.microsoft.com/aspnet/core/performance/rate-limit                                              | distilled |
 | Package references and locking   | Microsoft | https://learn.microsoft.com/nuget/consume-packages/package-references-in-project-files                      | distilled |
 | FixedTimeEquals                  | Microsoft | https://learn.microsoft.com/dotnet/api/system.security.cryptography.cryptographicoperations.fixedtimeequals | distilled |
+| MSBuild project SDK properties   | Microsoft | https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props                                     | distilled |
+| Code analysis overview           | Microsoft | https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/overview                                | distilled |
 
 ### references/stacks/rust.md
 
-| Source              | Publisher    | URL                                                   | Status    |
-|---------------------|--------------|-------------------------------------------------------|-----------|
-| Rust API Guidelines | Rust project | https://rust-lang.github.io/api-guidelines/           | distilled |
-| Clippy lint list    | Rust project | https://rust-lang.github.io/rust-clippy/master/       | distilled |
-| RustSec advisories  | RustSec      | https://rustsec.org/                                  | distilled |
-| Cargo SemVer rules  | Rust project | https://doc.rust-lang.org/cargo/reference/semver.html | distilled |
+| Source              | Publisher     | URL                                                   | Status    |
+|---------------------|---------------|-------------------------------------------------------|-----------|
+| Rust API Guidelines | Rust project  | https://rust-lang.github.io/api-guidelines/           | distilled |
+| Clippy lint list    | Rust project  | https://rust-lang.github.io/rust-clippy/master/       | distilled |
+| RustSec advisories  | RustSec       | https://rustsec.org/                                  | distilled |
+| Cargo SemVer rules  | Rust project  | https://doc.rust-lang.org/cargo/reference/semver.html | distilled |
+| Tokio tutorial      | Tokio project | https://tokio.rs/tokio/tutorial                       | distilled |
 
 ### references/stacks/c-cpp.md
 
@@ -413,6 +420,60 @@ identifiers and names), `alternate` (fallback address for the row above).
 | CommonMark 0.31.2 | CommonMark | https://spec.commonmark.org/0.31.2/ | distilled |
 | Diataxis          | Diataxis   | https://diataxis.fr/                | distilled |
 
+### references/topics/cli-contract.md
+
+| Source                            | Publisher       | URL                                                                      | Status    |
+|-----------------------------------|-----------------|--------------------------------------------------------------------------|-----------|
+| Command Line Interface Guidelines | clig.dev        | https://clig.dev/                                                        | distilled |
+| POSIX utility conventions         | IEEE/Open Group | https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap12.html | distilled |
+| NO_COLOR specification            | no-color.org    | https://no-color.org/                                                    | distilled |
+
+### references/topics/mcp-server.md
+
+| Source            | Publisher   | URL                                                | Status    |
+|-------------------|-------------|----------------------------------------------------|-----------|
+| MCP specification | MCP project | https://modelcontextprotocol.io/specification      | distilled |
+| MCP C# SDK        | MCP project | https://github.com/modelcontextprotocol/csharp-sdk | distilled |
+| MCP Rust SDK      | MCP project | https://github.com/modelcontextprotocol/rust-sdk   | distilled |
+
+### references/topics/ui-automation.md
+
+| Source                 | Publisher        | URL                                                                                 | Status    |
+|------------------------|------------------|-------------------------------------------------------------------------------------|-----------|
+| UI Automation overview | Microsoft        | https://learn.microsoft.com/en-us/windows/win32/winauto/uiauto-uiautomationoverview | distilled |
+| Inspect tool           | Microsoft        | https://learn.microsoft.com/en-us/windows/win32/winauto/inspect-objects             | distilled |
+| W3C WebDriver          | W3C              | https://w3c.github.io/webdriver/                                                    | distilled |
+| Chromium accessibility | Chromium project | https://www.chromium.org/developers/design-documents/accessibility/                 | distilled |
+| Gecko accessibility    | Mozilla          | https://firefox-source-docs.mozilla.org/accessible/                                 | distilled |
+| AT-SPI                 | GNOME project    | https://gnome.pages.gitlab.gnome.org/at-spi2-core/                                  | distilled |
+
+### references/topics/performance-budgets.md
+
+| Source          | Publisher         | URL                                           | Status    |
+|-----------------|-------------------|-----------------------------------------------|-----------|
+| Core Web Vitals | web.dev           | https://web.dev/vitals/                       | distilled |
+| Lighthouse CI   | Google            | https://github.com/GoogleChrome/lighthouse-ci | distilled |
+| k6              | Grafana Labs      | https://k6.io/docs/                           | distilled |
+| hyperfine       | hyperfine project | https://github.com/sharkdp/hyperfine          | distilled |
+
+### references/topics/inline-scripting.md
+
+| Source                  | Publisher                  | URL                                                                                       | Status    |
+|-------------------------|----------------------------|-------------------------------------------------------------------------------------------|-----------|
+| cmd command reference   | Microsoft                  | https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/cmd      | distilled |
+| PowerShell about topics | Microsoft                  | https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about | distilled |
+| Python command line     | Python Software Foundation | https://docs.python.org/3/using/cmdline.html                                              | distilled |
+| SS64 command reference  | SS64                       | https://ss64.com/nt/                                                                      | distilled |
+
+### references/topics/data-persistence.md
+
+| Source                       | Publisher      | URL                                                                                      | Status    |
+|------------------------------|----------------|------------------------------------------------------------------------------------------|-----------|
+| SQLite documentation         | SQLite project | https://sqlite.org/docs.html                                                             | distilled |
+| SQL Injection Prevention     | OWASP          | https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html | distilled |
+| Jakarta Persistence          | Eclipse        | https://jakarta.ee/specifications/persistence/                                           | distilled |
+| Spring transaction reference | Spring project | https://docs.spring.io/spring-framework/reference/data-access/transaction.html           | distilled |
+
 ### Agent-facing refresh
 
 Feeds `references/agent-skills.md` and `references/agent-configuration.md`.
@@ -437,11 +498,12 @@ Feeds `references/cwe-analyzer.md` and `references/dependency-manifests.md`.
 
 These corpus files consolidate session knowledge rather than fetched sources.
 
-| File                                    | Basis                                      | Status    |
-|-----------------------------------------|--------------------------------------------|-----------|
-| `references/topics/evidence-recipes.md` | Audit-session mechanical evidence patterns | distilled |
-| `references/topics/deployment-ssh.md`   | Audit-session SSH/SCP deployment knowledge | distilled |
-| `references/topics/license-evidence.md` | Per-ecosystem license evidence locations   | distilled |
+| File                                     | Basis                                                    | Status    |
+|------------------------------------------|----------------------------------------------------------|-----------|
+| `references/topics/evidence-recipes.md`  | Audit-session mechanical evidence patterns               | distilled |
+| `references/topics/deployment-ssh.md`    | Audit-session SSH/SCP deployment knowledge               | distilled |
+| `references/topics/license-evidence.md`  | Per-ecosystem license evidence locations                 | distilled |
+| `references/topics/standards-anatomy.md` | Maintainer-supplied engineering-standard corpora anatomy | distilled |
 
 ## Unresolved And Alternate Addresses
 

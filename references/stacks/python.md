@@ -13,8 +13,8 @@ from repository source.
 Snapshot date: 2026-09-30.
 
 Feeds `assessment/best-practices.md`, `assessment/code-quality.md`,
-`assessment/testing-review.md`, and `assessment/skill-definition.md` for the declared-runtime
-floor check.
+`assessment/testing-review.md`, `assessment/skill-definition.md`, and
+`assessment/baseline-conformance.md` for the declared-runtime floor check.
 
 ## Version Floor
 

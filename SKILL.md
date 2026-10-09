@@ -6,9 +6,10 @@ description: >-
   proposals. Covers testing, design principles (SOLID), code quality,
   dependencies, deployment, rollback, maintainability, documentation, NFRs,
   security, compliance, observability, error handling, operational
-  readiness, AI-generated code detection, copyrights, and development
-  standards conformance. Enforces evidence-only reasoning and neutral,
-  non-personal evaluation. Use for software audits, architecture audits,
+  readiness, AI-generated code detection, copyrights, development
+  standards conformance, and engineering baseline conformance. Enforces
+  evidence-only reasoning and neutral, non-personal evaluation. Use
+  for software audits, architecture audits,
   prototype reviews, production readiness, technical due diligence, risk
   registers, scorecards, or remediation roadmaps. On explicit request it
   also produces review reports of any subject, ending in required changes
@@ -24,7 +25,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.0.6"
+  version: "2.0.7"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -39,21 +40,21 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 
 | Section                 | Line | What it covers                                     |
 |-------------------------|------|----------------------------------------------------|
-| Skill Update Check      | 70   | Once-per-session git freshness gate before use     |
-| Trigger Keywords        | 87   | Activation phrases                                 |
-| How To Use              | 112  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 133  | Defaults and user-controlled report shape          |
-| Principles              | 195  | Evaluation and output rules                        |
-| Process                 | 201  | Workflow, format, and parity                       |
-| Assessments             | 228  | Core and conditional assessment guides             |
-| Synthesis               | 267  | Findings, risk, score, and remediation assembly    |
-| Translations            | 283  | Per-language report translations                   |
-| References              | 292  | Lookup tables                                      |
-| Scripts                 | 314  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 336  | Behavioral regression prompts                      |
-| Repository Files        | 340  | Housekeeping files governing this repository       |
-| Evidence Contract       | 352  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 379  | File-selection and section-placement rules         |
+| Skill Update Check      | 71   | Once-per-session git freshness gate before use     |
+| Trigger Keywords        | 88   | Activation phrases                                 |
+| How To Use              | 113  | Progressive disclosure and mandatory reading       |
+| Parameter Configuration | 134  | Defaults and user-controlled report shape          |
+| Principles              | 196  | Evaluation and output rules                        |
+| Process                 | 202  | Workflow, format, and parity                       |
+| Assessments             | 229  | Core and conditional assessment guides             |
+| Synthesis               | 270  | Findings, risk, score, and remediation assembly    |
+| Translations            | 286  | Per-language report translations                   |
+| References              | 295  | Lookup tables                                      |
+| Scripts                 | 317  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 340  | Behavioral regression prompts                      |
+| Repository Files        | 344  | Housekeeping files governing this repository       |
+| Evidence Contract       | 356  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 383  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -262,6 +263,8 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
 - **`assessment/agent-guidance.md`** - Agent-guidance set topology. Include for guidance sets.
 - **`assessment/ai-system.md`** - AI system lifecycle. Include for AI-dependent projects.
 - **`assessment/standards-conformance.md`** - Project development standards conformance.
+- **`assessment/baseline-conformance.md`** - Engineering floor against bundled stack and
+  purpose baselines. Include for code-bearing subjects a bundled digest covers.
 - **`assessment/api-compatibility.md`** - API compatibility. Include for libraries and packages.
 
 ## `synthesis/` - Findings And Report Assembly
@@ -326,6 +329,7 @@ repository's `work/` directory under a `.tmp.` name and remove the copies when d
 - **`scripts/check-references.py`** - Relative-reference integrity checker.
 - **`scripts/check-contents.py`** - Contents-table versus section-heading drift checker.
 - **`scripts/check-update.py`** - Skill self-update checker (git upstream).
+- **`scripts/scan-standards.py`** - Supplied-standards corpus manifest for digest refresh.
 - **`scripts/finalize-report.py`** - Runs link, format, and validate in order on a report.
 - **`scripts/lint-polish.py`** - Polish report linter for calques and typography.
 - **`scripts/lint-prose.py`** - Pre-assembly prose linter for report drafts.
@@ -433,6 +437,9 @@ run the regression scenarios in `process/audit-workflow.md` when maintaining the
   conformance stays with `assessment/skill-definition.md`.
 - Standards conformance belongs in `assessment/standards-conformance.md`, only for documented
   development standards. References lists every external source consulted.
+- Engineering baseline conformance belongs in `assessment/baseline-conformance.md`: it measures
+  the floor bundled stack and purpose digests define, applies only when the subject's detected
+  stack or nature is covered, and records which baseline governed each judgement.
 - Canonical stack references are re-derived from `references/stack-standards.md` during intake
   and cited in Auditing Methodology and References, never copied verbatim from a prior report.
 - Every CWE-classified security finding names its equivalent static analyzer rule from

@@ -13,7 +13,8 @@ Snapshot date: 2026-09-30.
 Zig is pre-1.0: the toolchain version is part of the contract and language semantics shift
 between releases.
 
-Feeds `assessment/best-practices.md` and `assessment/code-quality.md` for Zig subjects.
+Feeds `assessment/best-practices.md`, `assessment/code-quality.md`, and
+`assessment/baseline-conformance.md` for Zig subjects.
 
 ## Toolchain And Build
 

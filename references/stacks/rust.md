@@ -13,7 +13,8 @@ repository source.
 Snapshot date: 2026-09-30.
 
 Feeds `assessment/best-practices.md`, `assessment/api-compatibility.md`,
-`assessment/dependency-review.md`, and `assessment/security-review.md` for Rust subjects.
+`assessment/dependency-review.md`, `assessment/security-review.md`, and
+`assessment/baseline-conformance.md` for Rust subjects.
 
 ## API Guidelines
 
@@ -39,6 +40,31 @@ From https://rust-lang.github.io/rust-clippy/master/.
 - `cargo fmt --check` plus `clippy` in CI is the baseline tooling pair.
 - `#![allow(...)]` crate-level suppressions of `correctness` or `suspicious` group lints are
   findings. Targeted `#[allow]` on a specific item is a reviewable deviation.
+- Workspace-level lint configuration (`[workspace.lints]` in the root manifest) keeps
+  `clippy::pedantic`-class strictness shared across crates. `clippy::unwrap_used` denied in
+  library code makes the `C-FAILURE` floor mechanical.
+
+## Async And Concurrency
+
+From https://tokio.rs/tokio/tutorial and the `tokio`/`std::sync` API documentation.
+
+- Blocking work (file IO, synchronous drivers, CPU-heavy compute) runs on
+  `tokio::task::spawn_blocking` or a dedicated thread, never inline in an async task - a
+  blocking call inside `async` stalls the whole executor.
+- Code inside `spawn_blocking` must be non-abortable: cancelling the returned `JoinHandle`
+  does not stop the blocking work, so state the task mutates needs completion semantics, not
+  cancellation assumptions.
+- A connection or transaction handle never crosses an `.await` - holding one suspends a scarce
+  resource for an unbounded duration. The full contract lives in
+  `references/topics/data-persistence.md`.
+- Shared mutable state uses a per-resource `Mutex` or a serialized owner task - `static mut`,
+  `lazy_static`/`once_cell` singletons with interior mutability, and global registries are the
+  reviewable patterns.
+- `serde` contracts: `#[serde(deny_unknown_fields)]` on externally-accepted payloads catches
+  client typos instead of silently dropping them, and `#[serde(rename_all = "...")]` on the
+  wire type, not scattered per-field.
+- Errors are typed at the crate boundary (`thiserror` for libraries, `anyhow`/`eyre` for
+  binaries): a library that returns `Box<dyn Error>` or panics on failure is a finding.
 
 ## Dependencies And Advisories
 
