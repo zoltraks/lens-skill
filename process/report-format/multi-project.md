@@ -73,6 +73,7 @@ followed by the full set of report sections for that project:
 - Auditing Methodology
 - Scoring Rubrics
 - Architectural Assessment (with conditional subsections)
+- Structure Review
 - Trade-off Analysis
 - Threat Model *(conditional)*
 - API Contract Conformance *(conditional)*

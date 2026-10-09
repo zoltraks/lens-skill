@@ -335,38 +335,36 @@
   },
   {
    "id": 26,
-   "prompt": "Review PREPARATION.md and produce amendment instructions. The document describes how to prepare a repository for work with code-generation tools.",
-   "expected_output": "A Review report that evaluates the document and lists corrections and amendment instructions without executing the documented procedure.",
+   "prompt": "Make a structure review of this project. Evaluate how the repository organizes its directories, files, components, and supporting artifacts.",
+   "expected_output": "A review-style report under the structure-review variant contract - `Report Style: review` plus `Review Scope: Structure` in Document Information and a REVIEW-family filename.",
    "files": [],
    "expectations": [
-    "The report follows the review contract: a Reviewed baseline and Review date statement, Assessment, a Findings and Corrections table with Existing section, Finding, and Required correction columns, Required Changes, Suggested Amendment Order, and a Public Source Register with [S#] citations.",
-    "Required Changes and Suggested Amendment Order are present even when the review finds no required changes.",
-    "The report carries a revisioned REVIEW-<revision>.md filename such as REVIEW-1.0.md.",
-    "The report does not claim the documented procedure was executed, and unrun checks are marked NOT RUN.",
-    "The report carries no audit-only sections such as the Audit Type Coverage table, scorecard, risk register, or PAR parity rows."
+    "Document Information carries `Report Style: review` and `Review Scope: Structure` rows, and the filename uses the REVIEW stem.",
+    "The report carries the eight canonical variant sections in order: Document Information, Project Context, Structural Overview, Findings, Positive Practices, Recommendations, Prioritization, Limitations and Assumptions.",
+    "Findings carry `FND-STR-` identifiers and the shared finding-block schema.",
+    "The report carries no audit-only sections - no scorecard, risk register, roadmap, validation record, or glossary."
    ]
   },
   {
    "id": 27,
-   "prompt": "Review this codebase and tell me whether it is ready for production. Do not produce a review report.",
-   "expected_output": "An Audit report: the ambiguous wording without an explicit review-report request keeps the default audit type.",
+   "prompt": "Review this codebase and tell me whether it is ready for production.",
+   "expected_output": "An Audit report: bare 'review this codebase' wording names an activity, not the review report style.",
    "files": [],
    "expectations": [
-    "The agent produces an Audit report, not a Review report, because no review report with amendments was explicitly requested.",
-    "The Report type row in the parameter summary reads Audit.",
+    "The agent produces an audit-style report because the request asks a readiness question and does not name a review report.",
+    "The Report Style row in the parameter summary reads audit.",
     "The report carries an AUDIT-<revision>.md filename."
    ]
   },
   {
    "id": 28,
-   "prompt": "Write the review report in Polish. Review the supplied instruction document and produce amendment instructions per the Polish rendering rules.",
-   "expected_output": "A Polish Review report using the review mappings from translations/polish-language.md with a PRZEGLĄD filename.",
+   "prompt": "Write the review report in Polish. Produce a review-style report of the supplied repository per the Polish rendering rules.",
+   "expected_output": "A Polish review-style report using the przegląd mappings from translations/polish-language.md with a PRZEGLĄD filename.",
    "files": [],
    "expectations": [
-    "Review headings render in Polish: Ocena, Ustalenia i poprawki, Wymagane zmiany w <subject>, Sugerowana kolejność zmian, Rejestr źródeł publicznych.",
-    "The findings table headers render Istniejąca sekcja, Ustalenie, and Wymagana poprawka.",
-    "The filename uses the PRZEGLĄD stem, such as PRZEGLĄD-1.0.md.",
-    "Source-register identifiers S1-Sn stay unchanged and are cited inline as [S#]."
+    "Section names render per translations/polish-language.md: Werdykt, Plan kontroli i metodologia, Rejestr wykonania, Ustalenia domenowe, and Plan poprawy.",
+    "The filename uses the PRZEGLĄD stem: bare PRZEGLĄD.md is the default for a first Polish review, with PRZEGLĄD-1.0.md offered as the revisioned alternative.",
+    "Machine-readable identifiers, commands, and status tokens stay in English while prose and headings render in Polish."
    ]
   },
   {
@@ -896,16 +894,13 @@
   {
    "id": 74,
    "prompt": "Wykonaj przegląd zmian w tym repozytorium dla zakresu zatwierdzeń `a1b2c3d..e4f5g6h` i przygotuj raport przeglądu po polsku.",
-   "expected_output": "A Polish change-review report `PRZEGLĄD-1.0.md` that follows the change-review variant contract.",
+   "expected_output": "A Polish review-style report `PRZEGLĄD.md` scoped to the named change set.",
    "files": [],
    "expectations": [
-    "The report opens with a key-value identification table with an empty header row, holding labels such as `Przegląd zmian`, `Gałęzie kodu`, `Zakres zatwierdzeń`, `Lista autorów`, `Data przeglądu`, `Wielkość zmiany`, and `Decyzja`.",
-    "Sections appear in canonical order without numbers: `Podsumowanie zmian`, `Zakres przeglądu`, `Lista ustaleń`, `Ocena wymiarów`, `Weryfikacja i testy`, `Gotowość produkcyjna`, `Propozycja działań`.",
-    "The findings table carries `Identyfikator`, `Waga`, `Lokalizacja`, `Rekomendacja`, `Status` and no description column; severity values come from `Krytyczna`/`Wysoka`/`Średnia`/`Niska`.",
-    "Each finding has an `<a id=\"f-xx\">` anchor and a `**F-xx**` description paragraph below the table, and every `F-xx` outside the `Identyfikator` column renders as a `[F-xx](#f-xx)` link.",
-    "The report uses `zatwierdzenia` rather than `commity`, keeps SHA literals verbatim, omits rows whose values are unavailable, and carries no history section for a first review.",
-    "The verdict enum stays verbatim (for example `REQUEST CHANGES`) inside the `Decyzja` row.",
-    "The actions table carries `Działanie`, `Właściciel`, `Powiązane identyfikatory`, `Termin / warunek`, `Status` and no ordinal column."
+    "The request resolves to `Styl raportu: przegląd` with the commit range recorded in the `Zakres przeglądu` row of `Informacje o dokumencie`.",
+    "The report follows the standard review-style contract - Werdykt, Plan kontroli i metodologia, Rejestr wykonania, Ustalenia domenowe, Plan poprawy - scoped to the change set.",
+    "The report uses `zatwierdzenia` rather than `commity` and keeps SHA literals verbatim.",
+    "The filename uses the PRZEGLĄD stem: bare PRZEGLĄD.md for a first review, with PRZEGLĄD-1.0.md offered as the revisioned alternative."
    ]
   },
   {
@@ -914,16 +909,16 @@
    "expected_output": "The validator classifies the file as `custom` and runs only the shared mechanical checks.",
    "files": [],
    "expectations": [
-    "A `REVIEW`-family filename with a custom suffix resolves to report type `custom`, not `review`.",
-    "The canonical review section contract and the change-review contract do not run on a custom report.",
+    "A `REVIEW`-family filename with a custom suffix resolves to report kind `custom`, not a styled report.",
+    "Neither the review-style section contract nor the structure-variant contract runs on a custom report.",
     "Mechanical checks - headings, semicolons, non-ASCII dashes, tables, location pattern, trailing whitespace - still apply.",
-    "A bare `REVIEW`/`REVIEW-<revision>`/`PRZEGLĄD-<revision>` stem still resolves to `review`, and the change-review variant is selected by `## Findings` plus `## Action Proposals` with no `### Findings and Corrections`."
+    "A file carrying a `Review and Amendment Instructions` title, a `Findings and Corrections` subsection, or an `Action Proposals` section resolves to `legacy` and fails with a pointer to the current contract."
    ]
   },
   {
    "id": 76,
    "prompt": "Review the change set `46d522a..9922d61` and write the review report. The repository contains docs/review/2026-04-10/REVIEW.md and no audit/ or report/ directories.",
-   "expected_output": "A review report that resolves the dedicated review directory and lands in its own dated subdirectory without disturbing the previous review.",
+   "expected_output": "A review-style report that resolves the dedicated review directory and lands in its own dated subdirectory without disturbing the previous review.",
    "files": [],
    "expectations": [
     "Intake records `docs/review/` as the review-purpose base and its `YYYY-MM-DD` subdirectories as the date-named pattern.",
@@ -1027,7 +1022,7 @@
    "expected_output": "A structurally valid hunt skeleton that passes the validator with zero issues.",
    "files": [],
    "expectations": [
-    "The skeleton carries every required hunt section, the fixed domain-ratings rows, a gates table, an empty producer/consumer matrix, a hop table, the PAR-1..PAR-19 record, and one fully labeled `### FND-`, `### RSK-`, and `### REC-` template block.",
+    "The skeleton carries every required hunt section, the fixed domain-ratings rows, a gates table, an empty producer/consumer matrix, a hop table, the PAR-1..PAR-20 record, and one fully labeled `### FND-`, `### RSK-`, and `### REC-` template block.",
     "`new-report.py` runs `format-table.py` on `--output` when the formatter resolves next to the script or under `LENS_SKILL_ROOT`.",
     "`--params work/lens-params.json` prefills the style and project list from the saved intake file, with command-line options taking precedence.",
     "`python scripts/validate-report.py --dump-contract` prints the enforced contract as JSON generated from the live constants."
@@ -1035,20 +1030,20 @@
   },
   {
    "id": 86,
-   "prompt": "Scaffold a new check report with `python scripts/new-report.py --style check --output CHECK-1.0.md`, then validate the generated skeleton.",
-   "expected_output": "A structurally valid check skeleton that passes the validator with zero issues.",
+   "prompt": "Scaffold a new review report with `python scripts/new-report.py --style review --output REVIEW.md`, then validate the generated skeleton.",
+   "expected_output": "A structurally valid review skeleton that passes the validator with zero issues.",
    "files": [],
    "expectations": [
-    "The skeleton carries every required check section: Document Information, Audit Type Coverage, Verdict, System Context, Check Plan And Methodology, Execution Register, Domain Findings, Risk Register, Improvement Plan, Scope Exclusions, Limitations and Unknowns, Validation Record, and References.",
+    "The skeleton carries every required review section: Document Information, Audit Type Coverage, Verdict, System Context, Check Plan And Methodology, Execution Register, Domain Findings, Risk Register, Improvement Plan, Scope Exclusions, Limitations and Unknowns, Validation Record, and References.",
     "The Execution Register template row carries command, cwd, tool and version, timestamp, input revision, exit status, result, interpretation, and artifact columns.",
     "The `### FND-` template block carries an `Evidence level` field and the Improvement Plan carries a disposition column or field.",
-    "An `evidence-mode` of `executed-readonly` or `executed-checks` in the params file adds the Artifact Manifest section."
+    "An `evidence-mode` of `executed-readonly` or `executed-commands` in the params file adds the Artifact Manifest section."
    ]
   },
   {
    "id": 87,
-   "prompt": "Validate a check report whose Execution Register contains a row with result `OK` and another row marked `NOT RUN` that the report counts as passing.",
-   "expected_output": "The validator fails the `check execution register` check.",
+   "prompt": "Validate a review report whose Execution Register contains a row with result `OK` and another row marked `NOT RUN` that the report counts as passing.",
+   "expected_output": "The validator fails the `review execution register` check.",
    "files": [],
    "expectations": [
     "Result cells are limited to `PASS`, `FAIL`, `ERROR`, `BLOCKED`, `SKIPPED`, `NOT RUN`, and `N/A` - `OK` fails with the expected token list.",
@@ -1058,8 +1053,8 @@
   },
   {
    "id": 88,
-   "prompt": "Validate a check report where one `### FND-` finding block lacks an `Evidence level` field and another sets it to `Tested`.",
-   "expected_output": "The validator fails the `check evidence levels` check.",
+   "prompt": "Validate a review report where one `### FND-` finding block lacks an `Evidence level` field and another sets it to `Tested`.",
+   "expected_output": "The validator fails the `review evidence levels` check.",
    "files": [],
    "expectations": [
     "Every `### FND-` block under Domain Findings carries an `Evidence level` field.",
@@ -1069,8 +1064,8 @@
   },
   {
    "id": 89,
-   "prompt": "Validate a check report whose Execution Register marks the test run `FAIL` but the report carries no Retest Register section.",
-   "expected_output": "The validator fails the `check retest register` check.",
+   "prompt": "Validate a review report whose Execution Register marks the test run `FAIL` but the report carries no Retest Register section.",
+   "expected_output": "The validator fails the `review retest register` check.",
    "files": [],
    "expectations": [
     "Any `FAIL`, `ERROR`, or `BLOCKED` execution-register row requires a Retest Register section.",
@@ -1079,34 +1074,34 @@
   },
   {
    "id": 90,
-   "prompt": "Validate a check report with `Evidence mode: executed-checks` that records executed rows in the Execution Register but carries no Artifact Manifest.",
-   "expected_output": "The validator fails the `check artifact manifest` check.",
+   "prompt": "Validate a review report with `Evidence mode: executed-commands` that records executed rows in the Execution Register but carries no Artifact Manifest.",
+   "expected_output": "The validator fails the `evidence sections` check.",
    "files": [],
    "expectations": [
-    "Under `executed-readonly` or `executed-checks` a check report must carry an Artifact Manifest mapping each executed row to its captured output artifact.",
+    "Under `executed-readonly` or `executed-commands` a review report must carry an Artifact Manifest mapping each executed row to its captured output artifact.",
     "Under `source-only` the manifest is omitted or carries an explicit statement that no artifacts exist."
    ]
   },
   {
    "id": 91,
-   "prompt": "Validate a check report that carries a `### Recommendation Classification` section under its Improvement Plan.",
-   "expected_output": "The validator fails the `check classification ban` check.",
+   "prompt": "Validate a review report that carries a `### Recommendation Classification` section under its Improvement Plan.",
+   "expected_output": "The validator fails the `review classification ban` check.",
    "files": [],
    "expectations": [
-    "Under `Report Style: check` the Recommendation Classification section is forbidden - dispositions live in the Improvement Plan.",
-    "Check dispositions are `Planned`, `Deferred`, `Accepted - no action`, or `Unresolved`."
+    "Under `Report Style: review` the Recommendation Classification section is forbidden - dispositions live in the Improvement Plan.",
+    "Review dispositions are `Planned`, `Deferred`, `Accepted - no action`, or `Unresolved`."
    ]
   },
   {
    "id": 92,
-   "prompt": "Write the check report in Polish - report style check - for a repository with no previous check report.",
-   "expected_output": "A Polish check-style report using the SPRAWDZENIE filename stem.",
+   "prompt": "Write the review report in Polish - report style review - for a repository with no previous review report.",
+   "expected_output": "A Polish review-style report using the PRZEGLĄD filename stem.",
    "files": [],
    "expectations": [
-    "The output filename uses the SPRAWDZENIE stem: bare SPRAWDZENIE.md is the default for a first Polish check report, with SPRAWDZENIE-1.0.md offered as the revisioned alternative.",
+    "The output filename uses the PRZEGLĄD stem: bare PRZEGLĄD.md is the default for a first Polish review report, with PRZEGLĄD-1.0.md offered as the revisioned alternative.",
     "Machine-readable identifiers, commands, and status tokens stay in English; prose and section headings render in Polish per `translations/polish-language.md`.",
     "Section names render per translations/polish-language.md: Werdykt, Plan kontroli i metodologia, Rejestr wykonania, Ustalenia domenowe, Plan poprawy, and Manifest artefaktów when the evidence mode requires it.",
-    "The Validation Record carries PAR-1 through PAR-19 rows with PAR-18 rendered N/D, since the check style has no Recommendation Classification section."
+    "The Validation Record carries PAR-1 through PAR-20 rows with PAR-18 rendered N/D, since the review style has no Recommendation Classification section."
    ]
   },
   {
@@ -1133,6 +1128,41 @@
     "The UI-automation baseline checks read-path purity, warnings on tolerated side effects, bounded enumeration, and live-target calibration evidence.",
     "Purpose baselines are applied conditionally - the MCP rows apply to the server project, the automation rows to the inspection utilities, not universally.",
     "The audit verifies baseline conformance from source and configuration evidence; it does not launch the target application or send protocol messages unless an executed evidence mode was commissioned."
+   ]
+  },
+  {
+   "id": 95,
+   "prompt": "Audit this repository with default parameters. The subject has a source tree whose directories mix feature-based and layer-based grouping with inconsistent naming.",
+   "expected_output": "An audit-style report whose Structure Review section evaluates the physical organization with per-area verdicts and `FND-STR-` findings.",
+   "files": [],
+   "expectations": [
+    "The audit contract carries a Structure Review section between Architectural Assessment and Trade-off Analysis.",
+    "The section holds a verdict table covering directory organization, naming conventions, component placement, supporting-artifact layout, and consistency.",
+    "Structural defects surface as `FND-STR-` findings under the Structure & Organization pillar and land in the scorecard's Structure dimension.",
+    "The structure assessment stays within its boundary: logical modularity and coupling remain maintainability findings, code-level idioms remain best-practices findings."
+   ]
+  },
+  {
+   "id": 96,
+   "prompt": "Run a defect hunt on this repository - report style hunt. The repository's layout is disorganized, with misplaced configuration and ambiguous directory names.",
+   "expected_output": "A hunt-style report that carries no structure findings, because the structure assessment never loads under `Report Style: hunt`.",
+   "files": [],
+   "expectations": [
+    "No `FND-STR-` findings appear anywhere in the hunt report.",
+    "The domain ratings table contains only the ten fixed hunt domains - no Structure row.",
+    "PAR-20 renders `N/A` in the hunt report's Validation Record."
+   ]
+  },
+  {
+   "id": 97,
+   "prompt": "Audit this repository. Its docs/ directory contains a legacy CHECK-1.0.md report and a legacy REVIEW-1.0.md amendment-instructions report alongside no current reports.",
+   "expected_output": "A fresh audit that treats neither legacy file as a previous report or baseline.",
+   "files": [],
+   "expectations": [
+    "A `CHECK`-family file is never identified as a previous report - the `check` report style no longer exists.",
+    "A `REVIEW`-family file without a `Report Style` row is a legacy shape and never serves as a baseline.",
+    "The new audit writes `AUDIT-1.0.md` and runs no comparison or Changes section against the legacy files.",
+    "Validating the legacy REVIEW file classifies it as `legacy` and fails with a pointer to the current contract."
    ]
   }
  ]

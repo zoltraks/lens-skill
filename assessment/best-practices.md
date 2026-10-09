@@ -30,8 +30,9 @@ this file covers stack-specific convention.
   ported from another language.
 - Framework conventions: whether the code follows the framework's prescribed structure, lifecycle,
   data flow, and extension points.
-- Ecosystem layout: whether project structure and file naming match the ecosystem's accepted
-  conventions.
+- Ecosystem layout: whether code-level framework conventions are followed - the layout verdict
+  itself is owned by `assessment/structure-review.md`, which consumes this file's stack
+  conventions as its baseline.
 - Stack style guide: whether an official or community style guide and the ecosystem-standard tooling
   are adopted.
 - Recommended libraries: whether the stack's established libraries are used instead of

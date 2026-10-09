@@ -4,14 +4,15 @@ Runs structural, formatting, traceability, score-disclosure, and parity checks.
 Copy into the audited repository's report-production directory as
 ``validate-report.tmp.py`` when validating a generated report.
 
-Review reports per ``process/review-report.md`` are detected by an H1 ending in
-``Review and Amendment Instructions`` or a ``REVIEW``/``PRZEGLĄD``-family filename
-carrying a revision suffix, and validated against the review contract instead of
-the audit checks. The contract has two variants: the amendment structure
-(``### Findings and Corrections`` present) and the change-review structure
-(``## Findings`` plus ``## Action Proposals`` present). Files in the
-``REVIEW``/``PRZEGLĄD`` family whose names carry no revision suffix run as
-``custom`` reports - shared mechanical checks only, no structural contract.
+Report style is read from the ``Report Style`` row in Document Information and
+selects the audit, hunt, or review section contract. A ``Review Scope:
+Structure`` row in a review report selects the structure variant contract.
+Files in the ``REVIEW``/``PRZEGLĄD`` family whose names carry a custom suffix
+run as ``custom`` reports - shared mechanical checks only, no structural
+contract. Reports matching the removed amendment-review shape (``Review and
+Amendment Instructions`` title, ``Findings and Corrections`` subsection, or
+``Action Proposals`` section) run as ``legacy`` and fail with a pointer to the
+current contract.
 
 Usage:
   python validate-report.py <report.md> [--repo-root <dir>]
@@ -53,6 +54,7 @@ BASELINE_SECTIONS = [
     "Auditing Methodology",
     "Scoring Rubrics",
     "Architectural Assessment",
+    "Structure Review",
     "Trade-off Analysis",
     "Strengths & What's Working",
     "Detailed Technical Findings",
@@ -294,7 +296,7 @@ FINDING_STATUS = ("Open", "Closed", "PASS")
 CHANGE_VALUES = ("New", "Unchanged", "Reopened", "Closed")
 RISK_STATUS = ("Open", "Accepted", "Transferred", "Monitoring", "Closed")
 VERIFICATION_QUALIFIERS = ("Verified", "Confirmed", "Reported")
-FINDING_PILLARS = ("ARC", "CQY", "SEC", "INF", "AIP", "CPR", "API")
+FINDING_PILLARS = ("ARC", "CQY", "SEC", "INF", "AIP", "CPR", "API", "STR")
 FINDING_ID = re.compile(r"FND-(?:ARC|CQY|SEC|INF|AIP|CPR|API)-\d{3}")
 ABSENCE_VALUES = ("No documented rationale", "Deliberate - recorded decision",
                   "Undetermined")
@@ -419,7 +421,7 @@ def check_legacy_fields(lines: list[str], fences: list[bool]) -> list[str]:
 
 
 def findings_heading(text: str) -> str:
-    if report_style(text) in ("hunt", "check"):
+    if report_style(text) in ("hunt", "review"):
         return "Domain Findings"
     return "Detailed Technical Findings"
 
@@ -653,7 +655,7 @@ def check_type_tags(lines: list[str], fences: list[bool]) -> list[str]:
 
 def check_par_rows(text: str) -> list[str]:
     failures: list[str] = []
-    for number in range(1, 20):
+    for number in range(1, 21):
         if not re.search(rf"^\|\s*PAR-{number}(?:\s|\||:)", text, re.MULTILINE):
             failures.append(f"missing Validation Record row PAR-{number}")
     return failures
@@ -921,42 +923,29 @@ def check_glossary_body_links(text: str, terms: list[str], sub_slugs: dict[str, 
 
 REVIEW_CANONICAL_STEM = re.compile(r"^(?:REVIEW|PRZEGLĄD|PRZEGLAD)(?:-\d+(?:\.\d+)?)?$")
 REVIEW_FAMILY_STEM = re.compile(r"(?:^|[-_])(?:REVIEW|PRZEGLĄD|PRZEGLAD)(?:-|$)")
-REVIEW_TITLE = re.compile(
-    r"^#\s+.+\bReview and Amendment Instructions\s*$", re.MULTILINE
+LEGACY_REVIEW_SHAPE = re.compile(
+    r"(?m)^#\s+.+\bReview and Amendment Instructions\s*$"
+    r"|^###\s+Findings and Corrections\s*$"
+    r"|^##\s+Action Proposals\s*$"
 )
 
 
 def report_kind(path: str, text: str) -> str:
-    """Classify the file as 'review', 'custom', or 'audit'.
+    """Classify the file as 'legacy', 'custom', or 'audit'.
 
-    Canonical review filenames are bare REVIEW/PRZEGLĄD or carry a revision
-    suffix (REVIEW-1.0); other names in the same family are custom reports -
-    validated mechanically only. An H1 ending in 'Review and Amendment
-    Instructions' always means review, regardless of filename.
+    Files matching the removed amendment-review shape are 'legacy' - they fail
+    with a pointer to the current contract rather than a wall of missing
+    sections. REVIEW/PRZEGLĄD-family filenames with a custom suffix are
+    'custom' - validated mechanically only. Everything else, including
+    canonical REVIEW/PRZEGLĄD filenames, is an 'audit'-kind report whose
+    section contract is selected by the Report Style row.
     """
     stem = Path(path).stem.upper()
-    if REVIEW_CANONICAL_STEM.fullmatch(stem) or REVIEW_TITLE.search(text):
-        return "review"
-    if REVIEW_FAMILY_STEM.search(stem):
+    if LEGACY_REVIEW_SHAPE.search(text):
+        return "legacy"
+    if REVIEW_FAMILY_STEM.search(stem) and not REVIEW_CANONICAL_STEM.fullmatch(stem):
         return "custom"
     return "audit"
-
-
-def review_variant(text: str) -> str:
-    """Return 'amendment' or 'change' for a review report.
-
-    The amendment structure is detected by its `### Findings and Corrections`
-    subsection; the change-review structure by `## Findings` together with
-    `## Action Proposals`. Anything unresolved defaults to the amendment
-    contract so missing sections are reported against it.
-    """
-    if re.search(r"^###\s+Findings and Corrections\s*$", text, re.MULTILINE):
-        return "amendment"
-    if re.search(r"^##\s+Findings\s*$", text, re.MULTILINE) and re.search(
-        r"^##\s+Action Proposals\s*$", text, re.MULTILINE
-    ):
-        return "change"
-    return "amendment"
 
 
 def section_block(text: str, heading_pattern: str) -> str:
@@ -968,220 +957,48 @@ def section_block(text: str, heading_pattern: str) -> str:
     return block[: following.start()] if following else block
 
 
-def check_review_sections(text: str) -> list[str]:
-    failures: list[str] = []
-    for pattern, label in (
-        (r"^##\s+Assessment\s*$", "Assessment"),
-        (r"^###\s+Findings and Corrections\s*$", "Findings and Corrections"),
-        (r"^##\s+Required Changes\b", "Required Changes"),
-        (r"^##\s+Suggested Amendment Order\s*$", "Suggested Amendment Order"),
-        (r"^##\s+Public Source Register\s*$", "Public Source Register"),
-    ):
-        if not re.search(pattern, text, re.MULTILINE):
-            failures.append(f"missing required review section: {label}")
-    return failures
-
-
-def check_review_findings_table(text: str) -> list[str]:
-    block = section_block(text, r"^###\s+Findings and Corrections\s*$")
-    if not block:
-        return []
-    header = next(
-        (line for line in block.split("\n") if line.startswith("|") and "Finding" in line),
-        None,
-    )
-    if header is None:
-        return ["Findings and Corrections has no findings table"]
-    cells = [cell.strip() for cell in raw_cells(header)]
-    failures = []
-    if "Finding" not in cells:
-        failures.append("findings table lacks a Finding column")
-    if "Required correction" not in cells:
-        failures.append("findings table lacks a Required correction column")
-    return failures
-
-
-def check_review_change_groups(text: str) -> list[str]:
-    block = section_block(text, r"^##\s+Required Changes\b.*$")
-    if not block:
-        return []
-    if not re.search(r"^###\s+", block, re.MULTILINE):
-        return ["Required Changes has no ### change group"]
-    return []
-
-
-def check_review_sources(text: str) -> list[str]:
-    register = section_block(text, r"^##\s+Public Source Register\s*$")
-    if not register:
-        return []
-    rows = set(re.findall(r"^\|\s*(S\d+)\s*\|", register, re.MULTILINE))
-    body = text[: re.search(r"^##\s+Public Source Register\s*$", text, re.MULTILINE).start()]
-    cited: set[str] = set()
-    for group in re.findall(r"\[([^\]\[]+)\]", body):
-        if re.fullmatch(r"[S\d,\s]+", group):
-            cited.update(re.findall(r"S\d+", group))
-    failures = [f"citation [{missing}] has no register row" for missing in sorted(cited - rows)]
-    failures.extend(
-        f"register row {unused} is never cited in the body" for unused in sorted(rows - cited)
-    )
-    return failures
-
-
-CHANGE_REVIEW_SECTIONS = [
-    "Change Summary",
-    "Review Scope",
+STRUCTURE_VARIANT_SECTIONS = [
+    "Document Information",
+    "Project Context",
+    "Structural Overview",
     "Findings",
-    "Dimension Assessment",
-    "Verification and Testing",
-    "Production Readiness",
-    "Action Proposals",
+    "Positive Practices",
+    "Recommendations",
+    "Prioritization",
+    "Limitations and Assumptions",
 ]
-CHANGE_REVIEW_FINDINGS_COLUMNS = [
-    "Identifier",
-    "Severity",
-    "Location",
-    "Recommendation",
-    "Status",
-]
-CHANGE_REVIEW_SEVERITY = ("Critical", "High", "Medium", "Low")
 
 
-def check_change_review_sections(text: str) -> list[str]:
+def check_structure_variant_sections(text: str) -> list[str]:
     headings = [
         match.group(1).strip()
         for match in re.finditer(r"^##\s+(.+?)\s*$", text, re.MULTILINE)
     ]
     failures = [
-        f"missing required change-review section: {section}"
-        for section in CHANGE_REVIEW_SECTIONS
+        f"missing required structure-review section: {section}"
+        for section in STRUCTURE_VARIANT_SECTIONS
         if section not in headings
     ]
-    present = [h for h in headings if h in CHANGE_REVIEW_SECTIONS]
-    if present != [s for s in CHANGE_REVIEW_SECTIONS if s in present]:
-        failures.append("change-review sections are not in the canonical order")
+    present = [h for h in headings if h in STRUCTURE_VARIANT_SECTIONS]
+    if present != [s for s in STRUCTURE_VARIANT_SECTIONS if s in present]:
+        failures.append("structure-review sections are not in the canonical order")
     return failures
 
 
-def check_change_review_opening(text: str) -> list[str]:
-    failures: list[str] = []
-    lines = text.split("\n")
-    header_index = next(
-        (
-            i
-            for i, line in enumerate(lines[:-1])
-            if line.startswith("|")
-            and is_separator([cell.strip() for cell in raw_cells(lines[i + 1])])
-        ),
-        None,
-    )
-    if header_index is None:
-        return ["change-review report opens without an identification table"]
-    if any(cell.strip() for cell in raw_cells(lines[header_index])):
-        failures.append("change-review identification table has a non-empty header row")
-    i = header_index + 2
-    while i < len(lines) and lines[i].startswith("|"):
-        cells = content_cells(lines[i])
-        value = cells[1] if len(cells) > 1 else ""
-        if value.upper() in ("UNKNOWN", "BRAK DANYCH", "NOT SPECIFIED", "N/A"):
-            failures.append(
-                f"line {i + 1}: identification row renders an unavailable value - "
-                "omit the row instead"
-            )
-        i += 1
-    return failures
-
-
-def check_change_review_findings(text: str) -> list[str]:
-    failures: list[str] = []
-    block = section_block(text, r"^##\s+Findings\s*$")
-    if not block:
-        return failures
-    table = [line for line in block.split("\n") if line.startswith("|")]
-    if not table:
-        return ["change-review Findings section has no findings table"]
-    header = [cell.strip() for cell in raw_cells(table[0])]
-    for wanted in CHANGE_REVIEW_FINDINGS_COLUMNS:
-        if wanted not in header:
-            failures.append(f"change-review findings table lacks a {wanted} column")
-    if "Description" in header:
-        failures.append(
-            "change-review findings table carries a description column - "
-            "descriptions belong in the **F-xx** blocks below the table"
-        )
-    identifiers: list[str] = []
-    severity_index = header.index("Severity") if "Severity" in header else -1
-    for row in table[2:]:
-        cells = [cell.strip() for cell in raw_cells(row)]
-        if not cells or not cells[0]:
-            continue
-        fid = cells[0]
-        if not re.fullmatch(r"F-\d+", fid):
-            failures.append(f"change-review findings table row lacks an F-xx identifier: {fid}")
-            continue
-        identifiers.append(fid)
-        if severity_index >= 0 and len(cells) > severity_index:
-            if cells[severity_index] not in CHANGE_REVIEW_SEVERITY:
-                failures.append(
-                    f"change-review finding {fid} has severity '{cells[severity_index]}'"
-                )
-    anchors = set(re.findall(r'<a\s+id="(f-\d+)"\s*>\s*</a>', text))
-    labels = set(re.findall(r"^\*\*(F-\d+)\*\*\s*$", text, re.MULTILINE))
-    for fid in identifiers:
-        if fid.lower() not in anchors:
-            failures.append(f"change-review finding {fid} has no <a id=\"{fid.lower()}\"> anchor")
-        if fid not in labels:
-            failures.append(f"change-review finding {fid} has no **{fid}** description label")
-    for link_text, anchor in re.findall(r"\[(F-\d+)\]\(#(f-\d+)\)", text):
-        if link_text.lower() != anchor:
-            failures.append(f"link [{link_text}](#{anchor}) points at a different finding")
-        if anchor not in anchors:
-            failures.append(f"link [{link_text}](#{anchor}) has no matching anchor")
-    return failures
-
-
-CHANGE_REVIEW_ACTION_COLUMNS = ["Action", "Owner", "Related identifiers", "Status"]
-CHANGE_REVIEW_ORDINAL_HEADERS = ("#", "no", "nr", "lp")
-
-
-def check_change_review_actions(text: str) -> list[str]:
-    failures: list[str] = []
-    block = section_block(text, r"^##\s+Action Proposals\s*$")
-    if not block:
-        return failures
-    table = [line for line in block.split("\n") if line.startswith("|")]
-    if not table:
-        return ["change-review Action Proposals section has no actions table"]
-    header = [cell.strip() for cell in raw_cells(table[0])]
-    if header and header[0].lower() in CHANGE_REVIEW_ORDINAL_HEADERS:
-        failures.append(
-            "change-review actions table carries an ordinal column - "
-            "row order already expresses the sequence"
-        )
-    for wanted in CHANGE_REVIEW_ACTION_COLUMNS:
-        if wanted not in header:
-            failures.append(f"change-review actions table lacks a {wanted} column")
-    return failures
-
-
-def check_change_review_links(text: str) -> list[str]:
-    failures: list[str] = []
-    for lineno, line in enumerate(text.split("\n"), 1):
-        masked = re.sub(r"\[F-\d+\]\(#f-\d+\)", "", line)
-        masked = re.sub(r"\*\*F-\d+\*\*", "", masked)
-        masked = re.sub(r'<a\s+id="f-\d+"\s*>\s*</a>', "", masked)
-        masked = re.sub(r"^\|\s*F-\d+", "", masked)
-        for match in re.finditer(r"F-\d+", masked):
-            failures.append(
-                f"line {lineno}: finding reference {match.group(0)} is not a link"
-            )
-    return failures
+REPORT_STYLES = ("audit", "hunt", "review")
 
 
 def check_required_sections(text: str) -> list[str]:
     if "Document Information" not in text:
         return []
-    if report_style(text) in ("hunt", "check"):
-        required = HUNT_SECTIONS if report_style(text) == "hunt" else CHECK_SECTIONS
+    style = report_style(text)
+    if style not in REPORT_STYLES:
+        return [
+            f"unknown Report Style '{style}' - expected "
+            f"{'/'.join(REPORT_STYLES)}"
+        ]
+    if style in ("hunt", "review"):
+        required = HUNT_SECTIONS if report_style(text) == "hunt" else REVIEW_SECTIONS
         headings = set(re.findall(r"^#{2,3}\s+(.+?)\s*$", text, re.MULTILINE))
         return [
             f"missing required section: {section}"
@@ -1365,7 +1182,7 @@ HUNT_GATE_RESULTS = ("Met", "Not met", "Not assessable")
 HUNT_HOP_STATUS = ("conforming", "failing", "not assessable")
 HUNT_MATCH_VALUES = ("conforming", "partially conforming", "failing", "not assessable")
 
-CHECK_SECTIONS = [
+REVIEW_SECTIONS = [
     "Document Information",
     "Audit Type Coverage",
     "Verdict",
@@ -1381,9 +1198,9 @@ CHECK_SECTIONS = [
     "References",
 ]
 
-CHECK_RESULTS = ("PASS", "FAIL", "ERROR", "BLOCKED", "SKIPPED", "NOT RUN", "N/A")
-CHECK_EVIDENCE_LEVELS = ("Source", "Model", "App", "Deployed", "Unknown")
-CHECK_DISPOSITIONS = ("Planned", "Deferred", "Accepted - no action", "Unresolved")
+REVIEW_RESULTS = ("PASS", "FAIL", "ERROR", "BLOCKED", "SKIPPED", "NOT RUN", "N/A")
+REVIEW_EVIDENCE_LEVELS = ("Source", "Model", "App", "Deployed", "Unknown")
+REVIEW_DISPOSITIONS = ("Planned", "Deferred", "Accepted - no action", "Unresolved")
 
 
 def tables_in(block: str) -> list[list[str]]:
@@ -1569,7 +1386,7 @@ def check_hunt_journeys(text: str) -> list[str]:
 
 DISPOSITION_SECTION = {
     "hunt": "Remediation Phases",
-    "check": "Improvement Plan",
+    "review": "Improvement Plan",
     "audit": "Actionable Remediation Roadmap",
 }
 
@@ -1586,7 +1403,7 @@ def disposition_regions(text: str) -> list[tuple[str, str]]:
     ]
     style = report_style(text)
     names = [DISPOSITION_SECTION.get(style, "Actionable Remediation Roadmap")]
-    if style not in ("hunt", "check"):
+    if style not in ("hunt", "review"):
         names.append("Recommendation Classification")
     regions: list[tuple[str, str]] = []
     for name in names:
@@ -1649,16 +1466,16 @@ def check_hunt_classification(text: str) -> list[str]:
     return []
 
 
-def check_check_classification(text: str) -> list[str]:
+def check_review_classification(text: str) -> list[str]:
     if re.search(r"^#{2,3}\s+Recommendation Classification\s*$", text, re.MULTILINE):
         return [
-            "check report carries a Recommendation Classification section - "
+            "review report carries a Recommendation Classification section - "
             "disposition lives in the Improvement Plan"
         ]
     return []
 
 
-def check_check_execution_register(text: str) -> list[str]:
+def check_review_execution_register(text: str) -> list[str]:
     block = section_block(text, r"^##\s+Execution Register\s*$")
     if not block:
         return []
@@ -1684,10 +1501,10 @@ def check_check_execution_register(text: str) -> list[str]:
         if len(row) <= result_idx or not row[result_idx]:
             continue
         status = row[result_idx].strip()
-        if status not in CHECK_RESULTS:
+        if status not in REVIEW_RESULTS:
             failures.append(
                 f"check '{row[0][:50]}' has result '{status}' - "
-                f"expected {'/'.join(CHECK_RESULTS)}"
+                f"expected {'/'.join(REVIEW_RESULTS)}"
             )
             continue
         if status != "PASS" and (
@@ -1717,7 +1534,7 @@ def check_hunt_scenarios(lines: list[str]) -> list[str]:
     return failures
 
 
-def check_check_dispositions(text: str) -> list[str]:
+def check_review_dispositions(text: str) -> list[str]:
     block = section_block(text, r"^##\s+Improvement Plan\s*$")
     if not block:
         return []
@@ -1731,14 +1548,14 @@ def check_check_dispositions(text: str) -> list[str]:
             if len(row) <= didx or not row[didx]:
                 continue
             value = row[didx].strip()
-            if value not in CHECK_DISPOSITIONS:
+            if value not in REVIEW_DISPOSITIONS:
                 failures.append(
-                    f"disposition '{value}' is not one of {'/'.join(CHECK_DISPOSITIONS)}"
+                    f"disposition '{value}' is not one of {'/'.join(REVIEW_DISPOSITIONS)}"
                 )
     return failures
 
 
-def check_check_retest(text: str) -> list[str]:
+def check_review_retest(text: str) -> list[str]:
     block = section_block(text, r"^##\s+Execution Register\s*$")
     if not block:
         return []
@@ -1770,7 +1587,7 @@ def check_check_retest(text: str) -> list[str]:
     ]
 
 
-def check_check_evidence_levels(lines: list[str]) -> list[str]:
+def check_review_evidence_levels(lines: list[str]) -> list[str]:
     failures: list[str] = []
     starts = [index for index, line in enumerate(lines) if line.startswith("### FND-")]
     for position, start in enumerate(starts):
@@ -1784,10 +1601,10 @@ def check_check_evidence_levels(lines: list[str]) -> list[str]:
                 "'* **Evidence level:** <Source | Model | App | Deployed | Unknown>'"
             )
             continue
-        if value.split(" ")[0].capitalize() not in CHECK_EVIDENCE_LEVELS:
+        if value.split(" ")[0].capitalize() not in REVIEW_EVIDENCE_LEVELS:
             failures.append(
                 f"{name}: Evidence level '{value[:60]}' is not one of "
-                f"{'/'.join(CHECK_EVIDENCE_LEVELS)}"
+                f"{'/'.join(REVIEW_EVIDENCE_LEVELS)}"
             )
     return failures
 
@@ -1861,11 +1678,11 @@ def check_executed_log(text: str) -> list[str]:
             upper = row[result_idx].strip().upper()
             if not any(
                 upper == token or upper.startswith(token + " ")
-                for token in CHECK_RESULTS
+                for token in REVIEW_RESULTS
             ):
                 failures.append(
                     f"executed log row '{row[0][:50]}' has result "
-                    f"'{row[result_idx]}' - expected {'/'.join(CHECK_RESULTS)}"
+                    f"'{row[result_idx]}' - expected {'/'.join(REVIEW_RESULTS)}"
                 )
     return failures
 
@@ -1878,6 +1695,11 @@ def report_style(text: str) -> str:
 def evidence_mode(text: str) -> str:
     match = re.search(r"\|\s*Evidence Mode\s*\|\s*([^|]+)", text)
     return match.group(1).strip().lower() if match else "source-only"
+
+
+def review_scope(text: str) -> str:
+    match = re.search(r"\|\s*Review Scope\s*\|\s*([^|]+)", text)
+    return match.group(1).strip().lower() if match else "full"
 
 
 def check_snapshot_identity(text: str) -> list[str]:
@@ -1896,11 +1718,13 @@ def check_snapshot_identity(text: str) -> list[str]:
 def check_evidence_sections(text: str) -> list[str]:
     if "Document Information" not in text:
         return []
+    if review_scope(text) == "structure":
+        return []
     mode = evidence_mode(text)
-    if mode in ("executed-readonly", "executed-checks"):
-        if report_style(text) == "check":
+    if mode in ("executed-readonly", "executed-commands"):
+        if report_style(text) == "review":
             if not re.search(r"^#{2,3}\s+Artifact Manifest\s*$", text, re.MULTILINE):
-                return ["executed check report has no Artifact Manifest section"]
+                return ["executed review report has no Artifact Manifest section"]
             return []
         if not re.search(r"^#{2,3}\s+Executed Evidence Log\s*$", text, re.MULTILINE):
             return [f"{mode} report has no Executed Evidence Log section"]
@@ -1908,7 +1732,7 @@ def check_evidence_sections(text: str) -> list[str]:
     if mode not in ("source-only",):
         return [
             f"Evidence Mode '{mode}' is not a known mode - expected "
-            "source-only, executed-readonly, or executed-checks"
+            "source-only, executed-readonly, or executed-commands"
         ]
     if not re.search(r"^#{2,3}\s+Operator Verification Handoff\s*$", text, re.MULTILINE):
         return ["source-only report has no Operator Verification Handoff section"]
@@ -2067,7 +1891,7 @@ def report_contract() -> dict:
     return {
         "schema": "lens-report-contract/1",
         "field_syntax": "* **Field:** value - asterisk bullet, bold name, colon outside the bold",
-        "evidence_modes": ["source-only", "executed-readonly", "executed-checks"],
+        "evidence_modes": ["source-only", "executed-readonly", "executed-commands"],
         "id_patterns": {
             "finding": "FND-<pillar>-NNN",
             "finding_pillars": list(FINDING_PILLARS),
@@ -2103,8 +1927,8 @@ def report_contract() -> dict:
                 "defect_scenarios": "required on HIGH/CRITICAL findings",
                 "recommendation_classification": "forbidden - disposition lives in Remediation Phases",
             },
-            "check": {
-                "sections": CHECK_SECTIONS,
+            "review": {
+                "sections": REVIEW_SECTIONS,
                 "conditional_sections": [
                     "Glossary",
                     "Contradiction Register",
@@ -2133,15 +1957,19 @@ def report_contract() -> dict:
                         "Interpretation",
                         "Artifact",
                     ],
-                    "results": list(CHECK_RESULTS),
+                    "results": list(REVIEW_RESULTS),
                     "non_pass_requires_interpretation": True,
                 },
-                "evidence_levels": list(CHECK_EVIDENCE_LEVELS),
+                "evidence_levels": list(REVIEW_EVIDENCE_LEVELS),
                 "retest_register": "required when the Execution Register carries "
                 "FAIL/ERROR/BLOCKED rows - one row per failed check",
-                "artifact_manifest": "required under executed-readonly/executed-checks",
-                "dispositions": list(CHECK_DISPOSITIONS),
+                "artifact_manifest": "required under executed-readonly/executed-commands",
+                "dispositions": list(REVIEW_DISPOSITIONS),
                 "recommendation_classification": "forbidden - disposition lives in the Improvement Plan",
+                "structure_variant": {
+                    "detection": "Review Scope row in Document Information reads Structure",
+                    "sections": STRUCTURE_VARIANT_SECTIONS,
+                },
             },
         },
         "fields": {
@@ -2159,9 +1987,9 @@ def report_contract() -> dict:
             "applicability": ["applicable", "conditional", "inapplicable", "unverified"],
             "recommendation_class": ["Recommended", "Optional", "Not recommended"],
             "coverage_status": ["Covered", "Partially", "Not done"],
-            "check_result": list(CHECK_RESULTS),
-            "evidence_level": list(CHECK_EVIDENCE_LEVELS),
-            "evidence_mode": ["source-only", "executed-readonly", "executed-checks"],
+            "check_result": list(REVIEW_RESULTS),
+            "evidence_level": list(REVIEW_EVIDENCE_LEVELS),
+            "evidence_mode": ["source-only", "executed-readonly", "executed-commands"],
         },
         "tables": {
             "findings_summary_columns": [
@@ -2186,7 +2014,7 @@ def report_contract() -> dict:
             "failing journey hops must cite a defined FND- identifier",
             "every open finding maps to a remediation entry or an "
             "'Accepted - no action'/'Deferred' disposition - Remediation Phases "
-            "under hunt, Improvement Plan under check, roadmap/classification "
+            "under hunt, Improvement Plan under review, roadmap/classification "
             "under audit",
             "risk table Severity/Likelihood cells must match the RSK- block fields",
             "a coverage row claiming SBOM/component-inventory Covered requires a "
@@ -2215,99 +2043,101 @@ def main(path: str, repo_root: str | None = None) -> int:
         ("trailing whitespace and ending", check_trailing(lines)),
     ]
     variant = ""
-    if kind == "review":
-        variant = review_variant(text)
-        if variant == "change":
-            checks.extend(
+    if kind == "legacy":
+        checks.append(
+            (
+                "legacy contract",
                 [
-                    ("change-review sections", check_change_review_sections(text)),
-                    ("change-review opening", check_change_review_opening(text)),
-                    ("change-review findings", check_change_review_findings(text)),
-                    ("change-review actions", check_change_review_actions(text)),
-                    ("change-review links", check_change_review_links(text)),
-                ]
+                    "file follows the removed amendment-review contract - "
+                    "that report type was deleted; regenerate it as a "
+                    "review-style report per process/report-format/review-style.md"
+                ],
             )
-        else:
-            checks.extend(
-                [
-                    ("review sections", check_review_sections(text)),
-                    ("review findings table", check_review_findings_table(text)),
-                    ("review change groups", check_review_change_groups(text)),
-                    ("review source register", check_review_sources(text)),
-                ]
-            )
+        )
     elif kind == "audit":
-        checks.extend(
-            [
-                ("required sections", check_required_sections(text)),
-                ("coverage rows", check_coverage_rows(text)),
-                ("FND/RSK/REC cross-references", check_ids(text)),
-                ("finding-block fields", check_finding_blocks(lines)),
-                ("risk-block fields", check_risk_blocks(lines)),
-                ("legacy field names", check_legacy_fields(lines, fences)),
-                ("findings summary columns", check_finding_summary(text)),
-                ("findings count", check_finding_counts(text)),
-                ("scorecard mean", check_scorecard_mean(text)),
-                ("ledger columns", check_ledger_columns(text)),
-                ("scorecard N/A rows", check_scorecard_na(text)),
-                ("security classifications", check_security_classification(lines)),
-                ("score disclosure", check_score_disclosure(lines)),
-                ("project qualification", check_project_qualification(text)),
-                ("PAR-1..PAR-19", check_par_rows(text)),
-                ("recommendation classification", check_rec_classification(text)),
-                ("Observation/Concern tags", check_type_tags(lines, fences)),
-                ("snapshot identity", check_snapshot_identity(text)),
-                ("evidence sections", check_evidence_sections(text)),
-                ("summary verification labels", check_summary_verified(text)),
-                ("fresh-audit claims", check_fresh_audit_claims(lines, fences)),
-                ("roadmap breaking column", check_roadmap_breaking(text)),
-                ("evidence paths", check_evidence_paths(text, repo_root)),
-                ("glossary", check_glossary(text)),
-                ("final-state gate", check_final_state(text)),
-            ]
-        )
         style = report_style(text)
-        checks.extend(
-            [
-                ("risk detail consistency", check_risk_consistency(lines, fences)),
-                ("executed log vocabulary", check_executed_log(text)),
-            ]
-        )
-        if style == "hunt":
+        variant = "structure" if style == "review" and review_scope(text) == "structure" else ""
+        if variant:
             checks.extend(
                 [
-                    ("hunt domain ratings", check_hunt_ratings(text)),
-                    ("hunt verdict elements", check_hunt_verdict(text)),
-                    ("hunt journey traces", check_hunt_journeys(text)),
-                    ("hunt defect scenarios", check_hunt_scenarios(lines)),
-                    ("hunt finding disposition", check_finding_disposition(text, lines)),
-                    ("hunt classification ban", check_hunt_classification(text)),
-                ]
-            )
-        elif style == "check":
-            checks.extend(
-                [
-                    ("check verdict elements", check_hunt_verdict(text)),
-                    ("check domain ratings", check_hunt_ratings(text)),
-                    ("check execution register", check_check_execution_register(text)),
-                    ("check evidence levels", check_check_evidence_levels(lines)),
-                    ("check retest register", check_check_retest(text)),
-                    ("check finding disposition", check_finding_disposition(text, lines)),
-                    ("check dispositions", check_check_dispositions(text)),
-                    ("check classification ban", check_check_classification(text)),
+                    ("structure-variant sections", check_structure_variant_sections(text)),
+                    ("FND cross-references", check_ids(text)),
+                    ("finding-block fields", check_finding_blocks(lines)),
+                    ("legacy field names", check_legacy_fields(lines, fences)),
+                    ("Observation/Concern tags", check_type_tags(lines, fences)),
+                    ("snapshot identity", check_snapshot_identity(text)),
+                    ("evidence sections", check_evidence_sections(text)),
+                    ("evidence paths", check_evidence_paths(text, repo_root)),
+                    ("final-state gate", check_final_state(text)),
                 ]
             )
         else:
-            checks.append(
-                ("audit finding disposition", check_finding_disposition(text, lines))
+            checks.extend(
+                [
+                    ("required sections", check_required_sections(text)),
+                    ("coverage rows", check_coverage_rows(text)),
+                    ("FND/RSK/REC cross-references", check_ids(text)),
+                    ("finding-block fields", check_finding_blocks(lines)),
+                    ("risk-block fields", check_risk_blocks(lines)),
+                    ("legacy field names", check_legacy_fields(lines, fences)),
+                    ("findings summary columns", check_finding_summary(text)),
+                    ("findings count", check_finding_counts(text)),
+                    ("scorecard mean", check_scorecard_mean(text)),
+                    ("ledger columns", check_ledger_columns(text)),
+                    ("scorecard N/A rows", check_scorecard_na(text)),
+                    ("security classifications", check_security_classification(lines)),
+                    ("score disclosure", check_score_disclosure(lines)),
+                    ("project qualification", check_project_qualification(text)),
+                    ("PAR-1..PAR-20", check_par_rows(text)),
+                    ("recommendation classification", check_rec_classification(text)),
+                    ("Observation/Concern tags", check_type_tags(lines, fences)),
+                    ("snapshot identity", check_snapshot_identity(text)),
+                    ("evidence sections", check_evidence_sections(text)),
+                    ("summary verification labels", check_summary_verified(text)),
+                    ("fresh-audit claims", check_fresh_audit_claims(lines, fences)),
+                    ("roadmap breaking column", check_roadmap_breaking(text)),
+                    ("evidence paths", check_evidence_paths(text, repo_root)),
+                    ("glossary", check_glossary(text)),
+                    ("final-state gate", check_final_state(text)),
+                    ("risk detail consistency", check_risk_consistency(lines, fences)),
+                    ("executed log vocabulary", check_executed_log(text)),
+                ]
             )
+            if style == "hunt":
+                checks.extend(
+                    [
+                        ("hunt domain ratings", check_hunt_ratings(text)),
+                        ("hunt verdict elements", check_hunt_verdict(text)),
+                        ("hunt journey traces", check_hunt_journeys(text)),
+                        ("hunt defect scenarios", check_hunt_scenarios(lines)),
+                        ("hunt finding disposition", check_finding_disposition(text, lines)),
+                        ("hunt classification ban", check_hunt_classification(text)),
+                    ]
+                )
+            elif style == "review":
+                checks.extend(
+                    [
+                        ("review verdict elements", check_hunt_verdict(text)),
+                        ("review domain ratings", check_hunt_ratings(text)),
+                        ("review execution register", check_review_execution_register(text)),
+                        ("review evidence levels", check_review_evidence_levels(lines)),
+                        ("review retest register", check_review_retest(text)),
+                        ("review finding disposition", check_finding_disposition(text, lines)),
+                        ("review dispositions", check_review_dispositions(text)),
+                        ("review classification ban", check_review_classification(text)),
+                    ]
+                )
+            elif style == "audit":
+                checks.append(
+                    ("audit finding disposition", check_finding_disposition(text, lines))
+                )
     if kind == "audit":
         label = report_style(text)
-    elif variant:
-        label = f"{kind} ({variant})"
+        if variant:
+            label = f"{label} ({variant})"
     else:
         label = kind
-    print(f"report type: {label}")
+    print(f"report style: {label}")
     failures = 0
     for name, problems in checks:
         status = "FAIL" if problems else "PASS"

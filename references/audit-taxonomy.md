@@ -37,7 +37,7 @@ and the Rationale column always states why.
 
 | Report type                           | Answered by                                                        | Default status |
 |---------------------------------------|--------------------------------------------------------------------|----------------|
-| Software Architecture Review          | Architectural Assessment, Trade-off Analysis                       | COVERED        |
+| Software Architecture Review          | Architectural Assessment, Structure Review, Trade-off Analysis     | COVERED        |
 | Code Quality Audit                    | Code Quality pillar findings, Technical Debt Register              | COVERED        |
 | Security Vulnerability Assessment     | Security pillar findings, Threat Model, CWE mappings               | COVERED        |
 | Open Source License Compliance Review | License Compliance Review, SBOM license pass                       | COVERED        |

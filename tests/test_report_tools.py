@@ -80,11 +80,11 @@ class TestValidateReport(unittest.TestCase):
         for field in ("Runtime confirmed:", "Change:", "Verified:"):
             self.assertIn(field, self.validator.FINDING_REQUIRED)
 
-    def test_par_bound_is_nineteen(self):
-        rows = "".join(f"| PAR-{n} | PASS | x |\n" for n in range(1, 20))
+    def test_par_bound_is_twenty(self):
+        rows = "".join(f"| PAR-{n} | PASS | x |\n" for n in range(1, 21))
         self.assertEqual(self.validator.check_par_rows(rows), [])
-        missing_19 = "".join(f"| PAR-{n} | PASS | x |\n" for n in range(1, 19))
-        self.assertTrue(any("PAR-19" in f for f in self.validator.check_par_rows(missing_19)))
+        missing_20 = "".join(f"| PAR-{n} | PASS | x |\n" for n in range(1, 20))
+        self.assertTrue(any("PAR-20" in f for f in self.validator.check_par_rows(missing_20)))
 
     def test_absence_tokens(self):
         self.assertIn("Deliberate - recorded decision", self.validator.ABSENCE_VALUES)
@@ -100,9 +100,9 @@ class TestNewReport(unittest.TestCase):
     def setUp(self):
         self.generator = load_script("new-report.py")
 
-    def test_par_rows_cover_nineteen(self):
-        self.assertEqual(len(self.generator.PAR_ROWS), 19)
-        self.assertIn("PAR-19", self.generator.PAR_ROWS[-1])
+    def test_par_rows_cover_twenty(self):
+        self.assertEqual(len(self.generator.PAR_ROWS), 20)
+        self.assertIn("PAR-20", self.generator.PAR_ROWS[-1])
 
 
 if __name__ == "__main__":

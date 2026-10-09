@@ -65,12 +65,12 @@ Distinguish these evidence bases in finding detail:
 - **Inferred**: reasoned from cited evidence, with prerequisites and uncertainty stated.
 - **Executed**: produced by a non-mutating analyzer the user commissioned under
   `executed-readonly` evidence mode, or by a commissioned non-mutating command such as a
-  test suite or isolated reproduction harness under `executed-checks`, recorded with tool,
+  test suite or isolated reproduction harness under `executed-commands`, recorded with tool,
   version, command, and timestamp.
 
 The audit never executes checks itself under `source-only`. Under `executed-readonly` only the
 commissioned non-mutating analyzers run, and the project is still never built, tested, or run.
-Under `executed-checks` the explicitly commissioned non-mutating commands run - including
+Under `executed-commands` the explicitly commissioned non-mutating commands run - including
 tests, builds, and reproduction harnesses - while the subject is still never deployed,
 mutated, or connected to live systems.
 
@@ -415,6 +415,6 @@ These constraints are absolute:
   documentation, and committed artifacts. Read-only inspection commands such as file listing,
   search, and version control history remain in scope. The exceptions are the opt-in evidence
   modes: `executed-readonly` permits non-mutating analyzers the user explicitly commissions,
-  and `executed-checks` additionally permits explicitly commissioned non-mutating commands
+  and `executed-commands` additionally permits explicitly commissioned non-mutating commands
   such as tests, builds, and isolated reproduction harnesses, while the subject is still
   never deployed, mutated, or connected to live systems.

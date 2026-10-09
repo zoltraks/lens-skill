@@ -21,18 +21,18 @@ never assumed from the previous report alone.
 | Section                          | Line | What it covers                             |
 |----------------------------------|------|--------------------------------------------|
 | When This Applies                | 37   | Baseline discovery and confirmation        |
-| Fresh Audit                      | 104  | What does and does not carry over          |
-| Cross-Subject Parity Baseline    | 125  | Any-subject baseline for the parity gate   |
-| Report Revision                  | 136  | Revision numbering                         |
-| Output Filename                  | 155  | Revisioned filename rules                  |
-| Comparison Content               | 208  | What the Changes section compares          |
-| Re-Audit With Changed Params     | 241  | Parameter-change comparison                |
-| Evidence Transitions             | 261  | Finding, evidence, and capability deltas   |
-| Observation Folding              | 280  | Attaching new defects to existing findings |
-| Identifier Continuity            | 291  | FND/RSK/REC sequence rules                 |
-| Status, Change, And Verification | 314  | Status/Change vocabulary for re-audits     |
-| Legacy Field Names               | 340  | Old-schema-to-current name mapping         |
-| Rules                            | 385  | Comparison constraints                     |
+| Fresh Audit                      | 108  | What does and does not carry over          |
+| Cross-Subject Parity Baseline    | 129  | Any-subject baseline for the parity gate   |
+| Report Revision                  | 140  | Revision numbering                         |
+| Output Filename                  | 159  | Revisioned filename rules                  |
+| Comparison Content               | 212  | What the Changes section compares          |
+| Re-Audit With Changed Params     | 245  | Parameter-change comparison                |
+| Evidence Transitions             | 265  | Finding, evidence, and capability deltas   |
+| Observation Folding              | 284  | Attaching new defects to existing findings |
+| Identifier Continuity            | 295  | FND/RSK/REC sequence rules                 |
+| Status, Change, And Verification | 318  | Status/Change vocabulary for re-audits     |
+| Legacy Field Names               | 344  | Old-schema-to-current name mapping         |
+| Rules                            | 389  | Comparison constraints                     |
 
 ## When This Applies
 
@@ -49,20 +49,24 @@ For a `hunt`-style report, the same rules apply to the hunt filename family: `HU
 `HUNT-<revision>.md`, and the language-specific stem such as `POLOWANIE-<revision>.md`,
 identified by a `Report Style` row reading `hunt` in Document Information.
 
-For a `check`-style report, the same rules apply to the check filename family: `CHECK.md`,
-`CHECK-<revision>.md`, and the language-specific stem such as `SPRAWDZENIE-<revision>.md`,
-identified by a `Report Style` row reading `check` in Document Information.
-
-For a review engagement, the same rules apply to the review filename family: `REVIEW.md`,
+For a `review`-style report, the same rules apply to the review filename family: `REVIEW.md`,
 `REVIEW-<revision>.md`, and the language-specific stem such as `PRZEGLĄD-<revision>.md`,
-identified by a `<subject> Review and Amendment Instructions` title or a `Reviewed baseline`
-preamble instead of Document Information.
+identified by a `Report Style` row reading `review` in Document Information.
+
+A `review`-family file carrying a `Review Scope: Structure` row is a structure-variant report
+and baselines only another structure-variant report - scope is part of the baseline identity.
+
+A `REVIEW`-family file lacking the `Report Style: review` identification marker is a legacy
+report shape: it is never a baseline, though its name still occupies the revision slot.
+
+A legacy `CHECK`-family file is never identified as a previous report and never serves as a
+baseline.
 
 A file that shares the report directory but lacks these identification markers is not a previous
 report.
 
-An audit report never baselines a review, a review report never baselines an audit,
-and a hunt or check report never baselines a report of another style or kind.
+A report never baselines a report of another style, and a structure-variant report never
+baselines a full-scope report of the same style.
 
 Status snapshots, state documents such as `current-state.md`, coverage or scan output,
 and stakeholder documents are `Reported` evidence or context, never comparison baselines.
@@ -78,9 +82,9 @@ Search for previous reports in this order:
 - The resolved output directory, including its version-numbered or date-named subdirectories.
 - The default designated locations: `audit/` and `report/` directories and the bare roots under
   `docs/`, `document/`, and `doc/`, then the repository or directory root.
-- The purpose-named subdirectory matching the report kind inside a `report/` directory -
-  `report/audit/` for an audit report, `report/review/` for a review report.
-- For a review engagement, the dedicated `review/` and `reviews/` directories under the
+- The purpose-named subdirectory matching the report style inside a `report/` directory -
+  `report/audit/` for the `audit` or `hunt` style, `report/review/` for the `review` style.
+- For a `review`-style report, the dedicated `review/` and `reviews/` directories under the
   documentation roots, including their dated subdirectories.
 - Any other location in the document structure where an audit report file is found.
 
@@ -159,9 +163,9 @@ Never overwrite a previous report file.
 Each revision is a separate file so that audit history stays comparable.
 
 The default filename is `<base>-<revision>.md`,
-where `<base>` is the language-specific default stem for the report type (`AUDIT` for an
-English audit, `REVIEW` for a review, `HUNT` for a `hunt`-style report, `CHECK` for a
-`check`-style report, the stem defined in `translations/` otherwise) and `<revision>` is
+where `<base>` is the language-specific default stem for the report style (`AUDIT` for an
+`audit`-style report, `REVIEW` for a `review`-style report, `HUNT` for a `hunt`-style
+report, the stem defined in `translations/` otherwise) and `<revision>` is
 the new report revision.
 
 For example, `AUDIT-1.1.md` or `AUDYT-1.1.md`.
@@ -169,8 +173,8 @@ For example, `AUDIT-1.1.md` or `AUDYT-1.1.md`.
 A first audit uses revision `1.0`, producing `AUDIT-1.0.md` or `AUDYT-1.0.md`,
 with the plain stem `AUDIT.md` offered as an alternative at delivery time.
 
-A first `hunt`- or `check`-style report inverts this default: the plain stem `HUNT.md` or
-`CHECK.md` (or the language-specific stem such as `POLOWANIE.md` or `SPRAWDZENIE.md`) is
+A first `hunt`- or `review`-style report inverts this default: the plain stem `HUNT.md` or
+`REVIEW.md` (or the language-specific stem such as `POLOWANIE.md` or `PRZEGLĄD.md`) is
 the default filename, and the revisioned name such as `HUNT-1.0.md` is offered as the
 alternative.
 

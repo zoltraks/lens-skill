@@ -12,19 +12,19 @@ Follow it for every full audit.
 For a single-dimension request, run the same steps but limit the assessment phase to the one
 requested category.
 
-A review report applies the same phases with the deltas defined in
-`process/review-report.md`.
+The `hunt` and `review` report styles apply the same phases with the section-order deltas
+defined in `process/report-format/hunt-style.md` and `process/report-format/review-style.md`.
 
 ## Contents
 
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 1747 | Intake Checklist guidance        |
-| Handling Thin Input     | 1766 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1777 | Single-Dimension Audits guidance |
-| Re-Audit                | 1787 | Re-Audit guidance                |
-| Multi-Project Audits    | 1853 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1751 | Intake Checklist guidance        |
+| Handling Thin Input     | 1771 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1782 | Single-Dimension Audits guidance |
+| Re-Audit                | 1796 | Re-Audit guidance                |
+| Multi-Project Audits    | 1862 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -43,12 +43,18 @@ Note the source format.
 
 Findings from a description are weaker than findings from inspected code or configuration.
 
-Determine the report type per `process/review-report.md`: `Audit` by default, `Review`
-only when the request explicitly asks for a review deliverable with amendment instructions
-or an improvement plan.
+Determine the report style from the request wording: `audit` by default, `hunt` when the
+request asks for a defect hunt, and `review` when the request explicitly names a review or
+check report - `check` remains an accepted alias for the execution-register style.
 
-A `Review` request scoped to a change set - a commit range, pull or merge request, or
-branch diff - resolves to the change-review variant per `process/review-report.md`.
+Bare "review this codebase" wording stays `audit`; the style is selected when the request
+names the report, not the activity.
+
+A request scoped to the project structure - "make a structure review", "review the
+structure" - resolves to `review` with `Review Scope: Structure` per
+`process/report-format/structure-review.md`, and a request scoped to a change set - a commit
+range, pull or merge request, or branch diff - produces a `review`-style report scoped to
+that change set.
 
 Determine the natural language of the user's request.
 
@@ -87,12 +93,12 @@ Record the resolved base output directory, the detected subdirectory pattern,
 the project version used, and the resolved output directory.
 
 When the resolved base is a `report/` directory that contains a subdirectory matching the
-report kind - `audit/` for an audit report, `review/` for a review report - descend into that
-subdirectory and record it as the base, so a `docs/report/audit/` landing zone wins over the
-bare `docs/report/` for an audit report.
+report style - `audit/` for the `audit` or `hunt` style, `review/` for the `review` style -
+descend into that subdirectory and record it as the base, so a `docs/report/audit/` landing
+zone wins over the bare `docs/report/` for an `audit`-style report.
 
 A dedicated `review/` or `reviews/` directory under a documentation root is the
-review-purpose base for a review report, and its date-named subdirectories record
+review-purpose base for a `review`-style report, and its date-named subdirectories record
 the `date-named` pattern for the subdirectory grouping.
 
 Classify the subdirectory names inside the resolved base output directory:
@@ -321,29 +327,31 @@ the default locations (`audit/` and `report/` directories and the bare root unde
 `document/`, and `doc/`, then the repository root), and the rest of the document structure,
 per `synthesis/report-comparison.md`.
 
-Inside a `report/` directory, also search its `audit/` subdirectory when the report kind is
-audit, or its `review/` subdirectory when the report kind is review.
+Inside a `report/` directory, also search its `audit/` subdirectory when the report style is
+`audit` or `hunt`, or its `review/` subdirectory when the report style is `review`.
 
-For a review report, also search dedicated `review/` and `reviews/` directories under the
-documentation roots, including their dated subdirectories.
+For a `review`-style report, also search dedicated `review/` and `reviews/` directories
+under the documentation roots, including their dated subdirectories.
 
 A previous report may be named `AUDIT.md`, `AUDIT-<revision>.md`, or the language-specific filename.
 
 For a `hunt` report style the same rules apply to the hunt filename family: `HUNT.md`,
 `HUNT-<revision>.md`, and the language-specific stem such as `POLOWANIE-<revision>.md`.
-For a `check` report style the family is `CHECK.md`, `CHECK-<revision>.md`, and the
-language-specific stem such as `SPRAWDZENIE-<revision>.md`.
+For a `review` report style the family is `REVIEW.md`, `REVIEW-<revision>.md`, and the
+language-specific stem such as `PRZEGLĄD-<revision>.md`.
 
-When the resolved report type is `Review`, the same rules apply to the review filename
-family: `REVIEW.md`, `REVIEW-<revision>.md`, and the language-specific stem such as
-`PRZEGLĄD-1.0.md`, and the audit-mode wording reads "re-review".
+A `review`-family file serves as a baseline only when it carries `Report Style: review` and
+the same `Review Scope` value - a structure-variant report baselines a structure-variant
+report, and a full-scope review baselines a full-scope review. A `REVIEW`-family file
+carrying a custom suffix is treated as a custom report and still appears as a baseline
+candidate. A `REVIEW`-family file without the `Report Style` row is a legacy shape and
+never serves as a baseline, though its name still occupies the revision slot.
 
-The change-review variant shares the `REVIEW` filename family: a previous change review
-baselines a new change review, while a `REVIEW`-family file carrying a custom suffix is
-treated as a custom report and still appears as a baseline candidate.
+A legacy `CHECK`-family file is never identified as a previous `review`-style report and
+never serves as a baseline.
 
-An audit report never baselines a review, a review report never baselines an audit,
-and a hunt or check report never baselines a report of another style or kind.
+A report never baselines a report of another style - an `audit` report never baselines a
+`review` report, a `review` report never baselines an `audit` or `hunt` report, and so on.
 
 When several exist, present the one with the highest revision as the candidate baseline.
 
@@ -446,19 +454,18 @@ Present the defaults in a compact summary.
 
 Default parameters:
 
-| Parameter               | Default                                                                                                                                                          |
-|-------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Report type             | Audit - Review only on an explicit review, amendment, or improvement-plan request                                                                                |
-| Report style            | `audit` - the governance contract, `hunt` the defect-hunt genre, `check` the execution-register genre                                                            |
-| Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/`, else Inline                                                                          |
-| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md` for a first hunt, `CHECK.md` for a first check                |
-| Report language         | Match the language of the user's request                                                                                                                         |
-| Detail level            | Detailed                                                                                                                                                         |
-| Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                                                                            |
-| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                                                                                          |
-| Trade-off analysis      | Standalone section + embedded into relevant findings                                                                                                             |
-| Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it                                                                          |
-| Evidence mode           | `source-only` - `executed-readonly` runs commissioned non-mutating analyzers, `executed-checks` adds commissioned non-mutating commands such as tests and builds |
+| Parameter               | Default                                                                                                                                                            |
+|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Report style            | `audit` - the governance contract, `hunt` the defect-hunt genre, `review` the execution-register genre                                                             |
+| Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/`, else Inline                                                                            |
+| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md` for a first hunt, `REVIEW.md` for a first review                |
+| Report language         | Match the language of the user's request                                                                                                                           |
+| Detail level            | Detailed                                                                                                                                                           |
+| Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                                                                              |
+| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                                                                                            |
+| Trade-off analysis      | Standalone section + embedded into relevant findings                                                                                                               |
+| Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it                                                                            |
+| Evidence mode           | `source-only` - `executed-readonly` runs commissioned non-mutating analyzers, `executed-commands` adds commissioned non-mutating commands such as tests and builds |
 
 The agent MUST ask the user and MUST NOT skip this step.
 
@@ -467,12 +474,10 @@ The agent MUST wait for user response before proceeding to Scope Definition.
 Output filename carries the report revision: `AUDIT-1.0.md` for a first English audit, or the
 language-specific revisioned name from the matching `translations/` file such as `AUDYT-1.0.md`.
 
-For a review report the stem is `REVIEW` instead, producing `REVIEW-1.0.md`.
-
 For the `hunt` report style the stem is `HUNT` - or the language-specific stem such as
 `POLOWANIE` - and a first hunt defaults to the bare stem `HUNT.md`, with `HUNT-1.0.md`
-offered as the revisioned alternative. For `check` the stem is `CHECK` - or the
-language-specific stem such as `SPRAWDZENIE` - under the same bare-first default.
+offered as the revisioned alternative. For `review` the stem is `REVIEW` - or the
+language-specific stem such as `PRZEGLĄD` - under the same bare-first default.
 
 When a previous report exists, the filename carries the new revision, for example `AUDIT-1.1.md`,
 per `synthesis/report-comparison.md`.
@@ -546,9 +551,6 @@ Every routine prompt carries three kinds of choices:
 Routine prompts are limited to delivery and output file, report style, detail level, and
 evaluation scale.
 
-For a review report the evaluation-scale prompt is skipped and Descriptive mode does not
-apply, since the review carries no scorecard and no Glossary.
-
 Report language follows the request language unless the user explicitly specifies another language.
 
 Advanced parameters use their defaults unless explicitly specified.
@@ -562,21 +564,22 @@ subdirectories.
 Before asking, resolve the base output directory using the following rules,
 applied in order against the root of the repository or directory being audited:
 
-1. For a review report, if any `<root>/review/` or `<root>/reviews/` directory exists, use the
+1. For a `review`-style report, if any `<root>/review/` or `<root>/reviews/` directory exists,
+   use the first one in the documentation root order as the base output directory.
+2. For an `audit`- or `hunt`-style report, if any `<root>/audit/` directory exists, use the
    first one in the documentation root order as the base output directory.
-2. For an audit report, if any `<root>/audit/` directory exists, use the first one in the
-   documentation root order as the base output directory.
 3. Else if any `<root>/report/` directory exists, use the first one in the documentation root
    order as the base output directory.
-4. Else if the report is a review and any `<root>/audit/` directory exists, use the first one
-   in the documentation root order as the base output directory.
+4. Else if the report is `review`-styled and any `<root>/audit/` directory exists, use the
+   first one in the documentation root order as the base output directory.
 5. Else if any bare documentation root exists, use the first one in the documentation root
    order as the base output directory.
 6. Otherwise use the root of the audited repository or directory as the base output directory.
 
 When the resolved base is a `report/` directory containing a subdirectory that matches the
-report kind - `audit/` for an audit report, `review/` for a review report - descend into it:
-the base becomes `<root>/report/audit/` or `<root>/report/review/` respectively.
+report style - `audit/` for the `audit` or `hunt` style, `review/` for the `review` style -
+descend into it: the base becomes `<root>/report/audit/` or `<root>/report/review/`
+respectively.
 
 After selecting the base output directory,
 consume the subdirectory pattern recorded during Output location discovery at intake.
@@ -612,14 +615,14 @@ Resolve the filename before asking.
 
 The default filename carries the report revision:
 
-`<stem>-<revision>.md`, where `<stem>` is `AUDIT` for English audit reports, `REVIEW` for
-review reports, `HUNT` for `hunt`-style reports, `CHECK` for `check`-style reports, or the
-language-specific stem from the matching `translations/` file.
+`<stem>-<revision>.md`, where `<stem>` is `AUDIT` for `audit`-style reports, `REVIEW` for
+`review`-style reports, `HUNT` for `hunt`-style reports, or the language-specific stem from
+the matching `translations/` file.
 
 A first audit uses `AUDIT-1.0.md` or the language-specific equivalent such as `AUDYT-1.0.md`.
 
-A first hunt or check report instead defaults to the bare stem `HUNT.md`/`CHECK.md` or its
-language-specific equivalent such as `POLOWANIE.md`/`SPRAWDZENIE.md`, with the revisioned
+A first hunt or review report instead defaults to the bare stem `HUNT.md`/`REVIEW.md` or its
+language-specific equivalent such as `POLOWANIE.md`/`PRZEGLĄD.md`, with the revisioned
 name offered as the alternative.
 
 When a previous report exists, use the incremented filename defined in
@@ -631,7 +634,7 @@ rename it to `<stem>-<revision>.md` before writing the new report, per
 
 The filename without the revision number, `AUDIT.md` or its language-specific equivalent, is
 offered as an alternative file option for audit-style reports, and is the default for a first
-hunt or check report.
+hunt or review report.
 
 Ask: "How should the report be delivered?"
 
@@ -655,7 +658,7 @@ Present each applicable option as a concrete choice:
   `docs/report/<date>/AUDIT-1.0.md` for a first audit.
 - `File - <resolved-path>/<filename without the revision number>` - the resolved path using
   the filename without the revision number, such as `docs/report/AUDIT.md`, offered as an
-  alternative to the revisioned default. For a `hunt`- or `check`-style report this option is
+  alternative to the revisioned default. For a `hunt`- or `review`-style report this option is
   the default and the revisioned filename becomes the alternative.
 - `Custom report file` - ask the user to specify the location and filename.
 
@@ -746,18 +749,18 @@ Ask: "Which report style should the report use?"
 - **`hunt`** - the defect-hunt genre defined in `process/report-format/hunt-style.md`:
   a verdict-first, domain-organized engineering report with `file:line` evidence,
   journey traces, breaking-change assessment, and a phase-mapped roadmap.
-- **`check`** - the execution-oriented genre defined in
-  `process/report-format/check-style.md`: a run register of commissioned checks with
+- **`review`** - the execution-oriented genre defined in
+  `process/report-format/review-style.md`: a run register of commissioned checks with
   per-check status, evidence levels, a verdict with permitted-use gates, and a retest
   register.
 
 All three styles share the same evidence rigor, finding schema, and completeness rules -
 style changes presentation, never what must be found.
 
+`check` wording selects the `review` style - the old style name remains an accepted alias.
+
 The question ends with `Use default: audit` and `Use defaults for all remaining questions`.
 Under JSON exchange this is the `report-style` `choice` parameter.
-
-For a review report this prompt is skipped, since the review format is fixed.
 
 **Evidence mode**
 
@@ -765,7 +768,7 @@ Use **`source-only`** by default.
 
 Do not ask this as a routine prompt.
 
-Apply `executed-readonly` or `executed-checks` only when the user explicitly commissions
+Apply `executed-readonly` or `executed-commands` only when the user explicitly commissions
 the mode.
 
 - **`source-only`** (default) - the audit executes nothing: no build, test, linter, scanner,
@@ -776,12 +779,12 @@ the mode.
   The project itself is still never built, tested, or run, no tool is installed or upgraded
   for the audit, and every executed check is recorded in the Executed Evidence Log with
   tool, version, exact command, and timestamp per `process/report-format/report-closing.md`.
-- **`executed-checks`** - additionally runs the explicitly commissioned non-mutating
+- **`executed-commands`** - additionally runs the explicitly commissioned non-mutating
   commands the user names, which may include test suites, builds, lint, typecheck,
   coverage runs, and isolated reproduction harnesses. The subject is still never
   deployed, mutated, or connected to live systems, no tool is installed or upgraded
   unless the user commissioned it, and every executed command lands in the Executed
-  Evidence Log - or the Execution Register under `Report Style: check` - with tool,
+  Evidence Log - or the Execution Register under `Report Style: review` - with tool,
   version, exact command, timestamp, exit status, and result per
   `process/report-format/report-closing.md`.
 
@@ -793,7 +796,7 @@ Ask: "What level of detail should the report include?"
 
 - **Detailed** (default) - full report plus extended remediation steps, additional verification
   methods, deeper architectural critique, and expanded impact analysis.
-- **Standard** - full report with all twenty-one baseline sections, subject to explicit parameter
+- **Standard** - full report with all twenty-two baseline sections, subject to explicit parameter
   exclusions plus any conditional sections whose criteria are met, complete findings, risk
   register, scorecard, and remediation roadmap.
 - **Brief** - Executive Summary, Health Dashboard (scorecard summary and risk map only),
@@ -928,17 +931,17 @@ Under `executed-readonly` evidence mode the agent may additionally run the non-m
 read-only analyzers the user explicitly commissioned, such as dependency advisory or policy
 scanners.
 
-Under `executed-checks` evidence mode the agent may additionally run the commissioned
+Under `executed-commands` evidence mode the agent may additionally run the commissioned
 non-mutating commands the user named - tests, builds, lint, typecheck, coverage, isolated
 reproduction harnesses - while the subject is still never deployed, mutated, or connected
 to live systems.
 
 The project itself is still never run outside the commissioned set, no tool is installed or
-upgraded for the audit unless commissioned, and every executed check lands in the Executed
-Evidence Log - or the Execution Register under `Report Style: check` - per
+upgraded for the audit unless commissioned, and every executed command lands in the Executed
+Evidence Log - or the Execution Register under `Report Style: review` - per
 `process/report-format/report-closing.md`.
 
-Record the scope as `source-only`, `executed-readonly`, or `executed-checks`.
+Record the scope as `source-only`, `executed-readonly`, or `executed-commands`.
 
 Documented or committed check results are `REPORTED` evidence, not audit execution.
 
@@ -1105,9 +1108,10 @@ The file is a plain JSON object: `evidence` (ledger rows as `id`, `check`, `resu
 `artifact`), `read_depth` (per-area rows), `boundary_traces` (producer/consumer rows),
 `journeys` (workflow names with per-hop `hop`, `status`, `evidence`, `fnd`), and `notes`.
 
-Both report styles read the same object: the audit renders its ledger, methodology, and
+All three styles read the same object: the audit renders its ledger, methodology, and
 register sections from it, the hunt renders the same rows plus the journey traces - style
-changes presentation, never the captured evidence.
+changes presentation, never the captured evidence. Structure Review evidence rows are
+rendered by the `audit` and `review` styles; a `hunt` report never consumes them.
 
 The file is optional, stays inside `work/` with the other scratch artifacts, carries no
 secrets, and never replaces the read-depth and traceability rules above.
@@ -1125,9 +1129,9 @@ Verification Handoff.
 
 Under `executed-readonly` only the commissioned non-mutating analyzers run - builds, tests,
 and the project itself still never execute - and their results are `EXECUTED` evidence in the
-Executed Evidence Log rather than `NOT RUN` rows. Under `executed-checks` the commissioned
+Executed Evidence Log rather than `NOT RUN` rows. Under `executed-commands` the commissioned
 non-mutating commands run - tests and builds included - and land in the same register, or in
-the Execution Register under `Report Style: check`, each with its status token
+the Execution Register under `Report Style: review`, each with its status token
 (`PASS`/`FAIL`/`ERROR`/`BLOCKED`/`SKIPPED`/`NOT RUN`/`N/A`).
 
 For each selected check, record what the repository itself shows: a documented command,
@@ -1151,7 +1155,7 @@ A missing check is missing evidence, not a missing feature.
 
 The audit never compiles, builds, or tests the project and never runs linters, scanners, or
 generators against it, except the commissioned non-mutating analyzers under
-`executed-readonly` and the commissioned non-mutating commands under `executed-checks`.
+`executed-readonly` and the commissioned non-mutating commands under `executed-commands`.
 
 Read-only inspection of repository contents is still used: file listing, search, and version
 control history.
@@ -1220,7 +1224,8 @@ If a material claim has no direct reference, add one to the evidence ledger or r
 For each category, open the matching `assessment/` file and apply its checklist.
 
 For a full audit, this includes the two additional categories `assessment/generated-code.md` and
-`assessment/copyright-review.md`.
+`assessment/copyright-review.md`, plus `assessment/structure-review.md` for the `audit` and
+`review` report styles - the structure assessment never loads under `hunt`.
 
 Evaluate the inclusion criterion for each conditional assessment,
 listed in the Conditional Sections table of `process/report-format.md`.
@@ -1248,14 +1253,12 @@ Record evidence, concrete risks, and neutral notes for each category.
 
 **Synthesis**
 
-For a review report, synthesize the sections defined in `process/review-report.md`
-instead of the audit sections below.
-
 When the report style is `hunt`, synthesize per `process/report-format/hunt-style.md`.
 That style reuses the finding, risk, and roadmap schemas below with its own section order
 and adds the journey-trace matrix, per-domain ratings, and the phase-mapped roadmap.
 
-When the report style is `check`, synthesize per `process/report-format/check-style.md`.
+When the report style is `review`, synthesize per `process/report-format/review-style.md` -
+or `process/report-format/structure-review.md` when the resolved scope is structure-only.
 That style reuses the same schemas and adds the execution register, evidence levels, and
 the retest register.
 
@@ -1396,11 +1399,7 @@ re-audit that upgrades a prior revision, apply these mechanical-edit rules:
 
 **Validation**
 
-For a review report, run the review validation contract in `process/review-report.md`,
-where the change-review variant runs its own contract.
-instead of the audit checks below.
-
-`scripts/validate-report.py` detects the review shape and applies the review contract.
+`scripts/validate-report.py` detects the report style and applies that style's contract.
 
 Re-check every finding against `principles/evaluation-rules.md`.
 
@@ -1575,16 +1574,16 @@ carries - a `Runtime confirmed: no` finding cannot appear as verified in any sum
 
 Under `executed-readonly`, confirm the Executed Evidence Log lists every executed check with
 tool, version, exact command, and timestamp, and that the report claims no build, test, or
-project run. Under `executed-checks`, confirm the same provenance in the log or Execution
+project run. Under `executed-commands`, confirm the same provenance in the log or Execution
 Register and that only the commissioned commands ran.
 
 Under `source-only`, confirm the Operator Verification Handoff covers every material claim
 that could not be resolved from source, each entry naming command, pass criteria, and the
 finding it would confirm or close.
 
-When the report style is `hunt` or `check`, confirm the layout, verdict block, and rating
+When the report style is `hunt` or `review`, confirm the layout, verdict block, and rating
 columns match `process/report-format/hunt-style.md` or
-`process/report-format/check-style.md`.
+`process/report-format/review-style.md`.
 
 Before composing the report body, run a tooling probe against the report-production scripts:
 
@@ -1675,74 +1674,79 @@ When maintaining this skill, exercise these scenarios and check the expected beh
 
 These are reasoning checks, not proof of improvement from an independent model benchmark.
 
-| Scenario                                   | Expected Behavior                                               |
-|--------------------------------------------|-----------------------------------------------------------------|
-| Changelog says tests pass                  | Reported only, readiness evidence incomplete                    |
-| Committed scan report lists an advisory    | Reported evidence, finding requires triage                      |
-| Documented build steps, no pipeline        | Inspected only, build outcome unknown                           |
-| Old crate, no advisory data                | Freshness concern, vulnerability status unknown                 |
-| Guarded panic or excluded module           | Verify reachability, do not invent failure                      |
-| Local CLI without hosted runtime           | Assess local safety, omit irrelevant hosted controls            |
-| Due diligence with no cost or support data | Retain unknowns, request artifacts                              |
-| Two projects reuse FND-SEC-001             | Project-qualified shared references                             |
-| Clean code with uniform tests              | No authorship inference, assess test behavior                   |
-| Security fix proposed but not run          | Keep verification pending, no closure claim                     |
-| Partial cost inputs or no telemetry        | No complete budget or numeric SLO claim                         |
-| Previous report at revision 1.9 exists     | New `AUDIT-2.0.md`, previous kept, comparison added             |
-| Previous report has no Revision row        | Assume 1.0, new file `AUDIT-1.1.md`                             |
-| Previous report uses bold-label `Version`  | Read it as the report revision                                  |
-| Previous report found, mode unstated       | Three audit-mode options asked before parameters                |
-| Re-audit requested, report found           | Baseline file confirmed before reuse                            |
-| Re-audit with changed parameters chosen    | Recovered values are defaults, named params re-asked            |
-| Parameter differs between reports          | Capability change in Changes, not a product change              |
-| Baseline predates current skill version    | Capability delta applied, named in Validation Record            |
-| Scorecard gains a dimension on re-audit    | Mean formula restated, movement outside score delta             |
-| Re-audit requested, none found             | User asked before fresh audit at revision 1.0                   |
-| Fresh audit over an existing report        | Revision increments, content ignored, fresh IDs                 |
-| Reusable library without an API gate       | API Compatibility section included, absence assessed            |
-| CWE-295 finding in C#                      | Finding names `CA5359` and its enablement state                 |
-| Git author data collected, no finding      | Team & Continuity dashboard line still present                  |
-| Mean 5.8 with Security at 4                | Floor named next to the mean                                    |
-| Lockfile present, no SBOM                  | Source-derived component inventory produced                     |
-| Other-subject report has a new section     | Apply it or justify `N/A` in the Validation Record              |
-| Checklist item silently skipped            | Consistency gate fails, report keeps the `State` row at `Draft` |
-| Same issue type in two projects            | Per-project trade-off, not the combined section                 |
-| Shared workspace or build decision         | Row in the combined Trade-off Analysis                          |
-| Multi-project audit                        | Combined summary and Changes precede project blocks             |
-| Prior report anchor does not resolve       | Correct anchor recorded, citation flagged                       |
-| Census method differs between reports      | Canonical method restated, figure compared                      |
-| Scripted edit anchors on `## frontend`     | Complete heading line matched, no `###` hit                     |
-| Regex splice touches a table separator     | Whole block rewritten, formatter re-run                         |
-| Validator reports more than 10 problems    | Fix and re-run until zero, first-10 display limit               |
-| File-mode report at any size               | Parts written in order, concatenated, removed after gates       |
-| Heredoc carries report content             | Forbidden - part writes via the file tool only                  |
-| Scratch dir unwritable by file tool        | `.tmp.` parts beside the output file, deleted after assembly    |
-| Previous report confirmed at intake        | Checksum recorded, re-verified at assembly and delivery         |
-| Baseline checksum mismatch at re-verify    | Stop and surface, never deliver silently                        |
-| Assembly interrupted or output lost        | Resume from parts, `Time taken` keeps original start            |
-| Comment-only catch bodies                  | Counted separately from empty bodies                            |
-| Evaluation scale prompt shown              | Four options: 1-10, 1-5, 1-3, Stars - count via follow-up       |
-| No previous report exists                  | Default `AUDIT-1.0.md`, `AUDIT.md` as alternative               |
-| `document/` exists, `docs/` does not       | Resolved base is `document/`, offered as a location             |
-| Document prose already wraps near 60       | Offer 60 alongside the default 100 at wrap time                 |
-| Version-named subdirs under `docs/report/` | Only the version path offered, no date alternative              |
-| Full audit report generated                | Coverage matrix present, pentest row `NOT DONE`                 |
-| Matrix row marked `COVERED`                | No Scope Exclusions bullet disclaims that type                  |
-| Manifest has no license fields             | SBOM License cells `Unknown`, gap feeds findings                |
-| Committed advisory report absent           | `Advisory Checked` stays `N` for every component                |
-| Critical finding on public endpoint        | `Exploitability` narrative present, `Theoretical` tier          |
-| Narrative claims dynamic verification      | Defect: scope never lifted, tier forced down                    |
-| Security finding on internal-only code     | Narrative field omitted                                         |
-| Git subject, no tags                       | Deployment frequency proxy `NOT SPECIFIED`                      |
-| Single-author repository                   | Bus-factor `HIGH`, Team & Continuity line present               |
-| Non-Git subject                            | Delivery Practice section `NOT COLLECTED`                       |
-| Evidence ledger written                    | Every row carries `Observation` or `Concern`                    |
-| Polish-language report                     | Headings and dimension names match glossary verbatim            |
-| Explicit review-and-amend request          | `REVIEW-1.0.md` with the review structure                       |
-| Explicit change-set review request         | `REVIEW-1.0.md` with the change-review structure                |
-| Bare "review this codebase" request        | Audit stays the default, single-dimension when scoped           |
-| Existing `REVIEW-1.0.md`, new review       | `REVIEW-1.1.md` written, previous kept                          |
-| Review request, `AUDIT-1.0.md` exists      | Audit report never baselines a review                           |
+| Scenario                                      | Expected Behavior                                               |
+|-----------------------------------------------|-----------------------------------------------------------------|
+| Changelog says tests pass                     | Reported only, readiness evidence incomplete                    |
+| Committed scan report lists an advisory       | Reported evidence, finding requires triage                      |
+| Documented build steps, no pipeline           | Inspected only, build outcome unknown                           |
+| Old crate, no advisory data                   | Freshness concern, vulnerability status unknown                 |
+| Guarded panic or excluded module              | Verify reachability, do not invent failure                      |
+| Local CLI without hosted runtime              | Assess local safety, omit irrelevant hosted controls            |
+| Due diligence with no cost or support data    | Retain unknowns, request artifacts                              |
+| Two projects reuse FND-SEC-001                | Project-qualified shared references                             |
+| Clean code with uniform tests                 | No authorship inference, assess test behavior                   |
+| Security fix proposed but not run             | Keep verification pending, no closure claim                     |
+| Partial cost inputs or no telemetry           | No complete budget or numeric SLO claim                         |
+| Previous report at revision 1.9 exists        | New `AUDIT-2.0.md`, previous kept, comparison added             |
+| Previous report has no Revision row           | Assume 1.0, new file `AUDIT-1.1.md`                             |
+| Previous report uses bold-label `Version`     | Read it as the report revision                                  |
+| Previous report found, mode unstated          | Three audit-mode options asked before parameters                |
+| Re-audit requested, report found              | Baseline file confirmed before reuse                            |
+| Re-audit with changed parameters chosen       | Recovered values are defaults, named params re-asked            |
+| Parameter differs between reports             | Capability change in Changes, not a product change              |
+| Baseline predates current skill version       | Capability delta applied, named in Validation Record            |
+| Scorecard gains a dimension on re-audit       | Mean formula restated, movement outside score delta             |
+| Re-audit requested, none found                | User asked before fresh audit at revision 1.0                   |
+| Fresh audit over an existing report           | Revision increments, content ignored, fresh IDs                 |
+| Reusable library without an API gate          | API Compatibility section included, absence assessed            |
+| CWE-295 finding in C#                         | Finding names `CA5359` and its enablement state                 |
+| Git author data collected, no finding         | Team & Continuity dashboard line still present                  |
+| Mean 5.8 with Security at 4                   | Floor named next to the mean                                    |
+| Lockfile present, no SBOM                     | Source-derived component inventory produced                     |
+| Other-subject report has a new section        | Apply it or justify `N/A` in the Validation Record              |
+| Checklist item silently skipped               | Consistency gate fails, report keeps the `State` row at `Draft` |
+| Same issue type in two projects               | Per-project trade-off, not the combined section                 |
+| Shared workspace or build decision            | Row in the combined Trade-off Analysis                          |
+| Multi-project audit                           | Combined summary and Changes precede project blocks             |
+| Prior report anchor does not resolve          | Correct anchor recorded, citation flagged                       |
+| Census method differs between reports         | Canonical method restated, figure compared                      |
+| Scripted edit anchors on `## frontend`        | Complete heading line matched, no `###` hit                     |
+| Regex splice touches a table separator        | Whole block rewritten, formatter re-run                         |
+| Validator reports more than 10 problems       | Fix and re-run until zero, first-10 display limit               |
+| File-mode report at any size                  | Parts written in order, concatenated, removed after gates       |
+| Heredoc carries report content                | Forbidden - part writes via the file tool only                  |
+| Scratch dir unwritable by file tool           | `.tmp.` parts beside the output file, deleted after assembly    |
+| Previous report confirmed at intake           | Checksum recorded, re-verified at assembly and delivery         |
+| Baseline checksum mismatch at re-verify       | Stop and surface, never deliver silently                        |
+| Assembly interrupted or output lost           | Resume from parts, `Time taken` keeps original start            |
+| Comment-only catch bodies                     | Counted separately from empty bodies                            |
+| Evaluation scale prompt shown                 | Four options: 1-10, 1-5, 1-3, Stars - count via follow-up       |
+| No previous report exists                     | Default `AUDIT-1.0.md`, `AUDIT.md` as alternative               |
+| `document/` exists, `docs/` does not          | Resolved base is `document/`, offered as a location             |
+| Document prose already wraps near 60          | Offer 60 alongside the default 100 at wrap time                 |
+| Version-named subdirs under `docs/report/`    | Only the version path offered, no date alternative              |
+| Full audit report generated                   | Coverage matrix present, pentest row `NOT DONE`                 |
+| Matrix row marked `COVERED`                   | No Scope Exclusions bullet disclaims that type                  |
+| Manifest has no license fields                | SBOM License cells `Unknown`, gap feeds findings                |
+| Committed advisory report absent              | `Advisory Checked` stays `N` for every component                |
+| Critical finding on public endpoint           | `Exploitability` narrative present, `Theoretical` tier          |
+| Narrative claims dynamic verification         | Defect: scope never lifted, tier forced down                    |
+| Security finding on internal-only code        | Narrative field omitted                                         |
+| Git subject, no tags                          | Deployment frequency proxy `NOT SPECIFIED`                      |
+| Single-author repository                      | Bus-factor `HIGH`, Team & Continuity line present               |
+| Non-Git subject                               | Delivery Practice section `NOT COLLECTED`                       |
+| Evidence ledger written                       | Every row carries `Observation` or `Concern`                    |
+| Polish-language report                        | Headings and dimension names match glossary verbatim            |
+| Explicit review or check request              | `REVIEW.md` with the review-style section set                   |
+| Explicit change-set review request            | `REVIEW.md` scoped to the change set                            |
+| "Make a structure review" request             | `REVIEW.md` with the structure-review variant contract          |
+| Full audit on a code-bearing subject          | Structure Review section before Trade-off Analysis              |
+| Hunt report synthesized                       | No Structure Review content, the assessment was not loaded      |
+| Legacy `CHECK-1.0.md` found                   | Not identified as a previous report                             |
+| Legacy `REVIEW-1.0.md` lacking `Report Style` | Legacy shape, never a baseline, name keeps the revision slot    |
+| Bare "review this codebase" request           | Audit stays the default, single-dimension when scoped           |
+| Existing `REVIEW-1.0.md`, new review          | `REVIEW-1.1.md` written, previous kept                          |
+| Review request, `AUDIT-1.0.md` exists         | A report never baselines a report of another style              |
 
 ## Intake Checklist
 
@@ -1750,7 +1754,8 @@ Use this checklist to confirm you understand the input before assessing.
 
 | Question                                        | Record As                                            |
 |-------------------------------------------------|------------------------------------------------------|
-| What report type was resolved?                  | `Audit` / `Review`                                   |
+| What report style was resolved?                 | `audit` / `hunt` / `review`                          |
+| What review scope was resolved?                 | `full` / `structure`, or `N/A` outside `review`      |
 | What artifact type is this?                     | Prototype / Codebase / Production system / Proposal  |
 | What is the source format?                      | Running / Inspected code / Description               |
 | What components were provided?                  | List of components in scope                          |
@@ -1783,6 +1788,10 @@ code" or "audit copyrights":
 - Load only the matching `assessment/` file.
 - Produce only the matching report subsection plus any risks for that dimension.
 - Note that the audit was scoped to a single dimension and is not a full readiness assessment.
+
+A structure-scoped request resolves by wording: "audit only the structure" is a
+single-dimension audit, while "structure review" and "review the structure" route to the
+`review` style variant per `process/report-format/structure-review.md`.
 
 ## Re-Audit
 

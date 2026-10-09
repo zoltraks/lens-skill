@@ -13,10 +13,10 @@
 |--------------------------------|------|--------------------------------------|
 | Strengths & What's Working     | 21   | Evidence-based positive baselines    |
 | Detailed Technical Findings    | 59   | Finding summary and detail blocks    |
-| Technical Debt Register        | 310  | Distinct accumulated debt            |
-| Unified Risk Register          | 358  | Cross-referenced risks               |
-| Actionable Remediation Roadmap | 452  | Prioritized recommendations          |
-| Recommendation Classification  | 528  | Recommended/Optional/Not recommended |
+| Technical Debt Register        | 312  | Distinct accumulated debt            |
+| Unified Risk Register          | 360  | Cross-referenced risks               |
+| Actionable Remediation Roadmap | 454  | Prioritized recommendations          |
+| Recommendation Classification  | 530  | Recommended/Optional/Not recommended |
 
 ## Strengths & What's Working
 
@@ -58,7 +58,7 @@ Use fewer than the suggested count when evidence is thin and state the limitatio
 
 ## Detailed Technical Findings
 
-Present all findings grouped under six pillars,
+Present all findings grouped under seven pillars,
 plus the conditional API Compatibility & Versioning Discipline pillar when the subject is a reusable
 library or package.
 
@@ -74,6 +74,7 @@ Present a compact summary of all findings:
 | Finding     | Pillar                                    | Severity   | Title   | Result   | Status | Change | Verification |
 |-------------|-------------------------------------------|------------|---------|----------|--------|--------|--------------|
 | FND-ARC-001 | Architecture & Design                     | <severity> | <title> | <result> | Open   | New    | <verifier>   |
+| FND-STR-001 | Structure & Organization                  | <severity> | <title> | <result> | Open   | New    | <verifier>   |
 | FND-CQY-001 | Code Quality                              | <severity> | <title> | <result> | Open   | New    | <verifier>   |
 | FND-SEC-001 | Security & Compliance                     | <severity> | <title> | <result> | Open   | New    | <verifier>   |
 | FND-INF-001 | Infrastructure & CI/CD                    | <severity> | <title> | <result> | Open   | New    | <verifier>   |
@@ -112,6 +113,7 @@ When the report language is not English, apply the column header translations fr
 Pillar abbreviations for IDs:
 
 - `ARC` - Architecture & Design
+- `STR` - Structure & Organization
 - `CQY` - Code Quality
 - `SEC` - Security & Compliance
 - `INF` - Infrastructure & CI/CD
@@ -146,9 +148,9 @@ Use this exact markdown block pattern:
 ```markdown
 ### FND-[PILLAR]-[NUMBER]: [Clear, Concise Title of Finding]
 
-* **Pillar:** [Architecture & Design | Code Quality | Security & Compliance | Infrastructure &
-  CI/CD | AI Provenance & Code Origin | Copyrights & Originality | API Compatibility &
-  Versioning Discipline]
+* **Pillar:** [Architecture & Design | Structure & Organization | Code Quality | Security &
+  Compliance | Infrastructure & CI/CD | AI Provenance & Code Origin | Copyrights &
+  Originality | API Compatibility & Versioning Discipline]
 * **Severity:** [Critical | High | Medium | Low]
 * **Type:** [Observation | Concern]
 * **Security:** [CWE and rationale, CVSS version/vector/score or gap] *(omit when N/A)*
@@ -169,7 +171,7 @@ Use this exact markdown block pattern:
 * **Verified:** [yes | no, with a short qualifier]
 * **Runtime confirmed:** [yes | no | not applicable, with a short qualifier]
 * **Evidence level:** [Source | Model | App | Deployed | Unknown] *(required under
-  `Report Style: check`, optional otherwise)*
+  `Report Style: review`, optional otherwise)*
 * **Breaking change:** [None | Internal | Public API - surfaces and migration note]
   *(omit when N/A)*
 * **Applicability:** [applicable | conditional | inapplicable | unverified - reachability
@@ -253,8 +255,8 @@ hunt still supplies a precise operator scenario - and optional elsewhere.
 The `Evidence level` field records the strongest level the cited evidence reaches:
 `Source` (read in code or configuration), `Model` (an isolated reproduction or harness),
 `App` (the real application running locally), `Deployed` (a deployed environment), or
-`Unknown`. It is required on every finding under `Report Style: check` - the validator
-rejects a check finding without it - and optional elsewhere. A `Model` reproduction
+`Unknown`. It is required on every finding under `Report Style: review` - the validator
+rejects a review finding without it - and optional elsewhere. A `Model` reproduction
 demonstrates a mechanism - it never upgrades application-wide reachability claims.
 
 The `Status` field carries the lifecycle state: `Open`, `Closed`,

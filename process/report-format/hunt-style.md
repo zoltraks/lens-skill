@@ -38,6 +38,11 @@ Hunt adds three mandatory finding fields where the shared schema applies: `Break
 change` and `Runtime confirmed` on every finding, and `Defect scenario` on every
 `HIGH` or `CRITICAL` finding, per `findings-registers.md`.
 
+Hunt scopes its evidence base to defect hunting: the structure assessment in
+`assessment/structure-review.md` never loads for this style, `FND-STR-` findings never
+appear in Domain Findings, and structure-tagged rows in a shared `work/evidence.json` go
+unused. The exclusion is recorded in Scope Exclusions.
+
 ## Section Order
 
 Produce these top-level sections in this order, with unnumbered headings:
@@ -54,7 +59,7 @@ Produce these top-level sections in this order, with unnumbered headings:
 - Remediation Phases
 - Contradiction Register *(conditional - external report found at intake)*
 - Operator Verification Handoff *(source-only mode)* or Executed Evidence Log
-  *(executed-readonly mode)*
+  *(executed-readonly or executed-commands mode)*
 - Scope Exclusions
 - Limitations and Unknowns
 - Validation Record
@@ -124,7 +129,7 @@ lockfiles, and a component inventory table with per-module size and role.
 States the evidence basis declaration (tiers used and their mix), the read-depth table, and
 the evidence ledger, all per the shared rules.
 
-Under `executed-readonly` it also references the Executed Evidence Log.
+Under `executed-readonly` or `executed-commands` it also references the Executed Evidence Log.
 
 ## Journey Traces
 
@@ -195,8 +200,8 @@ Under `source-only` this mandatory section lists every material claim the audit 
 resolve from source: the exact command or procedure, its pass criteria, and the finding or
 rating it would confirm or close, per `report-closing.md`.
 
-Under `executed-readonly` the section is replaced by the Executed Evidence Log plus any
-remaining handoff entries for checks outside the commissioned set.
+Under `executed-readonly` or `executed-commands` the section is replaced by the Executed
+Evidence Log plus any remaining handoff entries for checks outside the commissioned set.
 
 ## Detail Levels
 

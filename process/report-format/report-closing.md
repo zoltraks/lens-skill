@@ -122,8 +122,8 @@ This section turns the source-only boundary into an actionable follow-up.
 
 It is always present under `source-only` evidence mode.
 
-Under `executed-readonly` or `executed-checks` it lists only the checks outside the
-commissioned set - for a `check`-style report those deferred rows live in the Execution
+Under `executed-readonly` or `executed-commands` it lists only the checks outside the
+commissioned set - for a `review`-style report those deferred rows live in the Execution
 Register instead, so this section appears only when deferred checks need their own
 follow-up register.
 
@@ -140,8 +140,8 @@ A claim with no proposed check is a defect of the audit, not of the subject.
 
 ## Executed Evidence Log
 
-Present under `executed-readonly` or `executed-checks` evidence mode in `audit` and `hunt`
-reports - a `check` report records the same provenance in its Execution Register instead.
+Present under `executed-readonly` or `executed-commands` evidence mode in `audit` and `hunt`
+reports - a `review` report records the same provenance in its Execution Register instead.
 
 One row per commissioned execution:
 
@@ -157,7 +157,7 @@ Result cells take the check-status vocabulary - `PASS`, `FAIL`, `ERROR`, `BLOCKE
 product.
 
 Rows are `Executed` evidence. Under `executed-readonly` they describe analyzer output and
-never imply a build, test, or run of the subject occurred. Under `executed-checks` they may
+never imply a build, test, or run of the subject occurred. Under `executed-commands` they may
 describe commissioned non-mutating commands - tests, builds, isolated reproductions - and
 still never imply the subject was deployed, mutated, or connected to live systems.
 

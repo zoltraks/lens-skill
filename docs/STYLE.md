@@ -71,7 +71,7 @@ Include a Contents table in files longer than 300 lines.
 
 Report files are exempt: names beginning with `AUDIT`, `AUDYT`, `REVIEW`, or `PRZEGLĄD`,
 or ending in `-REVIEW` or `-PRZEGLĄD`, have their layout governed by
-`process/report-format.md` or `process/review-report.md` instead.
+`process/report-format.md` or `process/report-format/review-style.md` instead.
 
 ```markdown
 ## Contents
@@ -578,7 +578,7 @@ Every new topic file must include at minimum:
 Files over 300 lines must also include a `## Contents` table, except report files:
 `AUDIT`-, `AUDYT`-, `REVIEW`-, or `PRZEGLĄD`-prefixed names and `-REVIEW`- or
 `-PRZEGLĄD`-suffixed names, which follow `process/report-format.md` or
-`process/review-report.md`.
+`process/report-format/review-style.md`.
 
 ## File Maintenance
 

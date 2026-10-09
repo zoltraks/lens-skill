@@ -16,6 +16,19 @@ Apply `principles/evaluation-rules.md` throughout.
 
 A score is a summary of evidence, not an impression.
 
+## Contents
+
+| Section                          | Line | What it covers                           |
+|----------------------------------|------|------------------------------------------|
+| Table Format                     | 32   | Fixed dimension set and column order     |
+| Scoring Rubric                   | 79   | Band definitions and alternative scales  |
+| Handling Unknowns                | 185  | UNKNOWN handling guidance                |
+| Handling Not Applicable          | 193  | N/A handling guidance                    |
+| Dimension To Category Mapping    | 207  | Dimension to assessment-category mapping |
+| ISO/IEC 25010:2023 Crosswalk     | 232  | Standards crosswalk mapping              |
+| Score Confidence And Aggregation | 276  | Confidence and aggregation rules         |
+| Rules                            | 308  | Scorecard rules                          |
+
 ## Table Format
 
 Use this fixed column order and dimension set:
@@ -28,6 +41,7 @@ Use this fixed column order and dimension set:
 | Stack Alignment         |       |       |
 | Dependency Health       |       |       |
 | Maintainability         |       |       |
+| Structure               |       |       |
 | Deployability           |       |       |
 | Scalability             |       |       |
 | Security                |       |       |
@@ -202,6 +216,7 @@ Each scorecard dimension summarizes one or more assessment categories.
 | Stack Alignment         | Stack Best Practices                                     |
 | Dependency Health       | Dependencies and Supply Chain                            |
 | Maintainability         | Maintainability, Change Management, Documentation        |
+| Structure               | Structure Review                                         |
 | Deployability           | Deployment Strategy, Rollback Strategy                   |
 | Scalability             | Non-Functional Requirements                              |
 | Security                | Security                                                 |

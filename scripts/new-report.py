@@ -7,13 +7,15 @@ file. Placeholder cells carry ``<...>`` markers: content-bearing checks fail
 until the author replaces them, which is deliberate.
 
 Usage:
-  python new-report.py --style audit|hunt|check [--projects a,b] [--params file]
-                       [--output report.md]
+  python new-report.py --style audit|hunt|review [--scope structure]
+                       [--projects a,b] [--params file] [--output report.md]
 
 ``--params`` reads a saved intake file (``work/lens-params.json``) carrying
-``report_style``, ``projects``, ``subject``, ``revision``, ``language``, and
-``detail_level`` so a second report in the same session reuses the locked
-intake values. Command-line options override the file.
+``report_style``, ``review_scope``, ``projects``, ``subject``, ``revision``,
+``language``, and ``detail_level`` so a second report in the same session
+reuses the locked intake values. Command-line options override the file.
+``--scope structure`` with ``--style review`` emits the structure-review
+variant contract instead of the execution-register one.
 """
 
 from __future__ import annotations
@@ -35,6 +37,7 @@ AUDIT_SECTIONS = [
     "Auditing Methodology",
     "Scoring Rubrics",
     "Architectural Assessment",
+    "Structure Review",
     "Trade-off Analysis",
     "Strengths & What's Working",
 ]
@@ -126,7 +129,7 @@ REC_BLOCK = """### REC-001: <recommendation title>{suffix}
 
 PAR_ROWS = [
     f"| PAR-{number} | <result> | <evidence or `N/A` justification> |\n"
-    for number in range(1, 20)
+    for number in range(1, 21)
 ]
 
 
@@ -156,6 +159,8 @@ def document_info(style: str, projects: list[str], params: dict) -> str:
         elif field == "Evidence Mode":
             value = params.get("evidence_mode", "source-only")
         rows.append(f"| {field} | {value} |")
+        if field == "Report Style" and params.get("review_scope") == "structure":
+            rows.append("| Review Scope | Structure |")
     if projects:
         rows.append(f"| Projects | {', '.join(projects)} |")
     return table("| Field | Value |", "|---|---|", [row + "\n" for row in rows])
@@ -260,6 +265,27 @@ def audit_project_body(project: str) -> list[str]:
             )
             parts.append("**Scorecard Summary**\n\n")
             parts.append(table("| Dimension | Score | Notes |", "|---|---|---|"))
+        elif section == "Structure Review":
+            parts.append(
+                "<context line - stack, application type, architectural approach, "
+                "scale signal>\n\n"
+            )
+            parts.append("<structural overview - existing directory, file, and component organization>\n\n")
+            parts.append(
+                table(
+                    "| Area | Verdict | Basis |",
+                    "|---|---|---|",
+                    [
+                        "| Directory organization | <verdict> | <convention tier> |\n",
+                        "| Naming conventions | <verdict> | <basis> |\n",
+                        "| Component placement | <verdict> | <basis> |\n",
+                        "| Supporting-artifact layout | <verdict> | <basis> |\n",
+                        "| Consistency | <verdict> | <basis> |\n",
+                    ],
+                )
+            )
+            parts.append("Positive practices: <evidenced organizational decisions worth preserving>\n\n")
+            parts.append("Limitations: <areas that could not be evaluated>\n\n")
         elif section == "High-Level Observations":
             parts.append(table("| Observation |", "|---|", ["| <observation> |\n"]))
     parts.append(heading(level, "Detailed Technical Findings"))
@@ -409,21 +435,21 @@ HUNT_FINDING_BLOCK = FINDING_BLOCK.replace(
     "confirmation level - required on HIGH/CRITICAL>\n* **Runtime confirmed:**",
 )
 
-CHECK_FINDING_BLOCK = HUNT_FINDING_BLOCK.replace(
+REVIEW_FINDING_BLOCK = HUNT_FINDING_BLOCK.replace(
     "* **Evidence:**",
     "* **Evidence level:** Source - <inspected basis>\n* **Evidence:**",
 )
 
 
-def check_skeleton(projects: list[str], params: dict) -> str:
+def review_skeleton(projects: list[str], params: dict) -> str:
     multi = len(projects) > 1
     executed = params.get("evidence_mode", "source-only") != "source-only"
     suffix = f" ({projects[0]})" if multi else ""
     target = qualified(projects[0] if multi else "")
     parts = [
-        "# <subject> - Lens check report\n\n",
+        "# <subject> - Lens review report\n\n",
         heading(2, "Document Information"),
-        document_info("check", projects, params),
+        document_info("review", projects, params),
         heading(2, "Audit Type Coverage"),
         COVERAGE_HEADER + "\n",
     ]
@@ -474,7 +500,7 @@ def check_skeleton(projects: list[str], params: dict) -> str:
         heading(2, "Domain Findings"),
         finding_summary_table(projects),
         heading(3, "Security"),
-        CHECK_FINDING_BLOCK.format(suffix=suffix, targets=target) + "\n",
+        REVIEW_FINDING_BLOCK.format(suffix=suffix, targets=target) + "\n",
         heading(2, "Risk Register"),
         RISK_BLOCK.format(suffix=suffix) + "\n",
         heading(2, "Improvement Plan"),
@@ -511,7 +537,7 @@ def check_skeleton(projects: list[str], params: dict) -> str:
     else:
         parts += [
             heading(2, "Operator Verification Handoff"),
-            "Every material claim the check could not resolve from source, with the\n"
+            "Every material claim the review could not resolve from source, with the\n"
             "exact command or procedure and its pass criteria.\n\n",
         ]
     parts += [
@@ -531,12 +557,69 @@ def check_skeleton(projects: list[str], params: dict) -> str:
     return "".join(parts)
 
 
+STR_FINDING_BLOCK = FINDING_BLOCK.replace("FND-SEC-001", "FND-STR-001").replace(
+    "* **Pillar:** Security & Compliance", "* **Pillar:** Structure & Organization"
+)
+
+
+def structure_review_skeleton(projects: list[str], params: dict) -> str:
+    parts = [
+        "# <subject> - Lens structure review report\n\n",
+        heading(2, "Document Information"),
+        document_info("review", projects, {**params, "review_scope": "structure"}),
+        heading(2, "Project Context"),
+        table(
+            "| Field | Value |",
+            "|---|---|",
+            [
+                "| Language | <primary and secondary languages> |\n",
+                "| Framework and libraries | <framework or `none`, structure-shaping libraries> |\n",
+                "| Application type | <backend service, web application, library, CLI, ...> |\n",
+                "| Architectural approach | <layered, feature-based, modular monolith, ...> |\n",
+                "| Project scale | <module count, size, growth expectation> |\n",
+                "| Build and deployment model | <build, packaging, deployment shape> |\n",
+                "| Constraints | <conventions or tooling the structure must satisfy> |\n",
+            ],
+        ),
+        heading(2, "Structural Overview"),
+        "<concise description of the existing directory, file, and component organization>\n\n",
+        table(
+            "| Level | Directory | Contents | Role |",
+            "|---|---|---|---|",
+            ["| 1 | <directory> | <contents> | <role> |\n"],
+        ),
+        heading(2, "Findings"),
+        STR_FINDING_BLOCK.format(suffix="", targets="FND-STR-001") + "\n",
+        heading(2, "Positive Practices"),
+        table(
+            "| Practice | Evidence |",
+            "|---|---|",
+            ["| <organizational decision worth preserving> | <path or citation> |\n"],
+        ),
+        heading(2, "Recommendations"),
+        table(
+            "| Recommendation | Rationale | Addresses |",
+            "|---|---|---|",
+            ["| <proportionate change> | <why> | FND-STR-001 |\n"],
+        ),
+        heading(2, "Prioritization"),
+        table(
+            "| Recommendation | Class |",
+            "|---|---|",
+            ["| <recommendation> | <Necessary, Meaningful, or Optional> |\n"],
+        ),
+        heading(2, "Limitations and Assumptions"),
+        "- <areas that could not be evaluated and assumptions the verdicts rest on>\n\n",
+    ]
+    return "".join(parts)
+
+
 def parse_args(argv: list[str]) -> dict:
-    options: dict = {"style": None, "projects": [], "params": None, "output": None}
+    options: dict = {"style": None, "scope": None, "projects": [], "params": None, "output": None}
     index = 1
     while index < len(argv):
         argument = argv[index]
-        if argument in ("--style", "--projects", "--params", "--output"):
+        if argument in ("--style", "--scope", "--projects", "--params", "--output"):
             index += 1
             if index >= len(argv):
                 raise SystemExit(f"{argument} needs a value")
@@ -553,8 +636,15 @@ def main(argv: list[str]) -> int:
     if options["params"]:
         params = json.loads(Path(options["params"]).read_text(encoding="utf-8"))
     style = options["style"] or params.get("report_style") or "audit"
-    if style not in ("audit", "hunt", "check"):
-        print(f"unknown style '{style}' - expected audit, hunt, or check")
+    if style not in ("audit", "hunt", "review"):
+        print(f"unknown style '{style}' - expected audit, hunt, or review")
+        return 1
+    scope = options["scope"] or params.get("review_scope") or "full"
+    if scope != "structure" and scope != "full":
+        print(f"unknown scope '{scope}' - expected full or structure")
+        return 1
+    if scope == "structure" and style != "review":
+        print("--scope structure only applies to --style review")
         return 1
     projects = (
         [name.strip() for name in options["projects"].split(",") if name.strip()]
@@ -563,8 +653,10 @@ def main(argv: list[str]) -> int:
     )
     if style == "hunt":
         body = hunt_skeleton(projects, params)
-    elif style == "check":
-        body = check_skeleton(projects, params)
+    elif style == "review" and scope == "structure":
+        body = structure_review_skeleton(projects, params)
+    elif style == "review":
+        body = review_skeleton(projects, params)
     else:
         body = audit_skeleton(projects, params)
     if options["output"]:

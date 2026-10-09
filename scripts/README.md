@@ -37,17 +37,19 @@ under a `.tmp.` name, locating its siblings by filename. When the copies are abs
 resolve in its `scripts/` directory - running it straight from the skill tree needs no flag at
 all.
 
-`new-report.py --style audit|hunt|check [--projects a,b] [--params work/lens-params.json]
-[--output file]` emits a structurally valid report skeleton - required sections, table
+`new-report.py --style audit|hunt|review [--scope structure] [--projects a,b]
+[--params work/lens-params.json] [--output file]` emits a structurally valid report
+skeleton - required sections, table
 headers, and one field-labeled template block per register - and runs `format-table.py` on
 `--output` when the formatter resolves next to the script or under `LENS_SKILL_ROOT`.
 `--params` reads the saved intake values from `work/lens-params.json`, so a second report
-style in the same session reuses the locked parameters. For `--style check`, an
-`evidence-mode` of `executed-readonly` or `executed-checks` in the params file adds the
+style in the same session reuses the locked parameters. `--scope structure` with
+`--style review` emits the structure-review variant contract. For `--style review`, an
+`evidence-mode` of `executed-readonly` or `executed-commands` in the params file adds the
 Artifact Manifest section to the skeleton.
 
 `validate-report.py --dump-contract` prints the mechanically enforced contract - required
-sections, field lists, token sets, hunt- and check-specific rules - as JSON generated from
+sections, field lists, token sets, hunt- and review-specific rules - as JSON generated from
 the live constants, for agents that want the contract without reading the documentation
 corpus.
 
@@ -118,9 +120,9 @@ dimension scores and compares it to the stated `Overall score` at one decimal pl
 Pass `--repo-root <dir>` to also verify that `path:line` citations in finding `Targets` and
 `Evidence` fields resolve to real files whose recorded line numbers are within file length.
 
-When the `Report Style` row reads `hunt` or `check`, it applies that style's section
+When the `Report Style` row reads `hunt` or `review`, it applies that style's section
 contract from `process/report-format/hunt-style.md` or
-`process/report-format/check-style.md` instead of the baseline section list. A `check`
+`process/report-format/review-style.md` instead of the baseline section list. A `review`
 report also validates the Execution Register rows, check statuses, `Evidence level` fields,
 and the Retest Register trigger.
 
@@ -132,15 +134,14 @@ fixed vocabulary. Run it on every Polish report before delivery -
 a pre-delivery gate, not a Validation Record row. Like the other report tools it is copied
 into the audited repository under a `.tmp.` name before use.
 
-`validate-report.py` detects a review report by a canonical `REVIEW`-family or
-`PRZEGLĄD`-family filename - a bare stem or a `-<revision>` suffix - or a title ending
-in `Review and Amendment Instructions`, and then applies the review contract from
-`process/review-report.md` instead of the audit checks.
+A `review`-style report carrying a `Review Scope: Structure` row in Document Information
+selects the structure-variant contract from
+`process/report-format/structure-review.md`, which checks the eight canonical sections in
+order instead of the execution-register contract.
 
-A canonical review file carrying `## Findings` and `## Action Proposals` but no
-`### Findings and Corrections` selects the change-review contract, which checks the
-seven canonical sections in order, the identification table, the findings scan table
-and its severity scale, and the `F-xx` anchor-and-link discipline.
+A file matching the removed amendment-review shape - a `Review and Amendment Instructions`
+title, a `Findings and Corrections` subsection, or an `Action Proposals` section - is
+classified `legacy` and fails with a pointer to the current contract.
 
 A `REVIEW`-family filename with a custom suffix is classified `custom` and receives the
 shared mechanical checks only, since a user-supplied template overrides the canonical
@@ -168,7 +169,7 @@ session documents is never scanned.
 
 It exempts report artifacts from the large-file Contents check: files whose names begin with
 `AUDIT`, `AUDYT`, `REVIEW`, or `PRZEGLĄD`, or end in `-REVIEW` or `-PRZEGLĄD`, because
-reports follow `process/report-format.md` or `process/review-report.md` instead.
+reports follow `process/report-format.md` instead.
 
 `check-references.py` validates the skill's own `SKILL.md` and `README.md` navigation documents.
 It is never run on a report artifact or inside an audited repository.
@@ -218,6 +219,7 @@ python scripts/align-comments.py path/to/AUDIT.md [--check]
 python scripts/validate-report.py path/to/AUDIT.md [--repo-root path/to/repo]
 python scripts/validate-report.py --dump-contract
 python scripts/new-report.py --style hunt --projects api,cli --output path/to/HUNT.md
+python scripts/new-report.py --style review --scope structure --output path/to/REVIEW.md
 python scripts/lint-polish.py path/to/AUDYT.md
 python scripts/finalize-report.py [--polish] [--skill-root path/to/lens-skill] path/to/AUDIT.md
 python -m unittest discover -s tests

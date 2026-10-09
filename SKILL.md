@@ -6,16 +6,15 @@ description: >-
   proposals. Covers testing, design principles (SOLID), code quality,
   dependencies, deployment, rollback, maintainability, documentation, NFRs,
   security, compliance, observability, error handling, operational
-  readiness, AI-generated code detection, copyrights, development
-  standards conformance, and engineering baseline conformance. Enforces
+  readiness, project structure and organization, AI-generated code detection,
+  copyrights, development standards conformance, and engineering baseline
+  conformance. Enforces
   evidence-only reasoning and neutral, non-personal evaluation. Use
-  for software audits, architecture audits,
+  for software audits, architecture audits, structure reviews,
   prototype reviews, production readiness, technical due diligence, risk
-  registers, scorecards, or remediation roadmaps. On explicit request it
-  also produces review reports of any subject, ending in required changes
-  and amendment instructions. Triggers on audit this codebase, engineering
-  assessment, run lens, lens audit, perform lens on, review and amend,
-  improvement plan.
+  registers, scorecards, or remediation roadmaps. Triggers on audit this
+  codebase, engineering assessment, run lens, lens audit, perform lens on,
+  review this codebase, structure review, defect hunt.
 license: MIT
 compatibility: >-
   Designed for agent coding environments with file system access (Claude Code,
@@ -40,21 +39,21 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 
 | Section                 | Line | What it covers                                     |
 |-------------------------|------|----------------------------------------------------|
-| Skill Update Check      | 71   | Once-per-session git freshness gate before use     |
-| Trigger Keywords        | 88   | Activation phrases                                 |
+| Skill Update Check      | 70   | Once-per-session git freshness gate before use     |
+| Trigger Keywords        | 87   | Activation phrases                                 |
 | How To Use              | 113  | Progressive disclosure and mandatory reading       |
 | Parameter Configuration | 134  | Defaults and user-controlled report shape          |
 | Principles              | 196  | Evaluation and output rules                        |
 | Process                 | 202  | Workflow, format, and parity                       |
-| Assessments             | 229  | Core and conditional assessment guides             |
-| Synthesis               | 270  | Findings, risk, score, and remediation assembly    |
-| Translations            | 286  | Per-language report translations                   |
-| References              | 295  | Lookup tables                                      |
-| Scripts                 | 317  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 340  | Behavioral regression prompts                      |
-| Repository Files        | 344  | Housekeeping files governing this repository       |
-| Evidence Contract       | 356  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 383  | File-selection and section-placement rules         |
+| Assessments             | 230  | Core and conditional assessment guides             |
+| Synthesis               | 273  | Findings, risk, score, and remediation assembly    |
+| Translations            | 289  | Per-language report translations                   |
+| References              | 298  | Lookup tables                                      |
+| Scripts                 | 320  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 343  | Behavioral regression prompts                      |
+| Repository Files        | 347  | Housekeeping files governing this repository       |
+| Evidence Contract       | 359  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 387  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -104,7 +103,8 @@ The skill activates on phrases such as:
 - skill audits: audit this skill, skill audit, skill definition review, skill spec conformance,
   skill collection audit, skills inventory, agent-guidance review
 - library reviews: api compatibility, api versioning audit, library audit
-- review requests: review and amend, amendment instructions, improvement plan
+- review requests: review report, run the checks, structure review, review the project
+  structure
 - skill maintenance: work on lens-skill, work on this skill, maintain this skill
 
 A bare `work on lens-skill` request that names no operation enters standby per `AGENTS.md`: read
@@ -120,16 +120,16 @@ Use progressive disclosure:
   from intake to final report) before producing any audit. They are mandatory for every audit.
 - For report production, `process/report-contract.md` is the first read - the mechanically
   enforced contract - then the selected style file (`process/report-format.md` or the
-  `hunt-style.md`/`check-style.md` under it) - `--dump-contract` emits the same JSON surface.
+  `hunt-style.md`/`review-style.md` under it) - `--dump-contract` emits the same JSON surface.
 - Open only the assessment files that match the system under audit.
 - Use the synthesis files to assemble the final report sections.
 
 This skill is self-contained - the topic files below are the available reference material.
 
 When asked how this skill works, explain that Lens produces structured, evidence-based
-engineering reports (audit, hunt, or check style) of a codebase, prototype, production
-system, or proposal, and - only on an explicit review request - review reports ending in
-amendment instructions. Advanced parameters can be refined when explicitly specified.
+engineering reports (audit, hunt, or review style) of a codebase, prototype, production
+system, or proposal, including dedicated structure analysis. Advanced parameters can be
+refined when explicitly specified.
 
 ## Parameter Configuration
 
@@ -141,18 +141,17 @@ Defaults are:
 
 | Parameter               | Default                                                                                                                                |
 |-------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
-| Report type             | Audit - Review only on an explicit review, amendment, or improvement-plan request                                                      |
-| Report style            | `audit` governance report (default), `hunt` defect-hunt report, or `check` execution-register report                                   |
+| Report style            | `audit` governance report (default), `hunt` defect-hunt report, or `review` execution-register report                                  |
 | Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/` - `review/` or `reviews/` for a review report - else Inline |
 | Output location         | Resolved across `docs/`, `document/`, `doc/` roots or the repository root                                                              |
-| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md`/`CHECK.md` for a first hunt/check   |
+| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md`/`REVIEW.md` for a first hunt/review |
 | Report language         | Match the language of the user's request                                                                                               |
 | Detail level            | Detailed                                                                                                                               |
 | Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                                                  |
 | Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                                                                |
 | Trade-off analysis      | Standalone section + embedded into relevant findings                                                                                   |
 | Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it                                                |
-| Evidence mode           | `source-only` (default), `executed-readonly` analyzers, or `executed-checks` commissioned commands                                    |
+| Evidence mode           | `source-only` (default), `executed-readonly` analyzers, or `executed-commands` commissioned commands                                   |
 
 The agent MUST ask this question, MUST NOT skip it, and MUST wait for the user response
 before starting the audit. Core configuration covers unresolved delivery/output and
@@ -161,14 +160,15 @@ unless explicitly requested otherwise and are not separate routine prompts.
 
 Output location resolves under the audited root: `audit/` > `report/` > bare root across `docs/`,
 `document/`, `doc/` > repository root, with a `report/` base descending into its purpose-named
-`audit/` or `review/` subdirectory matching the report kind - review reports additionally prefer a
-dedicated `review/` or `reviews/` directory, including the dated `review/<YYYY-MM-DD>/REVIEW.md`
-convention per `process/review-report.md`. A recorded version/date subdirectory pattern is reused.
+`audit/` or `review/` subdirectory matching the report style - review reports additionally prefer
+a dedicated `review/` or `reviews/` directory. A recorded version/date subdirectory pattern is
+reused.
 
-The output filename carries the report revision: `AUDIT-1.0.md` for a first audit
-(`REVIEW-1.0.md` for a review, bare `HUNT.md`/`CHECK.md` for a first hunt or check) or the
+The output filename carries the report revision: `AUDIT-1.0.md` for a first audit or the
 language-specific revisioned name such as `AUDYT-1.0.md`, with the bare filename as an
-alternative for audit and review reports. A previous report gives the incremented revision
+alternative for audit reports - a first hunt or review takes the bare `HUNT.md`/`REVIEW.md`
+stem with `HUNT-1.0.md`/`REVIEW-1.0.md` as the revisioned alternative. A previous report
+gives the incremented revision
 (`AUDIT-1.1.md`) and is never overwritten - a bare `<stem>.md` is renamed to its revisioned
 name. The agent confirms with the user before writing.
 
@@ -219,10 +219,11 @@ The previous report is never overwritten - write the next revision-numbered file
 - **`process/report-format/report-closing.md`** - Exclusions, Limitations, Re-audit, Validation.
 - **`process/report-format/hunt-style.md`** - `hunt` report style: verdict, domain register,
   journey traces, remediation phases.
-- **`process/report-format/check-style.md`** - `check` report style: execution register,
+- **`process/report-format/review-style.md`** - `review` report style: execution register,
   evidence levels, retest register.
+- **`process/report-format/structure-review.md`** - Structure Review section, structure
+  findings, and the structure-review variant contract.
 - **`process/json-exchange.md`** - JSON parameter documents for intake question surfaces.
-- **`process/review-report.md`** - Review report type for explicit amendment requests.
 - **`process/report-parity.md`** - Mandatory core checklist and consistency gate.
 - **`process/readiness-scoring.md`** - Score aggregation, confidence, maturity, readiness gates.
 
@@ -238,6 +239,8 @@ The previous report is never overwritten - write the next revision-numbered file
   manual steps, absent-automation assessment.
 - **`assessment/rollback-review.md`** - Rollback mechanism, deploy safety, versioning, recovery.
 - **`assessment/maintainability-review.md`** - Modularity, coupling, code structure, technical debt.
+- **`assessment/structure-review.md`** - Directory layout, file placement, naming, component
+  boundaries, supporting artifacts.
 - **`assessment/change-management.md`** - Feature flags, ADR usage, release governance.
 - **`assessment/documentation-review.md`** - Documentation coverage, onboarding, transfer.
 - **`assessment/nfr-review.md`** - Performance, scalability, availability, reliability, resilience.
@@ -324,7 +327,7 @@ repository's `work/` directory under a `.tmp.` name and remove the copies when d
 - **`scripts/align-comments.py`** - Plain-text `#` comment column aligner.
 - **`scripts/link-glossary.py`** - Glossary body-link inserter, run before the formatter.
 - **`scripts/validate-report.py`** - Mechanical report checker, `--dump-contract` emits the contract.
-- **`scripts/new-report.py`** - Report skeleton generator (`--style`, `--projects`, `--params`).
+- **`scripts/new-report.py`** - Report skeleton generator (`--style`, `--scope`, `--projects`, `--params`).
 - **`scripts/validate-skill.py`** - Frontmatter, disclosure, and references validator.
 - **`scripts/check-references.py`** - Relative-reference integrity checker.
 - **`scripts/check-contents.py`** - Contents-table versus section-heading drift checker.
@@ -358,7 +361,8 @@ These files govern the skill repository itself rather than audit production:
 Use the verification plan and evidence ledger in `process/audit-workflow.md` for every audit
 and every review. The audit never builds, tests, or executes the project; under the
 `executed-readonly` evidence mode it may additionally run commissioned non-mutating analyzers,
-recorded in the Executed Evidence Log.
+and under `executed-commands` commissioned non-mutating commands, recorded in the
+Executed Evidence Log.
 
 All evidence comes from inspected repository contents: source, configuration, build scripts,
 documentation, and committed artifacts.
@@ -383,8 +387,9 @@ run the regression scenarios in `process/audit-workflow.md` when maintaining the
 ## Navigation Rules
 
 - Always apply `principles/evaluation-rules.md` and `principles/output-style.md` to every report.
-- The audit report is the default deliverable. Produce the review report per
-  `process/review-report.md` only on an explicit review, amendment, or improvement-plan request.
+- The `audit` report style is the default deliverable. A `review` style report renders per
+  `process/report-format/review-style.md`, and a structure-scoped review renders the variant
+  contract in `process/report-format/structure-review.md`.
 - Never compile, build, test, or execute the audited project, and never run linters, scanners,
   or generators against it. Under `executed-readonly` only the commissioned non-mutating
   analyzers run. Verification claims rest on inspected repository contents,
@@ -403,6 +408,12 @@ run the regression scenarios in `process/audit-workflow.md` when maintaining the
   `assessment/design-principles.md`, code-level metrics (lint, type safety, complexity, duplication)
   belong in `assessment/code-quality.md`, architectural module structure belongs in
   `assessment/maintainability-review.md`.
+- Physical organization - directory layout, file placement, naming conventions, component
+  placement and physical boundaries, supporting-artifact layout - belongs in
+  `assessment/structure-review.md`. Logical modularity, coupling, dependency direction, and
+  technical debt stay in `assessment/maintainability-review.md`, and code-level language and
+  framework idioms stay in `assessment/best-practices.md`. The structure assessment runs for
+  `audit` and `review` reports and never loads under `Report Style: hunt`.
 - Stack-specific idioms and conventions (language idioms, framework patterns, ecosystem layout,
   deprecated APIs) belong in `assessment/best-practices.md`, keep it distinct from the principles in
   `assessment/design-principles.md` and the code-level metrics in `assessment/code-quality.md`.
@@ -471,8 +482,8 @@ run the regression scenarios in `process/audit-workflow.md` when maintaining the
   omitted at Brief with a Scope Exclusions note.
 - The Changes Since Previous Audit section (`synthesis/report-comparison.md`) appears only
   when a previous report exists - never overwritten, the new file carries the next revision.
-- `report-style: hunt` or `check` renders the same evidence base per
-  `process/report-format/hunt-style.md`/`check-style.md` - intake records the snapshot,
+- `report-style: hunt` or `review` renders the same evidence base per
+  `process/report-format/hunt-style.md`/`review-style.md` - intake records the snapshot,
   external reports reconcile per `synthesis/report-triangulation.md`.
 - Limitations and Unknowns lists every unperformed check. Validation Record closes the report
   with the Mandatory Core Checklist result and the `process/report-parity.md` gate outcome.

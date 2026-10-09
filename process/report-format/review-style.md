@@ -1,17 +1,17 @@
-# Check Report Style
+# Review Report Style
 
 ## Purpose
 
-> **Scope:** The `check` report genre - an execution-oriented technical assessment built
+> **Scope:** The `review` report genre - an execution-oriented technical assessment built
 > around a run register of commissioned checks
 > **Key items:** execution register, check statuses, evidence levels, verdict and gates,
-> retest register, artifact manifest
+> retest register, artifact manifest, structure review variant
 
-This file defines the report produced when `report-style: check` is resolved during
+This file defines the report produced when `report-style: review` is resolved during
 Parameter Configuration in `process/audit-workflow.md`.
 
 The `audit` style measures conformance against the governed contract and `hunt` measures
-fitness for use. `check` answers a narrower question: what do the commissioned checks
+fitness for use. `review` answers a narrower question: what do the commissioned checks
 actually show, and what do the findings drawn from them mean.
 
 All three styles share one evidence base: the same finding schema, the same completeness
@@ -19,7 +19,7 @@ rules, and the same readiness gates.
 
 Style changes presentation, never what must be found.
 
-A check report is only as strong as what ran. Its distinguishing content is the Execution
+A review report is only as strong as what ran. Its distinguishing content is the Execution
 Register - one row per commissioned check - and its honesty rules: an unexecuted check is
 never a pass, a runner failure is never a product failure, and a model reproduction never
 upgrades an application-level claim.
@@ -28,7 +28,7 @@ upgrades an application-level claim.
 
 The following carry over unchanged from `process/report-format.md` and its spec files:
 
-- Document Information per `report-opening.md`, including `Report Style: check` and the
+- Document Information per `report-opening.md`, including `Report Style: review` and the
   `Evidence Mode` row that decides which checks may run.
 - Audit Type Coverage per `report-opening.md`.
 - The finding block schema per `findings-registers.md`, with the same field vocabulary.
@@ -42,8 +42,16 @@ The following carry over unchanged from `process/report-format.md` and its spec 
 - Scope Exclusions, Limitations and Unknowns, Validation Record, and References per
   `report-closing.md`.
 
-Check adds one mandatory finding field everywhere the shared schema applies: `Evidence
+Review adds one mandatory finding field everywhere the shared schema applies: `Evidence
 level` per this file.
+
+The review style includes the structure assessment from `assessment/structure-review.md`
+in its evidence base - structure findings render in Domain Findings under the
+Maintainability domain with `FND-STR-` identifiers. A `hunt` report never loads that
+assessment.
+
+When the resolved scope is structure-only, the report renders the Structure Review Variant
+at the end of this file instead of the section order below.
 
 ## Evidence Mode
 
@@ -55,7 +63,7 @@ be claimed:
 - `executed-readonly` - the commissioned non-mutating analyzers run (linters,
   typecheckers, format checkers, dependency advisory or policy scanners, contract
   diffing). The project itself is still never built, tested, or run.
-- `executed-checks` - the explicitly commissioned non-mutating commands run, including
+- `executed-commands` - the explicitly commissioned non-mutating commands run, including
   test suites, builds, coverage runs, and isolated reproduction harnesses. The subject is
   still never deployed, mutated, or connected to live systems, and no tool is installed
   or upgraded for the audit unless the user commissioned it.
@@ -77,7 +85,7 @@ Produce these top-level sections in this order, with unnumbered headings:
 - Retest Register *(required when the Execution Register carries `FAIL`, `ERROR`, or
   `BLOCKED` rows)*
 - Metrics Snapshot *(when the register produced metrics)*
-- Artifact Manifest *(required under `executed-readonly` and `executed-checks`)*
+- Artifact Manifest *(required under `executed-readonly` and `executed-commands`)*
 - Contradiction Register *(conditional - external report found at intake)*
 - Operator Verification Handoff *(source-only mode)* - under an executed mode the
   section lists only the checks outside the commissioned set
@@ -165,7 +173,7 @@ The section opens with a summary table carrying the shared columns (`Finding`, `
 `Status`, `Change`, `Verification`, plus `Project` when multi-project), and the validator
 reconciles its row count against the `### FND-` blocks.
 
-Check adds a mandatory field to every finding block:
+Review adds a mandatory field to every finding block:
 
 - `* **Evidence level:**` - the strongest level the cited evidence reaches:
   `Source` (read in code or config), `Model` (an isolated reproduction or harness),
@@ -176,6 +184,9 @@ A `Model` reproduction demonstrates a mechanism - it never upgrades application-
 reachability claims, which stay `Source`-derived until exercised against the real routes.
 `Evidence level` is independent of `Confidence` - a claim can be confidently inferred
 from source without any execution.
+
+Structure findings render under the `### Maintainability` domain heading with
+`FND-STR-` identifiers.
 
 ## Risk Register
 
@@ -191,9 +202,9 @@ Every finding maps to a phase or to an explicit `Accepted - no action` dispositi
 `Deferred` and `Unresolved` dispositions are permitted with their blocking condition
 named.
 
-A check report has no Recommendation Classification section - the plan records the
+A review report has no Recommendation Classification section - the plan records the
 disposition judgment, and the validator flags the section when it appears under
-`Report Style: check`.
+`Report Style: review`.
 
 ## Retest Register
 
@@ -213,7 +224,7 @@ coverage` is a different claim from `42% coverage`.
 
 ## Artifact Manifest
 
-Required under `executed-readonly` and `executed-checks`, omitted otherwise with the
+Required under `executed-readonly` and `executed-commands`, omitted otherwise with the
 omission noted in Scope Exclusions.
 
 One row per retained output - logs, coverage reports, audit JSON, reproduction PoCs,
@@ -234,11 +245,23 @@ findings, the plan summary, the handoff or manifest, and the closing sections.
 
 ## Output Filename
 
-The check filename stem is `CHECK`, or the language-specific stem from the matching
-`translations/` file such as `SPRAWDZENIE` for Polish.
+The review filename stem is `REVIEW`, or the language-specific stem from the matching
+`translations/` file such as `PRZEGLĄD` for Polish.
 
-A first check report defaults to the bare stem `CHECK.md`, with `CHECK-1.0.md` offered
+A first review report defaults to the bare stem `REVIEW.md`, with `REVIEW-1.0.md` offered
 as the revisioned alternative at delivery time.
 
-When a previous check report exists, the filename carries the new revision, for example
-`CHECK-1.1.md`, per `synthesis/report-comparison.md`.
+When a previous review report exists, the filename carries the new revision, for example
+`REVIEW-1.1.md`, per `synthesis/report-comparison.md`.
+
+## Structure Review Variant
+
+When intake resolves a structure-only scope - wording such as "make a structure review"
+or "review the project structure" - the report still uses the `REVIEW` filename family and
+`Report Style: review`, but renders the bespoke contract defined in
+`process/report-format/structure-review.md`: Document Information carrying
+`Review Scope: Structure`, then Project Context, Structural Overview, Findings, Positive
+Practices, Recommendations, Prioritization, and Limitations and Assumptions.
+
+The variant baselines only against prior `REVIEW`-family files carrying the same
+`Review Scope: Structure` row, per `synthesis/report-comparison.md`.

@@ -7,8 +7,8 @@
 ```
 
 > Evidence-based engineering audits of any software subject - prototypes, codebases under
-> development, and already-running production systems - plus explicit review reports with
-> amendment instructions.
+> development, and already-running production systems - in audit, hunt, or review style,
+> including dedicated structure analysis.
 >
 > [Versioning Policy](./docs/VERSIONING.md)
 >
@@ -19,21 +19,21 @@
 | Section                            | Line | What it covers                                      |
 |------------------------------------|------|-----------------------------------------------------|
 | Overview                           | 38   | Audit purpose and standard report shape             |
-| What The Skill Does                | 81   | Update check, evidence, assessment, synthesis       |
-| Installation                       | 159  | Clone and update instructions                       |
-| Usage                              | 189  | Activation, parameters, and report delivery         |
-| Example Prompts                    | 220  | Full and focused audit requests                     |
-| Workflow Diagrams                  | 286  | ASCII and Mermaid audit pipelines                   |
-| Evidence And Decision Quality      | 346  | Evidence strength and verification limits           |
-| Core Principles                    | 403  | Evaluation constraints and status rules             |
-| Report Format                      | 419  | Report structure, identifiers, and style            |
-| When To Use This Skill             | 454  | Supported requests and exclusions                   |
-| What's Inside                      | 478  | Documents, references, tools, and conditional files |
-| Document Style                     | 618  | Pointer to the style rules file                     |
-| Specification                      | 628  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 649  | Maintenance checks and regression scenarios         |
-| License                            | 677  | License for the skill itself                        |
-| Credits                            | 683  | Authorship and attribution                          |
+| What The Skill Does                | 85   | Update check, evidence, assessment, synthesis       |
+| Installation                       | 164  | Clone and update instructions                       |
+| Usage                              | 194  | Activation, parameters, and report delivery         |
+| Example Prompts                    | 226  | Full and focused audit requests                     |
+| Workflow Diagrams                  | 297  | ASCII and Mermaid audit pipelines                   |
+| Evidence And Decision Quality      | 357  | Evidence strength and verification limits           |
+| Core Principles                    | 414  | Evaluation constraints and status rules             |
+| Report Format                      | 430  | Report structure, identifiers, and style            |
+| When To Use This Skill             | 467  | Supported requests and exclusions                   |
+| What's Inside                      | 491  | Documents, references, tools, and conditional files |
+| Document Style                     | 632  | Pointer to the style rules file                     |
+| Specification                      | 642  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 663  | Maintenance checks and regression scenarios         |
+| License                            | 691  | License for the skill itself                        |
+| Credits                            | 697  | Authorship and attribution                          |
 
 ## Overview
 
@@ -47,14 +47,14 @@ Unlike a generic "review my code" prompt, Lens enforces a fixed workflow: intake
 configuration, scope definition, evidence gathering, per-category assessment, synthesis, and
 validation.
 
-The intake, evidence gathering, and assessment pipeline is shared by all report types -
-only the synthesis stage and the validation contract differ.
+The intake, evidence gathering, and assessment pipeline is shared by all report styles -
+only the section contract and the validation checks differ.
 
-The default output is an Audit report with twenty-one baseline sections: Document Information, the
+The default output is an Audit report with twenty-two baseline sections: Document Information, the
 Audit Type Coverage table, Executive Summary, System Context (including the technology
 stack), a source-derived Software Bill of Materials, License Compliance Review, Health
 Dashboard, Delivery Practice & Team Continuity, High-Level Observations, Auditing Methodology,
-Scoring Rubrics, Architectural Assessment, Trade-off Analysis, Strengths & What's Working, Detailed
+Scoring Rubrics, Architectural Assessment, Structure Review, Trade-off Analysis, Strengths & What's Working, Detailed
 Technical Findings with theoretical exploitability narratives on serious security findings, Unified
 Risk Register, Actionable Remediation Roadmap, Scope Exclusions, Limitations and Unknowns,
 Validation Record, and References.
@@ -71,10 +71,14 @@ so the report can serve directly as a basis for change documents.
 Every section uses a hybrid table-paragraph format for scannable summaries backed by detailed
 evidence.
 
-An explicit request for a review report, a set of corrections, or an improvement plan produces a
-Review report instead: the same evidence discipline in a compact findings-and-corrections layout
-with required changes, a suggested amendment order, and a public source register, defined in
-`process/review-report.md`.
+A `hunt` report renders the same evidence base as a defect-hunt verdict with journey traces and
+remediation phases, and a `review` report renders it as an execution register with evidence levels
+and a retest register, per `process/report-format/hunt-style.md` and
+`process/report-format/review-style.md`.
+
+A request scoped to the project structure - "make a structure review" - produces a review-style
+report under the structure-review variant contract in
+`process/report-format/structure-review.md`.
 
 ---
 
@@ -129,16 +133,17 @@ Separates collection from judgment to avoid confirmation bias.
 
 The analysis never builds, tests, or executes the project.
 
-**Assesses across 18 categories**
+**Assesses across 19 categories**
 
 Testing, design principles, code quality, stack best practices, dependencies, deployment, rollback,
-maintainability, change management, documentation, non-functional requirements, security,
+maintainability, structure and organization, change management, documentation, non-functional
+requirements, security,
 compliance, observability, error handling, operational readiness,
 AI-generated code detection and provenance, and copyrights and originality.
 
 Each category receives one of five statuses: `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, or `N/A`.
 
-A conditional seventh pillar, API Compatibility & Versioning Discipline,
+A conditional eighth pillar, API Compatibility & Versioning Discipline,
 applies when the subject is a reusable library or package.
 
 **Synthesizes findings**
@@ -195,10 +200,11 @@ roadmap.
 Name the software subject and the audit or assessment you want, such as an architecture audit,
 production-readiness assessment, dependency review, or technical due diligence.
 
-Audit remains the default report type.
+Audit remains the default report style.
 
-An explicit request to review a document or subject and produce corrections, amendments, or an
-improvement plan selects the Review report type, which supports any subject.
+An explicit request for a review report or a check run selects the `review` style, and a defect
+hunt selects the `hunt` style - both reuse the same evidence base under their own section
+contracts.
 
 Before a new audit, Lens asks whether to accept the default parameters or configure the core report
 settings.
@@ -277,9 +283,14 @@ project.
 > triggers correctly.
 
 **Review report**
-> Review PREPARATION.md and produce amendment instructions. (The agent writes a Review report -
-> findings and corrections, required changes, a suggested amendment order, and a public source
-> register - to `REVIEW-1.0.md` unless you name a different file.)
+> Run the checks on this codebase and produce a review report. (The agent writes a review-style
+> report - verdict, execution register, domain findings, improvement plan - to `REVIEW.md` unless
+> you name a different file.)
+
+**Structure review**
+> Make a structure review of this project. (The agent produces a review-style report scoped to the
+> structure - project context, structural overview, `FND-STR-` findings, recommendations, and
+> prioritization - under the structure-review variant contract.)
 
 ---
 
@@ -298,7 +309,7 @@ User request
 Once-per-session update check
     |
     v
-Intake: classify report type, subject, boundaries, and prior reports
+Intake: classify report style, subject, boundaries, and prior reports
     |
     v
 Resolve prior-report mode or baseline when applicable
@@ -330,7 +341,7 @@ Deliver inline or to a file
 ```mermaid
 flowchart TD
     A[User request] --> B[Once-per-session update check]
-    B --> C[Intake: classify report type, subject, boundaries, and prior reports]
+    B --> C[Intake: classify report style, subject, boundaries, and prior reports]
     C --> D[Resolve prior-report mode or baseline when applicable]
     D --> E[Configure parameters or reuse confirmed re-audit settings]
     E --> F[Define scope]
@@ -418,7 +429,7 @@ Every audit follows these non-negotiable rules:
 
 ## Report Format
 
-Audit and Review reports share a hybrid table-paragraph format throughout:
+All report styles share a hybrid table-paragraph format throughout:
 
 - **Tables** provide scannable summaries with one to three words per cell.
 - **Paragraphs** below each table provide detailed evidence, file paths, and reasoning.
@@ -446,8 +457,10 @@ This format keeps the report readable in plain-text consoles while preserving de
 
 Audit reports follow `process/report-format.md` and carry `AUDIT-<revision>.md` filenames.
 
-Review reports follow the compact findings-and-corrections contract in
-`process/review-report.md` and carry `REVIEW-<revision>.md` filenames.
+Review reports follow the execution-register contract in
+`process/report-format/review-style.md` - or the structure-review variant in
+`process/report-format/structure-review.md` - and carry `REVIEW.md`/`REVIEW-<revision>.md`
+filenames.
 
 ---
 
@@ -468,8 +481,8 @@ Review reports follow the compact findings-and-corrections contract in
 | "Check conformance with our dev standards"           | **Yes** - use `assessment/standards-conformance.md` |
 | "Does this project meet the usual engineering floor" | **Yes** - use `assessment/baseline-conformance.md`  |
 | "Compare these two architectural options"            | **Yes** - embed trade-offs into relevant findings   |
-| "Review this document and list required changes"     | **Yes** - Review report type                        |
-| "Prepare an improvement plan for this guide"         | **Yes** - Review report type                        |
+| "Run the checks and produce a review report"         | **Yes** - `review` report style                     |
+| "Make a structure review of this project"            | **Yes** - structure-review variant of `review`      |
 | "Write the feature for me"                           | No - this skill assesses, it does not build         |
 | "Tell me which team member caused this"              | No - this skill never evaluates people              |
 
@@ -509,12 +522,12 @@ lens-skill/
 │   │   ├── conditional-conformance.md     # Conditional conformance sections
 │   │   ├── findings-registers.md          # Findings, debt, risk, roadmap, and classification
 │   │   ├── hunt-style.md                  # `hunt` report style: verdict, journeys, domain findings
-│   │   ├── check-style.md                 # `check` report style: execution register, evidence levels, retests
+│   │   ├── review-style.md                # `review` report style: execution register, evidence levels, retests
+│   │   ├── structure-review.md            # Structure Review section and structure-variant contract
 │   │   └── report-closing.md              # Exclusions, limitations, handoff, validation, references
 │   ├── report-contract.md                 # One-page mechanically enforced report contract
 │   ├── report-parity.md                   # Audit parity checklist and consistency gate before final
-│   ├── readiness-scoring.md               # Deterministic scores, confidence, maturity, and readiness gates
-│   └── review-report.md                   # Review report contract: sections, amendments, naming
+│   └── readiness-scoring.md               # Deterministic scores, confidence, maturity, and readiness gates
 ├── assessment/
 │   ├── testing-review.md                  # Test pyramid (unit/integration/e2e), TDD, coverage, testability
 │   ├── design-principles.md               # SOLID, cohesion and coupling, DRY, separation of concerns
@@ -524,6 +537,7 @@ lens-skill/
 │   ├── deployment-review.md               # Build pipeline, release process, frequency, absent-automation assessment
 │   ├── rollback-review.md                 # Rollback mechanism, deploy safety, versioning
 │   ├── maintainability-review.md          # Modularity, coupling, structure, technical debt
+│   ├── structure-review.md                # Directory layout, file placement, naming, component boundaries
 │   ├── change-management.md               # Feature flags, ADRs, release governance
 │   ├── documentation-review.md            # Entry, API, inline docs, onboarding, knowledge transfer
 │   ├── nfr-review.md                      # Performance, scalability, availability, reliability, resilience
@@ -575,7 +589,7 @@ lens-skill/
 │   ├── align-comments.py                  # Plain-text `#` comment column aligner
 │   ├── link-glossary.py                   # Glossary body-link inserter, run before the formatter
 │   ├── validate-report.py                 # Audit and Review report validator (`--dump-contract` JSON)
-│   ├── new-report.py                      # Report skeleton generator (audit, hunt, or check)
+│   ├── new-report.py                      # Report skeleton generator (audit, hunt, or review)
 │   ├── finalize-report.py                 # Runs link, format, and validate in order on a report
 │   ├── validate-skill.py                  # Dependency-light Agent Skill validator
 │   ├── check-references.py                # Relative-reference integrity checker

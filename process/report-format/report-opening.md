@@ -10,8 +10,8 @@
 | Section              | Line | What it covers                       |
 |----------------------|------|--------------------------------------|
 | Document Information | 16   | Report metadata and revisions        |
-| Audit Type Coverage  | 145  | Coverage of canonical audit types    |
-| Glossary             | 195  | Abbreviation and acronym definitions |
+| Audit Type Coverage  | 148  | Coverage of canonical audit types    |
+| Glossary             | 198  | Abbreviation and acronym definitions |
 
 ## Document Information
 
@@ -44,8 +44,11 @@ Rows appear in this order, each label in the first column and its value in the s
 - `Report Date` - the audit date.
 - `State` - `Draft` only. Write the row while the report is still in progress and omit it when the
   report is final, which is the expected end state and needs no marker.
-- `Report Style` - `audit`, `hunt`, or `check`, per `process/report-format/hunt-style.md`
-  and `process/report-format/check-style.md`.
+- `Report Style` - `audit`, `hunt`, or `review`, per `process/report-format/hunt-style.md`
+  and `process/report-format/review-style.md`.
+- `Review Scope` - `Structure`, written only when a `review`-style report renders the
+  structure-review variant per `process/report-format/structure-review.md`; omit the row on
+  a full-scope review.
 - `Detail Level` - `Standard`, `Detailed`, or `Brief`.
 - `Evaluation Scale` - `1-10`, `1-5`, `1-3`, `5 stars`, or `3 stars`.
 - `Language` - the report language.
@@ -54,9 +57,9 @@ Rows appear in this order, each label in the first column and its value in the s
 - `Verification Scope` - `static repository analysis (code, configuration,
   documentation, git history) - no execution` for `source-only`, or the same phrase plus
   `; commissioned non-mutating analyzers executed` under `executed-readonly` or
-  `; commissioned non-mutating commands executed` under `executed-checks` - the short token
+  `; commissioned non-mutating commands executed` under `executed-commands` - the short token
   `source-only` may stand when a previous revision already established it.
-- `Evidence Mode` - `source-only`, `executed-readonly`, or `executed-checks`.
+- `Evidence Mode` - `source-only`, `executed-readonly`, or `executed-commands`.
 - `Subject Revision` - the audited revision of the subject: the commit SHA with branch or
   detached state in parentheses when VCS metadata exists, or `unversioned working tree` with
   the capture timestamp when it does not. This row is never omitted - a report without a

@@ -33,7 +33,7 @@ Keep each rule in its owning document and link to it instead of duplicating it.
   audited project without an opt-in evidence mode. `executed-readonly` permits only
   non-mutating, read-only analyzers (such as dependency advisory or policy scanners) the
   user explicitly commissions - the project itself is still never built, tested, or run.
-  `executed-checks` additionally permits explicitly commissioned non-mutating commands
+  `executed-commands` additionally permits explicitly commissioned non-mutating commands
   such as test suites, builds, and isolated reproduction harnesses - the subject is still
   never deployed, mutated, or connected to live systems.
 - Keep `SKILL.md` lean: it routes to resources and must stay below 500 lines.

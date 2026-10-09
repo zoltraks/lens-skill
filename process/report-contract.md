@@ -27,11 +27,11 @@ Rationale and detail live in the section specs under `process/report-format/` an
 - Document Information carries `Report Style`, `Evidence Mode`, and a `Subject Revision`
   snapshot anchor.
 - A report under `Evidence Mode: source-only` carries an `Operator Verification Handoff` -
-  under `executed-readonly` or `executed-checks` an `Executed Evidence Log` replaces it,
-  and an executed `check`-style report additionally carries an Artifact Manifest.
+  under `executed-readonly` or `executed-commands` an `Executed Evidence Log` replaces it,
+  and an executed `review`-style report additionally carries an Artifact Manifest.
 - The Audit Type Coverage table keeps only `Covered`, `Partially`, and `Not done` status
   cells - `Not Applicable` rows are omitted entirely.
-- The Validation Record carries rows `PAR-1` through `PAR-19` in fixed order.
+- The Validation Record carries rows `PAR-1` through `PAR-20` in fixed order.
 - `FND`, `RSK`, and `REC` references must resolve to defined entries - a `REC-XXX` or
   `RSK-XXX` cite of a nonexistent `FND-` fails.
 - A `State | Draft` row marks a report in progress and skips the final-state gate, and a
@@ -47,7 +47,7 @@ Rationale and detail live in the section specs under `process/report-format/` an
 - Risk blocks require: `Severity`, `Likelihood`, `Residual`, `Status`, `Description`,
   `Impact`, `Trigger`, `Controls`, `Mitigation`, `Closure`, `Source`, `Confidence`.
 - Finding identifiers match `FND-<pillar>-NNN` with pillar `ARC`, `CQY`, `SEC`, `INF`,
-  `AIP`, `CPR`, or `API`.
+  `AIP`, `CPR`, `API`, or `STR`.
 - `Type` is `Observation` or `Concern`. `Verified` starts with `yes` or `no`.
   `Runtime confirmed` starts with `yes`, `no`, or `not applicable`. `Breaking change`
   starts with `None`, `Internal`, or `Public API`. `Applicability` starts with
@@ -114,9 +114,9 @@ executed-log section when conditional.
 - Every `HIGH` or `CRITICAL` finding carries a `Defect scenario` field - initial
   conditions, steps, expected result, observed result, confirmation level.
 
-## Check Style
+## Review Style
 
-Under `Report Style: check` the required sections are Document Information, Audit Type
+Under `Report Style: review` the required sections are Document Information, Audit Type
 Coverage, Verdict, System Context, Check Plan And Methodology, Execution Register, Domain
 Findings, Risk Register, Improvement Plan, Scope Exclusions, Limitations and Unknowns,
 Validation Record, References - plus the conditional Retest Register, Metrics Snapshot,
@@ -135,3 +135,7 @@ Artifact Manifest, Glossary, Contradiction Register, and the handoff section.
   or `Unresolved`.
 - Every `### FND-` block maps to a phase or an explicit disposition, and a
   `Recommendation Classification` section is forbidden.
+- A `Review Scope: Structure` row in Document Information selects the structure-review
+  variant contract in `process/report-format/structure-review.md` instead: Document
+  Information, Project Context, Structural Overview, Findings, Positive Practices,
+  Recommendations, Prioritization, and Limitations and Assumptions.

@@ -31,51 +31,51 @@ This file is loaded only when the report language is Polish.
 | Style Rules                                 | 629  | Style Rules guidance                        |
 | Diacritics Frequently Misspelled            | 772  | Diacritics Frequently Misspelled guidance   |
 | Output Filename                             | 807  | Output Filename guidance                    |
-| Document Information                        | 831  | Document Information guidance               |
-| Audit Type Coverage                         | 878  | Coverage rendering                          |
-| Project Inventory                           | 914  | Project Inventory guidance                  |
-| Glossary                                    | 923  | Glossary guidance                           |
-| Technology Stack                            | 982  | Technology Stack guidance                   |
-| Executive Summary                           | 999  | Executive Summary guidance                  |
-| Health Dashboard                            | 1017 | Health Dashboard guidance                   |
-| Scorecard                                   | 1028 | Scorecard guidance                          |
-| Scoring Rubrics                             | 1053 | Scoring Rubrics guidance                    |
-| Delivery Practice & Team Continuity         | 1077 | Delivery and continuity rendering           |
-| High-Level Observations                     | 1101 | High-Level Observations guidance            |
-| Auditing Methodology                        | 1108 | Auditing Methodology guidance               |
-| System Context                              | 1122 | System Context guidance                     |
-| Software Bill of Materials                  | 1135 | SBOM section rendering                      |
-| License Compliance Review                   | 1153 | License and IP section rendering            |
-| Architectural Assessment                    | 1171 | Architectural Assessment guidance           |
-| Architectural Subsections                   | 1178 | Architectural Subsections guidance          |
-| Skill Definition Conformance                | 1193 | Skill Definition Conformance guidance       |
-| Agent Guidance Conformance                  | 1201 | Agent Guidance Conformance guidance         |
-| AI System Assessment                        | 1215 | AI System Assessment guidance               |
-| Standards Conformance                       | 1226 | Standards Conformance guidance              |
-| Engineering Baseline Conformance            | 1247 | Engineering Baseline Conformance guidance   |
-| References                                  | 1261 | References guidance                         |
-| Strengths And What's Working                | 1270 | Strengths And What's Working guidance       |
-| Detailed Technical Findings                 | 1276 | Detailed Technical Findings guidance        |
-| Technical Debt Register                     | 1336 | Technical Debt Register guidance            |
-| Unified Risk Register                       | 1348 | Unified Risk Register guidance              |
-| Trade-off Analysis                          | 1368 | Trade-off Analysis guidance                 |
-| Actionable Remediation Roadmap              | 1380 | Actionable Remediation Roadmap guidance     |
-| Recommendation Classification               | 1395 | Recommendation Classification guidance      |
-| Changes Since Previous Audit                | 1410 | Changes Since Previous Audit guidance       |
-| Scope Exclusions                            | 1444 | Scope Exclusions guidance                   |
-| Limitations And Unknowns                    | 1452 | Limitations And Unknowns guidance           |
-| Re-audit And Follow-up Plan                 | 1469 | Re-audit And Follow-up Plan guidance        |
-| Operator Verification Handoff               | 1479 | Operator Verification Handoff guidance      |
-| Executed Evidence Log                       | 1492 | Executed Evidence Log guidance              |
-| Hunt Style Sections                         | 1505 | Hunt Style Sections guidance                |
-| Check Style Sections                        | 1534 | Check Style Sections guidance               |
-| Validation Record                           | 1564 | Validation Record guidance                  |
+| Document Information                        | 828  | Document Information guidance               |
+| Audit Type Coverage                         | 876  | Coverage rendering                          |
+| Project Inventory                           | 912  | Project Inventory guidance                  |
+| Glossary                                    | 921  | Glossary guidance                           |
+| Technology Stack                            | 980  | Technology Stack guidance                   |
+| Executive Summary                           | 997  | Executive Summary guidance                  |
+| Health Dashboard                            | 1015 | Health Dashboard guidance                   |
+| Scorecard                                   | 1026 | Scorecard guidance                          |
+| Scoring Rubrics                             | 1051 | Scoring Rubrics guidance                    |
+| Delivery Practice & Team Continuity         | 1075 | Delivery and continuity rendering           |
+| High-Level Observations                     | 1099 | High-Level Observations guidance            |
+| Auditing Methodology                        | 1106 | Auditing Methodology guidance               |
+| System Context                              | 1120 | System Context guidance                     |
+| Software Bill of Materials                  | 1133 | SBOM section rendering                      |
+| License Compliance Review                   | 1151 | License and IP section rendering            |
+| Architectural Assessment                    | 1169 | Architectural Assessment guidance           |
+| Architectural Subsections                   | 1176 | Architectural Subsections guidance          |
+| Skill Definition Conformance                | 1191 | Skill Definition Conformance guidance       |
+| Agent Guidance Conformance                  | 1199 | Agent Guidance Conformance guidance         |
+| AI System Assessment                        | 1213 | AI System Assessment guidance               |
+| Standards Conformance                       | 1224 | Standards Conformance guidance              |
+| Engineering Baseline Conformance            | 1245 | Engineering Baseline Conformance guidance   |
+| References                                  | 1259 | References guidance                         |
+| Strengths And What's Working                | 1268 | Strengths And What's Working guidance       |
+| Detailed Technical Findings                 | 1274 | Detailed Technical Findings guidance        |
+| Technical Debt Register                     | 1335 | Technical Debt Register guidance            |
+| Unified Risk Register                       | 1347 | Unified Risk Register guidance              |
+| Trade-off Analysis                          | 1367 | Trade-off Analysis guidance                 |
+| Actionable Remediation Roadmap              | 1379 | Actionable Remediation Roadmap guidance     |
+| Recommendation Classification               | 1394 | Recommendation Classification guidance      |
+| Changes Since Previous Audit                | 1409 | Changes Since Previous Audit guidance       |
+| Scope Exclusions                            | 1443 | Scope Exclusions guidance                   |
+| Limitations And Unknowns                    | 1451 | Limitations And Unknowns guidance           |
+| Re-audit And Follow-up Plan                 | 1468 | Re-audit And Follow-up Plan guidance        |
+| Operator Verification Handoff               | 1478 | Operator Verification Handoff guidance      |
+| Executed Evidence Log                       | 1491 | Executed Evidence Log guidance              |
+| Hunt Style Sections                         | 1504 | Hunt Style Sections guidance                |
+| Review Style Sections                       | 1533 | Review Style Sections guidance              |
+| Validation Record                           | 1563 | Validation Record guidance                  |
 | Threat Model                                | 1597 | Threat Model guidance                       |
 | API Contract Conformance                    | 1607 | API Contract Conformance guidance           |
 | API Compatibility And Versioning Discipline | 1616 | API Compatibility And Versioning guidance   |
 | Evidence And Decision Terms                 | 1625 | Evidence And Decision Terms guidance        |
 | Skill Definition Conformance Table          | 1686 | Skill Definition Conformance Table guidance |
-| Review Report                               | 1701 | Review Report guidance                      |
+| Structure Review                            | 1701 | Structure Review guidance                   |
 
 ## Analysis And Rendering
 
@@ -286,10 +286,10 @@ Descriptive values are rendered in Polish and agree in gender with the noun they
 | `Not applicable`                 | `nie dotyczy`                            |
 | `source-only`                    | `wyłącznie na podstawie kodu źródłowego` |
 | `executed-readonly`              | `wykonanie tylko do odczytu`             |
-| `executed-checks`                | `wykonanie zleconych kontroli`           |
+| `executed-commands`              | `wykonanie zleconych poleceń`            |
 | `audit` (report style)           | `audyt`                                  |
 | `hunt` (report style)            | `polowanie na usterki`                   |
-| `check` (report style)           | `sprawdzenie`                            |
+| `review` (report style)          | `przegląd`                               |
 | `Source` (evidence level)        | `Źródło`                                 |
 | `Model` (evidence level)         | `Model`                                  |
 | `App` (evidence level)           | `Aplikacja`                              |
@@ -579,9 +579,9 @@ Apply these phrasing rules:
   Ask `Jak dostarczyć raport?` or `Gdzie zapisać plik raportu?`.
 - The file option without the revision number is `Plik bez numeru rewizji` (for example
   `docs/report/AUDYT.md`). The English `stem` is never used in a Polish prompt.
-  For a `polowanie na usterki` or `sprawdzenie` report this bare option
-  (`docs/report/POLOWANIE.md`, `docs/report/SPRAWDZENIE.md`) is the default and the
-  revisioned `POLOWANIE-1.0.md`/`SPRAWDZENIE-1.0.md` is the alternative.
+  For a `polowanie na usterki` or `przegląd` report this bare option
+  (`docs/report/POLOWANIE.md`, `docs/report/PRZEGLĄD.md`) is the default and the
+  revisioned `POLOWANIE-1.0.md`/`PRZEGLĄD-1.0.md` is the alternative.
 - Date-named subdirectory options use `katalogi dzienne` or `ścieżka daty`/`ścieżka dzienna`.
   `Datowy` and `datowa` are not proper Polish words and must not be used.
 - The detail-level question is `Jaki poziom szczegółowości powinien mieć raport?` with options
@@ -595,8 +595,8 @@ Apply these phrasing rules:
 - The Skill Update Check question is `Dostępna jest aktualizacja umiejętności (<n> nowych
   commitów). Zaktualizować teraz czy pominąć w tej sesji?` with options `Zaktualizuj teraz` and
   `Pomiń w tej sesji`.
-- The `Report type` row in the defaults summary renders `Typ raportu` with values `Audyt`
-  and `Przegląd`.
+- The `Report style` row in the defaults summary renders `Styl raportu` with values `audyt`,
+  `polowanie na usterki`, and `przegląd`.
 - When a previous review report is found, the audit-mode question reads `Znaleziono poprzedni
   raport przeglądu: <ścieżka> (rewizja <n>, data <d>). Czy wykonać ponowny przegląd względem
   tego raportu, czy nowy przegląd?` with the `Ponowny przegląd` and `Nowy przegląd` option
@@ -813,16 +813,13 @@ alternative.
 When a previous report exists, the default filename carries the new revision, for example
 `AUDYT-1.1.md`, and the previous file is never overwritten.
 
-A review report uses the `PRZEGLĄD` stem instead: `PRZEGLĄD-1.0.md` for a first review,
-`PRZEGLĄD-<revision>.md` for a re-review, with plain `PRZEGLĄD.md` offered as the alternative.
-
 A `polowanie na usterki` report uses the `POLOWANIE` stem and inverts the default:
 `POLOWANIE.md` for a first hunt, with `POLOWANIE-1.0.md` offered as the revisioned
 alternative, and `POLOWANIE-<revision>.md` once a previous hunt report exists.
 
-A `sprawdzenie` report uses the `SPRAWDZENIE` stem under the same bare-first default:
-`SPRAWDZENIE.md` for a first check, `SPRAWDZENIE-1.0.md` as the revisioned alternative,
-and `SPRAWDZENIE-<revision>.md` once a previous check report exists.
+A `przegląd` report uses the `PRZEGLĄD` stem under the same bare-first default:
+`PRZEGLĄD.md` for a first review, `PRZEGLĄD-1.0.md` as the revisioned alternative,
+and `PRZEGLĄD-<revision>.md` once a previous review report exists.
 
 When the previous report is a bare `<podstawa>.md` file in the resolved output directory,
 it is renamed to `<podstawa>-<rewizja>.md` before the new report is written - for example
@@ -847,6 +844,7 @@ The Document Information table uses an empty header row with no column names.
 | Subject Revision     | Wersja źródeł           |
 | Dirty-Tree State     | Stan prac               |
 | Report Style         | Styl raportu            |
+| Review Scope         | Zakres przeglądu        |
 | Evidence Mode        | Tryb dowodów            |
 | Skill Version        | Wersja umiejętności     |
 | Time taken           | Czas wykonania          |
@@ -1326,6 +1324,7 @@ The exploitability narrative labels translate as `Warunek wstępny:`, `Ścieżka
 | English                                   | Polish                                  |
 |-------------------------------------------|-----------------------------------------|
 | Architecture & Design                     | Architektura i projektowanie            |
+| Structure & Organization                  | Struktura i organizacja                 |
 | Code Quality                              | Jakość kodu                             |
 | Security & Compliance                     | Bezpieczeństwo i zgodność               |
 | Infrastructure & CI/CD                    | Infrastruktura i CI/CD                  |
@@ -1531,7 +1530,7 @@ with ratings `Czerwona`, `Bursztynowa`, `Zielona`, or `Nieoceniona` agreeing wit
 A `polowanie na usterki` report replaces the scorecard and recommendation classification with
 domain verdicts and remediation phases, and `Kontekst systemu` carries the project discovery.
 
-## Check Style Sections
+## Review Style Sections
 
 | English                    | Polish                      |
 |----------------------------|-----------------------------|
@@ -1551,7 +1550,7 @@ domain verdicts and remediation phases, and `Kontekst systemu` carries the proje
 | Contradiction Register     | Rejestr sprzeczności        |
 | Appendix                   | Załącznik                   |
 
-A `sprawdzenie` report replaces the scorecard and recommendation classification with the
+A `przegląd` report replaces the scorecard and recommendation classification with the
 execution register and improvement plan. Its `Werdykt` paragraph takes the same `Gotowy`,
 `Warunkowo gotowy`, or `Niegotowy` values as `polowanie na usterki`. An optional appendix
 heading renders `Załącznik <litera>: <tytuł>`. The `Rejestr wykonania` `Wynik` column carries
@@ -1572,9 +1571,10 @@ profile renders `laboratoryjny`, `kontrolowane udostępnienie`, or `produkcyjny`
 | Applied                  | Zastosowany                 |
 | Parity baseline          | Punkt odniesienia zgodności |
 
-The `Weryfikacja raportu` carries rows `PAR-1` through `PAR-19` in fixed order.
-`PAR-18` renders `N/D` under `Styl raportu: polowanie na usterki` or `sprawdzenie` - neither
-style carries a `Klasyfikacja zaleceń` section.
+The `Weryfikacja raportu` carries rows `PAR-1` through `PAR-20` in fixed order.
+`PAR-18` renders `N/D` under `Styl raportu: polowanie na usterki` or `przegląd` - neither
+style carries a `Klasyfikacja zaleceń` section - and `PAR-20` renders `N/D` under
+`polowanie na usterki`, which never runs the structure assessment.
 
 A Polish report mirrors the English Validation Record row for row - the same checks in
 the same order, no rows added or dropped, and check names and justifications rendered in
@@ -1698,109 +1698,46 @@ Record identifiers, CWE IDs, CVSS vectors, tool commands, and code stay unchange
 | Type       | Typ            |
 | Notes      | Uwagi          |
 
-## Review Report
+## Structure Review
 
-The review report type defined in `process/review-report.md` renders in Polish with
-sentence-case headings and the mappings below.
+The structure review content defined in `process/report-format/structure-review.md` renders
+in Polish with the mappings below.
 
-The title renders `Przegląd i instrukcje zmian <subject>`, for example
-`Przegląd i instrukcje zmian PREPARATION.md`.
+| English                     | Polish                        |
+|-----------------------------|-------------------------------|
+| Structure Review            | Przegląd struktury            |
+| Project Context             | Kontekst projektu             |
+| Structural Overview         | Przegląd struktury projektu   |
+| Findings                    | Ustalenia                     |
+| Positive Practices          | Pozytywne praktyki            |
+| Recommendations             | Zalecenia                     |
+| Prioritization              | Priorytetyzacja               |
+| Limitations and Assumptions | Ograniczenia i założenia      |
+| Review Scope                | Zakres przeglądu              |
+| Structure                   | Struktura                     |
+| Directory organization      | Organizacja katalogów         |
+| Naming conventions          | Konwencje nazewnicze          |
+| Component placement         | Rozmieszczenie komponentów    |
+| Supporting-artifact layout  | Układ artefaktów pomocniczych |
+| Consistency                 | Spójność                      |
+| Level                       | Poziom                        |
+| Directory                   | Katalog                       |
+| Contents                    | Zawartość                     |
+| Role                        | Rola                          |
+| Area                        | Obszar                        |
+| Verdict                     | Werdykt                       |
+| Necessary                   | Konieczne                     |
+| Meaningful                  | Znaczące                      |
+| Optional                    | Opcjonalne                    |
+| Practice                    | Praktyka                      |
+| Evidence                    | Dowód                         |
+| Recommendation              | Zalecenie                     |
+| Rationale                   | Uzasadnienie                  |
+| Addresses                   | Odnosi się do                 |
 
-`## Verification of <proposal>` renders `Weryfikacja` followed by the proposal name in the
-genitive, for example `Weryfikacja proponowanego procesu wytwarzania`.
+Verdict cells in the `Werdykt` column render `OK`, `Częściowo`, `Niezaliczony`, `Nieznany`,
+or `N/D`, and `FND-STR-` identifiers stay unchanged.
 
-`## Required Changes to <subject>` renders `Wymagane zmiany w <subject>`, for example
-`Wymagane zmiany w PREPARATION.md`.
-
-| English                   | Polish                     |
-|---------------------------|----------------------------|
-| Reviewed baseline         | Podstawa przeglądu         |
-| Review date               | Data przeglądu             |
-| Assessment                | Ocena                      |
-| Findings and Corrections  | Ustalenia i poprawki       |
-| Existing section          | Istniejąca sekcja          |
-| Component                 | Komponent                  |
-| Finding                   | Ustalenie                  |
-| Required correction       | Wymagana poprawka          |
-| Verification of           | Weryfikacja                |
-| Required Changes to       | Wymagane zmiany w          |
-| Suggested Amendment Order | Sugerowana kolejność zmian |
-| Public Source Register    | Rejestr źródeł publicznych |
-| Source                    | Źródło                     |
-| Relevance and limit       | Trafność i ograniczenie    |
-
-A Polish review report carries no `Informacje o dokumencie` table and no `Słownik` section.
-
-Source-register identifiers `S1`-`Sn` stay unchanged and are cited inline as `[S#]`.
-
-### Change Review Variant
-
-The change-review variant of `process/review-report.md` renders in Polish as
-`przegląd zmian`, with a short title `Przegląd <subject> - <scope>` that names the
-subject and the theme while the commit range stays in the identification table.
-
-Sections render in canonical order with the mappings below.
-
-| English                  | Polish               |
-|--------------------------|----------------------|
-| Change Summary           | Podsumowanie zmian   |
-| Review Scope             | Zakres przeglądu     |
-| Findings                 | Lista ustaleń        |
-| Dimension Assessment     | Ocena wymiarów       |
-| Verification and Testing | Weryfikacja i testy  |
-| Production Readiness     | Gotowość produkcyjna |
-| Action Proposals         | Propozycja działań   |
-
-Identification-table labels render as follows, and alternate English source terms map
-to the same canonical Polish label.
-
-| English                 | Polish              |
-|-------------------------|---------------------|
-| Change review           | Przegląd zmian      |
-| On-request review       | Przegląd na żądanie |
-| MR/PR                   | Przegląd zmian      |
-| Branches                | Gałęzie kodu        |
-| Commit range            | Zakres zatwierdzeń  |
-| Authors                 | Lista autorów       |
-| Review date             | Data przeglądu      |
-| Change size             | Wielkość zmiany     |
-| Size                    | Wielkość zmiany     |
-| Change documents        | Dokumenty zmian     |
-| Tickets / plan / change | Dokumenty zmian     |
-| Decision                | Decyzja             |
-| Verdict                 | Decyzja             |
-
-Variant table headers render as follows.
-
-| English              | Polish                   |
-|----------------------|--------------------------|
-| Category             | Kategoria                |
-| Files                | Pliki                    |
-| Key change           | Kluczowa zmiana          |
-| Identifier           | Identyfikator            |
-| Severity             | Ważność                  |
-| Location             | Lokalizacja              |
-| Recommendation       | Rekomendacja             |
-| Description          | Opis problemu            |
-| Status               | Status                   |
-| Evidence             | Dowód                    |
-| Action               | Działanie                |
-| Owner                | Właściciel               |
-| Deadline / condition | Termin / warunek         |
-| Related identifiers  | Powiązane identyfikatory |
-
-Severity values are adjectives agreeing with the column name `Ważność`: `Krytyczna`,
-`Wysoka`, `Średnia`, `Niska` - the scale has no `Informacja` or `Info` value, and an
-informational finding takes `Niska`.
-
-Commits render as `zatwierdzenie`/`zatwierdzenia` in Polish prose, while SHA and range
-literals stay verbatim.
-
-Merge conditions render `warunki włączenia do <gałęzi>` when the target branch is
-known, or `warunki dołączenia kodu` / `warunki wdrożenia` otherwise.
-
-Every `F-xx` outside the `Identyfikator` column renders as a `[F-xx](#f-xx)` link, and
-each finding description carries an `<a id="f-xx">` anchor above its `**F-xx**` label.
-
-Descriptive cells start uppercase across all variant tables, while identifiers, branch
-names, user names, proper names, and cells opening with a code span stay verbatim.
+A `przegląd` request scoped to a change set - a commit range, pull or merge request, or
+branch diff - produces a standard review-style report scoped to that change set, with the
+range recorded in the `Zakres przeglądu` row of `Informacje o dokumencie`.

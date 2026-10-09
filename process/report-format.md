@@ -11,14 +11,13 @@
 This file defines the exact shape of the audit report and indexes the per-section
 specifications under `process/report-format/`.
 
-The review report type produced on explicit review requests follows
-`process/review-report.md` instead of this file.
-
 The `hunt` report style follows `process/report-format/hunt-style.md`, which reuses the
 finding, risk, and roadmap contracts defined here under its own section order.
 
-The `check` report style follows `process/report-format/check-style.md`, which adds an
-execution register, evidence levels, and a retest register on top of the same contracts.
+The `review` report style follows `process/report-format/review-style.md`, which adds an
+execution register, evidence levels, and a retest register on top of the same contracts - a
+structure-scoped request renders the variant defined in
+`process/report-format/structure-review.md` instead.
 
 For a fast mechanical view before producing a report, `process/report-contract.md` lists
 only the validator-enforced constraints, and `scripts/validate-report.py --dump-contract`
@@ -39,13 +38,13 @@ A present-but-empty section signals a gap, a missing section hides it.
 
 | Section                                     | Line | What it covers                              |
 |---------------------------------------------|------|---------------------------------------------|
-| Formatting Rules                            | 50   | Formatting Rules guidance                   |
-| Report Delivery And Parameter Configuration | 283  | Report delivery and output configuration    |
-| Detail Level Configuration                  | 336  | Standard, detailed, and brief reports       |
+| Formatting Rules                            | 49   | Formatting Rules guidance                   |
+| Report Delivery And Parameter Configuration | 282  | Report delivery and output configuration    |
+| Detail Level Configuration                  | 335  | Standard, detailed, and brief reports       |
 | Conditional Sections                        | 430  | Inclusion criteria for conditional sections |
 | Section Order                               | 487  | Single-project and multi-project order      |
-| Specification Files                         | 582  | Per-section specification file index        |
-| Pre-Delivery Mechanical Checklist           | 612  | Final mechanical checks                     |
+| Specification Files                         | 584  | Per-section specification file index        |
+| Pre-Delivery Mechanical Checklist           | 616  | Final mechanical checks                     |
 
 ## Formatting Rules
 
@@ -320,8 +319,8 @@ with the filename without the revision number offered as an alternative.
 
 A `hunt`-style report uses the `HUNT` stem instead - or the language-specific stem such as
 `POLOWANIE` - and defaults to the bare `HUNT.md` for a first report, with `HUNT-1.0.md`
-offered as the revisioned alternative. A `check`-style report uses the `CHECK` stem -
-`SPRAWDZENIE` in Polish - under the same bare-first default.
+offered as the revisioned alternative. A `review`-style report uses the `REVIEW` stem -
+`PRZEGLĄD` in Polish - under the same bare-first default.
 
 When a previous audit report exists, the filename carries the new revision whether the audit mode is
 re-audit or fresh audit, for example `AUDIT-2.0.md`, and the previous file is never overwritten.
@@ -344,7 +343,7 @@ explicitly requests them.
 
 **Standard**
 
-All twenty-one baseline sections are present in full, subject to explicit parameter exclusions:
+All twenty-two baseline sections are present in full, subject to explicit parameter exclusions:
 
 - Document Information
 - Audit Type Coverage
@@ -358,6 +357,7 @@ All twenty-one baseline sections are present in full, subject to explicit parame
 - Auditing Methodology
 - Scoring Rubrics
 - Architectural Assessment
+- Structure Review
 - Trade-off Analysis
 - Strengths & What's Working
 - Detailed Technical Findings (all findings with full Description, Impact, Recommendation, and
@@ -469,9 +469,9 @@ Each lists its inclusion criterion and the assessment file that governs it:
 | Recommendation Classification (standalone)                  | Detail level is Standard or Detailed and the roadmap exists        | `synthesis/remediation-roadmap.md`        |
 | Contradiction Register (standalone or in Limitations)       | An external or prior report asserts conflicting claims             | `synthesis/report-triangulation.md`       |
 | Operator Verification Handoff (standalone)                  | `source-only` evidence mode - the default                          | `process/report-format/report-closing.md` |
-| Executed Evidence Log (standalone)                          | `executed-readonly` or `executed-checks` evidence mode             | `process/report-format/report-closing.md` |
-| Retest Register (standalone, check style)                   | The Execution Register carries `FAIL`/`ERROR`/`BLOCKED` rows       | `process/report-format/check-style.md`    |
-| Artifact Manifest (standalone, check style)                 | `executed-readonly` or `executed-checks` evidence mode             | `process/report-format/check-style.md`    |
+| Executed Evidence Log (standalone)                          | `executed-readonly` or `executed-commands` evidence mode           | `process/report-format/report-closing.md` |
+| Retest Register (standalone, review style)                  | The Execution Register carries `FAIL`/`ERROR`/`BLOCKED` rows       | `process/report-format/review-style.md`   |
+| Artifact Manifest (standalone, review style)                | `executed-readonly` or `executed-commands` evidence mode           | `process/report-format/review-style.md`   |
 
 In a multi-project report, evaluate each criterion independently per project.
 
@@ -510,6 +510,7 @@ For a **single-project** audit:
 - Scoring Rubrics
 - Architectural Assessment (contains the Design Principles subsection and may contain the
   conditional Data Flow Diagram, Design Patterns, and Architecture Decision Records subsections)
+- Structure Review
 - Trade-off Analysis
 - Threat Model *(conditional)*
 - API Contract Conformance *(conditional)*
@@ -528,7 +529,7 @@ For a **single-project** audit:
 - Scope Exclusions
 - Limitations and Unknowns
 - Operator Verification Handoff *(source-only mode)* / Executed Evidence Log
-  *(executed-readonly or executed-checks mode, conditional)*
+  *(executed-readonly or executed-commands mode, conditional)*
 - Re-audit And Follow-up Plan *(conditional)*
 - Validation Record
 - References
@@ -556,6 +557,7 @@ In summary:
   - Auditing Methodology
   - Scoring Rubrics
   - Architectural Assessment
+  - Structure Review
   - Trade-off Analysis
   - Threat Model *(conditional)*
   - API Contract Conformance *(conditional)*
@@ -574,7 +576,7 @@ In summary:
 - Scope Exclusions (once, shared)
 - Limitations and Unknowns (once, shared)
 - Operator Verification Handoff *(source-only mode)* / Executed Evidence Log
-  *(executed-readonly or executed-checks mode, conditional)* (once, shared)
+  *(executed-readonly or executed-commands mode, conditional)* (once, shared)
 - Re-audit And Follow-up Plan *(conditional)* (once, shared)
 - Validation Record (once, shared)
 - References (once, shared)
@@ -606,8 +608,10 @@ Each report section is specified in a file under `process/report-format/`.
 |                               | Follow-up Plan, Validation Record, References            |
 | `hunt-style.md`               | Hunt report style: verdict, domain register, journey     |
 |                               | traces, remediation phases                               |
-| `check-style.md`              | Check report style: execution register, evidence levels, |
-|                               | retest register, artifact manifest                       |
+| `review-style.md`             | Review report style: execution register, evidence        |
+|                               | levels, retest register, artifact manifest               |
+| `structure-review.md`         | Structure Review section, `FND-STR` findings, structure  |
+|                               | review variant contract                                  |
 
 ## Pre-Delivery Mechanical Checklist
 
@@ -653,6 +657,6 @@ register cross-reference, and PAR-row checks, copy and run it the same way.
 formatting, then report validation - against sibling `.tmp.` copies in one call, or against
 the skill repository directly with `--skill-root <path>` or `LENS_SKILL_ROOT`.
 
-`scripts/new-report.py --style audit|hunt|check` emits a validated skeleton carrying these
+`scripts/new-report.py --style audit|hunt|review` emits a validated skeleton carrying these
 sections, table headers, and field-labeled template blocks, so the structure is correct
 before any content is written.

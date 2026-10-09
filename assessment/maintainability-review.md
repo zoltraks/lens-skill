@@ -15,7 +15,9 @@ Describe code properties, never the authors.
 
 - Modularity: whether the system is divided into coherent units with clear responsibilities.
 - Coupling: how strongly modules depend on each other, and the direction of dependencies.
-- Code structure: consistency of layout, naming, and layering.
+- Code structure: consistency of internal layering and logical organization - physical
+  directory layout, naming, and artifact placement are assessed by
+  `assessment/structure-review.md`.
 - Technical-debt signals: duplicated logic, dead code, long files, and explicit debt markers.
 
 ## Evidence To Look For

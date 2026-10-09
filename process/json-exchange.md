@@ -42,7 +42,7 @@ The document carries a `description`, context fields (`project`, `mode`, `date`,
 `intake` array.
 
 - `project` - the audited subject or directory name.
-- `mode` - `audit` or `review`, per the report type resolved at intake.
+- `mode` - `audit`, `hunt`, or `review`, per the report style resolved at intake.
 - `date` - the current day in `YYYY-MM-DD` format.
 - `time` - the local time in `hh:mm:ss` followed by the timezone offset, for example
   `13:45:21 GMT+2`.
@@ -134,11 +134,12 @@ Every pending question surface emits with a stable kebab-case `id`:
 | `parameters-acceptance` | `choice`    | Accept default parameters or configure                                                                                            |
 | `parameters-to-change`  | `selection` | Re-audit-with-changed-parameters follow-up naming core parameters                                                                 |
 | `report-delivery`       | `choice`    | Delivery and output-file prompt                                                                                                   |
-| `report-style`          | `choice`    | `audit` (default), `hunt`, or `check`                                                                                             |
+| `report-style`          | `choice`    | `audit` (default), `hunt`, or `review` - `check` accepted as an alias for `review`                                                |
+| `review-scope`          | `choice`    | `full` (default) or `structure` - resolves the structure-review variant, emitted only under `review` style                        |
 | `detail-level`          | `choice`    | Brief, Standard, or Detailed                                                                                                      |
 | `evaluation-scale`      | `choice`    | Four options in fixed order: `1-10`, `1-5`, `1-3`, `Stars`                                                                        |
 | `star-count`            | `choice`    | Star count follow-up (`5 stars` default, `3 stars`) - applies only when `evaluation-scale` resolves to `Stars`, ignored otherwise |
-| `evidence-mode`         | `choice`    | `source-only` (default), `executed-readonly`, or `executed-checks` - advanced parameter, emitted only when named                  |
+| `evidence-mode`         | `choice`    | `source-only` (default), `executed-readonly`, or `executed-commands` - advanced parameter, emitted only when named                |
 
 Thin-input clarifications emit as `text` or `choice` parameters as they arise, with `open: true`
 when free input is appropriate.
