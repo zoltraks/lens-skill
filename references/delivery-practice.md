@@ -58,7 +58,12 @@ the figures.
 ## Bus-Factor Rubric
 
 Score contributor concentration from `git log --no-merges --format="%an"` per
-`references/census-commands.md`:
+`references/census-commands.md`.
+
+Agent-bot author identities (`copilot-swe-agent[bot]`, `devin-ai-integration[bot]`, and the
+other signatures in `references/methodology/ai-provenance.md`) are excluded from the
+contributor count and reported separately through the attribution census - a bot is not a
+bus-factor contributor and not a second active contributor.
 
 | Share of commits from the top author | Concentration rating |
 |--------------------------------------|----------------------|

@@ -1164,6 +1164,19 @@
     "The new audit writes `AUDIT-1.0.md` and runs no comparison or Changes section against the legacy files.",
     "Validating the legacy REVIEW file classifies it as `legacy` and fails with a pointer to the current contract."
    ]
+  },
+  {
+   "id": 98,
+   "prompt": "Audit this repository's AI-generated code provenance. Its git history shows commits authored by copilot-swe-agent[bot] plus commits carrying `Co-Authored-By: Claude` trailers; the repository ships no provenance documents. Some files are stylistically uniform with no attribution artifacts.",
+   "expected_output": "An AI provenance assessment that qualifies each scoped artifact set by an evidence tier and never declares human authorship.",
+   "files": [],
+   "expectations": [
+    "Every `FND-AIP-` finding carries a `Provenance basis` field set to `Declared`, `Attested`, `Supplied`, `Indicated`, or `Undetermined` - and no other finding pillar carries the field.",
+    "Bot-author and trailer evidence grounds `Declared` provenance for the attributed commits only; it never expands to the whole repository.",
+    "Stylistic uniformity, formatting consistency, and code-fingerprint resemblance are never cited as provenance evidence - no statistical or style-based inference appears anywhere in the report.",
+    "Artifacts without attribution evidence are reported `Undetermined`, never described or implied as human-authored.",
+    "Bot identities are excluded from contributor-concentration and bus-factor counts."
+   ]
   }
  ]
 }

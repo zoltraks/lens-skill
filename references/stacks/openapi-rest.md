@@ -10,7 +10,7 @@ This file distills the OpenAPI Specification, Spectral, OWASP REST, and RFC 9457
 listed in `references/source-catalog.md` into constraints an audit can verify from repository
 source.
 
-Snapshot date: 2026-09-30.
+Snapshot date: 2026-10-09.
 
 Feeds `assessment/api-contract.md`, `assessment/best-practices.md`, and
 `assessment/baseline-conformance.md` for API subjects.
@@ -18,7 +18,10 @@ Feeds `assessment/api-contract.md`, `assessment/best-practices.md`, and
 ## OpenAPI Structure
 
 From https://spec.openapis.org/oas/v3.1 (canonical text mirror:
-https://github.com/OAI/OpenAPI-Specification).
+https://github.com/OAI/OpenAPI-Specification). OpenAPI 3.2.0 (September 2025) is the
+latest minor release and adds the `QUERY` method, a nested tag structure, and streaming
+media types; 3.1 remains the version tooling and shipped contracts most commonly declare,
+so the checks below are stated against the 3.1 model and apply unchanged to 3.2 documents.
 
 - An OpenAPI document requires `openapi` (version string) and `info` (`title`, `version`).
   `paths` may be empty in 3.1 but a contract with zero paths describes no API.

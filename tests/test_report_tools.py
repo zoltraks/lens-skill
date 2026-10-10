@@ -95,6 +95,22 @@ class TestValidateReport(unittest.TestCase):
         self.assertIn("Reopened", self.validator.CHANGE_VALUES)
         self.assertIn("Accepted", self.validator.RISK_STATUS)
 
+    def test_aip_provenance_basis(self):
+        block = ["### FND-AIP-001 x", "", "* **Provenance basis:** Declared - trailers"]
+        self.assertEqual(self.validator.check_aip_provenance(block), [])
+        missing = ["### FND-AIP-001 x", "", "* **Severity:** LOW"]
+        self.assertTrue(
+            any("Provenance basis" in f for f in self.validator.check_aip_provenance(missing))
+        )
+        stray = ["### FND-SEC-001 x", "", "* **Provenance basis:** Declared"]
+        self.assertTrue(
+            any("reserved" in f for f in self.validator.check_aip_provenance(stray))
+        )
+        bad_value = ["### FND-AIP-001 x", "", "* **Provenance basis:** Human-authored"]
+        self.assertTrue(
+            any("not one of" in f for f in self.validator.check_aip_provenance(bad_value))
+        )
+
 
 class TestNewReport(unittest.TestCase):
     def setUp(self):

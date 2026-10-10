@@ -56,26 +56,26 @@ This file is loaded only when the report language is Polish.
 | References                                  | 1259 | References guidance                         |
 | Strengths And What's Working                | 1268 | Strengths And What's Working guidance       |
 | Detailed Technical Findings                 | 1274 | Detailed Technical Findings guidance        |
-| Technical Debt Register                     | 1335 | Technical Debt Register guidance            |
-| Unified Risk Register                       | 1347 | Unified Risk Register guidance              |
-| Trade-off Analysis                          | 1367 | Trade-off Analysis guidance                 |
-| Actionable Remediation Roadmap              | 1379 | Actionable Remediation Roadmap guidance     |
-| Recommendation Classification               | 1394 | Recommendation Classification guidance      |
-| Changes Since Previous Audit                | 1409 | Changes Since Previous Audit guidance       |
-| Scope Exclusions                            | 1443 | Scope Exclusions guidance                   |
-| Limitations And Unknowns                    | 1451 | Limitations And Unknowns guidance           |
-| Re-audit And Follow-up Plan                 | 1468 | Re-audit And Follow-up Plan guidance        |
-| Operator Verification Handoff               | 1478 | Operator Verification Handoff guidance      |
-| Executed Evidence Log                       | 1491 | Executed Evidence Log guidance              |
-| Hunt Style Sections                         | 1504 | Hunt Style Sections guidance                |
-| Review Style Sections                       | 1533 | Review Style Sections guidance              |
-| Validation Record                           | 1563 | Validation Record guidance                  |
-| Threat Model                                | 1597 | Threat Model guidance                       |
-| API Contract Conformance                    | 1607 | API Contract Conformance guidance           |
-| API Compatibility And Versioning Discipline | 1616 | API Compatibility And Versioning guidance   |
-| Evidence And Decision Terms                 | 1625 | Evidence And Decision Terms guidance        |
-| Skill Definition Conformance Table          | 1686 | Skill Definition Conformance Table guidance |
-| Structure Review                            | 1701 | Structure Review guidance                   |
+| Technical Debt Register                     | 1339 | Technical Debt Register guidance            |
+| Unified Risk Register                       | 1351 | Unified Risk Register guidance              |
+| Trade-off Analysis                          | 1371 | Trade-off Analysis guidance                 |
+| Actionable Remediation Roadmap              | 1383 | Actionable Remediation Roadmap guidance     |
+| Recommendation Classification               | 1398 | Recommendation Classification guidance      |
+| Changes Since Previous Audit                | 1413 | Changes Since Previous Audit guidance       |
+| Scope Exclusions                            | 1447 | Scope Exclusions guidance                   |
+| Limitations And Unknowns                    | 1455 | Limitations And Unknowns guidance           |
+| Re-audit And Follow-up Plan                 | 1472 | Re-audit And Follow-up Plan guidance        |
+| Operator Verification Handoff               | 1482 | Operator Verification Handoff guidance      |
+| Executed Evidence Log                       | 1495 | Executed Evidence Log guidance              |
+| Hunt Style Sections                         | 1508 | Hunt Style Sections guidance                |
+| Review Style Sections                       | 1537 | Review Style Sections guidance              |
+| Validation Record                           | 1567 | Validation Record guidance                  |
+| Threat Model                                | 1601 | Threat Model guidance                       |
+| API Contract Conformance                    | 1611 | API Contract Conformance guidance           |
+| API Compatibility And Versioning Discipline | 1620 | API Compatibility And Versioning guidance   |
+| Evidence And Decision Terms                 | 1629 | Evidence And Decision Terms guidance        |
+| Skill Definition Conformance Table          | 1690 | Skill Definition Conformance Table guidance |
+| Structure Review                            | 1705 | Structure Review guidance                   |
 
 ## Analysis And Rendering
 
@@ -1302,6 +1302,7 @@ a main section, `Decyzje architektoniczne` is also correct.
 | Mitigating factors          | Czynniki łagodzące               |
 | Exploitability              | Wykorzystanie podatności         |
 | Evidence                    | Dowód                            |
+| Provenance basis            | Podstawa pochodzenia             |
 
 The `Zweryfikowane` field takes the value `tak` or `nie` followed by the evidence note, for
 example `* **Zweryfikowane:** tak - obserwacja w źródłach`.
@@ -1315,6 +1316,9 @@ The `Łamanie kompatybilności` field takes `Brak`, `wewnętrzne`, or `publiczne
 every other field (`Wysoka`, `Teoretyczne`), and `Ważność`, `Status`, `Zmiana`, `Typ`,
 and `Charakter odstępstwa` take title-case phrases
 (`Wysoka`, `Otwarty`, `Nowa`, `Obserwacja`, `Nieokreślony`).
+
+The `Podstawa pochodzenia` field appears only on `FND-AIP-` blocks and takes `Zadeklarowana`,
+`Zaświadczona`, `Dostarczona`, `Wskazana`, or `Nieokreślona`.
 
 The exploitability narrative labels translate as `Warunek wstępny:`, `Ścieżka:`, `Wpływ:`, and
 `Niepewność:` - they are part of the narrative prose, not fixed tokens.

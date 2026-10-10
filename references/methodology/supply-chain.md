@@ -10,7 +10,7 @@ This file distills the SLSA, OpenSSF Scorecard, GitHub Advisory Database, and OS
 listed in `references/source-catalog.md` into constraints an audit can verify from repository
 source.
 
-Snapshot date: 2026-09-30.
+Snapshot date: 2026-10-09.
 
 Feeds `assessment/dependency-review.md`, `assessment/deployment-review.md`, and
 `references/topics/project-health.md`.
@@ -19,11 +19,16 @@ Feeds `assessment/dependency-review.md`, `assessment/deployment-review.md`, and
 
 From https://slsa.dev/spec/v1.2/ (root and v1.0 URLs are folded into this row).
 
-- SLSA build levels: L1 provenance exists, L2 hosted build on a controlled platform, L3
-  hardened builders with isolated provenance. Source-track requirements (version control,
-  verified history) sit alongside.
-- The checkable artifact is the *provenance statement* (in-toto attestation naming builder,
-  materials, and outputs). A release without provenance makes no SLSA claim.
+- SLSA v1.2 organizes requirements into tracks. The build track keeps levels L1-L3: L1
+  provenance exists, L2 hosted build on a controlled platform, L3 hardened builders with
+  isolated provenance.
+- The source track (new in v1.2) covers how a source revision was produced: L1 a version
+  control system, L2 preserved change history plus source provenance, L3 enforced
+  organizational technical controls, L4 required code review. Its checkable artifact is
+  the *source provenance attestation* - `references/methodology/ai-provenance.md` consumes
+  it as an authorship-evidence class.
+- The checkable build artifact is the *provenance statement* (in-toto attestation naming
+  builder, materials, and outputs). A release without provenance makes no SLSA claim.
 - `npm publish --provenance`, GitHub Artifact Attestations, and `slsa-github-generator`
   workflows are the ecosystem-specific emitters - their presence is a supply-chain strength
   signal.

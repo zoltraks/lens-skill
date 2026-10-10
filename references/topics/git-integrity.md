@@ -27,6 +27,9 @@ From https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work.
 - SSH-based signing (`gpg.format=ssh`, `user.signingkey` to an SSH key, allowed-signers file)
   is the low-friction path since Git 2.34. An `allowed_signers` file in-repo is evidence of
   the intent.
+- A signed commit attests the keyholder, not the authorship class - platform-signed bot
+  commits double as agent-attribution evidence per
+  `references/methodology/ai-provenance.md`.
 
 ## Sigstore
 

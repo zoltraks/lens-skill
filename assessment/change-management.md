@@ -114,7 +114,9 @@ Missing rationale limits confidence in a decision regardless of code origin.
 Do not infer an AI default or raise severity from style-based provenance signals.
 
 Cross-reference `assessment/generated-code.md` only when explicit provenance evidence is
-relevant.
+relevant, and qualify it with the tier vocabulary in
+`references/methodology/ai-provenance.md` - `Declared` or `Attested` attribution evidence
+supports a provenance statement, `Indicated` and `Supplied` only support a qualified one.
 
 For technical due diligence, compare roadmap commitments with documented prerequisites, integration
 constraints, deprecation plans, and supplied capacity estimates.

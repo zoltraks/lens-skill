@@ -10,7 +10,7 @@
 This file distills the NIST, Microsoft, FIRST, and MITRE sources listed in
 `references/source-catalog.md` into the anchors an audit uses for risk and threat findings.
 
-Snapshot date: 2026-09-30.
+Snapshot date: 2026-10-09.
 
 Feeds `assessment/threat-model.md`, `synthesis/risk-register.md`, and
 `references/exploitability-narrative.md`.
@@ -60,7 +60,7 @@ https://www.first.org/cvss/v4.0/user-guide.
 ## CWE Anchors
 
 From https://cwe.mitre.org/, https://cwe.mitre.org/top25/, and
-https://cwe.mitre.org/top25/archive/2024/2024_cwe_top25.html.
+https://cwe.mitre.org/top25/archive/2025/2025_cwe_top25.html.
 
 - The CWE Top 25 is a dated ranking of dangerous weaknesses. The audit cites specific CWE
   numbers (for example CWE-79 XSS, CWE-89 SQLi, CWE-494 unsigned download) rather than the

@@ -10,7 +10,7 @@
 This file distills the CISA, SPDX, CycloneDX, REUSE, and OSI sources listed in
 `references/source-catalog.md` into constraints an audit can verify from repository source.
 
-Snapshot date: 2026-09-30.
+Snapshot date: 2026-10-09.
 
 Feeds `references/sbom-schema.md`, `references/license-compliance.md`, and
 `assessment/dependency-review.md`.
@@ -30,7 +30,9 @@ From https://www.cisa.gov/resources-tools/resources/2026-minimum-elements-softwa
 
 ## SPDX
 
-From https://spdx.org/licenses/ and https://spdx.github.io/spdx-spec/v2.3/.
+From https://spdx.org/licenses/, https://spdx.github.io/spdx-spec/v3.0.1/, and
+https://spdx.github.io/spdx-spec/v2.3/ (the legacy 2.x form most shipped documents still
+use).
 
 - SPDX License IDs are the canonical identifiers (`MIT`, `Apache-2.0`, `GPL-3.0-only`,
   `BSD-3-Clause`, `EUPL-1.2`). `-only`/`-or-later` split replaced the deprecated `+`
@@ -39,20 +41,29 @@ From https://spdx.org/licenses/ and https://spdx.github.io/spdx-spec/v2.3/.
   are a normalization finding.
 - `LICENSE`/`COPYING`/`NOTICE` files plus package `license` fields form the evidence set.
   `NOASSERTION` is the SPDX value for undetermined licenses, not `Unknown`.
-- SPDX documents (`documentName`, `spdxVersion`, `packages[]` with `SPDXID`,
-  `downloadLocation`, `licenseConcluded`/`licenseDeclared`, `copyrightText`) are the
-  document shape when a repo ships one.
+- SPDX 3.0 (current 3.0.1) reorganized the model around `Element`s with `creationInfo`
+  (`createdBy` an Agent, `createdUsing` a Tool) and adds AI, Dataset, Build, and Lite
+  profiles; SPDX 2.x documents (`documentName`, `spdxVersion`, `packages[]` with `SPDXID`,
+  `downloadLocation`, `licenseConcluded`/`licenseDeclared`, `copyrightText`) remain the
+  common shipped shape. A 2.x document is not stale by itself - record the `spdxVersion`,
+  never demand a 3.0 migration.
 
 ## CycloneDX
 
 From https://cyclonedx.org/specification/overview/ and
-https://ecma-tc54.github.io/ECMA-424/ (the ECMA-424 standard form).
+https://ecma-tc54.github.io/ECMA-424/ (the ECMA-424 standard form, second edition covering
+specification 1.7).
 
 - CycloneDX is a BOM standard covering components, services, dependencies, vulnerabilities,
   and licenses. `bomFormat`, `specVersion`, `serialNumber`, `components[]` are the top-level
-  shape.
+  shape. Specification 1.7 is the current release; earlier 1.x documents are valid for
+  their declared `specVersion`.
 - Components carry `type`, `name`, `version`, `purl`, `licenses`, `hashes`, and
   `externalReferences`. `purl` (package URL) is the canonical identifier scheme.
+- `formulation` (declared and observed manufacturing process), `declarations`
+  (attestations, claims, evidence), and `metadata.tools` carry the provenance surface -
+  `references/methodology/ai-provenance.md` consumes those fields for agent-authored
+  artifacts.
 - A shipped `sbom.json`/`cdx.json` artifact is `Reported` evidence - the audit reads it,
   never regenerates it.
 

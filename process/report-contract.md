@@ -52,6 +52,8 @@ Rationale and detail live in the section specs under `process/report-format/` an
   `Runtime confirmed` starts with `yes`, `no`, or `not applicable`. `Breaking change`
   starts with `None`, `Internal`, or `Public API`. `Applicability` starts with
   `applicable`, `conditional`, `inapplicable`, or `unverified`.
+- `Provenance basis` starts with `Declared`, `Attested`, `Supplied`, `Indicated`, or
+  `Undetermined` - required on `FND-AIP-` blocks, omitted on other pillars.
 - A field whose value would be `N/A` or empty is omitted, never rendered blank.
 - Legacy field names such as `Verification State` or `Remediation Status` are rejected -
   the current names are the ones above.

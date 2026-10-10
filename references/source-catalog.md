@@ -23,9 +23,9 @@ identifiers and names), `alternate` (fallback address for the row above).
 | Section                            | Line | What it covers                                   |
 |------------------------------------|------|--------------------------------------------------|
 | Sources                            | 30   | Source registry grouped by consuming corpus file |
-| Session-Derived Files              | 497  | Corpus files built from session knowledge        |
-| Unresolved And Alternate Addresses | 508  | Fetch failures and working alternates            |
-| Maintenance                        | 528  | Row-addition and canonicalization rules          |
+| Session-Derived Files              | 518  | Corpus files built from session knowledge        |
+| Unresolved And Alternate Addresses | 529  | Fetch failures and working alternates            |
+| Maintenance                        | 549  | Row-addition and canonicalization rules          |
 
 ## Sources
 
@@ -241,6 +241,7 @@ identifiers and names), `alternate` (fallback address for the row above).
 | Source                       | Publisher          | URL                                                                           | Status    |
 |------------------------------|--------------------|-------------------------------------------------------------------------------|-----------|
 | OpenAPI Specification 3.1    | OpenAPI Initiative | https://spec.openapis.org/oas/v3.1                                            | distilled |
+| OpenAPI Specification 3.2    | OpenAPI Initiative | https://spec.openapis.org/oas/v3.2.0                                          | distilled |
 | OAI specification repository | OpenAPI Initiative | https://github.com/OAI/OpenAPI-Specification                                  | alternate |
 | Spectral documentation       | Stoplight          | https://docs.stoplight.io/docs/spectral/                                      | alternate |
 | REST security cheat sheet    | OWASP              | https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.html | distilled |
@@ -288,7 +289,7 @@ identifiers and names), `alternate` (fallback address for the row above).
 | CVSS v4 specification     | FIRST     | https://www.first.org/cvss/v4-0/specification-document                                | distilled |
 | CVSS v4 user guide        | FIRST     | https://www.first.org/cvss/v4.0/user-guide                                            | distilled |
 | CWE Top 25                | MITRE     | https://cwe.mitre.org/top25/                                                          | distilled |
-| CWE Top 25 2024 archive   | MITRE     | https://cwe.mitre.org/top25/archive/2024/2024_cwe_top25.html                          | distilled |
+| CWE Top 25 2025 archive   | MITRE     | https://cwe.mitre.org/top25/archive/2025/2025_cwe_top25.html                          | distilled |
 | CWE home                  | MITRE     | https://cwe.mitre.org/                                                                | distilled |
 | CWE-494                   | MITRE     | https://cwe.mitre.org/data/definitions/494.html                                       | distilled |
 
@@ -344,7 +345,8 @@ identifiers and names), `alternate` (fallback address for the row above).
 | CISA 2026 SBOM minimum elements | CISA                   | https://www.cisa.gov/resources-tools/resources/2026-minimum-elements-software-bill-materials-sbom | distilled |
 | CISA SBOM minimum requirements  | CISA                   | https://www.cisa.gov/resources-tools/resources/minimum-requirements-software-bill-materials-sbom  | alternate |
 | SPDX License List               | SPDX                   | https://spdx.org/licenses/                                                                        | distilled |
-| SPDX specification              | SPDX                   | https://spdx.github.io/spdx-spec/v2.3/                                                            | distilled |
+| SPDX specification 3.0.1        | SPDX                   | https://spdx.github.io/spdx-spec/v3.0.1/                                                          | distilled |
+| SPDX specification 2.3          | SPDX                   | https://spdx.github.io/spdx-spec/v2.3/                                                            | alternate |
 | CycloneDX overview              | CycloneDX              | https://cyclonedx.org/specification/overview/                                                     | distilled |
 | ECMA-424 CycloneDX              | Ecma TC54              | https://ecma-tc54.github.io/ECMA-424/                                                             | distilled |
 | REUSE specification             | FSFE                   | https://reuse.software/spec/                                                                      | distilled |
@@ -485,6 +487,25 @@ Feeds `references/agent-skills.md` and `references/agent-configuration.md`.
 | Agent skill best practices | Anthropic      | https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices | distilled |
 | AGENTS.md convention       | agents.md      | https://agents.md/                                                               | distilled |
 | MCP specification          | MCP project    | https://modelcontextprotocol.io/specification                                    | distilled |
+
+### references/methodology/ai-provenance.md
+
+| Source                      | Publisher           | URL                                                                                               | Status    |
+|-----------------------------|---------------------|---------------------------------------------------------------------------------------------------|-----------|
+| Claude Code settings        | Anthropic           | https://code.claude.com/docs/en/settings                                                          | distilled |
+| Copilot coding agent        | GitHub              | https://docs.github.com/en/copilot/how-tos/use-copilot-agents                                     | distilled |
+| VS Code settings reference  | Microsoft           | https://code.visualstudio.com/docs/getstarted/settings                                            | distilled |
+| Cursor docs                 | Cursor              | https://cursor.com/docs                                                                           | distilled |
+| Aider documentation         | Aider project       | https://aider.chat/docs/                                                                          | distilled |
+| SLSA source requirements    | SLSA                | https://slsa.dev/spec/v1.2/source-requirements                                                    | distilled |
+| SPDX 3.0.1 model reference  | SPDX                | https://spdx.github.io/spdx-spec/v3.0.1/model/                                                    | distilled |
+| CycloneDX specification     | CycloneDX           | https://cyclonedx.org/specification/overview/                                                     | distilled |
+| in-toto attestations        | in-toto project     | https://in-toto.io/                                                                               | distilled |
+| EU AI Act Article 50        | European Commission | https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-50                                     | distilled |
+| Copyrightability report     | US Copyright Office | https://copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-2-Copyrightability-Report.pdf | paywalled |
+| Detector robustness (DIMVA) | LDK Lab             | https://ldklab.github.io/assets/papers/dimva25-aicode.pdf                                         | distilled |
+| AICD Bench                  | ACL Anthology       | https://aclanthology.org/anthology-files/pdf/eacl/2026.eacl-long.325.pdf                          | distilled |
+| Perplexity detection study  | ACM TOSEM           | https://dl.acm.org/doi/10.1145/3748506                                                            | paywalled |
 
 ### Advisory and tooling context
 

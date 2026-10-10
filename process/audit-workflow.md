@@ -20,11 +20,11 @@ defined in `process/report-format/hunt-style.md` and `process/report-format/revi
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 1751 | Intake Checklist guidance        |
-| Handling Thin Input     | 1771 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1782 | Single-Dimension Audits guidance |
-| Re-Audit                | 1796 | Re-Audit guidance                |
-| Multi-Project Audits    | 1862 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1752 | Intake Checklist guidance        |
+| Handling Thin Input     | 1772 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1783 | Single-Dimension Audits guidance |
+| Re-Audit                | 1797 | Re-Audit guidance                |
+| Multi-Project Audits    | 1863 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -1032,7 +1032,8 @@ row, populating the License and License Risk cells from inspected declarations o
 
 For delivery practice, compute the Git-derived proxies and contributor concentration per
 `references/delivery-practice.md`: tag cadence, median commit-to-tag interval, top-author share,
-and active-contributor count.
+and active-contributor count - agent-bot identities are excluded from the contributor counts
+and recorded separately per the attribution census.
 
 Fields the repository cannot supply stay `NOT SPECIFIED` with the reason recorded.
 

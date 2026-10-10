@@ -10,27 +10,31 @@
 This file distills the OWASP sources listed in `references/source-catalog.md` into the
 classification anchors an audit uses for security findings.
 
-Snapshot date: 2026-10-02.
+Snapshot date: 2026-10-09.
 
 Feeds `assessment/security-review.md`, `assessment/threat-model.md`, and
 `references/cwe-analyzer.md`.
 
-## OWASP Top 10 (2021 Edition)
+## OWASP Top 10 (2025 Edition)
 
-From https://owasp.org/www-project-top-ten/.
+From https://owasp.org/www-project-top-ten/ and https://owasp.org/Top10/2025/.
 
 | Code | Category                                   |
 |------|--------------------------------------------|
 | A01  | Broken Access Control                      |
-| A02  | Cryptographic Failures                     |
-| A03  | Injection                                  |
-| A04  | Insecure Design                            |
-| A05  | Security Misconfiguration                  |
-| A06  | Vulnerable and Outdated Components         |
-| A07  | Identification and Authentication Failures |
-| A08  | Software and Data Integrity Failures       |
-| A09  | Security Logging and Monitoring Failures   |
-| A10  | Server-Side Request Forgery                |
+| A02  | Security Misconfiguration                  |
+| A03  | Software Supply Chain Failures             |
+| A04  | Cryptographic Failures                     |
+| A05  | Injection                                  |
+| A06  | Insecure Design                            |
+| A07  | Authentication Failures                    |
+| A08  | Software or Data Integrity Failures        |
+| A09  | Security Logging and Alerting Failures     |
+| A10  | Mishandling of Exceptional Conditions      |
+
+The 2025 edition expands 2021's Vulnerable and Outdated Components into Software Supply Chain
+Failures (A03), folds Server-Side Request Forgery into Broken Access Control (A01), and adds
+Mishandling of Exceptional Conditions (A10).
 
 A finding mapped to a Top 10 category is a vocabulary anchor, not a severity claim. CWE numbers
 carry the defect class.
@@ -59,12 +63,15 @@ check.
 
 ## ASVS Structure
 
-From https://owasp.org/www-project-application-security-verification-standard/.
+From https://owasp.org/www-project-application-security-verification-standard/ and
+https://asvs.dev/.
 
+- ASVS 5.0.0 (May 2025) is the current release: a full reorganization of the 4.x requirement
+  set with renumbered chapters. Version-qualified requirement IDs (`v5.0.0-1.2.5`) are the
+  checkable anchors; a v4.x ID and a v5.x ID are different requirements even at the same
+  ordinal position.
 - ASVS levels: L1 opportunistic baseline, L2 for applications with sensitive data, L3 highest
-  assurance. The audit records which level the subject claims.
-- Requirements are organized by verification area (V1 architecture through V14 configuration
-  in the 4.x/5.x stream). Individual requirement IDs (`V2.x.y`) are the checkable anchors.
+  assurance. The audit records which level and which major version the subject claims.
 - ASVS is a requirements catalog, not a score: "meets ASVS L2" means every applicable L2
   requirement is verified, never a sampling claim.
 

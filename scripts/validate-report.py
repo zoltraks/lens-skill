@@ -297,7 +297,7 @@ CHANGE_VALUES = ("New", "Unchanged", "Reopened", "Closed")
 RISK_STATUS = ("Open", "Accepted", "Transferred", "Monitoring", "Closed")
 VERIFICATION_QUALIFIERS = ("Verified", "Confirmed", "Reported")
 FINDING_PILLARS = ("ARC", "CQY", "SEC", "INF", "AIP", "CPR", "API", "STR")
-FINDING_ID = re.compile(r"FND-(?:ARC|CQY|SEC|INF|AIP|CPR|API)-\d{3}")
+FINDING_ID = re.compile(r"FND-(?:ARC|CQY|SEC|INF|AIP|CPR|API|STR)-\d{3}")
 ABSENCE_VALUES = ("No documented rationale", "Deliberate - recorded decision",
                   "Undetermined")
 EMPTY_FIELD_VALUE = re.compile(r"^(N/?A|N/D|NOT SPECIFIED|NIEOKREŚLON)\b", re.IGNORECASE)
@@ -1200,6 +1200,7 @@ REVIEW_SECTIONS = [
 
 REVIEW_RESULTS = ("PASS", "FAIL", "ERROR", "BLOCKED", "SKIPPED", "NOT RUN", "N/A")
 REVIEW_EVIDENCE_LEVELS = ("Source", "Model", "App", "Deployed", "Unknown")
+PROVENANCE_BASIS_VALUES = ("Declared", "Attested", "Supplied", "Indicated", "Undetermined")
 REVIEW_DISPOSITIONS = ("Planned", "Deferred", "Accepted - no action", "Unresolved")
 
 
@@ -1609,6 +1610,34 @@ def check_review_evidence_levels(lines: list[str]) -> list[str]:
     return failures
 
 
+def check_aip_provenance(lines: list[str]) -> list[str]:
+    """`Provenance basis` is required on FND-AIP- blocks and omitted elsewhere."""
+    failures: list[str] = []
+    starts = [index for index, line in enumerate(lines) if line.startswith("### FND-")]
+    for position, start in enumerate(starts):
+        end = starts[position + 1] if position + 1 < len(starts) else len(lines)
+        block = NL.join(lines[start:end])
+        name = lines[start][4:][:70]
+        value = field_value(block, "Provenance basis")
+        if name.upper().startswith("FND-AIP-"):
+            if not value:
+                failures.append(
+                    f"{name}: missing Provenance basis - expected literal "
+                    "'* **Provenance basis:** <Declared / Attested / Supplied / "
+                    "Indicated / Undetermined>'"
+                )
+            elif value.split(" ")[0].capitalize() not in PROVENANCE_BASIS_VALUES:
+                failures.append(
+                    f"{name}: Provenance basis '{value[:60]}' is not one of "
+                    f"{'/'.join(PROVENANCE_BASIS_VALUES)}"
+                )
+        elif value:
+            failures.append(
+                f"{name}: Provenance basis is reserved for FND-AIP- blocks"
+            )
+    return failures
+
+
 def check_risk_consistency(lines: list[str], fences: list[bool]) -> list[str]:
     failures: list[str] = []
     blocks: dict[str, list[str]] = {}
@@ -1976,6 +2005,8 @@ def report_contract() -> dict:
             "finding_required": [field.rstrip(":") for field in FINDING_REQUIRED],
             "risk_required": [field.rstrip(":") for field in RISK_REQUIRED],
             "legacy_forbidden": LEGACY_FIELDS,
+            "aip_finding_required": ["Provenance basis"],
+            "provenance_basis_exclusive_to": "FND-AIP-",
         },
         "tokens": {
             "finding_status": list(FINDING_STATUS),
@@ -1989,6 +2020,7 @@ def report_contract() -> dict:
             "coverage_status": ["Covered", "Partially", "Not done"],
             "check_result": list(REVIEW_RESULTS),
             "evidence_level": list(REVIEW_EVIDENCE_LEVELS),
+            "provenance_basis": list(PROVENANCE_BASIS_VALUES),
             "evidence_mode": ["source-only", "executed-readonly", "executed-commands"],
         },
         "tables": {
@@ -2131,6 +2163,7 @@ def main(path: str, repo_root: str | None = None) -> int:
                 checks.append(
                     ("audit finding disposition", check_finding_disposition(text, lines))
                 )
+            checks.append(("AIP provenance basis", check_aip_provenance(lines)))
     if kind == "audit":
         label = report_style(text)
         if variant:

@@ -130,11 +130,32 @@ Each is a search pattern or file enumeration, never an executed build or test.
 | Workflow pin census    | List every `uses:` ref in workflow files and its pin form (SHA, tag, branch)                                                                             | Mutable third-party action references                                                  |
 | Registration diff      | Diff shipped files on disk against files registered in `SKILL.md`, manifests, or index files                                                             | Unregistered or dangling resources                                                     |
 | Derived-literal census | Search literals that duplicate declared configuration (URLs, timeouts, limits hardcoded where a config key exists)                                       | Configuration drift candidates                                                         |
+| Attribution census     | `git log --no-merges --format="%an <%ae>%n%b"` scanned for the signatures in `references/methodology/ai-provenance.md`                                   | Per-tool attributed-commit count and share of the non-merge total                      |
 
 Count what the probe counts and record the pattern beside the figure.
 
 A probe result is a candidate set - each candidate is confirmed by reading the file before it
 becomes a finding.
+
+## Attribution Census
+
+The attribution census counts agent-attributed commits, not agent-written code.
+
+Scan author names, author emails, and trailer lines against the signature table in
+`references/methodology/ai-provenance.md`, count matches per tool, and report each count
+beside the non-merge total.
+
+Merge commits carrying a bot author identity are counted separately - a bot-authored
+merge is an attributed integration, not an attributed change.
+
+Author and committer identities outrank trailers when the two disagree.
+
+Squash merges and history rewrites erase trailers, and attribution is opt-out, so the
+census is a floor: report attributed counts, never a "percentage human" remainder.
+
+The figure feeds the provenance assessment in `assessment/generated-code.md` and excludes
+automation identities (`github-actions[bot]`, `dependabot[bot]`, release bots) that mark
+machine-driven changes rather than generative authorship.
 
 ## Anchor Precision
 

@@ -13,10 +13,10 @@
 |--------------------------------|------|--------------------------------------|
 | Strengths & What's Working     | 21   | Evidence-based positive baselines    |
 | Detailed Technical Findings    | 59   | Finding summary and detail blocks    |
-| Technical Debt Register        | 312  | Distinct accumulated debt            |
-| Unified Risk Register          | 360  | Cross-referenced risks               |
-| Actionable Remediation Roadmap | 454  | Prioritized recommendations          |
-| Recommendation Classification  | 530  | Recommended/Optional/Not recommended |
+| Technical Debt Register        | 317  | Distinct accumulated debt            |
+| Unified Risk Register          | 365  | Cross-referenced risks               |
+| Actionable Remediation Roadmap | 459  | Prioritized recommendations          |
+| Recommendation Classification  | 535  | Recommended/Optional/Not recommended |
 
 ## Strengths & What's Working
 
@@ -172,6 +172,8 @@ Use this exact markdown block pattern:
 * **Runtime confirmed:** [yes | no | not applicable, with a short qualifier]
 * **Evidence level:** [Source | Model | App | Deployed | Unknown] *(required under
   `Report Style: review`, optional otherwise)*
+* **Provenance basis:** [Declared | Attested | Supplied | Indicated | Undetermined] -
+  [one-line artifact basis] *(required on `FND-AIP-` findings, omitted elsewhere)*
 * **Breaking change:** [None | Internal | Public API - surfaces and migration note]
   *(omit when N/A)*
 * **Applicability:** [applicable | conditional | inapplicable | unverified - reachability
@@ -198,8 +200,11 @@ When the report language is not English, apply the bullet label translations fro
 `translations/` file.
 
 Omit a field line entirely when its value would be `N/A` or an unspecified token: `Security`,
-`Exploitability`, and `Absence` render only when they carry information, and the same applies
-in every report language.
+`Exploitability`, `Absence`, and `Provenance basis` render only when they carry information,
+and the same applies in every report language.
+
+`Provenance basis` is the inverse conditional: it is required on `FND-AIP-` blocks and
+omitted on every other pillar.
 
 Each finding must cite concrete evidence: file paths, config keys, commands, or direct quotes.
 

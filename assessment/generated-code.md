@@ -10,6 +10,10 @@ contributors.
 
 Apply `principles/evaluation-rules.md` throughout.
 
+`references/methodology/ai-provenance.md` holds the attribution signature table, the
+provenance-document vocabulary, the erasure rules, and the detection-research basis for the
+constraints below.
+
 | Out of scope       | See instead                       |
 |--------------------|-----------------------------------|
 | Test effectiveness | `assessment/testing-review.md`    |
@@ -18,22 +22,52 @@ Apply `principles/evaluation-rules.md` throughout.
 
 ## Establish Provenance
 
-Use explicit attribution, generation manifests, linked review records, or supplied stakeholder
-statements to establish the provenance of particular artifacts.
+Establish provenance from artifacts, never from style.
 
-AI instruction files establish that an agent workflow is supported, not that any specific file was
-generated or that review was absent.
+Assign each scoped artifact or change set a `Provenance basis` from the evidence tiers:
+
+- `Declared` - an explicit attribution artifact exists in the repository: an agent commit
+  trailer, a bot author or committer identity, a generation manifest, a session-log link,
+  or a documented AI policy whose declared artifacts are consistent with the tree.
+- `Attested` - a verifiable or signed provenance record exists: a platform-signed bot
+  commit, an in-toto or SLSA source-track attestation, an SPDX `createdBy`/`createdUsing`
+  record, or a CycloneDX `declarations`/`formulation` entry naming the producing agent.
+- `Supplied` - a stakeholder statement or other reported evidence asserts the origin and
+  nothing contradicts it.
+- `Indicated` - only circumstantial artifacts exist: agent configuration or guidance
+  files, committed settings that govern (or suppress) attribution, or an agent workflow
+  the repository clearly supports without per-artifact attribution.
+- `Undetermined` - no evidence either way.
+
+The tiers describe the strength of evidence for agent involvement, in descending order.
+
+`Declared` and `Attested` support a positive provenance finding; `Indicated` and
+`Supplied` support provenance language only with the limitation named; `Undetermined`
+supports no provenance claim at all.
+
+The asymmetry rule applies: human authorship is never a report conclusion - a clean
+attribution census is `Undetermined`, not evidence of human authorship.
+
+AI instruction files establish that an agent workflow is supported, not that any specific
+file was generated or that review was absent - they ground `Indicated` at most.
 
 Record the provenance source, its scope, and whether it is inspected or reported evidence.
 
+Run the attribution census from `references/census-commands.md` when git history is in
+scope, and treat erased or suppressed attribution per the digest's erasure rules - an
+opt-out configuration is `Indicated` evidence about the workflow, not about the code.
+
 Keep code origin `UNKNOWN` when it cannot be established.
 
-Do not estimate the percentage of AI-generated code from style.
+Do not estimate the percentage of AI-generated code from style, and do not run or cite
+statistical authorship detectors - the digest's research section documents why their
+output is not audit evidence.
 
-Uniform formatting, round test values, synchronized versions, rapid commits, verbose prose, and
-absence of TODOs or abandoned code are not reliable authorship evidence.
+Uniform formatting, round test values, synchronized versions, rapid commits, verbose
+prose, and absence of TODOs or abandoned code are not reliable authorship evidence.
 
-Generated code is not inherently lower quality, and unknown origin is not evidence of infringement.
+Generated code is not inherently lower quality, and unknown origin is not evidence of
+infringement.
 
 ## Evaluate Validation Controls
 
