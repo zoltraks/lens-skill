@@ -51,8 +51,8 @@ Rationale and detail live in the section specs under `process/report-format/` an
 - The only parsed field syntax is `* **Field:** value` - an asterisk bullet, a bold field
   name, a colon outside the bold.
 - Finding blocks require, in order: `Pillar`, `Severity`, `Type`, `Status`, `Change`,
-  `Targets`, `Basis`, `Description`, `Impact`, `Recommendation`, `Method`, `Verified`,
-  `Runtime confirmed`, `Confidence`, `Mitigating factors`, `Evidence`.
+  `Targets`, `Basis`, `Criterion`, `Description`, `Impact`, `Recommendation`, `Method`,
+  `Verified`, `Runtime confirmed`, `Confidence`, `Mitigating factors`, `Evidence`.
 - Risk blocks require: `Severity`, `Likelihood`, `Residual`, `Status`, `Description`,
   `Impact`, `Trigger`, `Controls`, `Mitigation`, `Closure`, `Source`, `Confidence`.
 - Finding identifiers match `FND-<pillar>-NNN` with pillar `ARC`, `CQY`, `SEC`, `INF`,
@@ -63,6 +63,9 @@ Rationale and detail live in the section specs under `process/report-format/` an
   `applicable`, `conditional`, `inapplicable`, or `unverified`.
 - `Provenance basis` starts with `Declared`, `Attested`, `Supplied`, `Indicated`, or
   `Undetermined` - required on `FND-AIP-` blocks, omitted on other pillars.
+- A `Criterion` value never renders `N/A` or a placeholder, and every cited criterion
+  resolves to a declared row of the report's criterion table - `audit`-style findings
+  naming criteria without a declared table fail.
 - A field whose value would be `N/A` or empty is omitted, never rendered blank.
 - Legacy field names such as `Verification State` or `Remediation Status` are rejected -
   the current names are the ones above.

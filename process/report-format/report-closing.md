@@ -15,7 +15,7 @@
 | Executed Evidence Log         | 157  | executed-mode checks, commands, results                |
 | Re-audit And Follow-up Plan   | 180  | retest plan, re-audit cadence, follow-ups              |
 | Validation Record             | 218  | PAR-1..PAR-20 rows, evidence basis                     |
-| References                    | 250  | external sources, link paragraphs, cached-source notes |
+| References                    | 252  | external sources, link paragraphs, cached-source notes |
 
 ## Scope Exclusions
 
@@ -231,9 +231,11 @@ Use a table:
 Rows appear in this order:
 
 1. One row per Mandatory Core Checklist item, `PAR-1` through `PAR-20`, in fixed order.
-2. Internal consistency checks: `FND-XXX`/`RSK-XXX`/`REC-XXX` cross-referencing, count
-   reconciliation across summary tables and registers, register-identifier link coverage,
-   conditional-section evaluation, and formatting rules.
+2. Internal consistency checks: `FND-XXX`/`RSK-XXX`/`REC-XXX` cross-referencing, every
+   finding `Criterion` resolving to a declared criterion-table row, count reconciliation
+   across summary tables and registers, evidence-coverage accounting per
+   `process/audit-model.md` (every material observation surfaced or explicitly dropped),
+   register-identifier link coverage, conditional-section evaluation, and formatting rules.
 3. A `Parity baseline` row naming the report diffed against, or `none found`.
 
 Result values are `APPLIED`, `PASS`, or `N/A`.

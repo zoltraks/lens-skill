@@ -21,17 +21,17 @@ If a finding cannot satisfy these rules, mark it as unknown rather than guessing
 |-------------------------------------|------|---------------------------------------|
 | Evidence-Based Reasoning            | 36   | Traceability and missing-info tokens  |
 | Evidence Strength And Claim Control | 53   | Evidence bases, types, confidence     |
-| No Assumptions                      | 169  | The no-assumption rule                |
-| No Personal Judgement               | 183  | Neutrality toward people              |
-| Architectural Neutrality            | 197  | Judging within stated constraints     |
-| Status Markers                      | 210  | PASS, PARTIAL, FAIL, UNKNOWN, N/A     |
-| Contextual Applicability            | 229  | N/A usage for inapplicable categories |
-| Absent Capability Assessment        | 258  | Intentional-versus-oversight tokens   |
-| Evidence Citation                   | 293  | Anchoring claims to sources           |
-| Confidence And Scope Limits         | 304  | Confidence and scope boundaries       |
-| Information Security And Redaction  | 315  | Secret handling rules                 |
-| Indexing And Traceability           | 331  | ID schemes and ordering               |
-| Critical Constraints                | 400  | Non-negotiable hard limits            |
+| No Assumptions                      | 229  | The no-assumption rule                |
+| No Personal Judgement               | 243  | Neutrality toward people              |
+| Architectural Neutrality            | 257  | Judging within stated constraints     |
+| Status Markers                      | 270  | PASS, PARTIAL, FAIL, UNKNOWN, N/A     |
+| Contextual Applicability            | 289  | N/A usage for inapplicable categories |
+| Absent Capability Assessment        | 318  | Intentional-versus-oversight tokens   |
+| Evidence Citation                   | 353  | Anchoring claims to sources           |
+| Confidence And Scope Limits         | 364  | Confidence and scope boundaries       |
+| Information Security And Redaction  | 375  | Secret handling rules                 |
+| Indexing And Traceability           | 391  | ID schemes and ordering               |
+| Critical Constraints                | 460  | Non-negotiable hard limits            |
 
 ## Evidence-Based Reasoning
 
@@ -165,6 +165,66 @@ Record which baseline decided the judgement and, for corpus files, the snapshot 
 
 Do not infer code originality, authorship, review history, or organizational practices from
 source style or absence of contrary evidence.
+
+## Critical Evaluation
+
+For each favorable claim, attempt a relevant counter-check.
+
+Trace the mechanism across entry point, validation, authorization, state change, result, and
+failure handling where applicable.
+
+A mechanism, directory, test, policy, or document receives credit only for the property it
+demonstrably establishes.
+
+| Optimistic shortcut              | Replacement question                                                              |
+|----------------------------------|-----------------------------------------------------------------------------------|
+| Authorization helper exists      | Do all applicable entry points use the correct subject, object, and scope,        |
+|                                  | including result filtering?                                                       |
+| Rate limiting exists             | What identity is limited, what resources remain unbounded, and what happens in    |
+|                                  | the intended topology?                                                            |
+| Tests exist or pass              | Which important behaviors and failures were exercised, and what remains outside   |
+|                                  | the suite?                                                                        |
+| Dockerfile is hardened           | Which packaging properties were inspected, and which build/runtime properties     |
+|                                  | were verified?                                                                    |
+| Lockfile and license policy exist| What exact versions and features are resolved, and what obligations and           |
+|                                  | advisories were checked?                                                          |
+| ADR accepts a risk               | Who accepted it, for which deployment, for how long, with which controls and      |
+|                                  | reopen trigger?                                                                   |
+| Many narrow traits exist         | Do interfaces isolate real responsibilities and remain substitutable on the       |
+|                                  | reviewed paths?                                                                   |
+| No unsafe code exists            | Which memory, logic, resource, authorization, and native-dependency risks remain? |
+| Documentation is extensive       | Is it current, internally consistent, and accurate about implementation and       |
+|                                  | verification?                                                                     |
+
+For every negative claim, actively inspect mitigating controls and competing explanations.
+
+Classify every claim before reporting it:
+
+- **Confirmed defect** - the violated property is demonstrated by sufficient evidence.
+- **Confirmed structural weakness** - a boundary or responsibility violation is demonstrated
+  without a behavioral defect.
+- **Configuration risk** - a defect materializes only under a named configuration or topology.
+- **Plausible hypothesis** - the mechanism suggests a problem that evidence does not yet decide.
+- **Evidence gap** - the property is unknown, reported as such rather than filled in.
+- **Optional improvement** - a beneficial change that is not a defect at all.
+
+A mechanism observation is not a target violation: a serialized lock establishes contention
+potential, and it becomes a performance defect only when the intended workload and acceptance
+target are violated or a sufficiently complete analytical model demonstrates it.
+
+A custom implementation is not defective merely for being custom - missing conformance evidence
+is the different finding.
+
+## Bounded Statements
+
+State conclusions at the boundary the evidence reaches.
+
+Write "scope checks are present at inspected entry points, and result isolation remains
+unverified" rather than "authorization is enforced end to end" when the end-to-end path was not
+traced.
+
+Favorable claims carry the same evidence discipline as unfavorable ones - presence of a
+mechanism never substitutes for the property the mechanism exists to provide.
 
 ## No Assumptions
 

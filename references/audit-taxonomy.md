@@ -28,6 +28,9 @@ The Coverage Matrix uses exactly these statuses, and no others:
 `NOT APPLICABLE` differs: the type's trigger condition is absent entirely, for example an AI
 Governance Audit for a project with no AI dependency, and a row carrying it is never rendered.
 
+This is the engagement-level vocabulary. Per-criterion outcome and coverage states are a
+separate vocabulary in `references/evidence-schema.md` and never appear in this matrix.
+
 ## Canonical Audit Types
 
 Render one row per canonical type whose status is not `NOT APPLICABLE`.

@@ -276,6 +276,7 @@ FINDING_REQUIRED = [
     "Change:",
     "Targets:",
     "Basis:",
+    "Criterion:",
     "Description:",
     "Impact:",
     "Recommendation:",
@@ -349,6 +350,12 @@ def check_finding_blocks(lines: list[str]) -> list[str]:
             value = field_value(block, field)
             if EMPTY_FIELD_VALUE.match(value):
                 failures.append(f"{name}: {field} renders {value.split(' ')[0]} - omit the line entirely")
+        criterion = field_value(block, "Criterion")
+        if EMPTY_FIELD_VALUE.match(criterion):
+            failures.append(
+                f"{name}: Criterion renders {criterion.split(' ')[0]} - name a declared "
+                "criterion-table row instead"
+            )
         verified = field_value(block, "Verified")
         if verified and not re.match(r"^(yes|no)\b", verified, re.IGNORECASE):
             failures.append(f"{name}: Verified does not start with yes or no")
@@ -365,6 +372,59 @@ def check_finding_blocks(lines: list[str]) -> list[str]:
             r"^(applicable|conditional|inapplicable|unverified)\b", applicability
         ):
             failures.append(f"{name}: Applicability is not an allowed token")
+    return failures
+
+
+def declared_criteria(lines: list[str]) -> set[str]:
+    criteria: set[str] = set()
+    for index, line in enumerate(lines):
+        if not re.match(r"\*\*Criterion table\*\*", line):
+            continue
+        j = index + 1
+        while j < len(lines) and not lines[j].lstrip().startswith("|"):
+            if re.match(r"\*\*[^*]+\*\*", lines[j]) or lines[j].startswith("#"):
+                break
+            j += 1
+        if j >= len(lines) or not lines[j].lstrip().startswith("|"):
+            continue
+        header = [cell.strip() for cell in lines[j].strip("|").split("|")]
+        if not header or header[0].lower() != "criterion":
+            continue
+        j += 1
+        if j < len(lines) and set(lines[j].strip()) <= set("|-: "):
+            j += 1
+        while j < len(lines) and lines[j].lstrip().startswith("|"):
+            cell = lines[j].strip("|").split("|")[0].strip().strip("`")
+            if cell and not cell.startswith("<"):
+                criteria.add(cell)
+            j += 1
+    return criteria
+
+
+def check_criterion_references(lines: list[str], style: str) -> list[str]:
+    failures: list[str] = []
+    declared = declared_criteria(lines)
+    starts = [index for index, line in enumerate(lines) if line.startswith("### FND-")]
+    used = False
+    for position, start in enumerate(starts):
+        end = starts[position + 1] if position + 1 < len(starts) else len(lines)
+        block = NL.join(lines[start:end])
+        name = lines[start][4:][:70]
+        value = field_value(block, "Criterion")
+        if not value or value.startswith("<"):
+            continue
+        used = True
+        token = re.split(r"\s+-\s+", value, maxsplit=1)[0].strip()
+        if declared and token not in declared:
+            failures.append(
+                f"{name}: Criterion '{token}' is not a declared criterion-table row"
+            )
+    if used and not declared and style == "audit":
+        failures.append(
+            "findings name criteria but no Criterion table is declared - "
+            "add the criterion table to Auditing Methodology per "
+            "process/report-format/methodology-scoring.md"
+        )
     return failures
 
 
@@ -2399,6 +2459,7 @@ def main(path: str, repo_root: str | None = None) -> int:
                     ("FND cross-references", check_ids(text)),
                     ("register reference links", check_reference_links(lines, fences, text)),
                     ("finding-block fields", check_finding_blocks(lines)),
+                    ("criterion references", check_criterion_references(lines, style)),
                     ("legacy field names", check_legacy_fields(lines, fences)),
                     ("Observation/Concern tags", check_type_tags(lines, fences)),
                     ("snapshot identity", check_snapshot_identity(text)),
@@ -2415,6 +2476,7 @@ def main(path: str, repo_root: str | None = None) -> int:
                     ("FND/RSK/REC cross-references", check_ids(text)),
                     ("register reference links", check_reference_links(lines, fences, text)),
                     ("finding-block fields", check_finding_blocks(lines)),
+                    ("criterion references", check_criterion_references(lines, style)),
                     ("risk-block fields", check_risk_blocks(lines)),
                     ("legacy field names", check_legacy_fields(lines, fences)),
                     ("findings summary columns", check_finding_summary(text)),

@@ -95,7 +95,8 @@ Explain any difference between technical vulnerability severity and the contextu
 
 Keep confidence and verification limits visible in risk detail.
 
-For material risks, also record the trigger, controls, residual,
+For material risks, also record the trigger, controls, residual, affected scope (`Scope` -
+components, users, or data the realization affects, omitted when it is the whole subject),
 status, an owner when a responsible role is established, and closure or re-audit trigger.
 
 These fields may appear in the risk detail block when the summary table would become too wide.
@@ -114,7 +115,10 @@ List unrated risks beside the risk map instead of placing them in an invented ce
 
 ## Cross-Referencing Rules
 
-- Every `RSK-XXX` entry must reference its source `FND-XXX`.
+- Every `RSK-XXX` entry must reference its source `FND-XXX`, and its `Description` plus any
+  `Scope` field must characterize the same problem that finding describes - identifier
+  existence alone does not satisfy the reference, per
+  `process/report-format/findings-registers.md`.
 - When multiple findings contribute to one risk, list the primary `FND-XXX`.
 - Do not create risks that do not trace to a finding in the Detailed Technical Findings.
 - Do not output plaintext secrets, passwords, or cryptographic keys in the Risk column.

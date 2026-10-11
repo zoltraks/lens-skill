@@ -20,17 +20,21 @@ defined in `process/report-format/hunt-style.md` and `process/report-format/revi
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 1829 | Intake Checklist guidance        |
-| Handling Thin Input     | 1850 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1861 | Single-Dimension Audits guidance |
-| Re-Audit                | 1875 | Re-Audit guidance                |
-| Multi-Project Audits    | 1941 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1863 | Intake Checklist guidance        |
+| Handling Thin Input     | 1884 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1895 | Single-Dimension Audits guidance |
+| Re-Audit                | 1909 | Re-Audit guidance                |
+| Multi-Project Audits    | 1975 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
 The workflow has seven phases.
 
 Complete each phase before moving to the next.
+
+Throughout the run the audit maintains `work/audit-model.json` - the canonical intermediate
+model defined in `process/audit-model.md` - and every register, score, count, and summary in the
+report renders from that model, never from prose composed during assembly.
 
 **Intake**
 
@@ -47,7 +51,7 @@ Determine the report style from the request wording: `audit` by default, `hunt` 
 request asks for a defect hunt, and `review` when the request explicitly names a review or
 check report - `check` remains an accepted alias for the execution-register style.
 
-Bare "review this codebase" wording stays `audit`; the style is selected when the request
+Bare "review this codebase" wording stays `audit` - the style is selected when the request
 names the report, not the activity.
 
 A request scoped to the project structure - "make a structure review", "review the
@@ -488,7 +492,7 @@ Default parameters:
 | Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/`, else Inline                                                                                                                                    |
 | Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md` for a first hunt, `REVIEW.md` for a first review                                                                        |
 | Report language         | Match the language of the user's request                                                                                                                                                                                   |
-| Language output         | `pair` when the report language is not English, or when the previous report was a language pair - the English report plus its translation; `single` when the request scopes to one language and no pair convention applies |
+| Language output         | `pair` when the report language is not English, or when the previous report was a language pair - the English report plus its translation - `single` when the request scopes to one language and no pair convention applies |
 | Detail level            | Detailed                                                                                                                                                                                                                   |
 | Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                                                                                                                                      |
 | Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                                                                                                                                                    |
@@ -1007,6 +1011,26 @@ For readiness audits, identify required evidence before judging readiness: docum
 test results, dependency manifests and lockfiles, committed scan reports, and operational
 recovery documentation.
 
+**Inventory and classification**
+
+Enumerate every in-scope source file into the model's `inventory[]` before sampling.
+
+Classify each file as production code, unit or integration test, test support, generated code,
+vendored code, example, or script, and record excluded and unread files with reasons, per
+`references/evidence-schema.md`.
+
+**Criterion planning**
+
+Build the audit's criterion table from `references/criterion-catalogue.md` using the domain
+profile and audit purpose, recording each criterion's source, applicability, criticality,
+weight, method, and sufficiency rule.
+
+Freeze the applicable denominator before reading favorable or unfavorable findings, and record
+any later applicability change with its reason.
+
+Render the table in the Auditing Methodology section per
+`process/report-format/methodology-scoring.md`.
+
 **Evidence Gathering**
 
 For each relevant assessment category, collect concrete anchors: files, config keys, documented
@@ -1145,24 +1169,26 @@ Also record the read depth of each source file - full read, sampled, or listed o
 Auditing Methodology section can publish the read-depth table per
 `process/report-format/methodology-scoring.md`.
 
-**Shared evidence capture (`work/evidence.json`)**
+**Shared evidence capture (`work/audit-model.json`)**
+
+The canonical capture is `work/audit-model.json` per `process/audit-model.md`.
+
+Its `evidence[]`, `inventory[]`, `findings[]`, `risks[]`, and `recommendations[]` registers are
+populated during evidence collection and assessment, and every report section renders from them.
 
 When the session plans more than one report - for example an `audit` and a `hunt` over the
-same snapshot - the evidence pass may write its registers once to
-`work/evidence.json` in the audited repository so each style renders from a single capture
-instead of re-deriving them.
+same snapshot - the same model registers serve every style: the audit renders its ledger,
+methodology, and register sections from `evidence[]`, and the hunt renders the same rows plus
+the journey traces.
 
-The file is a plain JSON object: `evidence` (ledger rows as `id`, `check`, `result`, `type`,
-`artifact`), `read_depth` (per-area rows), `boundary_traces` (producer/consumer rows),
-`journeys` (workflow names with per-hop `hop`, `status`, `evidence`, `fnd`), and `notes`.
+Style changes presentation, never the captured evidence.
 
-All three styles read the same object: the audit renders its ledger, methodology, and
-register sections from it, the hunt renders the same rows plus the journey traces - style
-changes presentation, never the captured evidence. Structure Review evidence rows are
-rendered by the `audit` and `review` styles; a `hunt` report never consumes them.
+Structure Review evidence rows are rendered by the `audit` and `review` styles - a `hunt`
+report never consumes them.
 
-The file is optional, stays inside `work/` with the other scratch artifacts, carries no
-secrets, and never replaces the read-depth and traceability rules above.
+A legacy `work/evidence.json` file - `evidence`, `read_depth`, `boundary_traces`, `journeys`,
+and `notes` keys - maps onto the model's keys and may be kept beside it for multi-style
+sessions - it never replaces the model or the read-depth and traceability rules above.
 
 **Verification Plan**
 
@@ -1444,6 +1470,14 @@ re-audit that upgrades a prior revision, apply these mechanical-edit rules:
   `scripts/validate-report.py`. The validator prints at most ten problems per check, so iterate
   until it reports zero rather than assuming the first fix pass cleared everything.
 - Preserve the report's existing line-ending style when a script writes the file.
+
+**Counter-evidence review**
+
+Before finalizing, run the second-pass review defined in `process/audit-model.md` after the
+mechanical validation below reports zero issues.
+
+Challenge both inflated praise and unsupported defect claims, and record retained
+disagreements and their dispositions in the model.
 
 **Validation**
 

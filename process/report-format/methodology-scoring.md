@@ -10,7 +10,7 @@
 | Section              | Line | What it covers                             |
 |----------------------|------|--------------------------------------------|
 | Auditing Methodology | 15   | Method, standards, criteria matrix, ledger |
-| Scoring Rubrics      | 233  | Score bands, grouping, ISO crosswalk       |
+| Scoring Rubrics      | 248  | Score bands, grouping, ISO crosswalk       |
 
 ## Auditing Methodology
 
@@ -99,6 +99,21 @@ to its outcome, so the presence of a section or tool is never mistaken for the r
 
 This is an adaptation of the ISO/IEC 25040 evaluation objective/criterion/method chain -
 it traces the audit's own reasoning, it does not claim ISO conformity.
+
+**Criterion table**
+
+The frozen criterion set from `references/criterion-catalogue.md` renders as a table so every
+finding's `Criterion` field resolves to a declared row:
+
+| Criterion      | Family   | Applicability                                    | Criticality   | Method              | Sufficiency        |
+|----------------|----------|--------------------------------------------------|---------------|---------------------|--------------------|
+| <criterion id> | <family> | <applicable/conditional/not applicable - reason> | <criticality> | <collection method> | <sufficiency rule> |
+
+The table is the authoritative identifier source for the `Criterion` field on findings -
+the validator rejects a finding that names an undeclared criterion.
+
+Applicability decisions frozen at planning render their reasons inline, and any post-freeze
+change is marked in the table's note line.
 
 **Audit evidence statement**
 

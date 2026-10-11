@@ -29,11 +29,11 @@
 | Report Format                      | 430  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 467  | Supported requests and exclusions                   |
 | What's Inside                      | 491  | Documents, references, tools, and conditional files |
-| Document Style                     | 635  | Pointer to the style rules file                     |
-| Specification                      | 645  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 666  | Maintenance checks and regression scenarios         |
-| License                            | 694  | License for the skill itself                        |
-| Credits                            | 700  | Authorship and attribution                          |
+| Document Style                     | 638  | Pointer to the style rules file                     |
+| Specification                      | 648  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 669  | Maintenance checks and regression scenarios         |
+| License                            | 697  | License for the skill itself                        |
+| Credits                            | 703  | Authorship and attribution                          |
 
 ## Overview
 
@@ -508,6 +508,7 @@ lens-skill/
 │   └── output-style.md                    # Tone, fixed vocabularies, consistency, determinism
 ├── process/
 │   ├── audit-workflow.md                  # Intake, scope, evidence, assessment, synthesis, validation
+│   ├── audit-model.md                     # Evidence-to-finding pipeline and canonical audit-model.json
 │   ├── json-exchange.md                   # Machine-readable parameter documents for intake questions
 │   ├── report-format.md                   # Audit report format index: rules, section order, spec map
 │   ├── report-format/                     # Per-section report specifications
@@ -574,6 +575,8 @@ lens-skill/
 │   ├── census-commands.md                 # Canonical reproducible census methods
 │   ├── domain-profiles.md                 # Project-nature classification and mandatory stack/purpose checks
 │   ├── audit-taxonomy.md                  # Canonical audit types, coverage statuses, source corpus
+│   ├── evidence-schema.md                 # Evidence kinds, outcome states, sufficiency, coverage labels
+│   ├── criterion-catalogue.md             # Criterion records, families, applicability freeze
 │   ├── sbom-schema.md                     # Report-level source-derived component inventory schema
 │   ├── license-compliance.md              # License classes, copyleft, notices, ownership checks
 │   ├── delivery-practice.md               # DORA proxies, bus-factor rubric, continuity evidence

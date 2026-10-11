@@ -24,7 +24,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.1.3"
+  version: "2.1.4"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -45,10 +45,10 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 | Parameter Configuration | 134  | Defaults and user-controlled report shape          |
 | Principles              | 196  | Evaluation and output rules                        |
 | Process                 | 202  | Workflow, format, and parity                       |
-| Assessments             | 230  | Core and conditional assessment guides             |
-| Synthesis               | 273  | Findings, risk, score, and remediation assembly    |
-| Translations            | 289  | Per-language report translations                   |
-| References              | 298  | Lookup tables                                      |
+| Assessments             | 228  | Core and conditional assessment guides             |
+| Synthesis               | 271  | Findings, risk, score, and remediation assembly    |
+| Translations            | 287  | Per-language report translations                   |
+| References              | 296  | Lookup tables                                      |
 | Scripts                 | 320  | Report and maintenance scripts                     |
 | Evaluation Prompts      | 344  | Behavioral regression prompts                      |
 | Repository Files        | 348  | Housekeeping files governing this repository       |
@@ -202,27 +202,25 @@ The previous report is never overwritten - write the next revision-numbered file
 ## `process/` - Audit Process
 
 - **`process/audit-workflow.md`** - End-to-end audit process: intake to validated report.
+- **`process/audit-model.md`** - Evidence-to-finding pipeline and the canonical audit model.
 - **`process/report-format.md`** - Report format index: rules, parameters, spec-file map.
 - **`process/report-contract.md`** - One-page mechanically enforced report contract.
 - **`process/report-format/report-opening.md`** - Document Information, coverage matrix, Glossary.
 - **`process/report-format/multi-project.md`** - Combined multi-project report structure.
 - **`process/report-format/summary-changes.md`** - Executive Summary and Changes.
 - **`process/report-format/context-compliance.md`** - System Context, SBOM, License Compliance.
-- **`process/report-format/dashboard-observations.md`** - Health Dashboard and delivery
-  practice.
+- **`process/report-format/dashboard-observations.md`** - Health Dashboard, delivery practice.
 - **`process/report-format/methodology-scoring.md`** - Auditing Methodology, Scoring Rubrics.
 - **`process/report-format/architectural-assessment.md`** - Architectural Assessment.
 - **`process/report-format/report-analysis.md`** - Trade-off Analysis, Threat Model.
 - **`process/report-format/conditional-conformance.md`** - Conditional conformance sections.
-- **`process/report-format/findings-registers.md`** - Strengths, findings, debt, risk,
-  roadmap.
+- **`process/report-format/findings-registers.md`** - Strengths, findings, debt, risk, roadmap.
 - **`process/report-format/report-closing.md`** - Exclusions, Limitations, Re-audit, Validation, References.
 - **`process/report-format/hunt-style.md`** - `hunt` report style: verdict, domain register,
   journey traces, remediation phases.
 - **`process/report-format/review-style.md`** - `review` report style: execution register,
   evidence levels, retest register.
-- **`process/report-format/structure-review.md`** - Structure Review section, structure
-  findings, and the structure-review variant contract.
+- **`process/report-format/structure-review.md`** - Structure Review variant contract.
 - **`process/json-exchange.md`** - JSON parameter documents for intake question surfaces.
 - **`process/report-parity.md`** - Mandatory core checklist and consistency gate.
 - **`process/readiness-scoring.md`** - Score aggregation, confidence, maturity, readiness gates.
@@ -305,6 +303,8 @@ type requires them.
 - **`references/dependency-manifests.md`** - Text-only manifest readers, source-derived inventory.
 - **`references/census-commands.md`** - Reproducible census and counting methods.
 - **`references/audit-taxonomy.md`** - Audit types, coverage statuses, methodology corpus.
+- **`references/evidence-schema.md`** - Evidence kinds, outcome states, sufficiency, coverage.
+- **`references/criterion-catalogue.md`** - Criterion records, families, applicability freeze.
 - **`references/sbom-schema.md`** - Source-derived inventory report schema.
 - **`references/license-compliance.md`** - License classes, copyleft, attribution, ownership checks.
 - **`references/delivery-practice.md`** - DORA proxies, bus-factor rubric.

@@ -70,9 +70,10 @@ A report's capability set is the union of:
 
 - Checklist items applied.
 - Baseline and conditional sections present.
-- Required per-section elements (coverage matrix, severity clarification, ISO crosswalk, Team &
-  Continuity line, component inventory, license classification, delivery-practice proxies,
-  score formula, score floor, confidence, Observation/Concern tags, and readiness state).
+- Required per-section elements (coverage matrix, criterion table, severity clarification,
+  ISO crosswalk, Team & Continuity line, component inventory, license classification,
+  delivery-practice proxies, score formula, score floor, confidence, Observation/Concern
+  tags, and readiness state).
 
 The Validation Record renders this set so a future report can diff it mechanically.
 
@@ -91,8 +92,9 @@ Run this gate before marking a report final.
    service, not a library"). Inheriting an omission from the subject's own prior revision is
    never a justification.
 5. When no other report is accessible, record `none found` and gate on the checklist alone.
-6. Run the semantic consistency checks for identifiers, scores, risk placement, evidence references,
-   conditional-section justifications, translation tokens, and project-qualified shared references.
+6. Run the semantic consistency checks for identifiers, criterion references, scores, risk
+   placement, evidence references, conditional-section justifications, translation tokens,
+   and project-qualified shared references.
    On a confirmed re-audit, also verify that the baseline file still matches the checksum recorded
    at intake, and keep `State | Draft` on a mismatch.
 7. Record the outcome in the Validation Record, then remove the `State | Draft` row only when the

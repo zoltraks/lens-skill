@@ -44,39 +44,39 @@ This file is loaded only when the report language is Polish.
 | Delivery Practice & Team Continuity         | 1183 | Delivery and continuity rendering           |
 | High-Level Observations                     | 1207 | High-Level Observations guidance            |
 | Auditing Methodology                        | 1214 | Auditing Methodology guidance               |
-| System Context                              | 1228 | System Context guidance                     |
-| Software Bill of Materials                  | 1241 | SBOM section rendering                      |
-| License Compliance Review                   | 1258 | License and IP section rendering            |
-| Architectural Assessment                    | 1276 | Architectural Assessment guidance           |
-| Architectural Subsections                   | 1283 | Architectural Subsections guidance          |
-| Skill Definition Conformance                | 1298 | Skill Definition Conformance guidance       |
-| Agent Guidance Conformance                  | 1306 | Agent Guidance Conformance guidance         |
-| AI System Assessment                        | 1320 | AI System Assessment guidance               |
-| Standards Conformance                       | 1331 | Standards Conformance guidance              |
-| Engineering Baseline Conformance            | 1352 | Engineering Baseline Conformance guidance   |
-| References                                  | 1366 | References guidance                         |
-| Strengths And What's Working                | 1377 | Strengths And What's Working guidance       |
-| Detailed Technical Findings                 | 1383 | Detailed Technical Findings guidance        |
-| Technical Debt Register                     | 1448 | Technical Debt Register guidance            |
-| Unified Risk Register                       | 1460 | Unified Risk Register guidance              |
-| Trade-off Analysis                          | 1480 | Trade-off Analysis guidance                 |
-| Actionable Remediation Roadmap              | 1492 | Actionable Remediation Roadmap guidance     |
-| Recommendation Classification               | 1507 | Recommendation Classification guidance      |
-| Changes Since Previous Audit                | 1522 | Changes Since Previous Audit guidance       |
-| Scope Exclusions                            | 1556 | Scope Exclusions guidance                   |
-| Limitations And Unknowns                    | 1564 | Limitations And Unknowns guidance           |
-| Re-audit And Follow-up Plan                 | 1581 | Re-audit And Follow-up Plan guidance        |
-| Operator Verification Handoff               | 1591 | Operator Verification Handoff guidance      |
-| Executed Evidence Log                       | 1604 | Executed Evidence Log guidance              |
-| Hunt Style Sections                         | 1617 | Hunt Style Sections guidance                |
-| Review Style Sections                       | 1646 | Review Style Sections guidance              |
-| Validation Record                           | 1676 | Validation Record guidance                  |
-| Threat Model                                | 1727 | Threat Model guidance                       |
-| API Contract Conformance                    | 1737 | API Contract Conformance guidance           |
-| API Compatibility And Versioning Discipline | 1746 | API Compatibility And Versioning guidance   |
-| Evidence And Decision Terms                 | 1755 | Evidence And Decision Terms guidance        |
-| Skill Definition Conformance Table          | 1816 | Skill Definition Conformance Table guidance |
-| Structure Review                            | 1831 | Structure Review guidance                   |
+| System Context                              | 1238 | System Context guidance                     |
+| Software Bill of Materials                  | 1251 | SBOM section rendering                      |
+| License Compliance Review                   | 1273 | License and IP section rendering            |
+| Architectural Assessment                    | 1291 | Architectural Assessment guidance           |
+| Architectural Subsections                   | 1298 | Architectural Subsections guidance          |
+| Skill Definition Conformance                | 1313 | Skill Definition Conformance guidance       |
+| Agent Guidance Conformance                  | 1321 | Agent Guidance Conformance guidance         |
+| AI System Assessment                        | 1335 | AI System Assessment guidance               |
+| Standards Conformance                       | 1346 | Standards Conformance guidance              |
+| Engineering Baseline Conformance            | 1367 | Engineering Baseline Conformance guidance   |
+| References                                  | 1381 | References guidance                         |
+| Strengths And What's Working                | 1392 | Strengths And What's Working guidance       |
+| Detailed Technical Findings                 | 1398 | Detailed Technical Findings guidance        |
+| Technical Debt Register                     | 1464 | Technical Debt Register guidance            |
+| Unified Risk Register                       | 1476 | Unified Risk Register guidance              |
+| Trade-off Analysis                          | 1497 | Trade-off Analysis guidance                 |
+| Actionable Remediation Roadmap              | 1509 | Actionable Remediation Roadmap guidance     |
+| Recommendation Classification               | 1532 | Recommendation Classification guidance      |
+| Changes Since Previous Audit                | 1547 | Changes Since Previous Audit guidance       |
+| Scope Exclusions                            | 1581 | Scope Exclusions guidance                   |
+| Limitations And Unknowns                    | 1589 | Limitations And Unknowns guidance           |
+| Re-audit And Follow-up Plan                 | 1606 | Re-audit And Follow-up Plan guidance        |
+| Operator Verification Handoff               | 1616 | Operator Verification Handoff guidance      |
+| Executed Evidence Log                       | 1629 | Executed Evidence Log guidance              |
+| Hunt Style Sections                         | 1642 | Hunt Style Sections guidance                |
+| Review Style Sections                       | 1671 | Review Style Sections guidance              |
+| Validation Record                           | 1701 | Validation Record guidance                  |
+| Threat Model                                | 1752 | Threat Model guidance                       |
+| API Contract Conformance                    | 1762 | API Contract Conformance guidance           |
+| API Compatibility And Versioning Discipline | 1771 | API Compatibility And Versioning guidance   |
+| Evidence And Decision Terms                 | 1780 | Evidence And Decision Terms guidance        |
+| Skill Definition Conformance Table          | 1841 | Skill Definition Conformance Table guidance |
+| Structure Review                            | 1856 | Structure Review guidance                   |
 
 ## Analysis And Rendering
 
@@ -1218,6 +1218,16 @@ fixed-vocabulary treatment of missing organizational data.
 | Auditing Methodology        | Metodologia audytu           |
 | Methodology overview        | Przegląd metodologiczny      |
 | Audit evidence statement    | Oświadczenie o dowodach      |
+| Attribute                   | Atrybut                      |
+| Criterion                   | Kryterium                    |
+| Method                      | Metoda                       |
+| Evidence                    | Dowód                        |
+| Outcome                     | Rezultat                     |
+| Criterion table             | Tabela kryteriów             |
+| Family                      | Rodzina                      |
+| Applicability               | Dotyczy                      |
+| Criticality                 | Krytyczność                  |
+| Sufficiency                 | Wystarczalność               |
 | Severity definitions        | Definicje ważności           |
 | Reference standards         | Standardy odniesienia        |
 | Severity                    | Ważność                      |
@@ -1249,6 +1259,11 @@ fixed-vocabulary treatment of missing organizational data.
 | License                    | Licencja                              |
 | Risk                       | Ryzyko                                |
 | Advisory                   | Podatności                            |
+| Applicable                 | Ma zastosowanie                       |
+| Mitigated                  | Ograniczona                           |
+| Not applicable             | Nie dotyczy                           |
+| None identified            | Nie zidentyfikowano                   |
+| Not checked                | Nie sprawdzono                        |
 | Source                     | Źródło                                |
 | Multi-project SBOM         | Zestawienie wieloprojektowe           |
 | SBOM Source                | Źródło zestawienia                    |
@@ -1398,6 +1413,7 @@ a main section, `Decyzje architektoniczne` is also correct.
 | Security                    | Bezpieczeństwo                   |
 | Targets                     | Obiekty                          |
 | Basis                       | Podstawa                         |
+| Criterion                   | Kryterium                        |
 | Absence                     | Charakter odstępstwa             |
 | Description                 | Opis                             |
 | Impact                      | Wpływ                            |
@@ -1466,6 +1482,7 @@ The exploitability narrative labels translate as `Warunek wstępny:`, `Ścieżka
 | Description           | Opis                        |
 | Source                | Źródło                      |
 | Impact                | Wpływ                       |
+| Scope                 | Zakres                      |
 | Likelihood            | Prawdopodobieństwo          |
 | Severity              | Ważność                     |
 | Mitigation            | Środek ograniczający ryzyko |
@@ -1503,6 +1520,14 @@ The exploitability narrative labels translate as `Warunek wstępny:`, `Ścieżka
 | Complexity                     | Złożoność                |
 | Verification                   | Weryfikacja              |
 | Breaking                       | Łamanie                  |
+| Postcondition                  | Warunek końcowy          |
+| Alternatives                   | Rozważane alternatywy    |
+| Effort confidence              | Pewność oceny nakładu    |
+| Residual                       | Ryzyko rezydualne        |
+| Owner                          | Właściciel               |
+| Depends on                     | Zależy od                |
+| Acceptance milestone           | Kamień milowy akceptacji |
+| Closure evidence               | Dowód zamknięcia         |
 
 ## Recommendation Classification
 

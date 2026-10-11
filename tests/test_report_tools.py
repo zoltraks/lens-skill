@@ -160,8 +160,37 @@ class TestValidateReport(unittest.TestCase):
         self.validator = load_script("validate-report.py")
 
     def test_finding_fields_cover_runtime_and_change(self):
-        for field in ("Runtime confirmed:", "Change:", "Verified:"):
+        for field in ("Runtime confirmed:", "Change:", "Verified:", "Criterion:"):
             self.assertIn(field, self.validator.FINDING_REQUIRED)
+
+    def test_criterion_references(self):
+        lines = [
+            "**Criterion table**",
+            "",
+            "| Criterion | Family   | Applicability | Criticality | Method   | Sufficiency |",
+            "|-----------|----------|---------------|-------------|----------|-------------|",
+            "| SEC-AUTHZ-01 | SEC | applicable    | high        | inspect  | rule        |",
+            "",
+            "### FND-SEC-001: Bad thing",
+            "",
+            "* **Criterion:** SEC-AUTHZ-02 - missing authz check",
+        ]
+        failures = self.validator.check_criterion_references(lines, "audit")
+        self.assertTrue(any("SEC-AUTHZ-02" in f for f in failures))
+
+        resolved = lines[:]
+        resolved[-1] = "* **Criterion:** SEC-AUTHZ-01 - missing authz check"
+        self.assertEqual(self.validator.check_criterion_references(resolved, "audit"), [])
+
+    def test_criterion_table_required_for_audit_style(self):
+        lines = [
+            "### FND-SEC-001: Bad thing",
+            "",
+            "* **Criterion:** SEC-AUTHZ-01 - missing authz check",
+        ]
+        failures = self.validator.check_criterion_references(lines, "audit")
+        self.assertTrue(any("no Criterion table" in f for f in failures))
+        self.assertEqual(self.validator.check_criterion_references(lines, "hunt"), [])
 
     def test_par_bound_is_twenty(self):
         rows = "".join(f"| PAR-{n} | PASS | x |\n" for n in range(1, 21))

@@ -13,10 +13,10 @@
 |--------------------------------|------|--------------------------------------|
 | Strengths & What's Working     | 21   | Evidence-based positive baselines    |
 | Detailed Technical Findings    | 59   | Finding summary and detail blocks    |
-| Technical Debt Register        | 323  | Distinct accumulated debt            |
-| Unified Risk Register          | 371  | Cross-referenced risks               |
-| Actionable Remediation Roadmap | 465  | Prioritized recommendations          |
-| Recommendation Classification  | 541  | Recommended/Optional/Not recommended |
+| Technical Debt Register        | 340  | Distinct accumulated debt            |
+| Unified Risk Register          | 388  | Cross-referenced risks               |
+| Actionable Remediation Roadmap | 484  | Prioritized recommendations          |
+| Recommendation Classification  | 568  | Recommended/Optional/Not recommended |
 
 ## Strengths & What's Working
 
@@ -158,6 +158,8 @@ Use this exact markdown block pattern:
 * **Change:** [New | Unchanged | Reopened | Closed]
 * **Targets:** [Exact paths or components evaluated]
 * **Basis:** [Applicable requirement or explicitly optional improvement]
+* **Criterion:** [Criterion ID from the report's criterion table] - [the violated or
+  uncertain property the finding establishes]
 * **Absence:** [No documented rationale | Deliberate - recorded decision | Undetermined] -
   [one-line evidence basis] *(omit when no capability is absent)*
 * **Description:** [Detailed technical explanation of the discovered state, architectural
@@ -191,7 +193,7 @@ bullet, trailing punctuation inside the bold, or renamed fields are not seen as 
 and fail as missing.
 
 The required fields, in template order: `Pillar`, `Severity`, `Type`, `Status`, `Change`,
-`Targets`, `Basis`, `Description`, `Impact`, `Recommendation`, `Method`, `Verified`,
+`Targets`, `Basis`, `Criterion`, `Description`, `Impact`, `Recommendation`, `Method`, `Verified`,
 `Runtime confirmed`, `Confidence`, `Mitigating factors`, `Evidence`. Every finding identifier
 must match `FND-<pillar>-NNN` with a pillar abbreviation from the list above - a stem like
 `FND-PERF-001` parses but is not a legal pillar.
@@ -239,6 +241,21 @@ inference awaiting confirmation, `not applicable` when no runtime claim exists.
 
 Every runtime-claiming summary must match this field - a `Runtime confirmed: no` finding
 never appears as verified in a summary table.
+
+The `Criterion` field names the declared criterion the finding bears on, from the criterion
+table in Auditing Methodology per `process/report-format/methodology-scoring.md`, followed by
+the violated or uncertain property the finding establishes.
+
+A finding without a declared criterion has no seat in the score model - declare or extend a
+criterion first, per `references/criterion-catalogue.md`.
+
+Every count the report states - of sites, files, tests, or findings - derives from the
+classified records in `audit-model.json`, and narrative numbers agree with the register rows
+they summarize.
+
+A `REC-XXX` or `RSK-XXX` reference must identify the same responsibility or problem its
+`FND-XXX` describes - identifier existence is necessary, not sufficient, and a mismatched
+semantic link is a publication stop per `process/audit-model.md`.
 
 The `Breaking change` field records the remediation's compatibility impact: `None`,
 `Internal` (callers inside the codebase adapt), or `Public API` (consumers, wire protocol,
@@ -448,6 +465,8 @@ Use this exact markdown block pattern:
 * **Description:** [Detailed technical explanation of the risk, what could go wrong, and under
   what conditions]
 * **Impact:** [Concrete consequence if the risk is realized]
+* **Scope:** [Components, users, or data the realization affects] *(omit when it is the whole
+  subject)*
 * **Trigger:** [Threat, failure event, or predisposing condition]
 * **Controls:** [Present controls and verification state]
 * **Mitigation:** [Neutral, optional action that would reduce the risk]
@@ -516,13 +535,21 @@ Use this exact markdown block pattern:
 
 * **Priority:** [P1 | P2 | P3 | P4]
 * **Finding:** [FND-XXX]
+* **Postcondition:** [Verifiable end state the action must establish]
 * **Description:** [Detailed technical explanation of the recommended action, what it changes,
   and how it resolves the finding]
 * **Impact:** [Business or technical impact of applying this fix]
 * **Effort:** [Estimated engineering effort with one-line justification]
 * **Complexity:** [Architectural or organizational complexity with one-line justification]
-* **Verification:** [Specific test, command, or process to confirm the fix is successful]
+* **Verification:** [Specific test, command, or process to confirm the fix is successful, with
+  its measurable pass criteria]
+* **Residual:** [Expected residual risk after the action, and any acceptance action needed]
+  *(omit when the action fully retires the finding)*
 * **Owner:** [Role or UNASSIGNED] *(omit when the report does not assign ownership)*
+* **Alternatives:** [Options considered and why they were rejected] *(omit when the action is
+  the only reasonable one)*
+* **Effort confidence:** [High | Medium | Low - basis for the Effort estimate] *(omit when the
+  estimate is well-founded)*
 * **Depends on:** [REC-XXX or `none`] *(omit when the action stands alone)*
 * **Acceptance milestone:** [Milestone or gate the fix feeds] *(omit when none is set)*
 * **Closure evidence:** [Artifact that proves the action landed] *(omit when Verification

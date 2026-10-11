@@ -89,6 +89,7 @@ FINDING_BLOCK = """### FND-SEC-001: <finding title>{suffix}
 * **Change:** New
 * **Targets:** {targets}
 * **Basis:** <requirement or source basis>
+* **Criterion:** <criterion ID - violated or uncertain property>
 * **Description:** <what the discovered state is, where, and why it is a finding>
 * **Impact:** <concrete consequence>
 * **Recommendation:** <step-by-step technical guidance>
@@ -121,6 +122,7 @@ REC_BLOCK = """### REC-001: <recommendation title>{suffix}
 
 * **Priority:** P1
 * **Target:** {target}
+* **Postcondition:** <verifiable end state the action must establish>
 * **Action:** <what to do>
 * **Effort:** <Low | Medium | High>
 * **Breaking change:** None

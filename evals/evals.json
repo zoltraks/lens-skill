@@ -1288,6 +1288,41 @@
     "When no external source was consulted at all, the section states `No external sources consulted` in place of the table.",
     "The Polish sibling renders the heading as `Bibliografia` with `Odniesienie`, `Wydawca lub autor`, and `Zastosowane w` columns."
    ]
+  },
+  {
+   "id": 108,
+   "prompt": "Audit this repository at Standard level. In Auditing Methodology, declare the criteria you evaluate before writing findings, then produce the findings registers.",
+   "expected_output": "An audit whose Auditing Methodology carries a declared criterion table and whose every finding names one of those declared criteria.",
+   "files": [],
+   "expectations": [
+    "Auditing Methodology renders a criterion table with criterion ID, family, applicability, criticality, method, and sufficiency columns.",
+    "Every `### FND-` block carries a `Criterion` field naming a declared criterion-table row and the violated or uncertain property.",
+    "A finding never renders `Criterion` as `N/A` or a placeholder - an undeclared criterion is added to the table first, never invented inline.",
+    "Applicability decisions are frozen at planning and post-freeze changes carry a visible justification."
+   ]
+  },
+  {
+   "id": 109,
+   "prompt": "Audit this repository and build the canonical audit model before generating the report. Include a contradictory source claim among the evidence.",
+   "expected_output": "An audit driven by work/audit-model.json where evidence records carry kinds and outcomes, counter-evidence is examined, and every material observation is surfaced or explicitly dropped.",
+   "files": [],
+   "expectations": [
+    "work/audit-model.json records evidence records with id, kind, method, locator or procedure, result, claims, and limits per references/evidence-schema.md.",
+    "Only DECLARED, INSPECTED, STATICALLY_DERIVED, and CORROBORATED kinds appear under source-only evidence mode.",
+    "The counter-evidence pass examined disconfirming evidence for material favorable claims before publication.",
+    "Every material observation surfaces in the report or carries a recorded drop reason in the model."
+   ]
+  },
+  {
+   "id": 110,
+   "prompt": "Audit this repository's dependencies and produce the Software Bill of Materials. No advisory scan artifact is committed in the tree.",
+   "expected_output": "An SBOM whose Advisory column honestly reports checking state rather than implying a clean bill.",
+   "files": [],
+   "expectations": [
+    "Advisory cells use only Applicable, Mitigated, Not applicable, None identified, or Not checked.",
+    "Components without committed scan or advisory evidence read Not checked, never None identified.",
+    "A Mitigated or Not applicable cell records the disabling or mitigation evidence that supports it."
+   ]
   }
  ]
 }

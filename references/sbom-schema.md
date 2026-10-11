@@ -32,14 +32,14 @@ A lockfile entry proves resolution intent, not what a released binary or contain
 
 ## Table Schema
 
-| Column    | Content                                                                            |
-|-----------|------------------------------------------------------------------------------------|
-| Component | Package or component name as declared                                              |
-| Version   | Resolved or declared version, `UNKNOWN` when not derivable                         |
-| License   | Declared license from an inspected source, else `Unknown`                          |
-| Risk      | `None`, `Review`, `Conflict`, or `Unknown` per the license checklist               |
-| Advisory  | `Y` only when a committed advisory or scan artifact covers the component, else `N` |
-| Source    | The manifest or lockfile the entry was read from                                   |
+| Column    | Content                                                                          |
+|-----------|----------------------------------------------------------------------------------|
+| Component | Package or component name as declared                                            |
+| Version   | Resolved or declared version, `UNKNOWN` when not derivable                       |
+| License   | Declared license from an inspected source, else `Unknown`                        |
+| Risk      | `None`, `Review`, `Conflict`, or `Unknown` per the license checklist             |
+| Advisory  | `Applicable`, `Mitigated`, `Not applicable`, `None identified`, or `Not checked` |
+| Source    | The manifest or lockfile the entry was read from                                 |
 
 ## Rules
 
@@ -50,8 +50,11 @@ A lockfile entry proves resolution intent, not what a released binary or contain
 - `Risk` follows `references/license-compliance.md`: `Conflict` for a
   copyleft-versus-distribution clash, `Review` for licenses needing legal attention, `Unknown`
   when the license itself is unknown, `None` otherwise.
-- `Advisory` stays `N` for every component unless committed vulnerability or scan output
-  supplies `Reported` evidence for it. Naming an advisory database is not checking it.
+- `Advisory` uses the five states from `references/evidence-schema.md` Advisory States.
+  `Not checked` is the default - an upgrade to any other state requires committed
+  vulnerability or scan output, or inspection evidence for `Mitigated`/`Not applicable`,
+  and every non-`Not checked` state records its provenance. Naming an advisory database is
+  not checking it.
 - `Unknown` licenses are expected, most manifest formats do not declare dependency licenses. A
   high `Unknown` count is itself a license-compliance finding input, not a table defect.
 - Count direct and transitive components separately and report both totals under the table.
