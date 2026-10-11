@@ -1635,7 +1635,7 @@ When the report language is not English,
 `scripts/validate-report.py` refuses the file with exit 2 and guidance - the English contract
 never runs on a translated report directly.
 
-Instead, run `scripts/map-report-translation.py <report> --rules translations/polish-language.md
+Instead, run `scripts/map-translation.py <report> --rules translations/polish-language.md
 --en <english-sibling.md>` to generate an English-mapped working copy: it inverts the
 contract tables to translate `* **Field:**` finding-block labels, fixed-vocabulary values,
 and section headings, and remaps every report-internal anchor - glossary links,
@@ -1654,7 +1654,7 @@ The translated-report gates then run in this order:
 `scripts/lint-prose.py <report>`,
 `scripts/link-glossary.py <report> --lang pl --check`,
 the mapped-copy format and validation pair,
-and `scripts/check-pl-report.py <report>` for summary-title agreement, prose-count
+and `scripts/check-translation.py <report>` for summary-title agreement, prose-count
 reconciliation, and the warn-level sentence-length review.
 
 The report stays `Draft` while the checklist or the validator reports a violation.

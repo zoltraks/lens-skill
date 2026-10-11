@@ -15,7 +15,7 @@ repository so the tools are found in its ``scripts/`` directory instead.
 Usage: python finalize-report.py [--polish] [--skill-root <dir>] <report.md>
 ``--polish`` runs the translated-report gates instead of the English
 validator: ``link-glossary.py --lang pl``, ``lint-polish.py --rules``,
-``check-pl-report.py``, then ``map-report-translation.py`` and the
+``check-translation.py``, then ``map-translation.py`` and the
 formatter+validator on the mapped copy, which is removed after a pass.
 Exit code 0 means formatting, linting, and validation all pass.
 """
@@ -132,9 +132,9 @@ def main(argv: list[str]) -> int:
             (references, target, []),
             (formatter, target, []),
             (locate(directory, "lint-polish", skill_root), target, rules_arg),
-            (locate(directory, "check-pl-report", skill_root), target, []),
+            (locate(directory, "check-translation", skill_root), target, []),
             (
-                locate(directory, "map-report-translation", skill_root),
+                locate(directory, "map-translation", skill_root),
                 target,
                 map_arg,
             ),

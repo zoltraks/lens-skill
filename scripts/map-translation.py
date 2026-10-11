@@ -10,14 +10,14 @@ back to the English literals the validator expects; free-text content
 (finding titles, prose) is untouched.
 
 Copy this file into the audited repository's `work/` directory as
-`map-report-translation.tmp.py` and always pass `--rules` - the tables it
+`map-translation.tmp.py` and always pass `--rules` - the tables it
 inverts live in `translations/polish-language.md`, not in this script.
 Sections excluded from inversion: the open-ended `Terminology` dictionary
 (mapping it back would rewrite ordinary prose) and the calque/prompt
 sections, which carry no `English | Polish` contract tables anyway.
 
 Usage:
-    map-report-translation.py <translated.md> --rules <polish-language.md>
+    map-translation.py <translated.md> --rules <polish-language.md>
         [--en <canonical-en.md>] [-o <out.md>]
 
 `--en <canonical-en.md>` optionally verifies the mapped output against the
@@ -276,7 +276,7 @@ def main():
 
     pairs, collisions = load_pairs(args.rules)
     if not pairs:
-        print("map-report-translation: no English|Polish tables found in %s"
+        print("map-translation: no English|Polish tables found in %s"
               % args.rules, file=sys.stderr)
         return 1
     for key in list(pairs):

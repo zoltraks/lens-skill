@@ -79,7 +79,7 @@ class TestScanStandards(unittest.TestCase):
 
 class TestCommon(unittest.TestCase):
     def setUp(self):
-        self.common = load_script("common.py")
+        self.common = load_script("common-helpers.py")
 
     def test_frontmatter_parses_name(self):
         issues: list[str] = []

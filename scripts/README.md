@@ -19,7 +19,7 @@ All scripts require Python 3.8 or later (the walrus operator is used in
 
 Copy `link-glossary.py`, `link-references.py`, `format-table.py`, `align-comments.py`,
 `validate-report.py`, and - for Polish reports - `lint-polish.py`,
-`map-report-translation.py`, and `check-pl-report.py` into the audited
+`map-translation.py`, and `check-translation.py` into the audited
 repository's `work/` directory under a `.tmp.` name before use.
 
 If `work/` does not exist, use an existing `temp` or `temporary` directory.
@@ -106,7 +106,7 @@ When the report language is not English, `validate-report.py` detects the langua
 in Document Information (for example `| Język | Polski |`) and exits `2` with guidance
 instead of emitting false English-literal failures.
 
-`map-report-translation.py` produces the English-mapped working copy for that validator:
+`map-translation.py` produces the English-mapped working copy for that validator:
 it inverts the `English | Polish` contract tables of `translations/polish-language.md`
 (passed through `--rules`, the same convention as `lint-polish.py`), maps section
 headings, field labels, fixed-vocabulary values, and link anchors back to English, and -
@@ -119,14 +119,14 @@ and final-state checks instead of running them.
 Anchor remapping changes cell widths, so run `format-table.py` on the working copy before validating
 it.
 
-`check-pl-report.py` checks what mapping cannot see: summary-table titles agree with their
+`check-translation.py` checks what mapping cannot see: summary-table titles agree with their
 `### FND-`/`RSK-`/`REC-`/`TDR-` block headings, prose counts (`22 ustaleń`, `13 ryzyk`)
 equal the real register counts, and prose sentences stay within `--max-words` (warn-level).
 Spell checking stays external.
 
 The full translated-report gate set is `lint-polish.py`, `lint-prose.py`,
 `link-glossary.py --lang pl --check`, the mapped-copy format+validate pair, and
-`check-pl-report.py`.
+`check-translation.py`.
 
 On Windows consoles, set `PYTHONIOENCODING=utf-8` when running the tools, so non-ASCII report
 text prints legibly.
@@ -238,7 +238,7 @@ per `docs/MAINTENANCE.md`.
 It treats the supplied directory as data: it reads Markdown files as text and never executes,
 installs, or sources anything it scans.
 
-`common.py` is a shared helper module imported by the skill-maintenance tools.
+`common-helpers.py` is a shared helper module imported by the skill-maintenance tools.
 
 It is not a tool, it is never copied, and it must never be imported by report-production tools -
 those stay self-contained single files so the `.tmp.` copy contract keeps working.
@@ -266,8 +266,8 @@ python scripts/new-report.py --style hunt --projects api,cli --output path/to/HU
 python scripts/new-report.py --style review --scope structure --output path/to/REVIEW.md
 python scripts/lint-polish.py path/to/AUDYT.md --rules translations/polish-language.md
 python scripts/link-glossary.py path/to/AUDYT.md --lang pl [--check]
-python scripts/map-report-translation.py path/to/AUDYT.md --rules translations/polish-language.md [--en path/to/AUDIT-EN.md]
-python scripts/check-pl-report.py path/to/AUDYT.md [--max-words 40]
+python scripts/map-translation.py path/to/AUDYT.md --rules translations/polish-language.md [--en path/to/AUDIT-EN.md]
+python scripts/check-translation.py path/to/AUDYT.md [--max-words 40]
 python scripts/finalize-report.py [--polish] [--skill-root path/to/lens-skill] path/to/AUDIT.md
 python -m unittest discover -s tests
 ```

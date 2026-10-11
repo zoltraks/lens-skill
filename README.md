@@ -598,10 +598,10 @@ lens-skill/
 │   ├── check-update.py                    # Git upstream self-update checker for the skill repo
 │   ├── scan-standards.py                  # Supplied-standards corpus manifest for digest refresh
 │   ├── lint-polish.py                     # Polish report linter for calques and typography
-│   ├── map-report-translation.py          # English-mapped copy of a translated report for validation
-│   ├── check-pl-report.py                 # Polish-report checker: titles, counts, sentence length
+│   ├── map-translation.py                 # English-mapped copy of a translated report for validation
+│   ├── check-translation.py               # Polish-report checker: titles, counts, sentence length
 │   ├── lint-prose.py                      # Pre-assembly prose linter for report drafts
-│   ├── common.py                          # Shared helpers for skill-maintenance tools
+│   ├── common-helpers.py                  # Shared helpers for skill-maintenance tools
 │   └── README.md                          # Tool usage, safety, and cleanup rules
 ├── tests/                                 # Focused `unittest` contract tests for the tools
 └── translations/

@@ -1663,10 +1663,10 @@ The tool map is explicit about which file each gate applies to:
 - `scripts/lint-polish.py` reporting zero errors - run it with
   `--rules <path to translations/polish-language.md>` whenever the script executes as a
   `.tmp.` copy outside the skill repository, or the calque tables never load,
-- `scripts/check-pl-report.py` reporting zero errors - it covers summary-table title
+- `scripts/check-translation.py` reporting zero errors - it covers summary-table title
   agreement against `### FND-…`/`### REC-…` headings, reconciliation of register counts
   in prose against the tables, and the sentence-length review against Style Rules,
-- `scripts/map-report-translation.py` with `--rules` producing the English-mapped copy,
+- `scripts/map-translation.py` with `--rules` producing the English-mapped copy,
   then `scripts/validate-report.py` reporting zero issues on that copy - the validator
   never runs on a translated report directly and exits with guidance instead,
 - `scripts/format-table.py` runs on the English source; on the translation run it with

@@ -24,7 +24,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.0.11"
+  version: "2.0.12"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -336,8 +336,8 @@ repository's `work/` directory under a `.tmp.` name and remove the copies when d
 - **`scripts/scan-standards.py`** - Supplied-standards corpus manifest for digest refresh.
 - **`scripts/finalize-report.py`** - Runs link, format, and validate in order on a report.
 - **`scripts/lint-polish.py`** / **`lint-prose.py`** - Polish report calque linter; pre-assembly draft linter.
-- **`scripts/map-report-translation.py`** / **`check-pl-report.py`** - Translated-report gates: English-mapped copy for `validate-report.py` (`--rules`, `--en` parity); Polish title/count/sentence checks.
-- **`scripts/common.py`** - Shared frontmatter and reporting helpers for maintenance tools.
+- **`scripts/map-translation.py`** / **`check-translation.py`** - Translated-report gates: English-mapped copy for `validate-report.py` (`--rules`, `--en` parity); Polish title/count/sentence checks.
+- **`scripts/common-helpers.py`** - Shared frontmatter and reporting helpers for maintenance tools.
 - **`scripts/README.md`** - Tool classes, usage, validation order, limitations.
 - **`tests/`** - Focused `unittest` contract tests for the report and maintenance tools.
 

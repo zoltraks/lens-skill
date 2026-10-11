@@ -132,9 +132,9 @@ The register-identifier patterns and heading-slug helper shared between
 `scripts/link-references.py` and `scripts/validate-report.py` follow the same
 rule - a change to one is a change to all.
 
-The heading-slug helper also lives in `scripts/map-report-translation.py` and
-`scripts/check-pl-report.py`, and the `--rules` table-parsing convention is shared
-between `scripts/lint-polish.py` and `scripts/map-report-translation.py` - keep those
+The heading-slug helper also lives in `scripts/map-translation.py` and
+`scripts/check-translation.py`, and the `--rules` table-parsing convention is shared
+between `scripts/lint-polish.py` and `scripts/map-translation.py` - keep those
 copies aligned with their originals the same way.
 
 ## Extending Assessment And Report Resources
@@ -260,10 +260,10 @@ Report-production tools are copied into the audited repository under a `.tmp.` n
 against report artifacts and report-support files.
 
 Skill-maintenance tools run from the Lens repository and may import shared helpers from
-`scripts/common.py`.
+`scripts/common-helpers.py`.
 
 Report-production tools stay self-contained single files, because they are copied under `.tmp.`
-names where `common.py` is not available.
+names where `common-helpers.py` is not available.
 
 Register each tool in `SKILL.md` and in the workflow or validation order where it is used.
 

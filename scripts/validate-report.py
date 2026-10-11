@@ -2254,10 +2254,10 @@ TRANSLATED_REPORT_GUIDANCE = (
     "lint-polish.py <report> --rules <translations/polish-language.md>",
     "lint-prose.py <report>",
     "link-glossary.py <report> --lang pl --check",
-    "map-report-translation.py <report> --rules <translations/polish-language.md>"
+    "map-translation.py <report> --rules <translations/polish-language.md>"
     " --en <english-sibling.md>",
     "format-table.py <mapped-copy> and validate-report.py <mapped-copy>",
-    "check-pl-report.py <report>",
+    "check-translation.py <report>",
 )
 
 

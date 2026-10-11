@@ -3,12 +3,21 @@
 
 from __future__ import annotations
 
+import importlib.util
 import json
 import re
 import sys
 from pathlib import Path
 
-from common import markdown_files, parse_frontmatter, report, resource_files
+_spec = importlib.util.spec_from_file_location(
+    "common_helpers", Path(__file__).with_name("common-helpers.py")
+)
+common_helpers = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(common_helpers)
+markdown_files = common_helpers.markdown_files
+parse_frontmatter = common_helpers.parse_frontmatter
+report = common_helpers.report
+resource_files = common_helpers.resource_files
 
 
 ALLOWED_FIELDS = {"name", "description", "license", "compatibility", "metadata", "allowed-tools"}

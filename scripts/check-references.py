@@ -3,11 +3,17 @@
 
 from __future__ import annotations
 
+import importlib.util
 import re
 import sys
 from pathlib import Path
 
-from common import report
+_spec = importlib.util.spec_from_file_location(
+    "common_helpers", Path(__file__).with_name("common-helpers.py")
+)
+common_helpers = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(common_helpers)
+report = common_helpers.report
 
 
 CODE_SPAN = re.compile(r"`([^`]+)`")

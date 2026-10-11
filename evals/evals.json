@@ -1224,8 +1224,8 @@
    "expectations": [
     "`validate-report.py` on the Polish file exits 2 with translated-report guidance - it is never run as the English contract against `| Język | Polski |`.",
     "`lint-polish.py` always receives `--rules translations/polish-language.md` - a `.tmp.` copy without it loads zero forms and the run reports that hint instead of silently passing.",
-    "`map-report-translation.py` produces the English-mapped copy, `format-table.py` then `validate-report.py` run on that copy and report zero issues, and `--en` heading parity passes when the English sibling exists.",
-    "`check-pl-report.py` reconciles summary titles and prose counts, and `link-glossary.py --lang pl --check` reports zero unlinked terms.",
+    "`map-translation.py` produces the English-mapped copy, `format-table.py` then `validate-report.py` run on that copy and report zero issues, and `--en` heading parity passes when the English sibling exists.",
+    "`check-translation.py` reconciles summary titles and prose counts, and `link-glossary.py --lang pl --check` reports zero unlinked terms.",
     "A spell check is reported as external - it is not synthesized inside the Polish checker."
    ]
   },

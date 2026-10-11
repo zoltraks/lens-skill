@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Check Polish-contract invariants that mapped-copy validation cannot see.
 
-`map-report-translation.py` + `validate-report.py` verify the Polish report
+`map-translation.py` + `validate-report.py` verify the Polish report
 against the English contract after vocabulary inversion. This tool checks
 the Polish text itself:
 
@@ -18,10 +18,10 @@ Spell checking stays external (a real dictionary), per the polish-language
 contract - this tool checks only mechanical agreement.
 
 Copy this file into the audited repository's `work/` directory as
-`check-pl-report.tmp.py` before running it against a report there.
+`check-translation.tmp.py` before running it against a report there.
 
 Usage:
-    check-pl-report.py <translated.md> [--max-words N]
+    check-translation.py <translated.md> [--max-words N]
 """
 
 from __future__ import annotations

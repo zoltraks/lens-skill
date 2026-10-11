@@ -366,7 +366,7 @@ class TestMapReportTranslation(unittest.TestCase):
     )
 
     def setUp(self):
-        self.mapper = load_script("map-report-translation.py")
+        self.mapper = load_script("map-translation.py")
 
     def test_gender_table_inverts_all_forms(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -399,7 +399,7 @@ class TestMapReportTranslation(unittest.TestCase):
             out = io.StringIO()
             try:
                 sys.argv = [
-                    "map-report-translation.py",
+                    "map-translation.py",
                     str(pl),
                     "--rules",
                     str(rules),
@@ -432,7 +432,7 @@ class TestCheckPlReport(unittest.TestCase):
     )
 
     def setUp(self):
-        self.checker = load_script("check-pl-report.py")
+        self.checker = load_script("check-translation.py")
 
     def run_checker(self, doc):
         import contextlib
@@ -444,7 +444,7 @@ class TestCheckPlReport(unittest.TestCase):
             argv = sys.argv
             out = io.StringIO()
             try:
-                sys.argv = ["check-pl-report.py", str(target)]
+                sys.argv = ["check-translation.py", str(target)]
                 with contextlib.redirect_stdout(out):
                     rc = self.checker.main()
             finally:
