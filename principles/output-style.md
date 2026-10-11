@@ -24,9 +24,9 @@ Two audits of similar systems should produce reports of similar shape, vocabular
 | Consistency Rules              | 151  | Same input, same output shape    |
 | Plain-Text Friendly Formatting | 167  | Terminal and diff readability    |
 | Multilingual Output            | 256  | Non-English report rendering     |
-| Information Security In Output | 384  | Redaction and disclosure limits  |
-| Report Termination             | 399  | End-of-report rules              |
-| Determinism                    | 408  | Repeatability guarantees         |
+| Information Security In Output | 391  | Redaction and disclosure limits  |
+| Report Termination             | 406  | End-of-report rules              |
+| Determinism                    | 415  | Repeatability guarantees         |
 
 ## Tone And Register
 
@@ -282,6 +282,13 @@ translated heading text, never carried over verbatim from the English file.
 
 An explicit request scoped to the non-English language alone ("only the Polish report")
 produces a single translated file instead, and analysis still runs in English.
+
+A `pair` is also the default when the discovered previous report was produced as a
+language pair - sibling files sharing the English stem and differing only by a language
+suffix, such as `AUDIT-1.4-EN.md` with `AUDIT-1.4-PL.md`.
+The audit convention continues until an explicit single-language request breaks it:
+the new run ships its own `<stem>-EN` file plus the translation sibling in the previous
+pair's second language, even when the report language is English.
 
 **Analysis language**
 

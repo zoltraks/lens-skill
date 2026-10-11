@@ -20,11 +20,11 @@ defined in `process/report-format/hunt-style.md` and `process/report-format/revi
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 1787 | Intake Checklist guidance        |
-| Handling Thin Input     | 1808 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1819 | Single-Dimension Audits guidance |
-| Re-Audit                | 1833 | Re-Audit guidance                |
-| Multi-Project Audits    | 1899 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1811 | Intake Checklist guidance        |
+| Handling Thin Input     | 1832 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1843 | Single-Dimension Audits guidance |
+| Re-Audit                | 1857 | Re-Audit guidance                |
+| Multi-Project Audits    | 1923 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -74,6 +74,13 @@ run ships a file pair - the canonical English report plus its single-pass transl
 per `principles/output-style.md` - and only an explicit request scoped to a single
 language ("only the Polish report") produces the translated file alone.
 
+The same `pair` default applies when the report language is English but the discovered
+previous report exists as a language pair - sibling files sharing the English stem and
+differing only by a language suffix, such as `AUDIT-1.4-EN.md` with `AUDIT-1.4-PL.md`.
+Preserve the convention: the new report ships its own `<stem>-EN` file plus the
+translation sibling in the previous pair's second language.
+An explicit single-language request overrides the convention in either direction.
+
 The audit start timestamp is recorded later, the moment the last parameter question is
 resolved, before the remaining skill rule documents are loaded.
 
@@ -84,6 +91,10 @@ See the timing rule under Parameter Configuration.
 When searching for a previous report during intake,
 also record the most recent audit report found for ANY subject in the searched locations,
 with its path and revision.
+
+When the located report carries a language suffix - `<stem>-<LANG>` such as `-EN` or `-PL` -
+also check for sibling files sharing the stem, and record whether the previous report was
+produced as a language pair and in which second language.
 
 The consistency gate in `process/report-parity.md` diffs the new report's capability set against it
 before the report is marked final.
@@ -263,8 +274,17 @@ asking.
 
 When multiple projects are present, ask the project-inclusion question before Parameter
 Configuration: a blocking decision gate presenting a checkbox-style multi-select list of every
-identified project with its path and kind. Recommended projects are checked by default and
-not-recommended ones are listed unchecked with their reason, such as `installed/external`.
+identified project with its path and kind.
+
+The gate is multi-select by definition - every listed project must be selectable at once, so
+an all-inclusive answer is a first-class outcome, never an `Other` escape.
+
+When the question tooling exposes a multi-select or checkbox mode, use it for this gate rather
+than a single-choice list that forces an either/or answer.
+
+Recommended projects are checked by default and not-recommended ones are listed unchecked with
+their reason, such as `installed/external`.
+
 Usually all projects belong in the audit, so the question exists to focus or exclude, not to
 confirm the obvious.
 
@@ -396,10 +416,13 @@ Mark the changed-parameters option recommended instead only when the user's requ
 a parameter change, for example "re-audit at a different scale".
 
 On a confirmed re-audit, recover the previous report's detail level, scale, language, filename,
-report style, and Descriptive mode.
+report style, Descriptive mode, and language output.
 
 Recover Descriptive mode from the previous report's Document Information row when present,
 otherwise from the presence or absence of its Glossary section.
+
+Recover the language output from the sibling files themselves - `<stem>-<LANG>` files such as
+`AUDIT-1.4-EN.md` plus `AUDIT-1.4-PL.md` mean the previous run shipped a `pair`.
 
 Reuse them unless the user asks to change them, then proceed to Scope Definition without repeating
 answered questions.
@@ -465,7 +488,7 @@ Default parameters:
 | Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/`, else Inline                                                                               |
 | Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md` for a first hunt, `REVIEW.md` for a first review                   |
 | Report language         | Match the language of the user's request                                                                                                                              |
-| Language output         | `pair` when the report language is not English - the English report plus its translation; `single` when the request scopes to one language or the language is English |
+| Language output         | `pair` when the report language is not English, or when the previous report was a language pair - the English report plus its translation; `single` when the request scopes to one language and no pair convention applies |
 | Detail level            | Detailed                                                                                                                                                              |
 | Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                                                                                 |
 | Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                                                                                               |
@@ -563,8 +586,9 @@ Routine prompts are limited to delivery and output file, report style, detail le
 evaluation scale.
 
 Report language follows the request language unless the user explicitly specifies another
-language, and a non-English request language resolves `Language output` to `pair` unless the
-request scopes to a single language - it is resolved from the request, not asked.
+language. `Language output` resolves to `pair` when the request language is not English or
+the previous report was a language pair, unless the request scopes to a single language -
+it is resolved from the request and the discovered pair convention, not asked.
 
 Advanced parameters use their defaults unless explicitly specified.
 

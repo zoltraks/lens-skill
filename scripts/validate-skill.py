@@ -60,6 +60,27 @@ def validate_frontmatter(root: Path, fields: dict[str, str], issues: list[str]) 
         issue(f"compatibility is {len(compatibility)} characters, maximum is 500", issues)
 
 
+def validate_version(text: str, issues: list[str]) -> None:
+    match = re.search(r"(?m)^  version:\s*\"?([0-9]+(?:\.[0-9]+)*)\"?\s*$", text)
+    if not match:
+        issue("metadata.version is missing from frontmatter", issues)
+        return
+    version = match.group(1)
+    if not re.fullmatch(r"\d+\.\d+\.\d+", version):
+        issue(
+            f"metadata.version {version!r} must use the three-part <major>.<minor>.<patch> format",
+            issues,
+        )
+        return
+    major, minor, patch = (int(part) for part in version.split("."))
+    if minor > 9 or patch > 9:
+        issue(
+            f"metadata.version {version!r} exceeds the rollover bound - "
+            "minor and patch roll over at 9 per docs/VERSIONING.md",
+            issues,
+        )
+
+
 def referenced_paths(body: str) -> set[str]:
     references = set(REFERENCE_PATTERN.findall(body))
     references.update(
@@ -186,6 +207,7 @@ def main() -> int:
         text = skill_file.read_text(encoding="utf-8")
         fields, body = parse_frontmatter(text, issues)
         validate_frontmatter(root, fields, issues)
+        validate_version(text, issues)
         validate_body(root, body, issues)
         validate_evals(root, fields, issues)
         validate_registration(root, issues)

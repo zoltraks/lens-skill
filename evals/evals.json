@@ -439,6 +439,7 @@
    "expectations": [
     "Intake collects the list of identified projects with paths before configuring parameters.",
     "A blocking project-inclusion question presents every project as a checkbox item with recommended projects checked by default.",
+    "The question is emitted as a multi-select or checkbox surface, never a single-choice list that forces an either/or answer.",
     "Unchecked projects are disclosed in Scope Exclusions with their reason and receive no per-project report block.",
     "The confirmed projects each receive their own findings, scorecard, and registers inside one combined report."
    ]
@@ -1249,6 +1250,18 @@
    "expectations": [
     "PAR-16 in the Polish report reads `Zastosowany` (or its evidence equivalent) with a note that the Polish language contract was applied - it does not copy the English `N/A`.",
     "Language-dependent register cells are re-evaluated for the actual report language wherever the contract defines them."
+   ]
+  },
+  {
+   "id": 105,
+   "prompt": "Audit this repository. The previous report exists as a language pair, AUDIT-1.4-EN.md and AUDIT-1.4-PL.md, and the request is in English.",
+   "expected_output": "The language output resolves to `pair` by convention - the new run ships its own `AUDIT-1.5-EN.md` plus a `AUDIT-1.5-PL.md` translation sibling in the previous pair's second language, without asking the language-output question.",
+   "files": [],
+   "expectations": [
+    "Intake parity discovery records the `-EN`/`-PL` sibling files and that the previous report was a language pair in Polish.",
+    "`language_output` resolves to `pair` even though the report language is English - the previous-pair convention carries forward.",
+    "Only an explicit single-language request (for example 'only the English report') overrides the convention to `single`.",
+    "Both output filenames share the English stem and differ only by language suffix - `AUDIT-1.5-EN.md` and `AUDIT-1.5-PL.md`."
    ]
   }
  ]
