@@ -40,6 +40,47 @@ class TestCheckContents(unittest.TestCase):
     def test_tolerance_is_three(self):
         self.assertEqual(self.checker.TOLERANCE, 3)
 
+    def test_fix_snaps_by_name_past_unlisted_section(self):
+        # A `##` section inserted without a Contents row must not drag the
+        # rows below it onto the wrong heading - the failure mode that made
+        # proximity-only snapping corrupt every anchor after an insertion.
+        lines = (
+            "# Doc\n\n## Contents\n\n"
+            "| Section | Line |\n|---|---|\n"
+            "| Alpha | 5   |\n"
+            "| Beta | 7   |\n\n"
+            "## Alpha\n\n## Inserted\n\n## Beta\n"
+        ).splitlines()
+        fences = self.checker.fenced_flags(lines)
+        contents_at = 2
+        headings = [
+            (index, self.checker.HEADING.match(line).group(1))
+            for index, line in enumerate(lines)
+            if not fences[index] and self.checker.HEADING.match(line)
+        ]
+        rows = self.checker.collect_rows(lines, fences, contents_at)
+        out = self.checker.fix_rows(lines, rows, headings, contents_at)
+        self.assertIn("| Alpha | 10   |", out)
+        self.assertIn("| Beta | 14   |", out)
+
+    def test_fix_falls_back_to_nearest_for_unnamed_rows(self):
+        lines = (
+            "# Doc\n\n## Contents\n\n"
+            "| Section | Line |\n|---|---|\n"
+            "| Grouped Area | 5    |\n\n"
+            "## Alpha\n\n## Beta\n"
+        ).splitlines()
+        fences = self.checker.fenced_flags(lines)
+        contents_at = 2
+        headings = [
+            (index, self.checker.HEADING.match(line).group(1))
+            for index, line in enumerate(lines)
+            if not fences[index] and self.checker.HEADING.match(line)
+        ]
+        rows = self.checker.collect_rows(lines, fences, contents_at)
+        out = self.checker.fix_rows(lines, rows, headings, contents_at)
+        self.assertIn("| Grouped Area | 9    |", out)
+
 
 class TestScanStandards(unittest.TestCase):
     def setUp(self):

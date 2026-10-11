@@ -159,8 +159,8 @@ Mark version and relationship `UNKNOWN` when not derivable.
 - The inventory feeds Dependencies and Supply Chain (`assessment/dependency-review.md`), license
   review, and supply-chain findings.
 - It populates the Software Bill of Materials report section defined in
-  `references/sbom-schema.md`, which extends this output contract with license, license-risk, and
-  advisory-checked columns.
+  `references/sbom-schema.md`, which extends this output contract with license, risk, and
+  advisory columns.
 - It partially closes an "no SBOM" finding: the audit demonstrates what a manifest-derived
   component list looks like, while still noting that no shipped-artifact SBOM exists.
 - It never substitutes for advisory checking. Resolved versions with no vulnerability evidence

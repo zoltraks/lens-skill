@@ -1159,6 +1159,71 @@ def check_structure_variant_sections(text: str) -> list[str]:
     return failures
 
 
+REFERENCE_PATH_EXT = re.compile(
+    r"\.(?:adoc|bat|c|cc|cfg|cmd|conf|cpp|cs|csproj|csv|go|gradle|h|hpp|ini|java|"
+    r"js|json|jsx|kt|lock|md|markdown|mod|php|properties|ps1|py|rb|rs|rst|sh|sln|"
+    r"sql|sum|toml|ts|tsx|txt|xml|ya?ml)$",
+    re.IGNORECASE,
+)
+REFERENCE_PATH_NAMES = {
+    "codeowners", "containerfile", "dockerfile", "gemfile", "jenkinsfile",
+    "justfile", "license", "makefile", "notice", "pipfile", "procfile",
+    "rakefile", "taskfile", "vagrantfile",
+}
+
+
+def check_references_section(text: str) -> list[str]:
+    match = re.search(r"^##\s+References\s*$", text, re.MULTILINE)
+    if not match:
+        return []
+    failures: list[str] = []
+    if re.search(r"^##\s+\S", text[match.end() :], re.MULTILINE):
+        failures.append("References is not the final section of the report")
+    block = text[match.end() :]
+    end = re.search(r"^##\s+", block, re.MULTILINE)
+    if end:
+        block = block[: end.start()]
+    if not re.search(r"\]\(https?://", block) and not re.search(
+        r"No external sources consulted|No public URL", block
+    ):
+        failures.append(
+            "References section carries no external link or declared absence - "
+            "each row renders a [title](url) link paragraph, `No public URL` "
+            "marks an unlinked source, `No external sources consulted` replaces "
+            "the table"
+        )
+    for table in tables_in(block):
+        header, rows = table_cells(table)
+        if not header or header[0] != "Reference":
+            continue
+        for cells in rows:
+            if not cells:
+                continue
+            first = cells[0]
+            inner = first[1:-1] if first.startswith("`") and first.endswith("`") else ""
+            base = first.rsplit("/", 1)[-1].rstrip("/*}").lower()
+            looks_path = base in REFERENCE_PATH_NAMES
+            if inner:
+                looks_path = looks_path or (
+                    REFERENCE_PATH_EXT.search(inner) is not None
+                    or "{" in inner
+                    or "*" in inner
+                    or inner.endswith("/")
+                    or (
+                        "/" in inner
+                        and re.fullmatch(r"[\w.\-]+(?:/[\w.\-{}*]+)+/?", inner)
+                        is not None
+                    )
+                )
+            if looks_path:
+                failures.append(
+                    f"References row '{first}' looks like a repository path - "
+                    "the section lists external authoritative sources, internal "
+                    "artifacts belong to the evidence ledger"
+                )
+    return failures
+
+
 REPORT_STYLES = ("audit", "hunt", "review")
 
 
@@ -2373,6 +2438,7 @@ def main(path: str, repo_root: str | None = None) -> int:
                     ("final-state gate", check_final_state(text)),
                     ("risk detail consistency", check_risk_consistency(lines, fences)),
                     ("executed log vocabulary", check_executed_log(text)),
+                    ("references links", check_references_section(text)),
                 ]
             )
             if style == "hunt":

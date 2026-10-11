@@ -154,6 +154,10 @@ whenever finding blocks assess `Breaking change`.
 Its scorecard-mean check recomputes each `Scorecard Summary` table's overall from the displayed
 dimension scores and compares it to the stated `Overall score` at one decimal place.
 
+Its references check requires the closing References section to stay last and carry an
+external `[title](url)` link, a `No public URL` marker, or `No external sources consulted`,
+and it rejects repository-path rows in the reference table.
+
 Pass `--repo-root <dir>` to also verify that `path:line` citations in finding `Targets` and
 `Evidence` fields resolve to real files whose recorded line numbers are within file length.
 

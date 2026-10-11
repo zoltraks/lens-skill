@@ -325,7 +325,12 @@ def audit_shared_tail(multi: bool) -> list[str]:
         heading(2, "Validation Record"),
         validation_record() + "\n",
         heading(2, "References"),
-        "- <external source>\n\n",
+        table(
+            "| Reference | Publisher or Author | Used In |",
+            "|---|---|---|",
+            ["| <title> | <publisher or author> | <section names> |\n"],
+        ),
+        "- [<title>](<url>)\n\n",
     ]
     return parts
 
@@ -424,7 +429,12 @@ def hunt_skeleton(projects: list[str], params: dict) -> str:
         heading(2, "Validation Record"),
         validation_record() + "\n",
         heading(2, "References"),
-        "- <external source>\n\n",
+        table(
+            "| Reference | Publisher or Author | Used In |",
+            "|---|---|---|",
+            ["| <title> | <publisher or author> | <section names> |\n"],
+        ),
+        "- [<title>](<url>)\n\n",
     ]
     return "".join(parts)
 
@@ -552,7 +562,12 @@ def review_skeleton(projects: list[str], params: dict) -> str:
         heading(2, "Validation Record"),
         validation_record() + "\n",
         heading(2, "References"),
-        "- <external source>\n\n",
+        table(
+            "| Reference | Publisher or Author | Used In |",
+            "|---|---|---|",
+            ["| <title> | <publisher or author> | <section names> |\n"],
+        ),
+        "- [<title>](<url>)\n\n",
     ]
     return "".join(parts)
 

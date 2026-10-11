@@ -240,6 +240,34 @@ class TestValidateReport(unittest.TestCase):
             any("not one of" in f for f in self.validator.check_aip_provenance(bad_value))
         )
 
+    def test_references_section(self):
+        block = (
+            "## References\n\n"
+            "| Reference | Publisher or Author | Used In |\n"
+            "|-----------|---------------------|---------|\n"
+            "| OWASP ASVS 5.0 | OWASP | Auditing Methodology |\n"
+        )
+        failures = self.validator.check_references_section(block)
+        self.assertTrue(any("external link" in f for f in failures))
+
+        linked = block + "\n[OWASP ASVS](https://owasp.org/)\n"
+        self.assertEqual(self.validator.check_references_section(linked), [])
+
+        internal = linked.replace(
+            "| OWASP ASVS 5.0 | OWASP |", "| `docs/GUIDELINES.md` | maintainer |"
+        )
+        self.assertTrue(
+            any("repository path" in f for f in self.validator.check_references_section(internal))
+        )
+
+        empty = "## References\n\nNo external sources consulted.\n"
+        self.assertEqual(self.validator.check_references_section(empty), [])
+
+        trailing = linked + "\n## Appendix\n"
+        self.assertTrue(
+            any("final section" in f for f in self.validator.check_references_section(trailing))
+        )
+
 
 class TestNewReport(unittest.TestCase):
     def setUp(self):
@@ -248,6 +276,16 @@ class TestNewReport(unittest.TestCase):
     def test_par_rows_cover_twenty(self):
         self.assertEqual(len(self.generator.PAR_ROWS), 20)
         self.assertIn("PAR-20", self.generator.PAR_ROWS[-1])
+
+    def test_references_scaffold(self):
+        for skeleton in (
+            self.generator.audit_skeleton,
+            self.generator.hunt_skeleton,
+            self.generator.review_skeleton,
+        ):
+            body = skeleton([], {})
+            self.assertIn("| Reference | Publisher or Author | Used In |", body)
+            self.assertIn("[<title>](<url>)", body)
 
 
 RULES = SCRIPTS.parent / "translations" / "polish-language.md"
@@ -474,6 +512,28 @@ class TestCheckPlReport(unittest.TestCase):
         rc, out = self.run_checker(doc)
         self.assertEqual(rc, 0)
         self.assertIn("WARN", out)
+
+    def test_foreign_block_label_fails(self):
+        doc = self.DOC + "\n* **Skutek:** wpływ bloku.\n"
+        rc, out = self.run_checker(doc)
+        self.assertEqual(rc, 1)
+        self.assertIn("Skutek", out)
+
+    def test_known_block_label_passes(self):
+        doc = self.DOC + "\n* **Wpływ:** wpływ bloku.\n"
+        rc, out = self.run_checker(doc)
+        self.assertEqual(rc, 0, out)
+
+    def test_unresolved_anchor_fails(self):
+        doc = self.DOC + "\nOdnośnik do [brak](#nieistniejący-nagłówek).\n"
+        rc, out = self.run_checker(doc)
+        self.assertEqual(rc, 1)
+        self.assertIn("nieistniejący", out)
+
+    def test_resolved_anchor_passes(self):
+        doc = self.DOC + "\nOdnośnik do [ustaleń](#szczegółowe-ustalenia-techniczne).\n"
+        rc, out = self.run_checker(doc)
+        self.assertEqual(rc, 0, out)
 
 
 class TestLinkGlossaryPolish(unittest.TestCase):

@@ -10,7 +10,7 @@
 | Section              | Line | What it covers                             |
 |----------------------|------|--------------------------------------------|
 | Auditing Methodology | 15   | Method, standards, criteria matrix, ledger |
-| Scoring Rubrics      | 231  | Score bands, grouping, ISO crosswalk       |
+| Scoring Rubrics      | 233  | Score bands, grouping, ISO crosswalk       |
 
 ## Auditing Methodology
 
@@ -85,6 +85,8 @@ not optional decoration.
 Cite a standard only when its corresponding section or assessment is present in the report.
 
 Do not list a standard that was not applied.
+
+Every standard named here appears in the References section with its canonical link.
 
 **Criteria matrix**
 

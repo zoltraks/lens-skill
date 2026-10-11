@@ -73,6 +73,9 @@ Keep conventional uppercase names for root and governance files, including `READ
 
 Keep evaluation prompts in `evals/evals.json`.
 
+The file serializes with `indent=1` and a trailing newline - append or edit entries by
+matching that layout, never by rewriting the file with a different `json.dump` indent.
+
 ## Anonymized Examples
 
 Shipped files never mention real names, paths, or identifiers of projects the skill has

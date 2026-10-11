@@ -37,6 +37,10 @@ Rationale and detail live in the section specs under `process/report-format/` an
 - The Audit Type Coverage table keeps only `Covered`, `Partially`, and `Not done` status
   cells - `Not Applicable` rows are omitted entirely.
 - The Validation Record carries rows `PAR-1` through `PAR-20` in fixed order.
+- The closing References section lists external authoritative sources only - each row
+  renders a `[title](url)` link paragraph, `No public URL` marks an unlinked source,
+  `No external sources consulted` replaces the table, and repository paths never appear
+  as references.
 - `FND`, `RSK`, and `REC` references must resolve to defined entries - a `REC-XXX` or
   `RSK-XXX` cite of a nonexistent `FND-` fails.
 - A `State | Draft` row marks a report in progress and skips the final-state gate, and a

@@ -110,8 +110,8 @@ revision.
 It partially closes the inventory gap without claiming to be a shipped-artifact SBOM.
 
 The derived list renders in the report's Software Bill of Materials section per
-`references/sbom-schema.md`, which extends the output contract with License, License Risk,
-and Advisory Checked columns.
+`references/sbom-schema.md`, which extends the output contract with License, Risk,
+and Advisory columns.
 
 License cells come from inspected declarations only, `Unknown` otherwise,
 and the license pass itself follows `references/license-compliance.md`.

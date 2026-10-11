@@ -11,6 +11,12 @@ the Polish text itself:
   that carries the identifier link is compared after markup is stripped.
 * Prose counts such as `22 ustaleń` or `13 ryzyk` must equal the real
   register block/row counts (FND/RSK/REC block headings, EVD ledger rows).
+* `* **Label:**` fields inside `### FND-…`, `### RSK-…`, `### REC-…`, and
+  `### TDR-…` blocks must come from that register's contract label set -
+  a label borrowed from another register (for example `Skutek` in a
+  finding block) leaves the English-mapped copy missing a required field.
+* Every `](#anchor)` target must resolve to a heading slug - renamed
+  translated headings silently orphan links the mapped copy rewrites.
 * Prose sentences outside tables stay within a word limit - long chained
   sentences are a known translation defect class. Warn-level only.
 
@@ -34,6 +40,41 @@ from pathlib import Path
 ID_HEADING = re.compile(r"^###\s+((?:FND|RSK|REC|TDR)-[A-Z0-9-]+):\s*(.+?)\s*$")
 ROW_ID = re.compile(r"^\|\s*\[?((?:FND|RSK|REC|TDR|EVD)-[A-Z0-9-]+)\]?")
 LINK = re.compile(r"\[([^\]]+)\]\([^)]*\)")
+INTERNAL_LINK = re.compile(r"\]\(#([^)\s]+)\)")
+BLOCK_FIELD = re.compile(r"^\*\s+\*\*([^:*]+):\*\*")
+HEADING = re.compile(r"^#{1,6}\s+(.+?)\s*$")
+
+# `* **Label:**` fields allowed inside each register's detail blocks,
+# taken from the label tables in `translations/polish-language.md` -
+# keep in sync when the contract adds or renames a field. Labels unique
+# to one register (for example `Środek ograniczający ryzyko`, `Zwłoka`,
+# `Zależy od`) must not leak into another register's blocks.
+BLOCK_LABELS = {
+    "FND": {
+        "Filar", "Ważność", "Tytuł", "Wynik", "Status", "Zmiana",
+        "Weryfikacja", "Typ", "Bezpieczeństwo", "Obiekty", "Podstawa",
+        "Charakter odstępstwa", "Opis", "Wpływ", "Zalecenie", "Metoda",
+        "Zweryfikowane", "Potwierdzone uruchomieniem",
+        "Łamanie kompatybilności", "Dotyczy", "Pewność oceny",
+        "Czynniki łagodzące", "Wykorzystanie podatności", "Dowód",
+        "Podstawa pochodzenia",
+    },
+    "RSK": {
+        "Ryzyko", "Opis", "Źródło", "Wpływ", "Prawdopodobieństwo",
+        "Ważność", "Środek ograniczający ryzyko", "Pewność oceny",
+        "Wyzwalacz", "Mechanizmy kontrolne", "Ryzyko rezydualne",
+        "Status", "Właściciel", "Zamknięcie",
+    },
+    "TDR": {
+        "Dług", "Pozycja", "Kategoria", "Źródło", "Koszt", "Zwłoka",
+        "Status", "Opis",
+    },
+    "REC": {
+        "Identyfikator zalecenia", "Priorytet", "Ustalenie",
+        "Zalecenie", "Opis", "Wpływ", "Koszt", "Wysiłek", "Złożoność",
+        "Weryfikacja", "Łamanie", "Zależy od", "Właściciel",
+    },
+}
 
 # Genitive/paucal/singular forms a Polish count statement can take for
 # each register. `ryzyk` bare is the genitive plural of `ryzyko`.
@@ -159,6 +200,74 @@ def check_prose_counts(lines, masked):
     return failures
 
 
+def check_block_labels(lines):
+    """`* **Label:**` fields inside register detail blocks must belong
+    to that register's contract label set. A label from another
+    register's table - `Skutek` under `### FND-…`, `Wpływ` under
+    `### TDR-…` - survives mapping unmapped and drops the required
+    English field."""
+    failures = []
+    current = None
+    for index, line in enumerate(lines):
+        heading = ID_HEADING.match(line)
+        if heading:
+            current = heading.group(1).split("-", 1)[0]
+            continue
+        if re.match(r"^#{1,3}\s", line):
+            current = None
+            continue
+        if current is None:
+            continue
+        field = BLOCK_FIELD.match(line)
+        if field:
+            label = field.group(1).strip()
+            if label not in BLOCK_LABELS[current]:
+                failures.append(
+                    (
+                        index,
+                        f"{current} block uses field label '{label}' "
+                        f"outside its contract set",
+                    )
+                )
+    return failures
+
+
+def heading_slug(text):
+    """GitHub-style slug: lowercase, drop punctuation except hyphens,
+    spaces become hyphens, diacritics stay."""
+    return re.sub(r"[^\w -]", "", text.casefold()).replace(" ", "-")
+
+
+def check_internal_anchors(lines, masked):
+    """Every `](#anchor)` target must resolve to a heading slug, with
+    duplicate headings numbered `-1`, `-2` the way renderers disambiguate
+    them. A translated heading renamed after links were written orphans
+    every link the mapper then rewrites to itself."""
+    seen = {}
+    slugs = set()
+    for line in lines:
+        heading = HEADING.match(line)
+        if not heading:
+            continue
+        base = heading_slug(heading.group(1))
+        count = seen.get(base, 0)
+        seen[base] = count + 1
+        slugs.add(base if count == 0 else f"{base}-{count}")
+    failures = []
+    reported = set()
+    for index, line in enumerate(lines):
+        if index in masked:
+            continue
+        for match in INTERNAL_LINK.finditer(line):
+            target = match.group(1)
+            if target not in slugs and (index, target) not in reported:
+                reported.add((index, target))
+                failures.append(
+                    (index, f"internal link `#{target}` resolves to no heading")
+                )
+    return failures
+
+
 def check_sentence_length(lines, masked, max_words):
     """Warn on prose sentences over `max_words` words, outside tables,
     headings, and fenced code."""
@@ -225,7 +334,12 @@ def main():
     lines = args.file.read_text(encoding="utf-8").split("\n")
     masked = fenced_mask(lines)
 
-    failures = check_summary_titles(lines) + check_prose_counts(lines, masked)
+    failures = (
+        check_summary_titles(lines)
+        + check_prose_counts(lines, masked)
+        + check_block_labels(lines)
+        + check_internal_anchors(lines, masked)
+    )
     warnings = check_sentence_length(lines, masked, args.max_words)
 
     for index, message in sorted(failures + warnings):

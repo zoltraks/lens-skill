@@ -24,7 +24,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.1.0"
+  version: "2.1.3"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -216,7 +216,7 @@ The previous report is never overwritten - write the next revision-numbered file
 - **`process/report-format/conditional-conformance.md`** - Conditional conformance sections.
 - **`process/report-format/findings-registers.md`** - Strengths, findings, debt, risk,
   roadmap.
-- **`process/report-format/report-closing.md`** - Exclusions, Limitations, Re-audit, Validation.
+- **`process/report-format/report-closing.md`** - Exclusions, Limitations, Re-audit, Validation, References.
 - **`process/report-format/hunt-style.md`** - `hunt` report style: verdict, domain register,
   journey traces, remediation phases.
 - **`process/report-format/review-style.md`** - `review` report style: execution register,

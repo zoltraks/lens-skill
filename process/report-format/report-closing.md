@@ -5,6 +5,18 @@
 > **Scope:** Scope exclusions, limitations, re-audit plan, validation record, and references
 > **Key items:** exclusions, unknowns, closure evidence, validation record, consulted sources
 
+## Contents
+
+| Section                       | Line | What it covers                                         |
+|-------------------------------|------|--------------------------------------------------------|
+| Scope Exclusions              | 20   | exclusion bullets, rationale, coverage alignment       |
+| Limitations and Unknowns      | 101  | unresolved limits, unknowns, evidence gaps             |
+| Operator Verification Handoff | 131  | operator checks, commands, pass criteria               |
+| Executed Evidence Log         | 157  | executed-mode checks, commands, results                |
+| Re-audit And Follow-up Plan   | 180  | retest plan, re-audit cadence, follow-ups              |
+| Validation Record             | 218  | PAR-1..PAR-20 rows, evidence basis                     |
+| References                    | 250  | external sources, link paragraphs, cached-source notes |
+
 ## Scope Exclusions
 
 Explicitly define the limits of the analysis.
@@ -241,6 +253,15 @@ This section lists every external source referenced during the audit.
 
 It is always the final section of the report.
 
+Rows name external authoritative sources only: standards, specifications, official
+documentation, advisory databases, and consulted tool or vendor material.
+
+Internal repository artifacts are never References rows - inspected files, manifests,
+source paths, and directories belong to the evidence ledger and Auditing Methodology.
+
+At the `Detailed` level the list is exhaustive: every external source the audit drew
+on appears as a row.
+
 Collect references from all sections of the report.
 
 Sources include the standards named in Auditing Methodology,
@@ -265,17 +286,25 @@ access limitation in the supporting paragraph.
 
 Prefer primary standards and tool documentation over marketing summaries.
 
+Canonical URLs for bundled digest sources come from `references/stack-standards.md` and
+`references/source-catalog.md`; a source consulted live keeps the URL that was consulted.
+
 Verify publication status at audit time, distinguishing released editions, drafts, and legacy
 baselines, and avoid claiming full conformance from sampled coverage.
 
 Offline audits should identify dated cached sources and leave current advisory status unknown when
 it cannot be checked.
 
-After the table, add one paragraph per reference that has a URL.
-
-Format each link as a Markdown link: `[<title>](<url>)`.
+After the table, add one link paragraph per reference, formatted as a Markdown link:
+`[<title>](<url>)`.
 
 Do not put URLs in the table itself, because long URLs make the table unreadable in plain text.
+
+A consulted source with no public URL keeps its row and states `No public URL` in its
+supporting paragraph instead of a link paragraph.
+
+When no external source was consulted at all, replace the table with one sentence:
+`No external sources consulted`.
 
 Group rows by section when the same source is used in multiple sections,
 or list one row per source with all sections in the Used In column separated by commas.

@@ -181,7 +181,7 @@
    "files": [],
    "expectations": [
     "The Software Bill of Materials section states that no shipped-artifact SBOM was provided and presents the manifest-derived inventory as INSPECTED source evidence, not a generated or shipped SBOM.",
-    "Every SBOM row carries component, version, ecosystem, relationship, license, and evidence columns, with license cells reading Unknown rather than registry guesses.",
+    "Every SBOM row carries component, version, license, risk, advisory, and source columns, with license cells reading Unknown rather than registry guesses.",
     "The License Compliance Review separates observed license facts from inferred concerns and records missing ownership or assignment evidence as UNKNOWN.",
     "The absent shipped SBOM is reported as an inventory gap, not as a vulnerability or compliance violation.",
     "No license violation, copyright infringement, or legal obligation is claimed without specific evidence."
@@ -1187,7 +1187,7 @@
    "expectations": [
     "The run resolves `Language output` to `pair` and ships `AUDIT-1.0-EN.md` and `AUDIT-1.0-PL.md` - the `AUDYT` stem is never used in a pair.",
     "The English report is produced and validated first; the Polish file is a translation of it in a single pass, never an independent audit.",
-    "Both files carry identical register identifiers, severities, revisions, and scores, and each Document Information names the sibling in its `Translations`/`Przekłady` row.",
+    "Both files carry identical register identifiers, severities, revisions, and scores, and each Document Information names the sibling in its `Translations`/`Tłumaczenia` row.",
     "Links in the Polish file target its own Polish heading anchors - `#słownik`, `#rejestr-dowodów-audytowych` - never the English anchors.",
     "Analysis and evidence gathering are reasoned in English throughout."
    ]
@@ -1200,7 +1200,7 @@
    "expectations": [
     "The run produces a single `AUDYT-1.0.md` file - the explicit single-language scope suppresses the pair.",
     "Evidence gathering, analysis, and part-file drafts run in English; only the rendered report is Polish.",
-    "The report carries no `Przekłady` row, and the Polish lint and English-mapped validation pass clean."
+    "The report carries no `Tłumaczenia` row, and the Polish lint and English-mapped validation pass clean."
    ]
   },
   {
@@ -1262,6 +1262,31 @@
     "`language_output` resolves to `pair` even though the report language is English - the previous-pair convention carries forward.",
     "Only an explicit single-language request (for example 'only the English report') overrides the convention to `single`.",
     "Both output filenames share the English stem and differ only by language suffix - `AUDIT-1.5-EN.md` and `AUDIT-1.5-PL.md`."
+   ]
+  },
+  {
+   "id": 106,
+   "prompt": "The English report AUDIT-1.5.md was just written and validated. Now generate the Polish translation sibling.",
+   "expected_output": "The bare-stem English file is renamed to AUDIT-1.5-EN.md so the pair shares the suffix convention, the Polish sibling lands as AUDIT-1.5-PL.md, and both Document Information tables carry a Translations row pointing at each other.",
+   "files": [],
+   "expectations": [
+    "A bare `<stem>.md` report gaining a translation sibling is renamed to `<stem>-<LANG>` before the sibling is written - the pair shares the suffix convention.",
+    "Both files' Document Information tables gain a `Translations`/`Tłumaczenia` row naming the sibling file.",
+    "The renamed English file is re-validated after the rename plus metadata edit, not assumed still valid.",
+    "The translation pre-flight checklist in translations/polish-language.md runs before the lint and mapping pipeline."
+   ]
+  },
+  {
+   "id": 107,
+   "prompt": "Audit this repository at Detailed level and produce the audit report. Inspect the closing section.",
+   "expected_output": "A final References section listing the external authoritative sources the audit consulted, each rendered as a Markdown link below the table.",
+   "files": [],
+   "expectations": [
+    "References is the final `##` section and carries a table of external authoritative sources - standards, specifications, official documentation - never internal repository files or paths.",
+    "Every table row renders a `[title](url)` link paragraph below the table; a consulted source without a public URL states `No public URL` in its supporting paragraph instead.",
+    "Canonical URLs for bundled-digest sources come from references/stack-standards.md and references/source-catalog.md; offline audits mark dated cached sources.",
+    "When no external source was consulted at all, the section states `No external sources consulted` in place of the table.",
+    "The Polish sibling renders the heading as `Bibliografia` with `Odniesienie`, `Wydawca lub autor`, and `Zastosowane w` columns."
    ]
   }
  ]

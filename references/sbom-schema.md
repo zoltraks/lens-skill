@@ -32,16 +32,14 @@ A lockfile entry proves resolution intent, not what a released binary or contain
 
 ## Table Schema
 
-| Column           | Content                                                                            |
-|------------------|------------------------------------------------------------------------------------|
-| Component        | Package or component name as declared                                              |
-| Version          | Resolved or declared version, `UNKNOWN` when not derivable                         |
-| Ecosystem        | `purl` type per `references/dependency-manifests.md`, for example `npm` or `cargo` |
-| Relationship     | `direct` or `transitive`, where derivable, else `UNKNOWN`                          |
-| License          | Declared license from an inspected source, else `Unknown`                          |
-| License Risk     | `None flagged`, `Review`, `Conflict`, or `Unknown` per the license checklist       |
-| Advisory Checked | `Y` only when a committed advisory or scan artifact covers the component, else `N` |
-| Source File      | The manifest or lockfile the entry was read from                                   |
+| Column    | Content                                                                            |
+|-----------|------------------------------------------------------------------------------------|
+| Component | Package or component name as declared                                              |
+| Version   | Resolved or declared version, `UNKNOWN` when not derivable                         |
+| License   | Declared license from an inspected source, else `Unknown`                          |
+| Risk      | `None`, `Review`, `Conflict`, or `Unknown` per the license checklist               |
+| Advisory  | `Y` only when a committed advisory or scan artifact covers the component, else `N` |
+| Source    | The manifest or lockfile the entry was read from                                   |
 
 ## Rules
 
@@ -49,10 +47,10 @@ A lockfile entry proves resolution intent, not what a released binary or contain
   vendored `LICENSE` or `NOTICE` file inside the component, or a lockfile license field where the
   format carries one. Registry knowledge and typical-license guesses are not evidence, mark
   `Unknown` instead.
-- `License Risk` follows `references/license-compliance.md`: `Conflict` for a
+- `Risk` follows `references/license-compliance.md`: `Conflict` for a
   copyleft-versus-distribution clash, `Review` for licenses needing legal attention, `Unknown`
-  when the license itself is unknown, `None flagged` otherwise.
-- `Advisory Checked` stays `N` for every component unless committed vulnerability or scan output
+  when the license itself is unknown, `None` otherwise.
+- `Advisory` stays `N` for every component unless committed vulnerability or scan output
   supplies `Reported` evidence for it. Naming an advisory database is not checking it.
 - `Unknown` licenses are expected, most manifest formats do not declare dependency licenses. A
   high `Unknown` count is itself a license-compliance finding input, not a table defect.
@@ -74,10 +72,10 @@ timestamp - plus automation-support and practices guidance.
 The 2026 edition makes Component License a minimum element,
 which is why `Unknown` license cells are surfaced rather than silently omitted.
 
-The CycloneDX component model distinguishes what the table records (name, version, `purl`,
-dependency relationship as the `direct`/`transitive` split) from what a generated SBOM adds:
+The CycloneDX component model distinguishes what the table records (name, version, license, and
+the `direct`/`transitive` totals split) from what a generated SBOM adds:
 component `type` (`library`, `application`, `framework`, `container`, `operating-system`),
-hashes, and the separate `dependencies` graph.
+`purl` identifiers, hashes, and the separate `dependencies` graph.
 
 Record which of those fields the source-derived table can and cannot populate.
 

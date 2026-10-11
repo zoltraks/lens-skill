@@ -88,16 +88,16 @@ not a shipped-artifact SBOM and not a claim of SPDX or CycloneDX conformance.
 Build the table per `references/sbom-schema.md` from the manifests and lockfiles read per
 `references/dependency-manifests.md`:
 
-| Component | Version | Ecosystem | Relationship | License | License Risk | Advisory Checked | Source File |
-|-----------|---------|-----------|--------------|---------|--------------|------------------|-------------|
-| <name>    | <ver>   | <purl>    | direct       | <lic>   | <flag>       | N                | <path>      |
+| Component | Version | License | Risk   | Advisory | Source |
+|-----------|---------|---------|--------|----------|--------|
+| <name>    | <ver>   | <lic>   | <flag> | N        | <path> |
 
 License values come from inspected declarations only, `Unknown` otherwise.
 
-License Risk values are `None flagged`, `Review`, `Conflict`,
+`Risk` values are `None`, `Review`, `Conflict`,
 or `Unknown` per `references/license-compliance.md`.
 
-`Advisory Checked` is `Y` only where committed advisory or scan evidence covers the component.
+`Advisory` is `Y` only where committed advisory or scan evidence covers the component.
 
 Close the section with the direct and transitive totals and any manifest-lockfile drift noted.
 When no dependency manifest or lockfile exists in the project, state `No dependency manifests or

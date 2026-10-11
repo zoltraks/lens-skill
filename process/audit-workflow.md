@@ -20,11 +20,11 @@ defined in `process/report-format/hunt-style.md` and `process/report-format/revi
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 1811 | Intake Checklist guidance        |
-| Handling Thin Input     | 1832 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1843 | Single-Dimension Audits guidance |
-| Re-Audit                | 1857 | Re-Audit guidance                |
-| Multi-Project Audits    | 1923 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1829 | Intake Checklist guidance        |
+| Handling Thin Input     | 1850 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1861 | Single-Dimension Audits guidance |
+| Re-Audit                | 1875 | Re-Audit guidance                |
+| Multi-Project Audits    | 1941 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -482,19 +482,19 @@ Present the defaults in a compact summary.
 
 Default parameters:
 
-| Parameter               | Default                                                                                                                                                               |
-|-------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Report style            | `audit` - the governance contract, `hunt` the defect-hunt genre, `review` the execution-register genre                                                                |
-| Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/`, else Inline                                                                               |
-| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md` for a first hunt, `REVIEW.md` for a first review                   |
-| Report language         | Match the language of the user's request                                                                                                                              |
+| Parameter               | Default                                                                                                                                                                                                                    |
+|-------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Report style            | `audit` - the governance contract, `hunt` the defect-hunt genre, `review` the execution-register genre                                                                                                                     |
+| Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/`, else Inline                                                                                                                                    |
+| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md` for a first hunt, `REVIEW.md` for a first review                                                                        |
+| Report language         | Match the language of the user's request                                                                                                                                                                                   |
 | Language output         | `pair` when the report language is not English, or when the previous report was a language pair - the English report plus its translation; `single` when the request scopes to one language and no pair convention applies |
-| Detail level            | Detailed                                                                                                                                                              |
-| Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                                                                                 |
-| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                                                                                               |
-| Trade-off analysis      | Standalone section + embedded into relevant findings                                                                                                                  |
-| Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it                                                                               |
-| Evidence mode           | `source-only` - `executed-readonly` runs commissioned non-mutating analyzers, `executed-commands` adds commissioned non-mutating commands such as tests and builds    |
+| Detail level            | Detailed                                                                                                                                                                                                                   |
+| Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                                                                                                                                      |
+| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                                                                                                                                                    |
+| Trade-off analysis      | Standalone section + embedded into relevant findings                                                                                                                                                                       |
+| Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it                                                                                                                                    |
+| Evidence mode           | `source-only` - `executed-readonly` runs commissioned non-mutating analyzers, `executed-commands` adds commissioned non-mutating commands such as tests and builds                                                         |
 
 The agent MUST ask the user and MUST NOT skip this step.
 
@@ -506,6 +506,14 @@ language-specific revisioned name from the matching `translations/` file such as
 When the language output is `pair`, both files share the English report stem and differ only
 by the language suffix - `AUDIT-1.0-EN.md` and `AUDIT-1.0-PL.md` for a Polish rendering - and
 the language-specific stem such as `AUDYT` names only a single-language report.
+
+Resolve the pair filenames during intake, before authoring starts - a report written as a
+bare `<stem>.md` and given a translation sibling later still needs the rename.
+
+When a translation sibling is produced for a report that already exists under a bare
+`<stem>.md` name, rename the existing file to its `<stem>-<LANG>` form first so the pair
+shares the suffix convention, and add or update the `Translations` row in both files'
+Document Information tables.
 
 For the `hunt` report style the stem is `HUNT` - or the language-specific stem such as
 `POLOWANIE` - and a first hunt defaults to the bare stem `HUNT.md`, with `HUNT-1.0.md`
@@ -1067,7 +1075,7 @@ Build the SBOM table for the report from that inventory per `references/sbom-sch
 scoring Dependency Health, so the score has a structured artifact behind it.
 
 Then run the license-classification pass from `references/license-compliance.md` over every SBOM
-row, populating the License and License Risk cells from inspected declarations only.
+row, populating the License and Risk cells from inspected declarations only.
 
 For delivery practice, compute the Git-derived proxies and contributor concentration per
 `references/delivery-practice.md`: tag cadence, median commit-to-tag interval, top-author share,
@@ -1513,8 +1521,9 @@ confirm every conformance judgement cites a specific rule in the standards docum
 file or pattern in the codebase, and that every standards-quality judgement cites a named external
 best practice.
 
-Confirm the References section lists every external source consulted during the standards-quality
-evaluation.
+Confirm the References section lists every external source consulted during the audit,
+renders a `[title](url)` link paragraph per row, and keeps internal repository artifacts out -
+files, manifests, and paths belong to the evidence ledger, not to References.
 
 Confirm every material evidence item collected during Evidence Gathering surfaces in the report as a
 finding, a risk, a dashboard element, or a strength,
@@ -1534,7 +1543,7 @@ consistent with Scope Exclusions: every `NOT DONE` row has a matching exclusion 
 no `COVERED` row is disclaimed later.
 
 Confirm every SBOM row has a License cell populated from an inspected declaration or marked
-`Unknown`, every direct component is manifest-sourced, and `Advisory Checked` is `Y` only where
+`Unknown`, every direct component is manifest-sourced, and `Advisory` is `Y` only where
 committed advisory evidence exists.
 
 Confirm every evidence-ledger row and every finding carries an `Observation` or `Concern` tag.
@@ -1677,14 +1686,22 @@ The translated-report gates then run in this order:
 `scripts/lint-polish.py <report> --rules <translations/polish-language.md>`,
 `scripts/lint-prose.py <report>`,
 `scripts/link-glossary.py <report> --lang pl --check`,
-the mapped-copy format and validation pair,
-and `scripts/check-translation.py <report>` for summary-title agreement, prose-count
-reconciliation, and the warn-level sentence-length review.
+`scripts/check-translation.py <report>` for summary-title agreement, prose-count
+reconciliation, block field-label conformance, internal-anchor resolution, and the
+warn-level sentence-length review,
+then the mapped-copy format and validation pair - the block-label and anchor checks
+must run first so their failures surface as contract violations instead of
+inexplicable mapped-copy field losses.
 
 The report stays `Draft` while the checklist or the validator reports a violation.
 
-Confirm any temporary formatting or validation scripts and any validation working copies were
-removed from the audited repository.
+Judge every gate by its own printed summary and exit code - a follow-up shell command such
+as `grep -c` finding zero matches exits 1 on a passing run and does not mean the gate failed.
+
+Stage any validation working copies, `.tmp.` script copies, and intermediate report parts
+under the audited repository's gitignored `work/` directory from the start, and confirm they
+were removed or sit inside `work/` before reporting done - nothing disposable lands in a
+tracked directory.
 
 Run the Mandatory Core Checklist and Consistency Gate in `process/report-parity.md`.
 
@@ -1787,7 +1804,8 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Full audit report generated                   | Coverage matrix present, pentest row `NOT DONE`                 |
 | Matrix row marked `COVERED`                   | No Scope Exclusions bullet disclaims that type                  |
 | Manifest has no license fields                | SBOM License cells `Unknown`, gap feeds findings                |
-| Committed advisory report absent              | `Advisory Checked` stays `N` for every component                |
+| Committed advisory report absent              | `Advisory` stays `N` for every component                        |
+| References table lists repository paths       | Defect: external sources only, `[title](url)` per row           |
 | Critical finding on public endpoint           | `Exploitability` narrative present, `Theoretical` tier          |
 | Narrative claims dynamic verification         | Defect: scope never lifted, tier forced down                    |
 | Security finding on internal-only code        | Narrative field omitted                                         |

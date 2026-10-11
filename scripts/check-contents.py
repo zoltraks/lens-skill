@@ -9,8 +9,9 @@ first recorded row.
 Row names may describe a single heading or a group of adjacent sections,
 so only the recorded line anchor is checked, not the row label.
 
-Pass ``--fix`` to rewrite each row's recorded line to the nearest section
-heading that still follows the previous row's anchor.
+Pass ``--fix`` to rewrite each row's recorded line to its heading - rows snap
+by heading name, falling back to the nearest heading that still follows the
+previous row's anchor when the label names no section.
 
 Usage: python scripts/check-contents.py [--fix] <skill-directory>
 """
@@ -49,26 +50,42 @@ def fenced_flags(lines: list[str]) -> list[bool]:
     return flags
 
 
+def normalize_name(text: str) -> str:
+    """Fold a row label or heading into a comparison key: lowercase,
+    `&` becomes `and`, and every non-alphanumeric run collapses away."""
+    folded = text.casefold().replace("&", " and ")
+    return re.sub(r"[^0-9a-z]+", "", folded)
+
+
 def fix_rows(lines: list[str], rows: list[tuple[int, str, int]],
              headings: list[tuple[int, str]], contents_at: int) -> list[str]:
     """Return lines with each row's recorded line snapped to a section heading.
 
-    When rows and headings pair one-to-one they are zipped in order; otherwise
-    each row snaps to the nearest heading that still follows the previous row's
-    anchor.
+    A row whose label matches a heading name snaps to that heading - a section
+    inserted without a Contents row then leaves its neighbours untouched.
+    Rows whose labels name no heading (grouped-section descriptors) fall back
+    to the nearest heading that still follows the previous row's anchor.
     """
-    anchors = sorted(position + 1 for position, _ in headings if position > contents_at)
+    after_contents = [(position + 1, name) for position, name in headings
+                      if position > contents_at]
+    anchors = sorted(position for position, _ in after_contents)
+    by_name: dict[str, list[int]] = {}
+    for position, name in after_contents:
+        by_name.setdefault(normalize_name(name), []).append(position)
     out = list(lines)
-    one_to_one = len(rows) == len(anchors)
     previous = contents_at
-    for position, (row_index, _name, recorded) in enumerate(rows):
-        if one_to_one:
-            nearest = anchors[position]
-        else:
+    for row_index, name, recorded in rows:
+        named = [anchor for anchor in by_name.get(normalize_name(name), [])
+                 if anchor > previous]
+        if len(named) == 1:
+            nearest = named[0]
+        elif not named:
             candidates = [anchor for anchor in anchors if anchor > previous]
             if not candidates:
                 break
             nearest = min(candidates, key=lambda anchor: abs(anchor - recorded))
+        else:
+            continue
         previous = nearest - 1
         if nearest != recorded:
             match = ROW.match(out[row_index])
