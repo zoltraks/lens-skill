@@ -1323,6 +1323,42 @@
     "Components without committed scan or advisory evidence read Not checked, never None identified.",
     "A Mitigated or Not applicable cell records the disabling or mitigation evidence that supports it."
    ]
+  },
+  {
+   "id": 111,
+   "prompt": "Audit this repository and begin the inventory with a structure scan. The tree mixes source, tests, generated output, and vendored dependencies.",
+   "expected_output": "A scan-structure.json census feeding a responsibility inventory that classifies files and areas without treating generated or vendored content as authored source.",
+   "files": [],
+   "expectations": [
+    "The inventory runs scripts/scan-structure.py (or its equivalent enumeration) and records its output as STATICALLY_DERIVED evidence.",
+    "File classifications distinguish production, test, test-support, generated, vendored, script, doc, config, and other content.",
+    "The responsibility inventory marks generated, vendored, dormant, and stub areas rather than scoring them as active modules.",
+    "Catch-all directories and registration drift are reported from the census, not from reviewer preference."
+   ]
+  },
+  {
+   "id": 112,
+   "prompt": "Audit this repository at Standard level and score each dimension. Two dimensions have criteria whose evidence is only partially resolved.",
+   "expected_output": "A scorecard whose dimension scores derive from weighted criterion mastery, carry uncertainty intervals, and respect the eligibility gate.",
+   "files": [],
+   "expectations": [
+    "Each dimension score recomputes from criterion mastery values and frozen criterion weights, not from a subjective range pick.",
+    "Dimensions with unresolved criteria show a non-degenerate interval computed as the FAIL/PASS substitution bounds.",
+    "A dimension whose applicable-criterion coverage fails the eligibility gate renders UNKNOWN rather than a numeric score.",
+    "UNKNOWN and N/A dimensions stay out of the overall-score denominator, and the report states the applicable denominator."
+   ]
+  },
+  {
+   "id": 113,
+   "prompt": "Audit this repository. Critical findings are open but the remaining dimensions score well enough that a naive mean would read 7/10.",
+   "expected_output": "A report where score caps and the eligibility gate prevent a favorable headline from overriding open critical findings.",
+   "files": [],
+   "expectations": [
+    "Unresolved critical or high findings apply the stated score caps to the affected dimensions.",
+    "Readiness reads NOT READY or PENDING EVIDENCE regardless of the numeric mean.",
+    "The report never presents a high overall score alongside open readiness gates as if they canceled out.",
+    "An overall score publishes only when more than half of the applicable dimensions carry numeric scores."
+   ]
   }
  ]
 }

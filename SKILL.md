@@ -24,7 +24,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.1.4"
+  version: "2.1.5"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -49,7 +49,7 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 | Synthesis               | 271  | Findings, risk, score, and remediation assembly    |
 | Translations            | 287  | Per-language report translations                   |
 | References              | 296  | Lookup tables                                      |
-| Scripts                 | 320  | Report and maintenance scripts                     |
+| Scripts                 | 321  | Report and maintenance scripts                     |
 | Evaluation Prompts      | 344  | Behavioral regression prompts                      |
 | Repository Files        | 348  | Housekeeping files governing this repository       |
 | Evidence Contract       | 360  | Source-only boundaries and validation expectations |
@@ -305,6 +305,7 @@ type requires them.
 - **`references/audit-taxonomy.md`** - Audit types, coverage statuses, methodology corpus.
 - **`references/evidence-schema.md`** - Evidence kinds, outcome states, sufficiency, coverage.
 - **`references/criterion-catalogue.md`** - Criterion records, families, applicability freeze.
+- **`references/organization-model.md`** - Area map and responsibility inventory method.
 - **`references/sbom-schema.md`** - Source-derived inventory report schema.
 - **`references/license-compliance.md`** - License classes, copyleft, attribution, ownership checks.
 - **`references/delivery-practice.md`** - DORA proxies, bus-factor rubric.
@@ -330,10 +331,9 @@ repository's `work/` directory under a `.tmp.` name and remove the copies when d
 - **`scripts/validate-report.py`** - Mechanical report checker (English contract; non-English reports exit 2 with guidance), `--dump-contract` emits the contract.
 - **`scripts/new-report.py`** - Report skeleton generator (`--style`, `--scope`, `--projects`, `--params`).
 - **`scripts/validate-skill.py`** - Frontmatter, disclosure, and references validator.
-- **`scripts/check-references.py`** - Relative-reference integrity checker.
-- **`scripts/check-contents.py`** - Contents-table versus section-heading drift checker.
+- **`scripts/check-references.py`** / **`check-contents.py`** - Reference-integrity and Contents-drift checkers.
 - **`scripts/check-update.py`** - Skill self-update checker (git upstream).
-- **`scripts/scan-standards.py`** - Supplied-standards corpus manifest for digest refresh.
+- **`scripts/scan-standards.py`** / **`scan-structure.py`** - Standards-corpus manifest and audited-tree structure census.
 - **`scripts/finalize-report.py`** - Runs link, format, and validate in order on a report.
 - **`scripts/lint-polish.py`** / **`lint-prose.py`** - Polish report calque linter; pre-assembly draft linter.
 - **`scripts/map-translation.py`** / **`check-translation.py`** - Translated-report gates: English-mapped copy for `validate-report.py` (`--rules`, `--en` parity); Polish title/count/sentence checks.

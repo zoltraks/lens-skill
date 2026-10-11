@@ -21,13 +21,13 @@ A score is a summary of evidence, not an impression.
 | Section                          | Line | What it covers                           |
 |----------------------------------|------|------------------------------------------|
 | Table Format                     | 32   | Fixed dimension set and column order     |
-| Scoring Rubric                   | 79   | Band definitions and alternative scales  |
-| Handling Unknowns                | 185  | UNKNOWN handling guidance                |
-| Handling Not Applicable          | 193  | N/A handling guidance                    |
-| Dimension To Category Mapping    | 207  | Dimension to assessment-category mapping |
-| ISO/IEC 25010:2023 Crosswalk     | 232  | Standards crosswalk mapping              |
-| Score Confidence And Aggregation | 276  | Confidence and aggregation rules         |
-| Rules                            | 308  | Scorecard rules                          |
+| Scoring Rubric                   | 86   | Band definitions and alternative scales  |
+| Handling Unknowns                | 194  | UNKNOWN handling guidance                |
+| Handling Not Applicable          | 202  | N/A handling guidance                    |
+| Dimension To Category Mapping    | 216  | Dimension to assessment-category mapping |
+| ISO/IEC 25010:2023 Crosswalk     | 241  | Standards crosswalk mapping              |
+| Score Confidence And Aggregation | 285  | Confidence and aggregation rules         |
+| Rules                            | 323  | Scorecard rules                          |
 
 ## Table Format
 
@@ -58,6 +58,13 @@ Keep the dimension names and order identical across every audit so scores are co
 
 Omit rows whose score is `N/A` from the rendered table entirely: the table lists scored
 dimensions only.
+
+A Score cell carries the point value first, then the uncertainty interval when it is
+non-degenerate: `7/10` or `7/10 [4-9]`, per the interval rule in
+`process/readiness-scoring.md`.
+
+A dimension gated to `UNKNOWN` by the eligibility gate renders `UNKNOWN` in the Score cell and
+names its missing coverage in Notes.
 
 At the `Detailed` level, add a paragraph below the table naming each omitted `N/A` dimension and
 its applicability reason.
@@ -178,6 +185,8 @@ Examples: `★★★` for `3`, `★★☆` for `2`, and `★☆☆` for `1`.
 
 Render `UNKNOWN` as text, not as a star bar; `N/A` rows are omitted from the table entirely.
 
+A non-degenerate interval renders in brackets beside the bar, for example `★★★☆☆ [2-4]`.
+
 For an overall mean under a star scale, round to the nearest integer for the star bar and keep
 the exact mean in parentheses, for example `★★★☆☆ (3.4/5)`. A star scale is ordinal, so the
 per-dimension distribution appears beside the bar per `process/readiness-scoring.md`.
@@ -275,15 +284,21 @@ it is not mapped onto a characteristic.
 
 ## Score Confidence And Aggregation
 
-Apply `process/readiness-scoring.md` for status-to-score mapping, confidence, score caps,
-readiness gates, and multi-project aggregation.
+Each dimension score derives from weighted mastery over its declared criteria per
+`process/readiness-scoring.md`: criterion outcomes map to mastery values, the weighted mean of
+resolved applicable criteria maps to the scale, and the uncertainty interval and eligibility
+gate ride beside the score.
+
+Apply `process/readiness-scoring.md` for the formula, caps, gates, confidence, readiness gates,
+and multi-project aggregation.
 
 Cite supporting evidence IDs, material findings, and confidence for each scored dimension.
 
 Do not reward an unexecuted build or unverified runtime behavior as demonstrated capability.
 
 If an overall score is requested, state the aggregation formula, weights, rounding rule, and scored
-versus applicable dimensions, excluding `UNKNOWN` and `N/A` from the numeric denominator.
+versus applicable dimensions, excluding `UNKNOWN` and `N/A` from the numeric denominator, and
+apply the half-dimensions eligibility floor to publishing any overall.
 
 Always disclose the floor next to the mean: the overall-score cell holds only the score display,
 such as `5.8/10 (Average)` or `★★★☆☆ (3.4/5)`, and the lowest-scoring applicable dimension and

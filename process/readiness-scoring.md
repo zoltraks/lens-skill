@@ -6,7 +6,7 @@
 > production-readiness gates
 > **Key items:** score inputs, score caps, confidence, readiness state, sign-off limits
 
-This file defines how Lens converts category evidence into comparable scores without treating an
+This file defines how Lens converts criterion outcomes into comparable scores without treating an
 average as a production approval.
 
 Apply `principles/evaluation-rules.md` throughout.
@@ -17,7 +17,7 @@ Every full audit keeps these outputs separate:
 
 - **Category status:** whether an assessed capability is present, incomplete, absent, unknown, or
   inapplicable.
-- **Dimension score:** a bounded summary of applicable category statuses and evidence quality.
+- **Dimension score:** a bounded summary of weighted criterion mastery and evidence quality.
 - **Evidence confidence:** how strongly the inspected or reported evidence supports the conclusion.
 - **Maturity level:** the development state supported by the evidence.
 - **Readiness state:** whether the stated decision gate is met.
@@ -32,41 +32,79 @@ It does not mean the subject is production-approved.
 This distinction is audit-internal semantics - the report itself never carries a sentence
 disclaiming production acceptance.
 
-## Category Inputs
+## Criterion Inputs
 
-Start each score from the applicable source categories in `synthesis/project-scorecard.md`.
+Start each score from the frozen criterion table declared in Auditing Methodology per
+`references/criterion-catalogue.md` - each criterion carries its `dimension`, `weight`, and
+`criticality`, and `process`-family criteria never enter the product-quality aggregate.
 
-Use the following status interpretation:
+Each criterion resolves to one outcome state from `references/evidence-schema.md`, and the
+state maps to a mastery value:
 
-| Status    | Numeric treatment                         | Evidence interpretation                 |
-|-----------|-------------------------------------------|-----------------------------------------|
-| `PASS`    | Positive capability evidence              | Present and supported within scope      |
-| `PARTIAL` | Partial capability or incomplete evidence | Some capability or controls are present |
-| `FAIL`    | Required capability is absent             | Absence is evidenced and applicable     |
-| `UNKNOWN` | Excluded from the numeric mean            | Evidence is insufficient to decide      |
-| `N/A`     | Excluded from the numeric mean            | Capability cannot apply to the model    |
+| Outcome          | Mastery treatment                                         | Evidence interpretation                   |
+|------------------|-----------------------------------------------------------|-------------------------------------------|
+| `PASS`           | `1.0`                                                     | Criterion satisfied within assessed scope |
+| `PARTIAL`        | Recorded fraction `0 < m < 1` naming the satisfied subset | A demonstrated subset satisfies it        |
+| `FAIL`           | `0.0`                                                     | Violated, with evidence of violation      |
+| `UNKNOWN`        | Unresolved - excluded from the point estimate             | Evidence cannot decide the criterion      |
+| `NOT_ASSESSED`   | Unresolved - excluded from the point estimate             | The criterion's method did not run        |
+| `NOT_APPLICABLE` | Excluded from the denominator entirely                    | Cannot apply to this deployment model     |
 
 `FAIL` requires an applicable requirement and evidence of absence or defeat.
 
-`UNKNOWN` is not a low score and must not be converted to the minimum numeric value.
+`UNKNOWN` and `NOT_ASSESSED` are not low mastery and are never converted to `0.0` - they widen
+the interval and reduce coverage instead.
 
-`N/A` requires a deployment-model justification and must not be used for missing evidence.
+`NOT_APPLICABLE` requires a deployment-model justification frozen at planning, and must not be
+used for missing evidence.
 
 ## Dimension Scoring
 
-Use the selected numeric scale and the following default mapping as a starting point:
+A dimension's score derives from weighted mastery over its applicable criteria - it is never
+picked from an evidence-pattern range.
 
-| Evidence pattern                               | 1-10 range | 1-5 range | 1-3 range |
-|------------------------------------------------|------------|-----------|-----------|
-| All applicable categories `PASS`               | 8-10       | 4-5       | 3         |
-| Mostly `PASS` with localized `PARTIAL` results | 7-8        | 4         | 2-3       |
-| Mixed `PASS` and `PARTIAL` results             | 4-7        | 3-4       | 2         |
-| Material `FAIL` result                         | 1-5        | 1-3       | 1-2       |
-| No scoreable evidence                          | `UNKNOWN`  | `UNKNOWN` | `UNKNOWN` |
+Compute each dimension's point mastery over its resolved applicable criteria:
 
-The exact score must be justified by the affected findings, evidence IDs, scope, and confidence.
+```text
+mastery = sum(weight_i * mastery_i) / sum(weight_i)
+```
 
-Do not choose a score from the table without explaining the selected point in the range.
+Map mastery to the selected scale's integer score:
+
+```text
+score = max(1, round(mastery * scale_max))
+```
+
+`PARTIAL` fractions are recorded in the model with the satisfied subset named, so a re-audit
+reproduces the same mastery.
+
+The band definitions in `synthesis/project-scorecard.md` describe what the resulting score
+means - they do not substitute for the computation.
+
+**Uncertainty interval**
+
+Every dimension score carries an interval beside the point value:
+
+- `lo` - mastery recomputed with every unresolved (`UNKNOWN`, `NOT_ASSESSED`) applicable
+  criterion treated as `FAIL`, mapped to the scale.
+- `hi` - mastery recomputed with every unresolved applicable criterion treated as `PASS`,
+  mapped to the scale.
+- When `lo` equals `hi` - no unresolved applicable criteria - the interval is omitted.
+
+The interval is stated, never hidden: a score with a wide unresolved spread reports
+`7/10 [4-9]`, not `7/10`.
+
+**Eligibility gate**
+
+A numeric dimension score publishes only when both hold:
+
+- Resolved criteria carry more than half of the dimension's applicable criterion weight.
+- At least one resolved criterion rests on `INSPECTED`, `STATICALLY_DERIVED`, `EXECUTED`, or
+  `MEASURED` evidence - a dimension resolved on `DECLARED` material alone is not scored.
+
+A dimension that fails the gate renders `UNKNOWN` with the missing coverage named - it never
+publishes a numeric score on thin evidence, and `NOT_APPLICABLE` criteria never count toward
+either side of the gate.
 
 Apply these caps unless a stronger project-specific rule is explicitly stated:
 
@@ -120,6 +158,9 @@ Report the formula, scored dimension count, rounding rule, mean, and lowest-scor
 dimension together.
 
 If several dimensions tie for the lowest score, name all of them.
+
+An overall score publishes only when more than half of the applicable dimensions carry numeric
+scores - below that the report presents per-dimension results and coverage with no overall.
 
 Do not report an overall score when no dimension has a numeric score.
 
@@ -245,7 +286,12 @@ Shared gates and trade-offs use project-qualified IDs.
 The Validation Record must confirm:
 
 - Every numeric score has supporting evidence and confidence.
-- Every overall score reports its formula, denominator, rounding, and floor.
+- Every dimension score recomputes from criterion mastery and frozen weights, and each stated
+  interval equals the FAIL/PASS substitution bounds.
+- Every numeric dimension passed the eligibility gate, and gated dimensions render `UNKNOWN`
+  with their missing coverage named.
+- Every overall score reports its formula, denominator, rounding, and floor, and published only
+  when more than half of the applicable dimensions scored.
 - `UNKNOWN` and `N/A` dimensions are excluded from the mean.
 - Blocking findings and readiness state agree.
 - Sign-off is pending when required ownership or closure evidence is missing.

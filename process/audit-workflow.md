@@ -20,11 +20,11 @@ defined in `process/report-format/hunt-style.md` and `process/report-format/revi
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 1863 | Intake Checklist guidance        |
-| Handling Thin Input     | 1884 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1895 | Single-Dimension Audits guidance |
-| Re-Audit                | 1909 | Re-Audit guidance                |
-| Multi-Project Audits    | 1975 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1875 | Intake Checklist guidance        |
+| Handling Thin Input     | 1896 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1907 | Single-Dimension Audits guidance |
+| Re-Audit                | 1921 | Re-Audit guidance                |
+| Multi-Project Audits    | 1987 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -486,19 +486,19 @@ Present the defaults in a compact summary.
 
 Default parameters:
 
-| Parameter               | Default                                                                                                                                                                                                                    |
-|-------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Report style            | `audit` - the governance contract, `hunt` the defect-hunt genre, `review` the execution-register genre                                                                                                                     |
-| Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/`, else Inline                                                                                                                                    |
-| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md` for a first hunt, `REVIEW.md` for a first review                                                                        |
-| Report language         | Match the language of the user's request                                                                                                                                                                                   |
+| Parameter               | Default                                                                                                                                                                                                                     |
+|-------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Report style            | `audit` - the governance contract, `hunt` the defect-hunt genre, `review` the execution-register genre                                                                                                                      |
+| Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/`, else Inline                                                                                                                                     |
+| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md` for a first hunt, `REVIEW.md` for a first review                                                                         |
+| Report language         | Match the language of the user's request                                                                                                                                                                                    |
 | Language output         | `pair` when the report language is not English, or when the previous report was a language pair - the English report plus its translation - `single` when the request scopes to one language and no pair convention applies |
-| Detail level            | Detailed                                                                                                                                                                                                                   |
-| Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                                                                                                                                      |
-| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                                                                                                                                                    |
-| Trade-off analysis      | Standalone section + embedded into relevant findings                                                                                                                                                                       |
-| Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it                                                                                                                                    |
-| Evidence mode           | `source-only` - `executed-readonly` runs commissioned non-mutating analyzers, `executed-commands` adds commissioned non-mutating commands such as tests and builds                                                         |
+| Detail level            | Detailed                                                                                                                                                                                                                    |
+| Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                                                                                                                                       |
+| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                                                                                                                                                     |
+| Trade-off analysis      | Standalone section + embedded into relevant findings                                                                                                                                                                        |
+| Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it                                                                                                                                     |
+| Evidence mode           | `source-only` - `executed-readonly` runs commissioned non-mutating analyzers, `executed-commands` adds commissioned non-mutating commands such as tests and builds                                                          |
 
 The agent MUST ask the user and MUST NOT skip this step.
 
@@ -1015,6 +1015,10 @@ recovery documentation.
 
 Enumerate every in-scope source file into the model's `inventory[]` before sampling.
 
+`scripts/scan-structure.py <root>` produces the deterministic census - tracked files via
+`git ls-files` when available, a filesystem walk otherwise - classifies each file into the
+inventory classes, and emits the per-area module map that seeds `inventory[]`.
+
 Classify each file as production code, unit or integration test, test support, generated code,
 vendored code, example, or script, and record excluded and unread files with reasons, per
 `references/evidence-schema.md`.
@@ -1043,6 +1047,14 @@ find representative source files that follow or violate it.
 Also collect the external best practices, style guides,
 or conventions that the standards reference or that apply to the stack,
 for the standards-quality evaluation in `assessment/standards-conformance.md`.
+
+**Organization model**
+
+Build the area map and responsibility inventory per `references/organization-model.md` - the
+scan census supplies the class mix, inspected content supplies declared and observed roles -
+before judging structure or architecture.
+
+A populated area with no identifiable responsibility is a finding input, not a skip.
 
 **Cross-boundary traces**
 

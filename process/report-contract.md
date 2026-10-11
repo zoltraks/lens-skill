@@ -91,6 +91,8 @@ English renders title case where the vocabulary lists give canonical uppercase n
   Summary key-value table.
 - Every line stating an overall `x.y/n` score needs the word `lowest` within six lines.
 - `N/A` scorecard rows are omitted, never rendered.
+- A Score cell's `n/m` value leads the cell, and an optional `[lo-hi]` uncertainty interval
+  follows it - the validator's scorecard checks read the `n/m` value.
 
 ## Multi-Project
 

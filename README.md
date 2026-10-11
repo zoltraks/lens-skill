@@ -29,11 +29,11 @@
 | Report Format                      | 430  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 467  | Supported requests and exclusions                   |
 | What's Inside                      | 491  | Documents, references, tools, and conditional files |
-| Document Style                     | 638  | Pointer to the style rules file                     |
-| Specification                      | 648  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 669  | Maintenance checks and regression scenarios         |
-| License                            | 697  | License for the skill itself                        |
-| Credits                            | 703  | Authorship and attribution                          |
+| Document Style                     | 640  | Pointer to the style rules file                     |
+| Specification                      | 650  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 671  | Maintenance checks and regression scenarios         |
+| License                            | 699  | License for the skill itself                        |
+| Credits                            | 705  | Authorship and attribution                          |
 
 ## Overview
 
@@ -577,6 +577,7 @@ lens-skill/
 │   ├── audit-taxonomy.md                  # Canonical audit types, coverage statuses, source corpus
 │   ├── evidence-schema.md                 # Evidence kinds, outcome states, sufficiency, coverage labels
 │   ├── criterion-catalogue.md             # Criterion records, families, applicability freeze
+│   ├── organization-model.md              # Area map and responsibility inventory method
 │   ├── sbom-schema.md                     # Report-level source-derived component inventory schema
 │   ├── license-compliance.md              # License classes, copyleft, notices, ownership checks
 │   ├── delivery-practice.md               # DORA proxies, bus-factor rubric, continuity evidence
@@ -600,6 +601,7 @@ lens-skill/
 │   ├── check-contents.py                  # Contents-table versus heading drift checker
 │   ├── check-update.py                    # Git upstream self-update checker for the skill repo
 │   ├── scan-standards.py                  # Supplied-standards corpus manifest for digest refresh
+│   ├── scan-structure.py                  # Audited-tree file census for the responsibility inventory
 │   ├── lint-polish.py                     # Polish report linter for calques and typography
 │   ├── map-translation.py                 # English-mapped copy of a translated report for validation
 │   ├── check-translation.py               # Polish-report checker: titles, counts, sentence length

@@ -242,6 +242,13 @@ per `docs/MAINTENANCE.md`.
 It treats the supplied directory as data: it reads Markdown files as text and never executes,
 installs, or sources anything it scans.
 
+`scan-structure.py` enumerates an audited repository's files - classification, top-level areas,
+module hints, and a git snapshot when the tree is a repository - producing the
+`scan-structure.json` input to the responsibility inventory per `references/organization-model.md`.
+
+It treats the audited tree as data: it reads file metadata and git index state and never
+executes, installs, or sources anything it scans.
+
 `common-helpers.py` is a shared helper module imported by the skill-maintenance tools.
 
 It is not a tool, it is never copied, and it must never be imported by report-production tools -
@@ -260,6 +267,7 @@ python scripts/check-references.py .
 python scripts/check-contents.py .
 python scripts/check-update.py
 python scripts/scan-standards.py path/to/standards-dir [--json]
+python scripts/scan-structure.py path/to/repo [--json] [--no-git] [--output path/to/file]
 python scripts/lint-prose.py path/to/draft.md
 python scripts/link-references.py path/to/AUDIT.md
 python scripts/format-table.py path/to/AUDIT.md [--check] [--drop-empty-columns]

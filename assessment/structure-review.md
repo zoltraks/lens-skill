@@ -80,6 +80,10 @@ Do not assume a framework or a formally defined architecture.
 Count what the census counts and record the method beside the figure, per
 `references/census-commands.md`, so a re-audit reproduces the number.
 
+`scripts/scan-structure.py` produces the deterministic tree census - file classes and per-area
+counts - and `references/organization-model.md` turns it into the area map and responsibility
+inventory this assessment's placement, catch-all, and ownership judgments cite.
+
 ## Convention Tiers
 
 Classify every judgment before reporting it:

@@ -28,21 +28,21 @@ here.
 | Evidence Records                 | 96   | Required fields and redaction rules                |
 | Supplied And Historical Evidence | 136  | Reuse rules for prior artifacts                    |
 | Coverage And Collection          | 146  | Inventory, classification, and sampling discipline |
-| Claim Sufficiency                | 162  | What verification each claim type requires         |
-| Closure Rules                    | 179  | What may close a criterion and what may not        |
-| Advisory States                  | 194  | Dependency-advisory vocabulary                     |
-| Coverage Labels                  | 215  | Criterion-coverage label vocabulary                |
+| Claim Sufficiency                | 163  | What verification each claim type requires         |
+| Closure Rules                    | 180  | What may close a criterion and what may not        |
+| Advisory States                  | 195  | Dependency-advisory vocabulary                     |
+| Coverage Labels                  | 216  | Criterion-coverage label vocabulary                |
 
 ## Evidence Kinds
 
-| Kind                 | What it can establish                                                  | What it cannot establish by itself                                       |
-|----------------------|------------------------------------------------------------------------|--------------------------------------------------------------------------|
-| `DECLARED`           | A document, maintainer, or artifact states an intention or result      | Implementation or successful operation                                   |
-| `INSPECTED`          | A specific source or configuration property was observed               | Runtime behavior outside the traced scope                                |
-| `STATICALLY_DERIVED` | A property derived from a sufficiently resolved graph or code path     | Behavior involving unresolved dynamic paths                              |
-| `EXECUTED`           | A commissioned procedure produced a recorded result                    | Properties not exercised by that procedure                               |
-| `MEASURED`           | A property measured under stated conditions                            | Performance outside those conditions                                     |
-| `CORROBORATED`       | Multiple relevant, sufficiently independent observations agree         | Universal correctness or exhaustive coverage                             |
+| Kind                 | What it can establish                                              | What it cannot establish by itself           |
+|----------------------|--------------------------------------------------------------------|----------------------------------------------|
+| `DECLARED`           | A document, maintainer, or artifact states an intention or result  | Implementation or successful operation       |
+| `INSPECTED`          | A specific source or configuration property was observed           | Runtime behavior outside the traced scope    |
+| `STATICALLY_DERIVED` | A property derived from a sufficiently resolved graph or code path | Behavior involving unresolved dynamic paths  |
+| `EXECUTED`           | A commissioned procedure produced a recorded result                | Properties not exercised by that procedure   |
+| `MEASURED`           | A property measured under stated conditions                        | Performance outside those conditions         |
+| `CORROBORATED`       | Multiple relevant, sufficiently independent observations agree     | Universal correctness or exhaustive coverage |
 
 The kinds are not one universal ranking.
 
@@ -53,14 +53,14 @@ Two statements copied from one source are not independent corroboration.
 
 ### Mapping To The Report Vocabulary
 
-| Kind                 | Report `Basis` | Report tag   | Notes                                             |
-|----------------------|----------------|--------------|---------------------------------------------------|
-| `DECLARED`           | `reported`     | Observation  | Intent or stated result, never the current control|
-| `INSPECTED`          | `inspected`    | Observation  | Direct source/config observation                  |
-| `STATICALLY_DERIVED` | `inferred`     | Observation  | Derivation path and unresolved edges recorded     |
-| `EXECUTED`           | `executed`     | Observation  | Commissioned run under an executed evidence mode  |
-| `MEASURED`           | `executed`     | Observation  | `EXECUTED` with workload and condition fields     |
-| `CORROBORATED`       | `inferred`     | Concern      | Names the independent observations combined       |
+| Kind                 | Report `Basis` | Report tag  | Notes                                              |
+|----------------------|----------------|-------------|----------------------------------------------------|
+| `DECLARED`           | `reported`     | Observation | Intent or stated result, never the current control |
+| `INSPECTED`          | `inspected`    | Observation | Direct source/config observation                   |
+| `STATICALLY_DERIVED` | `inferred`     | Observation | Derivation path and unresolved edges recorded      |
+| `EXECUTED`           | `executed`     | Observation | Commissioned run under an executed evidence mode   |
+| `MEASURED`           | `executed`     | Observation | `EXECUTED` with workload and condition fields      |
+| `CORROBORATED`       | `inferred`     | Concern     | Names the independent observations combined        |
 
 Under `source-only` evidence mode only `DECLARED`, `INSPECTED`, `STATICALLY_DERIVED`, and
 `CORROBORATED` may appear.
@@ -72,14 +72,14 @@ mode rules, or they arrive as `DECLARED`/`Reported` artifacts produced outside t
 
 Every criterion result uses exactly one of these states:
 
-| State            | Meaning                                                                  |
-|------------------|--------------------------------------------------------------------------|
-| `PASS`           | The criterion is satisfied within the assessed scope, with evidence      |
-| `FAIL`           | The criterion applies and is violated, with evidence of violation        |
-| `PARTIAL`        | A known, demonstrated subset satisfies the criterion                     |
-| `UNKNOWN`        | Evidence exists but cannot decide the criterion                          |
-| `NOT_ASSESSED`   | The criterion applies but no method ran against it                       |
-| `NOT_APPLICABLE` | The criterion cannot apply to this subject's deployment model            |
+| State            | Meaning                                                             |
+|------------------|---------------------------------------------------------------------|
+| `PASS`           | The criterion is satisfied within the assessed scope, with evidence |
+| `FAIL`           | The criterion applies and is violated, with evidence of violation   |
+| `PARTIAL`        | A known, demonstrated subset satisfies the criterion                |
+| `UNKNOWN`        | Evidence exists but cannot decide the criterion                     |
+| `NOT_ASSESSED`   | The criterion applies but no method ran against it                  |
+| `NOT_APPLICABLE` | The criterion cannot apply to this subject's deployment model       |
 
 `PARTIAL` always names the demonstrated subset - it never means "a test was not executed".
 
@@ -98,26 +98,26 @@ outcome, and `NOT RUN` never counts toward `PASS`.
 Every material observation or procedure in `audit-model.json` carries a record with these
 fields:
 
-| Field          | Required content                                                            |
-|----------------|-----------------------------------------------------------------------------|
-| `id`           | `EVD-NNN`, unique within the audit                                          |
-| `audit`        | The audit identity and report revision                                      |
-| `subject`      | Full subject revision or content identity                                   |
-| `kind`         | One of the six evidence kinds                                               |
-| `collector`    | The stage or agent that produced the record                                 |
-| `method`       | How the observation was produced                                            |
-| `timestamp`    | Collection time, ISO 8601                                                   |
-| `tool`         | Tool and version where applicable, `null` for manual inspection             |
-| `locator`      | For `INSPECTED`: path, symbol, and line range plus a content digest         |
-| `procedure`    | For `EXECUTED`/`MEASURED`: command or procedure, working directory,         |
-|                | environment profile, features/target, exit status, artifact digest          |
-| `result`       | What was observed                                                           |
-| `claims`       | Claim or criterion IDs the record supports                                  |
-| `limits`       | What the record cannot establish                                            |
-| `sampling`     | Sampling depth and selection rule, `full` for complete review               |
-| `counter`      | Counter-evidence examined                                                   |
-| `redaction`    | `none`, `redacted`, or `withheld` with reason                               |
-| `unavailable`  | Reason when expected evidence could not be produced, `null` otherwise       |
+| Field         | Required content                                                      |
+|---------------|-----------------------------------------------------------------------|
+| `id`          | `EVD-NNN`, unique within the audit                                    |
+| `audit`       | The audit identity and report revision                                |
+| `subject`     | Full subject revision or content identity                             |
+| `kind`        | One of the six evidence kinds                                         |
+| `collector`   | The stage or agent that produced the record                           |
+| `method`      | How the observation was produced                                      |
+| `timestamp`   | Collection time, ISO 8601                                             |
+| `tool`        | Tool and version where applicable, `null` for manual inspection       |
+| `locator`     | For `INSPECTED`: path, symbol, and line range plus a content digest   |
+| `procedure`   | For `EXECUTED`/`MEASURED`: command or procedure, working directory,   |
+|               | environment profile, features/target, exit status, artifact digest    |
+| `result`      | What was observed                                                     |
+| `claims`      | Claim or criterion IDs the record supports                            |
+| `limits`      | What the record cannot establish                                      |
+| `sampling`    | Sampling depth and selection rule, `full` for complete review         |
+| `counter`     | Counter-evidence examined                                             |
+| `redaction`   | `none`, `redacted`, or `withheld` with reason                         |
+| `unavailable` | Reason when expected evidence could not be produced, `null` otherwise |
 
 Method is recorded separately from outcome - a recorded command is not a passed check.
 
@@ -148,7 +148,8 @@ as executed during the current audit.
 Inventory all in-scope source files before sampling.
 
 Classify each file as production code, unit or integration test, test support, generated code,
-vendored code, example, or script.
+vendored code, example, or script - `scripts/scan-structure.py` additionally separates the
+non-code classes doc, config, asset, and other inside the same `inventory[]` records.
 
 Record excluded and unread files explicitly in `inventory[]` and the Scope Exclusions section.
 
@@ -163,16 +164,16 @@ never a silent hole in coverage figures.
 
 Each claim class names the verification that is sufficient and the substitutes that are not.
 
-| Claim or risk                     | Sufficient verification                                                          | Insufficient substitute                            |
-|-----------------------------------|----------------------------------------------------------------------------------|----------------------------------------------------|
-| No secret in process arguments    | All supported invocation paths avoid secret-bearing argv, inspected or executed  | A warning while the secret path remains accepted   |
-| Automated merge verification      | Configured enforcement plus a recorded run on the applicable branch and targets  | One local test run                                 |
-| License-policy conformance        | Complete applicable inventory plus scan or manual obligation review              | Policy file presence                               |
-| Native dependency provisioning    | Recorded acquisition, version, integrity, and successful provisioning or build   | A dependency-policy check passing                  |
-| Concurrency or latency target     | Defined workload, environment, warmup, duration, error budget, percentile target | A mechanism description with no defined load       |
-| Authorization isolation           | Per-entry-point negative cases over permitted and denied resources               | Existence of one permission helper                 |
-| Test adequacy                     | Exercised critical behaviors and failure paths, with results                     | Counted test functions                             |
-| Deployability                     | Recorded build or provisioning on the intended target                            | A Dockerfile or compose file being present         |
+| Claim or risk                  | Sufficient verification                                                          | Insufficient substitute                          |
+|--------------------------------|----------------------------------------------------------------------------------|--------------------------------------------------|
+| No secret in process arguments | All supported invocation paths avoid secret-bearing argv, inspected or executed  | A warning while the secret path remains accepted |
+| Automated merge verification   | Configured enforcement plus a recorded run on the applicable branch and targets  | One local test run                               |
+| License-policy conformance     | Complete applicable inventory plus scan or manual obligation review              | Policy file presence                             |
+| Native dependency provisioning | Recorded acquisition, version, integrity, and successful provisioning or build   | A dependency-policy check passing                |
+| Concurrency or latency target  | Defined workload, environment, warmup, duration, error budget, percentile target | A mechanism description with no defined load     |
+| Authorization isolation        | Per-entry-point negative cases over permitted and denied resources               | Existence of one permission helper               |
+| Test adequacy                  | Exercised critical behaviors and failure paths, with results                     | Counted test functions                           |
+| Deployability                  | Recorded build or provisioning on the intended target                            | A Dockerfile or compose file being present       |
 
 Extend this table in the criterion catalogue when a subject needs a claim class it lacks.
 
@@ -195,13 +196,13 @@ earns remediation credit.
 
 Dependency-advisory cells and records use exactly these states:
 
-| State                             | Meaning                                                                   |
-|-----------------------------------|---------------------------------------------------------------------------|
-| `KNOWN_APPLICABLE`                | An advisory covers the component and the vulnerable path applies          |
-| `KNOWN_MITIGATED`                 | An advisory applies but a recorded control removes the exposure           |
-| `KNOWN_NOT_APPLICABLE`            | An advisory exists but the vulnerable path is disabled or absent          |
-| `NONE_IDENTIFIED_BY_RECORDED_SCAN`| A recorded scan or check found no advisory for the component              |
-| `NOT_CHECKED`                     | No advisory source was consulted for the component                        |
+| State                              | Meaning                                                          |
+|------------------------------------|------------------------------------------------------------------|
+| `KNOWN_APPLICABLE`                 | An advisory covers the component and the vulnerable path applies |
+| `KNOWN_MITIGATED`                  | An advisory applies but a recorded control removes the exposure  |
+| `KNOWN_NOT_APPLICABLE`             | An advisory exists but the vulnerable path is disabled or absent |
+| `NONE_IDENTIFIED_BY_RECORDED_SCAN` | A recorded scan or check found no advisory for the component     |
+| `NOT_CHECKED`                      | No advisory source was consulted for the component               |
 
 The SBOM `Advisory` column renders the compact forms `Applicable`, `Mitigated`,
 `Not applicable`, `None identified`, and `Not checked`.
@@ -216,12 +217,12 @@ disabling evidence.
 
 Criterion-coverage reporting uses exactly these labels:
 
-| Label                        | Meaning                                                              |
-|------------------------------|----------------------------------------------------------------------|
-| `COMPLETE_FOR_DECLARED_SCOPE`| Every applicable criterion has a resolved outcome                    |
-| `PARTIAL`                    | Some applicable criteria are resolved, gaps recorded                 |
-| `NOT_ASSESSED`               | The criterion family or method was not exercised                     |
-| `NOT_APPLICABLE`             | The family cannot apply to this subject                              |
+| Label                         | Meaning                                              |
+|-------------------------------|------------------------------------------------------|
+| `COMPLETE_FOR_DECLARED_SCOPE` | Every applicable criterion has a resolved outcome    |
+| `PARTIAL`                     | Some applicable criteria are resolved, gaps recorded |
+| `NOT_ASSESSED`                | The criterion family or method was not exercised     |
+| `NOT_APPLICABLE`              | The family cannot apply to this subject              |
 
 Broad engagement labels always disclose the evidence mode beside them.
 

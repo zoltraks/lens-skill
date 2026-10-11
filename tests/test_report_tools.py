@@ -646,5 +646,79 @@ class TestValidateReportLanguage(unittest.TestCase):
         self.assertIsNone(self.validator.non_english_language("# T\n\nx\n"))
 
 
+class TestScanStructure(unittest.TestCase):
+    def setUp(self):
+        self.scanner = load_script("scan-structure.py")
+
+    def _tree(self, root: Path, files: list[str]):
+        for rel in files:
+            target = root / rel
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text("x\n", encoding="utf-8")
+
+    def test_classification_classes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self._tree(
+                root,
+                [
+                    "src/app.py",
+                    "tests/test_app.py",
+                    "tests/conftest.py",
+                    "vendor/lib/x.py",
+                    "examples/demo.py",
+                    "scripts/deploy.sh",
+                    "docs/guide.md",
+                    "package.json",
+                    "src/api.generated.py",
+                    "assets/logo.png",
+                    "data/blob.dat",
+                    "misc/file.xyz",
+                ],
+            )
+            result = self.scanner.scan(str(root), use_git=False)
+            by_path = {e["path"]: e["class"] for e in result["inventory"]}
+            self.assertEqual(by_path["src/app.py"], "production")
+            self.assertEqual(by_path["tests/test_app.py"], "test")
+            self.assertEqual(by_path["tests/conftest.py"], "test-support")
+            self.assertEqual(by_path["vendor/lib/x.py"], "vendored")
+            self.assertEqual(by_path["examples/demo.py"], "example")
+            self.assertEqual(by_path["scripts/deploy.sh"], "script")
+            self.assertEqual(by_path["docs/guide.md"], "doc")
+            self.assertEqual(by_path["package.json"], "config")
+            self.assertEqual(by_path["src/api.generated.py"], "generated")
+            self.assertEqual(by_path["assets/logo.png"], "asset")
+            self.assertEqual(by_path["misc/file.xyz"], "other")
+
+    def test_noise_dirs_skipped_and_totals_count(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self._tree(
+                root,
+                [
+                    "src/app.py",
+                    ".git/objects/ab",
+                    "__pycache__/app.pyc",
+                    "node_modules/pkg/i.js",
+                ],
+            )
+            result = self.scanner.scan(str(root), use_git=False)
+            self.assertEqual(result["total_files"], 1)
+            self.assertEqual(result["classes"]["production"], 1)
+            self.assertEqual(result["mode"], "filesystem")
+
+    def test_module_and_json_shape(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self._tree(root, ["a/x.py", "b/y.py", "loose.py"])
+            result = self.scanner.scan(str(root), use_git=False)
+            self.assertIn("a", result["modules"])
+            self.assertIn("b", result["modules"])
+            self.assertIn(".", result["modules"])
+            self.assertEqual(result["modules"]["a"]["files"], 1)
+            for key in ("root", "mode", "classes", "modules", "extensions", "inventory"):
+                self.assertIn(key, result)
+
+
 if __name__ == "__main__":
     unittest.main()

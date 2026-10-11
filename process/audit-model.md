@@ -19,27 +19,27 @@ records live in `references/criterion-catalogue.md`.
 
 ## Contents
 
-| Section                    | Line | What it covers                                       |
-|----------------------------|------|------------------------------------------------------|
-| Pipeline Stages            | 30   | The nine stages and their publication conditions     |
-| The Model Artifact         | 48   | `work/audit-model.json` schema and lifecycle         |
-| Derivation Rule            | 106  | Rendering every surface from the model               |
-| Counter-Evidence Review    | 119  | The second-pass challenge discipline                 |
-| Publication Stops          | 135  | Errors that block final publication                  |
+| Section                 | Line | What it covers                                   |
+|-------------------------|------|--------------------------------------------------|
+| Pipeline Stages         | 30   | The nine stages and their publication conditions |
+| The Model Artifact      | 48   | `work/audit-model.json` schema and lifecycle     |
+| Derivation Rule         | 112  | Rendering every surface from the model           |
+| Counter-Evidence Review | 125  | The second-pass challenge discipline             |
+| Publication Stops       | 141  | Errors that block final publication              |
 
 ## Pipeline Stages
 
-| Stage                 | Inputs                                        | Required output                              | Publication condition                        |
-|-----------------------|-----------------------------------------------|----------------------------------------------|----------------------------------------------|
-| Scope resolver        | User purpose, source availability, deployment | Audit contract and revision identity         | Scope and evidence mode explicit             |
-| Inventory collector   | Repository files, manifests, module roots     | File inventory and exclusion record          | Every in-scope source file accounted for     |
-| Criterion planner     | Product context, criterion catalogue          | Applicability and method matrix              | `N/A` decisions justified                    |
-| Evidence collectors   | Source, config, supplied artifacts, execution | Typed evidence records                       | Provenance and limitations recorded          |
-| Architecture analyzer | File roles, modules, imports, history         | Responsibility map and dependency findings   | Unresolved graph edges disclosed             |
-| Finding evaluator     | Criteria and evidence                         | Findings, counter-evidence, contextual risk  | Each claim has an adequate basis             |
-| Scoring engine        | Criterion results and fixed policy            | Scores, intervals, coverage, caps, gates     | Computation reproducible                     |
-| Report generator      | Validated structured records                  | Human-readable report                        | No independent recalculation in prose        |
-| Validator             | Structured model and generated report         | Validation results                           | Material errors block final publication      |
+| Stage                 | Inputs                                        | Required output                                                   | Publication condition                    |
+|-----------------------|-----------------------------------------------|-------------------------------------------------------------------|------------------------------------------|
+| Scope resolver        | User purpose, source availability, deployment | Audit contract and revision identity                              | Scope and evidence mode explicit         |
+| Inventory collector   | Repository files, manifests, module roots     | File inventory and exclusion record                               | Every in-scope source file accounted for |
+| Criterion planner     | Product context, criterion catalogue          | Applicability and method matrix                                   | `N/A` decisions justified                |
+| Evidence collectors   | Source, config, supplied artifacts, execution | Typed evidence records                                            | Provenance and limitations recorded      |
+| Architecture analyzer | File roles, modules, imports, history         | Organization model, responsibility inventory, dependency findings | Unresolved graph edges disclosed         |
+| Finding evaluator     | Criteria and evidence                         | Findings, counter-evidence, contextual risk                       | Each claim has an adequate basis         |
+| Scoring engine        | Criterion results and fixed policy            | Scores, intervals, coverage, caps, gates                          | Computation reproducible                 |
+| Report generator      | Validated structured records                  | Human-readable report                                             | No independent recalculation in prose    |
+| Validator             | Structured model and generated report         | Validation results                                                | Material errors block final publication  |
 
 Complete each stage before the next.
 
@@ -92,7 +92,13 @@ Top-level shape:
    "options": "...", "owner": "...", "effort": "...", "verification": "...",
    "residual": "...", "priority": "P1"}
  ],
- "scores": {"dimensions": {}, "eligibility": {}},
+ "scores": {
+  "dimensions": {
+   "security": {"mastery": 0.7, "score": 7, "interval": [4, 9],
+                "coverage": 0.9, "eligible": true}
+  },
+  "overall": {"score": null, "scored": 0, "applicable": 0}
+ },
  "coverage": {"families": {}, "labels": {}},
  "exclusions": ["..."]
 }
