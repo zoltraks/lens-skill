@@ -121,12 +121,13 @@ RISK_BLOCK = """### RSK-001: <risk title>{suffix}
 REC_BLOCK = """### REC-001: <recommendation title>{suffix}
 
 * **Priority:** P1
-* **Target:** {target}
+* **Finding:** {target}
 * **Postcondition:** <verifiable end state the action must establish>
-* **Action:** <what to do>
+* **Description:** <what the action changes and how it resolves the finding>
+* **Impact:** <business or technical impact of applying this fix>
 * **Effort:** <Low | Medium | High>
-* **Breaking change:** None
-* **Verification:** <how the fix is confirmed>
+* **Complexity:** <Low | Medium | High>
+* **Verification:** <test or process confirming the fix, with pass criteria>
 """
 
 PAR_ROWS = [
@@ -298,9 +299,9 @@ def audit_project_body(project: str) -> list[str]:
     parts.append(heading(level, "Actionable Remediation Roadmap"))
     parts.append(
         table(
-            "| Priority | Recommendation | Addresses | Effort | Breaking |",
-            "|---|---|---|---|---|",
-            ["| P1 | REC-001 <recommendation> | FND-SEC-001 | <effort> | None |\n"],
+            "| Rec | Priority | Finding | Recommendation | Impact | Effort | Complexity | Verification |",
+            "|---|---|---|---|---|---|---|---|",
+            ["| REC-001 | P1 | FND-SEC-001 | <recommendation> | <impact> | <effort> | <complexity> | <verification step> |\n"],
         )
     )
     parts.append(REC_BLOCK.format(suffix=suffix, target=qualified(project)) + "\n")

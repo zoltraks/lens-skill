@@ -20,11 +20,11 @@ defined in `process/report-format/hunt-style.md` and `process/report-format/revi
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 1875 | Intake Checklist guidance        |
-| Handling Thin Input     | 1896 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1907 | Single-Dimension Audits guidance |
-| Re-Audit                | 1921 | Re-Audit guidance                |
-| Multi-Project Audits    | 1987 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1879 | Intake Checklist guidance        |
+| Handling Thin Input     | 1900 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1911 | Single-Dimension Audits guidance |
+| Re-Audit                | 1925 | Re-Audit guidance                |
+| Multi-Project Audits    | 1991 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -1187,6 +1187,10 @@ The canonical capture is `work/audit-model.json` per `process/audit-model.md`.
 
 Its `evidence[]`, `inventory[]`, `findings[]`, `risks[]`, and `recommendations[]` registers are
 populated during evidence collection and assessment, and every report section renders from them.
+
+Before generation, `scripts/check-model.py` verifies the model's referential integrity and
+recomputes its scoring records - a failing model is repaired in the records, never rendered
+around, per Model Quality Checks in `process/audit-model.md`.
 
 When the session plans more than one report - for example an `audit` and a `hunt` over the
 same snapshot - the same model registers serve every style: the audit renders its ledger,

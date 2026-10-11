@@ -35,10 +35,10 @@ whether the calls match documented endpoints, payloads, and error shapes.
 Mark provider-side dimensions such as contract presence and schema enforcement `N/A` for a pure
 consumer.
 
-It does not apply to a system with no API surface and no documented contract consumption,
-for example a pure CLI with no server calls, a library, or a batch job.
+A system with no API surface still has contract surfaces - see Contract Surfaces Beyond APIs.
 
-In that case, mark the section `N/A` with a one-line justification.
+In that case mark the API rows `N/A` with a one-line justification and assess the surfaces
+that do exist.
 
 Do not invent an API-spec section for a project that has no API.
 
@@ -85,6 +85,26 @@ Diff authentication requirements per endpoint between the spec (`security` block
 auth rules) and the code (middleware, decorators, guards): an endpoint the spec marks
 authenticated but the code serves without a check is a contract violation, and the reverse
 direction - code-enforced auth the spec never declares - is a documentation gap.
+
+## Contract Surfaces Beyond APIs
+
+Contract conformance is wider than network APIs - every interface the subject promises to
+consumers is a contract surface, and each one gets the same spec-versus-code drift check.
+
+| Surface                 | Contract artifact                                    | Drift check                                               |
+|-------------------------|------------------------------------------------------|-----------------------------------------------------------|
+| Event/message schema    | AsyncAPI, schema registry export, documented payload | Emitted or consumed payload versus the declared schema    |
+| CLI surface             | `--help` text, man page, documented exit codes       | Parsed flags, subcommands, and exit codes versus docs     |
+| Configuration schema    | Env-var list, config file spec, JSON Schema          | Accepted keys, types, and defaults versus the spec        |
+| File/persistence format | Format spec, migration docs, schema DDL              | Written layout and migrations versus the declared format  |
+| Plugin/extension point  | Extension guide, SPI/interface docs                  | Discovered hooks and signatures versus the documented set |
+| Library public surface  | API docs, changelog, semver promise                  | Exported symbols and signatures versus the documented API |
+
+For each surface that exists, apply the same sequence as for APIs: locate the declared contract,
+locate the implementing code, diff them, and record drift as a finding citing both sides.
+
+A surface the subject never declares is `NOT_ASSESSED` for contract purposes - an undocumented
+interface is a documentation finding, not spec drift.
 
 ## OWASP API Security Top 10 (2023) Reference
 

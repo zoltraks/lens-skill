@@ -55,6 +55,15 @@ Rationale and detail live in the section specs under `process/report-format/` an
   `Verified`, `Runtime confirmed`, `Confidence`, `Mitigating factors`, `Evidence`.
 - Risk blocks require: `Severity`, `Likelihood`, `Residual`, `Status`, `Description`,
   `Impact`, `Trigger`, `Controls`, `Mitigation`, `Closure`, `Source`, `Confidence`.
+- Recommendation blocks require: `Priority`, `Finding`, `Postcondition`, `Description`,
+  `Impact`, `Effort`, `Complexity`, `Verification`.
+- Debt blocks require: `Category`, `Source`, `Description`, `Cost`, `Delay`, `Status`.
+- A risk block's `Source` names a defined `FND-`, a recommendation block's `Finding` names a
+  defined `FND-` and its `Depends on` names defined `REC-` identifiers or `none`, and a debt
+  block's `Source` is a defined `FND-` or `Direct observation`.
+- Recommendation `Priority` starts with `P1`-`P4`. Debt `Category` is `Reliability`,
+  `Performance Efficiency`, `Security`, or `Maintainability`, and debt `Status` is `Open`,
+  `In progress`, or `Resolved`.
 - Finding identifiers match `FND-<pillar>-NNN` with pillar `ARC`, `CQY`, `SEC`, `INF`,
   `AIP`, `CPR`, `API`, or `STR`.
 - `Type` is `Observation` or `Concern`. `Verified` starts with `yes` or `no`.
@@ -92,7 +101,8 @@ English renders title case where the vocabulary lists give canonical uppercase n
 - Every line stating an overall `x.y/n` score needs the word `lowest` within six lines.
 - `N/A` scorecard rows are omitted, never rendered.
 - A Score cell's `n/m` value leads the cell, and an optional `[lo-hi]` uncertainty interval
-  follows it - the validator's scorecard checks read the `n/m` value.
+  follows it - the validator's scorecard checks read the `n/m` value, and a rendered
+  interval must contain the point score, stay within the scale, and be non-degenerate.
 
 ## Multi-Project
 

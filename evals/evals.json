@@ -1359,6 +1359,42 @@
     "The report never presents a high overall score alongside open readiness gates as if they canceled out.",
     "An overall score publishes only when more than half of the applicable dimensions carry numeric scores."
    ]
+  },
+  {
+   "id": 114,
+   "prompt": "Audit this CLI tool's contract conformance. It has no HTTP API, but it documents flags, exit codes, a config-file format, and a plugin hook.",
+   "expected_output": "A contract assessment that checks every declared contract surface, not only APIs, and marks API-specific rows N/A rather than skipping contract review entirely.",
+   "files": [],
+   "expectations": [
+    "The assessment inventories contract surfaces beyond APIs: CLI flags and exit codes, configuration schema, file or persistence formats, plugin or extension points, and library public surfaces.",
+    "Each existing surface gets the declared-contract versus implementing-code drift check, with drift findings citing both sides.",
+    "API-specific dimensions render N/A with justification instead of omitting contract assessment.",
+    "An undocumented interface is a documentation finding, not spec drift."
+   ]
+  },
+  {
+   "id": 115,
+   "prompt": "Audit this repository and validate the canonical audit model before generating the report. Introduce a finding that cites undeclared evidence and a dimension score that does not recompute.",
+   "expected_output": "A check-model pass that catches referential and scoring defects in work/audit-model.json and blocks generation until the records are fixed.",
+   "files": [],
+   "expectations": [
+    "scripts/check-model.py (or its equivalent checks) runs on work/audit-model.json before the report is generated.",
+    "A finding citing an undeclared EVD identifier fails referential integrity.",
+    "A dimension whose stored score, interval, coverage, or eligibility does not recompute from criterion outcomes and weights fails the scoring-reproducibility check.",
+    "Generation does not proceed from a failing model - failures are resolved in the records first."
+   ]
+  },
+  {
+   "id": 116,
+   "prompt": "Audit this repository and produce the remediation roadmap. One recommendation's Finding field names a finding that was never written, and a scorecard cell shows a degenerate interval.",
+   "expected_output": "A report whose register cross-references and score intervals survive the validator's semantic checks.",
+   "files": [],
+   "expectations": [
+    "Every ### REC- block carries Priority, Finding, Postcondition, Description, Impact, Effort, Complexity, and Verification fields.",
+    "A recommendation's Finding and a risk block's Source resolve to defined FND- identifiers.",
+    "A rendered [lo-hi] interval contains its point score, stays within scale, and is omitted when degenerate.",
+    "The report fails validation on a dangling Finding reference or a degenerate interval rather than shipping them."
+   ]
   }
  ]
 }

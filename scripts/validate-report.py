@@ -431,6 +431,8 @@ def check_criterion_references(lines: list[str], style: str) -> list[str]:
 def check_risk_blocks(lines: list[str]) -> list[str]:
     failures: list[str] = []
     starts = [index for index, line in enumerate(lines) if line.startswith("### RSK-")]
+    fnd_blocks = {line[4:].split(":", 1)[0].strip()
+                  for line in lines if line.startswith("### FND-")}
     for position, start in enumerate(starts):
         end = starts[position + 1] if position + 1 < len(starts) else len(lines)
         block = NL.join(lines[start:end])
@@ -449,6 +451,120 @@ def check_risk_blocks(lines: list[str]) -> list[str]:
             failures.append(f"{name}: Owner renders an unspecified value - omit the line entirely")
         if re.search(r"^\*\s+\*\*Owner:\*\*\s*$", block, re.MULTILINE):
             failures.append(f"{name}: Owner renders an empty value - omit the line entirely")
+        source = field_value(block, "Source")
+        if source and fnd_blocks:
+            src = re.search(FINDING_ID, source)
+            if not src or src.group(0) not in fnd_blocks:
+                failures.append(f"{name}: Source does not name a defined finding")
+    return failures
+
+
+REC_REQUIRED = [
+    "Priority:",
+    "Finding:",
+    "Postcondition:",
+    "Description:",
+    "Impact:",
+    "Effort:",
+    "Complexity:",
+    "Verification:",
+]
+TDR_REQUIRED = [
+    "Category:",
+    "Source:",
+    "Description:",
+    "Cost:",
+    "Delay:",
+    "Status:",
+]
+TDR_CATEGORIES = ("Reliability", "Performance Efficiency", "Security", "Maintainability")
+TDR_STATUS = ("Open", "In progress", "Resolved")
+
+
+def check_rec_blocks(lines: list[str]) -> list[str]:
+    failures: list[str] = []
+    starts = [index for index, line in enumerate(lines) if line.startswith("### REC-")]
+    rec_ids = {lines[start].split(":", 1)[0][4:].strip() for start in starts}
+    fnd_blocks = {line[4:].split(":", 1)[0].strip()
+                  for line in lines if line.startswith("### FND-")}
+    for position, start in enumerate(starts):
+        end = starts[position + 1] if position + 1 < len(starts) else len(lines)
+        block = NL.join(lines[start:end])
+        name = lines[start][4:][:70]
+        for field in REC_REQUIRED:
+            if f"**{field}**" not in block:
+                failures.append(
+                    f"{name}: missing {field[:-1]} - expected literal "
+                    f"'* **{field}** <value>'"
+                )
+        priority = field_value(block, "Priority")
+        if priority and not re.match(r"^P[1-4]\b", priority):
+            failures.append(f"{name}: Priority is not P1-P4")
+        finding = field_value(block, "Finding")
+        if finding:
+            ref = re.search(FINDING_ID, finding)
+            if not ref or ref.group(0) not in fnd_blocks:
+                failures.append(f"{name}: Finding does not name a defined finding")
+        depends = field_value(block, "Depends on")
+        if depends and not re.match(r"^none\b", depends, re.IGNORECASE):
+            for ref in re.findall(r"REC-\d{3}", depends):
+                if ref not in rec_ids:
+                    failures.append(f"{name}: Depends on cites undefined {ref}")
+    return failures
+
+
+def check_tdr_blocks(lines: list[str]) -> list[str]:
+    failures: list[str] = []
+    starts = [index for index, line in enumerate(lines) if line.startswith("### TDR-")]
+    fnd_blocks = {line[4:].split(":", 1)[0].strip()
+                  for line in lines if line.startswith("### FND-")}
+    for position, start in enumerate(starts):
+        end = starts[position + 1] if position + 1 < len(starts) else len(lines)
+        block = NL.join(lines[start:end])
+        name = lines[start][4:][:70]
+        for field in TDR_REQUIRED:
+            if f"**{field}**" not in block:
+                failures.append(
+                    f"{name}: missing {field[:-1]} - expected literal "
+                    f"'* **{field}** <value>'"
+                )
+        category = field_value(block, "Category")
+        if category and not re.match(rf"^({'|'.join(TDR_CATEGORIES)})\b", category):
+            failures.append(f"{name}: Category is not a CISQ characteristic")
+        status = field_value(block, "Status")
+        if status and not re.match(rf"^({'|'.join(TDR_STATUS)})\b", status):
+            failures.append(f"{name}: Status is not Open/In progress/Resolved")
+        source = field_value(block, "Source")
+        if source and not source.startswith("Direct observation"):
+            ref = re.search(FINDING_ID, source)
+            if not ref or ref.group(0) not in fnd_blocks:
+                failures.append(f"{name}: Source is not a finding or Direct observation")
+    return failures
+
+
+SCORE_INTERVAL = re.compile(
+    r"(\d+(?:\.\d+)?)/(\d+)\s*\[(\d+(?:\.\d+)?)-(\d+(?:\.\d+)?)\]"
+)
+
+
+def check_scorecard_interval(text: str) -> list[str]:
+    failures: list[str] = []
+    for match in SCORE_INTERVAL.finditer(text):
+        score, denom, lo, hi = (
+            float(match.group(1)), float(match.group(2)),
+            float(match.group(3)), float(match.group(4)),
+        )
+        label = match.group(0)
+        if lo >= hi:
+            failures.append(
+                f"interval {label} is degenerate - omit the brackets when lo equals hi"
+            )
+        elif not lo <= score <= hi:
+            failures.append(
+                f"interval {label} does not contain its point score"
+            )
+        if denom and (lo < 0 or hi > denom):
+            failures.append(f"interval {label} falls outside the 0-{int(denom)} scale")
     return failures
 
 
@@ -2478,10 +2594,13 @@ def main(path: str, repo_root: str | None = None) -> int:
                     ("finding-block fields", check_finding_blocks(lines)),
                     ("criterion references", check_criterion_references(lines, style)),
                     ("risk-block fields", check_risk_blocks(lines)),
+                    ("recommendation blocks", check_rec_blocks(lines)),
+                    ("debt blocks", check_tdr_blocks(lines)),
                     ("legacy field names", check_legacy_fields(lines, fences)),
                     ("findings summary columns", check_finding_summary(text)),
                     ("findings count", check_finding_counts(text)),
                     ("scorecard mean", check_scorecard_mean(text)),
+                    ("scorecard intervals", check_scorecard_interval(text)),
                     ("ledger columns", check_ledger_columns(text)),
                     ("scorecard N/A rows", check_scorecard_na(text)),
                     ("security classifications", check_security_classification(lines)),

@@ -29,11 +29,11 @@
 | Report Format                      | 430  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 467  | Supported requests and exclusions                   |
 | What's Inside                      | 491  | Documents, references, tools, and conditional files |
-| Document Style                     | 640  | Pointer to the style rules file                     |
-| Specification                      | 650  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 671  | Maintenance checks and regression scenarios         |
-| License                            | 699  | License for the skill itself                        |
-| Credits                            | 705  | Authorship and attribution                          |
+| Document Style                     | 641  | Pointer to the style rules file                     |
+| Specification                      | 651  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 672  | Maintenance checks and regression scenarios         |
+| License                            | 700  | License for the skill itself                        |
+| Credits                            | 706  | Authorship and attribution                          |
 
 ## Overview
 
@@ -602,6 +602,7 @@ lens-skill/
 │   ├── check-update.py                    # Git upstream self-update checker for the skill repo
 │   ├── scan-standards.py                  # Supplied-standards corpus manifest for digest refresh
 │   ├── scan-structure.py                  # Audited-tree file census for the responsibility inventory
+│   ├── check-model.py                     # Audit-model integrity and scoring-recompute checker
 │   ├── lint-polish.py                     # Polish report linter for calques and typography
 │   ├── map-translation.py                 # English-mapped copy of a translated report for validation
 │   ├── check-translation.py               # Polish-report checker: titles, counts, sentence length

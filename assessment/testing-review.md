@@ -157,6 +157,21 @@ double-only coverage, and which components no test touches.
 
 Test quantity is a census figure, not an adequacy statement.
 
+**Design versus count**
+
+Report test adequacy from design signals, and name which of these measures the assessment
+applied - a count of test functions or files never stands in for any of them.
+
+| Measure            | What it samples                                                |
+|--------------------|----------------------------------------------------------------|
+| Behavioral map     | Test names and assertions mapped to required behaviors         |
+| Failure-path index | Error branches in production code versus tests exercising them |
+| Assertion depth    | Sampled tests scoring assertions versus trivial or stub checks |
+| Fixture realism    | Doubles and fixtures versus the production boundary they mock  |
+
+A count belongs in the census only - report it beside these measures as scale context, never
+as their substitute, per the `Test adequacy` row in `references/evidence-schema.md`.
+
 ## Status Criteria
 
 - `PASS`: Tests exist across the layers the system needs in a balanced pyramid, the code is

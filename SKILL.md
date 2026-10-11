@@ -24,7 +24,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.1.5"
+  version: "2.1.6"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -324,8 +324,8 @@ They are report-production tooling, not analysis of the audited project. Run the
 skill tree via `finalize-report.py --skill-root <path>`, or copy them into the audited
 repository's `work/` directory under a `.tmp.` name and remove the copies when done.
 
-- **`scripts/format-table.py`** - Canonical table formatter (Table Formatting Rules).
-- **`scripts/align-comments.py`** - Plain-text `#` comment column aligner.
+- **`scripts/format-table.py`** / **`align-comments.py`** - Table formatter and `#`-comment aligner.
+- **`scripts/check-model.py`** - Audit-model checker (referential integrity, scoring recompute).
 - **`scripts/link-glossary.py`** - Glossary body-link inserter, run before the linker (`--lang pl`, `--check`).
 - **`scripts/link-references.py`** - Register-identifier linker, run before the formatter.
 - **`scripts/validate-report.py`** - Mechanical report checker (English contract; non-English reports exit 2 with guidance), `--dump-contract` emits the contract.

@@ -88,6 +88,15 @@ cited, or `unverified`.
 
 Advisory presence in a lockfile is not exploitability.
 
+Map the triage result to the five Advisory states in `references/evidence-schema.md`, in this
+source precedence: a recorded scan or advisory artifact decides `KNOWN_*` and
+`NONE_IDENTIFIED_BY_RECORDED_SCAN`, a consulted advisory source that covers the component
+decides `KNOWN_APPLICABLE`, `KNOWN_MITIGATED`, or `KNOWN_NOT_APPLICABLE` with the deciding
+evidence named, and no consulted source renders `NOT_CHECKED`, never `None identified`.
+
+A `Mitigated` or `Not applicable` cell names the recorded control or disabling evidence that
+earns it.
+
 Check manifest metadata completeness: `license` or `license-file`, the toolchain floor field,
 `repository`, and description fields per the stack's manifest spec.
 

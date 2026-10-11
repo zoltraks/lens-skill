@@ -249,6 +249,12 @@ module hints, and a git snapshot when the tree is a repository - producing the
 It treats the audited tree as data: it reads file metadata and git index state and never
 executes, installs, or sources anything it scans.
 
+`check-model.py` verifies a `work/audit-model.json` before report generation - referential
+integrity across records, criterion-outcome validity, and recomputation of each dimension's
+score, interval bounds, coverage, and eligibility per `process/readiness-scoring.md`.
+
+It reads the model as data and treats a failed check as a reason not to generate from it.
+
 `common-helpers.py` is a shared helper module imported by the skill-maintenance tools.
 
 It is not a tool, it is never copied, and it must never be imported by report-production tools -
@@ -268,6 +274,7 @@ python scripts/check-contents.py .
 python scripts/check-update.py
 python scripts/scan-standards.py path/to/standards-dir [--json]
 python scripts/scan-structure.py path/to/repo [--json] [--no-git] [--output path/to/file]
+python scripts/check-model.py path/to/work/audit-model.json [--json]
 python scripts/lint-prose.py path/to/draft.md
 python scripts/link-references.py path/to/AUDIT.md
 python scripts/format-table.py path/to/AUDIT.md [--check] [--drop-empty-columns]

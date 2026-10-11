@@ -23,9 +23,9 @@ records live in `references/criterion-catalogue.md`.
 |-------------------------|------|--------------------------------------------------|
 | Pipeline Stages         | 30   | The nine stages and their publication conditions |
 | The Model Artifact      | 48   | `work/audit-model.json` schema and lifecycle     |
-| Derivation Rule         | 112  | Rendering every surface from the model           |
-| Counter-Evidence Review | 125  | The second-pass challenge discipline             |
-| Publication Stops       | 141  | Errors that block final publication              |
+| Derivation Rule         | 114  | Rendering every surface from the model           |
+| Counter-Evidence Review | 157  | The second-pass challenge discipline             |
+| Publication Stops       | 173  | Errors that block final publication              |
 
 ## Pipeline Stages
 
@@ -66,7 +66,8 @@ Top-level shape:
  "criteria": [
   {"id": "SEC-AUTHZ-01", "source": "...", "applicability": "applicable",
    "criticality": "high", "weight": 1.0, "expected": "...", "method": "...",
-   "sufficiency": "...", "dimension": "security"}
+   "sufficiency": "...", "dimension": "security",
+   "outcome": "PASS", "mastery": null}
  ],
  "evidence": [
   {"id": "EVD-001", "kind": "INSPECTED", "collector": "...", "method": "...",
@@ -93,6 +94,7 @@ Top-level shape:
    "residual": "...", "priority": "P1"}
  ],
  "scores": {
+  "scale_max": 10,
   "dimensions": {
    "security": {"mastery": 0.7, "score": 7, "interval": [4, 9],
                 "coverage": 0.9, "eligible": true}
@@ -121,6 +123,36 @@ When a summary and a detail disagree, the model is wrong or the prose drifted - 
 resolved against the records, never edited independently.
 
 Finding, risk, and recommendation IDs stay stable between the model and every rendering of it.
+
+## Generation Contract
+
+The report-generator stage renders only what the model holds:
+
+- Identifiers allocate in model order - findings first, then risks, recommendations, and PAR
+  rows - and no rendering renumbers them.
+- Every number in the report - counts, scores, intervals, aggregates - equals a model value,
+  and prose never recalculates.
+- A final report carries no unfilled placeholder: any `<...>` skeleton token still present is a
+  publication stop.
+- An incomplete model renders an explicitly incomplete report - `State | Draft` with the
+  missing stages named in the Validation Record - never a silent gap.
+- The PAR budget stays at 20 rows regardless of recommendation count.
+
+## Model Quality Checks
+
+Before generation, `scripts/check-model.py <work/audit-model.json>` verifies the artifact
+mechanically:
+
+- Referential integrity: finding criteria and evidence, risk and recommendation findings, and
+  evidence claims all resolve to declared identifiers.
+- Outcome validity: criterion outcomes come from the declared state set, `PARTIAL` carries a
+  recorded mastery fraction, and `CRITICAL`/`HIGH` findings carry counter-evidence.
+- Scoring reproducibility: each dimension's score, interval bounds, coverage, and eligibility
+  recompute from criterion outcomes, weights, and backing evidence kinds, and the overall row
+  matches the eligible dimension set and its mean.
+
+A model that fails these checks is not generated from - the failures are resolved in the
+records first, per the Derivation Rule.
 
 ## Counter-Evidence Review
 

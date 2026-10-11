@@ -720,5 +720,215 @@ class TestScanStructure(unittest.TestCase):
                 self.assertIn(key, result)
 
 
+class TestCheckModel(unittest.TestCase):
+    def setUp(self):
+        self.checker = load_script("check-model.py")
+
+    def _valid_model(self) -> dict:
+        return {
+            "model_version": 1,
+            "scope": {"subject": "demo", "revision": "abc123",
+                      "purpose": "audit", "evidence_mode": "source-only",
+                      "product_profile": {}},
+            "inventory": [{"path": "src/app.py", "class": "production",
+                           "module": "src", "read": True,
+                           "excluded_reason": None}],
+            "criteria": [
+                {"id": "SEC-AUTHZ-01", "source": "catalogue",
+                 "applicability": "applicable", "criticality": "high",
+                 "weight": 1.0, "expected": "...", "method": "...",
+                 "sufficiency": "...", "dimension": "security",
+                 "outcome": "PASS", "mastery": None},
+                {"id": "SEC-INJ-01", "source": "catalogue",
+                 "applicability": "applicable", "criticality": "high",
+                 "weight": 1.0, "expected": "...", "method": "...",
+                 "sufficiency": "...", "dimension": "security",
+                 "outcome": "PARTIAL", "mastery": 0.5},
+                {"id": "SEC-CRYPTO-01", "source": "catalogue",
+                 "applicability": "applicable", "criticality": "medium",
+                 "weight": 1.0, "expected": "...", "method": "...",
+                 "sufficiency": "...", "dimension": "security",
+                 "outcome": "UNKNOWN", "mastery": None},
+                {"id": "DOC-API-01", "source": "catalogue",
+                 "applicability": "not_applicable", "criticality": "low",
+                 "weight": 1.0, "expected": "...", "method": "...",
+                 "sufficiency": "...", "dimension": "documentation",
+                 "outcome": "NOT_APPLICABLE", "mastery": None},
+            ],
+            "evidence": [
+                {"id": "EVD-001", "kind": "INSPECTED", "collector": "x",
+                 "method": "read", "timestamp": "...", "tool": None,
+                 "locator": {"path": "src/app.py", "lines": [1, 40]},
+                 "procedure": None, "result": "...",
+                 "claims": ["SEC-AUTHZ-01", "SEC-INJ-01"], "limits": "...",
+                 "sampling": "full", "counter": "...", "redaction": "none",
+                 "unavailable": None},
+                {"id": "EVD-002", "kind": "INSPECTED", "collector": "x",
+                 "method": "read", "timestamp": "...", "tool": None,
+                 "locator": {"path": "src/db.py", "lines": [1, 20]},
+                 "procedure": None, "result": "...",
+                 "claims": ["SEC-INJ-01"], "limits": "...",
+                 "sampling": "full", "counter": "...", "redaction": "none",
+                 "unavailable": None},
+            ],
+            "findings": [
+                {"id": "FND-SEC-001", "criterion": "SEC-INJ-01",
+                 "type": "Concern", "severity": "HIGH",
+                 "claim_class": "confirmed defect", "observation": "...",
+                 "property": "...", "evidence": ["EVD-002"],
+                 "counter": "checked alternate injection paths",
+                 "consequence": "...", "scope": "...", "confidence": "HIGH",
+                 "status": "Open", "next_verification": "..."},
+            ],
+            "risks": [
+                {"id": "RSK-001", "finding": "FND-SEC-001", "impact": "...",
+                 "likelihood": "...", "scope": "...", "prerequisites": "...",
+                 "controls": "...", "uncertainty": "...",
+                 "rule": "impact x likelihood matrix", "severity": "HIGH"},
+            ],
+            "recommendations": [
+                {"id": "REC-001", "finding": "FND-SEC-001",
+                 "postcondition": "...", "options": "...", "owner": "...",
+                 "effort": "...", "verification": "...", "residual": "...",
+                 "priority": "P1"},
+            ],
+            "scores": {
+                "scale_max": 10,
+                "dimensions": {
+                    "security": {"mastery": 0.75, "score": 8,
+                                 "interval": [5, 8], "coverage": 0.67,
+                                 "eligible": True},
+                },
+                "overall": {"score": 8.0, "scored": 1, "applicable": 1},
+            },
+            "coverage": {"families": {}, "labels": {"security": "PARTIAL"}},
+            "exclusions": ["docs/generated - generated content"],
+        }
+
+    def test_valid_model_passes(self):
+        self.assertEqual(self.checker.check_model(self._valid_model()), [])
+
+    def test_broken_model_reports_each_failure(self):
+        model = self._valid_model()
+        model["evidence"][0]["claims"] = ["SEC-NOPE-01"]
+        model["findings"][0]["counter"] = ""
+        model["risks"][0]["finding"] = "FND-SEC-099"
+        model["scores"]["dimensions"]["security"]["interval"] = [6, 9]
+        failures = self.checker.check_model(model)
+        joined = "\n".join(failures)
+        self.assertIn("claims unknown criterion SEC-NOPE-01", joined)
+        self.assertIn("no recorded counter-evidence", joined)
+        self.assertIn("cites unknown finding 'FND-SEC-099'", joined)
+        self.assertIn("does not equal the FAIL/PASS substitution bounds [5, 8]",
+                      joined)
+
+    def test_partial_without_mastery_fails(self):
+        model = self._valid_model()
+        model["criteria"][1]["mastery"] = None
+        joined = "\n".join(self.checker.check_model(model))
+        self.assertIn("PARTIAL requires a recorded mastery fraction", joined)
+
+    def test_declared_only_dimension_fails_gate(self):
+        model = self._valid_model()
+        model["evidence"][0]["kind"] = "DECLARED"
+        model["evidence"][1]["kind"] = "DECLARED"
+        failures = self.checker.check_model(model)
+        self.assertTrue(
+            any("fails the eligibility gate" in failure for failure in failures),
+            failures,
+        )
+
+
+class TestRegisterBlocks(unittest.TestCase):
+    def setUp(self):
+        self.validator = load_script("validate-report.py")
+
+    REC_BLOCK = (
+        "### REC-001: Add input validation\n\n"
+        "* **Priority:** P1\n"
+        "* **Finding:** FND-SEC-001\n"
+        "* **Postcondition:** input rejected at boundary\n"
+        "* **Description:** adds a validator\n"
+        "* **Impact:** fewer injection paths\n"
+        "* **Effort:** LOW\n"
+        "* **Complexity:** LOW\n"
+        "* **Verification:** unit test rejects payload\n"
+    )
+
+    FND_HEADING = "### FND-SEC-001: Missing input validation\n\n"
+
+    def test_rec_block_complete_passes(self):
+        lines = (self.FND_HEADING + self.REC_BLOCK).split("\n")
+        self.assertEqual(self.validator.check_rec_blocks(lines), [])
+
+    def test_rec_block_missing_postcondition_and_bad_refs(self):
+        block = self.REC_BLOCK.replace(
+            "* **Postcondition:** input rejected at boundary\n", ""
+        ).replace("* **Priority:** P1", "* **Priority:** P9")
+        block += "* **Depends on:** REC-042\n"
+        block = block.replace("* **Finding:** FND-SEC-001",
+                              "* **Finding:** FND-SEC-099")
+        lines = (self.FND_HEADING + block).split("\n")
+        joined = "\n".join(self.validator.check_rec_blocks(lines))
+        self.assertIn("missing Postcondition", joined)
+        self.assertIn("Priority is not P1-P4", joined)
+        self.assertIn("Finding does not name a defined finding", joined)
+        self.assertIn("Depends on cites undefined REC-042", joined)
+
+    def test_tdr_block_validation(self):
+        lines = (
+            self.FND_HEADING
+            + "### TDR-001: Legacy session store\n\n"
+            + "* **Category:** Habitability\n"
+            + "* **Source:** FND-SEC-099\n"
+            + "* **Description:** debt\n"
+            + "* **Status:** Open\n"
+        ).split("\n")
+        joined = "\n".join(self.validator.check_tdr_blocks(lines))
+        self.assertIn("missing Cost", joined)
+        self.assertIn("missing Delay", joined)
+        self.assertIn("Category is not a CISQ characteristic", joined)
+        self.assertIn("Source is not a finding or Direct observation", joined)
+
+    def test_risk_source_must_resolve(self):
+        risk = (
+            "### RSK-001: Injection reaches production\n\n"
+            "* **Severity:** HIGH\n"
+            "* **Likelihood:** Medium\n"
+            "* **Residual:** Medium\n"
+            "* **Status:** Open\n"
+            "* **Description:** what could go wrong\n"
+            "* **Impact:** consequence\n"
+            "* **Trigger:** crafted input\n"
+            "* **Controls:** none verified\n"
+            "* **Mitigation:** validate input\n"
+            "* **Closure:** retest\n"
+            "* **Source:** {source}\n"
+            "* **Confidence:** HIGH\n"
+        )
+        good = self.FND_HEADING + risk.format(source="FND-SEC-001")
+        bad = self.FND_HEADING + risk.format(source="FND-SEC-099")
+        self.assertEqual(self.validator.check_risk_blocks(good.split("\n")), [])
+        joined = "\n".join(
+            self.validator.check_risk_blocks(bad.split("\n"))
+        )
+        self.assertIn("Source does not name a defined finding", joined)
+
+    def test_scorecard_interval_sanity(self):
+        self.assertEqual(
+            self.validator.check_scorecard_interval("| D | 7/10 [4-9] | x |\n"),
+            [],
+        )
+        joined = "\n".join(
+            self.validator.check_scorecard_interval(
+                "| D | 7/10 [8-9] | x |\n| E | 5/10 [5-5] | y |\n"
+                "| F | 3/10 [0-12] | z |\n"
+            )
+        )
+        self.assertIn("does not contain its point score", joined)
+        self.assertIn("degenerate", joined)
+        self.assertIn("outside the 0-10 scale", joined)
+
+
 if __name__ == "__main__":
     unittest.main()
