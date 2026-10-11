@@ -136,6 +136,10 @@ that resolves it, and the finding, risk, or rating the check would confirm or cl
 
 Commands come from the project's documented tooling where it exists.
 
+The `Resolves` cell links each cited identifier to its definition in the finished report,
+per Register Reference Links in `process/report-format.md` - for example
+`[FND-SEC-001](#fnd-sec-001-hardcoded-jwt-signing-key)`.
+
 A claim with no proposed check is a defect of the audit, not of the subject.
 
 ## Executed Evidence Log
@@ -214,10 +218,10 @@ Use a table:
 
 Rows appear in this order:
 
-1. One row per Mandatory Core Checklist item, `PAR-1` through `PAR-19`, in fixed order.
+1. One row per Mandatory Core Checklist item, `PAR-1` through `PAR-20`, in fixed order.
 2. Internal consistency checks: `FND-XXX`/`RSK-XXX`/`REC-XXX` cross-referencing, count
-   reconciliation across summary tables and registers, conditional-section evaluation, and
-   formatting rules.
+   reconciliation across summary tables and registers, register-identifier link coverage,
+   conditional-section evaluation, and formatting rules.
 3. A `Parity baseline` row naming the report diffed against, or `none found`.
 
 Result values are `APPLIED`, `PASS`, or `N/A`.

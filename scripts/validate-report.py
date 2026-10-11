@@ -97,6 +97,26 @@ def strip_spans(value: str) -> str:
     return re.sub(r"\]\([^)]*\)", "]", value)
 
 
+LINK_MARKUP = re.compile(r"!?\[([^\]]*)\]\([^)]*\)")
+
+
+def collapse_links(text: str) -> str:
+    parts = re.split(r"(`[^`]*`)", text)
+    return "".join(
+        part if part.startswith("`") else LINK_MARKUP.sub(r"\1", part)
+        for part in parts
+    )
+
+
+def display_len(cell: str) -> int:
+    return len(collapse_links(cell))
+
+
+def cell_text(cell: str) -> str:
+    match = re.fullmatch(r"\[([^\]]+)\]\([^)]*\)", cell)
+    return match.group(1) if match else cell
+
+
 def check_headings(lines: list[str], fences: list[bool]) -> list[str]:
     failures: list[str] = []
     for index, (line, fenced) in enumerate(zip(lines, fences)):
@@ -216,17 +236,18 @@ def check_tables(lines: list[str], fences: list[bool]) -> list[str]:
                     )
         if sep_index != 1:
             continue
-        header = content_cells(rows[0])
+        collapsed = [collapse_links(row) for row in rows]
+        header = content_cells(collapsed[0])
         widths = [len(cell) for cell in header]
-        for row in rows[2:]:
+        for position, row in enumerate(collapsed[2:], start=2):
             cells = content_cells(row)
             if is_separator(cells):
                 continue
             if len(cells) != len(header):
-                failures.append(f"line {start + rows.index(row) + 1}: table column count differs from header")
+                failures.append(f"line {start + position + 1}: table column count differs from header")
                 continue
             widths = [max(widths[index], len(cell)) for index, cell in enumerate(cells)]
-        raw_separator = raw_cells(rows[1])
+        raw_separator = raw_cells(collapsed[1])
         if any(cell != cell.strip() for cell in raw_separator):
             failures.append(f"line {start + 2}: table separator has spaces around hyphens")
         if len(raw_separator) != len(widths):
@@ -238,8 +259,8 @@ def check_tables(lines: list[str], fences: list[bool]) -> list[str]:
                     failures.append(
                         f"line {start + 2}: separator width in column {index + 1} is not {len(expected)}"
                     )
-        header_positions = [index for index, char in enumerate(rows[0]) if char == "|"]
-        for offset, row in enumerate(rows[2:], start=2):
+        header_positions = [index for index, char in enumerate(collapsed[0]) if char == "|"]
+        for offset, row in enumerate(collapsed[2:], start=2):
             if is_separator(content_cells(row)):
                 continue
             positions = [index for index, char in enumerate(row) if char == "|"]
@@ -674,7 +695,7 @@ def heading_slugs(text: str) -> set[str]:
         match = re.match(r"^#{1,6}\s+(.+?)\s*$", line)
         if not match:
             continue
-        base = re.sub(r"[^a-z0-9 _-]", "", match.group(1).lower()).replace(" ", "-")
+        base = re.sub(r"[^\w -]", "", match.group(1).lower()).replace(" ", "-")
         seen = counts.get(base, 0)
         counts[base] = seen + 1
         slugs.add(base if seen == 0 else f"{base}-{seen}")
@@ -708,6 +729,22 @@ COMPOUND_NEIGHBOR_STOPWORDS = {
     "Under", "Fits", "Use", "Uses", "Used", "Using",
 }
 
+# Mapped validation copies still carry Polish prose - Polish function words
+# join the exemption set so a translated report's `Każde [FND](#fnd)` does
+# not read as a capitalized compound name. Keep in sync with the
+# `_PL` set in `scripts/link-glossary.py`.
+COMPOUND_NEIGHBOR_STOPWORDS |= {
+    "I", "A", "O", "W", "We", "Z", "Ze", "Na", "Do", "Dla", "Od", "Po",
+    "Przez", "Przy", "Pod", "Nad", "Przed", "Za", "Ku", "U", "Bez",
+    "Nie", "To", "Ten", "Ta", "Te", "Tych", "Tym", "Tego", "Tej",
+    "Jest", "Są", "Był", "Była", "Było", "Będzie", "Oraz", "Lub",
+    "Albo", "Ale", "Więc", "Gdy", "Gdzie", "Jak", "Co", "Czy",
+    "Który", "Która", "Które", "Którego", "Której", "Każdy", "Każda",
+    "Każde", "Wszystkie", "Wszystko", "Jego", "Jej", "Ich", "Sam",
+    "Sama", "Tak", "Także", "Również", "Ma", "Mają", "Może", "Mogą",
+    "Musi", "Stanowi", "Między", "Obok", "Poza", "Wraz", "Jako",
+}
+
 
 def compound_context(line: str, start: int, end: int) -> bool:
     j = start
@@ -719,7 +756,7 @@ def compound_context(line: str, start: int, end: int) -> bool:
             prev_token = _compound_word(prev.split()[-1], trailing=False)
             if (
                 prev_token not in COMPOUND_NEIGHBOR_STOPWORDS
-                and re.fullmatch(r"[A-Z][A-Za-z0-9]*(?:\.[A-Za-z0-9]+)*", prev_token)
+                and _capitalized_word(prev_token)
             ):
                 return True
     k = end
@@ -729,7 +766,7 @@ def compound_context(line: str, start: int, end: int) -> bool:
         nxt = line[k:].lstrip()
         if nxt:
             next_token = _compound_word(nxt.split()[0], trailing=True)
-            if re.fullmatch(r"[A-Z][A-Za-z0-9]*(?:\.[A-Za-z0-9]+)*", next_token):
+            if _capitalized_word(next_token):
                 return True
     return False
 
@@ -739,8 +776,17 @@ def _compound_word(token: str, trailing: bool) -> str:
     if link:
         return link.group(1)
     if trailing:
-        return re.sub(r"[^A-Za-z0-9]+$", "", token)
-    return re.sub(r"^[^A-Za-z0-9]+", "", token)
+        return re.sub(r"[^\w]+$", "", token)
+    return re.sub(r"^[^\w]+", "", token)
+
+
+def _capitalized_word(token: str) -> bool:
+    """Unicode-aware `[A-Z][A-Za-z0-9]*` - mapped validation copies still
+    carry Polish diacritics, so `Zgodność API` must read as a compound."""
+    return bool(
+        re.fullmatch(r"[^\W\d_][^\W_]*(?:\.[^\W_]+)*", token)
+        and token[0].isupper()
+    )
 
 
 FIELD_VALUE_LABELS = (
@@ -775,7 +821,7 @@ def mask_field_value(masked: str) -> str:
 
 
 def slugify(heading: str) -> str:
-    return re.sub(r"[^a-z0-9 _-]", "", heading.lower()).replace(" ", "-")
+    return re.sub(r"[^\w -]", "", heading.lower()).replace(" ", "-")
 
 
 def check_glossary(text: str) -> list[str]:
@@ -918,6 +964,147 @@ def check_glossary_body_links(text: str, terms: list[str], sub_slugs: dict[str, 
                 failures.append(f"line {lineno}: unlinked acronym {match.group(0)}")
     if unlinked > 30:
         failures.append(f"unlinked acronym occurrences total: {unlinked}")
+    return failures
+
+
+REF_TOKEN = (
+    r"(?:[\w][\w.-]*::)?"
+    r"(?:FND-(?:ARC|CQY|SEC|INF|AIP|CPR|API|STR)-\d{3}"
+    r"|EVD-\d{3}|RSK-\d{3}|REC-\d{3}|TDR-\d{3}|PAR-\d+)"
+)
+REF_PATTERN = re.compile(REF_TOKEN)
+REF_LINK = re.compile(r"\[(" + REF_TOKEN + r")\]\(#([^)]+)\)")
+REF_BLOCK_HEADING = re.compile(
+    r"^#{3,6}\s+((?:FND-(?:ARC|CQY|SEC|INF|AIP|CPR|API|STR)|RSK|REC|TDR)-\d{3})\s*:"
+)
+REF_PROJECT_SUFFIX = re.compile(r"\(([^()]+)\)\s*$")
+
+
+REF_ROW_TOKEN = re.compile(r"(?:[\w][\w.-]*::)?(?:EVD-\d{3}|PAR-\d+)")
+
+
+def defining_row_id(line: str) -> tuple[str, int]:
+    """Return (identifier, second-pipe index) when the row's first cell is
+    exactly one row-defined register identifier (EVD or PAR)."""
+    second_pipe = line.find("|", 1)
+    if second_pipe < 0:
+        return "", -1
+    text = cell_text(line[1:second_pipe].strip())
+    if not REF_ROW_TOKEN.fullmatch(text):
+        return "", -1
+    return text, second_pipe
+
+
+def register_definitions(
+    lines: list[str], fences: list[bool]
+) -> tuple[dict[str, list[str]], set[str], dict[str, str]]:
+    """Return (block ID -> heading slugs, row-defined IDs, family -> section
+    slug) collected from the report's own register definitions."""
+    blocks: dict[str, list[str]] = {}
+    row_ids: set[str] = set()
+    section: dict[str, str] = {}
+    counts: dict[str, int] = {}
+    last_slug = ""
+    for line, fenced in zip(lines, fences):
+        if fenced:
+            continue
+        heading = re.match(r"^(#{1,6})\s+(.+?)\s*$", line)
+        if heading:
+            base = slugify(heading.group(2))
+            seen = counts.get(base, 0)
+            counts[base] = seen + 1
+            last_slug = base if seen == 0 else f"{base}-{seen}"
+            block = REF_BLOCK_HEADING.match(line)
+            if block:
+                blocks.setdefault(block.group(1), []).append(last_slug)
+            continue
+        if line.startswith("|"):
+            token, _ = defining_row_id(line)
+            bare = token.rsplit("::", 1)[-1]
+            family = next(
+                (f for f in ("EVD", "PAR") if bare.startswith(f + "-")), None
+            )
+            if family:
+                row_ids.add(bare)
+                if family not in section and last_slug:
+                    section[family] = last_slug
+    return blocks, row_ids, section
+
+
+def check_reference_links(
+    lines: list[str], fences: list[bool], text: str
+) -> list[str]:
+    failures: list[str] = []
+    blocks, row_ids, section = register_definitions(lines, fences)
+    slugs = heading_slugs(text)
+    for index, (line, fenced) in enumerate(zip(lines, fences)):
+        if fenced or re.match(r"^#{1,6}\s", line):
+            continue
+        lineno = index + 1
+        for link in REF_LINK.finditer(line):
+            token, anchor = link.group(1), link.group(2)
+            bare = token.rsplit("::", 1)[-1]
+            if bare.startswith(("EVD-", "PAR-")):
+                family = "EVD" if bare.startswith("EVD-") else "PAR"
+                expected = section.get(family)
+                if expected is not None and anchor != expected:
+                    failures.append(
+                        f"line {lineno}: [{token}](#{anchor}) should link to "
+                        f"#{expected}"
+                    )
+                elif expected is None and anchor not in slugs:
+                    failures.append(
+                        f"line {lineno}: [{token}](#{anchor}) links to a "
+                        "missing anchor"
+                    )
+            else:
+                candidates = blocks.get(bare, [])
+                if anchor not in slugs:
+                    failures.append(
+                        f"line {lineno}: [{token}](#{anchor}) links to a "
+                        "missing anchor"
+                    )
+                elif candidates and anchor not in candidates:
+                    failures.append(
+                        f"line {lineno}: [{token}](#{anchor}) does not point "
+                        f"at a ### {bare}: heading"
+                    )
+        masked = re.sub(r"`[^`]*`", lambda m: " " * len(m.group(0)), line)
+        masked = LINK_MARKUP.sub(lambda m: " " * len(m.group(0)), masked)
+        masked = re.sub(r"https?://\S+", lambda m: " " * len(m.group(0)), masked)
+        masked = re.sub(r"\[[^\]]*\]", lambda m: " " * len(m.group(0)), masked)
+        first, cell_end = (
+            defining_row_id(line) if line.startswith("|") else ("", -1)
+        )
+        for match in REF_PATTERN.finditer(masked):
+            start, end = match.start(), match.end()
+            before = masked[start - 1] if start else " "
+            after = masked[end] if end < len(masked) else " "
+            if re.match(r"[\w/#.:-]", before) or re.match(r"[\w/-]", after):
+                continue
+            token = match.group(0)
+            bare = token.rsplit("::", 1)[-1]
+            if first and bare == first.rsplit("::", 1)[-1] and start < cell_end:
+                continue
+            if bare in blocks:
+                hint = (
+                    " - ambiguous across projects, qualify it as "
+                    "<project>::" + bare
+                    if len(blocks[bare]) > 1
+                    else ""
+                )
+                failures.append(
+                    f"line {lineno}: unlinked register reference {token}{hint}"
+                )
+            elif bare in row_ids:
+                failures.append(
+                    f"line {lineno}: unlinked register reference {token}"
+                )
+            else:
+                failures.append(
+                    f"line {lineno}: {token} cites an undefined register "
+                    "identifier"
+                )
     return failures
 
 
@@ -1662,9 +1849,9 @@ def check_risk_consistency(lines: list[str], fences: list[bool]) -> list[str]:
             cells = [cell.strip() for cell in raw_cells(row)]
             rid = next(
                 (
-                    cell.split("::")[-1]
+                    cell_text(cell).split("::")[-1]
                     for cell in cells
-                    if re.fullmatch(r"(?:[\w.-]+::)?RSK-\d{3}", cell)
+                    if re.fullmatch(r"(?:[\w.-]+::)?RSK-\d{3}", cell_text(cell))
                 ),
                 None,
             )
@@ -1798,9 +1985,9 @@ def check_summary_verified(text: str) -> list[str]:
             cells = [cell.strip() for cell in raw_cells(row)]
             fid = next(
                 (
-                    cell.split("::")[-1]
+                    cell_text(cell).split("::")[-1]
                     for cell in cells
-                    if re.fullmatch(r"(?:[\w.-]+::)?FND-[A-Z]{3}-\d{3}", cell)
+                    if re.fullmatch(r"(?:[\w.-]+::)?FND-[A-Z]{3}-\d{3}", cell_text(cell))
                 ),
                 None,
             )
@@ -1927,6 +2114,13 @@ def report_contract() -> dict:
             "project_qualified": "<project>::FND-<pillar>-NNN",
             "risk": "RSK-NNN",
             "recommendation": "REC-NNN",
+            "debt": "TDR-NNN",
+            "evidence": "EVD-NNN",
+            "validation": "PAR-NN",
+            "reference_links": "every register identifier cited outside its "
+            "defining location links to its definition - ### heading anchors "
+            "for FND/RSK/REC/TDR blocks, the register's section anchor for "
+            "EVD/PAR rows",
         },
         "styles": {
             "audit": {
@@ -2057,14 +2251,71 @@ def report_contract() -> dict:
             "a model reproduction never upgrades app-level reachability",
             "Executed Evidence Log and Execution Register Result cells take the "
             "check-status vocabulary",
+            "table column widths count only the link text of [text](target) "
+            "and ![alt](src) markup - the markup itself is not measured",
         ],
     }
 
 
+LANGUAGE_ROW = re.compile(
+    r"^\|\s*(Language|Język|Sprache|Langue|Lingua|Idioma)\s*\|\s*([^|]+)\|",
+    re.MULTILINE | re.IGNORECASE,
+)
+ENGLISH_VALUES = {"english", "angielski"}
+
+TRANSLATED_REPORT_GUIDANCE = (
+    "lint-polish.py <report> --rules <translations/polish-language.md>",
+    "lint-prose.py <report>",
+    "link-glossary.py <report> --lang pl --check",
+    "map-report-translation.py <report> --rules <translations/polish-language.md>"
+    " --en <english-sibling.md>",
+    "format-table.py <mapped-copy> and validate-report.py <mapped-copy>",
+    "check-pl-report.py <report>",
+)
+
+
+def non_english_language(text: str) -> str | None:
+    """Return a `label: value` string when the Document Information
+    language row declares a non-English report, else None. The row lives
+    in the first `##` section; scanning the whole document would risk a
+    stray `Language` cell in an unrelated table."""
+    lines = text.split("\n")
+    sections = [i for i, line in enumerate(lines) if line.startswith("## ")]
+    if len(sections) > 1:
+        text = "\n".join(lines[: sections[1]])
+    match = LANGUAGE_ROW.search(text)
+    if not match:
+        return None
+    label, value = match.group(1).strip(), match.group(2).strip()
+    if label.lower() == "language" and value.lower() in ENGLISH_VALUES:
+        return None
+    return f"{label}: {value}"
+
+
+def reconfigure_stdio() -> None:
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(errors="backslashreplace")
+        except Exception:
+            pass
+
+
 def main(path: str, repo_root: str | None = None) -> int:
+    reconfigure_stdio()
     text = Path(path).read_text(encoding="utf-8")
     lines = text.replace("\r\n", "\n").split("\n")
     fences = split_code(lines)
+    language = non_english_language(text)
+    if language is not None:
+        print(f"report language: {language}")
+        print(
+            "validate-report.py checks the English report contract only; "
+            "running it on a translated report produces false failures."
+        )
+        print("Use the translated-report gates instead:")
+        for step in TRANSLATED_REPORT_GUIDANCE:
+            print(f"  {step}")
+        return 2
     kind = report_kind(path, text)
     checks = [
         ("headings", check_headings(lines, fences)),
@@ -2094,6 +2345,7 @@ def main(path: str, repo_root: str | None = None) -> int:
                 [
                     ("structure-variant sections", check_structure_variant_sections(text)),
                     ("FND cross-references", check_ids(text)),
+                    ("register reference links", check_reference_links(lines, fences, text)),
                     ("finding-block fields", check_finding_blocks(lines)),
                     ("legacy field names", check_legacy_fields(lines, fences)),
                     ("Observation/Concern tags", check_type_tags(lines, fences)),
@@ -2109,6 +2361,7 @@ def main(path: str, repo_root: str | None = None) -> int:
                     ("required sections", check_required_sections(text)),
                     ("coverage rows", check_coverage_rows(text)),
                     ("FND/RSK/REC cross-references", check_ids(text)),
+                    ("register reference links", check_reference_links(lines, fences, text)),
                     ("finding-block fields", check_finding_blocks(lines)),
                     ("risk-block fields", check_risk_blocks(lines)),
                     ("legacy field names", check_legacy_fields(lines, fences)),

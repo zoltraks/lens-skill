@@ -22,7 +22,12 @@ Rationale and detail live in the section specs under `process/report-format/` an
   sentence.
 - No em dash, en dash, or Unicode arrow outside code spans - use `-` and `->`.
 - Every table's separator widths match its header cell widths and all pipes align
-  vertically - run `scripts/format-table.py` rather than aligning by hand.
+  vertically - run `scripts/format-table.py` rather than aligning by hand. Column widths
+  count only the link text of `[text](target)` markup, never the brackets or target.
+- Every register identifier (`EVD`, `FND`, `RSK`, `REC`, `TDR`, `PAR`) cited outside its
+  defining location links to its definition - `### <ID>:` heading anchors for block
+  registers, the register's section anchor for `EVD`/`PAR` rows - and every such link
+  resolves to a real heading anchor; `scripts/link-references.py` applies the pass.
 - No trailing whitespace, and the closing line `End of audit report` is never written.
 - Document Information carries `Report Style`, `Evidence Mode`, and a `Subject Revision`
   snapshot anchor.

@@ -27,12 +27,17 @@ from pathlib import Path
 
 TABLE_HEADERS = {"zamiast", "instead of", "forbidden"}
 
+# First-column headers of tables listing phrases that are masked out before
+# the calque check - sanctioned idioms and canonical English names kept
+# verbatim.
+ALLOWED_HEADERS = {"allowed phrase", "canonical name"}
+
 # Single common Polish words that are calques only in context - demoted to
 # warnings so the check stays a usable gate.
 SOFT_STEMS = {
     "pod", "plus", "wskaźnik", "niesie", "niosą", "dotyka", "zyskuje",
     "właściciel", "mieszkają", "żyje", "lustro", "ładunek", "rekord",
-    "chudy", "najcięższy", "najlżejszy", "autorytatywny", "wydawniczy",
+    "chud", "chudy", "najcięższy", "najlżejszy", "autorytatywny", "wydawniczy",
     "wykonawcz", "powierzchnia", "konsumowana", "zaadresować", "kosztuje",
     "przypięty", "celują", "rekursują", "serwujący", "strażnik", "zastany",
     "brama", "bramka", "bramy", "realna", "realne", "diff", "wyjątek",
@@ -55,7 +60,15 @@ COMMA_OK = {
     "dopóki", "skoro", "bądź", "nie", "tak", "tedy", "zatem", "toteż",
     "lecz", "czego", "czym", "kim", "podczas", "jako", "ponadto", "wobec",
     "nigdy", "zawsze", "stąd", "wszędzie", "gdziekolwiek", "gdyby",
+    "ani", "aż", "którego", "którymi", "wyłącznie", "więcej", "zgodnie",
 }
+
+# Subordinate-clause openers - a comma following such a segment closes the
+# subordinate clause, it does not splice two clauses together.
+_SUBORDINATE_OPENERS = re.compile(
+    r"\b(?:gdzie|gdy|jeśli|jeżeli|ponieważ|chociaż|choć|gdyż|skoro|aby|żeby|"
+    r"zanim|dopóki|gdyby|jako że)\b"
+)
 
 # All-caps Polish words are never valid report renderings - the fixed
 # vocabulary is title-case and true abbreviations (`OK`, `N/D`) stay short.
@@ -149,9 +162,51 @@ def load_forbidden(rules_paths):
     return pairs
 
 
+def load_allowed(rules_paths):
+    """Parse allowed-phrase tables. Returns a list of phrase strings."""
+    phrases = []
+    seen = set()
+    for rules in rules_paths:
+        if not rules.exists():
+            continue
+        in_table = False
+        for line in rules.read_text(encoding="utf-8").split("\n"):
+            cells = [c.strip() for c in line.split("|")]
+            if line.startswith("|") and len(cells) >= 4:
+                first = cells[1].strip("`").lower()
+                if first in ALLOWED_HEADERS:
+                    in_table = True
+                    continue
+                if in_table:
+                    if set(cells[1] + cells[2]) <= set("- "):
+                        continue
+                    phrase = re.sub(r"\(.*?\)", "", cells[1]).strip().strip("`")
+                    if phrase and phrase.lower() not in seen:
+                        seen.add(phrase.lower())
+                        phrases.append(phrase)
+            elif in_table:
+                in_table = False
+    return phrases
+
+
+def mask_allowed(text, phrases):
+    """Blank out allowed phrases so calque stems inside them cannot match."""
+    masked = text
+    for phrase in phrases:
+        pattern = re.compile(
+            r"(?<!\w)" + re.escape(phrase) + r"(?!\w)", re.IGNORECASE
+        )
+        masked = pattern.sub(lambda m: " " * len(m.group(0)), masked)
+    return masked
+
+
 def word_is_soft(forbidden):
     base = forbidden.split("(")[0].strip().lower()
-    return base in SOFT_STEMS or stem(base) in SOFT_STEMS
+    return (
+        base in SOFT_STEMS
+        or stem(base) in SOFT_STEMS
+        or base.split(" ", 1)[0] in SOFT_STEMS
+    )
 
 
 def check_forbidden(lineno, text, pairs, findings):
@@ -202,6 +257,31 @@ def check_token_case(lineno, text, findings):
             )
 
 
+_SERIES_BOUNDARY = re.compile(r"[,;:()\n]|\s(?:i|oraz|lub|albo|ani)(?=\s|$)")
+
+
+def _in_enumeration_series(lowered, match):
+    """A comma introduces a list item, not a clause, when the fragment after
+    it is short and either ends at another list separator or already follows
+    a list comma in the same run. A segment carrying a subordinate opener is
+    a clause boundary, not a list, so it counts as a series as well."""
+    segment_start = (
+        max(lowered.rfind(char, 0, match.start()) for char in ".!?;:") + 1
+    )
+    segment = lowered[segment_start : match.start()]
+    if _SUBORDINATE_OPENERS.search(segment):
+        return True
+    frag_start = match.start(1)
+    boundary = _SERIES_BOUNDARY.search(lowered, frag_start)
+    frag_end = boundary.start() if boundary else len(lowered)
+    frag = lowered[frag_start:frag_end].strip()
+    if len(re.findall(r"\w+", frag)) > 4:
+        return False
+    if re.match(r"[,;()]|\s(?:i|oraz|lub|albo|ani)(?=\s|$)", lowered[frag_end:]):
+        return True
+    return "," in segment
+
+
 def check_mechanical(lineno, text, findings, splice=True):
     if "tylko, gdy" in text.lower():
         findings.append(("error", lineno, "'tylko, gdy' - write 'tylko wtedy, gdy'"))
@@ -226,17 +306,37 @@ def check_mechanical(lineno, text, findings, splice=True):
     # headings are skipped - their commas are usually enumerations. Commas
     # inside parentheses are masked out, a comma closing a parenthesized
     # enumeration item is allowed, and a comma before an identifier token such
-    # as F-02 or ADR-3 separates list items.
+    # as F-02 or ADR-3 separates list items. Enumeration noise is suppressed:
+    # alphanumeric codes (A02), capitalized items mid-line (proper nouns and
+    # defined names), and short fragments inside a comma series are lists.
     if not splice:
         return
-    masked = re.sub(r"\([^()]*\)", "()", text.lower())
-    for match in re.finditer(r",\s+([a-z0-9]+(?:-[a-z0-9]+)*)", masked):
+    lowered = text.lower()
+    paren_masked = re.sub(
+        r"\([^()]*\)", lambda m: " " * len(m.group(0)), lowered
+    )
+    paren_masked = re.sub(
+        r"\([^()]*$", lambda m: " " * len(m.group(0)), paren_masked
+    )
+    for match in re.finditer(r",\s+(\w+(?:-\w+)*)", paren_masked):
         word = match.group(1)
         if word in COMMA_OK or word[0].isdigit():
             continue
         if re.fullmatch(r"[a-z]+-\d+", word):
             continue
-        if masked[: match.start()].rstrip().endswith(")"):
+        if re.fullmatch(r"[a-z]+\d+", word):
+            continue
+        if lowered[: match.start()].rstrip().endswith(")"):
+            continue
+        original = text[match.start(1) : match.end(1)]
+        before = lowered[: match.start()].rstrip()
+        if (
+            original[:1].isupper()
+            and before
+            and not before.endswith((".", "!", "?", ":", ";"))
+        ):
+            continue
+        if _in_enumeration_series(lowered, match):
             continue
         findings.append(
             ("warn", lineno,
@@ -257,6 +357,13 @@ def main():
         root = Path(__file__).resolve().parent.parent
         rules = [root / "translations" / "polish-language.md"]
     pairs = load_forbidden(rules)
+    allowed = load_allowed(rules)
+    if not pairs:
+        print(
+            "lint-polish: no forbidden forms loaded - pass "
+            "--rules <path to polish-language.md>",
+            file=sys.stderr,
+        )
 
     findings = []
     for lineno, text in iter_prose_lines(args.file):
@@ -266,7 +373,7 @@ def main():
         is_table = stripped.startswith("|")
         is_list = bool(re.match(r"^[-*+]\s|^\d+\.\s|^\s+[-*+]\s", text))
         is_heading = stripped.startswith("#")
-        check_forbidden(lineno, text, pairs, findings)
+        check_forbidden(lineno, mask_allowed(text, allowed), pairs, findings)
         check_token_case(lineno, text, findings)
         check_mechanical(lineno, text, findings,
                          splice=not (is_table or is_list or is_heading))
@@ -274,8 +381,9 @@ def main():
     errors = sum(1 for f in findings if f[0] == "error")
     for severity, lineno, message in findings:
         print("%s:%d: [%s] %s" % (args.file, lineno, severity.upper(), message))
-    print("lint-polish: %d error(s), %d warning(s), %d forbidden forms loaded"
-          % (errors, len(findings) - errors, len(pairs)))
+    print("lint-polish: %d error(s), %d warning(s), %d forbidden forms loaded, "
+          "%d allowed phrases loaded"
+          % (errors, len(findings) - errors, len(pairs), len(allowed)))
     return 1 if errors else 0
 
 

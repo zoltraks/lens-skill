@@ -23,59 +23,59 @@ This file is loaded only when the report language is Polish.
 | Section                                     | Line | What it covers                              |
 |---------------------------------------------|------|---------------------------------------------|
 | Analysis And Rendering                      | 80   | Analysis model and terminology precedence   |
-| Status And Severity Vocabulary              | 102  | Status And Severity Vocabulary guidance     |
-| Fixed Vocabulary Values                     | 254  | Polish renderings of descriptive values     |
-| Terminology                                 | 313  | English to Polish technical dictionary      |
-| Calque And Style Replacements               | 472  | Forbidden calques and their replacements    |
-| Parameter Prompts                           | 573  | Polish phrasing for configuration questions |
-| Style Rules                                 | 629  | Style Rules guidance                        |
-| Diacritics Frequently Misspelled            | 772  | Diacritics Frequently Misspelled guidance   |
-| Output Filename                             | 807  | Output Filename guidance                    |
-| Document Information                        | 828  | Document Information guidance               |
-| Audit Type Coverage                         | 876  | Coverage rendering                          |
-| Project Inventory                           | 912  | Project Inventory guidance                  |
-| Glossary                                    | 921  | Glossary guidance                           |
-| Technology Stack                            | 980  | Technology Stack guidance                   |
-| Executive Summary                           | 997  | Executive Summary guidance                  |
-| Health Dashboard                            | 1015 | Health Dashboard guidance                   |
-| Scorecard                                   | 1026 | Scorecard guidance                          |
-| Scoring Rubrics                             | 1051 | Scoring Rubrics guidance                    |
-| Delivery Practice & Team Continuity         | 1075 | Delivery and continuity rendering           |
-| High-Level Observations                     | 1099 | High-Level Observations guidance            |
-| Auditing Methodology                        | 1106 | Auditing Methodology guidance               |
-| System Context                              | 1120 | System Context guidance                     |
-| Software Bill of Materials                  | 1133 | SBOM section rendering                      |
-| License Compliance Review                   | 1151 | License and IP section rendering            |
-| Architectural Assessment                    | 1169 | Architectural Assessment guidance           |
-| Architectural Subsections                   | 1176 | Architectural Subsections guidance          |
-| Skill Definition Conformance                | 1191 | Skill Definition Conformance guidance       |
-| Agent Guidance Conformance                  | 1199 | Agent Guidance Conformance guidance         |
-| AI System Assessment                        | 1213 | AI System Assessment guidance               |
-| Standards Conformance                       | 1224 | Standards Conformance guidance              |
-| Engineering Baseline Conformance            | 1245 | Engineering Baseline Conformance guidance   |
-| References                                  | 1259 | References guidance                         |
-| Strengths And What's Working                | 1268 | Strengths And What's Working guidance       |
-| Detailed Technical Findings                 | 1274 | Detailed Technical Findings guidance        |
-| Technical Debt Register                     | 1339 | Technical Debt Register guidance            |
-| Unified Risk Register                       | 1351 | Unified Risk Register guidance              |
-| Trade-off Analysis                          | 1371 | Trade-off Analysis guidance                 |
-| Actionable Remediation Roadmap              | 1383 | Actionable Remediation Roadmap guidance     |
-| Recommendation Classification               | 1398 | Recommendation Classification guidance      |
-| Changes Since Previous Audit                | 1413 | Changes Since Previous Audit guidance       |
-| Scope Exclusions                            | 1447 | Scope Exclusions guidance                   |
-| Limitations And Unknowns                    | 1455 | Limitations And Unknowns guidance           |
-| Re-audit And Follow-up Plan                 | 1472 | Re-audit And Follow-up Plan guidance        |
-| Operator Verification Handoff               | 1482 | Operator Verification Handoff guidance      |
-| Executed Evidence Log                       | 1495 | Executed Evidence Log guidance              |
-| Hunt Style Sections                         | 1508 | Hunt Style Sections guidance                |
-| Review Style Sections                       | 1537 | Review Style Sections guidance              |
-| Validation Record                           | 1567 | Validation Record guidance                  |
-| Threat Model                                | 1601 | Threat Model guidance                       |
-| API Contract Conformance                    | 1611 | API Contract Conformance guidance           |
-| API Compatibility And Versioning Discipline | 1620 | API Compatibility And Versioning guidance   |
-| Evidence And Decision Terms                 | 1629 | Evidence And Decision Terms guidance        |
-| Skill Definition Conformance Table          | 1690 | Skill Definition Conformance Table guidance |
-| Structure Review                            | 1705 | Structure Review guidance                   |
+| Status And Severity Vocabulary              | 108  | Status And Severity Vocabulary guidance     |
+| Fixed Vocabulary Values                     | 260  | Polish renderings of descriptive values     |
+| Terminology                                 | 319  | English to Polish technical dictionary      |
+| Calque And Style Replacements               | 480  | Forbidden calques and their replacements    |
+| Parameter Prompts                           | 612  | Polish phrasing for configuration questions |
+| Style Rules                                 | 671  | Style Rules guidance                        |
+| Diacritics Frequently Misspelled            | 814  | Diacritics Frequently Misspelled guidance   |
+| Output Filename                             | 849  | Output Filename guidance                    |
+| Document Information                        | 879  | Document Information guidance               |
+| Audit Type Coverage                         | 932  | Coverage rendering                          |
+| Project Inventory                           | 968  | Project Inventory guidance                  |
+| Glossary                                    | 977  | Glossary guidance                           |
+| Technology Stack                            | 1042 | Technology Stack guidance                   |
+| Executive Summary                           | 1059 | Executive Summary guidance                  |
+| Health Dashboard                            | 1077 | Health Dashboard guidance                   |
+| Scorecard                                   | 1088 | Scorecard guidance                          |
+| Scoring Rubrics                             | 1113 | Scoring Rubrics guidance                    |
+| Delivery Practice & Team Continuity         | 1137 | Delivery and continuity rendering           |
+| High-Level Observations                     | 1161 | High-Level Observations guidance            |
+| Auditing Methodology                        | 1168 | Auditing Methodology guidance               |
+| System Context                              | 1182 | System Context guidance                     |
+| Software Bill of Materials                  | 1195 | SBOM section rendering                      |
+| License Compliance Review                   | 1213 | License and IP section rendering            |
+| Architectural Assessment                    | 1231 | Architectural Assessment guidance           |
+| Architectural Subsections                   | 1238 | Architectural Subsections guidance          |
+| Skill Definition Conformance                | 1253 | Skill Definition Conformance guidance       |
+| Agent Guidance Conformance                  | 1261 | Agent Guidance Conformance guidance         |
+| AI System Assessment                        | 1275 | AI System Assessment guidance               |
+| Standards Conformance                       | 1286 | Standards Conformance guidance              |
+| Engineering Baseline Conformance            | 1307 | Engineering Baseline Conformance guidance   |
+| References                                  | 1321 | References guidance                         |
+| Strengths And What's Working                | 1330 | Strengths And What's Working guidance       |
+| Detailed Technical Findings                 | 1336 | Detailed Technical Findings guidance        |
+| Technical Debt Register                     | 1401 | Technical Debt Register guidance            |
+| Unified Risk Register                       | 1413 | Unified Risk Register guidance              |
+| Trade-off Analysis                          | 1433 | Trade-off Analysis guidance                 |
+| Actionable Remediation Roadmap              | 1445 | Actionable Remediation Roadmap guidance     |
+| Recommendation Classification               | 1460 | Recommendation Classification guidance      |
+| Changes Since Previous Audit                | 1475 | Changes Since Previous Audit guidance       |
+| Scope Exclusions                            | 1509 | Scope Exclusions guidance                   |
+| Limitations And Unknowns                    | 1517 | Limitations And Unknowns guidance           |
+| Re-audit And Follow-up Plan                 | 1534 | Re-audit And Follow-up Plan guidance        |
+| Operator Verification Handoff               | 1544 | Operator Verification Handoff guidance      |
+| Executed Evidence Log                       | 1557 | Executed Evidence Log guidance              |
+| Hunt Style Sections                         | 1570 | Hunt Style Sections guidance                |
+| Review Style Sections                       | 1599 | Review Style Sections guidance              |
+| Validation Record                           | 1629 | Validation Record guidance                  |
+| Threat Model                                | 1680 | Threat Model guidance                       |
+| API Contract Conformance                    | 1690 | API Contract Conformance guidance           |
+| API Compatibility And Versioning Discipline | 1699 | API Compatibility And Versioning guidance   |
+| Evidence And Decision Terms                 | 1708 | Evidence And Decision Terms guidance        |
+| Skill Definition Conformance Table          | 1769 | Skill Definition Conformance Table guidance |
+| Structure Review                            | 1784 | Structure Review guidance                   |
 
 ## Analysis And Rendering
 
@@ -88,6 +88,12 @@ and the report is rendered into Polish in a single pass that applies this file.
 Reasoning in English keeps the analysis anchored to the English rules, rubrics, and fixed
 vocabularies in the rest of the skill, and a single render pass applies one terminology convention
 to the whole document.
+
+A Polish-language request produces a file pair by default: the canonical English report is
+written and validated first, then this file renders it into Polish, and both files ship in the
+same operation - `AUDIT-<rewizja>-EN.md` and `AUDIT-<rewizja>-PL.md`, per Output Filename and
+`principles/output-style.md`. Only an explicit "only the Polish report" scope produces the
+Polish file alone.
 
 When the audited project establishes its own Polish terminology, for example a project glossary or
 Polish design documents, prefer those established forms over the defaults in this file and record
@@ -381,6 +387,7 @@ identically.
 | installation package                   | pakiet instalacyjny                                                         |
 | join                                   | łączenie                                                                    |
 | key-person risk                        | ryzyko koncentracji kompetencji                                             |
+| lean / slim (pliku, dokumentu)         | mały                                                                        |
 | license compliance                     | zgodność licencyjna                                                         |
 | likelihood                             | prawdopodobieństwo                                                          |
 | lockfile                               | plik blokady zależności                                                     |
@@ -449,6 +456,7 @@ identically.
 | test inventory                         | rozbudowany zakres testów                                                   |
 | threat                                 | zagrożenie                                                                  |
 | threat model                           | model zagrożeń                                                              |
+| tiny                                   | drobny                                                                      |
 | TLS termination                        | terminacja TLS / zakończenie połączenia TLS                                 |
 | token reuse                            | ponowne użycie tokenu                                                       |
 | toolchain                              | łańcuch narzędzi                                                            |
@@ -516,7 +524,7 @@ Keep entries as single words or short fixed phrases the checker can match litera
 | niesie (cecha)             | wnosi / powoduje                                 | a branch does not carry traits like a person          |
 | dotyka                     | dotyczy / zmienia                                | touches                                               |
 | zyskuje                    | zostaje wzbogacony o / otrzymuje                 | gains                                                 |
-| właściciel (dokumentu)     | dokument nadrzędny                               | owner of a document                                   |
+| właściciel dokumentu / właściciela dokumentu / właściciele dokumentów / właścicieli dokumentów / właścicielem dokumentu | dokument nadrzędny | owner of a document - contract roles such as `Właściciel weryfikacji` stay untouched |
 | mieszkają                  | znajdują się / są umieszczone                    | files do not live                                     |
 | żyje (plik)                | znajduje się                                     | same personification                                  |
 | lustro                     | kopia struktury / kopia                          | mirror                                                |
@@ -569,6 +577,37 @@ Keep entries as single words or short fixed phrases the checker can match litera
 | statyczne procedury        | statyczne handlery                               | static handlers                                       |
 | statycznych procedur       | statycznych handlerów                            | static handlers, genitive                             |
 | przemierzona lokalizacja   | lokalizacja wskazana przez ścieżkę               | traversed location                                    |
+| chud                       | mały / drobny                                    | slim/lean file or document is `mały`, tiny is `drobny` - stem covers every inflection of `chudy` |
+
+### Sanctioned Idioms
+
+This table is machine-readable - `scripts/lint-polish.py` masks every `Allowed phrase`
+before the calque check, so the fixed idioms below do not fire the `pod` stem or other
+calque rules.
+
+| Allowed phrase  | Covers                                                      |
+|-----------------|-------------------------------------------------------------|
+| pod względem    | `pod` - `with regard to`, a fixed Polish idiom              |
+| pod kątem       | `pod` - `in terms of`, `with regard to`                     |
+| pod adresem     | `pod` - `at (address)`                                      |
+| pod presją      | `pod` - `under pressure`                                    |
+| pod uwagę       | `pod` - `take into account`                                 |
+| pod lupą        | `pod` - `under review`, `under scrutiny`                    |
+
+### Canonical Names Kept Verbatim
+
+This table is machine-readable - `scripts/lint-polish.py` masks every `Canonical name`
+before the calque check, so stems such as `request` do not fire inside these names.
+External-taxonomy names not listed here (CWE titles, OWASP names, RFC titles) stay
+wrapped in backticks instead.
+
+| Canonical name              | Reason                                  |
+|-----------------------------|-----------------------------------------|
+| Request for Comments        | RFC expansion, verbatim                 |
+| Cross-Site Request Forgery  | CWE-352 title, verbatim                 |
+| Server-Side Request Forgery | OWASP A10 name, verbatim                |
+| pull request                | canonical version-control term          |
+| merge request               | canonical version-control term          |
 
 ## Parameter Prompts
 
@@ -579,6 +618,9 @@ Apply these phrasing rules:
   Ask `Jak dostarczyć raport?` or `Gdzie zapisać plik raportu?`.
 - The file option without the revision number is `Plik bez numeru rewizji` (for example
   `docs/report/AUDYT.md`). The English `stem` is never used in a Polish prompt.
+  Under `pair` language output the filenames keep the English stem with language suffixes -
+  `docs/report/AUDIT-1.0-EN.md` and `docs/report/AUDIT-1.0-PL.md`, bare option
+  `docs/report/AUDIT-PL.md` - and `AUDYT` names only a single-language report.
   For a `polowanie na usterki` or `przegląd` report this bare option
   (`docs/report/POLOWANIE.md`, `docs/report/PRZEGLĄD.md`) is the default and the
   revisioned `POLOWANIE-1.0.md`/`PRZEGLĄD-1.0.md` is the alternative.
@@ -806,12 +848,21 @@ Always use the correct form with diacritics:
 
 ## Output Filename
 
-The default output filename for a Polish-language report carries the report revision:
+A Polish-language request resolves `Language output` to `pair` unless it explicitly scopes to a
+single language.
+
+Under `pair` both files share the English stem with a language suffix:
+`AUDIT-1.0-EN.md` for the canonical English report and `AUDIT-1.0-PL.md` for its Polish
+rendering, with `AUDIT-EN.md`/`AUDIT-PL.md` offered as the bare alternative pair.
+The `AUDYT` stem never appears in a pair.
+
+A single-language Polish report carries the report revision on the Polish stem:
 `AUDYT-1.0.md` for a first audit instead of `AUDIT-1.0.md`, with plain `AUDYT.md` offered as an
 alternative.
 
-When a previous report exists, the default filename carries the new revision, for example
-`AUDYT-1.1.md`, and the previous file is never overwritten.
+When a previous report exists, the default filename carries the new revision - for example
+`AUDIT-1.1-EN.md`/`AUDIT-1.1-PL.md` under `pair`, `AUDYT-1.1.md` for a single-language report -
+and the previous file is never overwritten.
 
 A `polowanie na usterki` report uses the `POLOWANIE` stem and inverts the default:
 `POLOWANIE.md` for a first hunt, with `POLOWANIE-1.0.md` offered as the revisioned
@@ -849,6 +900,7 @@ The Document Information table uses an empty header row with no column names.
 | Skill Version        | Wersja umiejętności     |
 | Time taken           | Czas wykonania          |
 | Previous Report      | Poprzedni raport        |
+| Translations         | Przekłady               |
 | Projects             | Projekty                |
 
 The `Stan` row is written only while the report is `Roboczy`.
@@ -866,6 +918,10 @@ and a re-audit recovers it that way.
 
 Value cells use the Fixed Vocabulary Values table for `State`, `Detail Level`, `Evaluation Scale`,
 `Audit Purpose`, `Verification Scope`, `Report Style`, and `Evidence Mode`, and `Polski` for `Language`.
+
+Under `pair` language output each file's `Przekłady`/`Translations` row names the sibling file -
+the Polish report lists `AUDIT-<rewizja>-EN.md`, the English report lists
+`AUDIT-<rewizja>-PL.md`. A single-language report omits the row.
 
 The `Czas wykonania` cell carries the audit run's own duration, identical to the English
 report. A Polish rendering produced in a later pass keeps that figure, and when it
@@ -933,6 +989,12 @@ table, pointing to that description's anchor.
 
 Acronym occurrences in the report body link to the description,
 or to the index table at `#słownik` when there is none.
+
+Register-identifier links resolve against the Polish file's own headings: a cited `FND`, `RSK`,
+`REC`, or `TDR` identifier links to its `### <ID>:` block heading rendered with the Polish
+title, and `EVD`/`PAR` identifiers link to their Polish register-section anchors - for example
+`#rejestr-dowodów-audytowych` and `#weryfikacja-raportu` - never to the English anchors.
+The identifier text itself is never translated.
 
 Acronyms inside capitalized compound names are not linked,
 for example `AI` in `AI Provenance` or `UI` in `Material UI`,
@@ -1574,6 +1636,12 @@ profile renders `laboratoryjny`, `kontrolowane udostępnienie`, or `produkcyjny`
 | Evidence / Justification | Dowód / uzasadnienie        |
 | Applied                  | Zastosowany                 |
 | Parity baseline          | Punkt odniesienia zgodności |
+| FND cross-referencing    | Powiązania FND              |
+| RSK cross-referencing    | Powiązania RSK              |
+| REC cross-referencing    | Powiązania REC              |
+| Count reconciliation     | Uzgodnienie liczb           |
+| Conditional sections     | Sekcje warunkowe            |
+| Formatting               | Formatowanie                |
 
 The `Weryfikacja raportu` carries rows `PAR-1` through `PAR-20` in fixed order.
 `PAR-18` renders `N/D` under `Styl raportu: polowanie na usterki` or `przegląd` - neither
@@ -1582,17 +1650,28 @@ style carries a `Klasyfikacja zaleceń` section - and `PAR-20` renders `N/D` und
 
 A Polish report mirrors the English Validation Record row for row - the same checks in
 the same order, no rows added or dropped, and check names and justifications rendered in
-Polish. Tool names in evidence text stay as the English record names them
+Polish. Rows that record a language-dependent check are re-evaluated for the report
+language, not mirrored verbatim: `PAR-16` renders `Zastosowany` with evidence such as
+`Język raportu to polski. Zastosowano kontrakt językowy` - never a literal `N/A`.
+Tool names in evidence text stay as the English record names them
 (`lint-prose.py`, `validate-report.py`, `format-table.py`).
 
-Polish-language quality checks run as pre-delivery gates and never earn report rows:
+Polish-language quality checks run as pre-delivery gates and never earn report rows.
+The tool map is explicit about which file each gate applies to:
 
 - a spell-check pass over the rendered Polish text,
-- `scripts/lint-polish.py` reporting zero errors,
-- a sentence-length review against the Style Rules limits,
-- reconciliation of every number and status in prose against the tables,
-- verbatim agreement between summary-table titles and their `### FND-…`/`### REC-…`
-  headings.
+- `scripts/lint-polish.py` reporting zero errors - run it with
+  `--rules <path to translations/polish-language.md>` whenever the script executes as a
+  `.tmp.` copy outside the skill repository, or the calque tables never load,
+- `scripts/check-pl-report.py` reporting zero errors - it covers summary-table title
+  agreement against `### FND-…`/`### REC-…` headings, reconciliation of register counts
+  in prose against the tables, and the sentence-length review against Style Rules,
+- `scripts/map-report-translation.py` with `--rules` producing the English-mapped copy,
+  then `scripts/validate-report.py` reporting zero issues on that copy - the validator
+  never runs on a translated report directly and exits with guidance instead,
+- `scripts/format-table.py` runs on the English source; on the translation run it with
+  `--check` first, and when the source carries a table geometry quirk, mirror it and
+  note the intentional deviation in the parity evidence row.
 
 Where a row records translation parity, its evidence states `tokeny maszynowe
 przetłumaczone, parytet strukturalny zachowany` - never a claim of preserved English

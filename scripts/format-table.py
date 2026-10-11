@@ -17,7 +17,23 @@ Usage: python format-table.py <report.md> [--check] [--drop-empty-columns]
 from __future__ import annotations
 
 import argparse
+import re
 import sys
+
+
+LINK_MARKUP = re.compile(r"!?\[([^\]]*)\]\([^)]*\)")
+
+
+def collapse_links(text):
+    parts = re.split(r"(`[^`]*`)", text)
+    return "".join(
+        part if part.startswith("`") else LINK_MARKUP.sub(r"\1", part)
+        for part in parts
+    )
+
+
+def display_len(cell):
+    return len(collapse_links(cell))
 
 
 def parse_row(line):
@@ -73,14 +89,19 @@ def format_block(block, start, warnings, drop_empty):
         if is_sep(r):
             continue
         for j, c in enumerate(r):
-            widths[j] = max(widths[j], len(c))
+            widths[j] = max(widths[j], display_len(c))
     out = []
     for r in rows:
         if is_sep(r):
             out.append("|" + "|".join("-" * (w + 2) for w in widths) + "|")
         else:
             out.append(
-                "| " + " | ".join(c.ljust(widths[j]) for j, c in enumerate(r)) + " |"
+                "| "
+                + " | ".join(
+                    c + " " * (widths[j] - display_len(c))
+                    for j, c in enumerate(r)
+                )
+                + " |"
             )
     return out
 

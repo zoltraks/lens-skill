@@ -1,7 +1,8 @@
 """Finalize a Lens audit report in one command.
 
 Runs the report-production tools in their required order:
-``link-glossary.py`` inserts glossary body links, ``format-table.py``
+``link-glossary.py`` inserts glossary body links, ``link-references.py``
+links register identifiers to their definitions, ``format-table.py``
 reformats tables, ``validate-report.py`` performs the structural check.
 The ordering constraint is enforced here rather than remembered.
 
@@ -12,7 +13,10 @@ the script locates its siblings by filename. When the copies are absent, pass
 repository so the tools are found in its ``scripts/`` directory instead.
 
 Usage: python finalize-report.py [--polish] [--skill-root <dir>] <report.md>
-``--polish`` additionally runs ``lint-polish.py`` before validation.
+``--polish`` runs the translated-report gates instead of the English
+validator: ``link-glossary.py --lang pl``, ``lint-polish.py --rules``,
+``check-pl-report.py``, then ``map-report-translation.py`` and the
+formatter+validator on the mapped copy, which is removed after a pass.
 Exit code 0 means formatting, linting, and validation all pass.
 """
 
@@ -51,10 +55,25 @@ def locate(directory: Path, base: str, skill_root: Path | None) -> Path:
     return matches[0]
 
 
-def run(tool: Path, target: Path) -> int:
+def run(tool: Path, target: Path, extra: list[str] | None = None) -> int:
     print(f"--- {tool.name}", flush=True)
-    completed = subprocess.run([sys.executable, str(tool), str(target)], check=False)
+    completed = subprocess.run(
+        [sys.executable, str(tool), str(target), *(extra or [])],
+        check=False,
+    )
     return completed.returncode
+
+
+def polish_rules(skill_root: Path | None) -> Path | None:
+    """Locate `translations/polish-language.md` for the `--polish` lint -
+    a `.tmp.` copy cannot resolve it relative to its own path."""
+    for probe in (skill_root, Path(__file__).resolve().parent.parent):
+        if probe is None:
+            continue
+        candidate = probe / "translations" / "polish-language.md"
+        if candidate.is_file():
+            return candidate
+    return None
 
 
 def main(argv: list[str]) -> int:
@@ -87,18 +106,48 @@ def main(argv: list[str]) -> int:
         print(f"report not found: {target}")
         return 1
     directory = Path(__file__).resolve().parent
-    steps = [
-        locate(directory, "link-glossary", skill_root),
-        locate(directory, "format-table", skill_root),
-    ]
-    if polish:
-        steps.append(locate(directory, "lint-polish", skill_root))
-    steps.append(locate(directory, "validate-report", skill_root))
-    for tool in steps:
-        result = run(tool, target)
+    glossary = locate(directory, "link-glossary", skill_root)
+    references = locate(directory, "link-references", skill_root)
+    formatter = locate(directory, "format-table", skill_root)
+    if not polish:
+        steps = [
+            (glossary, target, []),
+            (references, target, []),
+            (formatter, target, []),
+            (locate(directory, "validate-report", skill_root), target, []),
+        ]
+    else:
+        rules = polish_rules(skill_root)
+        rules_arg = ["--rules", str(rules)] if rules is not None else []
+        # The pair contract names the English sibling `*-EN.md`; pass it for
+        # positional heading parity when it exists.
+        map_arg = list(rules_arg)
+        if target.stem.endswith("-PL"):
+            sibling = target.with_name(target.stem[:-3] + "-EN.md")
+            if sibling.is_file():
+                map_arg += ["--en", str(sibling)]
+        mapped = target.with_name(target.stem + "-en-mapped.tmp.md")
+        steps = [
+            (glossary, target, ["--lang", "pl"]),
+            (references, target, []),
+            (formatter, target, []),
+            (locate(directory, "lint-polish", skill_root), target, rules_arg),
+            (locate(directory, "check-pl-report", skill_root), target, []),
+            (
+                locate(directory, "map-report-translation", skill_root),
+                target,
+                map_arg,
+            ),
+            (formatter, mapped, []),
+            (locate(directory, "validate-report", skill_root), mapped, []),
+        ]
+    for tool, step_target, extra in steps:
+        result = run(tool, step_target, extra)
         if result != 0:
             print(f"STOP {tool.name} reported failures")
             return result
+    if polish and mapped.exists():
+        mapped.unlink()
     print(f"PASS {target.name} finalized")
     return 0
 

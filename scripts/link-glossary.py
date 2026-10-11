@@ -48,17 +48,43 @@ COMPOUND_NEIGHBOR_STOPWORDS = {
     "Under", "Fits", "Use", "Uses", "Used", "Using",
 }
 
+# Polish function words that legitimately neighbour a linked term - they
+# carry no compound-name meaning even when a sentence start capitalizes
+# them.
+COMPOUND_NEIGHBOR_STOPWORDS_PL = COMPOUND_NEIGHBOR_STOPWORDS | {
+    "I", "A", "O", "W", "We", "Z", "Ze", "Na", "Do", "Dla", "Od", "Po",
+    "Przez", "Przy", "Pod", "Nad", "Przed", "Za", "Ku", "U", "Bez",
+    "Nie", "To", "Ten", "Ta", "Te", "Tych", "Tym", "Tego", "Tej",
+    "Jest", "Są", "Był", "Była", "Było", "Będzie", "Oraz", "Lub",
+    "Albo", "Ale", "Więc", "Gdy", "Gdzie", "Jak", "Co", "Czy",
+    "Który", "Która", "Które", "Którego", "Której", "Każdy", "Każda",
+    "Każde", "Wszystkie", "Wszystko", "Jego", "Jej", "Ich", "Sam",
+    "Sama", "Tak", "Także", "Również", "Ma", "Mają", "Może", "Mogą",
+    "Musi", "Stanowi", "Między", "Obok", "Poza", "Wraz", "Jako",
+}
+
 
 def _compound_word(token: str, trailing: bool) -> str:
     link = re.fullmatch(r"\[([^\]]+)\]\([^)]*\)", token)
     if link:
         return link.group(1)
     if trailing:
-        return re.sub(r"[^A-Za-z0-9]+$", "", token)
-    return re.sub(r"^[^A-Za-z0-9]+", "", token)
+        return re.sub(r"[^\w]+$", "", token)
+    return re.sub(r"^[^\w]+", "", token)
 
 
-def compound_context(line: str, start: int, end: int) -> bool:
+def _capitalized_word(token: str) -> bool:
+    """Unicode-aware `[A-Z][A-Za-z0-9]*` - Polish diacritics must count as
+    letters so `Zgodność API` reads as a compound name."""
+    return bool(
+        re.fullmatch(r"[^\W\d_][^\W_]*(?:\.[^\W_]+)*", token)
+        and token[0].isupper()
+    )
+
+
+def compound_context(line: str, start: int, end: int, stopwords=None) -> bool:
+    if stopwords is None:
+        stopwords = COMPOUND_NEIGHBOR_STOPWORDS
     j = start
     while j > 0 and line[j - 1] not in " \t":
         j -= 1
@@ -67,8 +93,8 @@ def compound_context(line: str, start: int, end: int) -> bool:
         if prev:
             prev_token = _compound_word(prev.split()[-1], trailing=False)
             if (
-                prev_token not in COMPOUND_NEIGHBOR_STOPWORDS
-                and re.fullmatch(r"[A-Z][A-Za-z0-9]*(?:\.[A-Za-z0-9]+)*", prev_token)
+                prev_token not in stopwords
+                and _capitalized_word(prev_token)
             ):
                 return True
     k = end
@@ -78,7 +104,7 @@ def compound_context(line: str, start: int, end: int) -> bool:
         nxt = line[k:].lstrip()
         if nxt:
             next_token = _compound_word(nxt.split()[0], trailing=True)
-            if re.fullmatch(r"[A-Z][A-Za-z0-9]*(?:\.[A-Za-z0-9]+)*", next_token):
+            if _capitalized_word(next_token):
                 return True
     return False
 
@@ -102,22 +128,59 @@ FIELD_VALUE_LABELS = (
     "Exploitability",
 )
 
-FIELD_LINE = re.compile(
-    r"^\s*[*-]\s+\*\*(?:" + "|".join(FIELD_VALUE_LABELS) + r"):\*\*"
+FIELD_VALUE_LABELS_PL = (
+    "Filar",
+    "Ważność",
+    "Typ",
+    "Bezpieczeństwo",
+    "Status",
+    "Zmiana",
+    "Charakter odstępstwa",
+    "Zweryfikowane",
+    "Potwierdzone uruchomieniem",
+    "Pewność oceny",
+    "Klasa",
+    "Wynik",
+    "Priorytet",
+    "Prawdopodobieństwo",
+    "Ryzyko rezydualne",
+    "Właściciel",
+    "Wykorzystanie podatności",
+    "Środek ograniczający ryzyko",
 )
+
+LANGUAGES = {
+    "en": {
+        "glossary_heading": "Glossary",
+        "default_anchor": "glossary",
+        "field_labels": FIELD_VALUE_LABELS,
+        "stopwords": COMPOUND_NEIGHBOR_STOPWORDS,
+    },
+    "pl": {
+        "glossary_heading": "Słownik",
+        "default_anchor": "słownik",
+        "field_labels": FIELD_VALUE_LABELS_PL,
+        "stopwords": COMPOUND_NEIGHBOR_STOPWORDS_PL,
+    },
+}
 
 
 def slugify(heading: str) -> str:
-    return re.sub(r"[^a-z0-9 _-]", "", heading.lower()).replace(" ", "-")
+    return re.sub(r"[^\w -]", "", heading.lower()).replace(" ", "-")
 
 
-def parse_glossary(lines: list[str]) -> tuple[list[str], dict[str, str], int, int]:
+def parse_glossary(
+    lines: list[str], lang: dict
+) -> tuple[list[str], dict[str, str], int, int]:
     """Return (index terms, term->anchor map, glossary start line, end line)."""
+    heading_re = re.compile(r"^##\s+" + lang["glossary_heading"] + r"\s*$")
     heading_at = next(
-        (i for i, l in enumerate(lines) if re.match(r"^##\s+Glossary\s*$", l)), None
+        (i for i, l in enumerate(lines) if heading_re.match(l)), None
     )
     if heading_at is None:
-        raise SystemExit("report has no ## Glossary section")
+        raise SystemExit(
+            "report has no ## %s section" % lang["glossary_heading"]
+        )
     end = next(
         (i for i in range(heading_at + 1, len(lines)) if re.match(r"^##\s+\S", lines[i])),
         len(lines),
@@ -149,26 +212,39 @@ def parse_glossary(lines: list[str]) -> tuple[list[str], dict[str, str], int, in
             anchors[link.group(1)] = link.group(2)
         elif re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9/().+-]*", cell):
             terms.append(cell)
-            anchors[cell] = "glossary"
+            anchors[cell] = lang["default_anchor"]
     return terms, anchors, heading_at, end
 
 
-def mask_line(line: str) -> str:
+def mask_line(line: str, field_line) -> str:
     masked = re.sub(r"`[^`]*`", lambda m: " " * len(m.group(0)), line)
     masked = re.sub(r"\[[^\]]*\]\([^)]*\)", lambda m: " " * len(m.group(0)), masked)
     masked = re.sub(r"https?://\S+", lambda m: " " * len(m.group(0)), masked)
     masked = re.sub(r"\[[^\]]*\]", lambda m: " " * len(m.group(0)), masked)
-    field = FIELD_LINE.match(masked)
+    field = field_line.match(masked)
     if field:
         masked = masked[: field.end()] + " " * (len(masked) - field.end())
     return masked
 
 
-def main(path: str) -> int:
+def reconfigure_stdio() -> None:
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(errors="backslashreplace")
+        except Exception:
+            pass
+
+
+def main(path: str, lang_name: str = "en", check: bool = False) -> int:
+    reconfigure_stdio()
+    lang = LANGUAGES[lang_name]
+    field_line = re.compile(
+        r"^\s*[*-]\s+\*\*(?:" + "|".join(lang["field_labels"]) + r"):\*\*"
+    )
     raw = Path(path).read_bytes()
     crlf = b"\r\n" in raw
     lines = raw.decode("utf-8").replace("\r\n", "\n").split("\n")
-    terms, anchors, g_start, g_end = parse_glossary(lines)
+    terms, anchors, g_start, g_end = parse_glossary(lines, lang)
     variant_map: dict[str, str] = {}
     for term in terms:
         for variant in glossary_variants(term):
@@ -194,7 +270,7 @@ def main(path: str) -> int:
         if re.match(r"^#{1,6}\s", line):
             out.append(line)
             continue
-        masked = mask_line(line)
+        masked = mask_line(line, field_line)
         inserts: list[tuple[int, int, str]] = []
         for match in pattern.finditer(masked):
             start, end_ = match.start(), match.end()
@@ -202,16 +278,28 @@ def main(path: str) -> int:
             after = masked[end_] if end_ < len(masked) else " "
             if re.match(r"[\w/#.-]", before) or re.match(r"[\w/-]", after):
                 continue
-            if compound_context(masked, start, end_):
+            if compound_context(masked, start, end_, lang["stopwords"]):
                 skipped += 1
                 continue
             term = variant_map[match.group(0)]
+            if check:
+                print(
+                    "line %d: '%s' is not linked to #%s"
+                    % (index + 1, match.group(0), anchors[term])
+                )
             inserts.append((start, end_, f"[{match.group(0)}](#{anchors[term]})"))
+        if check:
+            linked += len(inserts)
+            out.append(line)
+            continue
         for start, end_, replacement in reversed(inserts):
             line = line[:start] + replacement + line[end_:]
             masked = masked[:start] + " " * len(replacement) + masked[end_:]
         linked += len(inserts)
         out.append(line)
+    if check:
+        print("%d unlinked occurrence(s)" % linked)
+        return 1 if linked else 0
     eol = "\r\n" if crlf else "\n"
     Path(path).write_bytes(eol.join(out).encode("utf-8"))
     print(f"linked {linked} occurrence(s), skipped {skipped} compound-context occurrence(s)")
@@ -219,7 +307,20 @@ def main(path: str) -> int:
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python link-glossary.py <report.md>")
-        raise SystemExit(1)
-    raise SystemExit(main(sys.argv[1]))
+    args = sys.argv[1:]
+    if not args or "-h" in args or "--help" in args:
+        print(
+            "Usage: python link-glossary.py <report.md> "
+            "[--lang en|pl] [--check]"
+        )
+        raise SystemExit(0 if args else 1)
+    path = args[0]
+    lang_name = "en"
+    check = "--check" in args
+    if "--lang" in args:
+        lang_at = args.index("--lang")
+        if lang_at + 1 >= len(args) or args[lang_at + 1] not in LANGUAGES:
+            print("Usage: --lang en|pl")
+            raise SystemExit(1)
+        lang_name = args[lang_at + 1]
+    raise SystemExit(main(path, lang_name, check))

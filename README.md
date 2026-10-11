@@ -29,11 +29,11 @@
 | Report Format                      | 430  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 467  | Supported requests and exclusions                   |
 | What's Inside                      | 491  | Documents, references, tools, and conditional files |
-| Document Style                     | 632  | Pointer to the style rules file                     |
-| Specification                      | 642  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 663  | Maintenance checks and regression scenarios         |
-| License                            | 691  | License for the skill itself                        |
-| Credits                            | 697  | Authorship and attribution                          |
+| Document Style                     | 635  | Pointer to the style rules file                     |
+| Specification                      | 645  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 666  | Maintenance checks and regression scenarios         |
+| License                            | 694  | License for the skill itself                        |
+| Credits                            | 700  | Authorship and attribution                          |
 
 ## Overview
 
@@ -585,18 +585,21 @@ lens-skill/
 │   ├── methodology/                       # Methodology digests, indexed in source-catalog.md
 │   └── topics/                            # Domain digests, indexed in source-catalog.md
 ├── scripts/
-│   ├── format-table.py                    # Source-width Markdown table formatter
+│   ├── format-table.py                    # Display-width Markdown table formatter
 │   ├── align-comments.py                  # Plain-text `#` comment column aligner
-│   ├── link-glossary.py                   # Glossary body-link inserter, run before the formatter
+│   ├── link-glossary.py                   # Glossary body-link inserter, run before the linker
+│   ├── link-references.py                 # Register-identifier linker, run before the formatter
 │   ├── validate-report.py                 # Audit and Review report validator (`--dump-contract` JSON)
 │   ├── new-report.py                      # Report skeleton generator (audit, hunt, or review)
-│   ├── finalize-report.py                 # Runs link, format, and validate in order on a report
+│   ├── finalize-report.py                 # Runs links, format, and validate in order on a report
 │   ├── validate-skill.py                  # Dependency-light Agent Skill validator
 │   ├── check-references.py                # Relative-reference integrity checker
 │   ├── check-contents.py                  # Contents-table versus heading drift checker
 │   ├── check-update.py                    # Git upstream self-update checker for the skill repo
 │   ├── scan-standards.py                  # Supplied-standards corpus manifest for digest refresh
 │   ├── lint-polish.py                     # Polish report linter for calques and typography
+│   ├── map-report-translation.py          # English-mapped copy of a translated report for validation
+│   ├── check-pl-report.py                 # Polish-report checker: titles, counts, sentence length
 │   ├── lint-prose.py                      # Pre-assembly prose linter for report drafts
 │   ├── common.py                          # Shared helpers for skill-maintenance tools
 │   └── README.md                          # Tool usage, safety, and cleanup rules

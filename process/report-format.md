@@ -39,12 +39,12 @@ A present-but-empty section signals a gap, a missing section hides it.
 | Section                                     | Line | What it covers                              |
 |---------------------------------------------|------|---------------------------------------------|
 | Formatting Rules                            | 49   | Formatting Rules guidance                   |
-| Report Delivery And Parameter Configuration | 282  | Report delivery and output configuration    |
-| Detail Level Configuration                  | 335  | Standard, detailed, and brief reports       |
-| Conditional Sections                        | 430  | Inclusion criteria for conditional sections |
-| Section Order                               | 487  | Single-project and multi-project order      |
-| Specification Files                         | 584  | Per-section specification file index        |
-| Pre-Delivery Mechanical Checklist           | 616  | Final mechanical checks                     |
+| Report Delivery And Parameter Configuration | 311  | Report delivery and output configuration    |
+| Detail Level Configuration                  | 364  | Standard, detailed, and brief reports       |
+| Conditional Sections                        | 459  | Inclusion criteria for conditional sections |
+| Section Order                               | 516  | Single-project and multi-project order      |
+| Specification Files                         | 613  | Per-section specification file index        |
+| Pre-Delivery Mechanical Checklist           | 645  | Final mechanical checks                     |
 
 ## Formatting Rules
 
@@ -193,6 +193,9 @@ column, including the header.
 Include all Markdown formatting characters (backticks, asterisks, spaces, punctuation)
 in the width measurement.
 
+Link markup is the sole exception: a `[text](target)` or `![alt](src)` cell measures its
+link text only - the brackets, target, and delimiters are not counted.
+
 **Compacting**: After calculating column widths,
 compact the table by removing any padding that exceeds the widest cell in each column.
 
@@ -201,7 +204,8 @@ The compacted version - minimum width that fits every cell - is the correct vers
 **Checklist for every table**:
 
 - Identify all cells including the header row.
-- Measure each cell width including all formatting characters.
+- Measure each cell width including all formatting characters, with link and image markup
+  counted as its text part only.
 - Determine the maximum width per column.
 - Pad every cell with trailing spaces to match the column maximum.
 - Build the separator with hyphens equal to the column width plus two, no spaces.
@@ -218,9 +222,9 @@ Format every table with a script, do not count column widths by hand.
 Manual counting is error-prone and produces misaligned columns, per `docs/STYLE.md`.
 
 Before delivering a File-mode report, run a script that implements the checklist above:
-parse each table, measure every cell width in source text including formatting characters,
-pad each cell to the column maximum, and rebuild each separator as the column width plus two
-hyphens.
+parse each table, measure every cell width in source text - counting `[text](target)` and
+`![alt](src)` markup as its link text only - pad each cell to the column maximum, and
+rebuild each separator as the column width plus two hyphens.
 
 Handle both `\n` and `\r\n` input and preserve the file's original line-ending style.
 
@@ -278,6 +282,31 @@ Do not add a closing line such as "End of audit report." or "---" at the end of 
 
 The final section is the References section,
 end the report after the final section without any trailing boilerplate.
+
+### Register Reference Links
+
+Every register identifier cited outside its defining location is a Markdown link to the
+definition.
+
+The register families are `EVD-NNN` (Evidence Ledger), `FND-<pillar>-NNN` (findings),
+`RSK-NNN` (risks), `REC-NNN` (recommendations), `TDR-NNN` (technical debt), and `PAR-NN`
+(Validation Record rows), including project-qualified forms such as
+`api-service::FND-SEC-001`.
+
+`FND`, `RSK`, `REC`, and `TDR` identifiers link to their `### <ID>:` block heading anchor,
+for example `[FND-SEC-001](#fnd-sec-001-hardcoded-jwt-signing-key)`.
+
+`EVD` and `PAR` identifiers are defined as table rows, not headings, so they link to the
+anchor of the section holding the register table, for example
+`[EVD-004](#verification-and-evidence-ledger)` or `[PAR-10](#validation-record)`.
+
+The defining location itself stays unlinked: the `### <ID>:` heading and the register row
+whose first cell carries the identifier.
+
+Fenced code, inline code, existing links, and URLs are exempt.
+
+Apply the pass with `scripts/link-references.py`, never by hand - it derives anchors from
+the report's own headings, so it applies unchanged to every report language.
 
 ## Report Delivery And Parameter Configuration
 
@@ -620,29 +649,30 @@ Run this checklist after writing the report body and before running the formatti
 It consolidates the mechanical rules from this file and `principles/output-style.md` in one place,
 every item is mechanical and takes seconds to verify.
 
-| Check           | Rule                                                                                        |
-|-----------------|---------------------------------------------------------------------------------------------|
-| Headings        | `#` title, `##` sections, `###` subsections and blocks, never `####` or deeper              |
-| Heading space   | Exactly one empty line after every heading                                                  |
-| Delimiters      | Pipe-delimited columns, one space inside leading and trailing pipes                         |
-| Separators      | Hyphens contiguous with pipes, width equals column width plus two                           |
-| Alignment       | Every column aligned by the formatting script, never padded by hand                         |
-| Semicolons      | None outside code blocks, inline code, and file paths                                       |
-| Dashes          | ASCII `-` only, no em dash or en dash                                                       |
-| Arrows          | ASCII `->` in prose, no Unicode arrow                                                       |
-| Prose width     | Lines broken near the selected width (default 100), exempt table rows, URLs, links, paths   |
-| Finding blocks  | Every required field present, see the template in Detailed Technical Findings               |
-| Coverage matrix | Present after Document Information, consistent with Scope Exclusions                        |
-| SBOM            | Every License cell populated or `Unknown`, direct components manifest-sourced               |
-| Type tags       | `Observation` or `Concern` on every evidence-ledger row and every finding                   |
-| Exploitability  | `Exploitability` field present on every `HIGH`/`CRITICAL` security finding, `N/A` justified |
-| Glossary        | Every acronym indexed, every body occurrence linked to its anchor                           |
-| Diagrams        | Fenced, untagged, no leading or trailing blank line inside the fence                        |
-| Registers       | Every RSK cites an FND, every REC cites an FND, risk-map covers rated risks                 |
-| Classification  | At Standard/Detailed, Recommendation Classification lists every REC exactly once            |
-| Project scope   | Inventory lists only intake-confirmed projects, exclusions disclosed in Scope Exclusions    |
-| Location        | Report path matches the output directory recorded during intake                             |
-| Ending          | References is the last section, no closing line after it                                    |
+| Check            | Rule                                                                                                |
+|------------------|-----------------------------------------------------------------------------------------------------|
+| Headings         | `#` title, `##` sections, `###` subsections and blocks, never `####` or deeper                      |
+| Heading space    | Exactly one empty line after every heading                                                          |
+| Delimiters       | Pipe-delimited columns, one space inside leading and trailing pipes                                 |
+| Separators       | Hyphens contiguous with pipes, width equals column width plus two                                   |
+| Alignment        | Every column aligned by the formatting script, never padded by hand                                 |
+| Semicolons       | None outside code blocks, inline code, and file paths                                               |
+| Dashes           | ASCII `-` only, no em dash or en dash                                                               |
+| Arrows           | ASCII `->` in prose, no Unicode arrow                                                               |
+| Prose width      | Lines broken near the selected width (default 100), exempt table rows, URLs, links, paths           |
+| Finding blocks   | Every required field present, see the template in Detailed Technical Findings                       |
+| Coverage matrix  | Present after Document Information, consistent with Scope Exclusions                                |
+| SBOM             | Every License cell populated or `Unknown`, direct components manifest-sourced                       |
+| Type tags        | `Observation` or `Concern` on every evidence-ledger row and every finding                           |
+| Exploitability   | `Exploitability` field present on every `HIGH`/`CRITICAL` security finding, `N/A` justified         |
+| Glossary         | Every acronym indexed, every body occurrence linked to its anchor                                   |
+| Identifier links | Every register identifier cited outside its definition links to it, applied by `link-references.py` |
+| Diagrams         | Fenced, untagged, no leading or trailing blank line inside the fence                                |
+| Registers        | Every RSK cites an FND, every REC cites an FND, risk-map covers rated risks                         |
+| Classification   | At Standard/Detailed, Recommendation Classification lists every REC exactly once                    |
+| Project scope    | Inventory lists only intake-confirmed projects, exclusions disclosed in Scope Exclusions            |
+| Location         | Report path matches the output directory recorded during intake                                     |
+| Ending           | References is the last section, no closing line after it                                            |
 
 `scripts/format-table.py` in the skill repository is the canonical formatting script,
 copy it into the audited repository's `work/` directory before use.
@@ -653,9 +683,10 @@ spacing) on draft parts before assembly, copy it the same way.
 `scripts/validate-report.py` runs the scriptable items in this checklist plus finding-block field,
 register cross-reference, and PAR-row checks, copy and run it the same way.
 
-`scripts/finalize-report.py` orchestrates the full sequence - glossary linking, table
-formatting, then report validation - against sibling `.tmp.` copies in one call, or against
-the skill repository directly with `--skill-root <path>` or `LENS_SKILL_ROOT`.
+`scripts/finalize-report.py` orchestrates the full sequence - glossary linking,
+register-reference linking, table formatting, then report validation - against sibling
+`.tmp.` copies in one call, or against the skill repository directly with
+`--skill-root <path>` or `LENS_SKILL_ROOT`.
 
 `scripts/new-report.py --style audit|hunt|review` emits a validated skeleton carrying these
 sections, table headers, and field-labeled template blocks, so the structure is correct

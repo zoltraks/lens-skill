@@ -17,9 +17,10 @@ All scripts require Python 3.8 or later (the walrus operator is used in
 
 ### Report-Production Tools
 
-Copy `link-glossary.py`, `format-table.py`, `align-comments.py`, `validate-report.py`, and -
-for Polish reports - `lint-polish.py` into the audited repository's `work/` directory under a
-`.tmp.` name before use.
+Copy `link-glossary.py`, `link-references.py`, `format-table.py`, `align-comments.py`,
+`validate-report.py`, and - for Polish reports - `lint-polish.py`,
+`map-report-translation.py`, and `check-pl-report.py` into the audited
+repository's `work/` directory under a `.tmp.` name before use.
 
 If `work/` does not exist, use an existing `temp` or `temporary` directory.
 
@@ -28,8 +29,9 @@ Use the repository root only when none of those directories exists.
 Run the copied scripts only against the generated report and report-support artifacts.
 
 The edit-format-validate cycle is: edit the report, run `link-glossary.py` to insert glossary
-body links, run `format-table.py`, then `validate-report.py`, repeating until the validator
-reports zero issues.
+body links, run `link-references.py` to link register identifiers (`EVD`, `FND`, `RSK`, `REC`,
+`TDR`, `PAR`) to their definitions, run `format-table.py`, then `validate-report.py`,
+repeating until the validator reports zero issues.
 
 `finalize-report.py` runs that cycle's three steps in one command when copied alongside them
 under a `.tmp.` name, locating its siblings by filename. When the copies are absent, pass
@@ -80,16 +82,51 @@ blocks, including the skill's own files.
 Result, Priority, Likelihood, Residual, Owner, Exploitability), because those positions hold
 fixed-vocabulary tokens the validator compares literally.
 
-When the report language is not English,
-run `validate-report.py` on an English-mapped working copy that translates the `* **Field:**`
-finding-block labels, fixed-vocabulary values, and section headings,
-and that remaps the glossary section anchor and the `Parity baseline` row label to English.
+`link-glossary.py --lang pl` reads a `## Słownik` index, links eligible terms to
+`#słownik` and its `###` subsections, applies the Polish field-label list and a Polish
+function-word set to the compound-name exemption, and matches capitalized neighbors with
+Unicode letters so `Zgodność API` stays a compound. `--check` (either language) verifies
+coverage without writing: it prints every eligible-but-unlinked term with its line number
+and exits `1` when any exist.
+
+`link-references.py` links every register identifier cited outside its defining location:
+`FND`, `RSK`, `REC`, and `TDR` references point at their `### <ID>:` heading anchors, while
+`EVD` and `PAR` references - defined as table rows - point at the anchor of the section
+holding the register table. Defining locations (the `### <ID>:` heading itself and the row
+whose first cell carries the identifier) stay unlinked, as do fenced code, inline code,
+headings, URLs, and existing links. Undefined or project-ambiguous identifiers are left
+plain and warned about; `validate-report.py` then fails on them and on any unlinked defined
+identifier, so the pass must run before validation.
+
+Table width measures the link text of `[text](target)` and `![alt](src)` markup only - the
+brackets, target, and delimiters are not counted - while every other character, including
+code-span backticks and emphasis markers, counts at source width.
+
+When the report language is not English, `validate-report.py` detects the language row
+in Document Information (for example `| Język | Polski |`) and exits `2` with guidance
+instead of emitting false English-literal failures.
+
+`map-report-translation.py` produces the English-mapped working copy for that validator:
+it inverts the `English | Polish` contract tables of `translations/polish-language.md`
+(passed through `--rules`, the same convention as `lint-polish.py`), maps section
+headings, field labels, fixed-vocabulary values, and link anchors back to English, and -
+with `--en <canonical-en.md>` - pins headings positionally and verifies structural parity
+against the English sibling.
 
 Mapping only field labels makes the validator skip the required-sections, glossary,
 and final-state checks instead of running them.
 
 Anchor remapping changes cell widths, so run `format-table.py` on the working copy before validating
 it.
+
+`check-pl-report.py` checks what mapping cannot see: summary-table titles agree with their
+`### FND-`/`RSK-`/`REC-`/`TDR-` block headings, prose counts (`22 ustaleń`, `13 ryzyk`)
+equal the real register counts, and prose sentences stay within `--max-words` (warn-level).
+Spell checking stays external.
+
+The full translated-report gate set is `lint-polish.py`, `lint-prose.py`,
+`link-glossary.py --lang pl --check`, the mapped-copy format+validate pair, and
+`check-pl-report.py`.
 
 On Windows consoles, set `PYTHONIOENCODING=utf-8` when running the tools, so non-ASCII report
 text prints legibly.
@@ -130,9 +167,15 @@ and the Retest Register trigger.
 `Calque And Style Replacements` table of `translations/polish-language.md`, plus
 comma splices, `tylko, gdy`, bare `per`, the `w.` abbreviation, semicolons, typographic
 characters that the ASCII convention forbids, and all-caps renderings of the title-case
-fixed vocabulary. Run it on every Polish report before delivery -
-a pre-delivery gate, not a Validation Record row. Like the other report tools it is copied
-into the audited repository under a `.tmp.` name before use.
+fixed vocabulary. Phrases in the `Sanctioned Idioms` and `Canonical Names Kept Verbatim`
+tables of the rules file are masked before calque matching, so approved idioms
+(`pod względem`) and proper names (`Request for Comments`) never flag. Enumeration-aware
+splice suppression keeps legitimate noun lists quiet. Run it on every Polish report
+before delivery - a pre-delivery gate, not a Validation Record row. Like the other report
+tools it is copied into the audited repository under a `.tmp.` name before use; a copy
+without `--rules` resolves the rules file relative to the skill tree, so a `.tmp.` copy
+must always pass `--rules <path to polish-language.md>` - the tool prints a hint when
+zero forbidden forms load, because silent zero coverage is the failure mode to avoid.
 
 A `review`-style report carrying a `Review Scope: Structure` row in Document Information
 selects the structure-variant contract from
@@ -214,13 +257,17 @@ python scripts/check-contents.py .
 python scripts/check-update.py
 python scripts/scan-standards.py path/to/standards-dir [--json]
 python scripts/lint-prose.py path/to/draft.md
+python scripts/link-references.py path/to/AUDIT.md
 python scripts/format-table.py path/to/AUDIT.md [--check] [--drop-empty-columns]
 python scripts/align-comments.py path/to/AUDIT.md [--check]
 python scripts/validate-report.py path/to/AUDIT.md [--repo-root path/to/repo]
 python scripts/validate-report.py --dump-contract
 python scripts/new-report.py --style hunt --projects api,cli --output path/to/HUNT.md
 python scripts/new-report.py --style review --scope structure --output path/to/REVIEW.md
-python scripts/lint-polish.py path/to/AUDYT.md
+python scripts/lint-polish.py path/to/AUDYT.md --rules translations/polish-language.md
+python scripts/link-glossary.py path/to/AUDYT.md --lang pl [--check]
+python scripts/map-report-translation.py path/to/AUDYT.md --rules translations/polish-language.md [--en path/to/AUDIT-EN.md]
+python scripts/check-pl-report.py path/to/AUDYT.md [--max-words 40]
 python scripts/finalize-report.py [--polish] [--skill-root path/to/lens-skill] path/to/AUDIT.md
 python -m unittest discover -s tests
 ```
@@ -228,6 +275,9 @@ python -m unittest discover -s tests
 Exit code `0` means all checks passed.
 
 Exit code `1` means one or more checks failed.
+
+Exit code `2` from `validate-report.py` means the report declares a non-English language
+and needs the translated-report gates instead of the English contract.
 
 ## Validation Order
 

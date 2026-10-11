@@ -21,18 +21,18 @@ never assumed from the previous report alone.
 | Section                          | Line | What it covers                             |
 |----------------------------------|------|--------------------------------------------|
 | When This Applies                | 37   | Baseline discovery and confirmation        |
-| Fresh Audit                      | 108  | What does and does not carry over          |
-| Cross-Subject Parity Baseline    | 129  | Any-subject baseline for the parity gate   |
-| Report Revision                  | 140  | Revision numbering                         |
-| Output Filename                  | 159  | Revisioned filename rules                  |
-| Comparison Content               | 212  | What the Changes section compares          |
-| Re-Audit With Changed Params     | 245  | Parameter-change comparison                |
-| Evidence Transitions             | 265  | Finding, evidence, and capability deltas   |
-| Observation Folding              | 284  | Attaching new defects to existing findings |
-| Identifier Continuity            | 295  | FND/RSK/REC sequence rules                 |
-| Status, Change, And Verification | 318  | Status/Change vocabulary for re-audits     |
-| Legacy Field Names               | 344  | Old-schema-to-current name mapping         |
-| Rules                            | 389  | Comparison constraints                     |
+| Fresh Audit                      | 112  | What does and does not carry over          |
+| Cross-Subject Parity Baseline    | 133  | Any-subject baseline for the parity gate   |
+| Report Revision                  | 144  | Revision numbering                         |
+| Output Filename                  | 163  | Revisioned filename rules                  |
+| Comparison Content               | 222  | What the Changes section compares          |
+| Re-Audit With Changed Params     | 255  | Parameter-change comparison                |
+| Evidence Transitions             | 275  | Finding, evidence, and capability deltas   |
+| Observation Folding              | 294  | Attaching new defects to existing findings |
+| Identifier Continuity            | 305  | FND/RSK/REC sequence rules                 |
+| Status, Change, And Verification | 328  | Status/Change vocabulary for re-audits     |
+| Legacy Field Names               | 354  | Old-schema-to-current name mapping         |
+| Rules                            | 399  | Comparison constraints                     |
 
 ## When This Applies
 
@@ -44,6 +44,10 @@ A previous report is identified by the audit report Document Information section
 `Software Audit Report` title with `Report Revision`, `Report Date`, `State`, and
 `Detail Level` rows, or by the audit filename convention: `AUDIT.md`, `AUDIT-<revision>.md`,
 or the language-specific filename defined in `translations/`.
+
+A language-suffixed pair produced by a `pair` language output - `AUDIT-<revision>-EN.md` and
+`AUDIT-<revision>-<LANG>.md` - names one report: the pair is discovered as a unit, and the
+English file is the canonical form for comparison.
 
 For a `hunt`-style report, the same rules apply to the hunt filename family: `HUNT.md`,
 `HUNT-<revision>.md`, and the language-specific stem such as `POLOWANIE-<revision>.md`,
@@ -172,6 +176,12 @@ For example, `AUDIT-1.1.md` or `AUDYT-1.1.md`.
 
 A first audit uses revision `1.0`, producing `AUDIT-1.0.md` or `AUDYT-1.0.md`,
 with the plain stem `AUDIT.md` offered as an alternative at delivery time.
+
+When the language output is `pair`, every filename rule applies to each file of the pair with
+the language suffix attached to the English stem: `AUDIT-<revision>-EN.md` and
+`AUDIT-<revision>-<LANG>.md`, or `AUDIT-EN.md`/`AUDIT-<LANG>.md` for the bare option - and a
+bare-stem pair is renamed file by file, `AUDIT-EN.md` to `AUDIT-1.0-EN.md` and its sibling
+likewise.
 
 A first `hunt`- or `review`-style report inverts this default: the plain stem `HUNT.md` or
 `REVIEW.md` (or the language-specific stem such as `POLOWANIE.md` or `PRZEGLĄD.md`) is

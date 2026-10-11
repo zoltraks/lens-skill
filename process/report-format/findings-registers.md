@@ -13,10 +13,10 @@
 |--------------------------------|------|--------------------------------------|
 | Strengths & What's Working     | 21   | Evidence-based positive baselines    |
 | Detailed Technical Findings    | 59   | Finding summary and detail blocks    |
-| Technical Debt Register        | 317  | Distinct accumulated debt            |
-| Unified Risk Register          | 365  | Cross-referenced risks               |
-| Actionable Remediation Roadmap | 459  | Prioritized recommendations          |
-| Recommendation Classification  | 535  | Recommended/Optional/Not recommended |
+| Technical Debt Register        | 323  | Distinct accumulated debt            |
+| Unified Risk Register          | 371  | Cross-referenced risks               |
+| Actionable Remediation Roadmap | 465  | Prioritized recommendations          |
+| Recommendation Classification  | 541  | Recommended/Optional/Not recommended |
 
 ## Strengths & What's Working
 
@@ -313,6 +313,12 @@ Every identifier is a compound token written whole and plainly: `FND-SEC-001`,
 `api-service::FND-SEC-001`, `REC-003`, `PAR-10`.
 
 The compound is never split, partially linked, or abbreviated to a bare prefix in prose.
+
+Every occurrence outside the identifier's defining location links to the definition,
+per Register Reference Links in `process/report-format.md` - the summary `Finding` cell,
+`Source`, `Resolves`, `Evidence`, and traceability columns all carry `[ID](#anchor)` forms,
+while the `### <ID>:` heading and the `EVD`/`PAR` register row that declares the identifier
+stay plain.
 
 ## Technical Debt Register
 

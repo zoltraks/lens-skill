@@ -128,6 +128,15 @@ The glossary variant, compound-name exemption, and fixed-field-label helpers sha
 between `scripts/link-glossary.py` and `scripts/validate-report.py` must be updated together in
 the same change, since a copied implementation drifts the same way a written rule does.
 
+The register-identifier patterns, heading-slug helper, and link display-width measurement
+shared between `scripts/link-references.py`, `scripts/format-table.py`, and
+`scripts/validate-report.py` follow the same rule - a change to one is a change to all.
+
+The heading-slug helper also lives in `scripts/map-report-translation.py` and
+`scripts/check-pl-report.py`, and the `--rules` table-parsing convention is shared
+between `scripts/lint-polish.py` and `scripts/map-report-translation.py` - keep those
+copies aligned with their originals the same way.
+
 ## Extending Assessment And Report Resources
 
 ### Adding An Assessment Category

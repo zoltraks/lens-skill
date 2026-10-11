@@ -20,11 +20,11 @@ defined in `process/report-format/hunt-style.md` and `process/report-format/revi
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 1752 | Intake Checklist guidance        |
-| Handling Thin Input     | 1772 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1783 | Single-Dimension Audits guidance |
-| Re-Audit                | 1797 | Re-Audit guidance                |
-| Multi-Project Audits    | 1863 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1787 | Intake Checklist guidance        |
+| Handling Thin Input     | 1808 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1819 | Single-Dimension Audits guidance |
+| Re-Audit                | 1833 | Re-Audit guidance                |
+| Multi-Project Audits    | 1899 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -68,6 +68,11 @@ such as a project glossary or design documents written in the report language,
 and record the established forms.
 
 They take precedence over the defaults in the matching `translations/` file.
+
+When the report language is not English, also resolve the language output: by default the
+run ships a file pair - the canonical English report plus its single-pass translation,
+per `principles/output-style.md` - and only an explicit request scoped to a single
+language ("only the Polish report") produces the translated file alone.
 
 The audit start timestamp is recorded later, the moment the last parameter question is
 resolved, before the remaining skill rule documents are loaded.
@@ -454,18 +459,19 @@ Present the defaults in a compact summary.
 
 Default parameters:
 
-| Parameter               | Default                                                                                                                                                            |
-|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Report style            | `audit` - the governance contract, `hunt` the defect-hunt genre, `review` the execution-register genre                                                             |
-| Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/`, else Inline                                                                            |
-| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md` for a first hunt, `REVIEW.md` for a first review                |
-| Report language         | Match the language of the user's request                                                                                                                           |
-| Detail level            | Detailed                                                                                                                                                           |
-| Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                                                                              |
-| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                                                                                            |
-| Trade-off analysis      | Standalone section + embedded into relevant findings                                                                                                               |
-| Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it                                                                            |
-| Evidence mode           | `source-only` - `executed-readonly` runs commissioned non-mutating analyzers, `executed-commands` adds commissioned non-mutating commands such as tests and builds |
+| Parameter               | Default                                                                                                                                                               |
+|-------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Report style            | `audit` - the governance contract, `hunt` the defect-hunt genre, `review` the execution-register genre                                                                |
+| Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/`, else Inline                                                                               |
+| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md` for a first hunt, `REVIEW.md` for a first review                   |
+| Report language         | Match the language of the user's request                                                                                                                              |
+| Language output         | `pair` when the report language is not English - the English report plus its translation; `single` when the request scopes to one language or the language is English |
+| Detail level            | Detailed                                                                                                                                                              |
+| Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                                                                                 |
+| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                                                                                               |
+| Trade-off analysis      | Standalone section + embedded into relevant findings                                                                                                                  |
+| Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it                                                                               |
+| Evidence mode           | `source-only` - `executed-readonly` runs commissioned non-mutating analyzers, `executed-commands` adds commissioned non-mutating commands such as tests and builds    |
 
 The agent MUST ask the user and MUST NOT skip this step.
 
@@ -473,6 +479,10 @@ The agent MUST wait for user response before proceeding to Scope Definition.
 
 Output filename carries the report revision: `AUDIT-1.0.md` for a first English audit, or the
 language-specific revisioned name from the matching `translations/` file such as `AUDYT-1.0.md`.
+
+When the language output is `pair`, both files share the English report stem and differ only
+by the language suffix - `AUDIT-1.0-EN.md` and `AUDIT-1.0-PL.md` for a Polish rendering - and
+the language-specific stem such as `AUDYT` names only a single-language report.
 
 For the `hunt` report style the stem is `HUNT` - or the language-specific stem such as
 `POLOWANIE` - and a first hunt defaults to the bare stem `HUNT.md`, with `HUNT-1.0.md`
@@ -517,8 +527,9 @@ The elapsed time is later written to the `Time taken` row in Document Informatio
 
 Once intake resolves, write the resolved values to `work/lens-params.json` in the audited
 repository - a plain JSON object carrying `subject`, `revision`, `projects`, `report_style`,
-`report_language`, `detail_level`, `evaluation_scale`, `evidence_mode`, `output_dir`, and
-`output_filename`.
+`report_language`, `language_output`, `detail_level`, `evaluation_scale`, `evidence_mode`,
+`output_dir`, and `output_filename` - a `pair` language output records the two filenames in
+`output_filenames` instead.
 
 The file locks intake for the session: a later request for another report style - or a re-run
 after an aborted assembly - reads the saved values instead of re-asking the parameter
@@ -551,7 +562,9 @@ Every routine prompt carries three kinds of choices:
 Routine prompts are limited to delivery and output file, report style, detail level, and
 evaluation scale.
 
-Report language follows the request language unless the user explicitly specifies another language.
+Report language follows the request language unless the user explicitly specifies another
+language, and a non-English request language resolves `Language output` to `pair` unless the
+request scopes to a single language - it is resolved from the request, not asked.
 
 Advanced parameters use their defaults unless explicitly specified.
 
@@ -655,7 +668,9 @@ Present each applicable option as a concrete choice:
 - `File - <base>/<current-date>/<filename>` - file location using the ISO `YYYY-MM-DD` current
   date. Offer this only when the recorded pattern is `none`. When the base is a bare
   documentation root, offer `<base>/report/<current-date>/<filename>` instead. For example,
-  `docs/report/<date>/AUDIT-1.0.md` for a first audit.
+  `docs/report/<date>/AUDIT-1.0.md` for a first audit. Under a `pair` language output every
+filename option names both files, for example `docs/audit/AUDIT-1.0-EN.md` and
+`docs/audit/AUDIT-1.0-PL.md`.
 - `File - <resolved-path>/<filename without the revision number>` - the resolved path using
   the filename without the revision number, such as `docs/report/AUDIT.md`, offered as an
   alternative to the revisioned default. For a `hunt`- or `review`-style report this option is
@@ -1588,8 +1603,9 @@ columns match `process/report-format/hunt-style.md` or
 
 Before composing the report body, run a tooling probe against the report-production scripts:
 
-copy `scripts/link-glossary.py`, `scripts/format-table.py`, and `scripts/validate-report.py`
-(or `scripts/finalize-report.py`, which orchestrates all three) into the audited repository
+copy `scripts/link-glossary.py`, `scripts/link-references.py`, `scripts/format-table.py`,
+and `scripts/validate-report.py` (or `scripts/finalize-report.py`, which orchestrates all
+four) into the audited repository
 under `.tmp.` names, run them on a stub report carrying one canonical populated instance of every
 fixed field token (`* **Absence:**`, `* **Exploitability:**`, `* **Status:**`, and so on),
 and confirm the tools behave as specified.
@@ -1600,9 +1616,12 @@ Produce the report in this order so each mechanical pass is effective:
 
 1. Finish all section content first. Every later cell-text edit changes column widths.
 2. Run `scripts/link-glossary.py` on the report to insert glossary body links.
-3. Run `scripts/format-table.py` once content is stable, so table alignment is computed once.
-4. Run `scripts/validate-report.py` and fix whole issue classes per run, not one problem at a time.
-5. Re-run the glossary pass and formatter whenever report prose changes, then re-validate.
+3. Run `scripts/link-references.py` to link every register-identifier reference to its
+   definition or register section.
+4. Run `scripts/format-table.py` once content is stable, so table alignment is computed once -
+   it pads by link display text, never markup.
+5. Run `scripts/validate-report.py` and fix whole issue classes per run, not one problem at a time.
+6. Re-run the linking passes and formatter whenever report prose changes, then re-validate.
 
 Run the Pre-Delivery Mechanical Checklist in `process/report-format.md` and require zero violations.
 
@@ -1613,10 +1632,15 @@ The validator prints at most ten problems per check, so fix, re-run the formatte
 and re-validate until it reports zero issues.
 
 When the report language is not English,
-first generate an English-mapped working copy that translates the `* **Field:**` finding-block
-labels, fixed-vocabulary values, and section headings,
-and that remaps the glossary section anchor and the `Parity baseline` row label to their English
-forms.
+`scripts/validate-report.py` refuses the file with exit 2 and guidance - the English contract
+never runs on a translated report directly.
+
+Instead, run `scripts/map-report-translation.py <report> --rules translations/polish-language.md
+--en <english-sibling.md>` to generate an English-mapped working copy: it inverts the
+contract tables to translate `* **Field:**` finding-block labels, fixed-vocabulary values,
+and section headings, and remaps every report-internal anchor - glossary links,
+`### <ID>:` heading links, the evidence-ledger and validation-record section anchors - to
+their English forms.
 
 A copy that maps only field labels lets the validator skip the required-sections, glossary,
 and final-state checks instead of running them.
@@ -1624,6 +1648,14 @@ and final-state checks instead of running them.
 The fuller mapping makes every check execute on the translated report.
 
 Run the table formatter on the working copy as well, since anchor remapping changes cell widths.
+
+The translated-report gates then run in this order:
+`scripts/lint-polish.py <report> --rules <translations/polish-language.md>`,
+`scripts/lint-prose.py <report>`,
+`scripts/link-glossary.py <report> --lang pl --check`,
+the mapped-copy format and validation pair,
+and `scripts/check-pl-report.py <report>` for summary-title agreement, prose-count
+reconciliation, and the warn-level sentence-length review.
 
 The report stays `Draft` while the checklist or the validator reports a violation.
 
@@ -1724,6 +1756,8 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Evaluation scale prompt shown                 | Four options: 1-10, 1-5, 1-3, Stars - count via follow-up       |
 | No previous report exists                     | Default `AUDIT-1.0.md`, `AUDIT.md` as alternative               |
 | `document/` exists, `docs/` does not          | Resolved base is `document/`, offered as a location             |
+| Non-English request, no language statement    | `pair` output - `AUDIT-<rev>-EN.md` plus `-<LANG>.md`           |
+| "Only the Polish report" request              | Single `AUDYT-<rev>.md`, English-first analysis                 |
 | Document prose already wraps near 60          | Offer 60 alongside the default 100 at wrap time                 |
 | Version-named subdirs under `docs/report/`    | Only the version path offered, no date alternative              |
 | Full audit report generated                   | Coverage matrix present, pentest row `NOT DONE`                 |
@@ -1738,6 +1772,7 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Non-Git subject                               | Delivery Practice section `NOT COLLECTED`                       |
 | Evidence ledger written                       | Every row carries `Observation` or `Concern`                    |
 | Polish-language report                        | Headings and dimension names match glossary verbatim            |
+| Polish audit request                          | `AUDIT-<rev>-EN.md` and `AUDIT-<rev>-PL.md`, translation last   |
 | Explicit review or check request              | `REVIEW.md` with the review-style section set                   |
 | Explicit change-set review request            | `REVIEW.md` scoped to the change set                            |
 | "Make a structure review" request             | `REVIEW.md` with the structure-review variant contract          |
@@ -1764,6 +1799,7 @@ Use this checklist to confirm you understand the input before assessing.
 | What constraints did the user state?            | Constraints, or `NOT SPECIFIED`                      |
 | What maturity does the user claim, if any?      | Claimed maturity, or none                            |
 | What is the natural language of the request?    | Language code or name, or English (default)          |
+| What language output was resolved?              | `single` / `pair`                                    |
 | How many projects are in the directory?         | One / Multiple (list each with path and version)     |
 | Which projects are included after the question? | Included list / excluded list with reasons           |
 | What output subdirectory pattern exists?        | `version-numbered` / `date-named` / `mixed` / `none` |

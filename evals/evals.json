@@ -1177,6 +1177,79 @@
     "Artifacts without attribution evidence are reported `Undetermined`, never described or implied as human-authored.",
     "Bot identities are excluded from contributor-concentration and bus-factor counts."
    ]
+  },
+  {
+   "id": 99,
+   "prompt": "Przeprowadź audyt tego repozytorium.",
+   "expected_output": "A bilingual report pair produced in one operation: the canonical English report plus its Polish translation.",
+   "files": [],
+   "expectations": [
+    "The run resolves `Language output` to `pair` and ships `AUDIT-1.0-EN.md` and `AUDIT-1.0-PL.md` - the `AUDYT` stem is never used in a pair.",
+    "The English report is produced and validated first; the Polish file is a translation of it in a single pass, never an independent audit.",
+    "Both files carry identical register identifiers, severities, revisions, and scores, and each Document Information names the sibling in its `Translations`/`Przekłady` row.",
+    "Links in the Polish file target its own Polish heading anchors - `#słownik`, `#rejestr-dowodów-audytowych` - never the English anchors.",
+    "Analysis and evidence gathering are reasoned in English throughout."
+   ]
+  },
+  {
+   "id": 100,
+   "prompt": "Make only the Polish report for this repository - wygeneruj wyłącznie polski raport audytu.",
+   "expected_output": "A single Polish-language report file produced with English-first analysis.",
+   "files": [],
+   "expectations": [
+    "The run produces a single `AUDYT-1.0.md` file - the explicit single-language scope suppresses the pair.",
+    "Evidence gathering, analysis, and part-file drafts run in English; only the rendered report is Polish.",
+    "The report carries no `Przekłady` row, and the Polish lint and English-mapped validation pass clean."
+   ]
+  },
+  {
+   "id": 101,
+   "prompt": "Audit this repository. The report's handoff and summary tables cite register identifiers such as EVD-004 and FND-CQY-002 defined elsewhere in the report.",
+   "expected_output": "A report where every cited register identifier outside its defining location is a Markdown link, and table alignment survives the links.",
+   "files": [],
+   "expectations": [
+    "Every `FND-`, `RSK-`, `REC-`, and `TDR-` citation outside its defining `###` heading links to that heading's anchor.",
+    "Every `EVD-` citation outside its ledger row links to the evidence-ledger section anchor, and every `PAR-` citation to the Validation Record section anchor.",
+    "Defining locations - the `### <ID>:` heading and the register row's own first cell - are never self-linked.",
+    "Identifiers inside code spans, code fences, existing links, and URLs stay plain text.",
+    "Table column widths and separator padding count only the visible link text, so the linked cells still align when rendered as plain text.",
+    "Project-qualified references such as `api-service::FND-SEC-001` resolve to the heading carrying the matching project suffix."
+   ]
+  },
+  {
+   "id": 102,
+   "prompt": "Finish the Polish translation of this audit report and verify it before delivery.",
+   "expected_output": "The translated-report gate set runs instead of the English validator on the Polish file.",
+   "files": [],
+   "expectations": [
+    "`validate-report.py` on the Polish file exits 2 with translated-report guidance - it is never run as the English contract against `| Język | Polski |`.",
+    "`lint-polish.py` always receives `--rules translations/polish-language.md` - a `.tmp.` copy without it loads zero forms and the run reports that hint instead of silently passing.",
+    "`map-report-translation.py` produces the English-mapped copy, `format-table.py` then `validate-report.py` run on that copy and report zero issues, and `--en` heading parity passes when the English sibling exists.",
+    "`check-pl-report.py` reconciles summary titles and prose counts, and `link-glossary.py --lang pl --check` reports zero unlinked terms.",
+    "A spell check is reported as external - it is not synthesized inside the Polish checker."
+   ]
+  },
+  {
+   "id": 103,
+   "prompt": "Review the Polish draft for calques: it renders 'slim document' as `chudy dokument`, writes `pod względem`, and keeps `Request for Comments` verbatim.",
+   "expected_output": "`chudy` is corrected to the `mały`/`drobny` vocabulary while the sanctioned idiom and the canonical English name pass untouched.",
+   "files": [],
+   "expectations": [
+    "`chudy`/`chuda`/`chude`/`chudymi` and every `chud` inflection is replaced - `slim`/`lean` renders `mały`, `tiny` renders `drobny`.",
+    "`pod względem`, `pod kątem`, and the other Sanctioned Idioms entries produce no calque warning.",
+    "`Request for Comments`, `pull request`, and `Cross-Site Request Forgery` stay verbatim as canonical English names.",
+    "External taxonomy and proper names may stay verbatim and are code-spanned where the style calls for it."
+   ]
+  },
+  {
+   "id": 104,
+   "prompt": "Translate this English audit report to Polish; its Validation Record marks PAR-16 `N/A` because the report is English.",
+   "expected_output": "The Polish report's PAR-16 row is re-evaluated for the Polish language, not mirrored.",
+   "files": [],
+   "expectations": [
+    "PAR-16 in the Polish report reads `Zastosowany` (or its evidence equivalent) with a note that the Polish language contract was applied - it does not copy the English `N/A`.",
+    "Language-dependent register cells are re-evaluated for the actual report language wherever the contract defines them."
+   ]
   }
  ]
 }

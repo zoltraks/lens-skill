@@ -10,8 +10,8 @@
 | Section              | Line | What it covers                       |
 |----------------------|------|--------------------------------------|
 | Document Information | 16   | Report metadata and revisions        |
-| Audit Type Coverage  | 148  | Coverage of canonical audit types    |
-| Glossary             | 198  | Abbreviation and acronym definitions |
+| Audit Type Coverage  | 153  | Coverage of canonical audit types    |
+| Glossary             | 203  | Abbreviation and acronym definitions |
 
 ## Document Information
 
@@ -52,6 +52,11 @@ Rows appear in this order, each label in the first column and its value in the s
 - `Detail Level` - `Standard`, `Detailed`, or `Brief`.
 - `Evaluation Scale` - `1-10`, `1-5`, `1-3`, `5 stars`, or `3 stars`.
 - `Language` - the report language.
+- `Translations` - the sibling language renderings of the same report, written only when the
+  run ships a language pair per `principles/output-style.md`: names each sibling file and its
+  language, for example `AUDIT-1.4-PL.md (Polish)` in the English report and
+  `AUDIT-1.4-EN.md (English - canonical)` in the translation. Omit the row on a
+  single-language report.
 - `Audit Purpose` - engineering improvement, production readiness, or technical due diligence.
 - `Target Environment` - where the software runs or ships.
 - `Verification Scope` - `static repository analysis (code, configuration,
@@ -342,8 +347,9 @@ State them here so the prose contract and the mechanical check agree.
 - References tables are not exempt: standalone publisher cells such as `| ISO |` and
   `| NIST |` link like any other occurrence.
 - Link text must be the term or a known variant exactly: `[EVD](#glossary)` passes,
-  `[EVD-001](#glossary)` fails because `EVD-001` is not a term, cite the bare `EVD-001`
-  unlinked instead, the hyphenated form is already exempt.
+  `[EVD-001](#glossary)` fails because `EVD-001` is not a term - a numbered register
+  identifier links to its own definition instead, per Register Reference Links in
+  `process/report-format.md`, for example `[EVD-001](#verification-and-evidence-ledger)`.
 
 **Coverage**
 

@@ -24,9 +24,9 @@ Two audits of similar systems should produce reports of similar shape, vocabular
 | Consistency Rules              | 151  | Same input, same output shape    |
 | Plain-Text Friendly Formatting | 167  | Terminal and diff readability    |
 | Multilingual Output            | 256  | Non-English report rendering     |
-| Information Security In Output | 363  | Redaction and disclosure limits  |
-| Report Termination             | 378  | End-of-report rules              |
-| Determinism                    | 387  | Repeatability guarantees         |
+| Information Security In Output | 384  | Redaction and disclosure limits  |
+| Report Termination             | 399  | End-of-report rules              |
+| Determinism                    | 408  | Repeatability guarantees         |
 
 ## Tone And Register
 
@@ -261,6 +261,27 @@ into that language.
 The default report language is English.
 
 When the request language is ambiguous or cannot be determined, default to English.
+
+**Language output**
+
+When the resolved report language is not English, the run ships a two-file pair by default:
+the canonical English report is produced and validated first, then rendered into the report
+language in a single translation pass that applies the matching `translations/` file.
+
+The translated file is a rendering of the English report, never an independent audit - it
+carries identical register identifiers (`EVD`, `FND`, `RSK`, `REC`, `TDR`, `PAR`), severities,
+revisions, and evidence qualifications, and each file's Document Information names the sibling
+in its `Translations` row.
+
+Pair filenames share the English report stem and differ only by language suffix, for example
+`AUDIT-1.4-EN.md` with `AUDIT-1.4-PL.md`, per the naming rules in `process/audit-workflow.md`
+and the matching `translations/` file.
+
+Links in the translated file point at its own headings and sections - anchors derive from the
+translated heading text, never carried over verbatim from the English file.
+
+An explicit request scoped to the non-English language alone ("only the Polish report")
+produces a single translated file instead, and analysis still runs in English.
 
 **Analysis language**
 

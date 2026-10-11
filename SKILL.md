@@ -24,7 +24,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.0.9"
+  version: "2.0.11"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -50,10 +50,10 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 | Translations            | 289  | Per-language report translations                   |
 | References              | 298  | Lookup tables                                      |
 | Scripts                 | 320  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 343  | Behavioral regression prompts                      |
-| Repository Files        | 347  | Housekeeping files governing this repository       |
-| Evidence Contract       | 359  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 387  | File-selection and section-placement rules         |
+| Evaluation Prompts      | 344  | Behavioral regression prompts                      |
+| Repository Files        | 348  | Housekeeping files governing this repository       |
+| Evidence Contract       | 360  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 388  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -325,8 +325,9 @@ repository's `work/` directory under a `.tmp.` name and remove the copies when d
 
 - **`scripts/format-table.py`** - Canonical table formatter (Table Formatting Rules).
 - **`scripts/align-comments.py`** - Plain-text `#` comment column aligner.
-- **`scripts/link-glossary.py`** - Glossary body-link inserter, run before the formatter.
-- **`scripts/validate-report.py`** - Mechanical report checker, `--dump-contract` emits the contract.
+- **`scripts/link-glossary.py`** - Glossary body-link inserter, run before the linker (`--lang pl`, `--check`).
+- **`scripts/link-references.py`** - Register-identifier linker, run before the formatter.
+- **`scripts/validate-report.py`** - Mechanical report checker (English contract; non-English reports exit 2 with guidance), `--dump-contract` emits the contract.
 - **`scripts/new-report.py`** - Report skeleton generator (`--style`, `--scope`, `--projects`, `--params`).
 - **`scripts/validate-skill.py`** - Frontmatter, disclosure, and references validator.
 - **`scripts/check-references.py`** - Relative-reference integrity checker.
@@ -334,8 +335,8 @@ repository's `work/` directory under a `.tmp.` name and remove the copies when d
 - **`scripts/check-update.py`** - Skill self-update checker (git upstream).
 - **`scripts/scan-standards.py`** - Supplied-standards corpus manifest for digest refresh.
 - **`scripts/finalize-report.py`** - Runs link, format, and validate in order on a report.
-- **`scripts/lint-polish.py`** - Polish report linter for calques and typography.
-- **`scripts/lint-prose.py`** - Pre-assembly prose linter for report drafts.
+- **`scripts/lint-polish.py`** / **`lint-prose.py`** - Polish report calque linter; pre-assembly draft linter.
+- **`scripts/map-report-translation.py`** / **`check-pl-report.py`** - Translated-report gates: English-mapped copy for `validate-report.py` (`--rules`, `--en` parity); Polish title/count/sentence checks.
 - **`scripts/common.py`** - Shared frontmatter and reporting helpers for maintenance tools.
 - **`scripts/README.md`** - Tool classes, usage, validation order, limitations.
 - **`tests/`** - Focused `unittest` contract tests for the report and maintenance tools.
