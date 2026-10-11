@@ -100,18 +100,6 @@ def strip_spans(value: str) -> str:
 LINK_MARKUP = re.compile(r"!?\[([^\]]*)\]\([^)]*\)")
 
 
-def collapse_links(text: str) -> str:
-    parts = re.split(r"(`[^`]*`)", text)
-    return "".join(
-        part if part.startswith("`") else LINK_MARKUP.sub(r"\1", part)
-        for part in parts
-    )
-
-
-def display_len(cell: str) -> int:
-    return len(collapse_links(cell))
-
-
 def cell_text(cell: str) -> str:
     match = re.fullmatch(r"\[([^\]]+)\]\([^)]*\)", cell)
     return match.group(1) if match else cell
@@ -236,10 +224,9 @@ def check_tables(lines: list[str], fences: list[bool]) -> list[str]:
                     )
         if sep_index != 1:
             continue
-        collapsed = [collapse_links(row) for row in rows]
-        header = content_cells(collapsed[0])
+        header = content_cells(rows[0])
         widths = [len(cell) for cell in header]
-        for position, row in enumerate(collapsed[2:], start=2):
+        for position, row in enumerate(rows[2:], start=2):
             cells = content_cells(row)
             if is_separator(cells):
                 continue
@@ -247,7 +234,7 @@ def check_tables(lines: list[str], fences: list[bool]) -> list[str]:
                 failures.append(f"line {start + position + 1}: table column count differs from header")
                 continue
             widths = [max(widths[index], len(cell)) for index, cell in enumerate(cells)]
-        raw_separator = raw_cells(collapsed[1])
+        raw_separator = raw_cells(rows[1])
         if any(cell != cell.strip() for cell in raw_separator):
             failures.append(f"line {start + 2}: table separator has spaces around hyphens")
         if len(raw_separator) != len(widths):
@@ -259,8 +246,8 @@ def check_tables(lines: list[str], fences: list[bool]) -> list[str]:
                     failures.append(
                         f"line {start + 2}: separator width in column {index + 1} is not {len(expected)}"
                     )
-        header_positions = [index for index, char in enumerate(collapsed[0]) if char == "|"]
-        for offset, row in enumerate(collapsed[2:], start=2):
+        header_positions = [index for index, char in enumerate(rows[0]) if char == "|"]
+        for offset, row in enumerate(rows[2:], start=2):
             if is_separator(content_cells(row)):
                 continue
             positions = [index for index, char in enumerate(row) if char == "|"]

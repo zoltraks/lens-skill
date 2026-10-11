@@ -12,17 +12,17 @@ Every document created or modified as part of this skill must follow the rules b
 
 ## Contents
 
-| Section                    | Line | What it covers                                  |
-|----------------------------|------|-------------------------------------------------|
-| Document Structure         | 27   | Titles, purpose blocks, and contents tables     |
-| Paragraphs And Wrapping    | 91   | Sentence structure and line width               |
-| Headings And Lists         | 147  | Heading depth, lists, and spacing               |
-| Code And Inline Formatting | 198  | Fences, code spans, and special characters      |
-| Tables                     | 276  | Source-width alignment and automated formatting |
-| Characters And Language    | 466  | Box-drawing, emoji, and per-language rules      |
-| File References            | 477  | Relative paths and backticked file paths        |
-| Skill Requirements         | 487  | Frontmatter and progressive disclosure          |
-| Maintenance                | 562  | File naming, encoding, and registration         |
+| Section                     | Line | What it covers                                  |
+|-----------------------------|------|-------------------------------------------------|
+| Document Structure          | 27   | Titles, purpose blocks, and contents tables     |
+| Paragraphs And Wrapping     | 91   | Sentence structure and line width               |
+| Headings And Lists          | 147  | Heading depth, lists, and spacing               |
+| Code And Inline Formatting  | 198  | Fences, code spans, and special characters      |
+| Tables                      | 276  | Source-width alignment and automated formatting |
+| Characters And Language     | 470  | Box-drawing, emoji, and per-language rules      |
+| File References             | 480  | Relative paths and backticked file paths        |
+| Skill Document Requirements | 494  | Frontmatter and progressive disclosure          |
+| Maintenance                 | 555  | File naming, encoding, and registration         |
 
 ## Document Structure
 
@@ -348,19 +348,12 @@ Do not strip, interpret, or collapse any characters before measuring.
 
 Do not measure the width of what the cell would look like after a Markdown renderer processes it.
 
-**Link markup is the single documented exception**: a `[text](target)` or `![alt](src)` cell
-measures its link text only - `[EVD-004](#verification-and-evidence-ledger)` counts as seven
-characters, `EVD-004`, not thirty-nine.
+A `[text](target)` or `![alt](src)` cell counts its full markup - brackets, text, and target
+included, so `[EVD-004](#verification-and-evidence-ledger)` counts as thirty-nine characters,
+not seven.
 
-Link targets are opaque to the reader navigating the source and inflate every column they
-appear in, so their markup is dropped from the measurement while every other formatting
-character still counts.
-
-The exception applies inside a cell but never inside a code span:
-`` `[x](#y)` `` counts all nine characters because a literalized link is ordinary text.
-
-A Markdown renderer hides backticks, asterisks, and other formatting markers from the reader, but
-those markers are still present in the source text and must be counted.
+A Markdown renderer hides backticks, asterisks, link targets, and other formatting markers from
+the reader, but those markers are still present in the source text and must be counted.
 
 The table is formatted for plain-text readability first, and a Markdown renderer second.
 

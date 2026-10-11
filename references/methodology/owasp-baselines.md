@@ -19,18 +19,18 @@ Feeds `assessment/security-review.md`, `assessment/threat-model.md`, and
 
 From https://owasp.org/www-project-top-ten/ and https://owasp.org/Top10/2025/.
 
-| Code | Category                                   |
-|------|--------------------------------------------|
-| A01  | Broken Access Control                      |
-| A02  | Security Misconfiguration                  |
-| A03  | Software Supply Chain Failures             |
-| A04  | Cryptographic Failures                     |
-| A05  | Injection                                  |
-| A06  | Insecure Design                            |
-| A07  | Authentication Failures                    |
-| A08  | Software or Data Integrity Failures        |
-| A09  | Security Logging and Alerting Failures     |
-| A10  | Mishandling of Exceptional Conditions      |
+| Code | Category                               |
+|------|----------------------------------------|
+| A01  | Broken Access Control                  |
+| A02  | Security Misconfiguration              |
+| A03  | Software Supply Chain Failures         |
+| A04  | Cryptographic Failures                 |
+| A05  | Injection                              |
+| A06  | Insecure Design                        |
+| A07  | Authentication Failures                |
+| A08  | Software or Data Integrity Failures    |
+| A09  | Security Logging and Alerting Failures |
+| A10  | Mishandling of Exceptional Conditions  |
 
 The 2025 edition expands 2021's Vulnerable and Outdated Components into Software Supply Chain
 Failures (A03), folds Server-Side Request Forgery into Broken Access Control (A01), and adds

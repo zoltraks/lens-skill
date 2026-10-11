@@ -1212,7 +1212,7 @@
     "Every `EVD-` citation outside its ledger row links to the evidence-ledger section anchor, and every `PAR-` citation to the Validation Record section anchor.",
     "Defining locations - the `### <ID>:` heading and the register row's own first cell - are never self-linked.",
     "Identifiers inside code spans, code fences, existing links, and URLs stay plain text.",
-    "Table column widths and separator padding count only the visible link text, so the linked cells still align when rendered as plain text.",
+    "Table column widths and separator padding count the full link markup, so all pipes align vertically in the raw Markdown source.",
     "Project-qualified references such as `api-service::FND-SEC-001` resolve to the heading carrying the matching project suffix."
    ]
   },

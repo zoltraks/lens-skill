@@ -130,11 +130,11 @@ class TestFormatTable(unittest.TestCase):
         widths = {len(line) for line in out_lines if line.startswith("|")}
         self.assertEqual(len(widths), 1)
 
-    def test_link_cells_measure_text_width(self):
+    def test_link_cells_measure_source_width(self):
         raw = "| a | bb |\n|--|--|\n| [x](#anchor-here) | 22 |\n"
         out_lines, _warnings, tables = self.formatter.format_text(raw)
         self.assertEqual(tables, 1)
-        self.assertEqual(out_lines[1], "|---|----|")
+        self.assertEqual(out_lines[1], "|-------------------|----|")
         self.assertEqual(out_lines[2], "| [x](#anchor-here) | 22 |")
 
     def test_link_markup_inside_code_span_counts_verbatim(self):
@@ -215,11 +215,11 @@ class TestValidateReport(unittest.TestCase):
         )
         self.assertEqual(failures, [])
 
-    def test_table_pipes_aligned_on_link_text(self):
+    def test_table_pipes_aligned_on_source_width(self):
         lines = [
-            "| Claim | Resolves |",
-            "|-------|----------|",
-            "| tests | [EVD-001](#ledger)  |",
+            "| Claim | Resolves           |",
+            "|-------|--------------------|",
+            "| tests | [EVD-001](#ledger) |",
         ]
         failures = self.validator.check_tables(lines, [False] * len(lines))
         self.assertEqual(failures, [])

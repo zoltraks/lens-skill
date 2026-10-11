@@ -484,100 +484,100 @@ This table is machine-readable - `scripts/lint-polish.py` parses it and flags ev
 
 Keep entries as single words or short fixed phrases the checker can match literally.
 
-| Instead of                 | Use                                              | Note                                                  |
-|----------------------------|--------------------------------------------------|-------------------------------------------------------|
-| rozjazd                    | rozbieżność / niezgodność                        | calque of English drift/mismatch                      |
-| dryf dokumentacji          | dezaktualizacja dokumentacji                     | drift is `narastająca rozbieżność` elsewhere          |
-| dryf                       | narastająca rozbieżność / odchylenie             | context-dependent                                     |
-| baseline                   | wartość bazowa / lista zaakceptowanych odchyleń  | spell out or keep English only in tool output         |
-| brama                      | warunek / kontrola blokująca                     | `gate`, `quality gate`, `lint gate`                   |
-| bramka                     | warunek / kontrola blokująca                     | same calque, diminutive                               |
-| martwa brama               | nieskuteczna kontrola                            | dead gate                                             |
-| strażnik                   | mechanizm ochronny                               | guard                                                 |
-| triaż                      | przegląd i klasyfikacja                          | vulnerability triage                                  |
-| parzystość                 | zgodność / równoważność                          | parity is not parzystość                              |
-| paritet                    | zgodność / równoważność                          | parity is not paritet                                 |
-| powierzchnia kodu          | zakres kodu                                      | surface area of code                                  |
-| powierzchnia sieci         | powierzchnia ataku dostępna przez sieć           | network surface                                       |
-| kontrola wykonawcza        | kontrola dynamiczna                              | control execution                                     |
-| zmaterializowane ryzyko    | ryzyko się zrealizowało                          | name the concrete effect where possible               |
-| czynnik autobusowy         | bus factor (ryzyko koncentracji wiedzy)          | gloss at first use, then `bus factor`                 |
-| commitowany                | commit / dodany do repozytorium                  | jargon derivative - use the loanword or a description |
-| onboardowanie              | wdrażanie nowych osób / wprowadzenie             | onboarding                                            |
-| progresywne ujawnianie     | stopniowe ujawnianie                             | progressive disclosure                                |
-| wielorazowy                | wielokrotnego użytku                             | reusable                                              |
-| linkowanych                | połączonych / powiązanych                        | linked                                                |
-| multi-agentowy             | wieloagentowy                                    | multi-agent                                           |
-| dostawczone                | dostarczone                                      | misspelling of dostarczone                            |
-| wydawniczy                 | wydaniowy                                        | release lifecycle, not publishing                     |
-| siostrzana gałąź           | pozostała gałąź / gałąź równoległa               | sibling branch                                        |
-| siostrzany                 | pozostały / równoległy                           | sibling                                               |
-| konsumowana                | używana / pobierana                              | consumed                                              |
-| zaadresować                | rozwiązać / uwzględnić                           | address an issue                                      |
-| celują w                   | kierują do / dotyczą                             | aim at                                                |
-| kosztują kontekst          | zajmują kontekst / zużywają kontekst             | cost context                                          |
-| przypięty (wersja)         | zamrożony (wersja)                               | `przypięcie` is reserved for host keys                |
-| nieprzypięty toolchain     | nieustalona wersja środowiska                    | unpinned toolchain                                    |
-| pod                        | poniżej / w ramach / zgodnie z                   | `under` calque: `pod nagłówkiem` -> `w sekcji`        |
-| plus (spójnik)             | oraz / a także                                   | `plus` never joins Polish clauses                     |
-| per (przyimek)             | dla każdego / na                                 | `per project` -> `dla każdego projektu`               |
-| niesie (cecha)             | wnosi / powoduje                                 | a branch does not carry traits like a person          |
-| dotyka                     | dotyczy / zmienia                                | touches                                               |
-| zyskuje                    | zostaje wzbogacony o / otrzymuje                 | gains                                                 |
-| właściciel dokumentu / właściciela dokumentu / właściciele dokumentów / właścicieli dokumentów / właścicielem dokumentu | dokument nadrzędny | owner of a document - contract roles such as `Właściciel weryfikacji` stay untouched |
-| mieszkają                  | znajdują się / są umieszczone                    | files do not live                                     |
-| żyje (plik)                | znajduje się                                     | same personification                                  |
-| lustro                     | kopia struktury / kopia                          | mirror                                                |
-| ładunek                    | zawartość / blok danych                          | payload                                               |
-| zakotwiczone               | osadzone / utrwalone                             | anchored                                              |
-| wskaźnik (odnośnik)        | odnośnik / wskaźnik                              | `wskaźnik` is a metric, a link is `odnośnik`          |
-| wyposażenie                | zawartość / skład                                | files are not equipped                                |
-| rekursują                  | przechodzą rekurencyjnie / schodzą rekurencyjnie | recurse                                               |
-| rozstrzygnięta lokalizacja | ustalona lokalizacja                             | calque of resolved location                           |
-| zastany                    | istniejący wcześniej / odziedziczony             | pre-existing                                          |
-| delta kodowa               | zakres zmian w kodzie                            | code delta                                            |
-| rozdzielczy (rzeczownik)   | plik kierujący                                   | router file                                           |
-| paczka                     | pakiet                                           | package                                               |
-| joiny                      | łączenia                                         | joins                                                 |
-| lookupy                    | wyszukiwania                                     | lookups                                               |
-| tylko, gdy                 | tylko wtedy, gdy                                 | syntax                                                |
-| w. (skrót wierszy)         | wiersze / linie                                  | no `w.` abbreviation                                  |
-| potok                      | proces / proces CI                               | pipeline                                              |
-| deployować                 | wdrażać                                          | deploy                                                |
-| requestować                | zgłaszać                                         | request                                               |
-| fixować                    | poprawiać                                        | fix                                                   |
-| kastomizacja               | dostosowanie                                     | customization                                         |
-| stakeholderzy              | interesariusze                                   | stakeholders                                          |
-| ownerzy biznesowi          | właściciele biznesowi                            | business owners                                       |
-| status report              | raport o statusie                                |                                                       |
-| meeting minutes            | protokół zebrania                                |                                                       |
-| dane skrapane              | dane skrapowane                                  | scraped data                                          |
-| usankcjonować              | sankcjonować / formalizować                      | misspelling                                           |
-| prozatorski                | opisowy / narracyjny                             | prosaic                                               |
-| tier                       | poziom                                           | exploitability tier                                   |
-| drift                      | rozbieżność / dezaktualizacja                    | English word inside Polish prose                      |
-| uplok                      | wgrywanie / przesyłanie                          | misspelled `upload`                                   |
-| upload                     | wgrywanie / przesyłanie                          | upload to a remote store                              |
-| seed                       | dane inicjalizacyjne / wpis inicjalizacyjny      | seed data, seeded account                             |
-| fallback                   | mechanizm awaryjny / obsługa zastępcza           | bare noun - `fallbackData` in code stays verbatim     |
-| pipeline                   | proces CI / proces                               | bare noun - a job name in code stays verbatim         |
-| konsumuj                   | używają / pobierają                              | consume                                               |
-| skanery podatności         | skanowanie podatności                            | the unrun activity, not the tools                     |
-| skanerów podatności        | skanowania podatności                            | same phrase, genitive                                 |
-| stem                       | podstawa nazwy pliku                             | filename stem, for example in the delivery prompt     |
-| traversowanie              | manipulacja ścieżką                              | path traversal                                        |
-| traversowania              | manipulacji ścieżką                              | path traversal, genitive                              |
-| kanonikalizacja            | normalizacja ścieżek                             | path canonicalization                                 |
-| kanonikalizować            | normalizować                                     | canonicalize - `kanoniczny` stays as the adjective    |
-| hartowanie                 | utwardzanie                                      | hardening                                             |
-| hartowania                 | utwardzania                                      | hardening, genitive                                   |
-| szew podstawienia          | punkt podstawienia                               | seam                                                  |
-| szew                       | punkt podstawienia                               | seam in the testability sense                         |
-| szwy                       | punkty podstawienia                              | seams, plural                                         |
-| statyczne procedury        | statyczne handlery                               | static handlers                                       |
-| statycznych procedur       | statycznych handlerów                            | static handlers, genitive                             |
-| przemierzona lokalizacja   | lokalizacja wskazana przez ścieżkę               | traversed location                                    |
-| chud                       | mały / drobny                                    | slim/lean file or document is `mały`, tiny is `drobny` - stem covers every inflection of `chudy` |
+| Instead of                                                                                                              | Use                                              | Note                                                                                             |
+|-------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|--------------------------------------------------------------------------------------------------|
+| rozjazd                                                                                                                 | rozbieżność / niezgodność                        | calque of English drift/mismatch                                                                 |
+| dryf dokumentacji                                                                                                       | dezaktualizacja dokumentacji                     | drift is `narastająca rozbieżność` elsewhere                                                     |
+| dryf                                                                                                                    | narastająca rozbieżność / odchylenie             | context-dependent                                                                                |
+| baseline                                                                                                                | wartość bazowa / lista zaakceptowanych odchyleń  | spell out or keep English only in tool output                                                    |
+| brama                                                                                                                   | warunek / kontrola blokująca                     | `gate`, `quality gate`, `lint gate`                                                              |
+| bramka                                                                                                                  | warunek / kontrola blokująca                     | same calque, diminutive                                                                          |
+| martwa brama                                                                                                            | nieskuteczna kontrola                            | dead gate                                                                                        |
+| strażnik                                                                                                                | mechanizm ochronny                               | guard                                                                                            |
+| triaż                                                                                                                   | przegląd i klasyfikacja                          | vulnerability triage                                                                             |
+| parzystość                                                                                                              | zgodność / równoważność                          | parity is not parzystość                                                                         |
+| paritet                                                                                                                 | zgodność / równoważność                          | parity is not paritet                                                                            |
+| powierzchnia kodu                                                                                                       | zakres kodu                                      | surface area of code                                                                             |
+| powierzchnia sieci                                                                                                      | powierzchnia ataku dostępna przez sieć           | network surface                                                                                  |
+| kontrola wykonawcza                                                                                                     | kontrola dynamiczna                              | control execution                                                                                |
+| zmaterializowane ryzyko                                                                                                 | ryzyko się zrealizowało                          | name the concrete effect where possible                                                          |
+| czynnik autobusowy                                                                                                      | bus factor (ryzyko koncentracji wiedzy)          | gloss at first use, then `bus factor`                                                            |
+| commitowany                                                                                                             | commit / dodany do repozytorium                  | jargon derivative - use the loanword or a description                                            |
+| onboardowanie                                                                                                           | wdrażanie nowych osób / wprowadzenie             | onboarding                                                                                       |
+| progresywne ujawnianie                                                                                                  | stopniowe ujawnianie                             | progressive disclosure                                                                           |
+| wielorazowy                                                                                                             | wielokrotnego użytku                             | reusable                                                                                         |
+| linkowanych                                                                                                             | połączonych / powiązanych                        | linked                                                                                           |
+| multi-agentowy                                                                                                          | wieloagentowy                                    | multi-agent                                                                                      |
+| dostawczone                                                                                                             | dostarczone                                      | misspelling of dostarczone                                                                       |
+| wydawniczy                                                                                                              | wydaniowy                                        | release lifecycle, not publishing                                                                |
+| siostrzana gałąź                                                                                                        | pozostała gałąź / gałąź równoległa               | sibling branch                                                                                   |
+| siostrzany                                                                                                              | pozostały / równoległy                           | sibling                                                                                          |
+| konsumowana                                                                                                             | używana / pobierana                              | consumed                                                                                         |
+| zaadresować                                                                                                             | rozwiązać / uwzględnić                           | address an issue                                                                                 |
+| celują w                                                                                                                | kierują do / dotyczą                             | aim at                                                                                           |
+| kosztują kontekst                                                                                                       | zajmują kontekst / zużywają kontekst             | cost context                                                                                     |
+| przypięty (wersja)                                                                                                      | zamrożony (wersja)                               | `przypięcie` is reserved for host keys                                                           |
+| nieprzypięty toolchain                                                                                                  | nieustalona wersja środowiska                    | unpinned toolchain                                                                               |
+| pod                                                                                                                     | poniżej / w ramach / zgodnie z                   | `under` calque: `pod nagłówkiem` -> `w sekcji`                                                   |
+| plus (spójnik)                                                                                                          | oraz / a także                                   | `plus` never joins Polish clauses                                                                |
+| per (przyimek)                                                                                                          | dla każdego / na                                 | `per project` -> `dla każdego projektu`                                                          |
+| niesie (cecha)                                                                                                          | wnosi / powoduje                                 | a branch does not carry traits like a person                                                     |
+| dotyka                                                                                                                  | dotyczy / zmienia                                | touches                                                                                          |
+| zyskuje                                                                                                                 | zostaje wzbogacony o / otrzymuje                 | gains                                                                                            |
+| właściciel dokumentu / właściciela dokumentu / właściciele dokumentów / właścicieli dokumentów / właścicielem dokumentu | dokument nadrzędny                               | owner of a document - contract roles such as `Właściciel weryfikacji` stay untouched             |
+| mieszkają                                                                                                               | znajdują się / są umieszczone                    | files do not live                                                                                |
+| żyje (plik)                                                                                                             | znajduje się                                     | same personification                                                                             |
+| lustro                                                                                                                  | kopia struktury / kopia                          | mirror                                                                                           |
+| ładunek                                                                                                                 | zawartość / blok danych                          | payload                                                                                          |
+| zakotwiczone                                                                                                            | osadzone / utrwalone                             | anchored                                                                                         |
+| wskaźnik (odnośnik)                                                                                                     | odnośnik / wskaźnik                              | `wskaźnik` is a metric, a link is `odnośnik`                                                     |
+| wyposażenie                                                                                                             | zawartość / skład                                | files are not equipped                                                                           |
+| rekursują                                                                                                               | przechodzą rekurencyjnie / schodzą rekurencyjnie | recurse                                                                                          |
+| rozstrzygnięta lokalizacja                                                                                              | ustalona lokalizacja                             | calque of resolved location                                                                      |
+| zastany                                                                                                                 | istniejący wcześniej / odziedziczony             | pre-existing                                                                                     |
+| delta kodowa                                                                                                            | zakres zmian w kodzie                            | code delta                                                                                       |
+| rozdzielczy (rzeczownik)                                                                                                | plik kierujący                                   | router file                                                                                      |
+| paczka                                                                                                                  | pakiet                                           | package                                                                                          |
+| joiny                                                                                                                   | łączenia                                         | joins                                                                                            |
+| lookupy                                                                                                                 | wyszukiwania                                     | lookups                                                                                          |
+| tylko, gdy                                                                                                              | tylko wtedy, gdy                                 | syntax                                                                                           |
+| w. (skrót wierszy)                                                                                                      | wiersze / linie                                  | no `w.` abbreviation                                                                             |
+| potok                                                                                                                   | proces / proces CI                               | pipeline                                                                                         |
+| deployować                                                                                                              | wdrażać                                          | deploy                                                                                           |
+| requestować                                                                                                             | zgłaszać                                         | request                                                                                          |
+| fixować                                                                                                                 | poprawiać                                        | fix                                                                                              |
+| kastomizacja                                                                                                            | dostosowanie                                     | customization                                                                                    |
+| stakeholderzy                                                                                                           | interesariusze                                   | stakeholders                                                                                     |
+| ownerzy biznesowi                                                                                                       | właściciele biznesowi                            | business owners                                                                                  |
+| status report                                                                                                           | raport o statusie                                |                                                                                                  |
+| meeting minutes                                                                                                         | protokół zebrania                                |                                                                                                  |
+| dane skrapane                                                                                                           | dane skrapowane                                  | scraped data                                                                                     |
+| usankcjonować                                                                                                           | sankcjonować / formalizować                      | misspelling                                                                                      |
+| prozatorski                                                                                                             | opisowy / narracyjny                             | prosaic                                                                                          |
+| tier                                                                                                                    | poziom                                           | exploitability tier                                                                              |
+| drift                                                                                                                   | rozbieżność / dezaktualizacja                    | English word inside Polish prose                                                                 |
+| uplok                                                                                                                   | wgrywanie / przesyłanie                          | misspelled `upload`                                                                              |
+| upload                                                                                                                  | wgrywanie / przesyłanie                          | upload to a remote store                                                                         |
+| seed                                                                                                                    | dane inicjalizacyjne / wpis inicjalizacyjny      | seed data, seeded account                                                                        |
+| fallback                                                                                                                | mechanizm awaryjny / obsługa zastępcza           | bare noun - `fallbackData` in code stays verbatim                                                |
+| pipeline                                                                                                                | proces CI / proces                               | bare noun - a job name in code stays verbatim                                                    |
+| konsumuj                                                                                                                | używają / pobierają                              | consume                                                                                          |
+| skanery podatności                                                                                                      | skanowanie podatności                            | the unrun activity, not the tools                                                                |
+| skanerów podatności                                                                                                     | skanowania podatności                            | same phrase, genitive                                                                            |
+| stem                                                                                                                    | podstawa nazwy pliku                             | filename stem, for example in the delivery prompt                                                |
+| traversowanie                                                                                                           | manipulacja ścieżką                              | path traversal                                                                                   |
+| traversowania                                                                                                           | manipulacji ścieżką                              | path traversal, genitive                                                                         |
+| kanonikalizacja                                                                                                         | normalizacja ścieżek                             | path canonicalization                                                                            |
+| kanonikalizować                                                                                                         | normalizować                                     | canonicalize - `kanoniczny` stays as the adjective                                               |
+| hartowanie                                                                                                              | utwardzanie                                      | hardening                                                                                        |
+| hartowania                                                                                                              | utwardzania                                      | hardening, genitive                                                                              |
+| szew podstawienia                                                                                                       | punkt podstawienia                               | seam                                                                                             |
+| szew                                                                                                                    | punkt podstawienia                               | seam in the testability sense                                                                    |
+| szwy                                                                                                                    | punkty podstawienia                              | seams, plural                                                                                    |
+| statyczne procedury                                                                                                     | statyczne handlery                               | static handlers                                                                                  |
+| statycznych procedur                                                                                                    | statycznych handlerów                            | static handlers, genitive                                                                        |
+| przemierzona lokalizacja                                                                                                | lokalizacja wskazana przez ścieżkę               | traversed location                                                                               |
+| chud                                                                                                                    | mały / drobny                                    | slim/lean file or document is `mały`, tiny is `drobny` - stem covers every inflection of `chudy` |
 
 ### Sanctioned Idioms
 
@@ -585,14 +585,14 @@ This table is machine-readable - `scripts/lint-polish.py` masks every `Allowed p
 before the calque check, so the fixed idioms below do not fire the `pod` stem or other
 calque rules.
 
-| Allowed phrase  | Covers                                                      |
-|-----------------|-------------------------------------------------------------|
-| pod względem    | `pod` - `with regard to`, a fixed Polish idiom              |
-| pod kątem       | `pod` - `in terms of`, `with regard to`                     |
-| pod adresem     | `pod` - `at (address)`                                      |
-| pod presją      | `pod` - `under pressure`                                    |
-| pod uwagę       | `pod` - `take into account`                                 |
-| pod lupą        | `pod` - `under review`, `under scrutiny`                    |
+| Allowed phrase | Covers                                         |
+|----------------|------------------------------------------------|
+| pod względem   | `pod` - `with regard to`, a fixed Polish idiom |
+| pod kątem      | `pod` - `in terms of`, `with regard to`        |
+| pod adresem    | `pod` - `at (address)`                         |
+| pod presją     | `pod` - `under pressure`                       |
+| pod uwagę      | `pod` - `take into account`                    |
+| pod lupą       | `pod` - `under review`, `under scrutiny`       |
 
 ### Canonical Names Kept Verbatim
 
@@ -601,13 +601,13 @@ before the calque check, so stems such as `request` do not fire inside these nam
 External-taxonomy names not listed here (CWE titles, OWASP names, RFC titles) stay
 wrapped in backticks instead.
 
-| Canonical name              | Reason                                  |
-|-----------------------------|-----------------------------------------|
-| Request for Comments        | RFC expansion, verbatim                 |
-| Cross-Site Request Forgery  | CWE-352 title, verbatim                 |
-| Server-Side Request Forgery | OWASP A10 name, verbatim                |
-| pull request                | canonical version-control term          |
-| merge request               | canonical version-control term          |
+| Canonical name              | Reason                         |
+|-----------------------------|--------------------------------|
+| Request for Comments        | RFC expansion, verbatim        |
+| Cross-Site Request Forgery  | CWE-352 title, verbatim        |
+| Server-Side Request Forgery | OWASP A10 name, verbatim       |
+| pull request                | canonical version-control term |
+| merge request               | canonical version-control term |
 
 ## Parameter Prompts
 

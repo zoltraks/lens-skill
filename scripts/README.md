@@ -98,9 +98,9 @@ headings, URLs, and existing links. Undefined or project-ambiguous identifiers a
 plain and warned about; `validate-report.py` then fails on them and on any unlinked defined
 identifier, so the pass must run before validation.
 
-Table width measures the link text of `[text](target)` and `![alt](src)` markup only - the
-brackets, target, and delimiters are not counted - while every other character, including
-code-span backticks and emphasis markers, counts at source width.
+Table width measures every character of the source cell, including `[text](target)` and
+`![alt](src)` markup in full - brackets, text, and target together - so all `|` separators
+align vertically in the raw file.
 
 When the report language is not English, `validate-report.py` detects the language row
 in Document Information (for example `| Język | Polski |`) and exits `2` with guidance

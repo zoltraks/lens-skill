@@ -23,7 +23,7 @@ Rationale and detail live in the section specs under `process/report-format/` an
 - No em dash, en dash, or Unicode arrow outside code spans - use `-` and `->`.
 - Every table's separator widths match its header cell widths and all pipes align
   vertically - run `scripts/format-table.py` rather than aligning by hand. Column widths
-  count only the link text of `[text](target)` markup, never the brackets or target.
+  count the full `[text](target)` markup - brackets, text, and target together.
 - Every register identifier (`EVD`, `FND`, `RSK`, `REC`, `TDR`, `PAR`) cited outside its
   defining location links to its definition - `### <ID>:` heading anchors for block
   registers, the register's section anchor for `EVD`/`PAR` rows - and every such link

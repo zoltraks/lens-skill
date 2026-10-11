@@ -39,12 +39,12 @@ A present-but-empty section signals a gap, a missing section hides it.
 | Section                                     | Line | What it covers                              |
 |---------------------------------------------|------|---------------------------------------------|
 | Formatting Rules                            | 49   | Formatting Rules guidance                   |
-| Report Delivery And Parameter Configuration | 311  | Report delivery and output configuration    |
-| Detail Level Configuration                  | 364  | Standard, detailed, and brief reports       |
-| Conditional Sections                        | 459  | Inclusion criteria for conditional sections |
-| Section Order                               | 516  | Single-project and multi-project order      |
-| Specification Files                         | 613  | Per-section specification file index        |
-| Pre-Delivery Mechanical Checklist           | 645  | Final mechanical checks                     |
+| Report Delivery And Parameter Configuration | 310  | Report delivery and output configuration    |
+| Detail Level Configuration                  | 363  | Standard, detailed, and brief reports       |
+| Conditional Sections                        | 458  | Inclusion criteria for conditional sections |
+| Section Order                               | 515  | Single-project and multi-project order      |
+| Specification Files                         | 612  | Per-section specification file index        |
+| Pre-Delivery Mechanical Checklist           | 644  | Final mechanical checks                     |
 
 ## Formatting Rules
 
@@ -193,8 +193,8 @@ column, including the header.
 Include all Markdown formatting characters (backticks, asterisks, spaces, punctuation)
 in the width measurement.
 
-Link markup is the sole exception: a `[text](target)` or `![alt](src)` cell measures its
-link text only - the brackets, target, and delimiters are not counted.
+Link and image markup counts in full: a `[text](target)` or `![alt](src)` cell measures
+brackets, text, and target together - nothing is stripped before measuring.
 
 **Compacting**: After calculating column widths,
 compact the table by removing any padding that exceeds the widest cell in each column.
@@ -204,8 +204,8 @@ The compacted version - minimum width that fits every cell - is the correct vers
 **Checklist for every table**:
 
 - Identify all cells including the header row.
-- Measure each cell width including all formatting characters, with link and image markup
-  counted as its text part only.
+- Measure each cell width including all formatting characters - link and image markup
+  counts its full source text.
 - Determine the maximum width per column.
 - Pad every cell with trailing spaces to match the column maximum.
 - Build the separator with hyphens equal to the column width plus two, no spaces.
@@ -222,9 +222,8 @@ Format every table with a script, do not count column widths by hand.
 Manual counting is error-prone and produces misaligned columns, per `docs/STYLE.md`.
 
 Before delivering a File-mode report, run a script that implements the checklist above:
-parse each table, measure every cell width in source text - counting `[text](target)` and
-`![alt](src)` markup as its link text only - pad each cell to the column maximum, and
-rebuild each separator as the column width plus two hyphens.
+parse each table, measure every cell width in source text, pad each cell to the column
+maximum, and rebuild each separator as the column width plus two hyphens.
 
 Handle both `\n` and `\r\n` input and preserve the file's original line-ending style.
 

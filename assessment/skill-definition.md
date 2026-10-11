@@ -35,18 +35,18 @@ Treat a frontmatter field that contradicts the spec as a conformance finding.
 
 ## Contents
 
-| Section                            | Line | What it covers                                  |
-|------------------------------------|------|-------------------------------------------------|
-| Agent-Facing Artifact Discovery    | 51   | Locating skills and agent configuration files   |
-| Authored Versus Installed          | 95   | Classification signals and exclusion handling   |
-| When This Applies                  | 124  | Applicability and N/A conditions                |
-| What To Evaluate                   | 139  | Per-skill conformance dimensions                |
-| Collection-Level Checks            | 201  | Multi-skill consistency and inventory           |
-| Agent Skills Specification Reference | 215 | Field-constraint table and clause citations     |
-| Evidence To Look For               | 237  | Source signals per dimension                    |
-| Status Criteria                    | 256  | PASS through N/A verdict definitions            |
-| Common Risks                       | 282  | Typical failure modes                           |
-| What Raises Confidence             | 304  | Positive evidence signals                       |
+| Section                              | Line | What it covers                                |
+|--------------------------------------|------|-----------------------------------------------|
+| Agent-Facing Artifact Discovery      | 51   | Locating skills and agent configuration files |
+| Authored Versus Installed            | 95   | Classification signals and exclusion handling |
+| When This Applies                    | 124  | Applicability and N/A conditions              |
+| What To Evaluate                     | 139  | Per-skill conformance dimensions              |
+| Collection-Level Checks              | 201  | Multi-skill consistency and inventory         |
+| Agent Skills Specification Reference | 215  | Field-constraint table and clause citations   |
+| Evidence To Look For                 | 237  | Source signals per dimension                  |
+| Status Criteria                      | 256  | PASS through N/A verdict definitions          |
+| Common Risks                         | 282  | Typical failure modes                         |
+| What Raises Confidence               | 304  | Positive evidence signals                     |
 
 ## Agent-Facing Artifact Discovery
 
