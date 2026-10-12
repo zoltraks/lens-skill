@@ -106,8 +106,9 @@ def reconfigure_stdio():
 
 
 def strip_code(line):
-    """Remove inline code spans from a line."""
-    return re.sub(r"`[^`]*`", "", line)
+    """Remove inline code spans and markdown link targets from a line."""
+    text = re.sub(r"`[^`]*`", "", line)
+    return re.sub(r"(\[[^\]]*\])\([^)]*\)", r"\1", text)
 
 
 def iter_prose_lines(path):

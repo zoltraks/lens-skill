@@ -59,6 +59,12 @@ KEEP_CAPS = {
     "INSUFFICIENT INFORMATION",
     "UNKNOWN",
     "PENDING EVIDENCE",
+    # Acronyms and register prefixes that the contract renders verbatim -
+    # without these they sentence-case into `Sbom`/`Stride`/`Rec`/`Adr`.
+    "SBOM",
+    "STRIDE",
+    "REC",
+    "ADR",
 }
 
 # `tak`/`nie` are ordinary prose words - only inside the boolean field
@@ -71,10 +77,20 @@ FIELD_YES_NO = re.compile(
 YES_NO = {"tak": "yes", "nie": "no", "nie dotyczy": "not applicable"}
 
 # `Zadeklarowana` inverts to the Verification-column token `Reported`, but
-# the Provenance basis field wants the provenance qualifier `Declared`.
+# the Provenance basis field wants the provenance qualifier `Declared`. The
+# remaining provenance values never appear in contract tables, so the field
+# itself rewrites them here (`Wskazana` -> `Indicated` and so on).
 FIELD_PROVENANCE = re.compile(
-    r"^(\s*\*\s+\*\*Provenance basis:\*\*\s*)Reported\b"
+    r"^(\s*\*\s+\*\*Provenance basis:\*\*\s*)"
+    r"(Reported|Zaświadczona|Dostarczona|Wskazana|Nieokreślona)\b"
 )
+PROVENANCE_VALUE = {
+    "reported": "Declared",
+    "zaświadczona": "Attested",
+    "dostarczona": "Supplied",
+    "wskazana": "Indicated",
+    "nieokreślona": "Undetermined",
+}
 
 HEADING = re.compile(r"^#{2,3}\s+(.+?)\s*$")
 BLOCK_HEADING = re.compile(r"^###\s+([A-Z]{3}-[A-Z]{3}-\d{3}|[A-Z]{3}-\d{3})")
@@ -221,6 +237,21 @@ def fixup(text):
     text = text.replace(
         "Operational Objectives (", "Operational objectives ("
     )
+    # `Nieokreślony` inverts to `NOT SPECIFIED` (the DORA-metric token) but
+    # the `Absence` field's `Undetermined` token shares the same Polish
+    # rendering - the field bullet disambiguates.
+    text = re.sub(
+        r"(?m)^(\s*\*\s+\*\*Absence:\*\*\s*)NOT SPECIFIED\b",
+        r"\1Undetermined",
+        text,
+    )
+    # PREFERRED pins `koszt` to lowercase `cost` for prose, which also
+    # hits the `Cost` field bullet on debt blocks - restore the label case.
+    text = re.sub(
+        r"(?m)^(\s*\*\s+\*\*)cost(:\*\*)",
+        r"\1Cost\2",
+        text,
+    )
     return text
 
 
@@ -339,7 +370,7 @@ def main():
     lines = apply_map("\n".join(raw_lines), pairs).split("\n")
     lines = [
         FIELD_PROVENANCE.sub(
-            r"\1Declared",
+            lambda m: m.group(1) + PROVENANCE_VALUE[m.group(2).lower()],
             FIELD_YES_NO.sub(
                 lambda m: m.group(1) + YES_NO[m.group(2).lower()], line
             ),

@@ -53,17 +53,17 @@ BLOCK_LABELS = {
     "FND": {
         "Filar", "Ważność", "Tytuł", "Wynik", "Status", "Zmiana",
         "Weryfikacja", "Typ", "Bezpieczeństwo", "Obiekty", "Podstawa",
-        "Charakter odstępstwa", "Opis", "Wpływ", "Zalecenie", "Metoda",
-        "Zweryfikowane", "Potwierdzone uruchomieniem",
-        "Łamanie kompatybilności", "Dotyczy", "Pewność oceny",
-        "Czynniki łagodzące", "Wykorzystanie podatności", "Dowód",
-        "Podstawa pochodzenia",
+        "Kryterium", "Charakter odstępstwa", "Opis", "Wpływ",
+        "Zalecenie", "Metoda", "Zweryfikowane",
+        "Potwierdzone uruchomieniem", "Łamanie kompatybilności",
+        "Dotyczy", "Pewność oceny", "Czynniki łagodzące",
+        "Wykorzystanie podatności", "Dowód", "Podstawa pochodzenia",
     },
     "RSK": {
-        "Ryzyko", "Opis", "Źródło", "Wpływ", "Prawdopodobieństwo",
-        "Ważność", "Środek ograniczający ryzyko", "Pewność oceny",
-        "Wyzwalacz", "Mechanizmy kontrolne", "Ryzyko rezydualne",
-        "Status", "Właściciel", "Zamknięcie",
+        "Ryzyko", "Opis", "Źródło", "Wpływ", "Zakres",
+        "Prawdopodobieństwo", "Ważność", "Środek ograniczający ryzyko",
+        "Pewność oceny", "Wyzwalacz", "Mechanizmy kontrolne",
+        "Ryzyko rezydualne", "Status", "Właściciel", "Zamknięcie",
     },
     "TDR": {
         "Dług", "Pozycja", "Kategoria", "Źródło", "Koszt", "Zwłoka",
@@ -73,6 +73,9 @@ BLOCK_LABELS = {
         "Identyfikator zalecenia", "Priorytet", "Ustalenie",
         "Zalecenie", "Opis", "Wpływ", "Koszt", "Wysiłek", "Złożoność",
         "Weryfikacja", "Łamanie", "Zależy od", "Właściciel",
+        "Warunek końcowy", "Rozważane alternatywy",
+        "Pewność oceny nakładu", "Ryzyko rezydualne",
+        "Kamień milowy akceptacji", "Dowód zamknięcia",
     },
 }
 
