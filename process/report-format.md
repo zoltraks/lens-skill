@@ -648,30 +648,30 @@ Run this checklist after writing the report body and before running the formatti
 It consolidates the mechanical rules from this file and `principles/output-style.md` in one place,
 every item is mechanical and takes seconds to verify.
 
-| Check            | Rule                                                                                                |
-|------------------|-----------------------------------------------------------------------------------------------------|
-| Headings         | `#` title, `##` sections, `###` subsections and blocks, never `####` or deeper                      |
-| Heading space    | Exactly one empty line after every heading                                                          |
-| Delimiters       | Pipe-delimited columns, one space inside leading and trailing pipes                                 |
-| Separators       | Hyphens contiguous with pipes, width equals column width plus two                                   |
-| Alignment        | Every column aligned by the formatting script, never padded by hand                                 |
-| Semicolons       | None outside code blocks, inline code, and file paths                                               |
-| Dashes           | ASCII `-` only, no em dash or en dash                                                               |
-| Arrows           | ASCII `->` in prose, no Unicode arrow                                                               |
-| Prose width      | Lines broken near the selected width (default 100), exempt table rows, URLs, links, paths           |
-| Finding blocks   | Every required field present, see the template in Detailed Technical Findings                       |
-| Coverage matrix  | Present after Document Information, consistent with Scope Exclusions                                |
-| SBOM             | Every License cell populated or `Unknown`, direct components manifest-sourced                       |
-| Type tags        | `Observation` or `Concern` on every evidence-ledger row and every finding                           |
-| Exploitability   | `Exploitability` field present on every `HIGH`/`CRITICAL` security finding, `N/A` justified         |
-| Glossary         | Every acronym indexed, every body occurrence linked to its anchor                                   |
-| Identifier links | Every register identifier cited outside its definition links to it, applied by `link-references.py` |
-| Diagrams         | Fenced, untagged, no leading or trailing blank line inside the fence                                |
-| Registers        | Every RSK cites an FND, every REC cites an FND, risk-map covers rated risks                         |
-| Classification   | At Standard/Detailed, Recommendation Classification lists every REC exactly once                    |
-| Project scope    | Inventory lists only intake-confirmed projects, exclusions disclosed in Scope Exclusions            |
-| Location         | Report path matches the output directory recorded during intake                                     |
-| Ending           | References is the last section, no closing line after it                                            |
+| Check            | Rule                                                                                                                                         |
+|------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| Headings         | `#` title, `##` sections, `###` subsections and blocks, never `####` or deeper                                                               |
+| Heading space    | Exactly one empty line after every heading                                                                                                   |
+| Delimiters       | Pipe-delimited columns, one space inside leading and trailing pipes                                                                          |
+| Separators       | Hyphens contiguous with pipes, width equals column width plus two                                                                            |
+| Alignment        | Every column aligned by the formatting script, never padded by hand                                                                          |
+| Semicolons       | None outside code blocks, inline code, and file paths                                                                                        |
+| Dashes           | ASCII `-` only, no em dash or en dash                                                                                                        |
+| Arrows           | ASCII `->` in prose, no Unicode arrow                                                                                                        |
+| Prose width      | Lines broken near the selected width (default 100), exempt table rows, URLs, links, paths                                                    |
+| Finding blocks   | Every required field present, see the template in Detailed Technical Findings                                                                |
+| Coverage matrix  | Present after Document Information, consistent with Scope Exclusions                                                                         |
+| SBOM             | Every License cell populated or `Unknown`, direct components manifest-sourced                                                                |
+| Type tags        | `Observation` or `Concern` on every evidence-ledger row and every finding                                                                    |
+| Exploitability   | `Exploitability` field present on every `HIGH`/`CRITICAL` security finding, `N/A` justified                                                  |
+| Glossary         | Every acronym indexed, every body occurrence linked to its anchor                                                                            |
+| Identifier links | Every register identifier cited outside its definition links to it, applied by `link-references.py`                                          |
+| Diagrams         | Fenced, untagged, no leading or trailing blank line inside the fence, frames and connectors column-aligned per `architectural-assessment.md` |
+| Registers        | Every RSK cites an FND, every REC cites an FND, risk-map covers rated risks                                                                  |
+| Classification   | At Standard/Detailed, Recommendation Classification lists every REC exactly once                                                             |
+| Project scope    | Inventory lists only intake-confirmed projects, exclusions disclosed in Scope Exclusions                                                     |
+| Location         | Report path matches the output directory recorded during intake                                                                              |
+| Ending           | References is the last section, no closing line after it                                                                                     |
 
 `scripts/format-table.py` in the skill repository is the canonical formatting script,
 copy it into the audited repository's `work/` directory before use.

@@ -241,6 +241,9 @@ diagrams.
 
 If a diagram already uses box-drawing characters, keep them.
 
+Node-and-edge diagrams the report draws - the Data Flow Diagram and any architecture sketch -
+follow the frame and connector geometry rules in `process/report-format/architectural-assessment.md`.
+
 Do not replace box-drawing characters with "+", "-", or "`".
 
 Do not leave blank lines as the first or last line inside a fenced code block.

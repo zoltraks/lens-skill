@@ -1395,6 +1395,19 @@
     "A rendered [lo-hi] interval contains its point score, stays within scale, and is omitted when degenerate.",
     "The report fails validation on a dangling Finding reference or a degenerate interval rather than shipping them."
    ]
+  },
+  {
+   "id": 117,
+   "prompt": "Audit this repository, a small HTTP service that fans out from one request handler to a session store, a database, and a filesystem. Include the Data Flow Diagram.",
+   "expected_output": "Level-0 and Level-1 data flow diagrams with framed nodes, padded centered labels, and fan-out junction drops that land on target centers.",
+   "files": [],
+   "expectations": [
+    "Every row of a frame shares identical left and right border columns - no content or border row sits shifted off its frame.",
+    "Each frame's interior is its longest label line plus one space of padding on each side - no label touches, crowds, or overflows a border.",
+    "Horizontal edges fill the whole gap with `─` and the `>` head touches the target's left border.",
+    "Every `│` drop, `v` head, and `┌`/`┬`/`┼`/`┐` junction column lands on the center column of the frame it feeds.",
+    "A label wrapped over several lines shares one left indent that centers the longest line, while stacked item labels stay left-aligned with one leading space."
+   ]
   }
  ]
 }
