@@ -1408,6 +1408,53 @@
     "Every `│` drop, `v` head, and `┌`/`┬`/`┼`/`┐` junction column lands on the center column of the frame it feeds.",
     "A label wrapped over several lines shares one left indent that centers the longest line, while stacked item labels stay left-aligned with one leading space."
    ]
+  },
+  {
+   "id": 118,
+   "prompt": "Audit this repository and produce a source-only report. Wrap prose at the configured width.",
+   "expected_output": "A report whose wrapped prose never splits a sentence across lines with a stray period, and whose headings and identifier citations follow the formatting contract.",
+   "files": [],
+   "expectations": [
+    "No line ending in '.' is followed by a line continuing the same sentence with a lowercase letter, and no doubled end mark such as ',.' appears.",
+    "Every heading is preceded and followed by one blank line.",
+    "Every register identifier is cited individually - no '..' identifier ranges such as 'RSK-007..RSK-014' appear anywhere.",
+    "The report passes validate-report.py with zero issues."
+   ]
+  },
+  {
+   "id": 119,
+   "prompt": "Audit this repository and produce a full audit report with an Executive Summary and scorecard.",
+   "expected_output": "An Executive Summary that opens with the Field/Value key-value table and a scorecard summary the validator can recompute.",
+   "files": [],
+   "expectations": [
+    "The Executive Summary opens with a two-column Field/Value table carrying System type, Scope, Source basis, Maturity level, and Overall score rows.",
+    "Maturity level is one of Prototype, Early development, Pre-production, Production-ready, or Undetermined.",
+    "Every Scorecard Summary section, whether a ### heading or a bold marker, is followed by a score table whose stated overall equals the recomputed mean, including star-rated scales.",
+    "The lowest-scoring dimensions paragraph directly follows the table."
+   ]
+  },
+  {
+   "id": 120,
+   "prompt": "Audit this repository and produce the report in Polish.",
+   "expected_output": "A Polish report whose headings, field values, and governed tokens follow the polish-language contract with nothing left in English.",
+   "files": [],
+   "expectations": [
+    "Every ## and ### section heading matches a Polish form in translations/polish-language.md - no heading stays verbatim in English.",
+    "Every '* **Label:**' field value starts with an uppercase letter unless it opens with a code span or link.",
+    "Governed vocabulary tokens are translated even inside code spans - 'Poziom: `Teoretyczne`', never '`Theoretical`'.",
+    "The token TDD never appears - 'due diligence techniczne' is spelled out.",
+    "Bold threat-narrative lead-in labels are translated like table cells while keeping the bold markup."
+   ]
+  },
+  {
+   "id": 121,
+   "prompt": "Audit this repository and produce the report in Polish, then run the translated-report gates.",
+   "expected_output": "A Polish report that passes lint-polish.py with zero findings - every calque-class flag is a delivery-blocking error.",
+   "files": [],
+   "expectations": [
+    "lint-polish.py returns a non-zero exit on any calque, spliced-clause, or typography finding - no finding is advisory.",
+    "The report passes finalize-report.py --polish end to end, including check-translation.py and mapped-copy validation."
+   ]
   }
  ]
 }

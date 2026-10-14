@@ -208,7 +208,17 @@ def apply_map(text, pairs):
         ),
         re.IGNORECASE,
     )
-    return pattern.sub(lambda m: lowered[m.group(0).lower()], text)
+
+    def substitute(match):
+        value = lowered[match.group(0).lower()]
+        # A capitalized source word keeps its capital - sentence-initial
+        # words like `Koszt` must not map to a lowercase `cost` that then
+        # reads as a broken sentence continuation.
+        if match.group(0)[:1].isupper() and value[:1].islower():
+            value = value[:1].upper() + value[1:]
+        return value
+
+    return pattern.sub(substitute, text)
 
 
 def fixup(text):

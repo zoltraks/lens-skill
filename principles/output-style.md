@@ -23,10 +23,10 @@ Two audits of similar systems should produce reports of similar shape, vocabular
 | Fixed Vocabularies             | 77   | Status and severity word lists   |
 | Consistency Rules              | 151  | Same input, same output shape    |
 | Plain-Text Friendly Formatting | 167  | Terminal and diff readability    |
-| Multilingual Output            | 256  | Non-English report rendering     |
-| Information Security In Output | 391  | Redaction and disclosure limits  |
-| Report Termination             | 406  | End-of-report rules              |
-| Determinism                    | 415  | Repeatability guarantees         |
+| Multilingual Output            | 265  | Non-English report rendering     |
+| Information Security In Output | 400  | Redaction and disclosure limits  |
+| Report Termination             | 415  | End-of-report rules              |
+| Determinism                    | 424  | Repeatability guarantees         |
 
 ## Tone And Register
 
@@ -175,6 +175,11 @@ such as after a comma or clause end, per the Selecting The Wrap Width rule in `d
 
 Do not break inside inline code, file paths, or URLs.
 
+A wrapped sentence keeps its terminal period on the last line only - a wrap point never adds a `.`
+of its own, so a line that ends in `.` and is followed by a line starting with a lowercase letter
+is a split-sentence defect: join the lines or repunctuate, and the same rule covers a `.` left
+behind after another mark (`foo,.`), per the wrap rules in `docs/STYLE.md`.
+
 Do not use the semicolon character in prose.
 
 Join closely related clauses with a comma or split them into separate sentences.
@@ -218,7 +223,8 @@ Do not put qualifiers in section names using parentheses.
 
 Use headers for section titles rather than bold runs of text.
 
-Put exactly one empty line after every markdown header (`#`, `##`, `###`) before the first content
+Put exactly one empty line before a heading that follows content,
+and exactly one empty line after every markdown header (`#`, `##`, `###`) before the first content
 line.
 
 Do not use `####` or deeper headings in the report.

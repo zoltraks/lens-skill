@@ -7,7 +7,7 @@ document. Also runs heuristic checks: comma splices, "tylko, gdy", bare "per",
 typographic characters under the ASCII convention, "w." as an abbreviation,
 and all-caps renderings of the title-case fixed vocabulary.
 
-Errors exit non-zero; warnings are advisory and never fail the run.
+Every finding is an error and exits non-zero.
 
 Usage:
     lint-polish.py <file.md> [--rules <rulefile.md> ...]
@@ -32,18 +32,6 @@ TABLE_HEADERS = {"zamiast", "instead of", "forbidden"}
 # verbatim.
 ALLOWED_HEADERS = {"allowed phrase", "canonical name"}
 
-# Single common Polish words that are calques only in context - demoted to
-# warnings so the check stays a usable gate.
-SOFT_STEMS = {
-    "pod", "plus", "wskaźnik", "niesie", "niosą", "dotyka", "zyskuje",
-    "właściciel", "mieszkają", "żyje", "lustro", "ładunek", "rekord",
-    "chud", "chudy", "najcięższy", "najlżejszy", "autorytatywny", "wydawniczy",
-    "wykonawcz", "powierzchnia", "konsumowana", "zaadresować", "kosztuje",
-    "przypięty", "celują", "rekursują", "serwujący", "strażnik", "zastany",
-    "brama", "bramka", "bramy", "realna", "realne", "diff", "wyjątek",
-    "to jest", "skonsultowano", "rozdzielczy",
-}
-
 # Words that legitimately follow a comma (conjunctions, relatives,
 # prepositions, common adverbs, abbreviations).
 COMMA_OK = {
@@ -52,7 +40,8 @@ COMMA_OK = {
     "do", "o", "po", "przy", "dla", "od", "przez", "za", "pod", "nad", "przed",
     "bez", "między", "według", "wg", "ku", "u", "jak", "że", "żeby", "aby",
     "by", "co", "który", "która", "które", "którzy", "których", "której",
-    "któremu", "którym", "gdzie", "gdy", "kiedy", "jeśli", "jeżeli", "chociaż",
+    "któremu", "którym", "którą", "gdzie", "gdy", "kiedy", "jeśli", "jeżeli",
+    "chociaż",
     "choć", "bo", "ponieważ", "gdyż", "więc", "natomiast", "nawet", "to",
     "mimo", "poza", "wraz", "dzięki", "zamiast", "oprócz", "wskutek", "innymi",
     "inaczej", "zwłaszcza", "szczególnie", "tylko", "także", "również",
@@ -69,6 +58,27 @@ _SUBORDINATE_OPENERS = re.compile(
     r"\b(?:gdzie|gdy|jeśli|jeżeli|ponieważ|chociaż|choć|gdyż|skoro|aby|żeby|"
     r"zanim|dopóki|gdyby|jako że)\b"
 )
+
+# Closed set of Polish inflectional suffixes. A vowel-final forbidden form
+# also matches stem + one of these - enough to catch declensions such as
+# 'bramy', 'bramce', or 'dotykania' without prefix-matching unrelated stems
+# like 'zastanowić'.
+INFLECT_SUFFIX = (
+    "a|ą|e|ę|i|o|u|y|ie|em|om|ami|ach|ych|ego|ej|ym|im|owi|owa|owo|ową|"
+    "owej|ce|ki|ka|kę|ek|ko|ów|ich|imi|ania|enia|ąc|ąca|ące|ący|ącą|ących|"
+    "ącym|ącymi|ona|one|ony|oną|onej|onym|onych|ane|ana|any|aną|anej|anym|"
+    "anych|ęta|ęte|ęty|ętą|ętej|ętym|ętych|ta|te|ty|tą|tej|tym|tych|"
+    "ła|ło|ły|li"
+)
+
+# Words that can open nothing after a comma but a new independent clause -
+# the confident splice shapes. Finite auxiliaries and impersonal modals, and
+# personal pronouns starting a clause subject.
+SPLICE_AUX = {
+    "jest", "są", "był", "była", "było", "byli", "były", "będzie", "będą",
+    "można", "trzeba", "wolno", "należy", "warto",
+}
+SPLICE_SUBJECTS = {"on", "ona", "ono", "oni", "one"}
 
 # All-caps Polish words are never valid report renderings - the fixed
 # vocabulary is title-case and true abbreviations (`OK`, `N/D`) stay short.
@@ -201,45 +211,52 @@ def mask_allowed(text, phrases):
     return masked
 
 
-def word_is_soft(forbidden):
-    base = forbidden.split("(")[0].strip().lower()
-    return (
-        base in SOFT_STEMS
-        or stem(base) in SOFT_STEMS
-        or base.split(" ", 1)[0] in SOFT_STEMS
-    )
-
-
 def check_forbidden(lineno, text, pairs, findings):
     lowered = text.lower()
     for forbidden, replacement in pairs:
+        patterns = []
         if " " in forbidden:
-            pattern = re.compile(r"\b" + re.escape(forbidden.lower()) + r"\w*")
+            patterns.append(
+                re.compile(r"\b" + re.escape(forbidden.lower()) + r"\w*")
+            )
         else:
             root = stem(forbidden.lower())
             if len(root) <= 3:
-                pattern = re.compile(r"\b" + re.escape(root) + r"\b")
+                patterns.append(re.compile(r"\b" + re.escape(root) + r"\b"))
             else:
-                pattern = re.compile(r"\b" + re.escape(root) + r"\w*")
-        for match in pattern.finditer(lowered):
-            # ALL-CAPS tokens are data - enum labels (REQUEST CHANGES), acronyms,
-            # identifier prefixes - not prose using the calque stem.
-            token = text[match.start():match.end()]
-            if len(token) >= 2 and token.isupper():
-                continue
-            # A table cell whose whole content is the token is a label, not
-            # prose - e.g. a 'Właściciel' column header naming action owners.
-            cell = re.compile(
-                r"\|\s*" + re.escape(token) + r"\s*\|", re.IGNORECASE
-            )
-            around = text[max(0, match.start() - 8):match.end() + 8]
-            if cell.search(around):
-                continue
-            severity = "warn" if word_is_soft(forbidden) else "error"
-            findings.append(
-                (severity, lineno,
-                 "calque '%s' - use '%s'" % (match.group(0), replacement))
-            )
+                patterns.append(re.compile(r"\b" + re.escape(root) + r"\w*"))
+            # A vowel-final entry also gets a closed inflection match: the
+            # word minus its final vowel is the stem, and only a Polish
+            # inflectional suffix may follow it. Prefix-matching alone misses
+            # declensions like 'bramy' or 'bramce', while an open 'bram\w*'
+            # stem would cry wolf on 'bramofon' or 'zastanowić'.
+            vowel_stripped = re.sub(r"[aąeęioóuy]$", "", root)
+            if len(vowel_stripped) >= 4 and vowel_stripped != root:
+                patterns.append(
+                    re.compile(
+                        r"\b" + re.escape(vowel_stripped)
+                        + r"(?:" + INFLECT_SUFFIX + r")\b"
+                    )
+                )
+        for pattern in patterns:
+            for match in pattern.finditer(lowered):
+                # ALL-CAPS tokens are data - enum labels (REQUEST CHANGES),
+                # acronyms, identifier prefixes - not prose using the stem.
+                token = text[match.start():match.end()]
+                if len(token) >= 2 and token.isupper():
+                    continue
+                # A table cell whose whole content is the token is a label,
+                # not prose - e.g. a 'Właściciel' column header naming owners.
+                cell = re.compile(
+                    r"\|\s*" + re.escape(token) + r"\s*\|", re.IGNORECASE
+                )
+                around = text[max(0, match.start() - 8):match.end() + 8]
+                if cell.search(around):
+                    continue
+                findings.append(
+                    ("error", lineno,
+                     "calque '%s' - use '%s'" % (match.group(0), replacement))
+                )
 
 
 def check_token_case(lineno, text, findings):
@@ -289,11 +306,11 @@ def check_mechanical(lineno, text, findings, splice=True):
     if re.search(r"\bper\s+\w", text):
         findings.append(("error", lineno, "'per X' - write 'dla każdego X'"))
     if re.search(r"\bw\.\s*\d", text):
-        findings.append(("warn", lineno, "'w.' - do not abbreviate 'wierszy'"))
+        findings.append(("error", lineno, "'w.' - do not abbreviate 'wierszy'"))
     if re.search(r"~\s*\d", text):
-        findings.append(("warn", lineno, "'~N' - write 'ok. N' or 'około N'"))
+        findings.append(("error", lineno, "'~N' - write 'ok. N' or 'około N'"))
     if re.search(r"\bNiej\b", text):
-        findings.append(("warn", lineno, "'Niej' - possible misspelling of a negated adjective"))
+        findings.append(("error", lineno, "'Niej' - possible misspelling of a negated adjective"))
     if re.search(r"\bparitet\b", text.lower()):
         findings.append(("error", lineno, "'paritet' - misspelling of 'parytet'"))
     for char, name in TYPOGRAPHIC.items():
@@ -329,6 +346,13 @@ def check_mechanical(lineno, text, findings, splice=True):
             continue
         if lowered[: match.start()].rstrip().endswith(")"):
             continue
+        # Only comma + finite auxiliary/modal or comma + personal pronoun is a
+        # confident splice - the following word can open nothing but a new
+        # independent clause. Participles, appositions, relative clauses, and
+        # serial-verb continuations all legally follow a comma in Polish, so
+        # flagging on them would make the gate cry wolf on every report.
+        if word not in SPLICE_AUX and word not in SPLICE_SUBJECTS:
+            continue
         original = text[match.start(1) : match.end(1)]
         before = lowered[: match.start()].rstrip()
         if (
@@ -340,7 +364,7 @@ def check_mechanical(lineno, text, findings, splice=True):
         if _in_enumeration_series(lowered, match):
             continue
         findings.append(
-            ("warn", lineno,
+            ("error", lineno,
              "possible spliced clause - ', %s' does not open a "
              "subordinate phrase" % word)
         )

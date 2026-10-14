@@ -116,6 +116,56 @@ def check_headings(lines: list[str], fences: list[bool]) -> list[str]:
         if re.match(r"^#{1,3} ", line):
             if index + 1 < len(lines) and lines[index + 1].strip() != "":
                 failures.append(f"line {index + 1}: heading is not followed by one blank line")
+            if index > 0 and lines[index - 1].strip() != "":
+                failures.append(f"line {index + 1}: heading is not preceded by one blank line")
+    return failures
+
+
+ID_RANGE = re.compile(r"\b[A-Z]{2,8}-[A-Z0-9-]*\d+\.\.")
+ABBREV_TAIL = re.compile(
+    r"(?:e\.g\.|i\.e\.|etc\.|vs\.|cf\.|ca\.|approx\.|U\.S\.|U\.K\.)$"
+)
+
+
+def check_sentence_breaks(lines: list[str], fences: list[bool]) -> list[str]:
+    failures: list[str] = []
+    for index, (line, fenced) in enumerate(zip(lines, fences)):
+        if fenced or not line.strip():
+            continue
+        value = strip_spans(line)
+        collapsed = strip_spans(
+            re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", line)
+        )
+        if ID_RANGE.search(collapsed):
+            failures.append(
+                f"line {index + 1}: identifier range written with '..' - cite each "
+                f"register identifier individually: {line[:80]}"
+            )
+        if re.match(r"^#{1,3} ", line) or line.startswith("|"):
+            continue
+        # The raw tail decides what the reader sees: a trailing code span or
+        # link means the prose did not end at an earlier period - a wrapped
+        # quote-subject like `…`. `Option` / continues is a legal break.
+        tail = line.rstrip()
+        if re.search(r"[,;:]\.$", strip_spans(tail)):
+            failures.append(f"line {index + 1}: doubled end mark: {line[:80]}")
+        elif (
+            tail.endswith(".")
+            and not ABBREV_TAIL.search(tail)
+            and not re.match(r"^\s*\d+\.$", tail)
+            and index + 1 < len(lines)
+        ):
+            nxt = lines[index + 1]
+            if (
+                nxt.strip()
+                and not fences[index + 1]
+                and not re.match(r"^\s*(#{1,6}\s|\||[-*+]\s|>|```|<!--)", nxt)
+                and nxt.lstrip()[:1].islower()
+            ):
+                failures.append(
+                    f"line {index + 1}: sentence split at line break (period then "
+                    f"lowercase continuation): {line[:80]}"
+                )
     return failures
 
 
@@ -698,10 +748,16 @@ def check_finding_counts(text: str) -> list[str]:
 SCORE_PAIR = re.compile(r"(\d+(?:\.\d+)?)/(\d+)")
 
 
+SCORECARD_MARKER = re.compile(
+    r"(?:^#{1,4}\s+Scorecard Summary\s*$|\*\*Scorecard Summary\*\*)",
+    re.MULTILINE,
+)
+
+
 def check_scorecard_mean(text: str) -> list[str]:
     failures: list[str] = []
     summaries: list[tuple[float, int]] = []
-    for marker in re.finditer(r"\*\*Scorecard Summary\*\*", text):
+    for marker in SCORECARD_MARKER.finditer(text):
         rest = text[marker.end() :]
         lines = rest.split("\n")
         table = []
@@ -726,19 +782,28 @@ def check_scorecard_mean(text: str) -> list[str]:
                 num, denom = float(pairs[-1][0]), float(pairs[-1][1])
                 if denom:
                     values.append(num / denom)
+            elif "★" in cells[score_idx]:
+                values.append(cells[score_idx].count("★") / 5)
         if values:
             summaries.append((sum(values) / len(values), len(values)))
     overalls: list[tuple[float, int]] = []
     for line in text.split("\n"):
-        if not line.startswith("|"):
-            continue
-        cells = [cell.strip() for cell in raw_cells(line)]
-        if len(cells) >= 2 and cells[0] == "Overall score":
-            pairs = SCORE_PAIR.findall(cells[1])
-            if pairs:
-                num, denom = float(pairs[-1][0]), float(pairs[-1][1])
+        if line.startswith("|"):
+            cells = [cell.strip() for cell in raw_cells(line)]
+            if len(cells) >= 2 and cells[0] == "Overall score":
+                pairs = SCORE_PAIR.findall(cells[1])
+                if pairs:
+                    num, denom = float(pairs[-1][0]), float(pairs[-1][1])
+                    if denom:
+                        overalls.append((num / denom, int(denom)))
+        else:
+            paragraph = re.search(
+                r"^Overall:\s*.*?(\d+(?:\.\d+)?)/(\d+)", strip_spans(line)
+            )
+            if paragraph:
+                num, denom = float(paragraph.group(1)), int(paragraph.group(2))
                 if denom:
-                    overalls.append((num / denom, int(denom)))
+                    overalls.append((num / denom, denom))
     if len(summaries) > len(overalls):
         failures.append(
             f"{len(summaries)} scorecard table(s) found but only "
@@ -781,7 +846,7 @@ def check_ledger_columns(text: str) -> list[str]:
 
 def check_scorecard_na(text: str) -> list[str]:
     failures: list[str] = []
-    marker = re.search(r"\*\*Scorecard Summary\*\*", text)
+    marker = SCORECARD_MARKER.search(text)
     if not marker:
         return []
     rest = text[marker.end():]
@@ -1527,6 +1592,71 @@ def check_final_state(text: str) -> list[str]:
         failures.append("Final report has no Validation Record")
     if "Parity baseline" not in text:
         failures.append("Final report has no parity baseline result")
+    return failures
+
+
+MATURITY_LEVELS = (
+    "Prototype",
+    "Early development",
+    "Pre-production",
+    "Production-ready",
+    "Undetermined",
+)
+EXEC_SUMMARY_FIELDS = (
+    "System type",
+    "Scope",
+    "Source basis",
+    "Maturity level",
+    "Overall score",
+)
+
+
+def check_executive_summary(text: str) -> list[str]:
+    """The audit Executive Summary opens with the Field/Value key-value table
+    from summary-changes.md. A multi-project report's combined `## Executive
+    Summary` carries the per-project table instead, so a first table with a
+    `Project` column exempts that one section."""
+    if "Document Information" not in text or report_style(text) != "audit":
+        return []
+    failures: list[str] = []
+    for match in re.finditer(r"^(#{2,3})\s+Executive Summary\s*$", text, re.MULTILINE):
+        level = len(match.group(1))
+        rest = text[match.end() :]
+        following = re.search(rf"^#{{1,{level}}}\s", rest, re.MULTILINE)
+        block = rest[: following.start()] if following else rest
+        tables = tables_in(block)
+        if tables:
+            header = [cell.strip() for cell in raw_cells(tables[0][0])]
+            if "Project" in header:
+                continue
+        kv = None
+        for table in tables:
+            header = [cell.strip() for cell in raw_cells(table[0])]
+            if header[:2] == ["Field", "Value"]:
+                kv = table
+                break
+        if kv is None:
+            failures.append(
+                "Executive Summary lacks the required Field/Value key-value table "
+                "(System type, Scope, Source basis, Maturity level, Overall score)"
+            )
+            continue
+        fields = {}
+        for row in kv[2:]:
+            cells = [cell.strip() for cell in raw_cells(row)]
+            if len(cells) >= 2:
+                fields[cells[0]] = cells[1]
+        for wanted in EXEC_SUMMARY_FIELDS:
+            if wanted not in fields:
+                failures.append(f"Executive Summary table lacks the {wanted} row")
+        level_value = fields.get("Maturity level", "")
+        if level_value:
+            clean = cell_text(level_value).strip().strip("`")
+            if clean not in MATURITY_LEVELS:
+                failures.append(
+                    f"Maturity level '{level_value}' is not one of "
+                    f"{'/'.join(MATURITY_LEVELS)}"
+                )
     return failures
 
 
@@ -2458,7 +2588,13 @@ def report_contract() -> dict:
             "coverage": "Status cells must be Covered, Partially, or Not done",
         },
         "rules": [
-            "headings no deeper than ###, followed by one blank line",
+            "headings no deeper than ###, preceded and followed by one blank line",
+            "no line ends a sentence with '.' and continues it lowercase on the "
+            "next line, no doubled end marks, no '..' identifier ranges",
+            "the audit Executive Summary carries the Field/Value key-value table "
+            "with System type, Scope, Source basis, Maturity level, and Overall "
+            "score rows; Maturity level is Prototype/Early development/"
+            "Pre-production/Production-ready/Undetermined",
             "no semicolons in prose, no em/en dashes or Unicode arrows outside code",
             "scorecard means are recomputed from numeric Score cells; 'Overall score' "
             "rows belong to the Executive Summary table and must match the mean",
@@ -2549,6 +2685,7 @@ def main(path: str, repo_root: str | None = None) -> int:
         ("headings", check_headings(lines, fences)),
         ("semicolons", check_semicolons(lines, fences)),
         ("non-ASCII dashes and arrows", check_dashes(lines, fences)),
+        ("sentence line breaks", check_sentence_breaks(lines, fences)),
         ("tables", check_tables(lines, fences)),
         ("location pattern", check_location(path)),
         ("trailing whitespace and ending", check_trailing(lines)),
@@ -2588,6 +2725,7 @@ def main(path: str, repo_root: str | None = None) -> int:
             checks.extend(
                 [
                     ("required sections", check_required_sections(text)),
+                    ("executive summary table", check_executive_summary(text)),
                     ("coverage rows", check_coverage_rows(text)),
                     ("FND/RSK/REC cross-references", check_ids(text)),
                     ("register reference links", check_reference_links(lines, fences, text)),

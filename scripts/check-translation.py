@@ -17,6 +17,13 @@ the Polish text itself:
   finding block) leaves the English-mapped copy missing a required field.
 * Every `](#anchor)` target must resolve to a heading slug - renamed
   translated headings silently orphan links the mapped copy rewrites.
+* Every heading must come from a translation table row - a heading kept
+  verbatim in English (for example `## Threat Model`) fails.
+* `* **Label:**` field values start uppercase, and a governed vocabulary
+  token inside a code span is translated like the unspanned form
+  (`Teoretyczne`, never `Theoretical`).
+* `TDD` never appears - the contract spells out `due diligence
+  techniczne` in full.
 * Prose sentences outside tables stay within a word limit - long chained
   sentences are a known translation defect class. Warn-level only.
 
@@ -27,7 +34,10 @@ Copy this file into the audited repository's `work/` directory as
 `check-translation.tmp.py` before running it against a report there.
 
 Usage:
-    check-translation.py <translated.md> [--max-words N]
+    check-translation.py <translated.md> [--max-words N] [--rules <rulefile.md> ...]
+
+When --rules is omitted, translations/polish-language.md is loaded relative to
+this script; the heading check is skipped only when no rules file resolves.
 """
 
 from __future__ import annotations
@@ -104,6 +114,32 @@ COUNT_CLAIM = re.compile(
 )
 
 WORD = re.compile(r"\w+")
+
+# Governed English vocabulary tokens (status, severity, confidence, maturity,
+# verdict words) that must be translated even when written inside a code span.
+# Kept as a curated set rather than every first-column cell of the rules
+# tables so generic vocabulary (`Boundary`, `Control`) cannot collide with
+# subject identifiers quoted verbatim.
+GOVERNED_TOKENS = {
+    "theoretical", "confirmed", "verified", "reported", "open", "closed",
+    "reopened", "accepted", "mitigated", "covered", "partially", "unchanged",
+    "low", "medium", "high", "critical", "planned", "deferred", "unresolved",
+    "recommended", "optional", "deliberate", "undetermined", "indicated",
+    "declared", "attested", "supplied", "inspected", "inferred",
+    "early development", "pre-production", "production-ready", "prototype",
+    "red", "amber", "green", "unknown", "stale", "resolved", "outstanding",
+    "complete", "partial", "not met", "not assessable", "not ready",
+    "conditionally ready", "not assessed", "not done", "not run",
+}
+
+# Subset of governed tokens that never name subject identifiers, so a code
+# span holding one is a missed translation wherever it appears - not only in
+# `* **Label:**` field values.
+GOVERNED_ANYWHERE = {
+    "theoretical", "undetermined", "deliberate", "early development",
+    "pre-production", "production-ready", "conditionally ready",
+    "not assessable", "not assessed", "not run",
+}
 
 
 def reconfigure_stdio():
@@ -271,6 +307,125 @@ def check_internal_anchors(lines, masked):
     return failures
 
 
+def load_english_keys(rules_paths):
+    """First-column cells of `English | Polish` tables whose Polish form
+    differs - the set of headings and labels a Polish report must not keep
+    verbatim. Self-mapping rows (`STRIDE` -> `STRIDE`) are excluded so a
+    legitimately untranslated heading does not flag."""
+    keys = {}
+    for rules in rules_paths:
+        if not rules.exists():
+            continue
+        in_table = False
+        for line in rules.read_text(encoding="utf-8").split("\n"):
+            if not line.startswith("|"):
+                in_table = False
+                continue
+            cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
+            if not cells or set("".join(cells)) <= set("-: "):
+                continue
+            if not in_table:
+                in_table = cells[0].casefold() == "english"
+                continue
+            if len(cells) >= 2 and cells[0].casefold() != cells[1].casefold():
+                keys[cells[0].casefold()] = cells[1]
+    return keys
+
+
+def check_untranslated_headings(lines, masked, keys):
+    """A `##`/`###` heading kept verbatim in English breaks PAR-16 - the
+    Polish form is the rules-file mapping for that heading."""
+    failures = []
+    for index, line in enumerate(lines):
+        if index in masked:
+            continue
+        match = HEADING.match(line)
+        if not match:
+            continue
+        norm = normalize(match.group(1))
+        if norm in keys:
+            failures.append(
+                (
+                    index,
+                    f"heading stays English: '{match.group(1)}' - "
+                    f"expected '{keys[norm]}'",
+                )
+            )
+    return failures
+
+
+def check_field_values(lines, masked):
+    """`* **Label:**` field values start uppercase per the style rules, and
+    a code span holding a governed English token (`Theoretical`, `Open`,
+    `Critical`) keeps it untranslated through the mapping - both defects
+    leave the Polish contract unmet."""
+    failures = []
+    for index, line in enumerate(lines):
+        if index in masked:
+            continue
+        match = BLOCK_FIELD.match(line)
+        if not match:
+            continue
+        value = line[match.end() :].strip()
+        if not value:
+            continue
+        for span in re.findall(r"`([^`]*)`", value):
+            token = span.strip().casefold()
+            if token in GOVERNED_TOKENS and token not in GOVERNED_ANYWHERE:
+                failures.append(
+                    (
+                        index,
+                        f"governed token `{span.strip()}` stays English inside a "
+                        "code span - translate it like the unspanned form",
+                    )
+                )
+        first = value[:1]
+        if first.islower():
+            failures.append(
+                (
+                    index,
+                    f"field value starts lowercase: '{value[:50]}'",
+                )
+            )
+    for index, line in enumerate(lines):
+        if index in masked:
+            continue
+        for span in re.findall(r"`([^`]*)`", line):
+            if span.strip().casefold() in GOVERNED_ANYWHERE:
+                failures.append(
+                    (
+                        index,
+                        f"governed token `{span.strip()}` stays English inside a "
+                        "code span - translate it like the unspanned form",
+                    )
+                )
+    return failures
+
+
+def check_tdd_token(lines, masked):
+    """`TDD` is never sanctioned in a Polish report - `due diligence
+    techniczne` and `test-driven development` are both spelled out."""
+    failures = []
+    for index, line in enumerate(lines):
+        if index in masked:
+            continue
+        plain = re.sub(r"`[^`]*`", "", line)
+        # The Słownik term cell records the acronym being defined - the ban
+        # covers its use as an abbreviation elsewhere.
+        if line.startswith("|"):
+            cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
+            plain = " | ".join(cells[1:]) if len(cells) > 1 else ""
+        if re.search(r"\bTDD\b", plain):
+            failures.append(
+                (
+                    index,
+                    "ambiguous TDD token - spell out 'due diligence techniczne' "
+                    "or 'test-driven development' in full",
+                )
+            )
+    return failures
+
+
 def check_sentence_length(lines, masked, max_words):
     """Warn on prose sentences over `max_words` words, outside tables,
     headings, and fenced code."""
@@ -332,16 +487,35 @@ def main():
         default=40,
         help="warn when a prose sentence exceeds this many words (default 40)",
     )
+    parser.add_argument(
+        "--rules",
+        type=Path,
+        action="append",
+        default=[],
+        help="polish-language rules file(s) for the untranslated-heading check "
+        "(default: translations/polish-language.md beside this script)",
+    )
     args = parser.parse_args()
 
     lines = args.file.read_text(encoding="utf-8").split("\n")
     masked = fenced_mask(lines)
+
+    rules = args.rules
+    if not rules:
+        root = Path(__file__).resolve().parent.parent
+        candidate = root / "translations" / "polish-language.md"
+        if candidate.exists():
+            rules = [candidate]
+    keys = load_english_keys(rules)
 
     failures = (
         check_summary_titles(lines)
         + check_prose_counts(lines, masked)
         + check_block_labels(lines)
         + check_internal_anchors(lines, masked)
+        + check_untranslated_headings(lines, masked, keys)
+        + check_field_values(lines, masked)
+        + check_tdd_token(lines, masked)
     )
     warnings = check_sentence_length(lines, masked, args.max_words)
 

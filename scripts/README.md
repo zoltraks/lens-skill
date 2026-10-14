@@ -61,8 +61,9 @@ corpus.
 cells lacking hyphens are normalized on every run.
 
 `lint-prose.py` lints draft report text before assembly for the prose rules the validator
-enforces: heading depth, heading blank-line spacing, semicolons outside code spans, and the
-typographic characters the ASCII convention forbids.
+enforces: heading depth, blank lines before and after headings, semicolons outside code spans,
+sentences split across a line break by a stray period, doubled end marks, `..` identifier
+ranges, and the typographic characters the ASCII convention forbids.
 
 `align-comments.py` aligns trailing `#` comments inside untagged fenced blocks and shell-tagged
 blocks to one shared column per block - the established column when most comments already
@@ -95,7 +96,7 @@ and exits `1` when any exist.
 holding the register table. Defining locations (the `### <ID>:` heading itself and the row
 whose first cell carries the identifier) stay unlinked, as do fenced code, inline code,
 headings, URLs, and existing links. Undefined or project-ambiguous identifiers are left
-plain and warned about; `validate-report.py` then fails on them and on any unlinked defined
+plain and warned about - `validate-report.py` then fails on them and on any unlinked defined
 identifier, so the pass must run before validation.
 
 Table width measures every character of the source cell, including `[text](target)` and
@@ -121,7 +122,9 @@ it.
 
 `check-translation.py` checks what mapping cannot see: summary-table titles agree with their
 `### FND-`/`RSK-`/`REC-`/`TDR-` block headings, prose counts (`22 ustaleń`, `13 ryzyk`)
-equal the real register counts, and prose sentences stay within `--max-words` (warn-level).
+equal the real register counts, no `##`/`###` heading stays verbatim in English, `* **Label:**`
+field values start uppercase and never wrap a governed English token in a code span, `TDD`
+never appears, and prose sentences stay within `--max-words` (warn-level).
 Spell checking stays external.
 
 The full translated-report gate set is `lint-polish.py`, `lint-prose.py`,
@@ -173,10 +176,12 @@ comma splices, `tylko, gdy`, bare `per`, the `w.` abbreviation, semicolons, typo
 characters that the ASCII convention forbids, and all-caps renderings of the title-case
 fixed vocabulary. Phrases in the `Sanctioned Idioms` and `Canonical Names Kept Verbatim`
 tables of the rules file are masked before calque matching, so approved idioms
-(`pod względem`) and proper names (`Request for Comments`) never flag. Enumeration-aware
-splice suppression keeps legitimate noun lists quiet. Run it on every Polish report
+(`pod względem`) and proper names (`Request for Comments`) never flag. Every finding
+is an error - calque matches also cover inflected forms through a closed set of
+Polish suffixes, so `brama` flags `bramy` and `bramce` without touching `bramofon`.
+Enumeration-aware splice suppression keeps legitimate noun lists quiet. Run it on every Polish report
 before delivery - a pre-delivery gate, not a Validation Record row. Like the other report
-tools it is copied into the audited repository under a `.tmp.` name before use; a copy
+tools it is copied into the audited repository under a `.tmp.` name before use - a copy
 without `--rules` resolves the rules file relative to the skill tree, so a `.tmp.` copy
 must always pass `--rules <path to polish-language.md>` - the tool prints a hint when
 zero forbidden forms load, because silent zero coverage is the failure mode to avoid.
@@ -286,7 +291,7 @@ python scripts/new-report.py --style review --scope structure --output path/to/R
 python scripts/lint-polish.py path/to/AUDYT.md --rules translations/polish-language.md
 python scripts/link-glossary.py path/to/AUDYT.md --lang pl [--check]
 python scripts/map-translation.py path/to/AUDYT.md --rules translations/polish-language.md [--en path/to/AUDIT-EN.md]
-python scripts/check-translation.py path/to/AUDYT.md [--max-words 40]
+python scripts/check-translation.py path/to/AUDYT.md [--max-words 40] [--rules translations/polish-language.md]
 python scripts/finalize-report.py [--polish] [--skill-root path/to/lens-skill] path/to/AUDIT.md
 python -m unittest discover -s tests
 ```

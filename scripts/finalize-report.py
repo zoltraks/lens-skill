@@ -132,7 +132,7 @@ def main(argv: list[str]) -> int:
             (references, target, []),
             (formatter, target, []),
             (locate(directory, "lint-polish", skill_root), target, rules_arg),
-            (locate(directory, "check-translation", skill_root), target, []),
+            (locate(directory, "check-translation", skill_root), target, rules_arg),
             (
                 locate(directory, "map-translation", skill_root),
                 target,

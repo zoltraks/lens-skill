@@ -1736,9 +1736,10 @@ The translated-report gates then run in this order:
 `scripts/lint-polish.py <report> --rules <translations/polish-language.md>`,
 `scripts/lint-prose.py <report>`,
 `scripts/link-glossary.py <report> --lang pl --check`,
-`scripts/check-translation.py <report>` for summary-title agreement, prose-count
-reconciliation, block field-label conformance, internal-anchor resolution, and the
-warn-level sentence-length review,
+`scripts/check-translation.py <report> --rules <translations/polish-language.md>` for
+summary-title agreement, prose-count reconciliation, block field-label conformance,
+internal-anchor resolution, untranslated-heading detection, field-value capitalization,
+governed tokens inside code spans, the `TDD` ban, and the warn-level sentence-length review,
 then the mapped-copy format and validation pair - the block-label and anchor checks
 must run first so their failures surface as contract violations instead of
 inexplicable mapped-copy field losses.

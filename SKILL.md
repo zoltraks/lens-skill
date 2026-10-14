@@ -24,7 +24,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.1.8"
+  version: "2.1.9"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -328,15 +328,15 @@ repository's `work/` directory under a `.tmp.` name and remove the copies when d
 - **`scripts/check-model.py`** - Audit-model checker (referential integrity, scoring recompute).
 - **`scripts/link-glossary.py`** - Glossary body-link inserter, run before the linker (`--lang pl`, `--check`).
 - **`scripts/link-references.py`** - Register-identifier linker, run before the formatter.
-- **`scripts/validate-report.py`** - Mechanical report checker (English contract; non-English reports exit 2 with guidance), `--dump-contract` emits the contract.
+- **`scripts/validate-report.py`** - Mechanical report checker (English contract - non-English reports exit 2 with guidance), `--dump-contract` emits the contract.
 - **`scripts/new-report.py`** - Report skeleton generator (`--style`, `--scope`, `--projects`, `--params`).
 - **`scripts/validate-skill.py`** - Frontmatter, disclosure, and references validator.
 - **`scripts/check-references.py`** / **`check-contents.py`** - Reference-integrity and Contents-drift checkers.
 - **`scripts/check-update.py`** - Skill self-update checker (git upstream).
 - **`scripts/scan-standards.py`** / **`scan-structure.py`** - Standards-corpus manifest and audited-tree structure census.
 - **`scripts/finalize-report.py`** - Runs link, format, and validate in order on a report.
-- **`scripts/lint-polish.py`** / **`lint-prose.py`** - Polish report calque linter; pre-assembly draft linter.
-- **`scripts/map-translation.py`** / **`check-translation.py`** - Translated-report gates: English-mapped copy for `validate-report.py` (`--rules`, `--en` parity); Polish title/count/sentence checks.
+- **`scripts/lint-polish.py`** / **`lint-prose.py`** - Polish report calque linter and pre-assembly draft linter.
+- **`scripts/map-translation.py`** / **`check-translation.py`** - Translated-report gates: English-mapped copy for `validate-report.py` (`--rules`, `--en` parity) and Polish title/count/sentence checks.
 - **`scripts/common-helpers.py`** - Shared frontmatter and reporting helpers for maintenance tools.
 - **`scripts/README.md`** - Tool classes, usage, validation order, limitations.
 - **`tests/`** - Focused `unittest` contract tests for the report and maintenance tools.
@@ -360,7 +360,7 @@ These files govern the skill repository itself rather than audit production:
 ## Evidence And Decision Contract
 
 Use the verification plan and evidence ledger in `process/audit-workflow.md` for every audit
-and every review. The audit never builds, tests, or executes the project; under the
+and every review. The audit never builds, tests, or executes the project - under the
 `executed-readonly` evidence mode it may additionally run commissioned non-mutating analyzers,
 and under `executed-commands` commissioned non-mutating commands, recorded in the
 Executed Evidence Log.

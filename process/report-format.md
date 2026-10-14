@@ -39,12 +39,12 @@ A present-but-empty section signals a gap, a missing section hides it.
 | Section                                     | Line | What it covers                              |
 |---------------------------------------------|------|---------------------------------------------|
 | Formatting Rules                            | 49   | Formatting Rules guidance                   |
-| Report Delivery And Parameter Configuration | 310  | Report delivery and output configuration    |
-| Detail Level Configuration                  | 363  | Standard, detailed, and brief reports       |
-| Conditional Sections                        | 458  | Inclusion criteria for conditional sections |
-| Section Order                               | 515  | Single-project and multi-project order      |
-| Specification Files                         | 612  | Per-section specification file index        |
-| Pre-Delivery Mechanical Checklist           | 644  | Final mechanical checks                     |
+| Report Delivery And Parameter Configuration | 314  | Report delivery and output configuration    |
+| Detail Level Configuration                  | 367  | Standard, detailed, and brief reports       |
+| Conditional Sections                        | 462  | Inclusion criteria for conditional sections |
+| Section Order                               | 519  | Single-project and multi-project order      |
+| Specification Files                         | 616  | Per-section specification file index        |
+| Pre-Delivery Mechanical Checklist           | 648  | Final mechanical checks                     |
 
 ## Formatting Rules
 
@@ -301,6 +301,10 @@ anchor of the section holding the register table, for example
 
 The defining location itself stays unlinked: the `### <ID>:` heading and the register row
 whose first cell carries the identifier.
+
+Cite every register identifier individually - never render an identifier range such as
+`RSK-007..RSK-014` or `FND-SEC-001..004` - list each identifier as its own link or cell entry.
+
 
 Fenced code, inline code, existing links, and URLs are exempt.
 
@@ -677,7 +681,8 @@ every item is mechanical and takes seconds to verify.
 copy it into the audited repository's `work/` directory before use.
 
 `scripts/lint-prose.py` runs the prose rules (semicolons, typographic dashes, arrows, heading
-spacing) on draft parts before assembly, copy it the same way.
+spacing, split-sentence and doubled-end-mark defects, `..` identifier ranges) on draft parts
+before assembly, copy it the same way.
 
 `scripts/validate-report.py` runs the scriptable items in this checklist plus finding-block field,
 register cross-reference, and PAR-row checks, copy and run it the same way.

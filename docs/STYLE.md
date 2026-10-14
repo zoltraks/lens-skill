@@ -16,13 +16,13 @@ Every document created or modified as part of this skill must follow the rules b
 |-----------------------------|------|-------------------------------------------------|
 | Document Structure          | 27   | Titles, purpose blocks, and contents tables     |
 | Paragraphs And Wrapping     | 91   | Sentence structure and line width               |
-| Headings And Lists          | 147  | Heading depth, lists, and spacing               |
-| Code And Inline Formatting  | 198  | Fences, code spans, and special characters      |
-| Tables                      | 276  | Source-width alignment and automated formatting |
-| Characters And Language     | 470  | Box-drawing, emoji, and per-language rules      |
-| File References             | 480  | Relative paths and backticked file paths        |
-| Skill Document Requirements | 494  | Frontmatter and progressive disclosure          |
-| Maintenance                 | 555  | File naming, encoding, and registration         |
+| Headings And Lists          | 154  | Heading depth, lists, and spacing               |
+| Code And Inline Formatting  | 193  | Fences, code spans, and special characters      |
+| Tables                      | 285  | Source-width alignment and automated formatting |
+| Characters And Language     | 468  | Box-drawing, emoji, and per-language rules      |
+| File References             | 489  | Relative paths and backticked file paths        |
+| Skill Document Requirements | 503  | Frontmatter and progressive disclosure          |
+| Maintenance                 | 564  | File naming, encoding, and registration         |
 
 ## Document Structure
 
@@ -122,6 +122,13 @@ Do not break lines inside inline code, file paths, URLs, or link markup.
 
 Let each sentence occupy one logical line when it is under 100 characters.
 
+A wrapped sentence keeps its terminal period on the last line only - a wrap point never adds a `.`
+of its own.
+
+A line that ends in `.` and is followed by a line starting with a lowercase letter is a
+split-sentence defect: join the lines or repunctuate, and the same rule covers a `.` left behind
+after another mark (`foo,.`) or any doubled end mark.
+
 Hard-wrap at a forced line break only when the source itself needs one, such as inside a code block
 or a diagram.
 
@@ -186,6 +193,8 @@ For nested lists, indent the sublist to the parent item.
 ## Empty Lines and Spacing
 
 Use one blank line between paragraphs.
+
+Put one blank line before and after every heading.
 
 Put one blank line before and after a list.
 

@@ -352,7 +352,7 @@ class TestLintPolish(unittest.TestCase):
             pairs, findings,
         )
         self.assertEqual(len(findings), 3)
-        self.assertTrue(all(f[0] == "warn" for f in findings))
+        self.assertTrue(all(f[0] == "error" for f in findings))
 
     def test_enumeration_series_suppressed(self):
         findings = []
@@ -365,9 +365,24 @@ class TestLintPolish(unittest.TestCase):
     def test_genuine_splice_flagged(self):
         findings = []
         self.lint.check_mechanical(
-            1, "Ważność jest wysoka, kod łamie kontrakt.", findings
+            1, "Ważność jest wysoka, jest rozstrzygana wstępnie.", findings
         )
         self.assertTrue(any("spliced" in f[2] for f in findings))
+
+    def test_participle_continuation_not_splice(self):
+        findings = []
+        self.lint.check_mechanical(
+            1, "Sekcja opisuje zakres, dostarczająca dowody.", findings
+        )
+        self.assertFalse(any("spliced" in f[2] for f in findings))
+
+    def test_inflected_calque_flagged(self):
+        pairs = [("brama", "warunek / kontrola blokująca")]
+        findings = []
+        self.lint.check_forbidden(
+            1, "Zmiana nie przechodzi bramy przeglądu.", pairs, findings
+        )
+        self.assertTrue(any("calque" in f[2] for f in findings))
 
     def test_zero_rules_hint(self):
         import contextlib
@@ -549,7 +564,7 @@ class TestCheckPlReport(unittest.TestCase):
         self.assertIn("Skutek", out)
 
     def test_known_block_label_passes(self):
-        doc = self.DOC + "\n* **Wpływ:** wpływ bloku.\n"
+        doc = self.DOC + "\n* **Wpływ:** Wpływ bloku.\n"
         rc, out = self.run_checker(doc)
         self.assertEqual(rc, 0, out)
 
