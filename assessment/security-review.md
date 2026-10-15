@@ -61,7 +61,9 @@ Verify lifecycle completeness from source for identity, session, token, and cred
 objects: issuance, expiry, revocation, rotation, and behavior after identity removal or
 demotion - including the residual-access window of already-issued tokens and live sessions.
 
-Issuance and verification alone do not establish lifecycle completeness. A missing
+Issuance and verification alone do not establish lifecycle completeness.
+
+A missing
 revocation or expiry path is a finding of absence with the searched hops cited.
 
 Do not assert that process arguments or environment variables are readable by every user on every
@@ -83,14 +85,18 @@ Secret fallback-chain tracing follows every credential reference through its res
 environment, file, vault, default literal - per the recipe in
 `references/topics/evidence-recipes.md`.
 
-Each fallback step is evidence. A chain terminating in a committed file or a default literal is
+Each fallback step is evidence.
+
+A chain terminating in a committed file or a default literal is
 the finding, and the finding cites the chain, not just the leak site.
 
 The user-code-by-design rubric, shared with `references/exploitability-narrative.md`, separates
 intentional execution of supplied code - plugin systems, template engines, scripting surfaces -
 from unintended execution.
 
-Code execution that the feature exists to provide is not an injection finding. The review
+Code execution that the feature exists to provide is not an injection finding.
+
+The review
 focuses on whether inputs escape the intended sandbox or trust level.
 
 The config trust-boundary check maps which configuration inputs the code trusts without
@@ -219,6 +225,7 @@ or documented reviews.
 
 When a committed report claims coverage, check that the engine supports the project's language
 and framework.
+
 [CodeQL lists Rust support](https://docs.github.com/en/code-security/code-scanning/introduction-to-code-scanning/about-code-scanning-with-codeql) and
 [Semgrep capabilities vary by engine and edition](https://docs.semgrep.dev/semgrep-ce-languages).
 

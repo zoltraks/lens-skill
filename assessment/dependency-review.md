@@ -12,6 +12,7 @@ concern for production code.
 Apply `principles/evaluation-rules.md` throughout.
 
 Assess manifests, lockfiles, committed scan reports, and generated inventories by inspection.
+
 The audit never runs audit or generation tools.
 
 ## What To Evaluate

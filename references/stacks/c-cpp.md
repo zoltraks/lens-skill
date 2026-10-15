@@ -25,7 +25,7 @@ subset.
 - Prefer RAII resource handles over `new`/`delete`: naked `new`/`delete` pairs, `malloc`/`free`
   in C++, and manual ownership are findings (R.11, R.20-R.24).
 - `gsl::span`, `string_view`, `unique_ptr`, `shared_ptr`, `weak_ptr` express ownership.
-  raw pointers passed across APIs need a stated ownership contract (F.7, I.11).
+  Raw pointers passed across APIs need a stated ownership contract (F.7, I.11).
 - Bounds: `at()`, spans, or checked indexing over `operator[]` on untrusted lengths. C-style
   arrays and pointer arithmetic on buffer boundaries are review classes (SL.con, ES.42).
 - `const` correctness, `noexcept` on non-throwing moves, and `override` on every virtual
@@ -33,7 +33,7 @@ subset.
 - No C-style casts. `static_cast`/`reinterpret_cast`/`const_cast` each carry different risk
   and `reinterpret_cast` is a red-flag token (ES.48-50).
 - Compiler warnings as errors (`-Wall -Wextra -Werror`, `/W4 /WX`) are the analysis floor.
-  absent warning flags in build config are an observation.
+  Absent warning flags in build config are an observation.
 
 ## CERT Anchors
 

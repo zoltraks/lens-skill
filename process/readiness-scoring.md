@@ -11,6 +11,20 @@ average as a production approval.
 
 Apply `principles/evaluation-rules.md` throughout.
 
+## Contents
+
+| Section                   | Line | What it covers                     |
+|---------------------------|------|------------------------------------|
+| Separate Decision Outputs | 28   | Category status vs dimension score |
+| Criterion Inputs          | 49   | Criterion Inputs guidance          |
+| Dimension Scoring         | 75   | Dimension Scoring guidance         |
+| Overall Score             | 161  | Overall Score guidance             |
+| Confidence                | 189  | Confidence guidance                |
+| Maturity Levels           | 207  | Maturity Levels guidance           |
+| Readiness Gates           | 226  | Readiness Gates guidance           |
+| Required Summary Fields   | 279  | Required Summary Fields guidance   |
+| Multi-Project Rules       | 292  | Multi-Project Rules guidance       |
+
 ## Separate Decision Outputs
 
 Every full audit keeps these outputs separate:
@@ -136,7 +150,9 @@ compile the code - is a spec violation and a hard readiness gate.
 While such a gate stays open the readiness state is `NOT READY` or `PENDING EVIDENCE`
 regardless of dimension scores, and its dimension is capped per the finding's severity.
 
-Severity starts at `MEDIUM`. An advertised core journey that fails end to end is at least
+Severity starts at `MEDIUM`.
+
+An advertised core journey that fails end to end is at least
 `HIGH`.
 
 An overall mean never hides a broken advertised capability - every readiness statement and
@@ -235,7 +251,9 @@ When the subject is pre-production, the report states which use profile each gat
 
 A gate scoped to a later profile stays open for that profile without blocking the current
 one - a missing SLO is a conditional production requirement, not automatically a present
-laboratory defect. An incorrect authorization check or a broken declared invariant is a
+laboratory defect.
+
+An incorrect authorization check or a broken declared invariant is a
 defect under every profile: laboratory status never legitimizes it.
 
 A gate the evidence cannot satisfy stays open - silence never waives a reconstructed gate.

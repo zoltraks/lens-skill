@@ -123,11 +123,36 @@ def check_headings(lines: list[str], fences: list[bool]) -> list[str]:
 
 ID_RANGE = re.compile(r"\b[A-Z]{2,8}-[A-Z0-9-]*\d+\.\.")
 ABBREV_TAIL = re.compile(
-    r"(?:e\.g\.|i\.e\.|etc\.|vs\.|cf\.|ca\.|approx\.|U\.S\.|U\.K\.)$"
+    r"(?:e\.g\.|i\.e\.|etc\.|vs\.|cf\.|ca\.|approx\.|U\.S\.|U\.K\.|"
+    r"tj\.|np\.|itp\.|itd\.|m\.in\.|tzw\.|n\.bw\.|ang\.|por\.|zw\.|nr\.|"
+    r"ok\.|im\.|prof\.|dr\.|inż\.|mgr\.|hab\.|płk\.|św\.)$"
 )
+SINGLE_INITIAL = re.compile(r"\b[A-ZĄĆĘŁŃÓŚŹŻ]\.$")
+SENT_JOIN = re.compile(r"[.?!](?=\s+[A-ZĄĆĘŁŃÓŚŹŻ[(])")
+NON_PROSE = re.compile(r"#{1,6}\s|\||[-*+]\s|\d+[.)]\s|>|<!--|\*\*")
 
 
-def check_sentence_breaks(lines: list[str], fences: list[bool]) -> list[str]:
+def prose_line(line: str, fenced: bool) -> bool:
+    # A prose paragraph line is flush-left and carries no markdown block
+    # marker - list items, table rows, headings, quotes, comments, bold
+    # run headings, and indented continuations are not prose.
+    return bool(line.strip()) and not fenced and not (
+        line[:1].isspace() or NON_PROSE.match(line)
+    )
+
+
+def sentence_breaks_on(text: str) -> bool:
+    match = re.search(
+        r"\|\s*Sentence breaks\s*\|\s*([^|]+)", text, re.IGNORECASE
+    )
+    return not (
+        match and re.search(r"off|disabled|wyłącz", match.group(1), re.IGNORECASE)
+    )
+
+
+def check_sentence_breaks(
+    lines: list[str], fences: list[bool], breaks_on: bool
+) -> list[str]:
     failures: list[str] = []
     for index, (line, fenced) in enumerate(zip(lines, fences)):
         if fenced or not line.strip():
@@ -160,13 +185,43 @@ def check_sentence_breaks(lines: list[str], fences: list[bool]) -> list[str]:
                 nxt.strip()
                 and not fences[index + 1]
                 and not re.match(r"^\s*(#{1,6}\s|\||[-*+]\s|>|```|<!--)", nxt)
-                and nxt.lstrip()[:1].islower()
             ):
+                if nxt.lstrip()[:1].islower():
+                    failures.append(
+                        f"line {index + 1}: sentence split at line break (period "
+                        f"then lowercase continuation): {line[:80]}"
+                    )
+                elif (
+                    breaks_on
+                    and prose_line(line, fenced)
+                    and prose_line(nxt, fences[index + 1])
+                ):
+                    failures.append(
+                        f"line {index + 1}: sentence boundary inside a paragraph - "
+                        f"separate sentences with one blank line: {line[:80]}"
+                    )
+        if breaks_on and prose_line(line, fenced):
+            for match in SENT_JOIN.finditer(collapsed):
+                prefix = collapsed[: match.start() + 1]
+                if ABBREV_TAIL.search(prefix) or SINGLE_INITIAL.search(prefix):
+                    continue
                 failures.append(
-                    f"line {index + 1}: sentence split at line break (period then "
-                    f"lowercase continuation): {line[:80]}"
+                    f"line {index + 1}: sentences joined in one line - each "
+                    f"sentence is its own paragraph: {line[:80]}"
                 )
+                break
     return failures
+
+
+def check_sentence_breaks_row(text: str) -> list[str]:
+    match = re.search(r"\|\s*Sentence breaks\s*\|\s*([^|]+)", text, re.IGNORECASE)
+    if match and not re.search(r"off|disabled|wyłącz", match.group(1), re.IGNORECASE):
+        return [
+            "Document Information has a Sentence breaks row that is not 'Off' - "
+            "the row is written only when sentence-per-paragraph prose is "
+            "explicitly suppressed"
+        ]
+    return []
 
 
 def check_semicolons(lines: list[str], fences: list[bool]) -> list[str]:
@@ -2685,7 +2740,11 @@ def main(path: str, repo_root: str | None = None) -> int:
         ("headings", check_headings(lines, fences)),
         ("semicolons", check_semicolons(lines, fences)),
         ("non-ASCII dashes and arrows", check_dashes(lines, fences)),
-        ("sentence line breaks", check_sentence_breaks(lines, fences)),
+        (
+            "sentence line breaks",
+            check_sentence_breaks(lines, fences, sentence_breaks_on(text)),
+        ),
+        ("sentence breaks row", check_sentence_breaks_row(text)),
         ("tables", check_tables(lines, fences)),
         ("location pattern", check_location(path)),
         ("trailing whitespace and ending", check_trailing(lines)),

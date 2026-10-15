@@ -20,11 +20,11 @@ defined in `process/report-format/hunt-style.md` and `process/report-format/revi
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 1879 | Intake Checklist guidance        |
-| Handling Thin Input     | 1900 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1911 | Single-Dimension Audits guidance |
-| Re-Audit                | 1925 | Re-Audit guidance                |
-| Multi-Project Audits    | 1991 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1920 | Intake Checklist guidance        |
+| Handling Thin Input     | 1941 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1952 | Single-Dimension Audits guidance |
+| Re-Audit                | 1966 | Re-Audit guidance                |
+| Multi-Project Audits    | 2032 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -81,8 +81,10 @@ language ("only the Polish report") produces the translated file alone.
 The same `pair` default applies when the report language is English but the discovered
 previous report exists as a language pair - sibling files sharing the English stem and
 differing only by a language suffix, such as `AUDIT-1.4-EN.md` with `AUDIT-1.4-PL.md`.
+
 Preserve the convention: the new report ships its own `<stem>-EN` file plus the
 translation sibling in the previous pair's second language.
+
 An explicit single-language request overrides the convention in either direction.
 
 The audit start timestamp is recorded later, the moment the last parameter question is
@@ -220,7 +222,9 @@ as `.mcp.json`.
 
 For each skill directory found, record its path, its declared `name`, whether the name matches
 the directory name, and its provenance classification: `authored`, `installed`, or
-`undetermined`, per the signal table in `assessment/skill-definition.md`. Skills inside
+`undetermined`, per the signal table in `assessment/skill-definition.md`.
+
+Skills inside
 dependency or vendor directories, referenced by install or marketplace manifests, or documented
 as third-party are `installed`, not audit subjects by default.
 
@@ -293,7 +297,9 @@ Usually all projects belong in the audit, so the question exists to focus or exc
 confirm the obvious.
 
 Wait for the answer, record the included and excluded lists with reasons, and do not re-ask in
-the session. Under JSON exchange this is the `project-inclusion` `selection` parameter per
+the session.
+
+Under JSON exchange this is the `project-inclusion` `selection` parameter per
 `process/json-exchange.md`, with recommended projects in `default`.
 
 An answer that unchecks every project asks the user to confirm cancelling the audit rather
@@ -333,7 +339,9 @@ corpus file supplied it.
 The selected stack and nature together decide which purpose-baseline digests under
 `references/topics/` apply (CLI contract, MCP server, UI automation, performance budgets,
 inline scripting, data persistence) - apply a purpose digest only when its applicability
-signals fire, never as a universal checklist. These rows feed the conditional Engineering
+signals fire, never as a universal checklist.
+
+These rows feed the conditional Engineering
 Baseline Conformance section per `assessment/baseline-conformance.md`.
 
 Classify each project as a reusable library or package versus a deployable service or application.
@@ -366,14 +374,19 @@ A previous report may be named `AUDIT.md`, `AUDIT-<revision>.md`, or the languag
 
 For a `hunt` report style the same rules apply to the hunt filename family: `HUNT.md`,
 `HUNT-<revision>.md`, and the language-specific stem such as `POLOWANIE-<revision>.md`.
+
 For a `review` report style the family is `REVIEW.md`, `REVIEW-<revision>.md`, and the
 language-specific stem such as `PRZEGLĄD-<revision>.md`.
 
 A `review`-family file serves as a baseline only when it carries `Report Style: review` and
 the same `Review Scope` value - a structure-variant report baselines a structure-variant
-report, and a full-scope review baselines a full-scope review. A `REVIEW`-family file
+report, and a full-scope review baselines a full-scope review.
+
+A `REVIEW`-family file
 carrying a custom suffix is treated as a custom report and still appears as a baseline
-candidate. A `REVIEW`-family file without the `Report Style` row is a legacy shape and
+candidate.
+
+A `REVIEW`-family file without the `Report Style` row is a legacy shape and
 never serves as a baseline, though its name still occupies the revision slot.
 
 A legacy `CHECK`-family file is never identified as a previous `review`-style report and
@@ -389,9 +402,11 @@ The audit mode is a user decision, never an assumption from the file system.
 When a previous report exists and the mode is not yet confirmed,
 ask the audit-mode question and wait for the answer before Parameter Configuration,
 because the answer decides whether parameters are recovered or asked.
+
 The question is a blocking decision gate:
 it presents concrete options with one marked `(recommended)` and never carries the `Use default`
 trailing options of routine prompts.
+
 Under JSON exchange it emits as the `audit-mode` `choice` parameter per
 `process/json-exchange.md`.
 
@@ -521,7 +536,9 @@ Document Information tables.
 
 For the `hunt` report style the stem is `HUNT` - or the language-specific stem such as
 `POLOWANIE` - and a first hunt defaults to the bare stem `HUNT.md`, with `HUNT-1.0.md`
-offered as the revisioned alternative. For `review` the stem is `REVIEW` - or the
+offered as the revisioned alternative.
+
+For `review` the stem is `REVIEW` - or the
 language-specific stem such as `PRZEGLĄD` - under the same bare-first default.
 
 When a previous report exists, the filename carries the new revision, for example `AUDIT-1.1.md`,
@@ -545,6 +562,7 @@ Scope Definition using the values above.
 
 If the user chooses to configure, ask only the unresolved core parameter prompts in this order:
 delivery and output file, report style, detail level, and evaluation scale.
+
 At each prompt, offer a bypass option to accept the remaining defaults and proceed.
 
 When every parameter question is resolved - defaults accepted, configured answers given, or a
@@ -732,6 +750,7 @@ and `mixed` follows the pattern recorded as most recent.
 
 Like every routine prompt, the question ends with `Use default: <default option>` and
 `Use defaults for all remaining questions`.
+
 Under JSON exchange this is the `report-delivery` `choice` parameter.
 
 Choosing a subdirectory option creates the subdirectory inside the base directory.
@@ -811,6 +830,7 @@ style changes presentation, never what must be found.
 `check` wording selects the `review` style - the old style name remains an accepted alias.
 
 The question ends with `Use default: audit` and `Use defaults for all remaining questions`.
+
 Under JSON exchange this is the `report-style` `choice` parameter.
 
 **Evidence mode**
@@ -854,6 +874,7 @@ Ask: "What level of detail should the report include?"
   top risks only, and key recommendations. Detailed findings are summarized, not itemized.
 
 The question ends with `Use default: Detailed` and `Use defaults for all remaining questions`.
+
 Under JSON exchange this is the `detail-level` `choice` parameter.
 
 **Evaluation scale**
@@ -869,6 +890,7 @@ Ask: "Which evaluation scale should be used for the scorecard?"
 Always present all four options in this order.
 
 The question ends with `Use default: 1-10` and `Use defaults for all remaining questions`.
+
 Under JSON exchange this is the `evaluation-scale` `choice` parameter.
 
 When `Stars` is selected, ask the follow-up question:
@@ -879,6 +901,7 @@ When `Stars` is selected, ask the follow-up question:
 - **3 stars** - uses the `1-3` rubric and displays filled and empty star bars, such as `★★☆`.
 
 The follow-up is the last routine prompt, so it ends with `Use default: 5 stars` alone.
+
 Under JSON exchange it is the `star-count` `choice` parameter.
 
 The resolved scale is named `5 stars` or `3 stars` wherever the report records the scale.
@@ -926,6 +949,7 @@ Apply another option only when the user explicitly specifies it.
 **Bypass rule**
 
 Every routine prompt ends with the named option `Use defaults for all remaining questions`.
+
 Selecting it, or responding with "bypass", "skip", "defaults", or equivalent at any prompt,
 immediately accepts all remaining defaults and proceeds to Scope Definition.
 
@@ -972,6 +996,7 @@ scope.
 
 Analysis rests on repository contents alone: source files, configuration, build scripts,
 pipeline definitions, documentation, and committed artifacts such as coverage or scan reports.
+
 Read-only inspection commands such as file listing, search, and version control history remain
 in scope.
 
@@ -1136,6 +1161,7 @@ but raise a finding only if relevant exclusions are required or a concrete expos
 
 The exclusion targets generated and vendored content,
 not project-owned configuration that the project keeps untracked.
+
 When tracked source loads an untracked config or credential file (for example an `access.json` or
 `.env` file referenced by auth code), inspect it for security posture.
 
@@ -1214,12 +1240,16 @@ Select the checks that would verify material claims from the project's documente
 the relevant assessment guides: build and test commands, lint and formatting rules, dependency
 advisory scans, and license or SBOM checks.
 
-Under `source-only` the audit never executes them. The matrix becomes the Operator
+Under `source-only` the audit never executes them.
+
+The matrix becomes the Operator
 Verification Handoff.
 
 Under `executed-readonly` only the commissioned non-mutating analyzers run - builds, tests,
 and the project itself still never execute - and their results are `EXECUTED` evidence in the
-Executed Evidence Log rather than `NOT RUN` rows. Under `executed-commands` the commissioned
+Executed Evidence Log rather than `NOT RUN` rows.
+
+Under `executed-commands` the commissioned
 non-mutating commands run - tests and builds included - and land in the same register, or in
 the Execution Register under `Report Style: review`, each with its status token
 (`PASS`/`FAIL`/`ERROR`/`BLOCKED`/`SKIPPED`/`NOT RUN`/`N/A`).
@@ -1330,7 +1360,9 @@ Exclusions.
 
 Do not force a conditional section onto a subject it does not fit.
 
-Run every probe activated by the domain profile before assigning statuses. A skipped probe
+Run every probe activated by the domain profile before assigning statuses.
+
+A skipped probe
 needs a recorded reason.
 
 Assign a status (`PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`) per the rules in
@@ -1344,11 +1376,13 @@ Record evidence, concrete risks, and neutral notes for each category.
 **Synthesis**
 
 When the report style is `hunt`, synthesize per `process/report-format/hunt-style.md`.
+
 That style reuses the finding, risk, and roadmap schemas below with its own section order
 and adds the journey-trace matrix, per-domain ratings, and the phase-mapped roadmap.
 
 When the report style is `review`, synthesize per `process/report-format/review-style.md` -
 or `process/report-format/structure-review.md` when the resolved scope is structure-only.
+
 That style reuses the same schemas and adds the execution register, evidence levels, and
 the retest register.
 
@@ -1415,6 +1449,7 @@ using `synthesis/report-comparison.md`, comparing findings, risks, scores, and c
 statuses against the previous report.
 
 Draft the Executive Summary last, after all findings, the risk register, and the roadmap are final.
+
 It is the first section a reader sees but the last one synthesized,
 so it summarizes only completed analysis.
 
@@ -1558,6 +1593,7 @@ or omitted with a deliberate one-line justification in Scope Exclusions.
 
 No conditional section may be present-but-empty,
 and none relevant to the subject may be silently dropped.
+
 Changes Since Previous Audit is the exception, its absence in a first audit needs no omission note.
 
 When a Threat Model is present, confirm every unmitigated threat traces to a `FND-XXX` and a
@@ -1661,7 +1697,9 @@ When an external report was found during intake, confirm the Contradiction Regis
 with a status on every row per `synthesis/report-triangulation.md`.
 
 Confirm every finding's `Evidence` field cites `path:line` ranges wherever the claim rests on
-source code. A file-level citation is acceptable only for an absence claim that also names the
+source code.
+
+A file-level citation is acceptable only for an absence claim that also names the
 search performed or the hops traced.
 
 Recompute the scorecard's stated overall from the displayed applicable dimensions and confirm
@@ -1673,7 +1711,9 @@ carries - a `Runtime confirmed: no` finding cannot appear as verified in any sum
 
 Under `executed-readonly`, confirm the Executed Evidence Log lists every executed check with
 tool, version, exact command, and timestamp, and that the report claims no build, test, or
-project run. Under `executed-commands`, confirm the same provenance in the log or Execution
+project run.
+
+Under `executed-commands`, confirm the same provenance in the log or Execution
 Register and that only the commissioned commands ran.
 
 Under `source-only`, confirm the Operator Verification Handoff covers every material claim
@@ -2067,6 +2107,7 @@ Resolve the output directory once using the rules in the Delivery and output fil
 
 When version-numbered subdirectories exist under an `audit/` or `report/` documentation directory,
 use the repository's primary version if one can be determined.
+
 The primary version is the deployable service or application project's version.
 
 When several projects qualify, prefer the project whose version sequence continues the existing

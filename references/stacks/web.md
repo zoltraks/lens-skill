@@ -27,7 +27,7 @@ From https://html.spec.whatwg.org/multipage/.
 - Interactive content must not nest inside interactive content (`<a>` inside `<button>`).
   `button`/`a` misuse (anchors as buttons, divs as buttons) is a checkable class.
 - `type="button"` on non-submit buttons inside forms prevents accidental submission.
-  form fields need associated `<label>` (the accessibility file covers the full criteria).
+  Form fields need associated `<label>` (the accessibility file covers the full criteria).
 - Elements like `<img>` require `alt`. `<video>`/`<audio>` caption and controls attributes are
   the conformance floor.
 

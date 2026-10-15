@@ -8,7 +8,9 @@
 
 This file consolidates per-ecosystem license evidence locations proven across audit
 sessions. `references/methodology/sbom-licensing.md` covers SBOM generation and obligation
-classes. This file is the lookup table for where declarations physically sit.
+classes.
+
+This file is the lookup table for where declarations physically sit.
 
 Snapshot date: 2026-09-30.
 
@@ -55,11 +57,15 @@ Feeds `assessment/documentation-review.md` and `assessment/standards-conformance
 ## Header Conventions
 
 - Per-file SPDX headers (`// SPDX-License-Identifier: MIT`) are the REUSE-style convention.
-  consistent headers plus a `LICENSES/` dir is the strongest posture.
+  Consistent headers plus a `LICENSES/` dir is the strongest posture.
 - License headers that contradict the root file are per-file dual-licensing evidence, not
   necessarily defects - record which is which.
 
 ## Live Check
 
-Session-derived. No single external source owns this table. License obligation classes are
+Session-derived.
+
+No single external source owns this table.
+
+License obligation classes are
 in `references/methodology/sbom-licensing.md`.

@@ -28,7 +28,7 @@ TSConfig reference (https://www.typescriptlang.org/tsconfig).
 - A project that sets `strict: false` or disables individual strict flags records a deliberate
   relaxation. Each disabled flag is a code-quality observation.
 - `noUncheckedIndexedAccess` makes index signatures and array indexing return `T | undefined`.
-  its absence on data-heavy code is a robustness observation.
+  Its absence on data-heavy code is a robustness observation.
 - `exactOptionalPropertyTypes` distinguishes `?:` from `| undefined`. Relevant when option
   objects cross API boundaries.
 - `skipLibCheck: true` is conventional and not a defect. It silences third-party `.d.ts`
@@ -70,7 +70,7 @@ https://testing-library.com/docs/guiding-principles.
 
 - Playwright best practice: user-facing locators (`getByRole`, `getByLabel`, `getByText`) over
   CSS selectors. `test.describe` grouping. `webServer` config for dev-server lifecycle.
-  no `page.waitForTimeout` fixed sleeps (use assertions/waitFor).
+  No `page.waitForTimeout` fixed sleeps (use assertions/waitFor).
 - Testing Library's guiding principle is testing the way users interact: queries by role and
   accessible name first, `querySelector` and `container` scraping last.
 - Snapshot tests are discouraged for behavioral assertions. Brittle snapshots are a

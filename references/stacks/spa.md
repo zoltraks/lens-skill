@@ -13,6 +13,7 @@ Snapshot date: 2026-09-30.
 
 Feeds `assessment/best-practices.md`, `assessment/code-quality.md`, and
 `assessment/security-review.md`, and `assessment/baseline-conformance.md` for SPA subjects.
+
 `references/topics/offline-cache.md` covers service-worker caching strategy.
 
 ## Rules Of Hooks
@@ -49,7 +50,7 @@ From https://react.dev/learn/you-might-not-need-an-effect.
   corrupt component state - a classic finding.
 - Lifting state, context for deep trees, and external stores (see
   `references/stacks/typescript.md` for Zustand conventions) are the state-placement choices.
-  prop-drilling past two levels is a maintainability observation.
+  Prop-drilling past two levels is a maintainability observation.
 - `<StrictMode>` double-invocation in development exposes impure renders. Side effects inside
   render bodies are findings regardless.
 
@@ -60,7 +61,7 @@ From https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API.
 - A service worker intercepts every fetch in its scope. It requires HTTPS (or localhost) and
   a valid registration (`navigator.serviceWorker.register`) guarded by feature detection.
 - Caching strategy and update lifecycle are covered by `references/topics/offline-cache.md`.
-  the audit checks `install`/`activate`/`fetch` handler presence and cache-version cleanup.
+  The audit checks `install`/`activate`/`fetch` handler presence and cache-version cleanup.
 - `manifest.json` with `name`, `icons`, `start_url`, `display` defines the installable
   surface. A PWA claim without a linked manifest is a gap.
 

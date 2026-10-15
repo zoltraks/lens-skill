@@ -143,6 +143,16 @@ class TestFormatTable(unittest.TestCase):
         self.assertEqual(tables, 1)
         self.assertEqual(out_lines[1], "|-----------|----|")
 
+    def test_width_budget_warning(self):
+        raw = "| a | bb |\n|--|--|\n| " + "x" * 305 + " | 22 |\n"
+        _out, warnings, _tables = self.formatter.format_text(raw)
+        self.assertTrue(any("300-character" in w for w in warnings))
+
+    def test_width_budget_quiet_under_limit(self):
+        raw = "| a | bb |\n|--|--|\n| 1 | 22 |\n"
+        _out, warnings, _tables = self.formatter.format_text(raw)
+        self.assertFalse(any("300-character" in w for w in warnings))
+
     def test_crlf_preserved_via_cli(self):
         raw = b"| a | bb |\r\n|--|--|\r\n| 1 | 22 |\r\n"
         with tempfile.TemporaryDirectory() as tmp:
@@ -296,6 +306,56 @@ class TestValidateReport(unittest.TestCase):
         self.assertTrue(
             any("final section" in f for f in self.validator.check_references_section(trailing))
         )
+
+    def test_paragraph_sentence_boundary(self):
+        lines = ["First sentence.", "Second sentence.", "", "Only one."]
+        fences = self.validator.split_code(lines)
+        failures = self.validator.check_sentence_breaks(lines, fences, True)
+        self.assertTrue(any("boundary inside a paragraph" in f for f in failures))
+        joined = "\n".join(lines) + "\n| Sentence breaks | Off |\n"
+        suppressed = self.validator.check_sentence_breaks(
+            lines, fences, self.validator.sentence_breaks_on(joined)
+        )
+        self.assertFalse(any("boundary inside" in f for f in suppressed))
+
+    def test_midline_sentence_join(self):
+        lines = ["Alpha ends here. Beta starts next."]
+        fences = self.validator.split_code(lines)
+        failures = self.validator.check_sentence_breaks(lines, fences, True)
+        self.assertTrue(any("joined in one line" in f for f in failures))
+        exempt = ["See e.g. Foo for details.", "", "Name J. Smith wrote it."]
+        self.assertEqual(
+            self.validator.check_sentence_breaks(
+                exempt, self.validator.split_code(exempt), True
+            ),
+            [],
+        )
+
+    def test_sentence_breaks_row_values(self):
+        self.assertFalse(
+            self.validator.sentence_breaks_on("| Sentence breaks | Off |\n")
+        )
+        self.assertTrue(
+            self.validator.sentence_breaks_on("| Detail Level | Detailed |\n")
+        )
+        self.assertEqual(
+            self.validator.check_sentence_breaks_row("| Sentence breaks | Off |\n"), []
+        )
+        self.assertTrue(
+            self.validator.check_sentence_breaks_row("| Sentence breaks | On |\n")
+        )
+
+    def test_prose_line_scope(self):
+        prose = self.validator.prose_line("Flush-left sentence.", False)
+        self.assertTrue(prose)
+        for line in (
+            "* bullet item.",
+            "| table | row |",
+            "  indented continuation.",
+            "**Bold run heading**",
+            "## Heading",
+        ):
+            self.assertFalse(self.validator.prose_line(line, False))
 
 
 class TestNewReport(unittest.TestCase):

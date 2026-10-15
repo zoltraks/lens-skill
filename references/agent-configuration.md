@@ -199,7 +199,7 @@ Checkable constraints:
   declaration - a README block restating rules, a second guidelines root - is a parallel-
   authority finding.
 - Consolidated topology: a single `AGENTS.md` serving as the central rules document conforms
-  when the repository records that role; consolidation alone is not a violation.
+  when the repository records that role, and consolidation alone is not a violation.
 - Topic ownership: workflow, testing or verification, document style, and versioning each
   resolve to exactly one recorded owning document or an explicit `N/A`. The same rule text
   duplicated across two owners is drift.

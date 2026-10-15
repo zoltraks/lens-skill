@@ -90,7 +90,9 @@ manifest, instruction file, or MCP configuration:
 
 Follow the matrix with the dimension table per skill that warrants detail - at minimum every
 non-`PASS` skill and every skill in a collection - then describe each gap with evidence and its
-linked `FND-XXX`. Apply the same per-artifact detail rule to every non-`PASS`, non-excluded row
+linked `FND-XXX`.
+
+Apply the same per-artifact detail rule to every non-`PASS`, non-excluded row
 of the Agent Artifacts table.
 
 The aggregate status follows the weakest in-scope item.

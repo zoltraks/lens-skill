@@ -13,10 +13,10 @@
 |--------------------------------|------|--------------------------------------|
 | Strengths & What's Working     | 21   | Evidence-based positive baselines    |
 | Detailed Technical Findings    | 59   | Finding summary and detail blocks    |
-| Technical Debt Register        | 340  | Distinct accumulated debt            |
-| Unified Risk Register          | 388  | Cross-referenced risks               |
-| Actionable Remediation Roadmap | 484  | Prioritized recommendations          |
-| Recommendation Classification  | 568  | Recommended/Optional/Not recommended |
+| Technical Debt Register        | 355  | Distinct accumulated debt            |
+| Unified Risk Register          | 403  | Cross-referenced risks               |
+| Actionable Remediation Roadmap | 499  | Prioritized recommendations          |
+| Recommendation Classification  | 583  | Recommended/Optional/Not recommended |
 
 ## Strengths & What's Working
 
@@ -88,6 +88,7 @@ rephrases a heading.
 A cell drawn from a fixed vocabulary renders the token in the form the report language
 defines: English cells render title case (`Open`, `New`, `Verified`), while the uppercase
 forms in the vocabulary lists below are the canonical token names, not the rendered cells.
+
 Languages that decline tokens render the agreed form per the matching `translations/` file,
 per `principles/output-style.md`.
 
@@ -125,10 +126,14 @@ When the report language is not English, apply the pillar name translations from
 `translations/` file.
 
 Severity values: `CRITICAL`, `HIGH`, `MEDIUM`, `LOW`.
+
 Result values: `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`.
+
 Status values: `OPEN`, `CLOSED`, `PASS` - rendered `Open`, `Closed`, `PASS` in English cells.
+
 Change values: `NEW`, `UNCHANGED`, `REOPENED`, `CLOSED` - rendered `New`, `Unchanged`,
 `Reopened`, `Closed` in English cells.
+
 Verification values: `VERIFIED`, `CONFIRMED`, `REPORTED` - rendered `Verified`, `Confirmed`,
 `Reported` in English cells.
 
@@ -188,13 +193,17 @@ Use this exact markdown block pattern:
 
 The validator parses only the literal `* **Field:**` form - an asterisk bullet, a bold field
 name matching the list below exactly (asterisk-capitalized like `Breaking change`, not
-`BREAKING CHANGE`), a colon outside the bold, then the value. Bold-only lines without the
+`BREAKING CHANGE`), a colon outside the bold, then the value.
+
+Bold-only lines without the
 bullet, trailing punctuation inside the bold, or renamed fields are not seen as fields at all
 and fail as missing.
 
 The required fields, in template order: `Pillar`, `Severity`, `Type`, `Status`, `Change`,
 `Targets`, `Basis`, `Criterion`, `Description`, `Impact`, `Recommendation`, `Method`, `Verified`,
-`Runtime confirmed`, `Confidence`, `Mitigating factors`, `Evidence`. Every finding identifier
+`Runtime confirmed`, `Confidence`, `Mitigating factors`, `Evidence`.
+
+Every finding identifier
 must match `FND-<pillar>-NNN` with a pillar abbreviation from the list above - a stem like
 `FND-PERF-001` parses but is not a legal pillar.
 
@@ -270,15 +279,21 @@ Advisory presence in a lockfile is not exploitability.
 
 The `Defect scenario` field turns a defect into a scenario another person can run: initial
 conditions, the reproduction steps, the expected result, the observed result, and the
-confirmation level reached (`Source`, `Model`, `App`, `Deployed`, or `Unknown`). It is
+confirmation level reached (`Source`, `Model`, `App`, `Deployed`, or `Unknown`).
+
+It is
 required on every `HIGH` or `CRITICAL` finding under `Report Style: hunt` - a source-only
 hunt still supplies a precise operator scenario - and optional elsewhere.
 
 The `Evidence level` field records the strongest level the cited evidence reaches:
 `Source` (read in code or configuration), `Model` (an isolated reproduction or harness),
 `App` (the real application running locally), `Deployed` (a deployed environment), or
-`Unknown`. It is required on every finding under `Report Style: review` - the validator
-rejects a review finding without it - and optional elsewhere. A `Model` reproduction
+`Unknown`.
+
+It is required on every finding under `Report Style: review` - the validator
+rejects a review finding without it - and optional elsewhere.
+
+A `Model` reproduction
 demonstrates a mechanism - it never upgrades application-wide reachability claims.
 
 The `Status` field carries the lifecycle state: `Open`, `Closed`,

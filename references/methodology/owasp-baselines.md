@@ -68,7 +68,7 @@ https://asvs.dev/.
 
 - ASVS 5.0.0 (May 2025) is the current release: a full reorganization of the 4.x requirement
   set with renumbered chapters. Version-qualified requirement IDs (`v5.0.0-1.2.5`) are the
-  checkable anchors; a v4.x ID and a v5.x ID are different requirements even at the same
+  checkable anchors - a v4.x ID and a v5.x ID are different requirements even at the same
   ordinal position.
 - ASVS levels: L1 opportunistic baseline, L2 for applications with sensitive data, L3 highest
   assurance. The audit records which level and which major version the subject claims.
@@ -85,7 +85,7 @@ From https://genai.owasp.org/llm-top-10/.
 - OWASP SAMM (https://owaspsamm.org/) maturity levels (0 implicit, 1-3 defined/measured)
   supply the governance-maturity vocabulary.
 - The Cheat Sheet Series index (https://cheatsheetseries.owasp.org/) names every sheet.
-  stack-specific rules live in the per-stack digests that link them.
+  Stack-specific rules live in the per-stack digests that link them.
 
 ## Agentic Vocabularies
 

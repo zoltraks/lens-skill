@@ -60,7 +60,7 @@ From https://github.com/advisories, https://osv.dev/, and https://osv.dev/docs/.
   ECOSYSTEM/GIT), `affected[].versions`, `references`, `database_specific` - a repo carrying
   its own advisory file follows this shape.
 - `npm audit`/`govulncheck`/`cargo audit`/`composer audit` outputs are the ecosystem surfaces.
-  a committed scan artifact is `Reported` evidence unless the audit ran it.
+  A committed scan artifact is `Reported` evidence unless the audit ran it.
 
 ## Live Check
 

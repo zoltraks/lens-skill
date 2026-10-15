@@ -25,15 +25,15 @@
 | Example Prompts                    | 226  | Full and focused audit requests                     |
 | Workflow Diagrams                  | 297  | ASCII and Mermaid audit pipelines                   |
 | Evidence And Decision Quality      | 357  | Evidence strength and verification limits           |
-| Core Principles                    | 414  | Evaluation constraints and status rules             |
-| Report Format                      | 430  | Report structure, identifiers, and style            |
-| When To Use This Skill             | 467  | Supported requests and exclusions                   |
-| What's Inside                      | 491  | Documents, references, tools, and conditional files |
-| Document Style                     | 641  | Pointer to the style rules file                     |
-| Specification                      | 651  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 672  | Maintenance checks and regression scenarios         |
-| License                            | 700  | License for the skill itself                        |
-| Credits                            | 706  | Authorship and attribution                          |
+| Core Principles                    | 415  | Evaluation constraints and status rules             |
+| Report Format                      | 431  | Report structure, identifiers, and style            |
+| When To Use This Skill             | 468  | Supported requests and exclusions                   |
+| What's Inside                      | 492  | Documents, references, tools, and conditional files |
+| Document Style                     | 642  | Pointer to the style rules file                     |
+| Specification                      | 652  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 673  | Maintenance checks and regression scenarios         |
+| License                            | 701  | License for the skill itself                        |
+| Credits                            | 707  | Authorship and attribution                          |
 
 ## Overview
 
@@ -365,6 +365,7 @@ artifact, and limitations, including checks that were not run.
 The audit inspects repository contents only.
 
 It never builds, tests, or executes the project, and tool availability is not assumed.
+
 Documented or committed check results count as reported evidence, not verification.
 
 Serious findings receive a counter-check for reachability, existing guards, and alternative

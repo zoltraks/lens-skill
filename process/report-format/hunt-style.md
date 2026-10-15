@@ -41,7 +41,9 @@ change` and `Runtime confirmed` on every finding, and `Defect scenario` on every
 Hunt scopes its evidence base to defect hunting: the structure assessment in
 `assessment/structure-review.md` never loads for this style, `FND-STR-` findings never
 appear in Domain Findings, and structure-tagged rows in a shared `work/evidence.json` go
-unused. The exclusion is recorded in Scope Exclusions.
+unused.
+
+The exclusion is recorded in Scope Exclusions.
 
 ## Section Order
 
@@ -143,7 +145,9 @@ A mandatory section carrying the cross-boundary evidence gathered per
   marking every hop `conforming`, `failing`, or `not assessable` with its evidence ID.
 
 A failing hop must trace to a `FND-XXX` defined in the report - the validator rejects a
-failing hop that cites no finding or an undefined one. A conforming hop is recorded, not
+failing hop that cites no finding or an undefined one.
+
+A conforming hop is recorded, not
 celebrated.
 
 A journey is assessed against the complete guard chain: a missing upper-layer check does
@@ -152,7 +156,9 @@ full path it names is broken, and `conforming` only when every guard on the path
 
 Every guarded workflow also traces its negative variants - the anonymous caller, the
 wrong-instance caller, the revoked session, the insufficient role - as their own hops or
-rows, rather than only rearranging the happy path. Negative-variant traces are where the
+rows, rather than only rearranging the happy path.
+
+Negative-variant traces are where the
 hunt finds what the finding list missed.
 
 ## Domain Findings
@@ -169,7 +175,9 @@ Every finding cites `path:line` evidence and carries `Breaking change` and `Runt
 confirmed` fields, and every `HIGH` or `CRITICAL` finding carries `Defect scenario` -
 the validator rejects the missing field.
 
-In a multi-project report the register stays single and unified. Each finding records its
+In a multi-project report the register stays single and unified.
+
+Each finding records its
 project in `Targets` and the summary table carries a `Project` column.
 
 ## Remediation Phases
@@ -187,6 +195,7 @@ Every finding maps to a phase or to an explicit `Accepted - no action` dispositi
 the validator reconciles the mapping.
 
 A defect leaves the register only with repair evidence or an explicit accepted decision.
+
 When the report revisits earlier findings (a re-hunt), a `### Retest` block inside this
 section records the finding's previous status, current result, and remaining limits.
 

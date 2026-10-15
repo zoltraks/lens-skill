@@ -27,7 +27,7 @@ Rationale and detail live in the section specs under `process/report-format/` an
 - Every register identifier (`EVD`, `FND`, `RSK`, `REC`, `TDR`, `PAR`) cited outside its
   defining location links to its definition - `### <ID>:` heading anchors for block
   registers, the register's section anchor for `EVD`/`PAR` rows - and every such link
-  resolves to a real heading anchor; `scripts/link-references.py` applies the pass.
+  resolves to a real heading anchor, and `scripts/link-references.py` applies the pass.
 - No trailing whitespace, and the closing line `End of audit report` is never written.
 - Document Information carries `Report Style`, `Evidence Mode`, and a `Subject Revision`
   snapshot anchor.

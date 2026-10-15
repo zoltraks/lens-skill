@@ -72,7 +72,7 @@ https://github.com/OWASP/Go-SCP, and https://github.com/securego/gosec.
 - `database/sql` queries with `fmt.Sprintf` interpolation instead of placeholders are SQL
   injection findings.
 - x/crypto/ssh (https://pkg.go.dev/golang.org/x/crypto/ssh) is the library path for SSH needs.
-  shelling out to `ssh`/`scp` binaries is a portability and argument-injection surface.
+  Shelling out to `ssh`/`scp` binaries is a portability and argument-injection surface.
 - CLI secret storage belongs in an OS keychain (for example
   https://github.com/zalando/go-keyring), not plaintext dotfiles.
 

@@ -10,7 +10,7 @@
 | Section              | Line | What it covers                             |
 |----------------------|------|--------------------------------------------|
 | Auditing Methodology | 15   | Method, standards, criteria matrix, ledger |
-| Scoring Rubrics      | 248  | Score bands, grouping, ISO crosswalk       |
+| Scoring Rubrics      | 250  | Score bands, grouping, ISO crosswalk       |
 
 ## Auditing Methodology
 
@@ -153,7 +153,9 @@ rule stated), or `Listed` (counted but not read).
 
 A `Listed` area supports no conformance claim. Mark its categories `UNKNOWN` where applicable.
 
-Group rows by module or directory so the table stays compact. It is a coverage disclosure,
+Group rows by module or directory so the table stays compact.
+
+It is a coverage disclosure,
 not a per-file list.
 
 **Verification And Evidence Ledger**
@@ -308,7 +310,9 @@ Apply the ISO/IEC 25010:2023 crosswalk in `synthesis/project-scorecard.md` and s
 
 The scorecard distinguishes three groups when the subject warrants it: product quality
 (code and architecture dimensions), process maturity (delivery, testing, dependency
-hygiene), and governance (documentation, licensing, continuity). Strong governance or
+hygiene), and governance (documentation, licensing, continuity).
+
+Strong governance or
 agent tooling never lifts a product-quality or security score on its own - each group is
 aggregated and reported separately before any combined mean.
 
@@ -320,10 +324,13 @@ For every numeric or star score, include evidence references and confidence in i
 paragraph.
 
 If an overall score is shown, disclose its formula, weights, rounding, and coverage denominator.
+
 State the lowest-scoring applicable dimension and its score in a paragraph below the table, per
 `synthesis/project-scorecard.md`.
 
 Keep the overall out of the Scorecard Summary table itself - a numeric `Overall score` Score
-cell enters the recomputed mean and fails validation. Place it in the Executive Summary
+cell enters the recomputed mean and fails validation.
+
+Place it in the Executive Summary
 key-value table instead, and keep the word `lowest` in the same paragraph as each stated
 overall score: the validator checks a six-line window after every `Overall score` value.

@@ -55,7 +55,7 @@ https://learn.microsoft.com/aspnet/core/performance/rate-limit.
 - `[Authorize]` attributes or `RequireAuthorization()` on endpoints provide coverage.
   `AllowAnonymous` entries are the explicit exceptions to review.
 - `AddRateLimiter` middleware provides fixed/sliding-window and token-bucket limiters.
-  unauthenticated endpoints without a limiter are a resource-exhaustion observation.
+  Unauthenticated endpoints without a limiter are a resource-exhaustion observation.
 - `CryptographicOperations.FixedTimeEquals`
   (https://learn.microsoft.com/dotnet/api/system.security.cryptography.cryptographicoperations.fixedtimeequals)
   is the constant-time comparison for secrets. `==`/`SequenceEqual` on MACs and tokens is a
@@ -70,7 +70,7 @@ From https://learn.microsoft.com/nuget/consume-packages/package-references-in-pr
   `RestoreLockedMode` the build fails when the lockfile and project disagree - the CI
   reproducibility control.
 - Floating versions (`*`, `1.*`) resolve nondeterministically and defeat lockfile intent.
-  floating references in a committed build are a reproducibility finding.
+  Floating references in a committed build are a reproducibility finding.
 - Central Package Management (`Directory.Packages.props`) is the monorepo convention for
   version consistency.
 

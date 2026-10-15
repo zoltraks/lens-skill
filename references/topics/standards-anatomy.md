@@ -9,7 +9,9 @@
 > section, definition of done, versioned snapshots, source attribution
 
 This file is distilled from engineering-standard corpora supplied to the maintainer during
-skill upkeep. It carries no external source links because it describes the anatomy of a
+skill upkeep.
+
+It carries no external source links because it describes the anatomy of a
 standard, not a technology.
 
 Snapshot date: 2026-10-09.

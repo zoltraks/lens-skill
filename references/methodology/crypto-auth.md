@@ -42,7 +42,9 @@ From https://datatracker.ietf.org/doc/html/rfc7519,
 https://datatracker.ietf.org/doc/html/rfc8725,
 https://www.rfc-editor.org/rfc/rfc6749, https://www.rfc-editor.org/rfc/rfc6750, and
 https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_Cheat_Sheet.html (the
-`_for_Java` sheet was renamed. The crypto-and-validation content is what this file carries).
+`_for_Java` sheet was renamed.
+
+The crypto-and-validation content is what this file carries).
 
 - `jwt.verify` must pin `algorithms`. `alg:none` and RS256 -> HS256 confusion (verify with the
   public key as an HMAC secret) are the classic bypasses - check the algorithm allowlist.

@@ -6,8 +6,12 @@
 > **Key items:** key handling, StrictHostKeyChecking posture, scp/rsync patterns, agent
 > forwarding risk, host-key verification class
 
-This file consolidates deployment-path knowledge proven across audit sessions. It has no
-single external owner. The patterns below are the checkable residue of recurring findings.
+This file consolidates deployment-path knowledge proven across audit sessions.
+
+It has no
+single external owner.
+
+The patterns below are the checkable residue of recurring findings.
 
 Snapshot date: 2026-09-30.
 
@@ -16,7 +20,7 @@ Feeds `assessment/deployment-review.md` and the delivery surface of self-hosted 
 ## Key Material Handling
 
 - Deploy keys live outside the repository: `~/.ssh/`, a secrets manager, or CI secret store.
-  a committed private key (`id_rsa`, `*.pem`, `deploy_key`) is a finding, not config drift.
+  A committed private key (`id_rsa`, `*.pem`, `deploy_key`) is a finding, not config drift.
 - Public keys in-repo (`authorized_keys` templates, `*.pub`) are acceptable evidence of the
   deployment surface. Private halves are not.
 - Keys embedded in scripts (`ssh -i ./key.pem` where `key.pem` is tracked) make the artifact
@@ -56,7 +60,11 @@ Feeds `assessment/deployment-review.md` and the delivery surface of self-hosted 
 
 ## Live Check
 
-These patterns are session-derived. No authoritative external source owns them. Cross-check
+These patterns are session-derived.
+
+No authoritative external source owns them.
+
+Cross-check
 the MITM/TOFU reasoning against `references/topics/git-integrity.md` when a signed-update
 claim accompanies the SSH path.
 

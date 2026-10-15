@@ -11,7 +11,9 @@ This file consolidates evidence-gathering recipes proven across the audit sessio
 
 Snapshot date: 2026-09-30.
 
-No external sources. The recipes are distilled from session evidence.
+No external sources.
+
+The recipes are distilled from session evidence.
 
 Feeds `references/census-commands.md` consumers and `process/audit-workflow.md` evidence
 phases.
@@ -97,6 +99,8 @@ Record unexecuted verification explicitly rather than implying coverage.
 
 ## Live Check
 
-These recipes are session-derived and not backed by a live source. No live check applies.
+These recipes are session-derived and not backed by a live source.
+
+No live check applies.
 
 The file updates when audit sessions produce new mechanical patterns.

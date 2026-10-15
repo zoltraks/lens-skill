@@ -22,12 +22,12 @@ A score is a summary of evidence, not an impression.
 |----------------------------------|------|------------------------------------------|
 | Table Format                     | 32   | Fixed dimension set and column order     |
 | Scoring Rubric                   | 86   | Band definitions and alternative scales  |
-| Handling Unknowns                | 194  | UNKNOWN handling guidance                |
-| Handling Not Applicable          | 202  | N/A handling guidance                    |
-| Dimension To Category Mapping    | 216  | Dimension to assessment-category mapping |
-| ISO/IEC 25010:2023 Crosswalk     | 241  | Standards crosswalk mapping              |
-| Score Confidence And Aggregation | 285  | Confidence and aggregation rules         |
-| Rules                            | 323  | Scorecard rules                          |
+| Handling Unknowns                | 196  | UNKNOWN handling guidance                |
+| Handling Not Applicable          | 204  | N/A handling guidance                    |
+| Dimension To Category Mapping    | 218  | Dimension to assessment-category mapping |
+| ISO/IEC 25010:2023 Crosswalk     | 243  | Standards crosswalk mapping              |
+| Score Confidence And Aggregation | 287  | Confidence and aggregation rules         |
+| Rules                            | 325  | Scorecard rules                          |
 
 ## Table Format
 
@@ -183,12 +183,14 @@ For `3 stars`, use the `1-3` rubric and three positions.
 
 Examples: `★★★` for `3`, `★★☆` for `2`, and `★☆☆` for `1`.
 
-Render `UNKNOWN` as text, not as a star bar; `N/A` rows are omitted from the table entirely.
+Render `UNKNOWN` as text, not as a star bar, and `N/A` rows are omitted from the table entirely.
 
 A non-degenerate interval renders in brackets beside the bar, for example `★★★☆☆ [2-4]`.
 
 For an overall mean under a star scale, round to the nearest integer for the star bar and keep
-the exact mean in parentheses, for example `★★★☆☆ (3.4/5)`. A star scale is ordinal, so the
+the exact mean in parentheses, for example `★★★☆☆ (3.4/5)`.
+
+A star scale is ordinal, so the
 per-dimension distribution appears beside the bar per `process/readiness-scoring.md`.
 
 ## Handling Unknowns

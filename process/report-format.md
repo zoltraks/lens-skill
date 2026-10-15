@@ -39,12 +39,12 @@ A present-but-empty section signals a gap, a missing section hides it.
 | Section                                     | Line | What it covers                              |
 |---------------------------------------------|------|---------------------------------------------|
 | Formatting Rules                            | 49   | Formatting Rules guidance                   |
-| Report Delivery And Parameter Configuration | 314  | Report delivery and output configuration    |
-| Detail Level Configuration                  | 367  | Standard, detailed, and brief reports       |
-| Conditional Sections                        | 462  | Inclusion criteria for conditional sections |
-| Section Order                               | 519  | Single-project and multi-project order      |
-| Specification Files                         | 616  | Per-section specification file index        |
-| Pre-Delivery Mechanical Checklist           | 648  | Final mechanical checks                     |
+| Report Delivery And Parameter Configuration | 339  | Report delivery and output configuration    |
+| Detail Level Configuration                  | 395  | Standard, detailed, and brief reports       |
+| Conditional Sections                        | 490  | Inclusion criteria for conditional sections |
+| Section Order                               | 547  | Single-project and multi-project order      |
+| Specification Files                         | 644  | Per-section specification file index        |
+| Pre-Delivery Mechanical Checklist           | 676  | Final mechanical checks                     |
 
 ## Formatting Rules
 
@@ -90,6 +90,16 @@ translate the column headers into that language while keeping the structure iden
 
 Keep table cells single-line and use commas for compact lists, placing explanations below the table.
 
+Tables may exceed the prose wrap width because rendered cells wrap, but the formatted source
+width stays within a 300-character budget.
+
+When a cell's detail stretches the table beyond that budget, shorten the cell to a compact
+summary and move the removed detail into a paragraph directly below the table - the detail
+is relocated, never dropped.
+
+One or more columns may render as separate paragraphs below the table instead of columns,
+and the paragraph names the column whose content it carries.
+
 Preserve identifiers and gap tokens intact even when they exceed the usual cell word limit.
 
 Place descriptive paragraphs immediately after each table.
@@ -121,6 +131,21 @@ Do not break inside inline code, file paths, or URLs.
 
 The limit does not apply to table rows, URLs, links, or file paths,
 so a line carrying an unbreakable URL may remain over the limit.
+
+Separate consecutive sentences into their own paragraphs - one blank line between sentences,
+so each sentence renders as its own paragraph in Markdown.
+
+This is the default layout for running prose.
+
+List items, `* **Field:**` register lines,
+table cells, and headings are already one unit per line and stay unsplit.
+
+The layout is suppressed only when the user explicitly asks for joined prose - phrasing such
+as "don't break sentences", "no sentence breaks", or "don't put blank lines between
+sentences".
+
+Record the suppression in Document Information as `| Sentence breaks | Off |`
+and write no row when the default applies, per `process/report-format/report-opening.md`.
 
 Do not use the semicolon character in prose.
 
@@ -351,11 +376,14 @@ with the filename without the revision number offered as an alternative.
 
 A `hunt`-style report uses the `HUNT` stem instead - or the language-specific stem such as
 `POLOWANIE` - and defaults to the bare `HUNT.md` for a first report, with `HUNT-1.0.md`
-offered as the revisioned alternative. A `review`-style report uses the `REVIEW` stem -
+offered as the revisioned alternative.
+
+A `review`-style report uses the `REVIEW` stem -
 `PRZEGLĄD` in Polish - under the same bare-first default.
 
 When a previous audit report exists, the filename carries the new revision whether the audit mode is
 re-audit or fresh audit, for example `AUDIT-2.0.md`, and the previous file is never overwritten.
+
 A bare `<stem>.md` previous report is renamed to `<stem>-<revision>.md` before the new report
 is written, per `synthesis/report-comparison.md`.
 
@@ -681,8 +709,10 @@ every item is mechanical and takes seconds to verify.
 copy it into the audited repository's `work/` directory before use.
 
 `scripts/lint-prose.py` runs the prose rules (semicolons, typographic dashes, arrows, heading
-spacing, split-sentence and doubled-end-mark defects, `..` identifier ranges) on draft parts
-before assembly, copy it the same way.
+spacing, split-sentence and doubled-end-mark defects, `..` identifier ranges, sentences joined
+inside one paragraph) on draft parts before assembly, copy it the same way.
+
+Pass `--no-sentence-breaks` when linting a report recorded with `Sentence breaks | Off`.
 
 `scripts/validate-report.py` runs the scriptable items in this checklist plus finding-block field,
 register cross-reference, and PAR-row checks, copy and run it the same way.

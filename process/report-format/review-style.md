@@ -19,7 +19,9 @@ rules, and the same readiness gates.
 
 Style changes presentation, never what must be found.
 
-A review report is only as strong as what ran. Its distinguishing content is the Execution
+A review report is only as strong as what ran.
+
+Its distinguishing content is the Execution
 Register - one row per commissioned check - and its honesty rules: an unexecuted check is
 never a pass, a runner failure is never a product failure, and a model reproduction never
 upgrades an application-level claim.
@@ -47,7 +49,9 @@ level` per this file.
 
 The review style includes the structure assessment from `assessment/structure-review.md`
 in its evidence base - structure findings render in Domain Findings under the
-Maintainability domain with `FND-STR-` identifiers. A `hunt` report never loads that
+Maintainability domain with `FND-STR-` identifiers.
+
+A `hunt` report never loads that
 assessment.
 
 When the resolved scope is structure-only, the report renders the Structure Review Variant
@@ -135,14 +139,18 @@ States what was checked and under what authority:
 
 ## Execution Register
 
-One row per check. The register is the report's spine - findings cite it, the retest
+One row per check.
+
+The register is the report's spine - findings cite it, the retest
 register replays it, and a later report can rerun it verbatim.
 
 | Check | Command | Cwd | Tool & Version | Timestamp | Input revision | Exit status | Result | Interpretation | Artifact |
 |-------|---------|-----|----------------|-----------|----------------|-------------|--------|----------------|----------|
 
 Required columns are `Check`, `Command`, and `Result` - carry the remaining columns
-whenever the mode permits them. A field the run did not record renders `NOT SPECIFIED`,
+whenever the mode permits them.
+
+A field the run did not record renders `NOT SPECIFIED`,
 never an invented value.
 
 `Result` takes exactly one token:
@@ -157,6 +165,7 @@ never an invented value.
 - `N/A` - the check does not apply to this subject.
 
 Every non-`PASS` row carries its reason or outcome meaning in `Interpretation`.
+
 Every row under an executed mode names its retained output in `Artifact` or records
 `None retained`.
 
@@ -182,6 +191,7 @@ Review adds a mandatory field to every finding block:
 
 A `Model` reproduction demonstrates a mechanism - it never upgrades application-wide
 reachability claims, which stay `Source`-derived until exercised against the real routes.
+
 `Evidence level` is independent of `Confidence` - a claim can be confidently inferred
 from source without any execution.
 
@@ -199,6 +209,7 @@ Remediation Phases: each phase lists its recommendations, acceptance criteria,
 verification steps, and the findings each closes.
 
 Every finding maps to a phase or to an explicit `Accepted - no action` disposition.
+
 `Deferred` and `Unresolved` dispositions are permitted with their blocking condition
 named.
 
@@ -218,7 +229,9 @@ one row per failed check:
 
 ## Metrics Snapshot
 
-Present only when the register produced metrics. State each figure with its scope:
+Present only when the register produced metrics.
+
+State each figure with its scope:
 `backend tests: 241 passed` is a different claim from `tests pass`, and `42% statement
 coverage` is a different claim from `42% coverage`.
 

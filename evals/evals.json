@@ -1455,6 +1455,28 @@
     "lint-polish.py returns a non-zero exit on any calque, spliced-clause, or typography finding - no finding is advisory.",
     "The report passes finalize-report.py --polish end to end, including check-translation.py and mapped-copy validation."
    ]
+  },
+  {
+   "id": 122,
+   "prompt": "Audit this repository and produce a report whose prose uses single-sentence paragraphs.",
+   "expected_output": "A report where every prose sentence stands alone as its own paragraph, separated from the previous and next sentence by exactly one blank line.",
+   "files": [],
+   "expectations": [
+    "No prose line carries two sentences joined by '. ' + capital and no sentence boundary sits inside a paragraph without a blank line.",
+    "List items, * **Field:** register lines, table cells, and headings stay unsplit - the rule covers running prose only.",
+    "Joining sentences is allowed only when the user explicitly asks for it and the report records '| Sentence breaks | Off |' in Document Information."
+   ]
+  },
+  {
+   "id": 123,
+   "prompt": "Audit this repository and produce a report containing wide register tables.",
+   "expected_output": "A report where no table exceeds the 300-character source-width budget; detail removed from cells appears in paragraphs directly below the table rather than being dropped.",
+   "files": [],
+   "expectations": [
+    "format-table.py emits a warning for any table wider than 300 characters and the generated report carries none.",
+    "When a cell would push a table over the budget, the cell holds a compact summary and the removed detail lives in a paragraph directly below the table that names the column it carries.",
+    "Fixed table schemas keep their required column order - detail moves to prose or the ### detail blocks, columns are not deleted except genuinely empty ones."
+   ]
   }
  ]
 }

@@ -11,7 +11,9 @@ This file distills the Delphi style guide and DocWiki anchors listed in
 
 Snapshot date: 2026-09-30.
 
-The DocWiki index (docwiki.embarcadero.com) was unreachable at snapshot time. This file keeps
+The DocWiki index (docwiki.embarcadero.com) was unreachable at snapshot time.
+
+This file keeps
 the stable conventions distilled from the Embarcadero style guide and ecosystem practice.
 
 Feeds `assessment/best-practices.md`, `assessment/code-quality.md`, and
@@ -72,7 +74,9 @@ From https://edn.embarcadero.com/article/10280 (the classic Object Pascal style 
 
 ## Live Check
 
-When web fetch is available, attempt the DocWiki index. When it blocks automated fetch, record
+When web fetch is available, attempt the DocWiki index.
+
+When it blocks automated fetch, record
 the attempt and use this snapshot plus the style-guide anchor.
 
 Record whichever baseline the audit used, and note drift in Limitations and Unknowns.

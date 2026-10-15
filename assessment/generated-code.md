@@ -41,8 +41,8 @@ Assign each scoped artifact or change set a `Provenance basis` from the evidence
 
 The tiers describe the strength of evidence for agent involvement, in descending order.
 
-`Declared` and `Attested` support a positive provenance finding; `Indicated` and
-`Supplied` support provenance language only with the limitation named; `Undetermined`
+`Declared` and `Attested` support a positive provenance finding, while `Indicated` and
+`Supplied` support provenance language only with the limitation named, and `Undetermined`
 supports no provenance claim at all.
 
 The asymmetry rule applies: human authorship is never a report conclusion - a clean

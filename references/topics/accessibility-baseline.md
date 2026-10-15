@@ -12,7 +12,9 @@ and script source.
 
 Snapshot date: 2026-09-30.
 
-Screen-reader behavior and rendered contrast are not source-verifiable. This file covers only
+Screen-reader behavior and rendered contrast are not source-verifiable.
+
+This file covers only
 what markup and scripts prove.
 
 Feeds `assessment/best-practices.md` and the accessibility pillar of
@@ -54,7 +56,7 @@ From https://www.w3.org/WAI/ARIA/apg/.
 - `role="dialog"` needs `aria-modal`, focus management, and `aria-labelledby`. `role="alert"`
   announces without focus.
 - ARIA must not conflict with native semantics (`<a href>` gets no `role="button"` need).
-  hidden content (`display:none`) must not carry ARIA-focusable children.
+  Hidden content (`display:none`) must not carry ARIA-focusable children.
 - `aria-live` regions announce async updates. Their absence on status feeds is an
   observation, their misuse (live on rapidly-changing regions) is too.
 

@@ -32,7 +32,9 @@ From https://www.shellcheck.net/wiki/ - rule IDs feed `references/cwe-analyzer.m
 
 ## Google Shell Style
 
-From https://google.github.io/styleguide/shellguide.html (CC-BY. Distilled, not copied).
+From https://google.github.io/styleguide/shellguide.html (CC-BY.
+
+Distilled, not copied).
 
 - `#!/bin/bash` for bash features, `#!/bin/sh` only for genuinely portable scripts. `env`-path
   shebangs for user-installed interpreters.

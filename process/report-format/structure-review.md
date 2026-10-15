@@ -46,7 +46,7 @@ Structure the section with these elements, in order:
    Findings.
 5. **Positive practices** - organizational decisions worth preserving, each with evidence.
 6. **Recommendations pointer** - the structural recommendations land in the Actionable
-   Remediation Roadmap like any other finding resolution; this element names the `REC-XXX`
+   Remediation Roadmap like any other finding resolution, and this element names the `REC-XXX`
    identifiers that resolve them.
 7. **Limitations** - areas that could not be evaluated and assumptions the verdicts rest on.
 

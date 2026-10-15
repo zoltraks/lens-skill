@@ -21,17 +21,17 @@ If a finding cannot satisfy these rules, mark it as unknown rather than guessing
 |-------------------------------------|------|---------------------------------------|
 | Evidence-Based Reasoning            | 36   | Traceability and missing-info tokens  |
 | Evidence Strength And Claim Control | 53   | Evidence bases, types, confidence     |
-| No Assumptions                      | 229  | The no-assumption rule                |
-| No Personal Judgement               | 243  | Neutrality toward people              |
-| Architectural Neutrality            | 257  | Judging within stated constraints     |
-| Status Markers                      | 270  | PASS, PARTIAL, FAIL, UNKNOWN, N/A     |
-| Contextual Applicability            | 289  | N/A usage for inapplicable categories |
-| Absent Capability Assessment        | 318  | Intentional-versus-oversight tokens   |
-| Evidence Citation                   | 353  | Anchoring claims to sources           |
-| Confidence And Scope Limits         | 364  | Confidence and scope boundaries       |
-| Information Security And Redaction  | 375  | Secret handling rules                 |
-| Indexing And Traceability           | 391  | ID schemes and ordering               |
-| Critical Constraints                | 460  | Non-negotiable hard limits            |
+| No Assumptions                      | 236  | The no-assumption rule                |
+| No Personal Judgement               | 250  | Neutrality toward people              |
+| Architectural Neutrality            | 264  | Judging within stated constraints     |
+| Status Markers                      | 277  | PASS, PARTIAL, FAIL, UNKNOWN, N/A     |
+| Contextual Applicability            | 296  | N/A usage for inapplicable categories |
+| Absent Capability Assessment        | 325  | Intentional-versus-oversight tokens   |
+| Evidence Citation                   | 360  | Anchoring claims to sources           |
+| Confidence And Scope Limits         | 371  | Confidence and scope boundaries       |
+| Information Security And Redaction  | 382  | Secret handling rules                 |
+| Indexing And Traceability           | 398  | ID schemes and ordering               |
+| Critical Constraints                | 467  | Non-negotiable hard limits            |
 
 ## Evidence-Based Reasoning
 
@@ -68,8 +68,11 @@ Distinguish these evidence bases in finding detail:
   test suite or isolated reproduction harness under `executed-commands`, recorded with tool,
   version, command, and timestamp.
 
-The audit never executes checks itself under `source-only`. Under `executed-readonly` only the
+The audit never executes checks itself under `source-only`.
+
+Under `executed-readonly` only the
 commissioned non-mutating analyzers run, and the project is still never built, tested, or run.
+
 Under `executed-commands` the explicitly commissioned non-mutating commands run - including
 tests, builds, and reproduction harnesses - while the subject is still never deployed,
 mutated, or connected to live systems.
@@ -80,13 +83,17 @@ and `NOT RUN` never counts toward a pass.
 
 Where a finding's reach matters, record its evidence level separately from its evidence
 basis: `Source` (read in code), `Model` (isolated reproduction), `App` (the real
-application locally), `Deployed` (a live environment), or `Unknown`. A `Model`
+application locally), `Deployed` (a live environment), or `Unknown`.
+
+A `Model`
 reproduction demonstrates a mechanism and never upgrades application-wide claims.
 
 Results produced outside the audit are `Reported` evidence, regardless of who ran them.
 
 A `Reported` claim - documentation, changelog, policy file, or recorded decision - establishes
-intent, never the current control. Before such a claim can support a verified control, a
+intent, never the current control.
+
+Before such a claim can support a verified control, a
 score, or a readiness gate, it must be re-derived from code at the audited snapshot.
 
 These labels describe evidence, not replacement category statuses.

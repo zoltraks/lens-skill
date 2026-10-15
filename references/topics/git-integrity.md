@@ -63,7 +63,7 @@ From https://shattered.io/.
 - SHAttered (2017, CWI Amsterdam + Google) produced the first practical SHA-1 collision: two
   distinct PDFs sharing `38762cf7f55934b34d179ae6a4c80cadccbb7f0a`, at ~9 quintillion SHA-1
   computations (~6,500 CPU-years + 110 GPU-years).
-- The follow-on "SHA-1 is a Shambles" chosen-prefix work (2020) cut the cost to roughly $45k;
+- The follow-on "SHA-1 is a Shambles" chosen-prefix work (2020) cut the cost to roughly $45k,
   NIST formally retired SHA-1 in December 2022 with a 2030 phase-out deadline, and Git added
   collision detection.
 - Checkable rule: an update path that pins or merges by an abbreviated hash (short prefix,

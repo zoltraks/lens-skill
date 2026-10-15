@@ -40,7 +40,7 @@ the OWASP threat-modeling overview (https://owasp.org/www-community/Threat_Model
   Service, Elevation of Privilege - apply per element of the data-flow model (external
   entity, process, data store, data flow).
 - STRIDE applies per trust boundary: enumerate what crosses, then ask which categories apply.
-  a threat list not anchored to a boundary is prose, not a model.
+  A threat list not anchored to a boundary is prose, not a model.
 - `assessment/threat-model.md` owns the per-element mapping table.
 
 ## CVSS v4

@@ -7,9 +7,10 @@ on the report file, verify that all `|` separators align vertically, then
 remove the copy.
 
 The formatter normalizes separator cells that are separator-shaped but
-lack hyphens, warns about rows that begin with `||`, and warns about
+lack hyphens, warns about rows that begin with `||`, warns about
 columns that are empty in every row - those columns are removed only
-when `--drop-empty-columns` is passed.
+when `--drop-empty-columns` is passed - and warns when a formatted
+table exceeds the 300-character source-width budget.
 
 Usage: python format-table.py <report.md> [--check] [--drop-empty-columns]
 """
@@ -84,6 +85,12 @@ def format_block(block, start, warnings, drop_empty):
                 + " | ".join(c.ljust(widths[j]) for j, c in enumerate(r))
                 + " |"
             )
+    width = max(len(r) for r in out)
+    if width > 300:
+        warnings.append(
+            f"line {start + 1}: table width {width} exceeds the 300-character "
+            "budget - move column detail into paragraphs below the table"
+        )
     return out
 
 

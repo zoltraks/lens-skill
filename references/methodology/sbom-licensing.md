@@ -43,7 +43,7 @@ use).
   `NOASSERTION` is the SPDX value for undetermined licenses, not `Unknown`.
 - SPDX 3.0 (current 3.0.1) reorganized the model around `Element`s with `creationInfo`
   (`createdBy` an Agent, `createdUsing` a Tool) and adds AI, Dataset, Build, and Lite
-  profiles; SPDX 2.x documents (`documentName`, `spdxVersion`, `packages[]` with `SPDXID`,
+  profiles, while SPDX 2.x documents (`documentName`, `spdxVersion`, `packages[]` with `SPDXID`,
   `downloadLocation`, `licenseConcluded`/`licenseDeclared`, `copyrightText`) remain the
   common shipped shape. A 2.x document is not stale by itself - record the `spdxVersion`,
   never demand a 3.0 migration.
@@ -56,7 +56,7 @@ specification 1.7).
 
 - CycloneDX is a BOM standard covering components, services, dependencies, vulnerabilities,
   and licenses. `bomFormat`, `specVersion`, `serialNumber`, `components[]` are the top-level
-  shape. Specification 1.7 is the current release; earlier 1.x documents are valid for
+  shape. Specification 1.7 is the current release, and earlier 1.x documents are valid for
   their declared `specVersion`.
 - Components carry `type`, `name`, `version`, `purl`, `licenses`, `hashes`, and
   `externalReferences`. `purl` (package URL) is the canonical identifier scheme.

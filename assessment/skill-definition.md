@@ -39,14 +39,14 @@ Treat a frontmatter field that contradicts the spec as a conformance finding.
 |--------------------------------------|------|-----------------------------------------------|
 | Agent-Facing Artifact Discovery      | 51   | Locating skills and agent configuration files |
 | Authored Versus Installed            | 95   | Classification signals and exclusion handling |
-| When This Applies                    | 124  | Applicability and N/A conditions              |
-| What To Evaluate                     | 139  | Per-skill conformance dimensions              |
-| Collection-Level Checks              | 201  | Multi-skill consistency and inventory         |
-| Agent Skills Specification Reference | 215  | Field-constraint table and clause citations   |
-| Evidence To Look For                 | 237  | Source signals per dimension                  |
-| Status Criteria                      | 256  | PASS through N/A verdict definitions          |
-| Common Risks                         | 282  | Typical failure modes                         |
-| What Raises Confidence               | 304  | Positive evidence signals                     |
+| When This Applies                    | 126  | Applicability and N/A conditions              |
+| What To Evaluate                     | 141  | Per-skill conformance dimensions              |
+| Collection-Level Checks              | 203  | Multi-skill consistency and inventory         |
+| Agent Skills Specification Reference | 217  | Field-constraint table and clause citations   |
+| Evidence To Look For                 | 239  | Source signals per dimension                  |
+| Status Criteria                      | 258  | PASS through N/A verdict definitions          |
+| Common Risks                         | 284  | Typical failure modes                         |
+| What Raises Confidence               | 306  | Positive evidence signals                     |
 
 ## Agent-Facing Artifact Discovery
 
@@ -113,7 +113,9 @@ repository signals:
 
 The classification feeds the intake project-inclusion question: `authored` directories are
 recommended for audit, `installed` ones are listed unchecked, and `undetermined` ones stay
-checked but annotated. A user answer overrides every heuristic.
+checked but annotated.
+
+A user answer overrides every heuristic.
 
 Non-skill agent artifacts (rules directories, memory files, manifests) follow the same
 classification where location makes sense, but most are authored configuration of the subject

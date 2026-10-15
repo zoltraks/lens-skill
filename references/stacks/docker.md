@@ -59,10 +59,10 @@ From https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.
 From https://docs.docker.com/compose/compose-file/.
 
 - `environment:` values in `docker-compose.yml` are baked into container config in plaintext.
-  secrets belong in `env_file` (gitignored), `secrets:` blocks, or the orchestrator's store -
+  Secrets belong in `env_file` (gitignored), `secrets:` blocks, or the orchestrator's store -
   literals in `environment:` are a finding class.
 - `depends_on` without `condition: service_healthy` does not wait for readiness.
-  healthchecks close that gap.
+  Healthchecks close that gap.
 - `ports` publishes to the host. `expose` is internal-only - services that should stay
   internal and publish `ports:` widen the surface.
 - Named volumes (`volumes:` top-level) persist data. Bind mounts of source code

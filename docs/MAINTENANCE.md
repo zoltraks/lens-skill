@@ -36,7 +36,7 @@ Root files govern the repository itself: `SKILL.md`, `README.md`, `AGENTS.md`, a
 The `docs/` directory holds the governance documents (`README.md`, `STYLE.md`,
 `MAINTENANCE.md`, `VERSIONING.md`, `CONTRIBUTING.md`, `SECURITY.md`).
 
-Root `docs/` is repository governance; it is unrelated to the `docs/audit/` report-location
+Root `docs/` is repository governance - it is unrelated to the `docs/audit/` report-location
 convention in audited projects.
 
 Keep resource files one level deep under their directory.
@@ -100,7 +100,7 @@ Register every new or renamed resource in `SKILL.md` under the section for its d
 Each router entry states what the file covers and when to load it.
 
 A resource counts as registered in a document when its filename appears there, or when an
-ancestor directory appears as a backticked `path/` token; `scripts/validate-skill.py` enforces
+ancestor directory appears as a backticked `path/` token, and `scripts/validate-skill.py` enforces
 both cases.
 
 Files inside a directory registered by token, such as the corpus directories, are indexed by
@@ -173,7 +173,7 @@ Keep report section order, conditional criteria, checklist coverage, and router 
 ### Adding References
 
 Add reference material under `references/` and register it in `SKILL.md` with its use
-conditions; digests distilled from external sources go under the corpus directories and are
+conditions, while digests distilled from external sources go under the corpus directories and are
 indexed by `references/source-catalog.md` instead of `SKILL.md`.
 
 Update the assessment or synthesis guide that consumes it.
@@ -190,7 +190,7 @@ distilled rules where the source changed, advance the digest's snapshot date, an
 catalog rows `distilled`.
 
 When a canonical URL fails, record the working alternate in the catalog's Unresolved And
-Alternate Addresses table and mark the row `alternate`; paywalled or bot-blocked sources keep
+Alternate Addresses table and mark the row `alternate`, while paywalled or bot-blocked sources keep
 their canonical URL and a `paywalled` or `restricted` status.
 
 Distill checkable rules and conclusions, never copy a source's full normative text into the
@@ -297,7 +297,9 @@ Format tables in edited skill documents with a temporary source-width formatter 
 Check comment alignment in edited plain-text blocks with
 `python scripts/align-comments.py <file> --check`.
 
-Generic document checkers flag several sanctioned patterns in this repository. Treat these as
+Generic document checkers flag several sanctioned patterns in this repository.
+
+Treat these as
 expected noise, not defects:
 
 - Star-bar glyphs `★` and `☆` inside code spans, allowed by `STYLE.md` for documented output

@@ -4,13 +4,15 @@ Checks the prose rules ``validate-report.py`` enforces on assembled reports
 so an author can lint draft text before composing the full document:
 heading depth and blank-line spacing, semicolons outside code spans,
 sentences split across a line break by a stray period, doubled end marks,
-identifier ranges written with ``..``, and the typographic characters the
+identifier ranges written with ``..``, sentences joined inside one paragraph
+(single-sentence paragraphs are the default; a ``Sentence breaks | Off``
+Document Information row suppresses it), and the typographic characters the
 ASCII convention forbids (em dash, en dash, arrow).
 
 Copy into the audited repository's report-production directory as
 ``lint-prose.tmp.py`` when linting a draft.
 
-Usage: python lint-prose.py <draft.md> [<draft2.md> ...]
+Usage: python lint-prose.py [--no-sentence-breaks] <draft.md> [<draft2.md> ...]
 Exit code 0 means all checks pass, 1 means failures were found.
 """
 
@@ -26,8 +28,31 @@ ARROW = chr(0x2192)
 
 ID_RANGE = re.compile(r"\b[A-Z]{2,8}-[A-Z0-9-]*\d+\.\.")
 ABBREV_TAIL = re.compile(
-    r"(?:e\.g\.|i\.e\.|etc\.|vs\.|cf\.|ca\.|approx\.|U\.S\.|U\.K\.)$"
+    r"(?:e\.g\.|i\.e\.|etc\.|vs\.|cf\.|ca\.|approx\.|U\.S\.|U\.K\.|"
+    r"tj\.|np\.|itp\.|itd\.|m\.in\.|tzw\.|n\.bw\.|ang\.|por\.|zw\.|nr\.|"
+    r"ok\.|im\.|prof\.|dr\.|inż\.|mgr\.|hab\.|płk\.|św\.)$"
 )
+SINGLE_INITIAL = re.compile(r"\b[A-ZĄĆĘŁŃÓŚŹŻ]\.$")
+SENT_JOIN = re.compile(r"[.?!](?=\s+[A-ZĄĆĘŁŃÓŚŹŻ[(])")
+NON_PROSE = re.compile(r"#{1,6}\s|\||[-*+]\s|\d+[.)]\s|>|<!--|\*\*")
+
+
+def prose_line(line: str, fenced: bool) -> bool:
+    # A prose paragraph line is flush-left and carries no markdown block
+    # marker - list items, table rows, headings, quotes, comments, bold
+    # run headings, and indented continuations are not prose.
+    return bool(line.strip()) and not fenced and not (
+        line[:1].isspace() or NON_PROSE.match(line)
+    )
+
+
+def sentence_breaks_on(text: str) -> bool:
+    match = re.search(
+        r"\|\s*Sentence breaks\s*\|\s*([^|]+)", text, re.IGNORECASE
+    )
+    return not (
+        match and re.search(r"off|disabled|wyłącz", match.group(1), re.IGNORECASE)
+    )
 
 
 def split_code(lines: list[str]) -> list[bool]:
@@ -56,12 +81,14 @@ def strip_spans(value: str) -> str:
     return re.sub(r"\]\([^)]*\)", "]", value)
 
 
-def lint(path: Path) -> list[str]:
+def lint(path: Path, breaks_on: bool | None = None) -> list[str]:
     try:
         text = path.read_text(encoding="utf-8")
     except (OSError, UnicodeDecodeError) as error:
         return [f"{path}: not readable as UTF-8 ({error})"]
-    lines = text.split("\n")
+    if breaks_on is None:
+        breaks_on = sentence_breaks_on(text)
+    lines = text.replace("\r\n", "\n").split("\n")
     fences = split_code(lines)
     failures: list[str] = []
     for index, (line, fenced) in enumerate(zip(lines, fences)):
@@ -108,12 +135,32 @@ def lint(path: Path) -> list[str]:
                 nxt.strip()
                 and not fences[index + 1]
                 and not re.match(r"^\s*(#{1,6}\s|\||[-*+]\s|>|```|<!--)", nxt)
-                and nxt.lstrip()[:1].islower()
             ):
+                if nxt.lstrip()[:1].islower():
+                    failures.append(
+                        f"{path}:{index + 1}: sentence split at line break "
+                        f"(period then lowercase): {line[:80]}"
+                    )
+                elif (
+                    breaks_on
+                    and prose_line(line, fenced)
+                    and prose_line(nxt, fences[index + 1])
+                ):
+                    failures.append(
+                        f"{path}:{index + 1}: sentence boundary inside a "
+                        f"paragraph (separate sentences with one blank "
+                        f"line): {line[:80]}"
+                    )
+        if breaks_on and prose_line(line, fenced):
+            for match in SENT_JOIN.finditer(collapsed):
+                prefix = collapsed[: match.start() + 1]
+                if ABBREV_TAIL.search(prefix) or SINGLE_INITIAL.search(prefix):
+                    continue
                 failures.append(
-                    f"{path}:{index + 1}: sentence split at line break "
-                    f"(period then lowercase): {line[:80]}"
+                    f"{path}:{index + 1}: sentences joined in one line "
+                    f"(each sentence is its own paragraph): {line[:80]}"
                 )
+                break
     return failures
 
 
@@ -123,12 +170,17 @@ def main(argv: list[str]) -> int:
             stream.reconfigure(errors="backslashreplace")
         except Exception:
             pass
-    if len(argv) < 2:
-        print("Usage: python lint-prose.py <draft.md> [<draft2.md> ...]")
+    names = [arg for arg in argv[1:] if arg != "--no-sentence-breaks"]
+    breaks_on = "--no-sentence-breaks" not in argv[1:]
+    if not names:
+        print(
+            "Usage: python lint-prose.py [--no-sentence-breaks] "
+            "<draft.md> [<draft2.md> ...]"
+        )
         return 1
     failures: list[str] = []
-    for name in argv[1:]:
-        failures.extend(lint(Path(name)))
+    for name in names:
+        failures.extend(lint(Path(name), None if breaks_on else False))
     for message in failures:
         print(f"FAIL {message}")
     if failures:

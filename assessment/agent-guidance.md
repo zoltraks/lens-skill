@@ -58,11 +58,11 @@ never a conformance verdict by itself.
   (a Sources of Truth table or equivalent). A second authority declaration - a README block
   restating rules, a parallel guidelines root - is a finding.
 - **Consolidated topology**: whether a single entry file doubling as the central rules
-  document records that role. Consolidation recorded as a convention conforms; unrecognized
+  document records that role. Consolidation recorded as a convention conforms, unrecognized
   consolidation must not be reported as drift.
 - **Owner selection**: whether workflow, testing or verification, document style, and
   versioning each resolve to exactly one recorded owning document or an explicit `N/A`. The
-  same rule text duplicated across two owners is drift; an unowned topic is a gap only where
+  same rule text duplicated across two owners is drift, while an unowned topic is a gap only where
   the repository's scale warrants one.
 - **Role resolution**: whether declared documentation roles - change records, plans, decision
   records, standards, references, reports, archive, templates, disposable workspace - resolve
@@ -70,7 +70,7 @@ never a conformance verdict by itself.
 - **Restricted directories**: whether historical, report, or reference directories that must
   not be scanned for unrelated work carry an explicit read-boundary statement.
 - **Content sufficiency**: whether guidance documents hold real repository-derived content.
-  Boilerplate-only documents presented as authoritative are findings; documents naming
+  Boilerplate-only documents presented as authoritative are findings, and documents naming
   commands or paths that do not exist are drift - the existence check itself belongs to
   `assessment/documentation-review.md`, so record the cross-reference rather than duplicating
   it.
@@ -79,7 +79,7 @@ never a conformance verdict by itself.
   it a stale record.
 - **Execution and approval posture**: whether the set records who may commit, integrate, bump
   versions, or select release baselines. Decisions reserved for a human are recorded as
-  reserved; an implied or absent policy is a governance observation.
+  reserved, while an implied or absent policy is a governance observation.
 - **Self-improvement mechanism**: whether the set routes durable lessons somewhere - a
   memorization convention, session-review protocol, or findings appendix. Absence is a
   confidence gap, not a finding, except in large long-lived repositories.

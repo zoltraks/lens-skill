@@ -11,7 +11,9 @@ This catalog is the single registry mapping each live source to its bundled stat
 When an audit cannot fetch a source, the catalog points at the corpus file that already
 consolidated it, so every reference resolves statically offline.
 
-Each corpus file records its own snapshot date. This catalog tracks the consolidation state of
+Each corpus file records its own snapshot date.
+
+This catalog tracks the consolidation state of
 the mapping rather than the snapshot content.
 
 Statuses: `pending` (registered, not yet consolidated), `distilled` (consolidated into the
@@ -22,10 +24,10 @@ identifiers and names), `alternate` (fallback address for the row above).
 
 | Section                            | Line | What it covers                                   |
 |------------------------------------|------|--------------------------------------------------|
-| Sources                            | 30   | Source registry grouped by consuming corpus file |
-| Session-Derived Files              | 518  | Corpus files built from session knowledge        |
-| Unresolved And Alternate Addresses | 529  | Fetch failures and working alternates            |
-| Maintenance                        | 549  | Row-addition and canonicalization rules          |
+| Sources                            | 32   | Source registry grouped by consuming corpus file |
+| Session-Derived Files              | 520  | Corpus files built from session knowledge        |
+| Unresolved And Alternate Addresses | 531  | Fetch failures and working alternates            |
+| Maintenance                        | 551  | Row-addition and canonicalization rules          |
 
 ## Sources
 

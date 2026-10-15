@@ -8,6 +8,7 @@
 
 This file names the audit types a synthesis report distinguishes and defines the fixed status
 vocabulary used by the Audit Type Coverage table in `process/report-format/report-opening.md`.
+
 It also registers the external sources the skill's audit-type rules were derived from, so the
 report's References section can cite them the same way it cites standards.
 
@@ -25,10 +26,13 @@ The Coverage Matrix uses exactly these statuses, and no others:
 | `NOT APPLICABLE` | This audit type does not apply to the subject under audit, the row is omitted             |
 
 `NOT DONE` declares a scope decision about an engagement kind, never a defect of the subject.
+
 `NOT APPLICABLE` differs: the type's trigger condition is absent entirely, for example an AI
 Governance Audit for a project with no AI dependency, and a row carrying it is never rendered.
 
-This is the engagement-level vocabulary. Per-criterion outcome and coverage states are a
+This is the engagement-level vocabulary.
+
+Per-criterion outcome and coverage states are a
 separate vocabulary in `references/evidence-schema.md` and never appear in this matrix.
 
 ## Canonical Audit Types

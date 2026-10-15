@@ -108,7 +108,7 @@ The published record shows they are not audit evidence:
   in-domain scores that collapse out-of-distribution, with severe prediction bias in some
   tools.
 - Perplexity methods generalize best but trade away accuracy and speed and fail on
-  high-level languages; general-purpose LLM judges beat dedicated detectors yet remain
+  high-level languages, and general-purpose LLM judges beat dedicated detectors yet remain
   unreliable and prompt-sensitive.
 
 Style therefore never establishes provenance.
@@ -123,7 +123,7 @@ Legal and governance references that explain why attribution records matter - co
 findings, not conformance checks.
 
 - EU AI Act Article 50(2) requires providers of AI systems generating synthetic text
-  (among other modalities) to mark outputs in a machine-readable, detectable format;
+  (among other modalities) to mark outputs in a machine-readable, detectable format,
   obligations apply from 2 August 2026 and sit on the AI provider, with exceptions for
   assistive editing and some business-to-business uses. Expect vendor attribution
   conventions to strengthen, not weaken.

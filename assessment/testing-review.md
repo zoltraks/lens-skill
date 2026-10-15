@@ -107,6 +107,7 @@ Prioritize parsers, path resolution, protocol framing, and serialization boundar
 whether fuzz coverage is warranted.
 
 Assess fuzzing from harness presence, declared scope, invariants, corpus, and committed results.
+
 Do not run fuzzers.
 
 A documented bounded run without crashes is not proof of safety.

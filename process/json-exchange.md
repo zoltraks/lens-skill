@@ -134,7 +134,7 @@ Every pending question surface emits with a stable kebab-case `id`:
 | `parameters-acceptance` | `choice`    | Accept default parameters or configure                                                                                                                    |
 | `parameters-to-change`  | `selection` | Re-audit-with-changed-parameters follow-up naming core parameters                                                                                         |
 | `report-delivery`       | `choice`    | Delivery and output-file prompt - a `pair` language output names both report files in every file option                                                   |
-| `language-output`       | `choice`    | `pair` (default under a non-English report language) or `single` - resolved from the request wording, never prompted; a returned document may override it |
+| `language-output`       | `choice`    | `pair` (default under a non-English report language) or `single` - resolved from the request wording, never prompted - a returned document may override it |
 | `report-style`          | `choice`    | `audit` (default), `hunt`, or `review` - `check` accepted as an alias for `review`                                                                        |
 | `review-scope`          | `choice`    | `full` (default) or `structure` - resolves the structure-review variant, emitted only under `review` style                                                |
 | `detail-level`          | `choice`    | Brief, Standard, or Detailed                                                                                                                              |
@@ -157,7 +157,11 @@ Other keys may be echoed or omitted.
 
 Interoperating tools may emit a catalog form of the parameter document - the full parameter
 surface with a `pending` marker and a prefilled `answer` per entry rather than pending questions
-only. A returned document carrying those keys is tolerated, not malformed. Lens itself keeps
+only.
+
+A returned document carrying those keys is tolerated, not malformed.
+
+Lens itself keeps
 emitting pending questions with empty `answer` fields only.
 
 In the condensed form, each key is a parameter `id` and each value is its `answer`.

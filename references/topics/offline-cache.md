@@ -41,9 +41,9 @@ https://web.dev/articles/service-worker-caching-and-http-caching.
 - Mixing strategies without a route split (`url.pathname`/`request.destination` matching) is
   a consistency defect: API responses cached under cache-first defeat freshness.
 - Precaching (install-time `cache.addAll`) must list everything needed for the offline shell.
-  a missing asset fails `addAll` atomically and leaves the worker uninstalled.
+  A missing asset fails `addAll` atomically and leaves the worker uninstalled.
 - Cache keys and opaque responses (`no-cors` third-party fetches) can't be inspected.
-  caching `no-cors` responses silently stores opaque failures.
+  Caching `no-cors` responses silently stores opaque failures.
 
 ## HTTP Interaction
 

@@ -103,12 +103,15 @@ or `Unknown` per `references/license-compliance.md`.
 or the disabling evidence for `Mitigated`/`Not applicable`.
 
 Close the section with the direct and transitive totals and any manifest-lockfile drift noted.
+
 When no dependency manifest or lockfile exists in the project, state `No dependency manifests or
 lockfiles found` in place of the table rather than omitting the section.
 
 The Audit Type Coverage table claims `Covered` for SBOM or component-inventory rows only
 when this section exists with its completeness statement - a module line-count inventory
-is not an SBOM, and the validator rejects the mismatch. Advisory coverage likewise states
+is not an SBOM, and the validator rejects the mismatch.
+
+Advisory coverage likewise states
 which advisories were checked (advisory ID, exact version, dependency path, reachability
 or `UNKNOWN`) - a scanner's finding count is not a confirmed application-defect count.
 

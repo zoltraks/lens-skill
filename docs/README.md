@@ -17,5 +17,5 @@ These documents govern the Lens repository itself, not the audit reports the ski
 
 `AGENTS.md` at the root is the agent-facing entry point and summarizes the same contract.
 
-Root `docs/` holds repository governance only; it is unrelated to the `docs/audit/` report
+Root `docs/` holds repository governance only - it is unrelated to the `docs/audit/` report
 location convention that audits may find in subject repositories.

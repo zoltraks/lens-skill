@@ -19,10 +19,10 @@ Every document created or modified as part of this skill must follow the rules b
 | Headings And Lists          | 154  | Heading depth, lists, and spacing               |
 | Code And Inline Formatting  | 193  | Fences, code spans, and special characters      |
 | Tables                      | 285  | Source-width alignment and automated formatting |
-| Characters And Language     | 468  | Box-drawing, emoji, and per-language rules      |
-| File References             | 489  | Relative paths and backticked file paths        |
-| Skill Document Requirements | 503  | Frontmatter and progressive disclosure          |
-| Maintenance                 | 564  | File naming, encoding, and registration         |
+| Characters And Language     | 472  | Box-drawing, emoji, and per-language rules      |
+| File References             | 493  | Relative paths and backticked file paths        |
+| Skill Document Requirements | 507  | Frontmatter and progressive disclosure          |
+| Maintenance                 | 568  | File naming, encoding, and registration         |
 
 ## Document Structure
 
@@ -460,6 +460,10 @@ A table is a summary view, not a full explanation.
 When a cell description is long, put a short abbreviation or summary in the table cell and place the
 full clarification in a separate sentence below the table.
 
+A whole column may move out of the table and render as paragraphs below it when its content
+makes the table exceed the 300-character source-width budget - the paragraph names the column
+it carries, and the detail is relocated, never dropped.
+
 Prefer fewer than 10 columns per table.
 
 Split a wide table into multiple smaller tables when it has too many columns or the content is too
@@ -576,8 +580,12 @@ Use a single lowercase word for single-concept files: `cpu.md`, `sound.md`, `mem
 
 Use hyphens for multi-word names: `dasm-assembler.md`, `risk-register.md`.
 
-Match the word-count convention already used in the directory. If a directory consistently uses
-two-word names, new files in it keep two-word names. If a directory mixes word counts, use the
+Match the word-count convention already used in the directory.
+
+If a directory consistently uses
+two-word names, new files in it keep two-word names.
+
+If a directory mixes word counts, use the
 lowest word count present as the minimum and pick the best-fitting name at or above it.
 
 ### Required Sections

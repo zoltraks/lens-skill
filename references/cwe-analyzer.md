@@ -34,6 +34,7 @@ Apply `principles/evaluation-rules.md` throughout.
 
 Roslyn security rules ship in `Microsoft.CodeAnalysis.NetAnalyzers` and are documented under
 [.NET security warnings](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/security-warnings).
+
 Most are disabled by default and require `.editorconfig` or `AnalysisLevel` configuration.
 
 | CWE     | Weakness                                 | Analyzer Rules                                                        |
@@ -57,6 +58,7 @@ Most are disabled by default and require `.editorconfig` or `AnalysisLevel` conf
 ## Go
 
 Every [gosec](https://github.com/securego/gosec/blob/master/RULES.md) rule carries CWE metadata.
+
 The rules below are the ones relevant to common audit findings.
 
 | CWE     | Weakness                              | gosec Rules                    |
@@ -159,7 +161,7 @@ Adjacent tooling addresses different scopes.
 | Memory safety, UB       | `#![forbid(unsafe_code)]`, `cargo-geiger` unsafe census, Miri for UB |
 | Known vulnerabilities   | `cargo audit` against [RustSec](https://rustsec.org/) advisories     |
 | Supply-chain policy     | `cargo deny` license and advisory checks                             |
-| Other CWEs (CWE-327...) | None direct, assess manually                                         |
+| Other CWEs (CWE-327 and similar) | None direct, assess manually                                         |
 
 ## C / C++
 
@@ -172,6 +174,7 @@ Rule IDs are tool-specific rather than ecosystem-standard.
 | cppcheck            | Named checks such as `arrayIndexOutOfBounds`, no CWE-keyed IDs |
 
 For a C or C++ finding, name the concrete tool check that would catch it when one is known.
+
 Otherwise record "no direct analyzer rule" and cite the relevant CERT rule instead.
 
 ## Multi-Language

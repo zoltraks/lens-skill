@@ -43,20 +43,26 @@ A root `SKILL.md` does not by itself make the subject `agent-tooling` primary: d
 repository that IS the skill - `SKILL.md` is the product entry and the payload is instructions -
 from a software repository that ships a `SKILL.md` capability catalog alongside compiled or
 runtime payloads, which classifies by its deliverable and keeps `agent-tooling` secondary.
+
 Cross-reference the authored-versus-installed rules in `assessment/skill-definition.md` so a
 catalog of the project's own utilities is not misfiled as a separate skill project.
 
 `automation` is distinct from ordinary product UI testing: a Playwright suite against the
-subject's own frontend is testing evidence, not the nature. The nature activates when the
+subject's own frontend is testing evidence, not the nature.
+
+The nature activates when the
 subject inspects or drives a separate application the user may be operating at the same time -
 the read-only contract, live-user cohabitation, and calibration probes below then apply.
+
 `references/topics/ui-automation.md` carries the checkable baseline.
 
 ## Mandatory Probes
 
 Each nature activates its probe set during Evidence Gathering.
 
-A probe produces evidence rows. It never produces a finding by itself.
+A probe produces evidence rows.
+
+It never produces a finding by itself.
 
 | Nature          | Mandatory probes                                                                                                                                                                                                             |
 |-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -92,5 +98,7 @@ Every nature also activates these probes:
 
 Record the profile assignment and activated probes in the Auditing Methodology section.
 
-A skipped probe requires a recorded reason. An unprobeable item is a `NOT ASSESSED` evidence
+A skipped probe requires a recorded reason.
+
+An unprobeable item is a `NOT ASSESSED` evidence
 row, not silence.

@@ -45,7 +45,7 @@ https://docs.npmjs.com/cli/v11/commands/npm-audit).
 - `exports` is authoritative when present: subpaths not listed are unreachable, which changes
   what "public API" means for a compatibility audit.
 - Libraries should not commit `package-lock.json` unless the project policy says otherwise.
-  applications should always commit it.
+  Applications should always commit it.
 - `npm ci` is the reproducible install: it deletes `node_modules`, installs strictly from the
   lockfile, and fails when the manifest and lockfile disagree, so it is the CI form.
 - `lockfileVersion` 3 is the npm 9+ default. Version 1 lacks the hidden lockfile metadata.
@@ -70,7 +70,7 @@ The official threat list names the classes an audit checks directly:
 - Prototype pollution (CWE-1321): avoid merging attacker-controlled objects. Prefer `Map`,
   `Object.create(null)`, or schema validation.
 - Uncontrolled search path (CWE-427): child-process spawn resolves binaries against `PATH`.
-  pin absolute paths or control the environment.
+  Pin absolute paths or control the environment.
 - Malicious third-party modules (CWE-1357): typosquatting and takeover are dependency-review
   items. Lockfile pinning and `ignore-scripts` reduce install-time execution.
 - Monkey patching (CWE-349) and experimental flags: code that patches globals or needs

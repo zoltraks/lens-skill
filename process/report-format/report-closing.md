@@ -10,12 +10,12 @@
 | Section                       | Line | What it covers                                         |
 |-------------------------------|------|--------------------------------------------------------|
 | Scope Exclusions              | 20   | exclusion bullets, rationale, coverage alignment       |
-| Limitations and Unknowns      | 101  | unresolved limits, unknowns, evidence gaps             |
-| Operator Verification Handoff | 131  | operator checks, commands, pass criteria               |
-| Executed Evidence Log         | 157  | executed-mode checks, commands, results                |
-| Re-audit And Follow-up Plan   | 180  | retest plan, re-audit cadence, follow-ups              |
-| Validation Record             | 218  | PAR-1..PAR-20 rows, evidence basis                     |
-| References                    | 252  | external sources, link paragraphs, cached-source notes |
+| Limitations and Unknowns      | 104  | unresolved limits, unknowns, evidence gaps             |
+| Operator Verification Handoff | 134  | operator checks, commands, pass criteria               |
+| Executed Evidence Log         | 160  | executed-mode checks, commands, results                |
+| Re-audit And Follow-up Plan   | 187  | retest plan, re-audit cadence, follow-ups              |
+| Validation Record             | 225  | PAR-1 through PAR-20 rows, evidence basis                     |
+| References                    | 259  | external sources, link paragraphs, cached-source notes |
 
 ## Scope Exclusions
 
@@ -79,11 +79,14 @@ not, so the reader does not assume full coverage.
 
 For a web application, name the OWASP Top 10 (2025) categories (`A01`-`A10`) that were and were not
 assessed.
+
 For an API, name the OWASP API Security Top 10 (2023) categories (`API1`-`API10`).
+
 For a full audit, use the nine ISO/IEC 25010:2023 characteristics in the scorecard crosswalk to
 identify coverage and justify exclusions.
 
 Do not present Lens dimension names such as Operational Safety as ISO characteristic names.
+
 Mark categories that could not be assessed from the provided input as `NOT ASSESSED` with a one-line
 reason.
 
@@ -172,8 +175,12 @@ Result cells take the check-status vocabulary - `PASS`, `FAIL`, `ERROR`, `BLOCKE
 `SKIPPED`, `NOT RUN`, `N/A` - where `ERROR` and `BLOCKED` describe the runner, never the
 product.
 
-Rows are `Executed` evidence. Under `executed-readonly` they describe analyzer output and
-never imply a build, test, or run of the subject occurred. Under `executed-commands` they may
+Rows are `Executed` evidence.
+
+Under `executed-readonly` they describe analyzer output and
+never imply a build, test, or run of the subject occurred.
+
+Under `executed-commands` they may
 describe commissioned non-mutating commands - tests, builds, isolated reproductions - and
 still never imply the subject was deployed, mutated, or connected to live systems.
 
@@ -289,7 +296,7 @@ access limitation in the supporting paragraph.
 Prefer primary standards and tool documentation over marketing summaries.
 
 Canonical URLs for bundled digest sources come from `references/stack-standards.md` and
-`references/source-catalog.md`; a source consulted live keeps the URL that was consulted.
+`references/source-catalog.md`, and a source consulted live keeps the URL that was consulted.
 
 Verify publication status at audit time, distinguishing released editions, drafts, and legacy
 baselines, and avoid claiming full conformance from sampled coverage.

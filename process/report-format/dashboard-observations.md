@@ -83,7 +83,9 @@ Render each Score cell in the selected evaluation scale: `7/10` for `1-10`, `4/5
 Render `UNKNOWN` as text, not as a star bar - `N/A` rows are omitted from the table entirely.
 
 Never add an `Overall score` row to this table: the validator recomputes the mean from every
-numeric Score cell, and a numeric overall row enters that mean and corrupts it. The overall
+numeric Score cell, and a numeric overall row enters that mean and corrupts it.
+
+The overall
 score belongs to the Executive Summary key-value table, per
 `process/report-format/summary-changes.md`, and the validator compares the stated overall
 against the recomputed mean - they must agree under the documented rounding.

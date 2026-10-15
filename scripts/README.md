@@ -34,7 +34,9 @@ body links, run `link-references.py` to link register identifiers (`EVD`, `FND`,
 repeating until the validator reports zero issues.
 
 `finalize-report.py` runs that cycle's three steps in one command when copied alongside them
-under a `.tmp.` name, locating its siblings by filename. When the copies are absent, pass
+under a `.tmp.` name, locating its siblings by filename.
+
+When the copies are absent, pass
 `--skill-root <path>` (or set `LENS_SKILL_ROOT`) pointing at the skill repository so the tools
 resolve in its `scripts/` directory - running it straight from the skill tree needs no flag at
 all.
@@ -44,9 +46,12 @@ all.
 skeleton - required sections, table
 headers, and one field-labeled template block per register - and runs `format-table.py` on
 `--output` when the formatter resolves next to the script or under `LENS_SKILL_ROOT`.
+
 `--params` reads the saved intake values from `work/lens-params.json`, so a second report
 style in the same session reuses the locked parameters. `--scope structure` with
-`--style review` emits the structure-review variant contract. For `--style review`, an
+`--style review` emits the structure-review variant contract.
+
+For `--style review`, an
 `evidence-mode` of `executed-readonly` or `executed-commands` in the params file adds the
 Artifact Manifest section to the skeleton.
 
@@ -63,7 +68,11 @@ cells lacking hyphens are normalized on every run.
 `lint-prose.py` lints draft report text before assembly for the prose rules the validator
 enforces: heading depth, blank lines before and after headings, semicolons outside code spans,
 sentences split across a line break by a stray period, doubled end marks, `..` identifier
-ranges, and the typographic characters the ASCII convention forbids.
+ranges, sentences joined inside one paragraph, and the typographic characters the ASCII
+convention forbids.
+
+The joined-sentence checks honor the `Sentence breaks | Off` Document
+Information row and the `--no-sentence-breaks` flag.
 
 `align-comments.py` aligns trailing `#` comments inside untagged fenced blocks and shell-tagged
 blocks to one shared column per block - the established column when most comments already
@@ -86,16 +95,22 @@ fixed-vocabulary tokens the validator compares literally.
 `link-glossary.py --lang pl` reads a `## Słownik` index, links eligible terms to
 `#słownik` and its `###` subsections, applies the Polish field-label list and a Polish
 function-word set to the compound-name exemption, and matches capitalized neighbors with
-Unicode letters so `Zgodność API` stays a compound. `--check` (either language) verifies
+Unicode letters so `Zgodność API` stays a compound.
+
+`--check` (either language) verifies
 coverage without writing: it prints every eligible-but-unlinked term with its line number
 and exits `1` when any exist.
 
 `link-references.py` links every register identifier cited outside its defining location:
 `FND`, `RSK`, `REC`, and `TDR` references point at their `### <ID>:` heading anchors, while
 `EVD` and `PAR` references - defined as table rows - point at the anchor of the section
-holding the register table. Defining locations (the `### <ID>:` heading itself and the row
+holding the register table.
+
+Defining locations (the `### <ID>:` heading itself and the row
 whose first cell carries the identifier) stay unlinked, as do fenced code, inline code,
-headings, URLs, and existing links. Undefined or project-ambiguous identifiers are left
+headings, URLs, and existing links.
+
+Undefined or project-ambiguous identifiers are left
 plain and warned about - `validate-report.py` then fails on them and on any unlinked defined
 identifier, so the pass must run before validation.
 
@@ -125,6 +140,7 @@ it.
 equal the real register counts, no `##`/`###` heading stays verbatim in English, `* **Label:**`
 field values start uppercase and never wrap a governed English token in a code span, `TDD`
 never appears, and prose sentences stay within `--max-words` (warn-level).
+
 Spell checking stays external.
 
 The full translated-report gate set is `lint-polish.py`, `lint-prose.py`,
@@ -166,7 +182,9 @@ Pass `--repo-root <dir>` to also verify that `path:line` citations in finding `T
 
 When the `Report Style` row reads `hunt` or `review`, it applies that style's section
 contract from `process/report-format/hunt-style.md` or
-`process/report-format/review-style.md` instead of the baseline section list. A `review`
+`process/report-format/review-style.md` instead of the baseline section list.
+
+A `review`
 report also validates the Execution Register rows, check statuses, `Evidence level` fields,
 and the Retest Register trigger.
 
@@ -174,13 +192,22 @@ and the Retest Register trigger.
 `Calque And Style Replacements` table of `translations/polish-language.md`, plus
 comma splices, `tylko, gdy`, bare `per`, the `w.` abbreviation, semicolons, typographic
 characters that the ASCII convention forbids, and all-caps renderings of the title-case
-fixed vocabulary. Phrases in the `Sanctioned Idioms` and `Canonical Names Kept Verbatim`
+fixed vocabulary.
+
+Phrases in the `Sanctioned Idioms` and `Canonical Names Kept Verbatim`
 tables of the rules file are masked before calque matching, so approved idioms
-(`pod względem`) and proper names (`Request for Comments`) never flag. Every finding
+(`pod względem`) and proper names (`Request for Comments`) never flag.
+
+Every finding
 is an error - calque matches also cover inflected forms through a closed set of
 Polish suffixes, so `brama` flags `bramy` and `bramce` without touching `bramofon`.
-Enumeration-aware splice suppression keeps legitimate noun lists quiet. Run it on every Polish report
-before delivery - a pre-delivery gate, not a Validation Record row. Like the other report
+
+Enumeration-aware splice suppression keeps legitimate noun lists quiet.
+
+Run it on every Polish report
+before delivery - a pre-delivery gate, not a Validation Record row.
+
+Like the other report
 tools it is copied into the audited repository under a `.tmp.` name before use - a copy
 without `--rules` resolves the rules file relative to the skill tree, so a `.tmp.` copy
 must always pass `--rules <path to polish-language.md>` - the tool prints a hint when
@@ -224,6 +251,7 @@ It exempts report artifacts from the large-file Contents check: files whose name
 reports follow `process/report-format.md` instead.
 
 `check-references.py` validates the skill's own `SKILL.md` and `README.md` navigation documents.
+
 It is never run on a report artifact or inside an audited repository.
 
 `check-contents.py` verifies that `## Contents` tables in the skill's own documents still anchor to
@@ -280,7 +308,7 @@ python scripts/check-update.py
 python scripts/scan-standards.py path/to/standards-dir [--json]
 python scripts/scan-structure.py path/to/repo [--json] [--no-git] [--output path/to/file]
 python scripts/check-model.py path/to/work/audit-model.json [--json]
-python scripts/lint-prose.py path/to/draft.md
+python scripts/lint-prose.py path/to/draft.md [--no-sentence-breaks]
 python scripts/link-references.py path/to/AUDIT.md
 python scripts/format-table.py path/to/AUDIT.md [--check] [--drop-empty-columns]
 python scripts/align-comments.py path/to/AUDIT.md [--check]

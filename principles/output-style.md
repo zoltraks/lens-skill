@@ -23,10 +23,10 @@ Two audits of similar systems should produce reports of similar shape, vocabular
 | Fixed Vocabularies             | 77   | Status and severity word lists   |
 | Consistency Rules              | 151  | Same input, same output shape    |
 | Plain-Text Friendly Formatting | 167  | Terminal and diff readability    |
-| Multilingual Output            | 265  | Non-English report rendering     |
-| Information Security In Output | 400  | Redaction and disclosure limits  |
-| Report Termination             | 415  | End-of-report rules              |
-| Determinism                    | 424  | Repeatability guarantees         |
+| Multilingual Output            | 270  | Non-English report rendering     |
+| Information Security In Output | 406  | Redaction and disclosure limits  |
+| Report Termination             | 421  | End-of-report rules              |
+| Determinism                    | 430  | Repeatability guarantees         |
 
 ## Tone And Register
 
@@ -187,10 +187,15 @@ Join closely related clauses with a comma or split them into separate sentences.
 The prose scope includes sentences, headings, table cells, and list items, only code blocks,
 inline code, and file paths are exempt.
 
-Prefer single-sentence paragraphs.
+Use single-sentence paragraphs by default.
 
-Every sentence in a prose paragraph must be on its own line,
-separated from the next sentence by an empty line.
+Every sentence in a prose paragraph stands alone - one empty line separates it from the
+previous and the next sentence, so each sentence renders as its own paragraph in Markdown.
+
+Single-sentence paragraphs are suppressed only when the user explicitly asks for joined
+prose - phrasing such as "don't break sentences" or "no blank lines between sentences" -
+and the suppression is recorded in the `Sentence breaks` Document Information row per
+`process/report-format.md`.
 
 Put exactly one empty line before and after lists of items.
 
@@ -295,6 +300,7 @@ produces a single translated file instead, and analysis still runs in English.
 A `pair` is also the default when the discovered previous report was produced as a
 language pair - sibling files sharing the English stem and differing only by a language
 suffix, such as `AUDIT-1.4-EN.md` with `AUDIT-1.4-PL.md`.
+
 The audit convention continues until an explicit single-language request breaks it:
 the new run ships its own `<stem>-EN` file plus the translation sibling in the previous
 pair's second language, even when the report language is English.

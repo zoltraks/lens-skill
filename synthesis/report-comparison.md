@@ -30,9 +30,9 @@ never assumed from the previous report alone.
 | Evidence Transitions             | 275  | Finding, evidence, and capability deltas   |
 | Observation Folding              | 294  | Attaching new defects to existing findings |
 | Identifier Continuity            | 305  | FND/RSK/REC sequence rules                 |
-| Status, Change, And Verification | 328  | Status/Change vocabulary for re-audits     |
-| Legacy Field Names               | 354  | Old-schema-to-current name mapping         |
-| Rules                            | 399  | Comparison constraints                     |
+| Status, Change, And Verification | 329  | Status/Change vocabulary for re-audits     |
+| Legacy Field Names               | 355  | Old-schema-to-current name mapping         |
+| Rules                            | 400  | Comparison constraints                     |
 
 ## When This Applies
 
@@ -311,6 +311,7 @@ New findings continue the per-pillar sequence of the previous report.
 Retired identifiers are not reused.
 
 A finding is marked `Closed` only when the current audit holds the evidence that closes it.
+
 A finding that still reproduces stays `Open` even when the previous report claimed progress.
 
 When the report structure itself forces renumbering,

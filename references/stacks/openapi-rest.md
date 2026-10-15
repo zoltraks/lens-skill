@@ -18,9 +18,11 @@ Feeds `assessment/api-contract.md`, `assessment/best-practices.md`, and
 ## OpenAPI Structure
 
 From https://spec.openapis.org/oas/v3.1 (canonical text mirror:
-https://github.com/OAI/OpenAPI-Specification). OpenAPI 3.2.0 (September 2025) is the
+https://github.com/OAI/OpenAPI-Specification).
+
+OpenAPI 3.2.0 (September 2025) is the
 latest minor release and adds the `QUERY` method, a nested tag structure, and streaming
-media types; 3.1 remains the version tooling and shipped contracts most commonly declare,
+media types, and 3.1 remains the version tooling and shipped contracts most commonly declare,
 so the checks below are stated against the 3.1 model and apply unchanged to 3.2 documents.
 
 - An OpenAPI document requires `openapi` (version string) and `info` (`title`, `version`).
@@ -32,7 +34,7 @@ so the checks below are stated against the 3.1 model and apply unchanged to 3.2 
 - `$ref` resolution rules: sibling keys of `$ref` are ignored (3.0) or allowed (3.1 with
   `summary`/`description`). Unresolved `$ref` targets are a contract defect.
 - `components.schemas`, `parameters`, `responses`, `securitySchemes` hold reusable objects.
-  inline duplication where components exist is a maintainability observation.
+  Inline duplication where components exist is a maintainability observation.
 - `security` at root sets the global requirement. An operation-level `security: []`
   explicitly marks an endpoint public - that opt-out must be deliberate.
 - `required` in schemas lists mandatory fields. A requestBody without `required` or
@@ -53,7 +55,9 @@ From https://datatracker.ietf.org/doc/html/rfc9457.
 
 ## Lint Expectations
 
-From https://stoplight.io/open-source/spectral (Spectral has moved homes. The ruleset
+From https://stoplight.io/open-source/spectral (Spectral has moved homes.
+
+The ruleset
 semantics below are the stable part).
 
 - Spectral's `oas` ruleset is the de-facto baseline: operation descriptions, `operationId`

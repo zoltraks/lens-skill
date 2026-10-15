@@ -149,9 +149,9 @@ Mark version and relationship `UNKNOWN` when not derivable.
   `references/topics/license-evidence.md`.
 - `composer.lock` carries `packages` and `packages-dev` with `license` arrays per package -
   the strongest manifest-derived license evidence of the covered ecosystems.
-- `packages.lock.json` and `go.sum` carry integrity data, not licenses; license fields must
+- `packages.lock.json` and `go.sum` carry integrity data, not licenses, so license fields must
   come from the NuGet `.nuspec` metadata or module documentation respectively.
-- A lockfile newer than its manifest signals drift; record both file timestamps and the
+- A lockfile newer than its manifest signals drift, so record both file timestamps and the
   delta per the manifest-lockfile drift rule above.
 
 ## Using The Inventory

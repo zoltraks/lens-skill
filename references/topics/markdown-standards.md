@@ -32,7 +32,7 @@ From https://spec.commonmark.org/0.31.2/ (version pinned for stability).
   block: the closing fence must use the same character and run at least as long as the opening
   fence. A Markdown-processing tool that only tracks the backtick prefix handles tilde-fenced
   code as live document content - a real defect class, not a corner case.
-- A backtick fence's info string may not contain backticks; a tilde fence's may. Both fences
+- A backtick fence's info string may not contain backticks, while a tilde fence's may. Both fences
   allow up to three leading spaces, and the same indentation is stripped from content lines.
 - An unclosed fence runs to the end of the containing block or document - there is no
   backtracking - and a fence may interrupt a paragraph with no blank line required. Fence

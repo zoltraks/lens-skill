@@ -10,8 +10,8 @@
 | Section              | Line | What it covers                       |
 |----------------------|------|--------------------------------------|
 | Document Information | 16   | Report metadata and revisions        |
-| Audit Type Coverage  | 153  | Coverage of canonical audit types    |
-| Glossary             | 203  | Abbreviation and acronym definitions |
+| Audit Type Coverage  | 156  | Coverage of canonical audit types    |
+| Glossary             | 206  | Abbreviation and acronym definitions |
 
 ## Document Information
 
@@ -47,10 +47,13 @@ Rows appear in this order, each label in the first column and its value in the s
 - `Report Style` - `audit`, `hunt`, or `review`, per `process/report-format/hunt-style.md`
   and `process/report-format/review-style.md`.
 - `Review Scope` - `Structure`, written only when a `review`-style report renders the
-  structure-review variant per `process/report-format/structure-review.md`; omit the row on
+  structure-review variant per `process/report-format/structure-review.md`, and omit the row on
   a full-scope review.
 - `Detail Level` - `Standard`, `Detailed`, or `Brief`.
 - `Evaluation Scale` - `1-10`, `1-5`, `1-3`, `5 stars`, or `3 stars`.
+- `Sentence breaks` - `Off`, written only when the user explicitly suppressed
+  sentence-per-paragraph prose per `process/report-format.md`, and omit the row when the default
+  sentence-separated layout applies.
 - `Language` - the report language.
 - `Translations` - the sibling language renderings of the same report, written only when the
   run ships a language pair per `principles/output-style.md`: names each sibling file and its
@@ -211,6 +214,7 @@ When omitted, record the deliberate omission with a one-line justification in Sc
 
 The section appears immediately after `## Audit Type Coverage`, or after
 `## Project Inventory` in a multi-project report, and always before `## Executive Summary`.
+
 A multi-project report carries one shared Glossary covering terms used in every project block.
 
 **Index table**

@@ -89,12 +89,12 @@ inventory this assessment's placement, catch-all, and ownership judgments cite.
 Classify every judgment before reporting it:
 
 - **Required** - imposed by the language, framework, build system, platform, or explicit
-  project standards; a deviation is a defect.
-- **Established** - a consistent pattern the project already follows; an unexplained break is
+  project standards, and a deviation is a defect.
+- **Established** - a consistent pattern the project already follows, while an unexplained break is
   a consistency finding.
-- **Recommended** - a common practice that would improve clarity; a deviation is an
+- **Recommended** - a common practice that would improve clarity, and a deviation is an
   improvement opportunity, not a violation.
-- **Context-dependent** - a choice that cannot be judged without project requirements; report
+- **Context-dependent** - a choice that cannot be judged without project requirements, so report
   it neutrally or not at all.
 
 A coherent deviation from a preferred convention is not a defect.

@@ -13,7 +13,9 @@ findings.
 
 Snapshot date: 2026-09-30.
 
-ISO standards are paywalled: only the public characteristic names are distilled here. Clause
+ISO standards are paywalled: only the public characteristic names are distilled here.
+
+Clause
 text is never reproduced.
 
 Feeds `assessment/code-quality.md`, `assessment/maintainability-review.md`, and
@@ -43,7 +45,9 @@ From https://www.iso.org/standard/70017.html (paywalled - scope citation only).
 ## CISQ And Technical Debt
 
 From https://www.it-cisq.org/ and
-https://www.it-cisq.org/standards/code-quality-standards/. SQALE terms from
+https://www.it-cisq.org/standards/code-quality-standards/.
+
+SQALE terms from
 http://www.sqale.org/ and the restricted Cutter summary.
 
 - CISQ maintains the OMG-adopted code-quality standards (ASCQM measures covering

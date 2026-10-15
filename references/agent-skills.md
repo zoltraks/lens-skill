@@ -132,7 +132,7 @@ treating an untrusted skill like installing third-party software:
 - Tool invocations exceeding the `allowed-tools` declaration, and reads or writes of sensitive
   data with no stated need, are exposure findings.
 - The OWASP Agentic Skills Top 10 vocabulary in `references/methodology/owasp-baselines.md`
-  (AST01-AST10) anchors these finding classes; update-drift findings (AST07) pair with the
+  (AST01-AST10) anchors these finding classes, and update-drift findings (AST07) pair with the
   integrity rules in `references/topics/git-integrity.md`.
 
 ## Live Check
