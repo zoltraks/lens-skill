@@ -10,8 +10,8 @@
 | Section              | Line | What it covers                       |
 |----------------------|------|--------------------------------------|
 | Document Information | 16   | Report metadata and revisions        |
-| Audit Type Coverage  | 156  | Coverage of canonical audit types    |
-| Glossary             | 206  | Abbreviation and acronym definitions |
+| Audit Type Coverage  | 159  | Coverage of canonical audit types    |
+| Glossary             | 215  | Abbreviation and acronym definitions |
 
 ## Document Information
 
@@ -60,7 +60,10 @@ Rows appear in this order, each label in the first column and its value in the s
   language, for example `AUDIT-1.4-PL.md (Polish)` in the English report and
   `AUDIT-1.4-EN.md (English - canonical)` in the translation. Omit the row on a
   single-language report.
-- `Audit Purpose` - engineering improvement, production readiness, or technical due diligence.
+- `Audit Purpose` - engineering improvement, production readiness, or technical due
+  diligence. The cell carries the purpose value only - a re-audit is marked by
+  `Report Revision`, `Previous Report`, and the Changes section, never prefixed into
+  `Audit Purpose`.
 - `Target Environment` - where the software runs or ships.
 - `Verification Scope` - `static repository analysis (code, configuration,
   documentation, git history) - no execution` for `source-only`, or the same phrase plus
@@ -194,6 +197,12 @@ A `NOT APPLICABLE` status is decided per type but never rendered as a row.
 Default statuses and per-type rationale are defined there.
 
 A status other than the default carries its reason in the Rationale column.
+
+A rationale names covered artifacts directly - `threat model, CWE` - not nominalized
+wrappers that hang off the term.
+
+A `NOT DONE` rationale stays minimal, for example `Separate engagement type` - the
+matching Scope Exclusions bullet carries the caveat, not the cell.
 
 When the report language is not English, apply the column header, report-type, and status
 translations from the matching `translations/` file.

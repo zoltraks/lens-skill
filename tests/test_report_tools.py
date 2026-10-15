@@ -289,6 +289,39 @@ class TestValidateReport(unittest.TestCase):
         failures = self.validator.check_tables(lines, [False] * len(lines))
         self.assertEqual(failures, [])
 
+    def test_table_blank_line_separation(self):
+        above = [
+            "A sentence.",
+            "| Claim | Resolves           |",
+            "|-------|--------------------|",
+            "| tests | [EVD-001](#ledger) |",
+            "",
+        ]
+        failures = self.validator.check_tables(above, [False] * len(above))
+        self.assertTrue(any("not preceded by a blank line" in f for f in failures))
+        below = [
+            "| Claim | Resolves           |",
+            "|-------|--------------------|",
+            "| tests | [EVD-001](#ledger) |",
+            "**Label**",
+        ]
+        failures = self.validator.check_tables(below, [False] * len(below))
+        self.assertTrue(any("not followed by a blank line" in f for f in failures))
+        clean = ["", "| a |", "|---|", "", "text."]
+        self.assertEqual(
+            self.validator.check_tables(clean, [False] * len(clean)), []
+        )
+
+    def test_bold_markers_balanced(self):
+        bad = ["* **Done when:** ** The thing holds."]
+        self.assertTrue(
+            self.validator.check_bold_markers(bad, [False])
+        )
+        good = ["* **Done when:** The thing holds.", "**Run heading**"]
+        self.assertEqual(self.validator.check_bold_markers(good, [False] * 2), [])
+        code = ["`` `**` stays inside code ``"]
+        self.assertEqual(self.validator.check_bold_markers(code, [False]), [])
+
     def test_aip_provenance_basis(self):
         block = ["### FND-AIP-001 x", "", "* **Provenance basis:** Declared - trailers"]
         self.assertEqual(self.validator.check_aip_provenance(block), [])

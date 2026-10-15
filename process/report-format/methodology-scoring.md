@@ -10,7 +10,7 @@
 | Section              | Line | What it covers                             |
 |----------------------|------|--------------------------------------------|
 | Auditing Methodology | 15   | Method, standards, criteria matrix, ledger |
-| Scoring Rubrics      | 254  | Score bands, grouping, ISO crosswalk       |
+| Scoring Rubrics      | 260  | Score bands, grouping, ISO crosswalk       |
 
 ## Auditing Methodology
 
@@ -173,6 +173,12 @@ Include the per-project check summary and evidence records from `process/audit-w
 The audit never executes checks, so there is no execution column: a documented but unrun check
 writes `NOT RUN - <what the check would establish>` in `Result`, and a source observation
 carries the observed result directly.
+
+A `Result` cell carries a short verdict token rather than a repeated qualifier.
+
+When every row would share the same qualifier - `verified in sources` on a source-only
+audit - the column keeps the bare token and one legend sentence under the table states
+what the token means.
 
 A `NOT RUN` row is its own ledger class: the check is documented or was selected by the
 verification plan, and the audit recorded rather than executed it.

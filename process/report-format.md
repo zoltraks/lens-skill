@@ -39,12 +39,12 @@ A present-but-empty section signals a gap, a missing section hides it.
 | Section                                     | Line | What it covers                              |
 |---------------------------------------------|------|---------------------------------------------|
 | Formatting Rules                            | 49   | Formatting Rules guidance                   |
-| Report Delivery And Parameter Configuration | 339  | Report delivery and output configuration    |
-| Detail Level Configuration                  | 395  | Standard, detailed, and brief reports       |
-| Conditional Sections                        | 490  | Inclusion criteria for conditional sections |
-| Section Order                               | 548  | Single-project and multi-project order      |
-| Specification Files                         | 646  | Per-section specification file index        |
-| Pre-Delivery Mechanical Checklist           | 678  | Final mechanical checks                     |
+| Report Delivery And Parameter Configuration | 355  | Report delivery and output configuration    |
+| Detail Level Configuration                  | 411  | Standard, detailed, and brief reports       |
+| Conditional Sections                        | 506  | Inclusion criteria for conditional sections |
+| Section Order                               | 564  | Single-project and multi-project order      |
+| Specification Files                         | 662  | Per-section specification file index        |
+| Pre-Delivery Mechanical Checklist           | 694  | Final mechanical checks                     |
 
 ## Formatting Rules
 
@@ -163,6 +163,22 @@ Do not add a Contents or table-of-contents section.
 `docs/STYLE.md` requires one in documents over 300 lines,
 but the report navigates by its fixed section order and the Health Dashboard,
 so the omission is deliberate.
+
+Leave one blank line between a table and any adjacent block - a paragraph, a bold
+paragraph heading, a list, or a heading.
+
+A non-table line butting directly onto a `|` row is a layout defect: renderers disagree
+about where the table ends.
+
+Literal names of software, tools, packages, and special files render in code spans -
+`Node.js`, `package-lock.json`, `nginx`, `LICENSE` - so a literal name stands apart
+from prose.
+
+Generic concepts stay plain text, and a governed vocabulary token or a linked glossary
+term keeps its own rendering.
+
+Match names case-sensitively: a package name that collides with a prose word is wrapped
+only where it names the artifact, never where the word is used.
 
 ### Table Formatting Rules
 
@@ -701,6 +717,8 @@ every item is mechanical and takes seconds to verify.
 | Glossary         | Every acronym indexed, every body occurrence linked to its anchor                                                                            |
 | Identifier links | Every register identifier cited outside its definition links to it, applied by `link-references.py`                                          |
 | Diagrams         | Fenced, untagged, no leading or trailing blank line inside the fence, frames and connectors column-aligned per `architectural-assessment.md` |
+| Table separation | One blank line between a table and any adjacent block - paragraph, bold heading, list, or heading                                            |
+| Bold markers     | `**` pairs balance on every line - a stray marker after a `**Field:**` label renders as literal asterisks                                    |
 | Registers        | Every RSK cites an FND, every REC cites an FND, risk-map covers rated risks                                                                  |
 | Classification   | At Standard/Detailed, Recommendation Classification lists every REC exactly once                                                             |
 | Project scope    | Inventory lists only intake-confirmed projects, exclusions disclosed in Scope Exclusions                                                     |
@@ -712,7 +730,8 @@ copy it into the audited repository's `work/` directory before use.
 
 `scripts/lint-prose.py` runs the prose rules (semicolons, typographic dashes, arrows, heading
 spacing, split-sentence and doubled-end-mark defects, `..` identifier ranges, sentences joined
-inside one paragraph) on draft parts before assembly, copy it the same way.
+inside one paragraph, table rows butting onto surrounding text, and unbalanced `**` markers)
+on draft parts before assembly, copy it the same way.
 
 Pass `--no-sentence-breaks` when linting a report recorded with `Sentence breaks | Off`.
 

@@ -27,57 +27,57 @@ This file is loaded only when the report language is Polish.
 | Fixed Vocabulary Values                     | 268  | Polish renderings of descriptive values     |
 | Terminology                                 | 327  | English to Polish technical dictionary      |
 | Calque And Style Replacements               | 488  | Forbidden calques and their replacements    |
-| Parameter Prompts                           | 621  | Polish phrasing for configuration questions |
-| Style Rules                                 | 681  | Style Rules guidance                        |
-| Translation Pre-Flight Checklist            | 830  | Defect classes to fix before the pipeline   |
-| Diacritics Frequently Misspelled            | 877  | Diacritics Frequently Misspelled guidance   |
-| Output Filename                             | 912  | Output Filename guidance                    |
-| Document Information                        | 943  | Document Information guidance               |
-| Audit Type Coverage                         | 1006 | Coverage rendering                          |
-| Project Inventory                           | 1042 | Project Inventory guidance                  |
-| Glossary                                    | 1051 | Glossary guidance                           |
-| Technology Stack                            | 1122 | Technology Stack guidance                   |
-| Executive Summary                           | 1139 | Executive Summary guidance                  |
-| Health Dashboard                            | 1157 | Health Dashboard guidance                   |
-| Scorecard                                   | 1168 | Scorecard guidance                          |
-| Scoring Rubrics                             | 1193 | Scoring Rubrics guidance                    |
-| Delivery Practice & Team Continuity         | 1218 | Delivery and continuity rendering           |
-| High-Level Observations                     | 1242 | High-Level Observations guidance            |
-| Auditing Methodology                        | 1249 | Auditing Methodology guidance               |
-| System Context                              | 1273 | System Context guidance                     |
-| Software Bill of Materials                  | 1286 | SBOM section rendering                      |
-| License Compliance Review                   | 1308 | License and IP section rendering            |
-| Architectural Assessment                    | 1326 | Architectural Assessment guidance           |
-| Architectural Subsections                   | 1333 | Architectural Subsections guidance          |
-| Skill Definition Conformance                | 1350 | Skill Definition Conformance guidance       |
-| Agent Guidance Conformance                  | 1358 | Agent Guidance Conformance guidance         |
-| AI System Assessment                        | 1372 | AI System Assessment guidance               |
-| Standards Conformance                       | 1383 | Standards Conformance guidance              |
-| Engineering Baseline Conformance            | 1404 | Engineering Baseline Conformance guidance   |
-| Naming And Layout Conformance               | 1418 | Naming And Layout Conformance guidance      |
-| References                                  | 1447 | References guidance                         |
-| Strengths And What's Working                | 1458 | Strengths And What's Working guidance       |
-| Detailed Technical Findings                 | 1464 | Detailed Technical Findings guidance        |
-| Technical Debt Register                     | 1531 | Technical Debt Register guidance            |
-| Unified Risk Register                       | 1543 | Unified Risk Register guidance              |
-| Trade-off Analysis                          | 1564 | Trade-off Analysis guidance                 |
-| Actionable Remediation Roadmap              | 1576 | Actionable Remediation Roadmap guidance     |
-| Recommendation Classification               | 1599 | Recommendation Classification guidance      |
-| Changes Since Previous Audit                | 1614 | Changes Since Previous Audit guidance       |
-| Scope Exclusions                            | 1648 | Scope Exclusions guidance                   |
-| Limitations And Unknowns                    | 1656 | Limitations And Unknowns guidance           |
-| Re-audit And Follow-up Plan                 | 1673 | Re-audit And Follow-up Plan guidance        |
-| Operator Verification Handoff               | 1684 | Operator Verification Handoff guidance      |
-| Executed Evidence Log                       | 1697 | Executed Evidence Log guidance              |
-| Hunt Style Sections                         | 1710 | Hunt Style Sections guidance                |
-| Review Style Sections                       | 1739 | Review Style Sections guidance              |
-| Validation Record                           | 1779 | Validation Record guidance                  |
-| Threat Model                                | 1835 | Threat Model guidance                       |
-| API Contract Conformance                    | 1851 | API Contract Conformance guidance           |
-| API Compatibility And Versioning Discipline | 1860 | API Compatibility And Versioning guidance   |
-| Evidence And Decision Terms                 | 1869 | Evidence And Decision Terms guidance        |
-| Skill Definition Conformance Table          | 1930 | Skill Definition Conformance Table guidance |
-| Structure Review                            | 1945 | Structure Review guidance                   |
+| Parameter Prompts                           | 625  | Polish phrasing for configuration questions |
+| Style Rules                                 | 685  | Style Rules guidance                        |
+| Translation Pre-Flight Checklist            | 851  | Defect classes to fix before the pipeline   |
+| Diacritics Frequently Misspelled            | 903  | Diacritics Frequently Misspelled guidance   |
+| Output Filename                             | 938  | Output Filename guidance                    |
+| Document Information                        | 969  | Document Information guidance               |
+| Audit Type Coverage                         | 1036 | Coverage rendering                          |
+| Project Inventory                           | 1078 | Project Inventory guidance                  |
+| Glossary                                    | 1087 | Glossary guidance                           |
+| Technology Stack                            | 1162 | Technology Stack guidance                   |
+| Executive Summary                           | 1179 | Executive Summary guidance                  |
+| Health Dashboard                            | 1197 | Health Dashboard guidance                   |
+| Scorecard                                   | 1208 | Scorecard guidance                          |
+| Scoring Rubrics                             | 1233 | Scoring Rubrics guidance                    |
+| Delivery Practice & Team Continuity         | 1258 | Delivery and continuity rendering           |
+| High-Level Observations                     | 1282 | High-Level Observations guidance            |
+| Auditing Methodology                        | 1289 | Auditing Methodology guidance               |
+| System Context                              | 1313 | System Context guidance                     |
+| Software Bill of Materials                  | 1326 | SBOM section rendering                      |
+| License Compliance Review                   | 1348 | License and IP section rendering            |
+| Architectural Assessment                    | 1366 | Architectural Assessment guidance           |
+| Architectural Subsections                   | 1373 | Architectural Subsections guidance          |
+| Skill Definition Conformance                | 1390 | Skill Definition Conformance guidance       |
+| Agent Guidance Conformance                  | 1398 | Agent Guidance Conformance guidance         |
+| AI System Assessment                        | 1412 | AI System Assessment guidance               |
+| Standards Conformance                       | 1423 | Standards Conformance guidance              |
+| Engineering Baseline Conformance            | 1444 | Engineering Baseline Conformance guidance   |
+| Naming And Layout Conformance               | 1458 | Naming And Layout Conformance guidance      |
+| References                                  | 1487 | References guidance                         |
+| Strengths And What's Working                | 1498 | Strengths And What's Working guidance       |
+| Detailed Technical Findings                 | 1504 | Detailed Technical Findings guidance        |
+| Technical Debt Register                     | 1571 | Technical Debt Register guidance            |
+| Unified Risk Register                       | 1583 | Unified Risk Register guidance              |
+| Trade-off Analysis                          | 1604 | Trade-off Analysis guidance                 |
+| Actionable Remediation Roadmap              | 1616 | Actionable Remediation Roadmap guidance     |
+| Recommendation Classification               | 1639 | Recommendation Classification guidance      |
+| Changes Since Previous Audit                | 1654 | Changes Since Previous Audit guidance       |
+| Scope Exclusions                            | 1688 | Scope Exclusions guidance                   |
+| Limitations And Unknowns                    | 1696 | Limitations And Unknowns guidance           |
+| Re-audit And Follow-up Plan                 | 1713 | Re-audit And Follow-up Plan guidance        |
+| Operator Verification Handoff               | 1724 | Operator Verification Handoff guidance      |
+| Executed Evidence Log                       | 1737 | Executed Evidence Log guidance              |
+| Hunt Style Sections                         | 1750 | Hunt Style Sections guidance                |
+| Review Style Sections                       | 1779 | Review Style Sections guidance              |
+| Validation Record                           | 1819 | Validation Record guidance                  |
+| Threat Model                                | 1875 | Threat Model guidance                       |
+| API Contract Conformance                    | 1891 | API Contract Conformance guidance           |
+| API Compatibility And Versioning Discipline | 1900 | API Compatibility And Versioning guidance   |
+| Evidence And Decision Terms                 | 1909 | Evidence And Decision Terms guidance        |
+| Skill Definition Conformance Table          | 1970 | Skill Definition Conformance Table guidance |
+| Structure Review                            | 1985 | Structure Review guidance                   |
 
 ## Analysis And Rendering
 
@@ -510,6 +510,7 @@ Keep entries as single words or short fixed phrases the checker can match litera
 | kontrola wykonawcza                                                                                                     | kontrola dynamiczna                              | control execution                                                                                |
 | zmaterializowane ryzyko                                                                                                 | ryzyko się zrealizowało                          | name the concrete effect where possible                                                          |
 | czynnik autobusowy                                                                                                      | bus factor (ryzyko koncentracji wiedzy)          | gloss at first use, then `bus factor`                                                            |
+| commit                                                                                                                  | zatwierdzenie                                    | not a loanword - Terminology entry; code spans and commands stay verbatim                        |
 | commitowany                                                                                                             | zatwierdzony / dodany do repozytorium            | jargon derivative - use the Terminology entry or a description                                   |
 | onboardowanie                                                                                                           | wdrażanie nowych osób / wprowadzenie             | onboarding                                                                                       |
 | progresywne ujawnianie                                                                                                  | stopniowe ujawnianie                             | progressive disclosure                                                                           |
@@ -585,6 +586,8 @@ Keep entries as single words or short fixed phrases the checker can match litera
 | statycznych procedur                                                                                                    | statycznych handlerów                            | static handlers, genitive                                                                        |
 | przemierzona lokalizacja                                                                                                | lokalizacja wskazana przez ścieżkę               | traversed location                                                                               |
 | chud                                                                                                                    | mały / drobny                                    | slim/lean file or document is `mały`, tiny is `drobny` - stem covers every inflection of `chudy` |
+| ustny                                                                                                                   | udokumentowany / nieudokumentowany               | a verbal claim is not evidence - name the documentation state                                    |
+| w około                                                                                                                 | przez / dokładna liczba                          | ungrammatical hedge; an evidence count renders exact                                             |
 
 ### Sanctioned Idioms
 
@@ -617,6 +620,7 @@ wrapped in backticks instead.
 | Server-Side Request Forgery | OWASP A10 name, verbatim       |
 | pull request                | canonical version-control term |
 | merge request               | canonical version-control term |
+| Conventional Commits        | proper name, verbatim          |
 
 ## Parameter Prompts
 
@@ -807,6 +811,23 @@ Apply these phrasing rules:
   Filenames, commands, and identifiers never decline and take a generic noun instead:
   `plik \`AGENTS.md\``, `system GitLab`. Abbreviations expand at first use and enter
   the Słownik: `MR`, `SAST`. Do not abbreviate `wierszy` as `w.`.
+- Literal names of software, tools, packages, and special files render in code spans -
+  `Node.js`, `Express`, `package-lock.json`, `nginx`, `LICENSE` - so a literal name
+  stands apart from prose. Match case-sensitively and by context: a package name that
+  collides with a Polish word is wrapped only where it names the artifact, never where
+  the word itself is used - `jest` in a dependency list is the test runner, `jest` in
+  `Token jest zapisywany` is the verb. Glossary acronyms keep their link instead of a
+  code span - `[API](#słownik)`, never `` `API` ``.
+- A section or subsection name cited inside a sentence declines to the case the
+  sentence requires - `w sekcji Szczegółowych ustaleń technicznych`, `sekcje oceny
+  architektury` - the nominative heading form pasted into prose reads like a label,
+  not a sentence part.
+- A count or measurement drawn from evidence renders as an exact figure without an
+  approximation hedge - `561 zatwierdzeń`, not `około 561 zatwierdzeń` - and `około`
+  marks only a magnitude the evidence does not pin down.
+- An agreement or decision described as `ustny` renders by its documentation state -
+  `Udokumentowane`, `Nieudokumentowane`, `Brak dokumentacji` - a verbal claim is not
+  evidence and the word stays out of status cells.
 - Verbatim foreign-language quotations are marked as quotations and carry a Polish gloss
   beside them, and they are never woven into Polish grammar. Own renderings are paraphrased
   or marked as translations, not presented as quotes.
@@ -870,6 +891,11 @@ discovering them through validator output.
   contract verbatim - `Punkt odniesienia zgodności`, `Metryka`,
   `Wywódzenie` - not paraphrased. `map-translation.py` reports
   collisions as warnings - every one is a review target.
+- **Block separation:** one blank line separates a table from the next
+  block - a `**label**` or paragraph butting onto the last `|` row
+  renders inside the table or breaks the label.
+- **Balanced bold:** every `**` on a line closes its pair - a stray
+  `** ` after a `**Field:**` label renders as literal asterisks.
 - **Sentence length:** sentences over ~40 words are warn-level, not
   fail-level - but mass violations usually mean calqued English syntax.
   Split before linting rather than after.
@@ -995,6 +1021,10 @@ the Polish report lists `AUDIT-<rewizja>-EN.md`, the English report lists
 
 A single-language report omits the row.
 
+The `Cel audytu` cell carries a purpose value only - `ponowny audyt` is never prefixed
+into it, since `Rewizja raportu`, `Poprzedni raport`, and the `Zmiany od poprzedniego
+audytu` section already carry the re-audit status.
+
 The `Czas wykonania` cell carries the audit run's own duration, identical to the English
 report.
 
@@ -1038,6 +1068,12 @@ and it never claims an assurance level the audit does not define.
 An `Audyt zarządzania AI` row omitted as `Nie dotyczy` never suppresses AI-provenance
 findings in the `Pochodzenie AI` pillar - the row answers whether governance of an
 AI system was assessed, the pillar answers how the source was authored.
+
+A `Uzasadnienie` cell names covered artifacts directly with their linked terms -
+`model zagrożeń, [CWE](#słownik)` - not nominalized wrappers like `mapowania CWE`.
+
+A `Niewykonane` rationale stays minimal - `Odrębny rodzaj zlecenia` - the matching
+`Wyłączenia raportu` bullet carries the caveat, not the cell.
 
 ## Project Inventory
 
@@ -1091,6 +1127,9 @@ Identifier descriptions in `###` subsections prefer short, direct phrasing, for 
 `Identyfikatory obowiązują tylko w tym raporcie i w kolejnych wersjach mogą być inne.` and
 `Identyfikator zalecenia w planie działań naprawczych`.
 
+A register-identifier definition writes the name and its role as a comma apposition -
+`Rejestr dowodów audytowych, prefiks identyfikatorów dowodów` - not with a spaced hyphen.
+
 Every acronym used anywhere in the report gets a Słownik entry when the term is one the
 Słownik defines - acronyms outside its set stay plain text per the mirror rule above.
 
@@ -1113,6 +1152,7 @@ specification, a framework, a metric set, a file format - not just the expansion
 - `RMF` is `ramy zarządzania ryzykiem NIST`.
 - `CVE` is `identyfikator konkretnej podatności` - distinguished from `CWE`, which classifies
   weakness types.
+- `XSS` is `wstrzykiwanie skryptów` - script injection into rendered markup.
 - `ISO` is the organization `Międzynarodowa Organizacja Normalizacyjna` and `IEC` is
   `Międzynarodowa Komisja Elektrotechniczna` - separate entries, joint standards carry
   both marks as `ISO/IEC`.

@@ -290,6 +290,15 @@ def sep_like(cells: list[str]) -> bool:
 def check_tables(lines: list[str], fences: list[bool]) -> list[str]:
     failures: list[str] = []
     for start, rows in table_blocks(lines, fences):
+        end = start + len(rows)
+        if start > 0 and lines[start - 1].strip():
+            failures.append(
+                f"line {start + 1}: table is not preceded by a blank line"
+            )
+        if end < len(lines) and lines[end].strip():
+            failures.append(
+                f"line {end + 1}: table is not followed by a blank line"
+            )
         for offset, row in enumerate(rows):
             if row.startswith("||"):
                 failures.append(f"line {start + offset + 1}: table row starts with '||'")
@@ -358,6 +367,18 @@ def check_tables(lines: list[str], fences: list[bool]) -> list[str]:
             positions = [index for index, char in enumerate(row) if char == "|"]
             if positions != header_positions:
                 failures.append(f"line {start + offset + 1}: table pipes are not vertically aligned")
+    return failures
+
+
+def check_bold_markers(lines: list[str], fences: list[bool]) -> list[str]:
+    failures: list[str] = []
+    for index, (line, fenced) in enumerate(zip(lines, fences)):
+        if fenced:
+            continue
+        if len(re.findall(r"\*\*", strip_spans(line))) % 2:
+            failures.append(
+                f"line {index + 1}: unbalanced '**' marker: {line[:80]}"
+            )
     return failures
 
 
@@ -2916,6 +2937,7 @@ def main(path: str, repo_root: str | None = None) -> int:
         ),
         ("sentence breaks row", check_sentence_breaks_row(text)),
         ("tables", check_tables(lines, fences)),
+        ("bold markers", check_bold_markers(lines, fences)),
         ("location pattern", check_location(path)),
         ("trailing whitespace and ending", check_trailing(lines)),
     ]

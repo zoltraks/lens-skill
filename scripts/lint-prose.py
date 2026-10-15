@@ -6,8 +6,9 @@ heading depth and blank-line spacing, semicolons outside code spans,
 sentences split across a line break by a stray period, doubled end marks,
 identifier ranges written with ``..``, sentences joined inside one paragraph
 (single-sentence paragraphs are the default; a ``Sentence breaks | Off``
-Document Information row suppresses it), and the typographic characters the
-ASCII convention forbids (em dash, en dash, arrow).
+Document Information row suppresses it), table rows butting directly onto
+surrounding text, unbalanced ``**`` markers, and the typographic characters
+the ASCII convention forbids (em dash, en dash, arrow).
 
 Copy into the audited repository's report-production directory as
 ``lint-prose.tmp.py`` when linting a draft.
@@ -108,6 +109,21 @@ def lint(path: Path, breaks_on: bool | None = None) -> list[str]:
         for character, name in ((EMDASH, "em dash"), (ENDASH, "en dash"), (ARROW, "arrow")):
             if character in value:
                 failures.append(f"{path}:{index + 1}: {name} found: {line[:80]}")
+        if len(re.findall(r"\*\*", value)) % 2:
+            failures.append(
+                f"{path}:{index + 1}: unbalanced '**' marker: {line[:80]}"
+            )
+        if index + 1 < len(lines):
+            nxt = lines[index + 1]
+            if (
+                line.strip()
+                and nxt.strip()
+                and line.startswith("|") != nxt.startswith("|")
+            ):
+                failures.append(
+                    f"{path}:{index + 1}: table row touches a non-table line "
+                    f"(leave one blank line): {line[:80]}"
+                )
         collapsed = strip_spans(
             re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", line)
         )
