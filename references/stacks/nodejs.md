@@ -128,10 +128,19 @@ CLI guidelines at https://clig.dev/.
   exit code, output is machine-parseable on stdout, color is disabled when piped or under
   `NO_COLOR`, and stdin input is supported where it makes sense.
 
-## Package Surface
+## Package Surface, Layout, And Naming
 
-From https://publint.dev/ and https://arethetypeswrong.github.io/.
+From https://publint.dev/, https://arethetypeswrong.github.io/, and
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules.
 
+- Directory layout and code division: services separate the HTTP listener (`src/server.js`)
+  from the app factory (`src/app.js`) so tests can mount the app without hardcoded ports, and
+  group source under `src/{domain,repositories,services,routes}` with tests in `test/*.test.js`.
+- Naming conventions: module filenames use `kebab-case.js` (`in-memory-order-repository.js`,
+  `order-service.js`), classes and error types use `PascalCase` (`OrderService`,
+  `OrderNotFoundError`), functions, methods, and variables use `camelCase` (`createOrder`),
+  private class fields use native `#fieldName` syntax, and frozen constants use
+  `UPPER_SNAKE_CASE`.
 - Published packages should survive `publint` and `arethetypeswrong` checks: correct `exports`
   conditions, `types` present under `exports`, no dual CJS/ESM hazard, `files` covering the
   entry surface.

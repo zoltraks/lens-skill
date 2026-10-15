@@ -19,21 +19,21 @@
 | Section                            | Line | What it covers                                      |
 |------------------------------------|------|-----------------------------------------------------|
 | Overview                           | 38   | Audit purpose and standard report shape             |
-| What The Skill Does                | 85   | Update check, evidence, assessment, synthesis       |
-| Installation                       | 164  | Clone and update instructions                       |
-| Usage                              | 194  | Activation, parameters, and report delivery         |
-| Example Prompts                    | 226  | Full and focused audit requests                     |
-| Workflow Diagrams                  | 297  | ASCII and Mermaid audit pipelines                   |
-| Evidence And Decision Quality      | 357  | Evidence strength and verification limits           |
-| Core Principles                    | 415  | Evaluation constraints and status rules             |
-| Report Format                      | 431  | Report structure, identifiers, and style            |
-| When To Use This Skill             | 468  | Supported requests and exclusions                   |
-| What's Inside                      | 492  | Documents, references, tools, and conditional files |
-| Document Style                     | 642  | Pointer to the style rules file                     |
-| Specification                      | 652  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 673  | Maintenance checks and regression scenarios         |
-| License                            | 701  | License for the skill itself                        |
-| Credits                            | 707  | Authorship and attribution                          |
+| What The Skill Does                | 86   | Update check, evidence, assessment, synthesis       |
+| Installation                       | 165  | Clone and update instructions                       |
+| Usage                              | 195  | Activation, parameters, and report delivery         |
+| Example Prompts                    | 227  | Full and focused audit requests                     |
+| Workflow Diagrams                  | 298  | ASCII and Mermaid audit pipelines                   |
+| Evidence And Decision Quality      | 358  | Evidence strength and verification limits           |
+| Core Principles                    | 416  | Evaluation constraints and status rules             |
+| Report Format                      | 432  | Report structure, identifiers, and style            |
+| When To Use This Skill             | 469  | Supported requests and exclusions                   |
+| What's Inside                      | 493  | Documents, references, tools, and conditional files |
+| Document Style                     | 644  | Pointer to the style rules file                     |
+| Specification                      | 654  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 675  | Maintenance checks and regression scenarios         |
+| License                            | 703  | License for the skill itself                        |
+| Credits                            | 709  | Authorship and attribution                          |
 
 ## Overview
 
@@ -61,8 +61,9 @@ Validation Record, and References.
 
 Conditional sections appear only when the subject warrants them: Data Flow Diagram, Design
 Patterns, Architecture Decision Records, Threat Model, API Contract Conformance, Skill Definition
-Conformance, AI System Assessment, Standards Conformance, API Compatibility & Versioning Discipline,
-Technical Debt Register, Changes Since Previous Audit, and Re-audit Plan.
+Conformance, AI System Assessment, Standards Conformance, Engineering Baseline Conformance, Naming
+And Layout Conformance, API Compatibility & Versioning Discipline, Technical Debt Register, Changes
+Since Previous Audit, and Re-audit Plan.
 
 At Standard and Detailed detail levels the roadmap is followed by a Recommendation Classification
 section that assigns every recommendation a `Recommended`, `Optional`, or `Not recommended` class,
@@ -579,6 +580,7 @@ lens-skill/
 │   ├── evidence-schema.md                 # Evidence kinds, outcome states, sufficiency, coverage labels
 │   ├── criterion-catalogue.md             # Criterion records, families, applicability freeze
 │   ├── organization-model.md              # Area map and responsibility inventory method
+│   ├── naming-and-layout.md               # Cross-stack naming matrices, code-division rules, 11-stack fixtures
 │   ├── sbom-schema.md                     # Report-level source-derived component inventory schema
 │   ├── license-compliance.md              # License classes, copyleft, notices, ownership checks
 │   ├── delivery-practice.md               # DORA proxies, bus-factor rubric, continuity evidence

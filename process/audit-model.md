@@ -64,7 +64,7 @@ Top-level shape:
    "module": "...", "read": true, "excluded_reason": null}
  ],
  "criteria": [
-  {"id": "SEC-AUTHZ-01", "source": "...", "applicability": "applicable",
+  {"id": "SEC-AUTHZ", "source": "...", "applicability": "applicable",
    "criticality": "high", "weight": 1.0, "expected": "...", "method": "...",
    "sufficiency": "...", "dimension": "security",
    "outcome": "PASS", "mastery": null}
@@ -72,12 +72,12 @@ Top-level shape:
  "evidence": [
   {"id": "EVD-001", "kind": "INSPECTED", "collector": "...", "method": "...",
    "timestamp": "...", "tool": null, "locator": {"path": "...", "lines": [1, 40]},
-   "procedure": null, "result": "...", "claims": ["SEC-AUTHZ-01"],
+   "procedure": null, "result": "...", "claims": ["SEC-AUTHZ"],
    "limits": "...", "sampling": "full", "counter": "...", "redaction": "none",
    "unavailable": null}
  ],
  "findings": [
-  {"id": "FND-SEC-001", "criterion": "SEC-AUTHZ-01", "type": "Concern",
+  {"id": "FND-SEC-001", "criterion": "SEC-AUTHZ", "type": "Concern",
    "severity": "HIGH", "claim_class": "confirmed defect", "observation": "...",
    "property": "...", "evidence": ["EVD-001"], "counter": "...",
    "consequence": "...", "scope": "...", "confidence": "HIGH",

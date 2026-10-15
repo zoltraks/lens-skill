@@ -8,9 +8,8 @@ description: >-
   security, compliance, observability, error handling, operational
   readiness, project structure and organization, AI-generated code detection,
   copyrights, development standards conformance, and engineering baseline
-  conformance. Enforces
-  evidence-only reasoning and neutral, non-personal evaluation. Use
-  for software audits, architecture audits, structure reviews,
+  conformance. Enforces evidence-only reasoning and neutral, non-personal
+  evaluation. Use for software audits, architecture audits, structure reviews,
   prototype reviews, production readiness, technical due diligence, risk
   registers, scorecards, or remediation roadmaps. Triggers on audit this
   codebase, engineering assessment, run lens, lens audit, perform lens on,
@@ -24,7 +23,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.2.0"
+  version: "2.2.1"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -39,21 +38,21 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 
 | Section                 | Line | What it covers                                     |
 |-------------------------|------|----------------------------------------------------|
-| Skill Update Check      | 70   | Once-per-session git freshness gate before use     |
-| Trigger Keywords        | 87   | Activation phrases                                 |
-| How To Use              | 113  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 134  | Defaults and user-controlled report shape          |
-| Principles              | 196  | Evaluation and output rules                        |
-| Process                 | 202  | Workflow, format, and parity                       |
-| Assessments             | 228  | Core and conditional assessment guides             |
-| Synthesis               | 271  | Findings, risk, score, and remediation assembly    |
-| Translations            | 287  | Per-language report translations                   |
-| References              | 296  | Lookup tables                                      |
-| Scripts                 | 321  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 344  | Behavioral regression prompts                      |
-| Repository Files        | 348  | Housekeeping files governing this repository       |
-| Evidence Contract       | 360  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 388  | File-selection and section-placement rules         |
+| Skill Update Check      | 69   | Once-per-session git freshness gate before use     |
+| Trigger Keywords        | 86   | Activation phrases                                 |
+| How To Use              | 112  | Progressive disclosure and mandatory reading       |
+| Parameter Configuration | 133  | Defaults and user-controlled report shape          |
+| Principles              | 195  | Evaluation and output rules                        |
+| Process                 | 201  | Workflow, format, and parity                       |
+| Assessments             | 227  | Core and conditional assessment guides             |
+| Synthesis               | 269  | Findings, risk, score, and remediation assembly    |
+| Translations            | 285  | Per-language report translations                   |
+| References              | 294  | Lookup tables                                      |
+| Scripts                 | 320  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 343  | Behavioral regression prompts                      |
+| Repository Files        | 347  | Housekeeping files governing this repository       |
+| Evidence Contract       | 359  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 387  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -242,8 +241,7 @@ The previous report is never overwritten - write the next revision-numbered file
 - **`assessment/change-management.md`** - Feature flags, ADR usage, release governance.
 - **`assessment/documentation-review.md`** - Documentation coverage, onboarding, transfer.
 - **`assessment/nfr-review.md`** - Performance, scalability, availability, reliability, resilience.
-- **`assessment/security-review.md`** - Authentication, authorization, input validation,
-  OWASP risks.
+- **`assessment/security-review.md`** - Authentication, authorization, input validation, OWASP risks.
 - **`assessment/compliance-review.md`** - Data protection, privacy, regulatory scope, licensing.
 - **`assessment/observability-review.md`** - Logging, metrics, tracing, alerting.
 - **`assessment/error-handling.md`** - Exception strategy, retries, fallbacks, user-facing errors.
@@ -306,6 +304,7 @@ type requires them.
 - **`references/evidence-schema.md`** - Evidence kinds, outcome states, sufficiency, coverage.
 - **`references/criterion-catalogue.md`** - Criterion records, families, applicability freeze.
 - **`references/organization-model.md`** - Area map and responsibility inventory method.
+- **`references/naming-and-layout.md`** - Naming matrices, code-division rules, 11-stack fixtures.
 - **`references/sbom-schema.md`** - Source-derived inventory report schema.
 - **`references/license-compliance.md`** - License classes, copyleft, attribution, ownership checks.
 - **`references/delivery-practice.md`** - DORA proxies, bus-factor rubric.
@@ -409,12 +408,12 @@ run the regression scenarios in `process/audit-workflow.md` when maintaining the
   `assessment/design-principles.md`, code-level metrics (lint, type safety, complexity, duplication)
   belong in `assessment/code-quality.md`, architectural module structure belongs in
   `assessment/maintainability-review.md`.
-- Physical organization - directory layout, file placement, naming conventions, component
-  placement and physical boundaries, supporting-artifact layout - belongs in
-  `assessment/structure-review.md`. Logical modularity, coupling, dependency direction, and
-  technical debt stay in `assessment/maintainability-review.md`, and code-level language and
-  framework idioms stay in `assessment/best-practices.md`. The structure assessment runs for
-  `audit` and `review` reports and never loads under `Report Style: hunt`.
+- Physical organization - directory layout, file placement, naming conventions, language-idiomatic
+  code division, component placement and physical boundaries, supporting-artifact layout - belongs
+  in `assessment/structure-review.md` and `references/naming-and-layout.md`. Logical modularity,
+  coupling, dependency direction, and technical debt stay in `assessment/maintainability-review.md`,
+  and code-level runtime idioms stay in `assessment/best-practices.md`. The structure assessment
+  runs for `audit` and `review` reports and never loads under `Report Style: hunt`.
 - Stack-specific idioms and conventions (language idioms, framework patterns, ecosystem layout,
   deprecated APIs) belong in `assessment/best-practices.md`, keep it distinct from the principles in
   `assessment/design-principles.md` and the code-level metrics in `assessment/code-quality.md`.

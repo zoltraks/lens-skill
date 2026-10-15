@@ -115,7 +115,7 @@
     "The Glossary index table lists every acronym alphabetically, and terms with a longer description link to their ### subsection below the table.",
     "Every acronym occurrence in the report body is a markdown link to its glossary description, or to #glossary when the term has no description.",
     "Acronyms that are part of capitalized compound names such as 'AI Provenance' or 'API Compatibility' are not linked.",
-    "The Glossary covers report-internal identifier prefixes and technology and standard abbreviations used in the report.",
+    "The Glossary covers report-internal identifier prefixes and technology and standard abbreviations used in the report, and at Detailed level includes a separate Identifier triplets table listing FND, EVD, the other register triplets, and all three-letter criteria and finding-pillar triplets in order.",
     "When Descriptive mode is disabled, the Glossary is omitted and the omission is justified in Scope Exclusions."
    ]
   },
@@ -1296,7 +1296,7 @@
    "files": [],
    "expectations": [
     "Auditing Methodology renders a criterion table with criterion ID, family, applicability, criticality, method, and sufficiency columns.",
-    "Every `### FND-` block carries a `Criterion` field naming a declared criterion-table row and the violated or uncertain property.",
+    "Every `### FND-` block carries a `Criterion` field naming a declared Criteria table row (three-letter prefix, no redundant `-01` suffix) and the violated or uncertain property.",
     "A finding never renders `Criterion` as `N/A` or a placeholder - an undeclared criterion is added to the table first, never invented inline.",
     "Applicability decisions are frozen at planning and post-freeze changes carry a visible justification."
    ]
@@ -1476,6 +1476,18 @@
     "format-table.py emits a warning for any table wider than 300 characters and the generated report carries none.",
     "When a cell would push a table over the budget, the cell holds a compact summary and the removed detail lives in a paragraph directly below the table that names the column it carries.",
     "Fixed table schemas keep their required column order - detail moves to prose or the ### detail blocks, columns are not deleted except genuinely empty ones."
+   ]
+  },
+  {
+   "id": 124,
+   "prompt": "Audit this repository and evaluate the directory organization, source-file naming, code division, and in-code identifier naming across its components.",
+   "expected_output": "An audit report whose Structure Review and Naming And Layout Conformance sections evaluate each component by role against stack conventions, surface FND-STR- findings, and cite authoritative external standards in References.",
+   "files": [],
+   "expectations": [
+    "Each component is evaluated independently according to its role (library, service, application, cli, test-suite, or documentation) using references/naming-and-layout.md and the per-stack baseline.",
+    "The report includes both the high-level Structure Review verdict table and the conditional Naming And Layout Conformance section covering directory and file naming, language-idiomatic code division, and in-code identifier naming.",
+    "Directory abbreviations (such as App/Config/Auth/Docs where full words are prescribed), catch-all modules (Misc/Util), multi-type files in single-type-per-file languages, and foreign-language identifier holdovers surface as evidenced FND-STR- findings.",
+    "Consulted authoritative naming and layout sources are cited in Auditing Methodology and linked in the closing References section."
    ]
   }
  ]

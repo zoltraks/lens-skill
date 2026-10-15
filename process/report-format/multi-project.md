@@ -81,6 +81,8 @@ followed by the full set of report sections for that project:
 - Agent Guidance Conformance *(conditional)*
 - AI System Assessment *(conditional)*
 - Standards Conformance *(conditional)*
+- Engineering Baseline Conformance *(conditional)*
+- Naming And Layout Conformance *(conditional)*
 - API Compatibility & Versioning Discipline *(conditional)*
 - Strengths & What's Working
 - Detailed Technical Findings

@@ -42,9 +42,9 @@ A present-but-empty section signals a gap, a missing section hides it.
 | Report Delivery And Parameter Configuration | 339  | Report delivery and output configuration    |
 | Detail Level Configuration                  | 395  | Standard, detailed, and brief reports       |
 | Conditional Sections                        | 490  | Inclusion criteria for conditional sections |
-| Section Order                               | 547  | Single-project and multi-project order      |
-| Specification Files                         | 644  | Per-section specification file index        |
-| Pre-Delivery Mechanical Checklist           | 676  | Final mechanical checks                     |
+| Section Order                               | 548  | Single-project and multi-project order      |
+| Specification Files                         | 646  | Per-section specification file index        |
+| Pre-Delivery Mechanical Checklist           | 678  | Final mechanical checks                     |
 
 ## Formatting Rules
 
@@ -521,6 +521,7 @@ Each lists its inclusion criterion and the assessment file that governs it:
 | AI System Assessment (standalone)                           | The project trains, serves, or materially depends on AI            | `assessment/ai-system.md`                 |
 | Standards Conformance (standalone)                          | The project contains documented development standards              | `assessment/standards-conformance.md`     |
 | Engineering Baseline Conformance (standalone)               | The subject ships code a bundled stack or purpose baseline covers  | `assessment/baseline-conformance.md`      |
+| Naming And Layout Conformance (standalone)                  | The subject contains source code or a structured documentation set | `assessment/structure-review.md`          |
 | API Compatibility & Versioning Discipline (standalone)      | The subject is a reusable library or package                       | `assessment/api-compatibility.md`         |
 | Technical Debt Register (standalone)                        | Structural debt distinct from risks is surfaced                    | `synthesis/debt-register.md`              |
 | Re-audit And Follow-up Plan (standalone)                    | The roadmap contains a P1 or P2 recommendation                     | `synthesis/reaudit-plan.md`               |
@@ -579,6 +580,7 @@ For a **single-project** audit:
 - AI System Assessment *(conditional)*
 - Standards Conformance *(conditional)*
 - Engineering Baseline Conformance *(conditional)*
+- Naming And Layout Conformance *(conditional)*
 - API Compatibility & Versioning Discipline *(conditional)*
 - Strengths & What's Working
 - Detailed Technical Findings
@@ -660,7 +662,7 @@ Each report section is specified in a file under `process/report-format/`.
 | `report-analysis.md`          | Trade-off Analysis, Threat Model                         |
 | `conditional-conformance.md`  | API Contract, Skill Definition, Agent Guidance,          |
 |                               | AI System, Standards, Engineering Baseline,              |
-|                               | API Compatibility & Versioning Discipline                |
+|                               | Naming And Layout, API Compatibility & Versioning        |
 | `findings-registers.md`       | Strengths, Detailed Technical Findings, Technical Debt   |
 |                               | Register, Unified Risk Register, Remediation Roadmap,    |
 |                               | Recommendation Classification                            |

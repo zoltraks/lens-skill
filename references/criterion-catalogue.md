@@ -20,13 +20,13 @@ states each criterion resolves to.
 
 ## Contents
 
-| Section                 | Line | What it covers                                   |
-|-------------------------|------|--------------------------------------------------|
-| Criterion Records       | 31   | The fields every criterion carries               |
-| Applicability Freeze    | 56   | Denominator locking and change rules             |
-| Criterion Families      | 71   | Minimum family set and per-family notes          |
-| Criticality And Weight  | 100  | How criteria earn weight inside a dimension      |
-| Crosswalk Integrity     | 111  | Mapping to external quality models honestly      |
+| Section                | Line | What it covers                              |
+|------------------------|------|---------------------------------------------|
+| Criterion Records      | 31   | The fields every criterion carries          |
+| Applicability Freeze   | 66   | Denominator locking and change rules        |
+| Criterion Families     | 81   | Minimum family set and per-family notes     |
+| Criticality And Weight | 123  | How criteria earn weight inside a dimension |
+| Crosswalk Integrity    | 134  | Mapping to external quality models honestly |
 
 ## Criterion Records
 
@@ -34,7 +34,7 @@ Every criterion in `audit-model.json` `criteria[]` carries these fields:
 
 | Field           | Required content                                                          |
 |-----------------|---------------------------------------------------------------------------|
-| `id`            | Family-prefixed identifier, for example `SEC-AUTHZ-01`                      |
+| `id`            | Three-letter family-prefixed identifier, for example `SEC-AUTHZ`          |
 | `source`        | Requirement origin: stakeholder requirement, adopted standard with        |
 |                 | version, auditor-proposed criterion, or reconstructed assumption          |
 | `applicability` | `applicable`, `conditional`, or `not applicable` with a one-line reason   |
@@ -45,6 +45,16 @@ Every criterion in `audit-model.json` `criteria[]` carries these fields:
 | `method`        | The collection and analysis method required                               |
 | `sufficiency`   | What evidence suffices, per `references/evidence-schema.md`               |
 | `dimension`     | The product dimension it feeds, or `process` for a non-product family     |
+
+Criterion identifier rules:
+
+- Every criterion `id` starts with a **three-letter uppercase prefix** (`<FAM>-<SUBJ>`, such as
+  `TST-UNIT`, `MNT-COHES`, `DEP-BUILD`, `SCA-POOL`, `COM-DATA`, `DLY-HIST`, `SKL-PRES`) - never
+  a four-or-more-letter prefix (`TEST-`, `MAINT-`, `DEPLOY-`, `SCALE-`, `COMP-`, `DELIV-`,
+  `SKILL-`).
+- Omit numeric suffixes (`-01`, `-1`) when only one criterion uses a given `<FAM>-<SUBJ>`
+  stem, and append `-01`, `-02` only when multiple distinct criteria in the same report share
+  the same `<FAM>-<SUBJ>` stem.
 
 Distinguish stakeholder requirements from auditor-proposed criteria and reconstructed
 assumptions in `source` - the reader must see which requirements the subject actually made.
@@ -74,18 +84,31 @@ These families are the minimum set the planner starts from.
 
 Add or adapt families when the product profile justifies it, and record the adaptation.
 
-| Family       | Example criteria                                                                 |
-|--------------|----------------------------------------------------------------------------------|
-| `FUNC`       | Functional completeness and correctness, including negative and boundary cases   |
-| `SEC`        | Authorization paths, secret lifecycle, configuration exposure, misuse resistance |
-| `REL`        | Data integrity, transaction consistency, recovery, failure handling              |
-| `PERF`       | Resource limits and latency under the stated intended workload                   |
-| `MAINT`      | Modularity, source organization, complexity, change impact                       |
-| `COMPAT`     | Interface and version compatibility across contracts and stored data             |
-| `DEPLOY`     | Build, configuration, upgrade, rollback, operational signals                     |
-| `INTERACT`   | Product-appropriate interaction: CLI scripting, errors, or UI behavior           |
-| `SAFETY`     | Conditional: hazards, fail-safe behavior where consequences warrant              |
-| `MODEL`      | Conditional: model/retrieval quality where the product depends on it             |
+| Prefix | Family / Dimension                                                               |
+|--------|----------------------------------------------------------------------------------|
+| `FNC`  | Functional completeness and correctness, including negative and boundary cases   |
+| `TST`  | Testing, test isolation, pipeline coverage, and suite execution                  |
+| `ARC`  | Architecture, layering, abstractions, session/state isolation, dependency edges  |
+| `CQY`  | Code quality, static analysis, dead code, duplication, error-path hygiene        |
+| `STK`  | Stack alignment, idiomatic framework and runtime conventions                     |
+| `DEP`  | Dependencies, supply chain, build, container, and deployment pipeline signals    |
+| `MNT`  | Maintainability, cohesion, readability, change management, documentation sync    |
+| `STR`  | Physical directory layout, file naming, code division, in-code identifier naming |
+| `SCA`  | Scalability, resource bounds, state scaling, and non-functional targets          |
+| `SEC`  | Authorization paths, secret lifecycle, configuration exposure, misuse resistance |
+| `COM`  | Compliance, data retention, audit trail, and governance documentation            |
+| `REL`  | Data integrity, transaction consistency, recovery, failure handling              |
+| `PRF`  | Performance and latency under the stated intended workload                       |
+| `OBS`  | Observability, logging, correlation, health checks, metrics, and alerting        |
+| `OPS`  | Operational readiness, rollback, backup, monitoring, and failure recovery        |
+| `CMP`  | Interface and version compatibility across contracts and stored data             |
+| `INT`  | Product-appropriate interaction: CLI scripting, errors, or UI behavior           |
+| `DLY`  | Process: delivery practice, commit history, bus factor, release cadence          |
+| `AIP`  | Process: AI-generated code provenance and review controls                        |
+| `CPR`  | Process: copyright, originality, and license declarations                        |
+| `SKL`  | Process/conformance: Agent Skill and agent-guidance artifacts                    |
+| `SAF`  | Conditional: hazards, fail-safe behavior where consequences warrant              |
+| `MDL`  | Conditional: model/retrieval quality where the product depends on it             |
 
 Compatibility criteria cover every external contract the subject exposes - service protocols,
 CLI flags and exit behavior, configuration schemas, persisted data, and supported version

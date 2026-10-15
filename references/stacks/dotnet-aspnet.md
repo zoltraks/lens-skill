@@ -12,17 +12,39 @@ repository source.
 
 Snapshot date: 2026-09-30.
 
-Feeds `assessment/best-practices.md`, `assessment/security-review.md`, and
-`assessment/api-compatibility.md`, and `assessment/baseline-conformance.md` for .NET subjects.
+Feeds `assessment/best-practices.md`, `assessment/structure-review.md`,
+`assessment/security-review.md`, `assessment/api-compatibility.md`, and
+`assessment/baseline-conformance.md` for .NET subjects.
 
-## Design And Compatibility
+## Design, Naming, And Project Structure
 
-From https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/ and
-https://learn.microsoft.com/en-us/dotnet/core/compatibility/.
+From https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/,
+https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/naming-guidelines,
+https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-namespaces,
+https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions,
+and https://learn.microsoft.com/en-us/dotnet/core/compatibility/.
 
-- Framework Design Guidelines naming: `PascalCase` for types and public members,
-  `camelCase` for parameters and locals, `I` prefix for interfaces, no `snake_case` in the
-  public surface.
+- Framework Design Guidelines naming: `PascalCase` for namespaces, types, methods, properties,
+  constants, and enum values, `camelCase` for parameters and locals, `_camelCase` for private
+  fields, `I` prefix for interfaces, `*Async` suffix on asynchronous methods, and no
+  `snake_case` or Hungarian prefixes in the public surface.
+- Full words over abbreviations: directories, namespaces, and type names use unabbreviated
+  words (`Application`, `Authentication`, `Configuration`, `Documentation`,
+  `ConnectionParameters`, `EnvironmentSubstitution`) rather than truncated tokens (`App`,
+  `Auth`, `Config`, `Docs`, `ConnectionParams`, `EnvSubst`) unless a project standard
+  explicitly documents the short form.
+- Namespace-to-directory correspondence: namespaces mirror the directory path under the project
+  root (`OrderApp.Domain.Entities` in `Domain/Entities/`). Multi-layer solutions separate
+  `Domain`, `Application`, `Infrastructure`, and `Api` into distinct `.csproj` projects with
+  shared settings in `Directory.Build.props`.
+- Code division: place one public top-level type (`class`, `interface`, `struct`, `enum`, or
+  `record`) per `PascalCase.cs` file matching the type name, separate interfaces
+  (`IOrderService.cs`) from their implementations (`OrderService.cs`, `NullRevocationStore.cs`),
+  use `abstract class` for shared base behavior, and avoid `Misc`/`Util` catch-all classes.
+- Ported-idiom checks: enum members with type-initial prefixes (`psNew`, `psConnected`),
+  type-letter method suffixes (`ValueI`, `ValueB`), CLR struct names (`Boolean`, `Int32`,
+  `String`) in place of C# keywords (`bool`, `int`, `string`), and Minimal API static endpoint
+  classes named `*Controller` without inheriting from `ControllerBase` are naming findings.
 - The breaking-change taxonomy distinguishes binary compatibility (drop-in replacement) from
   source compatibility (recompiles) and behavioral changes. A major-version claim needs a
   compatibility assessment against that taxonomy.

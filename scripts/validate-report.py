@@ -459,7 +459,7 @@ def check_finding_blocks(lines: list[str]) -> list[str]:
         if EMPTY_FIELD_VALUE.match(criterion):
             failures.append(
                 f"{name}: Criterion renders {criterion.split(' ')[0]} - name a declared "
-                "criterion-table row instead"
+                "criteria-table row instead"
             )
         verified = field_value(block, "Verified")
         if verified and not re.match(r"^(yes|no)\b", verified, re.IGNORECASE):
@@ -480,10 +480,28 @@ def check_finding_blocks(lines: list[str]) -> list[str]:
     return failures
 
 
-def declared_criteria(lines: list[str]) -> set[str]:
-    criteria: set[str] = set()
+CRITERION_ID_SHAPE = re.compile(r"^[A-Z]{3}-[A-Z0-9]+(?:-[A-Z0-9]+)*$")
+CRITERION_REDUNDANT_ONE = re.compile(r"^([A-Z]{3}-[A-Z]+(?:-[A-Z]+)*)-(0?1)$")
+
+
+def declared_criteria(lines: list[str]) -> tuple[list[str], list[str]]:
+    criteria: list[str] = []
+    heading_issues: list[str] = []
     for index, line in enumerate(lines):
-        if not re.match(r"\*\*Criterion table\*\*", line):
+        if re.match(
+            r"(?:\*\*Criterion table\*\*|#{2,3}\s+Criterion table\s*$)",
+            line,
+            re.IGNORECASE,
+        ):
+            heading_issues.append(
+                f"line {index + 1}: use '**Criteria table**' instead of 'Criterion table'"
+            )
+            continue
+        if not re.match(
+            r"(?:\*\*Criteria table\*\*|#{2,3}\s+Criteria table\s*$)",
+            line,
+            re.IGNORECASE,
+        ):
             continue
         j = index + 1
         while j < len(lines) and not lines[j].lstrip().startswith("|"):
@@ -501,14 +519,32 @@ def declared_criteria(lines: list[str]) -> set[str]:
         while j < len(lines) and lines[j].lstrip().startswith("|"):
             cell = lines[j].strip("|").split("|")[0].strip().strip("`")
             if cell and not cell.startswith("<"):
-                criteria.add(cell)
+                criteria.append(cell)
             j += 1
-    return criteria
+    return criteria, heading_issues
 
 
 def check_criterion_references(lines: list[str], style: str) -> list[str]:
-    failures: list[str] = []
-    declared = declared_criteria(lines)
+    declared_list, failures = declared_criteria(lines)
+    declared = set(declared_list)
+    for cid in declared_list:
+        if not CRITERION_ID_SHAPE.match(cid):
+            failures.append(
+                f"Criteria table: '{cid}' must use a three-letter uppercase prefix "
+                "(e.g. TST-UNIT, MNT-COHES, DEP-BUILD, SCA-POOL, COM-DATA, DLY-HIST, SKL-PRES)"
+            )
+            continue
+        one = CRITERION_REDUNDANT_ONE.match(cid)
+        if one:
+            stem = one.group(1)
+            has_sibling = any(
+                other != cid and other.startswith(stem + "-") for other in declared
+            )
+            if not has_sibling:
+                failures.append(
+                    f"Criteria table: '{cid}' has an unnecessary '-{one.group(2)}' suffix - "
+                    f"use '{stem}' when no '{stem}-02' sibling exists"
+                )
     starts = [index for index, line in enumerate(lines) if line.startswith("### FND-")]
     used = False
     for position, start in enumerate(starts):
@@ -522,12 +558,12 @@ def check_criterion_references(lines: list[str], style: str) -> list[str]:
         token = re.split(r"\s+-\s+", value, maxsplit=1)[0].strip()
         if declared and token not in declared:
             failures.append(
-                f"{name}: Criterion '{token}' is not a declared criterion-table row"
+                f"{name}: Criterion '{token}' is not a declared criteria-table row"
             )
     if used and not declared and style == "audit":
         failures.append(
-            "findings name criteria but no Criterion table is declared - "
-            "add the criterion table to Auditing Methodology per "
+            "findings name criteria but no Criteria table is declared - "
+            "add the Criteria table to Auditing Methodology per "
             "process/report-format/methodology-scoring.md"
         )
     return failures
@@ -1180,7 +1216,75 @@ def check_glossary(text: str) -> list[str]:
     for term, anchor in term_links.items():
         if anchor not in slugs:
             failures.append(f"glossary term {term} links to missing anchor #{anchor}")
+    failures.extend(check_glossary_triplets(text, text[heading.end() : g_end]))
     failures.extend(check_glossary_body_links(text, terms, sub_slugs))
+    return failures
+
+
+REGISTER_TRIPLETS = ("FND", "EVD", "TDR", "RSK", "REC", "PAR")
+
+
+def check_glossary_triplets(text: str, glossary_block: str) -> list[str]:
+    if not re.search(r"\|\s*Detail Level\s*\|\s*Detailed\b", text, re.IGNORECASE):
+        return []
+    declared_crit, _ = declared_criteria(text.split("\n"))
+    crit_prefixes = [
+        cid.split("-", 1)[0]
+        for cid in declared_crit
+        if re.match(r"^[A-Z]{3}-", cid)
+    ]
+    fnd_pillars = re.findall(r"^###\s+FND-([A-Z]{3})-\d{3}\b", text, re.MULTILINE)
+    if not crit_prefixes and not fnd_pillars:
+        return []
+    triplet_table = None
+    for tbl in tables_in(glossary_block):
+        hdr, rows = table_cells(tbl)
+        if hdr and cell_text(hdr[0]).strip().lower() == "triplet":
+            triplet_table = rows
+            break
+    if triplet_table is None:
+        return [
+            "Detailed report with a Glossary is missing the '**Identifier triplets**' "
+            "table (Triplet | Scope | Description)"
+        ]
+    failures: list[str] = []
+    triplets: list[str] = []
+    for row in triplet_table:
+        if not row:
+            continue
+        code = cell_text(row[0]).strip().strip("`")
+        if not re.fullmatch(r"[A-Z]{3}", code):
+            failures.append(
+                f"Glossary Identifier triplets row '{code}' is not a three-letter uppercase code"
+            )
+            continue
+        triplets.append(code)
+    if len(triplets) != len(set(triplets)):
+        failures.append("Glossary Identifier triplets table has duplicate rows")
+    if triplets[:2] != ["FND", "EVD"]:
+        failures.append(
+            "Glossary Identifier triplets table must start with 'FND' then 'EVD'"
+        )
+    needed_registers = ["FND", "EVD"]
+    for reg in ("TDR", "RSK", "REC", "PAR"):
+        if re.search(rf"\b{reg}-\d+\b", text):
+            needed_registers.append(reg)
+    needed_criteria: list[str] = []
+    for code in crit_prefixes + fnd_pillars:
+        if code not in needed_registers and code not in needed_criteria:
+            needed_criteria.append(code)
+    for code in needed_registers + needed_criteria:
+        if code not in triplets:
+            failures.append(
+                f"Glossary Identifier triplets table is missing '{code}'"
+            )
+    reg_positions = [triplets.index(r) for r in needed_registers if r in triplets]
+    crit_positions = [triplets.index(c) for c in needed_criteria if c in triplets]
+    if reg_positions and crit_positions and max(reg_positions) > min(crit_positions):
+        failures.append(
+            "Glossary Identifier triplets table must list register triplets "
+            "(FND, EVD, ...) before criteria/pillar triplets"
+        )
     return failures
 
 
@@ -1437,6 +1541,72 @@ STRUCTURE_VARIANT_SECTIONS = [
     "Prioritization",
     "Limitations and Assumptions",
 ]
+STRUCTURE_VERDICT_AREAS = (
+    "Directory organization",
+    "Naming conventions",
+    "Component placement",
+    "Supporting-artifact layout",
+    "Consistency",
+)
+CONFORMANCE_STATUS_TOKENS = {"PASS", "PARTIAL", "PARTIALLY", "FAIL", "UNKNOWN", "N/A"}
+
+
+def check_structure_and_naming(text: str) -> list[str]:
+    if re.search(r"\|\s*Detail Level\s*\|\s*Brief\b", text, re.IGNORECASE):
+        return []
+    failures: list[str] = []
+    for match in re.finditer(r"^#{2,3}\s+Structure Review\s*$", text, re.MULTILINE):
+        rest = text[match.end() :]
+        end = re.search(r"^##\s+", rest, re.MULTILINE)
+        block = rest[: end.start()] if end else rest
+        verdict_rows: dict[str, str] = {}
+        for table in tables_in(block):
+            header, rows = table_cells(table)
+            if len(header) >= 2 and header[0] == "Area" and header[1] == "Verdict":
+                for row in rows:
+                    if len(row) >= 2:
+                        verdict_rows[cell_text(row[0]).strip()] = cell_text(row[1]).strip()
+        if not verdict_rows:
+            failures.append(
+                "Structure Review is missing the Area | Verdict | Basis table"
+            )
+        else:
+            for area in STRUCTURE_VERDICT_AREAS:
+                if area not in verdict_rows:
+                    failures.append(
+                        f"Structure Review verdict table is missing row '{area}'"
+                    )
+                elif verdict_rows[area].upper() not in CONFORMANCE_STATUS_TOKENS:
+                    failures.append(
+                        f"Structure Review '{area}' verdict '{verdict_rows[area]}' "
+                        f"is not in {sorted(CONFORMANCE_STATUS_TOKENS)}"
+                    )
+    for match in re.finditer(
+        r"^#{2,3}\s+Naming And Layout Conformance\s*$", text, re.MULTILINE
+    ):
+        rest = text[match.end() :]
+        end = re.search(r"^##\s+", rest, re.MULTILINE)
+        block = rest[: end.start()] if end else rest
+        status_tables = 0
+        for table in tables_in(block):
+            header, rows = table_cells(table)
+            if "Status" not in header:
+                continue
+            status_tables += 1
+            sidx = header.index("Status")
+            for row in rows:
+                if len(row) > sidx:
+                    token = cell_text(row[sidx]).strip()
+                    if token.upper() not in CONFORMANCE_STATUS_TOKENS:
+                        failures.append(
+                            f"Naming And Layout Conformance status '{token}' "
+                            f"is not in {sorted(CONFORMANCE_STATUS_TOKENS)}"
+                        )
+        if status_tables == 0:
+            failures.append(
+                "Naming And Layout Conformance has no conformance table with a Status column"
+            )
+    return failures
 
 
 def check_structure_variant_sections(text: str) -> list[str]:
@@ -2844,8 +3014,11 @@ def main(path: str, repo_root: str | None = None) -> int:
                     ]
                 )
             elif style == "audit":
-                checks.append(
-                    ("audit finding disposition", check_finding_disposition(text, lines))
+                checks.extend(
+                    [
+                        ("structure and naming conformance", check_structure_and_naming(text)),
+                        ("audit finding disposition", check_finding_disposition(text, lines)),
+                    ]
                 )
             checks.append(("AIP provenance basis", check_aip_provenance(lines)))
     if kind == "audit":

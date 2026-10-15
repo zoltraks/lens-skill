@@ -75,11 +75,27 @@ https://find-sec-bugs.github.io/bugs.htm.
   command injection, path traversal, XXE, weak crypto (`WEAK_MESSAGE_DIGEST`,
   `DES_USAGE`), `PREDICTABLE_RANDOM`, hardcoded passwords.
 
-## Compatibility And Kotlin
+## Compatibility, Layout, And Naming
 
-From https://github.com/siom79/japicmp, https://revapi.org/, and
+From https://github.com/siom79/japicmp, https://revapi.org/,
+https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html,
+https://docs.oracle.com/javase/specs/jls/se17/html/jls-6.html,
+https://docs.spring.io/spring-boot/reference/using/structuring-your-code.html, and
 https://kotlinlang.org/docs/coding-conventions.html.
 
+- Maven and Gradle standard directory layout separates `src/main/java`, `src/main/resources`,
+  and `src/test/java`. Every directory path under `src/main/java` must match the `package`
+  declaration in lowercase reverse-DNS form (`com.example.orderapp.service`), and each public
+  top-level type lives in its own `PascalCase.java` file.
+- Java naming and code division: classes, records, enums, and interfaces use `PascalCase` with
+  no `I` prefix on interfaces (`OrderService`, `OrderRepository`), concrete implementations
+  name their role or backing strategy (`DefaultOrderService`, `InMemoryOrderRepository`,
+  `JpaOrderRepository`), methods, fields, and parameters use `camelCase`, constants and enum
+  values use `UPPER_SNAKE_CASE`, DTOs use Java 17+ `record` types under `api/dto/`, and JUnit 5
+  test classes use `<Class>Test.java` or `<Class>Tests.java`.
+- Spring Boot code structure places the `@SpringBootApplication` entry class at the root
+  package (`com.example.orderapp.OrderApplication`) above `api`, `config`, `domain`, `service`,
+  and `repository` subpackages, never in the default (unnamed) package.
 - japicmp and Revapi are the API-diff tools for released libraries. A release without an
   API-diff report can't claim semver compliance mechanically.
 - Kotlin coding conventions are the style floor: camelCase properties/functions, PascalCase

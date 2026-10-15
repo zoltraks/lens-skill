@@ -19,17 +19,19 @@ The `audit` style carries a `Structure Review` section immediately after
 
 Structure the section with these elements, in order:
 
-1. **Context line** - one sentence naming the stack, application type, architectural approach,
-   and scale signal the verdicts were judged against, referencing Document Information and
-   System Context rather than restating them.
+1. **Context line** - one sentence naming the stack, component roles (`library`, `service`,
+   `application`, `cli`, `test-suite`, `documentation`), architectural approach, and scale
+   signal the verdicts were judged against, referencing Document Information and System Context
+   rather than restating them.
 2. **Structural overview** - a compact description of the existing directory, file, and
-   component organization, plus a component-inventory table when the tree is large.
+   component organization evaluated independently per component and component purpose, plus a
+   component-inventory table:
 
    | Level | Directory | Contents | Role |
    |-------|-----------|----------|------|
    | `1`   | ...       | ...      | ...  |
 
-3. **Verdict table** - one row per evaluation area, with a status token and evidence basis.
+3. **Verdict table** - one row per evaluation area, with a status token and evidence basis:
 
    | Area                        | Verdict | Basis |
    |-----------------------------|---------|-------|
@@ -42,6 +44,9 @@ Structure the section with these elements, in order:
    Verdict cells carry `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, or `N/A`, and the Basis cell names
    the convention tier per `assessment/structure-review.md` - required, established,
    recommended, or context-dependent.
+   Detailed per-component directory, file, code-division, and in-code identifier naming tables
+   render in the conditional `Naming And Layout Conformance` section per
+   `process/report-format/conditional-conformance.md` and are cross-referenced here.
 4. **Finding summary** - `FND-STR-` rows inline or cross-referenced to Detailed Technical
    Findings.
 5. **Positive practices** - organizational decisions worth preserving, each with evidence.

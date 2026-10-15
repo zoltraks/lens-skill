@@ -34,23 +34,30 @@ https://go.dev/doc/modules/version-numbers.
 - `go` directive version sets language semantics for the module. Toolchains may
   auto-upgrade - check `toolchain` lines for an explicit pin.
 
-## Idiomatic Conventions
+## Idiomatic Conventions, Naming, And Layout
 
-From https://go.dev/doc/effective_go and
-https://github.com/golang-standards/project-layout (convention, not a standard - treat as
-informative).
+From https://go.dev/doc/effective_go, https://go.dev/doc/modules/layout,
+https://go.dev/blog/package-names, and https://github.com/golang-standards/project-layout
+(convention, not a standard - treat as informative).
 
 - Errors are values: functions return `(T, error)`, errors are checked, and
   `fmt.Errorf`/`errors.Is`/`errors.As` wrap chains. Discarding errors with `_` is a finding
   when the error matters.
-- Package names are short lowercase single words. `util`, `common`, `misc` grab-bags are a
-  design observation.
-- Interfaces are defined by the consumer, not exported preemptively from the producer.
+- Package and file naming: package names are short, lowercase, single-word nouns (`domain`,
+  `repository`, `service`, `api`) with no underscores or `mixedCaps`, source files use
+  `snake_case.go` with co-located `*_test.go` test files, and `util`, `common`, `misc`
+  grab-bags are a structural finding.
+- Identifier naming: exported types, functions, methods, and constants use `PascalCase`
+  (`MixedCaps`), unexported identifiers use `camelCase`, initialisms keep uniform casing (`ID`,
+  `URL`, `HTTP`, `writeJSON`), and sentinel errors use the `Err` prefix (`ErrOrderNotFound`).
+- Interfaces are defined by the consumer (`type Repository interface` in `internal/service`),
+  not exported preemptively from the producer, and carry no `I` prefix.
 - `gofmt`/`goimports` formatting is mechanical. Unformatted source signals missing tooling.
 - Exported identifiers carry doc comments starting with the identifier name.
 - `internal/` directories enforce compile-time privacy. Code under `internal/` is not
   importable outside the subtree.
-- `cmd/<name>/main.go` + library packages is the conventional binary layout.
+- `cmd/<name>/main.go` + `internal/` (and optional exported library packages) is the
+  conventional multi-package binary layout per `https://go.dev/doc/modules/layout`.
 
 ## Security
 

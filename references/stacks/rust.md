@@ -16,12 +16,22 @@ Feeds `assessment/best-practices.md`, `assessment/api-compatibility.md`,
 `assessment/dependency-review.md`, `assessment/security-review.md`, and
 `assessment/baseline-conformance.md` for Rust subjects.
 
-## API Guidelines
+## API Guidelines, Naming, And Layout
 
-From https://rust-lang.github.io/api-guidelines/ - the enforceable checklist subset.
+From https://rust-lang.github.io/api-guidelines/,
+https://rust-lang.github.io/api-guidelines/naming.html, and
+https://doc.rust-lang.org/cargo/guide/project-layout.html.
 
-- Naming: `C-CONV` - types `UpperCamelCase`, functions/methods/fields `snake_case`,
-  conversions `to_`/`as_`/`into_` by cost and ownership (C-CONV-TRAITS).
+- Naming: `C-CASE` and `C-CONV` - crate names in `Cargo.toml` use `kebab-case` (or
+  `snake_case`), module files and directories use `snake_case.rs`, types (`struct`, `enum`,
+  `trait`) and enum variants use `UpperCamelCase` (`PascalCase`) with no `I` prefix on traits,
+  functions, methods, variables, and struct fields use `snake_case`, constants and statics use
+  `SCREAMING_SNAKE_CASE`, and conversions follow `to_`/`as_`/`into_` by cost and ownership
+  (`C-CONV-TRAITS`).
+- Cargo layout and code division: split `src/lib.rs` (exporting the crate's testable surface
+  such as `pub fn build_app()`) from a thin `src/main.rs` binary entry point so integration
+  tests in `tests/*.rs` drive the library crate directly, and place domain modules (`api.rs`,
+  `domain.rs`, `error.rs`, `repository.rs`, `service.rs`) under `src/`.
 - `C-COMMON-TRAITS`: public types implement `Debug`, and `Clone`/`PartialEq`/`Eq`/`Hash` where
   meaningful. `C-SEND-SYNC` types are `Send`/`Sync` where sensible.
 - `C-FAILURE`: public functions that can fail return `Result`, never panic on user input.

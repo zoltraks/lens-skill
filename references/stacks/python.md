@@ -46,14 +46,24 @@ https://peps.python.org/pep-0604/.
 
 ## Style And Layout
 
-From https://peps.python.org/pep-0008/ and https://packaging.python.org/en/latest/.
+From https://peps.python.org/pep-0008/, https://packaging.python.org/en/latest/, and
+https://packaging.python.org/en/latest/discussions/src-layout-vs-flat-layout/.
 
-- PEP 8 remains the style floor: 4-space indent, `snake_case` functions/modules,
-  `CapWords` classes, two blank lines around top-level definitions, imports grouped
-  stdlib/third-party/local.
+- PEP 8 remains the style floor: 4-space indent, `snake_case` functions, methods, variables,
+  and `.py` module files, short lowercase `snake_case` package directories, `PascalCase`
+  (`CapWords`) classes, exceptions (`*Error`), and `Protocol`/`ABC` types (with no `I` prefix),
+  `UPPER_SNAKE_CASE` constants and `Enum` members, `_leading_underscore` private attributes,
+  two blank lines around top-level definitions, and imports grouped stdlib/third-party/local.
+- Code division is module-oriented rather than one-class-per-file: a cohesive module such as
+  `repositories/order_repository.py` defines its `OrderRepository(Protocol)` alongside
+  `InMemoryOrderRepository`, while service packages (`api/`, `domain/`, `services/`,
+  `repositories/`) separate transport (`routes.py`, `schemas.py`, `dependencies.py`) from
+  domain entities and persistence.
 - `pyproject.toml` is the canonical build configuration. `setup.py` with imperative logic is
   legacy, `setup.cfg`-only or `requirements.txt`-as-metadata layouts are observations.
-- `src/` layout prevents accidental imports of the working tree. Flat layouts that shadow the
+- `src/<package_name>/` layout prevents accidental imports of the working tree and separates
+  the distribution name (`order-app` in `pyproject.toml`) from the importable package
+  (`order_app` with `__init__.py` and optional `__main__.py`). Flat layouts that shadow the
   installed package are a common defect.
 - `dependencies` in `pyproject.toml` and a committed lockfile (uv.lock, poetry.lock,
   requirements with hashes) serve different roles. A library should not pin exact versions in

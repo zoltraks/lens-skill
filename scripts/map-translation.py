@@ -204,7 +204,7 @@ def apply_map(text, pairs):
     lowered = {key.lower(): value for key, value in pairs.items()}
     pattern = re.compile(
         "|".join(
-            r"(?<!\w)" + re.escape(key) + r"(?!\w)" for key in keys
+            r"(?<!\w)(?<![A-Z]-)" + re.escape(key) + r"(?!\w)" for key in keys
         ),
         re.IGNORECASE,
     )

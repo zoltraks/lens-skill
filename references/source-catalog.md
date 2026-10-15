@@ -25,9 +25,9 @@ identifiers and names), `alternate` (fallback address for the row above).
 | Section                            | Line | What it covers                                   |
 |------------------------------------|------|--------------------------------------------------|
 | Sources                            | 32   | Source registry grouped by consuming corpus file |
-| Session-Derived Files              | 520  | Corpus files built from session knowledge        |
-| Unresolved And Alternate Addresses | 531  | Fetch failures and working alternates            |
-| Maintenance                        | 551  | Row-addition and canonicalization rules          |
+| Session-Derived Files              | 535  | Corpus files built from session knowledge        |
+| Unresolved And Alternate Addresses | 547  | Fetch failures and working alternates            |
+| Maintenance                        | 567  | Row-addition and canonicalization rules          |
 
 ## Sources
 
@@ -82,26 +82,29 @@ identifiers and names), `alternate` (fallback address for the row above).
 | Jest configuration         | Meta/OpenJS               | https://jestjs.io/docs/configuration                    | distilled |
 | zod                        | zod project               | https://zod.dev/                                        | distilled |
 | valibot                    | valibot project           | https://valibot.dev/                                    | distilled |
+| Naming convention rule     | typescript-eslint project | https://typescript-eslint.io/rules/naming-convention/   | distilled |
 
 ### references/stacks/python.md
 
-| Source                        | Publisher                  | URL                                                        | Status    |
-|-------------------------------|----------------------------|------------------------------------------------------------|-----------|
-| What's New index              | Python Software Foundation | https://docs.python.org/3/whatsnew/index.html              | distilled |
-| Release cycle and versions    | Python devguide            | https://devguide.python.org/versions/                      | distilled |
-| PEP 585 builtin generics      | Python Software Foundation | https://peps.python.org/pep-0585/                          | distilled |
-| PEP 563 postponed annotations | Python Software Foundation | https://peps.python.org/pep-0563/                          | distilled |
-| PEP 604 union syntax          | Python Software Foundation | https://peps.python.org/pep-0604/                          | distilled |
-| PEP 8 style guide             | Python Software Foundation | https://peps.python.org/pep-0008/                          | distilled |
-| PyPA packaging guide          | PyPA                       | https://packaging.python.org/en/latest/                    | distilled |
-| unittest documentation        | Python Software Foundation | https://docs.python.org/3/library/unittest.html            | distilled |
-| pytest documentation          | pytest project             | https://docs.pytest.org/en/stable/                         | distilled |
-| Bandit plugin list            | Bandit project             | https://bandit.readthedocs.io/en/latest/plugins/index.html | distilled |
+| Source                        | Publisher                  | URL                                                                           | Status    |
+|-------------------------------|----------------------------|-------------------------------------------------------------------------------|-----------|
+| What's New index              | Python Software Foundation | https://docs.python.org/3/whatsnew/index.html                                 | distilled |
+| Release cycle and versions    | Python devguide            | https://devguide.python.org/versions/                                         | distilled |
+| PEP 585 builtin generics      | Python Software Foundation | https://peps.python.org/pep-0585/                                             | distilled |
+| PEP 563 postponed annotations | Python Software Foundation | https://peps.python.org/pep-0563/                                             | distilled |
+| PEP 604 union syntax          | Python Software Foundation | https://peps.python.org/pep-0604/                                             | distilled |
+| PEP 8 style guide             | Python Software Foundation | https://peps.python.org/pep-0008/                                             | distilled |
+| PyPA packaging guide          | PyPA                       | https://packaging.python.org/en/latest/                                       | distilled |
+| PyPA src vs flat layout       | PyPA                       | https://packaging.python.org/en/latest/discussions/src-layout-vs-flat-layout/ | distilled |
+| unittest documentation        | Python Software Foundation | https://docs.python.org/3/library/unittest.html                               | distilled |
+| pytest documentation          | pytest project             | https://docs.pytest.org/en/stable/                                            | distilled |
+| Bandit plugin list            | Bandit project             | https://bandit.readthedocs.io/en/latest/plugins/index.html                    | distilled |
 
 ### references/stacks/php.md
 
 | Source                        | Publisher        | URL                                                                               | Status    |
 |-------------------------------|------------------|-----------------------------------------------------------------------------------|-----------|
+| PSR-1 basic coding standard   | PHP-FIG          | https://www.php-fig.org/psr/psr-1/                                                | distilled |
 | PSR-4 autoloader              | PHP-FIG          | https://www.php-fig.org/psr/psr-4/                                                | distilled |
 | PSR-12 coding style           | PHP-FIG          | https://www.php-fig.org/psr/psr-12/                                               | distilled |
 | PHP security manual           | PHP project      | https://www.php.net/manual/en/security.php                                        | distilled |
@@ -116,6 +119,8 @@ identifiers and names), `alternate` (fallback address for the row above).
 |----------------------------|------------------|------------------------------------------------------|-----------|
 | Effective Go               | Go project       | https://go.dev/doc/effective_go                      | distilled |
 | Code Review Comments       | Go project       | https://go.dev/wiki/CodeReviewComments               | distilled |
+| Organizing a Go module     | Go project       | https://go.dev/doc/modules/layout                    | distilled |
+| Package names              | Go project       | https://go.dev/blog/package-names                    | distilled |
 | Module version numbering   | Go project       | https://go.dev/doc/modules/version-numbers           | distilled |
 | Managing dependencies      | Go project       | https://go.dev/doc/modules/managing-dependencies     | distilled |
 | Module reference           | Go project       | https://go.dev/ref/mod                               | distilled |
@@ -136,8 +141,11 @@ identifiers and names), `alternate` (fallback address for the row above).
 |--------------------------------------|---------------------|-----------------------------------------------------------------------------------------------------|-----------|
 | Authorize HTTP requests              | Spring project      | https://docs.spring.io/spring-security/reference/servlet/authorization/authorize-http-requests.html | distilled |
 | Spring Boot SSL                      | Spring project      | https://docs.spring.io/spring-boot/reference/features/ssl.html                                      | distilled |
+| Spring Boot structuring code         | Spring project      | https://docs.spring.io/spring-boot/reference/using/structuring-your-code.html                       | distilled |
 | Password storage                     | Spring project      | https://docs.spring.io/spring-security/reference/features/authentication/password-storage.html      | distilled |
 | Micrometer Prometheus                | Micrometer project  | https://micrometer.io/docs/registry/prometheus                                                      | alternate |
+| Maven standard directory layout      | Apache Maven        | https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html     | distilled |
+| Java Language Specification Names    | Oracle              | https://docs.oracle.com/javase/specs/jls/se17/html/jls-6.html                                       | distilled |
 | maven-lockfile                       | chains-project      | https://github.com/chains-project/maven-lockfile                                                    | distilled |
 | Gradle dependency verification       | Gradle              | https://docs.gradle.org/current/userguide/dependency_verification.html                              | distilled |
 | Secure Coding Guidelines for Java SE | Oracle              | https://www.oracle.com/java/technologies/javase/seccodeguide.html                                   | distilled |
@@ -153,6 +161,9 @@ identifiers and names), `alternate` (fallback address for the row above).
 | Source                           | Publisher | URL                                                                                                         | Status    |
 |----------------------------------|-----------|-------------------------------------------------------------------------------------------------------------|-----------|
 | Framework Design Guidelines      | Microsoft | https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/                                        | distilled |
+| .NET Naming Guidelines           | Microsoft | https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/naming-guidelines                       | distilled |
+| Names of Namespaces              | Microsoft | https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/names-of-namespaces                     | distilled |
+| C# Coding Conventions            | Microsoft | https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions                | distilled |
 | Security analysis rules          | Microsoft | https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/security-warnings         | distilled |
 | Breaking-change rules            | Microsoft | https://learn.microsoft.com/en-us/dotnet/core/compatibility/                                                | distilled |
 | Enforcing SSL                    | Microsoft | https://learn.microsoft.com/aspnet/core/security/enforcing-ssl                                              | distilled |
@@ -165,19 +176,22 @@ identifiers and names), `alternate` (fallback address for the row above).
 
 ### references/stacks/rust.md
 
-| Source              | Publisher     | URL                                                   | Status    |
-|---------------------|---------------|-------------------------------------------------------|-----------|
-| Rust API Guidelines | Rust project  | https://rust-lang.github.io/api-guidelines/           | distilled |
-| Clippy lint list    | Rust project  | https://rust-lang.github.io/rust-clippy/master/       | distilled |
-| RustSec advisories  | RustSec       | https://rustsec.org/                                  | distilled |
-| Cargo SemVer rules  | Rust project  | https://doc.rust-lang.org/cargo/reference/semver.html | distilled |
-| Tokio tutorial      | Tokio project | https://tokio.rs/tokio/tutorial                       | distilled |
+| Source                 | Publisher     | URL                                                       | Status    |
+|------------------------|---------------|-----------------------------------------------------------|-----------|
+| Rust API Guidelines    | Rust project  | https://rust-lang.github.io/api-guidelines/               | distilled |
+| Rust Naming Guidelines | Rust project  | https://rust-lang.github.io/api-guidelines/naming.html    | distilled |
+| Cargo project layout   | Rust project  | https://doc.rust-lang.org/cargo/guide/project-layout.html | distilled |
+| Clippy lint list       | Rust project  | https://rust-lang.github.io/rust-clippy/master/           | distilled |
+| RustSec advisories     | RustSec       | https://rustsec.org/                                      | distilled |
+| Cargo SemVer rules     | Rust project  | https://doc.rust-lang.org/cargo/reference/semver.html     | distilled |
+| Tokio tutorial         | Tokio project | https://tokio.rs/tokio/tutorial                           | distilled |
 
 ### references/stacks/c-cpp.md
 
 | Source                   | Publisher | URL                                                                       | Status    |
 |--------------------------|-----------|---------------------------------------------------------------------------|-----------|
 | C++ Core Guidelines      | isocpp    | https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines              | distilled |
+| CMake tutorial           | Kitware   | https://cmake.org/cmake/help/latest/guide/tutorial/index.html             | distilled |
 | CERT C++ Coding Standard | SEI       | https://wiki.sei.cmu.edu/confluence/pages/viewpage.action?pageId=88046682 | distilled |
 | CERT C Coding Standard   | SEI       | https://wiki.sei.cmu.edu/confluence/display/c                             | alternate |
 
@@ -251,10 +265,11 @@ identifiers and names), `alternate` (fallback address for the row above).
 
 ### references/stacks/delphi.md
 
-| Source                    | Publisher   | URL                                           | Status     |
-|---------------------------|-------------|-----------------------------------------------|------------|
-| Object Pascal Style Guide | Embarcadero | https://edn.embarcadero.com/article/10280     | distilled  |
-| RAD Studio DocWiki        | Embarcadero | https://docwiki.embarcadero.com/RADStudio/en/ | restricted |
+| Source                      | Publisher        | URL                                               | Status     |
+|-----------------------------|------------------|---------------------------------------------------|------------|
+| Object Pascal Style Guide   | Embarcadero      | https://edn.embarcadero.com/article/10280         | distilled  |
+| Free Pascal Reference Guide | Free Pascal Team | https://www.freepascal.org/docs-html/ref/ref.html | distilled  |
+| RAD Studio DocWiki          | Embarcadero      | https://docwiki.embarcadero.com/RADStudio/en/     | restricted |
 
 ### references/stacks/zig.md
 
@@ -521,12 +536,13 @@ Feeds `references/cwe-analyzer.md` and `references/dependency-manifests.md`.
 
 These corpus files consolidate session knowledge rather than fetched sources.
 
-| File                                     | Basis                                                    | Status    |
-|------------------------------------------|----------------------------------------------------------|-----------|
-| `references/topics/evidence-recipes.md`  | Audit-session mechanical evidence patterns               | distilled |
-| `references/topics/deployment-ssh.md`    | Audit-session SSH/SCP deployment knowledge               | distilled |
-| `references/topics/license-evidence.md`  | Per-ecosystem license evidence locations                 | distilled |
-| `references/topics/standards-anatomy.md` | Maintainer-supplied engineering-standard corpora anatomy | distilled |
+| File                                     | Basis                                                                   | Status    |
+|------------------------------------------|-------------------------------------------------------------------------|-----------|
+| `references/topics/evidence-recipes.md`  | Audit-session mechanical evidence patterns                              | distilled |
+| `references/topics/deployment-ssh.md`    | Audit-session SSH/SCP deployment knowledge                              | distilled |
+| `references/topics/license-evidence.md`  | Per-ecosystem license evidence locations                                | distilled |
+| `references/topics/standards-anatomy.md` | Maintainer-supplied engineering-standard corpora anatomy                | distilled |
+| `references/naming-and-layout.md`        | Cross-stack naming matrices, code-division rules, and 11-stack fixtures | distilled |
 
 ## Unresolved And Alternate Addresses
 

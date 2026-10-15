@@ -175,31 +175,57 @@ class TestValidateReport(unittest.TestCase):
 
     def test_criterion_references(self):
         lines = [
-            "**Criterion table**",
+            "**Criteria table**",
             "",
             "| Criterion | Family   | Applicability | Criticality | Method   | Sufficiency |",
             "|-----------|----------|---------------|-------------|----------|-------------|",
-            "| SEC-AUTHZ-01 | SEC | applicable    | high        | inspect  | rule        |",
+            "| SEC-AUTHZ | SEC      | applicable    | high        | inspect  | rule        |",
             "",
             "### FND-SEC-001: Bad thing",
             "",
-            "* **Criterion:** SEC-AUTHZ-02 - missing authz check",
+            "* **Criterion:** SEC-INPUT - missing authz check",
         ]
         failures = self.validator.check_criterion_references(lines, "audit")
-        self.assertTrue(any("SEC-AUTHZ-02" in f for f in failures))
+        self.assertTrue(any("SEC-INPUT" in f for f in failures))
 
         resolved = lines[:]
-        resolved[-1] = "* **Criterion:** SEC-AUTHZ-01 - missing authz check"
+        resolved[-1] = "* **Criterion:** SEC-AUTHZ - missing authz check"
         self.assertEqual(self.validator.check_criterion_references(resolved, "audit"), [])
+
+    def test_criteria_table_rejects_legacy_heading_long_prefix_and_unneeded_01(self):
+        legacy = [
+            "**Criterion table**",
+            "",
+            "| Criterion | Family | Applicability | Criticality | Method | Sufficiency |",
+            "|-----------|--------|---------------|-------------|--------|-------------|",
+            "| SEC-AUTHZ | SEC    | applicable    | high        | inspect| rule        |",
+        ]
+        self.assertTrue(
+            any("use '**Criteria table**'" in f for f in self.validator.check_criterion_references(legacy, "audit"))
+        )
+        bad_ids = [
+            "**Criteria table**",
+            "",
+            "| Criterion     | Family | Applicability | Criticality | Method  | Sufficiency |",
+            "|---------------|--------|---------------|-------------|---------|-------------|",
+            "| TEST-UNIT     | test   | applicable    | high        | inspect | rule        |",
+            "| TST-PIPE-01   | test   | applicable    | high        | inspect | rule        |",
+            "| SEC-AUTH-01   | sec    | applicable    | high        | inspect | rule        |",
+            "| SEC-AUTH-02   | sec    | applicable    | high        | inspect | rule        |",
+        ]
+        joined = "\n".join(self.validator.check_criterion_references(bad_ids, "audit"))
+        self.assertIn("'TEST-UNIT' must use a three-letter uppercase prefix", joined)
+        self.assertIn("'TST-PIPE-01' has an unnecessary '-01' suffix", joined)
+        self.assertNotIn("SEC-AUTH-01", joined)
 
     def test_criterion_table_required_for_audit_style(self):
         lines = [
             "### FND-SEC-001: Bad thing",
             "",
-            "* **Criterion:** SEC-AUTHZ-01 - missing authz check",
+            "* **Criterion:** SEC-AUTHZ - missing authz check",
         ]
         failures = self.validator.check_criterion_references(lines, "audit")
-        self.assertTrue(any("no Criterion table" in f for f in failures))
+        self.assertTrue(any("no Criteria table" in f for f in failures))
         self.assertEqual(self.validator.check_criterion_references(lines, "hunt"), [])
 
     def test_par_bound_is_twenty(self):
@@ -791,8 +817,35 @@ class TestScanStructure(unittest.TestCase):
             self.assertIn("b", result["modules"])
             self.assertIn(".", result["modules"])
             self.assertEqual(result["modules"]["a"]["files"], 1)
-            for key in ("root", "mode", "classes", "modules", "extensions", "inventory"):
+            for key in (
+                "root", "mode", "classes", "modules", "extensions", "naming", "inventory"
+            ):
                 self.assertIn(key, result)
+
+    def test_naming_signals_detect_casing_abbreviations_and_multi_type_files(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "src" / "OrderApp" / "App").mkdir(parents=True)
+            (root / "src" / "OrderApp" / "Config").mkdir(parents=True)
+            (root / "src" / "OrderApp" / "App" / "Misc.cs").write_text(
+                "namespace OrderApp.App;\npublic class Misc {}\n",
+                encoding="utf-8",
+            )
+            (root / "src" / "OrderApp" / "Config" / "IStore.cs").write_text(
+                "namespace OrderApp.Config;\n"
+                "public interface IStore {}\n"
+                "public sealed class NullStore : IStore {}\n",
+                encoding="utf-8",
+            )
+            result = self.scanner.scan(str(root), use_git=False)
+            naming = result["naming"]
+            self.assertIn("src/OrderApp/App", naming["abbreviated_dirs"])
+            self.assertIn("src/OrderApp/Config", naming["abbreviated_dirs"])
+            self.assertIn("src/OrderApp/App/Misc.cs", naming["catch_all_paths"])
+            self.assertEqual(len(naming["multi_type_files"]), 1)
+            self.assertEqual(
+                naming["multi_type_files"][0]["types"], ["IStore", "NullStore"]
+            )
 
 
 class TestCheckModel(unittest.TestCase):
@@ -809,22 +862,22 @@ class TestCheckModel(unittest.TestCase):
                            "module": "src", "read": True,
                            "excluded_reason": None}],
             "criteria": [
-                {"id": "SEC-AUTHZ-01", "source": "catalogue",
+                {"id": "SEC-AUTHZ", "source": "catalogue",
                  "applicability": "applicable", "criticality": "high",
                  "weight": 1.0, "expected": "...", "method": "...",
                  "sufficiency": "...", "dimension": "security",
                  "outcome": "PASS", "mastery": None},
-                {"id": "SEC-INJ-01", "source": "catalogue",
+                {"id": "SEC-INJ", "source": "catalogue",
                  "applicability": "applicable", "criticality": "high",
                  "weight": 1.0, "expected": "...", "method": "...",
                  "sufficiency": "...", "dimension": "security",
                  "outcome": "PARTIAL", "mastery": 0.5},
-                {"id": "SEC-CRYPTO-01", "source": "catalogue",
+                {"id": "SEC-CRYPTO", "source": "catalogue",
                  "applicability": "applicable", "criticality": "medium",
                  "weight": 1.0, "expected": "...", "method": "...",
                  "sufficiency": "...", "dimension": "security",
                  "outcome": "UNKNOWN", "mastery": None},
-                {"id": "DOC-API-01", "source": "catalogue",
+                {"id": "DOC-API", "source": "catalogue",
                  "applicability": "not_applicable", "criticality": "low",
                  "weight": 1.0, "expected": "...", "method": "...",
                  "sufficiency": "...", "dimension": "documentation",
@@ -835,19 +888,19 @@ class TestCheckModel(unittest.TestCase):
                  "method": "read", "timestamp": "...", "tool": None,
                  "locator": {"path": "src/app.py", "lines": [1, 40]},
                  "procedure": None, "result": "...",
-                 "claims": ["SEC-AUTHZ-01", "SEC-INJ-01"], "limits": "...",
+                 "claims": ["SEC-AUTHZ", "SEC-INJ"], "limits": "...",
                  "sampling": "full", "counter": "...", "redaction": "none",
                  "unavailable": None},
                 {"id": "EVD-002", "kind": "INSPECTED", "collector": "x",
                  "method": "read", "timestamp": "...", "tool": None,
                  "locator": {"path": "src/db.py", "lines": [1, 20]},
                  "procedure": None, "result": "...",
-                 "claims": ["SEC-INJ-01"], "limits": "...",
+                 "claims": ["SEC-INJ"], "limits": "...",
                  "sampling": "full", "counter": "...", "redaction": "none",
                  "unavailable": None},
             ],
             "findings": [
-                {"id": "FND-SEC-001", "criterion": "SEC-INJ-01",
+                {"id": "FND-SEC-001", "criterion": "SEC-INJ",
                  "type": "Concern", "severity": "HIGH",
                  "claim_class": "confirmed defect", "observation": "...",
                  "property": "...", "evidence": ["EVD-002"],
@@ -1003,6 +1056,91 @@ class TestRegisterBlocks(unittest.TestCase):
         self.assertIn("does not contain its point score", joined)
         self.assertIn("degenerate", joined)
         self.assertIn("outside the 0-10 scale", joined)
+
+    def test_structure_and_naming_conformance_checks(self):
+        good = (
+            "## Structure Review\n\n"
+            "| Area | Verdict | Basis |\n"
+            "|---|---|---|\n"
+            "| Directory organization | PARTIAL | established |\n"
+            "| Naming conventions | PARTIAL | required |\n"
+            "| Component placement | PASS | established |\n"
+            "| Supporting-artifact layout | PASS | recommended |\n"
+            "| Consistency | PASS | established |\n\n"
+            "## Naming And Layout Conformance\n\n"
+            "| Component | Surface | Convention | Observed | Status | Evidence |\n"
+            "|---|---|---|---|---|---|\n"
+            "| `src/App` | Directories | Full words | `App/` | PARTIAL | EVD-001 |\n"
+        )
+        self.assertEqual(self.validator.check_structure_and_naming(good), [])
+        bad = (
+            "## Structure Review\n\n"
+            "| Area | Verdict | Basis |\n"
+            "|---|---|---|\n"
+            "| Directory organization | GOOD | established |\n\n"
+            "## Naming And Layout Conformance\n\n"
+            "| Component | Surface | Status |\n"
+            "|---|---|---|\n"
+            "| `src/App` | Directories | INVALID |\n"
+        )
+        joined = "\n".join(self.validator.check_structure_and_naming(bad))
+        self.assertIn("missing row 'Naming conventions'", joined)
+        self.assertIn("verdict 'GOOD'", joined)
+        self.assertIn("status 'INVALID'", joined)
+
+    def test_glossary_triplets_table_enforced_at_detailed_level(self):
+        base = (
+            "## Document Information\n\n"
+            "| | |\n|---|---|\n"
+            "| Detail Level | Detailed |\n\n"
+            "## Glossary\n\n"
+            "{triplets}"
+            "## Auditing Methodology\n\n"
+            "**Criteria table**\n\n"
+            "| Criterion | Family | Applicability | Criticality | Method | Sufficiency |\n"
+            "|---|---|---|---|---|---|\n"
+            "| TST-UNIT | test | applicable | high | inspect | files |\n"
+            "| SEC-AUTHZ | sec | applicable | high | inspect | files |\n\n"
+            "## Detailed Technical Findings\n\n"
+            "### FND-SEC-001: Finding\n"
+        )
+        missing = base.format(triplets="")
+        self.assertTrue(
+            any(
+                "missing the '**Identifier triplets**' table" in f
+                for f in self.validator.check_glossary_triplets(missing, "")
+            )
+        )
+        wrong_order = (
+            "**Identifier triplets**\n\n"
+            "| Triplet | Scope | Description |\n"
+            "|---|---|---|\n"
+            "| EVD | Evidence | ledger |\n"
+            "| FND | Findings | findings |\n"
+            "| TST | Criteria | test |\n"
+        )
+        joined = "\n".join(
+            self.validator.check_glossary_triplets(
+                base.format(triplets=wrong_order), wrong_order
+            )
+        )
+        self.assertIn("must start with 'FND' then 'EVD'", joined)
+        self.assertIn("missing 'SEC'", joined)
+        valid = (
+            "**Identifier triplets**\n\n"
+            "| Triplet | Scope | Description |\n"
+            "|---|---|---|\n"
+            "| FND | Findings | findings |\n"
+            "| EVD | Evidence | ledger |\n"
+            "| TST | Criteria | test |\n"
+            "| SEC | Criteria | security |\n"
+        )
+        self.assertEqual(
+            self.validator.check_glossary_triplets(
+                base.format(triplets=valid), valid
+            ),
+            [],
+        )
 
 
 if __name__ == "__main__":

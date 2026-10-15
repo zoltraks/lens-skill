@@ -97,6 +97,72 @@ DOC_NAME = re.compile(
     re.IGNORECASE,
 )
 
+CASING_KINDS = (
+    "PascalCase", "camelCase", "snake_case", "kebab-case",
+    "UPPER_SNAKE", "lowercase", "dotted.PascalCase", "other",
+)
+ABBREVIATED_DIRS = {
+    "app", "auth", "cfg", "conf", "config", "configs", "ctrl", "db", "doc",
+    "docs", "dto", "dtos", "env", "err", "errs", "exc", "impl", "intf",
+    "mgr", "msg", "pkg", "repo", "repos", "req", "res", "resp", "srv",
+    "svc", "svcs",
+}
+CATCH_ALL_NAMES = {
+    "misc", "util", "utils", "common", "helper", "helpers", "shared", "general",
+}
+SINGLE_TYPE_EXT = {".cs", ".java", ".php"}
+PUBLIC_TYPE_DECL = re.compile(
+    r"^\s*(?:public|internal)\s+"
+    r"(?:(?:sealed|static|abstract|readonly|partial|final)\s+)*"
+    r"(?:class|interface|struct|enum|record(?:\s+class|\s+struct)?|trait)\s+"
+    r"([A-Za-z_][A-Za-z0-9_]*)",
+    re.MULTILINE,
+)
+
+
+def casing_of(stem: str) -> str:
+    """Classify an identifier or file/directory stem into a casing bucket."""
+    if not stem:
+        return "other"
+    if "." in stem and all(
+        re.fullmatch(r"[A-Z][A-Za-z0-9]*", part) for part in stem.split(".")
+    ):
+        return "dotted.PascalCase"
+    if re.fullmatch(r"[a-z][a-z0-9]*", stem):
+        return "lowercase"
+    if re.fullmatch(r"[a-z][a-z0-9]*(?:_[a-z0-9]+)+", stem):
+        return "snake_case"
+    if re.fullmatch(r"[a-z][a-z0-9]*(?:-[a-z0-9]+)+", stem):
+        return "kebab-case"
+    if re.fullmatch(r"[A-Z][A-Z0-9]*(?:_[A-Z0-9]+)+", stem):
+        return "UPPER_SNAKE"
+    if re.fullmatch(r"[A-Z][A-Za-z0-9]*", stem) and any(c.islower() for c in stem):
+        return "PascalCase"
+    if re.fullmatch(r"[a-z][a-z0-9]*[A-Z][A-Za-z0-9]*", stem):
+        return "camelCase"
+    return "other"
+
+
+def public_types_in(full_path: str, ext: str) -> list[str]:
+    """Return top-level public/internal type names declared in a source file."""
+    if ext not in SINGLE_TYPE_EXT:
+        return []
+    try:
+        with open(full_path, encoding="utf-8", errors="replace") as handle:
+            text = handle.read(256_000)
+    except OSError:
+        return []
+    # Only count declarations at indent <= 4 (top-level or single namespace block).
+    names: list[str] = []
+    for line in text.splitlines():
+        indent = len(line) - len(line.lstrip(" "))
+        if indent > 4 or line.lstrip().startswith(("//", "#", "*", "/*")):
+            continue
+        match = PUBLIC_TYPE_DECL.match(line)
+        if match:
+            names.append(match.group(1))
+    return names
+
 
 def tracked_files(root: str) -> list[str]:
     """Return `git ls-files` output, or None when git cannot enumerate."""
@@ -202,6 +268,12 @@ def scan(root: str, use_git: bool) -> dict:
     classes = {c: 0 for c in CLASSES}
     modules: dict[str, dict] = {}
     extensions: dict[str, int] = {}
+    dir_casing = {k: 0 for k in CASING_KINDS}
+    file_casing = {k: 0 for k in CASING_KINDS}
+    seen_dirs: set[str] = set()
+    abbreviated_dirs: set[str] = set()
+    catch_all_paths: set[str] = set()
+    multi_type_files: list[dict] = []
     for path in paths:
         cls = classify(path)
         mod = module_of(path)
@@ -211,6 +283,33 @@ def scan(root: str, use_git: bool) -> dict:
         except OSError:
             size = None
         depth = path.count("/")
+        parts = path.split("/")
+        for idx in range(len(parts) - 1):
+            dpath = "/".join(parts[: idx + 1])
+            dname = parts[idx]
+            if dpath not in seen_dirs and not dname.startswith("."):
+                seen_dirs.add(dpath)
+                dir_casing[casing_of(dname)] += 1
+                if dname.lower() in ABBREVIATED_DIRS and not (
+                    idx == 0 and dname.lower() == "docs"
+                ):
+                    abbreviated_dirs.add(dpath)
+                if dname.lower() in CATCH_ALL_NAMES:
+                    catch_all_paths.add(dpath)
+        stem, ext = os.path.splitext(parts[-1])
+        ext_low = ext.lower()
+        is_prod_code = cls == "production" or (
+            ext_low in CODE_EXT and cls not in ("test", "test-support", "vendored", "generated", "example")
+        )
+        if is_prod_code:
+            file_casing[casing_of(stem)] += 1
+            if stem.lower() in CATCH_ALL_NAMES:
+                catch_all_paths.add(path)
+            types = public_types_in(full, ext_low)
+            if len(types) > 1:
+                multi_type_files.append(
+                    {"path": path, "count": len(types), "types": types}
+                )
         entries.append(
             {"path": path, "class": cls, "module": mod, "depth": depth, "bytes": size}
         )
@@ -218,8 +317,8 @@ def scan(root: str, use_git: bool) -> dict:
         bucket = modules.setdefault(mod, {"files": 0, "classes": {c: 0 for c in CLASSES}})
         bucket["files"] += 1
         bucket["classes"][cls] += 1
-        ext = os.path.splitext(path)[1].lower() or "<none>"
-        extensions[ext] = extensions.get(ext, 0) + 1
+        ext_key = ext_low or "<none>"
+        extensions[ext_key] = extensions.get(ext_key, 0) + 1
     return {
         "root": os.path.abspath(root),
         "mode": mode,
@@ -228,6 +327,13 @@ def scan(root: str, use_git: bool) -> dict:
         "classes": classes,
         "modules": modules,
         "extensions": dict(sorted(extensions.items())),
+        "naming": {
+            "directory_casing": {k: v for k, v in dir_casing.items() if v},
+            "production_file_casing": {k: v for k, v in file_casing.items() if v},
+            "abbreviated_dirs": sorted(abbreviated_dirs),
+            "catch_all_paths": sorted(catch_all_paths),
+            "multi_type_files": multi_type_files,
+        },
         "inventory": entries,
     }
 
@@ -255,6 +361,23 @@ def render_text(result: dict) -> str:
     lines.append("extensions:")
     for ext, count in result["extensions"].items():
         lines.append(f"  {ext:<12}{count}")
+    naming = result.get("naming", {})
+    if naming:
+        lines.append("")
+        lines.append("naming signals:")
+        dc = ", ".join(f"{k}:{v}" for k, v in naming.get("directory_casing", {}).items())
+        fc = ", ".join(f"{k}:{v}" for k, v in naming.get("production_file_casing", {}).items())
+        lines.append(f"  directory casing:       {dc or 'none'}")
+        lines.append(f"  production file casing: {fc or 'none'}")
+        lines.append(
+            f"  abbreviated dirs:       {', '.join(naming.get('abbreviated_dirs', [])) or 'none'}"
+        )
+        lines.append(
+            f"  catch-all paths:        {', '.join(naming.get('catch_all_paths', [])) or 'none'}"
+        )
+        lines.append(
+            f"  multi-type files:       {len(naming.get('multi_type_files', []))}"
+        )
     return "\n".join(lines)
 
 

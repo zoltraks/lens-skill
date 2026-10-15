@@ -17,11 +17,23 @@ titles are distilled here, never rule text.
 Feeds `assessment/code-quality.md`, `assessment/security-review.md`, and
 `assessment/baseline-conformance.md` for native-code subjects.
 
-## C++ Core Guidelines
+## C++ Core Guidelines, Naming, And Layout
 
-From https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines - the mechanically checkable
+From https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines and
+https://cmake.org/cmake/help/latest/guide/tutorial/index.html - the mechanically checkable
 subset.
 
+- Project layout and code division: public headers live under `include/<project>/` (`.hpp` with
+  `#pragma once`), implementation files mirror the directory hierarchy under `src/` (`.cpp`),
+  and `CMakeLists.txt` compiles core logic into a library target (`add_library(order_core ...)`)
+  linked by both the executable (`src/main.cpp`) and the Catch2/GTest test binary
+  (`tests/*_test.cpp`).
+- Naming conventions (`NL` rules): header and source files use `snake_case.hpp`/`.cpp`,
+  namespaces use `snake_case` matching the include path (`namespace order_app::domain`), types
+  (`class`, `struct`, `enum class`) use `PascalCase` (or consistent std-style `snake_case`),
+  functions, methods, parameters, and `enum class` enumerators use `snake_case`, private member
+  fields use a trailing underscore (`mutex_`, `repository_`), and constants use `kPascalCase`
+  or `UPPER_SNAKE_CASE`.
 - Prefer RAII resource handles over `new`/`delete`: naked `new`/`delete` pairs, `malloc`/`free`
   in C++, and manual ownership are findings (R.11, R.20-R.24).
 - `gsl::span`, `string_view`, `unique_ptr`, `shared_ptr`, `weak_ptr` express ownership.

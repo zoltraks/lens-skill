@@ -16,6 +16,7 @@ usage or parse errors.
 import argparse
 import json
 import math
+import re
 import sys
 from pathlib import Path
 
@@ -27,6 +28,8 @@ SCORING_KINDS = {"INSPECTED", "STATICALLY_DERIVED", "EXECUTED", "MEASURED"}
 CRITERION_OUTCOMES = {
     "PASS", "FAIL", "PARTIAL", "UNKNOWN", "NOT_ASSESSED", "NOT_APPLICABLE",
 }
+CRITERION_ID_SHAPE = re.compile(r"^[A-Z]{3}-[A-Z0-9]+(?:-[A-Z0-9]+)*$")
+CRITERION_REDUNDANT_ONE = re.compile(r"^([A-Z]{3}-[A-Z]+(?:-[A-Z]+)*)-(0?1)$")
 RESOLVED = {"PASS", "FAIL", "PARTIAL"}
 COVERAGE_LABELS = {
     "COMPLETE_FOR_DECLARED_SCOPE", "PARTIAL", "NOT_ASSESSED", "NOT_APPLICABLE",
@@ -111,6 +114,19 @@ def check_model(model: dict) -> list[str]:
 
     for c in criteria:
         cid = c.get("id", "<no id>")
+        if not CRITERION_ID_SHAPE.match(str(cid)):
+            failures.append(
+                f"{cid}: criterion id must start with a three-letter uppercase prefix"
+            )
+        else:
+            one = CRITERION_REDUNDANT_ONE.match(str(cid))
+            if one and not any(
+                other != cid and str(other).startswith(one.group(1) + "-")
+                for other in crit_ids
+            ):
+                failures.append(
+                    f"{cid}: unnecessary '-{one.group(2)}' suffix when no '{one.group(1)}-02' sibling exists"
+                )
         outcome = c.get("outcome")
         if outcome not in CRITERION_OUTCOMES:
             failures.append(f"{cid}: outcome {outcome!r} is not a criterion state")

@@ -237,6 +237,41 @@ context.
 | [SLO](#slo-service-level-objective)  | Service Level Objective - measurable service-quality target       |
 ```
 
+**Identifier triplets table (Detailed level)**
+
+At the `Detailed` detail level, follow the alphabetical index table (before the `###`
+long-description subsections) with a dedicated `**Identifier triplets**` table listing every
+three-letter code used in findings, evidences, registers, and criteria identifiers across the
+report:
+
+```markdown
+**Identifier triplets**
+
+| Triplet | Scope     | Description                                                    |
+|---------|-----------|----------------------------------------------------------------|
+| FND     | Findings  | Detailed Technical Findings identifier prefix (`FND-SEC-001`)  |
+| EVD     | Evidence  | Verification And Evidence Ledger identifier prefix (`EVD-001`) |
+| TDR     | Debt      | Technical Debt Register identifier prefix (`TDR-001`)          |
+| RSK     | Risks     | Unified Risk Register identifier prefix (`RSK-001`)            |
+| REC     | Roadmap   | Actionable Remediation Roadmap identifier prefix (`REC-001`)   |
+| PAR     | Checklist | Protocol Audit Requirement identifier prefix (`PAR-1`)         |
+| TST     | Criteria  | Testing, test isolation, pipeline coverage, suite execution    |
+| ARC     | Criteria  | Architecture & Design criteria and `FND-ARC-NNN` findings      |
+| SEC     | Criteria  | Security & Compliance criteria and `FND-SEC-NNN` findings      |
+```
+
+Order the rows as follows:
+
+1. `FND` first, then `EVD` second.
+2. Any remaining register identifier triplets used in the report (`TDR`, `RSK`, `REC`, `PAR`).
+3. Every three-letter criterion prefix (from `**Criteria table**`) and finding-pillar code
+   (`FND-<PILLAR>-NNN`) used in the report, in the order they appear in the Criteria table and
+   findings.
+
+The `**Identifier triplets**` table documents internal identifier structure and is not an
+acronym-linking index - `scripts/link-glossary.py` links body acronyms from the first (`Term |
+Definition`) table only.
+
 **Long descriptions**
 
 Terms that need more than an expansion get a `###` subsection below the index table,

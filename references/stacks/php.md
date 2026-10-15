@@ -16,13 +16,23 @@ Feeds `assessment/best-practices.md`, `assessment/security-review.md`,
 `assessment/dependency-review.md`, `assessment/testing-review.md`, and
 `assessment/baseline-conformance.md` for PHP subjects.
 
-## Autoload And Style
+## Autoload, Layout, And Style
 
-From PSR-4 (https://www.php-fig.org/psr/psr-4/) and PSR-12 (https://www.php-fig.org/psr/psr-12/).
+From PSR-1 (https://www.php-fig.org/psr/psr-1/), PSR-4 (https://www.php-fig.org/psr/psr-4/),
+and PSR-12 (https://www.php-fig.org/psr/psr-12/).
 
-- PSR-4 maps a namespace prefix to a base directory in `composer.json` `autoload`. A class
-  `Vendor\Package\Sub\Class` must resolve to `<base>/Sub/Class.php` - a source file outside
-  its mapped path is unreachable by autoload.
+- PSR-1 and PSR-4 map a namespace prefix (`OrderApp\`) to `src/` and `OrderApp\Tests\` to
+  `tests/` in `composer.json`. A class, interface, trait, or backed enum
+  `Vendor\Package\Sub\Class` must resolve 1:1 to `<base>/Sub/Class.php` in `PascalCase` - a
+  source file outside its mapped path or defining multiple classes breaks autoloading and
+  discoverability.
+- Web services isolate the front controller in `public/index.php`, keep runtime state (such as
+  SQLite files or caches) in gitignored `var/`, and organize `src/` into singular `PascalCase`
+  role directories (`Domain/`, `Repository/`, `Service/`, `Http/`).
+- Naming conventions: classes, interfaces (no `I` prefix, e.g. `OrderRepository`), and enum
+  cases (`OrderStatus::Pending`) use `PascalCase`, methods and `$variables` use `camelCase`,
+  class constants use `UPPER_SNAKE_CASE`, and PHPUnit test files end in `Test.php`
+  (`OrderServiceTest.php`).
 - `autoload-dev` holds test namespaces. Production autoloads must not require dev paths.
 - PSR-12 is the extended style floor: `declare(strict_types=1);` conventions aside, it fixes
   brace placement, visibility keywords on all members, `elseif` (not `else if`), one

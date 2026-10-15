@@ -2,13 +2,14 @@
 
 ## Purpose
 
-> **Scope:** Physical organization of directories, files, source code components, and
-> supporting artifacts
-> **Key items:** directory hierarchy, naming conventions, component placement, artifact
-> placement, stack conventions, organizational consistency
+> **Scope:** Physical organization of directories, files, source code components, code
+> division, and in-code identifier naming
+> **Key items:** per-component evaluation, directory hierarchy, file naming, language-idiomatic
+> code division, class/method/variable naming, supporting-artifact placement, fallback for
+> unlisted stacks
 
 This file guides assessment of how a project organizes its directories, files, source code
-components, and supporting artifacts.
+components, code division, and identifier naming.
 
 Apply `principles/evaluation-rules.md` throughout.
 
@@ -17,65 +18,109 @@ architecture, and scale - never against a universal directory template.
 
 ## Boundary
 
-This assessment owns physical organization: directory layout, file and component placement,
-naming patterns, and supporting-artifact placement.
+This assessment owns physical organization and naming: directory layout, file and component
+placement, language-idiomatic code division across files, directory/file/identifier naming
+conventions, and supporting-artifact placement.
 
 Logical modularity, coupling, dependency direction, and technical-debt signals belong to
 `assessment/maintainability-review.md`.
 
-Code-level idioms and framework usage patterns belong to `assessment/best-practices.md` -
-this file consumes ecosystem layout conventions from `references/stack-standards.md` and the
-per-stack digests, it does not re-derive them.
+Code-level runtime idioms and API usage patterns belong to `assessment/best-practices.md` -
+this file consumes ecosystem layout and naming conventions from
+`references/naming-and-layout.md`, `references/stack-standards.md`, and the per-stack digests,
+it does not re-derive them.
 
 Logical architecture decisions belong to the Architectural Assessment - a misplaced component
 is a structural finding, a poorly chosen architecture is not.
 
 ## Context First
 
-Before judging the structure, establish from intake and inspection:
+Before judging the structure, establish from intake and inspection for each component
+independently:
 
-- Programming language(s) and framework, when applicable.
-- Application type - service, web application, library, CLI tool, worker, mobile or desktop
-  application.
+- Component boundary and purpose (`library`, `service`, `application`, `cli`, `test-suite`, or
+  `documentation`) per `references/domain-profiles.md` and `references/naming-and-layout.md` -
+  different layout and naming rules govern libraries, applications, services, and
+  documentation trees.
+- Programming language(s) and framework, when applicable, and the authoritative naming and
+  layout sources from `references/naming-and-layout.md`, `references/stack-standards.md`, and
+  `references/source-catalog.md`.
 - Architectural approach - layered, feature-based, modular monolith, plugin, or none apparent.
 - Project scale and the build and deployment model where they shape layout.
 
 Do not assume a framework or a formally defined architecture.
 
+When a component uses a language, framework, or documentation format not pre-cataloged in the
+skill, follow the fallback order in `references/naming-and-layout.md`: project-declared
+standards first, then standard-library and official toolchain rules, live official
+documentation when permitted, and internal consistency across the component itself.
+
 ## What To Evaluate
 
-- Directory hierarchy: nesting depth, redundancy, and separation of source, tests,
-  configuration, documentation, resources, generated files, and build artifacts.
-- Organizational principle: grouping by technical responsibility, feature, or domain, applied
-  coherently - and consistency of that principle across the project.
-- Component placement: where interfaces, implementations, models, services, controllers,
-  repositories, adapters, converters, and utilities live, where such roles exist.
-- Modules and packages: appropriate use of namespaces and subprojects, cohesion within each,
-  and clear boundaries between layers or domains.
-- Discoverability: whether entry points and important functionality are easy to locate, and
-  whether catch-all directories or ambiguous locations hide them.
-- Naming: consistent patterns for equivalent elements, singular/plural discipline,
-  abbreviation discipline, interface-versus-implementation distinction, and names that
-  communicate responsibility rather than incidental detail.
-- Supporting artifacts: placement of application and environment configuration, build and
-  dependency files, CI/CD definitions, containerization, scripts, fixtures, templates,
-  migrations, and generated output - locatable, separated, and consistent with the build and
-  deployment workflow.
-- Consistency and maintainability: competing organizational models without justification,
-  duplicate structures, ambiguous ownership of shared functionality, and structural complexity
-  that raises the cost of change.
+Audit each component independently across the three structural and naming pillars:
+
+- **Organization of code into directories**:
+  - Nesting depth, redundancy, and separation of source, tests, configuration, documentation,
+    resources, generated files, and build artifacts according to the component's purpose
+    (`library` public-surface isolation vs `service` transport/domain/persistence separation vs
+    `application`/`cli` thin composition root).
+  - Directory naming discipline: full words versus arbitrary abbreviations (such as `App`
+    instead of `Application`, `Config` instead of `Configuration`, `Auth` instead of
+    `Authentication`, or `Docs` instead of `Documentation` in ecosystems that prescribe full
+    words), singular versus plural consistency across peer folders, and directory-to-namespace
+    or directory-to-package alignment.
+  - Absence of catch-all directories (`Misc`, `Util`, `Utils`, `Common`, `Helpers`) that mix
+    unrelated responsibilities.
+- **Naming and language-idiomatic division of source code files**:
+  - File naming casing (`PascalCase.cs`/`.java`/`.php`, `snake_case.py`/`.rs`/`.go`/`.cpp`,
+    `kebab-case.js`/`.ts`, dotted `Namespace.Unit.pas` in Delphi, lowercase `unit.pas` in Free
+    Pascal) and test-file naming parity (`test_*.py`, `*Test.java`, `*Tests.cs`, `*_test.go`,
+    `*.test.ts`, `*Test.php`, `*_test.cpp`).
+  - Code division according to practices natural for the language: one public top-level type per
+    file in Java, C#, and PHP PSR-4 versus cohesive multi-symbol modules in Python, Go, and
+    Rust, `include/<pkg>/*.hpp` header versus `src/*.cpp` source split in C++20, and
+    `interface` versus `implementation` sections in Pascal units.
+  - Separation of abstractions from implementations: Java interfaces (`OrderService`,
+    `OrderRepository`) and concrete implementations (`DefaultOrderService`,
+    `JpaOrderRepository`), C# `I`-prefixed interfaces (`IOrderService`, `IRevocationStore`),
+    abstract base classes, and concrete or null-object classes (`NullRevocationStore`) in
+    separate files, Go consumer-defined interfaces, and Python `Protocol`/`ABC` contracts.
+- **Naming of classes, methods, fields, constants, and variables within the code**:
+  - Adherence to stack casing and prefix rules for packages/namespaces, classes/records/enums,
+    interfaces/traits/protocols, methods/functions, local variables/parameters, private fields,
+    and constants/enum members per `references/naming-and-layout.md`.
+  - Absence of cross-language naming holdovers (for example Delphi enum prefixes such as
+    `psNew`, type-letter method suffixes such as `ValueI`/`ValueB`, or BCL type names `Boolean`
+    instead of C# `bool` in a C# port, or C#-style `I` prefixes on TypeScript/Java interfaces).
+  - Role-suffix accuracy and consistency across peer components (for example mixing
+    `*Controller`, `*Handler`, and `*Endpoints` on Minimal API static endpoint classes that do
+    not inherit from `ControllerBase`).
+- **Supporting artifacts and overall consistency**:
+  - Placement of application and environment configuration, build and dependency files, CI/CD
+    definitions, containerization, scripts, fixtures, templates, migrations, and generated
+    output - locatable, separated, and consistent with the build and deployment workflow.
+  - Absence of competing organizational models without justification, duplicate structures, or
+    ambiguous ownership of shared functionality.
+
+Cite the consulted authoritative naming and layout standards in `Auditing Methodology`, render
+the detailed component-by-component matrices in `Naming And Layout Conformance`, and include
+links to the authoritative sources in `References` so readers can retrieve the governing rules.
 
 ## Evidence To Look For
 
-| Signal                 | Where It Appears                                                         |
-|------------------------|--------------------------------------------------------------------------|
-| Tree census            | `git ls-files` grouping by top levels, depth and fan-out counts          |
-| Missing baseline files | Expected stack files (`LICENSE`, `README`, lockfile, CI config) absent   |
-| Registration drift     | Files on disk missing from manifests, index files, or build definitions  |
-| Naming census          | Equivalent directories or files named by competing patterns              |
-| Catch-all directories  | `util`, `common`, `misc` directories holding unrelated responsibilities  |
-| Misplaced artifacts    | Tests beside source, generated code under source roots, config scattered |
-| Structural duplication | Parallel directory trees serving no distinct purpose                     |
+| Signal                 | Where It Appears                                                                |
+|------------------------|---------------------------------------------------------------------------------|
+| Tree census            | `git ls-files` grouping by top levels, depth and fan-out counts                 |
+| Component role map     | Manifests, entry points, and exported surfaces per component (`src/*`, `tests`) |
+| Directory naming drift | Truncated folder names (`App`, `Config`, `Auth`), mixed singular/plural folders |
+| Multi-type files       | Single `.cs`/`.java`/`.php` files declaring multiple public top-level types     |
+| In-code naming census  | Type, interface, method, field, parameter, constant, and enum-member patterns   |
+| Ported-idiom holdovers | Foreign prefixes/suffixes (`psNew`, `ValueI`, `IOrderRepo` in TS/Java)          |
+| Missing baseline files | Expected stack files (`LICENSE`, `README`, lockfile, CI config) absent          |
+| Registration drift     | Files on disk missing from manifests, index files, or build definitions         |
+| Catch-all directories  | `util`, `common`, `misc` directories or classes holding unrelated logic         |
+| Misplaced artifacts    | Tests beside source, generated code under source roots, config scattered        |
+| Structural duplication | Parallel directory trees serving no distinct purpose                            |
 
 Count what the census counts and record the method beside the figure, per
 `references/census-commands.md`, so a re-audit reproduces the number.

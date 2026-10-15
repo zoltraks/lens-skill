@@ -38,10 +38,21 @@ TSConfig reference (https://www.typescriptlang.org/tsconfig).
 - `verbatimModuleSyntax` or `importsNotUsedAsValues` discipline matters for bundlers that
   erase imports. Type-only imports should use `import type` when the toolchain erases.
 
-## Lint Tiers
+## Lint Tiers, Naming, And Layout
 
-From https://typescript-eslint.io/rules/.
+From https://typescript-eslint.io/rules/ and
+https://typescript-eslint.io/rules/naming-convention/.
 
+- Naming and file layout: module files use `kebab-case.ts` (`order-repository.ts`,
+  `in-memory-order-repository.ts`, `order-service.ts`), test files use `*.test.ts` or
+  `*.spec.ts`, classes, interfaces, type aliases, and enums use `PascalCase` without a
+  C#-style `I` prefix on interfaces (`OrderRepository`, not `IOrderRepository`), functions,
+  methods, parameters, and properties use `camelCase`, and module-level constants or Zod
+  schemas use `UPPER_SNAKE_CASE` or `PascalCase`.
+- Code division: services split `src/server.ts` (listener) from `src/app.ts` (`buildApp`
+  factory), keep repository interfaces (`order-repository.ts`) separate from concrete adapters
+  (`in-memory-order-repository.ts`), and under `moduleResolution: "NodeNext"` write `.js`
+  extensions on relative imports inside `.ts` files.
 - The `recommended` tier is the floor. `recommended-type-checked` adds rules that need type
   information and catches `any` leaks, floating promises, and unsafe assignments.
 - Key checkable rules: `no-floating-promises`, `no-misused-promises`,

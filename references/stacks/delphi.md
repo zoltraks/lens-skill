@@ -1,32 +1,50 @@
-# Delphi And Object Pascal Baseline
+# Delphi, Free Pascal, And Object Pascal Baseline
 
 ## Purpose
 
-> **Scope:** Checkable constraints for Delphi/Object Pascal projects
-> **Key items:** naming and layout conventions, memory-management model, project file
-> structure, restricted-source handling
+> **Scope:** Checkable constraints for Delphi and Free Pascal (Object Pascal) projects
+> **Key items:** naming and layout conventions, Free Pascal vs Delphi unit naming,
+> memory-management model, project file structure, restricted-source handling
 
-This file distills the Delphi style guide and DocWiki anchors listed in
-`references/source-catalog.md` into constraints an audit can verify from repository source.
+This file distills the Embarcadero Object Pascal style guide, Free Pascal reference guide, and
+DocWiki anchors listed in `references/source-catalog.md` into constraints an audit can verify
+from repository source.
 
 Snapshot date: 2026-09-30.
 
 The DocWiki index (docwiki.embarcadero.com) was unreachable at snapshot time.
 
 This file keeps
-the stable conventions distilled from the Embarcadero style guide and ecosystem practice.
+the stable conventions distilled from the Embarcadero style guide, Free Pascal documentation,
+and ecosystem practice.
 
-Feeds `assessment/best-practices.md`, `assessment/code-quality.md`, and
-`assessment/baseline-conformance.md` for Delphi subjects.
+Feeds `assessment/best-practices.md`, `assessment/structure-review.md`,
+`assessment/code-quality.md`, and `assessment/baseline-conformance.md` for Object Pascal
+subjects.
 
-## Naming And Layout
+## Naming, Code Division, And Layout
 
-From https://edn.embarcadero.com/article/10280 (the classic Object Pascal style guide).
+From https://edn.embarcadero.com/article/10280 (the classic Object Pascal style guide) and
+https://www.freepascal.org/docs-html/ref/ref.html.
 
-- Type names are `T`-prefixed (`TCustomer`, `TForm1`), exception classes `E`-prefixed,
-  interfaces `I`-prefixed, fields `F`-prefixed.
-- Units are PascalCase and map to `.pas` files. The `uses` clause order
-  (interface/implementation) is the readability convention.
+- Type and member prefixes: classes, records, and enums are `T`-prefixed (`TOrder`,
+  `TOrderStatus`, `TOrderService`), exception classes `E`-prefixed (`EOrderNotFound`),
+  reference-counted interfaces `I`-prefixed (`IOrderRepository`), private class fields
+  `F`-prefixed (`FOrders`, `FRepository`), parameters `A`-prefixed (`ACustomerEmail`), and enum
+  values prefixed with lowercase type initials (`osPending`, `osPaid`, `osCancelled`).
+- Method naming: methods and functions use `PascalCase`. Because `Create` is the standard
+  constructor name on `TObject`, domain creation methods on services use a qualified name such
+  as `CreateOrder` rather than shadowing `Create`.
+- Delphi versus Free Pascal unit layout:
+  - **Delphi 11/12** uses dotted `PascalCase` unit filenames (`src/OrderApp.Domain.Order.pas`,
+    `src/OrderApp.Services.OrderService.pas`) paired with `.dpr` and `.dproj` project files and
+    `tests/*.Tests.*.pas` DUnitX fixtures.
+  - **Free Pascal 3.2+** uses lowercase unit filenames matching the `unit` identifier
+    (`src/orderdomain.pas`, `src/orderservice.pas`, `{$mode objfpc}{$H+}`) paired with `.lpr`
+    (and optional Lazarus `.lpi`) project files and `tests/test*.pas` `fpcunit` runners.
+- Each unit strictly divides public declarations in the `interface` section from private
+  helpers and bodies in `implementation`, keeping `uses` clauses scoped to the section that
+  needs them.
 - Indentation is two spaces, `begin`/`end` aligned, `procedure`/`function` signatures
   capitalized per convention.
 - `.dpr` (project) and `.dproj` (MSBuild XML) files carry build configuration. `.dfm`/` .fmx`

@@ -270,20 +270,27 @@ def audit_project_body(project: str) -> list[str]:
             parts.append(table("| Dimension | Score | Notes |", "|---|---|---|"))
         elif section == "Structure Review":
             parts.append(
-                "<context line - stack, application type, architectural approach, "
+                "<context line - stack, component roles, architectural approach, "
                 "scale signal>\n\n"
             )
             parts.append("<structural overview - existing directory, file, and component organization>\n\n")
             parts.append(
                 table(
+                    "| Level | Directory | Contents | Role |",
+                    "|---|---|---|---|",
+                    ["| `1` | `<dir>` | <contents> | <component role> |\n"],
+                )
+            )
+            parts.append(
+                table(
                     "| Area | Verdict | Basis |",
                     "|---|---|---|",
                     [
-                        "| Directory organization | <verdict> | <convention tier> |\n",
-                        "| Naming conventions | <verdict> | <basis> |\n",
-                        "| Component placement | <verdict> | <basis> |\n",
-                        "| Supporting-artifact layout | <verdict> | <basis> |\n",
-                        "| Consistency | <verdict> | <basis> |\n",
+                        "| Directory organization | PASS | <convention tier> |\n",
+                        "| Naming conventions | PASS | <basis> |\n",
+                        "| Component placement | PASS | <basis> |\n",
+                        "| Supporting-artifact layout | PASS | <basis> |\n",
+                        "| Consistency | PASS | <basis> |\n",
                     ],
                 )
             )
