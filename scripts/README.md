@@ -33,7 +33,7 @@ body links, run `link-references.py` to link register identifiers (`EVD`, `FND`,
 `TDR`, `PAR`) to their definitions, run `format-table.py`, then `validate-report.py`,
 repeating until the validator reports zero issues.
 
-`finalize-report.py` runs that cycle's three steps in one command when copied alongside them
+`finalize-report.py` runs that cycle's four steps in one command when copied alongside them
 under a `.tmp.` name, locating its siblings by filename.
 
 When the copies are absent, pass
@@ -300,7 +300,7 @@ scripts - run them with `python -m unittest discover -s tests` after changing a 
 
 ## Commands
 
-```text
+```
 python scripts/validate-skill.py .
 python scripts/check-references.py .
 python scripts/check-contents.py .

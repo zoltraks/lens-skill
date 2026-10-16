@@ -21,12 +21,12 @@ Two audits of similar systems should produce reports of similar shape, vocabular
 | Tone And Register              | 31   | Neutral, precise report voice    |
 | Structure Preferences          | 45   | Tables over paragraphs, ordering |
 | Fixed Vocabularies             | 77   | Status and severity word lists   |
-| Consistency Rules              | 151  | Same input, same output shape    |
-| Plain-Text Friendly Formatting | 167  | Terminal and diff readability    |
-| Multilingual Output            | 270  | Non-English report rendering     |
-| Information Security In Output | 406  | Redaction and disclosure limits  |
-| Report Termination             | 421  | End-of-report rules              |
-| Determinism                    | 430  | Repeatability guarantees         |
+| Consistency Rules              | 152  | Same input, same output shape    |
+| Plain-Text Friendly Formatting | 168  | Terminal and diff readability    |
+| Multilingual Output            | 272  | Non-English report rendering     |
+| Information Security In Output | 409  | Redaction and disclosure limits  |
+| Report Termination             | 424  | End-of-report rules              |
+| Determinism                    | 433  | Repeatability guarantees         |
 
 ## Tone And Register
 
@@ -128,12 +128,13 @@ classification columns in every report language.
 `* **Field:**` bullet values and running prose keep natural casing - the uppercase token form
 belongs to token columns and token-definition tables only.
 
-**Machine tokens**: Keep status markers, validation results, execution states, evidence IDs,
-finding IDs, risk IDs, recommendation IDs, debt IDs, CWE IDs, CVSS vectors, OWASP IDs,
-and tool commands unchanged in every report language.
+**Machine tokens**: Keep record and classification identifiers (`EVD-001`, `FND-XXX`, `RSK-XXX`,
+`REC-XXX`, `TDR-XXX`, `PAR-NN`, `P1`-`P4`, CWE IDs, CVSS vectors, OWASP IDs) and tool commands
+unchanged in every report language.
 
-Translate surrounding labels and explanatory prose,
-not the tokens used for comparison or validation.
+Status markers, severities, validation results, execution states, and missing-information tokens
+keep their English forms by default and render in the localized forms defined by the matching
+`translations/` file when the report language is not English.
 
 Maturity levels:
 
@@ -143,8 +144,8 @@ Maturity levels:
 - `Production-ready`
 - `Undetermined`
 
-Score scale: integers `1` to `10` by default, with an optional `1` to `5` scale,
-defined in `synthesis/project-scorecard.md`.
+Score scale: integers `1` to `10` by default, with optional `1-5`, `1-3`, `5 stars`, and
+`3 stars` scales, defined in `synthesis/project-scorecard.md`.
 
 The value `0` is reserved and never used as a score.
 
@@ -253,7 +254,8 @@ diagrams.
 If a diagram already uses box-drawing characters, keep them.
 
 Node-and-edge diagrams the report draws - the Data Flow Diagram and any architecture sketch -
-follow the frame and connector geometry rules in `process/report-format/architectural-assessment.md`.
+follow the frame and connector geometry rules in
+`process/report-format/architectural-assessment.md`.
 
 Do not replace box-drawing characters with "+", "-", or "`".
 
@@ -346,8 +348,8 @@ table headers, style rules, and any language-specific encoding or diacritics req
 - All table column headers (e.g., "Layer", "Technology", "Category", "Status", "Risks", "Notes",
   "Dimension", "Score")
 - All finding pillar names in the Detailed Technical Findings summary table (e.g., "Architecture &
-  Design", "Code Quality", "Security & Compliance", "Infrastructure & CI/CD", "AI Provenance & Code
-  Origin", "Copyrights & Originality")
+  Design", "Structure & Organization", "Code Quality", "Security & Compliance", "Infrastructure &
+  CI/CD", "AI Provenance & Code Origin", "Copyrights & Originality")
 - All dimension names in the Scorecard Summary (e.g., "Testability", "Design Soundness", "Code
   Quality")
 - All risk names in the Unified Risk Register
@@ -359,9 +361,10 @@ table headers, style rules, and any language-specific encoding or diacritics req
   level, evaluation scale names, readiness states, and audit-purpose values, rendered per the
   matching `translations/` file
 
-**What stays in English (fixed vocabularies):**
+**What stays unchanged across languages:**
 
-- Missing-information tokens: `UNKNOWN`, `NOT SPECIFIED`, `INSUFFICIENT INFORMATION`
+- Record and classification identifiers (`EVD-001`, `FND-XXX`, `RSK-XXX`, `REC-XXX`, `TDR-XXX`,
+  `PAR-NN`, `P1`-`P4`, CWE IDs, CVSS vectors, OWASP IDs)
 - File paths, config keys, commands, code snippets, and direct quotes from the input
 
 **Status, severity, and score format:**

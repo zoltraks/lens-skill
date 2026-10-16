@@ -81,6 +81,24 @@ class TestCheckContents(unittest.TestCase):
         out = self.checker.fix_rows(lines, rows, headings, contents_at)
         self.assertIn("| Grouped Area | 9    |", out)
 
+    def test_fix_preserves_line_endings(self):
+        doc = (
+            "# Doc\n\n## Contents\n\n"
+            "| Section | Line |\n|---|---|\n"
+            "| Alpha | 3    |\n\n"
+            "## Alpha\n"
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            crlf_file = root / "crlf.md"
+            lf_file = root / "lf.md"
+            crlf_file.write_bytes(doc.replace("\n", "\r\n").encode("utf-8"))
+            lf_file.write_bytes(doc.encode("utf-8"))
+            self.assertEqual(self.checker.check_file(crlf_file, root, fix=True), [])
+            self.assertEqual(self.checker.check_file(lf_file, root, fix=True), [])
+            self.assertIn(b"\r\n", crlf_file.read_bytes())
+            self.assertNotIn(b"\r\n", lf_file.read_bytes())
+
 
 class TestScanStandards(unittest.TestCase):
     def setUp(self):

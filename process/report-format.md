@@ -39,12 +39,12 @@ A present-but-empty section signals a gap, a missing section hides it.
 | Section                                     | Line | What it covers                              |
 |---------------------------------------------|------|---------------------------------------------|
 | Formatting Rules                            | 49   | Formatting Rules guidance                   |
-| Report Delivery And Parameter Configuration | 355  | Report delivery and output configuration    |
-| Detail Level Configuration                  | 411  | Standard, detailed, and brief reports       |
+| Report Delivery And Parameter Configuration | 354  | Report delivery and output configuration    |
+| Detail Level Configuration                  | 410  | Standard, detailed, and brief reports       |
 | Conditional Sections                        | 506  | Inclusion criteria for conditional sections |
 | Section Order                               | 564  | Single-project and multi-project order      |
-| Specification Files                         | 662  | Per-section specification file index        |
-| Pre-Delivery Mechanical Checklist           | 694  | Final mechanical checks                     |
+| Specification Files                         | 664  | Per-section specification file index        |
+| Pre-Delivery Mechanical Checklist           | 696  | Final mechanical checks                     |
 
 ## Formatting Rules
 
@@ -346,7 +346,6 @@ whose first cell carries the identifier.
 Cite every register identifier individually - never render an identifier range such as
 `RSK-007..RSK-014` or `FND-SEC-001..004` - list each identifier as its own link or cell entry.
 
-
 Fenced code, inline code, existing links, and URLs are exempt.
 
 Apply the pass with `scripts/link-references.py`, never by hand - it derives anchors from
@@ -449,8 +448,9 @@ In addition, any conditional sections whose criteria are met are included in ful
 
 See the Conditional Sections rule below for the inclusion criteria of the Data Flow Diagram,
 Design Patterns, Architecture Decision Records, Threat Model, API Contract Conformance,
-Skill Definition Conformance, Agent Guidance Conformance, Standards Conformance,
-Engineering Baseline Conformance, Technical Debt Register, and Re-audit And Follow-up Plan.
+Skill Definition Conformance, Agent Guidance Conformance, AI System Assessment, Standards
+Conformance, Engineering Baseline Conformance, Naming And Layout Conformance, API Compatibility
+& Versioning Discipline, Technical Debt Register, and Re-audit And Follow-up Plan.
 
 **Detailed**
 
@@ -641,8 +641,10 @@ In summary:
   - API Contract Conformance *(conditional)*
   - Skill Definition Conformance *(conditional)*
   - Agent Guidance Conformance *(conditional)*
+  - AI System Assessment *(conditional)*
   - Standards Conformance *(conditional)*
   - Engineering Baseline Conformance *(conditional)*
+  - Naming And Layout Conformance *(conditional)*
   - API Compatibility & Versioning Discipline *(conditional)*
   - Strengths & What's Working
   - Detailed Technical Findings

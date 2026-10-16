@@ -306,9 +306,9 @@ def audit_project_body(project: str) -> list[str]:
     parts.append(heading(level, "Actionable Remediation Roadmap"))
     parts.append(
         table(
-            "| Rec | Priority | Finding | Recommendation | Impact | Effort | Complexity | Verification |",
-            "|---|---|---|---|---|---|---|---|",
-            ["| REC-001 | P1 | FND-SEC-001 | <recommendation> | <impact> | <effort> | <complexity> | <verification step> |\n"],
+            "| Rec | Priority | Finding | Recommendation | Impact | Effort | Complexity | Breaking | Verification |",
+            "|---|---|---|---|---|---|---|---|---|",
+            ["| REC-001 | P1 | FND-SEC-001 | <recommendation> | <impact> | <effort> | <complexity> | None | <verification step> |\n"],
         )
     )
     parts.append(REC_BLOCK.format(suffix=suffix, target=qualified(project)) + "\n")
@@ -506,9 +506,11 @@ def review_skeleton(projects: list[str], params: dict) -> str:
         "Evidence ledger:\n\n",
         ledger_table(multi),
         heading(2, "Execution Register"),
-        "One row per check. `Result` is PASS, FAIL, ERROR, BLOCKED, SKIPPED, NOT RUN, "
-        "or N/A - `ERROR`/`BLOCKED` are runner states, never product failures, and "
-        "`NOT RUN` is never a pass. Every non-PASS row states its Interpretation.\n\n",
+        "One row per check.\n\n"
+        "`Result` is PASS, FAIL, ERROR, BLOCKED, SKIPPED, NOT RUN, or N/A - "
+        "`ERROR`/`BLOCKED` are runner states, never product failures, and "
+        "`NOT RUN` is never a pass.\n\n"
+        "Every non-PASS row states its Interpretation.\n\n",
         table(
             "| Check | Command | Cwd | Tool & Version | Timestamp | Input revision | Exit status | Result | Interpretation | Artifact |",
             "|---|---|---|---|---|---|---|---|---|---|",
@@ -687,6 +689,9 @@ def main(argv: list[str]) -> int:
     if options["output"]:
         target = Path(options["output"])
         target.write_text(body, encoding="utf-8")
+        linker = find_tool("link-references")
+        if linker is not None:
+            subprocess.run([sys.executable, str(linker), str(target)], check=False)
         formatter = find_tool("format-table")
         if formatter is not None:
             subprocess.run([sys.executable, str(formatter), str(target)], check=False)

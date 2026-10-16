@@ -112,6 +112,6 @@ Do not double-count a security remediation as both risk work and structural debt
 
 ## Example Row
 
-```text
+```
 | TDR-001 | Unused code | Maintainability | FND-CQY-002 | INSUFFICIENT INFORMATION | INSUFFICIENT INFORMATION | OPEN |
 ```

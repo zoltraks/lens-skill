@@ -10,7 +10,7 @@
 | Section              | Line | What it covers                             |
 |----------------------|------|--------------------------------------------|
 | Auditing Methodology | 15   | Method, standards, criteria matrix, ledger |
-| Scoring Rubrics      | 260  | Score bands, grouping, ISO crosswalk       |
+| Scoring Rubrics      | 263  | Score bands, grouping, ISO crosswalk       |
 
 ## Auditing Methodology
 
@@ -23,15 +23,18 @@ The earlier dashboard is a summary, its scores refer to the methodology and rubr
 When the report language is not English, apply the heading translation from the matching
 `translations/` file.
 
-State that the audit uses evidence-based reasoning across 18 core assessment categories grouped into
-six pillars, plus conditional assessments (data flow, design patterns, threat model, API contract,
-skill definition, standards conformance) applied when the subject warrants them,
+State that the audit uses evidence-based reasoning across 19 core assessment categories grouped into
+seven pillars, plus conditional assessments (data flow, design patterns, threat model, API contract,
+skill definition, agent guidance, AI system, standards conformance, engineering baseline, naming and
+layout) applied when the subject warrants them,
 and the conditional API Compatibility & Versioning Discipline pillar for libraries and packages.
 
 List the pillars:
 
 - **Architecture & Design** - Design principles, maintainability, change management, documentation,
   non-functional requirements
+- **Structure & Organization** - Directory layout, file placement, naming conventions, component
+  boundaries, supporting artifacts
 - **Code Quality** - Testing, code quality, stack best practices
 - **Security & Compliance** - Security, compliance and data protection
 - **Infrastructure & CI/CD** - Dependencies, deployment, rollback, observability, error handling,

@@ -156,11 +156,11 @@ Clippy covers correctness and style, not vulnerability classes.
 
 Adjacent tooling addresses different scopes.
 
-| CWE class               | Closest Mechanism                                                    |
-|-------------------------|----------------------------------------------------------------------|
-| Memory safety, UB       | `#![forbid(unsafe_code)]`, `cargo-geiger` unsafe census, Miri for UB |
-| Known vulnerabilities   | `cargo audit` against [RustSec](https://rustsec.org/) advisories     |
-| Supply-chain policy     | `cargo deny` license and advisory checks                             |
+| CWE class                        | Closest Mechanism                                                    |
+|----------------------------------|----------------------------------------------------------------------|
+| Memory safety, UB                | `#![forbid(unsafe_code)]`, `cargo-geiger` unsafe census, Miri for UB |
+| Known vulnerabilities            | `cargo audit` against [RustSec](https://rustsec.org/) advisories     |
+| Supply-chain policy              | `cargo deny` license and advisory checks                             |
 | Other CWEs (CWE-327 and similar) | None direct, assess manually                                         |
 
 ## C / C++

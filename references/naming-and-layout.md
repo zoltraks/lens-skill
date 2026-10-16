@@ -24,11 +24,11 @@ Snapshot date: 2026-10-12.
 | Section                            | Line | What it covers                                              |
 |------------------------------------|------|-------------------------------------------------------------|
 | Component-Purpose Layout Rules     | 33   | How libraries, services, apps, CLIs, and docs differ        |
-| Directory Naming Principles        | 74   | Full-word discipline, singular/plural, and catch-all bans   |
-| Cross-Language Naming Matrices     | 101  | File, package, type, member, variable, and test conventions |
-| Language-Idiomatic Code Division   | 151  | Type-to-file rules, interfaces, abstracts, and DI wiring    |
-| Canonical Stack Fixtures           | 202  | Reference layouts and idioms across 11 languages/stacks     |
-| Fallback For Unlisted Technologies | 659  | Auditing languages, frameworks, and docs not in the tables  |
+| Directory Naming Principles        | 75   | Full-word discipline, singular/plural, and catch-all bans   |
+| Cross-Language Naming Matrices     | 102  | File, package, type, member, variable, and test conventions |
+| Language-Idiomatic Code Division   | 152  | Type-to-file rules, interfaces, abstracts, and DI wiring    |
+| Canonical Stack Fixtures           | 203  | Reference layouts and idioms across 11 languages/stacks     |
+| Fallback For Unlisted Technologies | 660  | Auditing languages, frameworks, and docs not in the tables  |
 
 ## Component-Purpose Layout Rules
 
@@ -66,10 +66,11 @@ Component-specific evaluation rules:
 - **Test suites** must mirror the component boundaries they verify and use the stack's
   discovery-compatible file naming (`test_*.py`, `*Test.java`, `*Tests.cs`, `*_test.go`,
   `*.test.ts`, `*Test.php`, `*_test.cpp`).
-- **Documentation projects** and `docs/` trees are audited against `references/topics/markdown-standards.md`
-  and `assessment/agent-guidance.md`: lowercase `kebab-case.md` topic files, uppercase root
-  governance files (`README.md`, `AGENTS.md`, `LICENSE`, `CHANGELOG.md`, `CONTRIBUTING.md`),
-  and clear separation between reference specs, how-to guides, and architecture decisions.
+- **Documentation projects** and `docs/` trees are audited against
+  `references/topics/markdown-standards.md` and `assessment/agent-guidance.md`: lowercase
+  `kebab-case.md` topic files, uppercase root governance files (`README.md`, `AGENTS.md`,
+  `LICENSE`, `CHANGELOG.md`, `CONTRIBUTING.md`), and clear separation between reference specs,
+  how-to guides, and architecture decisions.
 
 ## Directory Naming Principles
 

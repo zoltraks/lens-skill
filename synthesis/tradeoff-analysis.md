@@ -99,6 +99,6 @@ and when no trade-off qualifies it carries a single `N/A` row with a one-line ju
 
 ## Example
 
-```text
+```
 | In-memory vs external store | Single-instance prototype, no stated scale | Simplicity / no horizontal scaling | Scaling / added operational surface | State held in process variables, no datastore config | Simpler design fits the stated context, scaling later needs rework |
 ```

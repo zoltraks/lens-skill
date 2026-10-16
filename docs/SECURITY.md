@@ -29,7 +29,8 @@ Reports are welcome for:
 ## Accepted Posture
 
 The skill-update path deliberately relies on HTTPS transport, a clean-tree gate, `ff-only`
-pulls, and explicit user confirmation rather than signed commits or tags.
+pulls, and explicit user confirmation (or an explicit automated-run request) rather than signed
+commits or tags.
 
 Commit-hash pinning per `VERSIONING.md` is the documented integrity anchor consumers verify
 against.
@@ -40,7 +41,8 @@ This posture is a standing accepted decision, revisited at each audit.
 
 The current release line declared in `SKILL.md` `metadata.version` receives fixes.
 
-Older releases are not maintained - update to the latest tag before reporting.
+Older releases are not maintained - update to the latest release commit on `main` before
+reporting.
 
 ## What To Expect
 

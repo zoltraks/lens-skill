@@ -1670,8 +1670,11 @@ def check_references_section(text: str) -> list[str]:
     end = re.search(r"^##\s+", block, re.MULTILINE)
     if end:
         block = block[: end.start()]
-    if not re.search(r"\]\(https?://", block) and not re.search(
-        r"No external sources consulted|No public URL", block
+    is_draft = bool(re.search(r"\|\s*State\s*\|\s*Draft\b", text))
+    if (
+        not re.search(r"\]\(https?://", block)
+        and not re.search(r"No external sources consulted|No public URL", block)
+        and not (is_draft and re.search(r"\]\(<url>\)", block))
     ):
         failures.append(
             "References section carries no external link or declared absence - "
@@ -1898,7 +1901,7 @@ def check_executive_summary(text: str) -> list[str]:
         level_value = fields.get("Maturity level", "")
         if level_value:
             clean = cell_text(level_value).strip().strip("`")
-            if clean not in MATURITY_LEVELS:
+            if not clean.startswith("<") and clean not in MATURITY_LEVELS:
                 failures.append(
                     f"Maturity level '{level_value}' is not one of "
                     f"{'/'.join(MATURITY_LEVELS)}"
@@ -2861,8 +2864,9 @@ def report_contract() -> dict:
             "a model reproduction never upgrades app-level reachability",
             "Executed Evidence Log and Execution Register Result cells take the "
             "check-status vocabulary",
-            "table column widths count only the link text of [text](target) "
-            "and ![alt](src) markup - the markup itself is not measured",
+            "table column widths count the full [text](target) and "
+            "![alt](src) markup in source text - brackets, text, and target "
+            "together",
         ],
     }
 

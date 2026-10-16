@@ -185,15 +185,9 @@ def parse_glossary(
         (i for i in range(heading_at + 1, len(lines)) if re.match(r"^##\s+\S", lines[i])),
         len(lines),
     )
-    sub_slugs: dict[str, str] = {}
     table: list[str] = []
     for i in range(heading_at + 1, end):
         line = lines[i]
-        m = re.match(r"^###\s+(.+?)\s*$", line)
-        if m:
-            term = re.split(r"\s*\(", m.group(1), 1)[0].strip()
-            sub_slugs[term] = slugify(m.group(1))
-            break
         if line.startswith("|"):
             table.append(line)
         elif table:

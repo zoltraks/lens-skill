@@ -1524,6 +1524,27 @@
     "No parameter questions are asked, and every unstated parameter takes its resolved default.",
     "The Brief report omits the Recommendation Classification section and records the omission in Scope Exclusions."
    ]
+  },
+  {
+   "id": 128,
+   "prompt": "A report draft places a paragraph immediately above a table with no blank line and a `**Label**` line immediately below the last `|` row. Run the prose linter and report validator.",
+   "expected_output": "Both `lint-prose.py` and `validate-report.py` flag the missing blank lines around the table.",
+   "files": [],
+   "expectations": [
+    "`lint-prose.py` flags every table row that touches a non-table line without an intervening blank line.",
+    "`validate-report.py` fails the `tables` check with `table is not preceded by a blank line` and `table is not followed by a blank line`.",
+    "Leaving one blank line before the first `|` row and after the last `|` row clears both checks."
+   ]
+  },
+  {
+   "id": 129,
+   "prompt": "A report draft contains a line `* **Done when:** ** The migration completes without data loss.` with an extra `**` marker. Run the prose linter and report validator.",
+   "expected_output": "Both `lint-prose.py` and `validate-report.py` fail on the unbalanced `**` marker.",
+   "files": [],
+   "expectations": [
+    "`lint-prose.py` and `validate-report.py` (`bold markers` check) report the line carrying an odd number of `**` markers outside code spans.",
+    "`**` occurrences inside inline code spans and fenced code blocks are ignored and do not trigger the check."
+   ]
   }
  ]
 }

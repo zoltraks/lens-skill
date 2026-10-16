@@ -195,6 +195,7 @@ Anchor every claim to a `FND-XXX`, `RSK-XXX`, or `EVD-XXX` in the current report
 
 - New findings keep their assigned `FND-XXX` IDs and appear as `NEW` in the transition table.
 - Mark a comparison element `UNKNOWN` when the previous report cannot supply it, do not guess.
-- For multi-project reports, place this section inside each project block and qualify every
-  identifier with the project identifier.
+- For multi-project reports, place the combined section after the condensed combined Executive
+  Summary, give each compared project its own level-3 subsection, and qualify every identifier
+  with the project identifier.
 - Do not include plaintext secrets, passwords, or cryptographic keys in comparison text.

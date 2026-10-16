@@ -1782,7 +1782,7 @@ Produce the report in this order so each mechanical pass is effective:
 3. Run `scripts/link-references.py` to link every register-identifier reference to its
    definition or register section.
 4. Run `scripts/format-table.py` once content is stable, so table alignment is computed once -
-   it pads by link display text, never markup.
+   it measures the full source cell, link markup included.
 5. Run `scripts/validate-report.py` and fix whole issue classes per run, not one problem at a time.
 6. Re-run the linking passes and formatter whenever report prose changes, then re-validate.
 
@@ -2117,7 +2117,8 @@ run a single Synthesis phase that combines all projects into one report:
 
 1. For each project, run Scope Definition, Evidence Gathering, Category Assessment, and per-project
    Validation.
-2. After all projects are assessed, build the combined report per `process/report-format/multi-project.md`.
+2. After all projects are assessed, build the combined report per
+   `process/report-format/multi-project.md`.
 3. Each project gets its own complete set of sections: Executive Summary, System Context (with the
    Technology Stack subsection), Health Dashboard, High-Level Observations, Auditing Methodology,
    Scoring Rubrics, Architectural Assessment, Trade-off Analysis, conditional sections, Strengths,

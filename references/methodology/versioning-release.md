@@ -44,7 +44,7 @@ From https://keepachangelog.com/en/1.1.0/ (bare URLs are folded into this row).
 
 From https://www.conventionalcommits.org/en/v1.0.0/.
 
-- `type(scope): description` where type is `feat`/`fix`/etc.. `feat!:`/`fix!:` or a
+- `type(scope): description` where type is `feat`/`fix`/etc. - `feat!:`/`fix!:` or a
   `BREAKING CHANGE:` footer marks breaking changes.
 - Adoption is all-or-nothing hygiene: a history mixing conventional and free-form messages
   weakens release automation. The audit records the dominant pattern.
@@ -53,7 +53,7 @@ From https://www.conventionalcommits.org/en/v1.0.0/.
 
 From https://docs.npmjs.com/about-semantic-versioning.
 
-- `^` keeps the left-most non-zero component (`^1.2.3` -> `>=1.2.3 <2.0.0`. `^0.2.3` -> 
+- `^` keeps the left-most non-zero component (`^1.2.3` -> `>=1.2.3 <2.0.0`, `^0.2.3` ->
   `>=0.2.3 <0.3.0`). `~` keeps minor (`~1.2.3` -> `>=1.2.3 <1.3.0`).
 - Exact pins (`1.2.3`, no operator) freeze the dependency. Ranges (`*`, `>=`, `latest`)
   create unpinned drift - flag them in lockfile-absent libraries.

@@ -39,12 +39,12 @@ Feeds `assessment/deployment-review.md` and the delivery surface of self-hosted 
 
 ## Transfer Patterns
 
-- `scp -r` and `rsync -avz` over SSH are the common shapes.`rsync --delete` without a
+- `scp -r` and `rsync -avz` over SSH are the common shapes. `rsync --delete` without a
   staging confirmation can remove the live tree - its use belongs behind a reviewed script,
   not an ad-hoc command.
 - Transfers that pipe archives (`tar | ssh host tar -x`) skip integrity verification of the
   received tree. A checksum or signature step after transfer is the checkable hardening.
-- `curl | ssh host bash` / `wget -O- | ssh` combines unsigned fetch with remote execution - 
+- `curl | ssh host bash` / `wget -O- | ssh` combines unsigned fetch with remote execution -
   see `references/topics/git-integrity.md` CWE-494.
 
 ## SSH Agent And Config Surface
@@ -52,7 +52,7 @@ Feeds `assessment/deployment-review.md` and the delivery surface of self-hosted 
 - `ForwardAgent yes` in committed `.ssh/config` or deploy scripts exposes the agent socket
   to the remote host. Acceptable for jump hosts, a finding for direct deploy targets.
 - Deploy users should be least-privilege: a dedicated user with write access only to the
-  deployment path.`ssh root@` in scripts is an observation escalating with context.
+  deployment path. `ssh root@` in scripts is an observation escalating with context.
 - `PermitRootLogin`, `PasswordAuthentication`, and port settings in committed
   `sshd_config`/Ansible playbooks are auditable deployment posture.
 - Bastion/jump patterns (`-J`, `ProxyJump`) declare the network path. Undocumented jump

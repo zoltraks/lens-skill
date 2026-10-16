@@ -79,13 +79,13 @@ picked from an evidence-pattern range.
 
 Compute each dimension's point mastery over its resolved applicable criteria:
 
-```text
+```
 mastery = sum(weight_i * mastery_i) / sum(weight_i)
 ```
 
 Map mastery to the selected scale's integer score:
 
-```text
+```
 score = max(1, round(mastery * scale_max))
 ```
 

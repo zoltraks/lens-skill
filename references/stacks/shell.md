@@ -55,7 +55,8 @@ From https://github.com/PSScriptAnalyzer (MIT-licensed rule set).
   functions are convention findings (PSUseApprovedVerbs).
 - `PSAvoidUsingWriteHost` (use `Write-Output`/`Write-Verbose`/`Write-Information`),
   `PSAvoidUsingPlainTextForPassword` (`SecureString`/`PSCredential` parameters),
-  `PSUsePSCredentialType`, `PSAvoidUsingInvokeExpression`, `PSAvoidUsingConvertToSecureStringWithPlainText`.
+  `PSUsePSCredentialType`, `PSAvoidUsingInvokeExpression`,
+  `PSAvoidUsingConvertToSecureStringWithPlainText`.
 - Error handling: `$ErrorActionPreference = 'Stop'` or per-cmdlet `-ErrorAction`, plus
   `try/catch` around terminating-risk calls.
 - Signed-script posture: `Set-ExecutionPolicy` weakening (`Bypass`/`Unrestricted` persisted)

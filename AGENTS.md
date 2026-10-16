@@ -66,7 +66,7 @@ Shipped skill files never depend on workspace content - temporary validation scr
 
 Run the skill-maintenance checklist from `docs/CONTRIBUTING.md` before proposing a change:
 
-```text
+```
 python scripts/validate-skill.py .
 python scripts/check-references.py .
 python scripts/check-contents.py .

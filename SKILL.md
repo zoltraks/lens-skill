@@ -23,7 +23,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.2.3"
+  version: "2.2.4"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -42,16 +42,16 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 | Trigger Keywords        | 86   | Activation phrases                                 |
 | How To Use              | 111  | Progressive disclosure and mandatory reading       |
 | Parameter Configuration | 131  | Defaults and user-controlled report shape          |
-| Principles              | 195  | Evaluation and output rules                        |
-| Process                 | 201  | Workflow, format, and parity                       |
-| Assessments             | 227  | Core and conditional assessment guides             |
-| Synthesis               | 269  | Findings, risk, score, and remediation assembly    |
-| Translations            | 285  | Per-language report translations                   |
-| References              | 294  | Lookup tables                                      |
-| Scripts                 | 320  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 343  | Behavioral regression prompts                      |
-| Repository Files        | 347  | Housekeeping files governing this repository       |
-| Evidence Contract       | 359  | Source-only boundaries and validation expectations |
+| Principles              | 194  | Evaluation and output rules                        |
+| Process                 | 200  | Workflow, format, and parity                       |
+| Assessments             | 226  | Core and conditional assessment guides             |
+| Synthesis               | 268  | Findings, risk, score, and remediation assembly    |
+| Translations            | 284  | Per-language report translations                   |
+| References              | 293  | Lookup tables                                      |
+| Scripts                 | 319  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 342  | Behavioral regression prompts                      |
+| Repository Files        | 346  | Housekeeping files governing this repository       |
+| Evidence Contract       | 358  | Source-only boundaries and validation expectations |
 | Navigation Rules        | 387  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
@@ -151,8 +151,8 @@ Defaults are:
 | Evidence mode           | `source-only` (default), `executed-readonly` analyzers, or `executed-commands` commissioned commands                                   |
 
 The agent MUST ask this question, MUST NOT skip it, and MUST wait for the user response
-before starting the audit. Core configuration covers unresolved delivery/output and
-report-shape choices - improvement suggestions and trade-off analysis apply the defaults
+before starting the audit - core configuration covers unresolved delivery/output and
+report-shape choices, while improvement suggestions and trade-off analysis apply the defaults
 unless explicitly requested otherwise and are not separate routine prompts.
 
 An automated, unattended, or non-interactive request suppresses every question surface per
@@ -161,16 +161,15 @@ writes without asking, and explicit parameter statements still win.
 
 Output location resolves under the audited root: `audit/` > `report/` > bare root across `docs/`,
 `document/`, `doc/` > repository root - a `report/` base descends into its style-matching `audit/`
-or `review/` subdirectory, and a dedicated `review/` or `reviews/` directory wins for a review
-report. A recorded version or date subdirectory pattern is reused.
+or `review/` subdirectory, a dedicated `review/` or `reviews/` directory wins for a review
+report, and a recorded version or date subdirectory pattern is reused.
 
 The output filename carries the report revision: `AUDIT-1.0.md` for a first audit or the
 language-specific revisioned name such as `AUDYT-1.0.md` - the bare filename is the audit-style
 alternative, while a first hunt or review takes the bare `HUNT.md`/`REVIEW.md` stem with
-`HUNT-1.0.md`/`REVIEW-1.0.md` revisioned. A previous report gives the incremented revision
-(`AUDIT-1.1.md`), is never overwritten, and a bare `<stem>.md` is renamed to its revisioned
-name first. The agent confirms with the user before writing - an automated run writes without
-asking.
+`HUNT-1.0.md`/`REVIEW-1.0.md` revisioned, a previous report gives the incremented revision
+(`AUDIT-1.1.md`) and is never overwritten, a bare `<stem>.md` is renamed to its revisioned
+name first, and the agent confirms with the user before writing unless the run is automated.
 
 If the user accepts defaults or says "bypass", the agent proceeds immediately.
 
@@ -178,9 +177,9 @@ If the user chooses to configure, the agent asks only the unresolved core parame
 defined in `process/audit-workflow.md`.
 
 Each prompt marks the default and ends with `Use default: <value>` and `Use defaults for all
-remaining questions`. When the request asks for parameters in JSON or another machine-readable
+remaining questions` - when the request asks for parameters in JSON or another machine-readable
 format, or names a diagnostic or verbose mode, apply `process/json-exchange.md` to every pending
-question surface. When the report language is not English, load the matching `translations/`
+question surface, and when the report language is not English, load the matching `translations/`
 file and apply every translation, style rule, and encoding requirement defined there.
 
 **Rerunning an audit**
@@ -214,7 +213,7 @@ The previous report is never overwritten - write the next revision-numbered file
 - **`process/report-format/report-analysis.md`** - Trade-off Analysis, Threat Model.
 - **`process/report-format/conditional-conformance.md`** - Conditional conformance sections.
 - **`process/report-format/findings-registers.md`** - Strengths, findings, debt, risk, roadmap.
-- **`process/report-format/report-closing.md`** - Exclusions, Limitations, Re-audit, Validation, References.
+- **`process/report-format/report-closing.md`** - Exclusions, Limitations, Validation, References.
 - **`process/report-format/hunt-style.md`** - `hunt` report style: verdict, domain register,
   journey traces, remediation phases.
 - **`process/report-format/review-style.md`** - `review` report style: execution register,
@@ -241,7 +240,7 @@ The previous report is never overwritten - write the next revision-numbered file
 - **`assessment/change-management.md`** - Feature flags, ADR usage, release governance.
 - **`assessment/documentation-review.md`** - Documentation coverage, onboarding, transfer.
 - **`assessment/nfr-review.md`** - Performance, scalability, availability, reliability, resilience.
-- **`assessment/security-review.md`** - Authentication, authorization, input validation, OWASP risks.
+- **`assessment/security-review.md`** - Authentication, authorization, input validation, OWASP.
 - **`assessment/compliance-review.md`** - Data protection, privacy, regulatory scope, licensing.
 - **`assessment/observability-review.md`** - Logging, metrics, tracing, alerting.
 - **`assessment/error-handling.md`** - Exception strategy, retries, fallbacks, user-facing errors.
@@ -319,23 +318,23 @@ type requires them.
 
 ## `scripts/` - Canonical Scripts
 
-They are report-production tooling, not analysis of the audited project. Run them from the
+They are report-production tooling, not analysis of the audited project - run them from the
 skill tree via `finalize-report.py --skill-root <path>`, or copy them into the audited
 repository's `work/` directory under a `.tmp.` name and remove the copies when done.
 
 - **`scripts/format-table.py`** / **`align-comments.py`** - Table formatter and `#`-comment aligner.
 - **`scripts/check-model.py`** - Audit-model checker (referential integrity, scoring recompute).
-- **`scripts/link-glossary.py`** - Glossary body-link inserter, run before the linker (`--lang pl`, `--check`).
+- **`scripts/link-glossary.py`** - Glossary body-link inserter (`--lang pl`, `--check`).
 - **`scripts/link-references.py`** - Register-identifier linker, run before the formatter.
-- **`scripts/validate-report.py`** - Mechanical report checker (English contract - non-English reports exit 2 with guidance), `--dump-contract` emits the contract.
-- **`scripts/new-report.py`** - Report skeleton generator (`--style`, `--scope`, `--projects`, `--params`).
+- **`scripts/validate-report.py`** - Mechanical report checker (`--dump-contract` emits JSON).
+- **`scripts/new-report.py`** - Report skeleton generator (`--style`, `--scope`, `--params`).
 - **`scripts/validate-skill.py`** - Frontmatter, disclosure, and references validator.
-- **`scripts/check-references.py`** / **`check-contents.py`** - Reference-integrity and Contents-drift checkers.
+- **`scripts/check-references.py`** / **`check-contents.py`** - Reference and Contents checkers.
 - **`scripts/check-update.py`** - Skill self-update checker (git upstream).
-- **`scripts/scan-standards.py`** / **`scan-structure.py`** - Standards-corpus manifest and audited-tree structure census.
+- **`scripts/scan-standards.py`** / **`scan-structure.py`** - Corpus manifest and tree census.
 - **`scripts/finalize-report.py`** - Runs link, format, and validate in order on a report.
-- **`scripts/lint-polish.py`** / **`lint-prose.py`** - Polish report calque linter and pre-assembly draft linter.
-- **`scripts/map-translation.py`** / **`check-translation.py`** - Translated-report gates: English-mapped copy for `validate-report.py` (`--rules`, `--en` parity) and Polish title/count/sentence checks.
+- **`scripts/lint-polish.py`** / **`lint-prose.py`** - Polish calque and draft prose linters.
+- **`scripts/map-translation.py`** / **`check-translation.py`** - Translated-report gates.
 - **`scripts/common-helpers.py`** - Shared frontmatter and reporting helpers for maintenance tools.
 - **`scripts/README.md`** - Tool classes, usage, validation order, limitations.
 - **`tests/`** - Focused `unittest` contract tests for the report and maintenance tools.
@@ -359,7 +358,7 @@ These files govern the skill repository itself rather than audit production:
 ## Evidence And Decision Contract
 
 Use the verification plan and evidence ledger in `process/audit-workflow.md` for every audit
-and every review. The audit never builds, tests, or executes the project - under the
+and every review - the audit never builds, tests, or executes the project, while under the
 `executed-readonly` evidence mode it may additionally run commissioned non-mutating analyzers,
 and under `executed-commands` commissioned non-mutating commands, recorded in the
 Executed Evidence Log.
@@ -368,21 +367,22 @@ All evidence comes from inspected repository contents: source, configuration, bu
 documentation, and committed artifacts.
 
 Record documented but unrun checks and their effect on confidence rather than treating a
-source-only review as verified production readiness. Keep evidence basis, confidence, category
-status, vulnerability severity, and business risk distinct.
+source-only review as verified production readiness, keeping evidence basis, confidence,
+category status, vulnerability severity, and business risk distinct.
 
 For security findings, use the CWE/CVSS and control-verification guidance in
-`assessment/security-review.md`. For full audits of executable projects, load
+`assessment/security-review.md` - for full audits of executable projects, load
 `assessment/testing-review.md` and `assessment/dependency-review.md` for stack-aware
-verification, SBOM, and license review. For technical due diligence, also load
+verification, SBOM, and license review, and for technical due diligence, also load
 `assessment/operational-readiness.md`, `assessment/documentation-review.md`,
 `assessment/compliance-review.md`, and `synthesis/remediation-roadmap.md` for continuity,
 cost, data lifecycle, and roadmap evidence.
 
 Use `synthesis/project-scorecard.md` for the ISO/IEC 25010:2023 crosswalk without changing Lens
-scores into purported ISO ratings. Treat unknown authorship as unknown, using
-`assessment/generated-code.md`, not style heuristics. Validate summaries against evidence and
-run the regression scenarios in `process/audit-workflow.md` when maintaining the skill.
+scores into purported ISO ratings, treat unknown authorship as unknown using
+`assessment/generated-code.md` rather than style heuristics, and validate summaries against
+evidence while running the regression scenarios in `process/audit-workflow.md` when maintaining
+the skill.
 
 ## Navigation Rules
 

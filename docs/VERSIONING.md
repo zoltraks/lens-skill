@@ -1,5 +1,12 @@
 # Skill Versioning Policy
 
+## Purpose
+
+> **Scope:** Version numbering, rollover rules, release anchoring, and terminology for the Lens
+> skill
+> **Key items:** three-part decimal format, rollover at 9, commit-anchored releases, skill version
+> versus report revision
+
 This document defines the versioning rules for the `lens-skill` Agent Skill.
 
 ## Format

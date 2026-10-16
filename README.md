@@ -54,16 +54,16 @@ The default output is an Audit report with twenty-two baseline sections: Documen
 Audit Type Coverage table, Executive Summary, System Context (including the technology
 stack), a source-derived Software Bill of Materials, License Compliance Review, Health
 Dashboard, Delivery Practice & Team Continuity, High-Level Observations, Auditing Methodology,
-Scoring Rubrics, Architectural Assessment, Structure Review, Trade-off Analysis, Strengths & What's Working, Detailed
-Technical Findings with theoretical exploitability narratives on serious security findings, Unified
-Risk Register, Actionable Remediation Roadmap, Scope Exclusions, Limitations and Unknowns,
-Validation Record, and References.
+Scoring Rubrics, Architectural Assessment, Structure Review, Trade-off Analysis, Strengths &
+What's Working, Detailed Technical Findings with theoretical exploitability narratives on serious
+security findings, Unified Risk Register, Actionable Remediation Roadmap, Scope Exclusions,
+Limitations and Unknowns, Validation Record, and References.
 
 Conditional sections appear only when the subject warrants them: Data Flow Diagram, Design
 Patterns, Architecture Decision Records, Threat Model, API Contract Conformance, Skill Definition
-Conformance, AI System Assessment, Standards Conformance, Engineering Baseline Conformance, Naming
-And Layout Conformance, API Compatibility & Versioning Discipline, Technical Debt Register, Changes
-Since Previous Audit, and Re-audit Plan.
+Conformance, Agent Guidance Conformance, AI System Assessment, Standards Conformance, Engineering
+Baseline Conformance, Naming And Layout Conformance, API Compatibility & Versioning Discipline,
+Technical Debt Register, Changes Since Previous Audit, and Re-audit Plan.
 
 At Standard and Detailed detail levels the roadmap is followed by a Recommendation Classification
 section that assigns every recommendation a `Recommended`, `Optional`, or `Not recommended` class,
@@ -606,7 +606,7 @@ lens-skill/
 │   ├── methodology/                       # Methodology digests, indexed in source-catalog.md
 │   └── topics/                            # Domain digests, indexed in source-catalog.md
 ├── scripts/
-│   ├── format-table.py                    # Display-width Markdown table formatter
+│   ├── format-table.py                    # Source-width Markdown table formatter
 │   ├── align-comments.py                  # Plain-text `#` comment column aligner
 │   ├── link-glossary.py                   # Glossary body-link inserter, run before the linker
 │   ├── link-references.py                 # Register-identifier linker, run before the formatter
@@ -675,7 +675,7 @@ Lens conforms to the [Agent Skills specification](https://agentskills.io/specifi
 
 Verify the structure and file references:
 
-```text
+```
 python scripts/validate-skill.py .
 python scripts/check-references.py .
 ```

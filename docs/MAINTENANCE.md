@@ -283,7 +283,7 @@ behavior.
 
 Run the skill-maintenance validators and script tests after structural changes:
 
-```text
+```
 python scripts/validate-skill.py .
 python scripts/check-references.py .
 python scripts/check-contents.py .

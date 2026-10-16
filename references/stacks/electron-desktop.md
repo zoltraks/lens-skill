@@ -46,9 +46,10 @@ https://www.electronjs.org/docs/latest/tutorial/ipc.
 - `ipcMain.handle` + `ipcRenderer.invoke` is the request/response pattern. `send`/`on` is
   fire-and-forget - a renderer must never receive raw `ipcRenderer` or generic `send` of
   arbitrary channels.
-- `contextBridge.exposeInMainWorld` (https://www.electronjs.org/docs/latest/tutorial/context-isolation)
-  is the only supported bridge. The exposed object should be a narrow allowlist of methods,
-  not `ipcRenderer` wholesale and not Node APIs.
+- `contextBridge.exposeInMainWorld`
+  (https://www.electronjs.org/docs/latest/tutorial/context-isolation) is the only supported
+  bridge. The exposed object should be a narrow allowlist of methods, not `ipcRenderer`
+  wholesale and not Node APIs.
 - Validate/sanitize every IPC payload in the main process. Preload-level validation alone is
   bypassable from devtools.
 

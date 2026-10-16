@@ -124,7 +124,9 @@ def collect_rows(lines: list[str], fences: list[bool],
 def check_file(path: Path, root: Path, fix: bool = False) -> list[str]:
     relative = path.relative_to(root)
     try:
-        lines = path.read_text(encoding="utf-8").splitlines()
+        raw = path.read_bytes()
+        crlf = b"\r\n" in raw
+        lines = raw.decode("utf-8").splitlines()
     except (OSError, UnicodeDecodeError):
         return [f"{relative}: file is not readable as UTF-8"]
     fences = fenced_flags(lines)
@@ -154,7 +156,8 @@ def check_file(path: Path, root: Path, fix: bool = False) -> list[str]:
     if fix:
         out = fix_rows(lines, rows, headings, contents_at)
         if out != lines:
-            path.write_text("\n".join(out) + "\n", encoding="utf-8")
+            eol = "\r\n" if crlf else "\n"
+            path.write_bytes((eol.join(out) + eol).encode("utf-8"))
             lines = out
             rows = collect_rows(lines, fences, contents_at)
 

@@ -53,6 +53,7 @@ so no score appears before its band is defined.
 | Stack Alignment         |       |       |
 | Dependency Health       |       |       |
 | Maintainability         |       |       |
+| Structure               |       |       |
 | Deployability           |       |       |
 | Scalability             |       |       |
 | Security                |       |       |

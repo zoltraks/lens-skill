@@ -31,7 +31,7 @@ If a finding cannot satisfy these rules, mark it as unknown rather than guessing
 | Confidence And Scope Limits         | 371  | Confidence and scope boundaries       |
 | Information Security And Redaction  | 382  | Secret handling rules                 |
 | Indexing And Traceability           | 398  | ID schemes and ordering               |
-| Critical Constraints                | 467  | Non-negotiable hard limits            |
+| Critical Constraints                | 469  | Non-negotiable hard limits            |
 
 ## Evidence-Based Reasoning
 
@@ -183,25 +183,25 @@ failure handling where applicable.
 A mechanism, directory, test, policy, or document receives credit only for the property it
 demonstrably establishes.
 
-| Optimistic shortcut              | Replacement question                                                              |
-|----------------------------------|-----------------------------------------------------------------------------------|
-| Authorization helper exists      | Do all applicable entry points use the correct subject, object, and scope,        |
-|                                  | including result filtering?                                                       |
-| Rate limiting exists             | What identity is limited, what resources remain unbounded, and what happens in    |
-|                                  | the intended topology?                                                            |
-| Tests exist or pass              | Which important behaviors and failures were exercised, and what remains outside   |
-|                                  | the suite?                                                                        |
-| Dockerfile is hardened           | Which packaging properties were inspected, and which build/runtime properties     |
-|                                  | were verified?                                                                    |
-| Lockfile and license policy exist| What exact versions and features are resolved, and what obligations and           |
-|                                  | advisories were checked?                                                          |
-| ADR accepts a risk               | Who accepted it, for which deployment, for how long, with which controls and      |
-|                                  | reopen trigger?                                                                   |
-| Many narrow traits exist         | Do interfaces isolate real responsibilities and remain substitutable on the       |
-|                                  | reviewed paths?                                                                   |
-| No unsafe code exists            | Which memory, logic, resource, authorization, and native-dependency risks remain? |
-| Documentation is extensive       | Is it current, internally consistent, and accurate about implementation and       |
-|                                  | verification?                                                                     |
+| Optimistic shortcut               | Replacement question                                                              |
+|-----------------------------------|-----------------------------------------------------------------------------------|
+| Authorization helper exists       | Do all applicable entry points use the correct subject, object, and scope,        |
+|                                   | including result filtering?                                                       |
+| Rate limiting exists              | What identity is limited, what resources remain unbounded, and what happens in    |
+|                                   | the intended topology?                                                            |
+| Tests exist or pass               | Which important behaviors and failures were exercised, and what remains outside   |
+|                                   | the suite?                                                                        |
+| Dockerfile is hardened            | Which packaging properties were inspected, and which build/runtime properties     |
+|                                   | were verified?                                                                    |
+| Lockfile and license policy exist | What exact versions and features are resolved, and what obligations and           |
+|                                   | advisories were checked?                                                          |
+| ADR accepts a risk                | Who accepted it, for which deployment, for how long, with which controls and      |
+|                                   | reopen trigger?                                                                   |
+| Many narrow traits exist          | Do interfaces isolate real responsibilities and remain substitutable on the       |
+|                                   | reviewed paths?                                                                   |
+| No unsafe code exists             | Which memory, logic, resource, authorization, and native-dependency risks remain? |
+| Documentation is extensive        | Is it current, internally consistent, and accurate about implementation and       |
+|                                   | verification?                                                                     |
 
 For every negative claim, actively inspect mitigating controls and competing explanations.
 
@@ -405,6 +405,7 @@ Format: `FND-[PILLAR]-[001]`
 
 - `PILLAR` is a three-letter code:
   - `ARC` - Architecture & Design
+  - `STR` - Structure & Organization
   - `CQY` - Code Quality
   - `SEC` - Security & Compliance
   - `INF` - Infrastructure & CI/CD
@@ -445,16 +446,17 @@ Format: `REC-[001]`
 When a finding could belong to more than one pillar, assign it by the recurring cases below
 before defaulting to judgment.
 
-| Finding class                               | Pillar                                |
-|---------------------------------------------|---------------------------------------|
-| Dependency deprecation or health            | Infrastructure & CI/CD                |
-| Missing or dead endpoint or route           | Infrastructure & CI/CD                |
-| Documentation drift                         | Code Quality or Architecture & Design |
-| API contract drift                          | API Contract or Architecture & Design |
-| Broken transport or protocol framing        | Architecture & Design                 |
-| Unenforced or absent authorization          | Security & Compliance                 |
-| Structural debt, duplication, orphaned code | Architecture & Design                 |
-| Error-handling or status-code defects       | Code Quality                          |
+| Finding class                                     | Pillar                                |
+|---------------------------------------------------|---------------------------------------|
+| Dependency deprecation or health                  | Infrastructure & CI/CD                |
+| Missing or dead endpoint or route                 | Infrastructure & CI/CD                |
+| Documentation drift                               | Code Quality or Architecture & Design |
+| API contract drift                                | API Contract or Architecture & Design |
+| Broken transport or protocol framing              | Architecture & Design                 |
+| Unenforced or absent authorization                | Security & Compliance                 |
+| Structural debt, duplication, orphaned code       | Architecture & Design                 |
+| Directory, file, code-division, or naming defects | Structure & Organization              |
+| Error-handling or status-code defects             | Code Quality                          |
 
 The pillar records where the fix lives, not where the symptom was noticed.
 

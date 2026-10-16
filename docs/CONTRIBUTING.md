@@ -27,7 +27,7 @@ mechanism.
 
 Run the skill-maintenance validators and the script test suite before requesting review:
 
-```text
+```
 python scripts/validate-skill.py .
 python scripts/check-references.py .
 python scripts/check-contents.py .

@@ -435,6 +435,21 @@ class TestNewReport(unittest.TestCase):
             self.assertIn("| Reference | Publisher or Author | Used In |", body)
             self.assertIn("[<title>](<url>)", body)
 
+    def test_skeletons_validate_clean(self):
+        validator = load_script("validate-report.py")
+        with tempfile.TemporaryDirectory() as tmp:
+            for args, name in (
+                (["--style", "audit"], "AUDIT-1.0.md"),
+                (["--style", "audit", "--projects", "api,worker"], "AUDIT-2.0.md"),
+                (["--style", "hunt", "--projects", "api,worker"], "HUNT-1.0.md"),
+                (["--style", "review"], "REVIEW.md"),
+                (["--style", "review", "--scope", "structure"], "REVIEW-1.0.md"),
+            ):
+                target = Path(tmp) / name
+                rc = self.generator.main(["new-report.py", *args, "--output", str(target)])
+                self.assertEqual(rc, 0)
+                self.assertEqual(validator.main(str(target)), 0)
+
 
 RULES = SCRIPTS.parent / "translations" / "polish-language.md"
 

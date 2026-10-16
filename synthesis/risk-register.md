@@ -140,7 +140,7 @@ List unrated risks beside the risk map instead of placing them in an invented ce
 
 ## Example Row
 
-```text
+```
 | RSK-001 | Hardcoded JWT signing key in committed config | FND-SEC-001 | Authentication bypass or token forgery | High | CRITICAL | Move key to secrets manager and rotate |
 ```
 
