@@ -219,3 +219,6 @@ and returned documents answer the same questions the menus would have asked.
 
 An orchestrating agent may emit and consume these documents without human interaction, and every
 automated decision is still recorded as answered through the exchange.
+
+Under an automated run per `process/audit-workflow.md` the pending surfaces are not emitted or
+asked at all - each resolves to its discovered or `default` answer directly.

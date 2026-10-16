@@ -1489,6 +1489,41 @@
     "Directory abbreviations (such as App/Config/Auth/Docs where full words are prescribed), catch-all modules (Misc/Util), multi-type files in single-type-per-file languages, and foreign-language identifier holdovers surface as evidenced FND-STR- findings.",
     "Consulted authoritative naming and layout sources are cited in Auditing Methodology and linked in the closing References section."
    ]
+  },
+  {
+   "id": 125,
+   "prompt": "Audit this repository automatically - run the whole audit job without asking me anything. The skill clone is two commits behind upstream on a clean tree.",
+   "expected_output": "A fully automated run: the update pulls without asking, no intake question is asked, defaults resolve every parameter, and the report is generated to the resolved location.",
+   "files": [],
+   "expectations": [
+    "The skill update check still runs first and applies git pull --ff-only without asking, since the reported state allows it (ahead=0, dirty=no).",
+    "No question surface is presented - no audit-mode, skills-scope, project-inclusion, parameters-acceptance, or delivery prompt.",
+    "Every parameter resolves to its discovered or default value and is recorded like an answered question.",
+    "The report is written to the resolved location without a write-confirmation prompt, and the completion message discloses the resolutions."
+   ]
+  },
+  {
+   "id": 126,
+   "prompt": "Run the audit on this repository in automated mode. A previous AUDIT-1.0.md exists in docs/report/ and the repository contains two projects.",
+   "expected_output": "An unattended re-audit: the previous report is taken as the baseline, its parameters are recovered, the recommended project set is included, and the new revisioned report is written without questions.",
+   "files": [],
+   "expectations": [
+    "The audit mode resolves to re-audit against the found report without asking, since automated mode never picks fresh audit when a same-subject baseline exists.",
+    "The previous report's parameters are recovered rather than re-asked, and the report revision increments.",
+    "The project-inclusion gate resolves to the recommended set without a checkbox prompt, and the skills-scope surface resolves to components.",
+    "The previous report file is never overwritten, and the baseline checksum is still recorded and re-verified."
+   ]
+  },
+  {
+   "id": 127,
+   "prompt": "Do the audit job automatically at Brief detail level with a 1-5 evaluation scale.",
+   "expected_output": "An automated run that honors the explicit parameter statements while every unstated parameter resolves to its default.",
+   "files": [],
+   "expectations": [
+    "Explicit parameter statements in the request win: Brief detail level and the 1-5 scale apply.",
+    "No parameter questions are asked, and every unstated parameter takes its resolved default.",
+    "The Brief report omits the Recommendation Classification section and records the omission in Scope Exclusions."
+   ]
   }
  ]
 }

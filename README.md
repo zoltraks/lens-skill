@@ -20,20 +20,20 @@
 |------------------------------------|------|-----------------------------------------------------|
 | Overview                           | 38   | Audit purpose and standard report shape             |
 | What The Skill Does                | 86   | Update check, evidence, assessment, synthesis       |
-| Installation                       | 165  | Clone and update instructions                       |
-| Usage                              | 195  | Activation, parameters, and report delivery         |
-| Example Prompts                    | 227  | Full and focused audit requests                     |
-| Workflow Diagrams                  | 298  | ASCII and Mermaid audit pipelines                   |
-| Evidence And Decision Quality      | 358  | Evidence strength and verification limits           |
-| Core Principles                    | 416  | Evaluation constraints and status rules             |
-| Report Format                      | 432  | Report structure, identifiers, and style            |
-| When To Use This Skill             | 469  | Supported requests and exclusions                   |
-| What's Inside                      | 493  | Documents, references, tools, and conditional files |
-| Document Style                     | 644  | Pointer to the style rules file                     |
-| Specification                      | 654  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 675  | Maintenance checks and regression scenarios         |
-| License                            | 703  | License for the skill itself                        |
-| Credits                            | 709  | Authorship and attribution                          |
+| Installation                       | 168  | Clone and update instructions                       |
+| Usage                              | 200  | Activation, parameters, and report delivery         |
+| Example Prompts                    | 236  | Full and focused audit requests                     |
+| Workflow Diagrams                  | 312  | ASCII and Mermaid audit pipelines                   |
+| Evidence And Decision Quality      | 372  | Evidence strength and verification limits           |
+| Core Principles                    | 430  | Evaluation constraints and status rules             |
+| Report Format                      | 446  | Report structure, identifiers, and style            |
+| When To Use This Skill             | 483  | Supported requests and exclusions                   |
+| What's Inside                      | 507  | Documents, references, tools, and conditional files |
+| Document Style                     | 658  | Pointer to the style rules file                     |
+| Specification                      | 668  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 689  | Maintenance checks and regression scenarios         |
+| License                            | 717  | License for the skill itself                        |
+| Credits                            | 723  | Authorship and attribution                          |
 
 ## Overview
 
@@ -102,6 +102,9 @@ and records the source format.
 **Configures parameters**
 
 Asks whether to accept default parameters or configure the core report parameters.
+
+An automated, unattended, or non-interactive request skips the question and applies the
+discovered or default answers.
 
 Detail level defaults to `Detailed`, improvement suggestions default to a prioritized roadmap,
 trade-off analysis defaults to a standalone section with embedded reasoning,
@@ -179,6 +182,8 @@ Once per session, Lens checks its own Git upstream.
 
 If an update is available, it asks whether to pull or skip.
 
+An automated audit run pulls without asking when the tree allows it.
+
 It pulls only when the repository is clean and a fast-forward is possible.
 
 The check also reports `tip_sha` and `tip_date` for the incoming upstream tip, so the new
@@ -209,6 +214,10 @@ contracts.
 
 Before a new audit, Lens asks whether to accept the default parameters or configure the core report
 settings.
+
+An automated run asks nothing: every gate resolves to its discovered or default answer - re-audit
+with recovered parameters when a previous report exists - and the report writes to the resolved
+location.
 
 A confirmed re-audit reuses the prior report's recorded parameters unless you request changes.
 
@@ -266,6 +275,11 @@ project.
 > Evaluate the trade-off between keeping in-memory state versus introducing an external store for
 > this prototype, given a single-instance target. Include a standalone trade-off table and embed the
 > analysis into the relevant architectural finding.
+
+**Automated audit**
+> Audit this codebase automatically - run the whole job without asking me anything. (The agent
+> pulls a pending skill update when allowed, resolves every question to its discovered or default
+> answer, and writes the report to the resolved location.)
 
 **Re-audit**
 > Re-run the audit on this codebase after the latest fixes. (The agent finds the previous report

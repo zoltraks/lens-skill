@@ -20,11 +20,11 @@ defined in `process/report-format/hunt-style.md` and `process/report-format/revi
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 1920 | Intake Checklist guidance        |
-| Handling Thin Input     | 1941 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1952 | Single-Dimension Audits guidance |
-| Re-Audit                | 1966 | Re-Audit guidance                |
-| Multi-Project Audits    | 2032 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1963 | Intake Checklist guidance        |
+| Handling Thin Input     | 1985 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 1999 | Single-Dimension Audits guidance |
+| Re-Audit                | 2013 | Re-Audit guidance                |
+| Multi-Project Audits    | 2079 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -91,6 +91,36 @@ The audit start timestamp is recorded later, the moment the last parameter quest
 resolved, before the remaining skill rule documents are loaded.
 
 See the timing rule under Parameter Configuration.
+
+**Automated run**
+
+When the request asks for an automated, autonomous, unattended, or non-interactive run -
+wording such as "audit automatically", "automated mode", "do the audit automatically",
+"unattended", or "without asking" - record the run as `automated` before any gate below.
+
+An automated run asks no questions: every blocking gate and routine prompt resolves to its
+discovered or default answer, and the report writes to the resolved location without a
+confirmation prompt.
+
+- The skill update check applies its pull without asking when the reported state allows it,
+  and the run continues with a brief note when it does not.
+- `audit-mode` resolves to re-audit against the highest-revision previous report found, or to
+  a fresh audit at revision `1.0` when none exists - explicit re-audit or fresh-audit wording
+  in the request still wins.
+- `skills-scope` resolves to `Assess skills as components of the project`.
+- `project-inclusion` resolves to the recommended set: recommended projects are included and
+  not-recommended ones excluded with their reasons recorded.
+- `parameters-acceptance` resolves to accept - recovered parameters on a re-audit, defaults
+  otherwise - and `parameters-to-change` keeps every recovered value.
+- `report-delivery`, `report-style`, `review-scope`, `detail-level`, `evaluation-scale`, and
+  `star-count` resolve to the defaults the rules below produce.
+- Thin-input clarifications are not asked - missing inputs record `UNKNOWN` or
+  `NOT SPECIFIED` instead.
+
+Explicit parameter statements in the request win over every automated resolution.
+
+Every automated resolution is recorded exactly like an answered question - the same working
+notes, the same `work/lens-params.json`, and the same completion-message disclosure.
 
 **Report parity discovery**
 
@@ -241,7 +271,8 @@ How discovered authored skills enter the report depends on the subject shape:
   Configuration: `Assess skills as components of the project` (recommended) produces the Skills
   Inventory inside Skill Definition Conformance. `Assess each skill as an independent project`
   routes each skill through the multi-project workflow. Wait for the answer, record it, and do
-  not re-ask in the session. Under JSON exchange this is the `skills-scope` `choice` parameter
+  not re-ask in the session. Under an automated run the recommended component option applies
+  without asking. Under JSON exchange this is the `skills-scope` `choice` parameter
   per `process/json-exchange.md`.
 
 Installed skills bypass the skills-scope question entirely.
@@ -298,6 +329,9 @@ confirm the obvious.
 
 Wait for the answer, record the included and excluded lists with reasons, and do not re-ask in
 the session.
+
+Under an automated run the recommended set applies without asking, so the cancel-confirmation
+surface never arises.
 
 Under JSON exchange this is the `project-inclusion` `selection` parameter per
 `process/json-exchange.md`, with recommended projects in `default`.
@@ -406,6 +440,9 @@ because the answer decides whether parameters are recovered or asked.
 The question is a blocking decision gate:
 it presents concrete options with one marked `(recommended)` and never carries the `Use default`
 trailing options of routine prompts.
+
+Under an automated run the gate is not asked and the mode resolves per the Automated run block
+above - the confirmed-re-audit recovery below then applies as if the user had confirmed.
 
 Under JSON exchange it emits as the `audit-mode` `choice` parameter per
 `process/json-exchange.md`.
@@ -518,6 +555,9 @@ Default parameters:
 The agent MUST ask the user and MUST NOT skip this step.
 
 The agent MUST wait for user response before proceeding to Scope Definition.
+
+An automated run skips the question and resolves parameters per the Automated run block in
+Intake - the parameter-resolution timestamp rule below still applies.
 
 Output filename carries the report revision: `AUDIT-1.0.md` for a first English audit, or the
 language-specific revisioned name from the matching `translations/` file such as `AUDYT-1.0.md`.
@@ -1916,6 +1956,9 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Bare "review this codebase" request           | Audit stays the default, single-dimension when scoped           |
 | Existing `REVIEW-1.0.md`, new review          | `REVIEW-1.1.md` written, previous kept                          |
 | Review request, `AUDIT-1.0.md` exists         | A report never baselines a report of another style              |
+| Automated run requested                       | No question asked, gates resolve to defaults                    |
+| Automated run, previous report found          | Re-audit resolves, parameters recovered                         |
+| Automated run, update available               | Pull applies when state allows, else a brief note               |
 
 ## Intake Checklist
 
@@ -1937,10 +1980,14 @@ Use this checklist to confirm you understand the input before assessing.
 | Which projects are included after the question? | Included list / excluded list with reasons           |
 | What output subdirectory pattern exists?        | `version-numbered` / `date-named` / `mixed` / `none` |
 | Was a previous report found, and which mode?    | none / re-audit / re-audit + changed params / fresh  |
+| Was the run automated?                          | `automated` / `interactive`                          |
 
 ## Handling Thin Input
 
 When the input is sparse, do not compensate by inferring.
+
+An automated run asks no clarifying questions and produces the bounded report on what was
+supplied.
 
 Produce the report anyway, with most categories marked `UNKNOWN` or `INSUFFICIENT INFORMATION`.
 

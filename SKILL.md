@@ -23,7 +23,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.2.2"
+  version: "2.2.3"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -40,8 +40,8 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 |-------------------------|------|----------------------------------------------------|
 | Skill Update Check      | 69   | Once-per-session git freshness gate before use     |
 | Trigger Keywords        | 86   | Activation phrases                                 |
-| How To Use              | 112  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 133  | Defaults and user-controlled report shape          |
+| How To Use              | 111  | Progressive disclosure and mandatory reading       |
+| Parameter Configuration | 131  | Defaults and user-controlled report shape          |
 | Principles              | 195  | Evaluation and output rules                        |
 | Process                 | 201  | Workflow, format, and parity                       |
 | Assessments             | 227  | Core and conditional assessment guides             |
@@ -73,10 +73,10 @@ Before any other step, once per session, run `python <skill-root>/scripts/check-
 the audited subject.
 
 - `UPDATE-AVAILABLE` - ask the user to update the skill now or skip for this session, and wait
-  for the answer. On approval, run `git -C <skill-root> pull --ff-only` only when the reported
-  state allows it (`ahead=0` and `dirty=no`), then re-read `SKILL.md` and any loaded rule files.
-  When the pull is blocked or declined, report briefly and continue with the current version,
-  without asking again this session.
+  for the answer - an automated run pulls without asking. On approval or under automation, run
+  `git -C <skill-root> pull --ff-only` only when the reported state allows it (`ahead=0` and
+  `dirty=no`), then re-read `SKILL.md` and any loaded rule files. A blocked or declined pull
+  reports briefly and continues with the current version, never re-asked this session.
 - The `tip_sha` and `tip_date` detail lines identify the incoming tip commit - cite them when
   reviewing `git log @{u}..` diffs before a pull or when pinning or reverting to a known state.
 - Any other status - proceed silently and do not mention the check.
@@ -90,8 +90,7 @@ The skill activates on phrases such as:
 - audit requests: software audit, architecture audit, prototype audit, code audit, audit this
   system, audit this codebase, engineering assessment, technical due diligence, production
   readiness, review this codebase
-- analysis artifacts: risk register, scorecard, maturity assessment, trade-off analysis, NFR
-  review
+- analysis artifacts: risk register, scorecard, maturity assessment, trade-off analysis, NFR review
 - focused reviews: security review, dependency audit, supply chain review, code quality review,
   SOLID, design principles, TDD, test coverage, testability, license audit, SBOM review
 - operational reviews: observability review, operational readiness, rollback strategy,
@@ -102,9 +101,9 @@ The skill activates on phrases such as:
 - skill audits: audit this skill, skill audit, skill definition review, skill spec conformance,
   skill collection audit, skills inventory, agent-guidance review
 - library reviews: api compatibility, api versioning audit, library audit
-- review requests: review report, run the checks, structure review, review the project
-  structure
+- review requests: review report, run the checks, structure review, review the project structure
 - skill maintenance: work on lens-skill, work on this skill, maintain this skill
+- automated invocations: audit automatically, automated mode, unattended, non-interactive
 
 A bare `work on lens-skill` request that names no operation enters standby per `AGENTS.md`: read
 `AGENTS.md` and this router's usage notes, confirm readiness, and wait for the named operation.
@@ -127,8 +126,7 @@ This skill is self-contained - the topic files below are the available reference
 
 When asked how this skill works, explain that Lens produces structured, evidence-based
 engineering reports (audit, hunt, or review style) of a codebase, prototype, production
-system, or proposal, including dedicated structure analysis. Advanced parameters can be
-refined when explicitly specified.
+system, or proposal, with dedicated structure analysis and refinable advanced parameters.
 
 ## Parameter Configuration
 
@@ -157,31 +155,33 @@ before starting the audit. Core configuration covers unresolved delivery/output 
 report-shape choices - improvement suggestions and trade-off analysis apply the defaults
 unless explicitly requested otherwise and are not separate routine prompts.
 
+An automated, unattended, or non-interactive request suppresses every question surface per
+`process/audit-workflow.md` - gates resolve to discovered or default answers, the report
+writes without asking, and explicit parameter statements still win.
+
 Output location resolves under the audited root: `audit/` > `report/` > bare root across `docs/`,
-`document/`, `doc/` > repository root, with a `report/` base descending into its purpose-named
-`audit/` or `review/` subdirectory matching the report style - review reports additionally prefer
-a dedicated `review/` or `reviews/` directory. A recorded version/date subdirectory pattern is
-reused.
+`document/`, `doc/` > repository root - a `report/` base descends into its style-matching `audit/`
+or `review/` subdirectory, and a dedicated `review/` or `reviews/` directory wins for a review
+report. A recorded version or date subdirectory pattern is reused.
 
 The output filename carries the report revision: `AUDIT-1.0.md` for a first audit or the
-language-specific revisioned name such as `AUDYT-1.0.md`, with the bare filename as an
-alternative for audit reports - a first hunt or review takes the bare `HUNT.md`/`REVIEW.md`
-stem with `HUNT-1.0.md`/`REVIEW-1.0.md` as the revisioned alternative. A previous report
-gives the incremented revision
-(`AUDIT-1.1.md`) and is never overwritten - a bare `<stem>.md` is renamed to its revisioned
-name. The agent confirms with the user before writing.
+language-specific revisioned name such as `AUDYT-1.0.md` - the bare filename is the audit-style
+alternative, while a first hunt or review takes the bare `HUNT.md`/`REVIEW.md` stem with
+`HUNT-1.0.md`/`REVIEW-1.0.md` revisioned. A previous report gives the incremented revision
+(`AUDIT-1.1.md`), is never overwritten, and a bare `<stem>.md` is renamed to its revisioned
+name first. The agent confirms with the user before writing - an automated run writes without
+asking.
 
 If the user accepts defaults or says "bypass", the agent proceeds immediately.
 
 If the user chooses to configure, the agent asks only the unresolved core parameter questions
 defined in `process/audit-workflow.md`.
 
-Each prompt marks the default and ends with `Use default: <value>` and
-`Use defaults for all remaining questions`. When the request asks for parameters in JSON or
-another machine-readable format, or names a diagnostic or verbose mode, apply
-`process/json-exchange.md` to every pending question surface. When the report language is not
-English, load the matching `translations/` file and apply every translation, style rule, and
-encoding requirement defined there.
+Each prompt marks the default and ends with `Use default: <value>` and `Use defaults for all
+remaining questions`. When the request asks for parameters in JSON or another machine-readable
+format, or names a diagnostic or verbose mode, apply `process/json-exchange.md` to every pending
+question surface. When the report language is not English, load the matching `translations/`
+file and apply every translation, style rule, and encoding requirement defined there.
 
 **Rerunning an audit**
 
