@@ -23,10 +23,10 @@ Two audits of similar systems should produce reports of similar shape, vocabular
 | Fixed Vocabularies             | 77   | Status and severity word lists   |
 | Consistency Rules              | 152  | Same input, same output shape    |
 | Plain-Text Friendly Formatting | 168  | Terminal and diff readability    |
-| Multilingual Output            | 272  | Non-English report rendering     |
-| Information Security In Output | 409  | Redaction and disclosure limits  |
-| Report Termination             | 424  | End-of-report rules              |
-| Determinism                    | 433  | Repeatability guarantees         |
+| Multilingual Output            | 278  | Non-English report rendering     |
+| Information Security In Output | 415  | Redaction and disclosure limits  |
+| Report Termination             | 430  | End-of-report rules              |
+| Determinism                    | 439  | Repeatability guarantees         |
 
 ## Tone And Register
 
@@ -187,6 +187,12 @@ Join closely related clauses with a comma or split them into separate sentences.
 
 The prose scope includes sentences, headings, table cells, and list items, only code blocks,
 inline code, and file paths are exempt.
+
+An enumeration of parallel items inside a table cell, a `* **Field:**` value, or a list
+item joins with commas - `one, two, three`.
+
+Reserve the spaced hyphen ` - ` for attaching a qualifier, consequence, or exception to a
+claim, never for separating the members of an enumeration.
 
 Use single-sentence paragraphs by default.
 
