@@ -125,22 +125,23 @@ defaults" semantics cover them.
 
 Every pending question surface emits with a stable kebab-case `id`:
 
-| Parameter               | Type        | Surface in `process/audit-workflow.md`                                                                                                                     |
-|-------------------------|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `audit-mode`            | `choice`    | Re-audit, changed-parameters, or fresh-audit gate and its confirm variants                                                                                 |
-| `skills-scope`          | `choice`    | Assess embedded skills as components or independent projects                                                                                               |
-| `project-inclusion`     | `selection` | Checkbox list of discovered projects, recommended set pre-checked                                                                                          |
-| `cancel-confirmation`   | `choice`    | Emitted only when a returned or selected all-unchecked answer cancels                                                                                      |
-| `parameters-acceptance` | `choice`    | Accept default parameters or configure                                                                                                                     |
-| `parameters-to-change`  | `selection` | Re-audit-with-changed-parameters follow-up naming core parameters                                                                                          |
-| `report-delivery`       | `choice`    | Delivery and output-file prompt - a `pair` language output names both report files in every file option                                                    |
-| `language-output`       | `choice`    | `pair` (default under a non-English report language) or `single` - resolved from the request wording, never prompted - a returned document may override it |
-| `report-style`          | `choice`    | `audit` (default), `hunt`, or `review` - `check` accepted as an alias for `review`                                                                         |
-| `review-scope`          | `choice`    | `full` (default) or `structure` - resolves the structure-review variant, emitted only under `review` style                                                 |
-| `detail-level`          | `choice`    | Brief, Standard, or Detailed                                                                                                                               |
-| `evaluation-scale`      | `choice`    | Four options in fixed order: `1-10`, `1-5`, `1-3`, `Stars`                                                                                                 |
-| `star-count`            | `choice`    | Star count follow-up (`5 stars` default, `3 stars`) - applies only when `evaluation-scale` resolves to `Stars`, ignored otherwise                          |
-| `evidence-mode`         | `choice`    | `source-only` (default), `executed-readonly`, or `executed-commands` - advanced parameter, emitted only when named                                         |
+| Parameter                 | Type        | Surface in `process/audit-workflow.md`                                                                                                                     |
+|---------------------------|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `audit-mode`              | `choice`    | Re-audit, changed-parameters, or fresh-audit gate and its confirm variants                                                                                 |
+| `skills-scope`            | `choice`    | Assess embedded skills as components or independent projects                                                                                               |
+| `project-inclusion`       | `selection` | Checkbox list of discovered projects, recommended set pre-checked                                                                                          |
+| `cancel-confirmation`     | `choice`    | Emitted only when a returned or selected all-unchecked answer cancels                                                                                      |
+| `parameters-acceptance`   | `choice`    | Accept default parameters or configure                                                                                                                     |
+| `parameters-to-change`    | `selection` | Re-audit-with-changed-parameters follow-up naming core parameters                                                                                          |
+| `report-delivery`         | `choice`    | Delivery and output-file prompt - a `pair` language output names both report files in every file option                                                    |
+| `language-output`         | `choice`    | `pair` (default under a non-English report language) or `single` - resolved from the request wording, never prompted - a returned document may override it |
+| `report-style`            | `choice`    | `audit` (default), `hunt`, or `review` - `check` accepted as an alias for `review`                                                                         |
+| `review-scope`            | `choice`    | `full` (default) or `structure` - resolves the structure-review variant, emitted only under `review` style                                                 |
+| `detail-level`            | `choice`    | Brief, Standard, or Detailed                                                                                                                               |
+| `evaluation-scale`        | `choice`    | Four options in fixed order: `1-10`, `1-5`, `1-3`, `Stars`                                                                                                 |
+| `star-count`              | `choice`    | Star count follow-up (`5 stars` default, `3 stars`) - applies only when `evaluation-scale` resolves to `Stars`, ignored otherwise                          |
+| `evidence-mode`           | `choice`    | `source-only` (default), `executed-readonly`, or `executed-commands` - advanced parameter, emitted only when named                                         |
+| `session-review-approval` | `choice`    | Approve the session-review findings report before applying changes - `process/session-review.md`, not `audit-workflow.md`                                  |
 
 Thin-input clarifications emit as `text` or `choice` parameters as they arise, with `open: true`
 when free input is appropriate.
@@ -209,6 +210,18 @@ The same answers in the condensed form:
     }
 }
 ```
+
+## Autonomous Surfaces
+
+A procedure that defines an autonomous mode - such as the session review's autonomous flag in
+`process/session-review.md` - resolves each of its pending surfaces to the recommended option
+without waiting.
+
+The document emits with the resolved value in `answer` instead of the empty string, and the
+resolution is reported in the reply like an answered question.
+
+A verbose flag additionally reports the full `menu` and the rationale behind each resolved
+default.
 
 ## Authority
 

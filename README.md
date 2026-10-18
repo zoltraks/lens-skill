@@ -29,11 +29,11 @@
 | Report Format                      | 446  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 483  | Supported requests and exclusions                   |
 | What's Inside                      | 507  | Documents, references, tools, and conditional files |
-| Document Style                     | 658  | Pointer to the style rules file                     |
-| Specification                      | 668  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 689  | Maintenance checks and regression scenarios         |
-| License                            | 717  | License for the skill itself                        |
-| Credits                            | 723  | Authorship and attribution                          |
+| Document Style                     | 660  | Pointer to the style rules file                     |
+| Specification                      | 670  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 691  | Maintenance checks and regression scenarios         |
+| License                            | 719  | License for the skill itself                        |
+| Credits                            | 725  | Authorship and attribution                          |
 
 ## Overview
 
@@ -544,7 +544,9 @@ lens-skill/
 │   │   └── report-closing.md              # Exclusions, limitations, handoff, validation, references
 │   ├── report-contract.md                 # One-page mechanically enforced report contract
 │   ├── report-parity.md                   # Audit parity checklist and consistency gate before final
-│   └── readiness-scoring.md               # Deterministic scores, confidence, maturity, and readiness gates
+│   ├── readiness-scoring.md               # Deterministic scores, confidence, maturity, and readiness gates
+│   ├── skill-activation.md                # Enable-mode intake, enablement response, and standby
+│   └── session-review.md                  # Session review: findings, approval gate, review modes
 ├── assessment/
 │   ├── testing-review.md                  # Test pyramid (unit/integration/e2e), TDD, coverage, testability
 │   ├── design-principles.md               # SOLID, cohesion and coupling, DRY, separation of concerns

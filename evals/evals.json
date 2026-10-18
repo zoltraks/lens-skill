@@ -1545,6 +1545,43 @@
     "`lint-prose.py` and `validate-report.py` (`bold markers` check) report the line carrying an odd number of `**` markers outside code spans.",
     "`**` occurrences inside inline code spans and fenced code blocks are ignored and do not trigger the check."
    ]
+  },
+  {
+   "id": 130,
+   "prompt": "Use lens.",
+   "expected_output": "An enablement response per process/skill-activation.md - the session update check runs, the router and the activation procedure are the only loaded rule material, and the reply confirms enablement with a one-sentence description, the skill version, and a compact operations table - then the agent waits for a task.",
+   "files": [],
+   "expectations": [
+    "The once-per-session update check runs first via python <skill-root>/scripts/check-update.py against the skill's own repository, never the audit subject.",
+    "The reply names the skill version from metadata.version, describes the skill in one sentence, and presents the operation families as a two-column operations table.",
+    "No rule files beyond SKILL.md and process/skill-activation.md were loaded, no scan of any target ran, and no file was created or modified.",
+    "The reply closes by inviting a task request and then waits."
+   ]
+  },
+  {
+   "id": 131,
+   "prompt": "Improve lens-skill using what happened in this session - run the review autonomously.",
+   "expected_output": "The session-review procedure running unattended: findings mapped to rule files, the approval gate resolved to Apply without waiting, applied changes validated, and an inline decisions list reporting every resolved surface.",
+   "files": [],
+   "expectations": [
+    "The agent loaded process/session-review.md and followed its workflow in autonomous mode.",
+    "The approval gate resolved to Apply without a blocking question.",
+    "The completion report carries a decisions list naming each resolved surface and the option taken.",
+    "No commit was made, and the maintenance validation suite ran after the edits.",
+    "A session that yields no findings reports that and stops rather than inventing changes."
+   ]
+  },
+  {
+   "id": 132,
+   "prompt": "Improve lens-skill using what happened in this session, verbose.",
+   "expected_output": "The session-review procedure with expanded gate reporting: every offered option listed with its disposition and the rationale for the recommended choice before the gate waits for an answer.",
+   "files": [],
+   "expectations": [
+    "The agent loaded process/session-review.md and followed its workflow in verbose mode.",
+    "Each gate reports the full option list and the rationale for the recommended choice.",
+    "The approval gate still waits for the user's answer - verbose alone does not auto-resolve.",
+    "Under an additional autonomous flag the same detail is reported while the gate resolves without waiting."
+   ]
   }
  ]
 }

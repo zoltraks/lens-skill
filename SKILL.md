@@ -23,7 +23,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.2.6"
+  version: "2.2.7"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -40,12 +40,12 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 |-------------------------|------|----------------------------------------------------|
 | Skill Update Check      | 69   | Once-per-session git freshness gate before use     |
 | Trigger Keywords        | 86   | Activation phrases                                 |
-| How To Use              | 111  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 131  | Defaults and user-controlled report shape          |
-| Principles              | 194  | Evaluation and output rules                        |
-| Process                 | 200  | Workflow, format, and parity                       |
-| Assessments             | 226  | Core and conditional assessment guides             |
-| Synthesis               | 268  | Findings, risk, score, and remediation assembly    |
+| How To Use              | 110  | Progressive disclosure and mandatory reading       |
+| Parameter Configuration | 130  | Defaults and user-controlled report shape          |
+| Principles              | 193  | Evaluation and output rules                        |
+| Process                 | 199  | Workflow, format, and parity                       |
+| Assessments             | 227  | Core and conditional assessment guides             |
+| Synthesis               | 269  | Findings, risk, score, and remediation assembly    |
 | Translations            | 284  | Per-language report translations                   |
 | References              | 293  | Lookup tables                                      |
 | Scripts                 | 319  | Report and maintenance scripts                     |
@@ -105,14 +105,13 @@ The skill activates on phrases such as:
 - skill maintenance: work on lens-skill, work on this skill, maintain this skill
 - automated invocations: audit automatically, automated mode, unattended, non-interactive
 
-A bare `work on lens-skill` request that names no operation enters standby per `AGENTS.md`: read
-`AGENTS.md` and this router's usage notes, confirm readiness, and wait for the named operation.
+Bare activation and `work on lens-skill` standby follow `process/skill-activation.md`.
 
 ## How To Use This Skill
 
 Use progressive disclosure:
 
-- Read this router first.
+- Read this router first - a bare activation follows `process/skill-activation.md` instead.
 - Read `principles/evaluation-rules.md` (evidence-only reasoning, no-assumption rule, neutrality,
   status markers, hard constraints) and `process/audit-workflow.md` (the end-to-end audit process
   from intake to final report) before producing any audit. They are mandatory for every audit.
@@ -222,6 +221,8 @@ The previous report is never overwritten - write the next revision-numbered file
 - **`process/json-exchange.md`** - JSON parameter documents for intake question surfaces.
 - **`process/report-parity.md`** - Mandatory core checklist and consistency gate.
 - **`process/readiness-scoring.md`** - Score aggregation, confidence, maturity, readiness gates.
+- **`process/skill-activation.md`** - Enable-mode intake, enablement response, and standby.
+- **`process/session-review.md`** - Improve-the-skill session review: findings, gate, modes.
 
 ## `assessment/` - Assessment Categories
 
@@ -273,8 +274,7 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
 - **`synthesis/tradeoff-analysis.md`** - Trade-offs as a standalone section and embedded findings.
 - **`synthesis/remediation-roadmap.md`** - Prioritized roadmap with impact-vs-effort matrix and
   the Recommended/Optional/Not recommended classification.
-- **`synthesis/debt-register.md`** - `TDR-[001]` inventory (CISQ/SQALE). Include for
-  structural debt.
+- **`synthesis/debt-register.md`** - `TDR-[001]` inventory (CISQ/SQALE), for structural debt.
 - **`synthesis/reaudit-plan.md`** - Verification owners, sign-off gates. Include for
   P1/P2 findings.
 - **`synthesis/report-comparison.md`** - Re-audit discovery, revisions, Changes, legacy names.

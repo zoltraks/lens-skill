@@ -48,9 +48,9 @@ Keep each rule in its owning document and link to it instead of duplicating it.
   will be committed or delivered together, per `docs/VERSIONING.md`.
 - Do not claim validation that did not run.
 - Never commit automatically - propose a one-sentence commit message per `docs/CONTRIBUTING.md`.
-- A bare `work on lens-skill` request that names no operation is standby - read this file and
-  `SKILL.md`, follow the router's usage notes, confirm readiness, and wait for the named
-  operation without loading further files, resuming plans, or editing on assumption.
+- A bare `work on lens-skill` request that names no operation is standby - read this file,
+  `SKILL.md`, and `process/skill-activation.md`, answer per its standby contract, and wait for
+  the named operation without loading further files, resuming plans, or editing on assumption.
 - On a named operation, decide which additional skill documents the task needs and read them
   first, loading the smallest useful set per the router.
 
@@ -84,6 +84,10 @@ scenarios in `evals/evals.json` and `process/audit-workflow.md`.
 ## Skill Improvement
 
 Structural, routing, or gate changes follow the procedures in `docs/MAINTENANCE.md`.
+
+A request to improve the skill from the current session follows `process/session-review.md` -
+gather, findings, approval gate, apply, validate - with autonomous and verbose modes for the
+gate behavior.
 
 Session and program-level improvement planning lives in the gitignored `work/` workspace and
 never ships as part of the skill payload.
