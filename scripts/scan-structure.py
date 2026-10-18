@@ -13,6 +13,8 @@ Usage:
     python scan-structure.py <root> [--json] [--no-git] [--output FILE]
 """
 
+from __future__ import annotations
+
 import argparse
 import json
 import os

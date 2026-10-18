@@ -167,11 +167,11 @@
    "expected_output": "A report whose Audit Type Coverage table states exactly which canonical audit types are covered, partially covered, or not performed, with rationale tied to report sections.",
    "files": [],
    "expectations": [
-    "The report includes an Audit Type Coverage table immediately after Document Information, rendering only the statuses COVERED, PARTIALLY, and NOT DONE, with rows classified NOT APPLICABLE omitted entirely.",
-    "Penetration Test is marked NOT DONE and the rationale distinguishes source-level security review from live exploitation.",
-    "Compliance Certification is marked NOT DONE or omitted as NOT APPLICABLE, and referenced standards appear only as scoring rubrics.",
-    "Every matrix status is consistent with Scope Exclusions: nothing marked COVERED is disclaimed there and vice versa.",
-    "Technical Due Diligence is not marked fully COVERED when team interviews, business fit, cost, support, or ownership evidence is absent."
+    "The report includes an Audit Type Coverage table immediately after Document Information, rendering only the statuses Covered, Partially, and Not done, with rows classified NOT APPLICABLE omitted entirely.",
+    "Penetration Test is marked Not done and the rationale distinguishes source-level security review from live exploitation.",
+    "Compliance Certification is marked Not done or omitted as NOT APPLICABLE, and referenced standards appear only as scoring rubrics.",
+    "Every matrix status is consistent with Scope Exclusions: nothing marked Covered is disclaimed there and vice versa.",
+    "Technical Due Diligence is not marked fully Covered when team interviews, business fit, cost, support, or ownership evidence is absent."
    ]
   },
   {
@@ -687,7 +687,7 @@
    "expectations": [
     "The Audit Type Coverage section is present immediately after Document Information.",
     "The table contains no AI Governance Audit row and no `NOT APPLICABLE` status cell.",
-    "Statuses that render are limited to COVERED, PARTIALLY, and NOT DONE."
+    "Statuses that render are limited to Covered, Partially, and Not done."
    ]
   },
   {

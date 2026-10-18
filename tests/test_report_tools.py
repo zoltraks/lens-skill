@@ -243,6 +243,21 @@ class TestValidateReport(unittest.TestCase):
         self.assertIn("Reopened", self.validator.CHANGE_VALUES)
         self.assertIn("Accepted", self.validator.RISK_STATUS)
 
+    def test_coverage_rows_render_title_case(self):
+        text = (
+            "## Audit Type Coverage\n\n"
+            "| Report type                   | Status   | Rationale |\n"
+            "|-------------------------------|----------|-----------|\n"
+            "| Software Architecture Review  | Covered  | x         |\n"
+            "| Penetration Test              | Not done | Separate  |\n"
+            "| Performance Audit             | Partially| no load   |\n"
+        )
+        self.assertEqual(self.validator.check_coverage_rows(text), [])
+        for bad in ("Done", "COVERED", "N/A", "Not Done"):
+            mutated = text.replace("| Covered  |", f"| {bad:<8} |")
+            failures = self.validator.check_coverage_rows(mutated)
+            self.assertTrue(failures, f"{bad!r} should fail")
+
     def test_register_reference_links(self):
         lines = [
             "## Verification And Evidence Ledger",

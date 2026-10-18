@@ -1769,7 +1769,9 @@ def check_coverage_rows(text: str) -> list[str]:
             name = cells[name_idx] if len(cells) > name_idx and cells[name_idx] else row
             failures.append(
                 f"coverage row '{name}' has status '{cells[status_idx]}', "
-                "expected Covered, Partially, or Not done - omit Not Applicable rows"
+                "expected Covered, Partially, or Not done - the taxonomy vocabulary "
+                "is uppercase, but Status cells render title case like every other "
+                "report vocabulary, and NOT APPLICABLE rows are omitted"
             )
             continue
         name = cells[name_idx] if len(cells) > name_idx else ""
@@ -2834,7 +2836,7 @@ def report_contract() -> dict:
             ],
             "evidence_ledger": "no Execution column, no legacy Evidence ID header, "
             "type tags Observation/Concern, Project column only in multi-project",
-            "coverage": "Status cells must be Covered, Partially, or Not done",
+            "coverage": "Status cells render Covered, Partially, or Not done",
         },
         "rules": [
             "headings no deeper than ###, preceded and followed by one blank line",

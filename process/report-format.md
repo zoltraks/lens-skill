@@ -39,12 +39,12 @@ A present-but-empty section signals a gap, a missing section hides it.
 | Section                                     | Line | What it covers                              |
 |---------------------------------------------|------|---------------------------------------------|
 | Formatting Rules                            | 49   | Formatting Rules guidance                   |
-| Report Delivery And Parameter Configuration | 354  | Report delivery and output configuration    |
-| Detail Level Configuration                  | 410  | Standard, detailed, and brief reports       |
-| Conditional Sections                        | 506  | Inclusion criteria for conditional sections |
-| Section Order                               | 564  | Single-project and multi-project order      |
-| Specification Files                         | 664  | Per-section specification file index        |
-| Pre-Delivery Mechanical Checklist           | 696  | Final mechanical checks                     |
+| Report Delivery And Parameter Configuration | 358  | Report delivery and output configuration    |
+| Detail Level Configuration                  | 414  | Standard, detailed, and brief reports       |
+| Conditional Sections                        | 510  | Inclusion criteria for conditional sections |
+| Section Order                               | 568  | Single-project and multi-project order      |
+| Specification Files                         | 668  | Per-section specification file index        |
+| Pre-Delivery Mechanical Checklist           | 700  | Final mechanical checks                     |
 
 ## Formatting Rules
 
@@ -350,6 +350,10 @@ Fenced code, inline code, existing links, and URLs are exempt.
 
 Apply the pass with `scripts/link-references.py`, never by hand - it derives anchors from
 the report's own headings, so it applies unchanged to every report language.
+
+Draft every citation as the bare identifier with no link markup - the linker inserts the
+`[ID](#anchor)` form itself, and a hand-written link is preserved verbatim, so a guessed
+anchor survives the pass and only fails at validation.
 
 ## Report Delivery And Parameter Configuration
 

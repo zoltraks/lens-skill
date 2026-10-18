@@ -20,11 +20,11 @@ defined in `process/report-format/hunt-style.md` and `process/report-format/revi
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 1963 | Intake Checklist guidance        |
-| Handling Thin Input     | 1985 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 1999 | Single-Dimension Audits guidance |
-| Re-Audit                | 2013 | Re-Audit guidance                |
-| Multi-Project Audits    | 2079 | Multi-Project Audits guidance    |
+| Intake Checklist        | 1967 | Intake Checklist guidance        |
+| Handling Thin Input     | 1989 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 2003 | Single-Dimension Audits guidance |
+| Re-Audit                | 2017 | Re-Audit guidance                |
+| Multi-Project Audits    | 2083 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -1772,6 +1772,10 @@ four) into the audited repository
 under `.tmp.` names, run them on a stub report carrying one canonical populated instance of every
 fixed field token (`* **Absence:**`, `* **Exploitability:**`, `* **Status:**`, and so on),
 and confirm the tools behave as specified.
+
+Before drafting registers, read `validate-report.py --dump-contract` output for the
+mechanically enforced contract - required sections, field lists, token vocabularies -
+so blocks are composed to the enforced shape rather than corrected into it.
 
 A probe failure means the toolchain, not the report, needs attention first.
 

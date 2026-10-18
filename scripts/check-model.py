@@ -13,6 +13,8 @@ Exit code 0 means all checks passed, 1 means model-quality failures, 2 means
 usage or parse errors.
 """
 
+from __future__ import annotations
+
 import argparse
 import json
 import math

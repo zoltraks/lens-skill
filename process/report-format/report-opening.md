@@ -11,7 +11,7 @@
 |----------------------|------|--------------------------------------|
 | Document Information | 16   | Report metadata and revisions        |
 | Audit Type Coverage  | 159  | Coverage of canonical audit types    |
-| Glossary             | 215  | Abbreviation and acronym definitions |
+| Glossary             | 218  | Abbreviation and acronym definitions |
 
 ## Document Information
 
@@ -191,6 +191,9 @@ do not apply to the subject.
 
 Status values come from the fixed vocabulary in `references/audit-taxonomy.md`: `COVERED`,
 `PARTIALLY`, `NOT DONE`, `NOT APPLICABLE`.
+
+English cells render them title-cased - `Covered`, `Partially`, `Not done` - following the
+same rendered-form convention the finding lifecycle uses (`OPEN` renders `Open`).
 
 A `NOT APPLICABLE` status is decided per type but never rendered as a row.
 

@@ -26,6 +26,8 @@ Usage: python align-comments.py <document.md> [--check] [--compact] [--payload-m
                        ```markdown payload blocks
 """
 
+from __future__ import annotations
+
 import argparse
 import os
 import re
