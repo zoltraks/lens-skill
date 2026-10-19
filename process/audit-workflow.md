@@ -203,8 +203,23 @@ Each nested repository has its own history and is a project-boundary signal.
 Record each with its path and its classification: submodule per `.gitmodules`, vendored
 dependency per manifest or ignore rules, or an unclassified embedded repository.
 
+For a submodule, also record its fetch state: `fetched` when its working tree carries content,
+`unfetched` when the directory is empty or `git submodule status` marks it with a `-` prefix.
+
+Record the pin state: a `+` prefix on `git submodule status` means the checkout sits at a
+non-pinned commit, no prefix means it sits at the recorded pin.
+
 Vendored and installed trees are `not recommended` for inclusion per the project-inclusion
 rules below.
+
+Submodule and embedded members of the audited location are `recommended` project candidates.
+
+They audit at their checked-out commit, with the pinned-versus-checkout delta recorded under
+Snapshot identity.
+
+An `unfetched` member stays recorded as a held member: it is excluded from the inclusion
+default with reason `not fetched`, disclosed in Scope Exclusions with the init hint, and never
+silently dropped from the census or the Skills Inventory.
 
 Census manifests and lockfiles in the working tree, not only tracked paths.
 
@@ -223,6 +238,8 @@ During intake, record the audited tree's identity so every claim can be anchored
 
 - For each audited repository root, record `git rev-parse HEAD`, the current branch or
   detached state, and `git status --porcelain` to classify the tree as clean or dirty.
+- For a submodule member, additionally record the pinned commit and whether the checkout sits
+  at the pin or ahead of it, so member claims bind to the audited state, not the pin.
 - A dirty tree lists its dirty paths in the evidence ledger, not in Document Information.
 - When no VCS metadata exists, record `unversioned working tree` plus the capture timestamp.
 
@@ -265,8 +282,11 @@ How discovered authored skills enter the report depends on the subject shape:
 - The subject IS a skill (root `SKILL.md` and nothing else) - run Skill Definition Conformance
   directly against it, no inventory needed.
 - The subject IS a collection (multiple `SKILL.md` under skill directories and no dominant
-  product project) - Skill Definition Conformance holds the Skills Inventory matrix plus
-  per-skill detail for every discovered skill.
+  product project) - each fetched member skill joins the project list as an independent
+  project per Project Identification, and the Skills Inventory matrix plus the
+  collection-level checks render inside the collection-root project's Skill Definition
+  Conformance section, with member rows linking to the member's own project block.
+  An `unfetched` member is listed in the matrix marked `Out of scope - not fetched`.
 - A non-skill project CONTAINS authored skills - ask the skills-scope question before Parameter
   Configuration: `Assess skills as components of the project` (recommended) produces the Skills
   Inventory inside Skill Definition Conformance. `Assess each skill as an independent project`
@@ -282,6 +302,26 @@ section takes.
 
 When nothing is found, the section is omitted and the omission is noted in Scope Exclusions.
 
+**Automation signal census**
+
+During intake, enumerate the signals that delivery automation exists or was envisaged for each
+identified project: pipeline files and workflow directories, CI configuration files
+(`*.gitlab-ci.yml`, `.circleci/`, `Jenkinsfile`, `azure-pipelines.yml`), badges, pull request
+templates, or branch rules that reference automated checks, documented pipelines or release
+procedures, and build, deploy, or release scripts.
+
+Record the outcome per project as one of three tokens:
+
+- `signals` - automation configuration or envisaged-automation signals exist in the tree.
+- `external` - repository evidence points at automation living outside the audited tree, such
+  as documentation or badges naming an external pipeline - recorded as `Reported` evidence,
+  not as an absent capability.
+- `none` - the tree carries no signal that automation was ever envisaged.
+
+The census feeds the criterion-planning applicability decision and the reduced-depth rule in
+`assessment/deployment-review.md`, and `assessment/testing-review.md` consumes the same
+outcome for its CI-automation judgement.
+
 **Project Identification**
 
 After reading the input, identify whether the repository or directory contains one project or
@@ -289,12 +329,22 @@ multiple projects.
 
 A project is a self-contained unit with its own manifest, configuration, or entry point.
 
+The audited root is itself a project only when it carries project signals of its own: a
+manifest, a `SKILL.md`, an entry point, or a dedicated configuration directory.
+
+A root that carries none of these is a pure container - the audit subject is the location,
+Document Information names the location, and the held projects below are the only projects.
+
 Signals of a project boundary include a package manifest (`package.json`, `Cargo.toml`,
 `composer.json`, `go.mod`, `pom.xml`, `*.csproj`), a dedicated configuration directory,
 a `SKILL.md` file (for an Agent Skill), or a clearly separated component with its own build and
 entry point.
 
 A `SKILL.md` found under an agent-skill location is not automatically a separate project.
+
+A member skill directory of a collection subject is a separate project: fetched members join
+the project list as `recommended` independent projects at their checked-out state, and
+unfetched members stay excluded with reason `not fetched` per the nested-repository census.
 
 The skills-scope decision made during agent-facing artifact discovery routes it:
 as a component it is inventoried inside the parent project's Skill Definition Conformance section,

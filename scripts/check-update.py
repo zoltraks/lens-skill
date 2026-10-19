@@ -17,7 +17,7 @@ Verdicts:
 
 Verdicts after upstream resolution also carry tip detail lines:
 
-- tip_sha=<sha>     the short commit hash of the fetched upstream tip
+- tip_sha=<sha>     the full commit hash of the fetched upstream tip
 - tip_date=<date>   its committer date - a tag-free review anchor for
                     deciding whether to pull
 
@@ -59,7 +59,7 @@ def verdict(status: str, **details: str) -> int:
 
 
 def tip_details(root: Path) -> dict[str, str]:
-    tip = git(root, "log", "-1", "--format=%h %cs", "@{u}")
+    tip = git(root, "log", "-1", "--format=%H %cs", "@{u}")
     if tip is None or tip.returncode != 0:
         return {}
     parts = tip.stdout.strip().split()

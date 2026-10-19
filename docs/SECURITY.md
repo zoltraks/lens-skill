@@ -29,7 +29,7 @@ Reports are welcome for:
 ## Accepted Posture
 
 The skill-update path deliberately relies on HTTPS transport, a clean-tree gate, `ff-only`
-pulls, and explicit user confirmation (or an explicit automated-run request) rather than signed
+merges, and explicit user confirmation (or an explicit automated-run request) rather than signed
 commits or tags.
 
 Commit-hash pinning per `VERSIONING.md` is the documented integrity anchor consumers verify

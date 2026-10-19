@@ -23,7 +23,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.2.9"
+  version: "2.3.0"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -39,20 +39,20 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 | Section                 | Line | What it covers                                     |
 |-------------------------|------|----------------------------------------------------|
 | Skill Update Check      | 69   | Once-per-session git freshness gate before use     |
-| Trigger Keywords        | 86   | Activation phrases                                 |
-| How To Use              | 110  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 130  | Defaults and user-controlled report shape          |
-| Principles              | 193  | Evaluation and output rules                        |
-| Process                 | 199  | Workflow, format, and parity                       |
-| Assessments             | 227  | Core and conditional assessment guides             |
-| Synthesis               | 269  | Findings, risk, score, and remediation assembly    |
-| Translations            | 284  | Per-language report translations                   |
-| References              | 293  | Lookup tables                                      |
-| Scripts                 | 319  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 342  | Behavioral regression prompts                      |
-| Repository Files        | 346  | Housekeeping files governing this repository       |
-| Evidence Contract       | 358  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 387  | File-selection and section-placement rules         |
+| Trigger Keywords        | 87   | Activation phrases                                 |
+| How To Use              | 111  | Progressive disclosure and mandatory reading       |
+| Parameter Configuration | 131  | Defaults and user-controlled report shape          |
+| Principles              | 194  | Evaluation and output rules                        |
+| Process                 | 200  | Workflow, format, and parity                       |
+| Assessments             | 228  | Core and conditional assessment guides             |
+| Synthesis               | 270  | Findings, risk, score, and remediation assembly    |
+| Translations            | 285  | Per-language report translations                   |
+| References              | 294  | Lookup tables                                      |
+| Scripts                 | 320  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 343  | Behavioral regression prompts                      |
+| Repository Files        | 347  | Housekeeping files governing this repository       |
+| Evidence Contract       | 359  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 388  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -73,12 +73,13 @@ Before any other step, once per session, run `python <skill-root>/scripts/check-
 the audited subject.
 
 - `UPDATE-AVAILABLE` - ask the user to update the skill now or skip for this session, and wait
-  for the answer - an automated run pulls without asking. On approval or under automation, run
-  `git -C <skill-root> pull --ff-only` only when the reported state allows it (`ahead=0` and
-  `dirty=no`), then re-read `SKILL.md` and any loaded rule files. A blocked or declined pull
-  reports briefly and continues with the current version, never re-asked this session.
+  for the answer - an automated run merges without asking. On approval or under automation, run
+  `git -C <skill-root> merge --ff-only <tip_sha>` when the reported state allows it (`ahead=0`
+  and `dirty=no`), then re-read `SKILL.md` and any loaded rule files. A blocked or declined
+  merge reports briefly and continues with the current version, never re-asked this session.
 - The `tip_sha` and `tip_date` detail lines identify the incoming tip commit - cite them when
-  reviewing `git log @{u}..` diffs before a pull or when pinning or reverting to a known state.
+  reviewing `git log @{u}..` diffs before a merge or when pinning or reverting to a known state;
+  the merge fast-forwards to the reported `tip_sha`, never a later tip.
 - Any other status - proceed silently and do not mention the check.
 
 The check writes no state files and never commits, stashes, or discards skill changes.
