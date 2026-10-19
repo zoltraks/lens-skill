@@ -24,8 +24,8 @@ records live in `references/criterion-catalogue.md`.
 | Pipeline Stages         | 30   | The nine stages and their publication conditions |
 | The Model Artifact      | 48   | `work/audit-model.json` schema and lifecycle     |
 | Derivation Rule         | 114  | Rendering every surface from the model           |
-| Counter-Evidence Review | 157  | The second-pass challenge discipline             |
-| Publication Stops       | 173  | Errors that block final publication              |
+| Counter-Evidence Review | 159  | The second-pass challenge discipline             |
+| Publication Stops       | 175  | Errors that block final publication              |
 
 ## Pipeline Stages
 
@@ -122,7 +122,9 @@ mentioned in a description equals the count in the classified records that produ
 When a summary and a detail disagree, the model is wrong or the prose drifted. Both are
 resolved against the records, never edited independently.
 
-Finding, risk, and recommendation IDs stay stable between the model and every rendering of it.
+Finding, evidence, risk, recommendation, debt, and checklist IDs stay stable between the model
+and every rendering of it - a ledger row cites the model's `EVD` identifier verbatim, it is
+never renumbered in prose.
 
 ## Generation Contract
 

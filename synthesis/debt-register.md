@@ -49,6 +49,9 @@ Column meanings:
   `Performance Efficiency`, `Security`, `Maintainability`.
 - **Source**: the `FND-XXX` identifier that produced this item, or `Direct observation` when
   it stems from code review without a standalone finding.
+  When the producing finding is closed and carries no `###` block in the current revision,
+  a resolved item marks the source `Direct observation` and cites the retired identifier
+  inside a code span.
 - **Cost**: evidence-based person-hour/day range, or `INSUFFICIENT INFORMATION`.
 - **Delay**: quantified ongoing cost over a stated horizon, or `INSUFFICIENT INFORMATION`.
 - **Status**: `Open` by default.

@@ -31,8 +31,8 @@ never assumed from the previous report alone.
 | Observation Folding              | 294  | Attaching new defects to existing findings |
 | Identifier Continuity            | 305  | FND/RSK/REC sequence rules                 |
 | Status, Change, And Verification | 329  | Status/Change vocabulary for re-audits     |
-| Legacy Field Names               | 355  | Old-schema-to-current name mapping         |
-| Rules                            | 400  | Comparison constraints                     |
+| Legacy Field Names               | 362  | Old-schema-to-current name mapping         |
+| Rules                            | 407  | Comparison constraints                     |
 
 ## When This Applies
 
@@ -333,12 +333,19 @@ a re-audit.
 
 | Status   | Change      | Verification | Meaning                                                            |
 |----------|-------------|--------------|--------------------------------------------------------------------|
-| `Open`   | `Unchanged` | `Confirmed`  | The finding's anchor was re-inspected and still reproduces         |
+| `Open`   | `Unchanged` | `Verified`   | The finding's anchor was re-inspected and still reproduces         |
+| `Open`   | `Unchanged` | `Confirmed`  | Runtime evidence confirms the finding still reproduces             |
 | `Open`   | `Unchanged` | `Reported`   | Only historical executed evidence supports it, nothing re-verified |
 | `Closed` | `Closed`    | `Verified`   | Current-audit evidence closes it, cite the closing evidence        |
 | `Open`   | `New`       |              | Minted in this revision                                            |
 | `Open`   | `Reopened`  | `Confirmed`  | A closed finding reproduces again under current evidence           |
 | `PASS`   | `Unchanged` | `Verified`   | A passing control, re-verified                                     |
+
+`Confirmed` is the runtime-confirmed qualifier - it requires `Runtime confirmed: yes` in the
+finding's detailed block, which a source-only audit never produces.
+
+Under `source-only` evidence mode a re-inspected `Open`/`Unchanged` finding renders `Verified`,
+matching `Verified: yes` and `Runtime confirmed: no` in the block.
 
 `Status` is the lifecycle (`Open`, `Closed`, `PASS`), `Change` is the movement since the
 previous audit (`New`, `Unchanged`, `Reopened`, `Closed`) - provenance never doubles as a

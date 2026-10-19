@@ -39,12 +39,12 @@ A present-but-empty section signals a gap, a missing section hides it.
 | Section                                     | Line | What it covers                              |
 |---------------------------------------------|------|---------------------------------------------|
 | Formatting Rules                            | 49   | Formatting Rules guidance                   |
-| Report Delivery And Parameter Configuration | 358  | Report delivery and output configuration    |
-| Detail Level Configuration                  | 414  | Standard, detailed, and brief reports       |
-| Conditional Sections                        | 510  | Inclusion criteria for conditional sections |
-| Section Order                               | 568  | Single-project and multi-project order      |
-| Specification Files                         | 668  | Per-section specification file index        |
-| Pre-Delivery Mechanical Checklist           | 700  | Final mechanical checks                     |
+| Report Delivery And Parameter Configuration | 366  | Report delivery and output configuration    |
+| Detail Level Configuration                  | 422  | Standard, detailed, and brief reports       |
+| Conditional Sections                        | 518  | Inclusion criteria for conditional sections |
+| Section Order                               | 576  | Single-project and multi-project order      |
+| Specification Files                         | 676  | Per-section specification file index        |
+| Pre-Delivery Mechanical Checklist           | 708  | Final mechanical checks                     |
 
 ## Formatting Rules
 
@@ -342,6 +342,14 @@ anchor of the section holding the register table, for example
 
 The defining location itself stays unlinked: the `### <ID>:` heading and the register row
 whose first cell carries the identifier.
+
+Each register identifier has exactly one `### <ID>:` block in the report - a citation from
+another project's section uses the project-qualified link, never a second heading.
+
+A register identifier with no defining `###` block in the current revision, for example a
+finding `Closed` in this audit that survives only in the Changes Since Previous Audit
+disposition table, is cited inside a code span - an unlinked bare citation of a retired
+identifier fails validation.
 
 Cite every register identifier individually - never render an identifier range such as
 `RSK-007..RSK-014` or `FND-SEC-001..004` - list each identifier as its own link or cell entry.
