@@ -68,6 +68,9 @@ consumers pin or revert to, since the version alone lives only in frontmatter te
 Record the bump commit's short hash in release notes or issues when a consumer needs to pin a
 specific release.
 
+If the skill gains a `CHANGELOG.md`, its sections carry `## [<version>] - <date>` headings
+only, opened together with the set's bump - never an `Unreleased` placeholder.
+
 ## Terminology
 
 The word `version` in this file always means the skill version recorded in `SKILL.md`
