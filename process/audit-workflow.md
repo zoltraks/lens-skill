@@ -20,11 +20,11 @@ defined in `process/report-format/hunt-style.md` and `process/report-format/revi
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 1967 | Intake Checklist guidance        |
-| Handling Thin Input     | 1989 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 2003 | Single-Dimension Audits guidance |
-| Re-Audit                | 2017 | Re-Audit guidance                |
-| Multi-Project Audits    | 2083 | Multi-Project Audits guidance    |
+| Intake Checklist        | 2036 | Intake Checklist guidance        |
+| Handling Thin Input     | 2061 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 2075 | Single-Dimension Audits guidance |
+| Re-Audit                | 2089 | Re-Audit guidance                |
+| Multi-Project Audits    | 2155 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -102,14 +102,15 @@ An automated run asks no questions: every blocking gate and routine prompt resol
 discovered or default answer, and the report writes to the resolved location without a
 confirmation prompt.
 
-- The skill update check applies its pull without asking when the reported state allows it,
+- The skill update check applies its merge without asking when the reported state allows it,
   and the run continues with a brief note when it does not.
 - `audit-mode` resolves to re-audit against the highest-revision previous report found, or to
   a fresh audit at revision `1.0` when none exists - explicit re-audit or fresh-audit wording
   in the request still wins.
 - `skills-scope` resolves to `Assess skills as components of the project`.
 - `project-inclusion` resolves to the recommended set: recommended projects are included and
-  not-recommended ones excluded with their reasons recorded.
+  not-recommended ones excluded with their reasons recorded - held members audit as
+  independent projects and `unfetched` members are excluded with reason `not fetched`.
 - `parameters-acceptance` resolves to accept - recovered parameters on a re-audit, defaults
   otherwise - and `parameters-to-change` keeps every recovered value.
 - `report-delivery`, `report-style`, `review-scope`, `detail-level`, `evaluation-scale`, and
@@ -268,8 +269,8 @@ root, under `skills/` and `plugins/` one level down, under agent configuration d
 as `.mcp.json`.
 
 For each skill directory found, record its path, its declared `name`, whether the name matches
-the directory name, and its provenance classification: `authored`, `installed`, or
-`undetermined`, per the signal table in `assessment/skill-definition.md`.
+the directory name, and its provenance classification: `authored`, `installed`,
+`external member`, or `undetermined`, per the signal table in `assessment/skill-definition.md`.
 
 Skills inside
 dependency or vendor directories, referenced by install or marketplace manifests, or documented
@@ -302,26 +303,6 @@ section takes.
 
 When nothing is found, the section is omitted and the omission is noted in Scope Exclusions.
 
-**Automation signal census**
-
-During intake, enumerate the signals that delivery automation exists or was envisaged for each
-identified project: pipeline files and workflow directories, CI configuration files
-(`*.gitlab-ci.yml`, `.circleci/`, `Jenkinsfile`, `azure-pipelines.yml`), badges, pull request
-templates, or branch rules that reference automated checks, documented pipelines or release
-procedures, and build, deploy, or release scripts.
-
-Record the outcome per project as one of three tokens:
-
-- `signals` - automation configuration or envisaged-automation signals exist in the tree.
-- `external` - repository evidence points at automation living outside the audited tree, such
-  as documentation or badges naming an external pipeline - recorded as `Reported` evidence,
-  not as an absent capability.
-- `none` - the tree carries no signal that automation was ever envisaged.
-
-The census feeds the criterion-planning applicability decision and the reduced-depth rule in
-`assessment/deployment-review.md`, and `assessment/testing-review.md` consumes the same
-outcome for its CI-automation judgement.
-
 **Project Identification**
 
 After reading the input, identify whether the repository or directory contains one project or
@@ -342,21 +323,23 @@ entry point.
 
 A `SKILL.md` found under an agent-skill location is not automatically a separate project.
 
-A member skill directory of a collection subject is a separate project: fetched members join
-the project list as `recommended` independent projects at their checked-out state, and
-unfetched members stay excluded with reason `not fetched` per the nested-repository census.
-
 The skills-scope decision made during agent-facing artifact discovery routes it:
 as a component it is inventoried inside the parent project's Skill Definition Conformance section,
 as an independent project it joins the multi-project list below.
 
+A member skill directory of a collection subject is always a separate project: fetched members
+join the project list as `recommended` independent projects at their checked-out state,
+unfetched members stay excluded with reason `not fetched` per the nested-repository census,
+and the skills-scope question is not asked.
+
 When multiple project manifests or boundaries exist at the top level or in clearly separated
 subdirectories, treat each as an independent project.
 
-Record the list of identified projects with their paths and, if determinable, their version
+Record the list of identified projects with their paths, their provenance (`in-tree`,
+`submodule`, or `embedded`), and, if determinable, their version
 numbers, marking each project `recommended` or `not recommended` for inclusion: a directory
-classified `installed` during agent-facing artifact discovery, or any dependency/vendor path,
-is `not recommended`, and everything else defaults to `recommended`.
+classified `installed` during agent-facing artifact discovery, any dependency/vendor path, or
+an `unfetched` member is `not recommended`, and everything else defaults to `recommended`.
 
 When only one project is present, proceed with the standard single-project workflow without
 asking.
@@ -399,6 +382,26 @@ and risk register within a single combined report.
 
 See the Multi-Project Audits section below for the per-project workflow.
 
+**Automation signal census**
+
+For each identified project, enumerate the signals that delivery automation exists or was
+envisaged: pipeline files and workflow directories, CI configuration files
+(`*.gitlab-ci.yml`, `.circleci/`, `Jenkinsfile`, `azure-pipelines.yml`), badges, pull request
+templates, or branch rules that reference automated checks, documented pipelines or release
+procedures, and build, deploy, or release scripts.
+
+Record the outcome per project as one of three tokens:
+
+- `signals` - automation configuration or envisaged-automation signals exist in the tree.
+- `external` - repository evidence points at automation living outside the audited tree, such
+  as documentation or badges naming an external pipeline - recorded as `Reported` evidence,
+  not as an absent capability.
+- `none` - the tree carries no signal that automation was ever envisaged.
+
+The census feeds the criterion-planning applicability decision and the reduced-depth rule in
+`assessment/deployment-review.md`, and `assessment/testing-review.md` consumes the same
+outcome for its CI-automation judgement.
+
 **Stack and subject classification**
 
 For each identified project, detect the language and ecosystem from manifest and file signals:
@@ -419,6 +422,15 @@ Baseline consultation order for every conformance judgement:
 
 Record which baseline decided each judgement, and record the digest's snapshot date when a
 corpus file supplied it.
+
+For every project, also record the governing layout and naming baseline the Structure Review
+verdicts rest on: the detected stack or stacks, the application nature assigned under Domain
+profile, and the consulted baseline - the subject's own standards, a bundled digest or the
+component-role rules in `references/naming-and-layout.md`, or the fallback rung used when no
+digest covers the stack.
+
+This record feeds the Auditing Methodology reference-standards step and the PAR-20
+justification in `process/report-parity.md`.
 
 The selected stack and nature together decide which purpose-baseline digests under
 `references/topics/` apply (CLI contract, MCP server, UI automation, performance budgets,
@@ -2012,7 +2024,14 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Review request, `AUDIT-1.0.md` exists         | A report never baselines a report of another style              |
 | Automated run requested                       | No question asked, gates resolve to defaults                    |
 | Automated run, previous report found          | Re-audit resolves, parameters recovered                         |
-| Automated run, update available               | Pull applies when state allows, else a brief note               |
+| Automated run, update available               | Merge applies when state allows, else a brief note              |
+| Audited location holds submodule members      | Fetched members are independent recommended projects            |
+| Unfetched submodule member                    | Excluded `not fetched`, disclosed with init hint                |
+| Root carries no project signals               | Pure container, the location is the named subject               |
+| Collection subject with member skills         | Members are projects, inventory in the root project's block     |
+| Automation census is `none`                   | Reduced deployment depth, Deployability bounded                 |
+| Automation evidenced outside the tree         | Pointer is `Reported` evidence, no absence finding              |
+| Member-internal directory structure           | Assessed inside the member's own project block                  |
 
 ## Intake Checklist
 
@@ -2031,7 +2050,10 @@ Use this checklist to confirm you understand the input before assessing.
 | What is the natural language of the request?    | Language code or name, or English (default)          |
 | What language output was resolved?              | `single` / `pair`                                    |
 | How many projects are in the directory?         | One / Multiple (list each with path and version)     |
+| Is the audited root itself a project?           | `project` / `container`                              |
+| Which held members were found?                  | List with provenance and fetch state                 |
 | Which projects are included after the question? | Included list / excluded list with reasons           |
+| What automation signal census resulted?         | `signals` / `external` / `none` per project          |
 | What output subdirectory pattern exists?        | `version-numbered` / `date-named` / `mixed` / `none` |
 | Was a previous report found, and which mode?    | none / re-audit / re-audit + changed params / fresh  |
 | Was the run automated?                          | `automated` / `interactive`                          |

@@ -38,8 +38,9 @@ is a structural finding, a poorly chosen architecture is not.
 Before judging the structure, establish from intake and inspection for each component
 independently:
 
-- Component boundary and purpose (`library`, `service`, `application`, `cli`, `test-suite`, or
-  `documentation`) per `references/domain-profiles.md` and `references/naming-and-layout.md` -
+- Component boundary and purpose (`library`, `service`, `application`, `cli`, `test-suite`,
+  `documentation`, or `agent-package`) per `references/domain-profiles.md` and
+  `references/naming-and-layout.md` -
   different layout and naming rules govern libraries, applications, services, and
   documentation trees.
 - Programming language(s) and framework, when applicable, and the authoritative naming and
@@ -49,6 +50,12 @@ independently:
 - Project scale and the build and deployment model where they shape layout.
 
 Do not assume a framework or a formally defined architecture.
+
+For a collection or container subject, each held member is a project of its own: member
+internals are assessed inside the member's own project block, and the collection-root
+project's structure verdicts judge the collection layout - the index, member directories, and
+governance files - against the agent-package conventions in `references/agent-skills.md` and
+`references/agent-configuration.md`.
 
 When a component uses a language, framework, or documentation format not pre-cataloged in the
 skill, follow the fallback order in `references/naming-and-layout.md`: project-declared

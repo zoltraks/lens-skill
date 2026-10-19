@@ -69,9 +69,14 @@ Do not run them.
 Judge whether tests run automatically on change and whether failures block merge or release from
 pipeline definitions, not from execution.
 
-When no pipeline definitions exist, record the finding and classify the absence per
-`principles/evaluation-rules.md`, reusing the CI/CD signal guidance in
-`assessment/deployment-review.md`.
+The intake automation signal census bounds this judgement: under `signals` evaluate the gate
+on failure from the pipeline definitions, under `external` record the pointer as `Reported`
+evidence and judge only in-tree aspects, and under `none` record a single observation without
+evaluating gate detail - the Deployment Strategy assessment owns the absence classification.
+
+When no pipeline definitions exist and the census is not `none`, record the finding and
+classify the absence per `principles/evaluation-rules.md`, reusing the CI/CD signal guidance
+in `assessment/deployment-review.md`.
 
 Keep compilation claims, inspected test counts, and documented passing results separate.
 

@@ -25,8 +25,8 @@ states each criterion resolves to.
 | Criterion Records      | 31   | The fields every criterion carries          |
 | Applicability Freeze   | 66   | Denominator locking and change rules        |
 | Criterion Families     | 81   | Minimum family set and per-family notes     |
-| Criticality And Weight | 123  | How criteria earn weight inside a dimension |
-| Crosswalk Integrity    | 134  | Mapping to external quality models honestly |
+| Criticality And Weight | 130  | How criteria earn weight inside a dimension |
+| Crosswalk Integrity    | 141  | Mapping to external quality models honestly |
 
 ## Criterion Records
 
@@ -115,6 +115,13 @@ CLI flags and exit behavior, configuration schemas, persisted data, and supporte
 combinations - not only libraries.
 
 Deployable binaries carry breaking-change surface the same as packages.
+
+Deployment-pipeline criteria inside `DEP` resolve `not applicable` at planning when the intake
+automation signal census records `none` for the project, with the census cited as the recorded
+reason - the census precedes the applicability freeze, so this is not denominator gaming.
+
+Under an `external` census the pipeline criteria stay applicable only for what the external
+pointer establishes.
 
 Assess delivery practice, team continuity, provenance, and license obligations in separate
 process families marked `process` - their results remain release gates where applicable but

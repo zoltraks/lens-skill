@@ -21,13 +21,13 @@ A score is a summary of evidence, not an impression.
 | Section                          | Line | What it covers                           |
 |----------------------------------|------|------------------------------------------|
 | Table Format                     | 32   | Fixed dimension set and column order     |
-| Scoring Rubric                   | 86   | Band definitions and alternative scales  |
-| Handling Unknowns                | 196  | UNKNOWN handling guidance                |
-| Handling Not Applicable          | 204  | N/A handling guidance                    |
-| Dimension To Category Mapping    | 218  | Dimension to assessment-category mapping |
-| ISO/IEC 25010:2023 Crosswalk     | 243  | Standards crosswalk mapping              |
-| Score Confidence And Aggregation | 287  | Confidence and aggregation rules         |
-| Rules                            | 325  | Scorecard rules                          |
+| Scoring Rubric                   | 90   | Band definitions and alternative scales  |
+| Handling Unknowns                | 200  | UNKNOWN handling guidance                |
+| Handling Not Applicable          | 208  | N/A handling guidance                    |
+| Dimension To Category Mapping    | 222  | Dimension to assessment-category mapping |
+| ISO/IEC 25010:2023 Crosswalk     | 247  | Standards crosswalk mapping              |
+| Score Confidence And Aggregation | 291  | Confidence and aggregation rules         |
+| Rules                            | 329  | Scorecard rules                          |
 
 ## Table Format
 
@@ -74,6 +74,10 @@ The Delivery & Continuity dimension summarizes the Delivery Practice & Team Cont
 delivery-practice proxies and contributor concentration per `references/delivery-practice.md`.
 
 It is `N/A` when Git history was not in scope.
+
+The Deployability dimension is bounded by the intake automation signal census: under `none` it
+renders `N/A` when the deployment model cannot carry deployment automation and `UNKNOWN` with
+the justification in Notes otherwise, and an `external` census is named in Notes.
 
 The API Compatibility dimension applies only when the subject is a reusable library or package,
 per `assessment/api-compatibility.md`.

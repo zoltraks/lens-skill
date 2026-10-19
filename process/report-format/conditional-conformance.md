@@ -86,9 +86,9 @@ components - precede the dimension table with a Skills Inventory matrix listing 
 | legacy-bot    | `plugins/legacy/`             | YES        | FAIL         | Missing `description` field     |
 | helper-bot    | `.claude/skills/helper/`      | YES        | OUT OF SCOPE | Installed, excluded at intake   |
 
-Every discovered `SKILL.md` appears in the matrix, including ones excluded as installed or
-unchecked at intake, which carry `OUT OF SCOPE` as their status and the exclusion reason as the
-gap note.
+Every discovered `SKILL.md` appears in the matrix, including ones excluded as installed,
+unfetched, or unchecked at intake, which carry `OUT OF SCOPE` as their status and the exclusion
+reason as the gap note.
 
 When non-skill agent-facing artifacts exist, follow the Skills Inventory with an Agent Artifacts
 table listing every discovered memory file, rules directory, subagent definition, plugin

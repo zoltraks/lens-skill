@@ -1582,6 +1582,53 @@
     "The approval gate still waits for the user's answer - verbose alone does not auto-resolve.",
     "Under an additional autonomous flag the same detail is reported while the gate resolves without waiting."
    ]
+  },
+  {
+   "id": 133,
+   "prompt": "Audit this directory that holds three member projects: two are fetched git submodules recorded in `.gitmodules` and one is an unfetched submodule with an empty directory.",
+   "expected_output": "A multi-project report where each fetched member is an independent project audited at its checked-out commit with provenance recorded, and the unfetched member is recorded and disclosed rather than silently dropped.",
+   "files": [],
+   "expectations": [
+    "Each fetched submodule member receives an independent project assessment within one combined report.",
+    "The unfetched member is excluded with reason `not fetched`, disclosed in Scope Exclusions with the init hint, and still appears in the inventory record.",
+    "The Project Inventory records each included project's provenance in the Source column, and submodule members show their checked-out commit and pin delta.",
+    "The audited root is treated as a project only when it carries project signals of its own; a root with no signals is a pure container named as the location subject."
+   ]
+  },
+  {
+   "id": 134,
+   "prompt": "Audit this documentation repository that contains no CI configuration, no workflow files, no badges, and no documented checks - the project shows no signs automation was ever envisaged.",
+   "expected_output": "A bounded CI/CD disposition: the absence is recorded once as an observation with its classification, detailed pipeline and delivery analysis is skipped, and the Deployability dimension is bounded rather than scored down.",
+   "files": [],
+   "expectations": [
+    "The automation signal census records `none` and the report states the reading plainly.",
+    "No detailed pipeline integrity, buildability, or DORA analysis is produced, and no `FND-INF` finding is raised for the absence itself.",
+    "Deployability renders `N/A` when the delivery model cannot carry deployment automation, else `UNKNOWN` with justification.",
+    "DEP-family deployment-pipeline criteria record `not applicable` with the census cited as the reason."
+   ]
+  },
+  {
+   "id": 135,
+   "prompt": "Audit this skill collection repository whose member skills live under `skills/<name>/` as fetched git submodule checkouts.",
+   "expected_output": "A multi-project report where the collection root and each member are independent projects, member internals receive Structure Review and Skill Definition Conformance verdicts, and the Skills Inventory lives in the root project's section with links to member blocks.",
+   "files": [],
+   "expectations": [
+    "Each fetched member skill is assessed as an independent project at its checked-out commit.",
+    "Each member's internal directory structure is evaluated inside the member's own project block.",
+    "The Skills Inventory and collection-level checks render in the collection-root project's Skill Definition Conformance section, with member rows linking to member blocks.",
+    "The structure assessment records the governing layout baseline - the agent-package conventions - for the collection layout."
+   ]
+  },
+  {
+   "id": 136,
+   "prompt": "Audit this service repository whose README badge and contributing guide reference an externally hosted CI pipeline, while the tree itself carries no CI configuration.",
+   "expected_output": "The external automation pointer is recorded as Reported evidence with its internals out of scope, rather than an absent-capability finding.",
+   "files": [],
+   "expectations": [
+    "The automation census records `external` and the pointer is cited as `Reported` evidence.",
+    "No absence finding or `Absence` field is raised for the in-tree lack of CI configuration.",
+    "Remaining in-tree aspects such as shipped scripts and documented manual procedures are still evaluated."
+   ]
   }
  ]
 }

@@ -23,9 +23,9 @@ records live in `references/criterion-catalogue.md`.
 |-------------------------|------|--------------------------------------------------|
 | Pipeline Stages         | 30   | The nine stages and their publication conditions |
 | The Model Artifact      | 48   | `work/audit-model.json` schema and lifecycle     |
-| Derivation Rule         | 114  | Rendering every surface from the model           |
-| Counter-Evidence Review | 159  | The second-pass challenge discipline             |
-| Publication Stops       | 175  | Errors that block final publication              |
+| Derivation Rule         | 123  | Rendering every surface from the model           |
+| Counter-Evidence Review | 168  | The second-pass challenge discipline             |
+| Publication Stops       | 184  | Errors that block final publication              |
 
 ## Pipeline Stages
 
@@ -57,7 +57,12 @@ Top-level shape:
  "model_version": 1,
  "scope": {
   "subject": "<name>", "revision": "<full identity>", "purpose": "<audit purpose>",
-  "evidence_mode": "source-only", "product_profile": {}
+  "evidence_mode": "source-only", "product_profile": {},
+  "projects": [
+   {"path": "...", "provenance": "in-tree|submodule|embedded",
+    "fetch_state": "fetched|unfetched|n/a", "pin_state": "pinned|ahead|n/a",
+    "automation_census": "signals|external|none"}
+  ]
  },
  "inventory": [
   {"path": "...", "class": "production|test|test-support|generated|vendored|example|script",
@@ -107,6 +112,10 @@ Top-level shape:
 ```
 
 `model_version` is `1` for this schema.
+
+The `projects[]` scope record carries the intake discovery: each project's provenance, fetch
+state, pin state, and automation signal census outcome, recorded before criterion planning so
+applicability decisions cite the census.
 
 The artifact lives until validation passes, then follows the `work/` retention rule for report
 parts - deleted before delivery unless the user asks to keep it.

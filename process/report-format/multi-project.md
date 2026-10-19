@@ -22,16 +22,20 @@ Information and before the Project Inventory.
 
 **Project Inventory** appears after the Coverage Matrix.
 
-It lists each project confirmed at the intake inclusion question with its path, version, and a
-one-line description.
+It lists each project confirmed at the intake inclusion question with its path, version,
+provenance, and a one-line description.
 
-Projects the user unchecked, or that intake classified as installed or external, do not appear
-here: they are disclosed once in Scope Exclusions with their exclusion reason.
+The `Source` column carries the project's provenance: `in-tree` for a project inside the
+audited tree, `submodule` for a git submodule member, `embedded` for an unclassified nested
+repository.
+
+Projects the user unchecked, or that intake classified as installed or `not fetched`, do not
+appear here: they are disclosed once in Scope Exclusions with their exclusion reason.
 
 ```
-| Project        | Path           | Version | Description            |
-|----------------|----------------|---------|------------------------|
-| <project name> | <project path> | <ver>   | <one-line description> |
+| Project        | Path           | Version | Source     | Description            |
+|----------------|----------------|---------|------------|------------------------|
+| <project name> | <project path> | <ver>   | <in-tree>  | <one-line description> |
 ```
 
 When the report language is not English, apply the column header translations from the matching

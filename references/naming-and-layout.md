@@ -24,16 +24,16 @@ Snapshot date: 2026-10-12.
 | Section                            | Line | What it covers                                              |
 |------------------------------------|------|-------------------------------------------------------------|
 | Component-Purpose Layout Rules     | 33   | How libraries, services, apps, CLIs, and docs differ        |
-| Directory Naming Principles        | 75   | Full-word discipline, singular/plural, and catch-all bans   |
-| Cross-Language Naming Matrices     | 102  | File, package, type, member, variable, and test conventions |
-| Language-Idiomatic Code Division   | 152  | Type-to-file rules, interfaces, abstracts, and DI wiring    |
-| Canonical Stack Fixtures           | 203  | Reference layouts and idioms across 11 languages/stacks     |
-| Fallback For Unlisted Technologies | 660  | Auditing languages, frameworks, and docs not in the tables  |
+| Directory Naming Principles        | 80   | Full-word discipline, singular/plural, and catch-all bans   |
+| Cross-Language Naming Matrices     | 107  | File, package, type, member, variable, and test conventions |
+| Language-Idiomatic Code Division   | 157  | Type-to-file rules, interfaces, abstracts, and DI wiring    |
+| Canonical Stack Fixtures           | 208  | Reference layouts and idioms across 11 languages/stacks     |
+| Fallback For Unlisted Technologies | 665  | Auditing languages, frameworks, and docs not in the tables  |
 
 ## Component-Purpose Layout Rules
 
 Evaluate every component in a repository independently against its own purpose (`library`,
-`service`, `application`, `cli`, `test-suite`, or `documentation`) per
+`service`, `application`, `cli`, `test-suite`, `documentation`, or `agent-package`) per
 `references/domain-profiles.md`, never as an undifferentiated tree.
 
 A single repository often contains components of different natures - for example a reusable
@@ -51,6 +51,7 @@ Different structural and naming rules govern each component role:
 | `cli`           | Command/flag parsing separated from core library execution      | `cmd/<app>/main.go` or `src/main.rs` calling `internal/` or `src/lib.rs`   |
 | `test-suite`    | Mirrors production module tree, isolates fixtures from cases    | `tests/` mirroring `src/` folders, dedicated `conftest.py` or helpers      |
 | `documentation` | Reader-task separation, single owner per topic, stable anchors  | Diataxis quadrants (`tutorials/`, `how-to/`, `reference/`, `explanation/`) |
+| `agent-package` | Entry contract isolation, one directory per member or resource | Root `SKILL.md`, conventional `scripts/`, `references/`, `assets/` dirs   |
 
 Component-specific evaluation rules:
 
@@ -71,6 +72,10 @@ Component-specific evaluation rules:
   `kebab-case.md` topic files, uppercase root governance files (`README.md`, `AGENTS.md`,
   `LICENSE`, `CHANGELOG.md`, `CONTRIBUTING.md`), and clear separation between reference specs,
   how-to guides, and architecture decisions.
+- **Agent packages** and skill collections follow the layout conventions distilled in
+  `references/agent-skills.md` and `references/agent-configuration.md`: a root `SKILL.md`
+  entry, conventional optional directories (`scripts/`, `references/`, `assets/`), and for a
+  collection an index plus one separated directory per member.
 
 ## Directory Naming Principles
 

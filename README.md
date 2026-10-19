@@ -90,7 +90,7 @@ When you ask for an audit, the agent loads the skill and performs the following:
 **Checks for updates**
 
 Once per session, the agent runs a git self-update check on the skill's own repository and offers
-to pull incoming commits before starting, when the skill lives in a git clone.
+to merge incoming commits before starting, when the skill lives in a git clone.
 
 **Reads everything you supplied**
 
@@ -180,19 +180,20 @@ git clone https://github.com/zoltraks/lens-skill.git
 
 Once per session, Lens checks its own Git upstream.
 
-If an update is available, it asks whether to pull or skip.
+If an update is available, it asks whether to merge or skip.
 
-An automated audit run pulls without asking when the tree allows it.
+An automated audit run merges without asking when the tree allows it.
 
-It pulls only when the repository is clean and a fast-forward is possible.
+It merges only when the repository is clean and a fast-forward is possible.
 
 The check also reports `tip_sha` and `tip_date` for the incoming upstream tip, so the new
-state can be reviewed and pinned to a specific commit before pulling.
+state can be reviewed and pinned to a specific commit before merging.
 
 To update the clone manually:
 
 ```bash
-git -C <skills-dir>/lens-skill pull --ff-only
+git -C <skills-dir>/lens-skill fetch
+git -C <skills-dir>/lens-skill merge --ff-only <tip_sha>
 ```
 
 ---
@@ -278,7 +279,7 @@ project.
 
 **Automated audit**
 > Audit this codebase automatically - run the whole job without asking me anything. (The agent
-> pulls a pending skill update when allowed, resolves every question to its discovered or default
+> merges a pending skill update when allowed, resolves every question to its discovered or default
 > answer, and writes the report to the resolved location.)
 
 **Re-audit**

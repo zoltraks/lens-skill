@@ -38,15 +38,15 @@ Treat a frontmatter field that contradicts the spec as a conformance finding.
 | Section                              | Line | What it covers                                |
 |--------------------------------------|------|-----------------------------------------------|
 | Agent-Facing Artifact Discovery      | 51   | Locating skills and agent configuration files |
-| Authored Versus Installed            | 95   | Classification signals and exclusion handling |
-| When This Applies                    | 126  | Applicability and N/A conditions              |
-| What To Evaluate                     | 141  | Per-skill conformance dimensions              |
-| Collection-Level Checks              | 203  | Multi-skill consistency and inventory         |
-| Agent Skills Specification Reference | 217  | Field-constraint table and clause citations   |
-| Evidence To Look For                 | 239  | Source signals per dimension                  |
-| Status Criteria                      | 258  | PASS through N/A verdict definitions          |
-| Common Risks                         | 284  | Typical failure modes                         |
-| What Raises Confidence               | 306  | Positive evidence signals                     |
+| Authored Versus Installed            | 97   | Classification signals and exclusion handling |
+| When This Applies                    | 137  | Applicability and N/A conditions              |
+| What To Evaluate                     | 152  | Per-skill conformance dimensions              |
+| Collection-Level Checks              | 214  | Multi-skill consistency and inventory         |
+| Agent Skills Specification Reference | 230  | Field-constraint table and clause citations   |
+| Evidence To Look For                 | 252  | Source signals per dimension                  |
+| Status Criteria                      | 271  | PASS through N/A verdict definitions          |
+| Common Risks                         | 297  | Typical failure modes                         |
+| What Raises Confidence               | 319  | Positive evidence signals                     |
 
 ## Agent-Facing Artifact Discovery
 
@@ -86,8 +86,10 @@ How discovered skills enter the report depends on the intake skills-scope decisi
 - **Components** - the skills are inventoried inside this section's Skills Inventory matrix.
 - **Independent projects** - each skill is assessed as its own project under the multi-project
   workflow, and this section runs once per skill project.
-- **Collection** - the subject itself is a collection of skills, so the section holds the
-  matrix plus per-skill detail for every discovered skill.
+- **Collection** - the subject itself is a collection of skills: each fetched member is an
+  independent project under the multi-project workflow, and the matrix plus the
+  collection-level checks render inside the collection-root project's section, with member
+  rows linking to the member's own project block.
 
 A project with exactly one root `SKILL.md` is the simple case: no matrix is needed, run the
 dimension table directly against it.
@@ -106,6 +108,8 @@ repository signals:
 | Under an agent configuration directory (`.claude/skills/`, `.agents/skills/`, `.devin/skills/`, `.cursor/skills/`, `.codeium/skills/`) inside a subject that is not itself a skill or skill collection | Probably installed      |
 | Listed by a marketplace manifest, plugin manifest, or install lockfile                                                                                                                                 | Installed               |
 | Documented as installed or third-party in README or catalog files                                                                                                                                      | Installed               |
+| Inside a git submodule or nested external checkout of the audited location                                                                                                                              | External member         |
+| Declared as a member by the subject's own index or catalog but unfetched or empty                                                                                                                        | Out of scope            |
 | Git history shows incremental in-repo edits and review                                                                                                                                                 | Authored                |
 | Git history shows a single wholesale import commit                                                                                                                                                     | Weighs toward installed |
 | Referenced by the subject's own build, tests, or evals                                                                                                                                                 | Authored                |
@@ -114,6 +118,13 @@ repository signals:
 The classification feeds the intake project-inclusion question: `authored` directories are
 recommended for audit, `installed` ones are listed unchecked, and `undetermined` ones stay
 checked but annotated.
+
+An `external member` is a recommended audit subject: it lives in its own repository and audits
+at its checked-out commit, with the pinned-versus-checkout delta recorded under Snapshot
+identity.
+
+A member declared by the subject's own index or catalog but unfetched or empty is recorded and
+listed `Out of scope - not fetched`, never silently dropped.
 
 A user answer overrides every heuristic.
 
@@ -213,6 +224,8 @@ When the subject contains more than one skill, also evaluate:
   Inventory matrix - a skill missing from the matrix is a report defect, not a subject defect.
   The same completeness rule covers the Agent Artifacts table: every discovered non-skill
   agent-facing artifact must appear there, included or marked out of scope.
+  When members audit as independent projects, each member row links to the member's own
+  project block, and an unfetched member row carries `Out of scope - not fetched`.
 
 ## Agent Skills Specification Reference
 

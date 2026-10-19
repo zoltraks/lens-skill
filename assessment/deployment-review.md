@@ -62,8 +62,22 @@ platform-specific behavior against the supported-platform claims.
 
 ## Absent Automation
 
-When no pipeline definition or CI configuration exists in the supplied files, record the finding
-anyway and classify the absence per `principles/evaluation-rules.md`.
+The intake automation signal census decides the depth of this assessment.
+
+When the census records `signals`, evaluate every element in What To Evaluate.
+
+When the census records `external`, the evidence points at automation living outside the
+audited tree: record the pointer as `Reported` evidence, treat the in-tree absence as out of
+scope rather than a gap, and evaluate only the in-tree aspects that remain - shipped build or
+release scripts, shipped defaults, and documented manual procedures.
+
+When the census records `none`, apply reduced depth: record the census result and the absence
+classification once as an `Observation` evidence row, skip pipeline integrity, buildability,
+and Delivery Performance analysis, and raise no `FND-INF` finding for the absence itself.
+
+When no pipeline definition or CI configuration exists in the supplied files and the census is
+not `none`, record the finding anyway and classify the absence per
+`principles/evaluation-rules.md`.
 
 | Signal                | Example                                                           |
 |-----------------------|-------------------------------------------------------------------|
@@ -71,6 +85,7 @@ anyway and classify the absence per `principles/evaluation-rules.md`.
 | Envisaged but missing | `.github/` or `.gitlab/` exists without workflow definitions      |
 | Envisaged but missing | Badges, pull request templates, or branch rules reference checks  |
 | Envisaged but missing | Build, release, or deploy scripts exist that nothing invokes      |
+| External automation   | Documentation or badges name an external pipeline or CI service   |
 | Deliberate omission   | Documentation limits the delivery model: prototype, local-only    |
 | Deliberate omission   | A documented manual release process replaces automation           |
 | Deliberate omission   | No delivery or release process is envisaged at all                |
@@ -78,6 +93,9 @@ anyway and classify the absence per `principles/evaluation-rules.md`.
 State the reading plainly, for example "no CI configuration was found and the repository shows no
 signal that automation was envisaged" or "the documented validation steps have no pipeline behind
 them".
+
+An `external` reading is not an absence finding: the capability is evidenced outside the
+audited tree and its internals stay out of scope.
 
 When the signals conflict or are absent, classify `Undetermined`.
 
@@ -124,6 +142,14 @@ Use comparable service-level trends to assess change over time.
 - `FAIL`: Releases are entirely manual and undocumented where automation is clearly required, with
   evidence.
 - `UNKNOWN`: Build and release artifacts were not provided.
+- `N/A`: The delivery model cannot carry deployment automation, for example a
+  documentation-only subject with no release artifact.
+
+Under a `none` census the status is `N/A` when the delivery model cannot carry automation and
+`UNKNOWN` with justification otherwise - never `FAIL` without an envisaged-automation signal.
+
+Under an `external` census the status records only the in-tree aspects and names the external
+pointer.
 
 The status records the capability state.
 

@@ -27,11 +27,11 @@ If a finding cannot satisfy these rules, mark it as unknown rather than guessing
 | Status Markers                      | 277  | PASS, PARTIAL, FAIL, UNKNOWN, N/A     |
 | Contextual Applicability            | 296  | N/A usage for inapplicable categories |
 | Absent Capability Assessment        | 325  | Intentional-versus-oversight tokens   |
-| Evidence Citation                   | 360  | Anchoring claims to sources           |
-| Confidence And Scope Limits         | 371  | Confidence and scope boundaries       |
-| Information Security And Redaction  | 382  | Secret handling rules                 |
-| Indexing And Traceability           | 398  | ID schemes and ordering               |
-| Critical Constraints                | 469  | Non-negotiable hard limits            |
+| Evidence Citation                   | 365  | Anchoring claims to sources           |
+| Confidence And Scope Limits         | 376  | Confidence and scope boundaries       |
+| Information Security And Redaction  | 387  | Secret handling rules                 |
+| Indexing And Traceability           | 403  | ID schemes and ordering               |
+| Critical Constraints                | 474  | Non-negotiable hard limits            |
 
 ## Evidence-Based Reasoning
 
@@ -337,6 +337,11 @@ Use exactly these tokens:
 | `Undetermined`                   | The signals conflict or are absent                                    |
 
 A finding that does not record an absent capability omits the `Absence` field entirely.
+
+When repository evidence points at the capability living outside the audited tree - such as
+documentation or badges naming an external pipeline or CI service - the capability is not
+absent: record the pointer as `Reported` evidence, keep its internals out of scope, and record
+no absence finding.
 
 Signals of a deliberate absence include documented scope limits such as a prototype or local-only
 delivery model, a documented manual process, and no envisaged delivery or release process at all.

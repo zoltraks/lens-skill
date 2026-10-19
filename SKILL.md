@@ -2,18 +2,19 @@
 name: lens-skill
 description: >-
   Software audit skill. Produces structured, evidence-based engineering
-  assessments of prototypes, codebases, production systems, and technical
-  proposals. Covers testing, design principles (SOLID), code quality,
-  dependencies, deployment, rollback, maintainability, documentation, NFRs,
-  security, compliance, observability, error handling, operational
-  readiness, project structure and organization, AI-generated code detection,
-  copyrights, development standards conformance, and engineering baseline
-  conformance. Enforces evidence-only reasoning and neutral, non-personal
-  evaluation. Use for software audits, architecture audits, structure reviews,
-  prototype reviews, production readiness, technical due diligence, risk
-  registers, scorecards, or remediation roadmaps. Triggers on audit this
-  codebase, engineering assessment, run lens, lens audit, perform lens on,
-  review this codebase, structure review, defect hunt.
+  assessments of prototypes, codebases, multi-project locations and skill
+  collections, production systems, and technical proposals. Covers testing,
+  design principles (SOLID), code quality, dependencies, deployment, rollback,
+  maintainability, documentation, NFRs, security, compliance, observability,
+  error handling, operational readiness, project structure and organization,
+  AI-generated code detection, copyrights, development standards conformance,
+  and engineering baseline conformance. Enforces evidence-only reasoning and
+  neutral, non-personal evaluation. Use for software audits, architecture
+  audits, structure reviews, prototype reviews, production readiness,
+  technical due diligence, risk registers, scorecards, or remediation
+  roadmaps. Triggers on audit this codebase, engineering assessment, run lens,
+  lens audit, perform lens on, review this codebase, structure review, defect
+  hunt.
 license: MIT
 compatibility: >-
   Designed for agent coding environments with file system access (Claude Code,
@@ -23,7 +24,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.3.0"
+  version: "2.3.1"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -38,21 +39,21 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 
 | Section                 | Line | What it covers                                     |
 |-------------------------|------|----------------------------------------------------|
-| Skill Update Check      | 69   | Once-per-session git freshness gate before use     |
-| Trigger Keywords        | 87   | Activation phrases                                 |
-| How To Use              | 111  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 131  | Defaults and user-controlled report shape          |
-| Principles              | 194  | Evaluation and output rules                        |
-| Process                 | 200  | Workflow, format, and parity                       |
+| Skill Update Check      | 70   | Once-per-session git freshness gate before use     |
+| Trigger Keywords        | 88   | Activation phrases                                 |
+| How To Use              | 112  | Progressive disclosure and mandatory reading       |
+| Parameter Configuration | 132  | Defaults and user-controlled report shape          |
+| Principles              | 195  | Evaluation and output rules                        |
+| Process                 | 201  | Workflow, format, and parity                       |
 | Assessments             | 228  | Core and conditional assessment guides             |
-| Synthesis               | 270  | Findings, risk, score, and remediation assembly    |
-| Translations            | 285  | Per-language report translations                   |
-| References              | 294  | Lookup tables                                      |
-| Scripts                 | 320  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 343  | Behavioral regression prompts                      |
-| Repository Files        | 347  | Housekeeping files governing this repository       |
-| Evidence Contract       | 359  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 388  | File-selection and section-placement rules         |
+| Synthesis               | 269  | Findings, risk, score, and remediation assembly    |
+| Translations            | 282  | Per-language report translations                   |
+| References              | 291  | Lookup tables                                      |
+| Scripts                 | 317  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 340  | Behavioral regression prompts                      |
+| Repository Files        | 344  | Housekeeping files governing this repository       |
+| Evidence Contract       | 356  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 385  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -89,8 +90,8 @@ The check writes no state files and never commits, stashes, or discards skill ch
 The skill activates on phrases such as:
 
 - audit requests: software audit, architecture audit, prototype audit, code audit, audit this
-  system, audit this codebase, engineering assessment, technical due diligence, production
-  readiness, review this codebase
+  system, audit this codebase, audit this directory, audit this location, workspace audit,
+  engineering assessment, technical due diligence, production readiness, review this codebase
 - analysis artifacts: risk register, scorecard, maturity assessment, trade-off analysis, NFR review
 - focused reviews: security review, dependency audit, supply chain review, code quality review,
   SOLID, design principles, TDD, test coverage, testability, license audit, SBOM review
@@ -216,8 +217,7 @@ The previous report is never overwritten - write the next revision-numbered file
 - **`process/report-format/report-closing.md`** - Exclusions, Limitations, Validation, References.
 - **`process/report-format/hunt-style.md`** - `hunt` report style: verdict, domain register,
   journey traces, remediation phases.
-- **`process/report-format/review-style.md`** - `review` report style: execution register,
-  evidence levels, retest register.
+- **`process/report-format/review-style.md`** - `review` style: execution/evidence/retest registers.
 - **`process/report-format/structure-review.md`** - Structure Review variant contract.
 - **`process/json-exchange.md`** - JSON parameter documents for intake question surfaces.
 - **`process/report-parity.md`** - Mandatory core checklist and consistency gate.
@@ -229,8 +229,7 @@ The previous report is never overwritten - write the next revision-numbered file
 
 - **`assessment/testing-review.md`** - Test pyramid, TDD, coverage, CI automation, testability.
 - **`assessment/design-principles.md`** - SOLID, cohesion and coupling, DRY, separation of concerns.
-- **`assessment/code-quality.md`** - Static analysis, type safety, complexity,
-  duplication, dead code.
+- **`assessment/code-quality.md`** - Static analysis, typing, complexity, duplication, dead code.
 - **`assessment/best-practices.md`** - Stack idioms, framework conventions, deprecated APIs.
 - **`assessment/dependency-review.md`** - Freshness, vulnerabilities, licenses, lockfiles, SBOM.
 - **`assessment/deployment-review.md`** - Build pipeline, release process and frequency,
@@ -269,15 +268,13 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
 
 ## `synthesis/` - Findings And Report Assembly
 
-- **`synthesis/risk-register.md`** - Unified risk register: `RSK-[001]` mapped to
-  `FND-XXX` findings.
+- **`synthesis/risk-register.md`** - Unified risk register: `RSK-[001]` to `FND-XXX` findings.
 - **`synthesis/project-scorecard.md`** - 1-10 scorecard, rubric, scales (1-5, 1-3, star bars).
 - **`synthesis/tradeoff-analysis.md`** - Trade-offs as a standalone section and embedded findings.
 - **`synthesis/remediation-roadmap.md`** - Prioritized roadmap with impact-vs-effort matrix and
   the Recommended/Optional/Not recommended classification.
 - **`synthesis/debt-register.md`** - `TDR-[001]` inventory (CISQ/SQALE), for structural debt.
-- **`synthesis/reaudit-plan.md`** - Verification owners, sign-off gates. Include for
-  P1/P2 findings.
+- **`synthesis/reaudit-plan.md`** - Verification owners, sign-off gates, P1/P2 findings.
 - **`synthesis/report-comparison.md`** - Re-audit discovery, revisions, Changes, legacy names.
 - **`synthesis/report-triangulation.md`** - Contradiction register and second-opinion rules
   for prior or external reports of the same subject.
@@ -392,9 +389,8 @@ the skill.
   `process/report-format/review-style.md`, and a structure-scoped review renders the variant
   contract in `process/report-format/structure-review.md`.
 - Never compile, build, test, or execute the audited project, and never run linters, scanners,
-  or generators against it. Under `executed-readonly` only the commissioned non-mutating
-  analyzers run. Verification claims rest on inspected repository contents,
-  documented results are `Reported` evidence.
+  or generators against it - `executed-readonly` permits only commissioned non-mutating analyzers.
+  Verification claims rest on inspected contents, documented results are `Reported` evidence.
 - Assemble the audit report skeleton from `process/report-format.md` and its section files before
   filling in findings, present every section as a table and use unnumbered headings.
 - Every audit report opens with the Audit Type Coverage table built from the fixed
@@ -407,8 +403,7 @@ the skill.
 - Test layers, TDD, coverage, and design-for-testability belong in `assessment/testing-review.md`.
 - SOLID and design principles (SRP, OCP, LSP, ISP, DIP), cohesion, coupling, and DRY belong in
   `assessment/design-principles.md`, code-level metrics (lint, type safety, complexity, duplication)
-  belong in `assessment/code-quality.md`, architectural module structure belongs in
-  `assessment/maintainability-review.md`.
+  belong in `assessment/code-quality.md`, module layout in `assessment/maintainability-review.md`.
 - Physical organization - directory layout, file placement, naming conventions, language-idiomatic
   code division, component placement and physical boundaries, supporting-artifact layout. Belongs
   in `assessment/structure-review.md` and `references/naming-and-layout.md`. Logical modularity,
@@ -424,7 +419,8 @@ the skill.
 - Third-party dependency and supply-chain posture belongs in `assessment/dependency-review.md`,
   project-internal change control belongs in `assessment/change-management.md`.
 - Deployment automation belongs in `assessment/deployment-review.md`, reverting a release belongs in
-  `assessment/rollback-review.md`.
+  `assessment/rollback-review.md`. A `none` census bounds it to one observation, `external`
+  records outside-the-tree automation as `Reported` evidence rather than an absence.
 - Performance, scalability, availability, reliability, and resilience belong in
   `assessment/nfr-review.md`, day-two operations belong in `assessment/operational-readiness.md`.
 - Logging and metrics belong in `assessment/observability-review.md`, failure handling in code
@@ -443,10 +439,14 @@ the skill.
 - Agent Skills specification conformance belongs in `assessment/skill-definition.md` when the
   subject holds `SKILL.md` files or agent-facing artifacts, with `references/agent-skills.md`
   and `references/agent-configuration.md` as baselines. Intake classifies each discovered
-  skill as authored, installed, or undetermined. Installed skills are not audit subjects.
+  skill as authored, external member, installed, or undetermined. Installed skills are not
+  audit subjects, an external member audits as an independent project at its checked-out state.
 - Agent-guidance set topology - entry routes, index of record, topic owners, role resolution -
   belongs in `assessment/agent-guidance.md` for a structured guidance set. Per-artifact format
   conformance stays with `assessment/skill-definition.md`.
+- A location that holds multiple projects, including skill collections with submodule or nested
+  members, audits each included member as an independent project per `process/audit-workflow.md`
+  and `process/report-format/multi-project.md`, unfetched members disclosed in Scope Exclusions.
 - Standards conformance belongs in `assessment/standards-conformance.md`, only for documented
   development standards. References lists every external source consulted.
 - Engineering baseline conformance belongs in `assessment/baseline-conformance.md`: it measures
@@ -496,5 +496,4 @@ the skill.
 - Trade-offs appear in Trade-off Analysis after Architectural Assessment and embedded in
   findings, per `synthesis/tradeoff-analysis.md`.
 - For a full audit, load `principles/`, `process/`, every relevant `assessment/` file, and all
-  `synthesis/` files. Mark inapplicable categories `N/A` with justification rather than dropping
-  them.
+  `synthesis/` files, marking inapplicable categories `N/A` with justification.

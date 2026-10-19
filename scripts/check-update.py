@@ -19,7 +19,7 @@ Verdicts after upstream resolution also carry tip detail lines:
 
 - tip_sha=<sha>     the full commit hash of the fetched upstream tip
 - tip_date=<date>   its committer date - a tag-free review anchor for
-                    deciding whether to pull
+                    deciding whether to merge
 
 Usage: python scripts/check-update.py [skill-directory]
 """
