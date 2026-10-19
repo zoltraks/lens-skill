@@ -76,7 +76,7 @@ A trade-off qualifies as cross-project only when the decision was made once and 
 one project, such as a shared dependency choice or a repository-wide workspace or build decision.
 
 The same issue type appearing independently in two projects is a repeated per-project finding,
-not a cross-project trade-off - both crates using `unwrap()` in production is the same
+not a cross-project trade-off. Both crates using `unwrap()` in production is the same
 per-project finding occurring twice, not a shared decision.
 
 The combined table adds a leading `Project` column.

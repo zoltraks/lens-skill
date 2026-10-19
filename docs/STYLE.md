@@ -18,11 +18,11 @@ Every document created or modified as part of this skill must follow the rules b
 | Paragraphs And Wrapping     | 91   | Sentence structure and line width               |
 | Headings And Lists          | 154  | Heading depth, lists, and spacing               |
 | Code And Inline Formatting  | 193  | Fences, code spans, and special characters      |
-| Tables                      | 285  | Source-width alignment and automated formatting |
-| Characters And Language     | 472  | Box-drawing, emoji, and per-language rules      |
-| File References             | 493  | Relative paths and backticked file paths        |
-| Skill Document Requirements | 507  | Frontmatter and progressive disclosure          |
-| Maintenance                 | 568  | File naming, encoding, and registration         |
+| Tables                      | 293  | Source-width alignment and automated formatting |
+| Characters And Language     | 480  | Box-drawing, emoji, and per-language rules      |
+| File References             | 501  | Relative paths and backticked file paths        |
+| Skill Document Requirements | 515  | Frontmatter and progressive disclosure          |
+| Maintenance                 | 576  | File naming, encoding, and registration         |
 
 ## Document Structure
 
@@ -281,6 +281,14 @@ A comma joins clauses only when they are subordinate or share a subject and stru
 A semicolon may appear in an enumeration whose members themselves contain commas.
 
 This rule does not apply to code blocks, inline code, or file paths.
+
+## Spaced Hyphen
+
+Prefer a comma or a period between clauses.
+
+A spaced hyphen (` - `) marks an aside or a definitional separator, never a clause join.
+
+When a comma or a period reads naturally, use it instead.
 
 ## Tables
 

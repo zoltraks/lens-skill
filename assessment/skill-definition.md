@@ -269,7 +269,7 @@ date.
 
 For a multi-skill subject, report a status per skill in the Skills Inventory matrix.
 
-The aggregate conformance status follows the weakest skill - a collection is `PARTIAL` when any
+The aggregate conformance status follows the weakest skill. A collection is `PARTIAL` when any
 skill fails required-field checks, never averaged to `PASS`.
 
 Non-skill artifacts use the same tokens against their format baselines:

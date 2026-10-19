@@ -58,7 +58,7 @@ For a `review`-style report, the same rules apply to the review filename family:
 identified by a `Report Style` row reading `review` in Document Information.
 
 A `review`-family file carrying a `Review Scope: Structure` row is a structure-variant report
-and baselines only another structure-variant report - scope is part of the baseline identity.
+and baselines only another structure-variant report. Scope is part of the baseline identity.
 
 A `REVIEW`-family file lacking the `Report Style: review` identification marker is a legacy
 report shape: it is never a baseline, though its name still occupies the revision slot.

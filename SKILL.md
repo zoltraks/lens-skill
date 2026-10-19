@@ -23,7 +23,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.2.7"
+  version: "2.2.8"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -121,7 +121,7 @@ Use progressive disclosure:
 - Open only the assessment files that match the system under audit.
 - Use the synthesis files to assemble the final report sections.
 
-This skill is self-contained - the topic files below are the available reference material.
+This skill is self-contained. The topic files below are the available reference material.
 
 When asked how this skill works, explain that Lens produces structured, evidence-based
 engineering reports (audit, hunt, or review style) of a codebase, prototype, production
@@ -164,7 +164,7 @@ or `review/` subdirectory, a dedicated `review/` or `reviews/` directory wins fo
 report, and a recorded version or date subdirectory pattern is reused.
 
 The output filename carries the report revision: `AUDIT-1.0.md` for a first audit or the
-language-specific revisioned name such as `AUDYT-1.0.md` - the bare filename is the audit-style
+language-specific revisioned name such as `AUDYT-1.0.md`. The bare filename is the audit-style
 alternative, while a first hunt or review takes the bare `HUNT.md`/`REVIEW.md` stem with
 `HUNT-1.0.md`/`REVIEW-1.0.md` revisioned, a previous report gives the incremented revision
 (`AUDIT-1.1.md`) and is never overwritten, a bare `<stem>.md` is renamed to its revisioned
@@ -409,7 +409,7 @@ the skill.
   belong in `assessment/code-quality.md`, architectural module structure belongs in
   `assessment/maintainability-review.md`.
 - Physical organization - directory layout, file placement, naming conventions, language-idiomatic
-  code division, component placement and physical boundaries, supporting-artifact layout - belongs
+  code division, component placement and physical boundaries, supporting-artifact layout. Belongs
   in `assessment/structure-review.md` and `references/naming-and-layout.md`. Logical modularity,
   coupling, dependency direction, and technical debt stay in `assessment/maintainability-review.md`,
   and code-level runtime idioms stay in `assessment/best-practices.md`. The structure assessment

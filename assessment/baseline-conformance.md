@@ -66,14 +66,14 @@ Rows drawn from the bundled digests apply only when their applicability signals 
 
 | Baseline                                         | Applies when                                                                                     |
 |--------------------------------------------------|--------------------------------------------------------------------------------------------------|
-| CLI output/exit-code contract                    | Subject is `cli` nature - see `references/topics/cli-contract.md`                                |
-| MCP tool schema and transport integrity          | Subject is `agent-tooling` over MCP - `references/topics/mcp-server.md`                          |
-| UI-automation read-only contract and calibration | Subject is `automation` nature - `references/topics/ui-automation.md`                            |
-| Performance budgets enforced                     | Subject declares budgets or is production-bound - `references/topics/performance-budgets.md`     |
+| CLI output/exit-code contract                    | Subject is `cli` nature, see `references/topics/cli-contract.md`                                 |
+| MCP tool schema and transport integrity          | Subject is `agent-tooling` over MCP, `references/topics/mcp-server.md`                           |
+| UI-automation read-only contract and calibration | Subject is `automation` nature, `references/topics/ui-automation.md`                             |
+| Performance budgets enforced                     | Subject declares budgets or is production-bound, `references/topics/performance-budgets.md`      |
 | Inline/glue scripting discipline                 | Repository ships `.bat`/`.cmd`/`.ps1`/embedded scripts - `references/topics/inline-scripting.md` |
 | Persistence transaction and migration discipline | Subject persists data - `references/topics/data-persistence.md`                                  |
 | Own standards anatomy                            | Subject ships standards docs - `references/topics/standards-anatomy.md`                          |
-| Stack-specific floor                             | Detected stack has a digest - `references/stacks/`                                               |
+| Stack-specific floor                             | Detected stack has a digest, `references/stacks/`                                                |
 
 ## Status Criteria
 
@@ -119,4 +119,4 @@ Rows drawn from the bundled digests apply only when their applicability signals 
 - Baseline absence concentrated on one surface (for example, no exit-code contract on a CLI
   whose whole purpose is scripting) is a stronger finding than the same absence spread thin.
 - An unenforced floor - a linter configured but never run in CI, a budget file nothing
-  consumes - is harder to detect and more honest to report than a clean pass.
+  consumes is harder to detect and more honest to report than a clean pass.

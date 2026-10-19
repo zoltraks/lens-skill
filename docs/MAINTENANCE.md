@@ -36,7 +36,7 @@ Root files govern the repository itself: `SKILL.md`, `README.md`, `AGENTS.md`, a
 The `docs/` directory holds the governance documents (`README.md`, `STYLE.md`,
 `MAINTENANCE.md`, `VERSIONING.md`, `CONTRIBUTING.md`, `SECURITY.md`).
 
-Root `docs/` is repository governance - it is unrelated to the `docs/audit/` report-location
+Root `docs/` is repository governance. It is unrelated to the `docs/audit/` report-location
 convention in audited projects.
 
 Keep resource files one level deep under their directory.
@@ -218,7 +218,7 @@ source anything it contains, and never copy its prose into shipped files.
    one place - stack rules go to the stack digest, purpose rules to the topic digest.
 5. **Attribute** - the digest cites the external authoritative URLs it names
    (specification, vendor documentation, cheat sheets) through `references/source-catalog.md`.
-   The supplied corpus itself is never referenced - shipped content carries no name, path, or
+   The supplied corpus itself is never referenced. Shipped content carries no name, path, or
    identifier of the supplying repository.
 6. **Wire** - register new digests in `references/stack-standards.md`, update the consuming
    assessment files, `SKILL.md`, `README.md`, and `evals/evals.json` when behavior changes.

@@ -743,7 +743,7 @@ Apply these phrasing rules:
   `Podstawa: Kontrola dostępu bez uwierzytelnienia`. Values that start with a code span
   or link stay verbatim.
 - A code span holding a governed vocabulary token - a status, severity, confidence,
-  maturity, or verdict word - is translated like the unspanned form:
+  maturity, or verdict word is translated like the unspanned form:
   `Poziom: \`Teoretyczne\``, never `Poziom: \`Theoretical\``. Code spans preserve
   only machine tokens - identifiers, paths, commands, flags, and literals quoted
   from the subject.
@@ -769,7 +769,7 @@ Apply these phrasing rules:
   default, and never a per-section choice.
 - `pull request`, `merge`, `roadmapa`, `due diligence`, `copyleft`, and `SBOM`
   (spelled out once as `zestawienie składników oprogramowania`) are settled loanwords and stay
-  untranslated. `commit` is not a loanword here - it follows its Terminology
+  untranslated. `commit` is not a loanword here. It follows its Terminology
   entry `zatwierdzenie`.
 - Every English term the skill adds to report headings or scored dimensions gets a Terminology
   entry before it is used in a Polish report. Polish reports are checked against this file
@@ -854,7 +854,7 @@ Run this checklist after the rendering pass, before running the lint
 and mapping pipeline.
 
 Every item encodes a defect class that has been
-observed failing a shipped report - fixing them here is cheaper than
+observed failing a shipped report. Fixing them here is cheaper than
 discovering them through validator output.
 
 - **Prose punctuation:** no `;` in prose (outside code spans, fences,
@@ -1838,7 +1838,7 @@ profile renders `laboratoryjny`, `kontrolowane udostępnienie`, or `produkcyjny`
 The `Weryfikacja raportu` carries rows `PAR-1` through `PAR-20` in fixed order.
 
 `PAR-18` renders `N/D` under `Styl raportu: polowanie na usterki` or `przegląd` - neither
-style carries a `Klasyfikacja zaleceń` section - and `PAR-20` renders `N/D` under
+style carries a `Klasyfikacja zaleceń` section, and `PAR-20` renders `N/D` under
 `polowanie na usterki`, which never runs the structure assessment.
 
 A Polish report mirrors the English Validation Record row for row - the same checks in

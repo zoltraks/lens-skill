@@ -46,12 +46,12 @@ Do not rely on per-run memory of what a previous report happened to include.
 
 PAR-5 may report `NOT COLLECTED` when Git history is unavailable, silence is not acceptable.
 
-PAR-18 reports `N/A` under `Report Style: hunt` or `review` - neither style carries a
+PAR-18 reports `N/A` under `Report Style: hunt` or `review`. Neither style carries a
 Recommendation Classification section, disposition lives in Remediation Phases or the
 Improvement Plan, per `process/report-format/hunt-style.md` and
 `process/report-format/review-style.md`.
 
-PAR-20 reports `N/A` under `Report Style: hunt` - the structure assessment is not part of
+PAR-20 reports `N/A` under `Report Style: hunt`. The structure assessment is not part of
 the hunt evidence base.
 
 A checklist row is `APPLIED` only when the requirement is met as written - a partially met
@@ -98,7 +98,7 @@ Run this gate before marking a report final.
    On a confirmed re-audit, also verify that the baseline file still matches the checksum recorded
    at intake, and keep `State | Draft` on a mismatch.
 7. Record the outcome in the Validation Record, then remove the `State | Draft` row only when the
-   structural and semantic gates both pass - a final report carries no `State` row.
+   structural and semantic gates both pass. A final report carries no `State` row.
 
 A report may be complete and useful while keeping `State | Draft` when a gate fails.
 

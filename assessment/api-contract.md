@@ -35,7 +35,7 @@ whether the calls match documented endpoints, payloads, and error shapes.
 Mark provider-side dimensions such as contract presence and schema enforcement `N/A` for a pure
 consumer.
 
-A system with no API surface still has contract surfaces - see Contract Surfaces Beyond APIs.
+A system with no API surface still has contract surfaces. See Contract Surfaces Beyond APIs.
 
 In that case mark the API rows `N/A` with a one-line justification and assess the surfaces
 that do exist.

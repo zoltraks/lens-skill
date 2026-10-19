@@ -94,7 +94,7 @@ per `principles/output-style.md`.
 
 Established phrase tokens such as `IN PROGRESS` or `NOT APPLICABLE` stay phrases.
 
-Title and description columns are prose, not tokens - they keep natural casing.
+Title and description columns are prose, not tokens. They keep natural casing.
 
 Column meanings:
 
@@ -493,7 +493,7 @@ Use this exact markdown block pattern:
 When the report language is not English, apply the bullet label translations from the matching
 `translations/` file.
 
-Omit `Owner` when the input establishes no responsible role - the field never renders
+Omit `Owner` when the input establishes no responsible role. The field never renders
 `NOT SPECIFIED` or an empty value.
 
 ## Actionable Remediation Roadmap

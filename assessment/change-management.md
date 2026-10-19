@@ -67,7 +67,7 @@ rather than describing the existing per-change documents as sufficient.
 - Decision records that capture context, options, and consequences.
 - Change requests and plans paired by shared numbering, with executed changes closed out.
 - A recorded proportionality threshold exempting small fixes from the full record path.
-- Reserved decisions recorded explicitly - which baseline ships, whether the version bumps.
+- Reserved decisions recorded explicitly. Which baseline ships, whether the version bumps.
 - A consistent, evidenced review and approval path.
 - Changes traceable to requirements or tracked work items.
 

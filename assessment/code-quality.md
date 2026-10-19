@@ -56,7 +56,7 @@ A clean report is not proof of soundness or insecurity.
 Report "no unsafe found in the reviewed scope", not "memory safe" or "no unsafe anywhere".
 
 For interpreted stacks, configuration expressed in the language itself - `setup.py`,
-`config.py`, `*.config.js`, Rakefiles, `conftest.py` - is executable code and receives the
+`config.py`, `*.config.js`, Rakefiles, `conftest.py` is executable code and receives the
 same review as source: lint status, complexity, and secret-bearing literals all apply to it.
 
 ## Complexity Measurement

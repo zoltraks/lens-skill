@@ -290,7 +290,7 @@ When the resolved report language is not English, the run ships a two-file pair 
 the canonical English report is produced and validated first, then rendered into the report
 language in a single translation pass that applies the matching `translations/` file.
 
-The translated file is a rendering of the English report, never an independent audit - it
+The translated file is a rendering of the English report, never an independent audit. It
 carries identical register identifiers (`EVD`, `FND`, `RSK`, `REC`, `TDR`, `PAR`), severities,
 revisions, and evidence qualifications, and each file's Document Information names the sibling
 in its `Translations` row.

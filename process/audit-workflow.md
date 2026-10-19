@@ -51,13 +51,13 @@ Determine the report style from the request wording: `audit` by default, `hunt` 
 request asks for a defect hunt, and `review` when the request explicitly names a review or
 check report - `check` remains an accepted alias for the execution-register style.
 
-Bare "review this codebase" wording stays `audit` - the style is selected when the request
+Bare "review this codebase" wording stays `audit`. The style is selected when the request
 names the report, not the activity.
 
 A request scoped to the project structure - "make a structure review", "review the
 structure" - resolves to `review` with `Review Scope: Structure` per
 `process/report-format/structure-review.md`, and a request scoped to a change set - a commit
-range, pull or merge request, or branch diff - produces a `review`-style report scoped to
+range, pull or merge request, or branch diff. Produces a `review`-style report scoped to
 that change set.
 
 Determine the natural language of the user's request.
@@ -315,7 +315,7 @@ When multiple projects are present, ask the project-inclusion question before Pa
 Configuration: a blocking decision gate presenting a checkbox-style multi-select list of every
 identified project with its path and kind.
 
-The gate is multi-select by definition - every listed project must be selectable at once, so
+The gate is multi-select by definition. Every listed project must be selectable at once, so
 an all-inclusive answer is a first-class outcome, never an `Other` escape.
 
 When the question tooling exposes a multi-select or checkbox mode, use it for this gate rather
@@ -485,7 +485,7 @@ answered questions.
 
 On `Re-audit with changed parameters`, the audit keeps comparison semantics - identifier continuity,
 the Changes Since Previous Audit section,
-and the incremented revision - while any core parameter may change.
+and the incremented revision. While any core parameter may change.
 
 Recover the previous report's parameters as defaults, present them in a compact summary,
 and ask one follow-up question listing the core parameters:
@@ -538,19 +538,19 @@ Present the defaults in a compact summary.
 
 Default parameters:
 
-| Parameter               | Default                                                                                                                                                                                                                     |
-|-------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Report style            | `audit` - the governance contract, `hunt` the defect-hunt genre, `review` the execution-register genre                                                                                                                      |
-| Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/`, else Inline                                                                                                                                     |
-| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md` for a first hunt, `REVIEW.md` for a first review                                                                         |
-| Report language         | Match the language of the user's request                                                                                                                                                                                    |
-| Language output         | `pair` when the report language is not English, or when the previous report was a language pair - the English report plus its translation - `single` when the request scopes to one language and no pair convention applies |
-| Detail level            | Detailed                                                                                                                                                                                                                    |
-| Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                                                                                                                                       |
-| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                                                                                                                                                     |
-| Trade-off analysis      | Standalone section + embedded into relevant findings                                                                                                                                                                        |
-| Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it                                                                                                                                     |
-| Evidence mode           | `source-only` - `executed-readonly` runs commissioned non-mutating analyzers, `executed-commands` adds commissioned non-mutating commands such as tests and builds                                                          |
+| Parameter               | Default                                                                                                                                                                                                                   |
+|-------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Report style            | `audit` - the governance contract, `hunt` the defect-hunt genre, `review` the execution-register genre                                                                                                                    |
+| Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/`, else Inline                                                                                                                                   |
+| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md` for a first hunt, `REVIEW.md` for a first review                                                                       |
+| Report language         | Match the language of the user's request                                                                                                                                                                                  |
+| Language output         | `pair` when the report language is not English, or when the previous report was a language pair, the English report plus its translation, `single` when the request scopes to one language and no pair convention applies |
+| Detail level            | Detailed                                                                                                                                                                                                                  |
+| Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                                                                                                                                     |
+| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                                                                                                                                                   |
+| Trade-off analysis      | Standalone section + embedded into relevant findings                                                                                                                                                                      |
+| Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it                                                                                                                                   |
+| Evidence mode           | `source-only` - `executed-readonly` runs commissioned non-mutating analyzers, `executed-commands` adds commissioned non-mutating commands such as tests and builds                                                        |
 
 The agent MUST ask the user and MUST NOT skip this step.
 
@@ -631,7 +631,7 @@ report.
 
 A request that explicitly changes a parameter overrides the file and rewrites it.
 
-The file never carries secrets, credentials, or fetched content - resolved intake values only -
+The file never carries secrets, credentials, or fetched content. Resolved intake values only -
 and it changes nothing about the source-only boundary.
 
 **Parameter prompts**
@@ -1255,7 +1255,7 @@ Its `evidence[]`, `inventory[]`, `findings[]`, `risks[]`, and `recommendations[]
 populated during evidence collection and assessment, and every report section renders from them.
 
 Before generation, `scripts/check-model.py` verifies the model's referential integrity and
-recomputes its scoring records - a failing model is repaired in the records, never rendered
+recomputes its scoring records. A failing model is repaired in the records, never rendered
 around, per Model Quality Checks in `process/audit-model.md`.
 
 When the session plans more than one report - for example an `audit` and a `hunt` over the
@@ -1286,7 +1286,7 @@ The matrix becomes the Operator
 Verification Handoff.
 
 Under `executed-readonly` only the commissioned non-mutating analyzers run - builds, tests,
-and the project itself still never execute - and their results are `EXECUTED` evidence in the
+and the project itself still never execute, and their results are `EXECUTED` evidence in the
 Executed Evidence Log rather than `NOT RUN` rows.
 
 Under `executed-commands` the commissioned
@@ -1591,7 +1591,7 @@ the detail level is Standard or Detailed.
 Confirm every finding that records an absent capability carries an `Absence` token
 with a one-line evidence basis.
 
-Confirm no `Security`, `Exploitability`, or `Absence` field line renders `N/A` - the field is
+Confirm no `Security`, `Exploitability`, or `Absence` field line renders `N/A`. The field is
 omitted instead - and no `Owner` line renders an unspecified value.
 
 Confirm identifiers cited in narrative prose match register rows: a `RSK-XXX`, `FND-XXX`, or
@@ -1747,7 +1747,7 @@ it equals the reported mean after the documented rounding rule. `UNKNOWN` and `N
 stay out of the denominator.
 
 Confirm no summary table promotes a finding's verification status beyond what its block
-carries - a `Runtime confirmed: no` finding cannot appear as verified in any summary.
+carries. A `Runtime confirmed: no` finding cannot appear as verified in any summary.
 
 Under `executed-readonly`, confirm the Executed Evidence Log lists every executed check with
 tool, version, exact command, and timestamp, and that the report claims no build, test, or

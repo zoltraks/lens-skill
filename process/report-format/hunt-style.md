@@ -79,7 +79,7 @@ It carries, in order:
 3. The domain ratings table below.
 4. The hard readiness gates: every gate listed with `Met`, `Not met`, or `Not assessable`,
    and each gate named against the permitted-use profile it guards - laboratory,
-   controlled sharing, or production - when the report frames staged use.
+   controlled sharing, or production. When the report frames staged use.
 5. A top-five action list naming the first remediation steps with their finding IDs.
 6. A strengths list of at most five evidenced positives.
 
@@ -107,7 +107,7 @@ Ratings use a defined scale, not judgment:
 
 The rating aggregates, it does not judge: a domain stays `Not assessed` when no scoreable
 evidence exists, and unassessed package health never renders `Amber` merely because the
-scanning process is weak - Dependencies separates "scanning did not run" (a `Not assessed`
+scanning process is weak. Dependencies separates "scanning did not run" (a `Not assessed`
 package state with a process finding) from "scanning ran clean".
 
 The Basis cell names the finding IDs that set the rating, and the report states the
@@ -168,7 +168,7 @@ finding keeping its shared `FND-<pillar>-NNN` identifier and full block schema.
 
 The section opens with a summary table carrying the shared columns (`Finding`, `Result`,
 `Status`, `Change`, `Verification`, plus `Project` when multi-project), and the validator
-reconciles its row count against the `### FND-` blocks - the `###` domain headings do not
+reconciles its row count against the `### FND-` blocks. The `###` domain headings do not
 close the section, only the next `##` does.
 
 Every finding cites `path:line` evidence and carries `Breaking change` and `Runtime

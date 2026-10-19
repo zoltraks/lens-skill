@@ -43,7 +43,7 @@ gates.
 
 It does not mean the subject is production-approved.
 
-This distinction is audit-internal semantics - the report itself never carries a sentence
+This distinction is audit-internal semantics. The report itself never carries a sentence
 disclaiming production acceptance.
 
 ## Criterion Inputs
@@ -74,7 +74,7 @@ used for missing evidence.
 
 ## Dimension Scoring
 
-A dimension's score derives from weighted mastery over its applicable criteria - it is never
+A dimension's score derives from weighted mastery over its applicable criteria. It is never
 picked from an evidence-pattern range.
 
 Compute each dimension's point mastery over its resolved applicable criteria:
@@ -116,7 +116,7 @@ A numeric dimension score publishes only when both hold:
 - At least one resolved criterion rests on `INSPECTED`, `STATICALLY_DERIVED`, `EXECUTED`, or
   `MEASURED` evidence - a dimension resolved on `DECLARED` material alone is not scored.
 
-A dimension that fails the gate renders `UNKNOWN` with the missing coverage named - it never
+A dimension that fails the gate renders `UNKNOWN` with the missing coverage named. It never
 publishes a numeric score on thin evidence, and `NOT_APPLICABLE` criteria never count toward
 either side of the gate.
 
@@ -145,7 +145,7 @@ Severity and conformance anchor two further rules:
 
 A documented or advertised capability that the code does not implement - a supported workflow
 that fails end to end, a stub behind an advertised feature, a builder image that cannot
-compile the code - is a spec violation and a hard readiness gate.
+compile the code is a spec violation and a hard readiness gate.
 
 While such a gate stays open the readiness state is `NOT READY` or `PENDING EVIDENCE`
 regardless of dimension scores, and its dimension is capped per the finding's severity.

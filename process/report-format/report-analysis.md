@@ -22,7 +22,7 @@ When the report language is not English, apply the column header translations fr
 
 Column meanings:
 
-- **Trade-off**: a short name for the tension - name the artifact or mechanism it governs and
+- **Trade-off**: a short name for the tension. Name the artifact or mechanism it governs and
   drop qualifiers that state the obvious (`Schema migration`, not `Automated schema migration`).
 - **Context**: the stated constraint or goal that frames the choice, or `NOT SPECIFIED`.
 - **Option A**: the quality gained and the quality reduced for the first side.

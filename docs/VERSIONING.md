@@ -45,17 +45,24 @@ incremented component.
 
 ## When To Bump
 
-Bump the version with every shipped change set - a set of edits that will be committed or
+Bump the version with every shipped change set. A set of edits that will be committed or
 delivered together increments `patch` by 1, whatever the change contains.
 
 Apply the increment rules above once per change set, at the point the set is complete and
 validated - not once per edit and not once per file.
 
+The version moves at most once between two commits. While the tree carries uncommitted
+changes, every further edit joins the open set and keeps its already-bumped version, no
+matter how many requests or edits arrive.
+
+A second bump before the commit is always wrong, even when the new edits feel like a
+separate change set - the set lands only when it is committed.
+
 ## Release Anchors
 
 Lens does not tag releases.
 
-The commit that bumps `metadata.version` is the release anchor - its hash is the named state
+The commit that bumps `metadata.version` is the release anchor. Its hash is the named state
 consumers pin or revert to, since the version alone lives only in frontmatter text.
 
 Record the bump commit's short hash in release notes or issues when a consumer needs to pin a

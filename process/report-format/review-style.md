@@ -59,7 +59,7 @@ at the end of this file instead of the section order below.
 
 ## Evidence Mode
 
-The style works under every evidence mode - the mode decides what may run, never what may
+The style works under every evidence mode. The mode decides what may run, never what may
 be claimed:
 
 - `source-only` - nothing executes. Every register row is `NOT RUN` with the command that
@@ -113,7 +113,7 @@ It carries, in order:
    `Not assessed`, `FND-` basis for degraded ratings).
 4. The hard readiness gates: every gate listed with `Met`, `Not met`, or `Not
    assessable`. State which permitted-use profile each gate belongs to - laboratory,
-   controlled sharing, or production - when the report frames a staged rollout.
+   controlled sharing, or production. When the report frames a staged rollout.
 5. A top-five action list naming the first remediation steps with their finding IDs.
 6. A strengths list of at most five evidenced positives.
 
@@ -189,7 +189,7 @@ Review adds a mandatory field to every finding block:
   `App` (the real application running locally), `Deployed` (a deployed environment),
   or `Unknown` when the level cannot be established.
 
-A `Model` reproduction demonstrates a mechanism - it never upgrades application-wide
+A `Model` reproduction demonstrates a mechanism. It never upgrades application-wide
 reachability claims, which stay `Source`-derived until exercised against the real routes.
 
 `Evidence level` is independent of `Confidence` - a claim can be confidently inferred

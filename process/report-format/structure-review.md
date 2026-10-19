@@ -74,7 +74,7 @@ A `hunt` report never loads the structure assessment and never renders `FND-STR-
 ## Structure Review Variant
 
 A `review`-style request scoped to the project structure - wording such as "make a structure
-review" or "review the project structure" - renders a dedicated report instead of the
+review" or "review the project structure". Renders a dedicated report instead of the
 execution-register contract.
 
 The variant carries exactly these top-level sections, in order:
@@ -100,7 +100,7 @@ The variant carries exactly these top-level sections, in order:
 Unnumbered headings, `##` sections only, tables per the Formatting Rules in
 `process/report-format.md`.
 
-The variant ends after Limitations and Assumptions - it carries no scorecard, risk register,
+The variant ends after Limitations and Assumptions. It carries no scorecard, risk register,
 roadmap, validation record, or glossary, and no closing line follows the last section.
 
 The variant uses the `REVIEW` filename family with the same bare-stem-first default and

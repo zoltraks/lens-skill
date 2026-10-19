@@ -136,7 +136,7 @@ executed-log section when conditional.
   `REC-`/`FND-` identifiers, and at most five strengths.
 - Domain ratings cover the fixed set Correctness, Security, Reliability, Performance,
   Dependencies, Deployment, Testability, Documentation, Maintainability, Provenance with
-  values `Red`, `Amber`, `Green`, `Not assessed` - a `Red` or `Amber` row cites an `FND-`
+  values `Red`, `Amber`, `Green`, `Not assessed`. A `Red` or `Amber` row cites an `FND-`
   in its Basis.
 - Journey hop tables use `Hop | Status | Evidence` with `conforming`, `failing`, or
   `not assessable` - a `failing` hop cites a defined `FND-`.

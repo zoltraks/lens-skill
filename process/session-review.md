@@ -24,7 +24,7 @@ Two optional flags named in the request modify how the review's question surface
 - **Verbose** - `verbose`. Every surface additionally reports the full option list and the
   rationale for the recommended choice, whether the surface was asked or auto-resolved.
 
-The flags may stack - autonomous plus verbose resolves every gate and reports all options.
+The flags may stack. Autonomous plus verbose resolves every gate and reports all options.
 
 Autonomous mode resolves only this procedure's own gates: it never commits, and a session
 that yields no findings still reports and stops rather than inventing changes.
@@ -64,7 +64,7 @@ lesson with skill-owned examples, never with names or paths of an audited projec
 
 Report the findings and the proposed changes per rule file.
 
-Ask for approval before editing - under JSON exchange the gate emits as the
+Ask for approval before editing. Under JSON exchange the gate emits as the
 `session-review-approval` `choice` parameter per `process/json-exchange.md`.
 
 The gate offers `Apply` (recommended), `Adjust`, and `Cancel`.
@@ -90,7 +90,7 @@ check that ran, failed, or was skipped.
 
 ## What Does Not Apply
 
-- No audit machinery runs - parameter resolution, evidence modes, and report contracts do
+- No audit machinery runs. Parameter resolution, evidence modes, and report contracts do
   not apply to the skill's own files.
 - No separate findings log is kept - findings land directly in the rule files they correct,
   except structural proposals recorded as `work/` plans.

@@ -81,7 +81,7 @@ share one, otherwise the longest entry plus two spaces.
 `--compact` moves the column to the minimum - `--check` reports misalignment without writing.
 
 A block whose opening fence is preceded by `<!-- align-comments: off -->` - optionally with one
-blank line between the marker and the fence - is skipped entirely, so deliberate examples of
+blank line between the marker and the fence. Is skipped entirely, so deliberate examples of
 misalignment stay untouched.
 
 Run it on any document that contains directory trees, file listings, or commented plain-text
@@ -219,7 +219,7 @@ selects the structure-variant contract from
 order instead of the execution-register contract.
 
 A file matching the removed amendment-review shape - a `Review and Amendment Instructions`
-title, a `Findings and Corrections` subsection, or an `Action Proposals` section - is
+title, a `Findings and Corrections` subsection, or an `Action Proposals` section. Is
 classified `legacy` and fails with a pointer to the current contract.
 
 A `REVIEW`-family filename with a custom suffix is classified `custom` and receives the
@@ -257,7 +257,7 @@ It is never run on a report artifact or inside an audited repository.
 `check-contents.py` verifies that `## Contents` tables in the skill's own documents still anchor to
 real `##` section headings.
 
-Pass `--fix` to rewrite each row's recorded line to its section heading - when rows and headings
+Pass `--fix` to rewrite each row's recorded line to its section heading. When rows and headings
 pair one-to-one they are re-anchored in order.
 
 Run it whenever a document's sections move.

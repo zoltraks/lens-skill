@@ -192,7 +192,7 @@ Place one space after the leading pipe and one space before the trailing pipe.
 
 The separator contains only hyphens and pipe characters.
 
-The hyphens are contiguous with the pipe characters - do not add spaces between pipes and hyphens.
+The hyphens are contiguous with the pipe characters. Do not add spaces between pipes and hyphens.
 
 The separator width for each column equals the column width plus two hyphens.
 
@@ -212,7 +212,7 @@ Incorrect separator format (spaces around hyphens):
 
 **Empty cells**: A cell may be empty only in a column the separator row declares.
 
-Every separator cell carries at least one hyphen - a space-only separator cell is a defect,
+Every separator cell carries at least one hyphen. A space-only separator cell is a defect,
 not a layout choice.
 
 A column that is empty in every row is not a column - delete it.
@@ -235,7 +235,7 @@ Include all Markdown formatting characters (backticks, asterisks, spaces, punctu
 in the width measurement.
 
 Link and image markup counts in full: a `[text](target)` or `![alt](src)` cell measures
-brackets, text, and target together - nothing is stripped before measuring.
+brackets, text, and target together. Nothing is stripped before measuring.
 
 **Compacting**: After calculating column widths,
 compact the table by removing any padding that exceeds the widest cell in each column.
@@ -348,7 +348,7 @@ Cite every register identifier individually - never render an identifier range s
 
 Fenced code, inline code, existing links, and URLs are exempt.
 
-Apply the pass with `scripts/link-references.py`, never by hand - it derives anchors from
+Apply the pass with `scripts/link-references.py`, never by hand. It derives anchors from
 the report's own headings, so it applies unchanged to every report language.
 
 Draft every citation as the bare identifier with no link markup - the linker inserts the

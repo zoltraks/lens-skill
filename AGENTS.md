@@ -34,7 +34,7 @@ Keep each rule in its owning document and link to it instead of duplicating it.
   non-mutating, read-only analyzers (such as dependency advisory or policy scanners) the
   user explicitly commissions - the project itself is still never built, tested, or run.
   `executed-commands` additionally permits explicitly commissioned non-mutating commands
-  such as test suites, builds, and isolated reproduction harnesses - the subject is still
+  such as test suites, builds, and isolated reproduction harnesses. The subject is still
   never deployed, mutated, or connected to live systems.
 - Keep `SKILL.md` lean: it routes to resources and must stay below 500 lines.
 - Register every new or renamed resource in `SKILL.md` and mirror it in the `README.md` tree,
@@ -45,7 +45,8 @@ Keep each rule in its owning document and link to it instead of duplicating it.
   generalize examples per `docs/MAINTENANCE.md`.
 - Keep `evals/evals.json` in sync when a change alters skill behavior.
 - Bump `metadata.version` by one patch with every shipped change set - a set of edits that
-  will be committed or delivered together, per `docs/VERSIONING.md`.
+  will be committed or delivered together, per `docs/VERSIONING.md` - at most once until
+  the set is committed.
 - Do not claim validation that did not run.
 - Never commit automatically - propose a one-sentence commit message per `docs/CONTRIBUTING.md`.
 - A bare `work on lens-skill` request that names no operation is standby - read this file,

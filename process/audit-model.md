@@ -119,7 +119,7 @@ claim renders from the model.
 No prose recalculates, restates, or invents a number the model does not already hold - a count
 mentioned in a description equals the count in the classified records that produced it.
 
-When a summary and a detail disagree, the model is wrong or the prose drifted - both are
+When a summary and a detail disagree, the model is wrong or the prose drifted. Both are
 resolved against the records, never edited independently.
 
 Finding, risk, and recommendation IDs stay stable between the model and every rendering of it.
@@ -151,7 +151,7 @@ mechanically:
   recompute from criterion outcomes, weights, and backing evidence kinds, and the overall row
   matches the eligible dimension set and its mean.
 
-A model that fails these checks is not generated from - the failures are resolved in the
+A model that fails these checks is not generated from. The failures are resolved in the
 records first, per the Derivation Rule.
 
 ## Counter-Evidence Review
@@ -164,10 +164,10 @@ Challenge both inflated praise and unsupported defect claims.
 For every `CRITICAL`/`HIGH` finding and every favorable `PASS` that gates a score, ask what
 observation would refute it and record the answer in the finding's `counter` field.
 
-Retain disagreements and their disposition reasons in the model - a resolved disagreement is
+Retain disagreements and their disposition reasons in the model. A resolved disagreement is
 recorded, never erased.
 
-This pass is a second sequential evaluation by the same auditor - parallel agents are not
+This pass is a second sequential evaluation by the same auditor. Parallel agents are not
 required.
 
 ## Publication Stops
@@ -180,5 +180,5 @@ The generator stops final publication on:
 - Broken semantic references: an identifier that resolves to the wrong problem, not merely a
   missing one.
 
-A stopped publication may still emit the report as a clearly labeled incomplete draft - it
+A stopped publication may still emit the report as a clearly labeled incomplete draft. It
 carries `State | Draft` and the unresolved errors are named in the Validation Record.

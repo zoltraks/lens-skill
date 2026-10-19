@@ -75,7 +75,7 @@ The API Compatibility dimension is `N/A` unless the subject is a reusable librar
 per `assessment/api-compatibility.md`.
 
 At the `Detailed` level, add a paragraph below the table naming each omitted `N/A` dimension and
-its applicability reason, for example `API Compatibility - the subject is not a reusable library
+its applicability reason, for example `API Compatibility. The subject is not a reusable library
 or package`.
 
 Render each Score cell in the selected evaluation scale: `7/10` for `1-10`, `4/5` for `1-5`,
@@ -89,7 +89,7 @@ numeric Score cell, and a numeric overall row enters that mean and corrupts it.
 The overall
 score belongs to the Executive Summary key-value table, per
 `process/report-format/summary-changes.md`, and the validator compares the stated overall
-against the recomputed mean - they must agree under the documented rounding.
+against the recomputed mean. They must agree under the documented rounding.
 
 When the report language is not English, apply the translations from the matching `translations/`
 file.

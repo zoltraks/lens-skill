@@ -74,7 +74,7 @@ Under `executed-readonly` only the
 commissioned non-mutating analyzers run, and the project is still never built, tested, or run.
 
 Under `executed-commands` the explicitly commissioned non-mutating commands run - including
-tests, builds, and reproduction harnesses - while the subject is still never deployed,
+tests, builds, and reproduction harnesses. While the subject is still never deployed,
 mutated, or connected to live systems.
 
 Executed output carries a fixed status vocabulary - `PASS`, `FAIL`, `ERROR`, `BLOCKED`,

@@ -326,7 +326,7 @@ The scorecard distinguishes three groups when the subject warrants it: product q
 hygiene), and governance (documentation, licensing, continuity).
 
 Strong governance or
-agent tooling never lifts a product-quality or security score on its own - each group is
+agent tooling never lifts a product-quality or security score on its own. Each group is
 aggregated and reported separately before any combined mean.
 
 Static test-structure assessment is separated from effectiveness: the count and

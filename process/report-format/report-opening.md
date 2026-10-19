@@ -61,7 +61,7 @@ Rows appear in this order, each label in the first column and its value in the s
   `AUDIT-1.4-EN.md (English - canonical)` in the translation. Omit the row on a
   single-language report.
 - `Audit Purpose` - engineering improvement, production readiness, or technical due
-  diligence. The cell carries the purpose value only - a re-audit is marked by
+  diligence. The cell carries the purpose value only. A re-audit is marked by
   `Report Revision`, `Previous Report`, and the Changes section, never prefixed into
   `Audit Purpose`.
 - `Target Environment` - where the software runs or ships.
@@ -80,7 +80,7 @@ Rows appear in this order, each label in the first column and its value in the s
 - `Skill Version` - the version of the audit skill that produced the report, written as the
   bare version string (for example `2.0.2`), never prefixed with the skill name.
 - `Time taken` - elapsed audit time in `MM:SS`, measured from the start timestamp recorded the
-  moment parameter questions were resolved - before the remaining skill rule documents are
+  moment parameter questions were resolved. Before the remaining skill rule documents are
   loaded - to the final clock reading before report delivery. The window spans document
   familiarization, evidence gathering, report part composition, concatenation, formatting, and
   validation, and an interrupted or re-done assembly does not reset the start timestamp.
@@ -122,7 +122,7 @@ to a different tree.
 A report without a `State` row is final: the scoped report is complete, which does not mean the
 system is approved for production.
 
-This distinction is audit-internal semantics - the report itself never carries a sentence
+This distinction is audit-internal semantics. The report itself never carries a sentence
 disclaiming production acceptance.
 
 **Report revision**
@@ -171,7 +171,7 @@ report.
 Present the fixed table from `references/audit-taxonomy.md`, one row per canonical audit type
 whose status is not `NOT APPLICABLE`.
 
-A type classified `NOT APPLICABLE` produces no row - the table never mentions audit types that
+A type classified `NOT APPLICABLE` produces no row. The table never mentions audit types that
 do not apply to the subject.
 
 | Report type                           | Status   | Rationale                              |
@@ -388,7 +388,7 @@ State them here so the prose contract and the mechanical check agree.
   list still links normally.
 - The status tokens that populate those fields - `N/A`, `PASS`, `FAIL`, `UNKNOWN`,
   `NOT RUN`, `NOT PERFORMED`, `NOT SPECIFIED`, `INSUFFICIENT INFORMATION`, `NO BASELINE`,
-  `NO GAPS` - are a fixed vocabulary. They may be indexed as terms when the report uses them
+  `NO GAPS` are a fixed vocabulary. They may be indexed as terms when the report uses them
   in prose, but inside the exempt field values above they are data, not glossary terms.
 - Parenthesized terms such as `HTTP(S)` cannot carry a `###` description, the term is parsed
   before the parenthesis, keep them index-only.

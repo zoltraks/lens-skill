@@ -56,7 +56,7 @@ never a conformance verdict by itself.
   circular imports, or conflicting copies of the same rule.
 - **Index of record**: whether exactly one document declares which documents are authoritative
   (a Sources of Truth table or equivalent). A second authority declaration - a README block
-  restating rules, a parallel guidelines root - is a finding.
+  restating rules, a parallel guidelines root is a finding.
 - **Consolidated topology**: whether a single entry file doubling as the central rules
   document records that role. Consolidation recorded as a convention conforms, unrecognized
   consolidation must not be reported as drift.
@@ -71,7 +71,7 @@ never a conformance verdict by itself.
   not be scanned for unrelated work carry an explicit read-boundary statement.
 - **Content sufficiency**: whether guidance documents hold real repository-derived content.
   Boilerplate-only documents presented as authoritative are findings, and documents naming
-  commands or paths that do not exist are drift - the existence check itself belongs to
+  commands or paths that do not exist are drift. The existence check itself belongs to
   `assessment/documentation-review.md`, so record the cross-reference rather than duplicating
   it.
 - **Vendored-document currency**: whether a vendored instruction or preparation document
@@ -126,7 +126,7 @@ never a conformance verdict by itself.
   repository appears documented.
 - Unrecorded consolidated topology reads as drift to auditors and invites a duplicate central
   rules document that forks the conventions.
-- Duplicated rule text across owners diverges silently - each copy is documented but the
+- Duplicated rule text across owners diverges silently. Each copy is documented but the
   copies disagree.
 - Boilerplate-only guidance documents pass file-existence checks while carrying no real
   convention.

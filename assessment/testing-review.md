@@ -138,7 +138,7 @@ against the imports and runners the test files actually use - a declared harness
 consuming test is configuration drift, and a used harness with no declaration is an
 undocumented dependency.
 
-The verification-coverage row maps each enumerated dispatch entry point - HTTP routes, CLI
+The verification-coverage row maps each enumerated dispatch entry point. HTTP routes, CLI
 commands, consumers, scheduled jobs, per `references/topics/evidence-recipes.md` - to the
 tests that name it.
 
@@ -170,7 +170,7 @@ applied - a count of test functions or files never stands in for any of them.
 | Assertion depth    | Sampled tests scoring assertions versus trivial or stub checks |
 | Fixture realism    | Doubles and fixtures versus the production boundary they mock  |
 
-A count belongs in the census only - report it beside these measures as scale context, never
+A count belongs in the census only. Report it beside these measures as scale context, never
 as their substitute, per the `Test adequacy` row in `references/evidence-schema.md`.
 
 ## Status Criteria

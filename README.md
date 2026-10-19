@@ -216,7 +216,7 @@ Before a new audit, Lens asks whether to accept the default parameters or config
 settings.
 
 An automated run asks nothing: every gate resolves to its discovered or default answer - re-audit
-with recovered parameters when a previous report exists - and the report writes to the resolved
+with recovered parameters when a previous report exists, and the report writes to the resolved
 location.
 
 A confirmed re-audit reuses the prior report's recorded parameters unless you request changes.
@@ -646,7 +646,7 @@ Run them only against report artifacts and remove the copies after use.
 
 File-mode reports are composed as `.tmp.<stem>-part-NN.md` part files in the same scratch
 locations, concatenated in section order into the output file, and the parts are deleted only
-after the assembled report passes validation - they are checkpoints against mid-flight loss.
+after the assembled report passes validation. They are checkpoints against mid-flight loss.
 
 Sections marked *(conditional)* appear in a report only when the subject warrants them.
 
@@ -698,7 +698,7 @@ When changing the skill, follow `docs/MAINTENANCE.md` and:
 - Run `python scripts/validate-skill.py .`, `python scripts/check-references.py .`,
   `python scripts/check-contents.py .`, and the `tests/` suite
   (`python -m unittest discover -s tests`) after changing skill files.
-- The repository runs no CI workflow by deliberate choice - the checklist above is the standing
+- The repository runs no CI workflow by deliberate choice. The checklist above is the standing
   pre-merge gate, and the maintainer runs it on every change before merging.
 - Run `git diff --check` to detect whitespace errors.
 - Format edited tables using an automated source-width formatter per `docs/STYLE.md`.

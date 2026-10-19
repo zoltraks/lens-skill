@@ -40,7 +40,7 @@ a versioned tag of a trusted publisher, mutable refs such as `@main` or floating
 third-party actions are recorded, and unpinned first-party actions follow the project's own
 policy.
 
-The check reads workflow files as text - it never fetches the referenced actions.
+The check reads workflow files as text. It never fetches the referenced actions.
 
 A mutable third-party ref is a supply-chain exposure finding class, not a style note.
 

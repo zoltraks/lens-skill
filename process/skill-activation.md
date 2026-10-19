@@ -41,7 +41,7 @@ set - while still naming no operation: "use lens on the service repository".
 Naming a target is not a task, so the request stays in enable mode with the target held
 as context for the next request.
 
-A purpose qualifier such as "for audits" is not a task either - it names a mode, not an
+A purpose qualifier such as "for audits" is not a task either. It names a mode, not an
 operation, and the request stays in enable mode.
 
 A request that combines activation with a task is a task request - "run lens, audit this
@@ -72,7 +72,7 @@ per `process/json-exchange.md`.
 
 Open with one sentence confirming the skill is enabled.
 
-Follow with one sentence describing the skill - it produces evidence-based engineering
+Follow with one sentence describing the skill. It produces evidence-based engineering
 audit, hunt, and review reports from source-only inspection - and name the skill version
 read from `metadata.version` in the loaded `SKILL.md`.
 
@@ -113,19 +113,19 @@ Write the response in the language of the request.
 
 - No intake classification, parameter resolution, or subject discovery runs - the
   request named no task.
-- No read or scan of the named target runs - a bare activation does not open the target
+- No read or scan of the named target runs. A bare activation does not open the target
   to guess the task.
 - No rule files load beyond the router and this file - progressive disclosure stays
   lazy, the next request selects its own rule set.
 - A diagnostic or verbose flag adds `process/json-exchange.md` to the loaded set and
   nothing else - no scan of the target runs and no assessment files load, and no
   parameter document emits while no question surface is pending.
-- No file is written - a proposed change waits for a request that names the operation
+- No file is written. A proposed change waits for a request that names the operation
   and confirms it.
 
 ## Relation To The Modes
 
-Enable mode is the standby state - it precedes audit work and skill maintenance.
+Enable mode is the standby state. It precedes audit work and skill maintenance.
 
 A task-bearing request that follows enters audit work or maintenance per the routing
 rules in `SKILL.md` and `AGENTS.md`, without repeating the update check this session.
