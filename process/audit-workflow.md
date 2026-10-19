@@ -825,8 +825,8 @@ Present each applicable option as a concrete choice:
   date. Offer this only when the recorded pattern is `none`. When the base is a bare
   documentation root, offer `<base>/report/<current-date>/<filename>` instead. For example,
   `docs/report/<date>/AUDIT-1.0.md` for a first audit. Under a `pair` language output every
-filename option names both files, for example `docs/audit/AUDIT-1.0-EN.md` and
-`docs/audit/AUDIT-1.0-PL.md`.
+  filename option names both files, for example `docs/audit/AUDIT-1.0-EN.md` and
+  `docs/audit/AUDIT-1.0-PL.md`.
 - `File - <resolved-path>/<filename without the revision number>` - the resolved path using
   the filename without the revision number, such as `docs/report/AUDIT.md`, offered as an
   alternative to the revisioned default. For a `hunt`- or `review`-style report this option is

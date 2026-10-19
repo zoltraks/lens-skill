@@ -24,7 +24,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.3.2"
+  version: "2.3.3"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -79,8 +79,8 @@ the audited subject.
   and `dirty=no`), then re-read `SKILL.md` and any loaded rule files. A blocked or declined
   merge reports briefly and continues with the current version, never re-asked this session.
 - The `tip_sha` and `tip_date` detail lines identify the incoming tip commit - cite them when
-  reviewing `git log @{u}..` diffs before a merge or when pinning or reverting to a known state;
-  the merge fast-forwards to the reported `tip_sha`, never a later tip.
+  reviewing `git log @{u}..` diffs before a merge or when pinning or reverting to a known state.
+  The merge fast-forwards to the reported `tip_sha`, never a later tip.
 - Any other status - proceed silently and do not mention the check.
 
 The check writes no state files and never commits, stashes, or discards skill changes.
