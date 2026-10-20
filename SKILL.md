@@ -24,7 +24,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.3.4"
+  version: "2.3.5"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -41,8 +41,8 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 |-------------------------|------|----------------------------------------------------|
 | Skill Update Check      | 70   | Once-per-session git freshness gate before use     |
 | Trigger Keywords        | 88   | Activation phrases                                 |
-| How To Use              | 112  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 132  | Defaults and user-controlled report shape          |
+| How To Use              | 115  | Progressive disclosure and mandatory reading       |
+| Parameter Configuration | 134  | Defaults and user-controlled report shape          |
 | Principles              | 195  | Evaluation and output rules                        |
 | Process                 | 201  | Workflow, format, and parity                       |
 | Assessments             | 228  | Core and conditional assessment guides             |
@@ -107,6 +107,9 @@ The skill activates on phrases such as:
 - skill maintenance: work on lens-skill, work on this skill, maintain this skill
 - automated invocations: audit automatically, automated mode, unattended, non-interactive
 
+A request that names no report artifact - "explain how it works", "describe what it brings" -
+is descriptive analysis: inline and evidence-based, never entering `process/audit-workflow.md`.
+
 Bare activation and `work on lens-skill` standby follow `process/skill-activation.md`.
 
 ## How To Use This Skill
@@ -125,15 +128,13 @@ Use progressive disclosure:
 
 This skill is self-contained. The topic files below are the available reference material.
 
-When asked how this skill works, explain that Lens produces structured, evidence-based
-engineering reports (audit, hunt, or review style) of a codebase, prototype, production
-system, or proposal, with dedicated structure analysis and refinable advanced parameters.
+When asked how this skill works, explain that Lens produces evidence-based engineering reports
+(audit, hunt, or review) with dedicated structure analysis and refinable advanced parameters.
 
 ## Parameter Configuration
 
-Before beginning the audit, the agent runs the Parameter Configuration phase defined in
-`process/audit-workflow.md` and MUST ask the user whether to accept the default parameters or
-configure the core parameters.
+Before beginning the audit, the agent runs the Parameter Configuration phase in
+`process/audit-workflow.md` and MUST ask whether to accept defaults or configure.
 
 Defaults are:
 
@@ -152,9 +153,8 @@ Defaults are:
 | Evidence mode           | `source-only` (default), `executed-readonly` analyzers, or `executed-commands` commissioned commands                                   |
 
 The agent MUST ask this question, MUST NOT skip it, and MUST wait for the user response
-before starting the audit - core configuration covers unresolved delivery/output and
-report-shape choices, while improvement suggestions and trade-off analysis apply the defaults
-unless explicitly requested otherwise and are not separate routine prompts.
+before starting the audit - core configuration covers unresolved delivery and report-shape
+choices, while advanced parameters apply the defaults unless explicitly requested.
 
 An automated, unattended, or non-interactive request suppresses every question surface per
 `process/audit-workflow.md` - gates resolve to discovered or default answers, the report

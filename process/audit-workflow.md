@@ -20,11 +20,11 @@ defined in `process/report-format/hunt-style.md` and `process/report-format/revi
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 2036 | Intake Checklist guidance        |
-| Handling Thin Input     | 2061 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 2075 | Single-Dimension Audits guidance |
-| Re-Audit                | 2089 | Re-Audit guidance                |
-| Multi-Project Audits    | 2155 | Multi-Project Audits guidance    |
+| Intake Checklist        | 2060 | Intake Checklist guidance        |
+| Handling Thin Input     | 2085 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 2099 | Single-Dimension Audits guidance |
+| Re-Audit                | 2113 | Re-Audit guidance                |
+| Multi-Project Audits    | 2179 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -46,6 +46,30 @@ written proposal.
 Note the source format.
 
 Findings from a description are weaker than findings from inspected code or configuration.
+
+**Deliverable classification**
+
+Classify what the request asks to receive before anything else.
+
+This workflow produces a report artifact and runs only when the request names one - an
+audit, hunt, or review report, a defect hunt, a structure review, a scorecard, a risk
+register, an assessment or readiness report, or an equivalent named deliverable.
+
+A request that asks only to understand, explain, or describe a subject - "take a look at
+X", "analyse how it is built", "describe what it brings" - names no report artifact and
+never enters this workflow.
+
+Answer it as descriptive analysis: read the subject under
+`principles/evaluation-rules.md` and respond inline.
+
+No parameter gate, intake discovery, register, scoring, output resolution, or report
+file runs for such a request.
+
+The descriptive answer stays inside the request's own scope - it never upgrades into an
+audit, and it never presents an audit or a report as the implied next deliverable.
+
+Only a request that names a report artifact, or a later message that asks for one,
+enters this workflow.
 
 Determine the report style from the request wording: `audit` by default, `hunt` when the
 request asks for a defect hunt, and `review` when the request explicitly names a review or

@@ -1640,6 +1640,17 @@
         "The audit runs the audit-workflow and report-contract procedures, not ad-hoc review.",
         "The target collection's own member contract supplies the conformance baseline."
       ]
+    },
+    {
+      "id": 138,
+      "prompt": "Take a look at this repository and analyse how it is built. Describe what the playbooks bring.",
+      "expected_output": "An inline descriptive analysis of the subject's structure and behavior, grounded in inspected files, with no report artifact produced.",
+      "files": [],
+      "expectations": [
+        "The request names no audit, hunt, or review report artifact, so the audit workflow and its parameter-configuration gate do not run.",
+        "The answer is a descriptive inline explanation under the evaluation rules, not a report file, register, or scorecard.",
+        "No audit is proposed, offered, or started - a report runs only when the request or a later message names the deliverable."
+      ]
     }
   ]
 }
