@@ -27,10 +27,10 @@ Snapshot date: 2026-10-21.
 | Polyglot Repositories              | 82   | Per-partition baseline resolution for multi-stack repos     |
 | Directory Naming Principles        | 114  | Full-word discipline, singular/plural, and catch-all bans   |
 | Cross-Language Naming Matrices     | 141  | File, package, type, member, variable, and test conventions |
-| Framework And Tooling Overrides    | 212  | Framework-imposed names that supersede language defaults    |
-| Language-Idiomatic Code Division   | 237  | Type-to-file rules, interfaces, abstracts, and DI wiring    |
-| Canonical Stack Fixtures           | 288  | Reference layouts and idioms across 11 languages/stacks     |
-| Fallback For Unlisted Technologies | 750  | Auditing languages, frameworks, and docs not in the tables  |
+| Framework And Tooling Overrides    | 213  | Framework-imposed names that supersede language defaults    |
+| Language-Idiomatic Code Division   | 238  | Type-to-file rules, interfaces, abstracts, and DI wiring    |
+| Canonical Stack Fixtures           | 289  | Reference layouts and idioms across 11 languages/stacks     |
+| Fallback For Unlisted Technologies | 751  | Auditing languages, frameworks, and docs not in the tables  |
 
 ## Component-Purpose Layout Rules
 
@@ -147,21 +147,22 @@ Canonical sources: [PEP 8](https://peps.python.org/pep-0008/),
 [Java Language Specification Section 6](https://docs.oracle.com/javase/specs/jls/se17/html/jls-6.html),
 [Maven Standard Directory Layout](https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html),
 [Microsoft Framework Design Guidelines](https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/naming-guidelines),
-and [C# Coding Conventions](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions).
+and
+[C# Coding Conventions](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions).
 
-| Element              | Python 3.10+                        | Java 17+                                  | C# 8+ (.NET)                              |
-|----------------------|-------------------------------------|-------------------------------------------|-------------------------------------------|
-| Source file          | `snake_case.py` (`order_service`)   | `PascalCase.java` matching public type    | `PascalCase.cs` matching primary type     |
-| Directory            | `snake_case` package dir            | lowercase package path (`com/example/…`)  | `PascalCase` matching namespace segment   |
-| Package / namespace  | lowercase, short (`services`)       | lowercase reverse-DNS (`com.example.…`)   | `PascalCase` (`OrderApp.Domain.Entities`) |
-| Class / record / exc | `PascalCase` (`OrderNotFoundError`) | `PascalCase` (`OrderNotFoundException`)   | `PascalCase` (`OrderNotFoundException`)   |
-| Interface / protocol | `PascalCase`, no `I` (`Protocol`)   | `PascalCase`, no `I` (`OrderService`)     | `IPascalCase` (`IOrderService`)           |
-| Method / function    | `snake_case`                        | `camelCase`                               | `PascalCase` (`CreateAsync`)              |
-| Variable / parameter | `snake_case`                        | `camelCase`                               | `camelCase`                               |
-| Constant / enum item | `UPPER_SNAKE_CASE`                  | `UPPER_SNAKE_CASE`                        | `PascalCase` (no type prefix on enums)    |
-| Private field        | `_leading_underscore`               | `camelCase` (no prefix)                   | `_camelCase`                              |
-| Test file            | `test_<module>.py`                  | `<Class>Test.java` or `<Class>Tests.java` | `<Class>Tests.cs`                         |
-| Build manifest       | `pyproject.toml`                    | `pom.xml` or `build.gradle(.kts)`         | `*.sln` / `*.slnx`, `*.csproj`, `.props`  |
+| Element              | Python 3.10+                        | Java 17+                                   | C# 8+ (.NET)                              |
+|----------------------|-------------------------------------|--------------------------------------------|-------------------------------------------|
+| Source file          | `snake_case.py` (`order_service`)   | `PascalCase.java` matching public type     | `PascalCase.cs` matching primary type     |
+| Directory            | `snake_case` package dir            | lowercase package path (`com/example/...`) | `PascalCase` matching namespace segment   |
+| Package / namespace  | lowercase, short (`services`)       | lowercase reverse-DNS (`com.example....`)  | `PascalCase` (`OrderApp.Domain.Entities`) |
+| Class / record / exc | `PascalCase` (`OrderNotFoundError`) | `PascalCase` (`OrderNotFoundException`)    | `PascalCase` (`OrderNotFoundException`)   |
+| Interface / protocol | `PascalCase`, no `I` (`Protocol`)   | `PascalCase`, no `I` (`OrderService`)      | `IPascalCase` (`IOrderService`)           |
+| Method / function    | `snake_case`                        | `camelCase`                                | `PascalCase` (`CreateAsync`)              |
+| Variable / parameter | `snake_case`                        | `camelCase`                                | `camelCase`                               |
+| Constant / enum item | `UPPER_SNAKE_CASE`                  | `UPPER_SNAKE_CASE`                         | `PascalCase` (no type prefix on enums)    |
+| Private field        | `_leading_underscore`               | `camelCase` (no prefix)                    | `_camelCase`                              |
+| Test file            | `test_<module>.py`                  | `<Class>Test.java` or `<Class>Tests.java`  | `<Class>Tests.cs`                         |
+| Build manifest       | `pyproject.toml`                    | `pom.xml` or `build.gradle(.kts)`          | `*.sln` / `*.slnx`, `*.csproj`, `.props`  |
 
 ### PHP 8.3, Rust, Go 1.22+, JavaScript, TypeScript, Pascal, And C++20
 

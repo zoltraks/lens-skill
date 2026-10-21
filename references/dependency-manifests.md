@@ -20,15 +20,15 @@ The derived inventory is `Inspected` evidence about the source, not a report fro
 
 Every reader produces the same component list shape.
 
-| Field        | Content                                                                                                                                                                       |
-|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Component    | Package name as declared                                                                                                                                                      |
-| Version      | Resolved or declared version. `UNKNOWN` when not derivable                                                                                                                    |
-| Ecosystem    | `purl` type: `pkg:cargo/…`, `pkg:nuget/…`, `pkg:npm/…`, `pkg:pypi/…`, `pkg:golang/…`, `pkg:maven/…`, `pkg:gem/…`, `pkg:composer/…`, `pkg:pub/…`, `pkg:hex/…`, `pkg:generic/…` |
-| Relationship | `direct` or `transitive`, where derivable, else `UNKNOWN`                                                                                                                     |
-| Scope        | `runtime`, `dev`, `build`, `test`, `optional`, or `UNKNOWN`                                                                                                                   |
-| Integrity    | Lockfile checksum or hash when present                                                                                                                                        |
-| Source File  | The manifest or lockfile the entry was read from                                                                                                                              |
+| Field        | Content                                                                                                                                                                                             |
+|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Component    | Package name as declared                                                                                                                                                                            |
+| Version      | Resolved or declared version. `UNKNOWN` when not derivable                                                                                                                                          |
+| Ecosystem    | `purl` type: `pkg:cargo/...`, `pkg:nuget/...`, `pkg:npm/...`, `pkg:pypi/...`, `pkg:golang/...`, `pkg:maven/...`, `pkg:gem/...`, `pkg:composer/...`, `pkg:pub/...`, `pkg:hex/...`, `pkg:generic/...` |
+| Relationship | `direct` or `transitive`, where derivable, else `UNKNOWN`                                                                                                                                           |
+| Scope        | `runtime`, `dev`, `build`, `test`, `optional`, or `UNKNOWN`                                                                                                                                         |
+| Integrity    | Lockfile checksum or hash when present                                                                                                                                                              |
+| Source File  | The manifest or lockfile the entry was read from                                                                                                                                                    |
 
 License fields are rarely present in manifests.
 

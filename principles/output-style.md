@@ -249,9 +249,9 @@ Prefer ASCII characters for normal text.
 
 Use the standard ASCII hyphen-minus `-` (U+002D) for all hyphens, dashes, and minus signs.
 
-Do not use the em dash `—` (U+2014) or en dash `–` (U+2013) anywhere in the report.
+Do not use the em dash `-` (U+2014) or en dash `-` (U+2013) anywhere in the report.
 
-Use ASCII `->` for arrows in prose, do not use `→` or other typographic arrows outside code
+Use ASCII `->` for arrows in prose, do not use `->` or other typographic arrows outside code
 blocks.
 
 Box-drawing characters like "│", "├", "└" are allowed in code blocks for directory trees and simple

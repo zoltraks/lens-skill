@@ -145,7 +145,8 @@ Checkable constraints:
 
 ## Copilot Instructions
 
-Authoritative source: `https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions`.
+Authoritative source:
+`https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions`.
 
 Checkable constraints:
 

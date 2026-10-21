@@ -314,7 +314,7 @@ The repository contains multiple plaintext secrets in tracked files.
 
 Use the standard ASCII hyphen-minus `-` (U+002D) for all hyphens, dashes, and minus signs.
 
-Do not use the em dash `—` (U+2014) or en dash `–` (U+2013) anywhere in the report.
+Do not use the em dash `-` (U+2014) or en dash `-` (U+2013) anywhere in the report.
 
 **No closing line**
 

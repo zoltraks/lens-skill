@@ -17,7 +17,8 @@ Feeds `references/sbom-schema.md`, `references/license-compliance.md`, and
 
 ## CISA Minimum Elements
 
-From https://www.cisa.gov/resources-tools/resources/2026-minimum-elements-software-bill-materials-sbom
+From
+https://www.cisa.gov/resources-tools/resources/2026-minimum-elements-software-bill-materials-sbom
 (the older `minimum-requirements` URL is the alternate form of this row).
 
 - The minimum data fields per component: supplier, component name, version, unique

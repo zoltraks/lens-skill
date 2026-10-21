@@ -17,7 +17,8 @@ and `assessment/baseline-conformance.md` for CI/CD subjects.
 
 ## Action Pinning
 
-From https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions.
+From
+https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions.
 
 - Third-party actions and reusable workflows should be pinned to a full commit SHA
   (`uses: actions/checkout@<40-hex>`). A floating tag (`@v4`) or branch (`@main`) is mutable

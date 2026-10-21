@@ -51,10 +51,10 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 | Translations            | 284  | Per-language report translations                   |
 | References              | 293  | Lookup tables                                      |
 | Scripts                 | 319  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 340  | Behavioral regression prompts                      |
-| Repository Files        | 344  | Housekeeping files governing this repository       |
-| Evidence Contract       | 356  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 385  | File-selection and section-placement rules         |
+| Evaluation Prompts      | 341  | Behavioral regression prompts                      |
+| Repository Files        | 345  | Housekeeping files governing this repository       |
+| Evidence Contract       | 357  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 386  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -327,7 +327,8 @@ repository's `work/` directory under a `.tmp.` name and remove the copies when d
 - **`scripts/link-glossary.py`** / **`link-references.py`** - Glossary and register linkers.
 - **`scripts/validate-report.py`** - Mechanical report checker (`--dump-contract` emits JSON).
 - **`scripts/new-report.py`** - Report skeleton generator (`--style`, `--scope`, `--params`).
-- **`scripts/validate-skill.py`** / **`check-references.py`** / **`check-contents.py`** - Frontmatter, disclosure, reference, and Contents validators.
+- **`scripts/validate-skill.py`** / **`check-references.py`** / **`check-contents.py`** -
+  Frontmatter, disclosure, reference, and Contents validators.
 - **`scripts/check-update.py`** / **`style-census.py`** - Update check and identifier-shape census.
 - **`scripts/scan-standards.py`** / **`scan-structure.py`** - Corpus manifest and tree census.
 - **`scripts/finalize-report.py`** - Runs link, format, and validate in order on a report.

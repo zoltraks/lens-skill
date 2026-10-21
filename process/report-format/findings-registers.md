@@ -82,7 +82,7 @@ Present a compact summary of all findings:
 | FND-CPR-001 | Copyrights & Originality                  | <severity> | <title> | <result> | Open   | New    | <verifier>   |
 | FND-API-001 | API Compatibility & Versioning Discipline | <severity> | <title> | <result> | Open   | New    | <verifier>   |
 
-The `Title` column copies the finding's `### FND-…` heading verbatim - the summary never
+The `Title` column copies the finding's `### FND-...` heading verbatim - the summary never
 rephrases a heading.
 
 A cell drawn from a fixed vocabulary renders the token in the form the report language

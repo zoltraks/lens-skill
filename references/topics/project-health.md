@@ -30,7 +30,8 @@ row).
 ## Community Files
 
 From https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions
-and https://docs.github.com/en/code-security/getting-started/adding-a-security-policy-to-your-repository.
+and
+https://docs.github.com/en/code-security/getting-started/adding-a-security-policy-to-your-repository.
 
 - The health files: `README`, `LICENSE`, `CODE_OF_CONDUCT`, `CONTRIBUTING`, `SECURITY.md`,
   issue/PR templates, `CODEOWNERS` - each carries a documented role. `SECURITY.md` is where

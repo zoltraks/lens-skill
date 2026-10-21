@@ -53,7 +53,8 @@ and https://learn.microsoft.com/en-us/dotnet/core/compatibility/.
 
 ## Security Analyzers
 
-From https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/security-warnings.
+From
+https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/security-warnings.
 
 - The CA3xxx/CA53xx security-warning set maps to `references/cwe-analyzer.md`: CA2100 SQL
   injection review, CA3001-3012 injection/XSS/open-redirect/file-injection surfaces,
@@ -79,7 +80,8 @@ https://learn.microsoft.com/aspnet/core/performance/rate-limit.
 - `AddRateLimiter` middleware provides fixed/sliding-window and token-bucket limiters.
   Unauthenticated endpoints without a limiter are a resource-exhaustion observation.
 - `CryptographicOperations.FixedTimeEquals`
-  (https://learn.microsoft.com/dotnet/api/system.security.cryptography.cryptographicoperations.fixedtimeequals)
+  (
+  https://learn.microsoft.com/dotnet/api/system.security.cryptography.cryptographicoperations.fixedtimeequals)
   is the constant-time comparison for secrets. `==`/`SequenceEqual` on MACs and tokens is a
   timing finding.
 

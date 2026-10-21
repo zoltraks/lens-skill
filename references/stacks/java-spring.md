@@ -19,7 +19,8 @@ Feeds `assessment/security-review.md`, `assessment/dependency-review.md`,
 
 ## Spring Security
 
-From https://docs.spring.io/spring-security/reference/servlet/authorization/authorize-http-requests.html,
+From
+https://docs.spring.io/spring-security/reference/servlet/authorization/authorize-http-requests.html,
 https://docs.spring.io/spring-boot/reference/features/ssl.html, and
 https://docs.spring.io/spring-security/reference/features/authentication/password-storage.html.
 

@@ -226,7 +226,8 @@ or documented reviews.
 When a committed report claims coverage, check that the engine supports the project's language
 and framework.
 
-[CodeQL lists Rust support](https://docs.github.com/en/code-security/code-scanning/introduction-to-code-scanning/about-code-scanning-with-codeql) and
+[CodeQL lists Rust support](https://docs.github.com/en/code-security/code-scanning/introduction-to-code-scanning/about-code-scanning-with-codeql)
+and
 [Semgrep capabilities vary by engine and edition](https://docs.semgrep.dev/semgrep-ce-languages).
 
 Neither language support nor a clean scan establishes coverage of custom authorization semantics.

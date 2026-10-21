@@ -113,7 +113,8 @@ monitoring.
 
 ## Framework References
 
-Use selected practices from the [NIST AI Risk Management Framework 1.0](https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10)
+Use selected practices from the
+[NIST AI Risk Management Framework 1.0](https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10)
 when AI risk management is in scope.
 
 Use [ISO/IEC 42001](https://www.iso.org/standard/42001) only as a management-system reference

@@ -834,15 +834,15 @@ Apply these phrasing rules:
   or marked as translations, not presented as quotes.
 - Polish report output uses ASCII punctuation by default: straight quotes `"` and `'`,
   the spaced hyphen ` - ` for dashes, `...` for an ellipsis, and `->` or a word
-  (`→` spelled out) for arrows. Typographic forms (`„…"`, `–`, `—`, `→`, `…`) appear only
+  (`->` spelled out) for arrows. Typographic forms (`"..."`, `-`, `-`, `->`, `...`) appear only
   when the task or the source document explicitly establishes them - for audit reports
   they are never introduced on the writer's own initiative.
 - Defined Polish names are used verbatim mid-sentence without extra capitalization:
   `źródła prawdy`, not `Źródła Prawdy`, in the middle of a sentence.
 - `referencja Git (ref)` at first use, then `ref`.
-- Finding titles in summary tables are copied verbatim from the `### FND-…` headings -
+- Finding titles in summary tables are copied verbatim from the `### FND-...` headings -
   never rephrased. The same verbatim-copy rule covers recommendation titles from the
-  `### REC-…` headings and every later repetition of either title: risk registers,
+  `### REC-...` headings and every later repetition of either title: risk registers,
   roadmaps, follow-up plans, and the Validation Record all cite the title exactly as
   the heading states it.
 - A `Typ systemu` value, `Poziom dojrzałości`, `Cel audytu`, and readiness gates must not
@@ -860,7 +860,7 @@ discovering them through validator output.
 
 - **Prose punctuation:** no `;` in prose (outside code spans, fences,
   and tables) - split the sentence or use ` - `. No typographic
-  characters anywhere: `„”«»–—’‘…` are all flagged - use ASCII `"` `-`
+  characters anywhere: `""""--''...` are all flagged - use ASCII `"` `-`
   `'` `...` only.
 - **No literal `per`:** decline it - `dla każdego`, `na`, `dla`, or
   rewrite. `per` inside a hyphenated compound is still a hit.
@@ -870,8 +870,8 @@ discovering them through validator output.
   translated (`pin the measured baseline`, CI/CD stage names, tool
   identifiers) stay inside code spans - `lint-polish` flags them in
   plain text.
-- **Block field labels:** `* **Label:**` fields inside `### FND-…`,
-  `### RSK-…`, `### REC-…`, `### TDR-…` blocks come from that
+- **Block field labels:** `* **Label:**` fields inside `### FND-...`,
+  `### RSK-...`, `### REC-...`, `### TDR-...` blocks come from that
   register's label table only - `Wpływ` on findings, never `Skutek`
   (which is `Effect` and belongs to risk narrative, not a field label
   at all). `check-translation.py` flags any out-of-set label.
@@ -881,7 +881,7 @@ discovering them through validator output.
   and the detail block.
 - **Heading anchors:** after any `###` heading rename, re-derive its
   GitHub slug (lowercase, diacritics kept, spaces to hyphens) and
-  update every `](#…)` link that targets it - `check-translation.py`
+  update every `](#...)` link that targets it - `check-translation.py`
   flags unresolved anchors.
 - **Glossary-link placement:** keep a lowercase word, ` - `, or
   punctuation between an `[ACRONYM](#słownik)` link and any capitalized
@@ -1877,7 +1877,7 @@ The tool map is explicit about which file each gate applies to:
   `--rules <path to translations/polish-language.md>` whenever the script executes as a
   `.tmp.` copy outside the skill repository, or the calque tables never load,
 - `scripts/check-translation.py` reporting zero errors - it covers summary-table title
-  agreement against `### FND-…`/`### REC-…` headings, reconciliation of register counts
+  agreement against `### FND-...`/`### REC-...` headings, reconciliation of register counts
   in prose against the tables, and the sentence-length review against Style Rules,
 - `scripts/map-translation.py` with `--rules` producing the English-mapped copy,
   then `scripts/validate-report.py` reporting zero issues on that copy - the validator
