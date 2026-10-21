@@ -25,7 +25,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.3.6"
+  version: "2.3.7"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -42,19 +42,19 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 |-------------------------|------|----------------------------------------------------|
 | Skill Update Check      | 71   | Once-per-session git freshness gate before use     |
 | Trigger Keywords        | 89   | Activation phrases                                 |
-| How To Use              | 117  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 136  | Defaults and user-controlled report shape          |
-| Principles              | 197  | Evaluation and output rules                        |
-| Process                 | 203  | Workflow, format, and parity                       |
-| Assessments             | 229  | Core and conditional assessment guides             |
-| Synthesis               | 271  | Findings, risk, score, and remediation assembly    |
-| Translations            | 283  | Per-language report translations                   |
-| References              | 292  | Lookup tables                                      |
-| Scripts                 | 318  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 339  | Behavioral regression prompts                      |
-| Repository Files        | 343  | Housekeeping files governing this repository       |
-| Evidence Contract       | 355  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 384  | File-selection and section-placement rules         |
+| How To Use              | 118  | Progressive disclosure and mandatory reading       |
+| Parameter Configuration | 137  | Defaults and user-controlled report shape          |
+| Principles              | 198  | Evaluation and output rules                        |
+| Process                 | 204  | Workflow, format, and parity                       |
+| Assessments             | 230  | Core and conditional assessment guides             |
+| Synthesis               | 272  | Findings, risk, score, and remediation assembly    |
+| Translations            | 284  | Per-language report translations                   |
+| References              | 293  | Lookup tables                                      |
+| Scripts                 | 319  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 340  | Behavioral regression prompts                      |
+| Repository Files        | 344  | Housekeeping files governing this repository       |
+| Evidence Contract       | 356  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 385  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -112,7 +112,8 @@ The skill activates on phrases such as:
 A request that names no report artifact - "explain how it works", "describe what it brings" -
 is descriptive analysis: inline and evidence-based, never entering `process/audit-workflow.md`.
 
-Bare activation and `work on lens-skill` standby follow `process/skill-activation.md`.
+Bare activation and `work on lens-skill` standby follow `process/skill-activation.md`, and
+scope-matched audit or review work in any repository activates the skill without being named.
 
 ## How To Use This Skill
 
