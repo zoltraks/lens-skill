@@ -84,13 +84,13 @@
         "The report uses Polish prose and headings with preserved diacritics.",
         "Severity, status, and execution-state tokens render in Polish (Wysoka, N/D, Nieznany, Nieuruchomiony, Otwarty, Nowa) as title-case declined forms agreeing with the column noun, while IDs (FND, RSK, REC, EVD), CWE identifiers, commands, and verbatim evidence stay unchanged.",
         "Conditional headings that appear in the report are translated.",
-        "The report applies the Polish terminology dictionary (ustalenie, zalecenie, plik blokady zależności, proces CI) and avoids literal calques such as rozjazd, dryf, brama, or potok.",
-        "Descriptive fixed values are rendered in Polish (Polski, Szczegółowy, Etap przedprodukcyjny), the Stan and Stan prac rows are omitted for a final report on a clean tree, and no Tryb opisowy row appears in Document Information.",
-        "The star-scale legend is labeled Skala oceny and names every band, including Zła for one star and Słaba for two stars.",
+        "The report applies the Polish terminology dictionary (ustalenie, zalecenie, plik blokady zale\u017cno\u015bci, proces CI) and avoids literal calques such as rozjazd, dryf, brama, or potok.",
+        "Descriptive fixed values are rendered in Polish (Polski, Szczeg\u00f3\u0142owy, Etap przedprodukcyjny), the Stan and Stan prac rows are omitted for a final report on a clean tree, and no Tryb opisowy row appears in Document Information.",
+        "The star-scale legend is labeled Skala oceny and names every band, including Z\u0142a for one star and S\u0142aba for two stars.",
         "The report output uses ASCII punctuation only - straight quotes, spaced hyphens for dashes, and '...' - with no typographic quotes, em-dashes, en-dashes, or arrow characters.",
         "scripts/lint-polish.py reports zero errors on the rendered report, and the Validation Record mirrors the English rows without adding Polish-language checks.",
         "Headings render Podsumowanie wykonawcze and the summary column header Ryzyka, and the skill-version row carries a bare semver such as `2.0.2`.",
-        "The not-run scope sentence names skanowania podatności, and readiness or severity adjectives used in prose render in declined lowercase bold (for example **niegotowa**, **wysokiej**) rather than uppercase."
+        "The not-run scope sentence names skanowania podatno\u015bci, and readiness or severity adjectives used in prose render in declined lowercase bold (for example **niegotowa**, **wysokiej**) rather than uppercase."
       ]
     },
     {
@@ -220,14 +220,14 @@
       "expected_output": "A Polish report whose new sections and tags match translations/polish-language.md verbatim, rendering machine tokens in Polish with structural parity preserved.",
       "files": [],
       "expectations": [
-        "New section headings match the dictionary verbatim: Zakres typów audytu, Zestawienie składników oprogramowania, Przegląd zgodności licencyjnej i IP, Praktyka dostarczania i ciągłość zespołu.",
-        "Coverage statuses render as Objęty, Częściowo, or Niewykonany, Nie dotyczy rows are omitted, and finding Type tags render Obserwacja or Zastrzeżenie.",
-        "Exploitability tiers render Teoretyczne, Potwierdzone statycznie, or Zweryfikowane dynamicznie, agreeing with `wykorzystanie podatności`, while IDs, CWE references, and file paths stay unchanged.",
-        "The scorecard dimension renders Dostarczanie i ciągłość, and DORA metric names follow the dictionary.",
-        "Loanwords such as commit, pull request, copyleft, SBOM, and due diligence stay untranslated and established terms such as Ważność, Panel oceny projektu, and kryterium jakości are used.",
-        "The findings table separates lifecycle (Status: Otwarty/Zamknięty/OK) from movement since the previous audit (Zmiana: Nowa/Niezmieniona/Wznowiona/Zamknięta), and the Charakter odstępstwa field uses only Brak udokumentowanego uzasadnienia, Świadomy - udokumentowana decyzja, Nieokreślony, or N/D.",
+        "New section headings match the dictionary verbatim: Zakres typ\u00f3w audytu, Zestawienie sk\u0142adnik\u00f3w oprogramowania, Przegl\u0105d zgodno\u015bci licencyjnej i IP, Praktyka dostarczania i ci\u0105g\u0142o\u015b\u0107 zespo\u0142u.",
+        "Coverage statuses render as Obj\u0119ty, Cz\u0119\u015bciowo, or Niewykonany, Nie dotyczy rows are omitted, and finding Type tags render Obserwacja or Zastrze\u017cenie.",
+        "Exploitability tiers render Teoretyczne, Potwierdzone statycznie, or Zweryfikowane dynamicznie, agreeing with `wykorzystanie podatno\u015bci`, while IDs, CWE references, and file paths stay unchanged.",
+        "The scorecard dimension renders Dostarczanie i ci\u0105g\u0142o\u015b\u0107, and DORA metric names follow the dictionary.",
+        "Loanwords such as commit, pull request, copyleft, SBOM, and due diligence stay untranslated and established terms such as Wa\u017cno\u015b\u0107, Panel oceny projektu, and kryterium jako\u015bci are used.",
+        "The findings table separates lifecycle (Status: Otwarty/Zamkni\u0119ty/OK) from movement since the previous audit (Zmiana: Nowa/Niezmieniona/Wznowiona/Zamkni\u0119ta), and the Charakter odst\u0119pstwa field uses only Brak udokumentowanego uzasadnienia, \u015awiadomy - udokumentowana decyzja, Nieokre\u015blony, or N/D.",
         "The compliance rows are split into Certyfikacja ISO/IEC 27001 and Badanie atestacyjne SOC 2, and the coverage table never claims an assurance level.",
-        "Architectural subsection headings render Rejestr decyzji architektonicznych, Przegląd kompromisów, and Zgodność kontraktu; per-project subjects carry a trailing (project) qualifier."
+        "Architectural subsection headings render Rejestr decyzji architektonicznych, Przegl\u0105d kompromis\u00f3w, and Zgodno\u015b\u0107 kontraktu; per-project subjects carry a trailing (project) qualifier."
       ]
     },
     {
@@ -359,11 +359,11 @@
     {
       "id": 28,
       "prompt": "Write the review report in Polish. Produce a review-style report of the supplied repository per the Polish rendering rules.",
-      "expected_output": "A Polish review-style report using the przegląd mappings from translations/polish-language.md with a PRZEGLĄD filename.",
+      "expected_output": "A Polish review-style report using the przegl\u0105d mappings from translations/polish-language.md with a PRZEGL\u0104D filename.",
       "files": [],
       "expectations": [
         "Section names render per translations/polish-language.md: Werdykt, Plan kontroli i metodologia, Rejestr wykonania, Ustalenia domenowe, and Plan poprawy.",
-        "The filename uses the PRZEGLĄD stem: bare PRZEGLĄD.md is the default for a first Polish review, with PRZEGLĄD-1.0.md offered as the revisioned alternative.",
+        "The filename uses the PRZEGL\u0104D stem: bare PRZEGL\u0104D.md is the default for a first Polish review, with PRZEGL\u0104D-1.0.md offered as the revisioned alternative.",
         "Machine-readable identifiers, commands, and status tokens stay in English while prose and headings render in Polish."
       ]
     },
@@ -786,9 +786,9 @@
       "files": [],
       "expectations": [
         "The delivery or file-save prompt offers the revision-free filename as Plik bez numeru rewizji, never Stem.",
-        "The detail-level prompt asks Jaki poziom szczegółowości powinien mieć raport? with options Szczegółowy (domyślny), Standardowy, and Skrócony.",
-        "The evaluation-scale prompt offers 1-10 (domyślna), 1-5, 1-3, and Gwiazdy, and a Gwiazdy answer triggers the follow-up Ile gwiazd ma mieć skala? with 5 gwiazd (domyślnie) and 3 gwiazdy.",
-        "The trailing bypass options render as Użyj wartości domyślnej: <wartość> and Użyj wartości domyślnych dla wszystkich pozostałych pytań."
+        "The detail-level prompt asks Jaki poziom szczeg\u00f3\u0142owo\u015bci powinien mie\u0107 raport? with options Szczeg\u00f3\u0142owy (domy\u015blny), Standardowy, and Skr\u00f3cony.",
+        "The evaluation-scale prompt offers 1-10 (domy\u015blna), 1-5, 1-3, and Gwiazdy, and a Gwiazdy answer triggers the follow-up Ile gwiazd ma mie\u0107 skala? with 5 gwiazd (domy\u015blnie) and 3 gwiazdy.",
+        "The trailing bypass options render as U\u017cyj warto\u015bci domy\u015blnej: <warto\u015b\u0107> and U\u017cyj warto\u015bci domy\u015blnych dla wszystkich pozosta\u0142ych pyta\u0144."
       ]
     },
     {
@@ -894,14 +894,14 @@
     },
     {
       "id": 74,
-      "prompt": "Wykonaj przegląd zmian w tym repozytorium dla zakresu zatwierdzeń `a1b2c3d..e4f5g6h` i przygotuj raport przeglądu po polsku.",
-      "expected_output": "A Polish review-style report `PRZEGLĄD.md` scoped to the named change set.",
+      "prompt": "Wykonaj przegl\u0105d zmian w tym repozytorium dla zakresu zatwierdze\u0144 `a1b2c3d..e4f5g6h` i przygotuj raport przegl\u0105du po polsku.",
+      "expected_output": "A Polish review-style report `PRZEGL\u0104D.md` scoped to the named change set.",
       "files": [],
       "expectations": [
-        "The request resolves to `Styl raportu: przegląd` with the commit range recorded in the `Zakres przeglądu` row of `Informacje o dokumencie`.",
+        "The request resolves to `Styl raportu: przegl\u0105d` with the commit range recorded in the `Zakres przegl\u0105du` row of `Informacje o dokumencie`.",
         "The report follows the standard review-style contract - Werdykt, Plan kontroli i metodologia, Rejestr wykonania, Ustalenia domenowe, Plan poprawy - scoped to the change set.",
         "The report uses `zatwierdzenia` rather than `commity` and keeps SHA literals verbatim.",
-        "The filename uses the PRZEGLĄD stem: bare PRZEGLĄD.md for a first review, with PRZEGLĄD-1.0.md offered as the revisioned alternative."
+        "The filename uses the PRZEGL\u0104D stem: bare PRZEGL\u0104D.md for a first review, with PRZEGL\u0104D-1.0.md offered as the revisioned alternative."
       ]
     },
     {
@@ -948,7 +948,7 @@
       "expectations": [
         "The output filename uses the POLOWANIE stem: bare POLOWANIE.md is the default for a first Polish hunt report, with POLOWANIE-1.0.md offered as the revisioned alternative.",
         "A subsequent Polish hunt writes POLOWANIE-<revision>.md and renames a bare POLOWANIE.md previous report to its revisioned name first.",
-        "Section names render per translations/polish-language.md: Werdykt, Oceny domen, Ustalenia domenowe, Fazy naprawcze, and the conditional Rejestr sprzeczności.",
+        "Section names render per translations/polish-language.md: Werdykt, Oceny domen, Ustalenia domenowe, Fazy naprawcze, and the conditional Rejestr sprzeczno\u015bci.",
         "The verdict paragraph takes Gotowy, Warunkowo gotowy, or Niegotowy, and domain ratings take Czerwona, Bursztynowa, Zielona, or Nieoceniona."
       ]
     },
@@ -1096,12 +1096,12 @@
     {
       "id": 92,
       "prompt": "Write the review report in Polish - report style review - for a repository with no previous review report.",
-      "expected_output": "A Polish review-style report using the PRZEGLĄD filename stem.",
+      "expected_output": "A Polish review-style report using the PRZEGL\u0104D filename stem.",
       "files": [],
       "expectations": [
-        "The output filename uses the PRZEGLĄD stem: bare PRZEGLĄD.md is the default for a first Polish review report, with PRZEGLĄD-1.0.md offered as the revisioned alternative.",
+        "The output filename uses the PRZEGL\u0104D stem: bare PRZEGL\u0104D.md is the default for a first Polish review report, with PRZEGL\u0104D-1.0.md offered as the revisioned alternative.",
         "Machine-readable identifiers, commands, and status tokens stay in English; prose and section headings render in Polish per `translations/polish-language.md`.",
-        "Section names render per translations/polish-language.md: Werdykt, Plan kontroli i metodologia, Rejestr wykonania, Ustalenia domenowe, Plan poprawy, and Manifest artefaktów when the evidence mode requires it.",
+        "Section names render per translations/polish-language.md: Werdykt, Plan kontroli i metodologia, Rejestr wykonania, Ustalenia domenowe, Plan poprawy, and Manifest artefakt\u00f3w when the evidence mode requires it.",
         "The Validation Record carries PAR-1 through PAR-20 rows with PAR-18 rendered N/D, since the review style has no Recommendation Classification section."
       ]
     },
@@ -1181,26 +1181,26 @@
     },
     {
       "id": 99,
-      "prompt": "Przeprowadź audyt tego repozytorium.",
+      "prompt": "Przeprowad\u017a audyt tego repozytorium.",
       "expected_output": "A bilingual report pair produced in one operation: the canonical English report plus its Polish translation.",
       "files": [],
       "expectations": [
         "The run resolves `Language output` to `pair` and ships `AUDIT-1.0-EN.md` and `AUDIT-1.0-PL.md` - the `AUDYT` stem is never used in a pair.",
         "The English report is produced and validated first; the Polish file is a translation of it in a single pass, never an independent audit.",
-        "Both files carry identical register identifiers, severities, revisions, and scores, and each Document Information names the sibling in its `Translations`/`Tłumaczenia` row.",
-        "Links in the Polish file target its own Polish heading anchors - `#słownik`, `#rejestr-dowodów-audytowych` - never the English anchors.",
+        "Both files carry identical register identifiers, severities, revisions, and scores, and each Document Information names the sibling in its `Translations`/`T\u0142umaczenia` row.",
+        "Links in the Polish file target its own Polish heading anchors - `#s\u0142ownik`, `#rejestr-dowod\u00f3w-audytowych` - never the English anchors.",
         "Analysis and evidence gathering are reasoned in English throughout."
       ]
     },
     {
       "id": 100,
-      "prompt": "Make only the Polish report for this repository - wygeneruj wyłącznie polski raport audytu.",
+      "prompt": "Make only the Polish report for this repository - wygeneruj wy\u0142\u0105cznie polski raport audytu.",
       "expected_output": "A single Polish-language report file produced with English-first analysis.",
       "files": [],
       "expectations": [
         "The run produces a single `AUDYT-1.0.md` file - the explicit single-language scope suppresses the pair.",
         "Evidence gathering, analysis, and part-file drafts run in English; only the rendered report is Polish.",
-        "The report carries no `Tłumaczenia` row, and the Polish lint and English-mapped validation pass clean."
+        "The report carries no `T\u0142umaczenia` row, and the Polish lint and English-mapped validation pass clean."
       ]
     },
     {
@@ -1223,7 +1223,7 @@
       "expected_output": "The translated-report gate set runs instead of the English validator on the Polish file.",
       "files": [],
       "expectations": [
-        "`validate-report.py` on the Polish file exits 2 with translated-report guidance - it is never run as the English contract against `| Język | Polski |`.",
+        "`validate-report.py` on the Polish file exits 2 with translated-report guidance - it is never run as the English contract against `| J\u0119zyk | Polski |`.",
         "`lint-polish.py` always receives `--rules translations/polish-language.md` - a `.tmp.` copy without it loads zero forms and the run reports that hint instead of silently passing.",
         "`map-translation.py` produces the English-mapped copy, `format-table.py` then `validate-report.py` run on that copy and report zero issues, and `--en` heading parity passes when the English sibling exists.",
         "`check-translation.py` reconciles summary titles and prose counts, and `link-glossary.py --lang pl --check` reports zero unlinked terms.",
@@ -1232,12 +1232,12 @@
     },
     {
       "id": 103,
-      "prompt": "Review the Polish draft for calques: it renders 'slim document' as `chudy dokument`, writes `pod względem`, and keeps `Request for Comments` verbatim.",
-      "expected_output": "`chudy` is corrected to the `mały`/`drobny` vocabulary while the sanctioned idiom and the canonical English name pass untouched.",
+      "prompt": "Review the Polish draft for calques: it renders 'slim document' as `chudy dokument`, writes `pod wzgl\u0119dem`, and keeps `Request for Comments` verbatim.",
+      "expected_output": "`chudy` is corrected to the `ma\u0142y`/`drobny` vocabulary while the sanctioned idiom and the canonical English name pass untouched.",
       "files": [],
       "expectations": [
-        "`chudy`/`chuda`/`chude`/`chudymi` and every `chud` inflection is replaced - `slim`/`lean` renders `mały`, `tiny` renders `drobny`.",
-        "`pod względem`, `pod kątem`, and the other Sanctioned Idioms entries produce no calque warning.",
+        "`chudy`/`chuda`/`chude`/`chudymi` and every `chud` inflection is replaced - `slim`/`lean` renders `ma\u0142y`, `tiny` renders `drobny`.",
+        "`pod wzgl\u0119dem`, `pod k\u0105tem`, and the other Sanctioned Idioms entries produce no calque warning.",
         "`Request for Comments`, `pull request`, and `Cross-Site Request Forgery` stay verbatim as canonical English names.",
         "External taxonomy and proper names may stay verbatim and are code-spanned where the style calls for it."
       ]
@@ -1271,7 +1271,7 @@
       "files": [],
       "expectations": [
         "A bare `<stem>.md` report gaining a translation sibling is renamed to `<stem>-<LANG>` before the sibling is written - the pair shares the suffix convention.",
-        "Both files' Document Information tables gain a `Translations`/`Tłumaczenia` row naming the sibling file.",
+        "Both files' Document Information tables gain a `Translations`/`T\u0142umaczenia` row naming the sibling file.",
         "The renamed English file is re-validated after the rename plus metadata edit, not assumed still valid.",
         "The translation pre-flight checklist in translations/polish-language.md runs before the lint and mapping pipeline."
       ]
@@ -1404,8 +1404,8 @@
       "expectations": [
         "Every row of a frame shares identical left and right border columns - no content or border row sits shifted off its frame.",
         "Each frame's interior is its longest label line plus one space of padding on each side - no label touches, crowds, or overflows a border.",
-        "Horizontal edges fill the whole gap with `─` and the `>` head touches the target's left border.",
-        "Every `│` drop, `v` head, and `┌`/`┬`/`┼`/`┐` junction column lands on the center column of the frame it feeds.",
+        "Horizontal edges fill the whole gap with `\u2500` and the `>` head touches the target's left border.",
+        "Every `\u2502` drop, `v` head, and `\u250c`/`\u252c`/`\u253c`/`\u2510` junction column lands on the center column of the frame it feeds.",
         "A label wrapped over several lines shares one left indent that centers the longest line, while stacked item labels stay left-aligned with one leading space."
       ]
     },
@@ -1716,6 +1716,62 @@
         "The style census is deterministic - a repeated run on the same tree yields identical counts.",
         "Every census ledger row records the exact pattern or command and the denominator.",
         "Generated, vendored, and forced-external identifiers are excluded from denominators and disclosed."
+      ]
+    },
+    {
+      "id": 145,
+      "prompt": "Audit this polyglot repository: it ships four sibling service implementations - a C# project, a Go module, a Maven/Spring project, and a Node.js/TypeScript package - each under its own top-level directory.",
+      "expected_output": "Each partition is judged against its own stack's naming and layout baseline, and cross-partition naming of the same domain concepts is reported separately.",
+      "files": [],
+      "expectations": [
+        "The report resolves a distinct naming and layout baseline per partition and names each winning tier.",
+        "Go source files are judged against snake_case.go and C# files against PascalCase.cs - never one baseline for the whole tree.",
+        "Divergent naming of the same domain concept across partitions is recorded as cross-partition drift, not as a style defect in either partition.",
+        "Shared root artifacts (.github/, docs/, compose files) are judged under their own conventions, not under any code partition's rules."
+      ]
+    },
+    {
+      "id": 146,
+      "prompt": "Audit this Zig project. All source files are snake_case.zig even though some files define structs, and the project's style notes declare the uniform-snake_case rule deliberately.",
+      "expected_output": "The audit detects the project-declared file rule and does not flag the snake_case struct files against the official TitleCase convention.",
+      "files": [],
+      "expectations": [
+        "The report records the official Zig file rule (TitleCase.zig struct files, snake_case.zig namespace files) alongside the project's declared uniform-snake_case rule.",
+        "No finding is raised for snake_case struct files because a project-declared convention outranks the ecosystem default.",
+        "Within-file identifier casing (TitleCase types, camelCase functions, SCREAMING_SNAKE constants) is still evaluated against the ecosystem yardstick."
+      ]
+    },
+    {
+      "id": 147,
+      "prompt": "Audit this Spring Boot service. It uses *Controller, *Service, *Repository, *Config, and *Entity class names, an @SpringBootApplication entry class in a root package, and application.yml configuration.",
+      "expected_output": "Framework-mandated names are evaluated under the Spring override, not flagged against plain-Java defaults.",
+      "files": [],
+      "expectations": [
+        "The report treats *Controller/*Service/*Repository/*Config/*Entity suffixes as framework-idiomatic, not as generic-name findings.",
+        "The root-package @SpringBootApplication class is checked as the Spring Boot convention requires.",
+        "A *Manager or *Helper catch-all class may still be raised as a role-naming observation."
+      ]
+    },
+    {
+      "id": 148,
+      "prompt": "Audit this repository with a React/Vite frontend partition and a Node.js library partition: the frontend uses PascalCase.tsx components and useCamelCase hooks, the library uses kebab-case.ts modules.",
+      "expected_output": "Each partition answers to its own file-naming rule - React components under the framework convention, library modules under kebab-case.",
+      "files": [],
+      "expectations": [
+        "PascalCase.tsx component files in the React partition are not flagged against the TypeScript kebab-case default.",
+        "The library partition is evaluated against kebab-case.ts and test files against *.test.ts.",
+        "The Electron or Vite process-split layout is checked only where the framework signal is detected."
+      ]
+    },
+    {
+      "id": 149,
+      "prompt": "Audit this repository written in a language not covered by the shipped references (for example Crystal, Lua, or a proprietary DSL).",
+      "expected_output": "The audit resolves a baseline by research or observed consistency, cites what it actually consulted, and records the gap honestly.",
+      "files": [],
+      "expectations": [
+        "The report records that no shipped corpus baseline covered the stack before judging it.",
+        "Any consulted official style guide or toolchain documentation is cited by URL in References, and unreachable sources are recorded in Limitations and Unknowns.",
+        "Findings are scoped to observed internal consistency and readability lenses rather than invented ecosystem rules."
       ]
     }
   ]

@@ -53,6 +53,20 @@ https://typescript-eslint.io/rules/naming-convention/.
   factory), keep repository interfaces (`order-repository.ts`) separate from concrete adapters
   (`in-memory-order-repository.ts`), and under `moduleResolution: "NodeNext"` write `.js`
   extensions on relative imports inside `.ts` files.
+- Role-directory conventions from the maintainer's TypeScript standards: application `src/`
+  groups `commands/` or `routes/` (entry actions), `services/` (use cases), `repositories/`
+  or `data/` (persistence), `config/` (loading and validation), `types/` (shared contracts),
+  `hooks/` and `stores/` (React-adjacent state), `workers/` (off-thread units), and `utils/`
+  or `logic/` (pure modules) - a flat `src/` past roughly a dozen files, and files past
+  roughly 500 lines, are the review thresholds the standards set.
+- Test files use `*.test.ts`/`*.spec.ts` colocated or under a mirroring `test/`/`tests/`
+  tree, and e2e suites conventionally live in `e2e/` or `tests/e2e/` with `*.spec.ts` naming
+  - a project mixing `*_test.ts`, `*.test.ts`, and `tests-*.ts` across one partition is the
+  consistency defect.
+- TypeScript project references (composite `tsconfig.json` with `references`) split a
+  multi-package build into per-package outputs (`compiler/`, `library/` as siblings with
+  their own `tsconfig`), and the root `tsconfig` delegates rather than compiling - a root
+  config re-listing every source file of every package defeats the reference model.
 - The `recommended` tier is the floor. `recommended-type-checked` adds rules that need type
   information and catches `any` leaks, floating promises, and unsafe assignments.
 - Key checkable rules: `no-floating-promises`, `no-misused-promises`,

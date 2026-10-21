@@ -131,6 +131,27 @@ Count what the census counts and record the method beside the figure, per
 counts - and `references/organization-model.md` turns it into the area map and responsibility
 inventory this assessment's placement, catch-all, and ownership judgments cite.
 
+## Baseline Resolution
+
+Resolve the governing layout and naming baseline before judging any component:
+
+1. **Project-declared rules** - `AGENTS.md`, `CONTRIBUTING.md`, `docs/standards/`,
+   `.editorconfig`, formatter and linter configs, and documented project conventions win over
+   every ecosystem default.
+2. **Shipped corpus** - the matching `references/stacks/` digest plus the matrices and
+   framework-override table in `references/naming-and-layout.md`, keyed by the partition's
+   detected stack.
+3. **Authoritative research** - for a stack the corpus does not cover, consult the official
+   language style guide, toolchain documentation, and framework naming conventions, cite the
+   consulted URLs in the report's References, and record unreachable sources in Limitations
+   and Unknowns rather than pretending they were consulted.
+4. **Observed consistency** - when no baseline exists at any tier, the dominant convention
+   measured inside the partition is the yardstick, and only unexplained deviations count.
+
+In a polyglot repository this resolution runs **per partition** - see
+`references/naming-and-layout.md` `Polyglot Repositories` - and a baseline resolved for one
+partition never applies to another.
+
 ## Convention Tiers
 
 Classify every judgment before reporting it:

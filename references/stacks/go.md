@@ -89,6 +89,16 @@ From https://github.com/spf13/cobra and https://clig.dev/.
 
 - Cobra is the conventional command framework: root command plus subcommands, flags via
   `persistent`/`local` scopes, `--help` generated automatically.
+- CLI conventions from the maintainer's Go standard: long flags are `--kebab-case`
+  (`--repo-url`, `--config-file`), commands are lowercase verbs or verb-noun phrases
+  (`lucy-sync`, `bench run`), and environment variables are `UPPER_SNAKE_CASE` carrying the
+  tool prefix.
+- A single-purpose CLI may keep `main.go` at the module root with `snake_case.go` siblings,
+  while multi-binary and library projects use `cmd/<name>/main.go` plus `internal/`, and
+  `cmd/` plus `internal/` mixing is the structural smell, not the choice between them.
+- Configuration files are dot-prefixed YAML/JSON/TOML (`.app.yaml`, `.lucy.json`), and a
+  `Version` string or constant is conventionally injected at link time
+  (`-ldflags "-X main.Version=$(VERSION)"`).
 - The clig.dev conventions apply: stderr for errors, stdout for output, non-zero exit codes,
   `NO_COLOR` support, stdin where sensible.
 - `os.Exit` codes are semantic and documented: usage errors (flag parse failure, missing

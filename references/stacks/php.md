@@ -39,6 +39,17 @@ and PSR-12 (https://www.php-fig.org/psr/psr-12/).
   statement per line, and the `?>` closing tag omitted from PHP-only files.
 - `strict_types` declarations are opt-in per file. Their absence is a type-safety
   observation, not a violation.
+- Role-directory conventions from the maintainer's PHP standard: `src/` groups `Controller/`,
+  `Command/`, `Service/` or `Services/`, `Repository/` or `Repositories/`, `Entity/` or
+  `Domain/`, `DTO/`/`ValueObject/`, `Exception/`, and `Contract/`/`Interface/` by
+  responsibility, `tests/` splits `Unit/` and `Integration/` mirroring `src/`, `config/`
+  holds service and environment wiring, and `var/` carries cache/log write paths - a flat
+  `src/` past roughly a dozen classes is the review threshold.
+- Classic and template-rendered PHP applications (WordPress-family themes, admin panels,
+  legacy front-controllers) follow a different shape: `index.php` or a `public/` front
+  controller, `includes/` or `inc/` for shared requires, `templates/` or `views/` for markup,
+  and `assets/`/`static/` for web resources - the audit resolves which shape the project
+  declares before applying the PSR-4 fixture.
 
 ## Composer
 

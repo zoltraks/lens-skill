@@ -24,19 +24,19 @@ Exclusions.
 |----------------------------------|------|------------------------------------------------|
 | Boundary                         | 41   | Owned versus delegated concerns                |
 | Convention Resolution            | 58   | Tier ordering and the winning-yardstick rule   |
-| Consistency And Correctness      | 79   | Status matrix for shape and idiom combinations |
-| Ecosystem Anti-Patterns          | 109  | Cross-language style smells                    |
-| Assessment Procedure             | 126  | Step-by-step pass order                        |
-| What To Evaluate: Lenses         | 166  | SL-1 through SL-8 lens definitions             |
-| Naming-Quality Heuristics (SL-3) | 182  | Semantic naming smells and evidence rules      |
-| Evidence And Ledger Conventions  | 216  | EVD row requirements and census anchoring      |
-| Severity And Confidence          | 227  | Severity guide and naming-confidence cap       |
-| Scoring And Dimension            | 249  | Code Style scorecard dimension feeding         |
-| Status Criteria                  | 262  | PASS through FAIL verdict definitions          |
-| Common Risks                     | 273  | Typical failure modes                          |
-| What Raises Confidence           | 284  | Positive evidence signals                      |
-| Remediation Ladder               | 296  | Escalation order for style fixes               |
-| Craft Notes                      | 313  | Suggestion handling outside findings           |
+| Consistency And Correctness      | 83   | Status matrix for shape and idiom combinations |
+| Ecosystem Anti-Patterns          | 113  | Cross-language style smells                    |
+| Assessment Procedure             | 130  | Step-by-step pass order                        |
+| What To Evaluate: Lenses         | 170  | SL-1 through SL-8 lens definitions             |
+| Naming-Quality Heuristics (SL-3) | 186  | Semantic naming smells and evidence rules      |
+| Evidence And Ledger Conventions  | 220  | EVD row requirements and census anchoring      |
+| Severity And Confidence          | 231  | Severity guide and naming-confidence cap       |
+| Scoring And Dimension            | 253  | Code Style scorecard dimension feeding         |
+| Status Criteria                  | 266  | PASS through FAIL verdict definitions          |
+| Common Risks                     | 277  | Typical failure modes                          |
+| What Raises Confidence           | 288  | Positive evidence signals                      |
+| Remediation Ladder               | 300  | Escalation order for style fixes               |
+| Craft Notes                      | 317  | Suggestion handling outside findings           |
 
 ## Boundary
 
@@ -65,13 +65,17 @@ every style finding's `Basis` field:
 |------|-----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | T1   | Declared  | `STYLE*`, `CONTRIBUTING`, `docs/standard/`, `.editorconfig` naming rules, `.clang-format`, `.clang-tidy`, `rustfmt.toml`, `clippy.toml`, ESLint or Prettier config, `checkstyle` or `pmd`, StyleCop or `.globalconfig`, `pyproject.toml` ruff or black or pylint, `.golangci.yml`, `.rubocop.yml`, `phpcs.xml` or `.php-cs-fixer.php`, `.shellcheckrc`, `.pre-commit-config.yaml` |
 | T2   | Observed  | Dominant convention in the code itself, measured by the identifier-shape census                                                                                                                                                                                                                                                                                                   |
-| T3   | Ecosystem | Canonical guide for the language or framework in `references/language-conventions.md`                                                                                                                                                                                                                                                                                             |
+| T3   | Ecosystem | Canonical guide for the language or framework in `references/language-conventions.md`, extended by the naming sections of the matching `references/stacks/` digest                                                                                                                                                                                                                |
 | T4   | Principle | Language-agnostic readability lenses below                                                                                                                                                                                                                                                                                                                                        |
 
 - T1 wins when present and consistent, and code deviating from T1 is drift.
 - When T1 is absent, T2 is the working yardstick once one shape meets `DOMINANCE_PARTIAL`, and
   T3 then judges only whether the dominant style is idiomatic - an Observation, not a defect.
 - When T1 and T2 are both absent or split, T3 decides what to recommend.
+- When neither the language-conventions yardstick nor a stack digest covers the partition's
+  ecosystem, resolve T3 by research: consult the official language style guide or framework
+  naming documentation, cite the consulted URL in the report's References, and record an
+  unreachable source in Limitations and Unknowns rather than claiming it was read.
 - T4 applies to name quality regardless of the casing convention.
 - A deliberate deviation from T3 is legitimate when documented under T1 or technically forced,
   and it records as an Observation, never a defect.

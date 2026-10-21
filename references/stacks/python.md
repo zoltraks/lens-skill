@@ -68,6 +68,10 @@ https://packaging.python.org/en/latest/discussions/src-layout-vs-flat-layout/.
 - `dependencies` in `pyproject.toml` and a committed lockfile (uv.lock, poetry.lock,
   requirements with hashes) serve different roles. A library should not pin exact versions in
   `dependencies`.
+- Tooling pins are dotfiles or `pyproject.toml` sections: `.python-version` for the runtime,
+  `ruff.toml`/`mypy.ini`/`pytest.ini` or their `[tool.*]` equivalents for analyzers, and
+  scratch probes live in the gitignored workspace (`work/scripts/*.tmp.py`) - a committed
+  `*.tmp.py` probe is a hygiene finding.
 
 ## Testing
 

@@ -47,8 +47,20 @@ https://www.freepascal.org/docs-html/ref/ref.html.
   needs them.
 - Indentation is two spaces, `begin`/`end` aligned, `procedure`/`function` signatures
   capitalized per convention.
-- `.dpr` (project) and `.dproj` (MSBuild XML) files carry build configuration. `.dfm`/` .fmx`
+- `.dpr` (project) and `.dproj` (MSBuild XML) files carry build configuration. `.dfm`/`.fmx`
   pairs hold form layout - missing pairs or orphaned units are structural findings.
+- A structured project partitions `Source/` by responsibility (`Forms/`, `Frames/`,
+  `DataModules/`, `Models/` or `Domain/`, `Services/`/`Business/` or `Logic/`,
+  `Repositories/` or `DataAccess/`, `ViewModels/`, `Infrastructure/`, `Common/` or `Utils/`,
+  `Exceptions/` or `Errors/`, plus a top `Main.pas` or `Program.pas`), splits `Tests/` into
+  `Unit/` and `Integration/` mirroring `Source/`, and keeps design and runtime `.dpk`
+  packages under `Packages/`.
+- File conventions: `Form.Name.pas` or `FormName.pas` per the project's dominant rule,
+  `DataModule.Name.pas` for data modules, and dot-separated names reserved for the
+  `Form.`/`DataModule.`/`Helper.` role prefixes the project declares.
+- Test conventions: `Test<EntityName>.pas` units (or `<Entity>Tests` where the suite follows
+  it) named for the subject, and methods read `MethodName_Scenario_Expected` so a failing
+  test names the defect in the report.
 
 ## Memory And Resource Model
 

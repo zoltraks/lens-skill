@@ -146,6 +146,19 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules.
   entry surface.
 - `main` without `exports`, missing `types`, or `type: module` mismatches are package-surface
   findings for libraries.
+- Role-directory conventions from the maintainer's JavaScript standards: `src/` groups
+  `routes/` (or `endpoints/`), `middleware/`, `services/` (or `logic/`), `repositories/`
+  (or `db/`), `models/`, `config/`, and `utils/`/`helpers/` by responsibility, and `test/` or
+  `tests/` mirrors that structure (`test/services/order-service.test.js`) - a flat `src/`
+  past roughly a dozen files is the review threshold.
+- Runtime and toolchain pins are dotfiles: `.nvmrc` or `.node-version` for the runtime,
+  `.env.example` for configuration keys, and `Dockerfile`/`compose.yaml` for deploy - a
+  README that documents a Node version no pin file agrees with is a configuration
+  observation.
+- Multi-package repositories place packages under `packages/` or top-level capability
+  directories (`compiler/`, `library/` each carrying `src/`, `test/` or `tests/`, and its
+  own `package.json`), with the workspace tool (`npm`/`pnpm`/`yarn` workspaces) declared in
+  the root manifest.
 
 ## Testing And Analysis Expectations
 

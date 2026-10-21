@@ -73,7 +73,7 @@ From https://developer.mozilla.org/en-US/docs/Web/Security.
 - Subresource Integrity (`integrity`/`crossorigin` on CDN `<script>`/`<link>`) is the
   checkable control for third-party static includes.
 - `target="_blank"` links need `rel="noopener"`. Missing it exposes `window.opener`.
-- Client-side validation is UX, never the boundary. The audit treats it as defense-in-depth
+- Client-side validation is UX, never the boundary. The audit treats it as defense-in-depth.
   only.
 
 ## CSS Discipline
@@ -104,6 +104,30 @@ https://www.w3.org/TR/WCAG22/.
   unpaired listeners on long-lived documents leak and double-deliver.
 - User-supplied strings reach the DOM through `textContent` or an explicit sanitizer -
   `innerHTML` concatenation is the injection finding class this file already names.
+
+## Naming And Layout
+
+From the maintainer's HTML, CSS, accessibility, and performance-budget engineering standards.
+
+- A vanilla web project's baseline is `index.html` at the root (or `src/index.html` when the
+  deployable artifact is the `src/` directory) with `css/` and `js/` siblings - four layout
+  tiers scale by size: single-file document, `index.html` plus one stylesheet and one script
+  (`style.css` + `app.js`/`main.js`), split `css/`/`js/` modules, and `src/` separated from
+  `runtime/` tooling. The smallest fitting tier is correct, and a layout migration is a
+  project decision, never an audit recommendation.
+- `kebab-case.css`/`kebab-case.js` filenames name the file's single responsibility
+  (`item-list-renderer.js`, `catalog-data.js` for generated data), and `.a11y.test.tsx`,
+  `*.perf.test.ts`, and `*.spec.ts` suffixes mark accessibility, performance, and end-to-end
+  test files.
+- CSS conventions: component classes `kebab-case`, BEM `__`/`--` separators when adopted,
+  `is-*`/`has-*` state classes, `u-*` utility prefixes, and `--kebab-case` custom properties
+  - one declared convention per project.
+- Identifier semantics for inline and vanilla scripts: booleans read as claims (`isVisible`,
+  `hasAnswer`), functions are verb phrases (`renderQuestion`), collections take plural nouns,
+  and event handlers carry `on*` names - role-based naming over type-encoding (`strTitle`,
+  `arrItems` are findings).
+- Scratch probes stay in the gitignored workspace (`work/scripts/*.tmp.mjs`) - a committed
+  `*.tmp.*` file is a hygiene finding, consistent with `references/stacks/shell.md`.
 
 ## Live Check
 

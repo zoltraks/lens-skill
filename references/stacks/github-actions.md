@@ -57,6 +57,25 @@ From https://docs.github.com/en/actions/reference/workflows-and-actions/workflow
   `if:` conditions evaluate without `${{ }}` inside `if:` contexts (the braces are still
   legal but redundant).
 
+## Naming And Layout
+
+From https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax and
+https://docs.github.com/en/actions/sharing-automations/creating-actions/about-custom-actions.
+
+- Workflow files live in `.github/workflows/` as `*.yml` or `*.yaml` - `kebab-case.yml` names
+  describing the pipeline (`build.yml`, `release.yml`, `cli-benchmark.yml`) are the ecosystem
+  norm, and GitHub lists them by the file's `name:` field, not the filename.
+- A workflow's `name:` field is the display name in the Actions UI - a missing or
+  filename-echoing `name:` is a readability observation, not a defect.
+- Job IDs and step IDs are lowercase `snake_case`/`kebab-case` identifiers, and the `name:`
+  field on jobs and steps carries the human-readable form.
+- Composite and custom actions live in `action.yml`/`action.yaml` at the directory or
+  repository root the marketplace convention expects, and a repo-level helper action sits
+  under `.github/actions/<name>/action.yml`.
+- Reusable workflows share the same `*.yml` location and are invoked with
+  `uses: ./.github/workflows/<file>.yml` - placing them outside `.github/workflows/` makes
+  them unreachable.
+
 ## Live Check
 
 When web fetch is available, spot-check the SHA-pinning recommendation and one syntax key

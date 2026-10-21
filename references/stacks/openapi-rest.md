@@ -40,6 +40,26 @@ so the checks below are stated against the 3.1 model and apply unchanged to 3.2 
 - `required` in schemas lists mandatory fields. A requestBody without `required` or
   `content` schema is unverifiable by consumers.
 
+## Naming And Layout
+
+From https://spec.openapis.org/oas/v3.1 and the maintainer's OpenAPI engineering standard.
+
+- The authoritative document is `openapi.yaml` or `openapi.json` at a discoverable location
+  (repository root, `api/`, `docs/`, or the path the serving code embeds). `.yaml` is the
+  conventional extension over `.yml` for hand-maintained contracts.
+- Multi-file contracts split into `kebab-case.yaml` domain documents referenced by `$ref`
+  (`paths/pet-store.yaml`, `components/schemas/order.yaml`) - a monolithic file and a split
+  tree are both valid, an unexplained mix of both shapes in one contract is not.
+- Schema, reusable parameter, and response object names use `PascalCase` (`OAuthTokenRequest`,
+  `BadRequest`), tags and path segments use `kebab-case` (`/order-items`), path parameters use
+  `snake_case` or `camelCase` consistently (`{user_id}` or `{userId}`), and query parameters
+  plus schema properties use `camelCase` (`sortBy`, `createdAt`).
+- Vendor extensions are `x-`-prefixed `kebab-case`/`camelCase` (`x-query-name`) - extension
+  names outside the `x-` prefix are reserved-namespace findings.
+- `operationId` values are unique `camelCase` operation names (`listOrders`, `createOrder`)
+  since generators derive method names from them - duplicate or kebab-case operationIds
+  produce unstable client surfaces.
+
 ## Error Contract
 
 From https://datatracker.ietf.org/doc/html/rfc9457.

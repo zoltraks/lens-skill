@@ -65,6 +65,32 @@ From https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API.
 - `manifest.json` with `name`, `icons`, `start_url`, `display` defines the installable
   surface. A PWA claim without a linked manifest is a gap.
 
+## Naming And Layout
+
+From https://legacy.reactjs.org/docs/faq-structure.html,
+https://vite.dev/guide/#index-html-and-project-root, and the maintainer's TypeScript/React
+engineering standard.
+
+- React is deliberately unopinionated about structure: grouping by feature/route and grouping
+  by file type are both legitimate, and the audit checks consistency and depth, not the
+  chosen model. Nesting beyond roughly three to four levels inside `src/` is the documented
+  pain point.
+- Role-directory conventions for a `src/` SPA: `components/` (React components),
+  `hooks/` (`useCamelCase.ts` custom hooks), `stores/` (state stores, plural), `types/`,
+  `constants/` or `constants.ts`, `services/` or `api/`, `utils/` or `logic/` for pure
+  modules, `assets/`, `workers/`, `i18n/` - each directory holds one responsibility.
+- File naming follows the exported unit: `PascalCase.tsx` for component files (`DataGrid.tsx`),
+  `useCamelCase.ts` for hooks, `camelCase.ts` or `kebab-case.ts` for utilities per the
+  project's dominant shape, and `*.test.tsx`/`*.test.ts` test files mirroring their subject.
+- Vite's convention puts `index.html` at the project root (not under `public/`), source
+  modules under `src/` imported through the entry script, and static assets served verbatim
+  from `public/` - placing importable source in `public/` breaks the build model.
+- Barrel files (`index.ts` re-export aggregates) are acceptable in `types/` or as a
+  deliberate public surface. Blanket barrels in component directories hide dependencies and
+  slow bundlers - flag the pattern, not the file.
+- Pure logic modules carry no React imports. A `logic/` or `utils/` file importing
+  `react`/`react-dom` breaks the independent-testability boundary the directory exists for.
+
 ## Live Check
 
 When web fetch is available, spot-check one hook rule against react.dev and one service-worker

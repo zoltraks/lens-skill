@@ -118,6 +118,23 @@ https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/overview.
   reflection-heavy libraries need `[DynamicallyAccessedMembers]` or source-generated
   serialization instead of runtime `JsonSerializer` defaults.
 
+## Minimal API And Test Layout
+
+From the maintainer's C# ASP.NET engineering standard.
+
+- Minimal-API services organize under `Config/` (composition root plus `*Settings`),
+  `Auth/` (`*Handler`, `*Extensions`), `Endpoints/` (`*Endpoints` classes, `*Request` and
+  `*Response` records), `Services/` (`*Service` interfaces with `Default*Service`
+  implementations), `Data/` (`*Store`, `*MappingExtensions`), and `Resources/` (JSON or static
+  payloads) - a service whose `Program.cs` holds endpoint bodies past a few mappings is a
+  division finding.
+- Test projects follow `<ProjectName>.Tests` under `test/` (or `tests/`), mirror the source
+  directory structure inside, and name classes `<TypeUnderTest>Tests` in
+  `<TypeUnderTest>Tests.cs` files - integration suites add a `*Factory` fixture class.
+- Web projects keep `PascalCase.cs` files named for their single public type and split
+  classes approaching 300-500 lines along responsibility seams (`Type.<Area>.cs` partials) -
+  a 1,000-line controller class is a cognitive-load finding, not a naming one.
+
 ## Live Check
 
 When web fetch is available, spot-check one CA security rule against the Microsoft Learn

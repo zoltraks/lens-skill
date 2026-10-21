@@ -62,6 +62,7 @@ Apply `principles/evaluation-rules.md` throughout.
 | OpenAPI / REST       | `openapi.yaml`, `openapi.json`           | OpenAPI Specification, JSON Schema, RFC 9457                          | OWASP API Security Top 10                       | Spectral for linting, `oasdiff` for breaking-change review          |
 | PHP                  | `composer.json`, `composer.lock`         | PHP documentation, Composer documentation, PHPUnit documentation      | PHP security manual, OWASP Cheat Sheet Series   | Composer SemVer constraints, `composer audit`                       |
 | GitHub Actions / CI  | `.github/workflows/*.yml`, `*.gitlab-ci` | GitHub Actions documentation, workflow syntax, GitLab CI reference    | GitHub Actions security hardening, Scorecard    | Action pin conventions per `references/stacks/github-actions.md`    |
+| Assembly             | `*.asm`, `*.s`, `*.inc`, `.S`, `.mac`    | Toolchain manual (DASM, ca65, sjasmplus), hardware data sheet         | Hardware errata, cross-cutting refs             | Toolchain version notes in the assembler manual                     |
 | Agent-facing package | `SKILL.md`, `AGENTS.md`, `.mcp.json`     | Agent Skills spec, AGENTS.md convention, Anthropic best practices     | MCP specification                               | Agent Skills spec versioning follows the published spec revision    |
 
 Canonical URLs for the stack rows above:
@@ -82,6 +83,9 @@ Canonical URLs for the stack rows above:
   [C# language reference](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/),
   [.NET security analysis rules](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/security-warnings),
   [code analysis overview](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/overview),
+  [program organization](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/program-structure/program-organization),
+  [identifier names](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/identifier-names),
+  [testing with the CLI](https://learn.microsoft.com/en-us/dotnet/core/tutorials/testing-with-cli),
   [NuGet authoring best practices](https://learn.microsoft.com/en-us/nuget/create-packages/package-authoring-best-practices),
   [Package Validation and ApiCompat](https://learn.microsoft.com/en-us/dotnet/fundamentals/apicompat/package-validation/overview),
   [PublicApiAnalyzers](https://github.com/dotnet/roslyn-analyzers/tree/main/src/PublicApiAnalyzers),
@@ -92,6 +96,7 @@ Canonical URLs for the stack rows above:
 - **Go**: [Effective Go](https://go.dev/doc/effective_go),
   [Code Review Comments](https://go.dev/wiki/CodeReviewComments),
   [standard library](https://pkg.go.dev/std), [clig.dev](https://clig.dev/),
+  [Go module layout](https://go.dev/doc/modules/layout),
   [Go vulnerability database](https://pkg.go.dev/vuln/),
   [Go security policy](https://go.dev/security),
   [gosec rules](https://github.com/securego/gosec/blob/master/RULES.md),
@@ -100,6 +105,7 @@ Canonical URLs for the stack rows above:
 - **Java and Kotlin**: [Java SE documentation](https://docs.oracle.com/en/java/javase/),
   [Spring Framework reference](https://docs.spring.io/spring-framework/reference/),
   [Spring Boot reference](https://docs.spring.io/spring-boot/reference/),
+  [Spring Boot structuring your code](https://docs.spring.io/spring-boot/reference/using/structuring-your-code.html),
   [JUnit 5 user guide](https://junit.org/junit5/docs/current/user-guide/),
   [Oracle Secure Coding Guidelines for Java SE](https://www.oracle.com/java/technologies/javase/seccodeguide.html),
   [FindSecBugs patterns](https://find-sec-bugs.github.io/bugs.htm),
@@ -126,6 +132,9 @@ Canonical URLs for the stack rows above:
   [npm SemVer](https://docs.npmjs.com/about-semantic-versioning),
   [React documentation](https://react.dev/),
   [Rules of Hooks](https://react.dev/reference/rules/rules-of-hooks),
+  [React file-structure guidance](https://legacy.reactjs.org/docs/faq-structure.html),
+  [Vite guide](https://vite.dev/guide/),
+  [electron-vite project structure](https://electron-vite.org/guide/dev.html),
   [Electron documentation](https://www.electronjs.org/docs/latest/),
   [Electron security guidance](https://www.electronjs.org/docs/latest/tutorial/security)
 - **C++, C, Delphi, and Zig**:
@@ -140,7 +149,11 @@ Canonical URLs for the stack rows above:
   [Object Pascal Style Guide](https://edn.embarcadero.com/article/10280),
   [Free Pascal Reference Guide](https://www.freepascal.org/docs-html/ref/ref.html),
   [Zig language documentation](https://ziglang.org/documentation/master/),
+  [Zig style guide](https://ziglang.org/documentation/master/#style-guide),
   [Zig standard library](https://ziglang.org/documentation/master/std/)
+- **Assembly**: [DASM user guide](https://dasm-assembler.github.io/),
+  [DASM repository](https://github.com/dasm-assembler/dasm),
+  [ca65 Users Guide](https://cc65.github.io/doc/ca65.html)
 - **Web, Shell, OpenAPI, PHP, CI, and Agent packages**:
   [MDN HTML](https://developer.mozilla.org/en-US/docs/Web/HTML),
   [MDN CSS](https://developer.mozilla.org/en-US/docs/Web/CSS),
@@ -190,7 +203,8 @@ rules, and the live-check procedure.
 | `composer.json`, `*.php`            | `references/stacks/php.md`                     |
 | `go.mod`, `*.go`                    | `references/stacks/go.md`                      |
 | `pom.xml`, `build.gradle`, `*.java` | `references/stacks/java-spring.md`             |
-| `*.csproj`, `*.sln`                 | `references/stacks/dotnet-aspnet.md`           |
+| `*.csproj`, `*.sln`, web SDK        | `references/stacks/dotnet-aspnet.md`           |
+| `*.csproj`, `*.sln`, non-web        | `references/stacks/dotnet-app.md`              |
 | `Cargo.toml`, `*.rs`                | `references/stacks/rust.md`                    |
 | `*.c`, `*.cpp`, `CMakeLists.txt`    | `references/stacks/c-cpp.md`                   |
 | `*.sh`, `*.ps1`, `*.bat`            | `references/stacks/shell.md`                   |
@@ -202,6 +216,7 @@ rules, and the live-check procedure.
 | `openapi.yaml`, `swagger.*`         | `references/stacks/openapi-rest.md`            |
 | `*.dpr`, `*.lpr`, `*.pas`           | `references/stacks/delphi.md`                  |
 | `build.zig`, `*.zig`                | `references/stacks/zig.md`                     |
+| `*.asm`, `*.s`, `*.inc`             | `references/stacks/assembly.md`                |
 | Cross-stack naming and layout       | `references/naming-and-layout.md`              |
 | OWASP and review methodology        | `references/methodology/owasp-baselines.md`    |
 | Risk, threat modeling, CVSS         | `references/methodology/risk-modeling.md`      |

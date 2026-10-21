@@ -72,6 +72,27 @@ From https://docs.docker.com/compose/compose-file/.
 - Compose `version:` top-level key is obsolete in Compose v2 and ignored - its presence is
   cosmetic drift, not a defect.
 
+## Naming And Layout
+
+From https://docs.docker.com/build/concepts/dockerfile/,
+https://docs.docker.com/compose/intro/compose-application-model/, and the maintainer's
+engineering standards.
+
+- `Dockerfile` at the build-context root is the default name the tooling resolves, and
+  variants use `Dockerfile.<purpose>` or `<name>.Dockerfile` (`Dockerfile.test`,
+  `web.Dockerfile`) with the matching `dockerfile:` key or `-f` flag recorded in the build
+  instructions.
+- `compose.yaml` is the preferred filename (`compose.yml` accepted), `docker-compose.yaml` is
+  the legacy name both still resolve - one project should carry exactly one.
+- `.dockerignore` sits beside the `Dockerfile` at the context root, and `.env` supplies
+  compose variable substitution and must stay out of versioned builds (`*.env*` ignored).
+- Image references are lowercase: `registry/namespace/name:tag` uses `kebab-case` repository
+  names and semantic or immutable tags - uppercase characters in an image name are invalid
+  per the distribution spec.
+- Compose service and volume names are `kebab-case` lowercase identifiers, and service names
+  double as DNS aliases on the compose network, so they name the role (`api`, `db`) not the
+  technology version (`postgres16`).
+
 ## Live Check
 
 When web fetch is available, spot-check one Dockerfile rule against the Docker best-practices

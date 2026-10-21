@@ -25,9 +25,9 @@ identifiers and names), `alternate` (fallback address for the row above).
 | Section                            | Line | What it covers                                   |
 |------------------------------------|------|--------------------------------------------------|
 | Sources                            | 32   | Source registry grouped by consuming corpus file |
-| Session-Derived Files              | 535  | Corpus files built from session knowledge        |
-| Unresolved And Alternate Addresses | 548  | Fetch failures and working alternates            |
-| Maintenance                        | 568  | Row-addition and canonicalization rules          |
+| Session-Derived Files              | 559  | Corpus files built from session knowledge        |
+| Unresolved And Alternate Addresses | 573  | Fetch failures and working alternates            |
+| Maintenance                        | 593  | Row-addition and canonicalization rules          |
 
 ## Sources
 
@@ -174,6 +174,14 @@ identifiers and names), `alternate` (fallback address for the row above).
 | MSBuild project SDK properties   | Microsoft | https://learn.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props                                     | distilled |
 | Code analysis overview           | Microsoft | https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/overview                                | distilled |
 
+### references/stacks/dotnet-app.md
+
+| Source               | Publisher | URL                                                                                                 | Status    |
+|----------------------|-----------|-----------------------------------------------------------------------------------------------------|-----------|
+| Program organization | Microsoft | https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/program-structure/program-organization | distilled |
+| Identifier names     | Microsoft | https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/identifier-names          | distilled |
+| Testing with the CLI | Microsoft | https://learn.microsoft.com/en-us/dotnet/core/tutorials/testing-with-cli                            | distilled |
+
 ### references/stacks/rust.md
 
 | Source                 | Publisher     | URL                                                       | Status    |
@@ -184,6 +192,7 @@ identifiers and names), `alternate` (fallback address for the row above).
 | Clippy lint list       | Rust project  | https://rust-lang.github.io/rust-clippy/master/           | distilled |
 | RustSec advisories     | RustSec       | https://rustsec.org/                                      | distilled |
 | Cargo SemVer rules     | Rust project  | https://doc.rust-lang.org/cargo/reference/semver.html     | distilled |
+| Cargo workspaces       | Rust project  | https://doc.rust-lang.org/cargo/reference/workspaces.html | distilled |
 | Tokio tutorial         | Tokio project | https://tokio.rs/tokio/tutorial                           | distilled |
 
 ### references/stacks/c-cpp.md
@@ -197,11 +206,12 @@ identifiers and names), `alternate` (fallback address for the row above).
 
 ### references/stacks/shell.md
 
-| Source                   | Publisher          | URL                                                 | Status    |
-|--------------------------|--------------------|-----------------------------------------------------|-----------|
-| ShellCheck wiki          | ShellCheck project | https://www.shellcheck.net/wiki/                    | distilled |
-| Google Shell Style Guide | Google             | https://google.github.io/styleguide/shellguide.html | distilled |
-| PSScriptAnalyzer         | Microsoft          | https://github.com/PowerShell/PSScriptAnalyzer      | distilled |
+| Source                    | Publisher          | URL                                                                                                                    | Status    |
+|---------------------------|--------------------|------------------------------------------------------------------------------------------------------------------------|-----------|
+| ShellCheck wiki           | ShellCheck project | https://www.shellcheck.net/wiki/                                                                                       | distilled |
+| Google Shell Style Guide  | Google             | https://google.github.io/styleguide/shellguide.html                                                                    | distilled |
+| PSScriptAnalyzer          | Microsoft          | https://github.com/PowerShell/PSScriptAnalyzer                                                                         | distilled |
+| PowerShell approved verbs | Microsoft          | https://learn.microsoft.com/en-us/powershell/scripting/developer/cmdlet/approved-verbs-for-windows-powershell-commands | distilled |
 
 ### references/stacks/web.md
 
@@ -224,6 +234,7 @@ identifiers and names), `alternate` (fallback address for the row above).
 | React documentation          | React project | https://react.dev/                                                  | distilled |
 | Rules of Hooks               | React project | https://react.dev/reference/rules/rules-of-hooks                    | distilled |
 | You Might Not Need an Effect | React project | https://react.dev/learn/you-might-not-need-an-effect                | distilled |
+| React file-structure FAQ     | React project | https://legacy.reactjs.org/docs/faq-structure.html                  | distilled |
 | MDN Service Worker API       | MDN           | https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API | distilled |
 
 ### references/stacks/electron-desktop.md
@@ -235,6 +246,7 @@ identifiers and names), `alternate` (fallback address for the row above).
 | Context isolation             | Electron project | https://www.electronjs.org/docs/latest/tutorial/context-isolation | distilled |
 | Process model                 | Electron project | https://www.electronjs.org/docs/latest/tutorial/process-model     | distilled |
 | electron-builder code signing | electron-builder | https://www.electron.build/docs/features/code-signing/            | distilled |
+| electron-vite dev guide       | electron-vite    | https://electron-vite.org/guide/dev.html                          | distilled |
 
 ### references/stacks/docker.md
 
@@ -244,6 +256,8 @@ identifiers and names), `alternate` (fallback address for the row above).
 | Dockerfile best practices   | Docker Inc.         | https://docs.docker.com/build/building/best-practices/                          | distilled |
 | Docker security cheat sheet | OWASP               | https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html | distilled |
 | Compose file reference      | Docker Inc.         | https://docs.docker.com/compose/compose-file/                                   | distilled |
+| Dockerfile concepts         | Docker Inc.         | https://docs.docker.com/build/concepts/dockerfile/                              | distilled |
+| Compose application model   | Docker Inc.         | https://docs.docker.com/compose/intro/compose-application-model/                | distilled |
 
 ### references/stacks/github-actions.md
 
@@ -251,6 +265,7 @@ identifiers and names), `alternate` (fallback address for the row above).
 |----------------------------|-----------|----------------------------------------------------------------------------------------------------------------------|-----------|
 | Actions security hardening | GitHub    | https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions | distilled |
 | Workflow syntax            | GitHub    | https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax                                   | distilled |
+| About custom actions       | GitHub    | https://docs.github.com/en/actions/sharing-automations/creating-actions/about-custom-actions                         | distilled |
 
 ### references/stacks/openapi-rest.md
 
@@ -273,9 +288,18 @@ identifiers and names), `alternate` (fallback address for the row above).
 
 ### references/stacks/zig.md
 
-| Source            | Publisher               | URL                                       | Status    |
-|-------------------|-------------------------|-------------------------------------------|-----------|
-| Zig documentation | Zig Software Foundation | https://ziglang.org/documentation/master/ | distilled |
+| Source            | Publisher               | URL                                                   | Status    |
+|-------------------|-------------------------|-------------------------------------------------------|-----------|
+| Zig documentation | Zig Software Foundation | https://ziglang.org/documentation/master/             | distilled |
+| Zig style guide   | Zig Software Foundation | https://ziglang.org/documentation/master/#style-guide | distilled |
+
+### references/stacks/assembly.md
+
+| Source           | Publisher    | URL                                    | Status    |
+|------------------|--------------|----------------------------------------|-----------|
+| DASM user guide  | DASM project | https://dasm-assembler.github.io/      | distilled |
+| DASM repository  | DASM project | https://github.com/dasm-assembler/dasm | distilled |
+| ca65 Users Guide | cc65 project | https://cc65.github.io/doc/ca65.html   | distilled |
 
 ### references/methodology/owasp-baselines.md
 
@@ -536,14 +560,15 @@ Feeds `references/cwe-analyzer.md` and `references/dependency-manifests.md`.
 
 These corpus files consolidate session knowledge rather than fetched sources.
 
-| File                                     | Basis                                                                       | Status    |
-|------------------------------------------|-----------------------------------------------------------------------------|-----------|
-| `references/topics/evidence-recipes.md`  | Audit-session mechanical evidence patterns                                  | distilled |
-| `references/topics/deployment-ssh.md`    | Audit-session SSH/SCP deployment knowledge                                  | distilled |
-| `references/topics/license-evidence.md`  | Per-ecosystem license evidence locations                                    | distilled |
-| `references/topics/standards-anatomy.md` | Maintainer-supplied engineering-standard corpora anatomy                    | distilled |
-| `references/naming-and-layout.md`        | Cross-stack naming matrices, code-division rules, and 11-stack fixtures     | distilled |
-| `references/language-conventions.md`     | Per-ecosystem canonical style yardstick snapshot for the code-style T3 tier | distilled |
+| File                                            | Basis                                                                       | Status    |
+|-------------------------------------------------|-----------------------------------------------------------------------------|-----------|
+| `references/topics/evidence-recipes.md`         | Audit-session mechanical evidence patterns                                  | distilled |
+| `references/topics/deployment-ssh.md`           | Audit-session SSH/SCP deployment knowledge                                  | distilled |
+| `references/topics/license-evidence.md`         | Per-ecosystem license evidence locations                                    | distilled |
+| `references/topics/standards-anatomy.md`        | Maintainer-supplied engineering-standard corpora anatomy                    | distilled |
+| `references/naming-and-layout.md`               | Cross-stack naming matrices, code-division rules, and 11-stack fixtures     | distilled |
+| `references/language-conventions.md`            | Per-ecosystem canonical style yardstick snapshot for the code-style T3 tier | distilled |
+| `references/stacks/` Naming And Layout sections | Maintainer-supplied engineering-standards corpus distilled per stack        | distilled |
 
 ## Unresolved And Alternate Addresses
 

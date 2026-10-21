@@ -41,6 +41,20 @@ https://doc.rust-lang.org/cargo/guide/project-layout.html.
 - `unsafe` blocks require `// SAFETY:`-style justification comments by convention. Undocumented
   `unsafe` is a review finding.
 - `#[must_use]` belongs on results the caller must not drop silently (`C-MUST-USE`).
+- Cargo workspaces from https://doc.rust-lang.org/cargo/reference/workspaces.html: member
+  crates sit in flat sibling directories (`crates/` or the root `members` globs), the root
+  `Cargo.toml` is a manifest or virtual manifest (`[workspace]` with no `[package]`), the
+  root `Cargo.lock` and `target/` are shared, and `[workspace.package]`/`[workspace.lints]`
+  inheritance is the checkable uniformity mechanism.
+- Server-shape role modules from the maintainer's Rust API standard: `src/` groups
+  `api/` or `server/` (routes, `*State`, `*Request`/`*Response` types), `domain/` (entities,
+  `*Error` enums), `repository/`/`store.rs` (single persistence module), `service/`, and
+  `config.rs`/`main.rs` wiring - a `handlers.rs` grab-bag mixing domains is a division
+  finding.
+- File budgets: a `snake_case.rs` module approaching roughly 300 lines splits along type or
+  trait boundaries into a directory module (`foo.rs` plus `foo/bar.rs`, or the 2018-edition
+  `foo/mod.rs` form) - the audit checks the split happened, never which edition form the
+  project picked.
 
 ## Clippy Posture
 

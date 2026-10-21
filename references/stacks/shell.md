@@ -71,6 +71,29 @@ From https://github.com/PSScriptAnalyzer (MIT-licensed rule set).
 - `curl | sh` install patterns, unchecked `cd` before `rm -rf`, and temp files under
   predictable `/tmp` names are the recurring audit findings.
 
+## Naming And Layout
+
+From https://google.github.io/styleguide/shellguide.html, the PowerShell approved-verbs
+reference registered in `references/source-catalog.md`, and the maintainer's shell, batch,
+PowerShell, and AppleScript engineering standards.
+
+- Committed scripts live in a conventional `script/`, `scripts/`, `bin/`, or `tools/`
+  directory rather than the repository root, and one script does one logical operation -
+  `build.sh`, `deploy.sh`, `sync-openapi.sh` over `utils.sh` grab-bags.
+- Bash and POSIX script filenames use `snake_case.sh` or `kebab-case.sh` (pick one per
+  project), functions use `snake_case`, and `UPPER_CASE` marks exported and
+  environment-derived variables.
+- PowerShell scripts use `kebab-case.ps1` or `PascalCase.ps1` filenames and approved-verb
+  `Verb-Noun` function names (`Get-ProcessState`, `Invoke-Sync`) - a function name without an
+  approved verb is the lint-rule finding PSScriptAnalyzer raises.
+- Batch files use `snake_case.bat` filenames and `snake_case` `:labels`, keep `SET`/`IF`/`FOR`
+  builtins uppercase, and document external tool dependencies in a header comment.
+- Throwaway probe scripts live under the gitignored workspace (`work/scripts/*.tmp.sh`,
+  `*.tmp.ps1`, `*.tmp.mjs`, `*.tmp.py`, `*.tmp.scpt`) - a `*.tmp.*` probe committed to tracked
+  source is a hygiene finding across every scripting dialect.
+- Environment variable names are `UPPER_SNAKE_CASE` and descriptive (`AUTOMATION_TARGET_PATH`),
+  and timeout or interval constants carry their unit (`POLL_TIMEOUT_MS`, `MaxWaitTime`).
+
 ## Live Check
 
 When web fetch is available, spot-check one SC rule ID against the ShellCheck wiki and one

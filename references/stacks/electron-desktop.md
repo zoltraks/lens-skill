@@ -68,6 +68,31 @@ From https://www.electron.build/docs/features/code-signing/.
 - `autoUpdater` endpoints must be HTTPS and signature-checked. Plaintext or unchecked update
   feeds are critical findings.
 
+## Naming And Layout
+
+From https://electron-vite.org/guide/dev.html,
+https://www.electronjs.org/docs/latest/tutorial/process-model, and the maintainer's
+TypeScript/Electron engineering standards.
+
+- The process boundary is the layout axis: main-process code, preload scripts, and renderer
+  code live in separate directories or top-level folders (`electron/` with `main.cjs` +
+  `preload.cjs`, or the electron-vite convention `src/main/`, `src/preload/`,
+  `src/renderer/`). Code that crosses the boundary through imports is a structural finding,
+  not just a style one.
+- `package.json`'s `main` field names the main-process entry, and `main.js`, `main.cjs`,
+  `index.js`, or `electron/main.cjs` are all valid when the field points at the file. A
+  renderer file referenced as `main` is a wiring defect.
+- Preload scripts conventionally carry the name `preload.*` next to the main entry or under
+  `src/preload/`, and the sandbox boundary means the bridge surface lives entirely inside
+  them.
+- Renderer-side naming follows the UI framework's conventions (React: `PascalCase.tsx`
+  components, `useCamelCase.ts` hooks, `camelCase.ts` utilities per
+  `references/stacks/spa.md`), while main and preload files follow Node.js `kebab-case` or
+  the project's declared convention.
+- Packaging inputs keep conventional names: `build/` or `resources/` for icons and manifests,
+  `electron-builder.yml` or a `build` section in `package.json` for the packager config, and
+  `dist/`/`release/`/`out/` gitignored.
+
 ## Live Check
 
 When web fetch is available, spot-check the current recommended security defaults against

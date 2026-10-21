@@ -17,18 +17,20 @@ It feeds `assessment/structure-review.md`, `assessment/best-practices.md`,
 `assessment/standards-conformance.md`, and `assessment/baseline-conformance.md`, and anchors
 the `Structure Review` and `Structure Conformance` report sections.
 
-Snapshot date: 2026-10-12.
+Snapshot date: 2026-10-21.
 
 ## Contents
 
 | Section                            | Line | What it covers                                              |
 |------------------------------------|------|-------------------------------------------------------------|
-| Component-Purpose Layout Rules     | 33   | How libraries, services, apps, CLIs, and docs differ        |
-| Directory Naming Principles        | 80   | Full-word discipline, singular/plural, and catch-all bans   |
-| Cross-Language Naming Matrices     | 107  | File, package, type, member, variable, and test conventions |
-| Language-Idiomatic Code Division   | 157  | Type-to-file rules, interfaces, abstracts, and DI wiring    |
-| Canonical Stack Fixtures           | 208  | Reference layouts and idioms across 11 languages/stacks     |
-| Fallback For Unlisted Technologies | 665  | Auditing languages, frameworks, and docs not in the tables  |
+| Component-Purpose Layout Rules     | 35   | How libraries, services, apps, CLIs, and docs differ        |
+| Polyglot Repositories              | 82   | Per-partition baseline resolution for multi-stack repos     |
+| Directory Naming Principles        | 114  | Full-word discipline, singular/plural, and catch-all bans   |
+| Cross-Language Naming Matrices     | 141  | File, package, type, member, variable, and test conventions |
+| Framework And Tooling Overrides    | 212  | Framework-imposed names that supersede language defaults    |
+| Language-Idiomatic Code Division   | 237  | Type-to-file rules, interfaces, abstracts, and DI wiring    |
+| Canonical Stack Fixtures           | 288  | Reference layouts and idioms across 11 languages/stacks     |
+| Fallback For Unlisted Technologies | 750  | Auditing languages, frameworks, and docs not in the tables  |
 
 ## Component-Purpose Layout Rules
 
@@ -76,6 +78,38 @@ Component-specific evaluation rules:
   `references/agent-skills.md` and `references/agent-configuration.md`: a root `SKILL.md`
   entry, conventional optional directories (`scripts/`, `references/`, `assets/`), and for a
   collection an index plus one separated directory per member.
+
+## Polyglot Repositories
+
+A repository that ships several language partitions resolves a naming and layout baseline
+**per partition**, never one baseline for the whole tree.
+
+A multi-language repository - for example a product that ships sibling C#, Go, Java, and
+Node.js implementations of the same service, or a client in TypeScript beside a PHP server -
+gives each partition its own baseline: the Java partition answers to the Maven/Gradle layout
+and Spring suffixes, the Go partition to `cmd/`/`internal/` and `snake_case.go`, the C#
+partition to solution/project/namespace mirroring, and shared infrastructure (workflows,
+compose files, OpenAPI contracts, shell scripts) to its own digest.
+
+Apply these rules:
+
+- **Detect partitions first** - `references/stack-standards.md` detection signals identify each
+  partition's stack from its own manifests (`pom.xml`, `go.mod`, `*.csproj`, `package.json`,
+  `composer.json`, `Cargo.toml`, `build.zig`) before any naming judgement applies.
+- **One baseline per partition** - inside one partition only that stack's matrix row, fixture,
+  and `references/stacks/` digest apply. A `camelCase` helper in the Go partition and a
+  `PascalCase` class in the C# partition of the same repository are both correct.
+- **Cross-partition consistency is the reportable signal** - when partitions claim to mirror
+  each other (parallel ports, shared protocol buffers, one OpenAPI contract generating several
+  clients), divergent naming of the *same* domain concept across partitions is an observation
+  under `Structure Conformance`, recorded as cross-partition drift, not as a style defect in
+  either partition.
+- **Root-level conventions belong to the repository role** - `README.md`, `.github/`,
+  `docs/`, and `work/` follow the component-role rules above regardless of which partitions
+  exist underneath.
+- **No partition without a baseline** - an unlisted or hybrid partition falls through to the
+  fallback procedure below for that partition only, while the rest of the repository keeps its
+  resolved baselines.
 
 ## Directory Naming Principles
 
@@ -154,6 +188,52 @@ and [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuid
 | Delphi      | `Namespace.Unit.pas`      | `T` class/record, `I` intf, `E` exc | `PascalCase`             | `FField`, `AParam`, enum `osPending`           | `*.Tests.*.pas`              |
 | C++20       | `snake_case.hpp` / `.cpp` | `PascalCase` (or `snake_case` std)  | `snake_case`             | `member_`, `snake_case`, `kConst`              | `*_test.cpp`                 |
 
+### Zig, Shell, And Assembly
+
+Canonical sources: [Zig Style Guide](https://ziglang.org/documentation/master/#style-guide),
+[Google Shell Style Guide](https://google.github.io/styleguide/shellguide.html),
+[DASM user guide](https://dasm-assembler.github.io/), and
+[ca65 Users Guide](https://cc65.github.io/doc/ca65.html).
+
+| Language | Source File                                        | Types / Interfaces          | Functions / Methods             | Fields / Params / Constants                    | Test Files            |
+|----------|----------------------------------------------------|-----------------------------|---------------------------------|------------------------------------------------|-----------------------|
+| Zig      | `TitleCase.zig` struct, `snake_case.zig` namespace | `TitleCase` types           | `camelCase`                     | `snake_case` fields, `SCREAMING_SNAKE` consts  | inline `test` blocks  |
+| Shell    | `snake_case.sh` or `kebab-case.sh`                 | n/a                         | `snake_case`                    | `UPPER_SNAKE` env/exported, `snake_case` local | `*_test.sh`/`bats`    |
+| Assembly | `.asm`/`.s`, `.inc`/`.mac` includes                | n/a - `UPPER_SNAKE` equates | `snake_case`/`lowercase` labels | `UPPER_SNAKE` constants, terse locals          | per-toolchain harness |
+
+Zig file naming follows the official type rule (a file that *is* a struct uses `TitleCase`,
+namespace files use `snake_case`), yet many projects adopt uniform `snake_case` - detect the
+partition's declared or dominant rule before flagging either shape.
+
+Assembly label casing is dialect- and project-specific: the working yardstick is the dominant
+shape inside the partition, and terse labels plus dialect local-label syntax are idiomatic
+rather than noise - see `references/stacks/assembly.md`.
+
+## Framework And Tooling Overrides
+
+A detected framework or toolchain imposes names that supersede the language defaults in the
+matrices - framework-conforming names are never flagged against the language row.
+
+| Detected signal                               | Override the language defaults with                                                                              |
+|-----------------------------------------------|------------------------------------------------------------------------------------------------------------------|
+| Spring `@SpringBootApplication`               | Root-package entry class, `*Controller`/`*Service`/`*Repository`/`*Config`/`*Entity` suffixes, `application.yml` |
+| ASP.NET Core (`Program.cs`, `WebApplication`) | `*Controller` or `*Endpoints` classes, `I`-prefixed interfaces, `appsettings*.json`                              |
+| Electron (`main` field, `electron` dep)       | Process-split layout (`main`/`preload`/`renderer` dirs), `preload.*` bridge scripts                              |
+| React / Vite (`jsx`/`tsx`, `vite.config.*`)   | `PascalCase.tsx` components, `use*` hooks, root `index.html`, `public/` static assets                            |
+| Next/Nuxt/SvelteKit config                    | File-based routing dirs (`app/`/`pages/`/`routes/`) - filenames *are* URLs                                       |
+| Django/Flask/FastAPI imports                  | `views.py`/`urls.py`/`routers`, `wsgi.py`/`asgi.py`, `templates/`                                                |
+| Rails (`Gemfile`, `config/routes.rb`)         | `app/` role dirs (`models`, `controllers`, `views`), `snake_case` everything, `db/migrate/`                      |
+| PHPUnit/Pest (`phpunit.xml`)                  | `*Test.php` mirroring `src/` namespaces under `tests/`                                                           |
+| pytest (`pyproject.toml`, `conftest.py`)      | `test_*.py` modules, `test_*` functions, `conftest.py` fixtures                                                  |
+| `docker-compose.yaml`/`compose.yaml`          | `kebab-case` service and volume names, `Dockerfile[.<variant>]`                                                  |
+| `.github/workflows/*.yml`                     | `kebab-case.yml` filenames, `action.yml` composite actions                                                       |
+| OpenAPI `openapi:` key                        | `PascalCase` schemas, `kebab-case` paths/tags, `operationId` `camelCase`                                         |
+| `build.zig`/`build.zig.zon`                   | Zig type-rule file naming, `src/main.zig`/`src/lib.zig` entries                                                  |
+
+An override applies only when its detection signal is present in that partition - a plain
+TypeScript library answers to `kebab-case.ts`, while the same repository's React partition
+answers to `PascalCase.tsx` components.
+
 ## Language-Idiomatic Code Division
 
 Code division - how declarations, abstractions, implementations, and wiring are distributed
@@ -210,6 +290,11 @@ naming finding.
 All eleven reference fixtures model the same order-management HTTP API (`POST /orders` and
 `GET /orders/{id}`) so directory layouts, file boundaries, and identifier conventions can be
 compared directly across stacks.
+
+The fixtures deliberately cover the service shape of each stack, and non-service shapes of the
+same languages - SPAs, Electron desktops, CLI tools, library packages, workspace layouts, and
+assembly partitions - carry their conventions in the per-stack digests under
+`references/stacks/` rather than as parallel fixtures here.
 
 ### 1. Python 3.10+ (FastAPI)
 
@@ -667,8 +752,9 @@ Key C++20 conventions verified from this fixture:
 Lens audits any software or documentation repository, including languages, frameworks, DSLs,
 and project types not listed in the matrices above.
 
-When a component uses a technology not covered by a bundled digest or matrix row, establish its
-governing naming and layout baseline in this order:
+When a partition uses a technology not covered by a bundled digest, matrix row, or
+`references/stacks/` file, establish its governing naming and layout baseline in this order
+(applied per partition in polyglot repositories):
 
 1. **Project-declared standards** - inspect `AGENTS.md`, `CONTRIBUTING.md`, `STANDARDS.md`,
    `docs/standards/`, `.editorconfig`, and linter/formatter configs (`.clang-format`,

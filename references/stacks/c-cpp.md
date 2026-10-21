@@ -46,6 +46,14 @@ subset.
   and `reinterpret_cast` is a red-flag token (ES.48-50).
 - Compiler warnings as errors (`-Wall -Wextra -Werror`, `/W4 /WX`) are the analysis floor.
   Absent warning flags in build config are an observation.
+- File naming is family-dependent, and mixing families inside one partition is the defect:
+  the Google/LLVM family uses `snake_case.cc`/`.h`, the Microsoft and Qt-flavored family
+  names files after the type (`Engine.h`, `Engine.cpp`), and the std-style family keeps
+  `snake_case.hpp` - detect which the project follows before judging outliers.
+- One header plus one implementation file per public class or logical unit, source split by
+  domain or subsystem (`src/core/`, `src/model/`, `src/io/`, `src/config/`), and test files
+  mirror the source path (`src/core/engine.cpp` tested by `test/core/engine_test.cpp`) -
+  a test tree that does not mirror production makes coverage unverifiable.
 
 ## CERT Anchors
 

@@ -44,6 +44,30 @@ From https://ziglang.org/documentation/master/.
 - Errors are values in error unions (`!T`). `try` propagates, `catch` handles -
   `catch unreachable` on fallible user-input paths is a defect.
 
+## Naming And Layout
+
+From https://ziglang.org/documentation/master/#style-guide and the maintainer's Zig
+engineering standard.
+
+- `build.zig` is the build program and `build.zig.zon` the package manifest at the root,
+  `src/main.zig` or `src/lib.zig` is the conventional entry, `zig-out/` and `.zig-cache/` are
+  gitignored build artifacts, and `test/` holds external integration tests when inline `test`
+  blocks are insufficient.
+- File names follow the type rule: a file that is a struct with fields is `TitleCase.zig`
+  (`MemoryBus.zig`, `Compilation.zig` in the Zig compiler's own tree), while namespace files
+  without fields are `snake_case.zig` (`mem.zig`, `codegen.zig`), and directories are
+  `snake_case`. Projects that uniformly pick `snake_case` for every file are a legitimate
+  project convention - record which rule the partition follows.
+- Identifiers: `TitleCase` for types, functions that return types, and type namespaces,
+  `camelCase` for functions and local variables, `snake_case` for variables and struct
+  fields, `SCREAMING_SNAKE_CASE` for file-scope constants, `snake_case` for enum tags
+  (`.normal`), and no Hungarian or type-encoding prefixes.
+- Inline `test "module: function - scenario"` blocks colocated with the code under test are
+  the primary testing form - a `test/` directory exists only for integration suites that
+  would clutter sources.
+- One `.zig` file per logical unit: split a module when it outgrows roughly 300 lines, and
+  circular `@import` dependencies between modules are a structural finding.
+
 ## Live Check
 
 When web fetch is available, verify the toolchain version this snapshot targets against

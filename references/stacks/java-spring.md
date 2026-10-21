@@ -102,6 +102,19 @@ https://kotlinlang.org/docs/coding-conventions.html.
   classes, `val` preferred over `var`, named arguments for multi-parameter calls.
 - Kotlin null-safety is the language contract. `!!` operators and platform-type leaks across
   Java interop are reviewable.
+- Spring role-suffix naming from the maintainer's engineering standard: `*Controller`,
+  `*Service`, `*Repository`, `*Config`/`*Configuration`, `*Entity`, `*Filter`, `*Properties`,
+  `*Client`, and `*Request`/`*Response` DTOs - a `*Manager` or `*Helper` catch-all name is an
+  observation that the class hides a role.
+- Maven module conventions: `artifactId` is `kebab-case` and the module's directory name
+  equals its `artifactId`, the aggregator `pom.xml` lists modules in build order, and
+  `groupId` is the reverse-DNS owner (`com.example`).
+- Database migrations follow the tool's own scheme - Flyway `V<n>__<snake_case_desc>.sql`,
+  Liquibase `kebab-case` change-sets - and a migration file renamed after application is a
+  history defect.
+- Package-by-feature (`com.example.order.OrderController`, `Order`, `OrderService`,
+  `OrderRepository` grouped under one `order` package) is the Spring-endorsed alternative to
+  layered packages - the audit checks which model the project follows, never prescribes one.
 
 ## Persistence And Transactions
 
