@@ -44,9 +44,10 @@ Structure the section with these elements, in order:
    Verdict cells carry `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, or `N/A`, and the Basis cell names
    the convention tier per `assessment/structure-review.md` - required, established,
    recommended, or context-dependent.
-   Detailed per-component directory, file, code-division, and in-code identifier naming tables
-   render in the conditional `Naming And Layout Conformance` section per
-   `process/report-format/conditional-conformance.md` and are cross-referenced here.
+   Detailed per-component directory, file, and code-division tables render in the conditional
+   `Structure Conformance` section per `process/report-format/conditional-conformance.md` and
+   are cross-referenced here, while in-code identifier naming renders in `Code Style` per
+   `process/report-format/code-style.md`.
 4. **Finding summary** - `FND-STR-` rows inline or cross-referenced to Detailed Technical
    Findings.
 5. **Positive practices** - organizational decisions worth preserving, each with evidence.

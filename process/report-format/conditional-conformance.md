@@ -8,16 +8,16 @@
 
 ## Contents
 
-| Section                                   | Line | What it covers                              |
-|-------------------------------------------|------|---------------------------------------------|
-| API Contract Conformance                  | 22   | API specification and security conformance  |
-| Skill Definition Conformance              | 49   | Agent Skill and artifact spec conformance   |
-| Agent Guidance Conformance                | 116  | Guidance-set topology and ownership         |
-| AI System Assessment                      | 146  | AI model, dataset, and safety assessment    |
-| Standards Conformance                     | 165  | Project development standards conformance   |
-| Engineering Baseline Conformance          | 228  | Bundled stack and purpose baseline floor    |
-| Naming And Layout Conformance             | 255  | Directory, file, division, and naming rules |
-| API Compatibility & Versioning Discipline | 320  | Library API surface and SemVer discipline   |
+| Section                                   | Line | What it covers                             |
+|-------------------------------------------|------|--------------------------------------------|
+| API Contract Conformance                  | 22   | API specification and security conformance |
+| Skill Definition Conformance              | 49   | Agent Skill and artifact spec conformance  |
+| Agent Guidance Conformance                | 116  | Guidance-set topology and ownership        |
+| AI System Assessment                      | 146  | AI model, dataset, and safety assessment   |
+| Standards Conformance                     | 165  | Project development standards conformance  |
+| Engineering Baseline Conformance          | 228  | Bundled stack and purpose baseline floor   |
+| Structure Conformance                     | 255  | Directory, file, and code-division rules   |
+| API Compatibility & Versioning Discipline | 306  | Library API surface and SemVer discipline  |
 
 ## API Contract Conformance
 
@@ -252,7 +252,7 @@ evidence and its linked `FND-XXX`.
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
 
-## Naming And Layout Conformance
+## Structure Conformance
 
 Include this section when the subject contains source code files or a structured documentation
 tree, per `assessment/structure-review.md` and `references/naming-and-layout.md`.
@@ -293,29 +293,15 @@ language and component role:
 | `src/OrderApp.Api` | Interface separated from implementation   | `IRevocationStore` + `NullRevocationStore` paired | PARTIAL | `EVD-037`, `FND-STR-002` |
 | `src/OrderApp.Api` | Single-responsibility component placement | `App/Misc.cs` catch-all, `App/RedisMain.cs`       | FAIL    | `EVD-038`, `FND-STR-002` |
 
-**In-code identifier naming**
-
-Present a conformance table evaluating in-code identifiers (packages/namespaces/units,
-classes/records/structs/enums, interfaces/traits/protocols, methods/functions,
-variables/parameters, private fields, constants/enum values) against the language's canonical
-naming rules and checking for foreign-language holdovers or misleading role suffixes:
-
-| Element                   | Stack Rule                           | Observed Pattern                                    | Status  | Evidence                 |
-|---------------------------|--------------------------------------|-----------------------------------------------------|---------|--------------------------|
-| Namespaces and packages   | Full `PascalCase` matching folders   | `SiApi.Server.App`, `.Auth`, `.Config`, `.Docs`     | PARTIAL | `EVD-036`, `FND-STR-001` |
-| Classes and records       | Unabbreviated `PascalCase` nouns     | `EnvSubst`, `ConnectionParams`, `Misc`, `RedisMain` | PARTIAL | `EVD-039`, `FND-STR-001` |
-| Interfaces                | `IPascalCase`                        | `IDbEngine`, `IRevocationStore`                     | PASS    | `EVD-039`                |
-| Role suffixes             | Consistent `*Endpoints` / `*Handler` | Mixed `DocController`, `*Handler`, `AuthEndpoints`  | PARTIAL | `EVD-039`, `FND-STR-003` |
-| Methods and functions     | `PascalCase`, `*Async`, full words   | `ValueI`, `ValueB`, `Misc.HashCode`                 | PARTIAL | `EVD-039`, `FND-STR-003` |
-| Parameters and locals     | `camelCase`, C# keyword aliases      | `camelCase`, `Boolean` CLR type in `RedisMain.cs`   | PARTIAL | `EVD-039`, `FND-STR-003` |
-| Private fields            | `_camelCase`                         | `_camelCase` across stateful classes                | PASS    | `EVD-039`                |
-| Constants and enum values | `PascalCase`, no type prefix         | `PoolStatus {psNew, psTheSame, psConnected}`        | FAIL    | `EVD-039`, `FND-STR-003` |
-
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
 
 After the tables, describe each non-`PASS` row in single-sentence paragraphs with concrete file
 and line evidence and link to the corresponding `FND-STR-NNN` finding.
+
+In-code identifier naming - classes, methods, fields, constants, and variables - is assessed by
+`assessment/code-style.md` and reported in the `Code Style` section per
+`process/report-format/code-style.md`, not in this section.
 
 ## API Compatibility & Versioning Discipline
 

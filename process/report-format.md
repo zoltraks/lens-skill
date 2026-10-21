@@ -41,10 +41,10 @@ A present-but-empty section signals a gap, a missing section hides it.
 | Formatting Rules                            | 49   | Formatting Rules guidance                   |
 | Report Delivery And Parameter Configuration | 366  | Report delivery and output configuration    |
 | Detail Level Configuration                  | 422  | Standard, detailed, and brief reports       |
-| Conditional Sections                        | 518  | Inclusion criteria for conditional sections |
-| Section Order                               | 576  | Single-project and multi-project order      |
-| Specification Files                         | 676  | Per-section specification file index        |
-| Pre-Delivery Mechanical Checklist           | 708  | Final mechanical checks                     |
+| Conditional Sections                        | 519  | Inclusion criteria for conditional sections |
+| Section Order                               | 578  | Single-project and multi-project order      |
+| Specification Files                         | 680  | Per-section specification file index        |
+| Pre-Delivery Mechanical Checklist           | 713  | Final mechanical checks                     |
 
 ## Formatting Rules
 
@@ -461,8 +461,9 @@ In addition, any conditional sections whose criteria are met are included in ful
 See the Conditional Sections rule below for the inclusion criteria of the Data Flow Diagram,
 Design Patterns, Architecture Decision Records, Threat Model, API Contract Conformance,
 Skill Definition Conformance, Agent Guidance Conformance, AI System Assessment, Standards
-Conformance, Engineering Baseline Conformance, Naming And Layout Conformance, API Compatibility
-& Versioning Discipline, Technical Debt Register, and Re-audit And Follow-up Plan.
+Conformance, Engineering Baseline Conformance, Structure Conformance, Code Style,
+API Compatibility & Versioning Discipline, Technical Debt Register, and Re-audit And
+Follow-up Plan.
 
 **Detailed**
 
@@ -549,7 +550,8 @@ Each lists its inclusion criterion and the assessment file that governs it:
 | AI System Assessment (standalone)                           | The project trains, serves, or materially depends on AI            | `assessment/ai-system.md`                 |
 | Standards Conformance (standalone)                          | The project contains documented development standards              | `assessment/standards-conformance.md`     |
 | Engineering Baseline Conformance (standalone)               | The subject ships code a bundled stack or purpose baseline covers  | `assessment/baseline-conformance.md`      |
-| Naming And Layout Conformance (standalone)                  | The subject contains source code or a structured documentation set | `assessment/structure-review.md`          |
+| Structure Conformance (standalone)                          | The subject contains source code or a structured documentation set | `assessment/structure-review.md`          |
+| Code Style (standalone)                                     | The subject contains source code files                             | `assessment/code-style.md`                |
 | API Compatibility & Versioning Discipline (standalone)      | The subject is a reusable library or package                       | `assessment/api-compatibility.md`         |
 | Technical Debt Register (standalone)                        | Structural debt distinct from risks is surfaced                    | `synthesis/debt-register.md`              |
 | Re-audit And Follow-up Plan (standalone)                    | The roadmap contains a P1 or P2 recommendation                     | `synthesis/reaudit-plan.md`               |
@@ -608,7 +610,8 @@ For a **single-project** audit:
 - AI System Assessment *(conditional)*
 - Standards Conformance *(conditional)*
 - Engineering Baseline Conformance *(conditional)*
-- Naming And Layout Conformance *(conditional)*
+- Structure Conformance *(conditional)*
+- Code Style *(conditional)*
 - API Compatibility & Versioning Discipline *(conditional)*
 - Strengths & What's Working
 - Detailed Technical Findings
@@ -656,7 +659,8 @@ In summary:
   - AI System Assessment *(conditional)*
   - Standards Conformance *(conditional)*
   - Engineering Baseline Conformance *(conditional)*
-  - Naming And Layout Conformance *(conditional)*
+  - Structure Conformance *(conditional)*
+  - Code Style *(conditional)*
   - API Compatibility & Versioning Discipline *(conditional)*
   - Strengths & What's Working
   - Detailed Technical Findings
@@ -692,7 +696,8 @@ Each report section is specified in a file under `process/report-format/`.
 | `report-analysis.md`          | Trade-off Analysis, Threat Model                         |
 | `conditional-conformance.md`  | API Contract, Skill Definition, Agent Guidance,          |
 |                               | AI System, Standards, Engineering Baseline,              |
-|                               | Naming And Layout, API Compatibility & Versioning        |
+|                               | Structure Conformance, API Compatibility & Versioning    |
+| `code-style.md`               | Code Style                                               |
 | `findings-registers.md`       | Strengths, Detailed Technical Findings, Technical Debt   |
 |                               | Register, Unified Risk Register, Remediation Roadmap,    |
 |                               | Recommendation Classification                            |

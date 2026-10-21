@@ -92,16 +92,11 @@ Audit each component independently across the three structural and naming pillar
     `JpaOrderRepository`), C# `I`-prefixed interfaces (`IOrderService`, `IRevocationStore`),
     abstract base classes, and concrete or null-object classes (`NullRevocationStore`) in
     separate files, Go consumer-defined interfaces, and Python `Protocol`/`ABC` contracts.
-- **Naming of classes, methods, fields, constants, and variables within the code**:
-  - Adherence to stack casing and prefix rules for packages/namespaces, classes/records/enums,
-    interfaces/traits/protocols, methods/functions, local variables/parameters, private fields,
-    and constants/enum members per `references/naming-and-layout.md`.
-  - Absence of cross-language naming holdovers (for example Delphi enum prefixes such as
-    `psNew`, type-letter method suffixes such as `ValueI`/`ValueB`, or BCL type names `Boolean`
-    instead of C# `bool` in a C# port, or C#-style `I` prefixes on TypeScript/Java interfaces).
-  - Role-suffix accuracy and consistency across peer components (for example mixing
-    `*Controller`, `*Handler`, and `*Endpoints` on Minimal API static endpoint classes that do
-    not inherit from `ControllerBase`).
+- **Naming of classes, methods, fields, constants, and variables within the code** is assessed
+  by `assessment/code-style.md` - naming matrices in `references/naming-and-layout.md` feed its
+  casing and prefix yardsticks, and cross-language holdovers such as `psNew` enum prefixes,
+  `ValueI`/`ValueB` type-letter suffixes, or C#-style `I` prefixes on TypeScript interfaces are
+  its findings, not this assessment's.
 - **Supporting artifacts and overall consistency**:
   - Placement of application and environment configuration, build and dependency files, CI/CD
     definitions, containerization, scripts, fixtures, templates, migrations, and generated
@@ -110,7 +105,7 @@ Audit each component independently across the three structural and naming pillar
     ambiguous ownership of shared functionality.
 
 Cite the consulted authoritative naming and layout standards in `Auditing Methodology`, render
-the detailed component-by-component matrices in `Naming And Layout Conformance`, and include
+the detailed component-by-component matrices in `Structure Conformance`, and include
 links to the authoritative sources in `References` so readers can retrieve the governing rules.
 
 ## Evidence To Look For

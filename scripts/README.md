@@ -282,6 +282,14 @@ module hints, and a git snapshot when the tree is a repository - producing the
 It treats the audited tree as data: it reads file metadata and git index state and never
 executes, installs, or sources anything it scans.
 
+`style-census.py` runs the identifier-shape census from
+`references/census-commands.md`: it classifies every declaration it can see by identifier kind
+and casing shape per language and top-level-directory partition, reports each dominant shape's
+share with outlier examples, and excludes generated, vendored, and minified files.
+
+It reads source files as data and never executes the subject, and two runs on the same tree
+produce identical output.
+
 `check-model.py` verifies a `work/audit-model.json` before report generation - referential
 integrity across records, criterion-outcome validity, and recomputation of each dimension's
 score, interval bounds, coverage, and eligibility per `process/readiness-scoring.md`.
@@ -307,6 +315,7 @@ python scripts/check-contents.py .
 python scripts/check-update.py
 python scripts/scan-standards.py path/to/standards-dir [--json]
 python scripts/scan-structure.py path/to/repo [--json] [--no-git] [--output path/to/file]
+python scripts/style-census.py path/to/repo [--json]
 python scripts/check-model.py path/to/work/audit-model.json [--json]
 python scripts/lint-prose.py path/to/draft.md [--no-sentence-breaks]
 python scripts/link-references.py path/to/AUDIT.md

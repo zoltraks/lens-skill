@@ -18,10 +18,11 @@ Apply `principles/evaluation-rules.md` throughout.
 
 - During Intake and Evidence Gathering, detect each stack from the signals in the table below.
 - Load the matching row or rows and consult the listed references when assessing Stack Best
-  Practices, Structure Review, Naming And Layout Conformance, Security Posture, Dependency
+  Practices, Structure Review, Structure Conformance, Code Style, Security Posture, Dependency
   Review, Standards Conformance, and API Compatibility.
 - Consult `references/naming-and-layout.md` alongside the stack row for component-role layout
-  expectations, cross-language naming matrices, and code-division rules.
+  expectations, cross-language naming matrices, and code-division rules, and
+  `references/language-conventions.md` for the code-style yardstick.
 - Name the consulted sources in the Auditing Methodology's "Reference standards" step and in the
   References section, per `process/report-format/report-closing.md`.
 - Cite only sources actually consulted. A row in this map is a pointer, not a citation.

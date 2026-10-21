@@ -36,7 +36,7 @@ Rationale and detail live in the section specs under `process/report-format/` an
   and an executed `review`-style report additionally carries an Artifact Manifest.
 - The Audit Type Coverage table keeps only `Covered`, `Partially`, and `Not done` status
   cells - `Not Applicable` rows are omitted entirely.
-- The Validation Record carries rows `PAR-1` through `PAR-20` in fixed order.
+- The Validation Record carries rows `PAR-1` through `PAR-27` in fixed order.
 - At `Detail Level: Detailed`, when `## Glossary` is present, it carries a separate
   `**Identifier triplets**` table (`Triplet | Scope | Description`) after the alphabetical
   `Term | Definition` index table, starting with `FND` and `EVD`, followed by the other
@@ -45,8 +45,9 @@ Rationale and detail live in the section specs under `process/report-format/` an
 - The `Structure Review` section carries the five verdict rows (`Directory organization`,
   `Naming conventions`, `Component placement`, `Supporting-artifact layout`, `Consistency`)
   with status tokens `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, or `N/A`, and when the conditional
-  `Naming And Layout Conformance` section is present its conformance tables carry valid status
-  tokens.
+  `Structure Conformance` section is present its conformance tables carry valid status
+  tokens, and when the conditional `Code Style` section is present its lens sub-score
+  table and census rows carry valid status tokens.
 - The closing References section lists external authoritative sources only - each row
   renders a `[title](url)` link paragraph, `No public URL` marks an unlinked source,
   `No external sources consulted` replaces the table, and repository paths never appear

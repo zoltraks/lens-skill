@@ -1481,12 +1481,12 @@
     {
       "id": 124,
       "prompt": "Audit this repository and evaluate the directory organization, source-file naming, code division, and in-code identifier naming across its components.",
-      "expected_output": "An audit report whose Structure Review and Naming And Layout Conformance sections evaluate each component by role against stack conventions, surface FND-STR- findings, and cite authoritative external standards in References.",
+      "expected_output": "An audit report whose Structure Review, Structure Conformance, and Code Style sections evaluate each component by role against stack conventions, surface FND-STR- and FND-CQY- findings, and cite authoritative external standards in References.",
       "files": [],
       "expectations": [
         "Each component is evaluated independently according to its role (library, service, application, cli, test-suite, or documentation) using references/naming-and-layout.md and the per-stack baseline.",
-        "The report includes both the high-level Structure Review verdict table and the conditional Naming And Layout Conformance section covering directory and file naming, language-idiomatic code division, and in-code identifier naming.",
-        "Directory abbreviations (such as App/Config/Auth/Docs where full words are prescribed), catch-all modules (Misc/Util), multi-type files in single-type-per-file languages, and foreign-language identifier holdovers surface as evidenced FND-STR- findings.",
+        "The report includes the high-level Structure Review verdict table, the conditional Structure Conformance section covering directory and file naming and code division, and the conditional Code Style section covering in-code identifier naming.",
+        "Directory abbreviations (such as App/Config/Auth/Docs where full words are prescribed), catch-all modules (Misc/Util), and multi-type files in single-type-per-file languages surface as evidenced FND-STR- findings, while foreign-language identifier holdovers surface in Code Style.",
         "Consulted authoritative naming and layout sources are cited in Auditing Methodology and linked in the closing References section."
       ]
     },
@@ -1650,6 +1650,72 @@
         "The request names no audit, hunt, or review report artifact, so the audit workflow and its parameter-configuration gate do not run.",
         "The answer is a descriptive inline explanation under the evaluation rules, not a report file, register, or scorecard.",
         "No audit is proposed, offered, or started - a report runs only when the request or a later message names the deliverable."
+      ]
+    },
+    {
+      "id": 139,
+      "prompt": "Audit this Rust crate. It uses short canonical names (cfg, ctx, buf, err, s receivers), defines several types per file, and follows rustfmt conventions.",
+      "expected_output": "A Code Style section that passes the canonical Rust conventions rather than flagging ecosystem-idiomatic short names or multi-type files.",
+      "files": [],
+      "expectations": [
+        "Short idiomatic names such as cfg, ctx, buf, i, err, and short receivers are accepted, not flagged as noise names.",
+        "Multiple types per file is accepted as the Rust unit granularity, not flagged as missing file-per-class.",
+        "The Convention Profile records the resolved tier and the dominant shapes per identifier kind."
+      ]
+    },
+    {
+      "id": 140,
+      "prompt": "Audit this C# service. Interfaces carry the I prefix, async methods carry the Async suffix, constants are PascalCase, and files mostly hold one type.",
+      "expected_output": "A Code Style section that recognizes the .NET idioms as idiomatic and does not flag them.",
+      "files": [],
+      "expectations": [
+        "The I prefix on interfaces, the Async suffix, and PascalCase constants are recorded as idiomatic .NET conventions, not defects.",
+        "One-type-per-file layout is recorded as a common convention, never a mandated rule.",
+        "Delphi-style holdovers such as psNew enum prefixes or ValueI method suffixes, when present, are flagged as foreign-language carryover."
+      ]
+    },
+    {
+      "id": 141,
+      "prompt": "Audit this Python library that uses a consistent snake_case scheme documented in CONTRIBUTING.md, including a deliberate non-PEP-8 rule that class names stay lowercase.",
+      "expected_output": "A Code Style section that passes the consistent documented convention with an Observation of the deliberate deviation, never a purity defect.",
+      "files": [],
+      "expectations": [
+        "A consistent, documented, non-idiomatic convention resolves to T1 and passes with an Observation naming the onboarding or interop cost.",
+        "No recommendation proposes a bulk rename for ecosystem purity alone.",
+        "The deliberate deviation is distinguished from undocumented drift."
+      ]
+    },
+    {
+      "id": 142,
+      "prompt": "Audit this JavaScript codebase where half the modules use camelCase functions and half use snake_case functions with no style guide.",
+      "expected_output": "A Code Style section that fails consistency on the split convention and recommends selecting one convention without enforcing a specific style.",
+      "files": [],
+      "expectations": [
+        "A dominant-shape share below 75% in a partition resolves to a split-convention FAIL consistency status.",
+        "The recommendation proposes choosing a convention by T1, then ecosystem-idiomatic T3, then majority - scoped per module - not enforcing the auditor's preferred style.",
+        "The consistency census quantifies prevalence per identifier kind with file:line outlier examples."
+      ]
+    },
+    {
+      "id": 143,
+      "prompt": "Audit this 6502 assembly firmware. Labels are terse (init, loop1, .loc), constants are defined through equates, and each routine documents its entry and exit register contract.",
+      "expected_output": "A Code Style section that accepts terse labels as idiomatic and assesses readability through routine contracts, named constants, and memory-map documentation.",
+      "files": [],
+      "expectations": [
+        "Terse labels are not flagged for length - the terse-ecosystem rule applies.",
+        "Readability evidence centers on routine contracts, named constants through equates, and a documented memory map.",
+        "Magic numbers used in place of named equates, or missing routine contracts on public routines, surface as findings."
+      ]
+    },
+    {
+      "id": 144,
+      "prompt": "Audit this repository and then audit it again - verify the style census is reproducible.",
+      "expected_output": "Two Code Style runs on the same snapshot produce identical census figures, recorded with exact patterns in the evidence ledger.",
+      "files": [],
+      "expectations": [
+        "The style census is deterministic - a repeated run on the same tree yields identical counts.",
+        "Every census ledger row records the exact pattern or command and the denominator.",
+        "Generated, vendored, and forced-external identifiers are excluded from denominators and disclosed."
       ]
     }
   ]

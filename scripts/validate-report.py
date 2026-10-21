@@ -1016,7 +1016,7 @@ def check_type_tags(lines: list[str], fences: list[bool]) -> list[str]:
 
 def check_par_rows(text: str) -> list[str]:
     failures: list[str] = []
-    for number in range(1, 21):
+    for number in range(1, 28):
         if not re.search(rf"^\|\s*PAR-{number}(?:\s|\||:)", text, re.MULTILINE):
             failures.append(f"missing Validation Record row PAR-{number}")
     return failures
@@ -1603,7 +1603,7 @@ def check_structure_and_naming(text: str) -> list[str]:
                         f"is not in {sorted(CONFORMANCE_STATUS_TOKENS)}"
                     )
     for match in re.finditer(
-        r"^#{2,3}\s+Naming And Layout Conformance\s*$", text, re.MULTILINE
+        r"^#{2,3}\s+Structure Conformance\s*$", text, re.MULTILINE
     ):
         rest = text[match.end() :]
         end = re.search(r"^##\s+", rest, re.MULTILINE)
@@ -1620,12 +1620,35 @@ def check_structure_and_naming(text: str) -> list[str]:
                     token = cell_text(row[sidx]).strip()
                     if token.upper() not in CONFORMANCE_STATUS_TOKENS:
                         failures.append(
-                            f"Naming And Layout Conformance status '{token}' "
+                            f"Structure Conformance status '{token}' "
                             f"is not in {sorted(CONFORMANCE_STATUS_TOKENS)}"
                         )
         if status_tables == 0:
             failures.append(
-                "Naming And Layout Conformance has no conformance table with a Status column"
+                "Structure Conformance has no conformance table with a Status column"
+            )
+    for match in re.finditer(r"^#{2,3}\s+Code Style\s*$", text, re.MULTILINE):
+        rest = text[match.end() :]
+        end = re.search(r"^##\s+", rest, re.MULTILINE)
+        block = rest[: end.start()] if end else rest
+        status_tables = 0
+        for table in tables_in(block):
+            header, rows = table_cells(table)
+            if "Status" not in header:
+                continue
+            status_tables += 1
+            sidx = header.index("Status")
+            for row in rows:
+                if len(row) > sidx:
+                    token = cell_text(row[sidx]).strip()
+                    if token.upper() not in CONFORMANCE_STATUS_TOKENS:
+                        failures.append(
+                            f"Code Style status '{token}' "
+                            f"is not in {sorted(CONFORMANCE_STATUS_TOKENS)}"
+                        )
+        if status_tables == 0:
+            failures.append(
+                "Code Style has no sub-score or lens table with a Status column"
             )
     return failures
 
@@ -3001,7 +3024,7 @@ def main(path: str, repo_root: str | None = None) -> int:
                     ("security classifications", check_security_classification(lines)),
                     ("score disclosure", check_score_disclosure(lines)),
                     ("project qualification", check_project_qualification(text)),
-                    ("PAR-1..PAR-20", check_par_rows(text)),
+                    ("PAR-1..PAR-27", check_par_rows(text)),
                     ("recommendation classification", check_rec_classification(text)),
                     ("Observation/Concern tags", check_type_tags(lines, fences)),
                     ("snapshot identity", check_snapshot_identity(text)),

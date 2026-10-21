@@ -20,11 +20,11 @@ defined in `process/report-format/hunt-style.md` and `process/report-format/revi
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 2060 | Intake Checklist guidance        |
-| Handling Thin Input     | 2085 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 2099 | Single-Dimension Audits guidance |
-| Re-Audit                | 2113 | Re-Audit guidance                |
-| Multi-Project Audits    | 2179 | Multi-Project Audits guidance    |
+| Intake Checklist        | 2064 | Intake Checklist guidance        |
+| Handling Thin Input     | 2089 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 2103 | Single-Dimension Audits guidance |
+| Re-Audit                | 2117 | Re-Audit guidance                |
+| Multi-Project Audits    | 2183 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -1472,6 +1472,10 @@ For each category, open the matching `assessment/` file and apply its checklist.
 For a full audit, this includes the two additional categories `assessment/generated-code.md` and
 `assessment/copyright-review.md`, plus `assessment/structure-review.md` for the `audit` and
 `review` report styles - the structure assessment never loads under `hunt`.
+
+On a code-bearing subject the same styles also load `assessment/code-style.md`, which runs
+after `assessment/standards-conformance.md` has surfaced the project's declared conventions
+and before `assessment/code-quality.md` consumes the enforcement findings.
 
 Evaluate the inclusion criterion for each conditional assessment,
 listed in the Conditional Sections table of `process/report-format.md`.

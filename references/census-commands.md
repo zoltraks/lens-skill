@@ -100,6 +100,25 @@ names besides declarations.
 
 Use a declaration-shaped pattern or an explicit enumeration of declaring lines.
 
+## Identifier Shape Census
+
+The code-style census classifies every declaration in a partition by casing shape, per
+`assessment/code-style.md`.
+
+| Step            | Method                                                                                                                                             |
+|-----------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| Partitioning    | Group `git ls-files` source paths by language and layer. Drop generated, vendored, minified, and excluded trees                                    |
+| Kind patterns   | One declaration-shaped pattern per identifier kind, for example `^\s*(?:export\s+)?(?:async\s+)?function\s+([A-Za-z_$][\w$]*)` for JS/TS functions |
+| Shape classes   | `PascalCase`, `camelCase`, `snake_case`, `SCREAMING_SNAKE`, `kebab-case`, prefixed, suffixed, other                                                |
+| Dominant share  | Largest shape count over the kind's denominator, reported as n/N and %                                                                             |
+| Forced names    | Identifiers mirroring external contracts are excluded from the denominator and disclosed                                                           |
+| Trend           | Repeat the dominant-share count on files modified in the last N commits versus the rest, when Git is in scope                                      |
+| Mechanical tool | `scripts/style-census.py` produces the same per-partition counts deterministically                                                                 |
+
+Record the exact pattern per kind in the ledger note.
+
+A repeated run on the same snapshot produces identical counts.
+
 ## Tracked Artifacts
 
 | Measurement     | Method                                                                 |

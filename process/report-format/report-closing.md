@@ -14,7 +14,7 @@
 | Operator Verification Handoff | 134  | operator checks, commands, pass criteria               |
 | Executed Evidence Log         | 160  | executed-mode checks, commands, results                |
 | Re-audit And Follow-up Plan   | 187  | retest plan, re-audit cadence, follow-ups              |
-| Validation Record             | 225  | PAR-1 through PAR-20 rows, evidence basis              |
+| Validation Record             | 225  | PAR-1 through PAR-27 rows, evidence basis              |
 | References                    | 259  | external sources, link paragraphs, cached-source notes |
 
 ## Scope Exclusions
@@ -237,7 +237,7 @@ Use a table:
 
 Rows appear in this order:
 
-1. One row per Mandatory Core Checklist item, `PAR-1` through `PAR-20`, in fixed order.
+1. One row per Mandatory Core Checklist item, `PAR-1` through `PAR-27`, in fixed order.
 2. Internal consistency checks: `FND-XXX`/`RSK-XXX`/`REC-XXX` cross-referencing, every
    finding `Criterion` resolving to a declared criteria-table row, count reconciliation
    across summary tables and registers, evidence-coverage accounting per

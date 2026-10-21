@@ -19,21 +19,21 @@
 | Section                            | Line | What it covers                                      |
 |------------------------------------|------|-----------------------------------------------------|
 | Overview                           | 38   | Audit purpose and standard report shape             |
-| What The Skill Does                | 86   | Update check, evidence, assessment, synthesis       |
-| Installation                       | 168  | Clone and update instructions                       |
-| Usage                              | 201  | Activation, parameters, and report delivery         |
-| Example Prompts                    | 237  | Full and focused audit requests                     |
-| Workflow Diagrams                  | 313  | ASCII and Mermaid audit pipelines                   |
-| Evidence And Decision Quality      | 373  | Evidence strength and verification limits           |
-| Core Principles                    | 431  | Evaluation constraints and status rules             |
-| Report Format                      | 447  | Report structure, identifiers, and style            |
-| When To Use This Skill             | 484  | Supported requests and exclusions                   |
-| What's Inside                      | 508  | Documents, references, tools, and conditional files |
-| Document Style                     | 661  | Pointer to the style rules file                     |
-| Specification                      | 671  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 692  | Maintenance checks and regression scenarios         |
-| License                            | 720  | License for the skill itself                        |
-| Credits                            | 726  | Authorship and attribution                          |
+| What The Skill Does                | 87   | Update check, evidence, assessment, synthesis       |
+| Installation                       | 169  | Clone and update instructions                       |
+| Usage                              | 202  | Activation, parameters, and report delivery         |
+| Example Prompts                    | 238  | Full and focused audit requests                     |
+| Workflow Diagrams                  | 314  | ASCII and Mermaid audit pipelines                   |
+| Evidence And Decision Quality      | 374  | Evidence strength and verification limits           |
+| Core Principles                    | 432  | Evaluation constraints and status rules             |
+| Report Format                      | 448  | Report structure, identifiers, and style            |
+| When To Use This Skill             | 485  | Supported requests and exclusions                   |
+| What's Inside                      | 509  | Documents, references, tools, and conditional files |
+| Document Style                     | 666  | Pointer to the style rules file                     |
+| Specification                      | 676  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 697  | Maintenance checks and regression scenarios         |
+| License                            | 725  | License for the skill itself                        |
+| Credits                            | 731  | Authorship and attribution                          |
 
 ## Overview
 
@@ -62,7 +62,8 @@ Limitations and Unknowns, Validation Record, and References.
 Conditional sections appear only when the subject warrants them: Data Flow Diagram, Design
 Patterns, Architecture Decision Records, Threat Model, API Contract Conformance, Skill Definition
 Conformance, Agent Guidance Conformance, AI System Assessment, Standards Conformance, Engineering
-Baseline Conformance, Naming And Layout Conformance, API Compatibility & Versioning Discipline,
+Baseline Conformance, Structure Conformance, Code Style, API Compatibility & Versioning
+Discipline,
 Technical Debt Register, Changes Since Previous Audit, and Re-audit Plan.
 
 At Standard and Detailed detail levels the roadmap is followed by a Recommendation Classification
@@ -538,6 +539,7 @@ lens-skill/
 │   │   ├── architectural-assessment.md    # Architectural Assessment and subsections
 │   │   ├── report-analysis.md             # Trade-off Analysis, Threat Model
 │   │   ├── conditional-conformance.md     # Conditional conformance sections
+│   │   ├── code-style.md                  # Code Style section spec
 │   │   ├── findings-registers.md          # Findings, debt, risk, roadmap, and classification
 │   │   ├── hunt-style.md                  # `hunt` report style: verdict, journeys, domain findings
 │   │   ├── review-style.md                # `review` report style: execution register, evidence levels, retests
@@ -558,6 +560,7 @@ lens-skill/
 │   ├── rollback-review.md                 # Rollback mechanism, deploy safety, versioning
 │   ├── maintainability-review.md          # Modularity, coupling, structure, technical debt
 │   ├── structure-review.md                # Directory layout, file placement, naming, component boundaries
+│   ├── code-style.md                      # In-code naming, style consistency, readability, conventions
 │   ├── change-management.md               # Feature flags, ADRs, release governance
 │   ├── documentation-review.md            # Entry, API, inline docs, onboarding, knowledge transfer
 │   ├── nfr-review.md                      # Performance, scalability, availability, reliability, resilience
@@ -598,6 +601,7 @@ lens-skill/
 │   ├── criterion-catalogue.md             # Criterion records, families, applicability freeze
 │   ├── organization-model.md              # Area map and responsibility inventory method
 │   ├── naming-and-layout.md               # Cross-stack naming matrices, code-division rules, 11-stack fixtures
+│   ├── language-conventions.md            # Per-ecosystem style yardstick snapshot for code style
 │   ├── sbom-schema.md                     # Report-level source-derived component inventory schema
 │   ├── license-compliance.md              # License classes, copyleft, notices, ownership checks
 │   ├── delivery-practice.md               # DORA proxies, bus-factor rubric, continuity evidence
@@ -622,6 +626,7 @@ lens-skill/
 │   ├── check-update.py                    # Git upstream self-update checker for the skill repo
 │   ├── scan-standards.py                  # Supplied-standards corpus manifest for digest refresh
 │   ├── scan-structure.py                  # Audited-tree file census for the responsibility inventory
+│   ├── style-census.py                    # Identifier-shape census for the code-style assessment
 │   ├── check-model.py                     # Audit-model integrity and scoring-recompute checker
 │   ├── lint-polish.py                     # Polish report linter for calques and typography
 │   ├── map-translation.py                 # English-mapped copy of a translated report for validation

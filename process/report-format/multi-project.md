@@ -86,7 +86,8 @@ followed by the full set of report sections for that project:
 - AI System Assessment *(conditional)*
 - Standards Conformance *(conditional)*
 - Engineering Baseline Conformance *(conditional)*
-- Naming And Layout Conformance *(conditional)*
+- Structure Conformance *(conditional)*
+- Code Style *(conditional)*
 - API Compatibility & Versioning Discipline *(conditional)*
 - Strengths & What's Working
 - Detailed Technical Findings

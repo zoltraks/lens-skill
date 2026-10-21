@@ -20,6 +20,10 @@ standards that its documentation indicates should be followed.
 
 When no such documents exist, omit this category and note the omission in Scope Exclusions.
 
+Naming and style rules discovered here feed `assessment/code-style.md` as its T1 declared
+tier - this assessment judges whether the standards exist, conform, and are well formed, and
+the style assessment applies them as the yardstick.
+
 ## What To Evaluate
 
 - **Standards discovery**: whether the project contains development standard documents that

@@ -7,14 +7,15 @@ description: >-
   design principles (SOLID), code quality, dependencies, deployment, rollback,
   maintainability, documentation, NFRs, security, compliance, observability,
   error handling, operational readiness, project structure and organization,
-  AI-generated code detection, copyrights, development standards conformance,
-  and engineering baseline conformance. Enforces evidence-only reasoning and
+  AI-generated code detection, copyrights, code style, naming conventions,
+  development standards conformance, and engineering baseline conformance.
+  Enforces evidence-only reasoning and
   neutral, non-personal evaluation. Use for software audits, architecture
   audits, structure reviews, prototype reviews, production readiness,
   technical due diligence, risk registers, scorecards, or remediation
   roadmaps. Triggers on audit this codebase, engineering assessment, run lens,
   lens audit, perform lens on, review this codebase, structure review, defect
-  hunt.
+  hunt, code style review.
 license: MIT
 compatibility: >-
   Designed for agent coding environments with file system access (Claude Code,
@@ -24,7 +25,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.3.5"
+  version: "2.3.6"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -39,21 +40,21 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 
 | Section                 | Line | What it covers                                     |
 |-------------------------|------|----------------------------------------------------|
-| Skill Update Check      | 70   | Once-per-session git freshness gate before use     |
-| Trigger Keywords        | 88   | Activation phrases                                 |
-| How To Use              | 115  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 134  | Defaults and user-controlled report shape          |
-| Principles              | 195  | Evaluation and output rules                        |
-| Process                 | 201  | Workflow, format, and parity                       |
-| Assessments             | 228  | Core and conditional assessment guides             |
-| Synthesis               | 269  | Findings, risk, score, and remediation assembly    |
-| Translations            | 282  | Per-language report translations                   |
-| References              | 291  | Lookup tables                                      |
-| Scripts                 | 317  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 340  | Behavioral regression prompts                      |
-| Repository Files        | 344  | Housekeeping files governing this repository       |
-| Evidence Contract       | 356  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 385  | File-selection and section-placement rules         |
+| Skill Update Check      | 71   | Once-per-session git freshness gate before use     |
+| Trigger Keywords        | 89   | Activation phrases                                 |
+| How To Use              | 117  | Progressive disclosure and mandatory reading       |
+| Parameter Configuration | 136  | Defaults and user-controlled report shape          |
+| Principles              | 197  | Evaluation and output rules                        |
+| Process                 | 203  | Workflow, format, and parity                       |
+| Assessments             | 229  | Core and conditional assessment guides             |
+| Synthesis               | 271  | Findings, risk, score, and remediation assembly    |
+| Translations            | 283  | Per-language report translations                   |
+| References              | 292  | Lookup tables                                      |
+| Scripts                 | 318  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 339  | Behavioral regression prompts                      |
+| Repository Files        | 343  | Housekeeping files governing this repository       |
+| Evidence Contract       | 355  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 384  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -94,7 +95,8 @@ The skill activates on phrases such as:
   engineering assessment, technical due diligence, production readiness, review this codebase
 - analysis artifacts: risk register, scorecard, maturity assessment, trade-off analysis, NFR review
 - focused reviews: security review, dependency audit, supply chain review, code quality review,
-  SOLID, design principles, TDD, test coverage, testability, license audit, SBOM review
+  code style review, naming conventions, SOLID, design principles, TDD, test coverage,
+  testability, license audit, SBOM review
 - operational reviews: observability review, operational readiness, rollback strategy,
   deployment strategy review, maintainability assessment
 - conventions: best practices, idiomatic code, coding conventions, stack conventions, framework
@@ -215,9 +217,8 @@ The previous report is never overwritten - write the next revision-numbered file
 - **`process/report-format/conditional-conformance.md`** - Conditional conformance sections.
 - **`process/report-format/findings-registers.md`** - Strengths, findings, debt, risk, roadmap.
 - **`process/report-format/report-closing.md`** - Exclusions, Limitations, Validation, References.
-- **`process/report-format/hunt-style.md`** - `hunt` report style: verdict, domain register,
-  journey traces, remediation phases.
-- **`process/report-format/review-style.md`** - `review` style: execution/evidence/retest registers.
+- **`process/report-format/code-style.md`** - Code Style section spec.
+- **`process/report-format/hunt-style.md`** / **`review-style.md`** - `hunt` and `review` styles.
 - **`process/report-format/structure-review.md`** - Structure Review variant contract.
 - **`process/json-exchange.md`** - JSON parameter documents for intake question surfaces.
 - **`process/report-parity.md`** - Mandatory core checklist and consistency gate.
@@ -238,6 +239,7 @@ The previous report is never overwritten - write the next revision-numbered file
 - **`assessment/maintainability-review.md`** - Modularity, coupling, code structure, technical debt.
 - **`assessment/structure-review.md`** - Directory layout, file placement, naming, component
   boundaries, supporting artifacts.
+- **`assessment/code-style.md`** - In-code naming, style consistency, readability, conventions.
 - **`assessment/change-management.md`** - Feature flags, ADR usage, release governance.
 - **`assessment/documentation-review.md`** - Documentation coverage, onboarding, transfer.
 - **`assessment/nfr-review.md`** - Performance, scalability, availability, reliability, resilience.
@@ -275,9 +277,8 @@ Load these only when the subject meets the inclusion criterion in the Conditiona
   the Recommended/Optional/Not recommended classification.
 - **`synthesis/debt-register.md`** - `TDR-[001]` inventory (CISQ/SQALE), for structural debt.
 - **`synthesis/reaudit-plan.md`** - Verification owners, sign-off gates, P1/P2 findings.
-- **`synthesis/report-comparison.md`** - Re-audit discovery, revisions, Changes, legacy names.
-- **`synthesis/report-triangulation.md`** - Contradiction register and second-opinion rules
-  for prior or external reports of the same subject.
+- **`synthesis/report-comparison.md`** / **`report-triangulation.md`** - Re-audit discovery and
+  second-opinion rules for prior or external reports.
 
 ## `translations/` - Report Languages
 
@@ -302,6 +303,7 @@ type requires them.
 - **`references/criterion-catalogue.md`** - Criterion records, families, applicability freeze.
 - **`references/organization-model.md`** - Area map and responsibility inventory method.
 - **`references/naming-and-layout.md`** - Naming matrices, code-division rules, 11-stack fixtures.
+- **`references/language-conventions.md`** - Per-ecosystem style yardstick snapshot (T3 tier).
 - **`references/sbom-schema.md`** - Source-derived inventory report schema.
 - **`references/license-compliance.md`** - License classes, copyleft, attribution, ownership checks.
 - **`references/delivery-practice.md`** - DORA proxies, bus-factor rubric.
@@ -310,9 +312,8 @@ type requires them.
 - **`references/agent-skills.md`** - Agent Skills spec corpus and live-check baseline.
 - **`references/agent-configuration.md`** - AGENTS.md, rules, plugin, MCP, guidance-set baselines.
 - **`references/source-catalog.md`** - Authoritative external-source registry and corpus index.
-- **`references/stacks/`** - Per-stack offline baselines, indexed in `source-catalog.md`.
-- **`references/methodology/`** - Methodology digests, indexed in `source-catalog.md`.
-- **`references/topics/`** - Domain digests indexed in `source-catalog.md`.
+- **`references/stacks/`** / **`methodology/`** / **`topics/`** - Digests indexed in
+  `source-catalog.md`.
 
 ## `scripts/` - Canonical Scripts
 
@@ -322,13 +323,11 @@ repository's `work/` directory under a `.tmp.` name and remove the copies when d
 
 - **`scripts/format-table.py`** / **`align-comments.py`** - Table formatter and `#`-comment aligner.
 - **`scripts/check-model.py`** - Audit-model checker (referential integrity, scoring recompute).
-- **`scripts/link-glossary.py`** - Glossary body-link inserter (`--lang pl`, `--check`).
-- **`scripts/link-references.py`** - Register-identifier linker, run before the formatter.
+- **`scripts/link-glossary.py`** / **`link-references.py`** - Glossary and register linkers.
 - **`scripts/validate-report.py`** - Mechanical report checker (`--dump-contract` emits JSON).
 - **`scripts/new-report.py`** - Report skeleton generator (`--style`, `--scope`, `--params`).
-- **`scripts/validate-skill.py`** - Frontmatter, disclosure, and references validator.
-- **`scripts/check-references.py`** / **`check-contents.py`** - Reference and Contents checkers.
-- **`scripts/check-update.py`** - Skill self-update checker (git upstream).
+- **`scripts/validate-skill.py`** / **`check-references.py`** / **`check-contents.py`** - Frontmatter, disclosure, reference, and Contents validators.
+- **`scripts/check-update.py`** / **`style-census.py`** - Update check and identifier-shape census.
 - **`scripts/scan-standards.py`** / **`scan-structure.py`** - Corpus manifest and tree census.
 - **`scripts/finalize-report.py`** - Runs link, format, and validate in order on a report.
 - **`scripts/lint-polish.py`** / **`lint-prose.py`** - Polish calque and draft prose linters.
@@ -406,7 +405,8 @@ the skill.
   belong in `assessment/code-quality.md`, module layout in `assessment/maintainability-review.md`.
 - Physical organization - directory layout, file placement, naming conventions, language-idiomatic
   code division, component placement and physical boundaries, supporting-artifact layout. Belongs
-  in `assessment/structure-review.md` and `references/naming-and-layout.md`. Logical modularity,
+  in `assessment/structure-review.md` and `references/naming-and-layout.md`, while in-code naming,
+  style consistency, and readability belong in `assessment/code-style.md`. Logical modularity,
   coupling, dependency direction, and technical debt stay in `assessment/maintainability-review.md`,
   and code-level runtime idioms stay in `assessment/best-practices.md`. The structure assessment
   runs for `audit` and `review` reports and never loads under `Report Style: hunt`.

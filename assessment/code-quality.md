@@ -12,6 +12,11 @@ Apply `principles/evaluation-rules.md` throughout.
 This category covers code-level health, architectural structure is assessed in
 `assessment/maintainability-review.md`.
 
+Identifier naming, naming quality, and style-convention conformance are assessed in
+`assessment/code-style.md` - this category keeps the tooling view: whether linters and
+formatters are configured, which rules they declare, and whether naming or style rules exist
+in configuration at all.
+
 ## What To Evaluate
 
 - Static analysis: whether linters or analyzers are configured and enforced, and which rules apply.

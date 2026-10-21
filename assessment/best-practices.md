@@ -21,8 +21,9 @@ Do not penalize the stack choice itself or compare it against a preferred stack,
 per the architectural-neutrality rule.
 
 Generic, language-agnostic design principles are assessed in `assessment/design-principles.md`,
-code-level metrics such as linting and complexity in `assessment/code-quality.md`,
-this file covers stack-specific convention.
+code-level metrics such as linting and complexity in `assessment/code-quality.md`, and in-code
+naming and style conformance in `assessment/code-style.md`, which consumes this file's
+idiomatic-fluency judgement as its SL-7 lens - this file covers stack-specific convention.
 
 ## What To Evaluate
 

@@ -25,8 +25,8 @@ states each criterion resolves to.
 | Criterion Records      | 31   | The fields every criterion carries          |
 | Applicability Freeze   | 66   | Denominator locking and change rules        |
 | Criterion Families     | 81   | Minimum family set and per-family notes     |
-| Criticality And Weight | 130  | How criteria earn weight inside a dimension |
-| Crosswalk Integrity    | 141  | Mapping to external quality models honestly |
+| Criticality And Weight | 131  | How criteria earn weight inside a dimension |
+| Crosswalk Integrity    | 142  | Mapping to external quality models honestly |
 
 ## Criterion Records
 
@@ -84,31 +84,32 @@ These families are the minimum set the planner starts from.
 
 Add or adapt families when the product profile justifies it, and record the adaptation.
 
-| Prefix | Family / Dimension                                                               |
-|--------|----------------------------------------------------------------------------------|
-| `FNC`  | Functional completeness and correctness, including negative and boundary cases   |
-| `TST`  | Testing, test isolation, pipeline coverage, and suite execution                  |
-| `ARC`  | Architecture, layering, abstractions, session/state isolation, dependency edges  |
-| `CQY`  | Code quality, static analysis, dead code, duplication, error-path hygiene        |
-| `STK`  | Stack alignment, idiomatic framework and runtime conventions                     |
-| `DEP`  | Dependencies, supply chain, build, container, and deployment pipeline signals    |
-| `MNT`  | Maintainability, cohesion, readability, change management, documentation sync    |
-| `STR`  | Physical directory layout, file naming, code division, in-code identifier naming |
-| `SCA`  | Scalability, resource bounds, state scaling, and non-functional targets          |
-| `SEC`  | Authorization paths, secret lifecycle, configuration exposure, misuse resistance |
-| `COM`  | Compliance, data retention, audit trail, and governance documentation            |
-| `REL`  | Data integrity, transaction consistency, recovery, failure handling              |
-| `PRF`  | Performance and latency under the stated intended workload                       |
-| `OBS`  | Observability, logging, correlation, health checks, metrics, and alerting        |
-| `OPS`  | Operational readiness, rollback, backup, monitoring, and failure recovery        |
-| `CMP`  | Interface and version compatibility across contracts and stored data             |
-| `INT`  | Product-appropriate interaction: CLI scripting, errors, or UI behavior           |
-| `DLY`  | Process: delivery practice, commit history, bus factor, release cadence          |
-| `AIP`  | Process: AI-generated code provenance and review controls                        |
-| `CPR`  | Process: copyright, originality, and license declarations                        |
-| `SKL`  | Process/conformance: Agent Skill and agent-guidance artifacts                    |
-| `SAF`  | Conditional: hazards, fail-safe behavior where consequences warrant              |
-| `MDL`  | Conditional: model/retrieval quality where the product depends on it             |
+| Prefix | Family / Dimension                                                                |
+|--------|-----------------------------------------------------------------------------------|
+| `FNC`  | Functional completeness and correctness, including negative and boundary cases    |
+| `TST`  | Testing, test isolation, pipeline coverage, and suite execution                   |
+| `ARC`  | Architecture, layering, abstractions, session/state isolation, dependency edges   |
+| `CQY`  | Code quality, static analysis, dead code, duplication, error-path hygiene         |
+| `STK`  | Stack alignment, idiomatic framework and runtime conventions                      |
+| `DEP`  | Dependencies, supply chain, build, container, and deployment pipeline signals     |
+| `MNT`  | Maintainability, cohesion, readability, change management, documentation sync     |
+| `STR`  | Physical directory layout, file naming, and code division                         |
+| `STY`  | In-code identifier naming, style consistency, readability, convention enforcement |
+| `SCA`  | Scalability, resource bounds, state scaling, and non-functional targets           |
+| `SEC`  | Authorization paths, secret lifecycle, configuration exposure, misuse resistance  |
+| `COM`  | Compliance, data retention, audit trail, and governance documentation             |
+| `REL`  | Data integrity, transaction consistency, recovery, failure handling               |
+| `PRF`  | Performance and latency under the stated intended workload                        |
+| `OBS`  | Observability, logging, correlation, health checks, metrics, and alerting         |
+| `OPS`  | Operational readiness, rollback, backup, monitoring, and failure recovery         |
+| `CMP`  | Interface and version compatibility across contracts and stored data              |
+| `INT`  | Product-appropriate interaction: CLI scripting, errors, or UI behavior            |
+| `DLY`  | Process: delivery practice, commit history, bus factor, release cadence           |
+| `AIP`  | Process: AI-generated code provenance and review controls                         |
+| `CPR`  | Process: copyright, originality, and license declarations                         |
+| `SKL`  | Process/conformance: Agent Skill and agent-guidance artifacts                     |
+| `SAF`  | Conditional: hazards, fail-safe behavior where consequences warrant               |
+| `MDL`  | Conditional: model/retrieval quality where the product depends on it              |
 
 Compatibility criteria cover every external contract the subject exposes - service protocols,
 CLI flags and exit behavior, configuration schemas, persisted data, and supported version

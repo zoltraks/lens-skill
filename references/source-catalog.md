@@ -26,8 +26,8 @@ identifiers and names), `alternate` (fallback address for the row above).
 |------------------------------------|------|--------------------------------------------------|
 | Sources                            | 32   | Source registry grouped by consuming corpus file |
 | Session-Derived Files              | 535  | Corpus files built from session knowledge        |
-| Unresolved And Alternate Addresses | 547  | Fetch failures and working alternates            |
-| Maintenance                        | 567  | Row-addition and canonicalization rules          |
+| Unresolved And Alternate Addresses | 548  | Fetch failures and working alternates            |
+| Maintenance                        | 568  | Row-addition and canonicalization rules          |
 
 ## Sources
 
@@ -536,13 +536,14 @@ Feeds `references/cwe-analyzer.md` and `references/dependency-manifests.md`.
 
 These corpus files consolidate session knowledge rather than fetched sources.
 
-| File                                     | Basis                                                                   | Status    |
-|------------------------------------------|-------------------------------------------------------------------------|-----------|
-| `references/topics/evidence-recipes.md`  | Audit-session mechanical evidence patterns                              | distilled |
-| `references/topics/deployment-ssh.md`    | Audit-session SSH/SCP deployment knowledge                              | distilled |
-| `references/topics/license-evidence.md`  | Per-ecosystem license evidence locations                                | distilled |
-| `references/topics/standards-anatomy.md` | Maintainer-supplied engineering-standard corpora anatomy                | distilled |
-| `references/naming-and-layout.md`        | Cross-stack naming matrices, code-division rules, and 11-stack fixtures | distilled |
+| File                                     | Basis                                                                       | Status    |
+|------------------------------------------|-----------------------------------------------------------------------------|-----------|
+| `references/topics/evidence-recipes.md`  | Audit-session mechanical evidence patterns                                  | distilled |
+| `references/topics/deployment-ssh.md`    | Audit-session SSH/SCP deployment knowledge                                  | distilled |
+| `references/topics/license-evidence.md`  | Per-ecosystem license evidence locations                                    | distilled |
+| `references/topics/standards-anatomy.md` | Maintainer-supplied engineering-standard corpora anatomy                    | distilled |
+| `references/naming-and-layout.md`        | Cross-stack naming matrices, code-division rules, and 11-stack fixtures     | distilled |
+| `references/language-conventions.md`     | Per-ecosystem canonical style yardstick snapshot for the code-style T3 tier | distilled |
 
 ## Unresolved And Alternate Addresses
 

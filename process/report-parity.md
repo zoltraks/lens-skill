@@ -43,6 +43,13 @@ Do not rely on per-run memory of what a previous report happened to include.
 | PAR-18 | At Standard and Detailed detail levels Recommendation Classification is present and every `REC-XXX` in the roadmap appears once with class `Recommended`, `Optional`, or `Not recommended`                      | `synthesis/remediation-roadmap.md`                                    |
 | PAR-19 | When a structured agent-guidance set exists, Agent Guidance Conformance lists every discovered guidance document with status, out-of-scope markings, and the baseline used                                      | `assessment/agent-guidance.md`                                        |
 | PAR-20 | On a code-bearing subject Structure Review is present with verdicts for directory organization, naming, component placement, supporting-artifact layout, and consistency - or a justified `N/A`                 | `assessment/structure-review.md`                                      |
+| PAR-21 | On a code-bearing subject Code Style is present with a resolved convention tier per partition - or a justified `N/A`, and `N/A` under `Report Style: hunt`                                                      | `assessment/code-style.md`                                            |
+| PAR-22 | Every Code Style consistency finding quantifies prevalence (n/N and %) and lists at least three `file:line` examples, or all of them when fewer exist                                                           | `process/report-format/code-style.md`                                 |
+| PAR-23 | Every Code Style finding's `Basis` field names the resolved convention tier (`T1`-`T4`), and every style census ledger row records the exact pattern or command with its denominator                            | `assessment/code-style.md`                                            |
+| PAR-24 | Naming-quality findings are `Concern` typed with confidence `MEDIUM` or lower, and only mechanical census findings may carry `HIGH` confidence                                                                  | `process/report-format/code-style.md`                                 |
+| PAR-25 | Generated, vendored, third-party, and forced-external identifiers are excluded from style census denominators, and the exclusions are disclosed in the ledger                                                   | `assessment/code-style.md`                                            |
+| PAR-26 | No `REC` proposes a bulk rename of a consistent convention for ecosystem purity alone, and style recommendations follow the remediation ladder                                                                  | `process/report-format/code-style.md`                                 |
+| PAR-27 | The subject's linters and formatters appear only as `NOT RUN` evidence rows or `Method` suggestions, never as executed checks                                                                                   | `assessment/code-style.md`                                            |
 
 PAR-5 may report `NOT COLLECTED` when Git history is unavailable, silence is not acceptable.
 
@@ -53,6 +60,9 @@ Improvement Plan, per `process/report-format/hunt-style.md` and
 
 PAR-20 reports `N/A` under `Report Style: hunt`. The structure assessment is not part of
 the hunt evidence base.
+
+PAR-21 through PAR-27 report `N/A` under `Report Style: hunt` or when the subject carries no
+source code.
 
 A checklist row is `APPLIED` only when the requirement is met as written - a partially met
 item records its actual state with a justification rather than redefining the requirement

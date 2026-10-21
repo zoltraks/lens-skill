@@ -228,11 +228,11 @@ class TestValidateReport(unittest.TestCase):
         self.assertTrue(any("no Criteria table" in f for f in failures))
         self.assertEqual(self.validator.check_criterion_references(lines, "hunt"), [])
 
-    def test_par_bound_is_twenty(self):
-        rows = "".join(f"| PAR-{n} | PASS | x |\n" for n in range(1, 21))
+    def test_par_bound_is_twenty_seven(self):
+        rows = "".join(f"| PAR-{n} | PASS | x |\n" for n in range(1, 28))
         self.assertEqual(self.validator.check_par_rows(rows), [])
-        missing_20 = "".join(f"| PAR-{n} | PASS | x |\n" for n in range(1, 20))
-        self.assertTrue(any("PAR-20" in f for f in self.validator.check_par_rows(missing_20)))
+        missing_27 = "".join(f"| PAR-{n} | PASS | x |\n" for n in range(1, 27))
+        self.assertTrue(any("PAR-27" in f for f in self.validator.check_par_rows(missing_27)))
 
     def test_absence_tokens(self):
         self.assertIn("Deliberate - recorded decision", self.validator.ABSENCE_VALUES)
@@ -436,9 +436,9 @@ class TestNewReport(unittest.TestCase):
     def setUp(self):
         self.generator = load_script("new-report.py")
 
-    def test_par_rows_cover_twenty(self):
-        self.assertEqual(len(self.generator.PAR_ROWS), 20)
-        self.assertIn("PAR-20", self.generator.PAR_ROWS[-1])
+    def test_par_rows_cover_twenty_seven(self):
+        self.assertEqual(len(self.generator.PAR_ROWS), 27)
+        self.assertIn("PAR-27", self.generator.PAR_ROWS[-1])
 
     def test_references_scaffold(self):
         for skeleton in (
@@ -1130,10 +1130,14 @@ class TestRegisterBlocks(unittest.TestCase):
             "| Component placement | PASS | established |\n"
             "| Supporting-artifact layout | PASS | recommended |\n"
             "| Consistency | PASS | established |\n\n"
-            "## Naming And Layout Conformance\n\n"
+            "## Structure Conformance\n\n"
             "| Component | Surface | Convention | Observed | Status | Evidence |\n"
             "|---|---|---|---|---|---|\n"
-            "| `src/App` | Directories | Full words | `App/` | PARTIAL | EVD-001 |\n"
+            "| `src/App` | Directories | Full words | `App/` | PARTIAL | EVD-001 |\n\n"
+            "## Code Style\n\n"
+            "| Lens | Status | Justification |\n"
+            "|---|---|---|\n"
+            "| SL-1 Convention fit | PARTIAL | 88% dominant |\n"
         )
         self.assertEqual(self.validator.check_structure_and_naming(good), [])
         bad = (
@@ -1141,7 +1145,7 @@ class TestRegisterBlocks(unittest.TestCase):
             "| Area | Verdict | Basis |\n"
             "|---|---|---|\n"
             "| Directory organization | GOOD | established |\n\n"
-            "## Naming And Layout Conformance\n\n"
+            "## Structure Conformance\n\n"
             "| Component | Surface | Status |\n"
             "|---|---|---|\n"
             "| `src/App` | Directories | INVALID |\n"

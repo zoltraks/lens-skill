@@ -15,7 +15,7 @@ Apply `principles/evaluation-rules.md` throughout.
 
 It feeds `assessment/structure-review.md`, `assessment/best-practices.md`,
 `assessment/standards-conformance.md`, and `assessment/baseline-conformance.md`, and anchors
-the `Structure Review` and `Naming And Layout Conformance` report sections.
+the `Structure Review` and `Structure Conformance` report sections.
 
 Snapshot date: 2026-10-12.
 
@@ -51,7 +51,7 @@ Different structural and naming rules govern each component role:
 | `cli`           | Command/flag parsing separated from core library execution      | `cmd/<app>/main.go` or `src/main.rs` calling `internal/` or `src/lib.rs`   |
 | `test-suite`    | Mirrors production module tree, isolates fixtures from cases    | `tests/` mirroring `src/` folders, dedicated `conftest.py` or helpers      |
 | `documentation` | Reader-task separation, single owner per topic, stable anchors  | Diataxis quadrants (`tutorials/`, `how-to/`, `reference/`, `explanation/`) |
-| `agent-package` | Entry contract isolation, one directory per member or resource | Root `SKILL.md`, conventional `scripts/`, `references/`, `assets/` dirs   |
+| `agent-package` | Entry contract isolation, one directory per member or resource  | Root `SKILL.md`, conventional `scripts/`, `references/`, `assets/` dirs    |
 
 Component-specific evaluation rules:
 
@@ -685,6 +685,9 @@ governing naming and layout baseline in this order:
    patterns across the component itself via `scripts/scan-structure.py` and flag unexplained
    within-component deviations as `Established`-tier consistency findings.
 
-Record which baseline governed the evaluation in `Auditing Methodology` and `Naming And Layout
+Record which baseline governed the evaluation in `Auditing Methodology` and `Structure
 Conformance`, and never invent an arbitrary rule when neither the ecosystem nor the project
 defines one.
+
+In-code identifier naming quality is governed by `assessment/code-style.md`, which uses the
+naming matrices here as its T3 yardstick alongside `references/language-conventions.md`.

@@ -21,13 +21,13 @@ A score is a summary of evidence, not an impression.
 | Section                          | Line | What it covers                           |
 |----------------------------------|------|------------------------------------------|
 | Table Format                     | 32   | Fixed dimension set and column order     |
-| Scoring Rubric                   | 90   | Band definitions and alternative scales  |
-| Handling Unknowns                | 200  | UNKNOWN handling guidance                |
-| Handling Not Applicable          | 208  | N/A handling guidance                    |
-| Dimension To Category Mapping    | 222  | Dimension to assessment-category mapping |
-| ISO/IEC 25010:2023 Crosswalk     | 247  | Standards crosswalk mapping              |
-| Score Confidence And Aggregation | 291  | Confidence and aggregation rules         |
-| Rules                            | 329  | Scorecard rules                          |
+| Scoring Rubric                   | 94   | Band definitions and alternative scales  |
+| Handling Unknowns                | 204  | UNKNOWN handling guidance                |
+| Handling Not Applicable          | 212  | N/A handling guidance                    |
+| Dimension To Category Mapping    | 226  | Dimension to assessment-category mapping |
+| ISO/IEC 25010:2023 Crosswalk     | 252  | Standards crosswalk mapping              |
+| Score Confidence And Aggregation | 296  | Confidence and aggregation rules         |
+| Rules                            | 334  | Scorecard rules                          |
 
 ## Table Format
 
@@ -38,6 +38,7 @@ Use this fixed column order and dimension set:
 | Testability             |       |       |
 | Design Soundness        |       |       |
 | Code Quality            |       |       |
+| Code Style              |       |       |
 | Stack Alignment         |       |       |
 | Dependency Health       |       |       |
 | Maintainability         |       |       |
@@ -83,6 +84,9 @@ The API Compatibility dimension applies only when the subject is a reusable libr
 per `assessment/api-compatibility.md`.
 
 For a deployable service or application it is `N/A`.
+
+The Code Style dimension summarizes the `Code Style` section per `assessment/code-style.md`
+and is `N/A` only when the subject carries no source code.
 
 When the report language is not English, apply the column header and dimension name translations
 from the matching `translations/` file.
@@ -228,6 +232,7 @@ Each scorecard dimension summarizes one or more assessment categories.
 | Testability             | Testing and Testability                                  |
 | Design Soundness        | Design Principles                                        |
 | Code Quality            | Code Quality                                             |
+| Code Style              | Code Style                                               |
 | Stack Alignment         | Stack Best Practices                                     |
 | Dependency Health       | Dependencies and Supply Chain                            |
 | Maintainability         | Maintainability, Change Management, Documentation        |
