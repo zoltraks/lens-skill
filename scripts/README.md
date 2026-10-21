@@ -287,6 +287,10 @@ executes, installs, or sources anything it scans.
 and casing shape per language and top-level-directory partition, reports each dominant shape's
 share with outlier examples, and excludes generated, vendored, and minified files.
 
+Single-word identifiers carry no case signal, so they classify as `camelCase` - in a
+`snake_case`-dominant corpus the camelCase share overstates adoption, and the census reads
+as a floor for the real dominant shape, not a verdict.
+
 It reads source files as data and never executes the subject, and two runs on the same tree
 produce identical output.
 

@@ -22,7 +22,28 @@ import sys
 
 
 def parse_row(line):
-    parts = line.split("|")
+    parts, buf = [], []
+    in_code, code_ticks = False, 0
+    i = 0
+    while i < len(line):
+        if line[i] == "`":
+            n = 0
+            while i < len(line) and line[i] == "`":
+                n += 1
+                i += 1
+            if not in_code:
+                in_code, code_ticks = True, n
+            elif n == code_ticks:
+                in_code = False
+            buf.append("`" * n)
+            continue
+        if line[i] == "|" and not in_code:
+            parts.append("".join(buf))
+            buf = []
+        else:
+            buf.append(line[i])
+        i += 1
+    parts.append("".join(buf))
     cells = parts[1:-1] if parts and parts[-1].strip() == "" else parts[1:]
     return [c.strip() for c in cells]
 

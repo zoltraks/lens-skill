@@ -13,10 +13,10 @@
 |--------------------------------|------|--------------------------------------|
 | Strengths & What's Working     | 21   | Evidence-based positive baselines    |
 | Detailed Technical Findings    | 59   | Finding summary and detail blocks    |
-| Technical Debt Register        | 355  | Distinct accumulated debt            |
-| Unified Risk Register          | 403  | Cross-referenced risks               |
-| Actionable Remediation Roadmap | 499  | Prioritized recommendations          |
-| Recommendation Classification  | 583  | Recommended/Optional/Not recommended |
+| Technical Debt Register        | 364  | Distinct accumulated debt            |
+| Unified Risk Register          | 412  | Cross-referenced risks               |
+| Actionable Remediation Roadmap | 508  | Prioritized recommendations          |
+| Recommendation Classification  | 592  | Recommended/Optional/Not recommended |
 
 ## Strengths & What's Working
 
@@ -223,6 +223,15 @@ Do not crowd the bullet list with long prose.
 
 Use short sentences separated by blank lines,
 each sentence stands on its own line with an empty line between consecutive sentences.
+
+Each sentence after the first in a multi-sentence field value renders as an indented continuation:
+an empty line, then the sentence indented to the bullet's content column.
+
+The indentation keeps the continuation inside the list item,
+so a stricter Markdown linter reads it as list content rather than a list break.
+
+The same rule applies to every register block - `RSK`, `REC`, `TDR`, and any other `* **Field:**`
+run.
 
 Every finding must include a detailed Description, Impact, Recommendation,
 and Method.

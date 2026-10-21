@@ -143,6 +143,18 @@ class TestFormatTable(unittest.TestCase):
         self.assertEqual(tables, 1)
         self.assertEqual(out_lines[1], "|-----------|----|")
 
+    def test_pipe_inside_code_span_is_not_a_cell_boundary(self):
+        raw = "| a | bb |\n|--|--|\n| `x | y` | 22 |\n"
+        out_lines, _warnings, tables = self.formatter.format_text(raw)
+        self.assertEqual(tables, 1)
+        self.assertEqual(out_lines[2], "| `x | y` | 22 |")
+
+    def test_pipe_inside_double_backtick_span_is_not_a_cell_boundary(self):
+        raw = "| a | bb |\n|--|--|\n| ``x `|` y`` | 22 |\n"
+        out_lines, _warnings, tables = self.formatter.format_text(raw)
+        self.assertEqual(tables, 1)
+        self.assertEqual(out_lines[2], "| ``x `|` y`` | 22 |")
+
     def test_width_budget_warning(self):
         raw = "| a | bb |\n|--|--|\n| " + "x" * 305 + " | 22 |\n"
         _out, warnings, _tables = self.formatter.format_text(raw)

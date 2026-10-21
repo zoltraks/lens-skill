@@ -26,13 +26,13 @@ never assumed from the previous report alone.
 | Report Revision                  | 144  | Revision numbering                         |
 | Output Filename                  | 163  | Revisioned filename rules                  |
 | Comparison Content               | 222  | What the Changes section compares          |
-| Re-Audit With Changed Params     | 255  | Parameter-change comparison                |
-| Evidence Transitions             | 275  | Finding, evidence, and capability deltas   |
-| Observation Folding              | 294  | Attaching new defects to existing findings |
-| Identifier Continuity            | 305  | FND/RSK/REC sequence rules                 |
-| Status, Change, And Verification | 329  | Status/Change vocabulary for re-audits     |
-| Legacy Field Names               | 362  | Old-schema-to-current name mapping         |
-| Rules                            | 407  | Comparison constraints                     |
+| Re-Audit With Changed Params     | 261  | Parameter-change comparison                |
+| Evidence Transitions             | 281  | Finding, evidence, and capability deltas   |
+| Observation Folding              | 300  | Attaching new defects to existing findings |
+| Identifier Continuity            | 311  | FND/RSK/REC sequence rules                 |
+| Status, Change, And Verification | 335  | Status/Change vocabulary for re-audits     |
+| Legacy Field Names               | 368  | Old-schema-to-current name mapping         |
+| Rules                            | 413  | Comparison constraints                     |
 
 ## When This Applies
 
@@ -245,6 +245,12 @@ Compare at least:
 - Score delta: per-dimension score movement and direction.
 - Category status changes: categories that moved between `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`,
   and `N/A`.
+
+Recompute the baseline's stated aggregates - scorecard numerator, denominator, and overall
+score, register entry counts - rather than trusting the printed totals.
+
+A mismatch is a defect in the baseline, not the subject: record it as an evidence correction,
+never silently adopt or silently replace the figure.
 
 When a previous report element cannot be parsed well enough to compare, mark that element
 `UNKNOWN` and state why.
