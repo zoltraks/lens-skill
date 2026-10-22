@@ -25,7 +25,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.3.8"
+  version: "2.3.9"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -223,7 +223,7 @@ The previous report is never overwritten - write the next revision-numbered file
 - **`process/report-format/hunt-style.md`** / **`review-style.md`** - `hunt` and `review` styles.
 - **`process/report-format/structure-review.md`** - Structure Review variant contract.
 - **`process/json-exchange.md`** - JSON parameter documents for intake question surfaces.
-- **`process/operation-timing.md`** - Timing under verbose, informational, or diagnostic modes.
+- **`process/operation-timing.md`** - Timing under verbose, informational, diagnostic, or timing modes.
 - **`process/report-parity.md`** - Mandatory core checklist and consistency gate.
 - **`process/readiness-scoring.md`** - Score aggregation, confidence, maturity, readiness gates.
 - **`process/skill-activation.md`** - Enable-mode intake, enablement response, and standby.
