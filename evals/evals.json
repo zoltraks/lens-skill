@@ -1787,6 +1787,18 @@
     },
     {
       "id": 151,
+      "prompt": "Audit this repository, informational mode.",
+      "expected_output": "The audit intake runs per process/audit-workflow.md, and the response ends with a separate paragraph whose last sentence reports '<description> operation took <m:ss>' in minutes:seconds format.",
+      "files": [],
+      "expectations": [
+        "The agent loaded process/operation-timing.md for the informational flag - the diagnostic surface stays in process/json-exchange.md.",
+        "No parameter document emits under the informational flag - it arms the timing report alone.",
+        "The reply ends with a separate paragraph whose single sentence is the last sentence: '<description> operation took <m:ss>' - the description names the audit operation and the time uses minutes:seconds.",
+        "No timing line appears on a bare activation or standby reply - the rule covers named operations only."
+      ]
+    },
+    {
+      "id": 152,
       "prompt": "Audit this repository, timing mode.",
       "expected_output": "The audit intake runs per process/audit-workflow.md, and the response ends with a separate paragraph whose last sentence reports '<description> operation took <m:ss>' in minutes:seconds format.",
       "files": [],

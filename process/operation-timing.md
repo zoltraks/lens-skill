@@ -12,8 +12,12 @@ This file defines how Lens reports the time a named operation took.
 
 Timing arms when the request names a verbose, informational, diagnostic, or timing mode.
 
-The four mode names share the diagnostic surface defined in `process/json-exchange.md` - that file
-owns the parameter-document emission, this file owns only the timing report.
+The verbose, diagnostic, and timing modes share the diagnostic surface defined in
+`process/json-exchange.md` - that file owns the parameter-document emission, this
+file owns only the timing report.
+
+The informational mode arms the timing report alone - no parameter document emits
+and no option lists expand.
 
 The mode is request-scoped - it is named in the request text and is never resolved from environment
 variables.

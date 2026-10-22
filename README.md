@@ -29,11 +29,11 @@
 | Report Format                      | 448  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 485  | Supported requests and exclusions                   |
 | What's Inside                      | 509  | Documents, references, tools, and conditional files |
-| Document Style                     | 666  | Pointer to the style rules file                     |
-| Specification                      | 676  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 697  | Maintenance checks and regression scenarios         |
-| License                            | 725  | License for the skill itself                        |
-| Credits                            | 731  | Authorship and attribution                          |
+| Document Style                     | 667  | Pointer to the style rules file                     |
+| Specification                      | 677  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 698  | Maintenance checks and regression scenarios         |
+| License                            | 726  | License for the skill itself                        |
+| Credits                            | 732  | Authorship and attribution                          |
 
 ## Overview
 

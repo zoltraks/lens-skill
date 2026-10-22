@@ -25,7 +25,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.3.9"
+  version: "2.4.0"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -40,45 +40,45 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 
 | Section                 | Line | What it covers                                     |
 |-------------------------|------|----------------------------------------------------|
-| Skill Update Check      | 71   | Once-per-session git freshness gate before use     |
+| Skill Update Check      | 69   | Once-per-session git freshness gate before use     |
 | Trigger Keywords        | 89   | Activation phrases                                 |
 | How To Use              | 118  | Progressive disclosure and mandatory reading       |
 | Parameter Configuration | 137  | Defaults and user-controlled report shape          |
-| Principles              | 199  | Evaluation and output rules                        |
-| Process                 | 205  | Workflow, format, and parity                       |
-| Assessments             | 233  | Core and conditional assessment guides             |
-| Synthesis               | 275  | Findings, risk, score, and remediation assembly    |
-| Translations            | 287  | Per-language report translations                   |
-| References              | 296  | Lookup tables                                      |
-| Scripts                 | 322  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 344  | Behavioral regression prompts                      |
-| Repository Files        | 348  | Housekeeping files governing this repository       |
-| Evidence Contract       | 360  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 389  | File-selection and section-placement rules         |
+| Principles              | 198  | Evaluation and output rules                        |
+| Process                 | 204  | Workflow, format, and parity                       |
+| Assessments             | 232  | Core and conditional assessment guides             |
+| Synthesis               | 273  | Findings, risk, score, and remediation assembly    |
+| Translations            | 285  | Per-language report translations                   |
+| References              | 294  | Lookup tables                                      |
+| Scripts                 | 318  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 340  | Behavioral regression prompts                      |
+| Repository Files        | 344  | Housekeeping files governing this repository       |
+| Evidence Contract       | 356  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 385  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
-You analyze any software subject - a prototype, a codebase under development, an already-running
-production system, or a technical proposal - and produce a structured, evidence-based engineering
-assessment covering technical quality, code health, operational readiness, and architectural
-soundness.
+You analyze any software subject - a prototype, a codebase under development, a live production
+system, or a technical proposal - and produce a structured, evidence-based engineering assessment
+covering technical quality, code health, operational readiness, and architectural soundness.
 
-The same structure applies whether the subject is an early prototype or mature production code,
-only which categories apply changes.
+The same structure applies to prototypes and mature production code - only the categories differ.
 
 You do not evaluate people, assign blame, infer intent, or give personal opinions.
 
 ## Skill Update Check
 
 Before any other step, once per session, run `python <skill-root>/scripts/check-update.py`, where
-`<skill-root>` is the directory containing this `SKILL.md` - the skill's own repository, never
-the audited subject.
+`<skill-root>` is the directory holding this `SKILL.md` - never the audited subject.
 
 - `UPDATE-AVAILABLE` - ask the user to update the skill now or skip for this session, and wait
   for the answer - an automated run merges without asking. On approval or under automation, run
   `git -C <skill-root> merge --ff-only <tip_sha>` when the reported state allows it (`ahead=0`
   and `dirty=no`), then re-read `SKILL.md` and any loaded rule files. A blocked or declined
   merge reports briefly and continues with the current version, never re-asked this session.
+- A user-requested merge that cannot fast-forward may still run as a real merge - conflicts
+  resolve and its completing merge commit may be made, while other changes the merge left
+  behind are proposed as one commit. Pushing runs only on a separately named request.
 - The `tip_sha` and `tip_date` detail lines identify the incoming tip commit - cite them when
   reviewing `git log @{u}..` diffs before a merge or when pinning or reverting to a known state.
   The merge fast-forwards to the reported `tip_sha`, never a later tip.
@@ -177,15 +177,14 @@ name first, and the agent confirms with the user before writing unless the run i
 
 If the user accepts defaults or says "bypass", the agent proceeds immediately.
 
-If the user chooses to configure, the agent asks only the unresolved core parameter questions
-defined in `process/audit-workflow.md`.
+On configure the agent asks the unresolved core parameter questions in `process/audit-workflow.md`.
 
 Each prompt marks the default and ends with `Use default: <value>` and `Use defaults for all
 remaining questions` - when the request asks for parameters in JSON or another machine-readable
-format, or names a diagnostic or verbose mode, apply `process/json-exchange.md` to every pending
-question surface and `process/operation-timing.md` to the operation's closing report, and when the
-report language is not English, load the matching `translations/`
-file and apply every translation, style rule, and encoding requirement defined there.
+format, or names a diagnostic, timing, or verbose mode, apply `process/json-exchange.md` to every
+pending question surface. A diagnostic, timing, verbose, or informational mode applies
+`process/operation-timing.md` to the operation's closing report. Non-English reports load the
+matching `translations/` file and apply every translation, style, and encoding rule.
 
 **Rerunning an audit**
 
@@ -223,7 +222,8 @@ The previous report is never overwritten - write the next revision-numbered file
 - **`process/report-format/hunt-style.md`** / **`review-style.md`** - `hunt` and `review` styles.
 - **`process/report-format/structure-review.md`** - Structure Review variant contract.
 - **`process/json-exchange.md`** - JSON parameter documents for intake question surfaces.
-- **`process/operation-timing.md`** - Timing under verbose, informational, diagnostic, or timing modes.
+- **`process/operation-timing.md`** - Timing under verbose, informational, diagnostic, or timing
+  modes.
 - **`process/report-parity.md`** - Mandatory core checklist and consistency gate.
 - **`process/readiness-scoring.md`** - Score aggregation, confidence, maturity, readiness gates.
 - **`process/skill-activation.md`** - Enable-mode intake, enablement response, and standby.
@@ -256,8 +256,7 @@ The previous report is never overwritten - write the next revision-numbered file
 
 ### Conditional Assessment Files
 
-Load these only when the subject meets the inclusion criterion in the Conditional Sections table of
-`process/report-format.md`.
+Load these only when the subject meets an inclusion criterion in `process/report-format.md`.
 
 - **`assessment/data-flow.md`** - Data flows, trust boundaries. Include for cross-boundary systems.
 - **`assessment/design-patterns.md`** - GoF/POSA pattern fitness. Include for recurring structure.
@@ -294,8 +293,7 @@ per `principles/output-style.md`:
 
 ## `references/` - Lookup Tables
 
-Load these during intake, assessment, and report writing when the detected stack or finding
-type requires them.
+Load these during intake, assessment, and report writing when the stack or finding type requires.
 
 - **`references/stack-standards.md`** - Canonical standards and advisories per detected stack.
 - **`references/cwe-analyzer.md`** - CWE-to-analyzer-rule cross-reference per ecosystem.
@@ -315,8 +313,7 @@ type requires them.
 - **`references/agent-skills.md`** - Agent Skills spec corpus and live-check baseline.
 - **`references/agent-configuration.md`** - AGENTS.md, rules, plugin, MCP, guidance-set baselines.
 - **`references/source-catalog.md`** - Authoritative external-source registry and corpus index.
-- **`references/stacks/`** / **`methodology/`** / **`topics/`** - Digests indexed in
-  `source-catalog.md`.
+- **`references/stacks/`** / **`methodology/`** / **`topics/`** - digests, see `source-catalog.md`.
 
 ## `scripts/` - Canonical Scripts
 
@@ -469,8 +466,8 @@ the skill.
   five DORA metrics with labeled source-derived proxies, telemetry-dependent metrics
   `NOT SPECIFIED`, and a bus-factor rating.
 - Every `HIGH`/`CRITICAL` Security & Compliance finding carries an `Exploitability` field per
-  `references/exploitability-narrative.md`: `Theoretical` tier by default, never a claim that
-  exploitation occurred.
+  `references/exploitability-narrative.md`: `Theoretical` tier by default, never an exploitation
+  claim.
 - API compatibility gates, versioning consistency, and breaking-change tracking belong in
   `assessment/api-compatibility.md`, only for a reusable library or package.
 - An overall score always reports the lowest-scoring applicable dimension beside it, per
