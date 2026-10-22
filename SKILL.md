@@ -25,7 +25,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.3.7"
+  version: "2.3.8"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -44,17 +44,17 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 | Trigger Keywords        | 89   | Activation phrases                                 |
 | How To Use              | 118  | Progressive disclosure and mandatory reading       |
 | Parameter Configuration | 137  | Defaults and user-controlled report shape          |
-| Principles              | 198  | Evaluation and output rules                        |
-| Process                 | 204  | Workflow, format, and parity                       |
-| Assessments             | 230  | Core and conditional assessment guides             |
-| Synthesis               | 272  | Findings, risk, score, and remediation assembly    |
-| Translations            | 284  | Per-language report translations                   |
-| References              | 293  | Lookup tables                                      |
-| Scripts                 | 319  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 341  | Behavioral regression prompts                      |
-| Repository Files        | 345  | Housekeeping files governing this repository       |
-| Evidence Contract       | 357  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 386  | File-selection and section-placement rules         |
+| Principles              | 199  | Evaluation and output rules                        |
+| Process                 | 205  | Workflow, format, and parity                       |
+| Assessments             | 233  | Core and conditional assessment guides             |
+| Synthesis               | 275  | Findings, risk, score, and remediation assembly    |
+| Translations            | 287  | Per-language report translations                   |
+| References              | 296  | Lookup tables                                      |
+| Scripts                 | 322  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 344  | Behavioral regression prompts                      |
+| Repository Files        | 348  | Housekeeping files governing this repository       |
+| Evidence Contract       | 360  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 389  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -183,7 +183,8 @@ defined in `process/audit-workflow.md`.
 Each prompt marks the default and ends with `Use default: <value>` and `Use defaults for all
 remaining questions` - when the request asks for parameters in JSON or another machine-readable
 format, or names a diagnostic or verbose mode, apply `process/json-exchange.md` to every pending
-question surface, and when the report language is not English, load the matching `translations/`
+question surface and `process/operation-timing.md` to the operation's closing report, and when the
+report language is not English, load the matching `translations/`
 file and apply every translation, style rule, and encoding requirement defined there.
 
 **Rerunning an audit**
@@ -222,6 +223,7 @@ The previous report is never overwritten - write the next revision-numbered file
 - **`process/report-format/hunt-style.md`** / **`review-style.md`** - `hunt` and `review` styles.
 - **`process/report-format/structure-review.md`** - Structure Review variant contract.
 - **`process/json-exchange.md`** - JSON parameter documents for intake question surfaces.
+- **`process/operation-timing.md`** - Timing under verbose, informational, or diagnostic modes.
 - **`process/report-parity.md`** - Mandatory core checklist and consistency gate.
 - **`process/readiness-scoring.md`** - Score aggregation, confidence, maturity, readiness gates.
 - **`process/skill-activation.md`** - Enable-mode intake, enablement response, and standby.

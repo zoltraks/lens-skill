@@ -528,6 +528,7 @@ lens-skill/
 │   ├── audit-workflow.md                  # Intake, scope, evidence, assessment, synthesis, validation
 │   ├── audit-model.md                     # Evidence-to-finding pipeline and canonical audit-model.json
 │   ├── json-exchange.md                   # Machine-readable parameter documents for intake questions
+│   ├── operation-timing.md                # Elapsed-time report for named operations
 │   ├── report-format.md                   # Audit report format index: rules, section order, spec map
 │   ├── report-format/                     # Per-section report specifications
 │   │   ├── report-opening.md              # Document Information, coverage matrix, Glossary
