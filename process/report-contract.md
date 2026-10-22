@@ -7,7 +7,7 @@
 
 This file lists only what `scripts/validate-report.py` enforces - nothing more.
 
-The same contract is available as JSON through `python scripts/validate-report.py
+The same contract is available as JSON through `python3 scripts/validate-report.py
 --dump-contract`, generated from the live constants, so an agent can load it without
 reading this file.
 

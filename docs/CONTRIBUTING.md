@@ -28,11 +28,11 @@ mechanism.
 Run the skill-maintenance validators and the script test suite before requesting review:
 
 ```
-python scripts/validate-skill.py .
-python scripts/check-references.py .
-python scripts/check-contents.py .
-python scripts/align-comments.py <file> --check
-python -m unittest discover -s tests -v
+python3 scripts/validate-skill.py .
+python3 scripts/check-references.py .
+python3 scripts/check-contents.py .
+python3 scripts/align-comments.py <file> --check
+python3 -m unittest discover -s tests -v
 git diff --check
 ```
 

@@ -70,16 +70,16 @@ Shipped skill files never depend on workspace content - temporary validation scr
 Run the skill-maintenance checklist from `docs/CONTRIBUTING.md` before proposing a change:
 
 ```
-python scripts/validate-skill.py .
-python scripts/check-references.py .
-python scripts/check-contents.py .
-python scripts/align-comments.py <file> --check
-python -m unittest discover -s tests -v
+python3 scripts/validate-skill.py .
+python3 scripts/check-references.py .
+python3 scripts/check-contents.py .
+python3 scripts/align-comments.py <file> --check
+python3 -m unittest discover -s tests -v
 git diff --check
 ```
 
 Format edited tables with an automated source-width formatter and re-anchor Contents tables
-with `python scripts/check-contents.py --fix .` when headings move, per `scripts/README.md`.
+with `python3 scripts/check-contents.py --fix .` when headings move, per `scripts/README.md`.
 
 Changes to audit workflow, report format, or skill behavior also exercise the regression
 scenarios in `evals/evals.json` and `process/audit-workflow.md`.
