@@ -291,8 +291,8 @@ still inside `## Glossary`, sorted alphabetically by term ignoring case, matchin
 table's ordering rule.
 
 A term serving as a fixed identifier prefix throughout the report - `EVD`, `FND`, `RSK`,
-`REC`, `TDR`, `PAR` - carries a `###` description rather than an index-only row, since the
-reader meets it in every register and finding block.
+`REC`, `TDR`, `PAR` - carries a `###` description in addition to its index-table row, never instead of it, since
+the reader meets it in every register and finding block.
 
 Name each subsection `### TERM (Expansion)` when the expansion is established,
 or `### TERM` when it is not.

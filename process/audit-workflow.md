@@ -1651,6 +1651,9 @@ re-audit that upgrades a prior revision, apply these mechanical-edit rules:
   `scripts/validate-report.py`. The validator prints at most ten problems per check, so iterate
   until it reports zero rather than assuming the first fix pass cleared everything.
 - Preserve the report's existing line-ending style when a script writes the file.
+- Run `scripts/validate-report.py` once against an early partial assembly, for example after
+  the first composed parts are concatenated, so systematic style violations surface before
+  they replicate across the full report.
 
 **Counter-evidence review**
 
