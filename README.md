@@ -29,11 +29,11 @@
 | Report Format                      | 448  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 485  | Supported requests and exclusions                   |
 | What's Inside                      | 509  | Documents, references, tools, and conditional files |
-| Document Style                     | 667  | Pointer to the style rules file                     |
-| Specification                      | 677  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 698  | Maintenance checks and regression scenarios         |
-| License                            | 726  | License for the skill itself                        |
-| Credits                            | 732  | Authorship and attribution                          |
+| Document Style                     | 671  | Pointer to the style rules file                     |
+| Specification                      | 681  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 702  | Maintenance checks and regression scenarios         |
+| License                            | 730  | License for the skill itself                        |
+| Credits                            | 736  | Authorship and attribution                          |
 
 ## Overview
 
@@ -527,8 +527,11 @@ lens-skill/
 ├── process/
 │   ├── audit-workflow.md                  # Intake, scope, evidence, assessment, synthesis, validation
 │   ├── audit-model.md                     # Evidence-to-finding pipeline and canonical audit-model.json
+│   ├── decision-modes.md                  # Interaction-mode matrix: interactive and automated resolution
 │   ├── json-exchange.md                   # Machine-readable parameter documents for intake questions
+│   ├── navigation-rules.md                # File-selection and section-placement rules for every report
 │   ├── operation-timing.md                # Elapsed-time report for named operations
+│   ├── parameter-configuration.md         # Parameter surfaces, defaults, and resolution rules
 │   ├── report-format.md                   # Audit report format index: rules, section order, spec map
 │   ├── report-format/                     # Per-section report specifications
 │   │   ├── report-opening.md              # Document Information, coverage matrix, Glossary
@@ -552,6 +555,7 @@ lens-skill/
 │   ├── skill-activation.md                # Enable-mode intake, enablement response, and standby
 │   └── session-review.md                  # Session review: findings, approval gate, review modes
 ├── assessment/
+│   ├── README.md                          # Assessment-file index: core files, conditional files
 │   ├── testing-review.md                  # Test pyramid (unit/integration/e2e), TDD, coverage, testability
 │   ├── design-principles.md               # SOLID, cohesion and coupling, DRY, separation of concerns
 │   ├── code-quality.md                    # Static analysis, type safety, complexity, duplication, dead code

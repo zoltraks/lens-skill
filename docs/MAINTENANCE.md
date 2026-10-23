@@ -157,7 +157,7 @@ For a conditional report section, add its inclusion criterion and position to
 
 Update `process/report-parity.md` when the mandatory checklist or report-consistency gate changes.
 
-Update `SKILL.md` Navigation Rules and add evaluation prompts when the behavior changes.
+Update `process/navigation-rules.md` and add evaluation prompts when the behavior changes.
 
 ### Changing Process Or Synthesis
 

@@ -114,7 +114,7 @@ An explicit single-language request overrides the convention in either direction
 The audit start timestamp is recorded later, the moment the last parameter question is
 resolved, before the remaining skill rule documents are loaded.
 
-See the timing rule under Parameter Configuration.
+See the timing rule under `process/parameter-configuration.md`.
 
 **Automated run**
 
