@@ -121,6 +121,17 @@ def strip_code(line):
     return re.sub(r"(\[[^\]]*\])\([^)]*\)", r"\1", text)
 
 
+def pair_sibling(path):
+    """True when the file is the translation sibling of a language pair:
+    a `<stem>-<LANG>` name with a `<stem>-EN.md` file beside it. Under the
+    pair-skeleton convention headings, `* **Label:**` field labels, and
+    table label cells stay English verbatim and are exempt."""
+    match = re.match(r"^(.*)-[A-Z]{2}$", path.stem)
+    if not match:
+        return False
+    return path.with_name(f"{match.group(1)}-EN{path.suffix}").exists()
+
+
 def iter_prose_lines(path):
     """Yield (lineno, text) for lines outside fenced code blocks."""
     in_fence = False
@@ -390,6 +401,9 @@ def main():
             file=sys.stderr,
         )
 
+    skeleton = pair_sibling(args.file)
+    block_label = re.compile(r"^\*\s+\*\*[^:*]+:\*\*")
+
     findings = []
     for lineno, text in iter_prose_lines(args.file):
         stripped = text.strip()
@@ -398,6 +412,14 @@ def main():
         is_table = stripped.startswith("|")
         is_list = bool(re.match(r"^[-*+]\s|^\d+\.\s|^\s+[-*+]\s", text))
         is_heading = stripped.startswith("#")
+        if skeleton:
+            if is_heading:
+                continue
+            label = block_label.match(stripped)
+            if label:
+                text = stripped[label.end():]
+            elif is_table:
+                text = re.sub(r"^\|[^|]*\|", "||", text)
         check_forbidden(lineno, mask_allowed(text, allowed), pairs, findings)
         check_token_case(lineno, text, findings)
         check_mechanical(lineno, text, findings,

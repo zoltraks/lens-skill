@@ -14,7 +14,7 @@ Defaults are:
 
 | Parameter               | Default                                                                                                                                |
 |-------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
-| Report style            | `audit` governance report (default), `hunt` defect-hunt report, or `review` execution-register report                                  |
+| Report style            | a style named in the request, then the recovered previous style on re-audit - `audit` governance report (fallback default), `hunt` defect-hunt report, or `review` execution-register report |
 | Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/` - `review/` or `reviews/` for a review report - else Inline |
 | Output location         | Resolved across `docs/`, `document/`, `doc/` roots or the repository root                                                              |
 | Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md`/`REVIEW.md` for a first hunt/review |
@@ -43,8 +43,9 @@ report, and a recorded version or date subdirectory pattern is reused.
 The output filename carries the report revision: `AUDIT-1.0.md` for a first audit or the
 language-specific revisioned name such as `AUDYT-1.0.md`. The bare filename is the audit-style
 alternative, while a first hunt or review takes the bare `HUNT.md`/`REVIEW.md` stem with
-`HUNT-1.0.md`/`REVIEW-1.0.md` revisioned, a previous report gives the incremented revision
-(`AUDIT-1.1.md`) and is never overwritten, a bare `<stem>.md` is renamed to its revisioned
+`HUNT-1.0.md`/`REVIEW-1.0.md` revisioned, a previous report gives the incremented revision -
+the last decimal component increments and carries on nine, so `1.0` becomes `1.1`, `1.9`
+becomes `2.0`, and `9.9` becomes `10.0` - and is never overwritten, a bare `<stem>.md` is renamed to its revisioned
 name first, and the agent confirms with the user before writing unless the run is automated.
 
 If the user accepts defaults or says "bypass", the agent proceeds immediately.
@@ -66,3 +67,7 @@ audited location, resolve the audit mode per `process/audit-workflow.md` and
 
 The previous report is never overwritten - write the next revision-numbered file such as
 `AUDIT-1.1.md`, renaming a bare `<stem>.md` previous report to its revisioned name first.
+
+A style named in the request takes precedence over the recovered previous style - asking for a
+general audit report after a `HUNT` report proposes `audit` - while an unnamed style keeps the
+recovered value as the proposed default.

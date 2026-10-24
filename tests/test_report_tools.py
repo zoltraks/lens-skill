@@ -45,10 +45,10 @@ class TestLinkGlossary(unittest.TestCase):
 class TestLinkReferences(unittest.TestCase):
     DOC = (
         "# T\n\n"
-        "## Verification And Evidence Ledger\n\n"
+        "## Evidence List\n\n"
         "| Evidence | Check | Result |\n|---|---|---|\n"
         "| EVD-001 | git | sha |\n\n"
-        "## Detailed Technical Findings\n\n"
+        "## Technical Findings\n\n"
         "### FND-SEC-001: Bad thing\n\n"
         "* **Evidence:** EVD-001 - inspected\n\n"
         "## Handoff\n\n"
@@ -68,7 +68,7 @@ class TestLinkReferences(unittest.TestCase):
     def test_references_link_to_definitions(self):
         with tempfile.TemporaryDirectory() as tmp:
             text = self.write(tmp, self.DOC)
-            self.assertIn("[EVD-001](#verification-and-evidence-ledger)", text)
+            self.assertIn("[EVD-001](#evidence-list)", text)
             self.assertIn("[FND-SEC-001](#fnd-sec-001-bad-thing)", text)
 
     def test_defining_sites_stay_plain(self):
@@ -85,10 +85,10 @@ class TestLinkReferences(unittest.TestCase):
             self.assertIn("[FND-SEC-001](#x) stays", text)
 
     def test_unicode_heading_slug_keeps_diacritics(self):
-        doc = "# T\n\n## Rejestr dowodów audytowych\n\n| Dowód | Wynik |\n|---|---|\n| EVD-001 | ok |\n\nCites EVD-001.\n"
+        doc = "# T\n\n## Lista dowodów\n\n| Dowód | Wynik |\n|---|---|\n| EVD-001 | ok |\n\nCites EVD-001.\n"
         with tempfile.TemporaryDirectory() as tmp:
             text = self.write(tmp, doc)
-            self.assertIn("[EVD-001](#rejestr-dowodów-audytowych)", text)
+            self.assertIn("[EVD-001](#lista-dowodów)", text)
 
     def test_qualified_reference_resolves_project_block(self):
         doc = (
@@ -182,33 +182,35 @@ class TestValidateReport(unittest.TestCase):
         self.validator = load_script("validate-report.py")
 
     def test_finding_fields_cover_runtime_and_change(self):
-        for field in ("Runtime confirmed:", "Change:", "Verified:", "Criterion:"):
+        for field in ("Criteria:",):
             self.assertIn(field, self.validator.FINDING_REQUIRED)
+        for field in ("Runtime:", "Verification:", "Status:", "Change:"):
+            self.assertNotIn(field, self.validator.FINDING_REQUIRED)
 
     def test_criterion_references(self):
         lines = [
             "**Criteria table**",
             "",
-            "| Criterion | Family   | Applicability | Criticality | Method   | Sufficiency |",
+            "| Criteria | Family   | Applicability | Criticality | Method   | Sufficiency |",
             "|-----------|----------|---------------|-------------|----------|-------------|",
             "| SEC-AUTHZ | SEC      | applicable    | high        | inspect  | rule        |",
             "",
             "### FND-SEC-001: Bad thing",
             "",
-            "* **Criterion:** SEC-INPUT - missing authz check",
+            "* **Criteria:** SEC-INPUT - missing authz check",
         ]
         failures = self.validator.check_criterion_references(lines, "audit")
         self.assertTrue(any("SEC-INPUT" in f for f in failures))
 
         resolved = lines[:]
-        resolved[-1] = "* **Criterion:** SEC-AUTHZ - missing authz check"
+        resolved[-1] = "* **Criteria:** SEC-AUTHZ - missing authz check"
         self.assertEqual(self.validator.check_criterion_references(resolved, "audit"), [])
 
     def test_criteria_table_rejects_legacy_heading_long_prefix_and_unneeded_01(self):
         legacy = [
             "**Criterion table**",
             "",
-            "| Criterion | Family | Applicability | Criticality | Method | Sufficiency |",
+            "| Criteria | Family | Applicability | Criticality | Method | Sufficiency |",
             "|-----------|--------|---------------|-------------|--------|-------------|",
             "| SEC-AUTHZ | SEC    | applicable    | high        | inspect| rule        |",
         ]
@@ -218,7 +220,7 @@ class TestValidateReport(unittest.TestCase):
         bad_ids = [
             "**Criteria table**",
             "",
-            "| Criterion     | Family | Applicability | Criticality | Method  | Sufficiency |",
+            "| Criteria     | Family | Applicability | Criticality | Method  | Sufficiency |",
             "|---------------|--------|---------------|-------------|---------|-------------|",
             "| TEST-UNIT     | test   | applicable    | high        | inspect | rule        |",
             "| TST-PIPE-01   | test   | applicable    | high        | inspect | rule        |",
@@ -234,7 +236,7 @@ class TestValidateReport(unittest.TestCase):
         lines = [
             "### FND-SEC-001: Bad thing",
             "",
-            "* **Criterion:** SEC-AUTHZ - missing authz check",
+            "* **Criteria:** SEC-AUTHZ - missing authz check",
         ]
         failures = self.validator.check_criterion_references(lines, "audit")
         self.assertTrue(any("no Criteria table" in f for f in failures))
@@ -272,7 +274,7 @@ class TestValidateReport(unittest.TestCase):
 
     def test_register_reference_links(self):
         lines = [
-            "## Verification And Evidence Ledger",
+            "## Evidence List",
             "",
             "| Evidence | Result |",
             "|----------|--------|",
@@ -297,7 +299,7 @@ class TestValidateReport(unittest.TestCase):
         )
 
         linked = [
-            line.replace("EVD-001", "[EVD-001](#verification-and-evidence-ledger)")
+            line.replace("EVD-001", "[EVD-001](#evidence-list)")
             .replace("FND-SEC-001", "[FND-SEC-001](#fnd-sec-001-bad-thing)")
             if line.startswith("| tests") else line
             for line in lines
@@ -578,7 +580,7 @@ class TestMapReportTranslation(unittest.TestCase):
         "## Glossary\n\n"
         "| English | Polish |\n|---|---|\n"
         "| Glossary | Słownik |\n"
-        "| Verified | Zweryfikowane |\n\n"
+        "| Verification | Weryfikacja |\n\n"
         "## Status\n\n"
         "| English | Masculine | Feminine | Neuter |\n|---|---|---|---|\n"
         "| `COVERED` | Objęty | Objęta | Objęte |\n"
@@ -594,7 +596,7 @@ class TestMapReportTranslation(unittest.TestCase):
         "Termin [X](#słownik) w tekście.\n\n"
         "## Szczegóły\n\n"
         "| Objęty | Otwarty |\n\n"
-        "* **Zweryfikowane:** tak - ok.\n\n"
+        "* **Weryfikacja:** Zaobserwowane w źródłach.\n\n"
         "Proza: tak i nie zostają.\n"
     )
     EN_DOC = (
@@ -659,7 +661,7 @@ class TestMapReportTranslation(unittest.TestCase):
         self.assertEqual(rc, 0)
         self.assertIn("english sibling check: PASS", out.getvalue())
         self.assertIn("| Language | English", mapped)
-        self.assertIn("* **Verified:** yes", mapped)
+        self.assertIn("* **Verification:**", mapped)
         self.assertIn("[X](#glossary)", mapped)
         self.assertIn("tak i nie zostają", mapped)
 
@@ -667,7 +669,7 @@ class TestMapReportTranslation(unittest.TestCase):
 class TestCheckPlReport(unittest.TestCase):
     DOC = (
         "# Audyt\n\n"
-        "## Szczegółowe ustalenia techniczne\n\n"
+        "## Ustalenia techniczne\n\n"
         "| Ustalenie | Tytuł |\n|---|---|\n"
         "| [FND-001](#fnd-001-pierwsze-ustalenie) | Pierwsze ustalenie |\n\n"
         "### FND-001: Pierwsze ustalenie\n\n"
@@ -736,7 +738,7 @@ class TestCheckPlReport(unittest.TestCase):
         self.assertIn("nieistniejący", out)
 
     def test_resolved_anchor_passes(self):
-        doc = self.DOC + "\nOdnośnik do [ustaleń](#szczegółowe-ustalenia-techniczne).\n"
+        doc = self.DOC + "\nOdnośnik do [ustaleń](#ustalenia-techniczne).\n"
         rc, out = self.run_checker(doc)
         self.assertEqual(rc, 0, out)
 
@@ -1088,8 +1090,8 @@ class TestRegisterBlocks(unittest.TestCase):
             + "* **Status:** Open\n"
         ).split("\n")
         joined = "\n".join(self.validator.check_tdr_blocks(lines))
-        self.assertIn("missing Cost", joined)
-        self.assertIn("missing Delay", joined)
+        self.assertNotIn("missing Cost", joined)
+        self.assertNotIn("missing Delay", joined)
         self.assertIn("Category is not a CISQ characteristic", joined)
         self.assertIn("Source is not a finding or Direct observation", joined)
 
@@ -1176,11 +1178,11 @@ class TestRegisterBlocks(unittest.TestCase):
             "{triplets}"
             "## Auditing Methodology\n\n"
             "**Criteria table**\n\n"
-            "| Criterion | Family | Applicability | Criticality | Method | Sufficiency |\n"
+            "| Criteria | Family | Applicability | Criticality | Method | Sufficiency |\n"
             "|---|---|---|---|---|---|\n"
             "| TST-UNIT | test | applicable | high | inspect | files |\n"
             "| SEC-AUTHZ | sec | applicable | high | inspect | files |\n\n"
-            "## Detailed Technical Findings\n\n"
+            "## Technical Findings\n\n"
             "### FND-SEC-001: Finding\n"
         )
         missing = base.format(triplets="")

@@ -35,7 +35,7 @@ The following carry over unchanged from `process/report-format.md` and its spec 
   `report-closing.md`.
 
 Hunt adds three mandatory finding fields where the shared schema applies: `Breaking
-change` and `Runtime confirmed` on every finding, and `Defect scenario` on every
+change` on every finding, and `Runtime` only on execution-confirmed findings, and `Defect scenario` on every
 `HIGH` or `CRITICAL` finding, per `findings-registers.md`.
 
 Hunt scopes its evidence base to defect hunting: the structure assessment in

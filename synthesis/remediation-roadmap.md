@@ -1,4 +1,4 @@
-# Actionable Remediation Roadmap
+# Remediation Roadmap
 
 ## Purpose
 
@@ -60,7 +60,7 @@ Priority expresses urgency, not a delivery commitment, use only supplied or appr
 
 - Every `REC-XXX` entry must resolve a specific `FND-XXX`.
 - Do not introduce new findings in this section. Recommendations must trace back to gaps in the
-  Detailed Technical Findings.
+  Technical Findings.
 - Tie every recommendation to a finding from the assessment or risk register.
 - Keep options non-prescriptive. Present them as choices with consequences.
 - Do not rank or select a single option unless the user explicitly asks for a recommendation.
@@ -173,7 +173,7 @@ P2 recommendation present in the roadmap.
 
 Recommendations summarize and plan, they do not introduce new findings.
 
-Every recommendation must trace back to a finding in the Detailed Technical Findings or an entry in
+Every recommendation must trace back to a finding in the Technical Findings or an entry in
 the Unified Risk Register.
 
 Trade-off analyses appear both as a standalone Trade-off Analysis section (immediately after the

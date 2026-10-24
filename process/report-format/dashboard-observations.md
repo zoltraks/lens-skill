@@ -196,7 +196,7 @@ abbreviated if needed), then add an empty line, then the body.
 
 Each paragraph explains why the observation matters and what risk or opportunity it represents.
 
-Anchor every claim to a specific finding in the Detailed Technical Findings.
+Anchor every claim to a specific finding in the Technical Findings.
 
 Keep each observation brief.
 

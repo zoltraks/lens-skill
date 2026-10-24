@@ -137,7 +137,7 @@ FIELD_VALUE_LABELS_PL = (
     "Zmiana",
     "Charakter odstępstwa",
     "Zweryfikowane",
-    "Potwierdzone uruchomieniem",
+    "Uruchomienie",
     "Pewność oceny",
     "Klasa",
     "Wynik",

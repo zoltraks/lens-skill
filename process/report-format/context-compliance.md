@@ -118,7 +118,7 @@ or `UNKNOWN`) - a scanner's finding count is not a confirmed application-defect 
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
 
-## License Compliance Review
+## License Compliance
 
 Summarize the license-classification pass run over the SBOM table per
 `references/license-compliance.md`.

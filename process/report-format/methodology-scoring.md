@@ -96,7 +96,7 @@ Every standard named here appears in the References section with its canonical l
 For each quality attribute the audit scores, a short matrix binds the evaluation objective
 to its outcome, so the presence of a section or tool is never mistaken for the result:
 
-| Attribute   | Criterion                  | Method                        | Evidence | Outcome  |
+| Attribute   | Criteria                  | Method                        | Evidence | Outcome  |
 |-------------|----------------------------|-------------------------------|----------|----------|
 | <attribute> | <what makes it acceptable> | <inspection or check applied> | EVD-XXX  | <result> |
 
@@ -106,17 +106,20 @@ it traces the audit's own reasoning, it does not claim ISO conformity.
 **Criteria table**
 
 The frozen criterion set from `references/criterion-catalogue.md` renders as a table so every
-finding's `Criterion` field resolves to a declared row:
+finding's `Criteria` field resolves to a declared row:
 
-| Criterion      | Family   | Applicability                                    | Criticality   | Method              | Sufficiency        |
+| Criteria      | Family   | Applicability                                    | Criticality   | Method              | Sufficiency        |
 |----------------|----------|--------------------------------------------------|---------------|---------------------|--------------------|
-| <criterion id> | <family> | <applicable/conditional/not applicable - reason> | <criticality> | <collection method> | <sufficiency rule> |
+| <criterion id> | <family> | <scope qualifier, title-cased - drop the `applicable` keyword> | <Criticality> | <collection method> | <sufficiency rule> |
 
 Every `<criterion id>` uses a three-letter uppercase prefix (`TST-UNIT`, `MNT-COHES`,
 `DEP-BUILD`, `SCA-POOL`, `COM-DATA`, `DLY-HIST`, `SKL-PRES`) and omits a trailing `-01` number
 unless multiple distinct criteria share the same `<FAM>-<SUBJ>` stem.
 
-The table is the authoritative identifier source for the `Criterion` field on findings -
+Cell values are title-cased. The `Applicability` column names the scope directly -
+`Data adapters`, `Session feature` - without an `applicable` prefix.
+
+The table is the authoritative identifier source for the `Criteria` field on findings -
 the validator rejects a finding that names an undeclared criterion.
 
 Applicability decisions frozen at planning render their reasons inline, and any post-freeze
@@ -165,11 +168,11 @@ Group rows by module or directory so the table stays compact.
 It is a coverage disclosure,
 not a per-file list.
 
-**Verification And Evidence Ledger**
+**Evidence List**
 
 Include the per-project check summary and evidence records from `process/audit-workflow.md`.
 
-| Evidence | Check / Source      | Result   | Type          | Artifact      |
+| Evidence | Source      | Result   | Type          | Artifact      |
 |----------|---------------------|----------|---------------|---------------|
 | EVD-001  | <source or command> | <result> | <obs/concern> | <path or gap> |
 
@@ -238,7 +241,7 @@ Add a 4-row rubric defining each qualitative severity band.
 
 These definitions anchor the severity values used in findings and risks.
 
-| Severity | Meaning                  | Readiness Treatment       |
+| Severity | Meaning                  | Treatment       |
 |----------|--------------------------|---------------------------|
 | CRITICAL | Critical contextual risk | Gate resolution           |
 | HIGH     | Major contextual risk    | Gate resolution           |
@@ -257,7 +260,7 @@ Use `UNKNOWN` for an unsupported rating and list unrated risks separately from t
 When the report language is not English, apply the column header and severity description
 translations from the matching `translations/` file.
 
-Use these definitions consistently across the Detailed Technical Findings and the Unified Risk
+Use these definitions consistently across the Technical Findings and the Unified Risk
 Register.
 
 ## Scoring Rubrics
@@ -341,7 +344,7 @@ If an overall score is shown, disclose its formula, weights, rounding, and cover
 State the lowest-scoring applicable dimension and its score in a paragraph below the table, per
 `synthesis/project-scorecard.md`.
 
-Keep the overall out of the Scorecard Summary table itself - a numeric `Overall score` Score
+Keep the overall out of the Scorecard Summary table itself - a numeric `**Overall score**` Score
 cell enters the recomputed mean and fails validation.
 
 Place it in the Executive Summary

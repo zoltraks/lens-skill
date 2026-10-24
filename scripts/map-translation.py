@@ -70,7 +70,7 @@ KEEP_CAPS = {
 # `tak`/`nie` are ordinary prose words - only inside the boolean field
 # bullets may they become `yes`/`no`/`not applicable`.
 FIELD_YES_NO = re.compile(
-    r"^(\s*\*\s+\*\*(?:Verified|Runtime confirmed):\*\*\s*)"
+    r"^(\s*\*\s+\*\*(?:Verification|Runtime):\*\*\s*)"
     r"(nie dotyczy|tak|nie)\b",
     re.IGNORECASE,
 )

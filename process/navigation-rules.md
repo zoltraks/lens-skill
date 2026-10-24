@@ -83,7 +83,7 @@
 - Source-derived dependency inventories follow `references/dependency-manifests.md` (manifests
   and lockfiles read as text) and render per `references/sbom-schema.md` with underivable
   fields `Unknown`, never an executed or shipped-artifact SBOM.
-- The License Compliance Review follows `references/license-compliance.md` and
+- The License Compliance follows `references/license-compliance.md` and
   separates observed license facts from inferred concerns without legal conclusions.
 - The Delivery Practice & Team Continuity section follows `references/delivery-practice.md`:
   five DORA metrics with labeled source-derived proxies, telemetry-dependent metrics

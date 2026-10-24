@@ -115,12 +115,12 @@ List unrated risks beside the risk map instead of placing them in an invented ce
 
 ## Cross-Referencing Rules
 
-- Every `RSK-XXX` entry must reference its source `FND-XXX`, and its `Description` plus any
+- Every `RSK-XXX` entry must reference its source `FND-XXX`, and its description paragraph plus any
   `Scope` field must characterize the same problem that finding describes - identifier
   existence alone does not satisfy the reference, per
   `process/report-format/findings-registers.md`.
 - When multiple findings contribute to one risk, list the primary `FND-XXX`.
-- Do not create risks that do not trace to a finding in the Detailed Technical Findings.
+- Do not create risks that do not trace to a finding in the Technical Findings.
 - Do not output plaintext secrets, passwords, or cryptographic keys in the Risk column.
 
 ## Rules
@@ -144,5 +144,5 @@ List unrated risks beside the risk map instead of placing them in an invented ce
 | RSK-001 | Hardcoded JWT signing key in committed config | FND-SEC-001 | Authentication bypass or token forgery | High | CRITICAL | Move key to secrets manager and rotate |
 ```
 
-The example columns follow the table order: `Risk`, `Description`, `Source`, `Impact`,
-`Likelihood`, `Severity`, `Mitigation`.
+The example columns follow the table order: `Risk`, `Source`, `Impact`,
+`Likelihood`, `Severity`, `Closure`, `Source`, `Confidence`, `Mitigation`.

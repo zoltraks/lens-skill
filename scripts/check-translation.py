@@ -18,7 +18,12 @@ the Polish text itself:
 * Every `](#anchor)` target must resolve to a heading slug - renamed
   translated headings silently orphan links the mapped copy rewrites.
 * Every heading must come from a translation table row - a heading kept
-  verbatim in English (for example `## Threat Model`) fails.
+  verbatim in English (for example `## Threat Model`) fails - unless the
+  file is the translation sibling of a language pair and the heading
+  matches its English sibling verbatim: the pair-skeleton convention
+  keeps headings and field labels English so `](#anchor)` targets stay
+  stable. The sibling resolves from `--en`, or from a `<stem>-EN.md`
+  file beside a `<stem>-<LANG>` report.
 * `* **Label:**` field values start uppercase, and a governed vocabulary
   token inside a code span is translated like the unspanned form
   (`Teoretyczne`, never `Theoretical`).
@@ -63,25 +68,25 @@ BLOCK_LABELS = {
     "FND": {
         "Filar", "Ważność", "Tytuł", "Wynik", "Status", "Zmiana",
         "Weryfikacja", "Typ", "Bezpieczeństwo", "Obiekty", "Podstawa",
-        "Kryterium", "Charakter odstępstwa", "Opis", "Wpływ",
+        "Kryterium", "Charakter odstępstwa", "Wpływ",
         "Zalecenie", "Metoda", "Zweryfikowane",
-        "Potwierdzone uruchomieniem", "Łamanie kompatybilności",
+        "Uruchomienie", "Łamanie kompatybilności",
         "Dotyczy", "Pewność oceny", "Czynniki łagodzące",
         "Wykorzystanie podatności", "Dowód", "Podstawa pochodzenia",
     },
     "RSK": {
-        "Ryzyko", "Opis", "Źródło", "Wpływ", "Zakres",
+        "Ryzyko", "Źródło", "Wpływ", "Zakres",
         "Prawdopodobieństwo", "Ważność", "Środek ograniczający ryzyko",
         "Pewność oceny", "Wyzwalacz", "Mechanizmy kontrolne",
         "Ryzyko rezydualne", "Status", "Właściciel", "Zamknięcie",
     },
     "TDR": {
         "Dług", "Pozycja", "Kategoria", "Źródło", "Koszt", "Zwłoka",
-        "Status", "Opis",
+        "Status",
     },
     "REC": {
         "Identyfikator zalecenia", "Priorytet", "Ustalenie",
-        "Zalecenie", "Opis", "Wpływ", "Koszt", "Wysiłek", "Złożoność",
+        "Zalecenie", "Wpływ", "Koszt", "Wysiłek", "Złożoność",
         "Weryfikacja", "Łamanie", "Zależy od", "Właściciel",
         "Warunek końcowy", "Rozważane alternatywy",
         "Pewność oceny nakładu", "Ryzyko rezydualne",
@@ -239,7 +244,7 @@ def check_prose_counts(lines, masked):
     return failures
 
 
-def check_block_labels(lines):
+def check_block_labels(lines, extra_labels=None):
     """`* **Label:**` fields inside register detail blocks must belong
     to that register's contract label set. A label from another
     register's table - `Skutek` under `### FND-…`, `Wpływ` under
@@ -260,7 +265,9 @@ def check_block_labels(lines):
         field = BLOCK_FIELD.match(line)
         if field:
             label = field.group(1).strip()
-            if label not in BLOCK_LABELS[current]:
+            if label not in BLOCK_LABELS[current] and not (
+                extra_labels and label.casefold() in extra_labels
+            ):
                 failures.append(
                     (
                         index,
@@ -332,9 +339,11 @@ def load_english_keys(rules_paths):
     return keys
 
 
-def check_untranslated_headings(lines, masked, keys):
+def check_untranslated_headings(lines, masked, keys, en_headings=None):
     """A `##`/`###` heading kept verbatim in English breaks PAR-16 - the
-    Polish form is the rules-file mapping for that heading."""
+    Polish form is the rules-file mapping for that heading - unless the
+    pair-skeleton convention applies and the heading matches its English
+    sibling verbatim."""
     failures = []
     for index, line in enumerate(lines):
         if index in masked:
@@ -343,7 +352,7 @@ def check_untranslated_headings(lines, masked, keys):
         if not match:
             continue
         norm = normalize(match.group(1))
-        if norm in keys:
+        if norm in keys and not (en_headings and norm in en_headings):
             failures.append(
                 (
                     index,
@@ -477,10 +486,49 @@ def check_sentence_length(lines, masked, max_words):
     return warnings
 
 
+def english_sibling(path, explicit):
+    """Resolve the English sibling of a pair-skeleton translation file:
+    `--en` when given, else `<stem>-EN.md` beside a `<stem>-<LANG>` file."""
+    if explicit:
+        return explicit if explicit.exists() else None
+    match = re.match(r"^(.*)-[A-Z]{2}$", path.stem)
+    if not match:
+        return None
+    candidate = path.with_name(f"{match.group(1)}-EN{path.suffix}")
+    return candidate if candidate.exists() else None
+
+
+def sibling_surface(en_path):
+    """Normalized headings and `* **Label:**` field labels of the English
+    sibling. The pair-skeleton convention keeps both verbatim English in
+    the translation file, so a match is not a defect."""
+    en_lines = en_path.read_text(encoding="utf-8").split("\n")
+    en_mask = fenced_mask(en_lines)
+    headings, labels = set(), set()
+    for index, line in enumerate(en_lines):
+        if index in en_mask:
+            continue
+        heading = HEADING.match(line)
+        if heading:
+            headings.add(normalize(heading.group(1)))
+        label = BLOCK_FIELD.match(line)
+        if label:
+            labels.add(label.group(1).strip().casefold())
+    return headings, labels
+
+
 def main():
     reconfigure_stdio()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("file", type=Path)
+    parser.add_argument(
+        "--en",
+        type=Path,
+        default=None,
+        help="English sibling of a language pair - headings and field "
+        "labels matching it stay English per the pair-skeleton convention "
+        "(default: auto-detect a <stem>-EN file beside <stem>-<LANG>)",
+    )
     parser.add_argument(
         "--max-words",
         type=int,
@@ -508,12 +556,17 @@ def main():
             rules = [candidate]
     keys = load_english_keys(rules)
 
+    sibling = english_sibling(args.file, args.en)
+    en_headings, en_labels = (
+        sibling_surface(sibling) if sibling else (None, None)
+    )
+
     failures = (
         check_summary_titles(lines)
         + check_prose_counts(lines, masked)
-        + check_block_labels(lines)
+        + check_block_labels(lines, en_labels)
         + check_internal_anchors(lines, masked)
-        + check_untranslated_headings(lines, masked, keys)
+        + check_untranslated_headings(lines, masked, keys, en_headings)
         + check_field_values(lines, masked)
         + check_tdd_token(lines, masked)
     )

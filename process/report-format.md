@@ -109,7 +109,8 @@ In the paragraphs, explain every aspect with concrete evidence, file paths, and 
 Use short sentences separated by blank lines,
 each sentence stands on its own line with an empty line between consecutive sentences.
 
-Start each detailed paragraph with a bold heading on its own line.
+Start each detailed paragraph with a bold heading on its own line - no trailing period
+inside the bold markers.
 
 Put the status, score, or severity inline after the heading, separated by a space.
 
@@ -338,7 +339,7 @@ for example `[FND-SEC-001](#fnd-sec-001-hardcoded-jwt-signing-key)`.
 
 `EVD` and `PAR` identifiers are defined as table rows, not headings, so they link to the
 anchor of the section holding the register table, for example
-`[EVD-004](#verification-and-evidence-ledger)` or `[PAR-10](#validation-record)`.
+`[EVD-004](#evidence-list)` or `[PAR-10](#validation-record)`.
 
 The defining location itself stays unlinked: the `### <ID>:` heading and the register row
 whose first cell carries the identifier.
@@ -437,7 +438,7 @@ All twenty-two baseline sections are present in full, subject to explicit parame
 - Executive Summary
 - System Context (including the Technology Stack subsection)
 - Software Bill of Materials
-- License Compliance Review
+- License Compliance
 - Health Dashboard
 - Delivery Practice & Team Continuity
 - High-Level Observations
@@ -447,10 +448,10 @@ All twenty-two baseline sections are present in full, subject to explicit parame
 - Structure Review
 - Trade-off Analysis
 - Strengths & What's Working
-- Detailed Technical Findings (all findings with full Description, Impact, Recommendation, and
+- Technical Findings (all findings with full Description, Impact, Recommendation, and
   Method)
 - Unified Risk Register
-- Actionable Remediation Roadmap (full matrix with P1-P4, impact/effort/complexity, verification)
+- Remediation Roadmap (full matrix with P1-P4, impact/effort/complexity, verification)
 - Scope Exclusions
 - Limitations and Unknowns
 - Validation Record
@@ -593,7 +594,7 @@ For a **single-project** audit:
 - Changes Since Previous Audit *(conditional)*
 - System Context (contains the Technology Stack subsection)
 - Software Bill of Materials
-- License Compliance Review
+- License Compliance
 - Health Dashboard
 - Delivery Practice & Team Continuity
 - High-Level Observations
@@ -614,10 +615,10 @@ For a **single-project** audit:
 - Code Style *(conditional)*
 - API Compatibility & Versioning Discipline *(conditional)*
 - Strengths & What's Working
-- Detailed Technical Findings
+- Technical Findings
 - Technical Debt Register *(conditional)*
 - Unified Risk Register
-- Actionable Remediation Roadmap
+- Remediation Roadmap
 - Recommendation Classification *(conditional)*
 - Scope Exclusions
 - Limitations and Unknowns
@@ -643,7 +644,7 @@ In summary:
   - Executive Summary
   - System Context (with the Technology Stack subsection)
   - Software Bill of Materials
-  - License Compliance Review
+  - License Compliance
   - Health Dashboard
   - Delivery Practice & Team Continuity
   - High-Level Observations
@@ -663,10 +664,10 @@ In summary:
   - Code Style *(conditional)*
   - API Compatibility & Versioning Discipline *(conditional)*
   - Strengths & What's Working
-  - Detailed Technical Findings
+  - Technical Findings
   - Technical Debt Register *(conditional)*
   - Unified Risk Register
-  - Actionable Remediation Roadmap
+  - Remediation Roadmap
   - Recommendation Classification *(conditional)*
 - Trade-off Analysis (combined, cross-project trade-offs only)
 - Scope Exclusions (once, shared)
@@ -698,7 +699,7 @@ Each report section is specified in a file under `process/report-format/`.
 |                               | AI System, Standards, Engineering Baseline,              |
 |                               | Structure Conformance, API Compatibility & Versioning    |
 | `code-style.md`               | Code Style                                               |
-| `findings-registers.md`       | Strengths, Detailed Technical Findings, Technical Debt   |
+| `findings-registers.md`       | Strengths, Technical Findings, Technical Debt   |
 |                               | Register, Unified Risk Register, Remediation Roadmap,    |
 |                               | Recommendation Classification                            |
 | `report-closing.md`           | Scope Exclusions, Limitations and Unknowns, Re-audit And |
@@ -728,7 +729,7 @@ every item is mechanical and takes seconds to verify.
 | Dashes           | ASCII `-` only, no em dash or en dash                                                                                                        |
 | Arrows           | ASCII `->` in prose, no Unicode arrow                                                                                                        |
 | Prose width      | Lines broken near the selected width (default 100), exempt table rows, URLs, links, paths                                                    |
-| Finding blocks   | Every required field present, see the template in Detailed Technical Findings                                                                |
+| Finding blocks   | Every required field present, see the template in Technical Findings                                                                |
 | Coverage matrix  | Present after Document Information, consistent with Scope Exclusions                                                                         |
 | SBOM             | Every License cell populated or `Unknown`, direct components manifest-sourced                                                                |
 | Type tags        | `Observation` or `Concern` on every evidence-ledger row and every finding                                                                    |

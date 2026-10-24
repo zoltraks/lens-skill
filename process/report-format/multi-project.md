@@ -70,7 +70,7 @@ followed by the full set of report sections for that project:
 - Executive Summary
 - System Context (with the Technology Stack subsection)
 - Software Bill of Materials
-- License Compliance Review
+- License Compliance
 - Health Dashboard
 - Delivery Practice & Team Continuity
 - High-Level Observations
@@ -90,10 +90,10 @@ followed by the full set of report sections for that project:
 - Code Style *(conditional)*
 - API Compatibility & Versioning Discipline *(conditional)*
 - Strengths & What's Working
-- Detailed Technical Findings
+- Technical Findings
 - Technical Debt Register *(conditional)*
 - Unified Risk Register
-- Actionable Remediation Roadmap
+- Remediation Roadmap
 - Recommendation Classification *(conditional)*
 
 Use level-3 headings (`###`) for subsections within each project block.

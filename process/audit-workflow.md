@@ -20,11 +20,11 @@ defined in `process/report-format/hunt-style.md` and `process/report-format/revi
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 2064 | Intake Checklist guidance        |
-| Handling Thin Input     | 2089 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 2103 | Single-Dimension Audits guidance |
-| Re-Audit                | 2117 | Re-Audit guidance                |
-| Multi-Project Audits    | 2183 | Multi-Project Audits guidance    |
+| Intake Checklist        | 2085 | Intake Checklist guidance        |
+| Handling Thin Input     | 2110 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 2124 | Single-Dimension Audits guidance |
+| Re-Audit                | 2138 | Re-Audit guidance                |
+| Multi-Project Audits    | 2204 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -106,8 +106,9 @@ The same `pair` default applies when the report language is English but the disc
 previous report exists as a language pair - sibling files sharing the English stem and
 differing only by a language suffix, such as `AUDIT-1.4-EN.md` with `AUDIT-1.4-PL.md`.
 
-Preserve the convention: the new report ships its own `<stem>-EN` file plus the
-translation sibling in the previous pair's second language.
+Preserve the convention on every mode: the new report ships its own `<stem>-EN` file plus the
+translation sibling in the previous pair's second language, including when the new report
+switches the style family.
 
 An explicit single-language request overrides the convention in either direction.
 
@@ -137,7 +138,11 @@ confirmation prompt.
   independent projects and `unfetched` members are excluded with reason `not fetched`.
 - `parameters-acceptance` resolves to accept - recovered parameters on a re-audit, defaults
   otherwise - and `parameters-to-change` keeps every recovered value.
-- `report-delivery`, `report-style`, `review-scope`, `detail-level`, `evaluation-scale`, and
+- `report-style` resolves to a style named in the request, then the recovered previous style on
+  re-audit, then the `audit` default.
+- `language-output` resolves to the recovered pair when a previous report shipped one, then to
+  the `pair`/`single` default the rules below produce.
+- `report-delivery`, `review-scope`, `detail-level`, `evaluation-scale`, and
   `star-count` resolve to the defaults the rules below produce.
 - Thin-input clarifications are not asked - missing inputs record `UNKNOWN` or
   `NOT SPECIFIED` instead.
@@ -566,8 +571,20 @@ otherwise from the presence or absence of its Glossary section.
 Recover the language output from the sibling files themselves - `<stem>-<LANG>` files such as
 `AUDIT-1.4-EN.md` plus `AUDIT-1.4-PL.md` mean the previous run shipped a `pair`.
 
-Reuse them unless the user asks to change them, then proceed to Scope Definition without repeating
-answered questions.
+The recovered language output is proposed on every mode that exists alongside a discovered
+pair - re-audit, fresh audit, and style-family switch alike - and the pair survives the switch:
+a `HUNT` pair followed by an `audit`-style report ships `AUDIT-<revision>-EN.md` plus the same
+second language. Name the resolved set in the parameter summary, or in the decisions list on an
+automated run.
+
+A report style named in the request always wins over the recovered style - a request for a
+general audit report proposes `audit` even when the previous report was a `hunt` or `review`.
+The recovered style remains listed as a non-default alternative in the parameter summary, and a
+style switch starts the new family's revision track. An unnamed style falls back to the
+recovered value.
+
+Reuse the recovered parameters unless the user asks to change them, then proceed to Scope
+Definition without repeating answered questions.
 
 On `Re-audit with changed parameters`, the audit keeps comparison semantics - identifier continuity,
 the Changes Since Previous Audit section,
@@ -626,11 +643,11 @@ Default parameters:
 
 | Parameter               | Default                                                                                                                                                                                                                   |
 |-------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Report style            | `audit` - the governance contract, `hunt` the defect-hunt genre, `review` the execution-register genre                                                                                                                    |
+| Report style            | a style named in the request, then the recovered previous style on re-audit - `audit` governance contract, `hunt` defect-hunt genre, `review` execution-register genre; `audit` is the fallback default                    |
 | Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/`, else Inline                                                                                                                                   |
 | Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md` for a first hunt, `REVIEW.md` for a first review                                                                       |
 | Report language         | Match the language of the user's request                                                                                                                                                                                  |
-| Language output         | `pair` when the report language is not English, or when the previous report was a language pair, the English report plus its translation, `single` when the request scopes to one language and no pair convention applies |
+| Language output         | `pair` when the report language is not English, or when the previous report was a language pair, the English report plus its translation - the pair convention survives a report-style switch, `single` when the request scopes to one language and no pair convention applies |
 | Detail level            | Detailed                                                                                                                                                                                                                  |
 | Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                                                                                                                                     |
 | Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                                                                                                                                                   |
@@ -667,8 +684,9 @@ offered as the revisioned alternative.
 For `review` the stem is `REVIEW` - or the
 language-specific stem such as `PRZEGLĄD` - under the same bare-first default.
 
-When a previous report exists, the filename carries the new revision, for example `AUDIT-1.1.md`,
-per `synthesis/report-comparison.md`.
+When a previous report exists, the filename carries the new revision - the last decimal
+component increments and carries on nine: `1.0` becomes `1.1`, `1.9` becomes `2.0`, `9.9`
+becomes `10.0` - per `synthesis/report-comparison.md`.
 
 When the previous report is a bare `<stem>.md` file in the resolved output directory, it is
 renamed to `<stem>-<revision>.md` before the new report is written, per
@@ -1040,10 +1058,10 @@ Do not ask this as a routine prompt.
 
 Apply another option only when the user explicitly specifies it.
 
-- **Include with priorities** (default) - full Actionable Remediation Roadmap with P1-P4 priority
+- **Include with priorities** (default) - full Remediation Roadmap with P1-P4 priority
   tiers, impact/effort/complexity matrix, and verification steps.
 - **Brief only** - top 5 recommendations without the full matrix or verification steps.
-- **None** - omit the Actionable Remediation Roadmap. Include only findings and risks.
+- **None** - omit the Remediation Roadmap. Include only findings and risks.
 
 **Trade-off analysis**
 
@@ -1174,7 +1192,7 @@ Classify each file as production code, unit or integration test, test support, g
 vendored code, example, or script, and record excluded and unread files with reasons, per
 `references/evidence-schema.md`.
 
-**Criterion planning**
+**Criteria planning**
 
 Build the audit's criterion table from `references/criterion-catalogue.md` using the domain
 profile and audit purpose, recording each criterion's source, applicability, criticality,
@@ -1414,7 +1432,7 @@ runtime-verified behavior.
 Use globally unique evidence IDs within a report, with a project identifier on each row in a
 multi-project report.
 
-| Evidence | Check / Source      | Result        | Type          | Artifact |
+| Evidence | Source      | Result        | Type          | Artifact |
 |----------|---------------------|---------------|---------------|----------|
 | EVD-001  | <command or source> | <observation> | <obs/concern> | <path>   |
 
@@ -1546,7 +1564,7 @@ alongside the mean, so a weak pillar is not hidden inside an average.
 Record confidence, score caps, and readiness gates separately from the mean.
 
 Draft the High-Level Observations section by selecting the top 5 most important findings from the
-Detailed Technical Findings.
+Technical Findings.
 
 Keep each observation brief, full detail lives in the finding blocks.
 
@@ -1840,7 +1858,7 @@ it equals the reported mean after the documented rounding rule. `UNKNOWN` and `N
 stay out of the denominator.
 
 Confirm no summary table promotes a finding's verification status beyond what its block
-carries. A `Runtime confirmed: no` finding cannot appear as verified in any summary.
+carries. A finding without a `Runtime` field cannot appear as verified in any summary.
 
 Under `executed-readonly`, confirm the Executed Evidence Log lists every executed check with
 tool, version, exact command, and timestamp, and that the report claims no build, test, or
@@ -2229,7 +2247,7 @@ run a single Synthesis phase that combines all projects into one report:
 3. Each project gets its own complete set of sections: Executive Summary, System Context (with the
    Technology Stack subsection), Health Dashboard, High-Level Observations, Auditing Methodology,
    Scoring Rubrics, Architectural Assessment, Trade-off Analysis, conditional sections, Strengths,
-   Detailed Technical Findings, Unified Risk Register, Actionable Remediation Roadmap, and
+   Technical Findings, Unified Risk Register, Remediation Roadmap, and
    Recommendation Classification.
 4. Finding IDs, risk IDs, and recommendation IDs are scoped per project. Use the project
    identifier as a trailing parenthetical in the finding heading so the reader can navigate.

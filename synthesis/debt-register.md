@@ -35,7 +35,7 @@ Do not duplicate the risk register here.
 
 Use this fixed column order:
 
-| Debt | Item | Category | Source | Cost | Delay | Status |
+| Debt | Item | Category | Source |
 |------|------|----------|--------|------|-------|--------|
 
 When the report language is not English, apply the column header translations from the matching
@@ -52,8 +52,10 @@ Column meanings:
   When the producing finding is closed and carries no `###` block in the current revision,
   a resolved item marks the source `Direct observation` and cites the retired identifier
   inside a code span.
-- **Cost**: evidence-based person-hour/day range, or `INSUFFICIENT INFORMATION`.
-- **Delay**: quantified ongoing cost over a stated horizon, or `INSUFFICIENT INFORMATION`.
+- **Cost**: evidence-based person-hour/day range or a qualitative note - never
+  `INSUFFICIENT INFORMATION`; omit the field entirely when nothing is estimable.
+- **Delay**: quantified ongoing cost over a stated horizon or a qualitative note - never
+  `INSUFFICIENT INFORMATION`; omit the field entirely when nothing is estimable.
 - **Status**: `Open` by default.
 
 ## What Belongs Here

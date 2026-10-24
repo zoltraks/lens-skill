@@ -141,6 +141,11 @@ equal the real register counts, no `##`/`###` heading stays verbatim in English,
 field values start uppercase and never wrap a governed English token in a code span, `TDD`
 never appears, and prose sentences stay within `--max-words` (warn-level).
 
+On a language-pair file the pair-skeleton convention applies: headings and field labels
+matching the English sibling stay English verbatim - `check-translation.py` takes the sibling
+through `--en` or auto-detects `<stem>-EN.md` beside the report, and `lint-polish.py` exempts
+headings, field labels, and table label cells on a pair file.
+
 Spell checking stays external.
 
 The full translated-report gate set is `lint-polish.py`, `lint-prose.py`,
@@ -162,7 +167,7 @@ rows in Document Information, and its evidence-sections check requires `Operator
 Handoff` for source-only reports or `Executed Evidence Log` for executed-readonly reports.
 
 Its summary-verification check rejects a `Verified` or `Confirmed` cell in the findings summary
-when the finding block says `Verified: no` or lacks a positive `Runtime confirmed` value.
+when the finding block has no `Verification` field or lacks a `Runtime` field.
 
 Its fresh-audit check rejects comparative claims against a previous report whenever the report
 has no `Changes Since Previous Audit` section.

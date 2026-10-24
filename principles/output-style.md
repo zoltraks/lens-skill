@@ -68,6 +68,10 @@ Each sentence should stand on its own line, with an empty line between consecuti
 
 Anchor every claim to a concrete fact: a file path, a config key, a command, or a direct quote.
 
+Date and numeric ranges use words, never `..` - `between **2026-08-20** and **2026-10-24**`
+for a standalone range, `**2026-08-20** to **2026-10-24**` when the range modifies a noun,
+and the range dates render bold.
+
 Use headers for section titles rather than bold runs of text.
 
 Keep each finding self-contained so it can be read out of order.
@@ -353,13 +357,13 @@ table headers, style rules, and any language-specific encoding or diacritics req
   Technical Findings")
 - All table column headers (e.g., "Layer", "Technology", "Category", "Status", "Risks", "Notes",
   "Dimension", "Score")
-- All finding pillar names in the Detailed Technical Findings summary table (e.g., "Architecture &
+- All finding pillar names in the Technical Findings summary table (e.g., "Architecture &
   Design", "Structure & Organization", "Code Quality", "Security & Compliance", "Infrastructure &
   CI/CD", "AI Provenance & Code Origin", "Copyrights & Originality")
 - All dimension names in the Scorecard Summary (e.g., "Testability", "Design Soundness", "Code
   Quality")
 - All risk names in the Unified Risk Register
-- All recommendation summaries in the Actionable Remediation Roadmap
+- All recommendation summaries in the Remediation Roadmap
 - All descriptive paragraphs, evidence, reasoning, and justification text
 - "Summary description" and observation paragraph headings
 - All descriptive fixed values: maturity levels (`Prototype`, `Early development`,

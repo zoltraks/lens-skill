@@ -222,7 +222,7 @@ audits.
 ## Comparison Content
 
 Build the comparison from the previous report's Document Information, category assessments,
-Detailed Technical Findings, Unified Risk Register, and Scorecard Summary.
+Technical Findings, Unified Risk Register, and Scorecard Summary.
 
 Drive it from the prior-finding mapping table built during the Re-Audit phase of
 `process/audit-workflow.md` - every prior `FND-XXX` resolves to a disposition

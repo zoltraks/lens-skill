@@ -177,12 +177,12 @@
     {
       "id": 14,
       "prompt": "Audit this repository, which has dependency manifests and lockfiles but no committed SBOM, no license files in vendored code, and no ownership or contractor-assignment documents.",
-      "expected_output": "A report with a source-derived Software Bill of Materials section and a License Compliance Review that keep undeterminable fields explicitly unknown.",
+      "expected_output": "A report with a source-derived Software Bill of Materials section and a License Compliance that keep undeterminable fields explicitly unknown.",
       "files": [],
       "expectations": [
         "The Software Bill of Materials section states that no shipped-artifact SBOM was provided and presents the manifest-derived inventory as INSPECTED source evidence, not a generated or shipped SBOM.",
         "Every SBOM row carries component, version, license, risk, advisory, and source columns, with license cells reading Unknown rather than registry guesses.",
-        "The License Compliance Review separates observed license facts from inferred concerns and records missing ownership or assignment evidence as UNKNOWN.",
+        "The License Compliance separates observed license facts from inferred concerns and records missing ownership or assignment evidence as UNKNOWN.",
         "The absent shipped SBOM is reported as an inventory gap, not as a vulnerability or compliance violation.",
         "No license violation, copyright infringement, or legal obligation is claimed without specific evidence."
       ]
@@ -385,7 +385,7 @@
       "expected_output": "A report whose Recommendation Classification section follows the roadmap and dispositions every recommendation.",
       "files": [],
       "expectations": [
-        "A Recommendation Classification section appears after the Actionable Remediation Roadmap and before Scope Exclusions.",
+        "A Recommendation Classification section appears after the Remediation Roadmap and before Scope Exclusions.",
         "Every REC-XXX from the roadmap appears exactly once with a class of RECOMMENDED, OPTIONAL, or NOT RECOMMENDED and a short basis.",
         "A recommendation whose finding's intent or timing is undetermined is classified NOT RECOMMENDED, with a note on what evidence would reclassify it.",
         "P1-P4 priority is preserved separately from the class.",
@@ -398,12 +398,12 @@
       "expected_output": "A report whose finding and risk blocks and register tables use the renamed field schema.",
       "files": [],
       "expectations": [
-        "Finding blocks carry the contract fields in order: Pillar, Severity, Type, Security, Status, Targets, Basis, Absence, Description, Impact, Recommendation, Method, Verified, Confidence, Mitigating factors, Exploitability, Evidence, with Security, Absence, and Exploitability omitted whenever their value would be N/A.",
+        "Finding blocks carry the contract fields in order: Pillar, Severity, Type, Security, Targets, Basis, Absence, Impact, Method, Verified, Confidence, Mitigating factors, Exploitability, Evidence, with Security, Absence, and Exploitability omitted whenever their value would be N/A.",
         "No finding or risk detail line renders an N/A or NOT SPECIFIED value - the line is omitted instead.",
         "No legacy field names appear: Target Files/Modules, Requirement Basis, Verification State, Counter-check, Security Classification, Remediation Recommendation, Verification Method, Exploitability Narrative, or Remediation Status.",
         "The findings summary table uses Finding, Result, Status, and Verification columns, with Verification limited to VERIFIED, CONFIRMED, REPORTED, or empty.",
-        "Risk blocks use Severity, Likelihood, Residual, Status, Description, Impact, Trigger, Controls, Mitigation, Closure, Source, Confidence order, with Owner appearing between Status and Description only when a responsible role is established, and the risk table uses Source rather than Source Finding.",
-        "Debt and recommendation tables use the harmonized headers: Debt/Item/Source/Cost/Delay and Rec."
+        "Risk blocks use Severity, Likelihood, Residual, Impact, Trigger, Controls, Closure, Source, Confidence, Mitigation order, with Owner appearing between Status and Description only when a responsible role is established, and the risk table uses Source rather than Source Finding.",
+        "Debt tables use Debt/Item/Category/Source headers - Cost, Delay, and Status columns appear only when they carry at least one non-default value."
       ]
     },
     {
@@ -412,10 +412,10 @@
       "expected_output": "A report whose ledger, scorecard, threat model, and standards tables follow the trimmed column contract.",
       "files": [],
       "expectations": [
-        "The Verification And Evidence Ledger has no Execution column, and no Project column in a single-project report.",
+        "The Evidence List has no Execution column, and no Project column in a single-project report.",
         "A documented but unrun check records NOT RUN in the Result column.",
         "The Scorecard Summary omits rows whose score is N/A, and at Detailed names each excluded dimension with its reason in a paragraph below the table.",
-        "The Threat Model table uses STRIDE, Threat Description, Control, and Finding columns, and a threat with no linked finding leaves the Finding cell empty.",
+        "The Threat Model table uses STRIDE, Threat Description, Control, and Finding columns",
         "The Standards Conformance table uses the Area column header."
       ]
     },
@@ -704,7 +704,7 @@
     {
       "id": 58,
       "prompt": "Audit this repository. Every resolved component carries a permissive license and no copyleft, proprietary, or undetermined licenses exist.",
-      "expected_output": "A License Compliance Review table listing only license classes that have components.",
+      "expected_output": "A License Compliance table listing only license classes that have components.",
       "files": [],
       "expectations": [
         "License-class rows with a zero Components count are omitted from the classification table.",
@@ -800,9 +800,9 @@
         "Document Information records Report Style as audit and Evidence Mode as source-only.",
         "Document Information records a Subject Revision anchor naming the inspected commit or tree state.",
         "The report carries an Operator Verification Handoff section listing runtime checks for the operator.",
-        "Every finding block carries a Runtime confirmed field with a yes, no, or not applicable value.",
+        "Only findings confirmed by execution carry a Runtime field - unconfirmed findings omit it.",
         "The stated overall score equals the recomputed one-decimal mean of the displayed dimension scores.",
-        "Every Actionable Remediation Roadmap table carries a Breaking column when findings assess Breaking change."
+        "Every Remediation Roadmap table carries a Breaking column when findings assess Breaking change."
       ]
     },
     {
@@ -827,8 +827,8 @@
       "expectations": [
         "Document Information records Evidence Mode as executed-readonly.",
         "The report carries an Executed Evidence Log naming each command, version, scope, and exit status.",
-        "Runtime confirmed fields on findings can read yes only for behaviors the recorded execution actually exercised.",
-        "Findings not exercised by execution still carry Runtime confirmed: no rather than an unverified claim.",
+        "Runtime fields on findings appear only for behaviors the recorded execution actually exercised.",
+        "Findings not exercised by execution carry no Runtime field rather than an unverified claim.",
         "Scanner or test output is never presented as proof of exploitability or application behavior."
       ]
     },
@@ -1296,8 +1296,8 @@
       "files": [],
       "expectations": [
         "Auditing Methodology renders a criterion table with criterion ID, family, applicability, criticality, method, and sufficiency columns.",
-        "Every `### FND-` block carries a `Criterion` field naming a declared Criteria table row (three-letter prefix, no redundant `-01` suffix) and the violated or uncertain property.",
-        "A finding never renders `Criterion` as `N/A` or a placeholder - an undeclared criterion is added to the table first, never invented inline.",
+        "Every `### FND-` block carries a `Criteria` field naming a declared Criteria table row (three-letter prefix, no redundant `-01` suffix) and the violated or uncertain property.",
+        "A finding never renders `Criteria` as `N/A` or a placeholder - an undeclared criterion is added to the table first, never invented inline.",
         "Applicability decisions are frozen at planning and post-freeze changes carry a visible justification."
       ]
     },
@@ -1390,7 +1390,7 @@
       "expected_output": "A report whose register cross-references and score intervals survive the validator's semantic checks.",
       "files": [],
       "expectations": [
-        "Every ### REC- block carries Priority, Finding, Postcondition, Description, Impact, Effort, Complexity, and Verification fields.",
+        "Every ### REC- block carries Priority, Finding, Postcondition, Impact, Effort, Complexity, and Verification fields.",
         "A recommendation's Finding and a risk block's Source resolve to defined FND- identifiers.",
         "A rendered [lo-hi] interval contains its point score, stays within scale, and is omitted when degenerate.",
         "The report fails validation on a dangling Finding reference or a degenerate interval rather than shipping them."
@@ -1806,6 +1806,39 @@
         "The agent loaded process/operation-timing.md for the timing flag.",
         "The reply ends with a separate paragraph whose single sentence is the last sentence: '<description> operation took <m:ss>' - the description names the audit operation and the time uses minutes:seconds.",
         "No timing line appears on a bare activation or standby reply - the rule covers named operations only."
+      ]
+    },
+    {
+      "id": 153,
+      "prompt": "The repository's only previous report is HUNT-1.0-EN.md/HUNT-1.0-PL.md. Make a general audit report.",
+      "expected_output": "The named audit style wins over the recovered hunt style: an audit-style report is proposed, with the recovered hunt style listed as a non-default alternative.",
+      "files": [],
+      "expectations": [
+        "The proposed report style is audit, not hunt - the request-named style overrides the last-used style.",
+        "The recovered hunt style remains visible as a non-default alternative in the parameter summary.",
+        "The filename resolves on the AUDIT stem, not HUNT."
+      ]
+    },
+    {
+      "id": 154,
+      "prompt": "Re-audit this repository; the previous report is AUDIT-1.9.md.",
+      "expected_output": "The new revision rolls over at nine: the report is written as AUDIT-2.0.md with Report Revision 2.0.",
+      "files": [],
+      "expectations": [
+        "The revision increments the last decimal component and carries on nine: 1.9 becomes 2.0, not 1.10.",
+        "The same rule applies at higher bounds: 9.9 becomes 10.0.",
+        "The previous report file is never overwritten."
+      ]
+    },
+    {
+      "id": 155,
+      "prompt": "Fresh audit of this repository whose previous report shipped HUNT-1.0-EN.md and HUNT-1.0-PL.md.",
+      "expected_output": "The language output resolves to pair in the previous pair's second language - the new report ships its own EN file plus the PL sibling.",
+      "files": [],
+      "expectations": [
+        "The resolved language output is pair because the previous report was a pair.",
+        "The pair convention survives a style-family switch - an AUDIT-stem report still ships EN plus PL.",
+        "The resolved translation set is named in the parameter summary, or in the decisions list on an automated run."
       ]
     }
   ]

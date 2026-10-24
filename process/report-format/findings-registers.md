@@ -12,10 +12,10 @@
 | Section                        | Line | What it covers                       |
 |--------------------------------|------|--------------------------------------|
 | Strengths & What's Working     | 21   | Evidence-based positive baselines    |
-| Detailed Technical Findings    | 59   | Finding summary and detail blocks    |
+| Technical Findings    | 59   | Finding summary and detail blocks    |
 | Technical Debt Register        | 364  | Distinct accumulated debt            |
 | Unified Risk Register          | 412  | Cross-referenced risks               |
-| Actionable Remediation Roadmap | 508  | Prioritized recommendations          |
+| Remediation Roadmap | 508  | Prioritized recommendations          |
 | Recommendation Classification  | 592  | Recommended/Optional/Not recommended |
 
 ## Strengths & What's Working
@@ -56,7 +56,7 @@ Only list what is evidenced in the provided files.
 
 Use fewer than the suggested count when evidence is thin and state the limitation.
 
-## Detailed Technical Findings
+## Technical Findings
 
 Present all findings grouped under seven pillars,
 plus the conditional API Compatibility & Versioning Discipline pillar when the subject is a reusable
@@ -86,7 +86,7 @@ The `Title` column copies the finding's `### FND-...` heading verbatim - the sum
 rephrases a heading.
 
 A cell drawn from a fixed vocabulary renders the token in the form the report language
-defines: English cells render title case (`Open`, `New`, `Verified`), while the uppercase
+defines: English cells render title case (`Open`, `New`, `Verification`), while the uppercase
 forms in the vocabulary lists below are the canonical token names, not the rendered cells.
 
 Languages that decline tokens render the agreed form per the matching `translations/` file,
@@ -105,7 +105,7 @@ Column meanings:
   for a re-verified passing control.
 - **Change**: how the finding moved since the previous audit - English cells render `New`,
   `Unchanged`, `Reopened`, or `Closed` - first-audit findings always carry `New`.
-- **Verification**: the evidence qualifier - English cells render `Verified`, `Confirmed`,
+- **Verification**: the evidence qualifier - English cells render `Verification`, `Confirmed`,
   `Reported`, or empty for a finding whose `Change` is `New`.
 
 When the report language is not English, apply the column header translations from the matching
@@ -134,7 +134,7 @@ Status values: `OPEN`, `CLOSED`, `PASS` - rendered `Open`, `Closed`, `PASS` in E
 Change values: `NEW`, `UNCHANGED`, `REOPENED`, `CLOSED` - rendered `New`, `Unchanged`,
 `Reopened`, `Closed` in English cells.
 
-Verification values: `VERIFIED`, `CONFIRMED`, `REPORTED` - rendered `Verified`, `Confirmed`,
+Verification values: `VERIFIED`, `CONFIRMED`, `REPORTED` - rendered `Verification`, `Confirmed`,
 `Reported` in English cells.
 
 When the report language is not English, these tokens render in the localized forms defined by
@@ -153,30 +153,28 @@ Use this exact markdown block pattern:
 ```markdown
 ### FND-[PILLAR]-[NUMBER]: [Clear, Concise Title of Finding]
 
+[Description paragraph - detailed technical explanation of the discovered state,
+architectural anti-pattern, or code flaw]
+
 * **Pillar:** [Architecture & Design | Structure & Organization | Code Quality | Security &
   Compliance | Infrastructure & CI/CD | AI Provenance & Code Origin | Copyrights &
   Originality | API Compatibility & Versioning Discipline]
 * **Severity:** [Critical | High | Medium | Low]
 * **Type:** [Observation | Concern]
 * **Security:** [CWE and rationale, CVSS version/vector/score or gap] *(omit when N/A)*
-* **Status:** [Open | Closed | PASS]
-* **Change:** [New | Unchanged | Reopened | Closed]
 * **Targets:** [Exact paths or components evaluated]
 * **Basis:** [Applicable requirement or explicitly optional improvement]
-* **Criterion:** [Criterion ID from the report's criterion table] - [the violated or
+* **Criteria:** [Criteria ID from the report's criterion table] - [the violated or
   uncertain property the finding establishes]
 * **Absence:** [No documented rationale | Deliberate - recorded decision | Undetermined] -
   [one-line evidence basis] *(omit when no capability is absent)*
-* **Description:** [Detailed technical explanation of the discovered state, architectural
-  anti-pattern, or code flaw]
 * **Impact:** [Concrete operational, business, or security consequence if left unremediated]
-* **Recommendation:** [Step-by-step technical guidance to resolve the finding]
 * **Method:** [Specific test, command, or process to confirm the fix is successful]
 * **Defect scenario:** [Initial conditions; reproduction steps; expected result; observed
   result; confirmation level] *(required on HIGH/CRITICAL findings under `Report Style:
   hunt`, optional otherwise)*
-* **Verified:** [yes | no, with a short qualifier]
-* **Runtime confirmed:** [yes | no | not applicable, with a short qualifier]
+* **Verification:** [yes | no, with a short qualifier]
+* **Runtime:** [short qualifier, only when execution confirmed the behavior - omit otherwise]
 * **Evidence level:** [Source | Model | App | Deployed | Unknown] *(required under
   `Report Style: review`, optional otherwise)*
 * **Provenance basis:** [Declared | Attested | Supplied | Indicated | Undetermined] -
@@ -189,6 +187,7 @@ Use this exact markdown block pattern:
 * **Mitigating factors:** [Refuting evidence examined and remaining uncertainty]
 * **Exploitability:** [Tier + attack-path reasoning] *(omit when N/A)*
 * **Evidence:** [EVD IDs, `path:line` ranges, and inspected/reported/inferred/executed basis]
+* **Recommendation:** [Step-by-step technical guidance to resolve the finding]
 ```
 
 The validator parses only the literal `* **Field:**` form - an asterisk bullet, a bold field
@@ -199,9 +198,11 @@ Bold-only lines without the
 bullet, trailing punctuation inside the bold, or renamed fields are not seen as fields at all
 and fail as missing.
 
-The required fields, in template order: `Pillar`, `Severity`, `Type`, `Status`, `Change`,
-`Targets`, `Basis`, `Criterion`, `Description`, `Impact`, `Recommendation`, `Method`, `Verified`,
-`Runtime confirmed`, `Confidence`, `Mitigating factors`, `Evidence`.
+The required fields, in template order: `Pillar`, `Severity`, `Type`,
+`Targets`, `Basis`, `Criteria`, `Impact`, `Method`,
+`Confidence`, `Mitigating factors`, `Evidence`, `Recommendation` - `Status`, `Change`,
+`Verification`, and `Runtime` are conditional and appear only when they differ from their
+default or apply.
 
 Every finding identifier
 must match `FND-<pillar>-NNN` with a pillar abbreviation from the list above - a stem like
@@ -233,12 +234,12 @@ so a stricter Markdown linter reads it as list content rather than a list break.
 The same rule applies to every register block - `RSK`, `REC`, `TDR`, and any other `* **Field:**`
 run.
 
-Every finding must include a detailed Description, Impact, Recommendation,
+Every finding carries a description paragraph under its heading, plus Impact, Recommendation,
 and Method.
 
 A finding with only a title and status is incomplete.
 
-The Description must explain what the discovered state is,
+The description paragraph must explain what the discovered state is,
 where it is located (citing file paths and line numbers), and why it constitutes a finding.
 
 The Impact must state the concrete consequence.
@@ -247,20 +248,20 @@ The Recommendation must provide step-by-step technical guidance.
 
 The Method must specify a test or command to confirm the fix.
 
-The `Verified` field states whether the current audit verified the claim:
+The `Verification` field states whether the current audit verified the claim:
 `yes` for a re-derived or confirmed observation, `no` for pending verification,
 each with a short qualifier such as `yes - observed in source`.
 
-`Verified` covers source-level re-derivation only.
+`Verification` covers source-level re-derivation only.
 
-The `Runtime confirmed` field states whether the claimed behavior was confirmed by execution:
+The `Runtime` field appears only when the claimed behavior was confirmed by execution - unconfirmed findings omit the field:
 `yes` only under `executed-readonly` or documented runtime evidence, `no` for a static
 inference awaiting confirmation, `not applicable` when no runtime claim exists.
 
-Every runtime-claiming summary must match this field - a `Runtime confirmed: no` finding
+Every runtime-claiming summary must match this field - a finding without a `Runtime` field
 never appears as verified in a summary table.
 
-The `Criterion` field names the declared criterion the finding bears on, from the criterion
+The `Criteria` field names the declared criterion the finding bears on, from the criterion
 table in Auditing Methodology per `process/report-format/methodology-scoring.md`, followed by
 the violated or uncertain property the finding establishes.
 
@@ -332,7 +333,7 @@ attack-path reasoning per `references/exploitability-narrative.md`.
 
 On every other finding the field is omitted.
 
-When referencing secrets, credentials, or keys in the Description or Impact fields, replace exact
+When referencing secrets, credentials, or keys in the description paragraph or Impact field, replace exact
 values with `[REDACTED]` or generic descriptions such as "plaintext database credentials found in
 tracking file".
 
@@ -374,11 +375,15 @@ describes accumulated cost that is already present.
 Use the CISQ categories and SQALE-inspired cost guidance in `synthesis/debt-register.md`, claiming
 full method application only when its models were used.
 
-Use this fixed column order:
+Use this column order:
 
-| Debt    | Item        | Category         | Source   | Cost           | Delay         | Status |
-|---------|-------------|------------------|----------|----------------|---------------|--------|
-| TDR-001 | <debt item> | <characteristic> | <FND ID> | <range or gap> | <cost or gap> | OPEN   |
+| Debt    | Item        | Category         | Source   |
+|---------|-------------|------------------|----------|
+| TDR-001 | <debt item> | <characteristic> | <FND ID> |
+
+`Cost` and `Delay` columns appear only when at least one row carries an estimate - never a
+`INSUFFICIENT INFORMATION` cell (leave the cell empty instead), and a column whose rows are
+all empty is dropped entirely. `Status` appears only when at least one row differs from `Open`.
 
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
@@ -397,13 +402,10 @@ Use this exact markdown block pattern:
 ```markdown
 ### TDR-[NUMBER]: [Clear, Concise Title of Debt Item]
 
+[Description paragraph - what the debt is, where it is located, and why it is costly]
+
 * **Category:** [Reliability | Performance Efficiency | Security | Maintainability]
 * **Source:** [FND-XXX or Direct observation]
-* **Description:** [Detailed technical explanation of the debt, what it is, where it is located,
-  and why it constitutes debt]
-* **Cost:** [Supported effort range, unit, basis, confidence, or gap token]
-* **Delay:** [Supported ongoing cost, horizon, basis, confidence, or gap token]
-* **Status:** [Open | In progress | Resolved]
 ```
 
 When the report language is not English, apply the bullet label translations from the matching
@@ -481,22 +483,21 @@ Use this exact markdown block pattern:
 ```markdown
 ### RSK-[NUMBER]: [Clear, Concise Title of Risk]
 
+[Description paragraph - what could go wrong, and under what conditions]
+
 * **Severity:** [LOW | MEDIUM | HIGH | CRITICAL]
 * **Likelihood:** [How probable the risk is given the evidence, with justification]
 * **Residual:** [Remaining risk after the proposed mitigation, or `UNKNOWN`]
-* **Status:** [Open | Accepted | Transferred | Monitoring | Closed]
 * **Owner:** [Role] *(omit when unspecified)*
-* **Description:** [Detailed technical explanation of the risk, what could go wrong, and under
-  what conditions]
 * **Impact:** [Concrete consequence if the risk is realized]
 * **Scope:** [Components, users, or data the realization affects] *(omit when it is the whole
   subject)*
 * **Trigger:** [Threat, failure event, or predisposing condition]
 * **Controls:** [Present controls and verification state]
-* **Mitigation:** [Neutral, optional action that would reduce the risk]
 * **Closure:** [Evidence or event that starts re-verification]
 * **Source:** [FND-XXX]
 * **Confidence:** [HIGH | MEDIUM | LOW with rationale]
+* **Mitigation:** [Neutral, optional action that would reduce the risk]
 ```
 
 When the report language is not English, apply the bullet label translations from the matching
@@ -505,7 +506,7 @@ When the report language is not English, apply the bullet label translations fro
 Omit `Owner` when the input establishes no responsible role. The field never renders
 `NOT SPECIFIED` or an empty value.
 
-## Actionable Remediation Roadmap
+## Remediation Roadmap
 
 This section transforms recommendations into a prioritized, traceable remediation plan.
 
@@ -542,7 +543,7 @@ Column meanings:
 
 - Every `REC-XXX` entry must resolve a specific `FND-XXX`.
 - Do not introduce new findings in this section. Recommendations must trace back to gaps in the
-  Detailed Technical Findings.
+  Technical Findings.
 - Keep language neutral and free of blame.
 - Do not rank or select a single option unless the user explicitly asks for a recommendation.
 - When the user does ask for a single recommendation, state the chosen option, the reason anchored
@@ -557,11 +558,11 @@ Use this exact markdown block pattern:
 ```markdown
 ### REC-[NUMBER]: [Clear, Concise Title of Recommendation]
 
+[Description paragraph - what the action changes and how it resolves the finding]
+
 * **Priority:** [P1 | P2 | P3 | P4]
 * **Finding:** [FND-XXX]
 * **Postcondition:** [Verifiable end state the action must establish]
-* **Description:** [Detailed technical explanation of the recommended action, what it changes,
-  and how it resolves the finding]
 * **Impact:** [Business or technical impact of applying this fix]
 * **Effort:** [Estimated engineering effort with one-line justification]
 * **Complexity:** [Architectural or organizational complexity with one-line justification]
@@ -597,7 +598,7 @@ Remediation Roadmap is present.
 Omit it at `Brief`, or when improvement suggestions are disabled, and record the omission in
 Scope Exclusions.
 
-The section follows the Actionable Remediation Roadmap and precedes Scope Exclusions.
+The section follows the Remediation Roadmap and precedes Scope Exclusions.
 
 It assigns every recommendation a disposition class so the report can serve directly as a basis
 for change documents.
@@ -615,7 +616,7 @@ When the report language is not English, apply the column header translations fr
 
 Column meanings:
 
-- **Rec**: the `REC-[001]` identifier from the Actionable Remediation Roadmap.
+- **Rec**: the `REC-[001]` identifier from the Remediation Roadmap.
 - **Recommendation**: the recommendation summary from the roadmap row.
 - **Class**: one of `Recommended`, `Optional`, or `Not recommended` - the validator rejects
   every other casing, the uppercase forms elsewhere in this file name the canonical tokens.

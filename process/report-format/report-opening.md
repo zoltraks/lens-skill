@@ -179,7 +179,7 @@ do not apply to the subject.
 | Software Architecture Review          | <status> | <why this status holds for this audit> |
 | Code Quality Audit                    | <status> | <why this status holds for this audit> |
 | Security Vulnerability Assessment     | <status> | <why this status holds for this audit> |
-| Open Source License Compliance Review | <status> | <why this status holds for this audit> |
+| Open Source License Compliance | <status> | <why this status holds for this audit> |
 | Penetration Test                      | <status> | <why this status holds for this audit> |
 | Performance Audit                     | <status> | <why this status holds for this audit> |
 | Cloud Infrastructure Audit            | <status> | <why this status holds for this audit> |
@@ -261,11 +261,11 @@ report:
 
 | Triplet | Scope     | Description                                                    |
 |---------|-----------|----------------------------------------------------------------|
-| FND     | Findings  | Detailed Technical Findings identifier prefix (`FND-SEC-001`)  |
-| EVD     | Evidence  | Verification And Evidence Ledger identifier prefix (`EVD-001`) |
+| FND     | Findings  | Technical Findings identifier prefix (`FND-SEC-001`)  |
+| EVD     | Evidence  | Evidence List identifier prefix (`EVD-001`) |
 | TDR     | Debt      | Technical Debt Register identifier prefix (`TDR-001`)          |
 | RSK     | Risks     | Unified Risk Register identifier prefix (`RSK-001`)            |
-| REC     | Roadmap   | Actionable Remediation Roadmap identifier prefix (`REC-001`)   |
+| REC     | Roadmap   | Remediation Roadmap identifier prefix (`REC-001`)   |
 | PAR     | Checklist | Protocol Audit Requirement identifier prefix (`PAR-1`)         |
 | TST     | Criteria  | Testing, test isolation, pipeline coverage, suite execution    |
 | ARC     | Criteria  | Architecture & Design criteria and `FND-ARC-NNN` findings      |
@@ -381,7 +381,7 @@ State them here so the prose contract and the mechanical check agree.
   on the acronym, only the adjacent form `SBOM/Software` is exempt.
 - Machine-readable `* **Field:**` value positions are exempt from linking when the field
   carries a fixed-vocabulary token. The exempt labels are `Pillar`, `Severity`, `Type`,
-  `Security`, `Status`, `Change`, `Absence`, `Verified`, `Confidence`, `Class`, `Result`,
+  `Security`, `Status`, `Change`, `Absence`, `Verification`, `Confidence`, `Class`, `Result`,
   `Priority`, `Likelihood`, `Residual`, `Owner`, and `Exploitability`. The value of such a
   line stays literal even when the token is a glossary term, so `* **Priority:** P2` keeps a
   bare `P2` and `* **Absence:** N/A` keeps a bare `N/A`. A `* **Field:**` label not on this
@@ -400,7 +400,7 @@ State them here so the prose contract and the mechanical check agree.
 - Link text must be the term or a known variant exactly: `[EVD](#glossary)` passes,
   `[EVD-001](#glossary)` fails because `EVD-001` is not a term - a numbered register
   identifier links to its own definition instead, per Register Reference Links in
-  `process/report-format.md`, for example `[EVD-001](#verification-and-evidence-ledger)`.
+  `process/report-format.md`, for example `[EVD-001](#evidence-list)`.
 
 **Coverage**
 

@@ -61,14 +61,23 @@ Rationale and detail live in the section specs under `process/report-format/` an
 
 - The only parsed field syntax is `* **Field:** value` - an asterisk bullet, a bold field
   name, a colon outside the bold.
-- Finding blocks require, in order: `Pillar`, `Severity`, `Type`, `Status`, `Change`,
-  `Targets`, `Basis`, `Criterion`, `Description`, `Impact`, `Recommendation`, `Method`,
-  `Verified`, `Runtime confirmed`, `Confidence`, `Mitigating factors`, `Evidence`.
-- Risk blocks require: `Severity`, `Likelihood`, `Residual`, `Status`, `Description`,
-  `Impact`, `Trigger`, `Controls`, `Mitigation`, `Closure`, `Source`, `Confidence`.
-- Recommendation blocks require: `Priority`, `Finding`, `Postcondition`, `Description`,
+- Every register block (`FND`, `RSK`, `REC`, `TDR`) opens with a description paragraph
+  directly under its `### ` heading, before the field list - the paragraph may span multiple
+  sentences or paragraphs and carries no `Description` field label.
+- Finding blocks require, in order: `Pillar`, `Severity`, `Type`,
+  `Targets`, `Basis`, `Criteria`, `Impact`, `Method`,
+  `Confidence`, `Mitigating factors`, `Evidence`, `Recommendation`.
+- `Verification` appears only when the finding was verified - a title-cased evidence note,
+  never a `yes`/`no` prefix. `Runtime` appears only when execution confirmed the behavior.
+- `Status` appears only when it differs from `Open`, and `Change` only when it differs from
+  `New` - both are lifecycle defaults and carry no information at the default value.
+- Risk blocks require: `Severity`, `Likelihood`, `Residual`,
+  `Impact`, `Trigger`, `Controls`, `Closure`, `Source`, `Confidence`, `Mitigation`.
+- Recommendation blocks require: `Priority`, `Finding`, `Postcondition`,
   `Impact`, `Effort`, `Complexity`, `Verification`.
-- Debt blocks require: `Category`, `Source`, `Description`, `Cost`, `Delay`, `Status`.
+- Debt blocks require: `Category`, `Source` - `Cost` and `Delay` appear only when they
+  carry a real estimate or qualitative note, and never an `INSUFFICIENT INFORMATION` token;
+  a value with no estimable basis omits the field entirely.
 - A risk block's `Source` names a defined `FND-`, a recommendation block's `Finding` names a
   defined `FND-` and its `Depends on` names defined `REC-` identifiers or `none`, and a debt
   block's `Source` is a defined `FND-` or `Direct observation`.
@@ -77,13 +86,14 @@ Rationale and detail live in the section specs under `process/report-format/` an
   `In progress`, or `Resolved`.
 - Finding identifiers match `FND-<pillar>-NNN` with pillar `ARC`, `CQY`, `SEC`, `INF`,
   `AIP`, `CPR`, `API`, or `STR`.
-- `Type` is `Observation` or `Concern`. `Verified` starts with `yes` or `no`.
-  `Runtime confirmed` starts with `yes`, `no`, or `not applicable`. `Breaking change`
+- `Type` is `Observation` or `Concern`.
+  `Runtime` appears only when the reported behavior was confirmed by execution - never a `yes`/`no`/
+  `not applicable` prefix. `Breaking change`
   starts with `None`, `Internal`, or `Public API`. `Applicability` starts with
   `applicable`, `conditional`, `inapplicable`, or `unverified`.
 - `Provenance basis` starts with `Declared`, `Attested`, `Supplied`, `Indicated`, or
   `Undetermined` - required on `FND-AIP-` blocks, omitted on other pillars.
-- A `Criterion` value never renders `N/A` or a placeholder, and every cited criterion
+- A `Criteria` value never renders `N/A` or a placeholder, and every cited criterion
   resolves to a declared row of the report's `**Criteria table**` with a three-letter prefix
   and no redundant `-01` suffix - `audit`-style findings naming criteria without a declared
   table fail.
@@ -96,13 +106,13 @@ Rationale and detail live in the section specs under `process/report-format/` an
 English renders title case where the vocabulary lists give canonical uppercase names.
 
 - Finding `Status`: `Open`, `Closed`, `PASS`. Finding `Change`: `New`, `Unchanged`,
-  `Reopened`, `Closed`. Summary `Verification`: `Verified`, `Confirmed`, `Reported`, or
+  `Reopened`, `Closed`. Summary `Verification`: `Verification`, `Confirmed`, `Reported`, or
   empty for `New`.
 - Risk `Status`: `Open`, `Accepted`, `Transferred`, `Monitoring`, `Closed`.
 - Classification `Class`: `Recommended`, `Optional`, `Not recommended`.
 - `Absence`: `No documented rationale`, `Deliberate - recorded decision`, `Undetermined`.
-- A summary row's `Verified`/`Confirmed` claim must agree with the block's `Verified` and
-  `Runtime confirmed` fields.
+- A summary row's `Verification`/`Confirmed` claim must agree with the block's `Verification` and
+  `Runtime` fields.
 
 ## Scorecard And Overall Score
 
@@ -143,7 +153,7 @@ executed-log section when conditional.
   `not assessable` - a `failing` hop cites a defined `FND-`.
 - The producer/consumer `Representation match` column takes `conforming`,
   `partially conforming`, `failing`, or `not assessable`.
-- Domain Findings replaces Detailed Technical Findings for the summary-table and count
+- Domain Findings replaces Technical Findings for the summary-table and count
   checks - `###` domain headings sit inside the section and end only at the next `##`.
 - Every `### FND-` block maps to a remediation phase or an `Accepted - no action` row, and
   multi-project findings match by `<project>::FND-` qualification.

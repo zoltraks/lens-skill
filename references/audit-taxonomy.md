@@ -47,7 +47,7 @@ and the Rationale column always states why.
 | Software Architecture Review          | Architectural Assessment, Structure Review, Trade-off Analysis     | COVERED        |
 | Code Quality Audit                    | Code Quality pillar findings, Technical Debt Register              | COVERED        |
 | Security Vulnerability Assessment     | Security pillar findings, Threat Model, CWE mappings               | COVERED        |
-| Open Source License Compliance Review | License Compliance Review, SBOM license pass                       | COVERED        |
+| Open Source License Compliance | License Compliance, SBOM license pass                       | COVERED        |
 | Penetration Test                      | Nothing equivalent, Exploitability Narratives are theoretical only | NOT DONE       |
 | Performance Audit                     | NFR review of stated targets and design, no load measurement       | PARTIALLY      |
 | Cloud Infrastructure Audit            | Deployment and IaC inspection, no live environment state           | PARTIALLY      |
@@ -82,7 +82,7 @@ SAST-equivalent tier of a vulnerability assessment.
 No scanner executes, and CWE-to-analyzer mappings from `references/cwe-analyzer.md` name checks
 that would run, not checks that ran.
 
-**Open Source License Compliance Review.** License inspection over manifests, notices,
+**Open Source License Compliance.** License inspection over manifests, notices,
 and vendored code answers the core license-compliance question.
 
 Undeterminable dependency licenses are recorded as `Unknown` and assessed as a gap,

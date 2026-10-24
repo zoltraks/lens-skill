@@ -92,7 +92,7 @@ for example "This report covers the engineering audit types.
 No penetration test or compliance certification was performed".
 
 Flag a `HIGH` contributor-concentration rating from Delivery Practice & Team Continuity and any
-`Conflict` license risk from License Compliance Review here, one line each,
+`Conflict` license risk from License Compliance here, one line each,
 since both are material deal-level facts a summary reader should not have to dig for.
 
 Omit a flag line when it does not apply.

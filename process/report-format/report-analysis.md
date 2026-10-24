@@ -45,7 +45,7 @@ Column meanings:
   project's Architectural Assessment. A combined report-level Trade-off Analysis holds only
   cross-project trade-offs, per the Multi-Project Report Structure section.
 - When the trade-off analysis includes an explicit recommendation, that recommendation must also
-  appear as a `REC-XXX` entry in the Actionable Remediation Roadmap, traced to the relevant
+  appear as a `REC-XXX` entry in the Remediation Roadmap, traced to the relevant
   `FND-XXX`.
 
 ## Threat Model

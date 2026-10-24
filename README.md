@@ -52,11 +52,11 @@ only the section contract and the validation checks differ.
 
 The default output is an Audit report with twenty-two baseline sections: Document Information, the
 Audit Type Coverage table, Executive Summary, System Context (including the technology
-stack), a source-derived Software Bill of Materials, License Compliance Review, Health
+stack), a source-derived Software Bill of Materials, License Compliance, Health
 Dashboard, Delivery Practice & Team Continuity, High-Level Observations, Auditing Methodology,
 Scoring Rubrics, Architectural Assessment, Structure Review, Trade-off Analysis, Strengths &
-What's Working, Detailed Technical Findings with theoretical exploitability narratives on serious
-security findings, Unified Risk Register, Actionable Remediation Roadmap, Scope Exclusions,
+What's Working, Technical Findings with theoretical exploitability narratives on serious
+security findings, Unified Risk Register, Remediation Roadmap, Scope Exclusions,
 Limitations and Unknowns, Validation Record, and References.
 
 Conditional sections appear only when the subject warrants them: Data Flow Diagram, Design

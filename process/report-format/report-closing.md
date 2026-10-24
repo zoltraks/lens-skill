@@ -186,7 +186,7 @@ still never imply the subject was deployed, mutated, or connected to live system
 
 ## Re-audit And Follow-up Plan
 
-Include this section only when the Actionable Remediation Roadmap contains at least one P1 or P2
+Include this section only when the Remediation Roadmap contains at least one P1 or P2
 recommendation, per `synthesis/reaudit-plan.md`.
 
 It precedes the Validation Record and References sections.

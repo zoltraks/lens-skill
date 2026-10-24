@@ -47,7 +47,7 @@ BASELINE_SECTIONS = [
     "Executive Summary",
     "System Context",
     "Software Bill of Materials",
-    "License Compliance Review",
+    "License Compliance",
     "Health Dashboard",
     "Delivery Practice & Team Continuity",
     "High-Level Observations",
@@ -57,9 +57,9 @@ BASELINE_SECTIONS = [
     "Structure Review",
     "Trade-off Analysis",
     "Strengths & What's Working",
-    "Detailed Technical Findings",
+    "Technical Findings",
     "Unified Risk Register",
-    "Actionable Remediation Roadmap",
+    "Remediation Roadmap",
     "Scope Exclusions",
     "Limitations and Unknowns",
     "Validation Record",
@@ -379,6 +379,14 @@ def check_bold_markers(lines: list[str], fences: list[bool]) -> list[str]:
             failures.append(
                 f"line {index + 1}: unbalanced '**' marker: {line[:80]}"
             )
+        if re.match(r"^\*\*[^*]+\.\*\*\s*$", line):
+            failures.append(
+                f"line {index + 1}: bold pseudo-heading ends with a period: {line[:80]}"
+            )
+        if re.search(r"\d{4}-\d{2}-\d{2}\.\.\d{4}-\d{2}-\d{2}", line):
+            failures.append(
+                f"line {index + 1}: '..' range - use 'between X and Y' or 'X to Y': {line[:80]}"
+            )
     return failures
 
 
@@ -398,17 +406,12 @@ FINDING_REQUIRED = [
     "Pillar:",
     "Severity:",
     "Type:",
-    "Status:",
-    "Change:",
     "Targets:",
     "Basis:",
-    "Criterion:",
-    "Description:",
+    "Criteria:",
     "Impact:",
     "Recommendation:",
     "Method:",
-    "Verified:",
-    "Runtime confirmed:",
     "Confidence:",
     "Mitigating factors:",
     "Evidence:",
@@ -417,8 +420,6 @@ RISK_REQUIRED = [
     "Severity:",
     "Likelihood:",
     "Residual:",
-    "Status:",
-    "Description:",
     "Impact:",
     "Trigger:",
     "Controls:",
@@ -430,7 +431,7 @@ RISK_REQUIRED = [
 FINDING_STATUS = ("Open", "Closed", "PASS")
 CHANGE_VALUES = ("New", "Unchanged", "Reopened", "Closed")
 RISK_STATUS = ("Open", "Accepted", "Transferred", "Monitoring", "Closed")
-VERIFICATION_QUALIFIERS = ("Verified", "Confirmed", "Reported")
+VERIFICATION_QUALIFIERS = ("Verification", "Confirmed", "Reported")
 FINDING_PILLARS = ("ARC", "CQY", "SEC", "INF", "AIP", "CPR", "API", "STR")
 FINDING_ID = re.compile(r"FND-(?:ARC|CQY|SEC|INF|AIP|CPR|API|STR)-\d{3}")
 ABSENCE_VALUES = ("No documented rationale", "Deliberate - recorded decision",
@@ -441,6 +442,23 @@ EMPTY_FIELD_VALUE = re.compile(r"^(N/?A|N/D|NOT SPECIFIED|NIEOKREŚLON)\b", re.I
 def field_value(block: str, field: str) -> str:
     match = re.search(rf"\*\*{re.escape(field)}:\*\*\s*(.*)", block)
     return match.group(1).strip() if match else ""
+
+
+def check_description_paragraphs(lines: list[str]) -> list[str]:
+    failures: list[str] = []
+    for index, line in enumerate(lines):
+        if not re.match(r"^### (FND|RSK|REC|TDR)-", line):
+            continue
+        cursor = index + 1
+        body: list[str] = []
+        while cursor < len(lines) and not re.match(r"^\* \*\*", lines[cursor])                 and not lines[cursor].startswith("#"):
+            body.append(lines[cursor])
+            cursor += 1
+        if not any(segment.strip() for segment in body):
+            failures.append(
+                f"{line[4:][:70]}: missing description paragraph after heading"
+            )
+    return failures
 
 
 def check_finding_blocks(lines: list[str]) -> list[str]:
@@ -476,19 +494,19 @@ def check_finding_blocks(lines: list[str]) -> list[str]:
             value = field_value(block, field)
             if EMPTY_FIELD_VALUE.match(value):
                 failures.append(f"{name}: {field} renders {value.split(' ')[0]} - omit the line entirely")
-        criterion = field_value(block, "Criterion")
+        criterion = field_value(block, "Criteria")
         if EMPTY_FIELD_VALUE.match(criterion):
             failures.append(
-                f"{name}: Criterion renders {criterion.split(' ')[0]} - name a declared "
+                f"{name}: Criteria renders {criterion.split(' ')[0]} - name a declared "
                 "criteria-table row instead"
             )
-        verified = field_value(block, "Verified")
-        if verified and not re.match(r"^(yes|no)\b", verified, re.IGNORECASE):
-            failures.append(f"{name}: Verified does not start with yes or no")
-        runtime = field_value(block, "Runtime confirmed")
-        if runtime and not re.match(r"^(yes|no|not applicable)\b", runtime, re.IGNORECASE):
+        verified = field_value(block, "Verification")
+        if verified and re.match(r"^(yes|no)\b", verified, re.IGNORECASE):
+            failures.append(f"{name}: Verification value must not start with yes or no")
+        runtime = field_value(block, "Runtime")
+        if runtime and re.match(r"^(yes|no|not applicable)\b", runtime, re.IGNORECASE):
             failures.append(
-                f"{name}: Runtime confirmed does not start with yes, no, or not applicable"
+                f"{name}: Runtime value must not start with yes, no, or not applicable"
             )
         breaking = field_value(block, "Breaking change")
         if breaking and not re.match(r"^(None|Internal|Public API)\b", breaking):
@@ -512,7 +530,6 @@ def declared_criteria(lines: list[str]) -> tuple[list[str], list[str]]:
         if re.match(
             r"(?:\*\*Criterion table\*\*|#{2,3}\s+Criterion table\s*$)",
             line,
-            re.IGNORECASE,
         ):
             heading_issues.append(
                 f"line {index + 1}: use '**Criteria table**' instead of 'Criterion table'"
@@ -532,7 +549,7 @@ def declared_criteria(lines: list[str]) -> tuple[list[str], list[str]]:
         if j >= len(lines) or not lines[j].lstrip().startswith("|"):
             continue
         header = [cell.strip() for cell in lines[j].strip("|").split("|")]
-        if not header or header[0].lower() != "criterion":
+        if not header or header[0].lower() != "criteria":
             continue
         j += 1
         if j < len(lines) and set(lines[j].strip()) <= set("|-: "):
@@ -572,14 +589,14 @@ def check_criterion_references(lines: list[str], style: str) -> list[str]:
         end = starts[position + 1] if position + 1 < len(starts) else len(lines)
         block = NL.join(lines[start:end])
         name = lines[start][4:][:70]
-        value = field_value(block, "Criterion")
+        value = field_value(block, "Criteria")
         if not value or value.startswith("<"):
             continue
         used = True
         token = re.split(r"\s+-\s+", value, maxsplit=1)[0].strip()
         if declared and token not in declared:
             failures.append(
-                f"{name}: Criterion '{token}' is not a declared criteria-table row"
+                f"{name}: Criteria '{token}' is not a declared criteria-table row"
             )
     if used and not declared and style == "audit":
         failures.append(
@@ -625,7 +642,6 @@ REC_REQUIRED = [
     "Priority:",
     "Finding:",
     "Postcondition:",
-    "Description:",
     "Impact:",
     "Effort:",
     "Complexity:",
@@ -634,10 +650,6 @@ REC_REQUIRED = [
 TDR_REQUIRED = [
     "Category:",
     "Source:",
-    "Description:",
-    "Cost:",
-    "Delay:",
-    "Status:",
 ]
 TDR_CATEGORIES = ("Reliability", "Performance Efficiency", "Security", "Maintainability")
 TDR_STATUS = ("Open", "In progress", "Resolved")
@@ -769,7 +781,7 @@ def check_legacy_fields(lines: list[str], fences: list[bool]) -> list[str]:
 def findings_heading(text: str) -> str:
     if report_style(text) in ("hunt", "review"):
         return "Domain Findings"
-    return "Detailed Technical Findings"
+    return "Technical Findings"
 
 
 def check_finding_summary(text: str) -> list[str]:
@@ -819,7 +831,7 @@ def check_finding_summary(text: str) -> list[str]:
             if value and value.split(" ")[0] not in VERIFICATION_QUALIFIERS:
                 failures.append(
                     f"findings summary row has bad Verification '{value}' - "
-                    "expected Verified/Confirmed/Reported or empty"
+                    "expected Verification/Confirmed/Reported or empty"
                 )
     return failures
 
@@ -902,7 +914,7 @@ def check_scorecard_mean(text: str) -> list[str]:
     for line in text.split("\n"):
         if line.startswith("|"):
             cells = [cell.strip() for cell in raw_cells(line)]
-            if len(cells) >= 2 and cells[0] == "Overall score":
+            if len(cells) >= 2 and cells[0].strip("*") == "Overall score":
                 pairs = SCORE_PAIR.findall(cells[1])
                 if pairs:
                     num, denom = float(pairs[-1][0]), float(pairs[-1][1])
@@ -936,7 +948,7 @@ def check_scorecard_mean(text: str) -> list[str]:
 
 def check_ledger_columns(text: str) -> list[str]:
     failures: list[str] = []
-    ledger = section_block(text, r"Verification And Evidence Ledger")
+    ledger = section_block(text, r"Evidence List")
     if not ledger:
         return []
     header = None
@@ -1137,7 +1149,7 @@ FIELD_VALUE_LABELS = (
     "Status",
     "Change",
     "Absence",
-    "Verified",
+    "Verification",
     "Confidence",
     "Class",
     "Result",
@@ -2207,7 +2219,7 @@ def check_hunt_journeys(text: str) -> list[str]:
 DISPOSITION_SECTION = {
     "hunt": "Remediation Phases",
     "review": "Improvement Plan",
-    "audit": "Actionable Remediation Roadmap",
+    "audit": "Remediation Roadmap",
 }
 
 
@@ -2222,7 +2234,7 @@ def disposition_regions(text: str) -> list[tuple[str, str]]:
         for match in re.finditer(r"^##\s+(.+?)\s*$", text, re.MULTILINE)
     ]
     style = report_style(text)
-    names = [DISPOSITION_SECTION.get(style, "Actionable Remediation Roadmap")]
+    names = [DISPOSITION_SECTION.get(style, "Remediation Roadmap")]
     if style not in ("hunt", "review"):
         names.append("Recommendation Classification")
     regions: list[tuple[str, str]] = []
@@ -2627,11 +2639,11 @@ def check_summary_verified(text: str) -> list[str]:
                 continue
             detail = details[fid]
             claimed = cells[vidx] if len(cells) > vidx else ""
-            verified = field_value(detail, "Verified").lower()
-            runtime = field_value(detail, "Runtime confirmed").lower()
-            if claimed.startswith("Verified") and verified.startswith("no"):
-                failures.append(f"{fid}: summary says Verified but block says Verified: no")
-            if claimed.startswith("Confirmed") and not runtime.startswith("yes"):
+            verified = field_value(detail, "Verification").lower()
+            runtime = field_value(detail, "Runtime").lower()
+            if claimed.startswith("Verified") and not verified:
+                failures.append(f"{fid}: summary says Verified but block has no Verification field")
+            if claimed.startswith("Confirmed") and not runtime:
                 failures.append(f"{fid}: summary says Confirmed but block does not confirm it")
     return failures
 
@@ -2657,7 +2669,7 @@ def check_roadmap_breaking(text: str) -> list[str]:
     if "**Breaking change:**" not in text:
         return []
     failures: list[str] = []
-    for match in re.finditer(r"^#{2,3}\s+Actionable Remediation Roadmap\s*$", text, re.MULTILINE):
+    for match in re.finditer(r"^#{2,3}\s+Remediation Roadmap\s*$", text, re.MULTILINE):
         rest = text[match.end() :]
         end = re.search(r"^#{1,2}\s", rest, re.MULTILINE)
         block = rest[: end.start()] if end else rest
@@ -2758,7 +2770,7 @@ def report_contract() -> dict:
             "audit": {
                 "sections": BASELINE_SECTIONS + ["Recommendation Classification"],
                 "brief_sections": sorted(BRIEF_SECTIONS),
-                "findings_section": "Detailed Technical Findings",
+                "findings_section": "Technical Findings",
                 "recommendation_classification": "required at Standard/Detailed",
                 "finding_disposition": "every open ### FND- block is cited in the "
                 "roadmap/classification region or carries an explicit disposition",
@@ -3011,6 +3023,7 @@ def main(path: str, repo_root: str | None = None) -> int:
                     ("register reference links", check_reference_links(lines, fences, text)),
                     ("finding-block fields", check_finding_blocks(lines)),
                     ("criterion references", check_criterion_references(lines, style)),
+                    ("description paragraphs", check_description_paragraphs(lines)),
                     ("risk-block fields", check_risk_blocks(lines)),
                     ("recommendation blocks", check_rec_blocks(lines)),
                     ("debt blocks", check_tdr_blocks(lines)),

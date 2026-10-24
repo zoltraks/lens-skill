@@ -30,7 +30,7 @@ AUDIT_SECTIONS = [
     "Executive Summary",
     "System Context",
     "Software Bill of Materials",
-    "License Compliance Review",
+    "License Compliance",
     "Health Dashboard",
     "Delivery Practice & Team Continuity",
     "High-Level Observations",
@@ -82,48 +82,48 @@ COVERAGE_HEADER = "| Report type | Status | Rationale |\n|---|---|---|\n"
 
 FINDING_BLOCK = """### FND-SEC-001: <finding title>{suffix}
 
+<what the discovered state is, where, and why it is a finding>
+
 * **Pillar:** Security & Compliance
 * **Severity:** <CRITICAL | HIGH | MEDIUM | LOW>
 * **Type:** Concern
-* **Status:** Open
-* **Change:** New
 * **Targets:** {targets}
 * **Basis:** <requirement or source basis>
-* **Criterion:** <criterion ID - violated or uncertain property>
-* **Description:** <what the discovered state is, where, and why it is a finding>
+* **Criteria:** <criterion ID - violated or uncertain property>
 * **Impact:** <concrete consequence>
-* **Recommendation:** <step-by-step technical guidance>
 * **Method:** <test or command that confirms the fix>
-* **Verified:** yes - <basis> or no - <basis>
-* **Runtime confirmed:** no - <basis>
+* **Verification:** Observed in source - <basis>
+* **Runtime:** <confirmed behavior note>
 * **Confidence:** <High | Medium | Low>
 * **Mitigating factors:** <factors or omit line>
 * **Breaking change:** None
 * **Evidence:** <EVD IDs, `path:line` ranges, inspected basis>
+* **Recommendation:** <step-by-step technical guidance>
 """
 
 RISK_BLOCK = """### RSK-001: <risk title>{suffix}
 
+<what could go wrong>
+
 * **Severity:** <CRITICAL | HIGH | MEDIUM | LOW>
 * **Likelihood:** <High | Medium | Low>
 * **Residual:** <residual after mitigation>
-* **Status:** Open
-* **Description:** <what could go wrong>
 * **Impact:** <concrete consequence>
 * **Trigger:** <what sets it off>
 * **Controls:** <existing controls>
-* **Mitigation:** <treatment plan>
 * **Closure:** <closure condition>
 * **Source:** FND-SEC-001
 * **Confidence:** <High | Medium | Low>
+* **Mitigation:** <treatment plan>
 """
 
 REC_BLOCK = """### REC-001: <recommendation title>{suffix}
 
+<what the action changes and how it resolves the finding>
+
 * **Priority:** P1
 * **Finding:** {target}
 * **Postcondition:** <verifiable end state the action must establish>
-* **Description:** <what the action changes and how it resolves the finding>
 * **Impact:** <business or technical impact of applying this fix>
 * **Effort:** <Low | Medium | High>
 * **Complexity:** <Low | Medium | High>
@@ -181,11 +181,11 @@ def inventory(projects: list[str]) -> str:
 def ledger_table(multi: bool) -> str:
     if multi:
         return table(
-            "| Evidence | Project | Check / Source | Result | Type | Artifact |",
+            "| Evidence | Project | Source | Result | Type | Artifact |",
             "|---|---|---|---|---|---|",
         )
     return table(
-        "| Evidence | Check / Source | Result | Type | Artifact |",
+        "| Evidence | Source | Result | Type | Artifact |",
         "|---|---|---|---|---|",
     )
 
@@ -196,13 +196,13 @@ def finding_summary_table(projects: list[str]) -> str:
             "| Project | Finding | Pillar | Severity | Title | Result | Status | Change | Verification |",
             "|---|---|---|---|---|---|---|---|---|",
             [
-                f"| {projects[0]} | FND-SEC-001 | Security & Compliance | <severity> | <title> | <result> | Open | New | Verified |\n"
+                f"| {projects[0]} | FND-SEC-001 | Security & Compliance | <severity> | <title> | <result> | Open | New | Verification |\n"
             ],
         )
     return table(
         "| Finding | Pillar | Severity | Title | Result | Status | Change | Verification |",
         "|---|---|---|---|---|---|---|---|",
-        ["| FND-SEC-001 | Security & Compliance | <severity> | <title> | <result> | Open | New | Verified |\n"],
+        ["| FND-SEC-001 | Security & Compliance | <severity> | <title> | <result> | Open | New | Verification |\n"],
     )
 
 
@@ -298,12 +298,12 @@ def audit_project_body(project: str) -> list[str]:
             parts.append("Limitations: <areas that could not be evaluated>\n\n")
         elif section == "High-Level Observations":
             parts.append(table("| Observation |", "|---|", ["| <observation> |\n"]))
-    parts.append(heading(level, "Detailed Technical Findings"))
+    parts.append(heading(level, "Technical Findings"))
     parts.append(finding_summary_table([project] if project else []))
     parts.append(FINDING_BLOCK.format(suffix=suffix, targets=qualified(project)) + "\n")
     parts.append(heading(level, "Unified Risk Register"))
     parts.append(RISK_BLOCK.format(suffix=suffix) + "\n")
-    parts.append(heading(level, "Actionable Remediation Roadmap"))
+    parts.append(heading(level, "Remediation Roadmap"))
     parts.append(
         table(
             "| Rec | Priority | Finding | Recommendation | Impact | Effort | Complexity | Breaking | Verification |",
@@ -450,9 +450,9 @@ def hunt_skeleton(projects: list[str], params: dict) -> str:
 
 
 HUNT_FINDING_BLOCK = FINDING_BLOCK.replace(
-    "* **Runtime confirmed:**",
+    "* **Runtime:**",
     "* **Defect scenario:** <initial conditions, steps, expected result, observed result, "
-    "confirmation level - required on HIGH/CRITICAL>\n* **Runtime confirmed:**",
+    "confirmation level - required on HIGH/CRITICAL>\n* **Runtime:**",
 )
 
 REVIEW_FINDING_BLOCK = HUNT_FINDING_BLOCK.replace(
@@ -500,7 +500,7 @@ def review_skeleton(projects: list[str], params: dict) -> str:
         heading(2, "Check Plan And Methodology"),
         "Checks selected, the criterion each evaluates, the evidence level each reaches, "
         "and the commands the user commissioned:\n\n",
-        table("| Check | Criterion | Evidence level |", "|---|---|---|"),
+        table("| Check | Criteria | Evidence level |", "|---|---|---|"),
         "Read-depth table:\n\n",
         table("| Area | Files | Read depth |", "|---|---|---|"),
         "Evidence ledger:\n\n",
