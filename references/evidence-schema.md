@@ -174,6 +174,7 @@ Each claim class names the verification that is sufficient and the substitutes t
 | Authorization isolation        | Per-entry-point negative cases over permitted and denied resources               | Existence of one permission helper               |
 | Test adequacy                  | Exercised critical behaviors and failure paths, with results                     | Counted test functions                           |
 | Deployability                  | Recorded build or provisioning on the intended target                            | A Dockerfile or compose file being present       |
+| Feature shipped on a branch    | Marker greps and path reads at the target ref (`git grep`, `git show`, `git ls-tree`) | The change-record or spec document existing on that ref |
 
 Extend this table in the criterion catalogue when a subject needs a claim class it lacks.
 

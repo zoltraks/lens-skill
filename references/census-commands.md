@@ -44,6 +44,8 @@ different tree until proven otherwise.
 | Tag history          | `git tag` list                                                                     |
 | History span         | First and last commit dates                                                        |
 | Revert or fix pairs  | Commit subjects and file stats from `git log` and `git show`                       |
+| Branch topology      | `git merge-base a b`, `git rev-list --count a..b`, `git diff --name-status a b`   |
+| Ref-only tree census | `git ls-tree -r --name-only <ref>`, `git show <ref>:<path>` - no checkout needed |
 
 Author concentration uses the non-merge denominator.
 
