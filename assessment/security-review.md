@@ -90,6 +90,10 @@ Each fallback step is evidence.
 A chain terminating in a committed file or a default literal is
 the finding, and the finding cites the chain, not just the leak site.
 
+The secret-shape census that feeds this tracing covers the whole tracked tree per
+`references/census-commands.md` - a committed credential in a directory the project-inclusion
+gate excluded is still a finding.
+
 The user-code-by-design rubric, shared with `references/exploitability-narrative.md`, separates
 intentional execution of supplied code - plugin systems, template engines, scripting surfaces -
 from unintended execution.

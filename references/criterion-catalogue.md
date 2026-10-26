@@ -25,8 +25,8 @@ states each criterion resolves to.
 | Criterion Records      | 31   | The fields every criterion carries          |
 | Applicability Freeze   | 66   | Denominator locking and change rules        |
 | Criterion Families     | 81   | Minimum family set and per-family notes     |
-| Criticality And Weight | 131  | How criteria earn weight inside a dimension |
-| Crosswalk Integrity    | 142  | Mapping to external quality models honestly |
+| Criticality And Weight | 134  | How criteria earn weight inside a dimension |
+| Crosswalk Integrity    | 145  | Mapping to external quality models honestly |
 
 ## Criterion Records
 
@@ -110,6 +110,9 @@ Add or adapt families when the product profile justifies it, and record the adap
 | `SKL`  | Process/conformance: Agent Skill and agent-guidance artifacts                     |
 | `SAF`  | Conditional: hazards, fail-safe behavior where consequences warrant               |
 | `MDL`  | Conditional: model/retrieval quality where the product depends on it              |
+
+`FNC` criteria are planned and evidenced per `assessment/correctness-review.md`, which owns
+the defect-pattern and shipped-surface completeness censuses.
 
 Compatibility criteria cover every external contract the subject exposes - service protocols,
 CLI flags and exit behavior, configuration schemas, persisted data, and supported version

@@ -29,11 +29,11 @@
 | Report Format                      | 448  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 485  | Supported requests and exclusions                   |
 | What's Inside                      | 509  | Documents, references, tools, and conditional files |
-| Document Style                     | 671  | Pointer to the style rules file                     |
-| Specification                      | 681  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 702  | Maintenance checks and regression scenarios         |
-| License                            | 730  | License for the skill itself                        |
-| Credits                            | 736  | Authorship and attribution                          |
+| Document Style                     | 673  | Pointer to the style rules file                     |
+| Specification                      | 683  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 704  | Maintenance checks and regression scenarios         |
+| License                            | 732  | License for the skill itself                        |
+| Credits                            | 738  | Authorship and attribution                          |
 
 ## Overview
 
@@ -560,6 +560,7 @@ lens-skill/
 │   ├── testing-review.md                  # Test pyramid (unit/integration/e2e), TDD, coverage, testability
 │   ├── design-principles.md               # SOLID, cohesion and coupling, DRY, separation of concerns
 │   ├── code-quality.md                    # Static analysis, type safety, complexity, duplication, dead code
+│   ├── correctness-review.md              # Functional correctness: defect-pattern census, shipped-surface completeness
 │   ├── best-practices.md                  # Stack idioms, framework conventions, ecosystem layout, deprecated APIs
 │   ├── dependency-review.md               # Dependency freshness, vulnerabilities, licenses, lockfiles, SBOM
 │   ├── deployment-review.md               # Build pipeline, release process, frequency, absent-automation assessment

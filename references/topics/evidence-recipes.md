@@ -3,8 +3,9 @@
 ## Purpose
 
 > **Scope:** Session-proven mechanical evidence patterns that no external source owns
-> **Key items:** dispatch enumeration, stub detection, version coherence, artifact sweeps,
-> secret-chain tracing, spec-conformance diffs, NOT RUN ledger convention
+> **Key items:** dispatch enumeration, stub detection, shipped-surface completeness, version
+> coherence, artifact sweeps, secret-chain tracing, spec-conformance diffs, NOT RUN ledger
+> convention
 
 This file consolidates evidence-gathering recipes proven across the audit sessions recorded in
 `work/improvement/` into reusable checklists.
@@ -39,12 +40,29 @@ Recognize verification debt disguised as coverage.
   implemented")`/`todo!()`/`panic!("unimplemented")` are stub findings.
 - A test asserting the stub's own constant is a circularity finding, not a passing test.
 
+## Shipped-Surface Completeness Census
+
+Verify the public surface delivers what it advertises, not only that test doubles behave.
+
+- Count unimplemented-throw sites in shipped code - `NotImplementedException`,
+  `NotImplementedError`, `unimplemented!()`, `todo!()`, `panic!("unimplemented")` - against
+  the public-surface denominator per `references/census-commands.md`.
+- Enumerate empty public types: declarations that ship a name on the public surface with no
+  members.
+- Flag methods that return a constant success value without performing the advertised work:
+  a `Load` that always returns `true`, a `Parse` that always returns an empty result.
+- Each hit names the advertised capability it leaves undelivered - the finding cites the
+  declaration site and the documented contract, per `assessment/correctness-review.md`.
+
 ## Version Coherence Census
 
 Reconcile declared floors across every surface.
 
 - `package.json` `engines`, `pyproject.toml` `requires-python`, `go.mod` `go`, Dockerfile
   base images, CI matrix minimums, README claims - all must agree.
+- Version-bearing metadata must agree too: assembly and package version fields, manifest
+  version declarations, documentation and package-spec paths that name a version or file -
+  each surface's value is recorded and cross-checked.
 - The effective floor is the minimum that lets the code actually run. Record each surface's
   claimed floor and the intersecting minimum.
 - Syntax features used in code must be legal at that floor (see

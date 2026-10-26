@@ -26,12 +26,12 @@ here.
 | Evidence Kinds                   | 36   | What each kind can and cannot establish            |
 | Outcome States                   | 71   | Per-criterion result vocabulary                    |
 | Evidence Records                 | 96   | Required fields and redaction rules                |
-| Supplied And Historical Evidence | 136  | Reuse rules for prior artifacts                    |
-| Coverage And Collection          | 146  | Inventory, classification, and sampling discipline |
-| Claim Sufficiency                | 163  | What verification each claim type requires         |
-| Closure Rules                    | 180  | What may close a criterion and what may not        |
-| Advisory States                  | 195  | Dependency-advisory vocabulary                     |
-| Coverage Labels                  | 216  | Criterion-coverage label vocabulary                |
+| Supplied And Historical Evidence | 138  | Reuse rules for prior artifacts                    |
+| Coverage And Collection          | 148  | Inventory, classification, and sampling discipline |
+| Claim Sufficiency                | 165  | What verification each claim type requires         |
+| Closure Rules                    | 183  | What may close a criterion and what may not        |
+| Advisory States                  | 198  | Dependency-advisory vocabulary                     |
+| Coverage Labels                  | 219  | Criterion-coverage label vocabulary                |
 
 ## Evidence Kinds
 
@@ -110,8 +110,10 @@ fields:
 | `tool`        | Tool and version where applicable, `null` for manual inspection       |
 | `locator`     | For `INSPECTED`: path, symbol, and line range plus a content digest   |
 | `procedure`   | For `EXECUTED`/`MEASURED`: command or procedure, working directory,   |
-|               | environment profile, features/target, exit status, artifact digest    |
-| `result`      | What was observed                                                     |
+|               | environment profile, features/target, exit status, artifact digest,   |
+|               | isolation root, and audit-created harness disclosure                  |
+| `result`      | What was observed - for a failed `EXECUTED` result, the triage class  |
+|               | (`subject`, `harness`, `environment`, `inconclusive`) and its basis   |
 | `claims`      | Claim or criterion IDs the record supports                            |
 | `limits`      | What the record cannot establish                                      |
 | `sampling`    | Sampling depth and selection rule, `full` for complete review         |
@@ -164,16 +166,16 @@ never a silent hole in coverage figures.
 
 Each claim class names the verification that is sufficient and the substitutes that are not.
 
-| Claim or risk                  | Sufficient verification                                                          | Insufficient substitute                          |
-|--------------------------------|----------------------------------------------------------------------------------|--------------------------------------------------|
-| No secret in process arguments | All supported invocation paths avoid secret-bearing argv, inspected or executed  | A warning while the secret path remains accepted |
-| Automated merge verification   | Configured enforcement plus a recorded run on the applicable branch and targets  | One local test run                               |
-| License-policy conformance     | Complete applicable inventory plus scan or manual obligation review              | Policy file presence                             |
-| Native dependency provisioning | Recorded acquisition, version, integrity, and successful provisioning or build   | A dependency-policy check passing                |
-| Concurrency or latency target  | Defined workload, environment, warmup, duration, error budget, percentile target | A mechanism description with no defined load     |
-| Authorization isolation        | Per-entry-point negative cases over permitted and denied resources               | Existence of one permission helper               |
-| Test adequacy                  | Exercised critical behaviors and failure paths, with results                     | Counted test functions                           |
-| Deployability                  | Recorded build or provisioning on the intended target                            | A Dockerfile or compose file being present       |
+| Claim or risk                  | Sufficient verification                                                               | Insufficient substitute                                 |
+|--------------------------------|---------------------------------------------------------------------------------------|---------------------------------------------------------|
+| No secret in process arguments | All supported invocation paths avoid secret-bearing argv, inspected or executed       | A warning while the secret path remains accepted        |
+| Automated merge verification   | Configured enforcement plus a recorded run on the applicable branch and targets       | One local test run                                      |
+| License-policy conformance     | Complete applicable inventory plus scan or manual obligation review                   | Policy file presence                                    |
+| Native dependency provisioning | Recorded acquisition, version, integrity, and successful provisioning or build        | A dependency-policy check passing                       |
+| Concurrency or latency target  | Defined workload, environment, warmup, duration, error budget, percentile target      | A mechanism description with no defined load            |
+| Authorization isolation        | Per-entry-point negative cases over permitted and denied resources                    | Existence of one permission helper                      |
+| Test adequacy                  | Exercised critical behaviors and failure paths, with results                          | Counted test functions                                  |
+| Deployability                  | Recorded build or provisioning on the intended target                                 | A Dockerfile or compose file being present              |
 | Feature shipped on a branch    | Marker greps and path reads at the target ref (`git grep`, `git show`, `git ls-tree`) | The change-record or spec document existing on that ref |
 
 Extend this table in the criterion catalogue when a subject needs a claim class it lacks.

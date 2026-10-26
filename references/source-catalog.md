@@ -26,8 +26,8 @@ identifiers and names), `alternate` (fallback address for the row above).
 |------------------------------------|------|--------------------------------------------------|
 | Sources                            | 32   | Source registry grouped by consuming corpus file |
 | Session-Derived Files              | 559  | Corpus files built from session knowledge        |
-| Unresolved And Alternate Addresses | 573  | Fetch failures and working alternates            |
-| Maintenance                        | 593  | Row-addition and canonicalization rules          |
+| Unresolved And Alternate Addresses | 574  | Fetch failures and working alternates            |
+| Maintenance                        | 594  | Row-addition and canonicalization rules          |
 
 ## Sources
 
@@ -563,6 +563,7 @@ These corpus files consolidate session knowledge rather than fetched sources.
 | File                                            | Basis                                                                       | Status    |
 |-------------------------------------------------|-----------------------------------------------------------------------------|-----------|
 | `references/topics/evidence-recipes.md`         | Audit-session mechanical evidence patterns                                  | distilled |
+| `references/topics/execution-isolation.md`      | Audit-session commissioned-execution procedure                              | distilled |
 | `references/topics/deployment-ssh.md`           | Audit-session SSH/SCP deployment knowledge                                  | distilled |
 | `references/topics/license-evidence.md`         | Per-ecosystem license evidence locations                                    | distilled |
 | `references/topics/standards-anatomy.md`        | Maintainer-supplied engineering-standard corpora anatomy                    | distilled |

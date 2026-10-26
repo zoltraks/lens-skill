@@ -20,7 +20,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.4.8"
+  version: "2.4.9"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -37,19 +37,19 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 |-------------------------|------|----------------------------------------------------|
 | Skill Update Check      | 64   | Once-per-session git freshness gate before use     |
 | Trigger Keywords        | 84   | Activation phrases                                 |
-| How To Use              | 113  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 135  | Defaults and user-controlled report shape          |
-| Principles              | 142  | Evaluation and output rules                        |
-| Process                 | 148  | Workflow, format, and parity                       |
-| Assessments             | 179  | Core and conditional assessment guides             |
-| Synthesis               | 185  | Findings, risk, score, and remediation assembly    |
-| Translations            | 197  | Per-language report translations                   |
-| References              | 206  | Lookup tables                                      |
-| Scripts                 | 230  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 252  | Behavioral regression prompts                      |
-| Repository Files        | 256  | Housekeeping files governing this repository       |
-| Evidence Contract       | 268  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 297  | File-selection and section-placement rules         |
+| How To Use              | 115  | Progressive disclosure and mandatory reading       |
+| Parameter Configuration | 137  | Defaults and user-controlled report shape          |
+| Principles              | 144  | Evaluation and output rules                        |
+| Process                 | 150  | Workflow, format, and parity                       |
+| Assessments             | 182  | Core and conditional assessment guides             |
+| Synthesis               | 188  | Findings, risk, score, and remediation assembly    |
+| Translations            | 200  | Per-language report translations                   |
+| References              | 209  | Lookup tables                                      |
+| Scripts                 | 233  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 255  | Behavioral regression prompts                      |
+| Repository Files        | 259  | Housekeeping files governing this repository       |
+| Evidence Contract       | 271  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 301  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -273,7 +273,8 @@ These files govern the skill repository itself rather than audit production:
 Use the verification plan and evidence ledger in `process/audit-workflow.md` for every audit
 and every review - the audit never builds, tests, or executes the project, while under the
 `executed-readonly` evidence mode it may additionally run commissioned non-mutating analyzers,
-and under `executed-commands` commissioned non-mutating commands, recorded in the
+and under `executed-commands` commissioned non-mutating commands run per
+`references/topics/execution-isolation.md` and are recorded in the
 Executed Evidence Log.
 
 All evidence comes from inspected repository contents: source, configuration, build scripts,

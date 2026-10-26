@@ -20,11 +20,11 @@ defined in `process/report-format/hunt-style.md` and `process/report-format/revi
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 2085 | Intake Checklist guidance        |
-| Handling Thin Input     | 2110 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 2124 | Single-Dimension Audits guidance |
-| Re-Audit                | 2138 | Re-Audit guidance                |
-| Multi-Project Audits    | 2204 | Multi-Project Audits guidance    |
+| Intake Checklist        | 2114 | Intake Checklist guidance        |
+| Handling Thin Input     | 2139 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 2153 | Single-Dimension Audits guidance |
+| Re-Audit                | 2167 | Re-Audit guidance                |
+| Multi-Project Audits    | 2233 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -1001,7 +1001,8 @@ the mode.
   unless the user commissioned it, and every executed command lands in the Executed
   Evidence Log - or the Execution Register under `Report Style: review` - with tool,
   version, exact command, timestamp, exit status, and result per
-  `process/report-format/report-closing.md`.
+  `process/report-format/report-closing.md`. Commissioned commands run per the
+  procedure in `references/topics/execution-isolation.md`.
 
 Under JSON exchange this is the `evidence-mode` `choice` parameter.
 
@@ -1156,6 +1157,10 @@ non-mutating commands the user named - tests, builds, lint, typecheck, coverage,
 reproduction harnesses - while the subject is still never deployed, mutated, or connected
 to live systems.
 
+Commissioned commands follow `references/topics/execution-isolation.md`: the environment
+census, isolation recipe, bounded inputs, proxy labeling, harness disclosure,
+failure-output mining, and result triage apply to every executed record.
+
 The project itself is still never run outside the commissioned set, no tool is installed or
 upgraded for the audit unless commissioned, and every executed command lands in the Executed
 Evidence Log - or the Execution Register under `Report Style: review` - per
@@ -1260,6 +1265,14 @@ image versions, documented prerequisites - against the language features, APIs, 
 minimum requirements the code uses.
 
 Record the comparison as evidence even when everything is compatible.
+
+**Correctness defect census**
+
+On a code-bearing subject, run the defect-pattern and shipped-surface completeness censuses
+from `assessment/correctness-review.md` against the in-scope source.
+
+Candidates are confirmed by reading before they become findings, and the census patterns and
+denominators are recorded beside the figures.
 
 **Lifecycle and defaults sweep**
 
@@ -1384,6 +1397,10 @@ Select the checks that would verify material claims from the project's documente
 the relevant assessment guides: build and test commands, lint and formatting rules, dependency
 advisory scans, and license or SBOM checks.
 
+Under `executed-readonly` or `executed-commands` the environment census from
+`references/topics/execution-isolation.md` runs first and bounds which checks the matrix can
+select, and every executed `FAIL` or `ERROR` result carries a triage class in the model.
+
 Under `source-only` the audit never executes them.
 
 The matrix becomes the Operator
@@ -1490,6 +1507,9 @@ For each category, open the matching `assessment/` file and apply its checklist.
 For a full audit, this includes the two additional categories `assessment/generated-code.md` and
 `assessment/copyright-review.md`, plus `assessment/structure-review.md` for the `audit` and
 `review` report styles - the structure assessment never loads under `hunt`.
+
+On a code-bearing subject `assessment/correctness-review.md` also loads for every style - its
+census results feed the `FNC` criteria and the findings register.
 
 On a code-bearing subject the same styles also load `assessment/code-style.md`, which runs
 after `assessment/standards-conformance.md` has surfaced the project's declared conventions
@@ -1987,6 +2007,10 @@ this rule - omit the row instead of inventing a duration.
 - Require applicable readiness evidence and confirmed verification ownership before sign-off.
 - Report unknown cost inputs, unmeasured SLOs, and missing business artifacts prominently.
 - Preserve evidence limitations even in Brief reports.
+- Diff the final `git status --porcelain` output against the intake snapshot - any delta beyond
+  audit-created artifacts is reported, never silently left.
+- Sweep the finished report for every sensitive literal gathered during evidence collection -
+  secrets, internal hostnames, addresses, and personal data appear only as redacted tokens.
 
 **Regression Scenarios For Skill Changes**
 
@@ -2081,6 +2105,11 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Automation census is `none`                   | Reduced deployment depth, Deployability bounded                 |
 | Automation evidenced outside the tree         | Pointer is `Reported` evidence, no absence finding              |
 | Member-internal directory structure           | Assessed inside the member's own project block                  |
+| Credentials committed in an excluded project   | Tree-wide secret scan still surfaces the hit                   |
+| Executed check fails on missing toolchain     | Triaged `environment limitation`, Limitations row, no finding  |
+| Executed run needed a compatibility shim      | Harness disclosed, results labeled shim-assisted               |
+| Proxy compile against an available profile    | Labeled proxy evidence, never claims legacy-target verification |
+| Defect-census pattern match                   | Candidate confirmed by reading before it becomes a finding     |
 
 ## Intake Checklist
 

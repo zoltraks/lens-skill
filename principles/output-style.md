@@ -20,13 +20,13 @@ Two audits of similar systems should produce reports of similar shape, vocabular
 |--------------------------------|------|----------------------------------|
 | Tone And Register              | 31   | Neutral, precise report voice    |
 | Structure Preferences          | 45   | Tables over paragraphs, ordering |
-| Fixed Vocabularies             | 77   | Status and severity word lists   |
-| Consistency Rules              | 152  | Same input, same output shape    |
-| Plain-Text Friendly Formatting | 168  | Terminal and diff readability    |
-| Multilingual Output            | 278  | Non-English report rendering     |
-| Information Security In Output | 415  | Redaction and disclosure limits  |
-| Report Termination             | 430  | End-of-report rules              |
-| Determinism                    | 439  | Repeatability guarantees         |
+| Fixed Vocabularies             | 81   | Status and severity word lists   |
+| Consistency Rules              | 156  | Same input, same output shape    |
+| Plain-Text Friendly Formatting | 172  | Terminal and diff readability    |
+| Multilingual Output            | 282  | Non-English report rendering     |
+| Information Security In Output | 419  | Redaction and disclosure limits  |
+| Report Termination             | 434  | End-of-report rules              |
+| Determinism                    | 443  | Repeatability guarantees         |
 
 ## Tone And Register
 

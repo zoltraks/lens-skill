@@ -21,17 +21,17 @@ If a finding cannot satisfy these rules, mark it as unknown rather than guessing
 |-------------------------------------|------|---------------------------------------|
 | Evidence-Based Reasoning            | 36   | Traceability and missing-info tokens  |
 | Evidence Strength And Claim Control | 53   | Evidence bases, types, confidence     |
-| No Assumptions                      | 236  | The no-assumption rule                |
-| No Personal Judgement               | 250  | Neutrality toward people              |
-| Architectural Neutrality            | 264  | Judging within stated constraints     |
-| Status Markers                      | 277  | PASS, PARTIAL, FAIL, UNKNOWN, N/A     |
-| Contextual Applicability            | 296  | N/A usage for inapplicable categories |
-| Absent Capability Assessment        | 325  | Intentional-versus-oversight tokens   |
-| Evidence Citation                   | 365  | Anchoring claims to sources           |
-| Confidence And Scope Limits         | 376  | Confidence and scope boundaries       |
-| Information Security And Redaction  | 387  | Secret handling rules                 |
-| Indexing And Traceability           | 403  | ID schemes and ordering               |
-| Critical Constraints                | 474  | Non-negotiable hard limits            |
+| No Assumptions                      | 241  | The no-assumption rule                |
+| No Personal Judgement               | 255  | Neutrality toward people              |
+| Architectural Neutrality            | 269  | Judging within stated constraints     |
+| Status Markers                      | 282  | PASS, PARTIAL, FAIL, UNKNOWN, N/A     |
+| Contextual Applicability            | 301  | N/A usage for inapplicable categories |
+| Absent Capability Assessment        | 330  | Intentional-versus-oversight tokens   |
+| Evidence Citation                   | 370  | Anchoring claims to sources           |
+| Confidence And Scope Limits         | 381  | Confidence and scope boundaries       |
+| Information Security And Redaction  | 392  | Secret handling rules                 |
+| Indexing And Traceability           | 417  | ID schemes and ordering               |
+| Critical Constraints                | 489  | Non-negotiable hard limits            |
 
 ## Evidence-Based Reasoning
 
@@ -213,6 +213,11 @@ Classify every claim before reporting it:
 - **Configuration risk** - a defect materializes only under a named configuration or topology.
 - **Plausible hypothesis** - the mechanism suggests a problem that evidence does not yet decide.
 - **Evidence gap** - the property is unknown, reported as such rather than filled in.
+
+A `Plausible hypothesis` never counts in verified-finding totals, severity counts, or scores.
+
+It is tracked through the Operator Verification Handoff or re-audit plan until evidence
+promotes or closes it.
 - **Optional improvement** - a beneficial change that is not a defect at all.
 
 A mechanism observation is not a target violation: a serialized lock establishes contention
@@ -389,9 +394,14 @@ and not on verified behavior.
 Never output explicit plaintext secrets, actual database passwords, or cryptographic keys extracted
 from the source files within high-level summaries, observations, or the risk register.
 
+The rule extends to infrastructure identifiers and personal data: internal hostnames, IP
+addresses, connection strings, usernames, and personal email addresses are cited by location
+and exposure type, never by value.
+
 Replace exact credentials with masked placeholders or generic technical descriptions.
 
-Use `[REDACTED]` for specific values.
+Use `[REDACTED]` for specific values, and `[REDACTED_<class>]` tokens such as
+`[REDACTED_HOST]` or `[REDACTED_IP]` when several redacted values must stay distinguishable.
 
 Use phrases such as "plaintext database credentials found in tracking file" instead of quoting the
 credential string.
@@ -399,6 +409,10 @@ credential string.
 File paths and config keys may be cited as evidence.
 
 The redaction rule applies only to the secret value itself, not to the location where it was found.
+
+Before delivery, sweep the finished report for every sensitive literal gathered during
+evidence collection - a value that reached a finding must not survive in excerpts, tables, or
+appendix text.
 
 ## Indexing And Traceability
 
@@ -462,6 +476,7 @@ before defaulting to judgment.
 | Structural debt, duplication, orphaned code       | Architecture & Design                 |
 | Directory, file, code-division, or naming defects | Structure & Organization              |
 | Error-handling or status-code defects             | Code Quality                          |
+| Logic or functional defects confirmed by census   | Code Quality                          |
 
 The pillar records where the fix lives, not where the symptom was noticed.
 

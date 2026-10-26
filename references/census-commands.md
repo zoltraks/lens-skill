@@ -44,8 +44,8 @@ different tree until proven otherwise.
 | Tag history          | `git tag` list                                                                     |
 | History span         | First and last commit dates                                                        |
 | Revert or fix pairs  | Commit subjects and file stats from `git log` and `git show`                       |
-| Branch topology      | `git merge-base a b`, `git rev-list --count a..b`, `git diff --name-status a b`   |
-| Ref-only tree census | `git ls-tree -r --name-only <ref>`, `git show <ref>:<path>` - no checkout needed |
+| Branch topology      | `git merge-base a b`, `git rev-list --count a..b`, `git diff --name-status a b`    |
+| Ref-only tree census | `git ls-tree -r --name-only <ref>`, `git show <ref>:<path>` - no checkout needed   |
 
 Author concentration uses the non-merge denominator.
 
@@ -138,22 +138,27 @@ These read-only probes answer recurring audit questions.
 
 Each is a search pattern or file enumeration, never an executed build or test.
 
-| Probe                  | Method                                                                                                                                                   | What it bounds                                                                         |
-|------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
-| Import census          | Enumerate `import`/`require`/`use`/`using`/`#include` statements per file, dedupe to the external-module set                                             | Which declared dependencies are actually used, and which imports lack a manifest entry |
-| Engines drift          | Compare `engines`, `requires-*`, `go`, or `<TargetFramework>` floors against syntax features used                                                        | Whether code can run at the declared floor                                             |
-| Secret-shape scan      | Search credential-shaped patterns (`AKIA`, `BEGIN.*PRIVATE KEY`, `password\s*=`, `api[_-]?key\s*[:=]`). Count and locate matches, never reproduce values | Candidate secret locations for tracing                                                 |
-| Missing-file checklist | Enumerate expected files per stack (`LICENSE`, `README`, lockfile, CI config, `.gitignore`) against `git ls-files`                                       | Absent baseline artifacts                                                              |
-| Lockfile census        | Count resolved entries per lockfile (`package-lock.json` `packages` keys, `Cargo.lock` `[[package]]`, `go.sum` module lines)                             | Component totals, direct/transitive split                                              |
-| Compose-env parity     | Diff `environment`/`env_file` keys in `compose.*` against env vars read by the code                                                                      | Undeclared or dead configuration                                                       |
-| Dockerfile surface     | Enumerate `FROM`, `USER`, `EXPOSE`, `HEALTHCHECK`, `ADD`/`COPY` sources, and `ENV`/`ARG` literals                                                        | Image provenance, privilege, exposed surface                                           |
-| Annotation floor       | Count framework attributes/decorators (`@Controller`, `[Route]`, `@app.route`) vs handler declarations                                                   | Whether declared surface matches registered surface                                    |
-| Workflow pin census    | List every `uses:` ref in workflow files and its pin form (SHA, tag, branch)                                                                             | Mutable third-party action references                                                  |
-| Registration diff      | Diff shipped files on disk against files registered in `SKILL.md`, manifests, or index files                                                             | Unregistered or dangling resources                                                     |
-| Derived-literal census | Search literals that duplicate declared configuration (URLs, timeouts, limits hardcoded where a config key exists)                                       | Configuration drift candidates                                                         |
-| Attribution census     | `git log --no-merges --format="%an <%ae>%n%b"` scanned for the signatures in `references/methodology/ai-provenance.md`                                   | Per-tool attributed-commit count and share of the non-merge total                      |
+| Probe                  | Method                                                                                                                                                                                    | What it bounds                                                                         |
+|------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
+| Import census          | Enumerate `import`/`require`/`use`/`using`/`#include` statements per file, dedupe to the external-module set                                                                              | Which declared dependencies are actually used, and which imports lack a manifest entry |
+| Engines drift          | Compare `engines`, `requires-*`, `go`, or `<TargetFramework>` floors against syntax features used                                                                                         | Whether code can run at the declared floor                                             |
+| Secret-shape scan      | Search credential-shaped patterns (`AKIA`, `BEGIN.*PRIVATE KEY`, `password\s*=`, `api[_-]?key\s*[:=]`) across every `git ls-files` path. Count and locate matches, never reproduce values | Candidate secret locations for tracing                                                 |
+| Unimplemented-surface  | Declaration-shaped patterns for unimplemented throws (`NotImplementedException`, `NotImplementedError`, `unimplemented!()`, `todo!()`) and empty public type declarations                 | Completeness of the shipped public surface                                             |
+| Missing-file checklist | Enumerate expected files per stack (`LICENSE`, `README`, lockfile, CI config, `.gitignore`) against `git ls-files`                                                                        | Absent baseline artifacts                                                              |
+| Lockfile census        | Count resolved entries per lockfile (`package-lock.json` `packages` keys, `Cargo.lock` `[[package]]`, `go.sum` module lines)                                                              | Component totals, direct/transitive split                                              |
+| Compose-env parity     | Diff `environment`/`env_file` keys in `compose.*` against env vars read by the code                                                                                                       | Undeclared or dead configuration                                                       |
+| Dockerfile surface     | Enumerate `FROM`, `USER`, `EXPOSE`, `HEALTHCHECK`, `ADD`/`COPY` sources, and `ENV`/`ARG` literals                                                                                         | Image provenance, privilege, exposed surface                                           |
+| Annotation floor       | Count framework attributes/decorators (`@Controller`, `[Route]`, `@app.route`) vs handler declarations                                                                                    | Whether declared surface matches registered surface                                    |
+| Workflow pin census    | List every `uses:` ref in workflow files and its pin form (SHA, tag, branch)                                                                                                              | Mutable third-party action references                                                  |
+| Registration diff      | Diff shipped files on disk against files registered in `SKILL.md`, manifests, or index files                                                                                              | Unregistered or dangling resources                                                     |
+| Derived-literal census | Search literals that duplicate declared configuration (URLs, timeouts, limits hardcoded where a config key exists)                                                                        | Configuration drift candidates                                                         |
+| Attribution census     | `git log --no-merges --format="%an <%ae>%n%b"` scanned for the signatures in `references/methodology/ai-provenance.md`                                                                    | Per-tool attributed-commit count and share of the non-merge total                      |
 
 Count what the probe counts and record the pattern beside the figure.
+
+The secret-shape scan sweeps the whole tracked tree regardless of which projects the
+inclusion gate selected - exposure in an excluded example, test, or docs directory is still a
+finding in the audited tree.
 
 A probe result is a candidate set - each candidate is confirmed by reading the file before it
 becomes a finding.

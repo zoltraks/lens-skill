@@ -60,26 +60,26 @@ This file is loaded only when the report language is Polish.
 | References                                  | 1523 | References guidance                         |
 | Strengths And What's Working                | 1534 | Strengths And What's Working guidance       |
 | Technical Findings                 | 1540 | Technical Findings guidance        |
-| Technical Debt Register                     | 1607 | Technical Debt Register guidance            |
-| Unified Risk Register                       | 1619 | Unified Risk Register guidance              |
-| Trade-off Analysis                          | 1640 | Trade-off Analysis guidance                 |
-| Remediation Roadmap              | 1652 | Remediation Roadmap guidance     |
-| Recommendation Classification               | 1675 | Recommendation Classification guidance      |
-| Changes Since Previous Audit                | 1690 | Changes Since Previous Audit guidance       |
-| Scope Exclusions                            | 1724 | Scope Exclusions guidance                   |
-| Limitations And Unknowns                    | 1732 | Limitations And Unknowns guidance           |
-| Re-audit And Follow-up Plan                 | 1749 | Re-audit And Follow-up Plan guidance        |
-| Operator Verification Handoff               | 1760 | Operator Verification Handoff guidance      |
-| Executed Evidence Log                       | 1773 | Executed Evidence Log guidance              |
-| Hunt Style Sections                         | 1786 | Hunt Style Sections guidance                |
-| Review Style Sections                       | 1815 | Review Style Sections guidance              |
-| Validation Record                           | 1855 | Validation Record guidance                  |
-| Threat Model                                | 1911 | Threat Model guidance                       |
-| API Contract Conformance                    | 1927 | API Contract Conformance guidance           |
-| API Compatibility And Versioning Discipline | 1936 | API Compatibility And Versioning guidance   |
-| Evidence And Decision Terms                 | 1945 | Evidence And Decision Terms guidance        |
-| Skill Definition Conformance Table          | 2006 | Skill Definition Conformance Table guidance |
-| Structure Review                            | 2021 | Structure Review guidance                   |
+| Technical Debt Register                     | 1608 | Technical Debt Register guidance            |
+| Unified Risk Register                       | 1620 | Unified Risk Register guidance              |
+| Trade-off Analysis                          | 1641 | Trade-off Analysis guidance                 |
+| Remediation Roadmap              | 1653 | Remediation Roadmap guidance     |
+| Recommendation Classification               | 1676 | Recommendation Classification guidance      |
+| Changes Since Previous Audit                | 1691 | Changes Since Previous Audit guidance       |
+| Scope Exclusions                            | 1725 | Scope Exclusions guidance                   |
+| Limitations And Unknowns                    | 1733 | Limitations And Unknowns guidance           |
+| Re-audit And Follow-up Plan                 | 1750 | Re-audit And Follow-up Plan guidance        |
+| Operator Verification Handoff               | 1761 | Operator Verification Handoff guidance      |
+| Executed Evidence Log                       | 1774 | Executed Evidence Log guidance              |
+| Hunt Style Sections                         | 1787 | Hunt Style Sections guidance                |
+| Review Style Sections                       | 1816 | Review Style Sections guidance              |
+| Validation Record                           | 1856 | Validation Record guidance                  |
+| Threat Model                                | 1912 | Threat Model guidance                       |
+| API Contract Conformance                    | 1928 | API Contract Conformance guidance           |
+| API Compatibility And Versioning Discipline | 1937 | API Compatibility And Versioning guidance   |
+| Evidence And Decision Terms                 | 1946 | Evidence And Decision Terms guidance        |
+| Skill Definition Conformance Table          | 2007 | Skill Definition Conformance Table guidance |
+| Structure Review                            | 2022 | Structure Review guidance                   |
 
 ## Analysis And Rendering
 

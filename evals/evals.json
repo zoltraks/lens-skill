@@ -1872,6 +1872,51 @@
         "The audit detected the spec layout and applied the spec baseline.",
         "No member-contract files - AGENTS.md, shared process procedures - are required or flagged."
       ]
+    },
+    {
+      "id": 159,
+      "prompt": "Audit the example-service repository. The project-inclusion gate excluded the bundled examples directory, which contains a committed database password in a sample configuration file.",
+      "expected_output": "The secret-shape census covers the whole tracked tree regardless of project inclusion, so the committed credential still surfaces as a security finding citing its location and type, never the value.",
+      "files": [],
+      "expectations": [
+        "A security finding cites the credential's location and exposure type without reproducing its value.",
+        "The evidence ledger records the tree-wide sweep scope, not a project-scoped one.",
+        "No plaintext credential appears anywhere in the report."
+      ]
+    },
+    {
+      "id": 160,
+      "prompt": "Audit the example-library repository. Its shipped public surface includes methods throwing unimplemented exceptions, an empty public class, and a parser whose index check is inverted so a boundary case is never escaped.",
+      "expected_output": "The correctness census confirms candidates by reading and lands them as findings: unimplemented public members, the empty type, and the confirmed logic defect.",
+      "files": [],
+      "expectations": [
+        "Unimplemented-throw sites on the shipped surface appear as findings citing declaration sites.",
+        "The logic defect is anchored to file and line with the mechanism described.",
+        "Census patterns and denominators are recorded beside the figures."
+      ]
+    },
+    {
+      "id": 161,
+      "prompt": "Audit the example-tool repository under executed-commands evidence mode. The user commissioned the documented build and test suite. The declared toolchain is unavailable offline, so the suite runs only through a compatibility shim against a substitute framework profile.",
+      "expected_output": "The environment census records the missing toolchain as an audit limitation, the shim is disclosed as an audit artifact, and results are labeled harness-assisted proxy evidence.",
+      "files": [],
+      "expectations": [
+        "The missing toolchain lands as a limitation or environment constraint, never a subject defect.",
+        "The compatibility shim is disclosed with its delta and never presented as subject source.",
+        "Executed results carry a triage class for any failing check.",
+        "No claim states the declared target was verified."
+      ]
+    },
+    {
+      "id": 162,
+      "prompt": "Audit the example-app repository under executed-commands evidence mode. The commissioned test suite fails: one failure traces to a product defect, one to a broken fixture, and one to an unavailable platform API on the audit host.",
+      "expected_output": "Each failure is triaged by cause - the product defect becomes a finding, the fixture defect becomes a test-quality finding, and the platform gap lands as an environment limitation.",
+      "files": [],
+      "expectations": [
+        "The product defect is a finding with executed evidence attached.",
+        "The fixture failure is reported as a test-quality issue, not a product defect.",
+        "The platform failure lands in Limitations and Unknowns, not as a defect."
+      ]
     }
   ]
 }

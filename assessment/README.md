@@ -15,6 +15,8 @@ relevant file.
 - **`assessment/testing-review.md`** - Test pyramid, TDD, coverage, CI automation, testability.
 - **`assessment/design-principles.md`** - SOLID, cohesion and coupling, DRY, separation of concerns.
 - **`assessment/code-quality.md`** - Static analysis, typing, complexity, duplication, dead code.
+- **`assessment/correctness-review.md`** - Functional correctness: defect-pattern census,
+  shipped-surface completeness, read-confirmation discipline.
 - **`assessment/best-practices.md`** - Stack idioms, framework conventions, deprecated APIs.
 - **`assessment/dependency-review.md`** - Freshness, vulnerabilities, licenses, lockfiles, SBOM.
 - **`assessment/deployment-review.md`** - Build pipeline, release process and frequency,

@@ -10,7 +10,7 @@
 | Section              | Line | What it covers                             |
 |----------------------|------|--------------------------------------------|
 | Auditing Methodology | 15   | Method, standards, criteria matrix, ledger |
-| Scoring Rubrics      | 263  | Score bands, grouping, ISO crosswalk       |
+| Scoring Rubrics      | 266  | Score bands, grouping, ISO crosswalk       |
 
 ## Auditing Methodology
 

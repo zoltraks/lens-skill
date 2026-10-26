@@ -53,10 +53,11 @@ Design-level testability overlaps with the Dependency Inversion principle in
 
 Inventory tests per project and distinguish declared, discovered, and documented result counts.
 
-The audit never executes the suite.
+Under `source-only` evidence mode the audit never executes the suite.
 
 Executed, passed, failed, and ignored counts exist only when a committed report or documentation
-records them, cited as `Reported` evidence.
+records them, cited as `Reported` evidence, or when a commissioned run under
+`executed-commands` produced them, classified per `references/topics/execution-isolation.md`.
 
 Classify test layers by the boundaries exercised, not just the directory or test name.
 
@@ -151,6 +152,16 @@ An entry point no test references is a coverage gap to report, not to assume tes
 
 Apply the stub-detection recipe from `references/topics/evidence-recipes.md` to the suite:
 tests that only re-assert a stub's fixed output evidence nothing about the subject.
+
+**Target matrix and harness coherence**
+
+When the subject declares multiple build targets, compare the test project's executed target
+list against the library's declared target list - every declared target with no test evidence
+bounds the coverage claim, even when the suite passes on the one target it runs.
+
+Compare the test source's framework API surface against the declared framework version -
+test code calling members absent from the declared or locally resolvable version indicates
+the declared version never compiled the suite, which is version drift, not coverage.
 
 **Test-double adequacy**
 

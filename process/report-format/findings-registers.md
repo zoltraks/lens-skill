@@ -13,10 +13,10 @@
 |--------------------------------|------|--------------------------------------|
 | Strengths & What's Working     | 21   | Evidence-based positive baselines    |
 | Technical Findings    | 59   | Finding summary and detail blocks    |
-| Technical Debt Register        | 364  | Distinct accumulated debt            |
-| Unified Risk Register          | 412  | Cross-referenced risks               |
-| Remediation Roadmap | 508  | Prioritized recommendations          |
-| Recommendation Classification  | 592  | Recommended/Optional/Not recommended |
+| Technical Debt Register        | 365  | Distinct accumulated debt            |
+| Unified Risk Register          | 414  | Cross-referenced risks               |
+| Remediation Roadmap | 509  | Prioritized recommendations          |
+| Recommendation Classification  | 593  | Recommended/Optional/Not recommended |
 
 ## Strengths & What's Working
 

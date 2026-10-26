@@ -63,6 +63,25 @@ C# engineering standards.
 - Test methods read `MethodName_Scenario_ExpectedBehavior` (`GetEntity_MissingId_Throws`),
   so a failing test names the defect in the report.
 
+## Platform And API Hazards
+
+Recurring .NET defect and portability patterns an audit can confirm from source.
+
+Each probe is a search pattern plus what the result bounds - a hit is a candidate confirmed
+by reading, per `assessment/correctness-review.md`.
+
+| Probe                        | Pattern                                                              | What it bounds                                                                                                     |
+|------------------------------|----------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
+| Forced thread termination    | `Thread.Abort(` calls                                                | Throws `PlatformNotSupportedException` off .NET Framework - declared multi-target surface fails on modern runtimes |
+| Binary serialization         | `BinaryFormatter` usage                                              | Obsolete and unsafe deserialization (`SYSLIB0011`), removed from modern .NET                                       |
+| Legacy web APIs              | `WebRequest.Create`, `ServicePointManager`, `WebClient`              | Obsolete networking surface (`SYSLIB0014`) and global mutable TLS state                                            |
+| Obsolete cryptography        | `DESCryptoServiceProvider`, `MD5.Create`, `SHA1.Create`, `RC2`       | Legacy primitives exposed without warnings (`SYSLIB0021` family)                                                   |
+| Explicit-layout overlays     | `[FieldOffset]` overlapping reference-typed and value-typed members  | `TypeLoadException` at type load - managed refs cannot overlap                                                     |
+| Value-type null comparisons  | Non-nullable `struct` compared to `null` (`DateTime`, `TimeSpan`)    | Always-false condition hiding a missing branch (compiler `CS8073`)                                                 |
+| Uncached XML serializer      | `new XmlSerializer(type, new XmlRootAttribute(...))` in shared paths | Dynamic-assembly leak per construction - serializer instances must be cached                                       |
+| Unguarded platform interop   | `[DllImport]` on `kernel32`/`user32`/`psapi` in multi-target code    | Windows-only entry points without platform guards break other targets                                              |
+| Non-cryptographic randomness | `System.Random` feeding tokens, keys, or salts                       | Predictable values in security-sensitive flows                                                                     |
+
 ## Live Check
 
 When web fetch is available, verify the naming floor against the Microsoft program-organization
