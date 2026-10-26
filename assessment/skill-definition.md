@@ -334,3 +334,18 @@ Mark each missing signal explicitly rather than inferring its presence.
 
 Treat a frontmatter field that violates a spec constraint as a conformance finding,
 not a style preference.
+
+## Astra Member Subjects
+
+When the subject carries the astra markers - `AGENTS.md` plus
+`scripts/check-update.py` beside the `SKILL.md` frontmatter - evaluate
+conformance against the astra member baseline in `references/agent-skills.md`:
+required files present, the five shared `process/` procedures plus
+`decision-modes.md`, and the update-check contract.
+
+Member-owned variance reports as conformant when recorded - the member's own
+documents first, the owning collection's member contract when one resolves.
+
+Absent a collection, the member's own docs alone decide.
+
+Absent shared files or unrecorded divergence are findings.

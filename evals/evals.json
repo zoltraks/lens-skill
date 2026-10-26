@@ -1840,6 +1840,38 @@
         "The pair convention survives a style-family switch - an AUDIT-stem report still ships EN plus PL.",
         "The resolved translation set is named in the parameter summary, or in the decisions list on an automated run."
       ]
+    },
+    {
+      "id": 156,
+      "prompt": "List all operations.",
+      "expected_output": "The operations catalog: the full operations table from process/operations-catalog.md delivered inline, expanded past the family names into the concrete operations, with no file written.",
+      "files": [],
+      "expectations": [
+        "The agent loaded process/operations-catalog.md and answered with its canonical operations table inline.",
+        "The table covers every family expanded into concrete operations and ends with a line inviting a task request.",
+        "No intake classification, parameter resolution, subject discovery, or file write runs."
+      ]
+    },
+    {
+      "id": 157,
+      "prompt": "Audit the example-member skill.",
+      "expected_output": "The skill audit evaluates the astra-layout subject against the astra member baseline: shared procedures present, recorded variance conformant, unrecorded divergence flagged.",
+      "files": [],
+      "expectations": [
+        "The audit detected the astra markers and applied the member baseline from references/agent-skills.md.",
+        "Recorded variance reports as conformant with citation.",
+        "Absent shared files or unrecorded divergence are findings."
+      ]
+    },
+    {
+      "id": 158,
+      "prompt": "Audit the example-minimal skill.",
+      "expected_output": "The skill audit evaluates the spec-layout subject against the spec baseline alone, never requiring member files.",
+      "files": [],
+      "expectations": [
+        "The audit detected the spec layout and applied the spec baseline.",
+        "No member-contract files - AGENTS.md, shared process procedures - are required or flagged."
+      ]
     }
   ]
 }

@@ -159,3 +159,29 @@ A `skills-ref validate` run is execution evidence.
 
 Record it only when a committed or supplied result exists in the repository,
 and mark it `Reported` rather than `Verified`.
+
+## Astra Member Baseline
+
+A subject carrying the astra markers - `SKILL.md` with `name`/`description`/
+`metadata.version` frontmatter plus `AGENTS.md` and `scripts/check-update.py` -
+evaluates against the member contract: required files (`SKILL.md`, `AGENTS.md`,
+`README.md`, `LICENSE`, `docs/` governance set, `evals/`), the five shared
+`process/` procedures (`skill-activation`, `json-exchange`, `operation-timing`,
+`session-review`, `operations-catalog`) plus `decision-modes.md`, and the
+once-per-session update check.
+
+Member-owned variance is conformant when recorded - the member's own documents
+first, the owning collection's member contract when one resolves.
+
+Absent a collection, the member's own docs alone decide.
+
+Sanctioned shapes include `CHANGELOG.md` presence or absence, test-layout depth
+or missing `tests/`, `docs/MAINTENANCE.md` beside or instead of
+`process/skill-maintenance.md`, vendored canonical `references/` corpora,
+`process/` subdirectories, extra interaction modes, prose-profile variance,
+sanctioned non-ASCII, evals schema variants, `docs/decisions/` and
+`docs/standard/` subtrees, missing `parameter-configuration.md`, and
+multilingual `languages/`/`translations/` corpora.
+
+Absent shared files or unrecorded divergence are findings; recorded variance
+reports as conformant with citation.

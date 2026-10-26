@@ -20,7 +20,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.4.5"
+  version: "2.4.7"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -103,6 +103,8 @@ The skill activates on phrases such as:
 - review requests: review report, run the checks, structure review, review the project structure
 - skill maintenance: work on lens-skill, work on this skill, maintain this skill
 - automated invocations: audit automatically, automated mode, unattended, non-interactive
+- catalog requests: list all operations, show all capabilities, what
+  operations can this skill perform
 
 A request that names no report artifact - "explain how it works", "describe what it brings" -
 is descriptive analysis: inline and evidence-based, never entering `process/audit-workflow.md`.
@@ -174,6 +176,7 @@ the parameter surfaces, defaults, resolution rules, and re-audit parameters live
 - **`process/report-parity.md`** - Mandatory core checklist and consistency gate.
 - **`process/readiness-scoring.md`** - Score aggregation, confidence, maturity, readiness gates.
 - **`process/skill-activation.md`** - Enable-mode intake, enablement response, and standby.
+- **`process/operations-catalog.md`** - The catalog procedure for "list all operations" requests.
 - **`process/session-review.md`** - Improve-the-skill session review: findings, gate, modes.
 
 ## `assessment/` - Assessment Categories
