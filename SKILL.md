@@ -20,7 +20,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.4.7"
+  version: "2.4.8"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -101,7 +101,7 @@ The skill activates on phrases such as:
   skill collection audit, skills inventory, agent-guidance review, audit a collection member
 - library reviews: api compatibility, api versioning audit, library audit
 - review requests: review report, run the checks, structure review, review the project structure
-- skill maintenance: work on lens-skill, work on this skill, maintain this skill
+- skill maintenance: work on lens-skill, update lens-skill, work on this skill, maintain this skill
 - automated invocations: audit automatically, automated mode, unattended, non-interactive
 - catalog requests: list all operations, show all capabilities, what
   operations can this skill perform
