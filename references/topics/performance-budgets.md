@@ -10,7 +10,7 @@
 This file distills the Core Web Vitals, Lighthouse CI, k6, and hyperfine sources listed in
 `references/source-catalog.md` into constraints an audit can verify from repository source.
 
-Snapshot date: 2026-10-09.
+Snapshot date: 2026-10-27.
 
 Feeds `assessment/baseline-conformance.md` and `assessment/nfr-review.md`.
 
@@ -63,6 +63,15 @@ overrides these, and the audit checks presence and enforcement before magnitude:
 - An absent performance posture is an observation, not a defect: report the missing contract
   where the subject's role makes latency or footprint load-bearing, and mark it
   `NOT ASSESSED` where budgets were never claimed.
+
+## Maintainer-Standard Floor
+
+From the maintainer's performance-budgets standard.
+
+- The defect floor: budgets are enforced in CI (a PR without performance assertions is an
+  unbudgeted change), measured under production-like conditions, expressed as p95/p99
+  percentiles (means hide tail latency), include cold start, and memory budgets cover RSS plus
+  heap over a soak window.
 
 ## Live Check
 

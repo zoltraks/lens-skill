@@ -11,7 +11,7 @@ This file distills the Model Context Protocol specification and the official C# 
 sources listed in `references/source-catalog.md` into constraints an audit can verify from
 repository source.
 
-Snapshot date: 2026-10-09.
+Snapshot date: 2026-10-27.
 
 Feeds `assessment/baseline-conformance.md`, `assessment/api-contract.md`, and
 `assessment/security-review.md` for subjects classified `agent-tooling` in
@@ -72,6 +72,13 @@ the official SDKs.
   to one surface fails the test until it lands on the other.
 - Help text and tool descriptions are authored for the same audience and kept in sync -
   drift between them produces wrong agent behavior.
+- Every tool name lands in the project's MCP setup reference in the same change that adds the
+  tool - a documented surface that lags the registered surface is a documentation finding.
+- A CLI-wrapping server returns the wrapped contract verbatim - the tool result is the
+  utility's own machine output unchanged, so shell consumers and agents parse the same shape.
+- Where a generator emits the tool surface, it binds the declared surface rather than
+  scanning a build directory (discovery globs see residue, not intent), and parity tests pin
+  the contract - names, argument shapes - not the generated file shape.
 
 ## Verification
 

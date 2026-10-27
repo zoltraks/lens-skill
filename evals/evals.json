@@ -1917,6 +1917,17 @@
         "The fixture failure is reported as a test-quality issue, not a product defect.",
         "The platform failure lands in Limitations and Unknowns, not as a defect."
       ]
+    },
+    {
+      "id": 163,
+      "prompt": "Review the example-service Go codebase for structure and code quality. The tree mixes cmd/<name>/main.go entry points with a pkg/ directory, ignores errors with bare _ discards, and stores context.Context in a struct field.",
+      "expected_output": "The report applies the Go digest floor: cmd/+internal/ vs pkg/ layout noise is a structural finding, unchecked errors and context stored in a struct are defects.",
+      "files": [],
+      "expectations": [
+        "The pkg/ directory in a single-binary application is reported as layout noise.",
+        "Discarded errors without a reason comment are defects.",
+        "context.Context stored in a struct field is a defect."
+      ]
     }
   ]
 }

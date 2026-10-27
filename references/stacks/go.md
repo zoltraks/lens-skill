@@ -10,10 +10,11 @@ This file distills the Go documentation, module reference, security policy, OWAS
 tooling sources listed in `references/source-catalog.md` into constraints an audit can verify
 from repository source.
 
-Snapshot date: 2026-09-30.
+Snapshot date: 2026-10-27.
 
 Feeds `assessment/best-practices.md`, `assessment/dependency-review.md`,
-`assessment/security-review.md`, `assessment/api-compatibility.md`, and
+`assessment/security-review.md`, `assessment/api-compatibility.md`,
+`assessment/testing-review.md`, `assessment/structure-review.md`, and
 `assessment/baseline-conformance.md` for Go subjects.
 
 ## Module And Dependency Rules
@@ -33,6 +34,10 @@ https://go.dev/doc/modules/version-numbers.
   maintenance awareness.
 - `go` directive version sets language semantics for the module. Toolchains may
   auto-upgrade - check `toolchain` lines for an explicit pin.
+- `go mod tidy` producing a diff is hygiene debt - a tidy module is committed state, and
+  `go mod verify` in CI confirms `go.sum` still matches.
+- A third-party dependency is justified only where the standard library is genuinely
+  insufficient - every added module is a maintenance and advisory surface.
 
 ## Idiomatic Conventions, Naming, And Layout
 
@@ -58,6 +63,37 @@ https://go.dev/blog/package-names, and https://github.com/golang-standards/proje
   importable outside the subtree.
 - `cmd/<name>/main.go` + `internal/` (and optional exported library packages) is the
   conventional multi-package binary layout per `https://go.dev/doc/modules/layout`.
+- `pkg/` is reserved for library modules or packages other modules in the same monorepo
+  import - a `pkg/` tree inside a single-binary application is layout noise.
+- A `.go` file past roughly 300 lines usually mixes responsibilities - the bound is a
+  signal, not a hard gate - and every package carries a package comment.
+- `bin/` or the project's build-output directory stays gitignored - a committed binary is a
+  freshness hazard, and a naked `return` in a function longer than a few lines is a defect.
+
+## Code Quality
+
+From https://go.dev/blog/go1.13-errors, https://go.dev/blog/slog,
+https://google.github.io/styleguide/go/, and https://golangci-lint.run/.
+
+- Discarding an error with `_` requires a comment stating why it is safe, and a `panic` in
+  library code is a defect. `fmt.Errorf` with `%w` wraps errors crossing a package boundary,
+  while `%v` is used at a public API boundary so callers never depend on an implementation
+  error type. `errors.Join` combines independent failures, and comparing errors with `==`
+  is a defect because wrapping breaks equality.
+- `context.Context` is the first argument of every function that performs I/O or can block,
+  is passed to every downstream call that accepts one, and is never stored in a struct
+  field.
+- `http.Client` carries an explicit `Timeout` - the zero-value client hangs forever on a
+  dead server. Response bodies close via `defer`, and status codes are checked because the
+  client only returns transport errors, never HTTP error responses.
+- Structured logging runs through `log/slog`: a JSON handler in production and text in
+  development, an explicitly passed logger rather than the global default, `logger.With`
+  for request-scoped attributes, and typed `slog.Attr` constructors over variadic key-value
+  pairs.
+- `gofmt -l .` and `goimports -l .` produce no output and `golangci-lint run` reports zero
+  findings - a suppression without a `//nolint:<linter>` reason comment is a finding.
+- Configuration resolves flag over environment over file, and a package whose name needs
+  "and" usually mixes two responsibilities.
 
 ## Security
 
@@ -105,8 +141,38 @@ From https://github.com/spf13/cobra and https://clig.dev/.
   argument) exit `2` under `flag` convention and must not collide with runtime-failure codes.
 - Parsing completes before side effects: a `flag.Parse` that runs after a file write makes
   every usage error a partial mutation.
+- Interrupt handling binds `main` to `signal.NotifyContext`, so `SIGINT`/`SIGTERM` tear down
+  subprocesses and network calls cleanly.
+- Color disables per stream - `NO_COLOR`, `TERM=dumb`, or a non-TTY stream - and a single
+  stdout-derived `isatty` check leaks colored stderr into redirected logs.
+- Every structured-data command supports `--json` emitting objects, and a dual-mode emitter
+  picks the machine format when the flag is set or stdout is not a TTY. Formatter code is
+  the only place `fmt.Println` reaches stdout - a `forbidigo` rule or equivalent keeps
+  diagnostics off the payload stream.
+- `panic` is never the recoverable-error path and `init()` does no complex setup - both are
+  testability defects.
+- Exit codes are observable only from outside the process, so exit-code tests build the
+  binary once and drive it through `exec.Command` or a subprocess.
+- A statically-linked Go CLI ships in a distroless or scratch multi-stage image, and the
+  compiled binary lands in the gitignored `bin/` directory - never the project root or
+  `cmd/`.
 - The full CLI contract lives in `references/topics/cli-contract.md` - this section carries
   the Go-specific shape only.
+
+## Testing
+
+From https://pkg.go.dev/testing and the corpus verification rows.
+
+- `*_test.go` files sit in the same package as the code, and table-driven tests with `t.Run`
+  subtests are the conventional shape - `t.Fatal`/`t.Fatalf` stop on setup failure while
+  `t.Error`/`t.Errorf` assert and continue.
+- HTTP clients and servers test against `net/http/httptest` mocks - a test that dials a real
+  service is a finding.
+- Functions parsing untrusted input carry `testing.F` fuzz targets, run in CI under a time
+  budget because fuzzing is open-ended.
+- The documented verification set - `go build ./...`, `go test -cover ./...`, a clean
+  `go mod tidy`, `go mod verify`, `govulncheck ./...` - is evidence the audit looks for in
+  build scripts and CI configuration, not commands the audit runs.
 
 ## Live Check
 

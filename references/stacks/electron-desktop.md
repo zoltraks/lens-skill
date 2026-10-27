@@ -10,7 +10,7 @@ This file distills the Electron security, IPC, context-isolation, and process-mo
 electron-builder signing guidance listed in `references/source-catalog.md` into constraints an
 audit can verify from repository source.
 
-Snapshot date: 2026-09-30.
+Snapshot date: 2026-10-27.
 
 Feeds `assessment/security-review.md`, `assessment/best-practices.md`, and
 `assessment/deployment-review.md`, and `assessment/baseline-conformance.md` for desktop
@@ -92,6 +92,15 @@ TypeScript/Electron engineering standards.
 - Packaging inputs keep conventional names: `build/` or `resources/` for icons and manifests,
   `electron-builder.yml` or a `build` section in `package.json` for the packager config, and
   `dist/`/`release/`/`out/` gitignored.
+
+## Maintainer-Standard Floor
+
+From the maintainer's Electron engineering standard.
+
+- The security floor restated as defects: `contextIsolation: false` on a `BrowserWindow` is a
+  defect, `nodeIntegration: true` in the renderer is a defect, `sandbox: false` without a
+  `// REASON:` comment is a defect, and the preload bridge goes through
+  `contextBridge.exposeInMainWorld` only.
 
 ## Live Check
 

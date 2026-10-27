@@ -11,7 +11,7 @@ This file distills the TypeScript handbook, TSConfig reference, typescript-eslin
 Playwright, Testing Library, Vite, Zustand, and Jest documentation listed in
 `references/source-catalog.md` into constraints an audit can verify from repository source.
 
-Snapshot date: 2026-09-30.
+Snapshot date: 2026-10-27.
 
 Feeds `assessment/code-quality.md`, `assessment/testing-review.md`,
 `assessment/best-practices.md`, and `assessment/baseline-conformance.md` for TypeScript and
@@ -136,6 +136,17 @@ From https://zod.dev/ and https://valibot.dev/.
   floor. The schema parse (`schema.parse`) or a validated wrapper is the checkable shape.
 - Env var access goes through a validated config object built at startup - scattered
   `process.env.X` reads mean no startup-time validation and late failures.
+
+## Maintainer-Standard Floor
+
+From the maintainer's TypeScript engineering standards.
+
+- The defect floor mirrors the JavaScript base: pinned runtime via `engines`/`.nvmrc`,
+  explicit module system, committed lockfile, CI-enforced lint and format, and no floating
+  dependency ranges.
+- Strictness posture: `strict` (or the documented equivalent flags) enabled in `tsconfig.json`
+  is the expected baseline - a project compiling with strictness disabled without a recorded
+  reason is a finding.
 
 ## Live Check
 

@@ -13,7 +13,7 @@ single external owner.
 
 The patterns below are the checkable residue of recurring findings.
 
-Snapshot date: 2026-09-30.
+Snapshot date: 2026-10-27.
 
 Feeds `assessment/deployment-review.md` and the delivery surface of self-hosted subjects.
 
@@ -57,6 +57,15 @@ Feeds `assessment/deployment-review.md` and the delivery surface of self-hosted 
   `sshd_config`/Ansible playbooks are auditable deployment posture.
 - Bastion/jump patterns (`-J`, `ProxyJump`) declare the network path. Undocumented jump
   hosts in scripts reveal topology worth recording in the deployment description.
+
+## Maintainer-Standard Floor
+
+From the maintainer's ssh usage standard.
+
+- Private keys carry passphrases unloaded through the agent, Ed25519 is the expected key type
+  (RSA 3072+ only for legacy), a new host's fingerprint is verified out-of-band on first
+  connect (a changed fingerprint is a warning), and `StrictHostKeyChecking no` is never global
+  - it scopes to a throwaway `Host` block or a single invocation.
 
 ## Live Check
 

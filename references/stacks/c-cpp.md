@@ -9,7 +9,7 @@
 This file distills the C++ Core Guidelines and CERT coding-standard anchors listed in
 `references/source-catalog.md` into constraints an audit can verify from repository source.
 
-Snapshot date: 2026-09-30.
+Snapshot date: 2026-10-27.
 
 The CERT Coding Standards (SEI) are license-restricted: only rule identifiers and public rule
 titles are distilled here, never rule text.
@@ -79,6 +79,16 @@ Checkable patterns independent of either source:
 - Sanitizer configuration in CI (`-fsanitize=address,undefined`, ASan/UBSan/MSan) is the
   strongest mechanical signal. Absence is not a defect but means memory-safety claims rest on
   review alone.
+
+## Maintainer-Standard Floor
+
+From the maintainer's C++ engineering standard.
+
+- The defect floor: no C-style casts, no raw `new`/`delete` in production code (RAII smart
+  pointers own), no `reinterpret_cast` without a `// REASON:` comment, undefined behaviour is
+  incorrect regardless of observed output, `clang-format --dry-run` produces no diff,
+  `clang-tidy` reports no warnings (a suppression carries a written reason), and every error
+  path is tested.
 
 ## Live Check
 

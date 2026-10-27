@@ -10,7 +10,7 @@ This file distills the PHP-FIG standards, PHP security manual, Composer, PHPUnit
 OWASP PHP sources listed in `references/source-catalog.md` into constraints an audit can verify
 from repository source.
 
-Snapshot date: 2026-09-30.
+Snapshot date: 2026-10-27.
 
 Feeds `assessment/best-practices.md`, `assessment/security-review.md`,
 `assessment/dependency-review.md`, `assessment/testing-review.md`, and
@@ -108,6 +108,15 @@ Configuration cheat sheet
   = 1, and `session.cookie_samesite` per deployment.
 - File uploads: `file_uploads`, `upload_tmp_dir` outside web root, and MIME/content
   verification rather than extension trust.
+
+## Maintainer-Standard Floor
+
+From the maintainer's PHP engineering standard.
+
+- The defect floor: `composer.json` `config.platform.php` plus `.php-version` pin the runtime,
+  `declare(strict_types=1);` opens every file, PHPStan level 8+ (or Psalm equivalent) reports
+  no errors, PHP-CS-Fixer produces no diff, `composer.lock` is committed, no floating
+  dependency versions, and `composer audit` is clean.
 
 ## Live Check
 

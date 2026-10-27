@@ -10,7 +10,7 @@ This file distills the Embarcadero Object Pascal style guide, Free Pascal refere
 DocWiki anchors listed in `references/source-catalog.md` into constraints an audit can verify
 from repository source.
 
-Snapshot date: 2026-09-30.
+Snapshot date: 2026-10-27.
 
 The DocWiki index (docwiki.embarcadero.com) was unreachable at snapshot time.
 
@@ -101,6 +101,15 @@ https://www.freepascal.org/docs-html/ref/ref.html.
   `TFDConnection` opened per query or SQL built with `Format` interpolation is a finding.
 - DUnitX (`TDUnitX`) is the conventional test harness - a test project referencing it
   satisfies the "has tests" floor for Delphi subjects.
+
+## Maintainer-Standard Floor
+
+From the maintainer's Delphi engineering standard.
+
+- The defect floor: no `with` statements, no SQL concatenation with user input, no VCL access
+  from background threads, no `Application.ProcessMessages` inside loops, no empty `except`
+  blocks, no global variables for application state, no hardcoded connection strings, forms
+  carry no business logic, and the DUnitX suite passes.
 
 ## Live Check
 

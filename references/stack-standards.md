@@ -218,6 +218,7 @@ rules, and the live-check procedure.
 | `build.zig`, `*.zig`                | `references/stacks/zig.md`                     |
 | `*.asm`, `*.s`, `*.inc`             | `references/stacks/assembly.md`                |
 | Cross-stack naming and layout       | `references/naming-and-layout.md`              |
+| Cross-stack clean-code defect floor | `references/topics/clean-code.md`              |
 | OWASP and review methodology        | `references/methodology/owasp-baselines.md`    |
 | Risk, threat modeling, CVSS         | `references/methodology/risk-modeling.md`      |
 | Quality models, ISO 25010           | `references/methodology/quality-models.md`     |

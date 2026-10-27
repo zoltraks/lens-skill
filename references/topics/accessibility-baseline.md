@@ -10,7 +10,7 @@ This file distills the WCAG 2.2, WAI overview, ARIA Authoring Practices, and MDN
 listed in `references/source-catalog.md` into the constraints an audit can verify from markup
 and script source.
 
-Snapshot date: 2026-09-30.
+Snapshot date: 2026-10-27.
 
 Screen-reader behavior and rendered contrast are not source-verifiable.
 
@@ -70,6 +70,16 @@ From https://developer.mozilla.org/en-US/docs/Web/Accessibility.
   it are an observation.
 - Touch targets and `pointer` events need pointer-type alternatives beyond hover-only
   interaction.
+
+## Maintainer-Standard Floor
+
+From the maintainer's accessibility standard.
+
+- WCAG 2.2 Level AA is the declared floor: axe-core reports zero violations in CI, every
+  interactive element is keyboard-operable with a visible `:focus-visible` style (3:1
+  minimum), text contrast meets 4.5:1 (3:1 large text, 3:1 UI components), no information is
+  color-only, custom widgets follow the ARIA Authoring Practices patterns, 200% zoom works
+  without horizontal scroll (400% with reflow), and `prefers-reduced-motion` is respected.
 
 ## Live Check
 

@@ -11,7 +11,7 @@ This file distills the Spring Security, Spring Boot, Micrometer, Gradle, Oracle 
 FindSecBugs, japicmp/Revapi, and Kotlin sources listed in `references/source-catalog.md` into
 constraints an audit can verify from repository source.
 
-Snapshot date: 2026-09-30.
+Snapshot date: 2026-10-27.
 
 Feeds `assessment/security-review.md`, `assessment/dependency-review.md`,
 `assessment/api-compatibility.md`, `assessment/best-practices.md`, and
@@ -135,6 +135,26 @@ https://docs.spring.io/spring-framework/reference/data-access/transaction.html.
   concurrent updates are a finding.
 - The shared contract lives in `references/topics/data-persistence.md` - this section only
   carries the JVM-specific shape.
+
+## Maintainer-Standard Floor
+
+From the maintainer's Java, Maven, and Spring engineering standards.
+
+- The defect floor: raw types (`List` without parameters), checked exceptions in new code,
+  swallowed `catch` blocks, `System.out.println` diagnostics (SLF4J is the channel), `null`
+  returns from public methods (`Optional`, empty collection, or throw), raw `Thread.sleep`
+  where virtual threads apply, and pooled virtual threads
+  (`Executors.newVirtualThreadPerTaskExecutor()` per task, never pooled).
+- Spring specifics: constructor injection only (field and setter injection are defects), no
+  stack traces in HTTP responses, externalized configuration, and no repository logic inside
+  entities or controllers.
+- Persistence floor: every entity declares its key strategy (`@GeneratedValue` explicit),
+  `FetchType.EAGER` on a to-many association is a defect, `ddl-auto` is disabled outside
+  disposable environments, and schema change goes through migrations.
+- Maven/Gradle floor: the build succeeds from a clean checkout, dependency versions are pinned
+  (no `*`/unbounded ranges), `target/` and `build/` stay gitignored, a `-SNAPSHOT` in a tagged
+  release is a defect, and `mvn package`/`gradle build` is the packaging entry point - a custom
+  script bypassing the lifecycle is a finding.
 
 ## Live Check
 

@@ -11,7 +11,7 @@ This file distills the SemVer, Keep a Changelog, Conventional Commits, npm, and 
 sources listed in `references/source-catalog.md` into constraints an audit can verify from
 repository source.
 
-Snapshot date: 2026-09-30.
+Snapshot date: 2026-10-27.
 
 Feeds `assessment/change-management.md`, `assessment/api-compatibility.md`, and
 `synthesis/remediation-roadmap.md`.
@@ -70,6 +70,18 @@ From https://securitytxt.org/.
 - A repo-level `SECURITY.md` is the GitHub convention feeding
   `references/topics/project-health.md`. The two files coexist - web-facing artifacts use
   `security.txt`, repos use `SECURITY.md`.
+
+## Convention Registry
+
+A project's versioning convention is a declared choice, not a default - the audit checks the
+declared scheme against the tags and manifests, and an undeclared scheme is an observation.
+
+| Convention | Shape                                    | Fits                                                        |
+|------------|------------------------------------------|-------------------------------------------------------------|
+| `semver`   | `MAJOR.MINOR.PATCH` compatibility signal | Libraries, SDKs, public APIs                                |
+| `calver`   | Calendar segments, optional `MICRO`      | Time-cadenced applications, tools, OS releases              |
+| `integer`  | One incrementing integer                 | Internal counters, build numbers - no compatibility meaning |
+| `rollover` | Single-digit components rolling at 9     | Documents, skills, small tools - minimal always-increment   |
 
 ## Live Check
 

@@ -10,7 +10,7 @@ This file distills the Command Line Interface Guidelines, POSIX utility conventi
 NO_COLOR specification listed in `references/source-catalog.md` into constraints an audit can
 verify from repository source.
 
-Snapshot date: 2026-10-09.
+Snapshot date: 2026-10-27.
 
 Feeds `assessment/baseline-conformance.md`, `assessment/best-practices.md`, and
 `assessment/api-contract.md` for subjects classified `cli` in `references/domain-profiles.md`.
@@ -42,6 +42,15 @@ From https://clig.dev/ and the POSIX utility conventions
   every usage error a partial run.
 - Mutating commands offer `--dry-run` where feasible, and irreversible actions carry an
   explicit confirmation flag rather than a prompt in non-interactive use.
+- Every non-zero exit code is documented in the command's own `--help` text, and exit codes
+  are observable only from outside the process - exit-code coverage means a test drives the
+  built binary or a subprocess, not an in-process call.
+- A `--json`-style machine flag emits a self-describing object, not a bare top-level array,
+  and a dual-mode emitter selects the machine format when the flag is set or stdout is not
+  a terminal.
+- Named-connection or profile configuration follows a documented precedence - flag over
+  environment variable over config file - and a divergence between that precedence and the
+  implementation is a finding.
 
 ## Interaction And Environment
 
@@ -50,6 +59,8 @@ From https://clig.dev/ and https://no-color.org/.
 - Non-interactive invocation never blocks on a prompt. Scripts and agents must be able to drive
   every command through flags alone (`--yes`, `--force`, explicit values).
 - Color and animation disable cleanly: honor `NO_COLOR`, `TERM=dumb`, and non-tty output.
+  TTY detection is per stream - a single stdout-derived check leaks colored stderr into
+  redirected logs.
 - stdin input is accepted where the tool's role makes it sensible, keeping the tool composable
   in pipelines.
 - Signals end cleanly: `SIGINT`/`SIGTERM` produce a bounded shutdown that reports partial

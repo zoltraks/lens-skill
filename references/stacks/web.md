@@ -10,7 +10,7 @@
 This file distills the WHATWG HTML/DOM, ECMA-262, and MDN sources listed in
 `references/source-catalog.md` into constraints an audit can verify from repository source.
 
-Snapshot date: 2026-09-30.
+Snapshot date: 2026-10-27.
 
 Feeds `assessment/best-practices.md`, `assessment/security-review.md`,
 `assessment/nfr-review.md`, `assessment/baseline-conformance.md`, and
@@ -128,6 +128,21 @@ From the maintainer's HTML, CSS, accessibility, and performance-budget engineeri
   `arrItems` are findings).
 - Scratch probes stay in the gitignored workspace (`work/scripts/*.tmp.mjs`) - a committed
   `*.tmp.*` file is a hygiene finding, consistent with `references/stacks/shell.md`.
+
+## Maintainer-Standard Floor
+
+From the maintainer's HTML, CSS, and vanilla-application engineering standards.
+
+- HTML floor: no value reaches `innerHTML` without the escape helper, platform features beat
+  hand-rolled code, responsive across viewport dimensions and orientation, keyboard and
+  screen-reader parity for every pointer action, and lowest workable complexity. Vanilla apps
+  additionally ban native dialogs (`alert`/`confirm`/`prompt` are custom modals) and keep
+  state in JavaScript with the DOM as projection.
+- CSS floor: no unscoped element selectors on components, no `!important` outside utility
+  classes, no raw colour literals where a token exists, no `float` for layout, visible
+  `:focus-visible` on interactive elements, `prefers-reduced-motion` respected, and Stylelint
+  passes. A component-library theme adds theme tokens over literals and both color schemes
+  verified.
 
 ## Live Check
 

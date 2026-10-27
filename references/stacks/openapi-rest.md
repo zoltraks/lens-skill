@@ -10,7 +10,7 @@ This file distills the OpenAPI Specification, Spectral, OWASP REST, and RFC 9457
 listed in `references/source-catalog.md` into constraints an audit can verify from repository
 source.
 
-Snapshot date: 2026-10-09.
+Snapshot date: 2026-10-27.
 
 Feeds `assessment/api-contract.md`, `assessment/best-practices.md`, and
 `assessment/baseline-conformance.md` for API subjects.
@@ -114,6 +114,15 @@ From https://cheatsheetseries.owasp.org/cheatsheets/REST_Security_Cheat_Sheet.ht
   companion README so a reader knows which are load-bearing.
 - Generated artifacts (clients, server stubs, HTML docs) are either committed with a pinned
   generator version or regenerated in CI - a half-committed generated tree drifts silently.
+
+## Maintainer-Standard Floor
+
+From the maintainer's OpenAPI engineering standard.
+
+- The defect floor: the root document declares `openapi`, the version never changes without
+  confirmation, every operation carries a `description` and at least one success response,
+  every schema property has a `type`/`$ref` and a `description`, the same schema inlined in
+  two operations is a duplication defect, and Spectral lint passes.
 
 ## Live Check
 

@@ -10,7 +10,7 @@
 This file distills the authoritative Node.js, npm, Express, Fastify, and OWASP sources listed in
 `references/source-catalog.md` into constraints an audit can verify from repository source alone.
 
-Snapshot date: 2026-09-30.
+Snapshot date: 2026-10-27.
 
 Feeds `assessment/best-practices.md`, `assessment/security-review.md`,
 `assessment/dependency-review.md`, `assessment/testing-review.md`, and
@@ -172,6 +172,18 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules.
 - `node-jsonwebtoken` (https://github.com/auth0/node-jsonwebtoken) callers must pin
   `algorithms` in `jwt.verify`. Omitting it accepts whatever the token header claims,
   including `none` where configured.
+
+## Maintainer-Standard Floor
+
+From the maintainer's JavaScript and Express engineering standards.
+
+- The defect floor: `engines` field plus `.nvmrc` pin the Node version, `"type": "module"`
+  declares the module system explicitly, `package-lock.json` is committed, `npm audit
+  --omit=dev` passes in CI, no floating dependency versions, and `eslint .` plus
+  `prettier --check .` produce no findings.
+- Express floor: every route validates its input, authorization runs in middleware on every
+  protected route, helmet-equivalent security headers on every response, rate limiting on
+  endpoints, and structured logging carries request-scoped correlation IDs.
 
 ## Live Check
 

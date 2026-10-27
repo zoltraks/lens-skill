@@ -26,6 +26,10 @@ Assess processes and artifacts, not the people who run them.
   authorship, version bumps, release-baseline selection - rather than leaving authority
   implicit.
 - Release governance: how changes are reviewed, approved, and traced to requirements.
+- Release versioning: whether manifest versions advance over the observed history and releases
+  carry tags. A long commit window under a static version with no tags is an evidenced
+  release-discipline gap, not merely absent release data - report it as a finding rather than
+  folding it into a `NOT SPECIFIED` delivery row.
 
 ## Evidence To Look For
 
@@ -40,6 +44,7 @@ Assess processes and artifacts, not the people who run them.
 | Change review       | Pull request templates, review rules, approvals  |
 | Traceability        | Links between changes and requirements or issues |
 | Changelog           | Maintained changelog or release notes            |
+| Version progression | Manifest version changes, git tags, release commits |
 
 When per-change documentation exists but is not rolled into one changelog file, cite
 [Keep a Changelog](https://keepachangelog.com/) as the target format and note the gap explicitly
@@ -60,6 +65,8 @@ rather than describing the existing per-change documents as sufficient.
 - Undocumented decisions are re-litigated and lost as staff changes.
 - Unreviewed changes raise the rate of defects reaching production.
 - Lack of traceability makes it hard to tie a defect to its originating change.
+- Static versions and untagged releases make every build indistinguishable and defeat rollback
+  targeting.
 
 ## What Raises Confidence
 

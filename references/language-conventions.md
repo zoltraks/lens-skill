@@ -12,7 +12,7 @@ ecosystem as a dated snapshot, supplying the T3 yardstick for `assessment/code-s
 
 Apply `principles/evaluation-rules.md` throughout.
 
-Snapshot date: 2026-10-21.
+Snapshot date: 2026-10-27.
 
 For the eleven stacks covered by `references/naming-and-layout.md`, that file's per-element
 matrices and code-division rules remain the authority, and this file adds temperament and
@@ -60,6 +60,13 @@ acronyms as words (`Http`).
   a Rust, Go, Python, Zig, or C expectation.
 - **Framework-mandated names** (`Service`, `Controller`, `Repository`, `*Endpoints`) are
   judged by cohesion of responsibility, not by the presence of the word.
+- **Full-word ecosystems** (C#, and the maintainer's C# and Java standards): a word the
+  ecosystem habitually shortens is still written in full - `Configuration` not `Conf`,
+  `Specification` not `Spec`, `Arguments` not `Args` - in file, type, and project names,
+  while canonical idioms (`args` locals) stay.
+- **Initialism casing is ecosystem-fixed**: Go all-caps (`HTTPClient`, `urlParser`
+  unexported), .NET two-letter caps with longer acronyms as Pascal words, Java treating
+  acronyms as words - mixing conventions inside one partition is the finding.
 
 ## Fallback For Unlisted Ecosystems
 

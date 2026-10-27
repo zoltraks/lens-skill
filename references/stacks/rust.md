@@ -10,7 +10,7 @@ This file distills the Rust API Guidelines, Clippy lint list, RustSec, and Cargo
 reference listed in `references/source-catalog.md` into constraints an audit can verify from
 repository source.
 
-Snapshot date: 2026-09-30.
+Snapshot date: 2026-10-27.
 
 Feeds `assessment/best-practices.md`, `assessment/api-compatibility.md`,
 `assessment/dependency-review.md`, `assessment/security-review.md`, and
@@ -105,6 +105,21 @@ From https://rustsec.org/ and https://doc.rust-lang.org/cargo/reference/semver.h
   mark withdrawn versions.
 - Pre-1.0 crates (`0.x`) treat minor bumps as breaking under Cargo rules. Dependency freshness
   on `0.x` lines needs individual review.
+
+## Maintainer-Standard Floor
+
+From the maintainer's Rust engineering standards.
+
+- The defect floor: every fallible function returns `Result<T, E>`, no `unwrap`/`expect` in
+  library code outside `#[cfg(test)]`, no silently discarded `Result`, every `unsafe` block
+  carries a `// SAFETY:` comment, no global mutable state, `cargo fmt --check` and
+  `cargo clippy` clean, and `Cargo.lock` committed for binaries.
+- API surface: no `.unwrap()` in request handlers, no blocking calls on runtime worker threads
+  (`spawn_blocking` for synchronous work), all errors map through the shared
+  `IntoResponse`-style type, and state is injected (`State` extractor, `Arc`) never global.
+- SQLite: WAL mode on every connection (`PRAGMA journal_mode = WAL`), no `format!` into SQL
+  (bind through `params!`), versioned transactional migrations via `PRAGMA user_version`, and
+  transaction tokens that roll back on drop.
 
 ## Live Check
 

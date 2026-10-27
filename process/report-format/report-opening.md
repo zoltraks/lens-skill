@@ -10,8 +10,8 @@
 | Section              | Line | What it covers                       |
 |----------------------|------|--------------------------------------|
 | Document Information | 16   | Report metadata and revisions        |
-| Audit Type Coverage  | 159  | Coverage of canonical audit types    |
-| Glossary             | 218  | Abbreviation and acronym definitions |
+| Audit Type Coverage  | 163  | Coverage of canonical audit types    |
+| Glossary             | 222  | Abbreviation and acronym definitions |
 
 ## Document Information
 
@@ -113,8 +113,12 @@ The word `revision` refers to the report document.
 The word `version` refers to the audited software, a project, a library, or the skill itself,
 as in `Subject Revision` for the audited commit and `Skill Version` for the skill.
 
-For a multi-project audit, use the repository or directory name as the system name in the title
-and include the `Projects` row.
+Resolve `<System Name>` from the subject's declared human-readable name - a project
+specification heading such as `docs/PROJECT.md`, a manifest `name` field, or a README
+title - and fall back to the repository or directory name only when no declared name exists.
+
+For a multi-project audit, use the declared collection or repository name as the system name
+in the title and include the `Projects` row.
 
 These fields support reproducible re-audits and prevent historical tool results being attributed
 to a different tree.

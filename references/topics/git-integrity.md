@@ -10,7 +10,7 @@
 This file distills the Git signing chapter, Sigstore, and TUF sources listed in
 `references/source-catalog.md` into constraints an audit can verify from repository source.
 
-Snapshot date: 2026-10-02.
+Snapshot date: 2026-10-27.
 
 Feeds `assessment/deployment-review.md`, `references/topics/project-health.md`, and the
 integrity portions of desktop/release subjects.
@@ -71,6 +71,16 @@ From https://shattered.io/.
   the full-length pin (`%H`) the merge actually targets.
 - A fetch-and-merge update path that never compares the remote tip against a recorded pin
   anchors the CWE-494 finding class alongside unsigned-download cases.
+
+## Maintainer-Standard Floor
+
+From the maintainer's git usage standard.
+
+- `--force-with-lease` is the only acceptable force-push (`--force` alone is a finding on a
+  shared branch), `git pull --ff-only` keeps shared branches free of hiding merge commits,
+  a committed credential stays reachable even after a later revert (secrets-in-history is a
+  permanent finding), and `git worktree` over `stash` keeps a dirty tree inspectable during
+  baseline checks.
 
 ## Live Check
 

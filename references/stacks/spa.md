@@ -9,7 +9,7 @@
 This file distills the React documentation and MDN Service Worker source listed in
 `references/source-catalog.md` into constraints an audit can verify from repository source.
 
-Snapshot date: 2026-09-30.
+Snapshot date: 2026-10-27.
 
 Feeds `assessment/best-practices.md`, `assessment/code-quality.md`, and
 `assessment/security-review.md`, and `assessment/baseline-conformance.md` for SPA subjects.
@@ -90,6 +90,16 @@ engineering standard.
   slow bundlers - flag the pattern, not the file.
 - Pure logic modules carry no React imports. A `logic/` or `utils/` file importing
   `react`/`react-dom` breaks the independent-testability boundary the directory exists for.
+
+## Maintainer-Standard Floor
+
+From the maintainer's TypeScript/React engineering standards.
+
+- Component and hook discipline extends the rules of hooks: effects declare dependencies
+  honestly (an omitted dependency to silence the linter is a finding), state lives at the
+  lowest shared owner, and derived values are computed rather than stored.
+- One file-name casing per project, one barrel policy, and colocated tests - consistency binds
+  harder than any single choice.
 
 ## Live Check
 

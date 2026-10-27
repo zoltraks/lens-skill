@@ -17,20 +17,21 @@ It feeds `assessment/structure-review.md`, `assessment/best-practices.md`,
 `assessment/standards-conformance.md`, and `assessment/baseline-conformance.md`, and anchors
 the `Structure Review` and `Structure Conformance` report sections.
 
-Snapshot date: 2026-10-21.
+Snapshot date: 2026-10-27.
 
 ## Contents
 
 | Section                            | Line | What it covers                                              |
 |------------------------------------|------|-------------------------------------------------------------|
-| Component-Purpose Layout Rules     | 35   | How libraries, services, apps, CLIs, and docs differ        |
-| Polyglot Repositories              | 82   | Per-partition baseline resolution for multi-stack repos     |
-| Directory Naming Principles        | 114  | Full-word discipline, singular/plural, and catch-all bans   |
-| Cross-Language Naming Matrices     | 141  | File, package, type, member, variable, and test conventions |
-| Framework And Tooling Overrides    | 213  | Framework-imposed names that supersede language defaults    |
-| Language-Idiomatic Code Division   | 238  | Type-to-file rules, interfaces, abstracts, and DI wiring    |
-| Canonical Stack Fixtures           | 289  | Reference layouts and idioms across 11 languages/stacks     |
-| Fallback For Unlisted Technologies | 751  | Auditing languages, frameworks, and docs not in the tables  |
+| Component-Purpose Layout Rules     | 36   | How libraries, services, apps, CLIs, and docs differ        |
+| Polyglot Repositories              | 83   | Per-partition baseline resolution for multi-stack repos     |
+| Directory Naming Principles        | 115  | Full-word discipline, singular/plural, and catch-all bans   |
+| Cross-Language Naming Matrices     | 142  | File, package, type, member, variable, and test conventions |
+| Framework And Tooling Overrides    | 214  | Framework-imposed names that supersede language defaults    |
+| Language-Idiomatic Code Division   | 239  | Type-to-file rules, interfaces, abstracts, and DI wiring    |
+| Layout Convention Catalog          | 290  | Selectable layout shapes and the toolchain-binding rule     |
+| Canonical Stack Fixtures           | 324  | Reference layouts and idioms across 11 languages/stacks     |
+| Fallback For Unlisted Technologies | 786  | Auditing languages, frameworks, and docs not in the tables  |
 
 ## Component-Purpose Layout Rules
 
@@ -285,6 +286,40 @@ naming finding.
   - Static endpoint-registration classes in ASP.NET Core Minimal APIs named `*Controller`
     (when they do not inherit from `ControllerBase`) misstate the framework pattern - consistent
     `*Endpoints` or `*Handler` naming is expected.
+
+## Layout Convention Catalog
+
+The named conventions below are the selectable layout shapes a project may declare - an audit
+first checks whether a declared convention matches the tree, and only then judges by the
+stack's natural default. A toolchain that binds names to paths (MSBuild namespace parity,
+Maven source roots, Cargo module trees, PSR-4 autoload prefixes, the `internal/` visibility
+boundary) makes its layout the low-friction default; where the toolchain is silent, component
+purpose and cohesion decide.
+
+| Convention              | Shape                                                                     | Natural fit                                       |
+|-------------------------|---------------------------------------------------------------------------|---------------------------------------------------|
+| `dotnet-solution`       | `.sln` groups `src/<Name>/<Name>.csproj`, `test/<Name>.Tests` mirrors     | Multi-project .NET solutions                      |
+| `dotnet-aspnet-layered` | Role folders (`Endpoints/`, `Services/`, `Contracts/`) inside one project | Single-domain ASP.NET services                    |
+| `namespace-parity`      | Every directory level mirrors a namespace/module segment                  | .NET, Python packages, Rust module trees          |
+| `maven-standard`        | `src/main` + mirrored `src/test`, package dirs mirror declared package    | Java/Kotlin Maven and Gradle builds               |
+| `java-spring-layered`   | Singular-noun layer packages, one member kind per package                 | Single-domain Spring Boot applications            |
+| `package-by-feature`    | Packages name domain features, each carrying the types it needs           | Multi-domain JVM services                         |
+| `go-module`             | `cmd/<name>/main.go` over `internal/`, libraries at root                  | Go modules, binaries and libraries                |
+| `go-cobra-cli`          | Root `main.go` + `cmd/` as one library package of subcommands             | Cobra CLIs - never mixed with `cmd/<name>` mains  |
+| `cargo-workspace`       | Flat sibling crates, virtual root manifest, shared `target/`              | Rust projects past one crate                      |
+| `rust-domain-tree`      | Module tree is the architecture - domains, never item kinds               | Rust binary/server crates                         |
+| `src-tree`              | Importable packages under `src/`, tests/docs/tooling as siblings          | Python (PyPA src layout), JS/TS, bundled projects |
+| `node-component`        | Domain-named top folders, `app.ts`/`main.ts` split, web at the edge       | Node.js services and CLIs                         |
+| `kind-domain`           | Kind folders (`commands/`, `stores/`) with domain folders inside          | Component-driven TS/JS applications               |
+| `psr4-autoload`         | Composer prefix maps namespace to `src/`, `public/index.php` sole entry   | Composer-era PHP                                  |
+| `process-split`         | `main/` + `preload/` + `renderer/` by runtime privilege boundary          | Electron and host-plus-sandbox architectures      |
+| `partitioned-polyglot`  | Language partitions at top level, repo artifacts stay at root             | Parallel multi-language implementations           |
+
+Key enforcement signals: mixed file-and-directory modules are normal in Rust only when one
+module-file style is pinned (`clippy::self_named_module_files`); a `cmd/` package holding
+subcommands is the Cobra shape while `cmd/<name>/main.go` directories of mains are the module
+shape - one module picks one meaning; and `config/` example files sit outside packaged trees
+(`src/main/resources`, web-SDK-globbed project folders) so samples never ship as content.
 
 ## Canonical Stack Fixtures
 

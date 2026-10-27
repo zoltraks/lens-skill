@@ -12,7 +12,9 @@ of its own technology stack.
 
 Apply `principles/evaluation-rules.md` throughout.
 
-Select the stack's canonical guidance from `references/stack-standards.md` and anchor judgements to
+Select the stack's canonical guidance from `references/stack-standards.md` - its digest table
+leads to the per-stack digests, whose `Maintainer-Standard Floor` sections carry the distilled
+defect floors - and anchor judgements to
 it.
 
 Judge adherence to the conventions of the stack the subject already uses.

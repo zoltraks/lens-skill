@@ -26,8 +26,8 @@ identifiers and names), `alternate` (fallback address for the row above).
 |------------------------------------|------|--------------------------------------------------|
 | Sources                            | 32   | Source registry grouped by consuming corpus file |
 | Session-Derived Files              | 559  | Corpus files built from session knowledge        |
-| Unresolved And Alternate Addresses | 574  | Fetch failures and working alternates            |
-| Maintenance                        | 594  | Row-addition and canonicalization rules          |
+| Unresolved And Alternate Addresses | 575  | Fetch failures and working alternates            |
+| Maintenance                        | 595  | Row-addition and canonicalization rules          |
 
 ## Sources
 
@@ -567,6 +567,7 @@ These corpus files consolidate session knowledge rather than fetched sources.
 | `references/topics/deployment-ssh.md`           | Audit-session SSH/SCP deployment knowledge                                  | distilled |
 | `references/topics/license-evidence.md`         | Per-ecosystem license evidence locations                                    | distilled |
 | `references/topics/standards-anatomy.md`        | Maintainer-supplied engineering-standard corpora anatomy                    | distilled |
+| `references/topics/clean-code.md`               | Maintainer-supplied cross-stack clean-code defect classes                   | distilled |
 | `references/naming-and-layout.md`               | Cross-stack naming matrices, code-division rules, and 11-stack fixtures     | distilled |
 | `references/language-conventions.md`            | Per-ecosystem canonical style yardstick snapshot for the code-style T3 tier | distilled |
 | `references/stacks/` Naming And Layout sections | Maintainer-supplied engineering-standards corpus distilled per stack        | distilled |

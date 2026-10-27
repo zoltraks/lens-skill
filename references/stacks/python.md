@@ -10,7 +10,7 @@ This file distills the Python documentation, PEPs, PyPA packaging guides, pytest
 Bandit sources listed in `references/source-catalog.md` into constraints an audit can verify
 from repository source.
 
-Snapshot date: 2026-09-30.
+Snapshot date: 2026-10-27.
 
 Feeds `assessment/best-practices.md`, `assessment/code-quality.md`,
 `assessment/testing-review.md`, `assessment/skill-definition.md`, and
@@ -99,6 +99,16 @@ From https://bandit.readthedocs.io/en/latest/plugins/index.html - the rule IDs b
   without `Loader`, B602+ subprocess wrappers.
 - `# nosec` comments suppress findings and are themselves auditable: each one should carry a
   justification.
+
+## Maintainer-Standard Floor
+
+From the maintainer's Python engineering standard (inline-scoped).
+
+- Managed-desktop constraints: confirm `python` resolves to a real interpreter (the bare name
+  can be a store shim), multi-statement logic goes to stdin or a file rather than a `-c`
+  string, heredocs stay single-quoted, Unicode output goes to a file or an explicit UTF-8
+  stream, probes print observed evidence rather than pass/fail, and the standard library alone
+  is the safe assumption.
 
 ## Live Check
 

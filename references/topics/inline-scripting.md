@@ -11,7 +11,7 @@ This file distills the Microsoft cmd and PowerShell documentation, the Python co
 documentation, and the SS64 command reference listed in `references/source-catalog.md` into
 constraints an audit can verify from repository source.
 
-Snapshot date: 2026-10-09.
+Snapshot date: 2026-10-27.
 
 Feeds `assessment/baseline-conformance.md` and `assessment/best-practices.md` for subjects
 whose repositories ship `.bat`, `.cmd`, `.ps1`, or embedded script invocations.
@@ -65,6 +65,20 @@ From https://docs.python.org/3/using/cmdline.html.
   stdout while diagnostics go to stderr.
 - Unicode and encoding are pinned explicitly (`sys.stdout.reconfigure(encoding="utf-8")` or
   file output) when the payload contains non-ASCII - console codepages silently corrupt it.
+
+## Maintainer-Standard Floor
+
+From the maintainer's inline-scripting standards (Bash, PowerShell, Python, JavaScript,
+AppleScript).
+
+- Multi-statement logic goes to stdin or a scratch file - a `-e`/`-c` string past one
+  statement is a defect, and heredocs stay single-quoted so the host shell never expands the
+  script body.
+- Script source never interpolates through another shell's quoting; a probe prints observed
+  evidence (values, counts, structure) rather than a bare pass/fail.
+- Per-host specifics: on Windows the bare `python` name can resolve to a store shim - confirm a
+  real interpreter first; JavaScript picks the module system by extension (`.cjs` always CommonJS);
+  AppleScript checks target health before querying and bounds every `tell` with a timeout.
 
 ## Cross-Platform Embedding
 

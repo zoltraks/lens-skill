@@ -10,7 +10,7 @@ This file distills the Microsoft Learn design, security-analysis, ASP.NET Core, 
 sources listed in `references/source-catalog.md` into constraints an audit can verify from
 repository source.
 
-Snapshot date: 2026-09-30.
+Snapshot date: 2026-10-27.
 
 Feeds `assessment/best-practices.md`, `assessment/structure-review.md`,
 `assessment/security-review.md`, `assessment/api-compatibility.md`, and
@@ -50,6 +50,18 @@ and https://learn.microsoft.com/en-us/dotnet/core/compatibility/.
   compatibility assessment against that taxonomy.
 - `Obsolete` attributes carry messages and flag error escalation. Removing an API without an
   `Obsolete` period is a breaking-change finding for libraries.
+- The non-negotiable floor: `<Nullable>enable</Nullable>` project-wide, no `dynamic`, no
+  `Console.WriteLine` in production code (`ILogger<T>` is the channel), no hardcoded secrets,
+  no `async void` outside event handlers, and every endpoint returns a typed result - an
+  `object`/`dynamic` return is a defect.
+- Configuration loads in a declared precedence - file, then prefixed environment variables, then
+  command-line arguments - and a divergence between the documented order and the composition
+  root is a finding.
+- The startup sequence is ordered and visible: load and validate configuration, register DI
+  services, configure auth middleware, map route groups, start background services, pre-load
+  caches - plus a graceful-shutdown path that drains in-flight requests.
+- Sensitive configuration files are permission-checked where the OS supports it, secret values
+  never reach logs, and the shipped container image runs as a non-root user.
 
 ## Security Analyzers
 

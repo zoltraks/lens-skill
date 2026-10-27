@@ -8,7 +8,7 @@
 This file distills the Zig language documentation listed in `references/source-catalog.md`
 into constraints an audit can verify from repository source.
 
-Snapshot date: 2026-09-30.
+Snapshot date: 2026-10-27.
 
 Zig is pre-1.0: the toolchain version is part of the contract and language semantics shift
 between releases.
@@ -67,6 +67,16 @@ engineering standard.
   would clutter sources.
 - One `.zig` file per logical unit: split a module when it outgrows roughly 300 lines, and
   circular `@import` dependencies between modules are a structural finding.
+
+## Maintainer-Standard Floor
+
+From the maintainer's Zig engineering standard.
+
+- The defect floor: every allocating function takes an `std.mem.Allocator` parameter (no
+  global allocator), every allocation is freed by the caller or transferred under a documented
+  convention, `defer`/`errdefer` guard every allocation, no `var` at file scope mutated at
+  runtime, safety checks stay enabled in Debug and ReleaseSafe, every test file is reachable
+  from the test entry point, and `zig fmt --check` plus `zig build test` are clean.
 
 ## Live Check
 

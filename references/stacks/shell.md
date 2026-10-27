@@ -10,7 +10,7 @@ This file distills the ShellCheck wiki, Google Shell Style Guide, and PSScriptAn
 listed in `references/source-catalog.md` into constraints an audit can verify from repository
 source.
 
-Snapshot date: 2026-09-30.
+Snapshot date: 2026-10-27.
 
 Feeds `assessment/best-practices.md`, `assessment/code-quality.md`, and
 `assessment/security-review.md`, and `assessment/baseline-conformance.md` for script-heavy
@@ -93,6 +93,19 @@ PowerShell, and AppleScript engineering standards.
   source is a hygiene finding across every scripting dialect.
 - Environment variable names are `UPPER_SNAKE_CASE` and descriptive (`AUTOMATION_TARGET_PATH`),
   and timeout or interval constants carry their unit (`POLL_TIMEOUT_MS`, `MaxWaitTime`).
+
+## Maintainer-Standard Floor
+
+From the maintainer's Bash, Batch, PowerShell, and inline-scripting standards.
+
+- Batch floor: `@ECHO OFF` opens every script, `SETLOCAL`/`ENDLOCAL` scope state, every `CALL`
+  is followed by an `IF ERRORLEVEL` check, paths with spaces are quoted, no `::` comments
+  inside `FOR` blocks (they break the parser), no hardcoded secrets, and every script exits
+  with a meaningful `ERRORLEVEL`.
+- Inline floor (all hosts): multi-statement logic goes to stdin or a scratch file rather than
+  a `-e`/`-c` string, heredocs stay single-quoted, script source never interpolates through
+  another shell's quoting, a probe prints observed evidence rather than pass/fail, and no
+  secrets reach stdout.
 
 ## Live Check
 

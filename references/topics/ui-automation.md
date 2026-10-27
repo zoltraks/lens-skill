@@ -12,7 +12,7 @@ Authoring Practices Guide, the Chromium and Gecko accessibility architecture doc
 AT-SPI listed in `references/source-catalog.md` into constraints an audit can verify from
 repository source.
 
-Snapshot date: 2026-10-09.
+Snapshot date: 2026-10-27.
 
 Feeds `assessment/baseline-conformance.md` and `assessment/best-practices.md` for subjects
 classified `automation` in `references/domain-profiles.md`.
@@ -44,6 +44,15 @@ https://w3c.github.io/webdriver/.
 - Degradation carries data, not silence: unreachable content yields what was obtained plus a
   warning, and an item blocked by security controls lands as a per-item marker plus one
   summary warning rather than failing the run.
+- Machine output is single-sourced: findings and payloads serialize through one contract type,
+  so a parser change cannot fork the output shape between read paths.
+- Element access is fault-tolerant by construction - a property read goes through a `Safe*`
+  helper that absorbs `COMException`-class failures, because an element can vanish between
+  enumeration and read. A premature `Marshal.ReleaseComObject` on a shared element is a
+  use-after-release defect - the runtime wrapper owns the lifetime.
+- The provider seam separates the declared contract from the platform backend: the contract
+  owns the vocabulary and the backend only maps into it, and name parsers pin labels through
+  explicit tables rather than matching fragments of localized UI text.
 
 ## State Detection
 
