@@ -20,13 +20,13 @@ Two audits of similar systems should produce reports of similar shape, vocabular
 |--------------------------------|------|----------------------------------|
 | Tone And Register              | 31   | Neutral, precise report voice    |
 | Structure Preferences          | 45   | Tables over paragraphs, ordering |
-| Fixed Vocabularies             | 81   | Status and severity word lists   |
-| Consistency Rules              | 156  | Same input, same output shape    |
-| Plain-Text Friendly Formatting | 172  | Terminal and diff readability    |
-| Multilingual Output            | 282  | Non-English report rendering     |
-| Information Security In Output | 419  | Redaction and disclosure limits  |
-| Report Termination             | 434  | End-of-report rules              |
-| Determinism                    | 443  | Repeatability guarantees         |
+| Fixed Vocabularies             | 84   | Status and severity word lists   |
+| Consistency Rules              | 159  | Same input, same output shape    |
+| Plain-Text Friendly Formatting | 175  | Terminal and diff readability    |
+| Multilingual Output            | 285  | Non-English report rendering     |
+| Information Security In Output | 422  | Redaction and disclosure limits  |
+| Report Termination             | 437  | End-of-report rules              |
+| Determinism                    | 446  | Repeatability guarantees         |
 
 ## Tone And Register
 
@@ -71,6 +71,9 @@ Anchor every claim to a concrete fact: a file path, a config key, a command, or 
 Date and numeric ranges use words, never `..` - `between **2026-08-20** and **2026-10-24**`
 for a standalone range, `**2026-08-20** to **2026-10-24**` when the range modifies a noun,
 and the range dates render bold.
+
+Register identifiers are cited individually, never as a range -
+write `REC-001, REC-002, REC-003`, never `REC-001..003`.
 
 Use headers for section titles rather than bold runs of text.
 

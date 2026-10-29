@@ -1564,6 +1564,23 @@ def section_block(text: str, heading_pattern: str) -> str:
     return block[: following.start()] if following else block
 
 
+def heading_depth(match: re.Match) -> int:
+    return len(match.group(0)) - len(match.group(0).lstrip("#"))
+
+
+def section_end(rest: str, depth: int, skip_registers: bool = False) -> int:
+    """Offset where a section ends inside `rest` - the next heading of the
+    same or shallower depth, so a `###` section inside a multi-project
+    `##` block stops at its sibling `###` headings instead of running
+    into the next project. `skip_registers` keeps `### FND-`/`RSK-`/
+    `REC-`/`TDR-` register-item headings inside their parent section."""
+    pattern = rf"^#{{1,{depth}}}\s+"
+    if skip_registers:
+        pattern += r"(?!(?:FND|RSK|REC|TDR)-)"
+    match = re.search(pattern, rest, re.MULTILINE)
+    return match.start() if match else len(rest)
+
+
 STRUCTURE_VARIANT_SECTIONS = [
     "Document Information",
     "Project Context",
@@ -1590,8 +1607,7 @@ def check_structure_and_naming(text: str) -> list[str]:
     failures: list[str] = []
     for match in re.finditer(r"^#{2,3}\s+Structure Review\s*$", text, re.MULTILINE):
         rest = text[match.end() :]
-        end = re.search(r"^##\s+", rest, re.MULTILINE)
-        block = rest[: end.start()] if end else rest
+        block = rest[: section_end(rest, heading_depth(match))]
         verdict_rows: dict[str, str] = {}
         for table in tables_in(block):
             header, rows = table_cells(table)
@@ -1618,8 +1634,7 @@ def check_structure_and_naming(text: str) -> list[str]:
         r"^#{2,3}\s+Structure Conformance\s*$", text, re.MULTILINE
     ):
         rest = text[match.end() :]
-        end = re.search(r"^##\s+", rest, re.MULTILINE)
-        block = rest[: end.start()] if end else rest
+        block = rest[: section_end(rest, heading_depth(match))]
         status_tables = 0
         for table in tables_in(block):
             header, rows = table_cells(table)
@@ -1641,8 +1656,7 @@ def check_structure_and_naming(text: str) -> list[str]:
             )
     for match in re.finditer(r"^#{2,3}\s+Code Style\s*$", text, re.MULTILINE):
         rest = text[match.end() :]
-        end = re.search(r"^##\s+", rest, re.MULTILINE)
-        block = rest[: end.start()] if end else rest
+        block = rest[: section_end(rest, heading_depth(match))]
         status_tables = 0
         for table in tables_in(block):
             header, rows = table_cells(table)
@@ -1839,7 +1853,11 @@ def check_rec_classification(text: str) -> list[str]:
         section = rest[: following.start()] if following else rest
         table = [line for line in section.split("\n") if line.startswith("|")]
         for line in table:
-            classified += re.findall(r"REC-\d{3}", line)
+            cells = raw_cells(line)
+            # Only the row's Rec cell counts - citing another REC in a
+            # text cell such as Basis is not a second classification.
+            if cells:
+                classified += re.findall(r"REC-\d{3}", cells[0])
         if len(table) >= 2:
             header = [cell.strip() for cell in raw_cells(table[0])]
             if "Class" in header:
@@ -2243,8 +2261,9 @@ def disposition_regions(text: str) -> list[tuple[str, str]]:
             rf"^#{{2,3}}\s+{re.escape(name)}\s*$", text, re.MULTILINE
         ):
             rest = text[match.end() :]
-            end = re.search(r"^#{1,2}\s", rest, re.MULTILINE)
-            region = rest[: end.start()] if end else rest
+            region = rest[
+                : section_end(rest, heading_depth(match), skip_registers=True)
+            ]
             owner = next(
                 (title for position, title in reversed(level2) if position < match.start()),
                 "",
@@ -2606,8 +2625,9 @@ def check_summary_verified(text: str) -> list[str]:
         rf"^#{{2,3}}\s+{re.escape(heading)}\s*$", text, re.MULTILINE
     ):
         rest = text[match.end() :]
-        end = re.search(r"^#{1,2}\s", rest, re.MULTILINE)
-        block = rest[: end.start()] if end else rest
+        block = rest[
+            : section_end(rest, heading_depth(match), skip_registers=True)
+        ]
         details = {
             m.group(1): block[m.start() :]
             for m in re.finditer(r"^###\s+(FND-[A-Z]{3}-\d{3})", block, re.MULTILINE)
@@ -2654,7 +2674,11 @@ def check_fresh_audit_claims(lines: list[str], fences: list[bool]) -> list[str]:
         return []
     failures: list[str] = []
     for index, (line, fenced) in enumerate(zip(lines, fences)):
-        if fenced or re.search(r"parity baseline|industry baseline", line, re.IGNORECASE):
+        if fenced or re.search(
+            r"parity baseline|industry baseline|comparison baseline|stack baseline",
+            line,
+            re.IGNORECASE,
+        ):
             continue
         if re.search(r"baseline|previous (audit|report|revision)", line, re.IGNORECASE) and re.search(
             r"better|improv|differ|regress|compar|since", line, re.IGNORECASE
@@ -2671,8 +2695,7 @@ def check_roadmap_breaking(text: str) -> list[str]:
     failures: list[str] = []
     for match in re.finditer(r"^#{2,3}\s+Remediation Roadmap\s*$", text, re.MULTILINE):
         rest = text[match.end() :]
-        end = re.search(r"^#{1,2}\s", rest, re.MULTILINE)
-        block = rest[: end.start()] if end else rest
+        block = rest[: section_end(rest, heading_depth(match))]
         header = next(
             (line for line in block.split("\n") if line.startswith("|") and "Rec" in line),
             None,

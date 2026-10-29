@@ -109,6 +109,13 @@ reader can navigate.
 
 For example: `### FND-ARC-001: Missing input validation (api-service)`.
 
+Register-item headings stay `###` exactly - never `####` or deeper - even inside `##`
+project blocks, and each carries the `(<project>)` suffix.
+
+Every register reference outside its defining heading or row is `project::ID`-qualified,
+not only citations in shared sections - a `FND-SEC-001` in `alpha`'s roadmap and in
+`beta`'s findings both need the qualifier because the bare identifier is ambiguous.
+
 On a re-audit, a prior cross-cutting finding that now maps to one project keeps its identifier
 and gains that project's `(<project>)` suffix, and the mapping is recorded in the Changes Since
 Previous Audit section.

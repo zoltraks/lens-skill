@@ -20,11 +20,11 @@ defined in `process/report-format/hunt-style.md` and `process/report-format/revi
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 2114 | Intake Checklist guidance        |
-| Handling Thin Input     | 2139 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 2153 | Single-Dimension Audits guidance |
-| Re-Audit                | 2167 | Re-Audit guidance                |
-| Multi-Project Audits    | 2233 | Multi-Project Audits guidance    |
+| Intake Checklist        | 2122 | Intake Checklist guidance        |
+| Handling Thin Input     | 2147 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 2161 | Single-Dimension Audits guidance |
+| Re-Audit                | 2175 | Re-Audit guidance                |
+| Multi-Project Audits    | 2241 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -1907,6 +1907,14 @@ and confirm the tools behave as specified.
 Before drafting registers, read `validate-report.py --dump-contract` output for the
 mechanically enforced contract - required sections, field lists, token vocabularies -
 so blocks are composed to the enforced shape rather than corrected into it.
+
+Scaffold the report with `scripts/new-report.py` (with `--projects` for multi-project
+subjects) instead of hand-authoring the skeleton, so every required heading, table
+header, and register block shape starts conformant.
+
+Run `scripts/finalize-report.py` early and repeatedly while composing, then continue
+editing on the formatted, linked text - link and format passes rewrite identifiers and
+column widths, so exact-match edits against unformatted content miss.
 
 A probe failure means the toolchain, not the report, needs attention first.
 

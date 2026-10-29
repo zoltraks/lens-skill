@@ -13,10 +13,10 @@
 |--------------------------------|------|--------------------------------------|
 | Strengths & What's Working     | 21   | Evidence-based positive baselines    |
 | Technical Findings    | 59   | Finding summary and detail blocks    |
-| Technical Debt Register        | 369  | Distinct accumulated debt            |
-| Unified Risk Register          | 418  | Cross-referenced risks               |
-| Remediation Roadmap | 513  | Prioritized recommendations          |
-| Recommendation Classification  | 597  | Recommended/Optional/Not recommended |
+| Technical Debt Register        | 378  | Distinct accumulated debt            |
+| Unified Risk Register          | 427  | Cross-referenced risks               |
+| Remediation Roadmap | 522  | Prioritized recommendations          |
+| Recommendation Classification  | 606  | Recommended/Optional/Not recommended |
 
 ## Strengths & What's Working
 
@@ -242,6 +242,15 @@ Every finding carries a description paragraph under its heading, plus Impact, Re
 and Method.
 
 A finding with only a title and status is incomplete.
+
+The same rule applies to `RSK`, `REC`, and `TDR` register blocks -
+each `###` register heading is followed by its own description paragraph before the
+field list, never straight into `* **Field:**` lines.
+
+Every finding resolves to a remediation entry or an `Accepted - no action` disposition -
+an unmapped finding is a report defect.
+
+The `Criteria` field names exactly one declared criterion row, never a comma-joined list.
 
 The description paragraph must explain what the discovered state is,
 where it is located (citing file paths and line numbers), and why it constitutes a finding.

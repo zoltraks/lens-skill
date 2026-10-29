@@ -298,6 +298,9 @@ A term serving as a fixed identifier prefix throughout the report - `EVD`, `FND`
 `REC`, `TDR`, `PAR` - carries a `###` description in addition to its index-table row, never instead of it, since
 the reader meets it in every register and finding block.
 
+The index-table row for such a term renders as a link to the `###` anchor -
+`[EVD](#evd)` - and the `###` heading carries the bare term so its slug matches.
+
 Name each subsection `### TERM (Expansion)` when the expansion is established,
 or `### TERM` when it is not.
 
