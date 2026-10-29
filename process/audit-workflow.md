@@ -2264,7 +2264,8 @@ See `process/report-format/multi-project.md` for the multi-project report struct
 **Workflow for multiple projects**
 
 Run the full workflow (Scope Definition through Validation) once per project,
-in sequence or in parallel as the agent's capabilities allow.
+in sequence or in parallel as the agent's capabilities allow - delegated evidence
+gathering follows `process/parallel-execution.md`.
 
 After all per-project assessments are complete,
 run a single Synthesis phase that combines all projects into one report:

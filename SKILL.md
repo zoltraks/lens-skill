@@ -20,7 +20,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.5.2"
+  version: "2.5.3"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -41,15 +41,15 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 | Parameter Configuration | 137  | Defaults and user-controlled report shape          |
 | Principles              | 144  | Evaluation and output rules                        |
 | Process                 | 150  | Workflow, format, and parity                       |
-| Assessments             | 182  | Core and conditional assessment guides             |
-| Synthesis               | 188  | Findings, risk, score, and remediation assembly    |
-| Translations            | 200  | Per-language report translations                   |
-| References              | 209  | Lookup tables                                      |
-| Scripts                 | 233  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 255  | Behavioral regression prompts                      |
-| Repository Files        | 259  | Housekeeping files governing this repository       |
-| Evidence Contract       | 271  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 301  | File-selection and section-placement rules         |
+| Assessments             | 183  | Core and conditional assessment guides             |
+| Synthesis               | 189  | Findings, risk, score, and remediation assembly    |
+| Translations            | 201  | Per-language report translations                   |
+| References              | 210  | Lookup tables                                      |
+| Scripts                 | 234  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 256  | Behavioral regression prompts                      |
+| Repository Files        | 260  | Housekeeping files governing this repository       |
+| Evidence Contract       | 272  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 302  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -172,6 +172,7 @@ the parameter surfaces, defaults, resolution rules, and re-audit parameters live
 - **`process/operation-timing.md`** - Timing under verbose, informational, diagnostic, or timing
   modes.
 - **`process/parameter-configuration.md`** - Parameter surfaces, defaults, and resolution rules.
+- **`process/parallel-execution.md`** - Delegated read-only scout model for large audit surfaces.
 - **`process/navigation-rules.md`** - File-selection and section-placement rules for every report.
 - **`process/report-parity.md`** - Mandatory core checklist and consistency gate.
 - **`process/readiness-scoring.md`** - Score aggregation, confidence, maturity, readiness gates.

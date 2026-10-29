@@ -39,6 +39,13 @@ Trace identity, authorization, input validation, and the protected operation end
 
 For each exposed transport, check object, action, and tenant/path scope independently.
 
+Every endpoint that maps user input to a filesystem path gets its own traversal-guard
+verdict - read paths such as download and preview, and write paths such as upload, move,
+rename, and delete.
+
+A `normalize()` plus `startsWith(base)` guard on one path never generalizes to siblings -
+an unguarded write path is a finding even when the read path is defended.
+
 A policy function or middleware name does not prove the caller uses its result.
 
 Check REST, MCP, background work, and direct library calls separately where applicable.

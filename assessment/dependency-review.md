@@ -44,7 +44,12 @@ Use the evidence ledger and the no-execution rule in `process/audit-workflow.md`
 
 For Rust, inspect each workspace or independent manifest and its resolved lockfile.
 
-Do not run `cargo audit`, `cargo deny check advisories`, or an ecosystem equivalent.
+Do not run `cargo audit`, `cargo deny check advisories`, or an ecosystem equivalent
+unless `dependency-advisories` is on and the evidence mode permits it per
+`process/parameter-configuration.md`.
+
+A commissioned sweep that runs or is fetched counts as `Reported` evidence - record its
+tool, version, and scope the same way.
 
 Look for committed scan reports, CI pipeline steps that run them, or documented advisory reviews.
 

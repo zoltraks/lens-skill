@@ -13,10 +13,10 @@
 |--------------------------------|------|--------------------------------------|
 | Strengths & What's Working     | 21   | Evidence-based positive baselines    |
 | Technical Findings    | 59   | Finding summary and detail blocks    |
-| Technical Debt Register        | 365  | Distinct accumulated debt            |
-| Unified Risk Register          | 414  | Cross-referenced risks               |
-| Remediation Roadmap | 509  | Prioritized recommendations          |
-| Recommendation Classification  | 593  | Recommended/Optional/Not recommended |
+| Technical Debt Register        | 369  | Distinct accumulated debt            |
+| Unified Risk Register          | 418  | Cross-referenced risks               |
+| Remediation Roadmap | 513  | Prioritized recommendations          |
+| Recommendation Classification  | 597  | Recommended/Optional/Not recommended |
 
 ## Strengths & What's Working
 
@@ -63,6 +63,10 @@ plus the conditional API Compatibility & Versioning Discipline pillar when the s
 library or package.
 
 Each finding receives a unique deterministic index.
+
+When multiple evidence passes surface the same defect - parallel scouts per
+`process/parallel-execution.md`, or overlapping criteria - the register carries one row
+with the merged evidence references, never a second finding under another pillar.
 
 **Summary table:**
 

@@ -71,3 +71,35 @@ The previous report is never overwritten - write the next revision-numbered file
 A style named in the request takes precedence over the recovered previous style - asking for a
 general audit report after a `HUNT` report proposes `audit` - while an unnamed style keeps the
 recovered value as the proposed default.
+
+## Evidence Parameters
+
+Two advanced parameters govern what evidence may be touched.
+
+They apply the defaults unless the request names them.
+
+| Parameter                 | Default | What it controls                                                                 |
+|---------------------------|---------|----------------------------------------------------------------------------------|
+| `evidence-exclusions`     | none    | User-declared paths or patterns withheld from evidence gathering                 |
+| `dependency-advisories`   | `off`   | Whether a commissioned advisory sweep may run or be fetched for the SBOM         |
+
+`evidence-exclusions` lists paths, file names, or glob patterns the audit never opens,
+quotes, or summarizes - the canonical use is a prior report when the user asks for a
+fresh, independent audit.
+
+Honored exclusions are recorded in the Auditing Methodology section, and every parallel
+scout brief repeats them per `process/parallel-execution.md`.
+
+Excluding the previous report degrades a re-audit to a full audit - no baseline exists
+to diff against, and the report states the exclusion rather than a changes section.
+
+`dependency-advisories` permits the sweep only where the evidence mode allows it -
+`executed-readonly` for non-mutating scanners such as `npm audit` or `osv-scanner`,
+`executed-commands` for other commissioned commands, or an explicit web-fetch commission
+for public advisory data.
+
+When the sweep runs, advisory IDs land in the SBOM `Advisory` column per
+`assessment/dependency-review.md`.
+
+When it is `off` or the evidence mode disallows it, the column keeps its honest
+`Not checked` or `N` entries - freshness flags alone never claim advisory status.

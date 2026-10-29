@@ -1928,6 +1928,50 @@
         "Discarded errors without a reason comment are defects.",
         "context.Context stored in a struct field is a defect."
       ]
+    },
+    {
+      "id": 164,
+      "prompt": "Audit the example-service repository. The repository contains a previous audit report at docs/audit/AUDIT-1.0.md - do not open, quote, or summarize it. The user wants a fresh, independent audit.",
+      "expected_output": "A fresh audit whose Auditing Methodology records the evidence exclusion, no prior-report content influences findings, and no changes section diffs against the excluded report.",
+      "files": [],
+      "expectations": [
+        "The methodology lists the excluded report path under honored evidence exclusions.",
+        "No finding cites or paraphrases the excluded report.",
+        "The run degrades to a full audit - no Changes Since Previous Audit claims a baseline it never read."
+      ]
+    },
+    {
+      "id": 165,
+      "prompt": "Audit the example-app repository with dependency-advisories enabled under source-only evidence mode.",
+      "expected_output": "The advisory sweep is refused - the parameter cannot run under source-only, the SBOM Advisory column keeps its honest Not checked entries, and the scan becomes a roadmap item.",
+      "files": [],
+      "expectations": [
+        "No advisory scanner or fetch runs under source-only mode.",
+        "The SBOM advisory column keeps Not checked or N rather than invented advisory data.",
+        "An advisory sweep lands as a roadmap recommendation, not performed evidence."
+      ]
+    },
+    {
+      "id": 166,
+      "prompt": "Audit a multi-module repository in a host without subagent capability.",
+      "expected_output": "The sequential workflow runs - the scout role list becomes the parent's reading checklist and the methodology records no delegation.",
+      "files": [],
+      "expectations": [
+        "No scout delegation is claimed when no subagent capability exists.",
+        "The audit completes every role's evidence area sequentially.",
+        "Auditing Methodology states the run was sequential."
+      ]
+    },
+    {
+      "id": 167,
+      "prompt": "Audit the example-service repository. The preview/download path normalizes and rejects traversal, but the upload path writes user-controlled filenames without a guard.",
+      "expected_output": "The unguarded upload write path is its own security finding - the defended read path never clears it.",
+      "files": [],
+      "expectations": [
+        "A finding names the unguarded write path with its file:line evidence.",
+        "The defended preview/download path is cited as contrast, not as mitigation.",
+        "Traversal coverage verdicts appear per endpoint, not once for the feature area."
+      ]
     }
   ]
 }

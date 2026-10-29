@@ -29,11 +29,11 @@
 | Report Format                      | 448  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 485  | Supported requests and exclusions                   |
 | What's Inside                      | 509  | Documents, references, tools, and conditional files |
-| Document Style                     | 673  | Pointer to the style rules file                     |
-| Specification                      | 683  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 704  | Maintenance checks and regression scenarios         |
-| License                            | 732  | License for the skill itself                        |
-| Credits                            | 738  | Authorship and attribution                          |
+| Document Style                     | 674  | Pointer to the style rules file                     |
+| Specification                      | 684  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 705  | Maintenance checks and regression scenarios         |
+| License                            | 733  | License for the skill itself                        |
+| Credits                            | 739  | Authorship and attribution                          |
 
 ## Overview
 
@@ -532,6 +532,7 @@ lens-skill/
 │   ├── navigation-rules.md                # File-selection and section-placement rules for every report
 │   ├── operation-timing.md                # Elapsed-time report for named operations
 │   ├── operations-catalog.md              # Canonical operations table for "list all operations"
+│   ├── parallel-execution.md              # Delegated read-only scout model for large surfaces
 │   ├── parameter-configuration.md         # Parameter surfaces, defaults, and resolution rules
 │   ├── report-format.md                   # Audit report format index: rules, section order, spec map
 │   ├── report-format/                     # Per-section report specifications
