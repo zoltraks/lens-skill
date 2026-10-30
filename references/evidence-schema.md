@@ -232,6 +232,6 @@ Broad engagement labels always disclose the evidence mode beside them.
 A static source review is not a penetration test, and an embedding-component review is not an
 organizational AI-governance assessment.
 
-The Audit Type Coverage matrix keeps its own type-level vocabulary per
+The Audit Coverage matrix keeps its own type-level vocabulary per
 `references/audit-taxonomy.md` - these labels describe criterion coverage, not engagement
 coverage.

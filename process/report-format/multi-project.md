@@ -8,8 +8,14 @@
 When the audit covers more than one project in a repository or directory,
 the report uses a combined structure.
 
-Each project is assessed independently and receives its own complete set of sections within the
-report.
+The `project_layout` parameter selects between two structures: `separate` (the default -
+each project receives its own complete set of sections, as this file first describes) and
+`combined` (a fully grouped layout with no per-project level-2 blocks - see the
+Combined-layout section below). The agent may ask at the Parameter Configuration gate
+whether findings, observations, and registers are grouped across projects or described
+per project; when the user does not choose, `separate` applies.
+
+Each project is assessed independently regardless of layout.
 
 **Document Information** appears once at the top.
 
@@ -17,7 +23,7 @@ The title uses the repository or directory name, not a single project name.
 
 Include a `Projects` row in the table listing the audited projects.
 
-The **Audit Type Coverage** table appears once, immediately after Document
+The **Audit Coverage** table appears once, immediately after Document
 Information and before the Project Inventory.
 
 **Project Inventory** appears after the Coverage Matrix.
@@ -33,10 +39,13 @@ Projects the user unchecked, or that intake classified as installed or `not fetc
 appear here: they are disclosed once in Scope Exclusions with their exclusion reason.
 
 ```
-| Project        | Path           | Version | Source     | Description            |
-|----------------|----------------|---------|------------|------------------------|
-| <project name> | <project path> | <ver>   | <in-tree>  | <one-line description> |
+| Project                    | Path           | Version | Source     | Description            |
+|----------------------------|----------------|---------|------------|------------------------|
+| [<project name>](#<slug>)  | <project path> | <ver>   | <in-tree>  | <one-line description> |
 ```
+
+Under the `separate` layout the link target is the project's `##` heading; under the
+`combined` layout it is the project's row in the shared registers.
 
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
@@ -113,9 +122,9 @@ For example: `### FND-ARC-001: Missing input validation (api-service)`.
 Register-item headings stay `###` exactly - never `####` or deeper - even inside `##`
 project blocks, and each carries the `(<project>)` suffix.
 
-Every register reference outside its defining heading or row is `project::ID`-qualified,
-not only citations in shared sections - the identifier itself occurs once report-wide, and
-the qualifier names which project owns the entry.
+Register references use the bare identifier alone - `FND-SEC-001` - everywhere, inside
+shared sections and project blocks alike, since every register family numbers
+report-globally and the ID is unambiguous on its own.
 
 On a re-audit, a prior cross-cutting finding that now maps to one project keeps its identifier
 and gains that project's `(<project>)` suffix, and the mapping is recorded in the Changes Since
@@ -130,7 +139,7 @@ own project suffix, and the split is recorded in the Changes section.
 - Trade-off Analysis (combined)
 - Scope Exclusions
 - Limitations and Unknowns
-- Re-audit And Follow-up Plan *(conditional)*
+- Follow-up Plan *(conditional)*
 - Validation Record
 - References
 
@@ -157,10 +166,29 @@ The validator enforces three multi-project rules once a `Project Inventory` exis
 
 - A shared-table cell never carries an ambiguous project label - `both`, `either`, and
   `the projects` all fail, so split the row or name each project explicitly.
-- Identifiers in shared sections qualify with the project name and a `::` separator,
-  `api-service::FND-SEC-001`, so a reader can tell which register owns the entry.
+- Identifier references are bare everywhere - `FND-SEC-001` - since every register family
+  numbers report-globally; the `(<project>)` suffix on the defining heading names the
+  owner.
 - The Project column appears only in combined and shared tables - a single-project report
   without a Project Inventory must not carry one, and the evidence ledger follows the same rule.
+
+**Combined layout** (`project_layout: combined`)
+
+Under `combined` the report carries no per-project level-2 blocks.
+
+Sections appear once at level 2 in the standard single-project order, and every register,
+scorecard, and per-project table gains a `Project` column carrying the project identifier -
+one Technical Findings table, one Unified Risk Register, one Remediation Roadmap, one
+Evidence List, each with all projects' rows merged.
+
+Finding and register headings still carry the `(<project>)` suffix, and every shared table
+qualifies its rows through the `Project` column, never through `project::ID` prefixes.
+
+The Executive Summary keeps one row per project, and the Project Inventory links each name
+to the first shared table that lists that project.
+
+A project with no rows in a register is named `none` in that table only when the register
+itself is otherwise non-empty.
 
 **Single-project reports** use the standard structure without the Project Inventory table and
 without per-project level-2 headings.

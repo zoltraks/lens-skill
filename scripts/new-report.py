@@ -71,8 +71,8 @@ DOC_INFO = [
     ("Language", "English"),
     ("Audit Purpose", "<audit purpose>"),
     ("Target Environment", "<target environment>"),
-    ("Verification Scope", "static repository analysis - no execution"),
-    ("Evidence Mode", "source-only"),
+    ("Verification Scope", "Static repository analysis - no execution"),
+    ("Evidence Mode", "Source-only"),
     ("Subject Revision", "<commit> (branch <branch>)"),
     ("Skill Version", "<version>"),
     ("State", "Draft"),
@@ -124,7 +124,7 @@ REC_BLOCK = """### {rec_id}: <recommendation title>{suffix}
 
 * **Priority:** P1
 * **Finding:** {target}
-* **Postcondition:** <verifiable end state the action must establish>
+* **Condition:** <verifiable end state the action must establish>
 * **Impact:** <business or technical impact of applying this fix>
 * **Effort:** <Low | Medium | High>
 * **Complexity:** <Low | Medium | High>
@@ -157,16 +157,16 @@ def document_info(style: str, projects: list[str], params: dict) -> str:
     rows = []
     for field, value in DOC_INFO:
         if field == "Report Style":
-            value = style
+            value = style.capitalize()
         elif field == "Detail Level":
             value = params.get("detail_level", "Standard")
         elif field == "Evidence Mode":
-            value = params.get("evidence_mode", "source-only")
+            value = params.get("evidence_mode", "Source-only")
         rows.append(f"| {field} | {value} |")
         if field == "Report Style" and params.get("review_scope") == "structure":
             rows.append("| Review Scope | Structure |")
     if projects:
-        rows.append(f"| Projects | {', '.join(projects)} |")
+        rows.append(f"| Projects | {', '.join('[' + p + '](#' + p.lstrip('.').replace(' ', '-').lower() + ')' for p in projects)} |")
     return table("| Field | Value |", "|---|---|", [row + "\n" for row in rows])
 
 
@@ -213,7 +213,7 @@ def audit_skeleton(projects: list[str], params: dict) -> str:
         "# <subject> - Lens audit report\n\n",
         heading(2, "Document Information"),
         document_info("audit", projects, params),
-        heading(2, "Audit Type Coverage"),
+        heading(2, "Audit Coverage"),
         COVERAGE_HEADER + "\n",
     ]
     if multi:
@@ -361,7 +361,7 @@ def hunt_skeleton(projects: list[str], params: dict) -> str:
         "# <subject> - Lens hunt report\n\n",
         heading(2, "Document Information"),
         document_info("hunt", projects, params),
-        heading(2, "Audit Type Coverage"),
+        heading(2, "Audit Coverage"),
         COVERAGE_HEADER + "\n",
     ]
     if multi:
@@ -478,7 +478,7 @@ def review_skeleton(projects: list[str], params: dict) -> str:
         "# <subject> - Lens review report\n\n",
         heading(2, "Document Information"),
         document_info("review", projects, params),
-        heading(2, "Audit Type Coverage"),
+        heading(2, "Audit Coverage"),
         COVERAGE_HEADER + "\n",
     ]
     if multi:

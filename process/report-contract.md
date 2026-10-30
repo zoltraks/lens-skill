@@ -34,7 +34,7 @@ Rationale and detail live in the section specs under `process/report-format/` an
 - A report under `Evidence Mode: source-only` carries an `Operator Verification Handoff` -
   under `executed-readonly` or `executed-commands` an `Executed Evidence Log` replaces it,
   and an executed `review`-style report additionally carries an Artifact Manifest.
-- The Audit Type Coverage table keeps only `Covered`, `Partially`, and `Not done` status
+- The Audit Coverage table keeps only `Covered`, `Partially`, and `Not done` status
   cells - `Not Applicable` rows are omitted entirely.
 - The Validation Record carries rows `PAR-1` through `PAR-27` in fixed order.
 - At `Detail Level: Detailed`, when `## Glossary` is present, it carries a separate
@@ -74,7 +74,7 @@ Rationale and detail live in the section specs under `process/report-format/` an
   `New` - both are lifecycle defaults and carry no information at the default value.
 - Risk blocks require: `Severity`, `Likelihood`, `Residual`,
   `Impact`, `Trigger`, `Controls`, `Closure`, `Source`, `Confidence`, `Mitigation`.
-- Recommendation blocks require: `Priority`, `Finding`, `Postcondition`,
+- Recommendation blocks require: `Priority`, `Finding`, `Condition`,
   `Impact`, `Effort`, `Complexity`, `Verification`.
 - Debt blocks require: `Category`, `Source` - `Cost` and `Delay` appear only when they
   carry a real estimate or qualitative note, and never an `Insufficient information` token;
@@ -131,7 +131,9 @@ English renders title case where the vocabulary lists give canonical uppercase n
 
 - A report with a `Project Inventory` never uses `both`, `either`, or `the projects` as a
   table cell - rows name each project explicitly.
-- Shared-register identifiers qualify as `<project>::FND-SEC-001`.
+- Register identifiers stay bare - `FND-SEC-001` - in shared sections and
+  project blocks alike; every register family numbers report-globally, so the bare
+  identifier is unambiguous.
 - The `Project` column appears only in shared tables - a single-project evidence ledger
   must not carry one.
 
@@ -157,7 +159,7 @@ executed-log section when conditional.
 - Domain Findings replaces Technical Findings for the summary-table and count
   checks - `###` domain headings sit inside the section and end only at the next `##`.
 - Every `### FND-` block maps to a remediation phase or an `Accepted - no action` row, and
-  multi-project findings match by `<project>::FND-` qualification.
+  multi-project findings match by the `(<project>)` heading qualifier.
 - A `Recommendation Classification` section is forbidden under hunt - phases carry the
   disposition.
 - Every `High` or `Critical` finding carries a `Defect scenario` field - initial

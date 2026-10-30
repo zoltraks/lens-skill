@@ -85,7 +85,7 @@ production acceptance - readiness and sign-off state are expressed through the r
 
 **Coverage and risk flags**
 
-Point the reader at the Audit Type Coverage table in one line,
+Point the reader at the Audit Coverage table in one line,
 naming only the statuses that matter for reading the report,
 for example "This report covers the engineering audit types.
 

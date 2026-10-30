@@ -13,10 +13,10 @@
 |-------------------------------|------|--------------------------------------|
 | Strengths & What's Working    | 21   | Evidence-based positive baselines    |
 | Technical Findings            | 59   | Finding summary and detail blocks    |
-| Technical Debt Register       | 396  | Distinct accumulated debt            |
-| Unified Risk Register         | 445  | Cross-referenced risks               |
-| Remediation Roadmap           | 542  | Prioritized recommendations          |
-| Recommendation Classification | 627  | Recommended/Optional/Not recommended |
+| Technical Debt Register       | 398  | Distinct accumulated debt            |
+| Unified Risk Register         | 447  | Cross-referenced risks               |
+| Remediation Roadmap           | 544  | Prioritized recommendations          |
+| Recommendation Classification | 629  | Recommended/Optional/Not recommended |
 
 ## Strengths & What's Working
 
@@ -69,8 +69,9 @@ and `PAR` run as single sequences, and `FND` numbers contiguously within each pi
 projects, so `FND-SEC-001` occurs once report-wide and the next SEC finding in any project
 continues the sequence.
 
-Project qualification `project::ID` in citations and `(<project>)` heading suffixes stay for
-clarity, per `process/report-format/multi-project.md`.
+The `(<project>)` heading suffix stays for clarity, per
+`process/report-format/multi-project.md` - citations use the bare identifier alone
+(`FND-SEC-001`), since every register family numbers report-globally.
 
 When multiple evidence passes surface the same defect - parallel scouts per
 `process/parallel-execution.md`, or overlapping criteria - the register carries one row
@@ -83,16 +84,16 @@ When the report language is not English, apply the heading translation from the 
 
 Present a compact summary of all findings:
 
-| Finding     | Pillar                                    | Severity   | Title   | Result   | Status | Change | Verification |
-|-------------|-------------------------------------------|------------|---------|----------|--------|--------|--------------|
-| FND-ARC-001 | Architecture & Design                     | <severity> | <title> | <result> | Open   | New    | <verifier>   |
-| FND-STR-001 | Structure & Organization                  | <severity> | <title> | <result> | Open   | New    | <verifier>   |
-| FND-CQY-001 | Code Quality                              | <severity> | <title> | <result> | Open   | New    | <verifier>   |
-| FND-SEC-001 | Security & Compliance                     | <severity> | <title> | <result> | Open   | New    | <verifier>   |
-| FND-INF-001 | Infrastructure & CI/CD                    | <severity> | <title> | <result> | Open   | New    | <verifier>   |
-| FND-AIP-001 | AI Provenance & Code Origin               | <severity> | <title> | <result> | Open   | New    | <verifier>   |
-| FND-CPR-001 | Copyrights & Originality                  | <severity> | <title> | <result> | Open   | New    | <verifier>   |
-| FND-API-001 | API Compatibility & Versioning Discipline | <severity> | <title> | <result> | Open   | New    | <verifier>   |
+| Finding     | Pillar                                    | Severity   | Title   | Result   | Status | Change |
+|-------------|-------------------------------------------|------------|---------|----------|--------|--------|
+| FND-ARC-001 | Architecture & Design                     | <severity> | <title> | <result> | Open   | New    |
+| FND-STR-001 | Structure & Organization                  | <severity> | <title> | <result> | Open   | New    |
+| FND-CQY-001 | Code Quality                              | <severity> | <title> | <result> | Open   | New    |
+| FND-SEC-001 | Security & Compliance                     | <severity> | <title> | <result> | Open   | New    |
+| FND-INF-001 | Infrastructure & CI/CD                    | <severity> | <title> | <result> | Open   | New    |
+| FND-AIP-001 | AI Provenance & Code Origin               | <severity> | <title> | <result> | Open   | New    |
+| FND-CPR-001 | Copyrights & Originality                  | <severity> | <title> | <result> | Open   | New    |
+| FND-API-001 | API Compatibility & Versioning Discipline | <severity> | <title> | <result> | Open   | New    |
 
 The `Title` column copies the finding's `### FND-...` heading verbatim - the summary never
 rephrases a heading.
@@ -124,8 +125,9 @@ Column meanings:
   for a re-verified passing control.
 - **Change**: how the finding moved since the previous audit - English cells render `New`,
   `Unchanged`, `Reopened`, or `Closed` - first-audit findings always carry `New`.
-- **Verification**: the evidence qualifier - English cells render `Verified`, `Confirmed`,
-  `Reported`, or empty for a finding whose `Change` is `New`.
+- **Verification**: an optional trailing column carrying the evidence qualifier - English
+  cells render `Verified`, `Confirmed`, or `Reported`. Omit the whole column when no
+  finding was verified this run; the validator tolerates both forms.
 
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
@@ -379,11 +381,11 @@ Do not assign a CVSS score or adverse severity to an ordinary positive observati
 
 Place strengths in Strengths & What's Working rather than using `Pass` as a severity.
 
-In shared sections, qualify IDs with the project identifier, including evidence, debt, risk, and
-recommendation links.
+Shared sections use bare identifiers - the ID alone is unambiguous because every
+register family numbers report-globally.
 
 Every identifier is a compound token written whole and plainly: `FND-SEC-001`,
-`api-service::FND-SEC-001`, `REC-003`, `PAR-10`.
+`REC-003`, `PAR-10`.
 
 The compound is never split, partially linked, or abbreviated to a bare prefix in prose.
 
@@ -596,7 +598,7 @@ Use this exact markdown block pattern:
 
 * **Priority:** [P1 | P2 | P3 | P4]
 * **Finding:** [FND-XXX]
-* **Postcondition:** [Verifiable end state the action must establish]
+* **Condition:** [Verifiable end state the action must establish]
 * **Impact:** [Business or technical impact of applying this fix]
 * **Effort:** [Estimated engineering effort with one-line justification]
 * **Complexity:** [Architectural or organizational complexity with one-line justification]

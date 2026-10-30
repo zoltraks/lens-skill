@@ -107,7 +107,7 @@ Close the section with the direct and transitive totals and any manifest-lockfil
 When no dependency manifest or lockfile exists in the project, state `No dependency manifests or
 lockfiles found` in place of the table rather than omitting the section.
 
-The Audit Type Coverage table claims `Covered` for SBOM or component-inventory rows only
+The Audit Coverage table claims `Covered` for SBOM or component-inventory rows only
 when this section exists with its completeness statement - a module line-count inventory
 is not an SBOM, and the validator rejects the mismatch.
 

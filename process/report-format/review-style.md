@@ -32,7 +32,7 @@ The following carry over unchanged from `process/report-format.md` and its spec 
 
 - Document Information per `report-opening.md`, including `Report Style: review` and the
   `Evidence Mode` row that decides which checks may run.
-- Audit Type Coverage per `report-opening.md`.
+- Audit Coverage per `report-opening.md`.
 - The finding block schema per `findings-registers.md`, with the same field vocabulary.
 - The risk register schema per `synthesis/risk-register.md`, the roadmap priority and
   phasing rules per `synthesis/remediation-roadmap.md`, and scoring semantics per
@@ -77,7 +77,7 @@ be claimed:
 Produce these top-level sections in this order, with unnumbered headings:
 
 - Document Information
-- Audit Type Coverage
+- Audit Coverage
 - Glossary *(when Descriptive mode is enabled)*
 - Verdict
 - System Context

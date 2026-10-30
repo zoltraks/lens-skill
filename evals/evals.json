@@ -164,10 +164,10 @@
   {
    "id": 13,
    "prompt": "Audit this repository with default parameters. The user expects a security-focused review and asks whether the report is a penetration test and a SOC 2 assessment.",
-   "expected_output": "A report whose Audit Type Coverage table states exactly which canonical audit types are covered, partially covered, or not performed, with rationale tied to report sections.",
+   "expected_output": "A report whose Audit Coverage table states exactly which canonical audit types are covered, partially covered, or not performed, with rationale tied to report sections.",
    "files": [],
    "expectations": [
-    "The report includes an Audit Type Coverage table immediately after Document Information, rendering only the statuses Covered, Partially, and Not done, with rows classified NOT APPLICABLE omitted entirely.",
+    "The report includes an Audit Coverage table immediately after Document Information, rendering only the statuses Covered, Partially, and Not done, with rows classified NOT APPLICABLE omitted entirely.",
     "Penetration Test is marked Not done and the rationale distinguishes source-level security review from live exploitation.",
     "Compliance Certification is marked Not done or omitted as NOT APPLICABLE, and referenced standards appear only as scoring rubrics.",
     "Every matrix status is consistent with Scope Exclusions: nothing marked Covered is disclaimed there and vice versa.",
@@ -682,10 +682,10 @@
   {
    "id": 56,
    "prompt": "Audit this repository. The subject has no AI or machine-learning component. Produce the report.",
-   "expected_output": "An Audit Type Coverage table that renders only the audit types that apply or were deliberately not run.",
+   "expected_output": "An Audit Coverage table that renders only the audit types that apply or were deliberately not run.",
    "files": [],
    "expectations": [
-    "The Audit Type Coverage section is present immediately after Document Information.",
+    "The Audit Coverage section is present immediately after Document Information.",
     "The table contains no AI Governance Audit row and no `NOT APPLICABLE` status cell.",
     "Statuses that render are limited to Covered, Partially, and Not done."
    ]
@@ -992,7 +992,7 @@
    "files": [],
    "expectations": [
     "Every `### FND-` block in the report must be cited inside Remediation Phases - in a phase table, a `### REC-` Target field, or an `Accepted - no action` disposition row.",
-    "In a multi-project hunt, a finding heading suffixed `(api-service)` is dispositioned by a matching `api-service::FND-` cite, not a bare identifier.",
+    "In a multi-project hunt, a finding heading suffixed `(api-service)` is dispositioned by a matching bare `FND-` cite inside the project's `##` block or register row.",
     "An accepted no-action finding is an explicit disposition, not an omission from the roadmap."
    ]
   },
@@ -1035,7 +1035,7 @@
    "expected_output": "A structurally valid review skeleton that passes the validator with zero issues.",
    "files": [],
    "expectations": [
-    "The skeleton carries every required review section: Document Information, Audit Type Coverage, Verdict, System Context, Check Plan And Methodology, Execution Register, Domain Findings, Risk Register, Improvement Plan, Scope Exclusions, Limitations and Unknowns, Validation Record, and References.",
+    "The skeleton carries every required review section: Document Information, Audit Coverage, Verdict, System Context, Check Plan And Methodology, Execution Register, Domain Findings, Risk Register, Improvement Plan, Scope Exclusions, Limitations and Unknowns, Validation Record, and References.",
     "The Execution Register template row carries command, cwd, tool and version, timestamp, input revision, exit status, result, interpretation, and artifact columns.",
     "The `### FND-` template block carries an `Evidence level` field and the Improvement Plan carries a disposition column or field.",
     "An `evidence-mode` of `executed-readonly` or `executed-commands` in the params file adds the Artifact Manifest section."
@@ -1390,7 +1390,7 @@
    "expected_output": "A report whose register cross-references and score intervals survive the validator's semantic checks.",
    "files": [],
    "expectations": [
-    "Every ### REC- block carries Priority, Finding, Postcondition, Impact, Effort, Complexity, and Verification fields.",
+    "Every ### REC- block carries Priority, Finding, Condition, Impact, Effort, Complexity, and Verification fields.",
     "A recommendation's Finding and a risk block's Source resolve to defined FND- identifiers.",
     "A rendered [lo-hi] interval contains its point score, stays within scale, and is omitted when degenerate.",
     "The report fails validation on a dangling Finding reference or a degenerate interval rather than shipping them."
@@ -2014,6 +2014,40 @@
    "expectations": [
     "Every High or Critical finding in the audit-style report carries a Defect scenario field, matching the hunt-style requirement.",
     "Findings below High severity may omit the Defect scenario field."
+   ]
+  },
+  {
+   "id": 172,
+   "prompt": "Resume an interrupted audit. The repository's work/audit-state.json shows run.phase mid-pipeline and several declared artifacts.",
+   "expected_output": "The run resumes at the recorded phase after validating the state file and checking declared artifacts against disk, keeping the original run.started timestamp.",
+   "files": [],
+   "expectations": [
+    "The agent reads and validates work/audit-state.json before any phase work.",
+    "The agent announces the resume point - current phase, resolved gates, and the next pending surface - before continuing.",
+    "The original start timestamp is kept so Time taken covers the whole effort.",
+    "A state file that fails to parse stops the workflow with a Repair or investigate offer rather than silent repair."
+   ]
+  },
+  {
+   "id": 173,
+   "prompt": "Audit this repository. During Parameter Configuration a pending question surface exists that the parameter gate does not present.",
+   "expected_output": "The run treats the omitted surface as a protocol defect: every pending surface is presented at the gate, and state is not marked resolved before answers arrive.",
+   "files": [],
+   "expectations": [
+    "The agent confirms every pending surface is presented before the gate fires.",
+    "Gate or phase completion is recorded only after the answer arrives.",
+    "The interaction mode is classified once at intake and not re-evaluated at later gates."
+   ]
+  },
+  {
+   "id": 174,
+   "prompt": "Finish an audit whose work/audit-state.json declares an artifact that no longer exists on disk.",
+   "expected_output": "The completion report carries a Missing artifacts block naming the path, its kind, and the declaring phase - reported without repair and without blocking completion.",
+   "files": [],
+   "expectations": [
+    "Every artifact declared in work/audit-state.json is checked against disk before the completion message.",
+    "A missing declared artifact produces a Missing artifacts entry naming path and declaring phase.",
+    "Reconciliation reports and never repairs or silently drops the declaration."
    ]
   }
  ]

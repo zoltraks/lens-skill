@@ -23,9 +23,9 @@ records live in `references/criterion-catalogue.md`.
 |-------------------------|------|--------------------------------------------------|
 | Pipeline Stages         | 30   | The nine stages and their publication conditions |
 | The Model Artifact      | 48   | `work/audit-model.json` schema and lifecycle     |
-| Derivation Rule         | 123  | Rendering every surface from the model           |
-| Counter-Evidence Review | 168  | The second-pass challenge discipline             |
-| Publication Stops       | 184  | Errors that block final publication              |
+| Derivation Rule         | 128  | Rendering every surface from the model           |
+| Counter-Evidence Review | 173  | The second-pass challenge discipline             |
+| Publication Stops       | 189  | Errors that block final publication              |
 
 ## Pipeline Stages
 
@@ -119,6 +119,11 @@ applicability decisions cite the census.
 
 The artifact lives until validation passes, then follows the `work/` retention rule for report
 parts - deleted before delivery unless the user asks to keep it.
+
+The sibling `work/audit-state.json` tracks the run itself - phases, gate resolutions, and
+declared artifacts - per `process/run-state.md`. The model holds audit data, the state file
+holds run progress, and neither duplicates a field the other owns. Both keep a single writer:
+the parent agent writes them, delegated scouts never do.
 
 ## Derivation Rule
 

@@ -79,7 +79,7 @@ Priority expresses urgency, not a delivery commitment, use only supplied or appr
   the finding. No adverse finding is silently unactioned. The validator reconciles the
   mapping and flags an unmapped finding.
 - An action is usable without reinterpreting the report: a recommendation block carries a
-  required `Postcondition` field - the verifiable end state the action must establish - and
+  required `Condition` field - the verifiable end state the action must establish - and
   may carry `Alternatives`, `Effort confidence`, `Residual`, `Owner` (a role or
   `UNASSIGNED`), `Depends on`, `Acceptance milestone`, and `Closure evidence` fields so the
   roadmap functions as an action tracker.
@@ -173,7 +173,7 @@ action is advised at the report's state of knowledge.
 
 A `Not recommended` entry keeps its priority for when its blocking uncertainty resolves.
 
-The classification does not change the Re-audit And Follow-up Plan trigger, which stays a P1 or
+The classification does not change the Follow-up Plan trigger, which stays a P1 or
 P2 recommendation present in the roadmap.
 
 ## Relationship To Other Sections

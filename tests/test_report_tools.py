@@ -272,7 +272,7 @@ class TestValidateReport(unittest.TestCase):
 
     def test_coverage_rows_render_title_case(self):
         text = (
-            "## Audit Type Coverage\n\n"
+            "## Audit Coverage\n\n"
             "| Report type                   | Status   | Rationale |\n"
             "|-------------------------------|----------|-----------|\n"
             "| Software Architecture Review  | Covered  | x         |\n"
@@ -1065,7 +1065,7 @@ class TestRegisterBlocks(unittest.TestCase):
         "### REC-001: Add input validation\n\n"
         "* **Priority:** P1\n"
         "* **Finding:** FND-SEC-001\n"
-        "* **Postcondition:** input rejected at boundary\n"
+        "* **Condition:** input rejected at boundary\n"
         "* **Description:** adds a validator\n"
         "* **Impact:** fewer injection paths\n"
         "* **Effort:** Low\n"
@@ -1079,16 +1079,16 @@ class TestRegisterBlocks(unittest.TestCase):
         lines = (self.FND_HEADING + self.REC_BLOCK).split("\n")
         self.assertEqual(self.validator.check_rec_blocks(lines), [])
 
-    def test_rec_block_missing_postcondition_and_bad_refs(self):
+    def test_rec_block_missing_condition_and_bad_refs(self):
         block = self.REC_BLOCK.replace(
-            "* **Postcondition:** input rejected at boundary\n", ""
+            "* **Condition:** input rejected at boundary\n", ""
         ).replace("* **Priority:** P1", "* **Priority:** P9")
         block += "* **Depends on:** REC-042\n"
         block = block.replace("* **Finding:** FND-SEC-001",
                               "* **Finding:** FND-SEC-099")
         lines = (self.FND_HEADING + block).split("\n")
         joined = "\n".join(self.validator.check_rec_blocks(lines))
-        self.assertIn("missing Postcondition", joined)
+        self.assertIn("missing Condition", joined)
         self.assertIn("Priority is not P1-P4", joined)
         self.assertIn("Finding does not name a defined finding", joined)
         self.assertIn("Depends on cites undefined REC-042", joined)

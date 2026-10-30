@@ -26,7 +26,7 @@ Two audits of similar systems should produce reports of similar shape, vocabular
 | Multilingual Output            | 306  | Non-English report rendering     |
 | Information Security In Output | 443  | Redaction and disclosure limits  |
 | Report Termination             | 458  | End-of-report rules              |
-| Determinism                    | 467  | Repeatability guarantees         |
+| Determinism                    | 479  | Repeatability guarantees         |
 
 ## Tone And Register
 
@@ -131,26 +131,26 @@ rendered text.
 
 English cells render these forms:
 
-| Canonical token                                                         | Rendered English                                                                  |
-|-------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
-| `PASS`                                                                  | `Pass` in Status and Result cells, `Passed` in Verdict cells                      |
-| `PARTIAL`                                                               | `Partial` in Status and Result cells, `Partially` in Verdict and coverage cells   |
-| `FAIL`                                                                  | `Fail` in Status and Result cells, `Failed` in Verdict cells                      |
-| `UNKNOWN`                                                               | `Unknown`                                                                         |
-| `N/A`                                                                   | `N/A`                                                                             |
-| `LOW` `MEDIUM` `HIGH` `CRITICAL`                                        | `Low` `Medium` `High` `Critical`                                                  |
-| `MODERATE`                                                              | `Moderate`                                                                        |
-| `COVERED` `PARTIALLY` `NOT DONE`                                        | `Covered` `Partially` `Not done`                                                  |
-| `NOT SPECIFIED`                                                         | `None` in Result cells, `Not specified` elsewhere                                 |
-| `NOT RUN` `NOT COLLECTED` `NOT ASSESSED` `NOT INSPECTED` `NOT VERIFIED` | `Not run` `Not collected` `Not assessed` `Not inspected` `Not verified`             |
-| `NOT PERFORMED`                                                         | `Not performed`                                                                   |
-| `EXCLUDED BY SCOPE`                                                     | `Excluded by scope`                                                               |
-| `INSUFFICIENT INFORMATION`                                              | `Insufficient information`                                                        |
-| `OPEN` `CLOSED` `NEW` `UNCHANGED` `REOPENED`                            | `Open` `Closed` `New` `Unchanged` `Reopened`                                      |
-| `VERIFIED` `CONFIRMED` `REPORTED` `EXECUTED`                            | `Verified` `Confirmed` `Reported` `Executed`                                      |
-| `APPLIED`                                                               | `Applied`                                                                         |
-| `READY` `NOT READY` `PENDING EVIDENCE`                                  | `Ready` `Not ready` `Pending evidence`                                            |
-| `IN PROGRESS` `NOT APPLICABLE`                                          | `In progress` `Not applicable`                                                    |
+| Canonical token                                                         | Rendered English                                                                |
+|-------------------------------------------------------------------------|---------------------------------------------------------------------------------|
+| `PASS`                                                                  | `Pass` in Status and Result cells, `Passed` in Verdict cells                    |
+| `PARTIAL`                                                               | `Partial` in Status and Result cells, `Partially` in Verdict and coverage cells |
+| `FAIL`                                                                  | `Fail` in Status and Result cells, `Failed` in Verdict cells                    |
+| `UNKNOWN`                                                               | `Unknown`                                                                       |
+| `N/A`                                                                   | `N/A`                                                                           |
+| `LOW` `MEDIUM` `HIGH` `CRITICAL`                                        | `Low` `Medium` `High` `Critical`                                                |
+| `MODERATE`                                                              | `Moderate`                                                                      |
+| `COVERED` `PARTIALLY` `NOT DONE`                                        | `Covered` `Partially` `Not done`                                                |
+| `NOT SPECIFIED`                                                         | `None` in Result cells, `Not specified` elsewhere                               |
+| `NOT RUN` `NOT COLLECTED` `NOT ASSESSED` `NOT INSPECTED` `NOT VERIFIED` | `Not run` `Not collected` `Not assessed` `Not inspected` `Not verified`         |
+| `NOT PERFORMED`                                                         | `Not performed`                                                                 |
+| `EXCLUDED BY SCOPE`                                                     | `Excluded by scope`                                                             |
+| `INSUFFICIENT INFORMATION`                                              | `Insufficient information`                                                      |
+| `OPEN` `CLOSED` `NEW` `UNCHANGED` `REOPENED`                            | `Open` `Closed` `New` `Unchanged` `Reopened`                                    |
+| `VERIFIED` `CONFIRMED` `REPORTED` `EXECUTED`                            | `Verified` `Confirmed` `Reported` `Executed`                                    |
+| `APPLIED`                                                               | `Applied`                                                                       |
+| `READY` `NOT READY` `PENDING EVIDENCE`                                  | `Ready` `Not ready` `Pending evidence`                                          |
+| `IN PROGRESS` `NOT APPLICABLE`                                          | `In progress` `Not applicable`                                                  |
 
 This covers status, severity, result, verification, lifecycle, change, readiness,
 concentration, and classification cells in every report language - each `translations/`
@@ -460,9 +460,21 @@ Only the secret value itself is redacted.
 Do not add a closing line such as "End of audit report." or a trailing horizontal rule `---` at the
 end of the document.
 
-References is the final section, following the Re-audit And Follow-up Plan when applicable.
+References is the final section, following the Follow-up Plan when applicable.
 
 End after References without trailing boilerplate.
+
+Table-cell and field-value conventions:
+
+- Prose cells and `* **Field:**` values start with an uppercase first letter.
+  Exceptions: code spans, identifiers, package names, paths, camelCase names, and
+  controlled-vocabulary tokens render verbatim.
+- A datum with no value renders an empty cell - never a placeholder token such as
+  `NOT SPECIFIED` or `Not specified`.
+- A column that would carry an empty cell in every data row is omitted from the table.
+- Column names prefer a single word - `Owner`, `Evidence`, `Trigger`, `Justification` -
+  over multi-word labels.
+
 
 ## Determinism
 

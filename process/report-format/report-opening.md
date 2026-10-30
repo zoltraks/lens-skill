@@ -9,9 +9,10 @@
 
 | Section              | Line | What it covers                       |
 |----------------------|------|--------------------------------------|
-| Document Information | 16   | Report metadata and revisions        |
-| Audit Type Coverage  | 163  | Coverage of canonical audit types    |
-| Glossary             | 223  | Abbreviation and acronym definitions |
+| Document Information | 17   | Report metadata and revisions        |
+| Contents             | 166  | Linked navigation of report sections |
+| Audit Coverage       | 184  | Coverage of canonical audit types    |
+| Glossary             | 244  | Abbreviation and acronym definitions |
 
 ## Document Information
 
@@ -44,7 +45,7 @@ Rows appear in this order, each label in the first column and its value in the s
 - `Report Date` - the audit date.
 - `State` - `Draft` only. Write the row while the report is still in progress and omit it when the
   report is final, which is the expected end state and needs no marker.
-- `Report Style` - `audit`, `hunt`, or `review`, per `process/report-format/hunt-style.md`
+- `Report Style` - `Audit`, `Hunt`, or `Review`, per `process/report-format/hunt-style.md`
   and `process/report-format/review-style.md`.
 - `Review Scope` - `Structure`, written only when a `review`-style report renders the
   structure-review variant per `process/report-format/structure-review.md`, and omit the row on
@@ -65,18 +66,19 @@ Rows appear in this order, each label in the first column and its value in the s
   `Report Revision`, `Previous Report`, and the Changes section, never prefixed into
   `Audit Purpose`.
 - `Target Environment` - where the software runs or ships.
-- `Verification Scope` - `static repository analysis (code, configuration,
-  documentation, git history) - no execution` for `source-only`, or the same phrase plus
+- `Verification Scope` - `Static repository analysis (code, configuration,
+  documentation, git history) - no execution` for `Source-only`, or the same phrase plus
   `; commissioned non-mutating analyzers executed` under `executed-readonly` or
   `; commissioned non-mutating commands executed` under `executed-commands` - the short token
-  `source-only` may stand when a previous revision already established it.
-- `Evidence Mode` - `source-only`, `executed-readonly`, or `executed-commands`.
+  `Source-only` may stand when a previous revision already established it.
+- `Evidence Mode` - `Source-only`, `Executed-readonly`, or `Executed-commands`.
 - `Subject Revision` - the audited revision of the subject: the commit SHA with branch or
   detached state in parentheses when VCS metadata exists, or `unversioned working tree` with
   the capture timestamp when it does not. This row is never omitted - a report without a
   snapshot anchor cannot be reconciled against another audit.
-- `Dirty-Tree State` - the working tree state at audit time, written only when the tree is dirty.
-  Omit the row when the tree is clean - a dirty tree lists its paths in the evidence ledger.
+- `Dirty-Tree State` - the working tree state at audit time, optional and written
+  only when the tree is dirty and snapshot integrity matters to the operator. Omit the row
+  otherwise - a dirty tree lists its paths in the evidence ledger regardless.
 - `Skill Version` - the version of the audit skill that produced the report, written as the
   bare version string (for example `2.0.2`), never prefixed with the skill name.
 - `Time taken` - elapsed audit time in `MM:SS`, measured from the start timestamp recorded the
@@ -86,12 +88,13 @@ Rows appear in this order, each label in the first column and its value in the s
   validation, and an interrupted or re-done assembly does not reset the start timestamp.
 - `Previous Report` - the previous report path and revision, only on a confirmed re-audit. Omit
   the row on a fresh audit.
-- `Projects` - the audited project names, multi-project reports only.
+- `Projects` - the audited project names rendered as links to their `##`
+  sections, multi-project reports only - `[api-service](#api-service)`.
 
 Omit a row entirely when the input does not establish its value.
 
-Descriptive value cells share one casing convention: capitalize each descriptive value's first
-letter when other values in the column start uppercase.
+Descriptive value cells share one casing convention: each descriptive value's first
+letter starts uppercase - `Audit`, `Source-only`, `Static repository analysis`.
 
 Literal values - versions, dates, paths, revisions, identifiers, links, and code - stay
 verbatim.
@@ -160,7 +163,25 @@ apply the label translations from the matching `translations/` file.
 Descriptive values such as `State`, `Detail Level`, `Evaluation Scale`, `Audit Purpose`,
 and `Verification Scope` are rendered per the same file.
 
-## Audit Type Coverage
+## Contents
+
+A `## Contents` section follows `## Document Information` and precedes `## Audit Coverage`.
+
+It lists every level-2 section as a bullet of links to its heading anchor:
+
+```markdown
+## Contents
+
+- [Audit Coverage](#audit-coverage)
+- [Executive Summary](#executive-summary)
+- [Technical Findings](#technical-findings)
+```
+
+Link text matches the `##` heading verbatim.
+
+A section that carries no navigable subsection still lists once.
+
+## Audit Coverage
 
 State at a glance which canonical audit types this report answers and which it deliberately does
 not run.
@@ -168,7 +189,7 @@ not run.
 The table makes the report's coverage explicit so it cannot be mistaken for a penetration test,
 a certifying audit, or a full technical due diligence.
 
-The section appears once per report, immediately after `## Document Information` and before
+The section appears once per report, immediately after `## Contents` and before
 `## Project Inventory` in a multi-project report, or before `## Glossary` in a single-project
 report.
 
@@ -229,7 +250,7 @@ and omitted when Descriptive mode is `Disabled`.
 
 When omitted, record the deliberate omission with a one-line justification in Scope Exclusions.
 
-The section appears immediately after `## Audit Type Coverage`, or after
+The section appears immediately after `## Audit Coverage`, or after
 `## Project Inventory` in a multi-project report, and always before `## Executive Summary`.
 
 A multi-project report carries one shared Glossary covering terms used in every project block.

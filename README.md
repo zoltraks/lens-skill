@@ -29,11 +29,11 @@
 | Report Format                      | 448  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 485  | Supported requests and exclusions                   |
 | What's Inside                      | 509  | Documents, references, tools, and conditional files |
-| Document Style                     | 675  | Pointer to the style rules file                     |
-| Specification                      | 685  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 706  | Maintenance checks and regression scenarios         |
-| License                            | 734  | License for the skill itself                        |
-| Credits                            | 740  | Authorship and attribution                          |
+| Document Style                     | 677  | Pointer to the style rules file                     |
+| Specification                      | 687  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 708  | Maintenance checks and regression scenarios         |
+| License                            | 736  | License for the skill itself                        |
+| Credits                            | 742  | Authorship and attribution                          |
 
 ## Overview
 
@@ -51,7 +51,7 @@ The intake, evidence gathering, and assessment pipeline is shared by all report 
 only the section contract and the validation checks differ.
 
 The default output is an Audit report with twenty-two baseline sections: Document Information, the
-Audit Type Coverage table, Executive Summary, System Context (including the technology
+Audit Coverage table, Executive Summary, System Context (including the technology
 stack), a source-derived Software Bill of Materials, License Compliance, Health
 Dashboard, Delivery Practice & Team Continuity, High-Level Observations, Auditing Methodology,
 Scoring Rubrics, Architectural Assessment, Structure Review, Trade-off Analysis, Strengths &
@@ -554,6 +554,7 @@ lens-skill/
 │   ├── report-contract.md                 # One-page mechanically enforced report contract
 │   ├── report-parity.md                   # Audit parity checklist and consistency gate before final
 │   ├── readiness-scoring.md               # Deterministic scores, confidence, maturity, and readiness gates
+│   ├── run-state.md                       # Run-state artifact: phase and gate record, resume, reconciliation
 │   ├── skill-activation.md                # Enable-mode intake, enablement response, and standby
 │   └── session-review.md                  # Session review: findings, approval gate, review modes
 ├── assessment/

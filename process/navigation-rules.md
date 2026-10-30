@@ -16,7 +16,7 @@
   Verification claims rest on inspected contents, documented results are `Reported` evidence.
 - Assemble the audit report skeleton from `process/report-format.md` and its section files before
   filling in findings, present every section as a table and use unnumbered headings.
-- Every audit report opens with the Audit Type Coverage table built from the fixed
+- Every audit report opens with the Audit Coverage table built from the fixed
   types and statuses in `references/audit-taxonomy.md`, kept consistent with Scope Exclusions.
 - Every finding and every Evidence Ledger row carries a `Type` tag: `Observation` for an
   independently re-derivable fact, `Concern` for a risk judgment built on observations.
@@ -102,7 +102,7 @@
   `process/report-format.md`, with omissions noted in Scope Exclusions - never force one.
 - The Technical Debt Register (`synthesis/debt-register.md`) is distinct from the Unified Risk
   Register: debt is cost already present, risk is what could go wrong. Never duplicate entries.
-- The Re-audit And Follow-up Plan (`synthesis/reaudit-plan.md`) precedes Validation Record and
+- The Follow-up Plan (`synthesis/reaudit-plan.md`) precedes Validation Record and
   maps P1/P2 findings to verification owners and closure evidence.
 - Every absent-capability finding carries an `Absence` field built from repository signals per
   `principles/evaluation-rules.md`, never a claim about the authors' motives.

@@ -13,9 +13,9 @@
 | Limitations and Unknowns      | 104  | unresolved limits, unknowns, evidence gaps             |
 | Operator Verification Handoff | 134  | operator checks, commands, pass criteria               |
 | Executed Evidence Log         | 160  | executed-mode checks, commands, results                |
-| Re-audit And Follow-up Plan   | 188  | retest plan, re-audit cadence, follow-ups              |
-| Validation Record             | 226  | PAR-1 through PAR-27 rows, evidence basis              |
-| References                    | 261  | external sources, link paragraphs, cached-source notes |
+| Follow-up Plan                | 188  | retest plan, re-audit cadence, follow-ups              |
+| Validation Record             | 229  | PAR-1 through PAR-27 rows, evidence basis              |
+| References                    | 264  | external sources, link paragraphs, cached-source notes |
 
 ## Scope Exclusions
 
@@ -55,7 +55,7 @@ State any extrapolations made from sampled code to the whole system.
 **Standard engagement-type exclusions**
 
 Every report carries these statements in the same register, matching the `Not done` rows of
-the Audit Type Coverage table:
+the Audit Coverage table:
 
 - **Dynamic/runtime penetration testing** - `Not performed` by default. Security findings on
   network-facing surfaces carry a `Theoretical`-tier `Exploitability` narrative only. A scoped, live
@@ -112,21 +112,21 @@ An unrun check is a limitation of the report, never a defect of the subject.
 
 Use a table:
 
-| Item               | Type        | Reason                                 | Resolution                                |
-|--------------------|-------------|----------------------------------------|-------------------------------------------|
-| <check or unknown> | Unrun check | Requires execution, out of audit scope | <command or artifact that would run it>   |
-| <check or unknown> | Unknown     | <why the evidence was unavailable>     | <input or artifact that would resolve it> |
+| Item               | Reason                                 | Resolution                                |
+|--------------------|----------------------------------------|-------------------------------------------|
+| <check or unknown> | Requires execution, out of audit scope | <command or artifact that would run it>   |
+| <check or unknown> | <why the evidence was unavailable>     | <input or artifact that would resolve it> |
 
 Rows come from two sources:
 
 - Every `Not run` row of the verification plan and evidence ledger in
   `process/audit-workflow.md`, with the verification method that would have run it.
-- Every unresolved `Unknown`, `Not specified`, or `Insufficient information` token from the
+- Every unresolved unknown or `Insufficient information` gap from the
   findings and registers, with the input that would resolve it.
 
-Typical unresolved inputs include telemetry-dependent delivery metrics that stayed
-`Not specified`, missing cost, support, ownership, or supplier-obligation evidence,
-underivable SBOM fields such as `Unknown` licenses, and `Theoretical` attack paths that no
+Typical unresolved inputs include telemetry-dependent delivery metrics left blank,
+missing cost, support, ownership, or supplier-obligation evidence,
+underivable SBOM fields such as unlicensed components, and `Theoretical` attack paths that no
 live validation has confirmed.
 
 For multi-project reports, qualify each row with the project identifier.
@@ -185,7 +185,7 @@ Under `executed-commands` they may
 describe commissioned non-mutating commands - tests, builds, isolated reproductions - and
 still never imply the subject was deployed, mutated, or connected to live systems.
 
-## Re-audit And Follow-up Plan
+## Follow-up Plan
 
 Include this section only when the Remediation Roadmap contains at least one P1 or P2
 recommendation, per `synthesis/reaudit-plan.md`.
@@ -198,13 +198,16 @@ It borrows the follow-up-audit practice of ISO 19011:2026 (guidelines for auditi
 management systems, applied here as supporting principles only)
 and the monitor step of the NIST Risk Management Framework.
 
-Present a table mapping findings to verification ownership and closure evidence.
+Present a table mapping findings to closure evidence and re-audit triggers.
+
+An `Owner` column joins between `Priority` and `Evidence` only when at least one row
+names a concrete owner - omit the column when every owner is unspecified.
 
 Include one row per P1 and P2 finding at minimum.
 
-| Finding | Priority | Verification Owner        | Closure Evidence      | Target Re-audit Trigger        |
-|---------|----------|---------------------------|-----------------------|--------------------------------|
-| FND-XXX | P1       | <role or `Not specified`> | <verifiable artifact> | <milestone or `Not specified`> |
+| Finding | Priority | Evidence              | Trigger              |  |
+|---------|----------|-----------------------|----------------------|--|
+| FND-XXX | P1       | <verifiable artifact> | <milestone or empty> |  |
 
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
@@ -232,7 +235,7 @@ per `process/report-parity.md`.
 
 Use a table:
 
-| Check | Result  | Evidence / Justification          |
+| Check | Result  | Justification                     |
 |-------|---------|-----------------------------------|
 | PAR-1 | Applied | <evidence or `N/A` justification> |
 
@@ -249,7 +252,7 @@ Rows appear in this order:
 Result values are the canonical tokens `APPLIED`, `PASS`, or `N/A`, rendered `Applied`,
 `Pass`, or `N/A` per `principles/output-style.md`.
 
-An `N/A` always carries a justification in the Evidence / Justification column.
+An `N/A` always carries a justification in the Justification column.
 
 The `State` row in Document Information is removed only after this record is complete and the
 consistency gate in `process/report-parity.md` passes. Removal is the last structural edit,

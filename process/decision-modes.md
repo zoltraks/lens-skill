@@ -44,6 +44,36 @@ A gate is a point where the run cannot proceed without an answer - audit mode,
 project inclusion, parameter acceptance, report delivery - not every routine
 sub-step.
 
+## Gate Semantics
+
+The interaction mode is classified once at intake and never re-litigated at a later gate.
+
+Host signals urging fewer questions apply to the agent's own discretionary prompts, never
+to the workflow's blocking gates, and a user who answered several gates in a row was being
+patient, not setting policy - each gate is a fresh surface.
+
+A gate or phase is recorded as resolved only after the answer arrives - `run.phase` and
+`completed_phases` in `work/audit-state.json` never advance ahead of the response, per
+`process/run-state.md`.
+
+Every pending surface is presented - before a gate fires, the agent confirms no pending
+surface was omitted, because a gate that skips a surface is a protocol defect, not a
+shortcut.
+
+Each decision is its own question with its own option set - flattening several decisions'
+options into one list lets an answer select conflicting options or none at all.
+
+Anti-patterns:
+
+| Anti-pattern                                      | Why it is wrong                                                                             |
+|---------------------------------------------------|---------------------------------------------------------------------------------------------|
+| Proceeding past a gate without an answer          | The run loses the recorded decision downstream steps depend on                              |
+| Announcing a pause without a blocking wait        | Words are not pauses - the surface must actually await the response                         |
+| Marking a phase resolved before its gate answers  | State records a false completion and later phases act on it                                 |
+| Re-classifying the mode at each gate              | Intake decided it once; re-opening it lets a "minimize questions" hint swallow a checkpoint |
+| Flattening several decisions into one option list | The answer can select conflicting options or none at all                                    |
+| Skipping the `gates` record under automated mode  | Automated resolutions record exactly like answered questions                                |
+
 ## Resolution Precedence
 
 Resolve each surface in this order, and record which tier supplied the answer:

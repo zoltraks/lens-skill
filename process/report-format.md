@@ -332,7 +332,7 @@ definition.
 The register families are `EVD-NNN` (Evidence Ledger), `FND-<pillar>-NNN` (findings),
 `RSK-NNN` (risks), `REC-NNN` (recommendations), `TDR-NNN` (technical debt), and `PAR-NN`
 (Validation Record rows), including project-qualified forms such as
-`api-service::FND-SEC-001`.
+`FND-SEC-001` - the bare identifier alone.
 
 `FND`, `RSK`, `REC`, and `TDR` identifiers link to their `### <ID>:` block heading anchor,
 for example `[FND-SEC-001](#fnd-sec-001-hardcoded-jwt-signing-key)`.
@@ -434,7 +434,7 @@ explicitly requests them.
 All twenty-two baseline sections are present in full, subject to explicit parameter exclusions:
 
 - Document Information
-- Audit Type Coverage
+- Audit Coverage
 - Executive Summary
 - System Context (including the Technology Stack subsection)
 - Software Bill of Materials
@@ -557,7 +557,7 @@ Each lists its inclusion criterion and the assessment file that governs it:
 | Code Style (standalone)                                     | The subject contains source code files                                               | `assessment/code-style.md`                |
 | API Compatibility & Versioning Discipline (standalone)      | The subject is a reusable library or package                                         | `assessment/api-compatibility.md`         |
 | Technical Debt Register (standalone)                        | Structural debt distinct from risks is surfaced                                      | `synthesis/debt-register.md`              |
-| Re-audit And Follow-up Plan (standalone)                    | The roadmap contains a P1 or P2 recommendation                                       | `synthesis/reaudit-plan.md`               |
+| Follow-up Plan (standalone)                    | The roadmap contains a P1 or P2 recommendation                                       | `synthesis/reaudit-plan.md`               |
 | Changes Since Previous Audit (standalone)                   | Previous report found and confirmed as the re-audit baseline                         | `synthesis/report-comparison.md`          |
 | Glossary (standalone)                                       | Descriptive mode is enabled (default)                                                | `process/report-format.md`                |
 | Recommendation Classification (standalone)                  | Detail level is Standard or Detailed and the roadmap exists                          | `synthesis/remediation-roadmap.md`        |
@@ -590,7 +590,7 @@ table is met.
 For a **single-project** audit:
 
 - Document Information
-- Audit Type Coverage
+- Audit Coverage
 - Glossary *(when Descriptive mode is enabled)*
 - Executive Summary
 - Changes Since Previous Audit *(conditional)*
@@ -627,7 +627,7 @@ For a **single-project** audit:
 - Limitations and Unknowns
 - Operator Verification Handoff *(source-only mode)* / Executed Evidence Log
   *(executed-readonly or executed-commands mode, conditional)*
-- Re-audit And Follow-up Plan *(conditional)*
+- Follow-up Plan *(conditional)*
 - Validation Record
 - References
 
@@ -638,7 +638,7 @@ See `process/report-format/multi-project.md` for the full layout.
 In summary:
 
 - Document Information (once)
-- Audit Type Coverage (once)
+- Audit Coverage (once)
 - Project Inventory (once)
 - Glossary *(when Descriptive mode is enabled)* (once)
 - Executive Summary (condensed, combined)
@@ -678,7 +678,7 @@ In summary:
 - Limitations and Unknowns (once, shared)
 - Operator Verification Handoff *(source-only mode)* / Executed Evidence Log
   *(executed-readonly or executed-commands mode, conditional)* (once, shared)
-- Re-audit And Follow-up Plan *(conditional)* (once, shared)
+- Follow-up Plan *(conditional)* (once, shared)
 - Validation Record (once, shared)
 - References (once, shared)
 
@@ -688,7 +688,7 @@ Each report section is specified in a file under `process/report-format/`.
 
 | File                          | Sections                                                 |
 |-------------------------------|----------------------------------------------------------|
-| `report-opening.md`           | Document Information, Audit Type Coverage,               |
+| `report-opening.md`           | Document Information, Audit Coverage,               |
 |                               | Glossary                                                 |
 | `multi-project.md`            | Multi-Project Report Structure                           |
 | `summary-changes.md`          | Executive Summary, Changes Since Previous Audit          |

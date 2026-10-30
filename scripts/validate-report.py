@@ -43,7 +43,7 @@ ENDASH = chr(0x2013)
 ARROW = chr(0x2192)
 BASELINE_SECTIONS = [
     "Document Information",
-    "Audit Type Coverage",
+    "Audit Coverage",
     "Executive Summary",
     "System Context",
     "Software Bill of Materials",
@@ -67,7 +67,7 @@ BASELINE_SECTIONS = [
 ]
 BRIEF_SECTIONS = {
     "Document Information",
-    "Audit Type Coverage",
+    "Audit Coverage",
     "Executive Summary",
     "System Context",
     "Health Dashboard",
@@ -647,7 +647,7 @@ def check_risk_blocks(lines: list[str]) -> list[str]:
 REC_REQUIRED = [
     "Priority:",
     "Finding:",
-    "Postcondition:",
+    "Condition:",
     "Impact:",
     "Effort:",
     "Complexity:",
@@ -803,7 +803,7 @@ def check_finding_summary(text: str) -> list[str]:
         return []
     cells = [cell.strip() for cell in raw_cells(lines[header_index])]
     failures = []
-    for wanted in ("Finding", "Result", "Status", "Change", "Verification"):
+    for wanted in ("Finding", "Result", "Status", "Change"):
         if wanted not in cells:
             failures.append(f"findings summary table lacks a {wanted} column")
     for legacy in ("Finding ID", "Remediation Status"):
@@ -1338,6 +1338,7 @@ def check_glossary_triplets(text: str, glossary_block: str) -> list[str]:
 
 
 def check_glossary_body_links(text: str, terms: list[str], sub_slugs: dict[str, str]) -> list[str]:
+    section_names = set(re.findall(r"^##\s+(.+?)\s*$", text, re.MULTILINE))
     failures: list[str] = []
     variant_map: dict[str, str] = {}
     for term in terms:
@@ -1370,6 +1371,8 @@ def check_glossary_body_links(text: str, terms: list[str], sub_slugs: dict[str, 
         for link in re.finditer(r"\[([^\]]+)\]\(#([^)]+)\)", masked):
             link_text, anchor = link.group(1), link.group(2)
             if anchor != "glossary" and anchor not in sub_anchors:
+                continue
+            if link_text in section_names:
                 continue
             if compound_context(masked, link.start(), link.end()):
                 failures.append(
@@ -1812,7 +1815,7 @@ def check_required_sections(text: str) -> list[str]:
 
 
 def check_coverage_rows(text: str) -> list[str]:
-    start = re.search(r"^##\s+Audit Type Coverage\s*$", text, re.MULTILINE)
+    start = re.search(r"^##\s+Audit Coverage\s*$", text, re.MULTILINE)
     if not start:
         return []
     rest = text[start.end() :]
@@ -2016,7 +2019,7 @@ def check_trailing(lines: list[str]) -> list[str]:
 
 HUNT_SECTIONS = [
     "Document Information",
-    "Audit Type Coverage",
+    "Audit Coverage",
     "Verdict",
     "System Context",
     "Methodology And Evidence",
@@ -2050,7 +2053,7 @@ HUNT_MATCH_VALUES = ("conforming", "partially conforming", "failing", "not asses
 
 REVIEW_SECTIONS = [
     "Document Information",
-    "Audit Type Coverage",
+    "Audit Coverage",
     "Verdict",
     "System Context",
     "Check Plan And Methodology",
@@ -2910,7 +2913,7 @@ def report_contract() -> dict:
         "id_patterns": {
             "finding": "FND-<pillar>-NNN",
             "finding_pillars": list(FINDING_PILLARS),
-            "project_qualified": "<project>::FND-<pillar>-NNN",
+            "project_qualified": "FND-<pillar>-NNN (<project>) - bare ID, heading suffix",
             "numbering": "report-global - every register identifier defines "
             "exactly once and numbers contiguously from 001 in document "
             "order, FND contiguous per pillar",
@@ -2963,7 +2966,7 @@ def report_contract() -> dict:
                     "Retest Register",
                     "Metrics Snapshot",
                     "Technical Debt Register",
-                    "Re-audit And Follow-up Plan",
+                    "Follow-up Plan",
                     "Appendix <letter>: <title>",
                 ],
                 "findings_section": "Domain Findings",

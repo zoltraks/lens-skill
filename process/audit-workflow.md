@@ -20,11 +20,11 @@ defined in `process/report-format/hunt-style.md` and `process/report-format/revi
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 2131 | Intake Checklist guidance        |
-| Handling Thin Input     | 2156 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 2170 | Single-Dimension Audits guidance |
-| Re-Audit                | 2184 | Re-Audit guidance                |
-| Multi-Project Audits    | 2250 | Multi-Project Audits guidance    |
+| Intake Checklist        | 2165 | Intake Checklist guidance        |
+| Handling Thin Input     | 2190 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 2204 | Single-Dimension Audits guidance |
+| Re-Audit                | 2218 | Re-Audit guidance                |
+| Multi-Project Audits    | 2284 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -374,8 +374,11 @@ When only one project is present, proceed with the standard single-project workf
 asking.
 
 When multiple projects are present, ask the project-inclusion question before Parameter
-Configuration: a blocking decision gate presenting a checkbox-style multi-select list of every
-identified project with its path and kind.
+Configuration.
+
+**Gate** - `project-inclusion`: a blocking decision gate per `process/decision-modes.md`,
+presenting a checkbox-style multi-select list of every identified project with its path and
+kind.
 
 The gate is multi-select by definition. Every listed project must be selectable at once, so
 an all-inclusive answer is a first-class outcome, never an `Other` escape.
@@ -528,7 +531,7 @@ When a previous report exists and the mode is not yet confirmed,
 ask the audit-mode question and wait for the answer before Parameter Configuration,
 because the answer decides whether parameters are recovered or asked.
 
-The question is a blocking decision gate:
+**Gate** - `audit-mode`: a blocking decision gate per `process/decision-modes.md`:
 it presents concrete options with one marked `(recommended)` and never carries the `Use default`
 trailing options of routine prompts.
 
@@ -662,6 +665,8 @@ scripts - the presented summary annotates the `Evidence mode` row with a note su
 The annotation is informational only - it adds no question surface, and automated runs keep
 the `source-only` default.
 
+**Gate** - `parameters-acceptance`: a blocking gate per `process/decision-modes.md`.
+
 The agent MUST ask the user and MUST NOT skip this step.
 
 The agent MUST wait for user response before proceeding to Scope Definition.
@@ -727,6 +732,13 @@ itself rather than the parameter discussion.
 
 The elapsed time is later written to the `Time taken` row in Document Information.
 
+Create `work/audit-state.json` at the same moment and record the run's initial phase, the
+gates already resolved (audit mode, project inclusion, parameters), and the start timestamp
+into `run.started`, per `process/run-state.md`.
+
+Each later phase boundary and gate resolution updates the state file, which stays the run's
+resume and reconciliation record for the rest of the audit.
+
 **Saved parameters (`work/lens-params.json`)**
 
 Once intake resolves, write the resolved values to `work/lens-params.json` in the audited
@@ -744,6 +756,9 @@ A request that explicitly changes a parameter overrides the file and rewrites it
 
 The file never carries secrets, credentials, or fetched content. Resolved intake values only -
 and it changes nothing about the source-only boundary.
+
+The parameter file and `work/audit-state.json` are siblings: the params file locks resolved
+choices, the state file locks run progress, and neither duplicates the other's content.
 
 **Parameter prompts**
 
@@ -853,6 +868,9 @@ rename it to `<stem>-<revision>.md` before writing the new report, per
 The filename without the revision number, `AUDIT.md` or its language-specific equivalent, is
 offered as an alternative file option for audit-style reports, and is the default for a first
 hunt or review report.
+
+**Gate** - `report-delivery`: a blocking gate per `process/decision-modes.md`, resolved
+without asking only when the request already named the delivery.
 
 Ask: "How should the report be delivered?"
 
@@ -1561,7 +1579,7 @@ or `process/report-format/structure-review.md` when the resolved scope is struct
 That style reuses the same schemas and adds the execution register, evidence levels, and
 the retest register.
 
-Render the Audit Type Coverage table first,
+Render the Audit Coverage table first,
 from the fixed row set in `references/audit-taxonomy.md`.
 
 It is the report's coverage declaration,
@@ -1615,7 +1633,7 @@ At `Standard` and `Detailed` detail levels, classify every `REC-XXX` as `Recomme
 `Optional`, or `Not recommended` for the Recommendation Classification section per
 `synthesis/remediation-roadmap.md`.
 
-When the roadmap contains at least one P1 or P2 recommendation, build the Re-audit And Follow-up
+When the roadmap contains at least one P1 or P2 recommendation, build the Follow-up
 Plan using `synthesis/reaudit-plan.md`, mapping those findings to verification owners and closure
 evidence.
 
@@ -1694,7 +1712,8 @@ re-audit that upgrades a prior revision, apply these mechanical-edit rules:
   the whole table block, then run `scripts/format-table.py` to rebuild padding and separators.
 - After every scripted edit, re-run `scripts/format-table.py` and then
   `scripts/validate-report.py`. The validator prints at most ten problems per check, so iterate
-  until it reports zero rather than assuming the first fix pass cleared everything.
+  until it reports zero rather than assuming the first fix pass cleared everything - bounded
+  by the three-iteration fix loop defined in Validation below.
 - Preserve the report's existing line-ending style when a script writes the file.
 - Run `scripts/validate-report.py` once against an early partial assembly, for example after
   the first composed parts are concatenated, so systematic style violations surface before
@@ -1804,7 +1823,7 @@ or states that no direct rule exists for the CWE in that stack.
 
 Confirm no finding implies an analyzer ran.
 
-Confirm the Audit Type Coverage table is present after Document Information and
+Confirm the Audit Coverage table is present after Document Information and
 consistent with Scope Exclusions: every `Not done` row has a matching exclusion bullet and
 no `Covered` row is disclaimed later.
 
@@ -1842,7 +1861,7 @@ tools are treated as intended checks, not executed ones.
 When a Technical Debt Register is present, confirm every `TDR-XXX` traces to a `FND-XXX` or a cited
 direct observation, and that no security risk is duplicated from the Unified Risk Register.
 
-When a Re-audit And Follow-up Plan is present, confirm every row references a `FND-XXX` and that
+When a Follow-up Plan is present, confirm every row references a `FND-XXX` and that
 owners or dates absent from the input are marked `Not specified` rather than invented.
 
 Confirm the Auditing Methodology cites only the reference standards actually applied, including the
@@ -1938,6 +1957,16 @@ Produce the report in this order so each mechanical pass is effective:
 5. Run `scripts/validate-report.py` and fix whole issue classes per run, not one problem at a time.
 6. Re-run the linking passes and formatter whenever report prose changes, then re-validate.
 
+The fix-and-revalidate loop is bounded - three iterations of fix-then-re-validate, then stop
+and surface the remaining issues instead of looping further.
+
+In interactive mode present the leftover validator output and ask whether to try again,
+deliver with named limitations, or pause for investigation.
+
+In automated mode the run records the unresolved issues in the Validation Record and
+proceeds to the publication-stop evaluation - a material validator error still blocks
+final publication per `process/audit-model.md`.
+
 Run the Pre-Delivery Mechanical Checklist in `process/report-format.md` and require zero violations.
 
 Copy `scripts/validate-report.py` into the audited repository as `validate-report.tmp.py` and run it
@@ -1992,6 +2021,11 @@ Write the Limitations and Unknowns and Validation Record sections from their out
 
 The report is final only when the gate passes,
 at which point no `State` row remains in Document Information.
+
+Before the completion message, reconcile the artifact declarations in
+`work/audit-state.json` against disk per `process/run-state.md` - a missing declared path
+produces a `Missing artifacts` block naming the path and its declaring phase, reported
+without repair and never blocking completion.
 
 Read the current system time again as the last operation when producing the report, after the
 checklist, validator, and parity gate have all passed.
@@ -2073,7 +2107,7 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Census method differs between reports         | Canonical method restated, figure compared                      |
 | Scripted edit anchors on `## frontend`        | Complete heading line matched, no `###` hit                     |
 | Regex splice touches a table separator        | Whole block rewritten, formatter re-run                         |
-| Validator reports more than 10 problems       | Fix and re-run until zero, first-10 display limit               |
+| Validator reports more than 10 problems       | Fix and re-run up to three iterations, first-10 display limit   |
 | File-mode report at any size                  | Parts written in order, concatenated, removed after gates       |
 | Heredoc carries report content                | Forbidden - part writes via the file tool only                  |
 | Scratch dir unwritable by file tool           | `.tmp.` parts beside the output file, deleted after assembly    |
@@ -2270,7 +2304,8 @@ project continues the sequence.
 Inside a project block, the short identifier is sufficient.
 
 In shared sections, qualify every identifier with the stable project identifier,
-for example `api-service::FND-SEC-001`, `api-service::RSK-001`, and `api-service::REC-001`.
+for example `FND-SEC-001`, `RSK-001`, and `REC-001` - every register family
+numbers report-globally, so the bare identifier is unambiguous on its own.
 
 Never use ambiguous labels such as `both`, `either`, or `the projects` as an identifier.
 

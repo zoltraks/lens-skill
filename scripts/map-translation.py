@@ -130,7 +130,7 @@ PREFERRED = {
 # global map, inside the named `##`/`###` section only.
 CONTEXT_FIXUPS = (
     ("Project Scorecard", "Result", "Score"),
-    ("Audit Type Coverage", "Justification", "Rationale"),
+    ("Audit Coverage", "Justification", "Rationale"),
     ("Document Information", "Source", "source-only"),
 )
 

@@ -58,6 +58,10 @@ Every scout prompt carries the same invariants.
   never opened, quoted, or summarized.
 - The brief names the role's output shape - file lists, flows, inventories - so merges
   stay mechanical.
+- The brief carries the context already resolved upstream - the frozen parameter record
+  (evidence mode, scope record, exclusions), the scout role's expected focus from the
+  phase table, and the canonical model path its output lands in - so a scout never
+  re-derives decisions the parent already locked.
 
 A scout that cannot finish reports partial coverage and the gap it hit - the parent
 covers the gap itself rather than treating the area as audited.

@@ -312,8 +312,8 @@ continuing the per-pillar sequence per the Identifier Continuity rules.
 
 Preserve `FND-XXX`, `RSK-XXX`, and `REC-XXX` identifiers across audits.
 
-Every register family numbers contiguously across the whole report, and the `project::ID`
-qualification is retained for citation.
+Every register family numbers contiguously across the whole report, so citations
+stay bare identifiers - `FND-SEC-001` alone is unambiguous.
 
 New findings continue the per-pillar sequence of the previous report.
 

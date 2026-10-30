@@ -34,7 +34,7 @@ This file is loaded only when the report language is Polish.
 | Diacritics Frequently Misspelled            | 930  | Diacritics Frequently Misspelled guidance   |
 | Output Filename                             | 965  | Output Filename guidance                    |
 | Document Information                        | 996  | Document Information guidance               |
-| Audit Type Coverage                         | 1064 | Coverage rendering                          |
+| Audit Coverage                         | 1064 | Coverage rendering                          |
 | Project Inventory                           | 1106 | Project Inventory guidance                  |
 | Glossary                                    | 1115 | Glossary guidance                           |
 | Technology Stack                            | 1190 | Technology Stack guidance                   |
@@ -69,7 +69,7 @@ This file is loaded only when the report language is Polish.
 | Changes Since Previous Audit                | 1714 | Changes Since Previous Audit guidance       |
 | Scope Exclusions                            | 1748 | Scope Exclusions guidance                   |
 | Limitations And Unknowns                    | 1756 | Limitations And Unknowns guidance           |
-| Re-audit And Follow-up Plan                 | 1773 | Re-audit And Follow-up Plan guidance        |
+| Follow-up Plan                 | 1773 | Follow-up Plan guidance        |
 | Operator Verification Handoff               | 1784 | Operator Verification Handoff guidance      |
 | Executed Evidence Log                       | 1797 | Executed Evidence Log guidance              |
 | Hunt Style Sections                         | 1810 | Hunt Style Sections guidance                |
@@ -1061,11 +1061,11 @@ records its own generation time instead, the cell annotates the difference, for 
 `hh:mm (czas wygenerowania wersji PL - audyt EN: hh:mm)` - a bare mismatch with the
 English value is a defect.
 
-## Audit Type Coverage
+## Audit Coverage
 
 | English                              | Polish                               |
 |--------------------------------------|--------------------------------------|
-| Audit Type Coverage                  | Zakres typów audytu                  |
+| Audit Coverage                  | Zakres audytu                        |
 | Report type                          | Typ raportu                          |
 | Status                               | Status                               |
 | Rationale                            | Uzasadnienie                         |
@@ -1687,7 +1687,7 @@ The exploitability narrative labels translate as `Warunek wstępny:`, `Ścieżka
 | Complexity           | Złożoność                |
 | Verification         | Weryfikacja              |
 | Breaking             | Łamanie                  |
-| Postcondition        | Warunek końcowy          |
+| Condition        | Warunek końcowy          |
 | Alternatives         | Rozważane alternatywy    |
 | Effort confidence    | Pewność oceny nakładu    |
 | Residual             | Ryzyko rezydualne        |
@@ -1770,11 +1770,11 @@ A `Rejestr sprzeczności` block inside this section or a standalone section in t
 `Ten audyt`, `Stwierdzenie zewnętrzne`, `Wskazania dowodów`, and `Status`, with status
 values `Potwierdzone`, `Obalone`, `Nieodtwarzalne`, or `Oczekujące`.
 
-## Re-audit And Follow-up Plan
+## Follow-up Plan
 
 | English                     | Polish                                      |
 |-----------------------------|---------------------------------------------|
-| Re-audit And Follow-up Plan | Plan ponownego audytu i działań następczych |
+| Follow-up Plan | Plan ponownego audytu i działań następczych |
 | Finding                     | Ustalenie                                   |
 | Priority                    | Priorytet                                   |
 | Verification Owner          | Właściciel weryfikacji                      |
