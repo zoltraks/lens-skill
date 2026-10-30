@@ -18,7 +18,7 @@ follow-up as part of a complete audit, and the monitor step of the NIST Risk Man
 Apply `principles/evaluation-rules.md` throughout.
 
 Owners and dates are placeholders to be filled by the user's organization:
-an owner cell stays empty where the input provides none, a date renders `NOT SPECIFIED`,
+an owner cell stays empty where the input provides none, a date renders `Not specified`,
 rather than inventing names.
 
 ## When This Applies
@@ -48,13 +48,13 @@ Column meanings:
   when the input establishes none.
 - **Closure Evidence**: the specific artifact, test, or check required to close the finding.
 - **Target Re-audit Trigger**: the milestone or date that should trigger re-verification, or
-  `NOT SPECIFIED`.
+  `Not specified`.
 
 ## Sign-off Gates
 
 State which findings gate a re-audit sign-off.
 
-As a default rule, every `CRITICAL` and `HIGH` finding must be closed before the system is signed
+As a default rule, every `Critical` and `High` finding must be closed before the system is signed
 off as production-ready.
 
 Tie each gate to its `RSK-XXX` so the Production Readiness Threshold in the Executive Summary stays
@@ -62,7 +62,7 @@ consistent.
 
 ## Verification And Sign-off Evidence
 
-Before using the report as a go/no-go gate, verify all `CRITICAL` and `HIGH` findings outside
+Before using the report as a go/no-go gate, verify all `Critical` and `High` findings outside
 the audit, not just a convenient sample, using checks capable of testing their claims.
 
 For security defects, prefer a targeted regression test of the vulnerable boundary with permitted
@@ -109,20 +109,20 @@ Use evidenced triggers rather than arbitrary dates:
   consumers, or externally supplied input parsers invalidate `Theoretical` narratives and the
   threat model.
 - A continuity re-audit when ownership or contributor concentration changes materially, or when
-  team, support, or cost evidence arrives that was `NOT SPECIFIED`.
+  team, support, or cost evidence arrives that was `Not specified`.
 - A compliance-evidence re-audit when new control artifacts (policies, committed scan results,
   audit reports) arrive that the previous review lacked.
-- A pentest-escalation trigger: when a `HIGH` or `CRITICAL` security finding on a network-facing
+- A pentest-escalation trigger: when a `High` or `Critical` security finding on a network-facing
   surface remains `Theoretical` after remediation planning, name a scoped live penetration test
   as the confirming engagement rather than leaving the tier unresolved.
 
-When the input provides no cadence or release plan, mark the schedule `NOT SPECIFIED` and state the
+When the input provides no cadence or release plan, mark the schedule `Not specified` and state the
 recommended trigger neutrally.
 
 ## Rules
 
 - Every row must reference a specific `FND-XXX`.
-- Do not invent owner names or dates. Leave owner cells empty and mark dates `NOT SPECIFIED`
+- Do not invent owner names or dates. Leave owner cells empty and mark dates `Not specified`
   where the input is silent.
 - Closure evidence must be a concrete, verifiable artifact, not a vague assurance.
 - Keep sign-off gates consistent with the Production Readiness Threshold and the Unified Risk

@@ -13,9 +13,9 @@
 | Limitations and Unknowns      | 104  | unresolved limits, unknowns, evidence gaps             |
 | Operator Verification Handoff | 134  | operator checks, commands, pass criteria               |
 | Executed Evidence Log         | 160  | executed-mode checks, commands, results                |
-| Re-audit And Follow-up Plan   | 187  | retest plan, re-audit cadence, follow-ups              |
-| Validation Record             | 225  | PAR-1 through PAR-27 rows, evidence basis              |
-| References                    | 259  | external sources, link paragraphs, cached-source notes |
+| Re-audit And Follow-up Plan   | 188  | retest plan, re-audit cadence, follow-ups              |
+| Validation Record             | 226  | PAR-1 through PAR-27 rows, evidence basis              |
+| References                    | 261  | external sources, link paragraphs, cached-source notes |
 
 ## Scope Exclusions
 
@@ -46,21 +46,21 @@ Typical exclusions include:
 - Data backups or disaster-recovery procedures
 - Penetration-test results or security audits performed by external firms
 
-Mark each item as `NOT INSPECTED` or `EXCLUDED BY SCOPE`.
+Mark each item as `Not inspected` or `Excluded by scope`.
 
-If the user provided some of these, list them as `INCLUDED`.
+If the user provided some of these, list them as `Included`.
 
 State any extrapolations made from sampled code to the whole system.
 
 **Standard engagement-type exclusions**
 
-Every report carries these statements in the same register, matching the `NOT DONE` rows of
+Every report carries these statements in the same register, matching the `Not done` rows of
 the Audit Type Coverage table:
 
-- **Dynamic/runtime penetration testing** - `NOT PERFORMED` by default. Security findings on
+- **Dynamic/runtime penetration testing** - `Not performed` by default. Security findings on
   network-facing surfaces carry a `Theoretical`-tier `Exploitability` narrative only. A scoped, live
   penetration test is a distinct, separately-commissioned engagement.
-- **Organizational and team interviews, business-fit assessment** - `NOT PERFORMED` by default.
+- **Organizational and team interviews, business-fit assessment** - `Not performed` by default.
   The report covers the engineering dimensions of a technical due diligence (architecture, code,
   security, licensing, delivery-practice proxies) but not the interview-based team, leadership,
   and problem-fit pillars a formal TDD engagement adds.
@@ -87,7 +87,7 @@ identify coverage and justify exclusions.
 
 Do not present Lens dimension names such as Operational Safety as ISO characteristic names.
 
-Mark categories that could not be assessed from the provided input as `NOT ASSESSED` with a one-line
+Mark categories that could not be assessed from the provided input as `Not assessed` with a one-line
 reason.
 
 **Omitted conditional sections**
@@ -119,13 +119,13 @@ Use a table:
 
 Rows come from two sources:
 
-- Every `NOT RUN` row of the verification plan and evidence ledger in
+- Every `Not run` row of the verification plan and evidence ledger in
   `process/audit-workflow.md`, with the verification method that would have run it.
-- Every unresolved `UNKNOWN`, `NOT SPECIFIED`, or `INSUFFICIENT INFORMATION` token from the
+- Every unresolved `Unknown`, `Not specified`, or `Insufficient information` token from the
   findings and registers, with the input that would resolve it.
 
 Typical unresolved inputs include telemetry-dependent delivery metrics that stayed
-`NOT SPECIFIED`, missing cost, support, ownership, or supplier-obligation evidence,
+`Not specified`, missing cost, support, ownership, or supplier-obligation evidence,
 underivable SBOM fields such as `Unknown` licenses, and `Theoretical` attack paths that no
 live validation has confirmed.
 
@@ -171,9 +171,10 @@ Each row records the exact command, the tool and advisory-database or ruleset re
 exit status or outcome, and a retained-output reference (sanitized artifact path or digest)
 when output exists.
 
-Result cells take the check-status vocabulary - `PASS`, `FAIL`, `ERROR`, `BLOCKED`,
-`SKIPPED`, `NOT RUN`, `N/A` - where `ERROR` and `BLOCKED` describe the runner, never the
-product.
+Result cells take the check-status vocabulary - canonical tokens `PASS`, `FAIL`, `ERROR`,
+`BLOCKED`, `SKIPPED`, `NOT RUN`, `N/A`, rendered `Pass`, `Fail`, `Error`, `Blocked`,
+`Skipped`, `Not run`, `N/A` per `principles/output-style.md` - where `Error` and `Blocked`
+describe the runner, never the product.
 
 Rows are `Executed` evidence.
 
@@ -203,7 +204,7 @@ Include one row per P1 and P2 finding at minimum.
 
 | Finding | Priority | Verification Owner        | Closure Evidence      | Target Re-audit Trigger        |
 |---------|----------|---------------------------|-----------------------|--------------------------------|
-| FND-XXX | P1       | <role or `NOT SPECIFIED`> | <verifiable artifact> | <milestone or `NOT SPECIFIED`> |
+| FND-XXX | P1       | <role or `Not specified`> | <verifiable artifact> | <milestone or `Not specified`> |
 
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
@@ -213,7 +214,7 @@ re-audit schedule.
 
 Include the two standard triggers from `synthesis/reaudit-plan.md` when they apply: an SBOM-drift
 re-audit on manifest or lockfile change, and a pentest-escalation trigger naming a scoped live
-penetration test when a `HIGH` or `CRITICAL` network-facing finding remains `Theoretical` after
+penetration test when a `High` or `Critical` network-facing finding remains `Theoretical` after
 remediation planning.
 
 Apply `synthesis/reaudit-plan.md` for confirmed ownership, revision-specific closure evidence,
@@ -233,7 +234,7 @@ Use a table:
 
 | Check | Result  | Evidence / Justification          |
 |-------|---------|-----------------------------------|
-| PAR-1 | APPLIED | <evidence or `N/A` justification> |
+| PAR-1 | Applied | <evidence or `N/A` justification> |
 
 Rows appear in this order:
 
@@ -245,7 +246,8 @@ Rows appear in this order:
    register-identifier link coverage, conditional-section evaluation, and formatting rules.
 3. A `Parity baseline` row naming the report diffed against, or `none found`.
 
-Result values are `APPLIED`, `PASS`, or `N/A`.
+Result values are the canonical tokens `APPLIED`, `PASS`, or `N/A`, rendered `Applied`,
+`Pass`, or `N/A` per `principles/output-style.md`.
 
 An `N/A` always carries a justification in the Evidence / Justification column.
 

@@ -9,14 +9,14 @@
 
 ## Contents
 
-| Section                        | Line | What it covers                       |
-|--------------------------------|------|--------------------------------------|
-| Strengths & What's Working     | 21   | Evidence-based positive baselines    |
-| Technical Findings    | 59   | Finding summary and detail blocks    |
-| Technical Debt Register        | 378  | Distinct accumulated debt            |
-| Unified Risk Register          | 427  | Cross-referenced risks               |
-| Remediation Roadmap | 522  | Prioritized recommendations          |
-| Recommendation Classification  | 606  | Recommended/Optional/Not recommended |
+| Section                       | Line | What it covers                       |
+|-------------------------------|------|--------------------------------------|
+| Strengths & What's Working    | 21   | Evidence-based positive baselines    |
+| Technical Findings            | 59   | Finding summary and detail blocks    |
+| Technical Debt Register       | 396  | Distinct accumulated debt            |
+| Unified Risk Register         | 445  | Cross-referenced risks               |
+| Remediation Roadmap           | 542  | Prioritized recommendations          |
+| Recommendation Classification | 627  | Recommended/Optional/Not recommended |
 
 ## Strengths & What's Working
 
@@ -64,6 +64,14 @@ library or package.
 
 Each finding receives a unique deterministic index.
 
+Every register family numbers globally across the whole report - `EVD`, `RSK`, `REC`, `TDR`,
+and `PAR` run as single sequences, and `FND` numbers contiguously within each pillar across
+projects, so `FND-SEC-001` occurs once report-wide and the next SEC finding in any project
+continues the sequence.
+
+Project qualification `project::ID` in citations and `(<project>)` heading suffixes stay for
+clarity, per `process/report-format/multi-project.md`.
+
 When multiple evidence passes surface the same defect - parallel scouts per
 `process/parallel-execution.md`, or overlapping criteria - the register carries one row
 with the merged evidence references, never a second finding under another pillar.
@@ -89,9 +97,16 @@ Present a compact summary of all findings:
 The `Title` column copies the finding's `### FND-...` heading verbatim - the summary never
 rephrases a heading.
 
-A cell drawn from a fixed vocabulary renders the token in the form the report language
-defines: English cells render title case (`Open`, `New`, `Verification`), while the uppercase
-forms in the vocabulary lists below are the canonical token names, not the rendered cells.
+A cell drawn from any fixed vocabulary in this file - Status, Change, Verification, Result,
+Severity, Impact, Effort, Complexity, Absence, Breaking change, Provenance basis, Evidence
+level, or the debt, risk, and classification vocabularies - renders the token in the form the
+report language defines: English cells render the natural forms (`Open`, `New`, `Pass`,
+`High`, `Verified`), while the uppercase forms in the vocabulary lists below are the
+canonical token names, not the rendered cells.
+
+The rendered-forms table in `principles/output-style.md` is the single source of truth for
+every fixed vocabulary, and a token followed by a qualifier inside a `* **Field:**` value
+joins with a comma.
 
 Languages that decline tokens render the agreed form per the matching `translations/` file,
 per `principles/output-style.md`.
@@ -103,13 +118,13 @@ Title and description columns are prose, not tokens. They keep natural casing.
 Column meanings:
 
 - **Finding**: the `FND-XXX` identifier.
-- **Result**: the assessment status of the evaluated control,
-  `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, or `N/A`.
-- **Status**: the finding lifecycle state - English cells render `Open`, `Closed`, or `PASS`
+- **Result**: the assessment status of the evaluated control -
+  `Pass`, `Partial`, `Fail`, `Unknown`, or `N/A`.
+- **Status**: the finding lifecycle state - English cells render `Open`, `Closed`, or `Pass`
   for a re-verified passing control.
 - **Change**: how the finding moved since the previous audit - English cells render `New`,
   `Unchanged`, `Reopened`, or `Closed` - first-audit findings always carry `New`.
-- **Verification**: the evidence qualifier - English cells render `Verification`, `Confirmed`,
+- **Verification**: the evidence qualifier - English cells render `Verified`, `Confirmed`,
   `Reported`, or empty for a finding whose `Change` is `New`.
 
 When the report language is not English, apply the column header translations from the matching
@@ -129,16 +144,18 @@ Pillar abbreviations for IDs:
 When the report language is not English, apply the pillar name translations from the matching
 `translations/` file.
 
-Severity values: `CRITICAL`, `HIGH`, `MEDIUM`, `LOW`.
+Severity values: `CRITICAL`, `HIGH`, `MEDIUM`, `LOW` - rendered `Critical`, `High`, `Medium`,
+`Low` in English cells.
 
-Result values: `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`.
+Result values: `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A` - rendered `Pass`, `Partial`,
+`Fail`, `Unknown`, `N/A` in English cells.
 
-Status values: `OPEN`, `CLOSED`, `PASS` - rendered `Open`, `Closed`, `PASS` in English cells.
+Status values: `OPEN`, `CLOSED`, `PASS` - rendered `Open`, `Closed`, `Pass` in English cells.
 
 Change values: `NEW`, `UNCHANGED`, `REOPENED`, `CLOSED` - rendered `New`, `Unchanged`,
 `Reopened`, `Closed` in English cells.
 
-Verification values: `VERIFIED`, `CONFIRMED`, `REPORTED` - rendered `Verification`, `Confirmed`,
+Verification values: `VERIFIED`, `CONFIRMED`, `REPORTED` - rendered `Verified`, `Confirmed`,
 `Reported` in English cells.
 
 When the report language is not English, these tokens render in the localized forms defined by
@@ -170,27 +187,27 @@ architectural anti-pattern, or code flaw]
 * **Basis:** [Applicable requirement or explicitly optional improvement]
 * **Criteria:** [Criteria ID from the report's criterion table] - [the violated or
   uncertain property the finding establishes]
-* **Absence:** [No documented rationale | Deliberate - recorded decision | Undetermined] -
+* **Absence:** [No documented rationale | Deliberate - recorded decision | Undetermined],
   [one-line evidence basis] *(omit when no capability is absent)*
 * **Impact:** [Concrete operational, business, or security consequence if left unremediated]
 * **Method:** [Specific test, command, or process to confirm the fix is successful]
 * **Defect scenario:** [Initial conditions; reproduction steps; expected result; observed
-  result; confirmation level] *(required on HIGH/CRITICAL findings under `Report Style:
-  hunt`, optional otherwise)*
-* **Verification:** [yes | no, with a short qualifier]
+  result; confirmation level] *(required on High/Critical findings under `Report Style:
+  audit` and `Report Style: hunt`, optional otherwise)*
+* **Verification:** [Yes | No, with a short qualifier]
 * **Runtime:** [short qualifier, only when execution confirmed the behavior - omit otherwise]
 * **Evidence level:** [Source | Model | App | Deployed | Unknown] *(required under
   `Report Style: review`, optional otherwise)*
-* **Provenance basis:** [Declared | Attested | Supplied | Indicated | Undetermined] -
+* **Provenance basis:** [Declared | Attested | Supplied | Indicated | Undetermined],
   [one-line artifact basis] *(required on `FND-AIP-` findings, omitted elsewhere)*
-* **Breaking change:** [None | Internal | Public API - surfaces and migration note]
+* **Breaking change:** [None | Internal | Public API, surfaces and migration note]
   *(omit when N/A)*
-* **Applicability:** [applicable | conditional | inapplicable | unverified - reachability
+* **Applicability:** [applicable | conditional | inapplicable | unverified, reachability
   basis] *(dependency-advisory findings only)*
-* **Confidence:** [HIGH / MEDIUM / LOW with rationale]
+* **Confidence:** [High | Medium | Low, with rationale]
 * **Mitigating factors:** [Refuting evidence examined and remaining uncertainty]
 * **Exploitability:** [Tier + attack-path reasoning] *(omit when N/A)*
-* **Evidence:** [EVD IDs, `path:line` ranges, and inspected/reported/inferred/executed basis]
+* **Evidence:** [EVD IDs, `path:line` ranges, and Inspected/Reported/Inferred/Executed basis]
 * **Recommendation:** [Step-by-step technical guidance to resolve the finding]
 ```
 
@@ -262,14 +279,14 @@ The Recommendation must provide step-by-step technical guidance.
 The Method must specify a test or command to confirm the fix.
 
 The `Verification` field states whether the current audit verified the claim:
-`yes` for a re-derived or confirmed observation, `no` for pending verification,
-each with a short qualifier such as `yes - observed in source`.
+`Yes` for a re-derived or confirmed observation, `No` for pending verification,
+each with a short qualifier such as `Yes, observed in source`.
 
 `Verification` covers source-level re-derivation only.
 
 The `Runtime` field appears only when the claimed behavior was confirmed by execution - unconfirmed findings omit the field:
-`yes` only under `executed-readonly` or documented runtime evidence, `no` for a static
-inference awaiting confirmation, `not applicable` when no runtime claim exists.
+`Yes` only under `executed-readonly` or documented runtime evidence, `No` for a static
+inference awaiting confirmation, `Not applicable` when no runtime claim exists.
 
 Every runtime-claiming summary must match this field - a finding without a `Runtime` field
 never appears as verified in a summary table.
@@ -305,8 +322,9 @@ conditions, the reproduction steps, the expected result, the observed result, an
 confirmation level reached (`Source`, `Model`, `App`, `Deployed`, or `Unknown`).
 
 It is
-required on every `HIGH` or `CRITICAL` finding under `Report Style: hunt` - a source-only
-hunt still supplies a precise operator scenario - and optional elsewhere.
+required on every `High` or `Critical` finding under `Report Style: audit` and `Report
+Style: hunt` - a source-only report still supplies a precise operator scenario, and
+`Source`-level confirmation satisfies it - and optional elsewhere.
 
 The `Evidence level` field records the strongest level the cited evidence reaches:
 `Source` (read in code or configuration), `Model` (an isolated reproduction or harness),
@@ -320,7 +338,7 @@ A `Model` reproduction
 demonstrates a mechanism - it never upgrades application-wide reachability claims.
 
 The `Status` field carries the lifecycle state: `Open`, `Closed`,
-or `PASS` for a re-verified passing control.
+or `Pass` for a re-verified passing control.
 
 The `Change` field carries the movement since the previous audit: `New`, `Unchanged`,
 `Reopened`, or `Closed` - it records provenance, never a lifecycle state.
@@ -340,7 +358,7 @@ On every other finding the field is omitted.
 
 Most findings are `Concern`.
 
-The `Exploitability` field is required on every `HIGH` or `CRITICAL` Security & Compliance
+The `Exploitability` field is required on every `High` or `Critical` Security & Compliance
 finding whose target sits on a network-facing surface, where it carries the tier and
 attack-path reasoning per `references/exploitability-narrative.md`.
 
@@ -352,14 +370,14 @@ tracking file".
 
 Keep trade-offs in the standalone section and embed relevant reasoning in the finding.
 
-Every `CRITICAL` or `HIGH` finding needs an explicit counter-check.
+Every `Critical` or `High` finding needs an explicit counter-check.
 
 For applicable security findings, place full CWE/CVSS rationale and versioned OWASP/ASVS mappings
 below the summary table, following `assessment/security-review.md`.
 
 Do not assign a CVSS score or adverse severity to an ordinary positive observation.
 
-Place strengths in Strengths & What's Working rather than using `PASS` as a severity.
+Place strengths in Strengths & What's Working rather than using `Pass` as a severity.
 
 In shared sections, qualify IDs with the project identifier, including evidence, debt, risk, and
 recommendation links.
@@ -394,8 +412,8 @@ Use this column order:
 |---------|-------------|------------------|----------|
 | TDR-001 | <debt item> | <characteristic> | <FND ID> |
 
-`Cost` and `Delay` columns appear only when at least one row carries an estimate - never a
-`INSUFFICIENT INFORMATION` cell (leave the cell empty instead), and a column whose rows are
+`Cost` and `Delay` columns appear only when at least one row carries an estimate - never an
+`Insufficient information` cell (leave the cell empty instead), and a column whose rows are
 all empty is dropped entirely. `Status` appears only when at least one row differs from `Open`.
 
 When the report language is not English, apply the column header translations from the matching
@@ -441,19 +459,21 @@ When the report language is not English, apply the column header translations fr
 
 Column meanings:
 
-- **Risk**: `RSK-[001]` ascending.
+- **Risk**: `RSK-[001]` ascending across the whole report - one sequence, never reset per
+  project.
 - **Description**: a concrete technical risk, stated neutrally.
 - **Source**: the `FND-XXX` identifier that produced this risk.
 - **Impact**: the consequence if the risk is realized.
 - **Likelihood**: how probable the risk is given the evidence.
-- **Severity**: one of `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`.
+- **Severity**: one of `Low`, `Medium`, `High`, `Critical`.
 - **Mitigation**: a neutral, optional action that would reduce the risk.
 
 **Rating guidance**
 
 Rate impact and likelihood from evidence, not intuition.
 
-Impact bands:
+Impact bands - the canonical tokens are `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`, rendered
+`Low`, `Medium`, `High`, `Critical` in cells per `principles/output-style.md`:
 
 - `LOW`: limited or cosmetic effect.
 - `MEDIUM`: degraded function or contained outage.
@@ -468,12 +488,12 @@ Likelihood bands:
 
 **Severity matrix**
 
-| Impact \ Likelihood | LOW    | MEDIUM   | HIGH     |
+| Impact \ Likelihood | Low    | Medium   | High     |
 |---------------------|--------|----------|----------|
-| CRITICAL            | HIGH   | CRITICAL | CRITICAL |
-| HIGH                | MEDIUM | HIGH     | CRITICAL |
-| MEDIUM              | LOW    | MEDIUM   | HIGH     |
-| LOW                 | LOW    | LOW      | MEDIUM   |
+| Critical            | High   | Critical | Critical |
+| High                | Medium | High     | Critical |
+| Medium              | Low    | Medium   | High     |
+| Low                 | Low    | Low      | Medium   |
 
 When the report language is not English, apply the axis label translations from the matching
 `translations/` file.
@@ -483,7 +503,7 @@ When the report language is not English, apply the axis label translations from 
 - One row per distinct risk. Do not merge unrelated risks.
 - Every `RSK-XXX` entry must reference its source `FND-XXX`.
 - State each risk as a property of the system, never as a fault of a person.
-- When a rating is unsupported, use `UNKNOWN`, state the missing evidence, and omit it from
+- When a rating is unsupported, use `Unknown`, state the missing evidence, and omit it from
   numeric aggregation and risk-map placement, per `synthesis/risk-register.md`.
 - Mitigations are options, not directives. Do not phrase them as commands unless the user asked for
   directives.
@@ -498,9 +518,9 @@ Use this exact markdown block pattern:
 
 [Description paragraph - what could go wrong, and under what conditions]
 
-* **Severity:** [LOW | MEDIUM | HIGH | CRITICAL]
+* **Severity:** [Low | Medium | High | Critical]
 * **Likelihood:** [How probable the risk is given the evidence, with justification]
-* **Residual:** [Remaining risk after the proposed mitigation, or `UNKNOWN`]
+* **Residual:** [Remaining risk after the proposed mitigation, or `Unknown`]
 * **Owner:** [Role] *(omit when unspecified)*
 * **Impact:** [Concrete consequence if the risk is realized]
 * **Scope:** [Components, users, or data the realization affects] *(omit when it is the whole
@@ -509,7 +529,7 @@ Use this exact markdown block pattern:
 * **Controls:** [Present controls and verification state]
 * **Closure:** [Evidence or event that starts re-verification]
 * **Source:** [FND-XXX]
-* **Confidence:** [HIGH | MEDIUM | LOW with rationale]
+* **Confidence:** [High | Medium | Low, with rationale]
 * **Mitigation:** [Neutral, optional action that would reduce the risk]
 ```
 
@@ -517,7 +537,7 @@ When the report language is not English, apply the bullet label translations fro
 `translations/` file.
 
 Omit `Owner` when the input establishes no responsible role. The field never renders
-`NOT SPECIFIED` or an empty value.
+`Not specified` or an empty value.
 
 ## Remediation Roadmap
 
@@ -533,23 +553,24 @@ One row per recommendation.
 
 Use this fixed column order:
 
-| Rec     | Priority | Finding | Recommendation | Impact         | Effort         | Complexity     | Verification        |
-|---------|----------|---------|----------------|----------------|----------------|----------------|---------------------|
-| REC-001 | <P1-P4>  | FND-XXX | <action>       | <HIGH/MED/LOW> | <HIGH/MED/LOW> | <HIGH/MED/LOW> | <verification step> |
+| Rec     | Priority | Finding | Recommendation | Impact            | Effort            | Complexity        | Verification        |
+|---------|----------|---------|----------------|-------------------|-------------------|-------------------|---------------------|
+| REC-001 | <P1-P4>  | FND-XXX | <action>       | <High/Medium/Low> | <High/Medium/Low> | <High/Medium/Low> | <verification step> |
 
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
 
 Column meanings:
 
-- **Rec**: `REC-[001]` ascending.
+- **Rec**: `REC-[001]` ascending across the whole report - one sequence, never reset per
+  project.
 - **Priority**: `P1` (immediate), `P2` (short-term), `P3` (medium-term), `P4` (long-term).
 - **Finding**: the `FND-XXX` identifier this recommendation resolves.
 - **Recommendation**: a concise, actionable technical step.
-- **Impact**: the business or technical impact of applying this fix (`HIGH`, `MEDIUM`, `LOW`).
-- **Effort**: the estimated engineering effort to implement (`HIGH`, `MEDIUM`, `LOW`).
-- **Complexity**: the architectural or organizational complexity of the change (`HIGH`, `MEDIUM`,
-  `LOW`).
+- **Impact**: the business or technical impact of applying this fix (`High`, `Medium`, `Low`).
+- **Effort**: the estimated engineering effort to implement (`High`, `Medium`, `Low`).
+- **Complexity**: the architectural or organizational complexity of the change (`High`, `Medium`,
+  `Low`).
 - **Verification**: a specific test, command, or process to confirm the fix is successful.
 
 **Rules**
@@ -583,10 +604,10 @@ Use this exact markdown block pattern:
   its measurable pass criteria]
 * **Residual:** [Expected residual risk after the action, and any acceptance action needed]
   *(omit when the action fully retires the finding)*
-* **Owner:** [Role or UNASSIGNED] *(omit when the report does not assign ownership)*
+* **Owner:** [Role or Unassigned] *(omit when the report does not assign ownership)*
 * **Alternatives:** [Options considered and why they were rejected] *(omit when the action is
   the only reasonable one)*
-* **Effort confidence:** [High | Medium | Low - basis for the Effort estimate] *(omit when the
+* **Effort confidence:** [High | Medium | Low, basis for the Effort estimate] *(omit when the
   estimate is well-founded)*
 * **Depends on:** [REC-XXX or `none`] *(omit when the action stands alone)*
 * **Acceptance milestone:** [Milestone or gate the fix feeds] *(omit when none is set)*

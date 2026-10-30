@@ -29,7 +29,7 @@ When the report language is not English, apply the column header translations fr
 
 Column meanings:
 
-- **Risk**: `RSK-[001]` ascending sequentially.
+- **Risk**: `RSK-[001]` ascending sequentially in one report-global sequence.
 - **Description**: a concrete technical risk, stated neutrally.
 - **Source**: the `FND-[PILLAR]-[NNN]` identifier that produced this risk.
 - **Impact**: the consequence if the risk is realized.
@@ -50,9 +50,9 @@ Impact bands:
 
 When an impact sits between bands, compare the blast radius.
 
-A dead subsystem is `HIGH` unless it is the system's sole function,
-a data-corrupting write or an authentication bypass is `CRITICAL`,
-a degraded but still working path is `MEDIUM`.
+A dead subsystem is `High` unless it is the system's sole function,
+a data-corrupting write or an authentication bypass is `Critical`,
+a degraded but still working path is `Medium`.
 
 Likelihood bands:
 
@@ -64,10 +64,10 @@ Likelihood rates the probability that the risk materializes for the subject,
 not the probability that the underlying defect exists.
 
 A defect that always manifests, for example a stub that always returns zeros,
-gives its risk `HIGH` likelihood.
+gives its risk `High` likelihood.
 
 A defect that needs a trigger, such as an attacker in position, a compromised file,
-or a configured feature, is `MEDIUM` or `LOW` by the trigger's plausibility.
+or a configured feature, is `Medium` or `Low` by the trigger's plausibility.
 
 ## Severity Scale
 
@@ -101,7 +101,7 @@ status, an owner when a responsible role is established, and closure or re-audit
 
 These fields may appear in the risk detail block when the summary table would become too wide.
 
-If impact or likelihood lacks a defensible basis, use `UNKNOWN` for the rating and severity rather
+If impact or likelihood lacks a defensible basis, use `Unknown` for the rating and severity rather
 than forcing a matrix value, and identify the evidence needed to rate it.
 
 Risk confidence is separate from severity.
@@ -109,7 +109,7 @@ Risk confidence is separate from severity.
 A high-severity risk can have low confidence when a reachability or deployment condition remains
 unresolved.
 
-`UNKNOWN` here denotes a missing rating, not an additional severity band.
+`Unknown` here denotes a missing rating, not an additional severity band.
 
 List unrated risks beside the risk map instead of placing them in an invented cell.
 
@@ -127,7 +127,7 @@ List unrated risks beside the risk map instead of placing them in an invented ce
 
 - One row per distinct risk. Do not merge unrelated risks.
 - State each risk as a property of the system, never as a fault of a person.
-- When a risk rests on missing information, mark its likelihood basis as `INSUFFICIENT INFORMATION`
+- When a risk rests on missing information, mark its likelihood basis as `Insufficient information`
   in the risk text.
 - Mitigations are options, not directives. Do not phrase them as commands unless the user asked for
   directives.
@@ -136,12 +136,12 @@ List unrated risks beside the risk map instead of placing them in an invented ce
   severity, record the band change and the matrix rationale in the Changes section, never
   silently preserve or adjust a prior rating.
 - Every rated risk occupies exactly one risk-map cell. The union of risk-map cells must equal
-  the register's rated risk set, `UNKNOWN`-rated risks are listed beside the map instead.
+  the register's rated risk set, `Unknown`-rated risks are listed beside the map instead.
 
 ## Example Row
 
 ```
-| RSK-001 | Hardcoded JWT signing key in committed config | FND-SEC-001 | Authentication bypass or token forgery | High | CRITICAL | Move key to secrets manager and rotate |
+| RSK-001 | Hardcoded JWT signing key in committed config | FND-SEC-001 | Authentication bypass or token forgery | High | Critical | Move key to secrets manager and rotate |
 ```
 
 The example columns follow the table order: `Risk`, `Source`, `Impact`,

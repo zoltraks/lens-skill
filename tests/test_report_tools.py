@@ -243,10 +243,19 @@ class TestValidateReport(unittest.TestCase):
         self.assertEqual(self.validator.check_criterion_references(lines, "hunt"), [])
 
     def test_par_bound_is_twenty_seven(self):
-        rows = "".join(f"| PAR-{n} | PASS | x |\n" for n in range(1, 28))
+        rows = "".join(f"| PAR-{n} | Pass | x |\n" for n in range(1, 28))
         self.assertEqual(self.validator.check_par_rows(rows), [])
-        missing_27 = "".join(f"| PAR-{n} | PASS | x |\n" for n in range(1, 27))
+        missing_27 = "".join(f"| PAR-{n} | Pass | x |\n" for n in range(1, 27))
         self.assertTrue(any("PAR-27" in f for f in self.validator.check_par_rows(missing_27)))
+
+    def test_par_result_cells_render_check_vocabulary(self):
+        rows = "".join(f"| PAR-{n} | Pass | x |\n" for n in range(1, 28))
+        bad = rows.replace("| PAR-3 | Pass |", "| PAR-3 | PASS |").replace(
+            "| PAR-9 | Pass |", "| PAR-9 | Skipped |"
+        )
+        joined = "\n".join(self.validator.check_par_rows(bad))
+        self.assertIn("non-check result 'PASS'", joined)
+        self.assertIn("non-check result 'Skipped'", joined)
 
     def test_absence_tokens(self):
         self.assertIn("Deliberate - recorded decision", self.validator.ABSENCE_VALUES)
@@ -254,8 +263,12 @@ class TestValidateReport(unittest.TestCase):
 
     def test_status_vocabularies(self):
         self.assertIn("Closed", self.validator.FINDING_STATUS)
+        self.assertIn("Pass", self.validator.FINDING_STATUS)
         self.assertIn("Reopened", self.validator.CHANGE_VALUES)
         self.assertIn("Accepted", self.validator.RISK_STATUS)
+        self.assertIn("Fail", self.validator.CONFORMANCE_STATUS_TOKENS)
+        self.assertIn("Passed", self.validator.CONFORMANCE_VERDICT_TOKENS)
+        self.assertIn("Not run", self.validator.REVIEW_RESULTS)
 
     def test_coverage_rows_render_title_case(self):
         text = (
@@ -352,9 +365,9 @@ class TestValidateReport(unittest.TestCase):
         self.assertEqual(self.validator.check_bold_markers(code, [False]), [])
 
     def test_aip_provenance_basis(self):
-        block = ["### FND-AIP-001 x", "", "* **Provenance basis:** Declared - trailers"]
+        block = ["### FND-AIP-001 x", "", "* **Provenance basis:** Declared, trailers"]
         self.assertEqual(self.validator.check_aip_provenance(block), [])
-        missing = ["### FND-AIP-001 x", "", "* **Severity:** LOW"]
+        missing = ["### FND-AIP-001 x", "", "* **Severity:** Low"]
         self.assertTrue(
             any("Provenance basis" in f for f in self.validator.check_aip_provenance(missing))
         )
@@ -1055,8 +1068,8 @@ class TestRegisterBlocks(unittest.TestCase):
         "* **Postcondition:** input rejected at boundary\n"
         "* **Description:** adds a validator\n"
         "* **Impact:** fewer injection paths\n"
-        "* **Effort:** LOW\n"
-        "* **Complexity:** LOW\n"
+        "* **Effort:** Low\n"
+        "* **Complexity:** Low\n"
         "* **Verification:** unit test rejects payload\n"
     )
 
@@ -1098,7 +1111,7 @@ class TestRegisterBlocks(unittest.TestCase):
     def test_risk_source_must_resolve(self):
         risk = (
             "### RSK-001: Injection reaches production\n\n"
-            "* **Severity:** HIGH\n"
+            "* **Severity:** High\n"
             "* **Likelihood:** Medium\n"
             "* **Residual:** Medium\n"
             "* **Status:** Open\n"
@@ -1109,7 +1122,7 @@ class TestRegisterBlocks(unittest.TestCase):
             "* **Mitigation:** validate input\n"
             "* **Closure:** retest\n"
             "* **Source:** {source}\n"
-            "* **Confidence:** HIGH\n"
+            "* **Confidence:** High\n"
         )
         good = self.FND_HEADING + risk.format(source="FND-SEC-001")
         bad = self.FND_HEADING + risk.format(source="FND-SEC-099")
@@ -1139,19 +1152,19 @@ class TestRegisterBlocks(unittest.TestCase):
             "## Structure Review\n\n"
             "| Area | Verdict | Basis |\n"
             "|---|---|---|\n"
-            "| Directory organization | PARTIAL | established |\n"
-            "| Naming conventions | PARTIAL | required |\n"
-            "| Component placement | PASS | established |\n"
-            "| Supporting-artifact layout | PASS | recommended |\n"
-            "| Consistency | PASS | established |\n\n"
+            "| Directory organization | Partially | established |\n"
+            "| Naming conventions | Partially | required |\n"
+            "| Component placement | Passed | established |\n"
+            "| Supporting-artifact layout | Passed | recommended |\n"
+            "| Consistency | Passed | established |\n\n"
             "## Structure Conformance\n\n"
             "| Component | Surface | Convention | Observed | Status | Evidence |\n"
             "|---|---|---|---|---|---|\n"
-            "| `src/App` | Directories | Full words | `App/` | PARTIAL | EVD-001 |\n\n"
+            "| `src/App` | Directories | Full words | `App/` | Partial | EVD-001 |\n\n"
             "## Code Style\n\n"
             "| Lens | Status | Justification |\n"
             "|---|---|---|\n"
-            "| SL-1 Convention fit | PARTIAL | 88% dominant |\n"
+            "| SL-1 Convention fit | Partial | 88% dominant |\n"
         )
         self.assertEqual(self.validator.check_structure_and_naming(good), [])
         bad = (
@@ -1222,6 +1235,142 @@ class TestRegisterBlocks(unittest.TestCase):
             ),
             [],
         )
+
+
+class TestRegisterNumbering(unittest.TestCase):
+    def setUp(self):
+        self.validator = load_script("validate-report.py")
+
+    def run_check(self, body):
+        lines = body.split("\n")
+        return self.validator.check_register_numbering(
+            lines, self.validator.split_code(lines)
+        )
+
+    def test_global_contiguous_numbering_passes(self):
+        body = (
+            "## alpha\n\n### FND-SEC-001: A\n\n### FND-ARC-001: B\n\n"
+            "## beta\n\n### FND-SEC-002: C\n\n### RSK-001: R\n\n"
+            "### REC-001: X\n\n### REC-002: Y\n\n### TDR-001: D\n\n"
+            "## Evidence List\n\n| Evidence | Result |\n|---|---|\n"
+            "| EVD-001 | ok |\n| EVD-002 | ok |\n"
+        )
+        self.assertEqual(self.run_check(body), [])
+
+    def test_per_project_reset_is_flagged(self):
+        body = (
+            "## alpha\n\n### FND-SEC-001: A\n\n### RSK-001: R\n\n"
+            "## beta\n\n### FND-SEC-001: B\n\n### RSK-001: S\n\n"
+        )
+        joined = "\n".join(self.run_check(body))
+        self.assertIn("FND-SEC-001 is defined more than once", joined)
+        self.assertIn("RSK-001 is defined more than once", joined)
+
+    def test_gap_in_sequence_is_flagged(self):
+        body = "### FND-SEC-001: A\n\n### FND-SEC-003: B\n\n### REC-002: X\n"
+        joined = "\n".join(self.run_check(body))
+        self.assertIn("FND-SEC identifiers", joined)
+        self.assertIn("REC identifiers", joined)
+
+    def test_evd_rows_are_unique_and_contiguous(self):
+        good = "| EVD-001 | a |\n| EVD-002 | b |\n"
+        self.assertEqual(self.run_check(good), [])
+        dup = "| EVD-001 | a |\n| EVD-002 | b |\n| EVD-002 | c |\n"
+        self.assertTrue(
+            any("EVD-002 is defined more than once" in f for f in self.run_check(dup))
+        )
+
+    def test_qualified_definition_cells_count_once(self):
+        body = "| api::EVD-001 | a |\n| EVD-002 | b |\n"
+        self.assertEqual(self.run_check(body), [])
+
+
+class TestFrameGeometry(unittest.TestCase):
+    def setUp(self):
+        self.validator = load_script("validate-report.py")
+
+    def run_check(self, diagram):
+        lines = ("```\n" + diagram + "```\n").split("\n")
+        return self.validator.check_frame_geometry(
+            lines, self.validator.split_code(lines)
+        )
+
+    def test_aligned_frame_passes(self):
+        body = (
+            "  ╭────────╮\n"
+            "  │ Client │\n"
+            "  ╰────────╯\n"
+        )
+        self.assertEqual(self.run_check(body), [])
+
+    def test_side_by_side_frames_pass(self):
+        body = (
+            "╭───╮  ╭─────╮\n"
+            "│ A │  │  B  │\n"
+            "╰───╯  ╰─────╯\n"
+        )
+        self.assertEqual(self.run_check(body), [])
+
+    def test_misaligned_side_border_fails(self):
+        body = (
+            "╭────────╮\n"
+            "│ Client  │\n"
+            "╰────────╯\n"
+        )
+        self.assertTrue(self.run_check(body))
+
+    def test_misaligned_bottom_border_fails(self):
+        body = (
+            "╭────────╮\n"
+            "│ Client │\n"
+            "╰─────────╯\n"
+        )
+        self.assertTrue(self.run_check(body))
+
+    def test_unclosed_frame_fails(self):
+        body = "╭────────╮\n│ Client │\n"
+        self.assertTrue(
+            any("never closes" in f for f in self.run_check(body))
+        )
+
+    def test_connector_rows_between_frames_pass(self):
+        body = (
+            "╭────────╮\n"
+            "│ Client │\n"
+            "╰────────╯\n"
+            "    │\n"
+            "    v\n"
+            "╭────────╮\n"
+            "│ Server │\n"
+            "╰────────╯\n"
+        )
+        self.assertEqual(self.run_check(body), [])
+
+
+class TestDefectScenarios(unittest.TestCase):
+    def setUp(self):
+        self.validator = load_script("validate-report.py")
+
+    BLOCK = (
+        "### FND-SEC-001: Bad\n\n"
+        "* **Severity:** {sev}\n"
+    )
+
+    def test_high_finding_needs_scenario(self):
+        lines = self.BLOCK.format(sev="High, chain traced").split("\n")
+        failures = self.validator.check_hunt_scenarios(lines)
+        self.assertTrue(any("Defect scenario" in f for f in failures))
+
+    def test_medium_finding_exempt(self):
+        lines = self.BLOCK.format(sev="Medium").split("\n")
+        self.assertEqual(self.validator.check_hunt_scenarios(lines), [])
+
+    def test_high_finding_with_scenario_passes(self):
+        lines = (
+            self.BLOCK.format(sev="Critical")
+            + "* **Defect scenario:** conditions; steps; expected; observed; static\n"
+        ).split("\n")
+        self.assertEqual(self.validator.check_hunt_scenarios(lines), [])
 
 
 if __name__ == "__main__":

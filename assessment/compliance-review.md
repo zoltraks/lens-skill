@@ -22,7 +22,10 @@ This is a technical assessment of observable controls, not legal advice.
 - Consent and rights: whether consent and data-subject rights are handled where applicable.
 - Regulatory scope: whether a regime such as data-protection or sector regulation plausibly applies.
 - Licensing: whether the project's own license and third-party obligations are satisfied.
-- Auditability: whether security-relevant actions leave an audit trail.
+- Auditability: whether security-relevant actions leave an audit trail. Enumerate the
+  security-relevant operations - administrative operations, role and lifecycle changes,
+  and permitted actions that run without an authenticated principal - and reconcile them
+  against the instrumented set.
 
 ## Evidence To Look For
 
@@ -44,6 +47,12 @@ retention/deletion behavior, and the requirement or policy basis.
 
 Include identity fields, free-text queries, logs, backups, Git history, caches, embeddings, and
 third-party processing when these are in scope.
+
+A committed data inventory - a registry of client or personal records tracked in version
+control - persists in history even after the file is deleted.
+
+Removing the file does not remove the data, and a history-scrub decision routes to the
+data-protection owner, not an engineering call.
 
 A knowledge base can contain personal data even without a dedicated customer table.
 

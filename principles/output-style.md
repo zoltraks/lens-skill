@@ -21,12 +21,12 @@ Two audits of similar systems should produce reports of similar shape, vocabular
 | Tone And Register              | 31   | Neutral, precise report voice    |
 | Structure Preferences          | 45   | Tables over paragraphs, ordering |
 | Fixed Vocabularies             | 84   | Status and severity word lists   |
-| Consistency Rules              | 159  | Same input, same output shape    |
-| Plain-Text Friendly Formatting | 175  | Terminal and diff readability    |
-| Multilingual Output            | 285  | Non-English report rendering     |
-| Information Security In Output | 422  | Redaction and disclosure limits  |
-| Report Termination             | 437  | End-of-report rules              |
-| Determinism                    | 446  | Repeatability guarantees         |
+| Consistency Rules              | 180  | Same input, same output shape    |
+| Plain-Text Friendly Formatting | 196  | Terminal and diff readability    |
+| Multilingual Output            | 306  | Non-English report rendering     |
+| Information Security In Output | 443  | Redaction and disclosure limits  |
+| Report Termination             | 458  | End-of-report rules              |
+| Determinism                    | 467  | Repeatability guarantees         |
 
 ## Tone And Register
 
@@ -125,23 +125,44 @@ Validation Record results are `APPLIED`, `PASS`, or `N/A`, separately from categ
 
 An `N/A` always carries a justification.
 
-A cell drawn from a fixed vocabulary renders the canonical token: a single uppercase word, or
-an established phrase token such as `IN PROGRESS`, `NOT APPLICABLE`, or
-`INSUFFICIENT INFORMATION` where the vocabulary defines one.
+A cell drawn from a fixed vocabulary renders the natural form the report language defines -
+the uppercase forms in the vocabulary lists above are the canonical token names, never the
+rendered text.
 
-This covers status, severity, result, verification, lifecycle, change, readiness, and
-classification columns in every report language.
+English cells render these forms:
 
-`* **Field:**` bullet values and running prose keep natural casing - the uppercase token form
-belongs to token columns and token-definition tables only.
+| Canonical token                                                         | Rendered English                                                                  |
+|-------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| `PASS`                                                                  | `Pass` in Status and Result cells, `Passed` in Verdict cells                      |
+| `PARTIAL`                                                               | `Partial` in Status and Result cells, `Partially` in Verdict and coverage cells   |
+| `FAIL`                                                                  | `Fail` in Status and Result cells, `Failed` in Verdict cells                      |
+| `UNKNOWN`                                                               | `Unknown`                                                                         |
+| `N/A`                                                                   | `N/A`                                                                             |
+| `LOW` `MEDIUM` `HIGH` `CRITICAL`                                        | `Low` `Medium` `High` `Critical`                                                  |
+| `MODERATE`                                                              | `Moderate`                                                                        |
+| `COVERED` `PARTIALLY` `NOT DONE`                                        | `Covered` `Partially` `Not done`                                                  |
+| `NOT SPECIFIED`                                                         | `None` in Result cells, `Not specified` elsewhere                                 |
+| `NOT RUN` `NOT COLLECTED` `NOT ASSESSED` `NOT INSPECTED` `NOT VERIFIED` | `Not run` `Not collected` `Not assessed` `Not inspected` `Not verified`             |
+| `NOT PERFORMED`                                                         | `Not performed`                                                                   |
+| `EXCLUDED BY SCOPE`                                                     | `Excluded by scope`                                                               |
+| `INSUFFICIENT INFORMATION`                                              | `Insufficient information`                                                        |
+| `OPEN` `CLOSED` `NEW` `UNCHANGED` `REOPENED`                            | `Open` `Closed` `New` `Unchanged` `Reopened`                                      |
+| `VERIFIED` `CONFIRMED` `REPORTED` `EXECUTED`                            | `Verified` `Confirmed` `Reported` `Executed`                                      |
+| `APPLIED`                                                               | `Applied`                                                                         |
+| `READY` `NOT READY` `PENDING EVIDENCE`                                  | `Ready` `Not ready` `Pending evidence`                                            |
+| `IN PROGRESS` `NOT APPLICABLE`                                          | `In progress` `Not applicable`                                                    |
 
-**Machine tokens**: Keep record and classification identifiers (`EVD-001`, `FND-XXX`, `RSK-XXX`,
-`REC-XXX`, `TDR-XXX`, `PAR-NN`, `P1`-`P4`, CWE IDs, CVSS vectors, OWASP IDs) and tool commands
-unchanged in every report language.
+This covers status, severity, result, verification, lifecycle, change, readiness,
+concentration, and classification cells in every report language - each `translations/`
+file defines the localized rendered forms for its language.
 
-Status markers, severities, validation results, execution states, and missing-information tokens
-keep their English forms by default and render in the localized forms defined by the matching
-`translations/` file when the report language is not English.
+A token followed by a qualifier inside a `* **Field:**` value or a cell joins with a
+comma, for example `High, chain traced end to end` or `Undetermined, no rationale found` -
+the spaced hyphen keeps its aside role, never a token-qualifier join.
+
+Machine tokens stay unchanged: record and classification identifiers (`EVD-001`, `FND-XXX`,
+`RSK-XXX`, `REC-XXX`, `TDR-XXX`, `PAR-NN`, `P1`-`P4`, CWE IDs, CVSS vectors, OWASP IDs)
+and tool commands render verbatim in every report language.
 
 Maturity levels:
 
@@ -382,8 +403,8 @@ table headers, style rules, and any language-specific encoding or diacritics req
 
 **Status, severity, and score format:**
 
-The English markers (`PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`, `LOW`, `MEDIUM`, `HIGH`,
-`CRITICAL`, `Score:`, `SEVERITY:`) are the default.
+The English rendered forms (`Pass`, `Partial`, `Fail`, `Unknown`, `N/A`, `Low`, `Medium`,
+`High`, `Critical`, `Score:`) are the default.
 
 Each translation file defines the equivalents for its language,
 which may localize the markers themselves, including result markers such as `NOT RUN`,

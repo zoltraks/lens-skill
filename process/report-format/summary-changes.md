@@ -43,7 +43,7 @@ The Overall score cell holds only the score display.
 
 The lowest-scoring applicable dimension and its score go in a paragraph directly below the table,
 so a weak pillar is never hidden inside the average,
-for example `Lowest-scoring dimensions: Security ★★☆☆☆.` Exclude `N/A` and `UNKNOWN` dimensions from
+for example `Lowest-scoring dimensions: Security ★★☆☆☆.` Exclude `N/A` and `Unknown` dimensions from
 both values.
 
 When several dimensions tie for the lowest score, name them all.
@@ -91,7 +91,7 @@ for example "This report covers the engineering audit types.
 
 No penetration test or compliance certification was performed".
 
-Flag a `HIGH` contributor-concentration rating from Delivery Practice & Team Continuity and any
+Flag a `High` contributor-concentration rating from Delivery Practice & Team Continuity and any
 `Conflict` license risk from License Compliance here, one line each,
 since both are material deal-level facts a summary reader should not have to dig for.
 
@@ -116,7 +116,7 @@ Keep any "builds", "tests pass", "secure", or "production-ready" claim within th
 collected, carrying the same qualifications as the detailed findings.
 
 Add **Readiness Cost** using `synthesis/remediation-roadmap.md`, with the supported range or
-`INSUFFICIENT INFORMATION`, known subtotal, exclusions, and unestimated work.
+`Insufficient information`, known subtotal, exclusions, and unestimated work.
 
 For due diligence, summarize support continuity, ownership cost, roadmap, supplier, IP, and data
 obligations, including missing business evidence.
@@ -164,11 +164,11 @@ previous report:
 
 | Finding | Previous | Current | Note               |
 |---------|----------|---------|--------------------|
-| FND-XXX | OPEN     | CLOSED  | <closing evidence> |
-| FND-XXX | OPEN     | OPEN    | still reproduces   |
-| FND-XXX | -        | NEW     | first reported     |
+| FND-XXX | Open     | Closed  | <closing evidence> |
+| FND-XXX | Open     | Open    | still reproduces   |
+| FND-XXX | -        | New     | first reported     |
 
-A previous finding that no longer reproduces stays in the table as `CLOSED` with the evidence
+A previous finding that no longer reproduces stays in the table as `Closed` with the evidence
 that closes it, it is never silently dropped.
 
 **Score delta**
@@ -177,12 +177,12 @@ Present a per-dimension score comparison:
 
 | Dimension | Previous | Current | Direction |
 |-----------|----------|---------|-----------|
-| <name>    | <score>  | <score> | UP        |
+| <name>    | <score>  | <score> | Up        |
 
-Direction uses `UP`, `DOWN`, or `UNCHANGED`.
+Direction uses `Up`, `Down`, or `Unchanged`.
 
 When the evaluation scale changed between reports,
-mark the direction `UNKNOWN` for affected dimensions instead of comparing raw numbers.
+mark the direction `Unknown` for affected dimensions instead of comparing raw numbers.
 
 After the tables, write one paragraph per material change.
 
@@ -193,8 +193,8 @@ Anchor every claim to a `FND-XXX`, `RSK-XXX`, or `EVD-XXX` in the current report
 
 **Rules**
 
-- New findings keep their assigned `FND-XXX` IDs and appear as `NEW` in the transition table.
-- Mark a comparison element `UNKNOWN` when the previous report cannot supply it, do not guess.
+- New findings keep their assigned `FND-XXX` IDs and appear as `New` in the transition table.
+- Mark a comparison element `Unknown` when the previous report cannot supply it, do not guess.
 - For multi-project reports, place the combined section after the condensed combined Executive
   Summary, give each compared project its own level-3 subsection, and qualify every identifier
   with the project identifier.

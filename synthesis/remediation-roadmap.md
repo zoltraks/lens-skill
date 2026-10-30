@@ -32,7 +32,7 @@ When the report language is not English, apply the column header translations fr
 
 Column meanings:
 
-- **Rec**: `REC-[001]` ascending sequentially.
+- **Rec**: `REC-[001]` ascending sequentially in one report-global sequence.
 - **Priority**: `P1` (immediate), `P2` (short-term), `P3` (medium-term), `P4` (long-term).
 - **Finding**: the `FND-[PILLAR]-[NNN]` identifier this recommendation resolves.
 - **Recommendation**: a concise, actionable technical step.
@@ -74,7 +74,7 @@ Priority expresses urgency, not a delivery commitment, use only supplied or appr
 - Any recommendation stated in the Trade-off Analysis must also appear as a `REC-XXX` in this
   roadmap, traced to the same `FND-XXX`. Do not allow recommendations to exist only in the trade-off
   table.
-- Disposition completeness: every open non-PASS finding maps to at least one `REC-XXX` or to an
+- Disposition completeness: every open non-Pass finding maps to at least one `REC-XXX` or to an
   explicit `Accepted`, `Deferred`, or `Rejected` disposition with its rationale recorded next to
   the finding. No adverse finding is silently unactioned. The validator reconciles the
   mapping and flags an unmapped finding.
@@ -83,6 +83,9 @@ Priority expresses urgency, not a delivery commitment, use only supplied or appr
   may carry `Alternatives`, `Effort confidence`, `Residual`, `Owner` (a role or
   `UNASSIGNED`), `Depends on`, `Acceptance milestone`, and `Closure evidence` fields so the
   roadmap functions as an action tracker.
+- When the subject already contains a correct implementation of the mechanism the finding
+  needs - a shared helper or a sibling module that does it right - the Recommendation
+  names it as the remediation template rather than inventing a parallel fix.
 
 ## Cost To Reach Readiness
 
@@ -105,7 +108,7 @@ Include tests, migration, review, rollout, and re-verification in the stated sco
 If any required work lacks an estimate, show the known subtotal and unestimated items, never label
 the subtotal the total cost of production readiness.
 
-Place the resulting range or `INSUFFICIENT INFORMATION` in the Executive Summary, along with its
+Place the resulting range or `Insufficient information` in the Executive Summary, along with its
 scope, exclusions, confidence, and dependencies.
 
 Keep infrastructure spend separate from one-time remediation and avoid currency conversions without
@@ -114,6 +117,10 @@ supplied rates.
 ## Verification Quality
 
 Match verification to the actual defect and the chosen remediation option.
+
+For an integrity or data-loss finding, the `Verification` field includes a forensic step:
+a detection query or scan that checks whether the defect already caused damage, because
+removing the cause does not repair the data the defect already corrupted.
 
 Require negative and positive controls, observable side effects, and an explicit success condition
 for security-sensitive fixes.

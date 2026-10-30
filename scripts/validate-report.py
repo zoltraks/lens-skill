@@ -428,7 +428,7 @@ RISK_REQUIRED = [
     "Source:",
     "Confidence:",
 ]
-FINDING_STATUS = ("Open", "Closed", "PASS")
+FINDING_STATUS = ("Open", "Closed", "Pass")
 CHANGE_VALUES = ("New", "Unchanged", "Reopened", "Closed")
 RISK_STATUS = ("Open", "Accepted", "Transferred", "Monitoring", "Closed")
 VERIFICATION_QUALIFIERS = ("Verification", "Confirmed", "Reported")
@@ -442,6 +442,12 @@ EMPTY_FIELD_VALUE = re.compile(r"^(N/?A|N/D|NOT SPECIFIED|NIEOKREŚLON)\b", re.I
 def field_value(block: str, field: str) -> str:
     match = re.search(rf"\*\*{re.escape(field)}:\*\*\s*(.*)", block)
     return match.group(1).strip() if match else ""
+
+
+def field_token(value: str) -> str:
+    """The leading vocabulary token of a field or cell value - a token and
+    its qualifier join with a comma (`High, chain traced`)."""
+    return value.split(",", 1)[0].split(" ")[0].strip()
 
 
 def check_description_paragraphs(lines: list[str]) -> list[str]:
@@ -482,7 +488,7 @@ def check_finding_blocks(lines: list[str]) -> list[str]:
                 )
         status = field_value(block, "Status")
         if status and not re.match(rf"^({'|'.join(FINDING_STATUS)})\b", status):
-            failures.append(f"{name}: Status is not a lifecycle value (Open/Closed/PASS)")
+            failures.append(f"{name}: Status is not a lifecycle value (Open/Closed/Pass)")
         change = field_value(block, "Change")
         if change and not re.match(rf"^({'|'.join(CHANGE_VALUES)})\b", change):
             failures.append(f"{name}: Change is not a provenance value (New/Unchanged/Reopened/Closed)")
@@ -593,7 +599,7 @@ def check_criterion_references(lines: list[str], style: str) -> list[str]:
         if not value or value.startswith("<"):
             continue
         used = True
-        token = re.split(r"\s+-\s+", value, maxsplit=1)[0].strip()
+        token = re.split(r"\s+-\s+|,\s*", value, maxsplit=1)[0].strip()
         if declared and token not in declared:
             failures.append(
                 f"{name}: Criteria '{token}' is not a declared criteria-table row"
@@ -814,21 +820,21 @@ def check_finding_summary(text: str) -> list[str]:
             continue
         if status_idx >= 0 and len(row_cells) > status_idx:
             value = row_cells[status_idx]
-            if value and value.split(" ")[0] not in FINDING_STATUS:
+            if value and field_token(value) not in FINDING_STATUS:
                 failures.append(
                     f"findings summary row has non-lifecycle Status '{value}' - "
-                    "expected Open/Closed/PASS"
+                    "expected Open/Closed/Pass"
                 )
         if change_idx >= 0 and len(row_cells) > change_idx:
             value = row_cells[change_idx]
-            if value and value.split(" ")[0] not in CHANGE_VALUES:
+            if value and field_token(value) not in CHANGE_VALUES:
                 failures.append(
                     f"findings summary row has non-provenance Change '{value}' - "
                     "expected New/Unchanged/Reopened/Closed"
                 )
         if verification_idx >= 0 and len(row_cells) > verification_idx:
             value = row_cells[verification_idx]
-            if value and value.split(" ")[0] not in VERIFICATION_QUALIFIERS:
+            if value and field_token(value) not in VERIFICATION_QUALIFIERS:
                 failures.append(
                     f"findings summary row has bad Verification '{value}' - "
                     "expected Verification/Confirmed/Reported or empty"
@@ -996,7 +1002,7 @@ def check_security_classification(lines: list[str]) -> list[str]:
         block = NL.join(lines[start:end])
         match = re.search(r"\* \*\*Security:\*\*\s*(.*)", block)
         if match and not EMPTY_FIELD_VALUE.match(match.group(1).strip()) \
-                and not re.search(r"CWE-[0-9]+|\bUNKNOWN\b|\bNIEZNANE\b", match.group(1)):
+                and not re.search(r"CWE-[0-9]+|\bUnknown\b|\bNIEZNANE\b", match.group(1)):
             failures.append(f"{lines[start][4:70]}: security classification lacks CWE or an unknown token")
         if "**Pillar:** Security & Compliance" not in block:
             continue
@@ -1004,7 +1010,7 @@ def check_security_classification(lines: list[str]) -> list[str]:
         narrative = re.search(r"\* \*\*Exploitability:\*\*\s*(.*)", block)
         if severity and narrative and re.search(r"\b(critical|high|krytyczna|wysoka)\b", severity.group(1), re.IGNORECASE):
             if re.fullmatch(r"N/?A|N/D", narrative.group(1).strip()):
-                failures.append(f"{lines[start][4:70]}: HIGH/CRITICAL security finding's exploitability narrative is bare N/A without a reason")
+                failures.append(f"{lines[start][4:70]}: Critical/High security finding's exploitability narrative is bare N/A without a reason")
     return failures
 
 
@@ -1026,11 +1032,21 @@ def check_type_tags(lines: list[str], fences: list[bool]) -> list[str]:
     return failures
 
 
+PAR_RESULTS = ("Applied", "Pass", "N/A")
+
+
 def check_par_rows(text: str) -> list[str]:
     failures: list[str] = []
     for number in range(1, 28):
         if not re.search(rf"^\|\s*PAR-{number}(?:\s|\||:)", text, re.MULTILINE):
             failures.append(f"missing Validation Record row PAR-{number}")
+    for match in re.finditer(r"^\|\s*PAR-\d+\s*\|\s*([^|]*)\|", text, re.MULTILINE):
+        result = cell_text(match.group(1).strip())
+        if result and not result.startswith("<") and result not in PAR_RESULTS:
+            failures.append(
+                f"Validation Record row has non-check result '{result}' - "
+                f"expected {'/'.join(PAR_RESULTS)}"
+            )
     return failures
 
 
@@ -1598,7 +1614,8 @@ STRUCTURE_VERDICT_AREAS = (
     "Supporting-artifact layout",
     "Consistency",
 )
-CONFORMANCE_STATUS_TOKENS = {"PASS", "PARTIAL", "PARTIALLY", "FAIL", "UNKNOWN", "N/A"}
+CONFORMANCE_STATUS_TOKENS = {"Pass", "Partial", "Fail", "Unknown", "N/A"}
+CONFORMANCE_VERDICT_TOKENS = {"Passed", "Partially", "Failed"}
 
 
 def check_structure_and_naming(text: str) -> list[str]:
@@ -1625,10 +1642,10 @@ def check_structure_and_naming(text: str) -> list[str]:
                     failures.append(
                         f"Structure Review verdict table is missing row '{area}'"
                     )
-                elif verdict_rows[area].upper() not in CONFORMANCE_STATUS_TOKENS:
+                elif verdict_rows[area] not in CONFORMANCE_VERDICT_TOKENS:
                     failures.append(
                         f"Structure Review '{area}' verdict '{verdict_rows[area]}' "
-                        f"is not in {sorted(CONFORMANCE_STATUS_TOKENS)}"
+                        f"is not in {sorted(CONFORMANCE_VERDICT_TOKENS)}"
                     )
     for match in re.finditer(
         r"^#{2,3}\s+Structure Conformance\s*$", text, re.MULTILINE
@@ -1645,7 +1662,7 @@ def check_structure_and_naming(text: str) -> list[str]:
             for row in rows:
                 if len(row) > sidx:
                     token = cell_text(row[sidx]).strip()
-                    if token.upper() not in CONFORMANCE_STATUS_TOKENS:
+                    if token not in CONFORMANCE_STATUS_TOKENS:
                         failures.append(
                             f"Structure Conformance status '{token}' "
                             f"is not in {sorted(CONFORMANCE_STATUS_TOKENS)}"
@@ -1667,7 +1684,7 @@ def check_structure_and_naming(text: str) -> list[str]:
             for row in rows:
                 if len(row) > sidx:
                     token = cell_text(row[sidx]).strip()
-                    if token.upper() not in CONFORMANCE_STATUS_TOKENS:
+                    if token not in CONFORMANCE_STATUS_TOKENS:
                         failures.append(
                             f"Code Style status '{token}' "
                             f"is not in {sorted(CONFORMANCE_STATUS_TOKENS)}"
@@ -2047,7 +2064,7 @@ REVIEW_SECTIONS = [
     "References",
 ]
 
-REVIEW_RESULTS = ("PASS", "FAIL", "ERROR", "BLOCKED", "SKIPPED", "NOT RUN", "N/A")
+REVIEW_RESULTS = ("Pass", "Fail", "Error", "Blocked", "Skipped", "Not run", "N/A")
 REVIEW_EVIDENCE_LEVELS = ("Source", "Model", "App", "Deployed", "Unknown")
 PROVENANCE_BASIS_VALUES = ("Declared", "Attested", "Supplied", "Indicated", "Undetermined")
 REVIEW_DISPOSITIONS = ("Planned", "Deferred", "Accepted - no action", "Unresolved")
@@ -2290,7 +2307,7 @@ def check_finding_disposition(text: str, lines: list[str]) -> list[str]:
         end = starts[position + 1] if position + 1 < len(starts) else len(lines)
         block = NL.join(lines[start:end])
         status = field_value(block, "Status")
-        if re.match(r"^(Closed|PASS)\b", status):
+        if re.match(r"^(Closed|Pass)\b", status):
             continue
         fid = re.search(r"FND-[A-Z]{3}-\d{3}", lines[start]).group(0)
         qualifier = re.search(r"\(([\w.-]+)\)\s*$", lines[start])
@@ -2358,7 +2375,7 @@ def check_review_execution_register(text: str) -> list[str]:
                 f"expected {'/'.join(REVIEW_RESULTS)}"
             )
             continue
-        if status != "PASS" and (
+        if status != "Pass" and (
             interp_idx < 0 or len(row) <= interp_idx or not row[interp_idx]
         ):
             failures.append(
@@ -2368,13 +2385,15 @@ def check_review_execution_register(text: str) -> list[str]:
 
 
 def check_hunt_scenarios(lines: list[str]) -> list[str]:
+    """Defect scenario is required on High/Critical findings under the
+    `audit` and `hunt` report styles - the call site gates on style."""
     failures: list[str] = []
     starts = [index for index, line in enumerate(lines) if line.startswith("### FND-")]
     for position, start in enumerate(starts):
         end = starts[position + 1] if position + 1 < len(starts) else len(lines)
         block = NL.join(lines[start:end])
-        severity = field_value(block, "Severity").split(" ")[0].upper()
-        if severity not in ("HIGH", "CRITICAL"):
+        severity = field_token(field_value(block, "Severity"))
+        if severity.lower() not in ("high", "critical"):
             continue
         if not field_value(block, "Defect scenario"):
             failures.append(
@@ -2417,9 +2436,9 @@ def check_review_retest(text: str) -> list[str]:
             result_idx = header.index("Result")
             for row in rows:
                 if len(row) > result_idx and row[result_idx].strip() in (
-                    "FAIL",
-                    "ERROR",
-                    "BLOCKED",
+                    "Fail",
+                    "Error",
+                    "Blocked",
                 ):
                     failed.append(row[0])
     if not failed:
@@ -2427,7 +2446,7 @@ def check_review_retest(text: str) -> list[str]:
     retest = section_block(text, r"^##\s+Retest Register\s*$")
     if not retest:
         return [
-            f"execution register carries {len(failed)} FAIL/ERROR/BLOCKED row(s) "
+            f"execution register carries {len(failed)} Fail/Error/Blocked row(s) "
             "but the report has no Retest Register"
         ]
     lowered = retest.lower()
@@ -2452,7 +2471,7 @@ def check_review_evidence_levels(lines: list[str]) -> list[str]:
                 "'* **Evidence level:** <Source | Model | App | Deployed | Unknown>'"
             )
             continue
-        if value.split(" ")[0].capitalize() not in REVIEW_EVIDENCE_LEVELS:
+        if field_token(value).capitalize() not in REVIEW_EVIDENCE_LEVELS:
             failures.append(
                 f"{name}: Evidence level '{value[:60]}' is not one of "
                 f"{'/'.join(REVIEW_EVIDENCE_LEVELS)}"
@@ -2476,7 +2495,7 @@ def check_aip_provenance(lines: list[str]) -> list[str]:
                     "'* **Provenance basis:** <Declared / Attested / Supplied / "
                     "Indicated / Undetermined>'"
                 )
-            elif value.split(" ")[0].capitalize() not in PROVENANCE_BASIS_VALUES:
+            elif field_token(value).capitalize() not in PROVENANCE_BASIS_VALUES:
                 failures.append(
                     f"{name}: Provenance basis '{value[:60]}' is not one of "
                     f"{'/'.join(PROVENANCE_BASIS_VALUES)}"
@@ -2522,16 +2541,16 @@ def check_risk_consistency(lines: list[str], fences: list[bool]) -> list[str]:
                 continue
             candidates = blocks[rid]
             for idx, field in ((sev_idx, "Severity"), (lik_idx, "Likelihood")):
-                table_token = cells[idx].split(" ")[0].lower() if len(cells) > idx else ""
+                table_token = field_token(cells[idx]).lower() if len(cells) > idx else ""
                 if table_token not in bands:
                     continue
                 # A bare RSK id can recur across per-project blocks, so flag only
                 # when no block carrying the id supports the table cell.
                 if not any(
-                    field_value(block, field).split(" ")[0].lower() == table_token
+                    field_token(field_value(block, field)).lower() == table_token
                     for block in candidates
                 ) and any(
-                    field_value(block, field).split(" ")[0].lower() in bands
+                    field_token(field_value(block, field)).lower() in bands
                     for block in candidates
                 ):
                     failures.append(
@@ -2554,15 +2573,128 @@ def check_executed_log(text: str) -> list[str]:
         for row in rows:
             if len(row) <= result_idx or not row[result_idx]:
                 continue
-            upper = row[result_idx].strip().upper()
+            status = row[result_idx].strip()
             if not any(
-                upper == token or upper.startswith(token + " ")
+                status == token or status.startswith(token + " ")
                 for token in REVIEW_RESULTS
             ):
                 failures.append(
                     f"executed log row '{row[0][:50]}' has result "
                     f"'{row[result_idx]}' - expected {'/'.join(REVIEW_RESULTS)}"
                 )
+    return failures
+
+
+def check_register_numbering(lines: list[str], fences: list[bool]) -> list[str]:
+    """Register identifiers are report-global: each block identifier defines
+    exactly once in a `### <ID>:` heading (each EVD identifier in exactly one
+    first-cell ledger row), and every family's numbers run contiguously from
+    001 in document order - FND contiguous per pillar."""
+    failures: list[str] = []
+    sequences: dict[str, list[str]] = {}
+    for line, fenced in zip(lines, fences):
+        if fenced:
+            continue
+        block = REF_BLOCK_HEADING.match(line)
+        if block:
+            ident = block.group(1)
+            family = ident.rsplit("-", 1)[0]
+            sequences.setdefault(family, []).append(ident)
+            continue
+        if line.startswith("|"):
+            token, _ = defining_row_id(line)
+            bare = token.rsplit("::", 1)[-1]
+            if bare.startswith("EVD-"):
+                sequences.setdefault("EVD", []).append(bare)
+    for family, idents in sequences.items():
+        seen: set[str] = set()
+        for ident in idents:
+            if ident in seen:
+                failures.append(
+                    f"{ident} is defined more than once - register identifiers "
+                    "are report-global"
+                )
+            seen.add(ident)
+        numbers = [int(ident.rsplit("-", 1)[1]) for ident in idents]
+        expected = list(range(1, len(numbers) + 1))
+        if numbers != expected:
+            failures.append(
+                f"{family} identifiers {', '.join(idents)} do not form a "
+                "contiguous sequence starting at 001"
+            )
+    return failures
+
+
+FRAME_TOP_LEFT, FRAME_TOP_RIGHT = "╭", "╮"
+FRAME_BOT_LEFT, FRAME_BOT_RIGHT = "╰", "╯"
+FRAME_SIDE = "│"
+
+
+def frame_pairs(line: str, left: str, right: str) -> tuple[list[tuple[int, int]], bool]:
+    """Pair `left`/`right` frame corners on one line; the second element is
+    False when a left corner finds no right corner or the counts differ."""
+    pairs: list[tuple[int, int]] = []
+    cursor = 0
+    while True:
+        lpos = line.find(left, cursor)
+        if lpos < 0:
+            break
+        rpos = line.find(right, lpos + 1)
+        if rpos < 0:
+            return pairs, False
+        pairs.append((lpos, rpos))
+        cursor = rpos + 1
+    return pairs, line.count(left) == line.count(right)
+
+
+def check_frame_geometry(lines: list[str], fences: list[bool]) -> list[str]:
+    """Inside fenced code, every ╭─╮/│/╰─╯ frame keeps identical border
+    columns on each of its rows - the side bars align vertically and the
+    bottom border spans the top border's columns."""
+    failures: list[str] = []
+    open_frames: list[tuple[int, int, int]] = []
+    for index, (line, fenced) in enumerate(zip(lines, fences)):
+        if not fenced:
+            for _left, _right, start in open_frames:
+                failures.append(f"frame opened at line {start} never closes")
+            open_frames = []
+            continue
+        if line.lstrip().startswith("```"):
+            continue
+        tops, tops_ok = frame_pairs(line, FRAME_TOP_LEFT, FRAME_TOP_RIGHT)
+        bots, bots_ok = frame_pairs(line, FRAME_BOT_LEFT, FRAME_BOT_RIGHT)
+        if not tops_ok:
+            failures.append(
+                f"line {index + 1}: unbalanced "
+                f"{FRAME_TOP_LEFT}/{FRAME_TOP_RIGHT} frame corners"
+            )
+        if not bots_ok:
+            failures.append(
+                f"line {index + 1}: unbalanced "
+                f"{FRAME_BOT_LEFT}/{FRAME_BOT_RIGHT} frame corners"
+            )
+        sides = {i for i, ch in enumerate(line) if ch == FRAME_SIDE}
+        still_open: list[tuple[int, int, int]] = []
+        for left, right, start in open_frames:
+            if (left, right) in bots:
+                continue
+            still_open.append((left, right, start))
+            if left not in sides or right not in sides:
+                failures.append(
+                    f"line {index + 1}: frame opened at line {start} "
+                    f"(columns {left}-{right}) has no side border on this row"
+                )
+        for left, right in bots:
+            if not any(l == left and r == right for l, r, _ in open_frames):
+                failures.append(
+                    f"line {index + 1}: frame bottom border at columns "
+                    f"{left}-{right} matches no open frame"
+                )
+        open_frames = still_open + [
+            (left, right, index + 1) for left, right in tops
+        ]
+    for _left, _right, start in open_frames:
+        failures.append(f"frame opened at line {start} never closes")
     return failures
 
 
@@ -2779,6 +2911,9 @@ def report_contract() -> dict:
             "finding": "FND-<pillar>-NNN",
             "finding_pillars": list(FINDING_PILLARS),
             "project_qualified": "<project>::FND-<pillar>-NNN",
+            "numbering": "report-global - every register identifier defines "
+            "exactly once and numbers contiguously from 001 in document "
+            "order, FND contiguous per pillar",
             "risk": "RSK-NNN",
             "recommendation": "REC-NNN",
             "debt": "TDR-NNN",
@@ -2797,6 +2932,7 @@ def report_contract() -> dict:
                 "recommendation_classification": "required at Standard/Detailed",
                 "finding_disposition": "every open ### FND- block is cited in the "
                 "roadmap/classification region or carries an explicit disposition",
+                "defect_scenarios": "required on High/Critical findings",
             },
             "hunt": {
                 "sections": HUNT_SECTIONS,
@@ -2814,7 +2950,7 @@ def report_contract() -> dict:
                 "hop_status": list(HUNT_HOP_STATUS),
                 "match_values": list(HUNT_MATCH_VALUES),
                 "strengths_cap": 5,
-                "defect_scenarios": "required on HIGH/CRITICAL findings",
+                "defect_scenarios": "required on High/Critical findings",
                 "recommendation_classification": "forbidden - disposition lives in Remediation Phases",
             },
             "review": {
@@ -2879,6 +3015,9 @@ def report_contract() -> dict:
             "applicability": ["applicable", "conditional", "inapplicable", "unverified"],
             "recommendation_class": ["Recommended", "Optional", "Not recommended"],
             "coverage_status": ["Covered", "Partially", "Not done"],
+            "conformance_status": sorted(CONFORMANCE_STATUS_TOKENS),
+            "structure_verdict": sorted(CONFORMANCE_VERDICT_TOKENS),
+            "validation_record_result": list(PAR_RESULTS),
             "check_result": list(REVIEW_RESULTS),
             "evidence_level": list(REVIEW_EVIDENCE_LEVELS),
             "provenance_basis": list(PROVENANCE_BASIS_VALUES),
@@ -2916,11 +3055,16 @@ def report_contract() -> dict:
             "under hunt, Improvement Plan under review, roadmap/classification "
             "under audit",
             "risk table Severity/Likelihood cells must match the RSK- block fields",
+            "register identifiers are report-global - defined exactly once "
+            "and contiguous from 001 per family, FND contiguous per pillar",
+            "fenced frame drawings keep identical border columns on every "
+            "row of the frame",
             "a coverage row claiming SBOM/component-inventory Covered requires a "
             "Software Bill of Materials section - a module inventory is not an SBOM",
-            "HIGH/CRITICAL hunt findings carry a Defect scenario field",
-            "ERROR/BLOCKED are runner states, never product failures - NOT RUN "
-            "is never a pass",
+            "High/Critical findings carry a Defect scenario field under the "
+            "audit and hunt styles",
+            "Error/Blocked are runner states, never product failures - "
+            "Not run is never a pass",
             "a model reproduction never upgrades app-level reachability",
             "Executed Evidence Log and Execution Register Result cells take the "
             "check-status vocabulary",
@@ -3001,6 +3145,7 @@ def main(path: str, repo_root: str | None = None) -> int:
         ),
         ("sentence breaks row", check_sentence_breaks_row(text)),
         ("tables", check_tables(lines, fences)),
+        ("frame geometry", check_frame_geometry(lines, fences)),
         ("bold markers", check_bold_markers(lines, fences)),
         ("location pattern", check_location(path)),
         ("trailing whitespace and ending", check_trailing(lines)),
@@ -3026,6 +3171,7 @@ def main(path: str, repo_root: str | None = None) -> int:
                     ("structure-variant sections", check_structure_variant_sections(text)),
                     ("FND cross-references", check_ids(text)),
                     ("register reference links", check_reference_links(lines, fences, text)),
+                    ("register numbering", check_register_numbering(lines, fences)),
                     ("finding-block fields", check_finding_blocks(lines)),
                     ("criterion references", check_criterion_references(lines, style)),
                     ("legacy field names", check_legacy_fields(lines, fences)),
@@ -3044,6 +3190,7 @@ def main(path: str, repo_root: str | None = None) -> int:
                     ("coverage rows", check_coverage_rows(text)),
                     ("FND/RSK/REC cross-references", check_ids(text)),
                     ("register reference links", check_reference_links(lines, fences, text)),
+                    ("register numbering", check_register_numbering(lines, fences)),
                     ("finding-block fields", check_finding_blocks(lines)),
                     ("criterion references", check_criterion_references(lines, style)),
                     ("description paragraphs", check_description_paragraphs(lines)),
@@ -3082,7 +3229,6 @@ def main(path: str, repo_root: str | None = None) -> int:
                         ("hunt domain ratings", check_hunt_ratings(text)),
                         ("hunt verdict elements", check_hunt_verdict(text)),
                         ("hunt journey traces", check_hunt_journeys(text)),
-                        ("hunt defect scenarios", check_hunt_scenarios(lines)),
                         ("hunt finding disposition", check_finding_disposition(text, lines)),
                         ("hunt classification ban", check_hunt_classification(text)),
                     ]
@@ -3107,6 +3253,8 @@ def main(path: str, repo_root: str | None = None) -> int:
                         ("audit finding disposition", check_finding_disposition(text, lines)),
                     ]
                 )
+            if style in ("audit", "hunt"):
+                checks.append(("defect scenarios", check_hunt_scenarios(lines)))
             checks.append(("AIP provenance basis", check_aip_provenance(lines)))
     if kind == "audit":
         label = report_style(text)

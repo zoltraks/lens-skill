@@ -155,6 +155,17 @@ From the maintainer's Java, Maven, and Spring engineering standards.
   (no `*`/unbounded ranges), `target/` and `build/` stay gitignored, a `-SNAPSHOT` in a tagged
   release is a defect, and `mvn package`/`gradle build` is the packaging entry point - a custom
   script bypassing the lifecycle is a finding.
+- File and header handling floor: build `Content-Disposition` with the framework builder
+  (`ContentDisposition.builder()`), never manual string concatenation, which breaks on
+  non-ASCII and quoted filenames. `Files.move` with `ATOMIC_MOVE`/`REPLACE_EXISTING`
+  replaces the destination silently, so the collision policy is an up-front check and
+  catching `FileAlreadyExistsException` is never the only guard.
+- Concurrency and iteration floor: `CompletableFuture.runAsync` without an executor runs
+  on the shared `ForkJoinPool.commonPool()`, so long blocking I/O needs a dedicated
+  executor. `Files.walk` wraps per-entry failures in `UncheckedIOException`, which escapes
+  a declared `catch (IOException)`, and `walkFileTree` with `visitFileFailed` is the
+  per-item-isolation idiom. An unguarded `Optional.get()` or first-element access on a
+  possibly-empty collection is a defect.
 
 ## Live Check
 

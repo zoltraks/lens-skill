@@ -10,7 +10,7 @@
 | Section              | Line | What it covers                             |
 |----------------------|------|--------------------------------------------|
 | Auditing Methodology | 15   | Method, standards, criteria matrix, ledger |
-| Scoring Rubrics      | 266  | Score bands, grouping, ISO crosswalk       |
+| Scoring Rubrics      | 298  | Score bands, grouping, ISO crosswalk       |
 
 ## Auditing Methodology
 
@@ -161,7 +161,7 @@ finding means:
 Read-depth values: `Full read` (every file read), `Sampled` (named subset read, the sampling
 rule stated), or `Listed` (counted but not read).
 
-A `Listed` area supports no conformance claim. Mark its categories `UNKNOWN` where applicable.
+A `Listed` area supports no conformance claim. Mark its categories `Unknown` where applicable.
 
 Group rows by module or directory so the table stays compact.
 
@@ -177,7 +177,7 @@ Include the per-project check summary and evidence records from `process/audit-w
 | EVD-001  | <source or command> | <result> | <obs/concern> | <path or gap> |
 
 The audit never executes checks, so there is no execution column: a documented but unrun check
-writes `NOT RUN - <what the check would establish>` in `Result`, and a source observation
+writes `Not run, <what the check would establish>` in `Result`, and a source observation
 carries the observed result directly.
 
 A `Result` cell carries a short verdict token rather than a repeated qualifier.
@@ -186,14 +186,46 @@ When every row would share the same qualifier - `verified in sources` on a sourc
 audit - the column keeps the bare token and one legend sentence under the table states
 what the token means.
 
-A `NOT RUN` row is its own ledger class: the check is documented or was selected by the
+A `Not run` row is its own ledger class: the check is documented or was selected by the
 verification plan, and the audit recorded rather than executed it.
 
-`NOT RUN` bounds the verification claim - it never weakens a finding that rests on positive
+`Not run` bounds the verification claim - it never weakens a finding that rests on positive
 inspected evidence, and every such row feeds the Limitations and Unknowns table per
 `process/report-format/report-closing.md`.
 
 The full convention is codified in `references/topics/evidence-recipes.md`.
+
+**Key Measurements**
+
+At `Standard` and `Detailed` detail levels, when the audit produced census figures, the
+Methodology section carries a consolidated headline table of the headline measurements -
+every figure already carries its own `EVD-XXX` row and counting rule in the ledger, this
+table only gathers them:
+
+| Measurement | Value | Evidence |
+|-------------|-------|----------|
+| <metric>    | <n>   | EVD-XXX  |
+
+Typical rows: source files and lines per project, test files and methods, route or endpoint
+counts, entity or migration counts, defect-pattern tallies, commit and contributor counts.
+
+Omit the table at `Brief` level or when the audit produced no census figures.
+
+**Reproducing The Census**
+
+At `Standard` and `Detailed` detail levels, when the audit ran non-trivial census commands,
+a fenced block lists the exact commands or patterns behind the reported figures, so a
+re-audit or a reader can reproduce the numbers:
+
+```
+<command or pattern per reported figure, one per line>
+```
+
+Shell pipelines stay verbatim. A figure produced by reading, not a command, is named by its
+method instead. The block is the report-level view of the recording rule in
+`references/census-commands.md` - the ledger still carries the per-figure method.
+
+Omit the block when no census commands ran or when the only figures are file reads.
 
 A `Project` column follows `Evidence` only in a multi-project report.
 
@@ -243,10 +275,10 @@ These definitions anchor the severity values used in findings and risks.
 
 | Severity | Meaning                  | Treatment       |
 |----------|--------------------------|---------------------------|
-| CRITICAL | Critical contextual risk | Gate resolution           |
-| HIGH     | Major contextual risk    | Gate resolution           |
-| MEDIUM   | Material contained risk  | Track and plan            |
-| LOW      | Limited contextual risk  | Proportionate improvement |
+| Critical | Critical contextual risk | Gate resolution           |
+| High     | Major contextual risk    | Gate resolution           |
+| Medium   | Material contained risk  | Track and plan            |
+| Low      | Limited contextual risk  | Proportionate improvement |
 
 Derive these bands from the impact/likelihood matrix in `synthesis/risk-register.md`.
 
@@ -255,7 +287,7 @@ severity derives from the impact/likelihood matrix, not CVSS.
 
 Do not assign a fixed likelihood to each severity band or confuse CVSS with this matrix.
 
-Use `UNKNOWN` for an unsupported rating and list unrated risks separately from the risk map.
+Use `Unknown` for an unsupported rating and list unrated risks separately from the risk map.
 
 When the report language is not English, apply the column header and severity description
 translations from the matching `translations/` file.
@@ -316,7 +348,7 @@ for empty positions, such as `★★★☆☆` for `3`.
 
 For `3 stars`, use three positions, such as `★★☆` for `2`.
 
-Render `UNKNOWN` as text, not as a star bar. `N/A` rows are omitted from the table entirely.
+Render `Unknown` as text, not as a star bar. `N/A` rows are omitted from the table entirely.
 
 **Zero is not a score.** The value `0` is reserved and never used.
 
@@ -334,7 +366,7 @@ aggregated and reported separately before any combined mean.
 
 Static test-structure assessment is separated from effectiveness: the count and
 organization of test files is inspectable evidence, while pass/fail and coverage are
-`Reported` or `NOT RUN` until executed.
+`Reported` or `Not run` until executed.
 
 For every numeric or star score, include evidence references and confidence in its supporting
 paragraph.

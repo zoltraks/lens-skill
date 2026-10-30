@@ -23,7 +23,7 @@ Do not rely on per-run memory of what a previous report happened to include.
 
 | Item   | Requirement                                                                                                                                                                                                     | Governing file                                                        |
 |--------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------|
-| PAR-1  | Every security finding carries a CWE ID, `UNKNOWN`, or a justified `N/A`                                                                                                                                        | `assessment/security-review.md`                                       |
+| PAR-1  | Every security finding carries a CWE ID, `Unknown`, or a justified `N/A`                                                                                                                                        | `assessment/security-review.md`                                       |
 | PAR-2  | The severity table carries a one-line note that severity derives from the impact-likelihood matrix, not CVSS                                                                                                    | `process/report-format/findings-registers.md`                         |
 | PAR-3  | Scoring Rubrics include the ISO/IEC 25010:2023 coverage crosswalk as a mapping, not a conformance claim                                                                                                         | `synthesis/project-scorecard.md`                                      |
 | PAR-4  | The Technical Debt Register separates remediation cost from cost of delay per CISQ/SQALE                                                                                                                        | `synthesis/debt-register.md`                                          |
@@ -33,11 +33,11 @@ Do not rely on per-run memory of what a previous report happened to include.
 | PAR-8  | The Validation Record self-check table is present and complete                                                                                                                                                  | `process/report-format/report-closing.md`                             |
 | PAR-9  | Reference standards were re-derived from the per-stack lookup for the detected stack, never copied verbatim from a prior report                                                                                 | `references/stack-standards.md`                                       |
 | PAR-10 | When Descriptive mode is enabled, the Glossary indexes every acronym, every body occurrence links to its anchor, and every cited register ID (`EVD`, `FND`, `RSK`, `REC`, `TDR`, `PAR`) links to its definition | `process/report-format/report-opening.md`, `process/report-format.md` |
-| PAR-11 | The Audit Type Coverage table follows Document Information and agrees with Scope Exclusions: no `COVERED` type is disclaimed, every `NOT DONE` row has an exclusion bullet, and no `NOT APPLICABLE` row renders | `references/audit-taxonomy.md`                                        |
+| PAR-11 | The Audit Type Coverage table follows Document Information and agrees with Scope Exclusions: no `Covered` type is disclaimed, every `Not done` row has an exclusion bullet, and no `Not applicable` row renders | `references/audit-taxonomy.md`                                        |
 | PAR-12 | Every SBOM entry has a License cell populated from an inspected declaration or marked `Unknown`, and every direct component is manifest-sourced                                                                 | `references/sbom-schema.md`                                           |
 | PAR-13 | Every Evidence Ledger row and every finding carries an `Observation` or `Concern` tag                                                                                                                           | `principles/evaluation-rules.md`                                      |
-| PAR-14 | Every `HIGH` or `CRITICAL` Security & Compliance finding on a network-facing surface carries an `Exploitability` narrative with an explicit confidence tier                                                     | `references/exploitability-narrative.md`                              |
-| PAR-15 | Delivery Practice & Team Continuity is present per project, DORA-proxy fields are marked as proxies or `NOT SPECIFIED`, and a bus-factor rating is given (`NOT COLLECTED` when Git was out of scope)            | `references/delivery-practice.md`                                     |
+| PAR-14 | Every `High` or `Critical` Security & Compliance finding on a network-facing surface carries an `Exploitability` narrative with an explicit confidence tier                                                     | `references/exploitability-narrative.md`                              |
+| PAR-15 | Delivery Practice & Team Continuity is present per project, DORA-proxy fields are marked as proxies or `Not specified`, and a bus-factor rating is given (`Not collected` when Git was out of scope)            | `references/delivery-practice.md`                                     |
 | PAR-16 | In a non-English report, every section heading and scored-dimension name matches the governing `translations/` file verbatim                                                                                    | `translations/` files                                                 |
 | PAR-17 | When agent-facing artifacts exist, the Skills Inventory and Agent Artifacts table list every discovered `SKILL.md` and artifact with status, out-of-scope markings, and the spec baseline used                  | `assessment/skill-definition.md`                                      |
 | PAR-18 | At Standard and Detailed detail levels Recommendation Classification is present and every `REC-XXX` in the roadmap appears once with class `Recommended`, `Optional`, or `Not recommended`                      | `synthesis/remediation-roadmap.md`                                    |
@@ -46,12 +46,12 @@ Do not rely on per-run memory of what a previous report happened to include.
 | PAR-21 | On a code-bearing subject Code Style is present with a resolved convention tier per partition - or a justified `N/A`, and `N/A` under `Report Style: hunt`                                                      | `assessment/code-style.md`                                            |
 | PAR-22 | Every Code Style consistency finding quantifies prevalence (n/N and %) and lists at least three `file:line` examples, or all of them when fewer exist                                                           | `process/report-format/code-style.md`                                 |
 | PAR-23 | Every Code Style finding's `Basis` field names the resolved convention tier (`T1`-`T4`), and every style census ledger row records the exact pattern or command with its denominator                            | `assessment/code-style.md`                                            |
-| PAR-24 | Naming-quality findings are `Concern` typed with confidence `MEDIUM` or lower, and only mechanical census findings may carry `HIGH` confidence                                                                  | `process/report-format/code-style.md`                                 |
+| PAR-24 | Naming-quality findings are `Concern` typed with confidence `Medium` or lower, and only mechanical census findings may carry `High` confidence                                                                  | `process/report-format/code-style.md`                                 |
 | PAR-25 | Generated, vendored, third-party, and forced-external identifiers are excluded from style census denominators, and the exclusions are disclosed in the ledger                                                   | `assessment/code-style.md`                                            |
 | PAR-26 | No `REC` proposes a bulk rename of a consistent convention for ecosystem purity alone, and style recommendations follow the remediation ladder                                                                  | `process/report-format/code-style.md`                                 |
-| PAR-27 | The subject's linters and formatters appear only as `NOT RUN` evidence rows or `Method` suggestions, never as executed checks                                                                                   | `assessment/code-style.md`                                            |
+| PAR-27 | The subject's linters and formatters appear only as `Not run` evidence rows or `Method` suggestions, never as executed checks                                                                                   | `assessment/code-style.md`                                            |
 
-PAR-5 may report `NOT COLLECTED` when Git history is unavailable, silence is not acceptable.
+PAR-5 may report `Not collected` when Git history is unavailable, silence is not acceptable.
 
 PAR-18 reports `N/A` under `Report Style: hunt` or `review`. Neither style carries a
 Recommendation Classification section, disposition lives in Remediation Phases or the
@@ -64,9 +64,9 @@ the hunt evidence base.
 PAR-21 through PAR-27 report `N/A` under `Report Style: hunt` or when the subject carries no
 source code.
 
-A checklist row is `APPLIED` only when the requirement is met as written - a partially met
+A checklist row is `Applied` only when the requirement is met as written - a partially met
 item records its actual state with a justification rather than redefining the requirement
-to earn `APPLIED`.
+to earn `Applied`.
 
 PAR-9 re-derivation means re-selecting references from the current stack lookup for the detected
 stack.
@@ -92,7 +92,7 @@ The Validation Record renders this set so a future report can diff it mechanical
 Run this gate before marking a report final.
 
 1. Build the report's capability set.
-2. Diff it against the Mandatory Core Checklist: every item is `APPLIED` or `N/A` with an
+2. Diff it against the Mandatory Core Checklist: every item is `Applied` or `N/A` with an
    applicability justification.
 3. Diff it against the most recent audit report found for ANY subject during intake
    discovery. Extract that report's capability set from its Validation Record when present,

@@ -29,11 +29,11 @@
 | Report Format                      | 448  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 485  | Supported requests and exclusions                   |
 | What's Inside                      | 509  | Documents, references, tools, and conditional files |
-| Document Style                     | 674  | Pointer to the style rules file                     |
-| Specification                      | 684  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 705  | Maintenance checks and regression scenarios         |
-| License                            | 733  | License for the skill itself                        |
-| Credits                            | 739  | Authorship and attribution                          |
+| Document Style                     | 675  | Pointer to the style rules file                     |
+| Specification                      | 685  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 706  | Maintenance checks and regression scenarios         |
+| License                            | 734  | License for the skill itself                        |
+| Credits                            | 740  | Authorship and attribution                          |
 
 ## Overview
 
@@ -587,8 +587,10 @@ lens-skill/
 │   ├── skill-definition.md                # (conditional) Agent Skills spec conformance
 │   ├── agent-guidance.md                  # (conditional) Agent-guidance set topology and authority
 │   ├── standards-conformance.md           # (conditional) Project development standards conformance and quality
+│   ├── requirements-conformance.md        # (conditional) Declared product-requirements/spec conformance table
 │   ├── baseline-conformance.md            # (conditional) Engineering floor against bundled stack/purpose baselines
-│   └── api-compatibility.md               # (conditional) API compat gates, versioning, breaking-change tracking
+│   ├── api-compatibility.md               # (conditional) API compat gates, versioning, breaking-change tracking
+│   └── requirements-conformance.md        # (conditional) Declared product requirements and acceptance criteria
 ├── synthesis/
 │   ├── risk-register.md                   # Unified risk register with FND cross-referencing
 │   ├── project-scorecard.md               # Project scorecard, rubric, and scale display rules

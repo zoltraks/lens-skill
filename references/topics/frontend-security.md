@@ -51,6 +51,9 @@ and https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP.
   blocks base-tag hijacking, `object-src 'none'` kills plugin embedding.
 - Meta-element CSPs (`<meta http-equiv>`) can't set `frame-ancestors` or report-uri. Header
   delivery is the checkable form.
+- Serving user-supplied SVG with `Content-Disposition: inline` needs
+  `Content-Security-Policy: sandbox` on the response - an inline SVG can execute script in
+  the serving origin.
 
 ## Permissions-Policy And Headers
 

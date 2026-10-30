@@ -44,7 +44,7 @@ Rationale and detail live in the section specs under `process/report-format/` an
   finding-pillar triplet used in the report.
 - The `Structure Review` section carries the five verdict rows (`Directory organization`,
   `Naming conventions`, `Component placement`, `Supporting-artifact layout`, `Consistency`)
-  with status tokens `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, or `N/A`, and when the conditional
+  with verdict tokens `Passed`, `Partially`, `Failed`, `Unknown`, or `N/A`, and when the conditional
   `Structure Conformance` section is present its conformance tables carry valid status
   tokens, and when the conditional `Code Style` section is present its lens sub-score
   table and census rows carry valid status tokens.
@@ -67,8 +67,9 @@ Rationale and detail live in the section specs under `process/report-format/` an
 - Finding blocks require, in order: `Pillar`, `Severity`, `Type`,
   `Targets`, `Basis`, `Criteria`, `Impact`, `Method`,
   `Confidence`, `Mitigating factors`, `Evidence`, `Recommendation`.
-- `Verification` appears only when the finding was verified - a title-cased evidence note,
-  never a `yes`/`no` prefix. `Runtime` appears only when execution confirmed the behavior.
+- `Verification` appears only when the finding was verified - a `Yes`/`No` lead with a
+  title-cased qualifier, never a lowercase `yes`/`no` prefix. `Runtime` appears only when
+  execution confirmed the behavior.
 - `Status` appears only when it differs from `Open`, and `Change` only when it differs from
   `New` - both are lifecycle defaults and carry no information at the default value.
 - Risk blocks require: `Severity`, `Likelihood`, `Residual`,
@@ -76,7 +77,7 @@ Rationale and detail live in the section specs under `process/report-format/` an
 - Recommendation blocks require: `Priority`, `Finding`, `Postcondition`,
   `Impact`, `Effort`, `Complexity`, `Verification`.
 - Debt blocks require: `Category`, `Source` - `Cost` and `Delay` appear only when they
-  carry a real estimate or qualitative note, and never an `INSUFFICIENT INFORMATION` token;
+  carry a real estimate or qualitative note, and never an `Insufficient information` token;
   a value with no estimable basis omits the field entirely.
 - A risk block's `Source` names a defined `FND-`, a recommendation block's `Finding` names a
   defined `FND-` and its `Depends on` names defined `REC-` identifiers or `none`, and a debt
@@ -87,8 +88,8 @@ Rationale and detail live in the section specs under `process/report-format/` an
 - Finding identifiers match `FND-<pillar>-NNN` with pillar `ARC`, `CQY`, `SEC`, `INF`,
   `AIP`, `CPR`, `API`, or `STR`.
 - `Type` is `Observation` or `Concern`.
-  `Runtime` appears only when the reported behavior was confirmed by execution - never a `yes`/`no`/
-  `not applicable` prefix. `Breaking change`
+  `Runtime` appears only when the reported behavior was confirmed by execution - never a lowercase
+  `yes`/`no`/`not applicable` prefix. `Breaking change`
   starts with `None`, `Internal`, or `Public API`. `Applicability` starts with
   `applicable`, `conditional`, `inapplicable`, or `unverified`.
 - `Provenance basis` starts with `Declared`, `Attested`, `Supplied`, `Indicated`, or
@@ -105,8 +106,8 @@ Rationale and detail live in the section specs under `process/report-format/` an
 
 English renders title case where the vocabulary lists give canonical uppercase names.
 
-- Finding `Status`: `Open`, `Closed`, `PASS`. Finding `Change`: `New`, `Unchanged`,
-  `Reopened`, `Closed`. Summary `Verification`: `Verification`, `Confirmed`, `Reported`, or
+- Finding `Status`: `Open`, `Closed`, `Pass`. Finding `Change`: `New`, `Unchanged`,
+  `Reopened`, `Closed`. Summary `Verification`: `Verified`, `Confirmed`, `Reported`, or
   empty for `New`.
 - Risk `Status`: `Open`, `Accepted`, `Transferred`, `Monitoring`, `Closed`.
 - Classification `Class`: `Recommended`, `Optional`, `Not recommended`.
@@ -159,8 +160,10 @@ executed-log section when conditional.
   multi-project findings match by `<project>::FND-` qualification.
 - A `Recommendation Classification` section is forbidden under hunt - phases carry the
   disposition.
-- Every `HIGH` or `CRITICAL` finding carries a `Defect scenario` field - initial
-  conditions, steps, expected result, observed result, confirmation level.
+- Every `High` or `Critical` finding carries a `Defect scenario` field - initial
+  conditions, steps, expected result, observed result, confirmation level. The
+  requirement binds `audit` and `hunt` styles alike, and `Source`-level confirmation
+  satisfies it.
 
 ## Review Style
 
@@ -173,11 +176,11 @@ Artifact Manifest, Glossary, Contradiction Register, and the handoff section.
 - The Verdict carries the same verdict token, domain ratings, gates, top-five, and
   strengths rules as hunt.
 - The Execution Register table carries `Check`, `Command`, and `Result` columns, and `Result`
-  cells take `PASS`, `FAIL`, `ERROR`, `BLOCKED`, `SKIPPED`, `NOT RUN`, or `N/A`, and every
-  non-`PASS` row states an `Interpretation`.
+  cells take `Pass`, `Fail`, `Error`, `Blocked`, `Skipped`, `Not run`, or `N/A`, and every
+  non-`Pass` row states an `Interpretation`.
 - Every `### FND-` block carries an `Evidence level` field valued `Source`, `Model`,
   `App`, `Deployed`, or `Unknown`.
-- A `FAIL`, `ERROR`, or `BLOCKED` register row requires a Retest Register section covering
+- A `Fail`, `Error`, or `Blocked` register row requires a Retest Register section covering
   the failed check.
 - Improvement Plan `Disposition` cells take `Planned`, `Deferred`, `Accepted - no action`,
   or `Unresolved`.

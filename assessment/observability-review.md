@@ -20,13 +20,14 @@ Operational use of observability data is assessed in `assessment/operational-rea
 
 ## Evidence To Look For
 
-| Signal      | Where It Appears                                |
-|-------------|-------------------------------------------------|
-| Logging     | Logging libraries, log format, log levels       |
-| Metrics     | Metrics instrumentation, dashboards, counters   |
-| Tracing     | Trace context propagation, span instrumentation |
-| Alerting    | Alert rules, thresholds, notification routing   |
-| Correlation | Request or trace identifiers across components  |
+| Signal         | Where It Appears                                                                                               |
+|----------------|----------------------------------------------------------------------------------------------------------------|
+| Logging        | Logging libraries, log format, log levels                                                                      |
+| Metrics        | Metrics instrumentation, dashboards, counters                                                                  |
+| Tracing        | Trace context propagation, span instrumentation                                                                |
+| Alerting       | Alert rules, thresholds, notification routing                                                                  |
+| Correlation    | Request or trace identifiers across components                                                                 |
+| Audit coverage | Audit trail covering security-relevant actions, including actions performed without an authenticated principal |
 
 ## Evidence Of Operational Use
 

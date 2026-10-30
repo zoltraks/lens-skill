@@ -11,7 +11,7 @@
 |----------------------|------|--------------------------------------|
 | Document Information | 16   | Report metadata and revisions        |
 | Audit Type Coverage  | 163  | Coverage of canonical audit types    |
-| Glossary             | 222  | Abbreviation and acronym definitions |
+| Glossary             | 223  | Abbreviation and acronym definitions |
 
 ## Document Information
 
@@ -96,7 +96,7 @@ letter when other values in the column start uppercase.
 Literal values - versions, dates, paths, revisions, identifiers, links, and code - stay
 verbatim.
 
-Never write an empty value cell or a `NOT SPECIFIED` token in this table.
+Never write an empty value cell or a `Not specified` token in this table.
 
 Do not include a `Delivery Mode` or `Report Delivery` row.
 
@@ -173,31 +173,32 @@ The section appears once per report, immediately after `## Document Information`
 report.
 
 Present the fixed table from `references/audit-taxonomy.md`, one row per canonical audit type
-whose status is not `NOT APPLICABLE`.
+whose status is not `Not applicable`.
 
-A type classified `NOT APPLICABLE` produces no row. The table never mentions audit types that
+A type classified `Not applicable` produces no row. The table never mentions audit types that
 do not apply to the subject.
 
-| Report type                           | Status   | Rationale                              |
-|---------------------------------------|----------|----------------------------------------|
-| Software Architecture Review          | <status> | <why this status holds for this audit> |
-| Code Quality Audit                    | <status> | <why this status holds for this audit> |
-| Security Vulnerability Assessment     | <status> | <why this status holds for this audit> |
-| Open Source License Compliance | <status> | <why this status holds for this audit> |
-| Penetration Test                      | <status> | <why this status holds for this audit> |
-| Performance Audit                     | <status> | <why this status holds for this audit> |
-| Cloud Infrastructure Audit            | <status> | <why this status holds for this audit> |
-| AI Governance Audit                   | <status> | <why this status holds for this audit> |
-| Technical Due Diligence               | <status> | <why this status holds for this audit> |
-| SBOM / Software Composition Analysis  | <status> | <why this status holds for this audit> |
-| ISO/IEC 27001 Certification           | <status> | <why this status holds for this audit> |
-| SOC 2 Attestation Examination         | <status> | <why this status holds for this audit> |
+| Report type                          | Status   | Rationale                              |
+|--------------------------------------|----------|----------------------------------------|
+| Software Architecture Review         | <status> | <why this status holds for this audit> |
+| Code Quality Audit                   | <status> | <why this status holds for this audit> |
+| Security Vulnerability Assessment    | <status> | <why this status holds for this audit> |
+| Open Source License Compliance       | <status> | <why this status holds for this audit> |
+| Penetration Test                     | <status> | <why this status holds for this audit> |
+| Performance Audit                    | <status> | <why this status holds for this audit> |
+| Cloud Infrastructure Audit           | <status> | <why this status holds for this audit> |
+| AI Governance Audit                  | <status> | <why this status holds for this audit> |
+| Technical Due Diligence              | <status> | <why this status holds for this audit> |
+| SBOM / Software Composition Analysis | <status> | <why this status holds for this audit> |
+| ISO/IEC 27001 Certification          | <status> | <why this status holds for this audit> |
+| SOC 2 Attestation Examination        | <status> | <why this status holds for this audit> |
 
 Status values come from the fixed vocabulary in `references/audit-taxonomy.md`: `COVERED`,
 `PARTIALLY`, `NOT DONE`, `NOT APPLICABLE`.
 
-English cells render them title-cased - `Covered`, `Partially`, `Not done` - following the
-same rendered-form convention the finding lifecycle uses (`OPEN` renders `Open`).
+The uppercase forms are the canonical token names - English cells render the natural forms
+`Covered`, `Partially`, and `Not done` per the rendered-forms table in
+`principles/output-style.md`.
 
 A `NOT APPLICABLE` status is decided per type but never rendered as a row.
 
@@ -208,14 +209,14 @@ A status other than the default carries its reason in the Rationale column.
 A rationale names covered artifacts directly - `threat model, CWE` - not nominalized
 wrappers that hang off the term.
 
-A `NOT DONE` rationale stays minimal, for example `Separate engagement type` - the
+A `Not done` rationale stays minimal, for example `Separate engagement type` - the
 matching Scope Exclusions bullet carries the caveat, not the cell.
 
 When the report language is not English, apply the column header, report-type, and status
 translations from the matching `translations/` file.
 
-The matrix must agree with Scope Exclusions: every `NOT DONE` row has a matching exclusion bullet,
-and no `COVERED` row is later disclaimed.
+The matrix must agree with Scope Exclusions: every `Not done` row has a matching exclusion bullet,
+and no `Covered` row is later disclaimed.
 
 PAR-11 checks this consistency.
 
@@ -287,6 +288,11 @@ Order the rows as follows:
 The `**Identifier triplets**` table documents internal identifier structure and is not an
 acronym-linking index - `scripts/link-glossary.py` links body acronyms from the first (`Term |
 Definition`) table only.
+
+Every register family numbers globally across the whole report - `EVD`, `TDR`, `RSK`, `REC`,
+and `PAR` run as single sequences, and `FND` numbers contiguously within each pillar across
+projects, so a bare identifier occurs once report-wide and the `project::ID` qualifier is
+clarity, not disambiguation.
 
 **Long descriptions**
 

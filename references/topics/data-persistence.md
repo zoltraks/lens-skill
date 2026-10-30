@@ -39,6 +39,9 @@ From https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Che
   configuration, with real changes going through the migration path.
 - Migration tests run against the real engine through containers or the project's declared
   equivalent - an embedded substitute accepts DDL the target rejects.
+- Column bounds fit the real data: identity and contact columns sized to an arbitrary
+  short default truncate real values, and a foreign-key column type that differs from the
+  referenced key type is a defect.
 
 ## Transactions And Async Boundaries
 
@@ -71,6 +74,17 @@ From https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Che
   so rebuilding cannot be improvised per call site.
 - A derived index with no rebuild path, or one built lazily on a hot request path, is a
   finding.
+
+## Tombstoned Rows
+
+- When entities carry a soft-delete flag - a `deletedAt`-style tombstone, an `active`
+  boolean, or a status column - every read path must apply the filter.
+- Enumerate the repository and query methods serving read paths and verify each one
+  filters: a `findById`-style accessor that returns a tombstoned row defeats the flag
+  everywhere downstream, and sequential-identifier access needs the same check.
+- Uniqueness and dedup queries must declare whether tombstoned rows count. A tombstone
+  that blocks a re-create is a decision, not an accident - the checkable question is
+  whether the semantics were chosen, not which answer the code gives.
 
 ## Live Check
 

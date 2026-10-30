@@ -62,7 +62,7 @@ at the end of this file instead of the section order below.
 The style works under every evidence mode. The mode decides what may run, never what may
 be claimed:
 
-- `source-only` - nothing executes. Every register row is `NOT RUN` with the command that
+- `source-only` - nothing executes. Every register row is `Not run` with the command that
   would run it, and findings rest on source evidence alone.
 - `executed-readonly` - the commissioned non-mutating analyzers run (linters,
   typecheckers, format checkers, dependency advisory or policy scanners, contract
@@ -86,8 +86,8 @@ Produce these top-level sections in this order, with unnumbered headings:
 - Domain Findings
 - Risk Register
 - Improvement Plan
-- Retest Register *(required when the Execution Register carries `FAIL`, `ERROR`, or
-  `BLOCKED` rows)*
+- Retest Register *(required when the Execution Register carries `Fail`, `Error`, or
+  `Blocked` rows)*
 - Metrics Snapshot *(when the register produced metrics)*
 - Artifact Manifest *(required under `executed-readonly` and `executed-commands`)*
 - Contradiction Register *(conditional - external report found at intake)*
@@ -117,7 +117,7 @@ It carries, in order:
 5. A top-five action list naming the first remediation steps with their finding IDs.
 6. A strengths list of at most five evidenced positives.
 
-A verdict never upgrades a `NOT RUN` or `BLOCKED` check into evidence of health, and a
+A verdict never upgrades a `Not run` or `Blocked` check into evidence of health, and a
 gate that could not run is `Not assessable`, never `Met`.
 
 ## System Context
@@ -150,7 +150,7 @@ register replays it, and a later report can rerun it verbatim.
 Required columns are `Check`, `Command`, and `Result` - carry the remaining columns
 whenever the mode permits them.
 
-A field the run did not record renders `NOT SPECIFIED`,
+A field the run did not record renders `Not specified`,
 never an invented value.
 
 `Result` takes exactly one token:
@@ -164,7 +164,11 @@ never an invented value.
 - `NOT RUN` - the check was never executed. `NOT RUN` contributes nothing toward a pass.
 - `N/A` - the check does not apply to this subject.
 
-Every non-`PASS` row carries its reason or outcome meaning in `Interpretation`.
+The uppercase forms are the canonical token names - Result cells render the natural forms
+`Pass`, `Fail`, `Error`, `Blocked`, `Skipped`, `Not run`, `N/A` per
+`principles/output-style.md`.
+
+Every non-`Pass` row carries its reason or outcome meaning in `Interpretation`.
 
 Every row under an executed mode names its retained output in `Artifact` or records
 `None retained`.
@@ -219,7 +223,7 @@ disposition judgment, and the validator flags the section when it appears under
 
 ## Retest Register
 
-Required when the Execution Register carries any `FAIL`, `ERROR`, or `BLOCKED` row -
+Required when the Execution Register carries any `Fail`, `Error`, or `Blocked` row -
 one row per failed check:
 
 | Check | Register result | Blocking condition | Retest command | Closes |

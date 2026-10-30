@@ -73,6 +73,9 @@
   and `process/report-format/multi-project.md`, unfetched members disclosed in Scope Exclusions.
 - Standards conformance belongs in `assessment/standards-conformance.md`, only for documented
   development standards. References lists every external source consulted.
+- Product requirement and acceptance-criteria conformance belongs in
+  `assessment/requirements-conformance.md`, only for declared product requirements documents -
+  distinct from development-standards conformance and documented-claim verification.
 - Engineering baseline conformance belongs in `assessment/baseline-conformance.md`: it measures
   the floor bundled stack and purpose digests define, applies only when the subject's detected
   stack or nature is covered, and records which baseline governed each judgement.
@@ -87,8 +90,8 @@
   separates observed license facts from inferred concerns without legal conclusions.
 - The Delivery Practice & Team Continuity section follows `references/delivery-practice.md`:
   five DORA metrics with labeled source-derived proxies, telemetry-dependent metrics
-  `NOT SPECIFIED`, and a bus-factor rating.
-- Every `HIGH`/`CRITICAL` Security & Compliance finding carries an `Exploitability` field per
+  `Not specified`, and a bus-factor rating.
+- Every `High`/`Critical` Security & Compliance finding carries an `Exploitability` field per
   `references/exploitability-narrative.md`: `Theoretical` tier by default, never an exploitation
   claim.
 - API compatibility gates, versioning consistency, and breaking-change tracking belong in

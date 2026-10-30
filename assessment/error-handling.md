@@ -19,16 +19,19 @@ here the focus is the code-level handling of failures.
 - Fallbacks: whether the system degrades gracefully when a dependency fails.
 - User-facing error handling: whether failures produce clear, safe messages without leaking
   internals.
+- Bulk iteration: whether per-item failures stay isolated inside batch loops, directory
+  walks, and stream processing - enumerate each iteration and its failure contract.
 
 ## Evidence To Look For
 
-| Signal           | Where It Appears                                 |
-|------------------|--------------------------------------------------|
-| Error boundaries | Centralized handlers, middleware, error types    |
-| Retry logic      | Retry helpers, backoff, idempotency handling     |
-| Fallbacks        | Default values, circuit breakers, degraded modes |
-| User messaging   | Error responses, status codes, message templates |
-| Leak prevention  | Stack traces or internals hidden from users      |
+| Signal             | Where It Appears                                 |
+|--------------------|--------------------------------------------------|
+| Error boundaries   | Centralized handlers, middleware, error types    |
+| Retry logic        | Retry helpers, backoff, idempotency handling     |
+| Fallbacks          | Default values, circuit breakers, degraded modes |
+| User messaging     | Error responses, status codes, message templates |
+| Leak prevention    | Stack traces or internals hidden from users      |
+| Per-item isolation | Failure handling inside batch and walk loops     |
 
 ## Status Criteria
 
@@ -44,6 +47,9 @@ here the focus is the code-level handling of failures.
 - Swallowed exceptions hide failures until they cause larger incidents.
 - Unbounded or non-idempotent retries amplify load and cause duplicate effects.
 - A failed dependency takes the whole system down for lack of a fallback.
+- A per-item failure that escapes the loop aborts the whole batch - a wrapper exception
+  type escaping the declared catch (`UncheckedIOException` wrapping `IOException`) is the
+  checkable blind spot.
 - Internal details leaked in error messages aid attackers and confuse users.
 
 ## What Raises Confidence

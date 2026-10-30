@@ -20,11 +20,11 @@ defined in `process/report-format/hunt-style.md` and `process/report-format/revi
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 2122 | Intake Checklist guidance        |
-| Handling Thin Input     | 2147 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 2161 | Single-Dimension Audits guidance |
-| Re-Audit                | 2175 | Re-Audit guidance                |
-| Multi-Project Audits    | 2241 | Multi-Project Audits guidance    |
+| Intake Checklist        | 2131 | Intake Checklist guidance        |
+| Handling Thin Input     | 2156 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 2170 | Single-Dimension Audits guidance |
+| Re-Audit                | 2184 | Re-Audit guidance                |
+| Multi-Project Audits    | 2250 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -144,8 +144,8 @@ confirmation prompt.
   the `pair`/`single` default the rules below produce.
 - `report-delivery`, `review-scope`, `detail-level`, `evaluation-scale`, and
   `star-count` resolve to the defaults the rules below produce.
-- Thin-input clarifications are not asked - missing inputs record `UNKNOWN` or
-  `NOT SPECIFIED` instead.
+- Thin-input clarifications are not asked - missing inputs record `Unknown` or
+  `Not specified` instead.
 
 Explicit parameter statements in the request win over every automated resolution.
 
@@ -641,19 +641,26 @@ Present the defaults in a compact summary.
 
 Default parameters:
 
-| Parameter               | Default                                                                                                                                                                                                                   |
-|-------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Report style            | a style named in the request, then the recovered previous style on re-audit - `audit` governance contract, `hunt` defect-hunt genre, `review` execution-register genre; `audit` is the fallback default                    |
-| Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/`, else Inline                                                                                                                                   |
-| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md` for a first hunt, `REVIEW.md` for a first review                                                                       |
-| Report language         | Match the language of the user's request                                                                                                                                                                                  |
+| Parameter               | Default                                                                                                                                                                                                                                                                        |
+|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Report style            | a style named in the request, then the recovered previous style on re-audit - `audit` governance contract, `hunt` defect-hunt genre, `review` execution-register genre; `audit` is the fallback default                                                                        |
+| Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/`, else Inline                                                                                                                                                                                        |
+| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md` for a first hunt, `REVIEW.md` for a first review                                                                                                                            |
+| Report language         | Match the language of the user's request                                                                                                                                                                                                                                       |
 | Language output         | `pair` when the report language is not English, or when the previous report was a language pair, the English report plus its translation - the pair convention survives a report-style switch, `single` when the request scopes to one language and no pair convention applies |
-| Detail level            | Detailed                                                                                                                                                                                                                  |
-| Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                                                                                                                                     |
-| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                                                                                                                                                   |
-| Trade-off analysis      | Standalone section + embedded into relevant findings                                                                                                                                                                      |
-| Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it                                                                                                                                   |
-| Evidence mode           | `source-only` - `executed-readonly` runs commissioned non-mutating analyzers, `executed-commands` adds commissioned non-mutating commands such as tests and builds                                                        |
+| Detail level            | Detailed                                                                                                                                                                                                                                                                       |
+| Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                                                                                                                                                                                          |
+| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                                                                                                                                                                                                        |
+| Trade-off analysis      | Standalone section + embedded into relevant findings                                                                                                                                                                                                                           |
+| Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it                                                                                                                                                                                        |
+| Evidence mode           | `source-only` - `executed-readonly` runs commissioned non-mutating analyzers, `executed-commands` adds commissioned non-mutating commands such as tests and builds                                                                                                             |
+
+When intake detected a runnable suite or build - test directories, CI configuration, or test
+scripts - the presented summary annotates the `Evidence mode` row with a note such as
+`a runnable suite exists at <path>; executed-commands could run it`.
+
+The annotation is informational only - it adds no question surface, and automated runs keep
+the `source-only` default.
 
 The agent MUST ask the user and MUST NOT skip this step.
 
@@ -1106,7 +1113,7 @@ List the components, services, or files that were provided.
 
 Record any constraints, goals, or target environment the user stated.
 
-Mark unstated constraints as `NOT SPECIFIED`.
+Mark unstated constraints as `Not specified`.
 
 Determine the maturity level claim, if any, so it can be tested against evidence later.
 
@@ -1130,7 +1137,7 @@ diligence for acquisition, investment, or supplier review.
 For due diligence, include continuity, ownership, operating cost, roadmap feasibility, and IP/data
 obligations using the existing assessment categories rather than creating a separate people score.
 
-If business artifacts are unavailable, retain those concerns as `UNKNOWN` and request specific
+If business artifacts are unavailable, retain those concerns as `Unknown` and request specific
 artifacts, do not present a source-only review as complete business due diligence.
 
 Under the default `source-only` evidence mode the audit executes nothing.
@@ -1168,15 +1175,15 @@ Evidence Log - or the Execution Register under `Report Style: review` - per
 
 Record the scope as `source-only`, `executed-readonly`, or `executed-commands`.
 
-Documented or committed check results are `REPORTED` evidence, not audit execution.
+Documented or committed check results are `Reported` evidence, not audit execution.
 
 Also record the audit-type coverage decision here:
 read the canonical rows in `references/audit-taxonomy.md` and note which statuses the engagement
 supports.
 
 Under the default scope the Penetration Test, ISO/IEC 27001 Certification, SOC 2 Attestation
-Examination, and interview-dependent Technical Due Diligence dimensions stay `NOT DONE` or
-`PARTIALLY`, and any explicitly lifted constraint is recorded so the Coverage Matrix and Scope
+Examination, and interview-dependent Technical Due Diligence dimensions stay `Not done` or
+`Partially`, and any explicitly lifted constraint is recorded so the Coverage Matrix and Scope
 Exclusions can match it.
 
 The matrix itself is rendered during Synthesis.
@@ -1300,7 +1307,7 @@ For delivery practice, compute the Git-derived proxies and contributor concentra
 and active-contributor count - agent-bot identities are excluded from the contributor counts
 and recorded separately per the attribution census.
 
-Fields the repository cannot supply stay `NOT SPECIFIED` with the reason recorded.
+Fields the repository cannot supply stay `Not specified` with the reason recorded.
 
 For recurring source and history censuses, apply the canonical counting methods in
 `references/census-commands.md` and record the counting rule beside each figure in the ledger,
@@ -1399,7 +1406,7 @@ advisory scans, and license or SBOM checks.
 
 Under `executed-readonly` or `executed-commands` the environment census from
 `references/topics/execution-isolation.md` runs first and bounds which checks the matrix can
-select, and every executed `FAIL` or `ERROR` result carries a triage class in the model.
+select, and every executed `Fail` or `Error` result carries a triage class in the model.
 
 Under `source-only` the audit never executes them.
 
@@ -1407,21 +1414,21 @@ The matrix becomes the Operator
 Verification Handoff.
 
 Under `executed-readonly` only the commissioned non-mutating analyzers run - builds, tests,
-and the project itself still never execute, and their results are `EXECUTED` evidence in the
-Executed Evidence Log rather than `NOT RUN` rows.
+and the project itself still never execute, and their results are `Executed` evidence in the
+Executed Evidence Log rather than `Not run` rows.
 
 Under `executed-commands` the commissioned
 non-mutating commands run - tests and builds included - and land in the same register, or in
 the Execution Register under `Report Style: review`, each with its status token
-(`PASS`/`FAIL`/`ERROR`/`BLOCKED`/`SKIPPED`/`NOT RUN`/`N/A`).
+(`Pass`/`Fail`/`Error`/`Blocked`/`Skipped`/`Not run`/`N/A`).
 
 For each selected check, record what the repository itself shows: a documented command,
 a pipeline step, a committed report, or nothing at all.
 
-Map each check to the ledger as `NOT RUN`, citing where the check is declared or where its
+Map each check to the ledger as `Not run`, citing where the check is declared or where its
 output is documented when such artifacts exist.
 
-A documented or committed result is `REPORTED` evidence.
+A documented or committed result is `Reported` evidence.
 
 It supports the claim it covers, never "verified" status.
 
@@ -1449,7 +1456,7 @@ runtime-verified behavior.
 Use globally unique evidence IDs within a report, with a project identifier on each row in a
 multi-project report.
 
-| Evidence | Source      | Result        | Type          | Artifact |
+| Evidence | Source              | Result        | Type          | Artifact |
 |----------|---------------------|---------------|---------------|----------|
 | EVD-001  | <command or source> | <observation> | <obs/concern> | <path>   |
 
@@ -1461,7 +1468,7 @@ same artifact, `Concern` for a risk judgment built on observations.
 Most ledger rows are `Observation`.
 
 The audit never executes checks, so there is no execution column:
-a documented or selected check that was never executed writes `NOT RUN` in `Result`
+a documented or selected check that was never executed writes `Not run` in `Result`
 with a note on what the check would establish, and a source observation writes the observed
 result directly.
 
@@ -1475,7 +1482,7 @@ dirty-tree state, date, declared tool or report version, and sanitized artifact 
 For committed scanner or coverage reports, record the producing tool, report timestamp or
 revision, ruleset, exclusions, suppressions, and coverage.
 
-For supplied or committed CI output, record the run or revision and label it `REPORTED`
+For supplied or committed CI output, record the run or revision and label it `Reported`
 evidence, noting any mismatch with the audited tree.
 
 Preserve complete sanitized logs or machine-readable output when they exist in the repository,
@@ -1491,8 +1498,8 @@ evidence reference.
 
 A claim reference must preserve the qualification of its source.
 
-Use `INSPECTED`, `REPORTED`, or `INFERRED` evidence labels and retain `UNKNOWN`, `NOT SPECIFIED`,
-or `INSUFFICIENT INFORMATION` when the evidence cannot support a stronger statement.
+Use `Inspected`, `Reported`, or `Inferred` evidence labels and retain `Unknown`, `Not specified`,
+or `Insufficient information` when the evidence cannot support a stronger statement.
 
 Do not promote an inspected source observation into a runtime or production claim.
 
@@ -1533,7 +1540,7 @@ Run every probe activated by the domain profile before assigning statuses.
 A skipped probe
 needs a recorded reason.
 
-Assign a status (`PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A`) per the rules in
+Assign a status (`Pass`, `Partial`, `Fail`, `Unknown`, `N/A`) per the rules in
 `principles/evaluation-rules.md`.
 
 For each finding that records an absent capability, also record its absence assessment per
@@ -1562,7 +1569,7 @@ so it is assembled before any other section content and checked against Scope Ex
 Validation.
 
 Tag every finding `Observation` or `Concern` per `principles/evaluation-rules.md`,
-and attach an `Exploitability` narrative at an explicit tier to every `HIGH` or `CRITICAL`
+and attach an `Exploitability` narrative at an explicit tier to every `High` or `Critical`
 Security & Compliance finding on a network-facing surface,
 per `references/exploitability-narrative.md`.
 
@@ -1604,8 +1611,8 @@ Draft the actionable remediation roadmap using `synthesis/remediation-roadmap.md
 
 Every recommendation must resolve a specific `FND-XXX`.
 
-At `Standard` and `Detailed` detail levels, classify every `REC-XXX` as `RECOMMENDED`,
-`OPTIONAL`, or `NOT RECOMMENDED` for the Recommendation Classification section per
+At `Standard` and `Detailed` detail levels, classify every `REC-XXX` as `Recommended`,
+`Optional`, or `Not recommended` for the Recommendation Classification section per
 `synthesis/remediation-roadmap.md`.
 
 When the roadmap contains at least one P1 or P2 recommendation, build the Re-audit And Follow-up
@@ -1710,7 +1717,9 @@ Re-check every finding against `principles/evaluation-rules.md`.
 Confirm no finding rests on an assumption, that every status has evidence or a gap token, and that
 no language evaluates people.
 
-Confirm every `FND-XXX` finding uses the correct pillar abbreviation and sequential numbering.
+Confirm every `FND-XXX` finding uses the correct pillar abbreviation and report-global
+sequential numbering - one sequence per register family across the whole report, `FND`
+contiguous per pillar across projects.
 
 Confirm every `RSK-XXX` references its source `FND-XXX`.
 
@@ -1796,8 +1805,8 @@ or states that no direct rule exists for the CWE in that stack.
 Confirm no finding implies an analyzer ran.
 
 Confirm the Audit Type Coverage table is present after Document Information and
-consistent with Scope Exclusions: every `NOT DONE` row has a matching exclusion bullet and
-no `COVERED` row is disclaimed later.
+consistent with Scope Exclusions: every `Not done` row has a matching exclusion bullet and
+no `Covered` row is disclaimed later.
 
 Confirm every SBOM row has a License cell populated from an inspected declaration or marked
 `Unknown`, every direct component is manifest-sourced, and `Advisory` is `Y` only where
@@ -1805,7 +1814,7 @@ committed advisory evidence exists.
 
 Confirm every evidence-ledger row and every finding carries an `Observation` or `Concern` tag.
 
-Confirm every `HIGH` or `CRITICAL` Security & Compliance finding on a network-facing surface
+Confirm every `High` or `Critical` Security & Compliance finding on a network-facing surface
 carries an Exploitability narrative with the tier and attack-path reasoning,
 and that the field is omitted on every other finding.
 
@@ -1813,7 +1822,7 @@ Confirm no narrative claims a tier above the evidence,
 `Dynamically-Verified` under the default scope is a defect.
 
 Confirm the Delivery Practice & Team Continuity section is present per project: computable
-metrics are labeled as proxies, unmeasurable metrics are `NOT SPECIFIED` with reasons, and the
+metrics are labeled as proxies, unmeasurable metrics are `Not specified` with reasons, and the
 bus-factor rating carries its commit-share, contributor-count, and window basis.
 
 Confirm every place an overall score appears reports the lowest-scoring applicable dimension
@@ -1821,7 +1830,7 @@ and its score in a paragraph below the table, per `synthesis/project-scorecard.m
 
 Confirm every numeric dimension has evidence IDs, confidence, and a justified score point or cap.
 
-Confirm `UNKNOWN` and `N/A` dimensions are excluded from the mean.
+Confirm `Unknown` and `N/A` dimensions are excluded from the mean.
 
 Confirm the maturity level, readiness state, blocking risks,
 and sign-off status agree with `process/readiness-scoring.md`.
@@ -1834,7 +1843,7 @@ When a Technical Debt Register is present, confirm every `TDR-XXX` traces to a `
 direct observation, and that no security risk is duplicated from the Unified Risk Register.
 
 When a Re-audit And Follow-up Plan is present, confirm every row references a `FND-XXX` and that
-owners or dates absent from the input are marked `NOT SPECIFIED` rather than invented.
+owners or dates absent from the input are marked `Not specified` rather than invented.
 
 Confirm the Auditing Methodology cites only the reference standards actually applied, including the
 stack-specific canonical sources from `references/stack-standards.md` that were consulted, and the
@@ -1874,7 +1883,7 @@ A file-level citation is acceptable only for an absence claim that also names th
 search performed or the hops traced.
 
 Recompute the scorecard's stated overall from the displayed applicable dimensions and confirm
-it equals the reported mean after the documented rounding rule. `UNKNOWN` and `N/A` dimensions
+it equals the reported mean after the documented rounding rule. `Unknown` and `N/A` dimensions
 stay out of the denominator.
 
 Confirm no summary table promotes a finding's verification status beyond what its block
@@ -2005,7 +2014,7 @@ this rule - omit the row instead of inventing a duration.
 **Evidence and decision checks**
 
 - Reconcile all counts with their source and scope, including tests, findings, risks, and scores.
-- Ensure every `CRITICAL` and `HIGH` finding records a counter-check and verification limit.
+- Ensure every `Critical` and `High` finding records a counter-check and verification limit.
 - Keep build, test, scanner, and runtime claims consistent with the evidence ledger.
 - Confirm no build, test, or tool execution was performed or implied by the audit.
 - Distinguish observed defects, unverified threats, and missing evidence in every summary.
@@ -2079,17 +2088,17 @@ These are reasoning checks, not proof of improvement from an independent model b
 | "Only the Polish report" request              | Single `AUDYT-<rev>.md`, English-first analysis                 |
 | Document prose already wraps near 60          | Offer 60 alongside the default 100 at wrap time                 |
 | Version-named subdirs under `docs/report/`    | Only the version path offered, no date alternative              |
-| Full audit report generated                   | Coverage matrix present, pentest row `NOT DONE`                 |
-| Matrix row marked `COVERED`                   | No Scope Exclusions bullet disclaims that type                  |
+| Full audit report generated                   | Coverage matrix present, pentest row `Not done`                 |
+| Matrix row marked `Covered`                   | No Scope Exclusions bullet disclaims that type                  |
 | Manifest has no license fields                | SBOM License cells `Unknown`, gap feeds findings                |
 | Committed advisory report absent              | `Advisory` stays `N` for every component                        |
 | References table lists repository paths       | Defect: external sources only, `[title](url)` per row           |
 | Critical finding on public endpoint           | `Exploitability` narrative present, `Theoretical` tier          |
 | Narrative claims dynamic verification         | Defect: scope never lifted, tier forced down                    |
 | Security finding on internal-only code        | Narrative field omitted                                         |
-| Git subject, no tags                          | Deployment frequency proxy `NOT SPECIFIED`                      |
-| Single-author repository                      | Bus-factor `HIGH`, Team & Continuity line present               |
-| Non-Git subject                               | Delivery Practice section `NOT COLLECTED`                       |
+| Git subject, no tags                          | Deployment frequency proxy `Not specified`                      |
+| Single-author repository                      | Bus-factor `High`, Team & Continuity line present               |
+| Non-Git subject                               | Delivery Practice section `Not collected`                       |
 | Evidence ledger written                       | Every row carries `Observation` or `Concern`                    |
 | Polish-language report                        | Headings and dimension names match glossary verbatim            |
 | Polish audit request                          | `AUDIT-<rev>-EN.md` and `AUDIT-<rev>-PL.md`, translation last   |
@@ -2113,11 +2122,11 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Automation census is `none`                   | Reduced deployment depth, Deployability bounded                 |
 | Automation evidenced outside the tree         | Pointer is `Reported` evidence, no absence finding              |
 | Member-internal directory structure           | Assessed inside the member's own project block                  |
-| Credentials committed in an excluded project   | Tree-wide secret scan still surfaces the hit                   |
-| Executed check fails on missing toolchain     | Triaged `environment limitation`, Limitations row, no finding  |
-| Executed run needed a compatibility shim      | Harness disclosed, results labeled shim-assisted               |
+| Credentials committed in an excluded project  | Tree-wide secret scan still surfaces the hit                    |
+| Executed check fails on missing toolchain     | Triaged `environment limitation`, Limitations row, no finding   |
+| Executed run needed a compatibility shim      | Harness disclosed, results labeled shim-assisted                |
 | Proxy compile against an available profile    | Labeled proxy evidence, never claims legacy-target verification |
-| Defect-census pattern match                   | Candidate confirmed by reading before it becomes a finding     |
+| Defect-census pattern match                   | Candidate confirmed by reading before it becomes a finding      |
 
 ## Intake Checklist
 
@@ -2131,7 +2140,7 @@ Use this checklist to confirm you understand the input before assessing.
 | What is the source format?                      | Running / Inspected code / Description               |
 | What components were provided?                  | List of components in scope                          |
 | What was explicitly excluded?                   | Out-of-scope list                                    |
-| What constraints did the user state?            | Constraints, or `NOT SPECIFIED`                      |
+| What constraints did the user state?            | Constraints, or `Not specified`                      |
 | What maturity does the user claim, if any?      | Claimed maturity, or none                            |
 | What is the natural language of the request?    | Language code or name, or English (default)          |
 | What language output was resolved?              | `single` / `pair`                                    |
@@ -2151,7 +2160,7 @@ When the input is sparse, do not compensate by inferring.
 An automated run asks no clarifying questions and produces the bounded report on what was
 supplied.
 
-Produce the report anyway, with most categories marked `UNKNOWN` or `INSUFFICIENT INFORMATION`.
+Produce the report anyway, with most categories marked `Unknown` or `Insufficient information`.
 
 Add a short list of the specific artifacts that would raise confidence, so the user can supply them
 and re-run the audit.
@@ -2251,11 +2260,12 @@ Each project is assessed as a self-contained subject.
 Findings, risks, scorecard scores, and recommendations for one project must not reference or depend
 on another project unless the user explicitly states that cross-project interactions are in scope.
 
-Finding IDs use the standard pillar abbreviations but are scoped per project.
+Finding IDs use the standard pillar abbreviations and number globally across the whole
+report - `FND` runs contiguously within each pillar, and `EVD`, `RSK`, `REC`, `TDR`, and
+`PAR` each run as a single report-wide sequence.
 
-Each project's findings start at `FND-XXX-001`.
-
-Risk IDs and recommendation IDs also reset per project.
+No register resets per project: `FND-SEC-001` occurs once, and the next SEC finding in any
+project continues the sequence.
 
 Inside a project block, the short identifier is sufficient.
 
@@ -2287,8 +2297,9 @@ run a single Synthesis phase that combines all projects into one report:
    Scoring Rubrics, Architectural Assessment, Trade-off Analysis, conditional sections, Strengths,
    Technical Findings, Unified Risk Register, Remediation Roadmap, and
    Recommendation Classification.
-4. Finding IDs, risk IDs, and recommendation IDs are scoped per project. Use the project
-   identifier as a trailing parenthetical in the finding heading so the reader can navigate.
+4. Finding IDs, risk IDs, and recommendation IDs number globally across the whole report.
+   Use the project identifier as a trailing parenthetical in the finding heading so the
+   reader can navigate.
    For example, `### FND-ARC-001: Missing input validation (api-service)`.
 5. The Document Information section appears once at the top of the report and lists all audited
    projects.

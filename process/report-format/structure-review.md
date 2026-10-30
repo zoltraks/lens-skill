@@ -41,9 +41,11 @@ Structure the section with these elements, in order:
    | Supporting-artifact layout  |         |       |
    | Consistency                 |         |       |
 
-   Verdict cells carry `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, or `N/A`, and the Basis cell names
-   the convention tier per `assessment/structure-review.md` - required, established,
-   recommended, or context-dependent.
+   Verdict cells carry `Passed`, `Partially`, `Failed`, `Unknown`, or `N/A`, the rendered
+   forms of the canonical status tokens per `principles/output-style.md`.
+
+   The Basis cell names the convention tier per `assessment/structure-review.md` - required,
+   established, recommended, or context-dependent.
    Detailed per-component directory, file, and code-division tables render in the conditional
    `Structure Conformance` section per `process/report-format/conditional-conformance.md` and
    are cross-referenced here, while in-code identifier naming renders in `Code Style` per

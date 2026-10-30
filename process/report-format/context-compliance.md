@@ -66,7 +66,7 @@ result, window, source, and owner, using the NFR and operational-readiness guide
 
 Keep SLIs/SLOs, error budgets, RPO/RTO, and DORA delivery measures distinct.
 
-Use `UNKNOWN` for missing measurements and `NOT SPECIFIED` for unapproved targets.
+Use `Unknown` for missing measurements and `Not specified` for unapproved targets.
 
 For technical due diligence, add a **Due Diligence Coverage** table with concern, status, evidence,
 and missing artifact or next step.
@@ -113,7 +113,7 @@ is not an SBOM, and the validator rejects the mismatch.
 
 Advisory coverage likewise states
 which advisories were checked (advisory ID, exact version, dependency path, reachability
-or `UNKNOWN`) - a scanner's finding count is not a confirmed application-defect count.
+or `Unknown`) - a scanner's finding count is not a confirmed application-defect count.
 
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.

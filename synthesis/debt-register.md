@@ -43,7 +43,7 @@ When the report language is not English, apply the column header translations fr
 
 Column meanings:
 
-- **Debt**: `TDR-[001]` ascending sequentially.
+- **Debt**: `TDR-[001]` ascending sequentially in one report-global sequence.
 - **Item**: a concrete, neutrally stated debt, anchored to a file or pattern.
 - **Category**: one of the CISQ characteristics the debt degrades: `Reliability`,
   `Performance Efficiency`, `Security`, `Maintainability`.
@@ -52,10 +52,10 @@ Column meanings:
   When the producing finding is closed and carries no `###` block in the current revision,
   a resolved item marks the source `Direct observation` and cites the retired identifier
   inside a code span.
-- **Cost**: evidence-based person-hour/day range or a qualitative note - never
-  `INSUFFICIENT INFORMATION`; omit the field entirely when nothing is estimable.
-- **Delay**: quantified ongoing cost over a stated horizon or a qualitative note - never
-  `INSUFFICIENT INFORMATION`; omit the field entirely when nothing is estimable.
+- **Cost**: evidence-based person-hour/day range or a qualitative note, never
+  `Insufficient information`, and the field is omitted entirely when nothing is estimable.
+- **Delay**: quantified ongoing cost over a stated horizon or a qualitative note, never
+  `Insufficient information`, and the field is omitted entirely when nothing is estimable.
 - **Status**: `Open` by default.
 
 ## What Belongs Here
@@ -118,5 +118,5 @@ Do not double-count a security remediation as both risk work and structural debt
 ## Example Row
 
 ```
-| TDR-001 | Unused code | Maintainability | FND-CQY-002 | INSUFFICIENT INFORMATION | INSUFFICIENT INFORMATION | OPEN |
+| TDR-001 | Unused code | Maintainability | FND-CQY-002 | Insufficient information | Insufficient information | Open |
 ```

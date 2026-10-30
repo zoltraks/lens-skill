@@ -34,9 +34,11 @@ The following carry over unchanged from `process/report-format.md` and its spec 
 - Scope Exclusions, Limitations and Unknowns, Validation Record, and References per
   `report-closing.md`.
 
-Hunt adds three mandatory finding fields where the shared schema applies: `Breaking
-change` on every finding, and `Runtime` only on execution-confirmed findings, and `Defect scenario` on every
-`HIGH` or `CRITICAL` finding, per `findings-registers.md`.
+Hunt adds two mandatory finding fields where the shared schema applies: `Breaking
+change` on every finding, and `Runtime` only on execution-confirmed findings.
+
+`Defect scenario` is required on every `High` or `Critical` finding under `hunt` and `audit`
+alike, per `findings-registers.md`.
 
 Hunt scopes its evidence base to defect hunting: the structure assessment in
 `assessment/structure-review.md` never loads for this style, `FND-STR-` findings never
@@ -100,9 +102,9 @@ domain the domain profile activates.
 
 Ratings use a defined scale, not judgment:
 
-- `Red` - an advertised capability is broken or a `CRITICAL` finding is open in the domain.
-- `Amber` - open `HIGH` or material `MEDIUM` findings exist without a broken capability.
-- `Green` - no `HIGH` or `CRITICAL` finding is open and capabilities trace clean.
+- `Red` - an advertised capability is broken or a `Critical` finding is open in the domain.
+- `Amber` - open `High` or material `Medium` findings exist without a broken capability.
+- `Green` - no `High` or `Critical` finding is open and capabilities trace clean.
 - `Not assessed` - no scoreable evidence, never folded into a positive rating.
 
 The rating aggregates, it does not judge: a domain stays `Not assessed` when no scoreable
@@ -172,7 +174,7 @@ reconciles its row count against the `### FND-` blocks. The `###` domain heading
 close the section, only the next `##` does.
 
 Every finding cites `path:line` evidence and carries `Breaking change` and `Runtime
-confirmed` fields, and every `HIGH` or `CRITICAL` finding carries `Defect scenario` -
+confirmed` fields, and every `High` or `Critical` finding carries `Defect scenario` -
 the validator rejects the missing field.
 
 In a multi-project report the register stays single and unified.
@@ -187,7 +189,7 @@ The roadmap groups recommendations into phases ordered by dependency - for examp
 criteria, verification steps, and the findings each closes.
 
 Each recommendation block or phase row carries the tracker fields from
-`synthesis/remediation-roadmap.md` - `Owner` (a role or `UNASSIGNED`), `Depends on`,
+`synthesis/remediation-roadmap.md` - `Owner` (a role or `Unassigned`), `Depends on`,
 `Acceptance milestone`, and `Closure evidence` - so a phase is actionable without
 reinterpreting the report.
 

@@ -22,7 +22,7 @@ A score is a summary of evidence, not an impression.
 |----------------------------------|------|------------------------------------------|
 | Table Format                     | 32   | Fixed dimension set and column order     |
 | Scoring Rubric                   | 94   | Band definitions and alternative scales  |
-| Handling Unknowns                | 204  | UNKNOWN handling guidance                |
+| Handling Unknowns                | 204  | Unknown handling guidance                |
 | Handling Not Applicable          | 212  | N/A handling guidance                    |
 | Dimension To Category Mapping    | 226  | Dimension to assessment-category mapping |
 | ISO/IEC 25010:2023 Crosswalk     | 252  | Standards crosswalk mapping              |
@@ -64,7 +64,7 @@ A Score cell carries the point value first, then the uncertainty interval when i
 non-degenerate: `7/10` or `7/10 [4-9]`, per the interval rule in
 `process/readiness-scoring.md`.
 
-A dimension gated to `UNKNOWN` by the eligibility gate renders `UNKNOWN` in the Score cell and
+A dimension gated to `Unknown` by the eligibility gate renders `Unknown` in the Score cell and
 names its missing coverage in Notes.
 
 At the `Detailed` level, add a paragraph below the table naming each omitted `N/A` dimension and
@@ -77,7 +77,7 @@ delivery-practice proxies and contributor concentration per `references/delivery
 It is `N/A` when Git history was not in scope.
 
 The Deployability dimension is bounded by the intake automation signal census: under `none` it
-renders `N/A` when the deployment model cannot carry deployment automation and `UNKNOWN` with
+renders `N/A` when the deployment model cannot carry deployment automation and `Unknown` with
 the justification in Notes otherwise, and an `external` census is named in Notes.
 
 The API Compatibility dimension applies only when the subject is a reusable library or package,
@@ -191,7 +191,7 @@ For `3 stars`, use the `1-3` rubric and three positions.
 
 Examples: `★★★` for `3`, `★★☆` for `2`, and `★☆☆` for `1`.
 
-Render `UNKNOWN` as text, not as a star bar, and `N/A` rows are omitted from the table entirely.
+Render `Unknown` as text, not as a star bar, and `N/A` rows are omitted from the table entirely.
 
 A non-degenerate interval renders in brackets beside the bar, for example `★★★☆☆ [2-4]`.
 
@@ -205,7 +205,7 @@ per-dimension distribution appears beside the bar per `process/readiness-scoring
 
 Do not assign the minimum score when evidence is simply missing.
 
-When evidence is absent, leave the score blank or write `UNKNOWN` and explain in the notes.
+When evidence is absent, leave the score blank or write `Unknown` and explain in the notes.
 
 Reserve the minimum score for evidenced absence of a required capability.
 
@@ -308,7 +308,7 @@ Cite supporting evidence IDs, material findings, and confidence for each scored 
 Do not reward an unexecuted build or unverified runtime behavior as demonstrated capability.
 
 If an overall score is requested, state the aggregation formula, weights, rounding rule, and scored
-versus applicable dimensions, excluding `UNKNOWN` and `N/A` from the numeric denominator, and
+versus applicable dimensions, excluding `Unknown` and `N/A` from the numeric denominator, and
 apply the half-dimensions eligibility floor to publishing any overall.
 
 Always disclose the floor next to the mean: the overall-score cell holds only the score display,

@@ -12,19 +12,26 @@ Before beginning the audit, the agent runs the Parameter Configuration phase in
 
 Defaults are:
 
-| Parameter               | Default                                                                                                                                |
-|-------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| Parameter               | Default                                                                                                                                                                                      |
+|-------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Report style            | a style named in the request, then the recovered previous style on re-audit - `audit` governance report (fallback default), `hunt` defect-hunt report, or `review` execution-register report |
-| Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/` - `review/` or `reviews/` for a review report - else Inline |
-| Output location         | Resolved across `docs/`, `document/`, `doc/` roots or the repository root                                                              |
-| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md`/`REVIEW.md` for a first hunt/review |
-| Report language         | Match the language of the user's request                                                                                               |
-| Detail level            | Detailed                                                                                                                               |
-| Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                                                  |
-| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                                                                |
-| Trade-off analysis      | Standalone section + embedded into relevant findings                                                                                   |
-| Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it                                                |
-| Evidence mode           | `source-only` (default), `executed-readonly` analyzers, or `executed-commands` commissioned commands                                   |
+| Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/` - `review/` or `reviews/` for a review report - else Inline                                                       |
+| Output location         | Resolved across `docs/`, `document/`, `doc/` roots or the repository root                                                                                                                    |
+| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md`/`REVIEW.md` for a first hunt/review                                                       |
+| Report language         | Match the language of the user's request                                                                                                                                                     |
+| Detail level            | Detailed                                                                                                                                                                                     |
+| Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                                                                                                        |
+| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                                                                                                                      |
+| Trade-off analysis      | Standalone section + embedded into relevant findings                                                                                                                                         |
+| Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it                                                                                                      |
+| Evidence mode           | `source-only` (default), `executed-readonly` analyzers, or `executed-commands` commissioned commands                                                                                         |
+
+When intake detected a runnable suite or build - test directories, CI configuration, or test
+scripts - the presented defaults summary annotates the `Evidence mode` row with a note such as
+`a runnable suite exists at <path>; executed-commands could run it`.
+
+The annotation is informational only - it adds no question surface, and automated runs keep
+the `source-only` default.
 
 The agent MUST ask this question, MUST NOT skip it, and MUST wait for the user response
 before starting the audit - core configuration covers unresolved delivery and report-shape
@@ -78,10 +85,10 @@ Two advanced parameters govern what evidence may be touched.
 
 They apply the defaults unless the request names them.
 
-| Parameter                 | Default | What it controls                                                                 |
-|---------------------------|---------|----------------------------------------------------------------------------------|
-| `evidence-exclusions`     | none    | User-declared paths or patterns withheld from evidence gathering                 |
-| `dependency-advisories`   | `off`   | Whether a commissioned advisory sweep may run or be fetched for the SBOM         |
+| Parameter               | Default | What it controls                                                         |
+|-------------------------|---------|--------------------------------------------------------------------------|
+| `evidence-exclusions`   | none    | User-declared paths or patterns withheld from evidence gathering         |
+| `dependency-advisories` | `off`   | Whether a commissioned advisory sweep may run or be fetched for the SBOM |
 
 `evidence-exclusions` lists paths, file names, or glob patterns the audit never opens,
 quotes, or summarizes - the canonical use is a prior report when the user asks for a

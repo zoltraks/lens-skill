@@ -7,22 +7,22 @@ import unittest
 from tests import load_script
 
 
-def _project_block(project: str) -> str:
+def _project_block(project: str, number: int) -> str:
     return f"""## {project}
 
 ### Structure Conformance
 
 | Component | Surface | Convention | Observed | Status | Evidence |
 |-----------|---------|------------|----------|--------|----------|
-| pkg       | files   | PascalCase | yes      | PASS   | EVD-001  |
+| pkg       | files   | PascalCase | yes      | Pass   | EVD-001  |
 
 ### Technical Findings
 
 | Finding | Pillar | Severity | Title | Result | Status | Change | Verification |
 |---------|--------|----------|-------|--------|--------|--------|--------------|
-| FND-SEC-001 | Security & Compliance | High | T | FAIL | Open | New | |
+| FND-SEC-{number:03d} | Security & Compliance | High | T | Fail | Open | New | |
 
-### FND-SEC-001: T ({project})
+### FND-SEC-{number:03d}: T ({project})
 
 Body.
 
@@ -45,7 +45,7 @@ class MultiProjectBoundaries(unittest.TestCase):
         # that is not a conformance token. Inside a multi-project `##` block
         # the conformance check must stop at the next `###` section, not run
         # into it.
-        text = _project_block("alpha") + _project_block("beta")
+        text = _project_block("alpha", 1) + _project_block("beta", 2)
         failures = self.validator.check_structure_and_naming(text)
         self.assertFalse(
             [f for f in failures if "status 'Open'" in f],

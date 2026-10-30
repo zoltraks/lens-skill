@@ -39,6 +39,11 @@ Trace identity, authorization, input validation, and the protected operation end
 
 For each exposed transport, check object, action, and tenant/path scope independently.
 
+Object scope includes visibility filters, not only authorization gates: a soft-delete or
+tombstone flag, a tenant boundary, or an ownership flag must constrain every read path the
+object can reach, because a read path that skips the filter serves the row regardless of
+the gate in front of it.
+
 Every endpoint that maps user input to a filesystem path gets its own traversal-guard
 verdict - read paths such as download and preview, and write paths such as upload, move,
 rename, and delete.
@@ -113,6 +118,12 @@ focuses on whether inputs escape the intended sandbox or trust level.
 The config trust-boundary check maps which configuration inputs the code trusts without
 validation: a config file read as authoritative is one boundary class, while config values
 crossing into commands, queries, or deserialized objects are another and carry injection weight.
+
+Audit-trail attribution data - client IP, user agent, forwarded identity - counts only
+from trusted sources.
+
+A proxy header such as `X-Forwarded-For` or `X-Real-IP` is attribution evidence only
+behind a trusted proxy, and an unauthenticated caller can set it freely otherwise.
 
 ## Weakness And Vulnerability Classification
 

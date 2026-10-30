@@ -80,19 +80,20 @@ DOC_INFO = [
 
 COVERAGE_HEADER = "| Report type | Status | Rationale |\n|---|---|---|\n"
 
-FINDING_BLOCK = """### FND-SEC-001: <finding title>{suffix}
+FINDING_BLOCK = """### {fnd_id}: <finding title>{suffix}
 
 <what the discovered state is, where, and why it is a finding>
 
 * **Pillar:** Security & Compliance
-* **Severity:** <CRITICAL | HIGH | MEDIUM | LOW>
+* **Severity:** <Critical | High | Medium | Low>
 * **Type:** Concern
 * **Targets:** {targets}
 * **Basis:** <requirement or source basis>
 * **Criteria:** <criterion ID - violated or uncertain property>
 * **Impact:** <concrete consequence>
 * **Method:** <test or command that confirms the fix>
-* **Verification:** Observed in source - <basis>
+* **Verification:** Observed in source, <basis>
+* **Defect scenario:** <initial conditions, steps, expected result, observed result, confirmation level - required on High/Critical>
 * **Runtime:** <confirmed behavior note>
 * **Confidence:** <High | Medium | Low>
 * **Mitigating factors:** <factors or omit line>
@@ -101,23 +102,23 @@ FINDING_BLOCK = """### FND-SEC-001: <finding title>{suffix}
 * **Recommendation:** <step-by-step technical guidance>
 """
 
-RISK_BLOCK = """### RSK-001: <risk title>{suffix}
+RISK_BLOCK = """### {rsk_id}: <risk title>{suffix}
 
 <what could go wrong>
 
-* **Severity:** <CRITICAL | HIGH | MEDIUM | LOW>
+* **Severity:** <Critical | High | Medium | Low>
 * **Likelihood:** <High | Medium | Low>
 * **Residual:** <residual after mitigation>
 * **Impact:** <concrete consequence>
 * **Trigger:** <what sets it off>
 * **Controls:** <existing controls>
 * **Closure:** <closure condition>
-* **Source:** FND-SEC-001
+* **Source:** {fnd_id}
 * **Confidence:** <High | Medium | Low>
 * **Mitigation:** <treatment plan>
 """
 
-REC_BLOCK = """### REC-001: <recommendation title>{suffix}
+REC_BLOCK = """### {rec_id}: <recommendation title>{suffix}
 
 <what the action changes and how it resolves the finding>
 
@@ -190,19 +191,19 @@ def ledger_table(multi: bool) -> str:
     )
 
 
-def finding_summary_table(projects: list[str]) -> str:
+def finding_summary_table(projects: list[str], fnd_id: str = "FND-SEC-001") -> str:
     if len(projects) > 1:
         return table(
             "| Project | Finding | Pillar | Severity | Title | Result | Status | Change | Verification |",
             "|---|---|---|---|---|---|---|---|---|",
             [
-                f"| {projects[0]} | FND-SEC-001 | Security & Compliance | <severity> | <title> | <result> | Open | New | Verification |\n"
+                f"| {projects[0]} | {fnd_id} | Security & Compliance | <severity> | <title> | <result> | Open | New | Verification |\n"
             ],
         )
     return table(
         "| Finding | Pillar | Severity | Title | Result | Status | Change | Verification |",
         "|---|---|---|---|---|---|---|---|",
-        ["| FND-SEC-001 | Security & Compliance | <severity> | <title> | <result> | Open | New | Verification |\n"],
+        [f"| {fnd_id} | Security & Compliance | <severity> | <title> | <result> | Open | New | Verification |\n"],
     )
 
 
@@ -226,9 +227,9 @@ def audit_skeleton(projects: list[str], params: dict) -> str:
                 [f"| {name} | <mean>/<scale> (<band>) | <dimension> <score> | <top RSK-XXX> | <readiness> |\n" for name in projects],
             )
         )
-        for name in projects:
+        for index, name in enumerate(projects):
             parts.append(heading(2, name))
-            parts += audit_project_body(name)
+            parts += audit_project_body(name, index + 1)
         parts += audit_shared_tail(multi)
     else:
         parts += audit_project_body("")
@@ -236,9 +237,14 @@ def audit_skeleton(projects: list[str], params: dict) -> str:
     return "".join(parts)
 
 
-def audit_project_body(project: str) -> list[str]:
+def audit_project_body(project: str, number: int = 1) -> list[str]:
     level = 3 if project else 2
     suffix = f" ({project})" if project else ""
+    # Register identifiers number globally across the whole report - each
+    # project's blocks continue the single FND/RSK/REC sequences.
+    fnd_id = f"FND-SEC-{number:03d}"
+    rsk_id = f"RSK-{number:03d}"
+    rec_id = f"REC-{number:03d}"
     parts: list[str] = []
     for section in AUDIT_SECTIONS:
         parts.append(heading(level, section))
@@ -260,10 +266,10 @@ def audit_project_body(project: str) -> list[str]:
         elif section == "Health Dashboard":
             parts.append(
                 table(
-                    "| Impact | LOW | MEDIUM | HIGH |",
+                    "| Impact | Low | Medium | High |",
                     "|---|---|---|---|",
-                    ["| CRITICAL |  |  |  |\n", "| HIGH |  |  |  |\n",
-                     "| MEDIUM |  |  |  |\n", "| LOW |  |  |  |\n"],
+                    ["| Critical |  |  |  |\n", "| High |  |  |  |\n",
+                     "| Medium |  |  |  |\n", "| Low |  |  |  |\n"],
                 )
             )
             parts.append("**Scorecard Summary**\n\n")
@@ -286,11 +292,11 @@ def audit_project_body(project: str) -> list[str]:
                     "| Area | Verdict | Basis |",
                     "|---|---|---|",
                     [
-                        "| Directory organization | PASS | <convention tier> |\n",
-                        "| Naming conventions | PASS | <basis> |\n",
-                        "| Component placement | PASS | <basis> |\n",
-                        "| Supporting-artifact layout | PASS | <basis> |\n",
-                        "| Consistency | PASS | <basis> |\n",
+                        "| Directory organization | Passed | <convention tier> |\n",
+                        "| Naming conventions | Passed | <basis> |\n",
+                        "| Component placement | Passed | <basis> |\n",
+                        "| Supporting-artifact layout | Passed | <basis> |\n",
+                        "| Consistency | Passed | <basis> |\n",
                     ],
                 )
             )
@@ -299,25 +305,25 @@ def audit_project_body(project: str) -> list[str]:
         elif section == "High-Level Observations":
             parts.append(table("| Observation |", "|---|", ["| <observation> |\n"]))
     parts.append(heading(level, "Technical Findings"))
-    parts.append(finding_summary_table([project] if project else []))
-    parts.append(FINDING_BLOCK.format(suffix=suffix, targets=qualified(project)) + "\n")
+    parts.append(finding_summary_table([project] if project else [], fnd_id))
+    parts.append(FINDING_BLOCK.format(suffix=suffix, targets=qualified(project, fnd_id), fnd_id=fnd_id) + "\n")
     parts.append(heading(level, "Unified Risk Register"))
-    parts.append(RISK_BLOCK.format(suffix=suffix) + "\n")
+    parts.append(RISK_BLOCK.format(suffix=suffix, rsk_id=rsk_id, fnd_id=fnd_id) + "\n")
     parts.append(heading(level, "Remediation Roadmap"))
     parts.append(
         table(
             "| Rec | Priority | Finding | Recommendation | Impact | Effort | Complexity | Breaking | Verification |",
             "|---|---|---|---|---|---|---|---|---|",
-            ["| REC-001 | P1 | FND-SEC-001 | <recommendation> | <impact> | <effort> | <complexity> | None | <verification step> |\n"],
+            [f"| {rec_id} | P1 | {fnd_id} | <recommendation> | <impact> | <effort> | <complexity> | None | <verification step> |\n"],
         )
     )
-    parts.append(REC_BLOCK.format(suffix=suffix, target=qualified(project)) + "\n")
+    parts.append(REC_BLOCK.format(suffix=suffix, target=qualified(project, fnd_id), rec_id=rec_id) + "\n")
     parts.append(heading(level, "Recommendation Classification"))
     parts.append(
         table(
             "| Rec | Recommendation | Class | Basis |",
             "|---|---|---|---|",
-            ["| REC-001 | <action> | Recommended | FND-SEC-001 - <short reason> |\n"],
+            [f"| {rec_id} | <action> | Recommended | {fnd_id} - <short reason> |\n"],
         )
     )
     return parts
@@ -345,8 +351,8 @@ def audit_shared_tail(multi: bool) -> list[str]:
     return parts
 
 
-def qualified(project: str) -> str:
-    return f"{project}::FND-SEC-001" if project else "FND-SEC-001"
+def qualified(project: str, fnd_id: str) -> str:
+    return f"{project}::{fnd_id}" if project else fnd_id
 
 
 def hunt_skeleton(projects: list[str], params: dict) -> str:
@@ -408,23 +414,29 @@ def hunt_skeleton(projects: list[str], params: dict) -> str:
         parts.append(
             HUNT_FINDING_BLOCK.format(
                 suffix=f" ({projects[0]})" if multi else "",
-                targets=qualified(projects[0] if multi else ""),
+                targets=qualified(projects[0] if multi else "", "FND-SEC-001"),
+                fnd_id="FND-SEC-001",
             )
             + "\n"
         )
     parts += [
         heading(2, "Risk Register"),
-        RISK_BLOCK.format(suffix=f" ({projects[0]})" if multi else "") + "\n",
+        RISK_BLOCK.format(
+            suffix=f" ({projects[0]})" if multi else "",
+            rsk_id="RSK-001",
+            fnd_id="FND-SEC-001",
+        ) + "\n",
         heading(2, "Remediation Phases"),
         heading(3, "Stabilize"),
         table(
             "| Rec | Recommendation | Resolves | Effort | Breaking |",
             "|---|---|---|---|---|",
-            [f"| REC-001 | <recommendation> | {qualified(projects[0] if multi else '')} | <effort> | None |\n"],
+            [f"| REC-001 | <recommendation> | {qualified(projects[0] if multi else '', 'FND-SEC-001')} | <effort> | None |\n"],
         ),
         REC_BLOCK.format(
             suffix=f" ({projects[0]})" if multi else "",
-            target=qualified(projects[0] if multi else ""),
+            target=qualified(projects[0] if multi else "", "FND-SEC-001"),
+            rec_id="REC-001",
         )
         + "\n",
         heading(3, "Accepted - no action"),
@@ -449,11 +461,7 @@ def hunt_skeleton(projects: list[str], params: dict) -> str:
     return "".join(parts)
 
 
-HUNT_FINDING_BLOCK = FINDING_BLOCK.replace(
-    "* **Runtime:**",
-    "* **Defect scenario:** <initial conditions, steps, expected result, observed result, "
-    "confirmation level - required on HIGH/CRITICAL>\n* **Runtime:**",
-)
+HUNT_FINDING_BLOCK = FINDING_BLOCK
 
 REVIEW_FINDING_BLOCK = HUNT_FINDING_BLOCK.replace(
     "* **Evidence:**",
@@ -465,7 +473,7 @@ def review_skeleton(projects: list[str], params: dict) -> str:
     multi = len(projects) > 1
     executed = params.get("evidence_mode", "source-only") != "source-only"
     suffix = f" ({projects[0]})" if multi else ""
-    target = qualified(projects[0] if multi else "")
+    target = qualified(projects[0] if multi else "", "FND-SEC-001")
     parts = [
         "# <subject> - Lens review report\n\n",
         heading(2, "Document Information"),
@@ -507,24 +515,24 @@ def review_skeleton(projects: list[str], params: dict) -> str:
         ledger_table(multi),
         heading(2, "Execution Register"),
         "One row per check.\n\n"
-        "`Result` is PASS, FAIL, ERROR, BLOCKED, SKIPPED, NOT RUN, or N/A - "
-        "`ERROR`/`BLOCKED` are runner states, never product failures, and "
-        "`NOT RUN` is never a pass.\n\n"
-        "Every non-PASS row states its Interpretation.\n\n",
+        "`Result` is Pass, Fail, Error, Blocked, Skipped, Not run, or N/A - "
+        "`Error`/`Blocked` are runner states, never product failures, and "
+        "`Not run` is never a pass.\n\n"
+        "Every non-Pass row states its Interpretation.\n\n",
         table(
             "| Check | Command | Cwd | Tool & Version | Timestamp | Input revision | Exit status | Result | Interpretation | Artifact |",
             "|---|---|---|---|---|---|---|---|---|---|",
             [
                 "| <check> | <exact command> | <cwd> | <tool and version> | <timestamp> | "
-                "<revision> | <exit code> | NOT RUN | <why or outcome meaning> | <artifact or `None retained`> |\n"
+                "<revision> | <exit code> | Not run | <why or outcome meaning> | <artifact or `None retained`> |\n"
             ],
         ),
         heading(2, "Domain Findings"),
         finding_summary_table(projects),
         heading(3, "Security"),
-        REVIEW_FINDING_BLOCK.format(suffix=suffix, targets=target) + "\n",
+        REVIEW_FINDING_BLOCK.format(suffix=suffix, targets=target, fnd_id="FND-SEC-001") + "\n",
         heading(2, "Risk Register"),
-        RISK_BLOCK.format(suffix=suffix) + "\n",
+        RISK_BLOCK.format(suffix=suffix, rsk_id="RSK-001", fnd_id="FND-SEC-001") + "\n",
         heading(2, "Improvement Plan"),
         heading(3, "Stabilize"),
         table(
@@ -532,11 +540,11 @@ def review_skeleton(projects: list[str], params: dict) -> str:
             "|---|---|---|---|---|",
             [f"| REC-001 | <recommendation> | {target} | <effort> | None |\n"],
         ),
-        REC_BLOCK.format(suffix=suffix, target=target) + "\n",
+        REC_BLOCK.format(suffix=suffix, target=target, rec_id="REC-001") + "\n",
         heading(3, "Accepted - no action"),
         table("| Finding | Disposition |", "|---|---|"),
         heading(2, "Retest Register"),
-        "One row per `FAIL`, `ERROR`, or `BLOCKED` register row - omit the section when "
+        "One row per `Fail`, `Error`, or `Blocked` register row - omit the section when "
         "no such rows exist.\n\n",
         table(
             "| Check | Register result | Blocking condition | Retest command | Closes |",
@@ -584,7 +592,7 @@ def review_skeleton(projects: list[str], params: dict) -> str:
     return "".join(parts)
 
 
-STR_FINDING_BLOCK = FINDING_BLOCK.replace("FND-SEC-001", "FND-STR-001").replace(
+STR_FINDING_BLOCK = FINDING_BLOCK.replace(
     "* **Pillar:** Security & Compliance", "* **Pillar:** Structure & Organization"
 )
 
@@ -616,7 +624,7 @@ def structure_review_skeleton(projects: list[str], params: dict) -> str:
             ["| 1 | <directory> | <contents> | <role> |\n"],
         ),
         heading(2, "Findings"),
-        STR_FINDING_BLOCK.format(suffix="", targets="FND-STR-001") + "\n",
+        STR_FINDING_BLOCK.format(suffix="", targets="FND-STR-001", fnd_id="FND-STR-001") + "\n",
         heading(2, "Positive Practices"),
         table(
             "| Practice | Evidence |",

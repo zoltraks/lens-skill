@@ -43,6 +43,8 @@ From https://react.dev/learn/you-might-not-need-an-effect.
   candidate instead.
 - Event-handler logic in effects (`useEffect` that only calls a callback) belongs in the
   handler or `useEffectEvent`/`useEvent` where available.
+- `URL.createObjectURL` results must be revoked with `URL.revokeObjectURL` when the URL is
+  no longer needed - an un-revoked object URL pins the blob in memory for the session.
 
 ## Rendering And State
 
@@ -64,6 +66,9 @@ From https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API.
   The audit checks `install`/`activate`/`fetch` handler presence and cache-version cleanup.
 - `manifest.json` with `name`, `icons`, `start_url`, `display` defines the installable
   surface. A PWA claim without a linked manifest is a gap.
+- Serving user-supplied SVG with `Content-Disposition: inline` needs
+  `Content-Security-Policy: sandbox` on the response - an inline SVG can execute script in
+  the serving origin.
 
 ## Naming And Layout
 

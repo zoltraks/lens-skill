@@ -81,6 +81,23 @@ Concentration is a continuity-risk fact, not a judgment of any person.
 
 Report it in aggregate form only, never as a personal assessment.
 
+## History Hygiene
+
+When Git is in scope, the history-quality censuses in `references/census-commands.md` feed
+the Delivery Practice & Team Continuity section alongside the DORA proxies.
+
+- **Commit-subject descriptiveness**: the share of subjects under the stated word
+  threshold. A high share of terse subjects raises review and archaeology cost.
+- **Commit granularity**: the files-per-commit outliers. Giant commits defeat review and
+  bisect, and the top entries are named.
+- **Branch divergence**: ahead/behind counts and last-touch dates per branch.
+  Long-diverged branches signal stalled integration and rebase risk.
+- **Merge noise**: the share of self-merge subjects such as "merge remote-tracking".
+  Routine pull-merges indicate a non-rebase workflow and inflate the merge count.
+
+Report the results inside Delivery Practice & Team Continuity, each figure beside its
+counting rule.
+
 ## Boundary With Deployment Review
 
 `assessment/deployment-review.md` assesses declared pipeline and deployment evidence:

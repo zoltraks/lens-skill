@@ -52,3 +52,6 @@ Load these only when the subject meets an inclusion criterion in `process/report
 - **`assessment/baseline-conformance.md`** - Engineering floor against bundled stack and
   purpose baselines. Include for code-bearing subjects a bundled digest covers.
 - **`assessment/api-compatibility.md`** - API compatibility. Include for libraries and packages.
+- **`assessment/requirements-conformance.md`** - Product requirements and acceptance-criteria
+  conformance. Include when the subject carries a requirements or acceptance-criteria
+  document.

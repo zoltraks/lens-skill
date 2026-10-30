@@ -51,7 +51,7 @@ Write a short orientation paragraph, then a compact table with one row per proje
 ```
 | Project        | Score                   | Lowest              | Risks                   | Readiness         |
 |----------------|-------------------------|---------------------|-------------------------|-------------------|
-| <project name> | <mean>/<scale> (<band>) | <dimension> <score> | <top RSK-XXX or `NONE`> | <readiness state> |
+| <project name> | <mean>/<scale> (<band>) | <dimension> <score> | <top RSK-XXX or `None`> | <readiness state> |
 ```
 
 The **Changes Since Previous Audit** section is combined at report level when a re-audit was
@@ -85,6 +85,7 @@ followed by the full set of report sections for that project:
 - Agent Guidance Conformance *(conditional)*
 - AI System Assessment *(conditional)*
 - Standards Conformance *(conditional)*
+- Requirements Conformance *(conditional)*
 - Engineering Baseline Conformance *(conditional)*
 - Structure Conformance *(conditional)*
 - Code Style *(conditional)*
@@ -98,11 +99,11 @@ followed by the full set of report sections for that project:
 
 Use level-3 headings (`###`) for subsections within each project block.
 
-**Finding IDs** are scoped per project.
+**Finding IDs** number globally across the whole report.
 
-Each project's findings start at `FND-XXX-001`.
-
-Risk IDs and recommendation IDs also reset per project.
+`EVD`, `RSK`, `REC`, `TDR`, and `PAR` run as single sequences, and `FND` numbers contiguously
+within each pillar across projects - `FND-SEC-001` occurs once report-wide, and the next SEC
+finding in any project continues the sequence.
 
 Qualify each finding heading with the project identifier as a trailing parenthetical so the
 reader can navigate.
@@ -113,16 +114,16 @@ Register-item headings stay `###` exactly - never `####` or deeper - even inside
 project blocks, and each carries the `(<project>)` suffix.
 
 Every register reference outside its defining heading or row is `project::ID`-qualified,
-not only citations in shared sections - a `FND-SEC-001` in `alpha`'s roadmap and in
-`beta`'s findings both need the qualifier because the bare identifier is ambiguous.
+not only citations in shared sections - the identifier itself occurs once report-wide, and
+the qualifier names which project owns the entry.
 
 On a re-audit, a prior cross-cutting finding that now maps to one project keeps its identifier
 and gains that project's `(<project>)` suffix, and the mapping is recorded in the Changes Since
 Previous Audit section.
 
-A prior finding that applies to several projects splits into one scoped finding per project,
-each carrying the same base identifier under its own project suffix, and the split is recorded
-in the Changes section.
+A prior finding that applies to several projects splits into one finding per project,
+each receiving the next identifier of its pillar in the report-global sequence under its
+own project suffix, and the split is recorded in the Changes section.
 
 **Shared sections** appear once at the end of the report, after all per-project sections:
 

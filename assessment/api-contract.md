@@ -106,6 +106,31 @@ locate the implementing code, diff them, and record drift as a finding citing bo
 A surface the subject never declares is `NOT_ASSESSED` for contract purposes - an undocumented
 interface is a documentation finding, not spec drift.
 
+### Coupled-Client Reconciliation
+
+When the repository contains a consumer of the subject's API - frontend service modules,
+static control pages, CLI callers - the client's call set is the declared contract even
+when no written spec exists.
+
+Enumerate the client call sites and the server routes, then reconcile in both directions:
+every client call must land on a served route, and every served route should have a caller
+or a documented external consumer.
+
+Classify each pair:
+
+| Class            | Meaning                                                         |
+|------------------|-----------------------------------------------------------------|
+| `matched`        | Client call and server route agree on path, method, and shape   |
+| `phantom call`   | Client calls an endpoint the server does not implement          |
+| `dead endpoint`  | Server route with no client call and no documented consumer     |
+| `shape mismatch` | Both sides exist but disagree on payload, method, or parameters |
+
+Present the reconciliation as a matrix of call sites against routes.
+
+A `phantom call` or `shape mismatch` is a finding citing both the call site and the route.
+
+A `dead endpoint` is a finding unless a documented external consumer justifies it.
+
 ## OWASP API Security Top 10 (2023) Reference
 
 Use these category codes when an API security gap maps to one:

@@ -30,9 +30,9 @@ never assumed from the previous report alone.
 | Evidence Transitions             | 281  | Finding, evidence, and capability deltas   |
 | Observation Folding              | 300  | Attaching new defects to existing findings |
 | Identifier Continuity            | 311  | FND/RSK/REC sequence rules                 |
-| Status, Change, And Verification | 335  | Status/Change vocabulary for re-audits     |
-| Legacy Field Names               | 368  | Old-schema-to-current name mapping         |
-| Rules                            | 413  | Comparison constraints                     |
+| Status, Change, And Verification | 338  | Status/Change vocabulary for re-audits     |
+| Legacy Field Names               | 371  | Old-schema-to-current name mapping         |
+| Rules                            | 416  | Comparison constraints                     |
 
 ## When This Applies
 
@@ -243,7 +243,7 @@ Compare at least:
   with the closing evidence rather than silently dropped.
 - Risk delta: `RSK-XXX` entries added, mitigated, or unchanged.
 - Score delta: per-dimension score movement and direction.
-- Category status changes: categories that moved between `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`,
+- Category status changes: categories that moved between `Pass`, `Partial`, `Fail`, `Unknown`,
   and `N/A`.
 
 Recompute the baseline's stated aggregates - scorecard numerator, denominator, and overall
@@ -253,7 +253,7 @@ A mismatch is a defect in the baseline, not the subject: record it as an evidenc
 never silently adopt or silently replace the figure.
 
 When a previous report element cannot be parsed well enough to compare, mark that element
-`UNKNOWN` and state why.
+`Unknown` and state why.
 
 When parameters differ between reports, for example a different evaluation scale or detail
 level, note the difference before comparing, since it affects comparability.
@@ -312,6 +312,9 @@ continuing the per-pillar sequence per the Identifier Continuity rules.
 
 Preserve `FND-XXX`, `RSK-XXX`, and `REC-XXX` identifiers across audits.
 
+Every register family numbers contiguously across the whole report, and the `project::ID`
+qualification is retained for citation.
+
 New findings continue the per-pillar sequence of the previous report.
 
 Retired identifiers are not reused.
@@ -321,7 +324,7 @@ A finding is marked `Closed` only when the current audit holds the evidence that
 A finding that still reproduces stays `Open` even when the previous report claimed progress.
 
 When the report structure itself forces renumbering,
-for example when registers move from a combined layout to per-project scope,
+for example when a register is split or merged across layouts,
 re-scope the identifiers to the current structure and publish the complete old-to-new mapping in the
 Changes Since Previous Audit section.
 
@@ -345,7 +348,7 @@ a re-audit.
 | `Closed` | `Closed`    | `Verified`   | Current-audit evidence closes it, cite the closing evidence        |
 | `Open`   | `New`       |              | Minted in this revision                                            |
 | `Open`   | `Reopened`  | `Confirmed`  | A closed finding reproduces again under current evidence           |
-| `PASS`   | `Unchanged` | `Verified`   | A passing control, re-verified                                     |
+| `Pass`   | `Unchanged` | `Verified`   | A passing control, re-verified                                     |
 
 `Confirmed` is the runtime-confirmed qualifier - it requires `Runtime confirmed: yes` in the
 finding's detailed block, which a source-only audit never produces.
@@ -353,7 +356,7 @@ finding's detailed block, which a source-only audit never produces.
 Under `source-only` evidence mode a re-inspected `Open`/`Unchanged` finding renders `Verified`,
 matching `Verified: yes` and `Runtime confirmed: no` in the block.
 
-`Status` is the lifecycle (`Open`, `Closed`, `PASS`), `Change` is the movement since the
+`Status` is the lifecycle (`Open`, `Closed`, `Pass`), `Change` is the movement since the
 previous audit (`New`, `Unchanged`, `Reopened`, `Closed`) - provenance never doubles as a
 lifecycle state, so a first-audit finding reads `Status: Open`, `Change: New`.
 
@@ -362,7 +365,7 @@ Carry the evidence qualification in the `Verification` column rather than invent
 A previous report may combine these in a single `Remediation Status` column:
 `Open - Confirmed` maps to `Status` `Open` plus `Verification` `Confirmed`,
 `Open - Reported` to `Open` plus `Reported`, `Closed - Verified` to `Closed` plus `Verified`,
-and `New` or `PASS` to the same `Status` with an empty `Verification` - a `New` status in an
+and `New` or `Pass` to the same `Status` with an empty `Verification` - a `New` status in an
 older report reads as `Status` `Open` plus `Change` `New` under the current schema.
 
 ## Legacy Field Names
@@ -399,7 +402,7 @@ column read as `Description`, `Rec ID` -> `Rec`, `Evidence ID` -> `Evidence`, an
 summary `Status` column holds what the current `Result` column carries.
 
 Evidence ledger: a `Project` column and an `Execution` column appear only in older reports -
-`Execution` values `NOT RUN`/`N/A` map to the current `Result` column's `NOT RUN` marker, and the
+`Execution` values `NOT RUN`/`N/A` map to the current `Result` column's `Not run` marker, and the
 `Project` column is present only in multi-project reports.
 
 Threat Model: `STRIDE class` -> `STRIDE`, `Existing control` -> `Control`,
@@ -418,7 +421,7 @@ the current format omits them and explains them in prose at `Detailed`.
   scale changed is not an improvement.
 - Do not copy conclusions, tool results, or readiness claims from the previous report into the
   current findings. Re-derive them from current evidence.
-- Mark comparisons that cannot be completed `UNKNOWN` rather than guessing the previous state.
+- Mark comparisons that cannot be completed `Unknown` rather than guessing the previous state.
 - Keep the fixed vocabularies. Describe direction with plain words such as `New`, `Closed`,
   `Up`, `Down`, or `Unchanged`, not new status markers.
 - For multi-project reports, produce the comparison in the combined Changes Since Previous

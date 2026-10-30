@@ -116,18 +116,18 @@ A numeric dimension score publishes only when both hold:
 - At least one resolved criterion rests on `INSPECTED`, `STATICALLY_DERIVED`, `EXECUTED`, or
   `MEASURED` evidence - a dimension resolved on `DECLARED` material alone is not scored.
 
-A dimension that fails the gate renders `UNKNOWN` with the missing coverage named. It never
+A dimension that fails the gate renders `Unknown` with the missing coverage named. It never
 publishes a numeric score on thin evidence, and `NOT_APPLICABLE` criteria never count toward
 either side of the gate.
 
 Apply these caps unless a stronger project-specific rule is explicitly stated:
 
-- An unresolved `CRITICAL` finding caps its affected dimension at `3/10`.
-- An unresolved `HIGH` finding caps its affected dimension at `5/10`.
+- An unresolved `Critical` finding caps its affected dimension at `3/10`.
+- An unresolved `High` finding caps its affected dimension at `5/10`.
 - A dimension with only reported historical execution results cannot exceed `7/10` without
   current inspected evidence that supports the same capability.
 - A dimension with material unresolved unknowns cannot exceed `8/10`.
-- A dimension with no scoreable category evidence is `UNKNOWN`, not `1/10`.
+- A dimension with no scoreable category evidence is `Unknown`, not `1/10`.
 
 Convert caps proportionally for other numeric scales.
 
@@ -147,13 +147,13 @@ A documented or advertised capability that the code does not implement - a suppo
 that fails end to end, a stub behind an advertised feature, a builder image that cannot
 compile the code is a spec violation and a hard readiness gate.
 
-While such a gate stays open the readiness state is `NOT READY` or `PENDING EVIDENCE`
+While such a gate stays open the readiness state is `Not ready` or `Pending evidence`
 regardless of dimension scores, and its dimension is capped per the finding's severity.
 
-Severity starts at `MEDIUM`.
+Severity starts at `Medium`.
 
 An advertised core journey that fails end to end is at least
-`HIGH`.
+`High`.
 
 An overall mean never hides a broken advertised capability - every readiness statement and
 verdict names it explicitly.
@@ -162,7 +162,7 @@ verdict names it explicitly.
 
 Use the unweighted arithmetic mean of numeric dimension scores.
 
-Exclude `UNKNOWN` and `N/A` dimensions from the denominator.
+Exclude `Unknown` and `N/A` dimensions from the denominator.
 
 When the scale is ordinal - `5 stars`, `3 stars`, or a rubric whose levels are ordered
 labels rather than measured intervals - report the per-dimension distribution beside any
@@ -200,7 +200,7 @@ A high score with low confidence must remain visible as a high-uncertainty resul
 
 A low score with high confidence describes a strongly evidenced gap.
 
-Runtime claims require runtime evidence or a clearly labeled `REPORTED` artifact.
+Runtime claims require runtime evidence or a clearly labeled `Reported` artifact.
 
 Source inspection alone does not verify runtime behavior.
 
@@ -229,7 +229,7 @@ For a readiness or due-diligence audit, define the gates before the final summar
 
 At minimum, assess:
 
-- Applicable `CRITICAL` and `HIGH` findings.
+- Applicable `Critical` and `High` findings.
 - Advertised-workflow integrity: every documented capability traces to working implementation.
 - Required build, test, scan, recovery, and deployment evidence.
 - Confirmed verification ownership.
@@ -306,11 +306,11 @@ The Validation Record must confirm:
 - Every numeric score has supporting evidence and confidence.
 - Every dimension score recomputes from criterion mastery and frozen weights, and each stated
   interval equals the FAIL/PASS substitution bounds.
-- Every numeric dimension passed the eligibility gate, and gated dimensions render `UNKNOWN`
+- Every numeric dimension passed the eligibility gate, and gated dimensions render `Unknown`
   with their missing coverage named.
 - Every overall score reports its formula, denominator, rounding, and floor, and published only
   when more than half of the applicable dimensions scored.
-- `UNKNOWN` and `N/A` dimensions are excluded from the mean.
+- `Unknown` and `N/A` dimensions are excluded from the mean.
 - Blocking findings and readiness state agree.
 - Sign-off is pending when required ownership or closure evidence is missing.
 - Multi-project shared references are qualified.

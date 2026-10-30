@@ -37,19 +37,26 @@ different tree until proven otherwise.
 
 ## Git History
 
-| Measurement          | Method                                                                             |
-|----------------------|------------------------------------------------------------------------------------|
-| Commit count         | `git rev-list --count HEAD` total and `--no-merges` non-merge, report both         |
-| Author concentration | `git log --no-merges --format="%an"` grouped by name, share of the non-merge total |
-| Tag history          | `git tag` list                                                                     |
-| History span         | First and last commit dates                                                        |
-| Revert or fix pairs  | Commit subjects and file stats from `git log` and `git show`                       |
-| Branch topology      | `git merge-base a b`, `git rev-list --count a..b`, `git diff --name-status a b`    |
-| Ref-only tree census | `git ls-tree -r --name-only <ref>`, `git show <ref>:<path>` - no checkout needed   |
+| Measurement            | Method                                                                                        |
+|------------------------|-----------------------------------------------------------------------------------------------|
+| Commit count           | `git rev-list --count HEAD` total and `--no-merges` non-merge, report both                    |
+| Author concentration   | `git log --no-merges --format="%an"` grouped by name, share of the non-merge total            |
+| Tag history            | `git tag` list                                                                                |
+| History span           | First and last commit dates                                                                   |
+| Revert or fix pairs    | Commit subjects and file stats from `git log` and `git show`                                  |
+| Branch topology        | `git merge-base a b`, `git rev-list --count a..b`, `git diff --name-status a b`               |
+| Ref-only tree census   | `git ls-tree -r --name-only <ref>`, `git show <ref>:<path>` - no checkout needed              |
+| Commit-subject quality | `git log --format="%s"` - share of subjects under a stated word threshold, name the threshold |
+| Commit-size outliers   | `git log --name-only` or `git show --shortstat` - files per commit, report the top entries    |
+| Branch divergence      | `git rev-list --count a..b` and `b..a` ahead/behind, plus the last-commit date per branch     |
+| Merge-noise share      | `git log --format="%s"` - share of self-merge subjects such as `merge remote-tracking`        |
 
 Author concentration uses the non-merge denominator.
 
 State which count a figure uses wherever it appears, the total includes merges.
+
+The subject-quality, commit-size, divergence, and merge-noise censuses feed the History
+Hygiene block in `references/delivery-practice.md`.
 
 ## Conditional Directives
 

@@ -54,6 +54,9 @@ https://docs.npmjs.com/cli/v11/commands/npm-audit).
   drowning the production signal.
 - `npm publish --provenance` emits a Sigstore attestation tying the artifact to a public repo
   and workflow. Its absence is at most an observation.
+- Install flags that force resolution - `--legacy-peer-deps`, `--force` - mask dependency
+  conflicts rather than resolving them. Their presence in CI, docs, or `.npmrc` is a
+  finding class, and the masked peer-range conflict is the thing to cite.
 
 ## Node.js Security Baseline
 

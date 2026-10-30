@@ -42,23 +42,28 @@ Render one row per canonical type whose status is not `NOT APPLICABLE`.
 The default status applies unless the audit's evidence or the subject justifies a different one,
 and the Rationale column always states why.
 
-| Report type                           | Answered by                                                        | Default status |
-|---------------------------------------|--------------------------------------------------------------------|----------------|
-| Software Architecture Review          | Architectural Assessment, Structure Review, Trade-off Analysis     | COVERED        |
-| Code Quality Audit                    | Code Quality pillar findings, Technical Debt Register              | COVERED        |
-| Security Vulnerability Assessment     | Security pillar findings, Threat Model, CWE mappings               | COVERED        |
-| Open Source License Compliance | License Compliance, SBOM license pass                       | COVERED        |
-| Penetration Test                      | Nothing equivalent, Exploitability Narratives are theoretical only | NOT DONE       |
-| Performance Audit                     | NFR review of stated targets and design, no load measurement       | PARTIALLY      |
-| Cloud Infrastructure Audit            | Deployment and IaC inspection, no live environment state           | PARTIALLY      |
-| AI Governance Audit                   | AI System Assessment when applicable                               | COVERED or N/A |
-| Technical Due Diligence               | Engineering dimensions plus Delivery Practice & Team Continuity    | PARTIALLY      |
-| SBOM / Software Composition Analysis  | Software Bill of Materials section, manifest-derived               | COVERED        |
-| ISO/IEC 27001 Certification           | Standard used as a scoring rubric only                             | NOT DONE       |
-| SOC 2 Attestation Examination         | Framework used as a coverage checklist only                        | NOT DONE       |
+| Report type                          | Answered by                                                        | Default status |
+|--------------------------------------|--------------------------------------------------------------------|----------------|
+| Software Architecture Review         | Architectural Assessment, Structure Review, Trade-off Analysis     | COVERED        |
+| Code Quality Audit                   | Code Quality pillar findings, Technical Debt Register              | COVERED        |
+| Security Vulnerability Assessment    | Security pillar findings, Threat Model, CWE mappings               | COVERED        |
+| Open Source License Compliance       | License Compliance, SBOM license pass                              | COVERED        |
+| Penetration Test                     | Nothing equivalent, Exploitability Narratives are theoretical only | NOT DONE       |
+| Performance Audit                    | NFR review of stated targets and design, no load measurement       | PARTIALLY      |
+| Cloud Infrastructure Audit           | Deployment and IaC inspection, no live environment state           | PARTIALLY      |
+| AI Governance Audit                  | AI System Assessment when applicable                               | COVERED or N/A |
+| Technical Due Diligence              | Engineering dimensions plus Delivery Practice & Team Continuity    | PARTIALLY      |
+| SBOM / Software Composition Analysis | Software Bill of Materials section, manifest-derived               | COVERED        |
+| Requirements Conformance Review      | Requirements Conformance when a requirements document exists       | COVERED or N/A |
+| ISO/IEC 27001 Certification          | Standard used as a scoring rubric only                             | NOT DONE       |
+| SOC 2 Attestation Examination        | Framework used as a coverage checklist only                        | NOT DONE       |
 
 The AI Governance Audit row takes `COVERED` when the AI System Assessment applies per
 `assessment/ai-system.md`, and is omitted when it does not.
+
+The Requirements Conformance Review row takes `COVERED` when the subject carries a
+requirements or acceptance-criteria document per `assessment/requirements-conformance.md`,
+and is omitted when it does not.
 
 ## Per-Type Rationale
 
@@ -124,6 +129,13 @@ question.
 
 It is not a shipped-artifact SBOM and performs no advisory-database lookups,
 per `references/sbom-schema.md`.
+
+**Requirements Conformance Review.** When the subject declares product requirements or
+acceptance criteria, the Requirements Conformance section grades each stated requirement
+against code and configuration evidence.
+
+When no requirements document exists the row is omitted, and assurance beyond the declared
+spec stays outside scope.
 
 **ISO/IEC 27001 Certification.** The standard's requirements are used as a scoring rubric
 and coverage checklist.
