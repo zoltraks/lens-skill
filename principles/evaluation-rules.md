@@ -21,17 +21,17 @@ If a finding cannot satisfy these rules, mark it as unknown rather than guessing
 |-------------------------------------|------|---------------------------------------|
 | Evidence-Based Reasoning            | 36   | Traceability and missing-info tokens  |
 | Evidence Strength And Claim Control | 53   | Evidence bases, types, confidence     |
-| No Assumptions                      | 241  | The no-assumption rule                |
-| No Personal Judgement               | 255  | Neutrality toward people              |
-| Architectural Neutrality            | 269  | Judging within stated constraints     |
-| Status Markers                      | 282  | PASS, PARTIAL, FAIL, UNKNOWN, N/A     |
-| Contextual Applicability            | 301  | N/A usage for inapplicable categories |
-| Absent Capability Assessment        | 330  | Intentional-versus-oversight tokens   |
-| Evidence Citation                   | 370  | Anchoring claims to sources           |
-| Confidence And Scope Limits         | 381  | Confidence and scope boundaries       |
-| Information Security And Redaction  | 392  | Secret handling rules                 |
-| Indexing And Traceability           | 417  | ID schemes and ordering               |
-| Critical Constraints                | 489  | Non-negotiable hard limits            |
+| No Assumptions                      | 252  | The no-assumption rule                |
+| No Personal Judgement               | 266  | Neutrality toward people              |
+| Architectural Neutrality            | 280  | Judging within stated constraints     |
+| Status Markers                      | 293  | PASS, PARTIAL, FAIL, UNKNOWN, N/A     |
+| Contextual Applicability            | 312  | N/A usage for inapplicable categories |
+| Absent Capability Assessment        | 341  | Intentional-versus-oversight tokens   |
+| Evidence Citation                   | 381  | Anchoring claims to sources           |
+| Confidence And Scope Limits         | 392  | Confidence and scope boundaries       |
+| Information Security And Redaction  | 403  | Secret handling rules                 |
+| Indexing And Traceability           | 428  | ID schemes and ordering               |
+| Critical Constraints                | 500  | Non-negotiable hard limits            |
 
 ## Evidence-Based Reasoning
 
@@ -202,6 +202,17 @@ demonstrably establishes.
 | No unsafe code exists             | Which memory, logic, resource, authorization, and native-dependency risks remain? |
 | Documentation is extensive        | Is it current, internally consistent, and accurate about implementation and       |
 |                                   | verification?                                                                     |
+| Pagination exists                 | Are page size and depth bounded, and what do out-of-range values return - a       |
+|                                   | typed 4xx or an unhandled 500?                                                    |
+| Central error handler exists      | Which exception families escape to the transport boundary unmapped, and do        |
+|                                   | response bodies leak internals or paths?                                          |
+| Multiple credential types exist   | Can each type be replayed at an endpoint expecting a different type - is the      |
+|                                   | type claim enforced?                                                              |
+| Role separation exists            | Does a lower-privileged role reach equivalent capability through a sibling        |
+|                                   | operation such as preview versus download?                                        |
+| Audit aspect exists               | Can audit emission fail silently, does the record hold before and after state,    |
+|                                   | and is automated client noise distinguishable from deliberate actions?            |
+| Configuration flags exist         | Are the flag values wired and honored, or injected and never consulted?           |
 
 For every negative claim, actively inspect mitigating controls and competing explanations.
 

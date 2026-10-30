@@ -69,6 +69,28 @@ request legal confirmation instead of claiming either compliance or noncomplianc
 
 Keep licensing assessment applicable even when personal-data controls are `N/A`.
 
+## Audit-Trail Quality
+
+Enumeration alone does not establish auditability - assess the trail's quality on the
+instrumented operations it does cover.
+
+- **Write reliability**: trace what happens when audit emission itself fails. An audit
+  write that can fail silently - a swallowed handler exception, a snapshot built outside
+  the transaction that produced it - lets the business operation succeed unrecorded, which
+  is worse than no trail because the gap is invisible.
+- **State captured**: a mutation record must let a reader reconstruct what changed - the
+  state before and after, or the old and new values. A record holding only the prior
+  snapshot, or only the action name, cannot answer "from where to where".
+- **Signal versus noise**: distinguish deliberate actor operations from automated traffic
+  the client generates - prefetches, hover lookups, polling. A trail that cannot separate
+  them makes real events unfindable.
+- **Attribution integrity**: attribution fields (principal, source address) count only
+  from trusted sources - the proxy-header rule in `assessment/security-review.md`.
+- **Store properties**: the audit store's own retention, append-integrity, and protection
+  from the actors it records - a trail editable by the audited administrator, or living in
+  the same writable store as production data with no archival path, has bounded
+  accountability value.
+
 ## Status Criteria
 
 - `PASS`: Applicable obligations are identified and matching controls are present, with evidence.

@@ -42,6 +42,11 @@ category hunts concrete defects in the shipped surface itself.
 | Termination APIs             | Thread-kill or forced-abort calls unavailable on declared targets       |
 | Dispose-while-in-use         | Resources nulled or disposed while other members still reference them   |
 | Undisposed resources         | Handles, streams, and subscriptions never released on an exit path      |
+| Overwrite-primitive misuse   | `move`/`rename`/`copy` calls whose replace-existing behavior differs    |
+|                              | across platforms, beside a dead `AlreadyExists` guard or catch          |
+| Write-before-commit ordering | Side-effecting file or store writes inside a transaction that can roll  |
+|                              | back, leaving the durable side ahead of the record                      |
+| Dead catch branches          | Exception handlers for types the guarded block cannot raise             |
 
 ## Defect-Pattern Census
 

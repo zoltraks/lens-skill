@@ -21,6 +21,13 @@ here the focus is the code-level handling of failures.
   internals.
 - Bulk iteration: whether per-item failures stay isolated inside batch loops, directory
   walks, and stream processing - enumerate each iteration and its failure contract.
+- Error contract: whether each exception family reaching the transport boundary maps to a
+  correct distinct outcome - a catch-all handler that answers every client error with 500 is
+  a finding, and so is a response body carrying raw exception messages, absolute paths, or
+  engine error text.
+- Multi-resource failure: whether an operation mutating more than one non-transactional
+  resource compensates or reconciles when a later write fails, per the ordering rules in
+  `references/topics/data-persistence.md`.
 
 ## Evidence To Look For
 
@@ -32,6 +39,7 @@ here the focus is the code-level handling of failures.
 | User messaging     | Error responses, status codes, message templates |
 | Leak prevention    | Stack traces or internals hidden from users      |
 | Per-item isolation | Failure handling inside batch and walk loops     |
+| Error contract     | Status mapping per exception family, body fields |
 
 ## Status Criteria
 

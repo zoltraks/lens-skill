@@ -76,6 +76,17 @@ It never produces a finding by itself.
 | `automation`    | Read-path purity (no invoke/click/focus outside explicit opt-in). Warning coverage on every tolerated side effect. Bounded enumeration and polling. Live-target calibration evidence. Session and integrity-level boundaries |
 | `unclassified`  | Closest profile's probes plus an explicit Scope Exclusions note                                                                                                                                                              |
 
+Extended probe sets by nature:
+
+- `service` adds pagination bounds and the public auth-surface abuse verdict - rate
+  limiting, lockout, enumeration oracle - per `assessment/security-review.md`.
+- `pipeline` adds multi-resource mutation ordering per
+  `references/topics/data-persistence.md`.
+- `frontend` adds client-storage residue after logout, the accessibility census per
+  `references/topics/accessibility-baseline.md`, the DOM-sink census per
+  `references/topics/frontend-security.md`, and the dead-feature and frontend-backend
+  agreement checks per `assessment/frontend-review.md`.
+
 ## Cross-Cutting Probes
 
 Every nature also activates these probes:

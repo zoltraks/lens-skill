@@ -20,7 +20,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.5.7"
+  version: "2.5.8"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -41,15 +41,15 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 | Parameter Configuration | 137  | Defaults and user-controlled report shape          |
 | Principles              | 144  | Evaluation and output rules                        |
 | Process                 | 150  | Workflow, format, and parity                       |
-| Assessments             | 184  | Core and conditional assessment guides             |
-| Synthesis               | 190  | Findings, risk, score, and remediation assembly    |
-| Translations            | 202  | Per-language report translations                   |
-| References              | 211  | Lookup tables                                      |
-| Scripts                 | 235  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 257  | Behavioral regression prompts                      |
-| Repository Files        | 261  | Housekeeping files governing this repository       |
-| Evidence Contract       | 273  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 303  | File-selection and section-placement rules         |
+| Assessments             | 189  | Core and conditional assessment guides             |
+| Synthesis               | 195  | Findings, risk, score, and remediation assembly    |
+| Translations            | 207  | Per-language report translations                   |
+| References              | 216  | Lookup tables                                      |
+| Scripts                 | 240  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 262  | Behavioral regression prompts                      |
+| Repository Files        | 266  | Housekeeping files governing this repository       |
+| Evidence Contract       | 278  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 308  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 

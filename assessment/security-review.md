@@ -14,6 +14,22 @@ Assess only what the input shows.
 
 Do not perform credential harvesting or offensive actions, this is a defensive review.
 
+## Contents
+
+| Section                                  | Line | What it covers                                    |
+|------------------------------------------|------|---------------------------------------------------|
+| What To Evaluate                         | 33   | Assessment dimensions                             |
+| Evidence To Look For                     | 41   | Signal locations                                  |
+| Control Verification                     | 52   | End-to-end tracing, scope and trust checks        |
+| Weakness And Vulnerability Classification| 187  | CWE and CVSS mapping                              |
+| Analyzer Cross-Reference                 | 234  | Static-analyzer rule equivalents                  |
+| Exploitability Narrative                 | 256  | Attack-path reasoning                             |
+| Standards Coverage                       | 271  | OWASP and ASVS baselines                          |
+| Tool Corroboration                       | 300  | Scanner corroboration rules                       |
+| Status Criteria                          | 322  | PASS/PARTIAL/FAIL/UNKNOWN                         |
+| Common Risks                             | 330  | Recurring risk patterns                           |
+| What Raises Confidence                   | 338  | Positive signals                                  |
+
 ## What To Evaluate
 
 - Authentication: how identity is established and protected.
@@ -77,6 +93,49 @@ Issuance and verification alone do not establish lifecycle completeness.
 
 A missing
 revocation or expiry path is a finding of absence with the searched hops cited.
+
+**Credential-type separation**
+
+When the system issues more than one credential type - access and refresh tokens,
+single-use codes, API keys - verify each type is accepted only at its intended endpoint.
+
+A refresh token that satisfies the access-token filter, or any signed token accepted as
+proof of a different grant, is a finding.
+
+Check the claims that distinguish the types (`typ`, `aud`, `scope`, custom claims) and
+whether the filter and the refresh or exchange endpoint each enforce them.
+
+**Public auth-surface abuse**
+
+Public authentication endpoints - login, token, registration, reset - get an abuse verdict:
+rate limiting, lockout, backoff, or captcha, and whether failed and successful attempts
+reach the audit trail.
+
+Distinguishable failure responses - "account disabled" versus "invalid credentials",
+differing statuses or timings for existing and nonexistent principals - are an
+enumeration-oracle finding.
+
+**Bounds and exposure of request parameters**
+
+Every caller-controlled parameter that sizes a response gets a bounds verdict: `size`,
+`page`, `limit`, `depth`, file-size, and count parameters carry an upper bound and a
+defined out-of-range behavior, not a 500 from a parse or allocation error.
+
+An unbounded page size is an unrestricted-resource-consumption finding (OWASP API4:2023).
+
+**Cross-origin and header trust**
+
+A credentialed cross-origin policy combined with a wildcard origin is a finding - the
+pair lets any origin read authenticated responses.
+
+An injected but unused allowlist is configuration drift, not a control.
+
+Client-attribution headers such as `X-Forwarded-For` or `X-Real-IP` count only behind a
+trusted proxy - the unattributed-IP rule in the scope and trust-boundary checks above.
+
+A response body that exposes raw exception messages, absolute filesystem paths, or engine
+error text is a data-exposure finding - the error-contract mapping rule lives in
+`assessment/error-handling.md`.
 
 Do not assert that process arguments or environment variables are readable by every user on every
 OS.

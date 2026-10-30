@@ -34,7 +34,7 @@ The description the mode waits for names what to change or adjust - a rule, a
 procedure, a script, a type file, a registration.
 
 The target is this repository's own files, edited under `docs/MAINTENANCE.md`
-and `docs/STYLE.md` through `process/skill-maintenance.md`.
+and `docs/STYLE.md` through the maintenance path those documents define.
 
 ## What Does Not Apply
 

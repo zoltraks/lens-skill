@@ -20,11 +20,11 @@ defined in `process/report-format/hunt-style.md` and `process/report-format/revi
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 2165 | Intake Checklist guidance        |
-| Handling Thin Input     | 2190 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 2204 | Single-Dimension Audits guidance |
-| Re-Audit                | 2218 | Re-Audit guidance                |
-| Multi-Project Audits    | 2284 | Multi-Project Audits guidance    |
+| Intake Checklist        | 2206 | Intake Checklist guidance        |
+| Handling Thin Input     | 2231 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 2245 | Single-Dimension Audits guidance |
+| Re-Audit                | 2259 | Re-Audit guidance                |
+| Multi-Project Audits    | 2325 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -1274,6 +1274,21 @@ producer and consumer hops and record conforming and failing hops.
 
 Advertised workflows come from the documentation and the profile, not only from observed code.
 
+**Per-entry-point operation matrix**
+
+Enumerate every externally reachable operation - routes, message consumers, scheduled and
+background jobs, and public tool or command surfaces - from registration sites, per the
+dispatch enumeration recipe in `references/topics/evidence-recipes.md`.
+
+Record one operation row per entry point carrying four verdicts: the authorization verdict
+(principal and scope required, or unauthenticated), the input-to-sink trace for each
+caller-controlled value, the bounds verdict (size, rate, and pagination limits and their
+out-of-range behavior), and the error-contract verdict (status mapping and what the body
+exposes).
+
+The matrix lands in the model's `evidence[]` and findings cite its rows - a finding that names
+one endpoint without the matrix behind it rests on an anecdote, not a census.
+
 **Advertised-capability reality check**
 
 For every capability the subject's documentation advertises, confirm a non-trivial
@@ -1388,6 +1403,32 @@ Nothing collected is silently unused.
 Also record the read depth of each source file - full read, sampled, or listed only - so the
 Auditing Methodology section can publish the read-depth table per
 `process/report-format/methodology-scoring.md`.
+
+**Read-depth floor**
+
+A file that an activated probe, an applicable assessment check, or a declared criterion method
+touches must be read in full.
+
+`Sampled` is permitted only on files no activated check reaches, and `Listed` only for
+inventory rows whose contents no judgment needs.
+
+Every non-full-read area named in the read-depth table carries a recorded justification, and
+the Auditing Methodology section discloses it.
+
+**Check-execution reconciliation**
+
+Before leaving Evidence Gathering, reconcile three frozen denominators: every probe activated
+by the domain profile, every applicable check named in the loaded assessment files, and every
+criterion's declared `method`.
+
+Each must produce at least one `evidence[]` row, or a recorded `NOT ASSESSED` or
+`inapplicable` entry in `audit-model.json` with its reason.
+
+An unreconciled denominator - a probe or check that produced neither evidence nor a recorded
+skip - is unfinished work, and the consistency gate in `process/report-parity.md` fails on it.
+
+A check that ran and found nothing adverse is still evidence: record the clean row so the
+reader can tell "checked" from "not looked at".
 
 **Shared evidence capture (`work/audit-model.json`)**
 

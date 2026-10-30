@@ -134,6 +134,17 @@ current-implementation excerpt before proposing correction: an excerpt that drif
 documentation defect, while a normative requirement the code violates is an implementation
 defect.
 
+## Duplicate-Document Drift
+
+When two documents carry the same name or the same purpose in different locations, diff
+their content.
+
+Divergent copies are a finding naming both paths - a reader cannot tell which describes the
+system, and the pair usually means one copy stopped tracking the code.
+
+Record which copy - if either - matches the implementation, and treat marked-stale or
+archival copies as an observation rather than a defect.
+
 ## Agent-Facing Documentation
 
 Agent-facing guidance documents are assessed elsewhere and cross-referenced here, not

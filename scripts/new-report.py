@@ -133,7 +133,7 @@ REC_BLOCK = """### {rec_id}: <recommendation title>{suffix}
 
 PAR_ROWS = [
     f"| PAR-{number} | <result> | <evidence or `N/A` justification> |\n"
-    for number in range(1, 28)
+    for number in range(1, 31)
 ]
 
 

@@ -29,11 +29,11 @@
 | Report Format                      | 448  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 485  | Supported requests and exclusions                   |
 | What's Inside                      | 509  | Documents, references, tools, and conditional files |
-| Document Style                     | 677  | Pointer to the style rules file                     |
-| Specification                      | 687  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 708  | Maintenance checks and regression scenarios         |
-| License                            | 736  | License for the skill itself                        |
-| Credits                            | 742  | Authorship and attribution                          |
+| Document Style                     | 681  | Pointer to the style rules file                     |
+| Specification                      | 691  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 712  | Maintenance checks and regression scenarios         |
+| License                            | 740  | License for the skill itself                        |
+| Credits                            | 746  | Authorship and attribution                          |
 
 ## Overview
 
@@ -580,6 +580,7 @@ lens-skill/
 │   ├── compliance-review.md               # Data protection, privacy, regulatory scope, licensing, audit trail
 │   ├── observability-review.md            # Logging, metrics, tracing, alerting
 │   ├── error-handling.md                  # Exceptions, retries, fallbacks, user-facing errors
+│   ├── frontend-review.md                 # Client injection, storage residue, a11y, dead features
 │   ├── operational-readiness.md           # Runbooks, on-call, capacity, backups, incident response
 │   ├── generated-code.md                  # Explicit provenance, generated-artifact validation, SDLC evidence
 │   ├── ai-system.md                       # (conditional) AI lifecycle, evaluation, safety, and provenance

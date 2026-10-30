@@ -242,14 +242,14 @@ class TestValidateReport(unittest.TestCase):
         self.assertTrue(any("no Criteria table" in f for f in failures))
         self.assertEqual(self.validator.check_criterion_references(lines, "hunt"), [])
 
-    def test_par_bound_is_twenty_seven(self):
-        rows = "".join(f"| PAR-{n} | Pass | x |\n" for n in range(1, 28))
+    def test_par_bound_is_thirty(self):
+        rows = "".join(f"| PAR-{n} | Pass | x |\n" for n in range(1, 31))
         self.assertEqual(self.validator.check_par_rows(rows), [])
-        missing_27 = "".join(f"| PAR-{n} | Pass | x |\n" for n in range(1, 27))
-        self.assertTrue(any("PAR-27" in f for f in self.validator.check_par_rows(missing_27)))
+        missing_30 = "".join(f"| PAR-{n} | Pass | x |\n" for n in range(1, 30))
+        self.assertTrue(any("PAR-30" in f for f in self.validator.check_par_rows(missing_30)))
 
     def test_par_result_cells_render_check_vocabulary(self):
-        rows = "".join(f"| PAR-{n} | Pass | x |\n" for n in range(1, 28))
+        rows = "".join(f"| PAR-{n} | Pass | x |\n" for n in range(1, 31))
         bad = rows.replace("| PAR-3 | Pass |", "| PAR-3 | PASS |").replace(
             "| PAR-9 | Pass |", "| PAR-9 | Skipped |"
         )
@@ -463,9 +463,9 @@ class TestNewReport(unittest.TestCase):
     def setUp(self):
         self.generator = load_script("new-report.py")
 
-    def test_par_rows_cover_twenty_seven(self):
-        self.assertEqual(len(self.generator.PAR_ROWS), 27)
-        self.assertIn("PAR-27", self.generator.PAR_ROWS[-1])
+    def test_par_rows_cover_thirty(self):
+        self.assertEqual(len(self.generator.PAR_ROWS), 30)
+        self.assertIn("PAR-30", self.generator.PAR_ROWS[-1])
 
     def test_references_scaffold(self):
         for skeleton in (

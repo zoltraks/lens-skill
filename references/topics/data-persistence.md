@@ -86,6 +86,40 @@ From https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Che
   that blocks a re-create is a decision, not an accident - the checkable question is
   whether the semantics were chosen, not which answer the code gives.
 
+## Multi-Resource Mutation Ordering
+
+- When one logical operation mutates two or more resources that share no transaction -
+  a database row plus a filesystem file, two stores, a record plus a queue entry -
+  record the write order, the crash window between the writes, and the compensation
+  path on failure of the second write.
+- A commit-then-write order leaves the record pointing at a missing object, and a
+  write-then-commit order leaves an orphan object the next run may treat as an error
+  or a duplicate - either order is a finding unless a documented reconciliation path
+  exists.
+- Record the overwrite semantics of the primitive the code calls: platform `move`,
+  `rename`, and `copy` operations differ on whether an existing destination is
+  replaced, so a `FileAlreadyExistsException`-style guard or catch may be dead code on
+  platforms where the call silently overwrites - losing data without an error.
+- The operation's identity needs a uniqueness constraint the datastore enforces - a
+  check-then-insert read is a race window, and a constraint that treats `NULL` keys as
+  distinct silently permits the duplicates it was meant to block.
+- A consistency-repair path - periodic reconciliation of records against objects,
+  orphan detection, idempotent retry - is the compensating control that makes an
+  ordering choice survivable, and its absence raises severity.
+
+## Schema And Identity Adequacy
+
+- Index coverage is assessed against observed query patterns, not declarations: every
+  query shape found in the code - filtered sort, join key, duplicate check, ordered
+  status read - gets an index verdict, and a hot-path query on an unindexed column is
+  a finding.
+- Identity and dedup keys carry a collision-adequacy verdict: a weakened or
+  collision-prone digest such as MD5 used as a uniqueness key admits planted
+  collisions, where a second preimage defeats the dedup guarantee.
+- Column bounds and types stay portable across the declared target engines - a DDL
+  dialect specific to the development engine and a column too short for real
+  upstream values are both findings.
+
 ## Live Check
 
 When web fetch is available, spot-check one pragma or session-setting default against the

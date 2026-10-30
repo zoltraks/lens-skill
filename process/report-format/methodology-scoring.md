@@ -10,7 +10,7 @@
 | Section              | Line | What it covers                             |
 |----------------------|------|--------------------------------------------|
 | Auditing Methodology | 15   | Method, standards, criteria matrix, ledger |
-| Scoring Rubrics      | 298  | Score bands, grouping, ISO crosswalk       |
+| Scoring Rubrics      | 303  | Score bands, grouping, ISO crosswalk       |
 
 ## Auditing Methodology
 
@@ -162,6 +162,11 @@ Read-depth values: `Full read` (every file read), `Sampled` (named subset read, 
 rule stated), or `Listed` (counted but not read).
 
 A `Listed` area supports no conformance claim. Mark its categories `Unknown` where applicable.
+
+A `Sampled` or `Listed` row on an area an activated probe or applicable check touches needs a
+one-line justification under the table - the floor rule in `process/audit-workflow.md`
+requires full reads on those files, so a non-full depth there is a disclosed limitation, and
+its justification names why the check's target was nonetheless covered or why it was not.
 
 Group rows by module or directory so the table stays compact.
 

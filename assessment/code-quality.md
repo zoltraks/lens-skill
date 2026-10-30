@@ -92,6 +92,24 @@ the same sequence of operations under renamed identifiers still counts as duplic
 Flag candidate clusters explicitly, for example several hand-rolled codecs or parsers that share
 one shape, and record the files and extent of each cluster.
 
+## Dead-Code And Consistency Censuses
+
+Count the commented-out share: production files whose body is substantially dead block
+comments get a per-file line count and a project share with the denominator recorded - a
+meaningful share of commented-out code is a finding, and wholly commented-out source files
+are dead code regardless of intent.
+
+Census unused dependencies: every manifest or lockfile entry gets an import-or-reference
+verdict, and an entry nothing uses is a finding coordinated with
+`assessment/dependency-review.md`, which owns the advisories view.
+
+Census divergent implementations: two libraries or APIs serving one function - two logging
+facades, two serialization stacks, two HTTP clients - is a consistency finding naming both
+sides and the call-site split.
+
+Census dead client helpers: exported helpers, API modules, and store actions no call site
+reaches are dead code like any other.
+
 ## Status Criteria
 
 - `PASS`: Linting, formatting, and type checks are configured and strict, with low complexity and

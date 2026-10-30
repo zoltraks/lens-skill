@@ -13,10 +13,10 @@
 |-------------------------------|------|--------------------------------------|
 | Strengths & What's Working    | 21   | Evidence-based positive baselines    |
 | Technical Findings            | 59   | Finding summary and detail blocks    |
-| Technical Debt Register       | 398  | Distinct accumulated debt            |
-| Unified Risk Register         | 447  | Cross-referenced risks               |
-| Remediation Roadmap           | 544  | Prioritized recommendations          |
-| Recommendation Classification | 629  | Recommended/Optional/Not recommended |
+| Technical Debt Register       | 404  | Distinct accumulated debt            |
+| Unified Risk Register         | 453  | Cross-referenced risks               |
+| Remediation Roadmap           | 550  | Prioritized recommendations          |
+| Recommendation Classification | 635  | Recommended/Optional/Not recommended |
 
 ## Strengths & What's Working
 
@@ -76,6 +76,12 @@ The `(<project>)` heading suffix stays for clarity, per
 When multiple evidence passes surface the same defect - parallel scouts per
 `process/parallel-execution.md`, or overlapping criteria - the register carries one row
 with the merged evidence references, never a second finding under another pillar.
+
+Every confirmed distinct defect gets its own register entry.
+
+Merging is reserved for genuinely identical defects seen through different paths - a finding
+that covers a class of defects names every member of the class, and distinct mechanisms,
+locations, or consequences stay distinct findings.
 
 **Summary table:**
 

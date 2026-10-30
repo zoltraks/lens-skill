@@ -33,6 +33,8 @@ relevant file.
 - **`assessment/compliance-review.md`** - Data protection, privacy, regulatory scope, licensing.
 - **`assessment/observability-review.md`** - Logging, metrics, tracing, alerting.
 - **`assessment/error-handling.md`** - Exception strategy, retries, fallbacks, user-facing errors.
+- **`assessment/frontend-review.md`** - Client injection surface, storage residue,
+  accessibility, dead features, frontend-backend agreement.
 - **`assessment/operational-readiness.md`** - Runbooks, on-call, capacity, backups.
 - **`assessment/generated-code.md`** - Code provenance, generated-artifact validation.
 - **`assessment/copyright-review.md`** - Originality, license compliance, attribution.

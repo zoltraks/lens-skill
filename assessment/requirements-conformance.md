@@ -41,7 +41,9 @@ deliver it.
 
 - **Requirements inventory**: list the requirements and acceptance-criteria documents
   found in the subject, and enumerate every stated requirement and acceptance criterion
-  in them, each with its spec location.
+  in them, each with its spec location. The conformance table carries one row per stated
+  requirement - a row that merges several requirements into a theme is a summary, not a
+  grade, and the table's row count reconciles against the document's requirement count.
 - **Per-requirement grading**: evaluate each requirement against code and configuration
   evidence and grade it `Pass`, `Partial`, `Fail`, or `Unknown`.
 - **Unmet requirements**: every `Partial` or `Fail` requirement produces a `FND-XXX`
