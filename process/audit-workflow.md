@@ -20,11 +20,11 @@ defined in `process/report-format/hunt-style.md` and `process/report-format/revi
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 2206 | Intake Checklist guidance        |
-| Handling Thin Input     | 2231 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 2245 | Single-Dimension Audits guidance |
-| Re-Audit                | 2259 | Re-Audit guidance                |
-| Multi-Project Audits    | 2325 | Multi-Project Audits guidance    |
+| Intake Checklist        | 2228 | Intake Checklist guidance        |
+| Handling Thin Input     | 2253 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 2267 | Single-Dimension Audits guidance |
+| Re-Audit                | 2281 | Re-Audit guidance                |
+| Multi-Project Audits    | 2347 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -1738,6 +1738,28 @@ and the parity gate, then remove them before the completion message.
 
 Run the Pre-Delivery Mechanical Checklist and the formatting script on the assembled file, not
 on the parts.
+
+**Register-and-block reconciliation**
+
+After any emission path - part assembly, in-place edit, or chunked append - verify every
+`FND` row in each Technical Findings summary table pairs with exactly one `### FND-<id>:`
+block and the file ends on a complete line.
+
+A row without a block or a block without a row is truncated emission, not a valid report.
+
+**Forced-compression disclosure**
+
+When output constraints - context budget, write limits, tooling - force the report below the
+declared detail level or register layout, the Document Information table records the
+effective detail level and the Limitations section names the compressed element.
+
+A report silently smaller than its contract is a defect; the disclosure is the fix.
+
+**Inherited-ledger reconciliation**
+
+When a report extends, rebuilds, or derives from an existing report file, evidence
+references in added or carried content resolve to the report's one evidence ledger - remap
+numbering to the inherited `EVD` sequence instead of starting a second sequence.
 
 When the audit edits an existing report file instead of composing parts, for example on a
 re-audit that upgrades a prior revision, apply these mechanical-edit rules:

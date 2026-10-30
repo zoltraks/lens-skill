@@ -1037,7 +1037,7 @@ PAR_RESULTS = ("Applied", "Pass", "N/A")
 
 def check_par_rows(text: str) -> list[str]:
     failures: list[str] = []
-    for number in range(1, 31):
+    for number in range(1, 34):
         if not re.search(rf"^\|\s*PAR-{number}(?:\s|\||:)", text, re.MULTILINE):
             failures.append(f"missing Validation Record row PAR-{number}")
     for match in re.finditer(r"^\|\s*PAR-\d+\s*\|\s*([^|]*)\|", text, re.MULTILINE):
@@ -3210,7 +3210,7 @@ def main(path: str, repo_root: str | None = None) -> int:
                     ("security classifications", check_security_classification(lines)),
                     ("score disclosure", check_score_disclosure(lines)),
                     ("project qualification", check_project_qualification(text)),
-                    ("PAR-1..PAR-30", check_par_rows(text)),
+                    ("PAR-1..PAR-33", check_par_rows(text)),
                     ("recommendation classification", check_rec_classification(text)),
                     ("Observation/Concern tags", check_type_tags(lines, fences)),
                     ("snapshot identity", check_snapshot_identity(text)),
