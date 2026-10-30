@@ -20,7 +20,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.5.6"
+  version: "2.5.7"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -173,6 +173,11 @@ the parameter surfaces, defaults, resolution rules, and re-audit parameters live
   modes.
 - **`process/parameter-configuration.md`** - Parameter surfaces, defaults, and resolution rules.
 - **`process/parallel-execution.md`** - Delegated read-only scout model for large audit surfaces.
+- **`process/housekeeping.md`** - Self-repository upkeep: registration, coverage, workspace, validation.
+- **`process/self-healing.md`** - The evidence-gated self-repair loop for this skill.
+- **`process/development.md`** - Standby-for-specification mode for developing this skill.
+
+Timing is armed by default on every operation - `no timing` opts out for that request.
 - **`process/navigation-rules.md`** - File-selection and section-placement rules for every report.
 - **`process/report-parity.md`** - Mandatory core checklist and consistency gate.
 - **`process/readiness-scoring.md`** - Score aggregation, confidence, maturity, readiness gates.

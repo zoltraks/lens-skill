@@ -42,16 +42,16 @@ document and a text note, while the menus proceed.
 
 ## Emitted Document
 
-The document carries a `description`, context fields (`project`, `mode`, `date`, `time`), and an
+The document carries a `description`, context fields (`target`, `task`, `date`, `time`), and an
 `intake` array.
 
-- `project` - the audited subject or directory name.
-- `mode` - `audit`, `hunt`, or `review`, per the report style resolved at intake.
+- `target` - the audited subject or directory name.
+- `task` - `audit`, `hunt`, or `review`, per the report style resolved at intake.
 - `date` - the current day in `YYYY-MM-DD` format.
 - `time` - the local time in `hh:mm:ss` followed by the timezone offset, for example
   `13:45:21 GMT+2`.
 
-Each parameter object keeps a fixed key order: `id`, `question`, `answer`, `description`, `type`,
+Each parameter object keeps a fixed key order: `id`, `question`, `answer`, `description`, optional `when`, `type`,
 `menu`, `open`, `default` - the `default` key is always the last key of the object.
 
 - `id` - a stable kebab-case identifier for the parameter.
@@ -62,7 +62,9 @@ Each parameter object keeps a fixed key order: `id`, `question`, `answer`, `desc
 - `type` - `choice` for a single-option answer, `selection` when multiple options may be chosen,
   or `text` for free input.
 - `menu` - required for `choice` and `selection` types and omitted for `text`, letter-keyed (`A`,
-  `B`, `C`, ...), and the recommended option label carries "(recommended)".
+  `B`, `C`, ...), and the recommended option label carries "(recommended)". `Cancel - abort the
+  operation` is the last entry of every `choice` and `selection` menu, and
+  `Cancel` is never the `default`.
 - `open` - whether the answer is open to free text beyond the listed options.
 - `default` - the option letter or suggested text applied when the answer stays empty - for
   `selection`, the array of letters that are pre-checked.
@@ -74,8 +76,8 @@ defaults" semantics cover them.
 ```json
 {
     "description": "Intake parameters for <project>",
-    "project": "<name>",
-    "mode": "audit",
+    "target": "<name>",
+    "task": "audit",
     "date": "2026-09-30",
     "time": "13:45:21 GMT+2",
     "intake": [
@@ -152,7 +154,12 @@ when free input is appropriate.
 
 ## Returned Document
 
-The answering side returns a document keeping a `response` key - either an array of entry objects
+A returned JSON document answers the pending surfaces by `id`, in either of two
+forms.
+
+The first form is the emitted document itself with `answer` fields filled.
+
+The second form keeps a `response` key - either an array of entry objects
 or a condensed object keyed by parameter `id`.
 
 Each array entry requires only `id` and `answer` - an option letter for `choice`, an array of
@@ -239,3 +246,9 @@ automated decision is still recorded as answered through the exchange.
 
 Under an automated run per `process/audit-workflow.md` the pending surfaces are not emitted or
 asked at all - each resolves to its discovered or `default` answer directly.
+
+## What Does Not Apply
+
+- No parameter document emits while no question surface is pending.
+- The catalog is not a parameter surface - `process/operations-catalog.md`
+  answers inline and never emits JSON.

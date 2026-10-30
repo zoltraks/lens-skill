@@ -23,7 +23,8 @@ it through the run, including a re-audit.
 
 - `automated`, `autonomous`, `unattended`, `non-interactive`, `fully autonomous`, or
   "without asking" wording records the run as `automated` before any gate resolves.
-  Lens keeps a single no-questions tier - `fully autonomous` resolves to the same
+  The canonical name in shared text is `autonomous` - `automated` is this
+skill's recorded alias for the same tier. Lens keeps a single no-questions tier - `fully autonomous` resolves to the same
   `automated` mode, no stronger mode exists.
 - `verbose`, `informational`, `diagnostic`, and `timing` are reporting flags that
   change what the run emits, never what it decides or is permitted to do, per

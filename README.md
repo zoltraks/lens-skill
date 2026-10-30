@@ -528,6 +528,8 @@ lens-skill/
 │   ├── audit-workflow.md                  # Intake, scope, evidence, assessment, synthesis, validation
 │   ├── audit-model.md                     # Evidence-to-finding pipeline and canonical audit-model.json
 │   ├── decision-modes.md                  # Interaction-mode matrix: interactive and automated resolution
+│   ├── development.md                     # Standby-for-specification development mode
+│   ├── housekeeping.md                    # Self-repository upkeep routine
 │   ├── json-exchange.md                   # Machine-readable parameter documents for intake questions
 │   ├── navigation-rules.md                # File-selection and section-placement rules for every report
 │   ├── operation-timing.md                # Elapsed-time report for named operations
@@ -555,6 +557,7 @@ lens-skill/
 │   ├── report-parity.md                   # Audit parity checklist and consistency gate before final
 │   ├── readiness-scoring.md               # Deterministic scores, confidence, maturity, and readiness gates
 │   ├── run-state.md                       # Run-state artifact: phase and gate record, resume, reconciliation
+│   ├── self-healing.md                    # Evidence-gated self-repair loop for this skill
 │   ├── skill-activation.md                # Enable-mode intake, enablement response, and standby
 │   └── session-review.md                  # Session review: findings, approval gate, review modes
 ├── assessment/
