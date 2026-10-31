@@ -47,7 +47,8 @@ appear here: they are disclosed once in Scope Exclusions with their exclusion re
 A project name always renders as ``Project `<name>` `` - the `Project` label followed by
 the codename in a code span - never as a bare lowercase codename, in the Document Information
 `Projects` row, the Contents entries, the Project Inventory, per-project `##` headings, and
-every table cell naming a project.
+every table cell naming a project. In a Polish pair file the label translates like every
+section name - ``Projekt `<name>` `` with `](#projekt-<slug>)` link targets.
 
 Under the `separate` layout the link target is the project's `##` heading; under the
 `combined` layout it is the project's row in the shared registers.

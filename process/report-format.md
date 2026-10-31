@@ -39,12 +39,12 @@ A present-but-empty section signals a gap, a missing section hides it.
 | Section                                     | Line | What it covers                              |
 |---------------------------------------------|------|---------------------------------------------|
 | Formatting Rules                            | 49   | Formatting Rules guidance                   |
-| Report Delivery And Parameter Configuration | 367  | Report delivery and output configuration    |
-| Detail Level Configuration                  | 423  | Standard, detailed, and brief reports       |
-| Conditional Sections                        | 521  | Inclusion criteria for conditional sections |
-| Section Order                               | 581  | Single-project and multi-project order      |
-| Specification Files                         | 685  | Per-section specification file index        |
-| Pre-Delivery Mechanical Checklist           | 719  | Final mechanical checks                     |
+| Report Delivery And Parameter Configuration | 372  | Report delivery and output configuration    |
+| Detail Level Configuration                  | 428  | Standard, detailed, and brief reports       |
+| Conditional Sections                        | 526  | Inclusion criteria for conditional sections |
+| Section Order                               | 586  | Single-project and multi-project order      |
+| Specification Files                         | 690  | Per-section specification file index        |
+| Pre-Delivery Mechanical Checklist           | 724  | Final mechanical checks                     |
 
 ## Formatting Rules
 

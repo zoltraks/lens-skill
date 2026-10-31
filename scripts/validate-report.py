@@ -2703,7 +2703,7 @@ def check_frame_geometry(lines: list[str], fences: list[bool]) -> list[str]:
 
 def report_style(text: str) -> str:
     match = re.search(r"\|\s*Report Style\s*\|\s*([^|]+)", text)
-    return match.group(1).strip().lower() if match else "audit"
+    return match.group(1).strip().lower().split(" (")[0] if match else "audit"
 
 
 def evidence_mode(text: str) -> str:

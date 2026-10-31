@@ -70,7 +70,7 @@ BLOCK_LABELS = {
         "Weryfikacja", "Typ", "Bezpieczeństwo", "Obiekty", "Podstawa",
         "Kryterium", "Charakter odstępstwa", "Wpływ",
         "Zalecenie", "Metoda", "Zweryfikowane",
-        "Uruchomienie", "Łamanie kompatybilności",
+        "Uruchomienie", "Łamanie kompatybilności", "Scenariusz usterki",
         "Dotyczy", "Pewność oceny", "Czynniki łagodzące",
         "Wykorzystanie podatności", "Dowód", "Podstawa pochodzenia",
     },
@@ -201,7 +201,13 @@ def check_summary_titles(lines):
             )
             continue
         wanted = normalize(title)
-        if any(wanted in cells for _row_index, cells in candidates):
+        # the contract's `### ID: title (project)` heading carries the project
+        # suffix while the summary cell repeats the bare title - compare both
+        wanted_core = normalize(re.sub(r"\s*\([^)]+\)\s*$", "", title))
+        if any(
+            wanted in cells or wanted_core in cells
+            for _row_index, cells in candidates
+        ):
             continue
         row_index, _cells = candidates[0]
         failures.append(
