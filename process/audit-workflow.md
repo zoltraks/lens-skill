@@ -20,11 +20,11 @@ defined in `process/report-format/hunt-style.md` and `process/report-format/revi
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 2228 | Intake Checklist guidance        |
-| Handling Thin Input     | 2253 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 2267 | Single-Dimension Audits guidance |
-| Re-Audit                | 2281 | Re-Audit guidance                |
-| Multi-Project Audits    | 2347 | Multi-Project Audits guidance    |
+| Intake Checklist        | 2237 | Intake Checklist guidance        |
+| Handling Thin Input     | 2262 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 2276 | Single-Dimension Audits guidance |
+| Re-Audit                | 2290 | Re-Audit guidance                |
+| Multi-Project Audits    | 2356 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -96,6 +96,10 @@ such as a project glossary or design documents written in the report language,
 and record the established forms.
 
 They take precedence over the defaults in the matching `translations/` file.
+
+The audit itself is always performed and stored in English - evidence gathering, partial
+composition, and intermediate artifacts carry English, and the report language other than
+English is produced by translation of that English artifact, never by native drafting.
 
 When the report language is not English, also resolve the language output: by default the
 run ships a file pair - the canonical English report plus its single-pass translation,
@@ -2101,6 +2105,11 @@ Include the same value in the completion message to the user, for example `Time 
 The measured window spans loading the audit rule documents, evidence gathering, part
 composition, concatenation, formatting, and validation:
 an interrupted or re-done assembly does not reset the start timestamp.
+
+A context window nearing exhaustion never truncates or simplifies the audit process -
+the remaining work divides into further phases or tasks, transient state materializes in
+the working directory as `.tmp.` progress notes, ledgers, and partial artifacts, and
+independent phases spawn scout subagents that read their inputs from those files.
 
 On a re-audit, state in the same completion message that the baseline file is unchanged from
 the intake record.
