@@ -264,6 +264,21 @@ def fixup(text):
         r"\1Cost\2",
         text,
     )
+    # `Dotyczy` field values carry governed tokens that the phrase tables
+    # do not invert - restore the English applicability tokens the
+    # validator expects.
+    applicability_tokens = {
+        "warunkowe": "conditional",
+        "dotyczy": "applicable",
+        "nie dotyczy": "inapplicable",
+        "niezweryfikowane": "unverified",
+    }
+    text = re.sub(
+        r"(?m)^(\s*\*\s+\*\*Applicability:\*\*\s*)"
+        r"(warunkowe|dotyczy|nie dotyczy|niezweryfikowane)\b",
+        lambda m: m.group(1) + applicability_tokens[m.group(2)],
+        text,
+    )
     return text
 
 

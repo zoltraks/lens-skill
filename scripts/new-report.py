@@ -339,14 +339,14 @@ def audit_shared_tail(multi: bool) -> list[str]:
         heading(2, "Limitations and Unknowns"),
         "- <each check that would require execution and was not performed>\n\n",
         heading(2, "Validation Record"),
-        validation_record() + "\n",
+        validation_record(),
         heading(2, "References"),
         table(
             "| Reference | Publisher or Author | Used In |",
             "|---|---|---|",
             ["| <title> | <publisher or author> | <section names> |\n"],
         ),
-        "- [<title>](<url>)\n\n",
+        "- [<title>](<url>)\n",
     ]
     return parts
 
@@ -449,14 +449,14 @@ def hunt_skeleton(projects: list[str], params: dict) -> str:
         heading(2, "Limitations and Unknowns"),
         "- <each check that would require execution and was not performed>\n\n",
         heading(2, "Validation Record"),
-        validation_record() + "\n",
+        validation_record(),
         heading(2, "References"),
         table(
             "| Reference | Publisher or Author | Used In |",
             "|---|---|---|",
             ["| <title> | <publisher or author> | <section names> |\n"],
         ),
-        "- [<title>](<url>)\n\n",
+        "- [<title>](<url>)\n",
     ]
     return "".join(parts)
 
@@ -580,14 +580,14 @@ def review_skeleton(projects: list[str], params: dict) -> str:
         heading(2, "Limitations and Unknowns"),
         "- <each check that stayed NOT RUN and every unresolved unknown>\n\n",
         heading(2, "Validation Record"),
-        validation_record() + "\n",
+        validation_record(),
         heading(2, "References"),
         table(
             "| Reference | Publisher or Author | Used In |",
             "|---|---|---|",
             ["| <title> | <publisher or author> | <section names> |\n"],
         ),
-        "- [<title>](<url>)\n\n",
+        "- [<title>](<url>)\n",
     ]
     return "".join(parts)
 
@@ -644,7 +644,7 @@ def structure_review_skeleton(projects: list[str], params: dict) -> str:
             ["| <recommendation> | <Necessary, Meaningful, or Optional> |\n"],
         ),
         heading(2, "Limitations and Assumptions"),
-        "- <areas that could not be evaluated and assumptions the verdicts rest on>\n\n",
+        "- <areas that could not be evaluated and assumptions the verdicts rest on>\n",
     ]
     return "".join(parts)
 

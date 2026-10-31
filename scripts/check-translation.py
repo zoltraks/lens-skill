@@ -73,6 +73,7 @@ BLOCK_LABELS = {
         "Uruchomienie", "Łamanie kompatybilności", "Scenariusz usterki",
         "Dotyczy", "Pewność oceny", "Czynniki łagodzące",
         "Wykorzystanie podatności", "Dowód", "Podstawa pochodzenia",
+        "Poziom dowodu",
     },
     "RSK": {
         "Ryzyko", "Źródło", "Wpływ", "Zakres",

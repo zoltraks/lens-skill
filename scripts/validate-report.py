@@ -641,6 +641,21 @@ def check_risk_blocks(lines: list[str]) -> list[str]:
             src = re.search(FINDING_ID, source)
             if not src or src.group(0) not in fnd_blocks:
                 failures.append(f"{name}: Source does not name a defined finding")
+    # Summary rows must carry each block's title text so translation pairs
+    # can verify the register against its detail blocks. Glossary-link
+    # markup inside a cell is normalized away before comparing.
+    for start in starts:
+        ident, _, title = lines[start][4:].partition(":")
+        ident = ident.strip()
+        title = re.sub(r"\s*\(.*?\)\s*$", "", title.strip())
+        for line in lines:
+            if re.match(rf"^\|\s*\[{re.escape(ident)}\]", line):
+                plain = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", line)
+                if title not in plain:
+                    failures.append(
+                        f"{ident}: register row does not contain its block title"
+                    )
+                break
     return failures
 
 
@@ -2014,6 +2029,16 @@ def check_trailing(lines: list[str]) -> list[str]:
             failures.append(f"line {index + 1}: trailing whitespace")
             if len(failures) > 20:
                 break
+    previous_blank = False
+    for index, line in enumerate(lines):
+        if line.strip() == "":
+            if previous_blank:
+                failures.append(f"line {index + 1}: consecutive blank lines")
+            previous_blank = True
+        else:
+            previous_blank = False
+    if len(lines) > 2 and lines[-1] == "" and lines[-2] == "":
+        failures.append("file ends with a blank line")
     return failures
 
 
