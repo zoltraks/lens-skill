@@ -31,7 +31,7 @@ Information and before the Project Inventory.
 It lists each project confirmed at the intake inclusion question with its path, version,
 provenance, and a one-line description.
 
-The `Source` column carries the project's provenance: `In-tree` for a project inside the
+The `Source` column carries the project's provenance: `Tree` for a project inside the
 audited tree, `Submodule` for a git submodule member, `Embedded` for an unclassified nested
 repository.
 
@@ -41,7 +41,7 @@ appear here: they are disclosed once in Scope Exclusions with their exclusion re
 ```
 | Project                    | Path           | Version | Source     | Description            |
 |----------------------------|----------------|---------|------------|------------------------|
-| [Project `<name>`](#project-<slug>) | <project path> | <ver> | <In-tree> | <one-line description> |
+| [Project `<name>`](#project-<slug>) | <project path> | <ver> | <Tree> | <one-line description> |
 ```
 
 A project name always renders as ``Project `<name>` `` - the `Project` label followed by

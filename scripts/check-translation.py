@@ -567,15 +567,38 @@ def main():
         sibling_surface(sibling) if sibling else (None, None)
     )
 
-    failures = (
-        check_summary_titles(lines)
-        + check_prose_counts(lines, masked)
-        + check_block_labels(lines, en_labels)
-        + check_internal_anchors(lines, masked)
-        + check_untranslated_headings(lines, masked, keys, en_headings)
-        + check_field_values(lines, masked)
-        + check_tdd_token(lines, masked)
-    )
+    def collect(file_lines):
+        m = fenced_mask(file_lines)
+        return (
+            check_summary_titles(file_lines)
+            + check_prose_counts(file_lines, m)
+            + check_block_labels(file_lines, en_labels)
+            + check_internal_anchors(file_lines, m)
+            + check_untranslated_headings(file_lines, m, keys, en_headings)
+            + check_field_values(file_lines, m)
+            + check_tdd_token(file_lines, m)
+        )
+
+    failures = collect(lines)
+
+    def signature(item):
+        # a failure's stable key: register id + leading check words, so the
+        # same anomaly is matched across two files with different line numbers
+        _i, msg = item
+        ident = re.match(r"^((?:FND|RSK|REC|EVD|PAR|TDR|AIP)-[A-Z0-9-]+)", msg)
+        who = ident.group(1) if ident else re.sub(r"'[^']*'", "", msg)[:60]
+        kind = " ".join(re.sub(r"'[^']*'", "", msg).split()[:6])
+        return (who, kind)
+
+    if sibling:
+        en_lines = sibling.read_text(encoding="utf-8").splitlines()
+        inherited = {signature(x) for x in collect(en_lines)}
+        new_fails = [x for x in failures if signature(x) not in inherited]
+        note_fails = [x for x in failures if signature(x) in inherited]
+        for _i, msg in sorted(note_fails):
+            print(f"INHERITED line {_i + 1}: {msg[:80]}")
+        failures = new_fails
+
     warnings = check_sentence_length(lines, masked, args.max_words)
 
     for index, message in sorted(failures + warnings):

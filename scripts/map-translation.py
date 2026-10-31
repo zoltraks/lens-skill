@@ -187,6 +187,8 @@ def load_pairs(rules_path):
                     for polish, english in zipped:
                         if not polish or not english:
                             continue
+                        if polish.isdigit() or english.isdigit():
+                            continue
                         english = normalize_english(english)
                         if polish in pairs and pairs[polish] != english:
                             collisions.append((polish, pairs[polish], english))

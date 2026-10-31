@@ -41,10 +41,10 @@ A present-but-empty section signals a gap, a missing section hides it.
 | Formatting Rules                            | 49   | Formatting Rules guidance                   |
 | Report Delivery And Parameter Configuration | 372  | Report delivery and output configuration    |
 | Detail Level Configuration                  | 428  | Standard, detailed, and brief reports       |
-| Conditional Sections                        | 526  | Inclusion criteria for conditional sections |
-| Section Order                               | 586  | Single-project and multi-project order      |
-| Specification Files                         | 690  | Per-section specification file index        |
-| Pre-Delivery Mechanical Checklist           | 724  | Final mechanical checks                     |
+| Conditional Sections                        | 540  | Inclusion criteria for conditional sections |
+| Section Order                               | 600  | Single-project and multi-project order      |
+| Specification Files                         | 704  | Per-section specification file index        |
+| Pre-Delivery Mechanical Checklist           | 738  | Final mechanical checks                     |
 
 ## Formatting Rules
 
@@ -455,6 +455,20 @@ All twenty-two baseline sections are present in full, subject to explicit parame
 - Strengths & What's Working
 - Technical Findings (all findings with full Description, Impact, Recommendation, and
   Method)
+
+Every scaffolded field on a finding block is required output - `Method`,
+`Mitigating factors`, and `Defect scenario` are never dropped. `Method` carries
+the concrete check that confirms the finding; `Mitigating factors` lists what
+limits the exposure (`Brak` when none); `Defect scenario` carries the
+initial-conditions, steps, expected, observed, confirmation narrative.
+
+Every criterion identifier cited in a `* **Criteria:**` field appears as a row in
+the Auditing Methodology criteria table - citing an undeclared criterion is a
+defect.
+
+Every `FND-` identifier appears in the Remediation Roadmap or the finding block
+carries an explicit `Accepted - no action` disposition - an undisposed finding is
+a defect.
 - Unified Risk Register
 - Remediation Roadmap (full matrix with P1-P4, impact/effort/complexity, verification)
 - Scope Exclusions
