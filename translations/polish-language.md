@@ -123,6 +123,11 @@ hold byte-stable.
 The Polish surface is everything else: the title line, section prose, finding and risk bodies,
 table rationale and evidence cells, scope notes, and the verdict rationale.
 
+The ``Project `<name>` `` form applies identically in pair files - project codenames are
+identifiers, not prose, so `##` project headings, Contents entries, the `Projects` row, and
+project-naming cells keep the `Project` label plus the code-spanned name in both languages;
+only translated `Source` values such as `W drzewie`/`Osadzone` differ.
+
 `check-translation.py` accepts sibling-matching English headings and labels via `--en` or an
 auto-detected `-EN` sibling; `lint-polish.py` exempts the same surfaces on a pair file.
 

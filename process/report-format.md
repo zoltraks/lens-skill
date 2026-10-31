@@ -56,6 +56,11 @@ Paragraphs below the table provide the detailed evidence, risks, and reasoning.
 
 In tables, use shortened, general values.
 
+Every table cell's prose begins with a capital letter - `In-tree`, not `in-tree` - in
+header and body cells alike. Cells opening with a code span or link (an identifier,
+command, or path) keep their verbatim form; the capital-first rule covers prose starts,
+never identifier casing.
+
 One or two words per cell.
 
 Do not crowd table cells with long explanations.

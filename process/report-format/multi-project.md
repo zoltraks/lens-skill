@@ -31,8 +31,8 @@ Information and before the Project Inventory.
 It lists each project confirmed at the intake inclusion question with its path, version,
 provenance, and a one-line description.
 
-The `Source` column carries the project's provenance: `in-tree` for a project inside the
-audited tree, `submodule` for a git submodule member, `embedded` for an unclassified nested
+The `Source` column carries the project's provenance: `In-tree` for a project inside the
+audited tree, `Submodule` for a git submodule member, `Embedded` for an unclassified nested
 repository.
 
 Projects the user unchecked, or that intake classified as installed or `not fetched`, do not
@@ -41,8 +41,13 @@ appear here: they are disclosed once in Scope Exclusions with their exclusion re
 ```
 | Project                    | Path           | Version | Source     | Description            |
 |----------------------------|----------------|---------|------------|------------------------|
-| [<project name>](#<slug>)  | <project path> | <ver>   | <in-tree>  | <one-line description> |
+| [Project `<name>`](#project-<slug>) | <project path> | <ver> | <In-tree> | <one-line description> |
 ```
+
+A project name always renders as ``Project `<name>` `` - the `Project` label followed by
+the codename in a code span - never as a bare lowercase codename, in the Document Information
+`Projects` row, the Contents entries, the Project Inventory, per-project `##` headings, and
+every table cell naming a project.
 
 Under the `separate` layout the link target is the project's `##` heading; under the
 `combined` layout it is the project's row in the shared registers.
@@ -58,9 +63,9 @@ The **Executive Summary** is a condensed combined summary.
 Write a short orientation paragraph, then a compact table with one row per project:
 
 ```
-| Project        | Score                   | Lowest              | Risks                   | Readiness         |
-|----------------|-------------------------|---------------------|-------------------------|-------------------|
-| <project name> | <mean>/<scale> (<band>) | <dimension> <score> | <top RSK-XXX or `None`> | <readiness state> |
+| Project            | Score                   | Lowest              | Risks                   | Readiness         |
+|--------------------|-------------------------|---------------------|-------------------------|-------------------|
+| Project `<name>`   | <mean>/<scale> (<band>) | <dimension> <score> | <top RSK-XXX or `None`> | <readiness state> |
 ```
 
 The **Changes Since Previous Audit** section is combined at report level when a re-audit was
@@ -73,8 +78,8 @@ Do not repeat the section inside the per-project blocks.
 
 **Per-project sections** follow the combined summary sections.
 
-Each project gets a level-2 heading (`##`) with the project name,
-followed by the full set of report sections for that project:
+Each project gets a level-2 heading (`##`) in the ``Project `<name>` `` form - for example
+``## Project `api-service` `` - followed by the full set of report sections for that project:
 
 - Executive Summary
 - System Context (with the Technology Stack subsection)
