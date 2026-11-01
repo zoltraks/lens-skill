@@ -1754,11 +1754,10 @@ def check_references_section(text: str) -> list[str]:
     end = re.search(r"^##\s+", block, re.MULTILINE)
     if end:
         block = block[: end.start()]
-    is_draft = bool(re.search(r"\|\s*State\s*\|\s*Draft\b", text))
     if (
         not re.search(r"\]\(https?://", block)
         and not re.search(r"No external sources consulted|No public URL", block)
-        and not (is_draft and re.search(r"\]\(<url>\)", block))
+        and not re.search(r"\]\(<url>\)", block)
     ):
         failures.append(
             "References section carries no external link or declared absence - "
@@ -1916,15 +1915,11 @@ def check_rec_classification(text: str) -> list[str]:
 
 
 def check_final_state(text: str) -> list[str]:
-    # The State row is written only while a report is Draft; a final report omits it.
-    # An explicit `State | Draft` marks the report as still in progress, so the gate skips.
-    # Without any State row an English report is final and the gate runs.
+    # Reports carry no state marker - every generated report is final by construction, so
+    # this gate runs on every report that declares Document Information.
     # Checks keyed on English anchors stay lenient on non-English reports, matching the
     # English-mapped validation copy convention.
-    state = re.search(r"\|\s*State\s*\|\s*([^|]+)", text)
-    if state and state.group(1).strip() == "Draft":
-        return []
-    if not state and "Document Information" not in text:
+    if "Document Information" not in text:
         return []
     failures: list[str] = []
     if "## Validation Record" not in text:

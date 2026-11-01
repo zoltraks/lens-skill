@@ -2093,7 +2093,7 @@ then the mapped-copy format and validation pair - the block-label and anchor che
 must run first so their failures surface as contract violations instead of
 inexplicable mapped-copy field losses.
 
-The report stays `Draft` while the checklist or the validator reports a violation.
+The Validation Record names every checklist or validator violation the report carries.
 
 Judge every gate by its own printed summary and exit code - a follow-up shell command such
 as `grep -c` finding zero matches exits 1 on a passing run and does not mean the gate failed.
@@ -2107,8 +2107,8 @@ Run the Mandatory Core Checklist and Consistency Gate in `process/report-parity.
 
 Write the Limitations and Unknowns and Validation Record sections from their outcome.
 
-The report is final only when the gate passes,
-at which point no `State` row remains in Document Information.
+The report is complete once every gate result is recorded in the Validation Record -
+generated reports carry no state marker.
 
 Before the completion message, reconcile the artifact declarations in
 `work/audit-state.json` against disk per `process/run-state.md` - a missing declared path
@@ -2192,7 +2192,7 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Mean 5.8 with Security at 4                   | Floor named next to the mean                                    |
 | Lockfile present, no SBOM                     | Source-derived component inventory produced                     |
 | Other-subject report has a new section        | Apply it or justify `N/A` in the Validation Record              |
-| Checklist item silently skipped               | Consistency gate fails, report keeps the `State` row at `Draft` |
+| Checklist item silently skipped               | Consistency gate fails, named in the Validation Record        |
 | Same issue type in two projects               | Per-project trade-off, not the combined section                 |
 | Shared workspace or build decision            | Row in the combined Trade-off Analysis                          |
 | Multi-project audit                           | Combined summary and Changes precede project blocks             |

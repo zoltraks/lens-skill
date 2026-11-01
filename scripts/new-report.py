@@ -75,7 +75,6 @@ DOC_INFO = [
     ("Evidence Mode", "Source-only"),
     ("Subject Revision", "<commit> (branch <branch>)"),
     ("Skill Version", "<version>"),
-    ("State", "Draft"),
 ]
 
 COVERAGE_HEADER = "| Report type | Status | Rationale |\n|---|---|---|\n"
@@ -644,7 +643,16 @@ def structure_review_skeleton(projects: list[str], params: dict) -> str:
             ["| <recommendation> | <Necessary, Meaningful, or Optional> |\n"],
         ),
         heading(2, "Limitations and Assumptions"),
-        "- <areas that could not be evaluated and assumptions the verdicts rest on>\n",
+        "- <areas that could not be evaluated and assumptions the verdicts rest on>\n\n",
+        heading(2, "Validation Record"),
+        validation_record(),
+        heading(2, "References"),
+        table(
+            "| Reference | Publisher or Author | Used In |",
+            "|---|---|---|",
+            ["| <title> | <publisher or author> | <section names> |\n"],
+        ),
+        "- [<title>](<url>)\n",
     ]
     return "".join(parts)
 

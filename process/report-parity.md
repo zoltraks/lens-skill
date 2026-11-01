@@ -112,11 +112,11 @@ Run this gate before marking a report final.
    placement, evidence references, conditional-section justifications, translation tokens,
    and project-qualified shared references.
    On a confirmed re-audit, also verify that the baseline file still matches the checksum recorded
-   at intake, and keep `State | Draft` on a mismatch.
-7. Record the outcome in the Validation Record, then remove the `State | Draft` row only when the
-   structural and semantic gates both pass. A final report carries no `State` row.
+   at intake, and stop publication on a mismatch.
+7. Record the outcome in the Validation Record - the report is complete when every gate result is
+   named there.
 
-A report may be complete and useful while keeping `State | Draft` when a gate fails.
+A report may be complete and useful while a gate result stays open in its Validation Record.
 
 Do not weaken the report to make the gate pass.
 
@@ -159,7 +159,7 @@ Record that bound in the Validation Record when discovery finds nothing.
 - *Run the checklist on every report, including Brief reports.*
 - *A capability in a newer report on a different subject must be applied here or justified as
   inapplicable - never silently dropped.*
-- *A failed gate keeps the `State | Draft` row.*
+- *A failed gate stays named in the Validation Record.*
 - *The Validation Record is part of the report - its absence fails the gate itself.*
 - *A shared multi-project reference must use a stable project-qualified identifier.*
 - *A machine-readable token must remain unchanged in translated reports.*

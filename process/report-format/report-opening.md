@@ -43,8 +43,6 @@ Rows appear in this order, each label in the first column and its value in the s
 
 - `Report Revision` - the report document revision, assigned per the report revision rules below.
 - `Report Date` - the audit date.
-- `State` - `Draft` only. Write the row while the report is still in progress and omit it when the
-  report is final, which is the expected end state and needs no marker.
 - `Report Style` - `Audit`, `Hunt`, or `Review`, per `process/report-format/hunt-style.md`
   and `process/report-format/review-style.md`.
 - `Review Scope` - `Structure`, written only when a `review`-style report renders the
@@ -126,8 +124,10 @@ in the title and include the `Projects` row.
 These fields support reproducible re-audits and prevent historical tool results being attributed
 to a different tree.
 
-A report without a `State` row is final: the scoped report is complete, which does not mean the
-system is approved for production.
+A generated report is a final artifact by construction - it carries no in-progress marker, and
+a later modification is that modification's own responsibility, not a state the report records.
+
+A completed report does not mean the system is approved for production.
 
 This distinction is audit-internal semantics. The report itself never carries a sentence
 disclaiming production acceptance.

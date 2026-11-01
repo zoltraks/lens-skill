@@ -331,8 +331,6 @@ Descriptive values are rendered in Polish and agree in gender with the noun they
 
 | English                          | Polish                                   |
 |----------------------------------|------------------------------------------|
-| `Draft`                          | `Roboczy`                                |
-| `Final`                          | `Gotowy`                                 |
 | `Detailed`                       | `Szczegółowy`                            |
 | `Standard`                       | `Standardowy`                            |
 | `Brief`                          | `Skrócony`                               |

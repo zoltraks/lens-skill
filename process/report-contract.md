@@ -54,8 +54,8 @@ Rationale and detail live in the section specs under `process/report-format/` an
   as references.
 - `FND`, `RSK`, and `REC` references must resolve to defined entries - a `REC-XXX` or
   `RSK-XXX` cite of a nonexistent `FND-` fails.
-- A `State | Draft` row marks a report in progress and skips the final-state gate, and a
-  final report omits the row.
+- Reports carry no `State` row: every generated report is a final artifact, and gate
+  outcomes are recorded in the Validation Record instead of an in-progress marker.
 
 ## Field Blocks
 

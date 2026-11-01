@@ -9,7 +9,7 @@
       "expectations": [
         "The report states that no project build, test, scan, or runtime execution was performed.",
         "Every security finding has a CWE identifier, UNKNOWN, or justified N/A and an evidence reference.",
-        "The report distinguishes readiness state from the report's final state (no State row).",
+        "The report distinguishes readiness state from report completeness, and no State row exists.",
         "Every risk and recommendation resolves to a finding identifier."
       ]
     },
@@ -775,7 +775,7 @@
       "files": [],
       "expectations": [
         "The previous report's checksum, or byte size and line count when hashing is unavailable, is recorded at baseline confirmation.",
-        "The baseline file is re-verified against the recorded checksum before concatenation and again at the consistency gate, and a mismatch stops delivery and keeps `State | Draft`.",
+        "The baseline file is re-verified against the recorded checksum before concatenation and again at the consistency gate, and a mismatch stops delivery and is named in the Validation Record.",
         "The completion message states the output path, skill version, validation result, elapsed time, and that the baseline file is unchanged from the intake record."
       ]
     },

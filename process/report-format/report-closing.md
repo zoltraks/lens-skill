@@ -254,10 +254,8 @@ Result values are the canonical tokens `APPLIED`, `PASS`, or `N/A`, rendered `Ap
 
 An `N/A` always carries a justification in the Justification column.
 
-The `State` row in Document Information is removed only after this record is complete and the
-consistency gate in `process/report-parity.md` passes. Removal is the last structural edit,
-before the final timestamp is written, so a report that still shows `Draft` has not passed its
-own gate.
+This record is completed and the consistency gate in `process/report-parity.md` is recorded
+before the final timestamp is written - gate outcomes live here, not in a report-state marker.
 
 For multi-project reports, qualify per-project checks with the project identifier.
 

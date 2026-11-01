@@ -391,7 +391,7 @@ table headers, style rules, and any language-specific encoding or diacritics req
 - All descriptive paragraphs, evidence, reasoning, and justification text
 - "Summary description" and observation paragraph headings
 - All descriptive fixed values: maturity levels (`Prototype`, `Early development`,
-  `Pre-production`, `Production-ready`, `Undetermined`), report state (`Draft`, `Final`), detail
+  `Pre-production`, `Production-ready`, `Undetermined`), detail
   level, evaluation scale names, readiness states, and audit-purpose values, rendered per the
   matching `translations/` file
 
