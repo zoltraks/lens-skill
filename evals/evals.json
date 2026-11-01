@@ -2150,6 +2150,19 @@
         "A faithful pair exits 0 when every PL failure already exists in the EN baseline.",
         "Block-title comparisons normalize the contract's (project) heading suffix before matching summary cells."
       ]
+    },
+    {
+      "id": 185,
+      "prompt": "Use lens on this repository. When the parameters-acceptance gate asks whether to accept defaults, choose Specify operation.",
+      "expected_output": "An operation-selection question offering Full audit as default, List all operations, and Custom operation, still blocking before any audit work.",
+      "files": [],
+      "expectations": [
+        "The parameters-acceptance question presents three answers - Accept defaults, Configure, and Specify operation.",
+        "Choosing Specify operation emits a blocking operation-selection surface with Full audit as default, List all operations, and Custom operation.",
+        "List all operations delivers the operations catalog inline and re-presents the operation-selection question.",
+        "A Custom operation description naming a report artifact applies the named style or scope and proceeds with the remaining defaults, while a descriptive description answers inline without entering the audit workflow.",
+        "An automated run still resolves parameters-acceptance to accept without presenting any operation surface."
+      ]
     }
   ]
 }

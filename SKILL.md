@@ -20,7 +20,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.6.1"
+  version: "2.6.2"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -39,17 +39,17 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 | Trigger Keywords        | 84   | Activation phrases                                 |
 | How To Use              | 115  | Progressive disclosure and mandatory reading       |
 | Parameter Configuration | 137  | Defaults and user-controlled report shape          |
-| Principles              | 144  | Evaluation and output rules                        |
-| Process                 | 150  | Workflow, format, and parity                       |
-| Assessments             | 189  | Core and conditional assessment guides             |
-| Synthesis               | 195  | Findings, risk, score, and remediation assembly    |
-| Translations            | 207  | Per-language report translations                   |
-| References              | 216  | Lookup tables                                      |
-| Scripts                 | 240  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 262  | Behavioral regression prompts                      |
-| Repository Files        | 266  | Housekeeping files governing this repository       |
-| Evidence Contract       | 278  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 308  | File-selection and section-placement rules         |
+| Principles              | 145  | Evaluation and output rules                        |
+| Process                 | 151  | Workflow, format, and parity                       |
+| Assessments             | 190  | Core and conditional assessment guides             |
+| Synthesis               | 196  | Findings, risk, score, and remediation assembly    |
+| Translations            | 208  | Per-language report translations                   |
+| References              | 217  | Lookup tables                                      |
+| Scripts                 | 241  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 263  | Behavioral regression prompts                      |
+| Repository Files        | 267  | Housekeeping files governing this repository       |
+| Evidence Contract       | 279  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 309  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -137,7 +137,8 @@ When asked how this skill works, explain that Lens produces evidence-based engin
 ## Parameter Configuration
 
 Before beginning the audit, the agent runs the Parameter Configuration phase in
-`process/audit-workflow.md` and MUST ask whether to accept defaults or configure -
+`process/audit-workflow.md` and MUST ask whether to accept defaults, configure, or specify
+the operation to run -
 the parameter surfaces, defaults, resolution rules, and re-audit parameters live in
 `process/parameter-configuration.md`.
 

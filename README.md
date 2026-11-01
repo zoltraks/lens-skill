@@ -22,18 +22,18 @@
 | What The Skill Does                | 87   | Update check, evidence, assessment, synthesis       |
 | Installation                       | 169  | Clone and update instructions                       |
 | Usage                              | 202  | Activation, parameters, and report delivery         |
-| Example Prompts                    | 238  | Full and focused audit requests                     |
-| Workflow Diagrams                  | 314  | ASCII and Mermaid audit pipelines                   |
-| Evidence And Decision Quality      | 374  | Evidence strength and verification limits           |
-| Core Principles                    | 432  | Evaluation constraints and status rules             |
-| Report Format                      | 448  | Report structure, identifiers, and style            |
-| When To Use This Skill             | 485  | Supported requests and exclusions                   |
-| What's Inside                      | 509  | Documents, references, tools, and conditional files |
-| Document Style                     | 681  | Pointer to the style rules file                     |
-| Specification                      | 691  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 712  | Maintenance checks and regression scenarios         |
-| License                            | 740  | License for the skill itself                        |
-| Credits                            | 746  | Authorship and attribution                          |
+| Example Prompts                    | 239  | Full and focused audit requests                     |
+| Workflow Diagrams                  | 316  | ASCII and Mermaid audit pipelines                   |
+| Evidence And Decision Quality      | 376  | Evidence strength and verification limits           |
+| Core Principles                    | 434  | Evaluation constraints and status rules             |
+| Report Format                      | 450  | Report structure, identifiers, and style            |
+| When To Use This Skill             | 487  | Supported requests and exclusions                   |
+| What's Inside                      | 511  | Documents, references, tools, and conditional files |
+| Document Style                     | 683  | Pointer to the style rules file                     |
+| Specification                      | 693  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 714  | Maintenance checks and regression scenarios         |
+| License                            | 742  | License for the skill itself                        |
+| Credits                            | 748  | Authorship and attribution                          |
 
 ## Overview
 
@@ -214,8 +214,9 @@ An explicit request for a review report or a check run selects the `review` styl
 hunt selects the `hunt` style - both reuse the same evidence base under their own section
 contracts.
 
-Before a new audit, Lens asks whether to accept the default parameters or configure the core report
-settings.
+Before a new audit, Lens asks whether to accept the default parameters, configure the core report
+settings, or specify the operation to run - the full audit, the operations catalog, or a custom
+operation description.
 
 An automated run asks nothing: every gate resolves to its discovered or default answer - re-audit
 with recovered parameters when a previous report exists, and the report writes to the resolved
@@ -246,8 +247,9 @@ project.
 > the filename and ask whether to accept other defaults or configure core parameters.)
 
 **Audit without a named file**
-> Make audit report on this codebase. (The agent will ask whether to accept default parameters or
-> configure core parameters, then offer inline, concrete file-location, and custom-file choices.)
+> Make audit report on this codebase. (The agent will ask whether to accept default parameters,
+> configure core parameters, or specify the operation, then offer inline, concrete file-location,
+> and custom-file choices.)
 
 **Readiness assessment**
 > Is this system production-ready? Assess testing, deployment, rollback, observability, and

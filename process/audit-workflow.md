@@ -20,11 +20,11 @@ defined in `process/report-format/hunt-style.md` and `process/report-format/revi
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 2237 | Intake Checklist guidance        |
-| Handling Thin Input     | 2262 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 2276 | Single-Dimension Audits guidance |
-| Re-Audit                | 2290 | Re-Audit guidance                |
-| Multi-Project Audits    | 2356 | Multi-Project Audits guidance    |
+| Intake Checklist        | 2258 | Intake Checklist guidance        |
+| Handling Thin Input     | 2283 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 2297 | Single-Dimension Audits guidance |
+| Re-Audit                | 2311 | Re-Audit guidance                |
+| Multi-Project Audits    | 2377 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -641,8 +641,9 @@ parameters, treat the request as a new audit and run the full Parameter Configur
 
 **Parameter Configuration**
 
-Before beginning the audit, ask the user whether to accept the default parameters or configure the
-core parameters - the `parameters-acceptance` `choice` parameter under JSON exchange.
+Before beginning the audit, ask the user whether to accept the default parameters, configure the
+core parameters, or specify the operation to run - the `parameters-acceptance` `choice` parameter
+under JSON exchange.
 
 Present the defaults in a compact summary.
 
@@ -674,6 +675,26 @@ the `source-only` default.
 The agent MUST ask the user and MUST NOT skip this step.
 
 The agent MUST wait for user response before proceeding to Scope Definition.
+
+The question offers three answers: `Accept defaults`, `Configure`, and `Specify operation`.
+
+`Accept defaults` proceeds immediately to Scope Definition using the values above.
+
+`Configure` asks only the unresolved core parameter prompts in the order below.
+
+`Specify operation` asks which operation the skill should run - the `operation-selection`
+`choice` parameter under JSON exchange - with three options:
+
+- `Full audit` (default) - the operation the request already implied, resolves the
+  acceptance as `Accept defaults` and proceeds to Scope Definition.
+- `List all operations` - delivers the operations catalog inline per
+  `process/operations-catalog.md`, then re-presents the `operation-selection` question.
+- `Custom operation` - asks for a free-text description of the requested operation, the
+  `operation-description` `text` parameter under JSON exchange. A description naming a
+  report artifact applies the named report style or review scope as an explicit parameter
+  statement and proceeds to Scope Definition with the remaining defaults, a description
+  naming another skill operation routes to that operation's own procedure, and a
+  descriptive request answers inline without entering this workflow.
 
 An automated run skips the question and resolves parameters per the Automated run block in
 Intake - the parameter-resolution timestamp rule below still applies.

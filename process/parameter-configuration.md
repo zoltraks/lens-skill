@@ -8,7 +8,8 @@
 > output location and filename rules, re-audit parameters
 
 Before beginning the audit, the agent runs the Parameter Configuration phase in
-`process/audit-workflow.md` and MUST ask whether to accept defaults or configure.
+`process/audit-workflow.md` and MUST ask whether to accept defaults, configure, or specify
+the operation to run.
 
 Defaults are:
 
@@ -59,6 +60,10 @@ name first, and the agent confirms with the user before writing unless the run i
 If the user accepts defaults or says "bypass", the agent proceeds immediately.
 
 On configure the agent asks the unresolved core parameter questions in `process/audit-workflow.md`.
+
+On `Specify operation` the gate resolves through the `operation-selection` surface in
+`process/audit-workflow.md` - a full-audit default, the operations catalog, or a custom
+operation description.
 
 Each prompt marks the default and ends with `Use default: <value>` and `Use defaults for all
 remaining questions` - when the request asks for parameters in JSON or another machine-readable
