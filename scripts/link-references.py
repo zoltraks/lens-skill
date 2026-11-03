@@ -2,7 +2,7 @@
 
 Reads the report's own register definitions - the ``###`` block headings
 of the finding, risk, recommendation, and technical-debt registers plus
-the Evidence Ledger and Validation Record table rows - and rewrites every
+the Evidence Ledger and Validation Protocol table rows - and rewrites every
 register identifier cited outside its defining location into a
 ``[<ID>](#anchor)`` link, per the Register Reference Links rules in
 ``process/report-format.md``.

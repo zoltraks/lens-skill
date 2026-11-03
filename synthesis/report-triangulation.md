@@ -49,7 +49,7 @@ Status values: `Confirmed` - external claim verified at the audited snapshot. `R
 current evidence contradicts it. `Not reproducible` - snapshots or evidence differ beyond
 resolution. `Pending` - requires evidence outside this audit's mode.
 
-A `Pending` row names the check that resolves it in the Operator Verification Handoff.
+A `Pending` row names the check that resolves it in the Further Verification.
 
 No row is silently dropped.
 

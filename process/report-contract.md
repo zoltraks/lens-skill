@@ -31,13 +31,13 @@ Rationale and detail live in the section specs under `process/report-format/` an
 - No trailing whitespace, and the closing line `End of audit report` is never written.
 - Document Information carries `Report Style`, `Evidence Mode`, and a `Subject Revision`
   snapshot anchor.
-- A report under `Evidence Mode: source-only` carries an `Operator Verification Handoff` -
+- A report under `Evidence Mode: source-only` carries a `Further Verification` -
   under `executed-readonly` or `executed-commands` an `Executed Evidence Log` replaces it,
   and an executed `review`-style report additionally carries an Artifact Manifest.
 - The Audit Coverage table keeps only `Covered`, `Partially`, and `Not done` status
   cells - `Not Applicable` rows are omitted entirely.
-- The Validation Record carries rows `PAR-1` through `PAR-27` in fixed order.
-- At `Detail Level: Detailed`, when `## Glossary` is present, it carries a separate
+- The Validation Protocol carries rows `PAR-1` through `PAR-27` in fixed order.
+- At `Detail Level: Detailed`, when `## Glossary Index` is present, it carries a separate
   `**Identifier triplets**` table (`Triplet | Scope | Description`) after the alphabetical
   `Term | Definition` index table, starting with `FND` and `EVD`, followed by the other
   register triplets (`TDR`, `RSK`, `REC`, `PAR`) and every three-letter criterion and
@@ -48,14 +48,14 @@ Rationale and detail live in the section specs under `process/report-format/` an
   `Structure Conformance` section is present its conformance tables carry valid status
   tokens, and when the conditional `Code Style` section is present its lens sub-score
   table and census rows carry valid status tokens.
-- The closing References section lists external authoritative sources only - each row
+- The closing Reference Sources section lists external authoritative sources only - each row
   renders a `[title](url)` link paragraph, `No public URL` marks an unlinked source,
   `No external sources consulted` replaces the table, and repository paths never appear
   as references.
 - `FND`, `RSK`, and `REC` references must resolve to defined entries - a `REC-XXX` or
   `RSK-XXX` cite of a nonexistent `FND-` fails.
 - Reports carry no `State` row: every generated report is a final artifact, and gate
-  outcomes are recorded in the Validation Record instead of an in-progress marker.
+  outcomes are recorded in the Validation Protocol instead of an in-progress marker.
 
 ## Field Blocks
 
@@ -136,13 +136,16 @@ English renders title case where the vocabulary lists give canonical uppercase n
   identifier is unambiguous.
 - The `Project` column appears only in shared tables - a single-project evidence ledger
   must not carry one.
+- The `Remediation Roadmap` renders once at level 2 - immediately before `Reference
+  Sources` - carrying `Recommendation Classification` and `Follow-up Plan` only as
+  `###` subsections, never as standalone sections or per-project blocks.
 
 ## Hunt Style
 
 Under `Report Style: hunt` the required sections are Document Information, Audit Type
 Coverage, Verdict, System Context, Methodology And Evidence, Journey Traces, Domain
-Findings, Risk Register, Remediation Phases, Scope Exclusions, Limitations and Unknowns,
-Validation Record, References - plus Glossary, Contradiction Register, and the handoff or
+Findings, Risk Register, Remediation Phases, Scope Exclusions, Known Limitations,
+Validation Protocol, Reference Sources - plus Glossary, Contradiction Register, and the handoff or
 executed-log section when conditional.
 
 - The Verdict section carries a `Verdict:` token (`Ready`, `Conditionally ready`,
@@ -171,8 +174,8 @@ executed-log section when conditional.
 
 Under `Report Style: review` the required sections are Document Information, Audit Type
 Coverage, Verdict, System Context, Check Plan And Methodology, Execution Register, Domain
-Findings, Risk Register, Improvement Plan, Scope Exclusions, Limitations and Unknowns,
-Validation Record, References - plus the conditional Retest Register, Metrics Snapshot,
+Findings, Risk Register, Improvement Plan, Scope Exclusions, Known Limitations,
+Validation Protocol, Reference Sources - plus the conditional Retest Register, Metrics Snapshot,
 Artifact Manifest, Glossary, Contradiction Register, and the handoff section.
 
 - The Verdict carries the same verdict token, domain ratings, gates, top-five, and

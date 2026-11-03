@@ -163,14 +163,14 @@ apply the label translations from the matching `translations/` file.
 Descriptive values such as `State`, `Detail Level`, `Evaluation Scale`, `Audit Purpose`,
 and `Verification Scope` are rendered per the same file.
 
-## Contents
+## Table of Contents
 
-A `## Contents` section follows `## Document Information` and precedes `## Audit Coverage`.
+A `## Table of Contents` section follows `## Document Information` and precedes `## Audit Coverage`.
 
 It lists every level-2 section as a bullet of links to its heading anchor:
 
 ```markdown
-## Contents
+## Table of Contents
 
 - [Audit Coverage](#audit-coverage)
 - [Executive Summary](#executive-summary)
@@ -189,8 +189,8 @@ not run.
 The table makes the report's coverage explicit so it cannot be mistaken for a penetration test,
 a certifying audit, or a full technical due diligence.
 
-The section appears once per report, immediately after `## Contents` and before
-`## Project Inventory` in a multi-project report, or before `## Glossary` in a single-project
+The section appears once per report, immediately after `## Table of Contents` and before
+`## Project Inventory` in a multi-project report, or before `## Glossary Index` in a single-project
 report.
 
 Present the fixed table from `references/audit-taxonomy.md`, one row per canonical audit type
@@ -241,9 +241,9 @@ and no `Covered` row is later disclaimed.
 
 PAR-11 checks this consistency.
 
-## Glossary
+## Glossary Index
 
-The Glossary defines every abbreviation and acronym used in the report.
+The Glossary Index defines every abbreviation and acronym used in the report.
 
 It is present when Descriptive mode is `Enabled` (the default)
 and omitted when Descriptive mode is `Disabled`.
@@ -253,7 +253,7 @@ When omitted, record the deliberate omission with a one-line justification in Sc
 The section appears immediately after `## Audit Coverage`, or after
 `## Project Inventory` in a multi-project report, and always before `## Executive Summary`.
 
-A multi-project report carries one shared Glossary covering terms used in every project block.
+A multi-project report carries one shared Glossary Index covering terms used in every project block.
 
 **Index table**
 
@@ -266,7 +266,7 @@ The Definition cell gives the expansion plus one clause of plain-language meanin
 context.
 
 ```markdown
-## Glossary
+## Glossary Index
 
 | Term                                 | Definition                                                        |
 |--------------------------------------|-------------------------------------------------------------------|
@@ -360,7 +360,7 @@ Every occurrence of a glossary term in the report body is a markdown link.
 When the term has a long-description subsection, link to that subsection's anchor,
 for example `[SLO](#slo-service-level-objective)`.
 
-Otherwise link to the index table at `#glossary`, for example `[API](#glossary)`.
+Otherwise link to the index table at `#glossary-index`, for example `[API](#glossary-index)`.
 
 Apply the rule to prose and table cells.
 
@@ -372,7 +372,7 @@ Exempt:
   `FND-SEC-001`, `REC` inside `REC-BE-01`, or `PAR` inside `PAR-10`, and occurrences inside a
   longer word, such as `SQL` inside `SQLite` or `API` inside `OpenAPI`. Link the whole compound
   instead when the compound itself is a glossary term, such as `[SI-API](#si-api)` or
-  `[ISO/IEC](#glossary)`.
+  `[ISO/IEC](#glossary-index)`.
 - Acronyms that are part of a capitalized compound name: an acronym adjacent by whitespace to a
   word starting with an uppercase letter on either side, for example `AI` in `AI Provenance`,
   `API` in `API Compatibility & Versioning Discipline`, `UI` in `Material UI`, or `RMF` in
@@ -401,7 +401,7 @@ Three discipline notes keep new prose from reintroducing failures the pass just 
   words `Not applicable` in sentences where no status token is required.
 - The compound-name exemption fails in both directions: a standalone acronym left unlinked is
   flagged, and a linked acronym adjacent to a capitalized compound word is flagged too, so
-  `the [VPS](#glossary) deployment` passes while `Traefik [VPS](#glossary)` does not.
+  `the [VPS](#glossary-index) deployment` passes while `Traefik [VPS](#glossary-index)` does not.
 
 **Mechanical traps**
 
@@ -411,7 +411,7 @@ State them here so the prose contract and the mechanical check agree.
 
 - `SLO`, `RPO`, and `RTO` are always indexed. The index table must carry a row for each even
   when the report body never uses them, for example a subject with no service-level vocabulary.
-- A spaced slash does not form a compound. `SBOM / Software` still requires `[SBOM](#glossary)`
+- A spaced slash does not form a compound. `SBOM / Software` still requires `[SBOM](#glossary-index)`
   on the acronym, only the adjacent form `SBOM/Software` is exempt.
 - Machine-readable `* **Field:**` value positions are exempt from linking when the field
   carries a fixed-vocabulary token. The exempt labels are `Pillar`, `Severity`, `Type`,
@@ -427,12 +427,12 @@ State them here so the prose contract and the mechanical check agree.
 - Parenthesized terms such as `HTTP(S)` cannot carry a `###` description, the term is parsed
   before the parenthesis, keep them index-only.
 - A link must point at the term's own anchor: `[SLO](#slo...)` when the term has a `###`
-  subsection, `[API](#glossary)` when it does not. Linking a described term to `#glossary`,
+  subsection, `[API](#glossary-index)` when it does not. Linking a described term to `#glossary-index`,
   or an index-only term to a `###` slug, both fail.
-- References tables are not exempt: standalone publisher cells such as `| ISO |` and
+- Reference Sources tables are not exempt: standalone publisher cells such as `| ISO |` and
   `| NIST |` link like any other occurrence.
-- Link text must be the term or a known variant exactly: `[EVD](#glossary)` passes,
-  `[EVD-001](#glossary)` fails because `EVD-001` is not a term - a numbered register
+- Link text must be the term or a known variant exactly: `[EVD](#glossary-index)` passes,
+  `[EVD-001](#glossary-index)` fails because `EVD-001` is not a term - a numbered register
   identifier links to its own definition instead, per Register Reference Links in
   `process/report-format.md`, for example `[EVD-001](#evidence-list)`.
 

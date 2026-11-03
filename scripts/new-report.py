@@ -38,15 +38,15 @@ AUDIT_SECTIONS = [
     "Scoring Rubrics",
     "Architectural Assessment",
     "Structure Review",
-    "Trade-off Analysis",
+    "Solution Comparison",
     "Strengths & What's Working",
 ]
 
 CLOSING_SECTIONS = [
     "Scope Exclusions",
-    "Limitations and Unknowns",
-    "Validation Record",
-    "References",
+    "Known Limitations",
+    "Validation Protocol",
+    "Reference Sources",
 ]
 
 HUNT_DOMAINS = [
@@ -229,7 +229,7 @@ def audit_skeleton(projects: list[str], params: dict) -> str:
         for index, name in enumerate(projects):
             parts.append(heading(2, name))
             parts += audit_project_body(name, index + 1)
-        parts += audit_shared_tail(multi)
+        parts += audit_shared_tail(multi, projects)
     else:
         parts += audit_project_body("")
         parts += audit_shared_tail(False)
@@ -243,7 +243,6 @@ def audit_project_body(project: str, number: int = 1) -> list[str]:
     # project's blocks continue the single FND/RSK/REC sequences.
     fnd_id = f"FND-SEC-{number:03d}"
     rsk_id = f"RSK-{number:03d}"
-    rec_id = f"REC-{number:03d}"
     parts: list[str] = []
     for section in AUDIT_SECTIONS:
         parts.append(heading(level, section))
@@ -308,38 +307,95 @@ def audit_project_body(project: str, number: int = 1) -> list[str]:
     parts.append(FINDING_BLOCK.format(suffix=suffix, targets=qualified(project, fnd_id), fnd_id=fnd_id) + "\n")
     parts.append(heading(level, "Unified Risk Register"))
     parts.append(RISK_BLOCK.format(suffix=suffix, rsk_id=rsk_id, fnd_id=fnd_id) + "\n")
-    parts.append(heading(level, "Remediation Roadmap"))
-    parts.append(
-        table(
-            "| Rec | Priority | Finding | Recommendation | Impact | Effort | Complexity | Breaking | Verification |",
-            "|---|---|---|---|---|---|---|---|---|",
-            [f"| {rec_id} | P1 | {fnd_id} | <recommendation> | <impact> | <effort> | <complexity> | None | <verification step> |\n"],
-        )
-    )
-    parts.append(REC_BLOCK.format(suffix=suffix, target=qualified(project, fnd_id), rec_id=rec_id) + "\n")
-    parts.append(heading(level, "Recommendation Classification"))
-    parts.append(
-        table(
-            "| Rec | Recommendation | Class | Basis |",
-            "|---|---|---|---|",
-            [f"| {rec_id} | <action> | Recommended | {fnd_id} - <short reason> |\n"],
-        )
-    )
     return parts
 
 
-def audit_shared_tail(multi: bool) -> list[str]:
-    parts = [
-        heading(2, "Operator Verification Handoff"),
-        "Every material claim the audit could not resolve from source, with the\n"
-        "exact command or procedure and its pass criteria.\n\n",
+def roadmap_sections(projects: list[str]) -> list[str]:
+    """The consolidated Remediation Roadmap - one level-2 section per report.
+
+    A multi-project call merges every project's recommendations into one shared
+    matrix with a leading Project column and carries the classification and
+    follow-up subsections; a single-project call renders the same shape without
+    the Project column.
+    """
+    multi = len(projects) > 1
+    names = projects if projects else [""]
+    project_col = "Project | " if multi else ""
+    span = 9 if multi else 8
+    rows = []
+    blocks = []
+    class_rows = []
+    followup_rows = []
+    for index, name in enumerate(names):
+        number = index + 1
+        fnd_id = f"FND-SEC-{number:03d}"
+        rec_id = f"REC-{number:03d}"
+        cells = f"{name} | " if multi else ""
+        suffix = f" ({name})" if name else ""
+        rows.append(
+            f"| {cells}{rec_id} | P1 | {fnd_id} | <recommendation> | <impact> |"
+            " <effort> | <complexity> | None | <verification step> |\n"
+        )
+        blocks.append(
+            REC_BLOCK.format(suffix=suffix, target=fnd_id, rec_id=rec_id) + "\n"
+        )
+        class_rows.append(
+            f"| {cells}{rec_id} | <action> | Recommended | {fnd_id} - <short reason> |\n"
+        )
+        followup_rows.append(
+            f"| {cells}{fnd_id} | P1 | <verifiable artifact> | <milestone> |\n"
+        )
+    return [
+        heading(2, "Remediation Roadmap"),
+        table(
+            f"| {project_col}Rec | Priority | Finding | Recommendation | Impact |"
+            " Effort | Complexity | Breaking | Verification |",
+            "|---|" + "---|" * span,
+            rows,
+        ),
+        *blocks,
+        heading(3, "Recommendation Classification"),
+        table(
+            f"| {project_col}Rec | Recommendation | Class | Basis |",
+            "|---|" + "---|" * (4 if multi else 3),
+            class_rows,
+        ),
+        heading(3, "Follow-up Plan"),
+        table(
+            f"| {project_col}Finding | Priority | Evidence | Trigger |",
+            "|---|" + "---|" * (4 if multi else 3),
+            followup_rows,
+        ),
+    ]
+
+
+def audit_shared_tail(multi: bool, projects: list[str] | None = None) -> list[str]:
+    parts: list[str] = []
+    if multi:
+        parts += [
+            heading(2, "Solution Comparison"),
+            "Cross-project trade-offs only - decisions made once that bind several "
+            "projects.\n\n",
+            table(
+                "| Project | Trade-off | Context | Option A: gain / cost |"
+                " Option B: gain / cost | Evidence | Implication |",
+                "|---|---|---|---|---|---|---|",
+            ),
+        ]
+    parts += [
         heading(2, "Scope Exclusions"),
         "- Glossary omitted - Descriptive mode disabled.\n\n",
-        heading(2, "Limitations and Unknowns"),
+        heading(2, "Known Limitations"),
         "- <each check that would require execution and was not performed>\n\n",
-        heading(2, "Validation Record"),
+        heading(2, "Further Verification"),
+        "Every material claim the audit could not resolve from source, with the\n"
+        "exact command or procedure and its pass criteria.\n\n",
+        heading(2, "Validation Protocol"),
         validation_record(),
-        heading(2, "References"),
+    ]
+    parts += roadmap_sections(list(projects or []))
+    parts += [
+        heading(2, "Reference Sources"),
         table(
             "| Reference | Publisher or Author | Used In |",
             "|---|---|---|",
@@ -440,16 +496,16 @@ def hunt_skeleton(projects: list[str], params: dict) -> str:
         + "\n",
         heading(3, "Accepted - no action"),
         table("| Finding | Disposition |", "|---|---|"),
-        heading(2, "Operator Verification Handoff"),
+        heading(2, "Further Verification"),
         "Every material claim the hunt could not resolve from source, with the\n"
         "exact command or procedure and its pass criteria.\n\n",
         heading(2, "Scope Exclusions"),
         "- Glossary omitted - Descriptive mode disabled.\n\n",
-        heading(2, "Limitations and Unknowns"),
+        heading(2, "Known Limitations"),
         "- <each check that would require execution and was not performed>\n\n",
-        heading(2, "Validation Record"),
+        heading(2, "Validation Protocol"),
         validation_record(),
-        heading(2, "References"),
+        heading(2, "Reference Sources"),
         table(
             "| Reference | Publisher or Author | Used In |",
             "|---|---|---|",
@@ -559,13 +615,13 @@ def review_skeleton(projects: list[str], params: dict) -> str:
                 "| Artifact | Check | Location / Digest | Notes |",
                 "|---|---|---|---|",
             ),
-            heading(2, "Operator Verification Handoff"),
+            heading(2, "Further Verification"),
             "Checks outside the commissioned set, with the exact command or procedure "
             "and its pass criteria.\n\n",
         ]
     else:
         parts += [
-            heading(2, "Operator Verification Handoff"),
+            heading(2, "Further Verification"),
             "Every material claim the review could not resolve from source, with the\n"
             "exact command or procedure and its pass criteria.\n\n",
         ]
@@ -576,11 +632,11 @@ def review_skeleton(projects: list[str], params: dict) -> str:
         "artifacts.\n\n"
         if not executed
         else "- Glossary omitted - Descriptive mode disabled.\n\n",
-        heading(2, "Limitations and Unknowns"),
+        heading(2, "Known Limitations"),
         "- <each check that stayed NOT RUN and every unresolved unknown>\n\n",
-        heading(2, "Validation Record"),
+        heading(2, "Validation Protocol"),
         validation_record(),
-        heading(2, "References"),
+        heading(2, "Reference Sources"),
         table(
             "| Reference | Publisher or Author | Used In |",
             "|---|---|---|",
@@ -644,9 +700,9 @@ def structure_review_skeleton(projects: list[str], params: dict) -> str:
         ),
         heading(2, "Limitations and Assumptions"),
         "- <areas that could not be evaluated and assumptions the verdicts rest on>\n\n",
-        heading(2, "Validation Record"),
+        heading(2, "Validation Protocol"),
         validation_record(),
-        heading(2, "References"),
+        heading(2, "Reference Sources"),
         table(
             "| Reference | Publisher or Author | Used In |",
             "|---|---|---|",

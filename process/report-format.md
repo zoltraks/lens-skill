@@ -41,10 +41,10 @@ A present-but-empty section signals a gap, a missing section hides it.
 | Formatting Rules                            | 49   | Formatting Rules guidance                   |
 | Report Delivery And Parameter Configuration | 372  | Report delivery and output configuration    |
 | Detail Level Configuration                  | 428  | Standard, detailed, and brief reports       |
-| Conditional Sections                        | 540  | Inclusion criteria for conditional sections |
-| Section Order                               | 600  | Single-project and multi-project order      |
-| Specification Files                         | 704  | Per-section specification file index        |
-| Pre-Delivery Mechanical Checklist           | 738  | Final mechanical checks                     |
+| Conditional Sections                        | 539  | Inclusion criteria for conditional sections |
+| Section Order                               | 599  | Single-project and multi-project order      |
+| Specification Files                         | 701  | Per-section specification file index        |
+| Pre-Delivery Mechanical Checklist           | 736  | Final mechanical checks                     |
 
 ## Formatting Rules
 
@@ -326,7 +326,7 @@ Do not use the em dash `-` (U+2014) or en dash `-` (U+2013) anywhere in the repo
 
 Do not add a closing line such as "End of audit report." or "---" at the end of the document.
 
-The final section is the References section,
+The final section is the Reference Sources section,
 end the report after the final section without any trailing boilerplate.
 
 ### Register Reference Links
@@ -336,7 +336,7 @@ definition.
 
 The register families are `EVD-NNN` (Evidence Ledger), `FND-<pillar>-NNN` (findings),
 `RSK-NNN` (risks), `REC-NNN` (recommendations), `TDR-NNN` (technical debt), and `PAR-NN`
-(Validation Record rows), including project-qualified forms such as
+(Validation Protocol rows), including project-qualified forms such as
 `FND-SEC-001` - the bare identifier alone.
 
 `FND`, `RSK`, `REC`, and `TDR` identifiers link to their `### <ID>:` block heading anchor,
@@ -344,7 +344,7 @@ for example `[FND-SEC-001](#fnd-sec-001-hardcoded-jwt-signing-key)`.
 
 `EVD` and `PAR` identifiers are defined as table rows, not headings, so they link to the
 anchor of the section holding the register table, for example
-`[EVD-004](#evidence-list)` or `[PAR-10](#validation-record)`.
+`[EVD-004](#evidence-list)` or `[PAR-10](#validation-protocol)`.
 
 The defining location itself stays unlinked: the `### <ID>:` heading and the register row
 whose first cell carries the identifier.
@@ -451,7 +451,7 @@ All twenty-two baseline sections are present in full, subject to explicit parame
 - Scoring Rubrics
 - Architectural Assessment
 - Structure Review
-- Trade-off Analysis
+- Solution Comparison
 - Strengths & What's Working
 - Technical Findings (all findings with full Description, Impact, Recommendation, and
   Method)
@@ -472,9 +472,9 @@ a defect.
 - Unified Risk Register
 - Remediation Roadmap (full matrix with P1-P4, impact/effort/complexity, verification)
 - Scope Exclusions
-- Limitations and Unknowns
-- Validation Record
-- References
+- Known Limitations
+- Validation Protocol
+- Reference Sources
 
 In addition, any conditional sections whose criteria are met are included in full.
 
@@ -483,8 +483,7 @@ Design Patterns, Architecture Decision Records, Threat Model, API Contract Confo
 Skill Definition Conformance, Agent Guidance Conformance, AI System Assessment, Standards
 Conformance, Requirements Conformance, Engineering Baseline Conformance, Structure
 Conformance, Code Style,
-API Compatibility & Versioning Discipline, Technical Debt Register, and Re-audit And
-Follow-up Plan.
+API Compatibility & Versioning Discipline, Technical Debt Register, and Follow-up Plan.
 
 **Detailed**
 
@@ -498,7 +497,7 @@ one that applies:
 - Architectural Assessment includes deeper critique with additional industry baseline comparisons.
 - Strengths section includes 8-10 bullet points.
 - Each finding includes extended verification methods and alternative remediation paths.
-- Trade-off Analysis includes additional trade-offs surfaced during assessment.
+- Solution Comparison includes additional trade-offs surfaced during assessment.
 - Remediation Roadmap includes additional context for each recommendation (blocking dependencies,
   estimated timeframes).
 - Threat Model expands reasoning for all six STRIDE categories at each boundary, which are checked
@@ -524,16 +523,16 @@ Condensed output for rapid review:
 - Key trade-offs only (top 2, no full table)
 - Key recommendations only (top 5, no full matrix)
 - Scope Exclusions (full)
-- Limitations and Unknowns (full)
-- Validation Record (full)
-- References (full)
+- Known Limitations (full)
+- Validation Protocol (full)
+- Reference Sources (full)
 
 Omitted in Brief: full Auditing Methodology, Scoring Rubrics, the System Context aspects beyond
 the Technology Stack subsection, Architectural Assessment critique, full findings, full risk
 register, full trade-offs, full roadmap, and Recommendation Classification.
 
 Retain a compact check summary and evidence IDs in Scope Exclusions, and blocked/unrun checks in
-Limitations and Unknowns.
+Known Limitations.
 
 Do not omit critical decision limitations to meet the shorter format.
 
@@ -576,12 +575,12 @@ Each lists its inclusion criterion and the assessment file that governs it:
 | Code Style (standalone)                                     | The subject contains source code files                                               | `assessment/code-style.md`                |
 | API Compatibility & Versioning Discipline (standalone)      | The subject is a reusable library or package                                         | `assessment/api-compatibility.md`         |
 | Technical Debt Register (standalone)                        | Structural debt distinct from risks is surfaced                                      | `synthesis/debt-register.md`              |
-| Follow-up Plan (standalone)                    | The roadmap contains a P1 or P2 recommendation                                       | `synthesis/reaudit-plan.md`               |
+| Follow-up Plan (subsection of Remediation Roadmap) | The roadmap contains a P1 or P2 recommendation                                   | `synthesis/reaudit-plan.md`               |
 | Changes Since Previous Audit (standalone)                   | Previous report found and confirmed as the re-audit baseline                         | `synthesis/report-comparison.md`          |
-| Glossary (standalone)                                       | Descriptive mode is enabled (default)                                                | `process/report-format.md`                |
-| Recommendation Classification (standalone)                  | Detail level is Standard or Detailed and the roadmap exists                          | `synthesis/remediation-roadmap.md`        |
+| Glossary Index (standalone)                                       | Descriptive mode is enabled (default)                                                | `process/report-format.md`                |
+| Recommendation Classification (subsection of Remediation Roadmap) | Detail level is Standard or Detailed and the roadmap exists                  | `synthesis/remediation-roadmap.md`        |
 | Contradiction Register (standalone or in Limitations)       | An external or prior report asserts conflicting claims                               | `synthesis/report-triangulation.md`       |
-| Operator Verification Handoff (standalone)                  | `source-only` evidence mode - the default                                            | `process/report-format/report-closing.md` |
+| Further Verification (standalone)                           | `source-only` evidence mode - the default                                            | `process/report-format/report-closing.md` |
 | Executed Evidence Log (standalone)                          | `executed-readonly` or `executed-commands` evidence mode                             | `process/report-format/report-closing.md` |
 | Retest Register (standalone, review style)                  | The Execution Register carries `Fail`/`Error`/`Blocked` rows                         | `process/report-format/review-style.md`   |
 | Artifact Manifest (standalone, review style)                | `executed-readonly` or `executed-commands` evidence mode                             | `process/report-format/review-style.md`   |
@@ -610,7 +609,7 @@ For a **single-project** audit:
 
 - Document Information
 - Audit Coverage
-- Glossary *(when Descriptive mode is enabled)*
+- Glossary Index *(when Descriptive mode is enabled)*
 - Executive Summary
 - Changes Since Previous Audit *(conditional)*
 - System Context (contains the Technology Stack subsection)
@@ -624,7 +623,7 @@ For a **single-project** audit:
 - Architectural Assessment (contains the Design Principles subsection and may contain the
   conditional Data Flow Diagram, Design Patterns, and Architecture Decision Records subsections)
 - Structure Review
-- Trade-off Analysis
+- Solution Comparison
 - Threat Model *(conditional)*
 - API Contract Conformance *(conditional)*
 - Skill Definition Conformance *(conditional)*
@@ -640,15 +639,14 @@ For a **single-project** audit:
 - Technical Findings
 - Technical Debt Register *(conditional)*
 - Unified Risk Register
-- Remediation Roadmap
-- Recommendation Classification *(conditional)*
 - Scope Exclusions
-- Limitations and Unknowns
-- Operator Verification Handoff *(source-only mode)* / Executed Evidence Log
+- Known Limitations
+- Further Verification *(source-only mode)* / Executed Evidence Log
   *(executed-readonly or executed-commands mode, conditional)*
-- Follow-up Plan *(conditional)*
-- Validation Record
-- References
+- Validation Protocol
+- Remediation Roadmap (with Recommendation Classification *(conditional)* and Follow-up
+  Plan *(conditional)* subsections)
+- Reference Sources
 
 For a **multi-project** audit, the structure changes.
 
@@ -659,7 +657,7 @@ In summary:
 - Document Information (once)
 - Audit Coverage (once)
 - Project Inventory (once)
-- Glossary *(when Descriptive mode is enabled)* (once)
+- Glossary Index *(when Descriptive mode is enabled)* (once)
 - Executive Summary (condensed, combined)
 - Changes Since Previous Audit *(conditional)* (combined)
 - Per project (level-2 heading per project, full section set each):
@@ -674,7 +672,7 @@ In summary:
   - Scoring Rubrics
   - Architectural Assessment
   - Structure Review
-  - Trade-off Analysis
+  - Solution Comparison
   - Threat Model *(conditional)*
   - API Contract Conformance *(conditional)*
   - Skill Definition Conformance *(conditional)*
@@ -690,16 +688,15 @@ In summary:
   - Technical Findings
   - Technical Debt Register *(conditional)*
   - Unified Risk Register
-  - Remediation Roadmap
-  - Recommendation Classification *(conditional)*
-- Trade-off Analysis (combined, cross-project trade-offs only)
+- Solution Comparison (combined, cross-project trade-offs only)
 - Scope Exclusions (once, shared)
-- Limitations and Unknowns (once, shared)
-- Operator Verification Handoff *(source-only mode)* / Executed Evidence Log
+- Known Limitations (once, shared)
+- Further Verification *(source-only mode)* / Executed Evidence Log
   *(executed-readonly or executed-commands mode, conditional)* (once, shared)
-- Follow-up Plan *(conditional)* (once, shared)
-- Validation Record (once, shared)
-- References (once, shared)
+- Validation Protocol (once, shared)
+- Remediation Roadmap (once, shared - consolidated matrix and registers with a Project
+  column, carrying Recommendation Classification and Follow-up Plan subsections)
+- Reference Sources (once, shared)
 
 ## Specification Files
 
@@ -717,7 +714,7 @@ Each report section is specified in a file under `process/report-format/`.
 |                               | High-Level Observations                                  |
 | `methodology-scoring.md`      | Auditing Methodology, Scoring Rubrics                    |
 | `architectural-assessment.md` | Architectural Assessment and its conditional subsections |
-| `report-analysis.md`          | Trade-off Analysis, Threat Model                         |
+| `report-analysis.md`          | Solution Comparison, Threat Model                         |
 | `conditional-conformance.md`  | API Contract, Skill Definition, Agent Guidance,          |
 |                               | AI System, Standards, Requirements, Engineering          |
 |                               | Baseline, Structure Conformance, API Compatibility &     |
@@ -726,8 +723,9 @@ Each report section is specified in a file under `process/report-format/`.
 | `findings-registers.md`       | Strengths, Technical Findings, Technical Debt            |
 |                               | Register, Unified Risk Register, Remediation Roadmap,    |
 |                               | Recommendation Classification                            |
-| `report-closing.md`           | Scope Exclusions, Limitations and Unknowns, Re-audit And |
-|                               | Follow-up Plan, Validation Record, References            |
+| `report-closing.md`           | Scope Exclusions, Known Limitations, Verification |
+|                               | Handoff, Executed Evidence Log, Follow-up Plan,          |
+|                               | Validation Protocol, Reference Sources                            |
 | `hunt-style.md`               | Hunt report style: verdict, domain register, journey     |
 |                               | traces, remediation phases                               |
 | `review-style.md`             | Review report style: execution register, evidence        |
@@ -764,10 +762,10 @@ every item is mechanical and takes seconds to verify.
 | Table separation | One blank line between a table and any adjacent block - paragraph, bold heading, list, or heading                                            |
 | Bold markers     | `**` pairs balance on every line - a stray marker after a `**Field:**` label renders as literal asterisks                                    |
 | Registers        | Every RSK cites an FND, every REC cites an FND, risk-map covers rated risks                                                                  |
-| Classification   | At Standard/Detailed, Recommendation Classification lists every REC exactly once                                                             |
+| Classification   | At Standard/Detailed, the Recommendation Classification subsection of the Remediation Roadmap lists every REC exactly once                  |
 | Project scope    | Inventory lists only intake-confirmed projects, exclusions disclosed in Scope Exclusions                                                     |
 | Location         | Report path matches the output directory recorded during intake                                                                              |
-| Ending           | References is the last section, no closing line after it                                                                                     |
+| Ending           | Reference Sources is the last section, no closing line after it                                                                                     |
 
 `scripts/format-table.py` in the skill repository is the canonical formatting script,
 copy it into the audited repository's `work/` directory before use.

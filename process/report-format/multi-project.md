@@ -93,7 +93,7 @@ Each project gets a level-2 heading (`##`) in the ``Project `<name>` `` form - f
 - Scoring Rubrics
 - Architectural Assessment (with conditional subsections)
 - Structure Review
-- Trade-off Analysis
+- Solution Comparison
 - Threat Model *(conditional)*
 - API Contract Conformance *(conditional)*
 - Skill Definition Conformance *(conditional)*
@@ -109,10 +109,11 @@ Each project gets a level-2 heading (`##`) in the ``Project `<name>` `` form - f
 - Technical Findings
 - Technical Debt Register *(conditional)*
 - Unified Risk Register
-- Remediation Roadmap
-- Recommendation Classification *(conditional)*
 
 Use level-3 headings (`###`) for subsections within each project block.
+
+Recommendations never render inside a project block - the consolidated Remediation
+Roadmap described below owns them report-wide.
 
 **Finding IDs** number globally across the whole report.
 
@@ -142,20 +143,21 @@ own project suffix, and the split is recorded in the Changes section.
 
 **Shared sections** appear once at the end of the report, after all per-project sections:
 
-- Trade-off Analysis (combined)
+- Solution Comparison (combined)
+- Remediation Roadmap (consolidated)
 - Scope Exclusions
-- Limitations and Unknowns
-- Follow-up Plan *(conditional)*
-- Validation Record
-- References
+- Known Limitations
+- Further Verification *(source-only mode)* / Executed Evidence Log *(executed modes)*
+- Validation Protocol
+- Reference Sources
 
-The combined **Trade-off Analysis** holds only cross-project trade-offs.
+The combined **Solution Comparison** holds only cross-project trade-offs.
 
 A trade-off is cross-project only when the decision was made once and constrains more than one
 project, such as a shared dependency choice or a repository-wide workspace or build decision.
 
 The same issue type appearing independently in two projects is a repeated per-project finding,
-not a cross-project trade-off, and stays in the per-project Trade-off Analysis after that project's
+not a cross-project trade-off, and stays in the per-project Solution Comparison after that project's
 Architectural Assessment.
 
 The combined table adds a leading `Project` column.
@@ -163,7 +165,19 @@ The combined table adds a leading `Project` column.
 When no cross-project trade-off qualifies,
 the section stays present and the table carries a single `N/A` row with a one-line justification.
 
-The Scope Exclusions, Limitations and Unknowns, Validation Record,
+The consolidated **Remediation Roadmap** renders once, immediately before
+`Reference Sources`, merging every project's recommendations into one prioritized matrix,
+one set of `### REC` detail blocks, and one `### Recommendation Classification` table,
+and closes with the `### Follow-up Plan` subsection when the roadmap carries a P1 or P2
+recommendation.
+
+Its matrix and classification tables gain a leading `Project` column, and `### REC`
+headings keep their `(<project>)` suffix.
+
+A project with no `REC` rows simply does not appear in the merged tables - the per-project
+`### Remediation Roadmap` and `### Recommendation Classification` blocks no longer exist.
+
+The Scope Exclusions, Known Limitations, Validation Protocol,
 and Re-audit sections cover all projects and carry the exclusion disclosures.
 
 Qualify rows per project using the project identifier.
@@ -177,6 +191,9 @@ The validator enforces three multi-project rules once a `Project Inventory` exis
   owner.
 - The Project column appears only in combined and shared tables - a single-project report
   without a Project Inventory must not carry one, and the evidence ledger follows the same rule.
+- The Remediation Roadmap renders once at level 2 - a `### Remediation Roadmap` or a
+  project-block `### Recommendation Classification` heading fails, and `Recommendation
+  Classification` and `Follow-up Plan` render only as `###` subsections inside it.
 
 **Combined layout** (`project_layout: combined`)
 
@@ -185,7 +202,9 @@ Under `combined` the report carries no per-project level-2 blocks.
 Sections appear once at level 2 in the standard single-project order, and every register,
 scorecard, and per-project table gains a `Project` column carrying the project identifier -
 one Technical Findings table, one Unified Risk Register, one Remediation Roadmap, one
-Evidence List, each with all projects' rows merged.
+Evidence List, each with all projects' rows merged - the roadmap carries the
+Recommendation Classification and Follow-up Plan subsections like a single-project
+report.
 
 Finding and register headings still carry the `(<project>)` suffix, and every shared table
 qualifies its rows through the `Project` column, never through `project::ID` prefixes.

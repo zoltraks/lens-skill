@@ -29,10 +29,10 @@ Do not rely on per-run memory of what a previous report happened to include.
 | PAR-4  | The Technical Debt Register separates remediation cost from cost of delay per CISQ/SQALE                                                                                                                            | `synthesis/debt-register.md`                                          |
 | PAR-5  | The evidence pass ran the `git log` author/commit concentration check and surfaced it as the Team & Continuity line                                                                                                 | `process/report-format/dashboard-observations.md`                     |
 | PAR-6  | A source-only component inventory was produced from the ecosystem's manifest or lockfile                                                                                                                            | `references/dependency-manifests.md`                                  |
-| PAR-7  | The Limitations and Unknowns section lists every check that would require execution and was not performed                                                                                                           | `process/report-format/report-closing.md`                             |
-| PAR-8  | The Validation Record self-check table is present and complete                                                                                                                                                      | `process/report-format/report-closing.md`                             |
+| PAR-7  | The Known Limitations section lists every check that would require execution and was not performed                                                                                                           | `process/report-format/report-closing.md`                             |
+| PAR-8  | The Validation Protocol self-check table is present and complete                                                                                                                                                      | `process/report-format/report-closing.md`                             |
 | PAR-9  | Reference standards were re-derived from the per-stack lookup for the detected stack, never copied verbatim from a prior report                                                                                     | `references/stack-standards.md`                                       |
-| PAR-10 | When Descriptive mode is enabled, the Glossary indexes every acronym, every body occurrence links to its anchor, and every cited register ID (`EVD`, `FND`, `RSK`, `REC`, `TDR`, `PAR`) links to its definition     | `process/report-format/report-opening.md`, `process/report-format.md` |
+| PAR-10 | When Descriptive mode is enabled, the Glossary Index indexes every acronym, every body occurrence links to its anchor, and every cited register ID (`EVD`, `FND`, `RSK`, `REC`, `TDR`, `PAR`) links to its definition     | `process/report-format/report-opening.md`, `process/report-format.md` |
 | PAR-11 | The Audit Coverage table follows Document Information and agrees with Scope Exclusions: no `Covered` type is disclaimed, every `Not done` row has an exclusion bullet, and no `Not applicable` row renders          | `references/audit-taxonomy.md`                                        |
 | PAR-12 | Every SBOM entry has a License cell populated from an inspected declaration or marked `Unknown`, and every direct component is manifest-sourced                                                                     | `references/sbom-schema.md`                                           |
 | PAR-13 | Every Evidence Ledger row and every finding carries an `Observation` or `Concern` tag                                                                                                                               | `principles/evaluation-rules.md`                                      |
@@ -40,7 +40,7 @@ Do not rely on per-run memory of what a previous report happened to include.
 | PAR-15 | Delivery Practice & Team Continuity is present per project, DORA-proxy fields are marked as proxies or `Not specified`, and a bus-factor rating is given (`Not collected` when Git was out of scope)                | `references/delivery-practice.md`                                     |
 | PAR-16 | In a non-English report, every section heading and scored-dimension name matches the governing `translations/` file verbatim                                                                                        | `translations/` files                                                 |
 | PAR-17 | When agent-facing artifacts exist, the Skills Inventory and Agent Artifacts table list every discovered `SKILL.md` and artifact with status, out-of-scope markings, and the spec baseline used                      | `assessment/skill-definition.md`                                      |
-| PAR-18 | At Standard and Detailed detail levels Recommendation Classification is present and every `REC-XXX` in the roadmap appears once with class `Recommended`, `Optional`, or `Not recommended`                          | `synthesis/remediation-roadmap.md`                                    |
+| PAR-18 | At Standard and Detailed detail levels the Recommendation Classification subsection of the Remediation Roadmap is present and every `REC-XXX` appears once with class `Recommended`, `Optional`, or `Not recommended` | `synthesis/remediation-roadmap.md`                                    |
 | PAR-19 | When a structured agent-guidance set exists, Agent Guidance Conformance lists every discovered guidance document with status, out-of-scope markings, and the baseline used                                          | `assessment/agent-guidance.md`                                        |
 | PAR-20 | On a code-bearing subject Structure Review is present with verdicts for directory organization, naming, component placement, supporting-artifact layout, and consistency - or a justified `N/A`                     | `assessment/structure-review.md`                                      |
 | PAR-21 | On a code-bearing subject Code Style is present with a resolved convention tier per partition - or a justified `N/A`, and `N/A` under `Report Style: hunt`                                                          | `assessment/code-style.md`                                            |
@@ -60,7 +60,7 @@ Do not rely on per-run memory of what a previous report happened to include.
 PAR-5 may report `Not collected` when Git history is unavailable, silence is not acceptable.
 
 PAR-18 reports `N/A` under `Report Style: hunt` or `review`. Neither style carries a
-Recommendation Classification section, disposition lives in Remediation Phases or the
+Recommendation Classification subsection, disposition lives in Remediation Phases or the
 Improvement Plan, per `process/report-format/hunt-style.md` and
 `process/report-format/review-style.md`.
 
@@ -91,7 +91,7 @@ A report's capability set is the union of:
   delivery-practice proxies, score formula, score floor, confidence, Observation/Concern
   tags, and readiness state).
 
-The Validation Record renders this set so a future report can diff it mechanically.
+The Validation Protocol renders this set so a future report can diff it mechanically.
 
 ## Consistency Gate
 
@@ -101,7 +101,7 @@ Run this gate before marking a report final.
 2. Diff it against the Mandatory Core Checklist: every item is `Applied` or `N/A` with an
    applicability justification.
 3. Diff it against the most recent audit report found for ANY subject during intake
-   discovery. Extract that report's capability set from its Validation Record when present,
+   discovery. Extract that report's capability set from its Validation Protocol when present,
    otherwise from its section headings.
 4. Apply any capability present in that report but absent here, or record an explicit
    inapplicability justification (for example, "API Compatibility pillar: `N/A`, subject is a
@@ -113,15 +113,15 @@ Run this gate before marking a report final.
    and project-qualified shared references.
    On a confirmed re-audit, also verify that the baseline file still matches the checksum recorded
    at intake, and stop publication on a mismatch.
-7. Record the outcome in the Validation Record - the report is complete when every gate result is
+7. Record the outcome in the Validation Protocol - the report is complete when every gate result is
    named there.
 
-A report may be complete and useful while a gate result stays open in its Validation Record.
+A report may be complete and useful while a gate result stays open in its Validation Protocol.
 
 Do not weaken the report to make the gate pass.
 
 When the most recent baseline predates the current skill version,
-the Validation Record names which sections were added for parity versus which compare as content.
+the Validation Protocol names which sections were added for parity versus which compare as content.
 
 Added structural sections are capability differences, not product changes.
 
@@ -131,7 +131,7 @@ An item is `N/A` only when genuinely inapplicable to the subject.
 
 `N/A` never means "not checked" - the check ran and was judged inapplicable.
 
-Justifications live in the Validation Record's Evidence / Justification column.
+Justifications live in the Validation Protocol's Evidence / Justification column.
 
 Omitted conditional sections also appear in Scope Exclusions.
 
@@ -152,15 +152,15 @@ A report the user supplies also counts.
 
 The gate is bounded by accessible files.
 
-Record that bound in the Validation Record when discovery finds nothing.
+Record that bound in the Validation Protocol when discovery finds nothing.
 
 ## Rules
 
 - *Run the checklist on every report, including Brief reports.*
 - *A capability in a newer report on a different subject must be applied here or justified as
   inapplicable - never silently dropped.*
-- *A failed gate stays named in the Validation Record.*
-- *The Validation Record is part of the report - its absence fails the gate itself.*
+- *A failed gate stays named in the Validation Protocol.*
+- *The Validation Protocol is part of the report - its absence fails the gate itself.*
 - *A shared multi-project reference must use a stable project-qualified identifier.*
 - *A machine-readable token must remain unchanged in translated reports.*
 - *A passing structural check does not override a failed semantic check.*

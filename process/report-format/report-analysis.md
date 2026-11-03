@@ -5,7 +5,7 @@
 > **Scope:** Trade-off analysis and threat model sections
 > **Key items:** engineering trade-offs, STRIDE threats
 
-## Trade-off Analysis
+## Solution Comparison
 
 Present engineering trade-offs immediately after the Architectural Assessment,
 in the same pass as the decisions they discuss.
@@ -41,8 +41,8 @@ Column meanings:
 - Trade-off reasoning may also be embedded into individual finding blocks (under Description or
   Impact) when it directly explains a specific finding. The standalone table here surfaces the
   system-level tensions.
-- For a multi-project report, each project block carries its own Trade-off Analysis after that
-  project's Architectural Assessment. A combined report-level Trade-off Analysis holds only
+- For a multi-project report, each project block carries its own Solution Comparison after that
+  project's Architectural Assessment. A combined report-level Solution Comparison holds only
   cross-project trade-offs, per the Multi-Project Report Structure section.
 - When the trade-off analysis includes an explicit recommendation, that recommendation must also
   appear as a `REC-XXX` entry in the Remediation Roadmap, traced to the relevant

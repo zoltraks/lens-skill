@@ -72,7 +72,7 @@
   members, audits each included member as an independent project per `process/audit-workflow.md`
   and `process/report-format/multi-project.md`, unfetched members disclosed in Scope Exclusions.
 - Standards conformance belongs in `assessment/standards-conformance.md`, only for documented
-  development standards. References lists every external source consulted.
+  development standards. Reference Sources lists every external source consulted.
 - Product requirement and acceptance-criteria conformance belongs in
   `assessment/requirements-conformance.md`, only for declared product requirements documents -
   distinct from development-standards conformance and documented-claim verification.
@@ -80,7 +80,7 @@
   the floor bundled stack and purpose digests define, applies only when the subject's detected
   stack or nature is covered, and records which baseline governed each judgement.
 - Canonical stack references are re-derived from `references/stack-standards.md` during intake
-  and cited in Auditing Methodology and References, never copied verbatim from a prior report.
+  and cited in Auditing Methodology and Reference Sources, never copied verbatim from a prior report.
 - Every CWE-classified security finding names its equivalent static analyzer rule from
   `references/cwe-analyzer.md` or states none exists. The lookup never implies an analyzer ran.
 - Source-derived dependency inventories follow `references/dependency-manifests.md` (manifests
@@ -102,25 +102,30 @@
   `process/report-format.md`, with omissions noted in Scope Exclusions - never force one.
 - The Technical Debt Register (`synthesis/debt-register.md`) is distinct from the Unified Risk
   Register: debt is cost already present, risk is what could go wrong. Never duplicate entries.
-- The Follow-up Plan (`synthesis/reaudit-plan.md`) precedes Validation Record and
-  maps P1/P2 findings to verification owners and closure evidence.
+- The Follow-up Plan (`synthesis/reaudit-plan.md`) closes the Remediation Roadmap as its
+  final `###` subsection when a P1 or P2 recommendation exists, mapping those findings to
+  verification owners and closure evidence - no standalone section renders.
 - Every absent-capability finding carries an `Absence` field built from repository signals per
   `principles/evaluation-rules.md`, never a claim about the authors' motives.
-- Recommendation Classification (`synthesis/remediation-roadmap.md`) classes every `REC-XXX`,
-  omitted at Brief with a Scope Exclusions note.
+- Recommendation Classification (`synthesis/remediation-roadmap.md`) classes every `REC-XXX`
+  as a `###` subsection of the Remediation Roadmap, omitted at Brief with a Scope
+  Exclusions note.
 - The Changes Since Previous Audit section (`synthesis/report-comparison.md`) appears only
   when a previous report exists - never overwritten, the new file carries the next revision.
 - `report-style: hunt` or `review` renders the same evidence base per
   `process/report-format/hunt-style.md`/`review-style.md` - intake records the snapshot,
   external reports reconcile per `synthesis/report-triangulation.md`.
-- Limitations and Unknowns lists every unperformed check. Validation Record closes the report
+- Known Limitations lists every unperformed check. Validation Protocol closes the report
   with the Mandatory Core Checklist result and the `process/report-parity.md` gate outcome.
 - Multi-project reports: a condensed combined Executive Summary and Changes follow the
-  Project Inventory, combined Trade-off Analysis holds only cross-project trade-offs.
+  Project Inventory, combined Solution Comparison holds only cross-project trade-offs, and
+  one consolidated Remediation Roadmap closes the register sections just before
+  `Reference Sources`, merging every project's recommendations - per-project roadmap
+  and classification blocks never render.
 - Each `translations/` file defines one report language, loaded only when needed.
 - Prefer the narrowest assessment file matching the request: a single-dimension request loads
   that one file plus `principles/` and produces the matching finding pillar and risk row only.
-- Trade-offs appear in Trade-off Analysis after Architectural Assessment and embedded in
-  findings, per `synthesis/tradeoff-analysis.md`.
+- Trade-offs appear in Solution Comparison after Architectural Assessment and embedded in
+  findings, per `synthesis/solution-comparison.md`.
 - For a full audit, load `principles/`, `process/`, every relevant `assessment/` file, and all
   `synthesis/` files, marking inapplicable categories `N/A` with justification.

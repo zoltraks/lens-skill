@@ -41,7 +41,7 @@ The following carry over unchanged from `process/report-format.md` and its spec 
   `process/audit-workflow.md`.
 - The Contradiction Register per `synthesis/report-triangulation.md` whenever an external
   report was found at intake.
-- Scope Exclusions, Limitations and Unknowns, Validation Record, and References per
+- Scope Exclusions, Known Limitations, Validation Protocol, and Reference Sources per
   `report-closing.md`.
 
 Review adds one mandatory finding field everywhere the shared schema applies: `Evidence
@@ -91,12 +91,12 @@ Produce these top-level sections in this order, with unnumbered headings:
 - Metrics Snapshot *(when the register produced metrics)*
 - Artifact Manifest *(required under `executed-readonly` and `executed-commands`)*
 - Contradiction Register *(conditional - external report found at intake)*
-- Operator Verification Handoff *(source-only mode)* - under an executed mode the
+- Further Verification *(source-only mode)* - under an executed mode the
   section lists only the checks outside the commissioned set
 - Scope Exclusions
-- Limitations and Unknowns
-- Validation Record
-- References
+- Known Limitations
+- Validation Protocol
+- Reference Sources
 - `## Appendix <letter>: <title>` appendices *(optional - logs, coverage detail,
   reproduction harnesses, advisory dumps)*
 

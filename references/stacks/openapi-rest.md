@@ -130,6 +130,6 @@ When web fetch is available, spot-check one required field against the OpenAPI t
 RFC 9457 member against the RFC.
 
 Record whichever baseline - this snapshot or the live pages - the audit used, and note drift in
-Limitations and Unknowns.
+Known Limitations.
 
 The check is best-effort, never blocks the audit, and never executes the audited project.

@@ -7,7 +7,8 @@
 > **Key items:** verification owner, target date, sign-off gate, closure evidence, `FND-XXX`
 > traceability
 
-This file defines the Follow-up Plan, which precedes the final References section.
+This file defines the Follow-up Plan, a `###` subsection closing the Remediation
+Roadmap - no standalone section renders.
 
 It connects remediation to verified closure and accountable sign-off.
 
@@ -23,10 +24,10 @@ rather than inventing names.
 
 ## When This Applies
 
-Include this section whenever the report contains a remediation roadmap with a P1 or P2
+Include this subsection whenever the report's Remediation Roadmap carries a P1 or P2
 recommendation.
 
-Otherwise omit this conditional section and explain the omission in Scope Exclusions.
+Otherwise omit this conditional subsection and explain the omission in Scope Exclusions.
 
 ## Table Format
 

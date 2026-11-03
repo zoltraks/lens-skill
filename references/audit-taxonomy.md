@@ -44,7 +44,7 @@ and the Rationale column always states why.
 
 | Report type                          | Answered by                                                        | Default status |
 |--------------------------------------|--------------------------------------------------------------------|----------------|
-| Software Architecture Review         | Architectural Assessment, Structure Review, Trade-off Analysis     | COVERED        |
+| Software Architecture Review         | Architectural Assessment, Structure Review, Solution Comparison     | COVERED        |
 | Code Quality Audit                   | Code Quality pillar findings, Technical Debt Register              | COVERED        |
 | Security Vulnerability Assessment    | Security pillar findings, Threat Model, CWE mappings               | COVERED        |
 | Open Source License Compliance       | License Compliance, SBOM license pass                              | COVERED        |
@@ -73,7 +73,7 @@ These defaults keep the matrix honest about what a source-only audit is.
 and recorded decisions.
 
 The audit cannot validate behavior under real load or organizational ownership,
-both of which stay visible in Limitations and Unknowns.
+both of which stay visible in Known Limitations.
 
 **Code Quality Audit.** The report reviews code by inspection and reasons about complexity,
 duplication, and standards adherence.

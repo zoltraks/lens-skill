@@ -227,7 +227,7 @@ Classify every claim before reporting it:
 
 A `Plausible hypothesis` never counts in verified-finding totals, severity counts, or scores.
 
-It is tracked through the Operator Verification Handoff or re-audit plan until evidence
+It is tracked through the Further Verification or re-audit plan until evidence
 promotes or closes it.
 - **Optional improvement** - a beneficial change that is not a defect at all.
 

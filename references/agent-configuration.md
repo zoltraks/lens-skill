@@ -33,7 +33,7 @@ When web fetch is available during the audit, retrieve the named source and comp
 constraints against the snapshot.
 
 When the fetched source differs, record the live constraints as that format's baseline and note
-the drift in the report's Limitations and Unknowns.
+the drift in the report's Known Limitations.
 
 The check is best-effort and never executes anything against the audited subject.
 

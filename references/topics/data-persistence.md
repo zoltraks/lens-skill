@@ -126,6 +126,6 @@ When web fetch is available, spot-check one pragma or session-setting default ag
 target engine's documentation before citing the floor above.
 
 Record whichever baseline - this snapshot or the live pages - the audit used, and note drift in
-Limitations and Unknowns.
+Known Limitations.
 
 The check is best-effort, never blocks the audit, and never executes the audited project.

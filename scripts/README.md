@@ -178,7 +178,7 @@ whenever finding blocks assess `Breaking change`.
 Its scorecard-mean check recomputes each `Scorecard Summary` table's overall from the displayed
 dimension scores and compares it to the stated `Overall score` at one decimal place.
 
-Its references check requires the closing References section to stay last and carry an
+Its references check requires the closing Reference Sources section to stay last and carry an
 external `[title](url)` link, a `No public URL` marker, or `No external sources consulted`,
 and it rejects repository-path rows in the reference table.
 
@@ -210,7 +210,7 @@ Polish suffixes, so `brama` flags `bramy` and `bramce` without touching `bramofo
 Enumeration-aware splice suppression keeps legitimate noun lists quiet.
 
 Run it on every Polish report
-before delivery - a pre-delivery gate, not a Validation Record row.
+before delivery - a pre-delivery gate, not a Validation Protocol row.
 
 Like the other report
 tools it is copied into the audited repository under a `.tmp.` name before use - a copy

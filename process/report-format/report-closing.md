@@ -10,12 +10,12 @@
 | Section                       | Line | What it covers                                         |
 |-------------------------------|------|--------------------------------------------------------|
 | Scope Exclusions              | 20   | exclusion bullets, rationale, coverage alignment       |
-| Limitations and Unknowns      | 104  | unresolved limits, unknowns, evidence gaps             |
-| Operator Verification Handoff | 134  | operator checks, commands, pass criteria               |
+| Known Limitations      | 104  | unresolved limits, unknowns, evidence gaps             |
+| Further Verification          | 134  | deferred checks, commands, pass criteria               |
 | Executed Evidence Log         | 160  | executed-mode checks, commands, results                |
-| Follow-up Plan                | 188  | retest plan, re-audit cadence, follow-ups              |
-| Validation Record             | 229  | PAR-1 through PAR-27 rows, evidence basis              |
-| References                    | 264  | external sources, link paragraphs, cached-source notes |
+| Follow-up Plan                | 188  | roadmap-closing retest and re-audit plan               |
+| Validation Protocol             | 231  | PAR-1 through PAR-27 rows, evidence basis              |
+| Reference Sources             | 264  | external sources, link paragraphs, cached-source notes |
 
 ## Scope Exclusions
 
@@ -101,7 +101,7 @@ The Changes Since Previous Audit section is the exception,
 a first audit has no previous report to compare and a fresh audit ignores it,
 so its absence needs no note in either case.
 
-## Limitations and Unknowns
+## Known Limitations
 
 List every check that would require execution and was therefore not performed, plus every
 unresolved unknown the report carries.
@@ -131,7 +131,7 @@ live validation has confirmed.
 
 For multi-project reports, qualify each row with the project identifier.
 
-## Operator Verification Handoff
+## Further Verification
 
 This section turns the source-only boundary into an actionable follow-up.
 
@@ -187,12 +187,12 @@ still never imply the subject was deployed, mutated, or connected to live system
 
 ## Follow-up Plan
 
-Include this section only when the Remediation Roadmap contains at least one P1 or P2
-recommendation, per `synthesis/reaudit-plan.md`.
+Render the follow-up plan as a `### Follow-up Plan` subsection at the bottom of the
+Remediation Roadmap, and only when the roadmap contains at least one P1 or P2
+recommendation, per `synthesis/reaudit-plan.md` - no standalone level-2 section
+renders, and the subsection is the last element of the roadmap.
 
-It precedes the Validation Record and References sections.
-
-This section makes the report actionable in a governance sense.
+This subsection makes the report actionable in a governance sense.
 
 It borrows the follow-up-audit practice of ISO 19011:2026 (guidelines for auditing
 management systems, applied here as supporting principles only)
@@ -212,6 +212,8 @@ Include one row per P1 and P2 finding at minimum.
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
 
+In a multi-project report the merged table gains a leading `Project` column.
+
 After the table, state sign-off gates tied to project-qualified `RSK-XXX` IDs and an evidenced
 re-audit schedule.
 
@@ -226,7 +228,7 @@ residual risk, and the separation of final-report state from production sign-off
 Unknown owners or missing required verification leave sign-off pending, proposed roles are not
 assignments.
 
-## Validation Record
+## Validation Protocol
 
 Close the analysis with a self-check table verifying the report's internal consistency.
 
@@ -259,7 +261,7 @@ before the final timestamp is written - gate outcomes live here, not in a report
 
 For multi-project reports, qualify per-project checks with the project identifier.
 
-## References
+## Reference Sources
 
 This section lists every external source referenced during the audit.
 
@@ -268,7 +270,7 @@ It is always the final section of the report.
 Rows name external authoritative sources only: standards, specifications, official
 documentation, advisory databases, and consulted tool or vendor material.
 
-Internal repository artifacts are never References rows - inspected files, manifests,
+Internal repository artifacts are never Reference Sources rows - inspected files, manifests,
 source paths, and directories belong to the evidence ledger and Auditing Methodology.
 
 At the `Detailed` level the list is exhaustive: every external source the audit drew

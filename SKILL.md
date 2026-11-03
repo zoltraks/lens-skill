@@ -20,7 +20,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.6.2"
+  version: "2.6.3"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -162,10 +162,10 @@ the parameter surfaces, defaults, resolution rules, and re-audit parameters live
 - **`process/report-format/dashboard-observations.md`** - Health Dashboard, delivery practice.
 - **`process/report-format/methodology-scoring.md`** - Auditing Methodology, Scoring Rubrics.
 - **`process/report-format/architectural-assessment.md`** - Architectural Assessment.
-- **`process/report-format/report-analysis.md`** - Trade-off Analysis, Threat Model.
+- **`process/report-format/report-analysis.md`** - Solution Comparison, Threat Model.
 - **`process/report-format/conditional-conformance.md`** - Conditional conformance sections.
 - **`process/report-format/findings-registers.md`** - Strengths, findings, debt, risk, roadmap.
-- **`process/report-format/report-closing.md`** - Exclusions, Limitations, Validation, References.
+- **`process/report-format/report-closing.md`** - Exclusions, Limitations, Validation, Reference Sources.
 - **`process/report-format/code-style.md`** - Code Style section spec.
 - **`process/report-format/hunt-style.md`** / **`review-style.md`** - `hunt` and `review` styles.
 - **`process/report-format/structure-review.md`** - Structure Review variant contract.
@@ -197,7 +197,7 @@ the subject meets its inclusion criterion in `process/report-format.md`.
 
 - **`synthesis/risk-register.md`** - Unified risk register: `RSK-[001]` to `FND-XXX` findings.
 - **`synthesis/project-scorecard.md`** - 1-10 scorecard, rubric, scales (1-5, 1-3, star bars).
-- **`synthesis/tradeoff-analysis.md`** - Trade-offs as a standalone section and embedded findings.
+- **`synthesis/solution-comparison.md`** - Trade-offs as a standalone section and embedded findings.
 - **`synthesis/remediation-roadmap.md`** - Prioritized roadmap with impact-vs-effort matrix and
   the Recommended/Optional/Not recommended classification.
 - **`synthesis/debt-register.md`** - `TDR-[001]` inventory (CISQ/SQALE), for structural debt.

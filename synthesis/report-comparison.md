@@ -138,7 +138,7 @@ subject, not only this subject's prior revisions, with its path and revision.
 The consistency gate in `process/report-parity.md` diffs the new report's capability set against
 that baseline before the report is marked final.
 
-Extract the baseline's capability set from its Validation Record when present,
+Extract the baseline's capability set from its Validation Protocol when present,
 otherwise from its section headings.
 
 ## Report Revision
@@ -290,7 +290,7 @@ Distinguish three kinds of delta in the Changes Since Previous Audit section.
   changed, not the audited product. When the baseline's `Skill Version` predates the running
   version, enumerate the capability delta - new mandatory sections, finding or ledger fields,
   PAR rows, and scorecard dimensions - apply it to the new report, and name it in the Changes
-  section and the Validation Record.
+  section and the Validation Protocol.
 
 A refined figure does not change a finding's status by itself.
 

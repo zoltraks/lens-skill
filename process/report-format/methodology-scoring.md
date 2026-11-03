@@ -89,7 +89,7 @@ Cite a standard only when its corresponding section or assessment is present in 
 
 Do not list a standard that was not applied.
 
-Every standard named here appears in the References section with its canonical link.
+Every standard named here appears in the Reference Sources section with its canonical link.
 
 **Criteria matrix**
 
@@ -195,7 +195,7 @@ A `Not run` row is its own ledger class: the check is documented or was selected
 verification plan, and the audit recorded rather than executed it.
 
 `Not run` bounds the verification claim - it never weakens a finding that rests on positive
-inspected evidence, and every such row feeds the Limitations and Unknowns table per
+inspected evidence, and every such row feeds the Known Limitations table per
 `process/report-format/report-closing.md`.
 
 The full convention is codified in `references/topics/evidence-recipes.md`.
@@ -243,7 +243,7 @@ Most ledger rows are `Observation`.
 
 The tag is enforced mechanically: `scripts/validate-report.py` flags every `| EVD-` row and every
 finding block whose `Type` cell or field is missing or carries another value,
-so the Validation Record attestation is backed by a check rather than memory.
+so the Validation Protocol attestation is backed by a check rather than memory.
 
 Place documented commands, source locations, revisions, declared tool or report versions,
 exclusions, and limitations below the table rather than abbreviating away traceability.

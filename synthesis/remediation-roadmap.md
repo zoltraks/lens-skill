@@ -12,6 +12,12 @@ This file guides the remediation roadmap section.
 The goal is to present a prioritized, traceable plan where every recommendation resolves a specific
 finding.
 
+The section renders once per report - in a multi-project report it is a shared level-2
+section immediately before `Reference Sources` that merges every project's
+recommendations, per `process/report-format/multi-project.md` - and it closes with the
+Recommendation Classification subsection and, when a P1 or P2 recommendation exists, the
+Follow-up Plan subsection per `synthesis/reaudit-plan.md`.
+
 Apply `principles/evaluation-rules.md` throughout.
 
 Do not issue absolute directives unless the user explicitly requests them.
@@ -71,7 +77,7 @@ Priority expresses urgency, not a delivery commitment, use only supplied or appr
   information rather than assuming it.
 - Do not reproduce plaintext secrets, passwords, or cryptographic keys in the Recommendation or
   Verification columns.
-- Any recommendation stated in the Trade-off Analysis must also appear as a `REC-XXX` in this
+- Any recommendation stated in the Solution Comparison must also appear as a `REC-XXX` in this
   roadmap, traced to the same `FND-XXX`. Do not allow recommendations to exist only in the trade-off
   table.
 - Disposition completeness: every open non-Pass finding maps to at least one `REC-XXX` or to an
@@ -140,7 +146,7 @@ If an option only corrects documentation, do not claim it delivers the missing f
 ## Recommendation Classification
 
 At `Standard` and `Detailed` detail levels, classify every `REC-XXX` for the Recommendation
-Classification section that follows the roadmap, per
+Classification subsection that closes the roadmap, per
 `process/report-format/findings-registers.md`.
 
 Use exactly these classes:
@@ -173,8 +179,8 @@ action is advised at the report's state of knowledge.
 
 A `Not recommended` entry keeps its priority for when its blocking uncertainty resolves.
 
-The classification does not change the Follow-up Plan trigger, which stays a P1 or
-P2 recommendation present in the roadmap.
+The classification does not change the Follow-up Plan subsection trigger, which stays a
+P1 or P2 recommendation present in the roadmap.
 
 ## Relationship To Other Sections
 
@@ -183,7 +189,7 @@ Recommendations summarize and plan, they do not introduce new findings.
 Every recommendation must trace back to a finding in the Technical Findings or an entry in
 the Unified Risk Register.
 
-Trade-off analyses appear both as a standalone Trade-off Analysis section (immediately after the
+Trade-off analyses appear both as a standalone Solution Comparison section (immediately after the
 Architectural Assessment) and embedded into relevant findings.
 
 The roadmap references the relevant `FND-XXX` finding regardless of where the trade-off is

@@ -141,6 +141,6 @@ vendor documentation and the SLSA source-track requirements against slsa.dev - t
 conventions table drifts fastest.
 
 Record whichever baseline - this snapshot or the live pages - the audit used, and note
-drift in Limitations and Unknowns.
+drift in Known Limitations.
 
 The check is best-effort, never blocks the audit, and never executes the audited project.

@@ -118,6 +118,6 @@ When web fetch is available, attempt the DocWiki index.
 When it blocks automated fetch, record
 the attempt and use this snapshot plus the style-guide anchor.
 
-Record whichever baseline the audit used, and note drift in Limitations and Unknowns.
+Record whichever baseline the audit used, and note drift in Known Limitations.
 
 The check is best-effort, never blocks the audit, and never executes the audited project.

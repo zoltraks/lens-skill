@@ -149,6 +149,6 @@ When web fetch is available, compare the Top 10 category list against the curren
 note edition drift.
 
 Record whichever baseline - this snapshot or the live pages - the audit used, and note drift in
-Limitations and Unknowns.
+Known Limitations.
 
 The check is best-effort, never blocks the audit, and never executes the audited project.

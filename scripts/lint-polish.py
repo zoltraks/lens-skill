@@ -14,7 +14,7 @@ Usage:
 
 When --rules is omitted, translations/polish-language.md is loaded relative to
 this script. Polish audit reports must pass with zero errors before delivery;
-it is a translation-quality gate and earns no row in the Validation Record,
+it is a translation-quality gate and earns no row in the Validation Protocol,
 which mirrors the English report row for row.
 """
 

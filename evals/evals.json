@@ -49,7 +49,7 @@
         "The new report contains Changes Since Previous Audit and a revisioned filename.",
         "Historical execution results are labeled REPORTED rather than current verification.",
         "Structural additions caused by the skill version are distinguished from product changes.",
-        "A baseline produced by an older skill version gets the current capability set applied, named as a capability change in the Validation Record.",
+        "A baseline produced by an older skill version gets the current capability set applied, named as a capability change in the Validation Protocol.",
         "Field and column names that differ between the baseline report's schema and the current contract are read through the legacy field-name mapping, and the rename is recorded as a capability change rather than a product change."
       ]
     },
@@ -88,7 +88,7 @@
         "Descriptive fixed values are rendered in Polish (Polski, Szczegółowy, Etap przedprodukcyjny), the Stan and Stan prac rows are omitted for a final report on a clean tree, and no Tryb opisowy row appears in Document Information.",
         "The star-scale legend is labeled Skala oceny and names every band, including Zła for one star and Słaba for two stars.",
         "The report output uses ASCII punctuation only - straight quotes, spaced hyphens for dashes, and '...' - with no typographic quotes, em-dashes, en-dashes, or arrow characters.",
-        "scripts/lint-polish.py reports zero errors on the rendered report, and the Validation Record mirrors the English rows without adding Polish-language checks.",
+        "scripts/lint-polish.py reports zero errors on the rendered report, and the Validation Protocol mirrors the English rows without adding Polish-language checks.",
         "Headings render Podsumowanie wykonawcze and the summary column header Ryzyka, and the skill-version row carries a bare semver such as `2.0.2`.",
         "The not-run scope sentence names skanowania podatności, and readiness or severity adjectives used in prose render in declined lowercase bold (for example **niegotowa**, **wysokiej**) rather than uppercase."
       ]
@@ -108,12 +108,12 @@
     {
       "id": 9,
       "prompt": "Audit this small service from the supplied repository with default report parameters. The report must remain readable to a non-specialist audience.",
-      "expected_output": "A default audit that includes a Glossary section indexing every abbreviation and acronym used, carrying longer descriptions for selected terms, with every acronym occurrence in the report body linking to its description or the index table.",
+      "expected_output": "A default audit that includes a Glossary Index section indexing every abbreviation and acronym used, carrying longer descriptions for selected terms, with every acronym occurrence in the report body linking to its description or the index table.",
       "files": [],
       "expectations": [
-        "The report contains a Glossary section after Document Information or Project Inventory and before Executive Summary.",
+        "The report contains a Glossary Index section after Document Information or Project Inventory and before Executive Summary.",
         "The Glossary index table lists every acronym alphabetically, and terms with a longer description link to their ### subsection below the table.",
-        "Every acronym occurrence in the report body is a markdown link to its glossary description, or to #glossary when the term has no description.",
+        "Every acronym occurrence in the report body is a markdown link to its glossary description, or to #glossary-index when the term has no description.",
         "Acronyms that are part of capitalized compound names such as 'AI Provenance' or 'API Compatibility' are not linked.",
         "The Glossary covers report-internal identifier prefixes and technology and standard abbreviations used in the report, and at Detailed level includes a separate Identifier triplets table listing FND, EVD, the other register triplets, and all three-letter criteria and finding-pillar triplets in order.",
         "When Descriptive mode is disabled, the Glossary is omitted and the omission is justified in Scope Exclusions."
@@ -289,7 +289,7 @@
       "expectations": [
         "The report records the spec baseline used: the references/agent-skills.md snapshot date, or the live-fetch result when the optional check ran.",
         "When the specification cannot be fetched, conformance runs against the bundled snapshot and the limitation is disclosed rather than hidden.",
-        "A spec drift between the snapshot and a fetched live version is reported in Limitations and Unknowns, not silently applied.",
+        "A spec drift between the snapshot and a fetched live version is reported in Known Limitations, not silently applied.",
         "External validation such as skills-ref is recorded only when a committed or supplied result exists, marked as REPORTED evidence."
       ]
     },
@@ -312,7 +312,7 @@
       "expected_output": "A scripted glossary-linking pass that runs before table formatting, applies the validator's exemption rules, and re-runs whenever report prose changes.",
       "files": [],
       "expectations": [
-        "The glossary index terms are collected before body linking, and each link targets the term's own anchor: #glossary for index-only terms and the ### slug for described terms.",
+        "The glossary index terms are collected before body linking, and each link targets the term's own anchor: #glossary-index for index-only terms and the ### slug for described terms.",
         "Linking is performed by the scripts/link-glossary.py helper rather than by hand-inserted links.",
         "The linking pass runs before format-table.py and re-runs whenever report prose containing acronyms changes.",
         "Occurrences inside fenced code, inline code, headings, URLs, existing links, hyphenated identifiers, and capitalized compound names stay unlinked.",
@@ -327,7 +327,7 @@
       "files": [],
       "expectations": [
         "The baseline section count and names stated in process/report-format.md match the required-section check in scripts/validate-report.py.",
-        "The PAR row coverage stated in the Validation Record contract matches the parity-row loop in scripts/validate-report.py.",
+        "The PAR row coverage stated in the Validation Protocol contract matches the parity-row loop in scripts/validate-report.py.",
         "The required glossary terms and linking rules stated in the contract match the glossary checks in scripts/validate-report.py.",
         "Helper blocks mirrored verbatim between link-glossary.py and validate-report.py are updated together in the same change.",
         "The change is verified by formatting and validating a produced report to zero issues, not by reading the documents alone."
@@ -382,10 +382,10 @@
     {
       "id": 30,
       "prompt": "Audit this repository with the default Standard detail level. The report is intended to seed change documents, so recommendations need a disposition.",
-      "expected_output": "A report whose Recommendation Classification section follows the roadmap and dispositions every recommendation.",
+      "expected_output": "A report whose Remediation Roadmap closes with a Recommendation Classification subsection that dispositions every recommendation.",
       "files": [],
       "expectations": [
-        "A Recommendation Classification section appears after the Remediation Roadmap and before Scope Exclusions.",
+        "A Recommendation Classification subsection appears inside the Remediation Roadmap, after the recommendation detail blocks.",
         "Every REC-XXX from the roadmap appears exactly once with a class of RECOMMENDED, OPTIONAL, or NOT RECOMMENDED and a short basis.",
         "A recommendation whose finding's intent or timing is undetermined is classified NOT RECOMMENDED, with a note on what evidence would reclassify it.",
         "P1-P4 priority is preserved separately from the class.",
@@ -775,7 +775,7 @@
       "files": [],
       "expectations": [
         "The previous report's checksum, or byte size and line count when hashing is unavailable, is recorded at baseline confirmation.",
-        "The baseline file is re-verified against the recorded checksum before concatenation and again at the consistency gate, and a mismatch stops delivery and is named in the Validation Record.",
+        "The baseline file is re-verified against the recorded checksum before concatenation and again at the consistency gate, and a mismatch stops delivery and is named in the Validation Protocol.",
         "The completion message states the output path, skill version, validation result, elapsed time, and that the baseline file is unchanged from the intake record."
       ]
     },
@@ -799,7 +799,7 @@
       "expectations": [
         "Document Information records Report Style as audit and Evidence Mode as source-only.",
         "Document Information records a Subject Revision anchor naming the inspected commit or tree state.",
-        "The report carries an Operator Verification Handoff section listing runtime checks for the operator.",
+        "The report carries a Further Verification section listing runtime checks for the operator.",
         "Only findings confirmed by execution carry a Runtime field - unconfirmed findings omit it.",
         "The stated overall score equals the recomputed one-decimal mean of the displayed dimension scores.",
         "Every Remediation Roadmap table carries a Breaking column when findings assess Breaking change."
@@ -867,7 +867,7 @@
         "Plural flat numbered change and plan directories are treated as recorded conventions, not as drift against a canonical singular or version-grouped layout.",
         "The delivery resolution descends into docs/report/audit/ for the audit report rather than offering bare docs/report/ as the primary path.",
         "Previously written reports under docs/report/audit/ are discovered as prior-audit candidates.",
-        "The Validation Record carries rows PAR-1 through PAR-19 in fixed order, and PAR-19 records the Agent Guidance Conformance inventory as evidence."
+        "The Validation Protocol carries rows PAR-1 through PAR-19 in fixed order, and PAR-19 records the Agent Guidance Conformance inventory as evidence."
       ]
     },
     {
@@ -1035,7 +1035,7 @@
       "expected_output": "A structurally valid review skeleton that passes the validator with zero issues.",
       "files": [],
       "expectations": [
-        "The skeleton carries every required review section: Document Information, Audit Coverage, Verdict, System Context, Check Plan And Methodology, Execution Register, Domain Findings, Risk Register, Improvement Plan, Scope Exclusions, Limitations and Unknowns, Validation Record, and References.",
+        "The skeleton carries every required review section: Document Information, Audit Coverage, Verdict, System Context, Check Plan And Methodology, Execution Register, Domain Findings, Risk Register, Improvement Plan, Scope Exclusions, Known Limitations, Validation Protocol, and Reference Sources.",
         "The Execution Register template row carries command, cwd, tool and version, timestamp, input revision, exit status, result, interpretation, and artifact columns.",
         "The `### FND-` template block carries an `Evidence level` field and the Improvement Plan carries a disposition column or field.",
         "An `evidence-mode` of `executed-readonly` or `executed-commands` in the params file adds the Artifact Manifest section."
@@ -1102,7 +1102,7 @@
         "The output filename uses the PRZEGLĄD stem: bare PRZEGLĄD.md is the default for a first Polish review report, with PRZEGLĄD-1.0.md offered as the revisioned alternative.",
         "Machine-readable identifiers, commands, and status tokens stay in English; prose and section headings render in Polish per `translations/polish-language.md`.",
         "Section names render per translations/polish-language.md: Werdykt, Plan kontroli i metodologia, Rejestr wykonania, Ustalenia domenowe, Plan poprawy, and Manifest artefaktów when the evidence mode requires it.",
-        "The Validation Record carries PAR-1 through PAR-20 rows with PAR-18 rendered N/D, since the review style has no Recommendation Classification section."
+        "The Validation Protocol carries PAR-1 through PAR-20 rows with PAR-18 rendered N/D, since the review style has no Recommendation Classification section."
       ]
     },
     {
@@ -1137,7 +1137,7 @@
       "expected_output": "An audit-style report whose Structure Review section evaluates the physical organization with per-area verdicts and `FND-STR-` findings.",
       "files": [],
       "expectations": [
-        "The audit contract carries a Structure Review section between Architectural Assessment and Trade-off Analysis.",
+        "The audit contract carries a Structure Review section between Architectural Assessment and Solution Comparison.",
         "The section holds a verdict table covering directory organization, naming conventions, component placement, supporting-artifact layout, and consistency.",
         "Structural defects surface as `FND-STR-` findings under the Structure & Organization pillar and land in the scorecard's Structure dimension.",
         "The structure assessment stays within its boundary: logical modularity and coupling remain maintainability findings, code-level idioms remain best-practices findings."
@@ -1151,7 +1151,7 @@
       "expectations": [
         "No `FND-STR-` findings appear anywhere in the hunt report.",
         "The domain ratings table contains only the ten fixed hunt domains - no Structure row.",
-        "PAR-20 renders `N/A` in the hunt report's Validation Record."
+        "PAR-20 renders `N/A` in the hunt report's Validation Protocol."
       ]
     },
     {
@@ -1210,7 +1210,7 @@
       "files": [],
       "expectations": [
         "Every `FND-`, `RSK-`, `REC-`, and `TDR-` citation outside its defining `###` heading links to that heading's anchor.",
-        "Every `EVD-` citation outside its ledger row links to the evidence-ledger section anchor, and every `PAR-` citation to the Validation Record section anchor.",
+        "Every `EVD-` citation outside its ledger row links to the evidence-ledger section anchor, and every `PAR-` citation to the Validation Protocol section anchor.",
         "Defining locations - the `### <ID>:` heading and the register row's own first cell - are never self-linked.",
         "Identifiers inside code spans, code fences, existing links, and URLs stay plain text.",
         "Table column widths and separator padding count the full link markup, so all pipes align vertically in the raw Markdown source.",
@@ -1244,7 +1244,7 @@
     },
     {
       "id": 104,
-      "prompt": "Translate this English audit report to Polish; its Validation Record marks PAR-16 `N/A` because the report is English.",
+      "prompt": "Translate this English audit report to Polish; its Validation Protocol marks PAR-16 `N/A` because the report is English.",
       "expected_output": "The Polish report's PAR-16 row is re-evaluated for the Polish language, not mirrored.",
       "files": [],
       "expectations": [
@@ -1279,10 +1279,10 @@
     {
       "id": 107,
       "prompt": "Audit this repository at Detailed level and produce the audit report. Inspect the closing section.",
-      "expected_output": "A final References section listing the external authoritative sources the audit consulted, each rendered as a Markdown link below the table.",
+      "expected_output": "A final Reference Sources section listing the external authoritative sources the audit consulted, each rendered as a Markdown link below the table.",
       "files": [],
       "expectations": [
-        "References is the final `##` section and carries a table of external authoritative sources - standards, specifications, official documentation - never internal repository files or paths.",
+        "Reference Sources is the final `##` section and carries a table of external authoritative sources - standards, specifications, official documentation - never internal repository files or paths.",
         "Every table row renders a `[title](url)` link paragraph below the table; a consulted source without a public URL states `No public URL` in its supporting paragraph instead.",
         "Canonical URLs for bundled-digest sources come from references/stack-standards.md and references/source-catalog.md; offline audits mark dated cached sources.",
         "When no external source was consulted at all, the section states `No external sources consulted` in place of the table.",
@@ -1481,13 +1481,13 @@
     {
       "id": 124,
       "prompt": "Audit this repository and evaluate the directory organization, source-file naming, code division, and in-code identifier naming across its components.",
-      "expected_output": "An audit report whose Structure Review, Structure Conformance, and Code Style sections evaluate each component by role against stack conventions, surface FND-STR- and FND-CQY- findings, and cite authoritative external standards in References.",
+      "expected_output": "An audit report whose Structure Review, Structure Conformance, and Code Style sections evaluate each component by role against stack conventions, surface FND-STR- and FND-CQY- findings, and cite authoritative external standards in Reference Sources.",
       "files": [],
       "expectations": [
         "Each component is evaluated independently according to its role (library, service, application, cli, test-suite, or documentation) using references/naming-and-layout.md and the per-stack baseline.",
         "The report includes the high-level Structure Review verdict table, the conditional Structure Conformance section covering directory and file naming and code division, and the conditional Code Style section covering in-code identifier naming.",
         "Directory abbreviations (such as App/Config/Auth/Docs where full words are prescribed), catch-all modules (Misc/Util), and multi-type files in single-type-per-file languages surface as evidenced FND-STR- findings, while foreign-language identifier holdovers surface in Code Style.",
-        "Consulted authoritative naming and layout sources are cited in Auditing Methodology and linked in the closing References section."
+        "Consulted authoritative naming and layout sources are cited in Auditing Methodology and linked in the closing Reference Sources section."
       ]
     },
     {
@@ -1770,7 +1770,7 @@
       "files": [],
       "expectations": [
         "The report records that no shipped corpus baseline covered the stack before judging it.",
-        "Any consulted official style guide or toolchain documentation is cited by URL in References, and unreachable sources are recorded in Limitations and Unknowns.",
+        "Any consulted official style guide or toolchain documentation is cited by URL in Reference Sources, and unreachable sources are recorded in Known Limitations.",
         "Findings are scoped to observed internal consistency and readability lenses rather than invented ecosystem rules."
       ]
     },
@@ -1915,7 +1915,7 @@
       "expectations": [
         "The product defect is a finding with executed evidence attached.",
         "The fixture failure is reported as a test-quality issue, not a product defect.",
-        "The platform failure lands in Limitations and Unknowns, not as a defect."
+        "The platform failure lands in Known Limitations, not as a defect."
       ]
     },
     {

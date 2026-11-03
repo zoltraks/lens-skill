@@ -151,8 +151,8 @@ FIELD_VALUE_LABELS_PL = (
 
 LANGUAGES = {
     "en": {
-        "glossary_heading": "Glossary",
-        "default_anchor": "glossary",
+        "glossary_heading": "Glossary Index",
+        "default_anchor": "glossary-index",
         "field_labels": FIELD_VALUE_LABELS,
         "stopwords": COMPOUND_NEIGHBOR_STOPWORDS,
     },

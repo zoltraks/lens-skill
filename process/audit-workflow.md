@@ -20,11 +20,11 @@ defined in `process/report-format/hunt-style.md` and `process/report-format/revi
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 2258 | Intake Checklist guidance        |
-| Handling Thin Input     | 2283 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 2297 | Single-Dimension Audits guidance |
-| Re-Audit                | 2311 | Re-Audit guidance                |
-| Multi-Project Audits    | 2377 | Multi-Project Audits guidance    |
+| Intake Checklist        | 2259 | Intake Checklist guidance        |
+| Handling Thin Input     | 2284 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 2298 | Single-Dimension Audits guidance |
+| Re-Audit                | 2312 | Re-Audit guidance                |
+| Multi-Project Audits    | 2378 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -1037,8 +1037,8 @@ Apply `executed-readonly` or `executed-commands` only when the user explicitly c
 the mode.
 
 - **`source-only`** (default) - the audit executes nothing: no build, test, linter, scanner,
-  or generator runs against the project, and verification steps become Operator
-  Verification Handoff entries.
+  or generator runs against the project, and verification steps become
+  Further Verification entries.
 - **`executed-readonly`** - additionally runs non-mutating, read-only analyzers the user
   names, such as dependency advisory or policy scanners (`cargo audit`, `cargo deny check`).
   The project itself is still never built, tested, or run, no tool is installed or upgraded
@@ -1494,8 +1494,8 @@ select, and every executed `Fail` or `Error` result carries a triage class in th
 
 Under `source-only` the audit never executes them.
 
-The matrix becomes the Operator
-Verification Handoff.
+The matrix becomes the
+Further Verification.
 
 Under `executed-readonly` only the commissioned non-mutating analyzers run - builds, tests,
 and the project itself still never execute, and their results are `Executed` evidence in the
@@ -1682,8 +1682,8 @@ Keep each observation brief, full detail lives in the finding blocks.
 Draft the Strengths & What's Working section by identifying 5-8 evidenced positive baselines from
 the codebase.
 
-Surface trade-offs both as a standalone Trade-off Analysis section (using
-`synthesis/tradeoff-analysis.md`) and embedded into relevant architectural or design findings where
+Surface trade-offs both as a standalone Solution Comparison section (using
+`synthesis/solution-comparison.md`) and embedded into relevant architectural or design findings where
 they directly explain a specific finding.
 
 When structural debt distinct from risks was surfaced,
@@ -1696,12 +1696,12 @@ Draft the actionable remediation roadmap using `synthesis/remediation-roadmap.md
 Every recommendation must resolve a specific `FND-XXX`.
 
 At `Standard` and `Detailed` detail levels, classify every `REC-XXX` as `Recommended`,
-`Optional`, or `Not recommended` for the Recommendation Classification section per
-`synthesis/remediation-roadmap.md`.
+`Optional`, or `Not recommended` for the Recommendation Classification subsection of the
+roadmap per `synthesis/remediation-roadmap.md`.
 
 When the roadmap contains at least one P1 or P2 recommendation, build the Follow-up
-Plan using `synthesis/reaudit-plan.md`, mapping those findings to verification owners and closure
-evidence.
+Plan subsection at the bottom of the roadmap using `synthesis/reaudit-plan.md`, mapping
+those findings to verification owners and closure evidence.
 
 When a re-audit was confirmed during intake, build the Changes Since Previous Audit section
 using `synthesis/report-comparison.md`, comparing findings, risks, scores, and category
@@ -1832,8 +1832,8 @@ Confirm every `RSK-XXX` references its source `FND-XXX`.
 
 Confirm every `REC-XXX` resolves a specific `FND-XXX`.
 
-Confirm every `REC-XXX` appears exactly once in the Recommendation Classification section when
-the detail level is Standard or Detailed.
+Confirm every `REC-XXX` appears exactly once in the Recommendation Classification
+subsection of the Remediation Roadmap when the detail level is Standard or Detailed.
 
 Confirm every finding that records an absent capability carries an `Absence` token
 with a one-line evidence basis.
@@ -1854,7 +1854,7 @@ paragraph format, each anchored to a specific `FND-XXX`.
 Confirm strengths fit the selected detail level and are evidenced, use fewer than the suggested
 count when the input supports fewer, rather than padding the report.
 
-Confirm the Trade-off Analysis section uses the standard table format and frames each trade-off
+Confirm the Solution Comparison section uses the standard table format and frames each trade-off
 against a stated constraint.
 
 Confirm every adverse finding in an initial audit has `Status` `Open`.
@@ -1894,9 +1894,9 @@ confirm every conformance judgement cites a specific rule in the standards docum
 file or pattern in the codebase, and that every standards-quality judgement cites a named external
 best practice.
 
-Confirm the References section lists every external source consulted during the audit,
+Confirm the Reference Sources section lists every external source consulted during the audit,
 renders a `[title](url)` link paragraph per row, and keeps internal repository artifacts out -
-files, manifests, and paths belong to the evidence ledger, not to References.
+files, manifests, and paths belong to the evidence ledger, not to Reference Sources.
 
 Confirm every material evidence item collected during Evidence Gathering surfaces in the report as a
 finding, a risk, a dashboard element, or a strength,
@@ -1949,8 +1949,9 @@ tools are treated as intended checks, not executed ones.
 When a Technical Debt Register is present, confirm every `TDR-XXX` traces to a `FND-XXX` or a cited
 direct observation, and that no security risk is duplicated from the Unified Risk Register.
 
-When a Follow-up Plan is present, confirm every row references a `FND-XXX` and that
-owners or dates absent from the input are marked `Not specified` rather than invented.
+When a Follow-up Plan subsection is present, confirm every row references a `FND-XXX` and
+that owners or dates absent from the input are marked `Not specified` rather than
+invented.
 
 Confirm the Auditing Methodology cites only the reference standards actually applied, including the
 stack-specific canonical sources from `references/stack-standards.md` that were consulted, and the
@@ -2003,7 +2004,7 @@ project run.
 Under `executed-commands`, confirm the same provenance in the log or Execution
 Register and that only the commissioned commands ran.
 
-Under `source-only`, confirm the Operator Verification Handoff covers every material claim
+Under `source-only`, confirm the Further Verification covers every material claim
 that could not be resolved from source, each entry naming command, pass criteria, and the
 finding it would confirm or close.
 
@@ -2051,7 +2052,7 @@ and surface the remaining issues instead of looping further.
 In interactive mode present the leftover validator output and ask whether to try again,
 deliver with named limitations, or pause for investigation.
 
-In automated mode the run records the unresolved issues in the Validation Record and
+In automated mode the run records the unresolved issues in the Validation Protocol and
 proceeds to the publication-stop evaluation - a material validator error still blocks
 final publication per `process/audit-model.md`.
 
@@ -2071,7 +2072,7 @@ Instead, run `scripts/map-translation.py <report> --rules translations/polish-la
 --en <english-sibling.md>` to generate an English-mapped working copy: it inverts the
 contract tables to translate `* **Field:**` finding-block labels, fixed-vocabulary values,
 and section headings, and remaps every report-internal anchor - glossary links,
-`### <ID>:` heading links, the evidence-ledger and validation-record section anchors - to
+`### <ID>:` heading links, the evidence-ledger and validation-protocol section anchors - to
 their English forms.
 
 A copy that maps only field labels lets the validator skip the required-sections, glossary,
@@ -2093,7 +2094,7 @@ then the mapped-copy format and validation pair - the block-label and anchor che
 must run first so their failures surface as contract violations instead of
 inexplicable mapped-copy field losses.
 
-The Validation Record names every checklist or validator violation the report carries.
+The Validation Protocol names every checklist or validator violation the report carries.
 
 Judge every gate by its own printed summary and exit code - a follow-up shell command such
 as `grep -c` finding zero matches exits 1 on a passing run and does not mean the gate failed.
@@ -2105,9 +2106,9 @@ tracked directory.
 
 Run the Mandatory Core Checklist and Consistency Gate in `process/report-parity.md`.
 
-Write the Limitations and Unknowns and Validation Record sections from their outcome.
+Write the Known Limitations and Validation Protocol sections from their outcome.
 
-The report is complete once every gate result is recorded in the Validation Record -
+The report is complete once every gate result is recorded in the Validation Protocol -
 generated reports carry no state marker.
 
 Before the completion message, reconcile the artifact declarations in
@@ -2182,7 +2183,7 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Re-audit requested, report found              | Baseline file confirmed before reuse                            |
 | Re-audit with changed parameters chosen       | Recovered values are defaults, named params re-asked            |
 | Parameter differs between reports             | Capability change in Changes, not a product change              |
-| Baseline predates current skill version       | Capability delta applied, named in Validation Record            |
+| Baseline predates current skill version       | Capability delta applied, named in Validation Protocol            |
 | Scorecard gains a dimension on re-audit       | Mean formula restated, movement outside score delta             |
 | Re-audit requested, none found                | User asked before fresh audit at revision 1.0                   |
 | Fresh audit over an existing report           | Revision increments, content ignored, fresh IDs                 |
@@ -2191,10 +2192,10 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Git author data collected, no finding         | Team & Continuity dashboard line still present                  |
 | Mean 5.8 with Security at 4                   | Floor named next to the mean                                    |
 | Lockfile present, no SBOM                     | Source-derived component inventory produced                     |
-| Other-subject report has a new section        | Apply it or justify `N/A` in the Validation Record              |
-| Checklist item silently skipped               | Consistency gate fails, named in the Validation Record        |
+| Other-subject report has a new section        | Apply it or justify `N/A` in the Validation Protocol              |
+| Checklist item silently skipped               | Consistency gate fails, named in the Validation Protocol        |
 | Same issue type in two projects               | Per-project trade-off, not the combined section                 |
-| Shared workspace or build decision            | Row in the combined Trade-off Analysis                          |
+| Shared workspace or build decision            | Row in the combined Solution Comparison                          |
 | Multi-project audit                           | Combined summary and Changes precede project blocks             |
 | Prior report anchor does not resolve          | Correct anchor recorded, citation flagged                       |
 | Census method differs between reports         | Canonical method restated, figure compared                      |
@@ -2219,7 +2220,7 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Matrix row marked `Covered`                   | No Scope Exclusions bullet disclaims that type                  |
 | Manifest has no license fields                | SBOM License cells `Unknown`, gap feeds findings                |
 | Committed advisory report absent              | `Advisory` stays `N` for every component                        |
-| References table lists repository paths       | Defect: external sources only, `[title](url)` per row           |
+| Reference Sources table lists repository paths       | Defect: external sources only, `[title](url)` per row           |
 | Critical finding on public endpoint           | `Exploitability` narrative present, `Theoretical` tier          |
 | Narrative claims dynamic verification         | Defect: scope never lifted, tier forced down                    |
 | Security finding on internal-only code        | Narrative field omitted                                         |
@@ -2232,7 +2233,7 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Explicit review or check request              | `REVIEW.md` with the review-style section set                   |
 | Explicit change-set review request            | `REVIEW.md` scoped to the change set                            |
 | "Make a structure review" request             | `REVIEW.md` with the structure-review variant contract          |
-| Full audit on a code-bearing subject          | Structure Review section before Trade-off Analysis              |
+| Full audit on a code-bearing subject          | Structure Review section before Solution Comparison              |
 | Hunt report synthesized                       | No Structure Review content, the assessment was not loaded      |
 | Legacy `CHECK-1.0.md` found                   | Not identified as a previous report                             |
 | Legacy `REVIEW-1.0.md` lacking `Report Style` | Legacy shape, never a baseline, name keeps the revision slot    |
@@ -2350,7 +2351,7 @@ new PAR rows, and new scorecard dimensions added between the two versions.
 
 Apply the delta so the new report satisfies the current format,
 and classify every structural addition as a capability change in the Changes Since Previous Audit
-section and the Validation Record, not a product change.
+section and the Validation Protocol, not a product change.
 
 When the scorecard dimension set differs between revisions, restate the mean formula: an added
 or removed dimension changes the denominator, and the resulting score movement is a capability
@@ -2422,9 +2423,8 @@ run a single Synthesis phase that combines all projects into one report:
    `process/report-format/multi-project.md`.
 3. Each project gets its own complete set of sections: Executive Summary, System Context (with the
    Technology Stack subsection), Health Dashboard, High-Level Observations, Auditing Methodology,
-   Scoring Rubrics, Architectural Assessment, Trade-off Analysis, conditional sections, Strengths,
-   Technical Findings, Unified Risk Register, Remediation Roadmap, and
-   Recommendation Classification.
+   Scoring Rubrics, Architectural Assessment, Solution Comparison, conditional sections, Strengths,
+   Technical Findings, and Unified Risk Register.
 4. Finding IDs, risk IDs, and recommendation IDs number globally across the whole report.
    Use the project identifier as a trailing parenthetical in the finding heading so the
    reader can navigate.
@@ -2435,10 +2435,14 @@ run a single Synthesis phase that combines all projects into one report:
    path, version, and a one-line description.
 7. A condensed combined Executive Summary and, when a previous report exists, a combined Changes
    Since Previous Audit follow the Project Inventory, before the per-project blocks.
-8. The combined Trade-off Analysis, Scope Exclusions, Limitations and Unknowns, Re-audit and
-   Follow-up Plan, Validation Record, and References are shared sections at the end of the
-   report, covering all projects. The combined Trade-off Analysis holds only cross-project
-   trade-offs per `synthesis/tradeoff-analysis.md`.
+8. The combined Solution Comparison, Scope Exclusions, Known Limitations,
+   Further Verification, Validation Protocol, consolidated Remediation Roadmap, and
+   Reference Sources are shared sections at the end of the report, covering all
+   projects. The combined Solution Comparison holds only cross-project trade-offs per
+   `synthesis/solution-comparison.md`, and the consolidated Remediation Roadmap merges every
+   project's recommendations, classification rows, and follow-up rows into one shared
+   section immediately before Reference Sources per
+   `process/report-format/multi-project.md`.
 
 **Parameter Configuration for multiple projects**
 

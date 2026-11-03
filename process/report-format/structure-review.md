@@ -15,7 +15,7 @@ The analysis itself is governed by `assessment/structure-review.md`.
 ## Structure Review Section
 
 The `audit` style carries a `Structure Review` section immediately after
-`Architectural Assessment` and before `Trade-off Analysis`.
+`Architectural Assessment` and before `Solution Comparison`.
 
 Structure the section with these elements, in order:
 

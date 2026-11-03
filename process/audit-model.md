@@ -151,7 +151,7 @@ The report-generator stage renders only what the model holds:
 - A final report carries no unfilled placeholder: any `<...>` skeleton token still present is a
   publication stop.
 - An incomplete model renders an explicitly incomplete report with the missing stages named
-  in the Validation Record - never a silent gap.
+  in the Validation Protocol - never a silent gap.
 - The PAR budget stays at 20 rows regardless of recommendation count.
 
 ## Model Quality Checks
@@ -197,4 +197,4 @@ The generator stops final publication on:
   missing one.
 
 A stopped publication may still emit the report as a clearly labeled incomplete artifact. It
-names the unresolved errors in the Validation Record.
+names the unresolved errors in the Validation Protocol.

@@ -20,7 +20,7 @@ class TestLinkGlossary(unittest.TestCase):
 
     def test_crlf_preserved(self):
         raw = (
-            b"# T\r\n\r\n## Glossary\r\n\r\n| Term | Definition |\r\n|---|---|\r\n"
+            b"# T\r\n\r\n## Glossary Index\r\n\r\n| Term | Definition |\r\n|---|---|\r\n"
             b"| CWE | Weakness taxonomy |\r\n\r\n## Notes\r\n\r\nText.\r\n"
         )
         with tempfile.TemporaryDirectory() as tmp:
@@ -32,14 +32,14 @@ class TestLinkGlossary(unittest.TestCase):
 
     def test_body_term_gets_linked(self):
         doc = (
-            "# T\n\n## Glossary\n\n| Term | Definition |\n|---|---|\n"
+            "# T\n\n## Glossary Index\n\n| Term | Definition |\n|---|---|\n"
             "| CWE | Weakness taxonomy |\n\n## Notes\n\nThe CWE id matters.\n"
         )
         with tempfile.TemporaryDirectory() as tmp:
             target = Path(tmp) / "report.md"
             target.write_text(doc, encoding="utf-8")
             self.linker.main(str(target))
-            self.assertIn("[CWE](#glossary)", target.read_text(encoding="utf-8"))
+            self.assertIn("[CWE](#glossary-index)", target.read_text(encoding="utf-8"))
 
 
 class TestLinkReferences(unittest.TestCase):
@@ -382,7 +382,7 @@ class TestValidateReport(unittest.TestCase):
 
     def test_references_section(self):
         block = (
-            "## References\n\n"
+            "## Reference Sources\n\n"
             "| Reference | Publisher or Author | Used In |\n"
             "|-----------|---------------------|---------|\n"
             "| OWASP ASVS 5.0 | OWASP | Auditing Methodology |\n"
@@ -400,7 +400,7 @@ class TestValidateReport(unittest.TestCase):
             any("repository path" in f for f in self.validator.check_references_section(internal))
         )
 
-        empty = "## References\n\nNo external sources consulted.\n"
+        empty = "## Reference Sources\n\nNo external sources consulted.\n"
         self.assertEqual(self.validator.check_references_section(empty), [])
 
         trailing = linked + "\n## Appendix\n"
@@ -590,9 +590,9 @@ class TestMapReportTranslation(unittest.TestCase):
         "| Language | Język |\n"
         "| English | Angielski |\n"
         "| Document Information | Informacje o dokumencie |\n\n"
-        "## Glossary\n\n"
+        "## Glossary Index\n\n"
         "| English | Polish |\n|---|---|\n"
-        "| Glossary | Słownik |\n"
+        "| Glossary Index | Słownik |\n"
         "| Verification | Weryfikacja |\n\n"
         "## Status\n\n"
         "| English | Masculine | Feminine | Neuter |\n|---|---|---|---|\n"
@@ -616,7 +616,7 @@ class TestMapReportTranslation(unittest.TestCase):
         "# Audit\n\n"
         "## Document Information\n\n"
         "| Language | English |\n\n"
-        "## Glossary\n\n"
+        "## Glossary Index\n\n"
         "| Term | Definition |\n|---|---|\n"
         "| X | y |\n\n"
         "## Szczegóły\n\n"
@@ -675,7 +675,7 @@ class TestMapReportTranslation(unittest.TestCase):
         self.assertIn("english sibling check: PASS", out.getvalue())
         self.assertIn("| Language | English", mapped)
         self.assertIn("* **Verification:**", mapped)
-        self.assertIn("[X](#glossary)", mapped)
+        self.assertIn("[X](#glossary-index)", mapped)
         self.assertIn("tak i nie zostają", mapped)
 
 
@@ -1187,7 +1187,7 @@ class TestRegisterBlocks(unittest.TestCase):
             "## Document Information\n\n"
             "| | |\n|---|---|\n"
             "| Detail Level | Detailed |\n\n"
-            "## Glossary\n\n"
+            "## Glossary Index\n\n"
             "{triplets}"
             "## Auditing Methodology\n\n"
             "**Criteria table**\n\n"

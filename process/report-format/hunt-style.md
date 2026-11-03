@@ -31,7 +31,7 @@ The following carry over unchanged from `process/report-format.md` and its spec 
   `process/audit-workflow.md`.
 - The Contradiction Register per `synthesis/report-triangulation.md` whenever an external
   report was found at intake.
-- Scope Exclusions, Limitations and Unknowns, Validation Record, and References per
+- Scope Exclusions, Known Limitations, Validation Protocol, and Reference Sources per
   `report-closing.md`.
 
 Hunt adds two mandatory finding fields where the shared schema applies: `Breaking
@@ -62,12 +62,12 @@ Produce these top-level sections in this order, with unnumbered headings:
 - Risk Register
 - Remediation Phases
 - Contradiction Register *(conditional - external report found at intake)*
-- Operator Verification Handoff *(source-only mode)* or Executed Evidence Log
+- Further Verification *(source-only mode)* or Executed Evidence Log
   *(executed-readonly or executed-commands mode)*
 - Scope Exclusions
-- Limitations and Unknowns
-- Validation Record
-- References
+- Known Limitations
+- Validation Protocol
+- Reference Sources
 
 ## Verdict
 
@@ -205,7 +205,7 @@ A hunt report has no Recommendation Classification section - the phases themselv
 disposition judgment, and the validator flags the section when it appears under
 `Report Style: hunt`.
 
-## Operator Verification Handoff
+## Further Verification
 
 Under `source-only` this mandatory section lists every material claim the audit could not
 resolve from source: the exact command or procedure, its pass criteria, and the finding or

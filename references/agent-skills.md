@@ -142,7 +142,7 @@ compare its headline constraints - required fields, character limits, directory 
 disclosure budgets - against this snapshot.
 
 When the fetched spec differs, record the live constraints as the conformance baseline and note
-the drift in the report's Limitations and Unknowns.
+the drift in the report's Known Limitations.
 
 When the fetch is unavailable, run the assessment against this snapshot and record the snapshot
 date as the baseline in the audit's evidence.

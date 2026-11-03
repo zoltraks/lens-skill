@@ -16,14 +16,14 @@ Apply `principles/evaluation-rules.md` throughout.
 | Section                   | Line | What it covers                     |
 |---------------------------|------|------------------------------------|
 | Separate Decision Outputs | 28   | Category status vs dimension score |
-| Criterion Inputs          | 49   | Criterion Inputs guidance          |
-| Dimension Scoring         | 75   | Dimension Scoring guidance         |
-| Overall Score             | 161  | Overall Score guidance             |
-| Confidence                | 189  | Confidence guidance                |
-| Maturity Levels           | 207  | Maturity Levels guidance           |
-| Readiness Gates           | 226  | Readiness Gates guidance           |
-| Required Summary Fields   | 279  | Required Summary Fields guidance   |
-| Multi-Project Rules       | 292  | Multi-Project Rules guidance       |
+| Criterion Inputs          | 48   | Criterion Inputs guidance          |
+| Dimension Scoring         | 74   | Dimension Scoring guidance         |
+| Overall Score             | 160  | Overall Score guidance             |
+| Confidence                | 188  | Confidence guidance                |
+| Maturity Levels           | 206  | Maturity Levels guidance           |
+| Readiness Gates           | 225  | Readiness Gates guidance           |
+| Required Summary Fields   | 278  | Required Summary Fields guidance   |
+| Multi-Project Rules       | 291  | Multi-Project Rules guidance       |
 
 ## Separate Decision Outputs
 
@@ -300,7 +300,7 @@ Shared gates and trade-offs use project-qualified IDs.
 
 ## Validation
 
-The Validation Record must confirm:
+The Validation Protocol must confirm:
 
 - Every numeric score has supporting evidence and confidence.
 - Every dimension score recomputes from criterion mastery and frozen weights, and each stated

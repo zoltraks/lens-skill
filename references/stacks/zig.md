@@ -84,6 +84,6 @@ When web fetch is available, verify the toolchain version this snapshot targets 
 ziglang.org and record the drift window.
 
 Record whichever baseline - this snapshot or the live pages - the audit used, and note drift in
-Limitations and Unknowns.
+Known Limitations.
 
 The check is best-effort, never blocks the audit, and never executes the audited project.

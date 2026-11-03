@@ -55,15 +55,15 @@ BASELINE_SECTIONS = [
     "Scoring Rubrics",
     "Architectural Assessment",
     "Structure Review",
-    "Trade-off Analysis",
+    "Solution Comparison",
     "Strengths & What's Working",
     "Technical Findings",
     "Unified Risk Register",
     "Remediation Roadmap",
     "Scope Exclusions",
-    "Limitations and Unknowns",
-    "Validation Record",
-    "References",
+    "Known Limitations",
+    "Validation Protocol",
+    "Reference Sources",
 ]
 BRIEF_SECTIONS = {
     "Document Information",
@@ -74,9 +74,9 @@ BRIEF_SECTIONS = {
     "High-Level Observations",
     "Strengths & What's Working",
     "Scope Exclusions",
-    "Limitations and Unknowns",
-    "Validation Record",
-    "References",
+    "Known Limitations",
+    "Validation Protocol",
+    "Reference Sources",
 }
 
 
@@ -1054,12 +1054,12 @@ def check_par_rows(text: str) -> list[str]:
     failures: list[str] = []
     for number in range(1, 34):
         if not re.search(rf"^\|\s*PAR-{number}(?:\s|\||:)", text, re.MULTILINE):
-            failures.append(f"missing Validation Record row PAR-{number}")
+            failures.append(f"missing Validation Protocol row PAR-{number}")
     for match in re.finditer(r"^\|\s*PAR-\d+\s*\|\s*([^|]*)\|", text, re.MULTILINE):
         result = cell_text(match.group(1).strip())
         if result and not result.startswith("<") and result not in PAR_RESULTS:
             failures.append(
-                f"Validation Record row has non-check result '{result}' - "
+                f"Validation Protocol row has non-check result '{result}' - "
                 f"expected {'/'.join(PAR_RESULTS)}"
             )
     return failures
@@ -1211,7 +1211,7 @@ def check_glossary(text: str) -> list[str]:
     failures: list[str] = []
     if "Document Information" not in text:
         return failures
-    heading = re.search(r"^#{2,3}\s+Glossary\s*$", text, re.MULTILINE)
+    heading = re.search(r"^#{2,3}\s+Glossary Index\s*$", text, re.MULTILINE)
     if not heading:
         exclusions = re.search(r"^#{2,3}\s+Scope Exclusions\s*$", text, re.MULTILINE)
         scope = ""
@@ -1372,7 +1372,7 @@ def check_glossary_body_links(text: str, terms: list[str], sub_slugs: dict[str, 
             continue
         if in_fence:
             continue
-        if re.match(r"^##\s+Glossary\s*$", line):
+        if re.match(r"^##\s+Glossary Index\s*$", line):
             in_glossary = True
             continue
         if in_glossary:
@@ -1744,12 +1744,12 @@ REFERENCE_PATH_NAMES = {
 
 
 def check_references_section(text: str) -> list[str]:
-    match = re.search(r"^##\s+References\s*$", text, re.MULTILINE)
+    match = re.search(r"^##\s+Reference Sources\s*$", text, re.MULTILINE)
     if not match:
         return []
     failures: list[str] = []
     if re.search(r"^##\s+\S", text[match.end() :], re.MULTILINE):
-        failures.append("References is not the final section of the report")
+        failures.append("Reference Sources is not the final section of the report")
     block = text[match.end() :]
     end = re.search(r"^##\s+", block, re.MULTILINE)
     if end:
@@ -1760,7 +1760,7 @@ def check_references_section(text: str) -> list[str]:
         and not re.search(r"\]\(<url>\)", block)
     ):
         failures.append(
-            "References section carries no external link or declared absence - "
+            "Reference Sources section carries no external link or declared absence - "
             "each row renders a [title](url) link paragraph, `No public URL` "
             "marks an unlinked source, `No external sources consulted` replaces "
             "the table"
@@ -1790,7 +1790,7 @@ def check_references_section(text: str) -> list[str]:
                 )
             if looks_path:
                 failures.append(
-                    f"References row '{first}' looks like a repository path - "
+                    f"Reference Sources row '{first}' looks like a repository path - "
                     "the section lists external authoritative sources, internal "
                     "artifacts belong to the evidence ledger"
                 )
@@ -1886,12 +1886,17 @@ def check_rec_classification(text: str) -> list[str]:
         following = re.search(r"^#{1,3}\s", rest, re.MULTILINE)
         section = rest[: following.start()] if following else rest
         table = [line for line in section.split("\n") if line.startswith("|")]
+        rec_idx = 0
+        if table:
+            header_cells = [cell.strip() for cell in raw_cells(table[0])]
+            if "Rec" in header_cells:
+                rec_idx = header_cells.index("Rec")
         for line in table:
             cells = raw_cells(line)
             # Only the row's Rec cell counts - citing another REC in a
             # text cell such as Basis is not a second classification.
-            if cells:
-                classified += re.findall(r"REC-\d{3}", cells[0])
+            if len(cells) > rec_idx:
+                classified += re.findall(r"REC-\d{3}", cells[rec_idx])
         if len(table) >= 2:
             header = [cell.strip() for cell in raw_cells(table[0])]
             if "Class" in header:
@@ -1922,8 +1927,8 @@ def check_final_state(text: str) -> list[str]:
     if "Document Information" not in text:
         return []
     failures: list[str] = []
-    if "## Validation Record" not in text:
-        failures.append("Final report has no Validation Record")
+    if "## Validation Protocol" not in text:
+        failures.append("Final report has no Validation Protocol")
     if "Parity baseline" not in text:
         failures.append("Final report has no parity baseline result")
     return failures
@@ -2048,9 +2053,9 @@ HUNT_SECTIONS = [
     "Risk Register",
     "Remediation Phases",
     "Scope Exclusions",
-    "Limitations and Unknowns",
-    "Validation Record",
-    "References",
+    "Known Limitations",
+    "Validation Protocol",
+    "Reference Sources",
 ]
 
 HUNT_DOMAINS = (
@@ -2082,9 +2087,9 @@ REVIEW_SECTIONS = [
     "Risk Register",
     "Improvement Plan",
     "Scope Exclusions",
-    "Limitations and Unknowns",
-    "Validation Record",
-    "References",
+    "Known Limitations",
+    "Validation Protocol",
+    "Reference Sources",
 ]
 
 REVIEW_RESULTS = ("Pass", "Fail", "Error", "Blocked", "Skipped", "Not run", "N/A")
@@ -2336,9 +2341,7 @@ def check_finding_disposition(text: str, lines: list[str]) -> list[str]:
         qualifier = re.search(r"\(([\w.-]+)\)\s*$", lines[start])
         label = f"{qualifier.group(1)}::{fid}" if qualifier else fid
         covered = label in qualified
-        if not covered and qualifier:
-            covered = fid in by_owner.get(qualifier.group(1), set())
-        if not covered and not qualifier:
+        if not covered:
             covered = any(fid in ids for ids in by_owner.values())
         if not covered:
             failures.append(
@@ -2768,8 +2771,8 @@ def check_evidence_sections(text: str) -> list[str]:
             f"Evidence Mode '{mode}' is not a known mode - expected "
             "source-only, executed-readonly, or executed-commands"
         ]
-    if not re.search(r"^#{2,3}\s+Operator Verification Handoff\s*$", text, re.MULTILINE):
-        return ["source-only report has no Operator Verification Handoff section"]
+    if not re.search(r"^#{2,3}\s+Further Verification\s*$", text, re.MULTILINE):
+        return ["source-only report has no Further Verification section"]
     return []
 
 
@@ -2841,6 +2844,65 @@ def check_fresh_audit_claims(lines: list[str], fences: list[bool]) -> list[str]:
             failures.append(
                 f"line {index + 1}: comparative claim against a previous report in a fresh audit"
             )
+    return failures
+
+
+def check_roadmap_structure(text: str) -> list[str]:
+    """The audit-style Remediation Roadmap renders once at level 2, carrying
+    Recommendation Classification and Follow-up Plan only as ### subsections."""
+    if "Document Information" not in text or report_style(text) != "audit":
+        return []
+    failures: list[str] = []
+    level2 = [
+        (match.start(), match.group(1).strip())
+        for match in re.finditer(r"^##\s+(.+?)\s*$", text, re.MULTILINE)
+    ]
+    roadmaps = [i for i, (_, title) in enumerate(level2) if title == "Remediation Roadmap"]
+    if len(roadmaps) > 1:
+        failures.append("more than one level-2 Remediation Roadmap section")
+    elif roadmaps and (
+        roadmaps[0] + 1 >= len(level2)
+        or level2[roadmaps[0] + 1][1] != "Reference Sources"
+    ):
+        failures.append(
+            "Remediation Roadmap is the penultimate section - it must immediately "
+            "precede Reference Sources"
+        )
+    if re.search(r"^###\s+Remediation Roadmap\s*$", text, re.MULTILINE):
+        failures.append(
+            "Remediation Roadmap renders once at level 2 - a per-project ### "
+            "block is forbidden"
+        )
+    for match in re.finditer(
+        r"^##\s+(Recommendation Classification|Follow-up Plan)\s*$", text, re.MULTILINE
+    ):
+        failures.append(
+            f"{match.group(1)} renders as a ### subsection inside "
+            "Remediation Roadmap, never a standalone section"
+        )
+    positions: dict[str, int] = {}
+    for match in re.finditer(
+        r"^###\s+(Recommendation Classification|Follow-up Plan)\s*$", text, re.MULTILINE
+    ):
+        positions[match.group(1)] = match.start()
+        owner = next(
+            (title for position, title in reversed(level2) if position < match.start()),
+            "",
+        )
+        if owner != "Remediation Roadmap":
+            failures.append(
+                f"### {match.group(1)} sits outside the Remediation Roadmap "
+                f"(inside '{owner or 'no level-2 section'}')"
+            )
+    if (
+        "Recommendation Classification" in positions
+        and "Follow-up Plan" in positions
+        and positions["Recommendation Classification"] > positions["Follow-up Plan"]
+    ):
+        failures.append(
+            "Follow-up Plan is the last subsection of the Remediation Roadmap - "
+            "it must follow Recommendation Classification"
+        )
     return failures
 
 
@@ -2949,10 +3011,18 @@ def report_contract() -> dict:
         },
         "styles": {
             "audit": {
-                "sections": BASELINE_SECTIONS + ["Recommendation Classification"],
+                "sections": BASELINE_SECTIONS,
+                "roadmap_subsections": {
+                    "Recommendation Classification":
+                        "required at Standard/Detailed - ### inside Remediation Roadmap",
+                    "Follow-up Plan":
+                        "### subsection closing Remediation Roadmap when a P1/P2 "
+                        "recommendation exists - no standalone section",
+                },
                 "brief_sections": sorted(BRIEF_SECTIONS),
                 "findings_section": "Technical Findings",
-                "recommendation_classification": "required at Standard/Detailed",
+                "recommendation_classification":
+                    "required at Standard/Detailed inside Remediation Roadmap",
                 "finding_disposition": "every open ### FND- block is cited in the "
                 "roadmap/classification region or carries an explicit disposition",
                 "defect_scenarios": "required on High/Critical findings",
@@ -2960,9 +3030,9 @@ def report_contract() -> dict:
             "hunt": {
                 "sections": HUNT_SECTIONS,
                 "conditional_sections": [
-                    "Glossary",
+                    "Glossary Index",
                     "Contradiction Register",
-                    "Operator Verification Handoff",
+                    "Further Verification",
                     "Executed Evidence Log",
                 ],
                 "findings_section": "Domain Findings",
@@ -2979,9 +3049,9 @@ def report_contract() -> dict:
             "review": {
                 "sections": REVIEW_SECTIONS,
                 "conditional_sections": [
-                    "Glossary",
+                    "Glossary Index",
                     "Contradiction Register",
-                    "Operator Verification Handoff",
+                    "Further Verification",
                     "Artifact Manifest",
                     "Retest Register",
                     "Metrics Snapshot",
@@ -3274,6 +3344,7 @@ def main(path: str, repo_root: str | None = None) -> int:
                     [
                         ("structure and naming conformance", check_structure_and_naming(text)),
                         ("audit finding disposition", check_finding_disposition(text, lines)),
+                        ("roadmap structure", check_roadmap_structure(text)),
                     ]
                 )
             if style in ("audit", "hunt"):

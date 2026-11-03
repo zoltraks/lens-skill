@@ -180,6 +180,6 @@ When web fetch is available, compare the current Go release policy against
 https://go.dev/doc/security/ and spot-check one `gosec` rule ID against the source.
 
 Record whichever baseline - this snapshot or the live pages - the audit used, and note drift in
-Limitations and Unknowns.
+Known Limitations.
 
 The check is best-effort, never blocks the audit, and never executes the audited project.

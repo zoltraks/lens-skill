@@ -313,7 +313,7 @@ independently against its component role (`library`, `service`, `application`, `
 `references/naming-and-layout.md` and `references/stacks/`.
 
 Cite the consulted authoritative external sources in `Auditing Methodology` and include their
-links in `References` so the governing rules can be retrieved on demand.
+links in `Reference Sources` so the governing rules can be retrieved on demand.
 
 **Directory and file naming**
 

@@ -106,7 +106,7 @@ Audit each component independently across the three structural and naming pillar
 
 Cite the consulted authoritative naming and layout standards in `Auditing Methodology`, render
 the detailed component-by-component matrices in `Structure Conformance`, and include
-links to the authoritative sources in `References` so readers can retrieve the governing rules.
+links to the authoritative sources in `Reference Sources` so readers can retrieve the governing rules.
 
 ## Evidence To Look For
 
@@ -143,7 +143,7 @@ Resolve the governing layout and naming baseline before judging any component:
    detected stack.
 3. **Authoritative research** - for a stack the corpus does not cover, consult the official
    language style guide, toolchain documentation, and framework naming conventions, cite the
-   consulted URLs in the report's References, and record unreachable sources in Limitations
+   consulted URLs in the report's Reference Sources, and record unreachable sources in Limitations
    and Unknowns rather than pretending they were consulted.
 4. **Observed consistency** - when no baseline exists at any tier, the dominant convention
    measured inside the partition is the yardstick, and only unexplained deviations count.

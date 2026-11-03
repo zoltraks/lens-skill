@@ -19,21 +19,21 @@
 | Section                            | Line | What it covers                                      |
 |------------------------------------|------|-----------------------------------------------------|
 | Overview                           | 38   | Audit purpose and standard report shape             |
-| What The Skill Does                | 87   | Update check, evidence, assessment, synthesis       |
-| Installation                       | 169  | Clone and update instructions                       |
-| Usage                              | 202  | Activation, parameters, and report delivery         |
-| Example Prompts                    | 239  | Full and focused audit requests                     |
-| Workflow Diagrams                  | 316  | ASCII and Mermaid audit pipelines                   |
-| Evidence And Decision Quality      | 376  | Evidence strength and verification limits           |
-| Core Principles                    | 434  | Evaluation constraints and status rules             |
-| Report Format                      | 450  | Report structure, identifiers, and style            |
-| When To Use This Skill             | 487  | Supported requests and exclusions                   |
-| What's Inside                      | 511  | Documents, references, tools, and conditional files |
-| Document Style                     | 683  | Pointer to the style rules file                     |
-| Specification                      | 693  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 714  | Maintenance checks and regression scenarios         |
-| License                            | 742  | License for the skill itself                        |
-| Credits                            | 748  | Authorship and attribution                          |
+| What The Skill Does                | 88   | Update check, evidence, assessment, synthesis       |
+| Installation                       | 170  | Clone and update instructions                       |
+| Usage                              | 203  | Activation, parameters, and report delivery         |
+| Example Prompts                    | 240  | Full and focused audit requests                     |
+| Workflow Diagrams                  | 317  | ASCII and Mermaid audit pipelines                   |
+| Evidence And Decision Quality      | 377  | Evidence strength and verification limits           |
+| Core Principles                    | 435  | Evaluation constraints and status rules             |
+| Report Format                      | 451  | Report structure, identifiers, and style            |
+| When To Use This Skill             | 488  | Supported requests and exclusions                   |
+| What's Inside                      | 512  | Documents, references, tools, and conditional files |
+| Document Style                     | 684  | Pointer to the style rules file                     |
+| Specification                      | 694  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 715  | Maintenance checks and regression scenarios         |
+| License                            | 743  | License for the skill itself                        |
+| Credits                            | 749  | Authorship and attribution                          |
 
 ## Overview
 
@@ -54,21 +54,22 @@ The default output is an Audit report with twenty-two baseline sections: Documen
 Audit Coverage table, Executive Summary, System Context (including the technology
 stack), a source-derived Software Bill of Materials, License Compliance, Health
 Dashboard, Delivery Practice & Team Continuity, High-Level Observations, Auditing Methodology,
-Scoring Rubrics, Architectural Assessment, Structure Review, Trade-off Analysis, Strengths &
+Scoring Rubrics, Architectural Assessment, Structure Review, Solution Comparison, Strengths &
 What's Working, Technical Findings with theoretical exploitability narratives on serious
 security findings, Unified Risk Register, Remediation Roadmap, Scope Exclusions,
-Limitations and Unknowns, Validation Record, and References.
+Known Limitations, Validation Protocol, and Reference Sources.
 
 Conditional sections appear only when the subject warrants them: Data Flow Diagram, Design
 Patterns, Architecture Decision Records, Threat Model, API Contract Conformance, Skill Definition
 Conformance, Agent Guidance Conformance, AI System Assessment, Standards Conformance, Engineering
 Baseline Conformance, Structure Conformance, Code Style, API Compatibility & Versioning
 Discipline,
-Technical Debt Register, Changes Since Previous Audit, and Re-audit Plan.
+Technical Debt Register, Changes Since Previous Audit, and Follow-up Plan.
 
-At Standard and Detailed detail levels the roadmap is followed by a Recommendation Classification
-section that assigns every recommendation a `Recommended`, `Optional`, or `Not recommended` class,
-so the report can serve directly as a basis for change documents.
+At Standard and Detailed detail levels the Remediation Roadmap closes with a Recommendation
+Classification subsection that assigns every recommendation a `Recommended`, `Optional`, or
+`Not recommended` class, and with a Follow-up Plan subsection when the roadmap carries a P1
+or P2 recommendation, so the report can serve directly as a basis for change documents.
 
 Every section uses a hybrid table-paragraph format for scannable summaries backed by detailed
 evidence.
@@ -468,7 +469,7 @@ All report styles share a hybrid table-paragraph format throughout:
   status, and result-marker tokens localize per the report language's `translations/` file.
 - **High-Level Observations** provide a fast-skim path for non-technical readers.
 - **Strengths & What's Working** balances the tone with 5-8 acknowledged positives.
-- **Trade-off Analysis** surfaces architectural tensions in a dedicated table.
+- **Solution Comparison** surfaces architectural tensions in a dedicated table.
 - **Document style** - generated reports follow the same Markdown rules as the skill's documents:
   `#`/`##`/`###` headings only, one-sentence paragraphs, prose wrapping at a selectable width
   (default 100), and tables aligned by a temporary formatting script.
@@ -547,7 +548,7 @@ lens-skill/
 │   │   ├── dashboard-observations.md      # Health Dashboard, delivery, observations
 │   │   ├── methodology-scoring.md         # Auditing Methodology, Scoring Rubrics
 │   │   ├── architectural-assessment.md    # Architectural Assessment and subsections
-│   │   ├── report-analysis.md             # Trade-off Analysis, Threat Model
+│   │   ├── report-analysis.md             # Solution Comparison, Threat Model
 │   │   ├── conditional-conformance.md     # Conditional conformance sections
 │   │   ├── code-style.md                  # Code Style section spec
 │   │   ├── findings-registers.md          # Findings, debt, risk, roadmap, and classification
@@ -601,7 +602,7 @@ lens-skill/
 ├── synthesis/
 │   ├── risk-register.md                   # Unified risk register with FND cross-referencing
 │   ├── project-scorecard.md               # Project scorecard, rubric, and scale display rules
-│   ├── tradeoff-analysis.md               # Engineering trade-offs in standalone table and embedded findings
+│   ├── solution-comparison.md               # Engineering trade-offs in standalone table and embedded findings
 │   ├── remediation-roadmap.md             # Actionable remediation roadmap with priority matrix and classification
 │   ├── report-triangulation.md            # Contradiction register and external-report reconciliation
 │   ├── debt-register.md                   # (conditional) TDR inventory with CISQ/SQALE cost model

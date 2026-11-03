@@ -194,6 +194,6 @@ When web fetch is available, compare the runtime floor against `endoflife.date` 
 releases page, and spot-check one security list item against the OWASP cheat sheet.
 
 Record whichever baseline - this snapshot or the live pages - the audit used, and note drift in
-Limitations and Unknowns.
+Known Limitations.
 
 The check is best-effort, never blocks the audit, and never executes the audited project.

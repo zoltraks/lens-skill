@@ -1,4 +1,4 @@
-# Trade-off Analysis
+# Solution Comparison
 
 ## Purpose
 
@@ -9,7 +9,7 @@
 
 This file guides trade-off reasoning that appears in two places:
 
-- A standalone **Trade-off Analysis** section in the report, immediately after the Architectural
+- A standalone **Solution Comparison** section in the report, immediately after the Architectural
   Assessment, so trade-offs are discussed in the same pass as the decisions they concern.
 - Embedded into individual `FND-ARC-XXX`, `FND-CQY-XXX`, `FND-AIP-XXX`, or `FND-CPR-XXX` finding
   blocks, under the Description or Impact bullet, when the trade-off directly explains a specific
@@ -67,10 +67,10 @@ Column meanings:
 
 ## Multi-Project Reports
 
-Each project block carries its own Trade-off Analysis immediately after that project's
+Each project block carries its own Solution Comparison immediately after that project's
 Architectural Assessment, holding the trade-offs specific to that project.
 
-A combined report-level Trade-off Analysis holds only cross-project trade-offs.
+A combined report-level Solution Comparison holds only cross-project trade-offs.
 
 A trade-off qualifies as cross-project only when the decision was made once and constrains more than
 one project, such as a shared dependency choice or a repository-wide workspace or build decision.

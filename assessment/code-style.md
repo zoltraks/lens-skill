@@ -74,8 +74,8 @@ every style finding's `Basis` field:
 - When T1 and T2 are both absent or split, T3 decides what to recommend.
 - When neither the language-conventions yardstick nor a stack digest covers the partition's
   ecosystem, resolve T3 by research: consult the official language style guide or framework
-  naming documentation, cite the consulted URL in the report's References, and record an
-  unreachable source in Limitations and Unknowns rather than claiming it was read.
+  naming documentation, cite the consulted URL in the report's Reference Sources, and record an
+  unreachable source in Known Limitations rather than claiming it was read.
 - T4 applies to name quality regardless of the casing convention.
 - A deliberate deviation from T3 is legitimate when documented under T1 or technically forced,
   and it records as an Observation, never a defect.

@@ -116,6 +116,6 @@ When web fetch is available, compare the version floor against
 https://devguide.python.org/versions/ and spot-check one PEP minimum against the PEP text.
 
 Record whichever baseline - this snapshot or the live pages - the audit used, and note drift in
-Limitations and Unknowns.
+Known Limitations.
 
 The check is best-effort, never blocks the audit, and never executes the audited project.

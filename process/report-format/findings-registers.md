@@ -15,8 +15,8 @@
 | Technical Findings            | 59   | Finding summary and detail blocks    |
 | Technical Debt Register       | 404  | Distinct accumulated debt            |
 | Unified Risk Register         | 453  | Cross-referenced risks               |
-| Remediation Roadmap           | 550  | Prioritized recommendations          |
-| Recommendation Classification | 635  | Recommended/Optional/Not recommended |
+| Remediation Roadmap           | 550  | Prioritized recommendations, once    |
+| Recommendation Classification | 647  | Roadmap-closing disposition classes  |
 
 ## Strengths & What's Working
 
@@ -553,6 +553,12 @@ This section transforms recommendations into a prioritized, traceable remediatio
 
 Every recommendation must resolve a specific finding.
 
+The section renders once per report - a single-project report carries it after the
+Unified Risk Register, and a multi-project report renders it as a shared level-2
+section after the combined Solution Comparison, merging every project's
+recommendations into one matrix and one block set per
+`process/report-format/multi-project.md`.
+
 **Prioritized matrix**
 
 Present recommendations as a table.
@@ -572,6 +578,8 @@ Column meanings:
 
 - **Rec**: `REC-[001]` ascending across the whole report - one sequence, never reset per
   project.
+- **Project**: the owning project identifier - a leading column present only in a
+  multi-project report's merged matrix.
 - **Priority**: `P1` (immediate), `P2` (short-term), `P3` (medium-term), `P4` (long-term).
 - **Finding**: the `FND-XXX` identifier this recommendation resolves.
 - **Recommendation**: a concise, actionable technical step.
@@ -632,15 +640,20 @@ For readiness or due diligence, include the supported cost rollup and dependency
 Numeric totals require evidence-based compatible units, unknown work remains visible beside any
 known subtotal.
 
+The section closes with the `### Recommendation Classification` subsection at `Standard`
+and `Detailed` detail levels and with the `### Follow-up Plan` subsection when the roadmap
+carries a P1 or P2 recommendation - neither renders as a standalone level-2 section.
+
 ## Recommendation Classification
 
-Include this section when the detail level is `Standard` or `Detailed` and the Actionable
-Remediation Roadmap is present.
+Include this subsection at the bottom of the Remediation Roadmap when the detail level is
+`Standard` or `Detailed` and the roadmap is present.
 
 Omit it at `Brief`, or when improvement suggestions are disabled, and record the omission in
 Scope Exclusions.
 
-The section follows the Remediation Roadmap and precedes Scope Exclusions.
+The subsection follows the recommendation detail blocks inside the Remediation Roadmap and
+precedes the `### Follow-up Plan` subsection.
 
 It assigns every recommendation a disposition class so the report can serve directly as a basis
 for change documents.
@@ -676,5 +689,6 @@ Column meanings:
 - The paragraph's `REC-XXX` appears once, in the bold heading. Its body cites the `FND-XXX` the
   recommendation resolves, never the `REC-XXX` again - the classification table owns the
   `REC-XXX` occurrence count.
-- The section introduces no new findings and no new recommendations.
-- In a multi-project report the section is per-project, following that project's roadmap.
+- The subsection introduces no new findings and no new recommendations.
+- In a multi-project report the single merged table gains a leading `Project` column -
+  per-project classification blocks do not render.

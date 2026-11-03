@@ -121,7 +121,7 @@ The evidence ledger has no execution column: the audit never executes checks, so
 but unrun check writes `NOT RUN` in its `Result` cell and a source observation carries the
 observed result, separately from category status or scanner findings.
 
-Validation Record results are `APPLIED`, `PASS`, or `N/A`, separately from category status.
+Validation Protocol results are `APPLIED`, `PASS`, or `N/A`, separately from category status.
 
 An `N/A` always carries a justification.
 
@@ -460,9 +460,9 @@ Only the secret value itself is redacted.
 Do not add a closing line such as "End of audit report." or a trailing horizontal rule `---` at the
 end of the document.
 
-References is the final section, following the Follow-up Plan when applicable.
+Reference Sources is the final section, following the Validation Protocol.
 
-End after References without trailing boilerplate.
+End after Reference Sources without trailing boilerplate.
 
 Table-cell and field-value conventions:
 

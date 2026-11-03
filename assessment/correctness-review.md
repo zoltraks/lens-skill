@@ -63,7 +63,7 @@ target preconditions - a defect masked by an unreachable target stays a finding 
 reachability recorded, not a dismissal.
 
 Where a defect needs runtime confirmation the evidence mode does not permit, the finding
-keeps its inspected basis and the verification goes to the Operator Verification Handoff.
+keeps its inspected basis and the verification goes to the Further Verification.
 
 ## Shipped-Surface Completeness Census
 

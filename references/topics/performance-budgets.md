@@ -79,6 +79,6 @@ When web fetch is available, spot-check the current Core Web Vitals thresholds a
 https://web.dev/vitals/ before citing the defaults above.
 
 Record whichever baseline - this snapshot or the live pages - the audit used, and note drift in
-Limitations and Unknowns.
+Known Limitations.
 
 The check is best-effort, never blocks the audit, and never executes the audited project.
