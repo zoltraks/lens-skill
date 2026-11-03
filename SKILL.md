@@ -37,19 +37,19 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 |-------------------------|------|----------------------------------------------------|
 | Skill Update Check      | 64   | Once-per-session git freshness gate before use     |
 | Trigger Keywords        | 84   | Activation phrases                                 |
-| How To Use              | 115  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 137  | Defaults and user-controlled report shape          |
-| Principles              | 145  | Evaluation and output rules                        |
-| Process                 | 151  | Workflow, format, and parity                       |
-| Assessments             | 190  | Core and conditional assessment guides             |
-| Synthesis               | 196  | Findings, risk, score, and remediation assembly    |
-| Translations            | 208  | Per-language report translations                   |
-| References              | 217  | Lookup tables                                      |
-| Scripts                 | 241  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 263  | Behavioral regression prompts                      |
-| Repository Files        | 267  | Housekeeping files governing this repository       |
-| Evidence Contract       | 279  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 309  | File-selection and section-placement rules         |
+| How To Use              | 116  | Progressive disclosure and mandatory reading       |
+| Parameter Configuration | 138  | Defaults and user-controlled report shape          |
+| Principles              | 146  | Evaluation and output rules                        |
+| Process                 | 152  | Workflow, format, and parity                       |
+| Assessments             | 192  | Core and conditional assessment guides             |
+| Synthesis               | 198  | Findings, risk, score, and remediation assembly    |
+| Translations            | 210  | Per-language report translations                   |
+| References              | 219  | Lookup tables                                      |
+| Scripts                 | 243  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 265  | Behavioral regression prompts                      |
+| Repository Files        | 269  | Housekeeping files governing this repository       |
+| Evidence Contract       | 281  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 311  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -102,6 +102,7 @@ The skill activates on phrases such as:
 - library reviews: api compatibility, api versioning audit, library audit
 - review requests: review report, run the checks, structure review, review the project structure
 - skill maintenance: work on lens-skill, update lens-skill, work on this skill, maintain this skill
+- stack feed: feed lens skill with, feed this skill with, extend stack standards with
 - automated invocations: audit automatically, automated mode, unattended, non-interactive
 - catalog requests: list all operations, show all capabilities, what
   operations can this skill perform
@@ -186,6 +187,7 @@ Timing is armed by default on every operation - `no timing` opts out for that re
 - **`process/skill-activation.md`** - Enable-mode intake, enablement response, and standby.
 - **`process/operations-catalog.md`** - The catalog procedure for "list all operations" requests.
 - **`process/session-review.md`** - Improve-the-skill session review: findings, gate, modes.
+- **`process/stack-feed.md`** - External standards intake into `references/` digests, gated.
 
 ## `assessment/` - Assessment Categories
 

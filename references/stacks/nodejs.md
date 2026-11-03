@@ -176,6 +176,21 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules.
   `algorithms` in `jwt.verify`. Omitting it accepts whatever the token header claims,
   including `none` where configured.
 
+## Dependency Provenance And Test Reality
+
+From
+https://docs.npmjs.com/cli/v11/configuring-npm/package-json, and
+https://docs.npmjs.com/cli/v11/using-npm/package-spec.
+
+- Dependencies pinned to tarball URLs, git refs, or `file:` paths bypass registry semantics,
+  version metadata, and advisory feeds - a documented constraint must justify each one, and
+  an unexplained non-registry dependency is a provenance finding.
+- `overrides`/`resolutions` blocks suppress upstream version drift selectively - a large or
+  growing block signals unresolved dependency debt, not hygiene.
+- A `test` script that exists but executes nothing (`echo`, `exit 0`, a no-op placeholder)
+  masks an absent suite - the script's actual behavior, not its presence, is the evidence.
+
+
 ## Maintainer-Standard Floor
 
 From the maintainer's JavaScript and Express engineering standards.

@@ -96,6 +96,30 @@ engineering standard.
 - Pure logic modules carry no React imports. A `logic/` or `utils/` file importing
   `react`/`react-dom` breaks the independent-testability boundary the directory exists for.
 
+## Security Sinks And Toolchain Freshness
+
+From
+https://react.dev/reference/react-dom/client/createRoot,
+https://react.dev/blog/2025/02/14/sunsetting-create-react-app,
+https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html, and
+https://cwe.mitre.org/data/definitions/922.html.
+
+- `dangerouslySetInnerHTML` on server-derived or converted markup is the canonical DOM XSS
+  sink in this stack - every occurrence needs a documented sanitization library (DOMPurify or
+  equivalent) applied at the sink, and unsanitized assignments are findings.
+- Bearer tokens kept in `localStorage`/`sessionStorage` are readable by any script executing
+  in the SPA origin (CWE-922) - storage choice must match the documented threat model.
+- Client-side JWT decode that hides routes or buttons is advisory only - real authorization
+  gates live server-side, and a UI that treats its own decode as enforcement is a finding.
+- `react-scripts` 5.x or Create React App lineage is a deprecated toolchain - bundler
+  migration debt grows each release; an `overrides`/`resolutions` block fighting upstream
+  drift deepens it.
+- Dependencies pinned to tarball URLs or non-registry sources bypass registry metadata and
+  advisories - a finding unless a documented constraint requires it.
+- Dev-proxy configuration (`setupProxy.js`, `proxy` field) is development machinery - shipping
+  it into production config leaks environment assumptions.
+
+
 ## Maintainer-Standard Floor
 
 From the maintainer's TypeScript/React engineering standards.

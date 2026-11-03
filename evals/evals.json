@@ -2163,6 +2163,19 @@
         "A Custom operation description naming a report artifact applies the named style or scope and proceeds with the remaining defaults, while a descriptive description answers inline without entering the audit workflow.",
         "An automated run still resolves parameters-acceptance to accept without presenting any operation surface."
       ]
+    },
+    {
+      "id": 186,
+      "prompt": "Feed lens skill with the standards checkout at ./standards-src.",
+      "expected_output": "A source-resolution and intake-classification pass that diffs extracted constraints against the bundled digests and presents proposed digest changes behind an approval gate.",
+      "files": [],
+      "expectations": [
+        "The request routes to process/stack-feed.md through the stack feed trigger, not the audit workflow.",
+        "The source is enumerated by convention - index files, then standards-bearing directories - and each document is classified as stack-relevant, cross-stack, process-or-governance, or project-specific.",
+        "Extracted constraints are checkable rules diffed against references/stacks/ into covered, extend, or new-stack outcomes.",
+        "No shipped file is edited before the proposal gate is approved, and the autonomous flag resolves the gate to apply.",
+        "Shipped files never name the intake source - provenance is recorded under work/ only, and applied digests follow the existing Baseline schema with external URLs."
+      ]
     }
   ]
 }

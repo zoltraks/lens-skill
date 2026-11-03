@@ -136,6 +136,35 @@ https://docs.spring.io/spring-framework/reference/data-access/transaction.html.
 - The shared contract lives in `references/topics/data-persistence.md` - this section only
   carries the JVM-specific shape.
 
+## Client Trust And Request Boundaries
+
+From
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/client/RestTemplate.html,
+https://docs.spring.io/spring-security/reference/servlet/appendix/proxy-server.html,
+https://docs.spring.io/spring-boot/reference/io/spring-io.html, and
+https://owasp.org/www-community/attacks/Regular_expression_Denial_of_Service_-_ReDoS.
+
+- A `RestTemplate`/`WebClient` whose request factory or SSL context trusts every certificate,
+  disables hostname verification, or exposes a `ignoreSsl`-style flag defaulting true turns
+  the outbound channel into an interception surface - trust configuration must be explicit
+  and verified, especially on auth-bearing channels.
+- Client-IP derivation reads the connection address or a configured trusted-proxy boundary -
+  consuming `X-Forwarded-For`/`X-Real-IP` unconditionally lets any caller spoof identity;
+  `forward-headers-strategy` or an equivalent proxy allowlist defines when header trust is
+  justified.
+- Multipart ceilings set near memory-sized buffers invite whole-file buffering - uploads
+  should stream to disk and the configured `max-file-size`/`max-request-size` must fit the
+  real buffering pattern, not the reverse.
+- Jakarta bean validation (`@Valid` on controller parameters, constraint annotations on DTO
+  fields) is the input-contract baseline - a service with zero constraint annotations and no
+  validation dependency has no declared request contract.
+- A catch-all `@ExceptionHandler` or error mapping that returns `ex.getMessage()` leaks
+  internals to clients - the error contract returns generic bodies with correct status codes.
+- JWT handling distinguishes token types (a `type` claim or dedicated scope), constrains
+  refresh tokens to the refresh path, and documents revocation or rotation - a signed-token-
+  is-valid-token model has no invalidation surface.
+
+
 ## Maintainer-Standard Floor
 
 From the maintainer's Java, Maven, and Spring engineering standards.

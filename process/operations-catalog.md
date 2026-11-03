@@ -55,6 +55,7 @@ source width when the request's language changes the cell text.
 | Enable      | operations catalog    | this table                                                |
 | Maintain    | skill maintenance     | changes to this skill repository                          |
 | Maintain    | session review        | session lessons harvested into the rule corpus            |
+| Maintain    | stack feed            | external standards-source intake extending the corpus     |
 
 ## Response
 

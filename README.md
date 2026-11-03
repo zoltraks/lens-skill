@@ -29,11 +29,11 @@
 | Report Format                      | 451  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 488  | Supported requests and exclusions                   |
 | What's Inside                      | 512  | Documents, references, tools, and conditional files |
-| Document Style                     | 684  | Pointer to the style rules file                     |
-| Specification                      | 694  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 715  | Maintenance checks and regression scenarios         |
-| License                            | 743  | License for the skill itself                        |
-| Credits                            | 749  | Authorship and attribution                          |
+| Document Style                     | 685  | Pointer to the style rules file                     |
+| Specification                      | 695  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 716  | Maintenance checks and regression scenarios         |
+| License                            | 744  | License for the skill itself                        |
+| Credits                            | 750  | Authorship and attribution                          |
 
 ## Overview
 
@@ -562,7 +562,8 @@ lens-skill/
 │   ├── run-state.md                       # Run-state artifact: phase and gate record, resume, reconciliation
 │   ├── self-healing.md                    # Evidence-gated self-repair loop for this skill
 │   ├── skill-activation.md                # Enable-mode intake, enablement response, and standby
-│   └── session-review.md                  # Session review: findings, approval gate, review modes
+│   ├── session-review.md                  # Session review: findings, approval gate, review modes
+│   └── stack-feed.md                      # External standards intake into references/ digests, gated
 ├── assessment/
 │   ├── README.md                          # Assessment-file index: core files, conditional files
 │   ├── testing-review.md                  # Test pyramid (unit/integration/e2e), TDD, coverage, testability
