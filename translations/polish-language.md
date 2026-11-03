@@ -488,7 +488,7 @@ identically.
 | recommendation classification          | klasyfikacja zaleceń                                                        |
 | refresh token                          | token odświeżania                                                           |
 | remediation                            | działanie naprawcze                                                         |
-| remediation plan                       | plan działań naprawczych                                                    |
+| remediation plan                       | działania naprawcze                                                         |
 | reproducible build                     | powtarzalny proces budowania                                                |
 | residual risk                          | ryzyko rezydualne                                                           |
 | resolve                                | ustalić (lokalizacja, wartość) / rozstrzygnąć (spór) / usunąć (diagnostyka) |
@@ -1189,7 +1189,7 @@ breaks parity in both directions.
 
 Identifier descriptions in `###` subsections prefer short, direct phrasing, for example
 `Identyfikatory obowiązują tylko w tym raporcie i w kolejnych wersjach mogą być inne.` and
-`Identyfikator zalecenia w planie działań naprawczych`.
+`Identyfikator zalecenia w działaniach naprawczych`.
 
 A register-identifier definition writes the name and its role as a comma apposition -
 `Lista dowodów, prefiks identyfikatorów dowodów` - not with a spaced hyphen.
@@ -1723,7 +1723,7 @@ The exploitability narrative labels translate as `Warunek wstępny:`, `Ścieżka
 
 | English              | Polish                   |
 |----------------------|--------------------------|
-| Remediation Roadmap  | Plan działań naprawczych |
+| Remediation Roadmap  | Działania naprawcze    |
 | Rec                  | Identyfikator zalecenia  |
 | Priority             | Priorytet                |
 | Finding              | Ustalenie                |
