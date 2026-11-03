@@ -20,11 +20,11 @@ defined in `process/report-format/hunt-style.md` and `process/report-format/revi
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 2259 | Intake Checklist guidance        |
-| Handling Thin Input     | 2284 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 2298 | Single-Dimension Audits guidance |
-| Re-Audit                | 2312 | Re-Audit guidance                |
-| Multi-Project Audits    | 2378 | Multi-Project Audits guidance    |
+| Intake Checklist        | 2270 | Intake Checklist guidance        |
+| Handling Thin Input     | 2295 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 2309 | Single-Dimension Audits guidance |
+| Re-Audit                | 2323 | Re-Audit guidance                |
+| Multi-Project Audits    | 2389 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -676,11 +676,11 @@ The agent MUST ask the user and MUST NOT skip this step.
 
 The agent MUST wait for user response before proceeding to Scope Definition.
 
-The question offers three answers: `Accept defaults`, `Configure`, and `Specify operation`.
+The question offers three answers: `Accept defaults`, `Configure options`, and `Specify operation`.
 
 `Accept defaults` proceeds immediately to Scope Definition using the values above.
 
-`Configure` asks only the unresolved core parameter prompts in the order below.
+`Configure options` asks only the unresolved core parameter prompts in the order below.
 
 `Specify operation` asks which operation the skill should run - the `operation-selection`
 `choice` parameter under JSON exchange - with three options:
@@ -742,7 +742,7 @@ If the user accepts defaults or says "bypass", "defaults", or equivalent, procee
 Scope Definition using the values above.
 
 If the user chooses to configure, ask only the unresolved core parameter prompts in this order:
-delivery and output file, report style, detail level, and evaluation scale.
+delivery and output file, report style, detail level, evaluation scale, and evidence mode.
 
 At each prompt, offer a bypass option to accept the remaining defaults and proceed.
 
@@ -803,8 +803,8 @@ Every routine prompt carries three kinds of choices:
 3. A fixed trailing option `Use defaults for all remaining questions` that accepts every
    remaining default and proceeds directly to Scope Definition.
 
-Routine prompts are limited to delivery and output file, report style, detail level, and
-evaluation scale.
+Routine prompts are limited to delivery and output file, report style, detail level,
+evaluation scale, and evidence mode.
 
 Report language follows the request language unless the user explicitly specifies another
 language. `Language output` resolves to `pair` when the request language is not English or
@@ -1031,10 +1031,13 @@ Under JSON exchange this is the `report-style` `choice` parameter.
 
 Use **`source-only`** by default.
 
-Do not ask this as a routine prompt.
+Under `Configure options` this is a routine prompt - ask: "Which evidence mode should the
+audit use?"
+
+Under `Accept defaults` it is never asked and the default applies.
 
 Apply `executed-readonly` or `executed-commands` only when the user explicitly commissions
-the mode.
+the mode - through this prompt's answer or a statement in the request.
 
 - **`source-only`** (default) - the audit executes nothing: no build, test, linter, scanner,
   or generator runs against the project, and verification steps become
@@ -1054,7 +1057,14 @@ the mode.
   `process/report-format/report-closing.md`. Commissioned commands run per the
   procedure in `references/topics/execution-isolation.md`.
 
-Under JSON exchange this is the `evidence-mode` `choice` parameter.
+The question ends with `Use default: source-only` and
+`Use defaults for all remaining questions`.
+
+When the answer is `executed-readonly` or `executed-commands`, a free-text follow-up asks
+which analyzers or commands are commissioned - only the commissioned set may run.
+
+Under JSON exchange this is the `evidence-mode` `choice` parameter, and the commission
+follow-up is the `commissioned-commands` `text` parameter.
 
 **Detail level**
 
@@ -1095,7 +1105,8 @@ When `Stars` is selected, ask the follow-up question:
   `★★★☆☆`.
 - **3 stars** - uses the `1-3` rubric and displays filled and empty star bars, such as `★★☆`.
 
-The follow-up is the last routine prompt, so it ends with `Use default: 5 stars` alone.
+The follow-up ends with `Use default: 5 stars` and
+`Use defaults for all remaining questions` like every routine prompt.
 
 Under JSON exchange it is the `star-count` `choice` parameter.
 

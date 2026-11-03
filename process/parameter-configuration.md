@@ -8,8 +8,8 @@
 > output location and filename rules, re-audit parameters
 
 Before beginning the audit, the agent runs the Parameter Configuration phase in
-`process/audit-workflow.md` and MUST ask whether to accept defaults, configure, or specify
-the operation to run.
+`process/audit-workflow.md` and MUST ask whether to accept defaults, configure options,
+or specify the operation to run.
 
 Defaults are:
 
@@ -36,8 +36,9 @@ The annotation is informational only - it adds no question surface, and automate
 the `source-only` default.
 
 The agent MUST ask this question, MUST NOT skip it, and MUST wait for the user response
-before starting the audit - core configuration covers unresolved delivery and report-shape
-choices, while advanced parameters apply the defaults unless explicitly requested.
+before starting the audit - core configuration covers unresolved delivery, report-shape,
+and evidence-mode choices, while the remaining advanced parameters apply the defaults
+unless explicitly requested.
 
 An automated, unattended, or non-interactive request suppresses every question surface per
 `process/audit-workflow.md` and `process/decision-modes.md` - gates resolve to discovered or
@@ -59,7 +60,8 @@ name first, and the agent confirms with the user before writing unless the run i
 
 If the user accepts defaults or says "bypass", the agent proceeds immediately.
 
-On configure the agent asks the unresolved core parameter questions in `process/audit-workflow.md`.
+On `Configure options` the agent asks the unresolved core parameter questions in
+`process/audit-workflow.md`.
 
 On `Specify operation` the gate resolves through the `operation-selection` surface in
 `process/audit-workflow.md` - a full-audit default, the operations catalog, or a custom

@@ -137,7 +137,7 @@ Every pending question surface emits with a stable kebab-case `id`:
 | `skills-scope`            | `choice`    | Assess embedded skills as components or independent projects                                                                                                                   |
 | `project-inclusion`       | `selection` | Checkbox list of discovered projects, recommended set pre-checked                                                                                                              |
 | `cancel-confirmation`     | `choice`    | Emitted only when a returned or selected all-unchecked answer cancels                                                                                                          |
-| `parameters-acceptance`   | `choice`    | Accept default parameters, configure, or specify the operation to run                                                                                                          |
+| `parameters-acceptance`   | `choice`    | Accept default parameters, configure options, or specify the operation to run                                                                                                  |
 | `parameters-to-change`    | `selection` | Re-audit-with-changed-parameters follow-up naming core parameters                                                                                                              |
 | `operation-selection`     | `choice`    | Specify-operation follow-up - `Full audit` (default), `List all operations`, or `Custom operation` - emitted only when `parameters-acceptance` resolves to `Specify operation` |
 | `operation-description`   | `text`      | Free-text operation description - emitted only when `operation-selection` resolves to `Custom operation`                                                                       |
@@ -148,7 +148,8 @@ Every pending question surface emits with a stable kebab-case `id`:
 | `detail-level`            | `choice`    | Brief, Standard, or Detailed                                                                                                                                                   |
 | `evaluation-scale`        | `choice`    | Four options in fixed order: `1-10`, `1-5`, `1-3`, `Stars`                                                                                                                     |
 | `star-count`              | `choice`    | Star count follow-up (`5 stars` default, `3 stars`) - applies only when `evaluation-scale` resolves to `Stars`, ignored otherwise                                              |
-| `evidence-mode`           | `choice`    | `source-only` (default), `executed-readonly`, or `executed-commands` - advanced parameter, emitted only when named                                                             |
+| `evidence-mode`           | `choice`    | `source-only` (default), `executed-readonly`, or `executed-commands` - routine prompt under `Configure options`, resolved from the request otherwise                            |
+| `commissioned-commands`   | `text`      | Commissioned analyzer or command list - emitted only when `evidence-mode` resolves to `executed-readonly` or `executed-commands`                                              |
 | `session-review-approval` | `choice`    | Approve the session-review findings report before applying changes - `process/session-review.md`, not `audit-workflow.md`                                                      |
 
 Thin-input clarifications emit as `text` or `choice` parameters as they arise, with `open: true`

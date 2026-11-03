@@ -20,7 +20,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.6.3"
+  version: "2.6.4"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -137,8 +137,8 @@ When asked how this skill works, explain that Lens produces evidence-based engin
 ## Parameter Configuration
 
 Before beginning the audit, the agent runs the Parameter Configuration phase in
-`process/audit-workflow.md` and MUST ask whether to accept defaults, configure, or specify
-the operation to run -
+`process/audit-workflow.md` and MUST ask whether to accept defaults, configure options,
+or specify the operation to run -
 the parameter surfaces, defaults, resolution rules, and re-audit parameters live in
 `process/parameter-configuration.md`.
 
