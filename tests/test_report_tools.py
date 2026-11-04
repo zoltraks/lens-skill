@@ -592,7 +592,7 @@ class TestMapReportTranslation(unittest.TestCase):
         "| Document Information | Informacje o dokumencie |\n\n"
         "## Glossary Index\n\n"
         "| English | Polish |\n|---|---|\n"
-        "| Glossary Index | Słownik |\n"
+        "| Glossary Index | Słownik pojęć |\n"
         "| Verification | Weryfikacja |\n\n"
         "## Status\n\n"
         "| English | Masculine | Feminine | Neuter |\n|---|---|---|---|\n"
@@ -603,10 +603,10 @@ class TestMapReportTranslation(unittest.TestCase):
         "# Audyt\n\n"
         "## Informacje o dokumencie\n\n"
         "| Język | Polski |\n\n"
-        "## Słownik\n\n"
+        "## Słownik pojęć\n\n"
         "| Termin | Definicja |\n|---|---|\n"
         "| X | y |\n\n"
-        "Termin [X](#słownik) w tekście.\n\n"
+        "Termin [X](#słownik-pojęć) w tekście.\n\n"
         "## Szczegóły\n\n"
         "| Objęty | Otwarty |\n\n"
         "* **Weryfikacja:** Zaobserwowane w źródłach.\n\n"
@@ -767,19 +767,19 @@ class TestLinkGlossaryPolish(unittest.TestCase):
 
     def test_polish_glossary_linked(self):
         doc = (
-            "# T\n\n## Słownik\n\n| Termin | Definicja |\n|---|---|\n"
+            "# T\n\n## Słownik pojęć\n\n| Termin | Definicja |\n|---|---|\n"
             "| API | interfejs |\n\n## Treść\n\nKażde wywołanie API działa.\n"
         )
         with tempfile.TemporaryDirectory() as tmp:
             target = self.write(tmp, doc)
             self.assertEqual(self.linker.main(str(target), "pl"), 0)
             self.assertIn(
-                "[API](#słownik)", target.read_text(encoding="utf-8")
+                "[API](#słownik-pojęć)", target.read_text(encoding="utf-8")
             )
 
     def test_compound_diacritics_not_linked(self):
         doc = (
-            "# T\n\n## Słownik\n\n| Termin | Definicja |\n|---|---|\n"
+            "# T\n\n## Słownik pojęć\n\n| Termin | Definicja |\n|---|---|\n"
             "| API | interfejs |\n\n## Treść\n\nZgodność API działa.\n"
         )
         with tempfile.TemporaryDirectory() as tmp:
@@ -791,7 +791,7 @@ class TestLinkGlossaryPolish(unittest.TestCase):
 
     def test_check_mode_reports_unlinked(self):
         doc = (
-            "# T\n\n## Słownik\n\n| Termin | Definicja |\n|---|---|\n"
+            "# T\n\n## Słownik pojęć\n\n| Termin | Definicja |\n|---|---|\n"
             "| API | interfejs |\n\n## Treść\n\nKażde wywołanie API działa.\n"
         )
         with tempfile.TemporaryDirectory() as tmp:
@@ -811,7 +811,7 @@ class TestValidateReportLanguage(unittest.TestCase):
 
         doc = (
             "# Audyt\n\n## Informacje o dokumencie\n\n"
-            "| Język | Polski |\n\n## Słownik\n\nx\n"
+            "| Język | Polski |\n\n## Słownik pojęć\n\nx\n"
         )
         with tempfile.TemporaryDirectory() as tmp:
             target = Path(tmp) / "report.md"
