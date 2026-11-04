@@ -157,8 +157,8 @@ LANGUAGES = {
         "stopwords": COMPOUND_NEIGHBOR_STOPWORDS,
     },
     "pl": {
-        "glossary_heading": "Słownik",
-        "default_anchor": "słownik",
+        "glossary_heading": "Słownik pojęć",
+        "default_anchor": "słownik-pojęć",
         "field_labels": FIELD_VALUE_LABELS_PL,
         "stopwords": COMPOUND_NEIGHBOR_STOPWORDS_PL,
     },

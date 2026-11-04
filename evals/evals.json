@@ -2176,6 +2176,31 @@
         "No shipped file is edited before the proposal gate is approved, and the autonomous flag resolves the gate to apply.",
         "Shipped files never name the intake source - provenance is recorded under work/ only, and applied digests follow the existing Baseline schema with external URLs."
       ]
+    },
+    {
+      "id": 187,
+      "prompt": "Use lens on this repository and produce a Polish sibling report after the English file.",
+      "expected_output": "A Polish report whose governed surfaces render per translations/polish-language.md, including the Document Information row conventions.",
+      "files": [],
+      "expectations": [
+        "The `Styl raportu` cell of a re-audit reads `Audyt (ponowny względem <file>)` - the subject `Audyt` shortens the phrase, it never reads `ponowny audyt względem` there.",
+        "The `Tłumaczenia` row carries the sibling filename only - no language annotation such as `(Angielski - kanoniczny)` follows it.",
+        "The `Projekty` row lists bare project names as linked code spans - the `Projekt <name>` label form stays reserved for Contents entries and section headings.",
+        "An embedded repository renders `dołączone repozytorium`, while embedded datastores and engines keep `osadzony`/`osadzona`."
+      ]
+    },
+    {
+      "id": 188,
+      "prompt": "Translate this English lens report to Polish with the pair skeleton.",
+      "expected_output": "A Polish report passing lint-polish and check-translation with governed cell tokens.",
+      "files": [],
+      "expectations": [
+        "Verdict-column cells carry only `Zaliczony`, `Częściowo`, or `Niezaliczony` - `Pozytywny` never appears there.",
+        "PAR result cells carry `Zastosowany`, never the impersonal `Zastosowano`.",
+        "The findings-summary header reads `Wynik`, never `Rezultat`, and the exec-summary Source basis label reads `Źródło danych`, never `Podstawa źródłowa`.",
+        "Re-audit lifecycle fields `Zmiana`/`Weryfikacja` appear on `### FND-` blocks only - risk blocks never carry them.",
+        "Internal link anchors are lowercase slugs with the `#` prefix preserved - no `#SBOM` or space-bearing slugs."
+      ]
     }
   ]
 }

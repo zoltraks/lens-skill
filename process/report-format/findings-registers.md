@@ -13,10 +13,10 @@
 |-------------------------------|------|--------------------------------------|
 | Strengths & What's Working    | 21   | Evidence-based positive baselines    |
 | Technical Findings            | 59   | Finding summary and detail blocks    |
-| Technical Debt Register       | 404  | Distinct accumulated debt            |
-| Unified Risk Register         | 453  | Cross-referenced risks               |
-| Remediation Roadmap           | 550  | Prioritized recommendations, once    |
-| Recommendation Classification | 647  | Roadmap-closing disposition classes  |
+| Technical Debt Register       | 409  | Distinct accumulated debt            |
+| Unified Risk Register         | 458  | Cross-referenced risks               |
+| Remediation Roadmap           | 559  | Prioritized recommendations, once    |
+| Recommendation Classification | 656  | Roadmap-closing disposition classes  |
 
 ## Strengths & What's Working
 
@@ -292,6 +292,11 @@ each with a short qualifier such as `Yes, observed in source`.
 
 `Verification` covers source-level re-derivation only.
 
+The re-audit lifecycle fields `Change` and `Verification` appear on `### FND-` blocks
+only - `### RSK-`, `### REC-`, and `### TDR-` blocks never carry them, and a bulk
+insert anchored on a shared field such as `* **Confidence:**` leaks them into risk
+blocks.
+
 The `Runtime` field appears only when the claimed behavior was confirmed by execution - unconfirmed findings omit the field:
 `Yes` only under `executed-readonly` or documented runtime evidence, `No` for a static
 inference awaiting confirmation, `Not applicable` when no runtime claim exists.
@@ -475,6 +480,10 @@ Column meanings:
 - **Likelihood**: how probable the risk is given the evidence.
 - **Severity**: one of `Low`, `Medium`, `High`, `Critical`.
 - **Mitigation**: a neutral, optional action that would reduce the risk.
+
+A summary row's **Description** cell carries the block's full title verbatim -
+a shortened or paraphrased title breaks the index check that pairs each `### RSK-`
+block with its summary row.
 
 **Rating guidance**
 

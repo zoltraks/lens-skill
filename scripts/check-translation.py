@@ -442,6 +442,73 @@ def check_tdd_token(lines, masked):
     return failures
 
 
+# Always-wrong governed cells - near-miss tokens the column and label
+# contract rejects. Each pattern names the governed form it must render.
+FORBIDDEN_SURFACES = [
+    (re.compile(r"\]\(#[^)\s]*\s[^)\s]*\)"),
+     "internal anchor slug contains a space - slugs are lowercase hyphenated"),
+    (re.compile(r"\]\(#[^)\s]*[A-ZĄĆĘŁŃÓŚŹŻ][^)\s]*\)"),
+     "internal anchor slug carries an uppercase letter - lowercase it"),
+    (re.compile(r"Podstawa źródłowa"),
+     "doc-info label `Podstawa źródłowa` is not governed - use `Źródło danych`"),
+    (re.compile(r"\| Poziom dojrzałości\s*\| Przedprodukcyjny"),
+     "maturity value `Przedprodukcyjny` is bare - use `Etap przedprodukcyjny`"),
+    (re.compile(r"\| PAR-\d+\s*\|\s*Zastosowano"),
+     "PAR result cell `Zastosowano` is not governed - use `Zastosowany`"),
+    (re.compile(r"\* \*\*Podstawa pochodzenia:\*\*\s*Wskazane"),
+     "provenance basis `Wskazane` is neuter - the governed form is `Wskazana`"),
+    (re.compile(r"Obserwacja bezpośrednia"),
+     "`Obserwacja bezpośrednia` reverses the governed order - use "
+     "`Bezpośrednia obserwacja`"),
+    (re.compile(r"Audyt \(ponowny audyt względem"),
+     "`Audyt (ponowny audyt względem ...)` repeats the subject - shorten to "
+     "`Audyt (ponowny względem ...)`"),
+    (re.compile(r"^\|\s*Ustalenie.*\|\s*Rezultat\s*\|"),
+     "findings-summary header `Rezultat` is not governed - use `Wynik`"),
+]
+
+VERDICT_TOKENS = {"Zaliczony", "Częściowo", "Niezaliczony"}
+
+
+def check_contract_cells(lines, masked):
+    """Governed near-miss tokens that slipped through vocabulary inversion."""
+    failures = []
+    for index, line in enumerate(lines):
+        if index in masked:
+            continue
+        for pattern, message in FORBIDDEN_SURFACES:
+            if pattern.search(line):
+                failures.append((index, message))
+    return failures
+
+
+def check_verdict_cells(lines, masked):
+    """`Werdykt` column cells carry only verdict tokens."""
+    failures = []
+    verdict_at = None
+    for index, line in enumerate(lines):
+        if not line.startswith("|"):
+            verdict_at = None
+            continue
+        cells = [cell.strip() for cell in line.split("|")[1:-1]]
+        if "Werdykt" in cells:
+            verdict_at = cells.index("Werdykt")
+            continue
+        if verdict_at is None or index in masked:
+            continue
+        if set("".join(cells)) <= {"-", ":", " "}:
+            continue
+        if verdict_at < len(cells) and cells[verdict_at] not in VERDICT_TOKENS:
+            failures.append(
+                (
+                    index,
+                    f"Werdykt cell '{cells[verdict_at][:30]}' is not one of "
+                    f"Zaliczony/Częściowo/Niezaliczony",
+                )
+            )
+    return failures
+
+
 def check_sentence_length(lines, masked, max_words):
     """Warn on prose sentences over `max_words` words, outside tables,
     headings, and fenced code."""
@@ -578,6 +645,8 @@ def main():
             + check_untranslated_headings(file_lines, m, keys, en_headings)
             + check_field_values(file_lines, m)
             + check_tdd_token(file_lines, m)
+            + check_contract_cells(file_lines, m)
+            + check_verdict_cells(file_lines, m)
         )
 
     failures = collect(lines)

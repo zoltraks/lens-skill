@@ -10,9 +10,9 @@
 | Section              | Line | What it covers                       |
 |----------------------|------|--------------------------------------|
 | Document Information | 17   | Report metadata and revisions        |
-| Contents             | 166  | Linked navigation of report sections |
-| Audit Coverage       | 184  | Coverage of canonical audit types    |
-| Glossary             | 244  | Abbreviation and acronym definitions |
+| Contents             | 170  | Linked navigation of report sections |
+| Audit Coverage       | 188  | Coverage of canonical audit types    |
+| Glossary             | 248  | Abbreviation and acronym definitions |
 
 ## Document Information
 
@@ -38,6 +38,10 @@ names:
 ```
 
 Pad the empty header cells to the column width like any other cell.
+
+The empty header row is load-bearing - replacing it with a second separator row
+breaks the table contract, and the row is rebuilt by `scripts/format-table.py`,
+never padded by hand.
 
 Rows appear in this order, each label in the first column and its value in the second:
 
