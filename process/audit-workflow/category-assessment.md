@@ -47,6 +47,11 @@ A skipped probe needs a recorded reason.
 Assign a status (`Pass`, `Partial`, `Fail`, `Unknown`, `N/A`)
 per the rules in `principles/evaluation-rules.md`.
 
+Under scoring policy 3 every criteria outcome lands on an anchor the entry declares - read the
+allowed `levels` from `references/criteria-catalogue.json` before assigning a level,
+since anchors differ per entry and an intermediate level an entry does not declare
+fails the model check.
+
 For each finding that records an absent capability,
 also record its absence assessment per `principles/evaluation-rules.md`.
 

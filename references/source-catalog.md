@@ -25,9 +25,9 @@ Statuses: `pending` (registered, not yet consolidated),
 | Section                            | Line | What it covers                                   |
 |------------------------------------|------|--------------------------------------------------|
 | Sources                            | 32   | Source registry grouped by consuming corpus file |
-| Session-Derived Files              | 559  | Corpus files built from session knowledge        |
-| Unresolved And Alternate Addresses | 575  | Fetch failures and working alternates            |
-| Maintenance                        | 594  | Row-addition and canonicalization rules          |
+| Session-Derived Files              | 594  | Corpus files built from session knowledge        |
+| Unresolved And Alternate Addresses | 610  | Fetch failures and working alternates            |
+| Maintenance                        | 629  | Row-addition and canonicalization rules          |
 
 ## Sources
 
@@ -194,6 +194,10 @@ Statuses: `pending` (registered, not yet consolidated),
 | Cargo SemVer rules     | Rust project  | https://doc.rust-lang.org/cargo/reference/semver.html     | distilled |
 | Cargo workspaces       | Rust project  | https://doc.rust-lang.org/cargo/reference/workspaces.html | distilled |
 | Tokio tutorial         | Tokio project | https://tokio.rs/tokio/tutorial                           | distilled |
+| cargo-vet              | Mozilla       | https://github.com/mozilla/cargo-vet                      | distilled |
+| cargo-semver-checks    | Rust project  | https://github.com/rust-lang/cargo-semver-checks          | distilled |
+| cargo-nextest          | nextest       | https://nexte.st/                                         | distilled |
+| cargo-llvm-cov         | taiki-e       | https://github.com/taiki-e/cargo-llvm-cov                 | distilled |
 
 ### references/stacks/c-cpp.md
 
@@ -266,6 +270,9 @@ Statuses: `pending` (registered, not yet consolidated),
 | Actions security hardening | GitHub    | https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions | distilled |
 | Workflow syntax            | GitHub    | https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax                                   | distilled |
 | About custom actions       | GitHub    | https://docs.github.com/en/actions/sharing-automations/creating-actions/about-custom-actions                         | distilled |
+| GH Actions security CS     | OWASP     | https://cheatsheetseries.owasp.org/cheatsheets/GitHub_Actions_Security_Cheat_Sheet.html                              | distilled |
+| Actions secure-use ref     | GitHub    | https://docs.github.com/en/actions/reference/security/secure-use                                                     | distilled |
+| zizmor                     | Zizmor    | https://github.com/zizmorcore/zizmor                                                                                 | distilled |
 
 ### references/stacks/openapi-rest.md
 
@@ -516,6 +523,34 @@ Statuses: `pending` (registered, not yet consolidated),
 | SQL Injection Prevention     | OWASP          | https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html | distilled |
 | Jakarta Persistence          | Eclipse        | https://jakarta.ee/specifications/persistence/                                           | distilled |
 | Spring transaction reference | Spring project | https://docs.spring.io/spring-framework/reference/data-access/transaction.html           | distilled |
+
+### references/topics/async-runtime.md
+
+| Source                 | Publisher     | URL                                                                           | Status    |
+|------------------------|---------------|-------------------------------------------------------------------------------|-----------|
+| Tokio shared state     | Tokio project | https://tokio.rs/tokio/tutorial/shared-state                                  | distilled |
+| tokio::sync::Mutex     | Tokio project | https://docs.rs/tokio/latest/tokio/sync/struct.Mutex.html                     | distilled |
+| Cancelling async Rust  | sunshowers.io | https://sunshowers.io/posts/cancelling-async-rust/                            | distilled |
+| Async pitfalls chapter | Microsoft     | https://microsoft.github.io/RustTraining/async-book/ch12-common-pitfalls.html | distilled |
+
+### references/topics/service-surface.md
+
+| Source                   | Publisher | URL                                                                                | Status    |
+|--------------------------|-----------|------------------------------------------------------------------------------------|-----------|
+| WebSocket Security CS    | OWASP     | https://cheatsheetseries.owasp.org/cheatsheets/WebSocket_Security_Cheat_Sheet.html | distilled |
+| WSTG WebSockets          | OWASP     | https://wstg.owasp.org/                                                            | distilled |
+| RFC 6455 WebSocket       | IETF      | https://www.rfc-editor.org/rfc/rfc6455                                             | distilled |
+| RFC 9457 Problem Details | IETF      | https://www.rfc-editor.org/rfc/rfc9457                                             | distilled |
+
+### references/topics/durable-writes.md
+
+| Source                  | Publisher      | URL                                                                                   | Status    |
+|-------------------------|----------------|---------------------------------------------------------------------------------------|-----------|
+| Durability: Linux files | Evan Jones     | https://www.evanjones.ca/durability-filesystem.html                                   | distilled |
+| Files are hard          | Dan Luu        | https://danluu.com/file-consistency/                                                  | distilled |
+| fsyncgate               | PostgreSQL     | https://wiki.postgresql.org/wiki/Fsync_Errors                                         | distilled |
+| Crash-consistency paper | arXiv          | https://arxiv.org/html/2603.01384                                                     | distilled |
+| Durability on Linux     | Stack Overflow | https://stackoverflow.com/questions/12990180/what-does-it-take-to-be-durable-on-linux | distilled |
 
 ### Agent-facing refresh
 

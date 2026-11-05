@@ -125,6 +125,31 @@ From the maintainer's Rust engineering standards.
   versioned transactional migrations via `PRAGMA user_version`,
   and transaction tokens that roll back on drop.
 
+## Supply Chain, Testing, And Benchmarking Toolchain
+
+From https://github.com/mozilla/cargo-vet, https://github.com/rust-lang/cargo-semver-checks,
+https://nexte.st, https://github.com/taiki-e/cargo-llvm-cov,
+and the Rust engineering-practices supply-chain guidance.
+
+- Advisory and policy gates: `cargo audit` for known-vulnerability scans and `cargo deny check` for
+  license, advisory, ban, and source policy - a committed `deny.toml` carrying an allowlist is
+  stronger evidence than a bare scan.
+- Human-review trust: `cargo vet` (`supply-chain/audits.toml` with imported organizations)
+  or `cargo crev` records that a trusted party reviewed the dependency set;
+  their absence is an observation, not a defect.
+- `cargo supply-chain` exposes the implicit publisher trust set - a small,
+  enumerated set is the healthy shape.
+- `cargo semver-checks` gates published crates against accidental breaking API changes;
+  `cargo-geiger` censuses `unsafe` across the dependency tree, not just own code.
+- Test runner: `cargo nextest` is the faster, isolated-process runner;
+  `cargo llvm-cov` (or `tarpaulin`) produces coverage - nextest output never includes doctests,
+  which need a separate llvm-cov pass.
+- Benchmarks: `criterion` for statistical regression detection or `divan` for development-time
+  checks; ad-hoc timing loops are measurement, not benchmark.
+- Static/foreign targets: `x86_64-unknown-linux-musl` for static Linux binaries,
+  `cross` or `cargo-zigbuild` for older glibc and foreign arch.
+- Provenance: a `build.rs` embedding a git hash or version gives binaries traceable identity.
+
 ## Live Check
 
 When web fetch is available, spot-check one API-guideline rule ID against

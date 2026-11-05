@@ -9,9 +9,7 @@
 > Evidence-based engineering audits of any software subject - prototypes,
 > codebases under development, and already-running production systems - in audit, hunt,
 > or review style, including dedicated structure analysis.
->
 > [Versioning Policy](./docs/VERSIONING.md)
->
 > [Agent Skills Specification](https://agentskills.io/specification)
 
 ## Contents

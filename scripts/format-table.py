@@ -1,49 +1,47 @@
-"""Canonical table formatter implementing the Table Formatting Rules in
-process/report-format.md.
+#!/usr/bin/env python3
+"""Canonical table formatter implementing the table rules in the language
+files (languages/en.md, languages/pl.md, languages/de.md).
 
-Copy this file into the audited repository's `work/` directory (or the
-repository root when no `work/` exists) as `format-table.tmp.py`, run it
-on the report file, verify that all `|` separators align vertically, then
-remove the copy.
+Run this file in place from the skill repository -
+`python <skill-root>/scripts/format-table.py` - and run it on the document
+file, verifying that all `|` separators align vertically. Copy it under a
+`.tmp.` name into the working repository's `temp/` directory (or the
+repository root when no `temp/` exists) only when the skill root cannot be
+invoked, and remove the copy afterward.
 
-The formatter normalizes separator cells that are separator-shaped but
-lack hyphens, warns about rows that begin with `||`, warns about
-columns that are empty in every row - those columns are removed only
-when `--drop-empty-columns` is passed - and warns when a formatted
-table exceeds the 300-character source-width budget.
+Usage: python format-table.py <document.md> [--check] [--payload-markdown]
+                                     [--drop-empty-columns]
 
-Usage: python format-table.py <report.md> [--check] [--drop-empty-columns]
+  --check              report tables that would be reformatted and exit 1,
+                       without writing the file
+  --payload-markdown   also format tables inside ```markdown fenced blocks
+                       (embedded payload documents); other fence languages
+                       always stay opaque
+  --drop-empty-columns remove columns that are empty in every non-separator
+                       row (a spurious column, never a spacer); without the
+                       flag such columns are reported as warnings only
+
+Separator rows are normalized on every run: a separator-row cell that lacks
+hyphens is rebuilt with the correct hyphen count, since only a dashed cell
+declares its column.
 """
 
-from __future__ import annotations
-
 import argparse
+import os
+import re
 import sys
+
+FENCE = re.compile(r"^\s*(`{3,}|~{3,})\s*(\w*)")
+
+
+def decode(raw):
+    if raw.startswith(b"\xff\xfe") or raw.startswith(b"\xfe\xff"):
+        return raw.decode("utf-16"), "utf-16"
+    return raw.decode("utf-8"), "utf-8"
 
 
 def parse_row(line):
-    parts, buf = [], []
-    in_code, code_ticks = False, 0
-    i = 0
-    while i < len(line):
-        if line[i] == "`":
-            n = 0
-            while i < len(line) and line[i] == "`":
-                n += 1
-                i += 1
-            if not in_code:
-                in_code, code_ticks = True, n
-            elif n == code_ticks:
-                in_code = False
-            buf.append("`" * n)
-            continue
-        if line[i] == "|" and not in_code:
-            parts.append("".join(buf))
-            buf = []
-        else:
-            buf.append(line[i])
-        i += 1
-    parts.append("".join(buf))
+    parts = line.split("|")
     cells = parts[1:-1] if parts and parts[-1].strip() == "" else parts[1:]
     return [c.strip() for c in cells]
 
@@ -60,123 +58,172 @@ def sep_like(cells):
     )
 
 
-def format_block(block, start, warnings, drop_empty):
-    """Return the formatted lines for one table block."""
-    for offset, line in enumerate(block):
+def format_block(block, start, drop_empty):
+    warnings = []
+    rows = [parse_row(l) for l in block]
+    for k, line in enumerate(block):
         if line.startswith("||"):
-            warnings.append(f"line {start + offset + 1}: row starts with '||'")
-    rows = [parse_row(line) for line in block]
+            warnings.append(
+                f"line {start + k + 1}: row starts with '||' - "
+                "double pipe parses as an empty first cell"
+            )
+    for k, r in enumerate(rows):
+        if sep_like(r) and not is_sep(r):
+            warnings.append(
+                f"line {start + k + 1}: separator row cell(s) lacked hyphens - "
+                "normalized"
+            )
     ncols = max(len(r) for r in rows)
     rows = [r + [""] * (ncols - len(r)) for r in rows]
-    sep_index = next((i for i, r in enumerate(rows) if sep_like(r)), None)
-    if sep_index is not None and not is_sep(rows[sep_index]):
-        warnings.append(
-            f"line {start + sep_index + 1}: separator cell(s) lack hyphens - normalized"
-        )
-        rows[sep_index] = ["-" for _ in rows[sep_index]]
-    if ncols > 1:
-        data = [r for i, r in enumerate(rows) if i != sep_index]
-        empty = [j for j in range(ncols) if all(r[j] == "" for r in data)]
-        if empty:
-            names = ", ".join(str(j + 1) for j in empty)
-            if drop_empty and len(empty) < ncols:
-                warnings.append(f"line {start + 1}: dropped empty column(s) {names}")
-                rows = [
-                    [c for j, c in enumerate(r) if j not in empty] for r in rows
-                ]
-                ncols -= len(empty)
-            else:
-                warnings.append(
-                    f"line {start + 1}: column(s) {names} empty in every row"
-                    " (use --drop-empty-columns to remove)"
-                )
-    widths = [0] * ncols
+    empty = [
+        j
+        for j in range(ncols)
+        if all(r[j] == "" for r in rows if not sep_like(r))
+    ]
+    if empty:
+        cols = ", ".join(str(j + 1) for j in empty)
+        if drop_empty and len(empty) < ncols:
+            drop = set(empty)
+            rows = [
+                [c for j, c in enumerate(r) if j not in drop] for r in rows
+            ]
+            ncols -= len(empty)
+            warnings.append(
+                f"line {start + 1}: dropped empty column(s) {cols}"
+            )
+        elif drop_empty:
+            warnings.append(
+                f"line {start + 1}: every column is empty - "
+                "table left unchanged"
+            )
+        else:
+            warnings.append(
+                f"line {start + 1}: column(s) {cols} empty in every row "
+                "(use --drop-empty-columns to remove)"
+            )
+    widths = [1] * ncols
     for r in rows:
-        if is_sep(r):
+        if sep_like(r):
             continue
         for j, c in enumerate(r):
             widths[j] = max(widths[j], len(c))
     out = []
     for r in rows:
-        if is_sep(r):
+        if sep_like(r):
             out.append("|" + "|".join("-" * (w + 2) for w in widths) + "|")
         else:
             out.append(
-                "| "
-                + " | ".join(c.ljust(widths[j]) for j, c in enumerate(r))
-                + " |"
+                "| " + " | ".join(c.ljust(widths[j]) for j, c in enumerate(r)) + " |"
             )
-    width = max(len(r) for r in out)
-    if width > 300:
-        warnings.append(
-            f"line {start + 1}: table width {width} exceeds the 300-character "
-            "budget - move column detail into paragraphs below the table"
-        )
-    return out
+    return out, warnings
 
 
-def format_text(text, drop_empty=False):
-    """Return (formatted lines, warnings, table count)."""
+def in_payload(fences, payload_markdown):
+    return payload_markdown and bool(fences) and all(
+        lang == "markdown" for _, lang, *_ in fences
+    )
+
+
+def main(path, check_only, payload_markdown, drop_empty, excludes=None):
+    if os.path.isdir(path):
+        from pathlib import Path
+        files = [str(p) for p in sorted(Path(path).rglob("*.md"))
+                 if not (({"work", ".git"} | set(excludes or ()))
+                 & set(p.parts))]
+        if not files:
+            print(f"PASS {path}: no markdown files")
+            return 0
+        worst = 0
+        for f in files:
+            worst = max(worst, main(f, check_only, payload_markdown,
+                                    drop_empty,
+                                    excludes))
+        return worst
+    raw = open(path, "rb").read()
+    crlf = b"\r\n" in raw
+    try:
+        text, encoding = decode(raw)
+    except UnicodeDecodeError:
+        print(f"FAIL {path}: not decodable as UTF-8 or UTF-16, "
+              "check encoding first (see conventions/file-encoding.md)")
+        return 1
     lines = text.replace("\r\n", "\n").split("\n")
-    out, warnings, tables = [], [], 0
-    in_fence = False
-    i = 0
+
+    out, i, tables = [], 0, 0
+    fences = []
+    changed = []
     while i < len(lines):
         line = lines[i]
-        if line.lstrip().startswith("```"):
-            in_fence = not in_fence
+        fence = FENCE.match(line)
+        if fence:
+            marker = len(fence.group(1))
+            if fences:
+                if marker >= fences[-1][0] and fence.group(1)[0] == fences[-1][2]:
+                    fences.pop()
+                elif fences[-1][1] == "markdown":
+                    fences.append((marker, fence.group(2), fence.group(1)[0]))
+            else:
+                fences.append((marker, fence.group(2), fence.group(1)[0]))
             out.append(line)
             i += 1
             continue
-        if not in_fence and line.startswith("|"):
+        if (not fences or in_payload(fences, payload_markdown)) \
+                and line.startswith("|"):
             block = []
+            start = i
             while i < len(lines) and lines[i].startswith("|"):
                 block.append(lines[i])
                 i += 1
-            out.extend(format_block(block, i - len(block), warnings, drop_empty))
+            formatted, warnings = format_block(block, start, drop_empty)
+            for message in warnings:
+                print(message)
+            if formatted != block:
+                changed.append(start + 1)
+            out.extend(formatted)
             tables += 1
         else:
             out.append(line)
             i += 1
-    return out, warnings, tables
 
-
-def main():
-    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("path", help="Markdown report to format")
-    parser.add_argument(
-        "--check",
-        action="store_true",
-        help="report files that need formatting without writing",
-    )
-    parser.add_argument(
-        "--drop-empty-columns",
-        action="store_true",
-        help="remove columns that are empty in every row",
-    )
-    args = parser.parse_args()
-
-    raw = open(args.path, "rb").read()
-    crlf = b"\r\n" in raw
-    out, warnings, tables = format_text(
-        raw.decode("utf-8"), drop_empty=args.drop_empty_columns
-    )
-
-    for warning in warnings:
-        print(f"warn: {warning}", file=sys.stderr)
-
-    if args.check:
-        if out != raw.decode("utf-8").replace("\r\n", "\n").split("\n"):
-            print(f"{args.path}: needs formatting")
+    if check_only:
+        for n in changed:
+            print(f"line {n}: table would be reformatted")
+        if changed:
+            print(f"{len(changed)} table(s) need formatting")
             return 1
-        print(f"{args.path}: {tables} table(s) already formatted")
+        print(f"PASS {path}: {tables} table(s) already aligned")
         return 0
 
     eol = "\r\n" if crlf else "\n"
-    open(args.path, "wb").write(eol.join(out).encode("utf-8"))
+    tmp = path + ".tmp-write"
+    try:
+        with open(tmp, "wb") as handle:
+            handle.write(eol.join(out).encode(encoding))
+        os.replace(tmp, path)
+    finally:
+        if os.path.exists(tmp):
+            os.unlink(tmp)
+    if crlf:
+        print("note: file uses CRLF line endings - preserved")
     print(f"formatted {tables} tables")
     return 0
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    for _stream in (sys.stdout, sys.stderr):
+        if hasattr(_stream, "reconfigure"):
+            _stream.reconfigure(errors="backslashreplace")
+    parser = argparse.ArgumentParser(
+        description="Format Markdown tables with source-width alignment."
+    )
+    parser.add_argument("file")
+    parser.add_argument("--check", action="store_true")
+    parser.add_argument("--exclude", action="append", default=[],
+                        metavar="NAME", help="skip files whose path contains a component with this name (repeatable, directory mode)")
+    parser.add_argument("--payload-markdown", action="store_true")
+    parser.add_argument("--drop-empty-columns", action="store_true",
+                        help="remove columns that are empty in every "
+                             "non-separator row")
+    parsed = parser.parse_args()
+    raise SystemExit(main(parsed.file, parsed.check, parsed.payload_markdown,
+                          parsed.drop_empty_columns, parsed.exclude))

@@ -128,6 +128,10 @@ inventory requirement ids with obligation hints,
 then freeze the confirmed set into the model's `requirements[]` registry - the script proposes the
 inventory, the auditor decides the obligations.
 
+Record the frozen registry's `requirements_baseline` as `check-model.py` computes it - the SHA-256
+hex of the newline-joined, sorted `"<id>:<obligation>"` lines - so the scope record recomputes
+instead of being transcribed.
+
 Freeze the applicable denominator before reading favorable or unfavorable findings,
 and record any later applicability change with its reason.
 

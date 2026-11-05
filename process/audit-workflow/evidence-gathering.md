@@ -30,9 +30,9 @@ On completion, proceed to `process/audit-workflow/category-assessment.md`.
 | Check-execution Reconciliation                    | 220  | Check-execution Reconciliation                    |
 | Shared Evidence Capture (`work/audit-model.json`) | 236  | Shared Evidence Capture (`work/audit-model.json`) |
 | Verification Plan                                 | 261  | Verification Plan                                 |
-| No Execution                                      | 302  | No Execution                                      |
-| Evidence Ledger                                   | 314  | Evidence Ledger                                   |
-| Claim And Evidence Traceability                   | 352  | Claim And Evidence Traceability                   |
+| No Execution                                      | 304  | No Execution                                      |
+| Evidence Ledger                                   | 316  | Evidence Ledger                                   |
+| Claim And Evidence Traceability                   | 354  | Claim And Evidence Traceability                   |
 
 
 ## Evidence Gathering
@@ -268,6 +268,8 @@ dependency advisory scans, and license or SBOM checks.
 
 Under `executed-readonly` or `executed-commands` the environment census from
 `references/topics/execution-isolation.md` runs first and bounds which checks the matrix can select,
+Under it the census also measures capacity - free disk against the expected build and test footprint
+- so a check the host cannot complete is recorded before it starts, not after it dies.
 and every executed `Fail` or `Error` result carries a triage class in the model.
 
 Under `source-only` the audit never executes them.
