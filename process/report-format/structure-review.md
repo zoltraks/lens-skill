@@ -90,7 +90,7 @@ The variant carries exactly these top-level sections, in order:
 3. `Structural Overview` - a concise description of the existing directory, file, and
    component organization, with the component-inventory table.
 4. `Findings` - `FND-STR-` finding blocks per the shared schema, each naming the affected
-   location, the observed condition, the applicable convention tier and criterion, the impact
+   location, the observed condition, the applicable convention tier and criteria entry, the impact
    on maintainability or discoverability, and a recommendation where justified.
 5. `Positive Practices` - organizational decisions that are consistent, effective, or worth
    preserving, each with evidence.

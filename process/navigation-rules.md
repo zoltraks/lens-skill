@@ -98,7 +98,7 @@
   `assessment/api-compatibility.md`, only for a reusable library or package.
 - An overall score always reports the lowest-scoring applicable dimension beside it, per
   `synthesis/project-scorecard.md`.
-- Conditional sections appear only when their inclusion criterion is met per the table in
+- Conditional sections appear only when their inclusion criteria are met per the table in
   `process/report-format.md`, with omissions noted in Scope Exclusions - never force one.
 - The Technical Debt Register (`synthesis/debt-register.md`) is distinct from the Unified Risk
   Register: debt is cost already present, risk is what could go wrong. Never duplicate entries.

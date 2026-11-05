@@ -100,19 +100,19 @@ to its outcome, so the presence of a section or tool is never mistaken for the r
 |-------------|----------------------------|-------------------------------|----------|----------|
 | <attribute> | <what makes it acceptable> | <inspection or check applied> | EVD-XXX  | <result> |
 
-This is an adaptation of the ISO/IEC 25040 evaluation objective/criterion/method chain -
+This is an adaptation of the ISO/IEC 25040 evaluation objective/criteria/method chain -
 it traces the audit's own reasoning, it does not claim ISO conformity.
 
 **Criteria table**
 
-The frozen criterion set from `references/criterion-catalogue.md` renders as a table so every
+The frozen criteria set from `references/criteria-catalogue.md` renders as a table so every
 finding's `Criteria` field resolves to a declared row:
 
-| Criteria       | Family   | Applicability                                                  | Criticality   | Method              | Sufficiency        |
-|----------------|----------|----------------------------------------------------------------|---------------|---------------------|--------------------|
-| <criterion id> | <family> | <scope qualifier, title-cased - drop the `applicable` keyword> | <Criticality> | <collection method> | <sufficiency rule> |
+| Criteria      | Family   | Applicability                                                  | Criticality   | Method              | Sufficiency        |
+|---------------|----------|----------------------------------------------------------------|---------------|---------------------|--------------------|
+| <criteria id> | <family> | <scope qualifier, title-cased - drop the `applicable` keyword> | <Criticality> | <collection method> | <sufficiency rule> |
 
-Every `<criterion id>` uses a three-letter uppercase prefix (`TST-UNIT`, `MNT-COHES`,
+Every `<criteria id>` uses a three-letter uppercase prefix (`TST-UNIT`, `MNT-COHES`,
 `DEP-BUILD`, `SCA-POOL`, `COM-DATA`, `DLY-HIST`, `SKL-PRES`) and omits a trailing `-01` number
 unless multiple distinct criteria share the same `<FAM>-<SUBJ>` stem.
 
@@ -120,7 +120,7 @@ Cell values are title-cased. The `Applicability` column names the scope directly
 `Data adapters`, `Session feature` - without an `applicable` prefix.
 
 The table is the authoritative identifier source for the `Criteria` field on findings -
-the validator rejects a finding that names an undeclared criterion.
+the validator rejects a finding that names an undeclared criteria entry.
 
 Applicability decisions frozen at planning render their reasons inline, and any post-freeze
 change is marked in the table's note line.

@@ -8,7 +8,7 @@
 > discipline, reachability
 
 This file guides assessment of whether the code does what it claims to do - the `FNC`
-criterion family in `references/criterion-catalogue.md`.
+criteria family in `references/criteria-catalogue.md`.
 
 Apply `principles/evaluation-rules.md` throughout.
 

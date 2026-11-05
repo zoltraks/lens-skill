@@ -192,7 +192,7 @@ class TestValidateReport(unittest.TestCase):
         for field in ("Runtime:", "Verification:", "Status:", "Change:"):
             self.assertNotIn(field, self.validator.FINDING_REQUIRED)
 
-    def test_criterion_references(self):
+    def test_criteria_references(self):
         lines = [
             "**Criteria table**",
             "",
@@ -204,23 +204,23 @@ class TestValidateReport(unittest.TestCase):
             "",
             "* **Criteria:** SEC-INPUT - missing authz check",
         ]
-        failures = self.validator.check_criterion_references(lines, "audit")
+        failures = self.validator.check_criteria_references(lines, "audit")
         self.assertTrue(any("SEC-INPUT" in f for f in failures))
 
         resolved = lines[:]
         resolved[-1] = "* **Criteria:** SEC-AUTHZ - missing authz check"
-        self.assertEqual(self.validator.check_criterion_references(resolved, "audit"), [])
+        self.assertEqual(self.validator.check_criteria_references(resolved, "audit"), [])
 
     def test_criteria_table_rejects_legacy_heading_long_prefix_and_unneeded_01(self):
         legacy = [
-            "**Criterion table**",
+            "**Criterias table**",
             "",
             "| Criteria | Family | Applicability | Criticality | Method | Sufficiency |",
             "|-----------|--------|---------------|-------------|--------|-------------|",
             "| SEC-AUTHZ | SEC    | applicable    | high        | inspect| rule        |",
         ]
         self.assertTrue(
-            any("use '**Criteria table**'" in f for f in self.validator.check_criterion_references(legacy, "audit"))
+            any("use '**Criteria table**'" in f for f in self.validator.check_criteria_references(legacy, "audit"))
         )
         bad_ids = [
             "**Criteria table**",
@@ -232,20 +232,20 @@ class TestValidateReport(unittest.TestCase):
             "| SEC-AUTH-01   | sec    | applicable    | high        | inspect | rule        |",
             "| SEC-AUTH-02   | sec    | applicable    | high        | inspect | rule        |",
         ]
-        joined = "\n".join(self.validator.check_criterion_references(bad_ids, "audit"))
+        joined = "\n".join(self.validator.check_criteria_references(bad_ids, "audit"))
         self.assertIn("'TEST-UNIT' must use a three-letter uppercase prefix", joined)
         self.assertIn("'TST-PIPE-01' has an unnecessary '-01' suffix", joined)
         self.assertNotIn("SEC-AUTH-01", joined)
 
-    def test_criterion_table_required_for_audit_style(self):
+    def test_criteria_table_required_for_audit_style(self):
         lines = [
             "### FND-SEC-001: Bad thing",
             "",
             "* **Criteria:** SEC-AUTHZ - missing authz check",
         ]
-        failures = self.validator.check_criterion_references(lines, "audit")
+        failures = self.validator.check_criteria_references(lines, "audit")
         self.assertTrue(any("no Criteria table" in f for f in failures))
-        self.assertEqual(self.validator.check_criterion_references(lines, "hunt"), [])
+        self.assertEqual(self.validator.check_criteria_references(lines, "hunt"), [])
 
     def test_par_bound_is_thirty_three(self):
         rows = "".join(f"| PAR-{n} | Pass | x |\n" for n in range(1, 34))
@@ -1035,7 +1035,7 @@ class TestCheckModel(unittest.TestCase):
                  "unavailable": None},
             ],
             "findings": [
-                {"id": "FND-SEC-001", "criterion": "SEC-INJ",
+                {"id": "FND-SEC-001", "criteria": "SEC-INJ",
                  "type": "Concern", "severity": "HIGH",
                  "claim_class": "confirmed defect", "observation": "...",
                  "property": "...", "evidence": ["EVD-002"],
@@ -1098,7 +1098,7 @@ class TestCheckModel(unittest.TestCase):
         model["scores"]["dimensions"]["security"]["interval"] = [6, 9]
         failures = self.check(model)
         joined = "\n".join(failures)
-        self.assertIn("claims unknown criterion SEC-NOPE-01", joined)
+        self.assertIn("claims unknown criteria SEC-NOPE-01", joined)
         self.assertIn("no recorded counter-evidence", joined)
         self.assertIn("cites unknown finding 'FND-SEC-099'", joined)
         self.assertIn(
@@ -1121,8 +1121,8 @@ class TestCheckModel(unittest.TestCase):
             failures,
         )
 
-    def _finding(self, fid, criterion, severity, claim_class, **extra):
-        finding = {"id": fid, "criterion": criterion, "type": "Concern",
+    def _finding(self, fid, criteria, severity, claim_class, **extra):
+        finding = {"id": fid, "criteria": criteria, "type": "Concern",
                    "severity": severity, "claim_class": claim_class,
                    "observation": "...", "property": "...",
                    "evidence": ["EVD-001"],
@@ -1132,17 +1132,17 @@ class TestCheckModel(unittest.TestCase):
         finding.update(extra)
         return finding
 
-    def _criterion(self, cid, dimension, outcome, **extra):
-        criterion = {"id": cid, "catalogue_id": cid, "channel": "score",
+    def _criteria_entry(self, cid, dimension, outcome, **extra):
+        entry = {"id": cid, "catalogue_id": cid, "channel": "score",
                      "source": "catalogue",
                      "applicability": "applicable", "criticality": "medium",
                      "weight": 1.0, "expected": "...", "method": "...",
                      "sufficiency": "...", "dimension": dimension,
                      "outcome": outcome, "level": None, "mastery": None}
-        criterion.update(extra)
-        return criterion
+        entry.update(extra)
+        return entry
 
-    def test_open_bounding_finding_bounds_criterion_mastery(self):
+    def test_open_bounding_finding_bounds_criteria_mastery(self):
         model = copy.deepcopy(self._valid_model())
         model["findings"].append(
             self._finding("FND-SEC-002", "SEC-AUTHZ", "MEDIUM",
@@ -1150,13 +1150,13 @@ class TestCheckModel(unittest.TestCase):
         joined = "\n".join(self.check(model))
         self.assertIn("exceeds the 0.5 bound", joined)
 
-    def test_bounding_finding_citing_unresolved_criterion_fails(self):
+    def test_bounding_finding_citing_unresolved_criteria_fails(self):
         model = copy.deepcopy(self._valid_model())
         model["findings"].append(
             self._finding("FND-SEC-003", "SEC-CRYPTO", "MEDIUM",
                           "confirmed defect"))
         joined = "\n".join(self.check(model))
-        self.assertIn("cites unresolved criterion SEC-CRYPTO", joined)
+        self.assertIn("cites unresolved criteria SEC-CRYPTO", joined)
 
     def test_census_none_basis_checked_against_project_census(self):
         catalogue = self._catalogue(
@@ -1170,7 +1170,7 @@ class TestCheckModel(unittest.TestCase):
             model = copy.deepcopy(self._valid_model())
             model["scope"]["projects"][0]["automation_census"] = census
             model["criteria"].append(
-                self._criterion(
+                self._criteria_entry(
                     "DEP-CI", "deployability", "NOT_APPLICABLE",
                     na_basis="census-none",
                     applicability="not applicable - automation census none"))
@@ -1192,7 +1192,7 @@ class TestCheckModel(unittest.TestCase):
             ]
         )
         model["criteria"].append(
-            self._criterion("SEC-SESS", "security", "PARTIAL", mastery=0.5,
+            self._criteria_entry("SEC-SESS", "security", "PARTIAL", mastery=0.5,
                             level="P50"))
         model["evidence"][0]["claims"].append("SEC-SESS")
         failures = self.check(model, catalogue)
@@ -1230,7 +1230,7 @@ class TestCheckModel(unittest.TestCase):
                                     "automation_census": "signals"}]},
             "inventory": [],
             "criteria": [
-                self._criterion("CQY-DEAD", "code_quality", "PARTIAL",
+                self._criteria_entry("CQY-DEAD", "code_quality", "PARTIAL",
                                 mastery=0.25, level="P25",
                                 shortfall="dead code paths remain"),
             ],
@@ -1334,9 +1334,9 @@ class TestCheckModel(unittest.TestCase):
             {"name": "cli", "automation_census": "signals"},
         ]
         model["criteria"] = [
-            self._criterion("SEC-AUTHZ", "api.security", "PASS",
+            self._criteria_entry("SEC-AUTHZ", "api.security", "PASS",
                             criticality="high", level="PASS", mastery=1.0),
-            self._criterion("SEC-AUTHZ-02", "cli.security", "PASS",
+            self._criteria_entry("SEC-AUTHZ-02", "cli.security", "PASS",
                             criticality="high", level="PASS", mastery=1.0,
                             catalogue_id="SEC-AUTHZ"),
         ]
@@ -1817,7 +1817,7 @@ class TestModelConsistency(unittest.TestCase):
                 {"id": "EVD-002", "kind": "INSPECTED", "claims": ["SEC-INJ"]},
             ],
             "findings": [
-                {"id": "FND-SEC-001", "criterion": "SEC-INJ", "severity": "HIGH",
+                {"id": "FND-SEC-001", "criteria": "SEC-INJ", "severity": "HIGH",
                  "claim_class": "confirmed defect", "status": "Open",
                  "evidence": ["EVD-002"]},
             ],
@@ -1940,7 +1940,7 @@ The lowest dimension is security.
     def test_x4_register_mismatches(self):
         model = self._model()
         model["findings"].append(
-            {"id": "FND-SEC-002", "criterion": "SEC-INJ", "severity": "LOW",
+            {"id": "FND-SEC-002", "criteria": "SEC-INJ", "severity": "LOW",
              "claim_class": "confirmed defect", "status": "Open",
              "evidence": ["EVD-002"]}
         )
@@ -2301,8 +2301,8 @@ class TestComputeHeadline(unittest.TestCase):
             "maintainability": 6, "dependency_health": 6, "deployability": 6,
             "scalability": 6, "observability": 6, "compliance": 6,
             "code_style": 5, "stack_alignment": 5, "structure": 5,
-            "delivery_continuity": 4, "ai_provenance": 6,
-            "originality_licensing": 5, "skill_definition": 7,
+            "delivery_continuity": 4, "originality_licensing": 5,
+            "skill_definition": 7,
         })
 
     def test_e1_product_only_not_ready(self):
@@ -2313,7 +2313,6 @@ class TestComputeHeadline(unittest.TestCase):
             "observability": 7, "compliance": 8, "code_style": 9,
             "structure": 8, "stack_alignment": 8,
             "originality_licensing": 7,
-            "ai_provenance": self._ineligible(),
         })
         result = self.checker.compute_headline(
             dims, 10, False, False, "NOT READY")
@@ -2326,13 +2325,14 @@ class TestComputeHeadline(unittest.TestCase):
         self.assertEqual(
             product["lowest"], ["testability", "maintainability"])
         process = result["process"]
-        self.assertFalse(process["published"])
-        self.assertIsNone(process["score"])
+        self.assertTrue(process["published"])
+        self.assertEqual(process["score"], 7.0)
         self.assertEqual(process["scored"], 1)
-        self.assertEqual(process["applicable"], 2)
+        self.assertEqual(process["applicable"], 1)
+        self.assertEqual(process["lowest"], ["originality_licensing"])
         single = result["single"]
         self.assertEqual(single["raw"], 7.0)
-        self.assertEqual(single["flag"], "product-only")
+        self.assertIsNone(single["flag"])
         self.assertEqual(
             single["ceiling"],
             {"limit": 6, "reasons": ["readiness:NOT READY"]})
@@ -2344,21 +2344,21 @@ class TestComputeHeadline(unittest.TestCase):
         result = self.checker.compute_headline(
             self._e2_dims(), 10, False, False, "PENDING EVIDENCE")
         self.assertEqual(result["product"]["score"], 6.5)  # 201/31 = 6.4839
-        self.assertEqual(result["process"]["score"], 5.5)
-        self.assertEqual(result["process"]["scored"], 4)
-        self.assertEqual(result["process"]["applicable"], 4)
+        self.assertEqual(result["process"]["score"], 5.3)  # 16/3 = 5.3333
+        self.assertEqual(result["process"]["scored"], 3)
+        self.assertEqual(result["process"]["applicable"], 3)
         self.assertEqual(
             result["process"]["lowest"], ["delivery_continuity"])
         single = result["single"]
-        self.assertEqual(single["raw"], 6.2)
-        self.assertEqual(single["score"], 6.2)
+        self.assertEqual(single["raw"], 6.1)
+        self.assertEqual(single["score"], 6.1)
         self.assertIsNone(single["flag"])
         self.assertIsNone(single["ceiling"])
         self.assertEqual(single["band"], "Average")
 
     def test_e3_float_hazard(self):
         dims = self._e2_dims()
-        for ident in ("delivery_continuity", "ai_provenance",
+        for ident in ("delivery_continuity",
                       "originality_licensing", "skill_definition"):
             dims[ident] = {"applicable": True, "eligible": True,
                            "score": 5, "lo": 5, "hi": 5}
@@ -2374,7 +2374,7 @@ class TestComputeHeadline(unittest.TestCase):
         result = self.checker.compute_headline(
             self._e2_dims(), 10, False, True, "READY")
         single = result["single"]
-        self.assertEqual(single["raw"], 6.2)
+        self.assertEqual(single["raw"], 6.1)
         self.assertEqual(
             single["ceiling"], {"limit": 6, "reasons": ["severity:HIGH"]})
         self.assertEqual(single["score"], 6.0)
@@ -2403,7 +2403,7 @@ class TestComputeHeadline(unittest.TestCase):
         self.assertEqual(product["applicable_weight"], 31)
         self.assertTrue(
             all(value is None for value in result["single"].values()))
-        self.assertEqual(result["process"]["score"], 5.5)
+        self.assertEqual(result["process"]["score"], 5.3)
 
     def test_e7_weight_floor(self):
         dims = self._dims({
@@ -2433,8 +2433,8 @@ class TestComputeHeadline(unittest.TestCase):
             dims, 10, False, False, "READY")
         process = result["process"]
         self.assertFalse(process["published"])
-        self.assertEqual(process["scored"], 1)
-        self.assertEqual(process["applicable"], 2)
+        self.assertEqual(process["scored"], 0)
+        self.assertEqual(process["applicable"], 1)
         single = result["single"]
         self.assertEqual(single["raw"], 6.5)
         self.assertEqual(single["flag"], "product-only")
@@ -2448,8 +2448,8 @@ class TestComputeHeadline(unittest.TestCase):
             "maintainability": 4, "dependency_health": 4, "deployability": 4,
             "scalability": 4, "observability": 4, "compliance": 4,
             "code_style": 5, "stack_alignment": 5, "structure": 5,
-            "delivery_continuity": 3, "ai_provenance": 3,
-            "originality_licensing": 3, "skill_definition": 3,
+            "delivery_continuity": 3, "originality_licensing": 3,
+            "skill_definition": 3,
         })
         result = self.checker.compute_headline(
             dims, 5, False, True, "READY")
@@ -2472,12 +2472,12 @@ class TestComputeHeadline(unittest.TestCase):
         self.assertEqual(product["interval"], [6.2, 6.7])
         self.assertEqual(product["eligible_weight"], 29)
         self.assertEqual(product["applicable_weight"], 31)
-        self.assertEqual(result["process"]["score"], 5.5)
+        self.assertEqual(result["process"]["score"], 5.3)
         self.assertIsNone(result["process"]["interval"])
         single = result["single"]
-        self.assertEqual(single["raw"], 6.2)
-        self.assertEqual(single["interval"], [6.0, 6.3])
-        self.assertEqual(single["score"], 6.2)
+        self.assertEqual(single["raw"], 6.1)
+        self.assertEqual(single["interval"], [5.9, 6.3])
+        self.assertEqual(single["score"], 6.1)
         self.assertEqual(single["band"], "Average")
 
     def test_e11_not_ready_both_published(self):
@@ -2487,15 +2487,15 @@ class TestComputeHeadline(unittest.TestCase):
             "maintainability": 7, "dependency_health": 7, "deployability": 7,
             "scalability": 7, "observability": 7, "compliance": 7,
             "code_style": 8, "stack_alignment": 8, "structure": 8,
-            "delivery_continuity": 6, "ai_provenance": 6,
-            "originality_licensing": 7, "skill_definition": 7,
+            "delivery_continuity": 6, "originality_licensing": 7,
+            "skill_definition": 7,
         })
         result = self.checker.compute_headline(
             dims, 10, False, False, "NOT READY")
         self.assertEqual(result["product"]["score"], 7.3)  # 226/31 = 7.2903
-        self.assertEqual(result["process"]["score"], 6.5)
+        self.assertEqual(result["process"]["score"], 6.7)  # 20/3 = 6.6667
         single = result["single"]
-        self.assertEqual(single["raw"], 7.1)  # hu1(5.11 + 1.95 = 7.06)
+        self.assertEqual(single["raw"], 7.1)  # hu1(5.11 + 2.01 = 7.12)
         self.assertEqual(
             single["ceiling"],
             {"limit": 6, "reasons": ["readiness:NOT READY"]})
@@ -2511,9 +2511,9 @@ class TestComputeHeadline(unittest.TestCase):
         self.assertEqual(product["score"], 6.5)
         self.assertEqual(product["interval"], [6.3, 6.6])
         single = result["single"]
-        self.assertEqual(single["interval"], [6.1, 6.3])
-        self.assertEqual(single["raw"], 6.2)
-        self.assertEqual(single["score"], 6.2)
+        self.assertEqual(single["interval"], [6.0, 6.2])
+        self.assertEqual(single["raw"], 6.1)
+        self.assertEqual(single["score"], 6.1)
 
 
 class TestCheckModelPolicy3(unittest.TestCase):
@@ -2550,15 +2550,15 @@ class TestCheckModelPolicy3(unittest.TestCase):
             "severity_anchors": [],
         }
 
-    def _criterion(self, cid, dimension, outcome, **extra):
-        criterion = {"id": cid, "catalogue_id": cid, "channel": "score",
+    def _criteria_entry(self, cid, dimension, outcome, **extra):
+        entry = {"id": cid, "catalogue_id": cid, "channel": "score",
                      "source": "catalogue", "applicability": "applicable",
                      "criticality": "medium", "weight": 1.0, "expected": "...",
                      "method": "...", "sufficiency": "...",
                      "dimension": dimension, "outcome": outcome,
                      "level": None, "mastery": None}
-        criterion.update(extra)
-        return criterion
+        entry.update(extra)
+        return entry
 
     def _valid_model(self):
         return {
@@ -2573,20 +2573,20 @@ class TestCheckModelPolicy3(unittest.TestCase):
                       "product_profile": {"natures": ["service"]}},
             "inventory": [],
             "criteria": [
-                self._criterion(
+                self._criteria_entry(
                     "FNC-REQ", "functional_suitability", "NOT_APPLICABLE",
                     criticality="critical", weight=3,
                     na_basis="deployment-model",
                     applicability=(
                         "no mandatory requirements declared or advertised")),
-                self._criterion("SEC-AUTHZ", "security", "PASS",
+                self._criteria_entry("SEC-AUTHZ", "security", "PASS",
                                 criticality="high", level="PASS",
                                 mastery=1.0),
-                self._criterion("SEC-INJ", "security", "PARTIAL",
+                self._criteria_entry("SEC-INJ", "security", "PARTIAL",
                                 criticality="high", level="P25",
                                 mastery=0.25),
-                self._criterion("SEC-CRYPTO", "security", "UNKNOWN"),
-                self._criterion(
+                self._criteria_entry("SEC-CRYPTO", "security", "UNKNOWN"),
+                self._criteria_entry(
                     "CMP-API", "api_compatibility", "NOT_APPLICABLE",
                     criticality="low", na_basis="deployment-model",
                     applicability="not a published library"),
@@ -2609,7 +2609,7 @@ class TestCheckModelPolicy3(unittest.TestCase):
                  "unavailable": None},
             ],
             "findings": [
-                {"id": "FND-SEC-001", "criterion": "SEC-INJ",
+                {"id": "FND-SEC-001", "criteria": "SEC-INJ",
                  "type": "Concern", "severity": "HIGH",
                  "claim_class": "confirmed defect", "observation": "...",
                  "property": "...", "evidence": ["EVD-002"],
@@ -2704,7 +2704,7 @@ class TestCheckModelPolicy3(unittest.TestCase):
             failures = self.checker.check_model(model)
         finally:
             self.checker.load_catalogue = original
-        missing = "catalogue file references/criterion-catalogue.json is missing"
+        missing = "catalogue file references/criteria-catalogue.json is missing"
         self.assertIn(missing, failures)
         self.assertEqual(failures.count(missing), 1)
         self.assertIn("product.score 9.9 does not recompute to 5.0", failures)
@@ -2738,17 +2738,17 @@ class TestCheckModelPolicy3(unittest.TestCase):
         del model["criteria"][3]
         failures = self.check(model)
         self.assertIn(
-            "subject: catalogue criterion SEC-CRYPTO is missing from the model",
+            "subject: catalogue criteria SEC-CRYPTO is missing from the model",
             failures)
 
         model = self._valid_model()
         model["criteria"].append(
-            self._criterion("SEC-DUP", "security", "PASS", level="PASS",
+            self._criteria_entry("SEC-DUP", "security", "PASS", level="PASS",
                             mastery=1.0, catalogue_id="SEC-AUTHZ",
                             criticality="high"))
         failures = self.check(model)
         self.assertIn(
-            "subject: catalogue criterion SEC-AUTHZ appears 2 times", failures)
+            "subject: catalogue criteria SEC-AUTHZ appears 2 times", failures)
 
     def test_c3_level_outcome_mastery(self):
         model = self._valid_model()
@@ -2782,7 +2782,7 @@ class TestCheckModelPolicy3(unittest.TestCase):
         failures = self.check(model)
         self.assertIn(
             "CMP-API: na_basis census-none is not a declared N/A rule for "
-            "this criterion",
+            "this criteria entry",
             failures)
 
     def test_c5_census_determinism(self):
@@ -2793,17 +2793,17 @@ class TestCheckModelPolicy3(unittest.TestCase):
         model = self._valid_model()
         model["scope"]["projects"][0]["automation_census"] = "none"
         model["criteria"].append(
-            self._criterion("DEP-CI", "deployability", "NOT_APPLICABLE",
+            self._criteria_entry("DEP-CI", "deployability", "NOT_APPLICABLE",
                             na_basis="deployment-model",
                             applicability="no deployable target"))
         failures = self.check(model, catalogue)
         self.assertIn(
-            "DEP-CI: automation census none makes this criterion "
+            "DEP-CI: automation census none makes this criteria entry "
             "NOT_APPLICABLE (census-none)",
             failures)
         model["criteria"][-1]["na_basis"] = "census-none"
         joined = "\n".join(self.check(model, catalogue))
-        self.assertNotIn("makes this criterion NOT_APPLICABLE", joined)
+        self.assertNotIn("makes this criteria entry NOT_APPLICABLE", joined)
 
     def test_c6_history_determinism(self):
         catalogue = self._catalogue([
@@ -2814,19 +2814,19 @@ class TestCheckModelPolicy3(unittest.TestCase):
         model = self._valid_model()
         model["scope"]["history"] = "absent"
         model["criteria"].append(
-            self._criterion("DLY-HIST", "delivery_continuity",
+            self._criteria_entry("DLY-HIST", "delivery_continuity",
                             "NOT_APPLICABLE", na_basis="deployment-model",
                             applicability="not applicable"))
         failures = self.check(model, catalogue)
         self.assertIn(
-            "DLY-HIST: scope.history absent makes this criterion "
+            "DLY-HIST: scope.history absent makes this criteria entry "
             "NOT_APPLICABLE (history-out-of-scope)",
             failures)
 
     def test_c7_conformance_channel_prefix(self):
         model = self._valid_model()
         model["criteria"].append(
-            self._criterion("SKL-DEPS", "skill_definition", "PASS",
+            self._criteria_entry("SKL-DEPS", "skill_definition", "PASS",
                             channel="conformance"))
         failures = self.check(model)
         self.assertIn(
@@ -2835,7 +2835,7 @@ class TestCheckModelPolicy3(unittest.TestCase):
 
         model = self._valid_model()
         model["criteria"].append(
-            self._criterion("CNF-STYLE", "skill_definition", "PASS",
+            self._criteria_entry("CNF-STYLE", "skill_definition", "PASS",
                             channel="conformance"))
         failures = self.check(model)
         self.assertFalse(
@@ -2907,7 +2907,7 @@ class TestCheckModelPolicy3(unittest.TestCase):
             b"A-01:mandatory\nA-02:mandatory").hexdigest()
         model["evidence"][0]["claims"].append("FNC-REQ")
         model["findings"].append(
-            {"id": "FND-REQ-001", "criterion": "FNC-REQ", "type": "Concern",
+            {"id": "FND-REQ-001", "criteria": "FNC-REQ", "type": "Concern",
              "severity": "LOW", "claim_class": "evidence gap",
              "observation": "...", "property": "...", "evidence": ["EVD-001"],
              "counter": None, "consequence": "...", "scope": "...",
@@ -3034,7 +3034,7 @@ class TestCheckModelPolicy3(unittest.TestCase):
         self.assertEqual(rc, 1)
         failures = json.loads(out.getvalue())["failures"]
         self.assertIn(
-            "catalogue file references/criterion-catalogue.json is missing",
+            "catalogue file references/criteria-catalogue.json is missing",
             failures)
 
 
@@ -3283,15 +3283,15 @@ class TestCompareModels(unittest.TestCase):
             "severity_anchors": [],
         }
 
-    def _criterion(self, cid, dimension, outcome, **extra):
-        criterion = {"id": cid, "catalogue_id": cid, "channel": "score",
+    def _criteria_entry(self, cid, dimension, outcome, **extra):
+        entry = {"id": cid, "catalogue_id": cid, "channel": "score",
                      "source": "catalogue", "applicability": "applicable",
                      "criticality": "medium", "weight": 1.0, "expected": "...",
                      "method": "...", "sufficiency": "...",
                      "dimension": dimension, "outcome": outcome,
                      "level": None, "mastery": None}
-        criterion.update(extra)
-        return criterion
+        entry.update(extra)
+        return entry
 
     def _valid_model(self):
         return {
@@ -3306,20 +3306,20 @@ class TestCompareModels(unittest.TestCase):
                       "product_profile": {"natures": ["service"]}},
             "inventory": [],
             "criteria": [
-                self._criterion(
+                self._criteria_entry(
                     "FNC-REQ", "functional_suitability", "NOT_APPLICABLE",
                     criticality="critical", weight=3,
                     na_basis="deployment-model",
                     applicability=(
                         "no mandatory requirements declared or advertised")),
-                self._criterion("SEC-AUTHZ", "security", "PASS",
+                self._criteria_entry("SEC-AUTHZ", "security", "PASS",
                                 criticality="high", level="PASS",
                                 mastery=1.0),
-                self._criterion("SEC-INJ", "security", "PARTIAL",
+                self._criteria_entry("SEC-INJ", "security", "PARTIAL",
                                 criticality="high", level="P25",
                                 mastery=0.25),
-                self._criterion("SEC-CRYPTO", "security", "UNKNOWN"),
-                self._criterion(
+                self._criteria_entry("SEC-CRYPTO", "security", "UNKNOWN"),
+                self._criteria_entry(
                     "CMP-API", "api_compatibility", "NOT_APPLICABLE",
                     criticality="low", na_basis="deployment-model",
                     applicability="not a published library"),
@@ -3342,7 +3342,7 @@ class TestCompareModels(unittest.TestCase):
                  "unavailable": None},
             ],
             "findings": [
-                {"id": "FND-SEC-001", "criterion": "SEC-INJ",
+                {"id": "FND-SEC-001", "criteria": "SEC-INJ",
                  "type": "Concern", "severity": "HIGH",
                  "claim_class": "confirmed defect", "observation": "...",
                  "property": "...", "evidence": ["EVD-002"],
@@ -3386,7 +3386,7 @@ class TestCompareModels(unittest.TestCase):
     def _with_na_dly(self, model):
         model = copy.deepcopy(model)
         model["criteria"].append(
-            self._criterion(
+            self._criteria_entry(
                 "DLY-OPS", "delivery_continuity", "NOT_APPLICABLE",
                 na_basis="deployment-model",
                 applicability="no delivery process in scope"))
@@ -3395,7 +3395,7 @@ class TestCompareModels(unittest.TestCase):
     def _with_process(self, model):
         model = copy.deepcopy(model)
         model["criteria"].append(
-            self._criterion("DLY-OPS", "delivery_continuity", "PASS",
+            self._criteria_entry("DLY-OPS", "delivery_continuity", "PASS",
                             level="PASS", mastery=1.0))
         model["evidence"].append(
             {"id": "EVD-003", "kind": "INSPECTED", "collector": "x",
@@ -3421,9 +3421,9 @@ class TestCompareModels(unittest.TestCase):
 
     def _with_api_scored(self, model):
         model = copy.deepcopy(model)
-        criterion = next(
+        entry = next(
             c for c in model["criteria"] if c["id"] == "CMP-API")
-        criterion.update(
+        entry.update(
             {"outcome": "PASS", "level": "PASS", "mastery": 1.0,
              "na_basis": None, "applicability": "applicable"})
         model["evidence"][0]["claims"].append("CMP-API")
@@ -3455,7 +3455,7 @@ class TestCompareModels(unittest.TestCase):
         readiness = {}
         for i, name in enumerate(names):
             cid = "SEC-AUTHZ" if i == 0 else f"SEC-AUTHZ-{i + 1:02d}"
-            criteria.append(self._criterion(
+            criteria.append(self._criteria_entry(
                 cid, f"{name}.security", "PASS", criticality="high",
                 level="PASS", mastery=1.0, catalogue_id="SEC-AUTHZ"))
             claims.append(cid)
@@ -3587,7 +3587,7 @@ class TestCompareModels(unittest.TestCase):
         result, failures = self.comparator.compare(
             [self._valid_model(), broken], catalogue=self._catalogue())
         self.assertIsNone(result)
-        self.assertTrue(any("not a criterion state" in f for f in failures))
+        self.assertTrue(any("not a criteria state" in f for f in failures))
 
     def test_multi_project_pairs_by_name_and_lists_unpaired(self):
         catalogue = self._small_catalogue()

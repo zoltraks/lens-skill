@@ -14,8 +14,8 @@ render from - the report writer never invents facts, counts, or scores while com
 
 Apply `principles/evaluation-rules.md` throughout.
 
-Evidence kinds and record fields live in `references/evidence-schema.md`, and criterion
-records live in `references/criterion-catalogue.md`.
+Evidence kinds and record fields live in `references/evidence-schema.md`, and criteria
+records live in `references/criteria-catalogue.md`.
 
 ## Contents
 
@@ -33,11 +33,11 @@ records live in `references/criterion-catalogue.md`.
 |-----------------------|-----------------------------------------------|-------------------------------------------------------------------|------------------------------------------|
 | Scope resolver        | User purpose, source availability, deployment | Audit contract and revision identity                              | Scope and evidence mode explicit         |
 | Inventory collector   | Repository files, manifests, module roots     | File inventory and exclusion record                               | Every in-scope source file accounted for |
-| Criterion planner     | Product context, criterion catalogue          | Applicability and method matrix                                   | `N/A` decisions justified                |
+| Criteria planner      | Product context, criteria catalogue           | Applicability and method matrix                                   | `N/A` decisions justified                |
 | Evidence collectors   | Source, config, supplied artifacts, execution | Typed evidence records                                            | Provenance and limitations recorded      |
 | Architecture analyzer | File roles, modules, imports, history         | Organization model, responsibility inventory, dependency findings | Unresolved graph edges disclosed         |
 | Finding evaluator     | Criteria and evidence                         | Findings, counter-evidence, contextual risk                       | Each claim has an adequate basis         |
-| Scoring engine        | Criterion results and fixed policy            | Scores, intervals, coverage, caps, gates                          | Computation reproducible                 |
+| Scoring engine        | Criteria results and fixed policy             | Scores, intervals, coverage, caps, gates                          | Computation reproducible                 |
 | Report generator      | Validated structured records                  | Human-readable report                                             | No independent recalculation in prose    |
 | Validator             | Structured model and generated report         | Validation results                                                | Material errors block final publication  |
 
@@ -57,7 +57,7 @@ Top-level shape:
  "model_version": 2,
  "scope": {
   "subject": "<name>", "revision": "<full identity>", "purpose": "<audit purpose>",
-  "evidence_mode": "source-only", "scoring_policy": 3, "catalogue_version": 2,
+  "evidence_mode": "source-only", "scoring_policy": 3, "catalogue_version": 4,
   "history": "present|absent|out-of-scope", "detail_level": "Detailed|Standard|Brief",
   "requirements_baseline": "<sha256 hex>|null", "product_profile": {"natures": ["service"]},
   "projects": [
@@ -91,7 +91,7 @@ Top-level shape:
    "unavailable": null}
  ],
  "findings": [
-  {"id": "FND-SEC-001", "criterion": "SEC-AUTHZ", "type": "Concern",
+  {"id": "FND-SEC-001", "criteria": "SEC-AUTHZ", "type": "Concern",
    "severity": "HIGH", "claim_class": "confirmed defect", "observation": "...",
    "property": "...", "evidence": ["EVD-001"], "counter": "...",
    "consequence": "...", "scope": "...", "confidence": "HIGH",
@@ -133,18 +133,18 @@ Top-level shape:
 
 `model_version` is `2` for this schema.
 
-Criterion `dimension` values are the canonical ids in `process/readiness-scoring.md`
+Criteria `dimension` values are the canonical ids in `process/readiness-scoring.md`
 (scoring policy 3) - snake_case keys like `security` and `delivery_continuity`, never the
-legacy `process` bucket or kebab-case; a process-family criterion names its own dimension
-(`delivery_continuity`, `ai_provenance`, `originality_licensing`, `skill_definition`).
+legacy `process` bucket or kebab-case; a process-family criteria entry names its own dimension
+(`delivery_continuity`, `originality_licensing`, `skill_definition`).
 Multi-project models prefix each dimension key with the project `name` (`<project>.security`)
 and publish the three headline records under `scores.per_project[<name>]` while
 `scores.product`, `scores.process`, and `scores.single` stay absent, and `readiness`
 becomes `{"per_project": {<name>: {"state", "blocking"}}}`.
 
 Score-channel criteria carry `catalogue_id` naming their entry in the fixed catalogue of
-`references/criterion-catalogue.json` - in a single-project model `id` equals
-`catalogue_id` - and a resolved criterion's `level` comes from that entry's declared
+`references/criteria-catalogue.json` - in a single-project model `id` equals
+`catalogue_id` - and a resolved criteria entry's `level` comes from that entry's declared
 anchors.
 
 `scope.scoring_policy` records which policy produced the scores, so a model written under
@@ -156,18 +156,18 @@ catalogue, and `scores.overall` is removed rather than migrated.
 recorded `shortfall` with evidence per the deduction-traceability rule in
 `process/readiness-scoring.md`.
 
-Criterion-to-evidence linkage runs through `evidence[].claims` - each evidence record names
-the criterion ids its result supports, and a criterion is scored-relevant only when at least
-one resolved criterion carries `INSPECTED`, `STATICALLY_DERIVED`, `EXECUTED`, or `MEASURED`
+Criteria-to-evidence linkage runs through `evidence[].claims` - each evidence record names
+the criteria ids its result supports, and a criteria entry is scored-relevant only when at least
+one resolved criteria entry carries `INSPECTED`, `STATICALLY_DERIVED`, `EXECUTED`, or `MEASURED`
 evidence per the eligibility gate in `process/readiness-scoring.md`. A dimension that fails
 the gate omits its `score` and `eligible` fields entirely rather than recording a zero.
 
 Each scored dimension's `interval` records the substitution bounds: `lo` recomputes mastery
-with every unresolved applicable criterion treated as `FAIL`, `hi` treats them as `PASS`,
+with every unresolved applicable criteria entry treated as `FAIL`, `hi` treats them as `PASS`,
 and a degenerate interval (`lo` equals `hi`) is omitted.
 
 The `projects[]` scope record carries the intake discovery: each project's provenance, fetch
-state, pin state, and automation signal census outcome, recorded before criterion planning so
+state, pin state, and automation signal census outcome, recorded before criteria planning so
 applicability decisions cite the census.
 
 Scope-model determinations are contracted so two auditors reach the same partition:
@@ -187,8 +187,8 @@ Scope-model determinations are contracted so two auditors reach the same partiti
 - `product_profile.natures` follows the delivered artifact kind - a member crate inherits
   the workspace's natures unless it is independently published as a reusable package, in
   which case `library` applies to that crate alone.
-- A criterion resolves `UNKNOWN` only when the evidence its `sufficiency` names cannot be
-  located or cannot distinguish adjacent levels. When partial evidence exists the criterion
+- A criteria entry resolves `UNKNOWN` only when the evidence its `sufficiency` names cannot be
+  located or cannot distinguish adjacent levels. When partial evidence exists the criteria entry
   grades at the level that evidence supports - `UNKNOWN` is never a shortcut for a hard
   grading call.
 
@@ -236,13 +236,13 @@ mechanically:
 
 - Referential integrity: finding criteria and evidence, risk and recommendation findings, and
   evidence claims all resolve to declared identifiers.
-- Outcome validity: criterion outcomes come from the declared state set, `PARTIAL` carries a
+- Outcome validity: criteria outcomes come from the declared state set, `PARTIAL` carries a
   recorded mastery fraction, and `CRITICAL`/`HIGH` findings carry counter-evidence.
 - Catalogue conformance: score-channel criteria match the fixed catalogue on id, dimension,
   weight, criticality, declared `level` anchors, and `na_rules`, completeness holds per
   project, and the `requirements[]` registry matches `scope.requirements_baseline`.
 - Scoring reproducibility: each dimension's score, interval bounds, coverage, and eligibility
-  recompute from criterion outcomes, weights, and backing evidence kinds, and the `product`,
+  recompute from criteria outcomes, weights, and backing evidence kinds, and the `product`,
   `process`, and `single` headline records recompute from the dimension set under the
   catalogue's tier weights, publish gates, blend, and ceilings.
 

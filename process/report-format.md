@@ -462,8 +462,8 @@ the concrete check that confirms the finding; `Mitigating factors` lists what
 limits the exposure (`Brak` when none); `Defect scenario` carries the
 initial-conditions, steps, expected, observed, confirmation narrative.
 
-Every criterion identifier cited in a `* **Criteria:**` field appears as a row in
-the Auditing Methodology criteria table - citing an undeclared criterion is a
+Every criteria identifier cited in a `* **Criteria:**` field appears as a row in
+the Auditing Methodology criteria table - citing an undeclared criteria entry is a
 defect.
 
 Every `FND-` identifier appears in the Remediation Roadmap or the finding block
@@ -489,7 +489,7 @@ API Compatibility & Versioning Discipline, Technical Debt Register, and Follow-u
 
 Same sections as Standard, plus the following extensions.
 
-At the Detailed level, evaluate every conditional section's criterion explicitly and include each
+At the Detailed level, evaluate each conditional section's criteria explicitly and include each
 one that applies:
 
 - Executive Summary includes a longer Production Readiness Threshold paragraph.
@@ -556,7 +556,7 @@ a one-line justification, so the reader knows the omission was deliberate.
 
 The following sections and subsections are conditional.
 
-Each lists its inclusion criterion and the assessment file that governs it:
+Each lists its inclusion criteria and the assessment file that governs it:
 
 | Section / Subsection                                        | Include When                                                                         | Governing File                            |
 |-------------------------------------------------------------|--------------------------------------------------------------------------------------|-------------------------------------------|
@@ -585,7 +585,7 @@ Each lists its inclusion criterion and the assessment file that governs it:
 | Retest Register (standalone, review style)                  | The Execution Register carries `Fail`/`Error`/`Blocked` rows                         | `process/report-format/review-style.md`   |
 | Artifact Manifest (standalone, review style)                | `executed-readonly` or `executed-commands` evidence mode                             | `process/report-format/review-style.md`   |
 
-In a multi-project report, evaluate each criterion independently per project.
+In a multi-project report, evaluate each section's inclusion criteria independently per project.
 
 A section may apply to one project and be omitted for another,
 record each deliberate omission in Scope Exclusions.
@@ -602,8 +602,8 @@ The report has these top-level sections, in this order, with unnumbered headings
 
 The Specification Files table below maps each section to its specification file.
 
-Sections marked *(conditional)* are included only when their criterion in the Conditional Sections
-table is met.
+Sections marked *(conditional)* are included only when their criteria in the Conditional Sections
+table are met.
 
 For a **single-project** audit:
 

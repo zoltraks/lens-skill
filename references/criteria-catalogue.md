@@ -1,26 +1,26 @@
-# Criterion Catalogue
+# Criteria Catalogue
 
 ## Purpose
 
-> **Scope:** The criterion record schema, minimum criterion families, applicability rules, and
+> **Scope:** The criteria record schema, minimum criteria families, applicability rules, and
 > the freeze discipline that anchors every audit score and verdict
-> **Key items:** criterion records, families, applicability freeze, crosswalk integrity,
+> **Key items:** criteria records, families, applicability freeze, crosswalk integrity,
 > criticality and weight
 
 This file defines how an audit declares the criteria it evaluates before it reads the evidence.
 
-A criterion is an evaluable requirement with an identifier, a method, and a sufficiency rule -
+A criteria entry is an evaluable requirement with an identifier, a method, and a sufficiency rule -
 not a folder name, a section heading, or a checklist of presence.
 
 Apply `principles/evaluation-rules.md` throughout.
 
-The catalogue is per-audit: the criterion planner stage of `process/audit-model.md` selects,
+The catalogue is per-audit: the criteria planner stage of `process/audit-model.md` selects,
 adapts, and freezes it for the subject, and `references/evidence-schema.md` defines the outcome
-states each criterion resolves to.
+states each criteria entry resolves to.
 
 Under scoring policy 3 the planner starts from the fixed catalogue in
-`references/criterion-catalogue.json` - the canonical dimension order and tiers, fixed
-criterion ids, weights, criticality, declared level anchors, `na_rules`, and severity
+`references/criteria-catalogue.json` - the canonical dimension order and tiers, fixed
+criteria ids, weights, criticality, declared level anchors, `na_rules`, and severity
 anchors - and the model's completeness, membership, level, and census/history decisions are
 checked mechanically against it per `process/readiness-scoring.md`.
 
@@ -28,37 +28,37 @@ checked mechanically against it per `process/readiness-scoring.md`.
 
 | Section                | Line | What it covers                              |
 |------------------------|------|---------------------------------------------|
-| Criterion Records      | 37   | The fields every criterion carries          |
+| Criteria Records       | 37   | The fields every criteria entry carries     |
 | Applicability Freeze   | 72   | Denominator locking and change rules        |
-| Criterion Families     | 87   | Minimum family set and per-family notes     |
+| Criteria Families      | 87   | Minimum family set and per-family notes     |
 | Criticality And Weight | 140  | How criteria earn weight inside a dimension |
 | Crosswalk Integrity    | 151  | Mapping to external quality models honestly |
 
-## Criterion Records
+## Criteria Records
 
-Every criterion in `audit-model.json` `criteria[]` carries these fields:
+Every criteria entry in `audit-model.json` `criteria[]` carries these fields:
 
-| Field           | Required content                                                          |
-|-----------------|---------------------------------------------------------------------------|
-| `id`            | Three-letter family-prefixed identifier, for example `SEC-AUTHZ`          |
-| `source`        | Requirement origin: stakeholder requirement, adopted standard with        |
-|                 | version, auditor-proposed criterion, or reconstructed assumption          |
-| `applicability` | `applicable`, `conditional`, or `not applicable` with a one-line reason   |
-| `criticality`   | `critical`, `high`, `medium`, or `low` - a `critical` criterion gates the |
-|                 | headline score                                                            |
-| `weight`        | Relative weight inside its dimension                                      |
-| `expected`      | The outcome that satisfies the criterion                                  |
-| `method`        | The collection and analysis method required                               |
-| `sufficiency`   | What evidence suffices, per `references/evidence-schema.md`               |
-| `dimension`     | The product dimension it feeds, or `process` for a non-product family     |
+| Field           | Required content                                                               |
+|-----------------|--------------------------------------------------------------------------------|
+| `id`            | Three-letter family-prefixed identifier, for example `SEC-AUTHZ`               |
+| `source`        | Requirement origin: stakeholder requirement, adopted standard with             |
+|                 | version, auditor-proposed criteria entry, or reconstructed assumption          |
+| `applicability` | `applicable`, `conditional`, or `not applicable` with a one-line reason        |
+| `criticality`   | `critical`, `high`, `medium`, or `low` - a `critical` criteria entry gates the |
+|                 | headline score                                                                 |
+| `weight`        | Relative weight inside its dimension                                           |
+| `expected`      | The outcome that satisfies the criteria entry                                  |
+| `method`        | The collection and analysis method required                                    |
+| `sufficiency`   | What evidence suffices, per `references/evidence-schema.md`                    |
+| `dimension`     | The product dimension it feeds, or `process` for a non-product family          |
 
-Criterion identifier rules:
+Criteria identifier rules:
 
-- Every criterion `id` starts with a **three-letter uppercase prefix** (`<FAM>-<SUBJ>`, such as
+- Every criteria-entry `id` starts with a **three-letter uppercase prefix** (`<FAM>-<SUBJ>`, such as
   `TST-UNIT`, `MNT-COHES`, `DEP-BUILD`, `SCA-POOL`, `COM-DATA`, `DLY-HIST`, `SKL-PRES`) - never
   a four-or-more-letter prefix (`TEST-`, `MAINT-`, `DEPLOY-`, `SCALE-`, `COMP-`, `DELIV-`,
   `SKILL-`).
-- Omit numeric suffixes (`-01`, `-1`) when only one criterion uses a given `<FAM>-<SUBJ>`
+- Omit numeric suffixes (`-01`, `-1`) when only one criteria entry uses a given `<FAM>-<SUBJ>`
   stem, and append `-01`, `-02` only when multiple distinct criteria in the same report share
   the same `<FAM>-<SUBJ>` stem.
 
@@ -71,20 +71,20 @@ release purpose, distinguishing supplied facts from auditor reconstructions.
 
 ## Applicability Freeze
 
-Freeze the applicable criterion set - the denominator - before reading favorable or unfavorable
+Freeze the applicable criteria set - the denominator - before reading favorable or unfavorable
 findings.
 
-Deciding a criterion is inapplicable after its evidence turned out unfavorable is denominator
+Deciding a criteria entry is inapplicable after its evidence turned out unfavorable is denominator
 gaming.
 
 Every post-freeze applicability change carries a recorded reason in `audit-model.json` and a
 visible justification in the report.
 
-`NOT_APPLICABLE` means the criterion cannot apply to the deployment model, with the
+`NOT_APPLICABLE` means the criteria entry cannot apply to the deployment model, with the
 contextual-applicability justification from `principles/evaluation-rules.md` - never "not
 checked" or "evidence was missing".
 
-## Criterion Families
+## Criteria Families
 
 These families are the minimum set the planner starts from.
 
@@ -98,7 +98,7 @@ Add or adapt families when the product profile justifies it, and record the adap
 | `CQY`  | Code quality, static analysis, dead code, duplication, error-path hygiene         |
 | `STK`  | Stack alignment, idiomatic framework and runtime conventions                      |
 | `DEP`  | Dependencies, supply chain, build, container, and deployment pipeline signals     |
-| `MNT`  | Maintainability, cohesion, readability, change management, documentation sync     |
+| `MNT`  | Maintainability, cohesion, readability, and change management                     |
 | `STR`  | Physical directory layout, file naming, and code division                         |
 | `STY`  | In-code identifier naming, style consistency, readability, convention enforcement |
 | `SCA`  | Scalability, resource bounds, state scaling, and non-functional targets           |
@@ -108,10 +108,10 @@ Add or adapt families when the product profile justifies it, and record the adap
 | `PRF`  | Performance and latency under the stated intended workload                        |
 | `OBS`  | Observability, logging, correlation, health checks, metrics, and alerting         |
 | `OPS`  | Operational readiness, rollback, backup, monitoring, and failure recovery         |
+| `DOC`  | Documentation presence, currency, operator coverage, and interface reference      |
 | `CMP`  | Interface and version compatibility across contracts and stored data              |
 | `INT`  | Product-appropriate interaction: CLI scripting, errors, or UI behavior            |
 | `DLY`  | Process: delivery practice, commit history, bus factor, release cadence           |
-| `AIP`  | Process: AI-generated code provenance and review controls                         |
 | `CPR`  | Process: copyright, originality, and license declarations                         |
 | `SKL`  | Process/conformance: Agent Skill and agent-guidance artifacts                     |
 | `SAF`  | Conditional: hazards, fail-safe behavior where consequences warrant               |
@@ -133,16 +133,16 @@ reason - the census precedes the applicability freeze, so this is not denominato
 Under an `external` census the pipeline criteria stay applicable only for what the external
 pointer establishes.
 
-Assess delivery practice, team continuity, provenance, and license obligations in separate
+Assess delivery practice, team continuity, and license obligations in separate
 process families marked `process` - their results remain release gates where applicable but
 never enter the product-quality aggregate.
 
 ## Criticality And Weight
 
-A `critical` criterion is one whose `FAIL` state prevents safe release, operation, or
+A `critical` criteria entry is one whose `FAIL` state prevents safe release, operation, or
 maintenance of the subject as scoped - a non-compensatory gate.
 
-Weight reflects the criterion's contribution inside its dimension and is frozen with the
+Weight reflects the criteria entry's contribution inside its dimension and is frozen with the
 catalogue.
 
 New weights, criteria, or applicability decisions after publication require a scoring-policy

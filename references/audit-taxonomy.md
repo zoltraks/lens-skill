@@ -36,7 +36,7 @@ Governance Audit for a project with no AI dependency, and a row carrying it is n
 
 This is the engagement-level vocabulary.
 
-Per-criterion outcome and coverage states are a
+Per-criteria outcome and coverage states are a
 separate vocabulary in `references/evidence-schema.md` and never appear in this matrix.
 
 ## Canonical Audit Types

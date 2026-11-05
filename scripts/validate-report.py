@@ -508,10 +508,10 @@ def check_finding_blocks(lines: list[str]) -> list[str]:
             value = field_value(block, field)
             if EMPTY_FIELD_VALUE.match(value):
                 failures.append(f"{name}: {field} renders {value.split(' ')[0]} - omit the line entirely")
-        criterion = field_value(block, "Criteria")
-        if EMPTY_FIELD_VALUE.match(criterion):
+        criteria_field = field_value(block, "Criteria")
+        if EMPTY_FIELD_VALUE.match(criteria_field):
             failures.append(
-                f"{name}: Criteria renders {criterion.split(' ')[0]} - name a declared "
+                f"{name}: Criteria renders {criteria_field.split(' ')[0]} - name a declared "
                 "criteria-table row instead"
             )
         verified = field_value(block, "Verification")
@@ -533,8 +533,8 @@ def check_finding_blocks(lines: list[str]) -> list[str]:
     return failures
 
 
-CRITERION_ID_SHAPE = re.compile(r"^[A-Z]{3}-[A-Z0-9]+(?:-[A-Z0-9]+)*$")
-CRITERION_REDUNDANT_ONE = re.compile(r"^([A-Z]{3}-[A-Z]+(?:-[A-Z]+)*)-(0?1)$")
+CRITERIA_ID_SHAPE = re.compile(r"^[A-Z]{3}-[A-Z0-9]+(?:-[A-Z0-9]+)*$")
+CRITERIA_REDUNDANT_ONE = re.compile(r"^([A-Z]{3}-[A-Z]+(?:-[A-Z]+)*)-(0?1)$")
 
 
 def declared_criteria(lines: list[str]) -> tuple[list[str], list[str]]:
@@ -542,11 +542,16 @@ def declared_criteria(lines: list[str]) -> tuple[list[str], list[str]]:
     heading_issues: list[str] = []
     for index, line in enumerate(lines):
         if re.match(
-            r"(?:\*\*Criterion table\*\*|#{2,3}\s+Criterion table\s*$)",
+            r"(?:\*\*Criteri\w*\s+tables?\*\*|#{2,3}\s+Criteri\w*\s+tables?\s*$)",
             line,
+        ) and not re.match(
+            r"(?:\*\*Criteria table\*\*|#{2,3}\s+Criteria table\s*$)",
+            line,
+            re.IGNORECASE,
         ):
             heading_issues.append(
-                f"line {index + 1}: use '**Criteria table**' instead of 'Criterion table'"
+                f"line {index + 1}: use '**Criteria table**' - "
+                "the criteria table heading is plural-only"
             )
             continue
         if not re.match(
@@ -576,17 +581,17 @@ def declared_criteria(lines: list[str]) -> tuple[list[str], list[str]]:
     return criteria, heading_issues
 
 
-def check_criterion_references(lines: list[str], style: str) -> list[str]:
+def check_criteria_references(lines: list[str], style: str) -> list[str]:
     declared_list, failures = declared_criteria(lines)
     declared = set(declared_list)
     for cid in declared_list:
-        if not CRITERION_ID_SHAPE.match(cid):
+        if not CRITERIA_ID_SHAPE.match(cid):
             failures.append(
                 f"Criteria table: '{cid}' must use a three-letter uppercase prefix "
                 "(e.g. TST-UNIT, MNT-COHES, DEP-BUILD, SCA-POOL, COM-DATA, DLY-HIST, SKL-PRES)"
             )
             continue
-        one = CRITERION_REDUNDANT_ONE.match(cid)
+        one = CRITERIA_REDUNDANT_ONE.match(cid)
         if one:
             stem = one.group(1)
             has_sibling = any(
@@ -923,9 +928,9 @@ SCORECARD_DIMENSIONS = [
     "Compliance",
     "Observability",
     "Operational Safety",
+    "Documentation",
     "API Compatibility",
     "Delivery & Continuity",
-    "AI Provenance",
     "Originality & Licensing",
     "Skill Definition",
 ]
@@ -998,14 +1003,13 @@ REQUIRED_GATES = (
 ARTIFACT_KINDS = ("params", "model", "state", "part", "report", "translation")
 
 # Policy-3 headline records - dimension group and tier mirror
-# `references/criterion-catalogue.json` and the same tables in
+# `references/criteria-catalogue.json` and the same tables in
 # scripts/check-model.py; the mirrored-logic parity rule in
 # docs/MAINTENANCE.md applies.
 DIMENSION_GROUP = {ident: "product" for ident in DIMENSION_IDS.values()}
 DIMENSION_GROUP.update(
     {
         "delivery_continuity": "process",
-        "ai_provenance": "process",
         "originality_licensing": "process",
         "skill_definition": "process",
     }
@@ -1026,9 +1030,9 @@ DIMENSION_TIER = {
     "compliance": 2,
     "observability": 2,
     "operational_safety": 3,
+    "documentation": 2,
     "api_compatibility": 2,
     "delivery_continuity": 1,
-    "ai_provenance": 1,
     "originality_licensing": 1,
     "skill_definition": 1,
 }
@@ -4587,7 +4591,7 @@ def main(
                     ("register reference links", check_reference_links(lines, fences, text)),
                     ("register numbering", check_register_numbering(lines, fences)),
                     ("finding-block fields", check_finding_blocks(lines)),
-                    ("criterion references", check_criterion_references(lines, style)),
+                    ("criteria references", check_criteria_references(lines, style)),
                     ("legacy field names", check_legacy_fields(lines, fences)),
                     ("Observation/Concern tags", check_type_tags(lines, fences)),
                     ("snapshot identity", check_snapshot_identity(text)),
@@ -4606,7 +4610,7 @@ def main(
                     ("register reference links", check_reference_links(lines, fences, text)),
                     ("register numbering", check_register_numbering(lines, fences)),
                     ("finding-block fields", check_finding_blocks(lines)),
-                    ("criterion references", check_criterion_references(lines, style)),
+                    ("criteria references", check_criteria_references(lines, style)),
                     ("description paragraphs", check_description_paragraphs(lines)),
                     ("risk-block fields", check_risk_blocks(lines)),
                     ("recommendation blocks", check_rec_blocks(lines)),

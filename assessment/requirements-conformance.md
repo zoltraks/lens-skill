@@ -19,7 +19,7 @@ When no such document exists, omit this category and note the omission in Scope 
 
 ## When This Applies
 
-The inclusion criterion is a document that declares what the product must do: a
+The inclusion criteria are a document that declares what the product must do: a
 `PROJECT.md`, a product requirements document, a specification, or a user-story
 acceptance list.
 
@@ -40,7 +40,7 @@ deliver it.
 ## What To Evaluate
 
 - **Requirements inventory**: list the requirements and acceptance-criteria documents
-  found in the subject, and enumerate every stated requirement and acceptance criterion
+  found in the subject, and enumerate every stated requirement and acceptance criteria entry
   in them, each with its spec location. The conformance table carries one row per stated
   requirement - a row that merges several requirements into a theme is a summary, not a
   grade, and the table's row count reconciles against the document's requirement count.

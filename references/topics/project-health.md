@@ -57,7 +57,7 @@ From https://github.com/github/gitignore.
 
 ## Live Check
 
-When web fetch is available, spot-check one criterion against bestpractices.dev and one file
+When web fetch is available, spot-check one criteria entry against bestpractices.dev and one file
 name against the GitHub community-health docs.
 
 Record whichever baseline - this snapshot or the live pages - the audit used, and note drift in

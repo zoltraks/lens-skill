@@ -94,24 +94,24 @@ def _dimension_records(model: dict, key) -> dict:
     }
 
 
-def _criterion_map(model: dict) -> dict:
+def _criteria_map(model: dict) -> dict:
     return {c.get("id"): c for c in model.get("criteria", [])}
 
 
-def _criterion_family(criteria: dict, criterion_id) -> str:
-    """Catalogue-level criterion identity, stable across audit runs."""
-    criterion = criteria.get(criterion_id) or {}
-    return criterion.get("catalogue_id") or criterion_id
+def _criteria_family(criteria: dict, criteria_id) -> str:
+    """Catalogue-level criteria identity, stable across audit runs."""
+    entry = criteria.get(criteria_id) or {}
+    return entry.get("catalogue_id") or criteria_id
 
 
 def _model_findings(model: dict, key) -> tuple:
-    """(findings, criterion map) owned by one compared scope."""
-    criteria = _criterion_map(model)
+    """(findings, criteria map) owned by one compared scope."""
+    criteria = _criteria_map(model)
     multi = _is_multi(model)
     selected = []
     for finding in model.get("findings", []):
-        criterion = criteria.get(finding.get("criterion")) or {}
-        dimension = criterion.get("dimension")
+        entry = criteria.get(finding.get("criteria")) or {}
+        dimension = entry.get("dimension")
         owner = (
             dimension.partition(".")[0]
             if isinstance(dimension, str) and "." in dimension else None
@@ -128,7 +128,7 @@ def _finding_key(finding: dict, criteria: dict) -> tuple:
     return (
         finding.get("claim_class"),
         finding.get("severity"),
-        _criterion_family(criteria, finding.get("criterion")),
+        _criteria_family(criteria, finding.get("criteria")),
     )
 
 
@@ -193,7 +193,7 @@ def _diff_dimensions(models: list, labels: list, key) -> list:
 
 
 def _diff_findings(models: list, labels: list, key) -> dict:
-    """Set diff by normalized claim: (claim_class, severity, criterion)."""
+    """Set diff by normalized claim: (claim_class, severity, criteria)."""
     grouped: dict = {}
     for label, model in zip(labels, models):
         findings, criteria = _model_findings(model, key)
@@ -208,12 +208,12 @@ def _diff_findings(models: list, labels: list, key) -> dict:
     common, partial = [], []
     only = {label: [] for label in labels}
     for fkey in order:
-        claim_class, severity, criterion = fkey
+        claim_class, severity, family = fkey
 
         def brief(f):
             return {
                 "id": f.get("id"), "claim_class": claim_class,
-                "severity": severity, "criterion": criterion,
+                "severity": severity, "criteria": family,
             }
 
         per_label = {
@@ -226,7 +226,7 @@ def _diff_findings(models: list, labels: list, key) -> dict:
                 ids = {l: per_label[l][i].get("id") for l in labels}
                 common.append({
                     "ids": ids, "claim_class": claim_class,
-                    "severity": severity, "criterion": criterion,
+                    "severity": severity, "criteria": family,
                     "matched_by": (
                         "exact id" if len(set(ids.values())) == 1
                         else "normalized claim"
@@ -570,20 +570,20 @@ def render_text(result: dict) -> str:
             ids = ", ".join(entry["ids"].get(l) or "-" for l in labels)
             lines.append(
                 f"  common  {ids}  {entry['claim_class']} / "
-                f"{entry['severity']} / {entry['criterion']}  "
+                f"{entry['severity']} / {entry['criteria']}  "
                 f"(matched_by {entry['matched_by']})"
             )
         for l in labels:
             for entry in findings.get(f"only_in_{l}", []):
                 lines.append(
                     f"  only_in_{l}  {entry['id']}  {entry['claim_class']} / "
-                    f"{entry['severity']} / {entry['criterion']}"
+                    f"{entry['severity']} / {entry['criteria']}"
                 )
         for entry in findings.get("partial", []):
             lines.append(
                 f"  shared ({', '.join(entry['in'])})  {entry['id']}  "
                 f"{entry['claim_class']} / {entry['severity']} / "
-                f"{entry['criterion']}"
+                f"{entry['criteria']}"
             )
         lines.append("")
         requirements = comp["requirements"]

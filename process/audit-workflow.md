@@ -434,7 +434,7 @@ Record the outcome per project as one of three tokens:
   not as an absent capability.
 - `none` - the tree carries no signal that automation was ever envisaged.
 
-The census feeds the criterion-planning applicability decision and the reduced-depth rule in
+The census feeds the criteria-planning applicability decision and the reduced-depth rule in
 `assessment/deployment-review.md`, and `assessment/testing-review.md` consumes the same
 outcome for its CI-automation judgement.
 
@@ -1260,13 +1260,13 @@ vendored code, example, or script, and record excluded and unread files with rea
 
 **Criteria planning**
 
-Build the audit's criterion table from `references/criterion-catalogue.md` using the domain
-profile and audit purpose, recording each criterion's source, applicability, criticality,
+Build the audit's criteria table from `references/criteria-catalogue.md` using the domain
+profile and audit purpose, recording each criteria entry's source, applicability, criticality,
 weight, method, and sufficiency rule.
 
 Under scoring policy 3 the start point is the fixed catalogue in
-`references/criterion-catalogue.json` - ids, dimensions, weights, criticality, level
-anchors, and `na_rules` are declared there, so planning assigns each criterion its channel,
+`references/criteria-catalogue.json` - ids, dimensions, weights, criticality, level
+anchors, and `na_rules` are declared there, so planning assigns each criteria entry its channel,
 outcome, and level instead of adapting the records.
 
 Run `scripts/extract-requirements.py <doc.md> ...` over the subject's requirement documents
@@ -1452,7 +1452,7 @@ Auditing Methodology section can publish the read-depth table per
 
 **Read-depth floor**
 
-A file that an activated probe, an applicable assessment check, or a declared criterion method
+A file that an activated probe, an applicable assessment check, or a declared criteria-entry method
 touches must be read in full.
 
 `Sampled` is permitted only on files no activated check reaches, and `Listed` only for
@@ -1465,7 +1465,7 @@ the Auditing Methodology section discloses it.
 
 Before leaving Evidence Gathering, reconcile three frozen denominators: every probe activated
 by the domain profile, every applicable check named in the loaded assessment files, and every
-criterion's declared `method`.
+criteria entry's declared `method`.
 
 Each must produce at least one `evidence[]` row, or a recorded `NOT ASSESSED` or
 `inapplicable` entry in `audit-model.json` with its reason.
@@ -1627,15 +1627,15 @@ On a code-bearing subject the same styles also load `assessment/code-style.md`, 
 after `assessment/standards-conformance.md` has surfaced the project's declared conventions
 and before `assessment/code-quality.md` consumes the enforcement findings.
 
-Evaluate the inclusion criterion for each conditional assessment,
+Evaluate the inclusion criteria for each conditional assessment,
 listed in the Conditional Sections table of `process/report-format.md`.
 
-When the criterion is met, open the matching conditional file and apply it:
+When the criteria are met, open the matching conditional file and apply it:
 `assessment/data-flow.md`, `assessment/design-patterns.md`, `assessment/threat-model.md`,
 `assessment/api-contract.md`, `assessment/skill-definition.md`, `assessment/ai-system.md`,
 `assessment/standards-conformance.md`, and `assessment/api-compatibility.md`.
 
-When a criterion is not met, omit that section and record the deliberate omission for Scope
+When the criteria are not met, omit that section and record the deliberate omission for Scope
 Exclusions.
 
 Do not force a conditional section onto a subject it does not fit.
@@ -1908,7 +1908,7 @@ revision, every transition cites
 current evidence, and no identifier from the previous report was reused for a different
 finding.
 
-Confirm each conditional section was evaluated: it is either present because its criterion is met,
+Confirm each conditional section was evaluated: it is either present because its criteria are met,
 or omitted with a deliberate one-line justification in Scope Exclusions.
 
 No conditional section may be present-but-empty,

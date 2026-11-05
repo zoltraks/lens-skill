@@ -152,7 +152,7 @@ applicable.
 
 Register the guide in the matching `SKILL.md` section and update the `README.md` tree.
 
-For a conditional report section, add its inclusion criterion and position to
+For a conditional report section, add its inclusion criteria and position to
 `process/report-format.md`.
 
 Update `process/report-parity.md` when the mandatory checklist or report-consistency gate changes.

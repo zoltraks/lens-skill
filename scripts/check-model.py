@@ -6,7 +6,7 @@ referential integrity across evidence/criteria/findings/risks/requirements/
 recommendations, catalogue membership and level/outcome consistency, and
 recomputation of the scoring engine's outputs (mastery, interval bounds,
 coverage, eligibility, caps, headline records) under scoring policy 3 per
-`process/readiness-scoring.md` and `references/criterion-catalogue.json`.
+`process/readiness-scoring.md` and `references/criteria-catalogue.json`.
 
 Usage:
     python scripts/check-model.py path/to/work/audit-model.json [--json]
@@ -31,11 +31,11 @@ EVIDENCE_KINDS = {
     "EXECUTED", "MEASURED", "CORROBORATED",
 }
 SCORING_KINDS = {"INSPECTED", "STATICALLY_DERIVED", "EXECUTED", "MEASURED"}
-CRITERION_OUTCOMES = {
+CRITERIA_OUTCOMES = {
     "PASS", "FAIL", "PARTIAL", "UNKNOWN", "NOT_ASSESSED", "NOT_APPLICABLE",
 }
-CRITERION_ID_SHAPE = re.compile(r"^[A-Z]{3}-[A-Z0-9]+(?:-[A-Z0-9]+)*$")
-CRITERION_REDUNDANT_ONE = re.compile(r"^([A-Z]{3}-[A-Z]+(?:-[A-Z]+)*)-(0?1)$")
+CRITERIA_ID_SHAPE = re.compile(r"^[A-Z]{3}-[A-Z0-9]+(?:-[A-Z0-9]+)*$")
+CRITERIA_REDUNDANT_ONE = re.compile(r"^([A-Z]{3}-[A-Z]+(?:-[A-Z]+)*)-(0?1)$")
 RESOLVED = {"PASS", "FAIL", "PARTIAL"}
 COVERAGE_LABELS = {
     "COMPLETE_FOR_DECLARED_SCOPE", "PARTIAL", "NOT_ASSESSED", "NOT_APPLICABLE",
@@ -50,14 +50,12 @@ CANONICAL_DIMENSIONS = (
     "functional_suitability", "testability", "design_soundness", "code_quality",
     "code_style", "stack_alignment", "dependency_health", "maintainability",
     "structure", "deployability", "scalability", "security", "compliance",
-    "observability", "operational_safety", "api_compatibility",
-    "delivery_continuity", "ai_provenance", "originality_licensing",
-    "skill_definition",
+    "observability", "operational_safety", "documentation", "api_compatibility",
+    "delivery_continuity", "originality_licensing", "skill_definition",
 )
 DIMENSION_GROUP = {
     name: "process" for name in (
-        "delivery_continuity", "ai_provenance",
-        "originality_licensing", "skill_definition",
+        "delivery_continuity", "originality_licensing", "skill_definition",
     )
 }
 DIMENSION_GROUP.update(
@@ -68,8 +66,9 @@ DIMENSION_TIER = {
     "code_quality": 2, "code_style": 1, "stack_alignment": 1,
     "dependency_health": 2, "maintainability": 2, "structure": 1,
     "deployability": 2, "scalability": 2, "security": 3, "compliance": 2,
-    "observability": 2, "operational_safety": 3, "api_compatibility": 2,
-    "delivery_continuity": 1, "ai_provenance": 1,
+    "observability": 2, "operational_safety": 3, "documentation": 2,
+    "api_compatibility": 2,
+    "delivery_continuity": 1,
     "originality_licensing": 1, "skill_definition": 1,
 }
 SCORING_POLICY = 3
@@ -85,7 +84,7 @@ PRODUCT_NATURES = (
     "service", "library", "cli", "pipeline", "retrieval",
     "agent-tooling", "frontend", "automation", "unclassified",
 )
-CRITERION_CHANNELS = ("score", "conformance")
+CRITERIA_CHANNELS = ("score", "conformance")
 CONFORMANCE_PREFIXES = ("CNF-", "REQ-")
 LEVEL_OUTCOME = {
     "PASS": "PASS", "P75": "PARTIAL", "P50": "PARTIAL",
@@ -109,7 +108,7 @@ SINGLE_BANDS = {
     3: ((3, "Excellent"), (2, "Average"), (1, "Poor")),
 }
 FNC_REQ_APPLICABILITY = "no mandatory requirements declared or advertised"
-CATALOGUE_FILE = "references/criterion-catalogue.json"
+CATALOGUE_FILE = "references/criteria-catalogue.json"
 SCALES = (10, 5, 3)
 CAP_LIMITS = {
     10: {"severity-critical": 3, "severity-high": 5, "material-unknown": 8, "historical-only": 7},
@@ -128,28 +127,28 @@ def scale_score(mastery: Fraction, scale_max: int) -> int:
     return max(1, int(half_up(mastery * scale_max)))
 
 
-def criterion_mastery(criterion: dict) -> Fraction:
-    outcome = criterion.get("outcome")
+def criteria_mastery(entry: dict) -> Fraction:
+    outcome = entry.get("outcome")
     if outcome == "PASS":
         return Fraction(1)
     if outcome == "FAIL":
         return Fraction(0)
-    partial = criterion.get("mastery")
+    partial = entry.get("mastery")
     if isinstance(partial, (int, float)):
         return Fraction(str(partial))
     return Fraction(0)
 
 
-def criterion_weight(criterion: dict) -> Fraction:
-    return Fraction(str(criterion.get("weight", 1.0)))
+def criteria_weight(entry: dict) -> Fraction:
+    return Fraction(str(entry.get("weight", 1.0)))
 
 
 def recompute_dimension(criteria: list[dict], backing: dict[str, set[str]]):
     """Recompute one dimension's scoring tuple from its criteria."""
     applicable = [c for c in criteria if c.get("outcome") != "NOT_APPLICABLE"]
     resolved = [c for c in applicable if c.get("outcome") in RESOLVED]
-    app_weight = sum((criterion_weight(c) for c in applicable), Fraction(0))
-    res_weight = sum((criterion_weight(c) for c in resolved), Fraction(0))
+    app_weight = sum((criteria_weight(c) for c in applicable), Fraction(0))
+    res_weight = sum((criteria_weight(c) for c in resolved), Fraction(0))
 
     def mastery_with(fill: Fraction | None) -> Fraction | None:
         if not res_weight:
@@ -157,9 +156,9 @@ def recompute_dimension(criteria: list[dict], backing: dict[str, set[str]]):
         total = Fraction(0)
         for c in applicable:
             if c["outcome"] in RESOLVED:
-                total += criterion_weight(c) * criterion_mastery(c)
+                total += criteria_weight(c) * criteria_mastery(c)
             elif fill is not None:
-                total += criterion_weight(c) * fill
+                total += criteria_weight(c) * fill
         denom = app_weight if fill is not None else res_weight
         return total / denom if denom else None
 
@@ -178,7 +177,7 @@ def recompute_dimension(criteria: list[dict], backing: dict[str, set[str]]):
 
 
 def load_catalogue() -> dict | None:
-    """Load `references/criterion-catalogue.json` from the skill root.
+    """Load `references/criteria-catalogue.json` from the skill root.
 
     Returns the parsed catalogue dict, or None when the file is absent or
     cannot be parsed.
@@ -216,7 +215,7 @@ def compute_headline(dims, scale_max, critical_open, high_open, readiness_state)
       "lo": int, "hi": int}` - `lo`/`hi` are the capped interval bounds, both
     equal to `score` when the interval is omitted, and the substitution bounds
     for an ineligible applicable dimension (`lo` 1 and `hi` scale_max when no
-    criterion resolved). All arithmetic is exact.
+    criteria entry resolved). All arithmetic is exact.
     """
     def applicable(group: str) -> list[str]:
         return [
@@ -416,10 +415,10 @@ def check_model(model: dict, catalogue: dict | None = None) -> list[str]:
         for claim in e.get("claims", []):
             backing.setdefault(claim, set()).add(e.get("kind"))
 
-    open_findings_by_criterion: dict[str, list[dict]] = {}
+    open_findings_by_criteria: dict[str, list[dict]] = {}
     for f in findings:
         if f.get("status") == "Open":
-            open_findings_by_criterion.setdefault(f.get("criterion"), []).append(f)
+            open_findings_by_criteria.setdefault(f.get("criteria"), []).append(f)
 
     def owner_project(dimension) -> dict | None:
         if isinstance(dimension, str) and "." in dimension:
@@ -434,14 +433,14 @@ def check_model(model: dict, catalogue: dict | None = None) -> list[str]:
     for c in criteria:
         cid = c.get("id", "<no id>")
         if cid in seen_crit_ids:
-            failures.append(f"{cid}: criterion id {cid!r} is not unique")
+            failures.append(f"{cid}: criteria id {cid!r} is not unique")
         seen_crit_ids.add(cid)
-        if not CRITERION_ID_SHAPE.match(str(cid)):
+        if not CRITERIA_ID_SHAPE.match(str(cid)):
             failures.append(
-                f"{cid}: criterion id must start with a three-letter uppercase prefix"
+                f"{cid}: criteria id must start with a three-letter uppercase prefix"
             )
         else:
-            one = CRITERION_REDUNDANT_ONE.match(str(cid))
+            one = CRITERIA_REDUNDANT_ONE.match(str(cid))
             if one and not any(
                 other != cid and str(other).startswith(one.group(1) + "-")
                 for other in crit_ids
@@ -455,9 +454,9 @@ def check_model(model: dict, catalogue: dict | None = None) -> list[str]:
                 f"{cid}: dimension {dimension!r} is not a canonical dimension id"
             )
         channel = c.get("channel")
-        if channel not in CRITERION_CHANNELS:
+        if channel not in CRITERIA_CHANNELS:
             failures.append(
-                f"{cid}: channel {channel!r} is not a criterion channel"
+                f"{cid}: channel {channel!r} is not a criteria channel"
             )
         if channel == "conformance":
             if not str(cid).startswith(CONFORMANCE_PREFIXES):
@@ -532,7 +531,7 @@ def check_model(model: dict, catalogue: dict | None = None) -> list[str]:
                     if c.get("na_basis") not in entry.get("na_rules", []):
                         failures.append(
                             f"{cid}: na_basis {c.get('na_basis')} is not a "
-                            "declared N/A rule for this criterion"
+                            "declared N/A rule for this criteria entry"
                         )
                 if (
                     "census-none" in entry.get("na_rules", [])
@@ -545,7 +544,7 @@ def check_model(model: dict, catalogue: dict | None = None) -> list[str]:
                     )
                 ):
                     failures.append(
-                        f"{cid}: automation census none makes this criterion "
+                        f"{cid}: automation census none makes this criteria entry "
                         "NOT_APPLICABLE (census-none)"
                     )
                 if (
@@ -558,10 +557,10 @@ def check_model(model: dict, catalogue: dict | None = None) -> list[str]:
                 ):
                     failures.append(
                         f"{cid}: scope.history {scope.get('history')} makes "
-                        "this criterion NOT_APPLICABLE (history-out-of-scope)"
+                        "this criteria entry NOT_APPLICABLE (history-out-of-scope)"
                     )
-        if outcome not in CRITERION_OUTCOMES:
-            failures.append(f"{cid}: outcome {outcome!r} is not a criterion state")
+        if outcome not in CRITERIA_OUTCOMES:
+            failures.append(f"{cid}: outcome {outcome!r} is not a criteria state")
         if outcome == "PARTIAL":
             m = c.get("mastery")
             if not isinstance(m, (int, float)) or not 0 < m < 1:
@@ -605,7 +604,7 @@ def check_model(model: dict, catalogue: dict | None = None) -> list[str]:
                         "justification"
                     )
         if outcome in ("PARTIAL", "FAIL"):
-            cited = bool(open_findings_by_criterion.get(c.get("id")))
+            cited = bool(open_findings_by_criteria.get(c.get("id")))
             shortfall = c.get("shortfall")
             evidenced = (
                 isinstance(shortfall, str) and bool(shortfall.strip())
@@ -644,12 +643,12 @@ def check_model(model: dict, catalogue: dict | None = None) -> list[str]:
                 )
                 if count == 0:
                     failures.append(
-                        f"{label}: catalogue criterion {entry.get('id')} is "
+                        f"{label}: catalogue criteria {entry.get('id')} is "
                         "missing from the model"
                     )
                 elif count > 1:
                     failures.append(
-                        f"{label}: catalogue criterion {entry.get('id')} "
+                        f"{label}: catalogue criteria {entry.get('id')} "
                         f"appears {count} times"
                     )
 
@@ -659,12 +658,12 @@ def check_model(model: dict, catalogue: dict | None = None) -> list[str]:
             failures.append(f"{eid}: kind {e.get('kind')!r} is not an evidence kind")
         for claim in e.get("claims", []):
             if claim not in crit_ids:
-                failures.append(f"{eid}: claims unknown criterion {claim}")
+                failures.append(f"{eid}: claims unknown criteria {claim}")
 
     for f in findings:
         fid = f.get("id", "<no id>")
-        if f.get("criterion") not in crit_ids:
-            failures.append(f"{fid}: criterion {f.get('criterion')!r} is undeclared")
+        if f.get("criteria") not in crit_ids:
+            failures.append(f"{fid}: criteria {f.get('criteria')!r} is undeclared")
         for e in f.get("evidence", []):
             if e not in evd_ids:
                 failures.append(f"{fid}: cites unknown evidence {e}")
@@ -684,12 +683,12 @@ def check_model(model: dict, catalogue: dict | None = None) -> list[str]:
                 f"{fid}: absence {f.get('absence')!r} is not an absence token"
             )
         if f.get("status") == "Open" and f.get("claim_class") in BOUNDING_CLASSES:
-            c = crit_by_id.get(f.get("criterion"))
+            c = crit_by_id.get(f.get("criteria"))
             if c is not None:
                 cid = c.get("id")
                 outcome = c.get("outcome")
                 if outcome in RESOLVED:
-                    mastery = criterion_mastery(c)
+                    mastery = criteria_mastery(c)
                     bound = Fraction(str(SEVERITY_BOUND.get(f.get("severity"), 1)))
                     if f.get("severity") in SEVERITY_BOUND and mastery > bound:
                         failures.append(
@@ -700,8 +699,8 @@ def check_model(model: dict, catalogue: dict | None = None) -> list[str]:
                 elif outcome in ("UNKNOWN", "NOT_ASSESSED"):
                     failures.append(
                         f"{fid}: open {f.get('claim_class')} cites unresolved "
-                        f"criterion {cid} - a confirmed finding resolves its "
-                        "criterion"
+                        f"criteria {cid} - a confirmed finding resolves its "
+                        "criteria entry"
                     )
                 elif outcome == "NOT_APPLICABLE":
                     if not (
@@ -710,7 +709,7 @@ def check_model(model: dict, catalogue: dict | None = None) -> list[str]:
                     ):
                         failures.append(
                             f"{fid}: open {f.get('claim_class')} cites inapplicable "
-                            f"criterion {cid} without the absence exemption"
+                            f"criteria {cid} without the absence exemption"
                         )
 
     for r in risks:
@@ -790,12 +789,12 @@ def check_model(model: dict, catalogue: dict | None = None) -> list[str]:
             "severity-critical": sorted(
                 f.get("id") for f in bounding
                 if f.get("severity") == "CRITICAL"
-                and crit_dim.get(f.get("criterion")) == dim
+                and crit_dim.get(f.get("criteria")) == dim
             ),
             "severity-high": sorted(
                 f.get("id") for f in bounding
                 if f.get("severity") == "HIGH"
-                and crit_dim.get(f.get("criterion")) == dim
+                and crit_dim.get(f.get("criteria")) == dim
             ),
             "material-unknown": sorted(
                 c.get("id") for c in cs
@@ -1041,7 +1040,7 @@ def check_model(model: dict, catalogue: dict | None = None) -> list[str]:
         critical = high = False
         for f in bounding:
             if prefix is not None:
-                dim = crit_dim.get(f.get("criterion"))
+                dim = crit_dim.get(f.get("criteria"))
                 if not isinstance(dim, str) or not dim.startswith(prefix + "."):
                     continue
             if f.get("severity") == "CRITICAL":
@@ -1134,7 +1133,7 @@ def check_model(model: dict, catalogue: dict | None = None) -> list[str]:
                 if f.get("severity") not in ("CRITICAL", "HIGH"):
                     continue
                 if prefix is not None:
-                    dim = crit_dim.get(f.get("criterion"))
+                    dim = crit_dim.get(f.get("criteria"))
                     if not isinstance(dim, str) or not dim.startswith(
                         prefix + "."
                     ):

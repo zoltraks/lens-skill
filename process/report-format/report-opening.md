@@ -308,7 +308,7 @@ Order the rows as follows:
 
 1. `FND` first, then `EVD` second.
 2. Any remaining register identifier triplets used in the report (`TDR`, `RSK`, `REC`, `PAR`).
-3. Every three-letter criterion prefix (from `**Criteria table**`) and finding-pillar code
+3. Every three-letter criteria prefix (from `**Criteria table**`) and finding-pillar code
    (`FND-<PILLAR>-NNN`) used in the report, in the order they appear in the Criteria table and
    findings.
 

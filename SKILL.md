@@ -194,7 +194,7 @@ Timing is armed by default on every operation - `no timing` opts out for that re
 
 Open only the assessment files that match the system under audit - the index of core
 and conditional files is `assessment/README.md`, and a conditional file loads only when
-the subject meets its inclusion criterion in `process/report-format.md`.
+the subject meets its inclusion criteria in `process/report-format.md`.
 
 ## `synthesis/` - Findings And Report Assembly
 
@@ -227,9 +227,9 @@ Load these during intake, assessment, and report writing when the stack or findi
 - **`references/census-commands.md`** - Reproducible census and counting methods.
 - **`references/audit-taxonomy.md`** - Audit types, coverage statuses, methodology corpus.
 - **`references/evidence-schema.md`** - Evidence kinds, outcome states, sufficiency, coverage.
-- **`references/criterion-catalogue.md`** - Criterion records, families, applicability freeze.
-- **`references/criterion-catalogue.json`** - Fixed scoring-policy-3 criterion catalogue
-  (levels, dimension order/tiers, criterion weights, severity anchors).
+- **`references/criteria-catalogue.md`** - Criteria records, families, applicability freeze.
+- **`references/criteria-catalogue.json`** - Fixed scoring-policy-3 criteria catalogue
+  (levels, dimension order/tiers, criteria weights, severity anchors).
 - **`references/organization-model.md`** - Area map and responsibility inventory method.
 - **`references/naming-and-layout.md`** - Naming matrices, code-division rules, 11-stack fixtures.
 - **`references/language-conventions.md`** - Per-ecosystem style yardstick snapshot (T3 tier).

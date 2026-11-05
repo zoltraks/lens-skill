@@ -38,9 +38,9 @@ DIMENSIONS = [
     ("compliance", "Compliance", "product"),
     ("observability", "Observability", "product"),
     ("operational_safety", "Operational Safety", "product"),
+    ("documentation", "Documentation", "product"),
     ("api_compatibility", "API Compatibility", "product"),
     ("delivery_continuity", "Delivery & Continuity", "process"),
-    ("ai_provenance", "AI Provenance", "process"),
     ("originality_licensing", "Originality & Licensing", "process"),
     ("skill_definition", "Skill Definition", "process"),
 ]
@@ -53,7 +53,7 @@ BANDS = {
     5: ((5, "Excellent"), (4, "Good"), (3, "Average"), (2, "Poor"), (1, "Bad")),
     3: ((3, "Excellent"), (2, "Average"), (1, "Poor")),
 }
-CATALOGUE_FILE = "references/criterion-catalogue.json"
+CATALOGUE_FILE = "references/criteria-catalogue.json"
 
 
 def render_table(headers: list[str], rows: list[list[str]]) -> str:

@@ -245,7 +245,7 @@ Rows appear in this order:
 
 1. One row per Mandatory Core Checklist item, `PAR-1` through `PAR-27`, in fixed order.
 2. Internal consistency checks: `FND-XXX`/`RSK-XXX`/`REC-XXX` cross-referencing, every
-   finding `Criterion` resolving to a declared criteria-table row, count reconciliation
+   finding `Criteria` resolving to a declared criteria-table row, count reconciliation
    across summary tables and registers, evidence-coverage accounting per
    `process/audit-model.md` (every material observation surfaced or explicitly dropped),
    register-identifier link coverage, conditional-section evaluation, and formatting rules.

@@ -24,14 +24,14 @@ here.
 | Section                          | Line | What it covers                                     |
 |----------------------------------|------|----------------------------------------------------|
 | Evidence Kinds                   | 36   | What each kind can and cannot establish            |
-| Outcome States                   | 71   | Per-criterion result vocabulary                    |
+| Outcome States                   | 71   | Per-criteria result vocabulary                     |
 | Evidence Records                 | 96   | Required fields and redaction rules                |
 | Supplied And Historical Evidence | 138  | Reuse rules for prior artifacts                    |
 | Coverage And Collection          | 148  | Inventory, classification, and sampling discipline |
 | Claim Sufficiency                | 165  | What verification each claim type requires         |
-| Closure Rules                    | 183  | What may close a criterion and what may not        |
+| Closure Rules                    | 183  | What may and may not close a criteria entry        |
 | Advisory States                  | 198  | Dependency-advisory vocabulary                     |
-| Coverage Labels                  | 219  | Criterion-coverage label vocabulary                |
+| Coverage Labels                  | 219  | Criteria-coverage label vocabulary                 |
 
 ## Evidence Kinds
 
@@ -70,16 +70,16 @@ mode rules, or they arrive as `DECLARED`/`Reported` artifacts produced outside t
 
 ## Outcome States
 
-Every criterion result uses exactly one of these states:
+Every criteria result uses exactly one of these states:
 
-| State            | Meaning                                                             |
-|------------------|---------------------------------------------------------------------|
-| `PASS`           | The criterion is satisfied within the assessed scope, with evidence |
-| `FAIL`           | The criterion applies and is violated, with evidence of violation   |
-| `PARTIAL`        | A known, demonstrated subset satisfies the criterion                |
-| `UNKNOWN`        | Evidence exists but cannot decide the criterion                     |
-| `NOT_ASSESSED`   | The criterion applies but no method ran against it                  |
-| `NOT_APPLICABLE` | The criterion cannot apply to this subject's deployment model       |
+| State            | Meaning                                                                  |
+|------------------|--------------------------------------------------------------------------|
+| `PASS`           | The criteria entry is satisfied within the assessed scope, with evidence |
+| `FAIL`           | The criteria entry applies and is violated, with evidence of violation   |
+| `PARTIAL`        | A known, demonstrated subset satisfies the criteria entry                |
+| `UNKNOWN`        | Evidence exists but cannot decide the criteria entry                     |
+| `NOT_ASSESSED`   | The criteria entry applies but no method ran against it                  |
+| `NOT_APPLICABLE` | The criteria entry cannot apply to this subject's deployment model       |
 
 `PARTIAL` always names the demonstrated subset - it never means "a test was not executed".
 
@@ -90,7 +90,7 @@ The mapping to report markers is `PASS`/`FAIL`/`PARTIAL`/`UNKNOWN`/`N/A` unchang
 report vocabulary requires it.
 
 Executed-procedure rows keep their own runner vocabulary (`PASS`, `FAIL`, `ERROR`, `BLOCKED`,
-`SKIPPED`, `NOT RUN`) per `principles/evaluation-rules.md` - a runner status is not a criterion
+`SKIPPED`, `NOT RUN`) per `principles/evaluation-rules.md` - a runner status is not a criteria-entry
 outcome, and `NOT RUN` never counts toward `PASS`.
 
 ## Evidence Records
@@ -114,7 +114,7 @@ fields:
 |               | isolation root, and audit-created harness disclosure                  |
 | `result`      | What was observed - for a failed `EXECUTED` result, the triage class  |
 |               | (`subject`, `harness`, `environment`, `inconclusive`) and its basis   |
-| `claims`      | Claim or criterion IDs the record supports                            |
+| `claims`      | Claim or criteria IDs the record supports                             |
 | `limits`      | What the record cannot establish                                      |
 | `sampling`    | Sampling depth and selection rule, `full` for complete review         |
 | `counter`     | Counter-evidence examined                                             |
@@ -178,15 +178,15 @@ Each claim class names the verification that is sufficient and the substitutes t
 | Deployability                  | Recorded build or provisioning on the intended target                                 | A Dockerfile or compose file being present              |
 | Feature shipped on a branch    | Marker greps and path reads at the target ref (`git grep`, `git show`, `git ls-tree`) | The change-record or spec document existing on that ref |
 
-Extend this table in the criterion catalogue when a subject needs a claim class it lacks.
+Extend this table in the criteria catalogue when a subject needs a claim class it lacks.
 
 ## Closure Rules
 
-A criterion closes only on evidence that establishes its intended postcondition.
+A criteria entry closes only on evidence that establishes its intended postcondition.
 
-A warning can close a visibility criterion, such as "the risk is disclosed to the operator".
+A warning can close a visibility criteria entry, such as "the risk is disclosed to the operator".
 
-A warning cannot close a prevention criterion, such as "no secret reaches the process argument
+A warning cannot close a prevention criteria entry, such as "no secret reaches the process argument
 list", unless an authorized owner explicitly accepts it as a compensating control - and the
 residual exposure is then recorded, not erased.
 
@@ -218,14 +218,14 @@ disabling evidence.
 
 ## Coverage Labels
 
-Criterion-coverage reporting uses exactly these labels:
+Criteria-coverage reporting uses exactly these labels:
 
-| Label                         | Meaning                                              |
-|-------------------------------|------------------------------------------------------|
-| `COMPLETE_FOR_DECLARED_SCOPE` | Every applicable criterion has a resolved outcome    |
-| `PARTIAL`                     | Some applicable criteria are resolved, gaps recorded |
-| `NOT_ASSESSED`                | The criterion family or method was not exercised     |
-| `NOT_APPLICABLE`              | The family cannot apply to this subject              |
+| Label                         | Meaning                                                |
+|-------------------------------|--------------------------------------------------------|
+| `COMPLETE_FOR_DECLARED_SCOPE` | Every applicable criteria entry has a resolved outcome |
+| `PARTIAL`                     | Some applicable criteria are resolved, gaps recorded   |
+| `NOT_ASSESSED`                | The criteria family or method was not exercised        |
+| `NOT_APPLICABLE`              | The family cannot apply to this subject                |
 
 Broad engagement labels always disclose the evidence mode beside them.
 
@@ -233,5 +233,5 @@ A static source review is not a penetration test, and an embedding-component rev
 organizational AI-governance assessment.
 
 The Audit Coverage matrix keeps its own type-level vocabulary per
-`references/audit-taxonomy.md` - these labels describe criterion coverage, not engagement
+`references/audit-taxonomy.md` - these labels describe criteria coverage, not engagement
 coverage.

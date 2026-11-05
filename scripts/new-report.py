@@ -89,7 +89,7 @@ FINDING_BLOCK = """### {fnd_id}: <finding title>{suffix}
 * **Type:** Concern
 * **Targets:** {targets}
 * **Basis:** <requirement or source basis>
-* **Criteria:** <criterion ID - violated or uncertain property>
+* **Criteria:** <criteria ID - violated or uncertain property>
 * **Impact:** <concrete consequence>
 * **Method:** <test or command that confirms the fix>
 * **Verification:** Observed in source, <basis>
@@ -592,7 +592,7 @@ def review_skeleton(projects: list[str], params: dict) -> str:
         "<purpose, stack with locked versions, component inventory, runtime environment>\n\n",
         table("| Component | Lines | Role |", "|---|---|---|"),
         heading(2, "Check Plan And Methodology"),
-        "Checks selected, the criterion each evaluates, the evidence level each reaches, "
+        "Checks selected, the criteria entry each evaluates, the evidence level each reaches, "
         "and the commands the user commissioned:\n\n",
         table("| Check | Criteria | Evidence level |", "|---|---|---|"),
         "Read-depth table:\n\n",

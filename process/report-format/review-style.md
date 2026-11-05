@@ -130,7 +130,7 @@ component inventory table, and the runtime environment identity relevant to the 
 
 States what was checked and under what authority:
 
-- The check plan - the checks selected, the criterion each evaluates, and the evidence
+- The check plan - the checks selected, the criteria entry each evaluates, and the evidence
   level each can reach.
 - Execution permissions - exactly which commands the user commissioned, so the register
   cannot imply authority it never had.
@@ -155,8 +155,8 @@ never an invented value.
 
 `Result` takes exactly one token:
 
-- `PASS` - the check ran and its criterion held.
-- `FAIL` - the check ran and its criterion broke.
+- `PASS` - the check ran and its criteria held.
+- `FAIL` - the check ran and its criteria broke.
 - `ERROR` - the runner or tool failed before producing a verdict. An `ERROR` row is an
   execution-environment failure, never a product failure.
 - `BLOCKED` - the check could not start because a precondition was absent.

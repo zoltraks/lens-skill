@@ -1,5 +1,5 @@
 {
-  "catalogue_version": 2,
+  "catalogue_version": 4,
   "scoring_policy": 3,
   "levels": {
     "PASS": 1.0,
@@ -115,22 +115,22 @@
       "order": 15
     },
     {
-      "id": "api_compatibility",
-      "name": "API Compatibility",
+      "id": "documentation",
+      "name": "Documentation",
       "group": "product",
       "tier": 2,
       "order": 16
     },
     {
-      "id": "delivery_continuity",
-      "name": "Delivery & Continuity",
-      "group": "process",
-      "tier": 1,
+      "id": "api_compatibility",
+      "name": "API Compatibility",
+      "group": "product",
+      "tier": 2,
       "order": 17
     },
     {
-      "id": "ai_provenance",
-      "name": "AI Provenance",
+      "id": "delivery_continuity",
+      "name": "Delivery & Continuity",
       "group": "process",
       "tier": 1,
       "order": 18
@@ -190,7 +190,7 @@
       "applicability": "Applies when the subject advertises workflows in documentation, specification, or contract surfaces; NOT_APPLICABLE via deployment-model when the subject advertises no workflows, since the journey-trace denominator is empty",
       "expected": "Every advertised workflow traces end to end through its declared producer and consumer hops with all hops conforming",
       "method": "Journey trace per advertised workflow from documentation and profile claims: walk the declared path through each producer and consumer hop, record each hop as conforming, failing, or unresolvable, and classify the workflow as conforming, deviating (declared outcome reached with a non-conforming hop), failing (declared outcome not produced), or untraceable",
-      "sufficiency": "An INSPECTED journey trace for every advertised workflow with conforming and failing hops recorded; a workflow whose hops cannot be resolved from source is untraceable, and when untraceable workflows reach half of the advertised set the criterion resolves UNKNOWN",
+      "sufficiency": "An INSPECTED journey trace for every advertised workflow with conforming and failing hops recorded; a workflow whose hops cannot be resolved from source is untraceable, and when untraceable workflows reach half of the advertised set the criteria entry resolves UNKNOWN",
       "levels": {
         "PASS": "Every advertised workflow traces end to end with all hops conforming",
         "P75": "Every advertised workflow produces its declared outcome, and at least one contains a hop deviating from the declared path or representation without breaking the outcome",
@@ -215,7 +215,7 @@
       "applicability": "Applies when the subject advertises capabilities in documentation, specification, or contract surfaces; NOT_APPLICABLE via deployment-model when the subject advertises no capabilities, since there is no advertised surface to census",
       "expected": "Every advertised capability is backed by a non-trivial implementation - no stub, placeholder, or unwired path stands behind an advertised capability",
       "method": "Advertised-capability reality check plus shipped-surface completeness census: enumerate advertised capabilities, read each backing code path, and census unimplemented-throw sites, empty public types, constant-success methods, conditionally-compiled or never-called modules, and feature-flagged fallbacks; confirm every candidate by reading the mechanism, its guards, and its callers",
-      "sufficiency": "INSPECTED confirmation for every census candidate behind an advertised capability, with the advertised-capability denominator recorded; a pattern match alone is a candidate, never a finding. UNKNOWN floor: the criterion resolves UNKNOWN when the advertised capabilities cannot be enumerated (no documentation, specification, or contract surface to read) or when some census candidates behind advertised capabilities cannot be confirmed or dismissed by inspection - unless a confirmed stub already exists, which resolves FAIL regardless of census completeness",
+      "sufficiency": "INSPECTED confirmation for every census candidate behind an advertised capability, with the advertised-capability denominator recorded; a pattern match alone is a candidate, never a finding. UNKNOWN floor: the criteria entry resolves UNKNOWN when the advertised capabilities cannot be enumerated (no documentation, specification, or contract surface to read) or when some census candidates behind advertised capabilities cannot be confirmed or dismissed by inspection - unless a confirmed stub already exists, which resolves FAIL regardless of census completeness",
       "levels": {
         "PASS": "The shipped-surface completeness census ran over every advertised capability and confirmed zero stubs, placeholders, or unwired paths behind any advertised capability",
         "FAIL": "At least one confirmed stub, placeholder, or unwired path stands behind an advertised capability - a stub behind an advertised capability is a spec violation: the subject advertises a capability it does not deliver, breaking an advertised requirement end to end, so the level is FAIL whether the capability is core or not"
@@ -237,7 +237,7 @@
       "applicability": "Applies when the subject ships in-scope production source for the defect-pattern census to run over; NOT_APPLICABLE via deployment-model when the subject ships no inspectable source, since the census has no denominator",
       "expected": "The defect-pattern census over in-scope source confirms no defect affecting advertised or core behavior",
       "method": "Run the defect-pattern census across the in-scope source - unimplemented throws, always-false comparisons, boundary inversions, inverted arithmetic, wrong-variable checks, discarded configuration, lifecycle and ordering errors, dead catch branches - and confirm each candidate by reading the mechanism, its guards, and its callers, recording the pattern and the denominator",
-      "sufficiency": "Every census candidate confirmed or dismissed by INSPECTED reading of its mechanism, guards, and callers, with the census denominator (candidates raised and candidates confirmed) recorded; the candidate list is not a defect count, and an open confirmed defect means one present and unmitigated in the inspected source. UNKNOWN floor: the criterion resolves UNKNOWN when the defect-pattern census cannot run over the in-scope source, or when fewer than half of raised candidates can be confirmed or dismissed by inspection; a census confirmed over at least half of candidates with an unconfirmed residue supports at most P50, the residue recorded as open candidates, never as defects",
+      "sufficiency": "Every census candidate confirmed or dismissed by INSPECTED reading of its mechanism, guards, and callers, with the census denominator (candidates raised and candidates confirmed) recorded; the candidate list is not a defect count, and an open confirmed defect means one present and unmitigated in the inspected source. UNKNOWN floor: the criteria entry resolves UNKNOWN when the defect-pattern census cannot run over the in-scope source, or when fewer than half of raised candidates can be confirmed or dismissed by inspection; a census confirmed over at least half of candidates with an unconfirmed residue supports at most P50, the residue recorded as open candidates, never as defects",
       "levels": {
         "PASS": "The defect-pattern census is complete over the in-scope source and zero open confirmed defects exist on shipped behavior",
         "P75": "The census is complete and at most one open confirmed defect exists, of low severity and off every core advertised workflow",
@@ -262,7 +262,7 @@
       "applicability": "Applies when the subject declares external contracts as committed schemas, spec documents, or checked-in generated contract files; NOT_APPLICABLE via deployment-model when the subject declares no external contract artifact",
       "expected": "Every declared external contract element - schema member, spec operation, generated contract surface - is implemented with matching names, types, and shapes",
       "method": "Spec-conformance diff per artifact class: enumerate the declared contract surface and the implemented surface, then diff declared-but-unimplemented elements, implemented-but-undeclared elements, and name or type mismatches",
-      "sufficiency": "INSPECTED declaration and implementation sites for every contract element; generated contracts are checked against their checked-in artifacts, never against prose descriptions. The denominator is the set of elements declared in committed contract artifacts - committed schemas, spec documents, and checked-in generated contract files - and prose counts only where the prose is itself the declared contract. UNKNOWN floor: the criterion resolves UNKNOWN when the declared surface cannot be enumerated because referenced contract artifacts are absent from the tree or external, or when more than half of declared elements lack an inspectable declaration or implementation site; a partially enumerable surface where at least half of declared elements are verified supports at most P50, unverifiable elements recorded as unresolved, never as matches",
+      "sufficiency": "INSPECTED declaration and implementation sites for every contract element; generated contracts are checked against their checked-in artifacts, never against prose descriptions. The denominator is the set of elements declared in committed contract artifacts - committed schemas, spec documents, and checked-in generated contract files - and prose counts only where the prose is itself the declared contract. UNKNOWN floor: the criteria entry resolves UNKNOWN when the declared surface cannot be enumerated because referenced contract artifacts are absent from the tree or external, or when more than half of declared elements lack an inspectable declaration or implementation site; a partially enumerable surface where at least half of declared elements are verified supports at most P50, unverifiable elements recorded as unresolved, never as matches",
       "levels": {
         "PASS": "Every element declared in committed contract artifacts is matched by an inspected implementation site with equal name, type, and shape, and no declared element is missing",
         "P75": "Every declared element is implemented correctly, and implemented-but-undeclared surface exists that the committed contract artifacts do not describe",
@@ -287,7 +287,7 @@
       "applicability": "Applies when the subject ships source and advertises workflows or externally reachable entry points; NOT_APPLICABLE via deployment-model when the subject advertises no workflows, since the coverage denominator is empty",
       "expected": "Advertised workflows and externally reachable entry points are exercised by tests",
       "method": "Verification-coverage map: enumerate dispatch entry points from registration sites and advertised workflows from documentation and the profile, and map each to the tests that name it; reconcile test files against declared include patterns so only tests that can run count",
-      "sufficiency": "A test counts only when it names the journey or entry point, asserts on its behavior, and is selected by a declared include pattern; counted test functions without the workflow map are an insufficient substitute; entry points no test references are recorded coverage gaps. UNKNOWN floor: the criterion resolves UNKNOWN when the advertised-workflow enumeration cannot be produced from documentation and profile surfaces, or when test files cannot be reconciled against include patterns for more than half the suite so that which tests can run is undecidable; a coverage map that reconciles all runnable tests but covers only part of the advertised set is a level result, not UNKNOWN, while a map partial on the test side with at least half of workflows resolved supports at most P50",
+      "sufficiency": "A test counts only when it names the journey or entry point, asserts on its behavior, and is selected by a declared include pattern; counted test functions without the workflow map are an insufficient substitute; entry points no test references are recorded coverage gaps. UNKNOWN floor: the criteria entry resolves UNKNOWN when the advertised-workflow enumeration cannot be produced from documentation and profile surfaces, or when test files cannot be reconciled against include patterns for more than half the suite so that which tests can run is undecidable; a coverage map that reconciles all runnable tests but covers only part of the advertised set is a level result, not UNKNOWN, while a map partial on the test side with at least half of workflows resolved supports at most P50",
       "levels": {
         "PASS": "Every advertised workflow is named by at least one include-pattern-selected test that asserts on its behavior, and at least 90% of enumerated entry points are named by such tests",
         "P75": "Every core advertised workflow is named by a runnable asserting test, and at least 75% of advertised workflows and of enumerated entry points are covered",
@@ -362,7 +362,7 @@
       "applicability": "Applies when the subject ships source where unit tests can exist - a source-bearing subject with no suite resolves FAIL, not NOT_APPLICABLE; NOT_APPLICABLE via deployment-model only when the subject ships no inspectable source",
       "expected": "Units can be tested in isolation - external boundaries are replaced by doubles mapped to real production boundaries",
       "method": "Test-double inventory: list the doubles and fixtures in the suite, map each to the production boundary it replaces, and check whether unit tests instantiate units with injected dependencies or require live external resources",
-      "sufficiency": "INSPECTED wiring between each test double and the production boundary it replaces; a double that replaces no production boundary is recorded, not credited. UNKNOWN floor: the criterion resolves UNKNOWN when the suite's double inventory cannot be mapped to production boundaries for more than half of the external boundaries the tests exercise, because tests or boundary code are uninspectable; a partial map covering at least half of exercised boundaries supports at most P50, the unmapped residue recorded",
+      "sufficiency": "INSPECTED wiring between each test double and the production boundary it replaces; a double that replaces no production boundary is recorded, not credited. UNKNOWN floor: the criteria entry resolves UNKNOWN when the suite's double inventory cannot be mapped to production boundaries for more than half of the external boundaries the tests exercise, because tests or boundary code are uninspectable; a partial map covering at least half of exercised boundaries supports at most P50, the unmapped residue recorded",
       "levels": {
         "PASS": "Every external boundary exercised by unit tests has a double inspected as wired to the production boundary it replaces, and no unit test requires a live external service, real credential, or non-hermetic resource",
         "P75": "Inspected double-to-boundary wiring holds for all core boundaries; unit tests reference real resources only on non-core paths",
@@ -384,10 +384,10 @@
       "na_rules": [
         "census-none"
       ],
-      "applicability": "Applies to the automated change-verification gate of the owning project; NOT_APPLICABLE via census-none when the owning project's automation census resolves none - no pipeline or automation definitions exist for the census to inspect. When the census is signals or external the criterion must be resolved, with external surfaces recorded as Reported evidence",
+      "applicability": "Applies to the automated change-verification gate of the owning project; NOT_APPLICABLE via census-none when the owning project's automation census resolves none - no pipeline or automation definitions exist for the census to inspect. When the census is signals or external the criteria entry must be resolved, with external surfaces recorded as Reported evidence",
       "expected": "The automated pipeline runs the test suite on change and a failing result blocks merge or release",
       "method": "Inspect pipeline and workflow definitions: change triggers, test invocation steps, required checks, gates, and branch or release protection configuration",
-      "sufficiency": "INSPECTED pipeline definitions showing the trigger, the test step, and the blocking mechanism; under an external census only in-tree aspects are judged and the external pointer is recorded as Reported evidence; documentation claiming tests run is an insufficient substitute. UNKNOWN floor: the criterion resolves UNKNOWN when the census-visible pipeline definitions cannot be inspected - an external system with no in-tree definitions and an uninspectable pointer; where in-tree definitions exist they are judged directly, and partial definitions showing a trigger and a test step but not the blocking mechanism support at most P50",
+      "sufficiency": "INSPECTED pipeline definitions showing the trigger, the test step, and the blocking mechanism; under an external census only in-tree aspects are judged and the external pointer is recorded as Reported evidence; documentation claiming tests run is an insufficient substitute. UNKNOWN floor: the criteria entry resolves UNKNOWN when the census-visible pipeline definitions cannot be inspected - an external system with no in-tree definitions and an uninspectable pointer; where in-tree definitions exist they are judged directly, and partial definitions showing a trigger and a test step but not the blocking mechanism support at most P50",
       "levels": {
         "PASS": "Inspected pipeline definitions run the include-pattern-selected test suite on every change event, and failure blocks merge or release per required-check, gate, or protection configuration",
         "P75": "The runnable suite runs on change and failure blocks, but blocking covers only a subset of suites or protected branches",
@@ -587,7 +587,7 @@
       "applicability": "Applies when the subject ships production source spanning multiple files; NOT_APPLICABLE via deployment-model when the subject ships no production source. Detection is decidable without tooling - the census is read-through structural comparison, not an external scan",
       "expected": "Logic is shared rather than repeated - no near-duplicate blocks span files and no divergent implementations serve one function",
       "method": "Token-based or structural near-duplicate scan across production files, plus a divergent-implementation census (two libraries or APIs serving one function); record each cluster's files and extent",
-      "sufficiency": "Each candidate cluster is confirmed by structural comparison - the same operation sequence under renamed identifiers counts; suspected similarity without inspection does not. Duplication detection is decidable from inspection alone: the census compares same-responsibility units across files by read-through, and no external scan tool is required - a committed tool report is Reported evidence only, never a substitute. UNKNOWN floor: the criterion resolves UNKNOWN when more than half of production source is uninspectable, for example files missing or generated bundles inseparable from hand-written code; inspection of at least half the source supports at most P50, with uninspected regions recorded, never counted clean",
+      "sufficiency": "Each candidate cluster is confirmed by structural comparison - the same operation sequence under renamed identifiers counts; suspected similarity without inspection does not. Duplication detection is decidable from inspection alone: the census compares same-responsibility units across files by read-through, and no external scan tool is required - a committed tool report is Reported evidence only, never a substitute. UNKNOWN floor: the criteria entry resolves UNKNOWN when more than half of production source is uninspectable, for example files missing or generated bundles inseparable from hand-written code; inspection of at least half the source supports at most P50, with uninspected regions recorded, never counted clean",
       "levels": {
         "PASS": "The read-through census confirms no near-duplicate cluster spans files and no divergent implementations serve one function",
         "P75": "Confirmed duplication is confined to a single bounded cluster under 5% of production source, or one divergent pair confined to a non-core concern",
@@ -637,7 +637,7 @@
       "applicability": "Applies when the subject ships production source in a language with exception or error-handler constructs; NOT_APPLICABLE via deployment-model when the subject ships no source or its stack has no handler construct to census",
       "expected": "Error paths are handled, not silently discarded - no empty catch blocks, no catch-all swallow, no unreachable error handling",
       "method": "Catch-block census: count handlers that discard an error without handling, logging, or propagating; overly broad catch-alls that collapse distinct error families into silence; and handlers for exception types the guarded block cannot raise",
-      "sufficiency": "Each candidate is confirmed by reading the handler body and the guarded block - a handler that logs and rethrows is not a discard; dead-catch candidates confirmed under the defect census count there once, not again here. The census denominator is every catch or error-handler site in production source, recorded as N inspected handlers. UNKNOWN floor: the criterion resolves UNKNOWN when more than half of handler sites cannot be inspected because source is unavailable or unparseable; inspection of at least half the handler set supports at most P50, uninspected sites recorded",
+      "sufficiency": "Each candidate is confirmed by reading the handler body and the guarded block - a handler that logs and rethrows is not a discard; dead-catch candidates confirmed under the defect census count there once, not again here. The census denominator is every catch or error-handler site in production source, recorded as N inspected handlers. UNKNOWN floor: the criteria entry resolves UNKNOWN when more than half of handler sites cannot be inspected because source is unavailable or unparseable; inspection of at least half the handler set supports at most P50, uninspected sites recorded",
       "levels": {
         "PASS": "The census covers every catch or error-handler site in production source and confirms zero silent discards and zero dead catch branches",
         "P75": "At most two confirmed silent discards among all inspected handlers, all on non-core auxiliary paths",
@@ -737,7 +737,7 @@
       "applicability": "Applies when the subject ships production source; NOT_APPLICABLE via deployment-model when the subject ships no inspectable source",
       "expected": "Source is readable at inspection - comments explain intent where non-obvious, markers are bounded, and no extreme cognitive-load outliers exist",
       "method": "Sample comments for stale or contradictory content, census TODO, FIXME, and HACK markers per 1000 production lines, count magic numbers versus named constants, and census cognitive-load outliers (units beyond roughly three times the project's own 90th percentile on nesting, length, or parameter count)",
-      "sufficiency": "The marker census records its counting rule; cognitive-load outliers use the project's own distribution, never fixed absolute numbers; commented-out code is scored under the dead-code criterion, not here",
+      "sufficiency": "The marker census records its counting rule; cognitive-load outliers use the project's own distribution, never fixed absolute numbers; commented-out code is scored under the dead-code criteria entry, not here",
       "levels": {
         "PASS": "Marker density under 1 per 1000 production lines, no stale or contradictory comment in the sample, and no cognitive-load outlier",
         "P75": "Marker density under 5 per 1000 lines, with isolated stale comments or one outlier on a non-core unit",
@@ -759,10 +759,10 @@
       "na_rules": [
         "deployment-model"
       ],
-      "applicability": "Applies when the subject declares style or naming rules in tooling configuration or documents; NOT_APPLICABLE via deployment-model when the subject declares no style or naming rules, since the criterion has nothing to check",
+      "applicability": "Applies when the subject declares style or naming rules in tooling configuration or documents; NOT_APPLICABLE via deployment-model when the subject declares no style or naming rules, since the criteria entry has nothing to check",
       "expected": "Where style or naming rules are declared in tooling or documents, the code conforms and suppressions are sparse",
       "method": "Compare declared style rules (formatter, naming, and lint-style settings) against sampled code on indentation, line length, brace style, import order, and end-of-line, and count naming or style rule suppressions per partition",
-      "sufficiency": "Declared rules are inspected from configuration; drift requires sampled code contradicting a declared rule - a canonical formatter with no config file is not a defect; the criterion is NOT_APPLICABLE when the subject declares no style or naming rules",
+      "sufficiency": "Declared rules are inspected from configuration; drift requires sampled code contradicting a declared rule - a canonical formatter with no config file is not a defect; the criteria entry is NOT_APPLICABLE when the subject declares no style or naming rules",
       "levels": {
         "PASS": "Sampled code conforms to every declared style rule and suppression density is near zero per partition",
         "P75": "Conformance holds with isolated drift or sparse suppressions confined to one partition",
@@ -831,7 +831,7 @@
       "applicability": "always applies",
       "expected": "Problems the stack's established libraries already solve use those libraries; every hand-rolled equivalent carries a recorded justification",
       "method": "Hand-rolled-implementation census: locate each site where production code reimplements a problem an established ecosystem library solves at the installed stack version - 'established' means the library is named in the stack digest's recommended set or the ecosystem's canonical guidance for that version; the census denominator is only problems with such library coverage, a custom implementation addressing a problem no established library covers stays out of the count; per counted site record whether a justification is committed in the tree (code comment, design document, manifest note, or decision record naming the reason) - an auditor-inferred rationale is not a justification; two-libraries-for-one-function is excluded, it belongs to the code-quality duplication census",
-      "sufficiency": "INSPECTED sites plus a committed justification or its recorded absence per site; a site counts as a defect only when both conditions hold - an established library covers the problem at the installed stack version and no justification is committed in the tree; a site whose library coverage cannot be established is recorded unresolved, and the criterion resolves UNKNOWN only when every candidate site is unresolved",
+      "sufficiency": "INSPECTED sites plus a committed justification or its recorded absence per site; a site counts as a defect only when both conditions hold - an established library covers the problem at the installed stack version and no justification is committed in the tree; a site whose library coverage cannot be established is recorded unresolved, and the criteria entry resolves UNKNOWN only when every candidate site is unresolved",
       "levels": {
         "PASS": "Zero defect sites: every hand-rolled implementation either addresses a problem no established library covers at the installed version or carries a committed justification",
         "P75": "Exactly 1 defect site, off the security and data-integrity paths",
@@ -879,7 +879,7 @@
       "applicability": "Applies to every production-code partition; resolves NOT_APPLICABLE (deployment-model) when the subject carries no production code",
       "expected": "Anti-patterns the detected stack's canonical guidance names as convention defects are absent from production code",
       "method": "For each partition, apply the convention-class checkable constraints in the matching references/stacks/ digest, or the project-declared convention baseline where one exists; a detected anti-pattern is a code location confirmed against a named constraint in that baseline - a suspicion backed by no named constraint is recorded as an observation and never enters the count; constraints already bound to another dimension (security sinks, dead code, structure placement, test shapes) are excluded so no property is counted twice",
-      "sufficiency": "INSPECTED census against the partition's digest or declared baseline; a partition whose stack has no digest entry and no project-declared baseline resolves UNKNOWN; a partition the census cannot complete over is recorded unresolved and the criterion resolves UNKNOWN when every partition is unresolved",
+      "sufficiency": "INSPECTED census against the partition's digest or declared baseline; a partition whose stack has no digest entry and no project-declared baseline resolves UNKNOWN; a partition the census cannot complete over is recorded unresolved and the criteria entry resolves UNKNOWN when every partition is unresolved",
       "levels": {
         "PASS": "Zero confirmed sites across all partitions - every checked location conforms to a named convention-class constraint of the resolved baseline",
         "P50": "1-3 confirmed sites, none embedded in a construct other code builds on (a shared helper, base type, middleware, or framework registration consumed by other modules)",
@@ -923,7 +923,7 @@
       "applicability": "always applies",
       "expected": "Every resolved component carries an established advisory state from the five-state vocabulary, and no unaddressed KNOWN_APPLICABLE advisory exists in the resolved set",
       "method": "Per resolved component, assign an Advisory state per references/evidence-schema.md by source precedence: a recorded scan or advisory artifact decides KNOWN_* and NONE_IDENTIFIED_BY_RECORDED_SCAN, an inspected mitigation or disabling control decides KNOWN_MITIGATED or KNOWN_NOT_APPLICABLE, and no consulted source renders NOT_CHECKED; record suppressions with rationale, owner, and expiry",
-      "sufficiency": "Advisory status requires a recorded scan or advisory artifact covering the component. Under source-only with no committed scan output every component is NOT_CHECKED and the criterion resolves UNKNOWN; a policy file or scanner configuration is intent, never a result",
+      "sufficiency": "Advisory status requires a recorded scan or advisory artifact covering the component. Under source-only with no committed scan output every component is NOT_CHECKED and the criteria entry resolves UNKNOWN; a policy file or scanner configuration is intent, never a result",
       "levels": {
         "PASS": "A recorded scan covering the resolved dependency set reports NONE_IDENTIFIED_BY_RECORDED_SCAN for every component, or every listed advisory carries KNOWN_MITIGATED or KNOWN_NOT_APPLICABLE with its deciding evidence named",
         "P50": "A recorded scan exists but its database revision predates the manifest revision or it covers only part of the resolved set, or advisories are listed with an unverified applicability verdict",
@@ -944,7 +944,7 @@
       "applicability": "always applies",
       "expected": "The third-party component set is enumerable for the audited revision: manifests and lockfiles are present and readable, or a machine-readable SBOM tied to the revision or release exists",
       "method": "Run the per-ecosystem readers in references/dependency-manifests.md over every partition importing third-party code; 'readable' means the reader parses the file without error - an unparseable manifest counts as unreadable, not as absent; count readable versus unreadable or absent manifests and lockfiles; check for a committed SBOM (CycloneDX or SPDX), recording its schema, generator, and basis (source or shipped artifact) when present",
-      "sufficiency": "INSPECTED manifests and lockfiles producing the full component list, or an INSPECTED committed SBOM; an SBOM for source input does not prove shipped-artifact contents and is recorded as such; the criterion resolves UNKNOWN only when the audit cannot determine which partitions carry third-party imports at all - a readable import census with missing manifests is FAIL, never UNKNOWN",
+      "sufficiency": "INSPECTED manifests and lockfiles producing the full component list, or an INSPECTED committed SBOM; an SBOM for source input does not prove shipped-artifact contents and is recorded as such; the criteria entry resolves UNKNOWN only when the audit cannot determine which partitions carry third-party imports at all - a readable import census with missing manifests is FAIL, never UNKNOWN",
       "levels": {
         "PASS": "The full component set is enumerable from committed evidence: a readable manifest covers every partition importing third-party code, every present lockfile parses and agrees with its manifest, and every vendored component carries a recorded version - or a committed SBOM covering the dependency set exists",
         "P75": "The inventory is derivable but up to 2 vendored or optional components lack recorded versions and no committed SBOM exists",
@@ -966,7 +966,7 @@
       "applicability": "always applies",
       "expected": "Every third-party import, load, or link in source resolves to a manifest-declared dependency or a recorded vendored component; no phantom dependencies",
       "method": "Import and load census per partition against the declared and vendored component sets; each third-party import gets a DECLARED or PHANTOM verdict; language runtime and standard-library imports are excluded",
-      "sufficiency": "INSPECTED import census per partition with denominators; the reverse direction (declared-but-unused entries) is measured by the code-quality dead-code criterion and excluded here",
+      "sufficiency": "INSPECTED import census per partition with denominators; the reverse direction (declared-but-unused entries) is measured by the code-quality dead-code criteria entry and excluded here",
       "levels": {
         "PASS": "Zero phantom imports across all partitions",
         "P75": "1-2 phantom imports, all confined to test, tooling, or example code",
@@ -988,7 +988,7 @@
       "applicability": "always applies",
       "expected": "Every dependency manifest carries the metadata its stack's manifest spec names: a machine-readable license or license-file field, the toolchain floor field, and repository and description fields where the spec requires them",
       "method": "Per manifest, check the metadata fields the stack's manifest specification names, split into required fields (the machine-readable license or license-file field and the toolchain floor field) and secondary fields (repository, description, and other informational spec fields); a field counts only where the manifest format defines it - a format carrying no license field is judged on the fields it defines; count missing fields by class",
-      "sufficiency": "INSPECTED manifest reads; the license-obligation assessment itself belongs to the licensing review - this criterion measures only field presence; an absent manifest for a dependency-carrying component is already a FAIL finding and an unreadable manifest counts the fields its format defines as missing, so UNKNOWN applies only when whether any manifest exists cannot be determined",
+      "sufficiency": "INSPECTED manifest reads; the license-obligation assessment itself belongs to the licensing review - this criteria entry measures only field presence; an absent manifest for a dependency-carrying component is already a FAIL finding and an unreadable manifest counts the fields its format defines as missing, so UNKNOWN applies only when whether any manifest exists cannot be determined",
       "levels": {
         "PASS": "Every manifest carries all fields its stack spec names, required and secondary, across the fields its format defines",
         "P50": "Only secondary fields (repository, description, or other informational spec fields) are missing while the license field and the toolchain floor are declared wherever the format defines them",
@@ -1009,7 +1009,7 @@
       "applicability": "always applies",
       "expected": "Every explicitly declared target - runtime, framework, language version, OS target, or long-lived platform version - carries an established vendor support status",
       "method": "Census declared targets across manifests and platform documents; per target resolve its version signal from committed evidence (manifest pin or floor, vendored component metadata, release-note or vendored-documentation version record, committed lifecycle-check record) and assign supported, EOL, or EOL-via-parent-product against the vendor's lifecycle policy, citing the page, committed check, or dated corpus verdict that establishes the status",
-      "sufficiency": "Per declared target, grade against the vendor's lifecycle policy wherever a resolvable version signal exists anywhere in the tree; UNKNOWN applies only to a declared target carrying no version or lifecycle signal at all, and the criterion resolves UNKNOWN only when every declared target is unsignalled - a stale-looking but resolvable signal grades at the level its established status supports, never UNKNOWN-by-default; a subject declaring no targets resolves PASS with the vacuity recorded",
+      "sufficiency": "Per declared target, grade against the vendor's lifecycle policy wherever a resolvable version signal exists anywhere in the tree; UNKNOWN applies only to a declared target carrying no version or lifecycle signal at all, and the criteria entry resolves UNKNOWN only when every declared target is unsignalled - a stale-looking but resolvable signal grades at the level its established status supports, never UNKNOWN-by-default; a subject declaring no targets resolves PASS with the vacuity recorded",
       "levels": {
         "PASS": "Every declared target carries a resolvable version signal, and the consulted lifecycle evidence establishes supported status for all of them",
         "P50": "Consulted lifecycle evidence establishes at least one declared target as superseded or EOL-via-parent-product inside a vendor support window, or establishes a target as EOL where a recorded acceptance or migration plan exists in the tree",
@@ -1039,77 +1039,6 @@
         "FAIL": "More than 33% of production files carry untracked markers or exceed the size bound, or core logic concentrates in files beyond 3 times the bound"
       },
       "source": "assessment/maintainability-review.md",
-      "mechanical": false
-    },
-    {
-      "id": "MNT-DOC",
-      "dimension": "maintainability",
-      "weight": 3,
-      "criticality": "high",
-      "natures": [
-        "*"
-      ],
-      "na_rules": [],
-      "applicability": "always applies",
-      "expected": "Entry documentation explains purpose, setup, and usage; an onboarding path is documented; public interfaces carry documentation",
-      "method": "Census the committed documentation surface: presence and completeness of the README or equivalent (purpose, setup, and usage each present as committed content), presence of a documented build-and-run path, and the share of the public-interface surface carrying committed documentation; 'documented' here means committed content exists - whether that content is current or correct is MNT-DOCSYNC's verdict and never lowers a presence verdict in this criterion",
-      "sufficiency": "INSPECTED documents; this criterion measures presence and coverage - whether the documented build and run commands actually resolve is measured by the deployability run-path criterion and doc-code agreement by MNT-DOCSYNC; UNKNOWN applies only when the documentation surface itself cannot be enumerated",
-      "levels": {
-        "PASS": "Committed entry documentation covers purpose, setup, and usage, a build-and-run path is documented in the tree, and at least 90% of the public-interface surface carries committed documentation",
-        "P75": "Committed entry documentation covers purpose, setup, and usage and interface documentation covers 50-90% of the public surface",
-        "P50": "A committed entry document exists but omits setup or usage, or interface documentation covers less than 50% of the public surface",
-        "P25": "Only a token entry document is committed (it names the project without a usable setup path)",
-        "FAIL": "No committed documentation exists where the system's scale clearly requires it: no entry document, or no setup path is documented anywhere"
-      },
-      "source": "assessment/documentation-review.md",
-      "mechanical": false
-    },
-    {
-      "id": "MNT-DOCSYNC",
-      "dimension": "maintainability",
-      "weight": 2,
-      "criticality": "high",
-      "natures": [
-        "*"
-      ],
-      "na_rules": [],
-      "applicability": "always applies",
-      "expected": "Documentation agrees with the code: documented figures reproduce, documented commands, options, environment variables, config keys, and file paths resolve to the implemented surface, embedded code excerpts match, and same-named documents do not diverge",
-      "method": "Documented-claim verification: recalculate every quantitative claim against the measured repository, diff every documented command, option, env var, key, and path against the implemented surface, classify embedded code blocks and diff current-implementation excerpts, and diff duplicate documents; count findings; the build/run/deploy path itself is censused by the deployability run-path criterion and excluded here",
-      "sufficiency": "INSPECTED verification over the full documented surface; a documented-but-unimplemented item and an implemented-but-undocumented surface both count as drift findings",
-      "levels": {
-        "PASS": "Zero drift findings: every checked figure reproduces and every documented item resolves",
-        "P75": "1-2 drift findings, none on a documented onboarding or usage path",
-        "P50": "3-5 drift findings, or 1 drift finding on a documented usage path",
-        "P25": "More than 5 drift findings, or divergent duplicate documents on a normative surface",
-        "FAIL": "Documentation systematically contradicts the code: the documented surface describes a different system than the implemented one"
-      },
-      "source": "assessment/documentation-review.md",
-      "mechanical": false
-    },
-    {
-      "id": "MNT-ADR",
-      "dimension": "maintainability",
-      "weight": 2,
-      "criticality": "medium",
-      "natures": [
-        "*"
-      ],
-      "na_rules": [
-        "deployment-model"
-      ],
-      "applicability": "Applies to every subject whose scale produces significant, hard-to-reverse decisions; resolves NOT_APPLICABLE (deployment-model) for a trivial system where no decision rises to that level",
-      "expected": "Significant, hard-to-reverse decisions are recorded with context and consequences, and recorded decisions match the implemented system",
-      "method": "Build the significant-decision census for the subject (data store, framework choice, state management model, key algorithm weightings, authentication model, and any equivalent choices); mark each RECORDED or MISSING against a decisions directory or equivalent records; diff recorded decisions against the implemented system for staleness",
-      "sufficiency": "INSPECTED decision records matched to code-embodied decisions; a decision documented only in prose counts as RECORDED when it carries context and consequences",
-      "levels": {
-        "PASS": "Every significant decision in the census is RECORDED and current",
-        "P75": "At most 25% of censused significant decisions are MISSING or stale",
-        "P50": "26-50% of censused significant decisions are MISSING, or a recorded decision contradicts the implemented system",
-        "P25": "More than 50% of censused significant decisions are MISSING",
-        "FAIL": "No decision is recorded for a system carrying clearly significant, hard-to-reverse choices"
-      },
-      "source": "assessment/change-management.md",
       "mechanical": false
     },
     {
@@ -1174,7 +1103,7 @@
       "applicability": "Applies to every subject carrying a populated source tree; resolves NOT_APPLICABLE (deployment-model) when the subject carries no tree to organize - a populated area with no identifiable responsibility is a finding, never a skip",
       "expected": "A single coherent organizational principle is applied consistently: every populated production area has an identifiable responsibility, no catch-all directory mixes unrelated responsibilities, and no competing organizational models coexist without a recorded rationale",
       "method": "Build the organization model and responsibility inventory per references/organization-model.md; per area record declared versus observed role; census areas whose observed responsibilities span unrelated domains (catch-all), populated areas with no identifiable responsibility, and adjacent areas organized on different principles without a recorded rationale",
-      "sufficiency": "INSPECTED organization model and responsibility inventory covering every populated area; responsibility duplication across areas is measured by the design-soundness criterion and excluded here",
+      "sufficiency": "INSPECTED organization model and responsibility inventory covering every populated area; responsibility duplication across areas is measured by the design-soundness criteria entry and excluded here",
       "levels": {
         "PASS": "Every populated production area maps to an identifiable responsibility; zero catch-all areas and zero unexplained competing organizational models",
         "P75": "Exactly 1 catch-all area or 1 unexplained competing model, outside the core production areas",
@@ -1296,7 +1225,7 @@
       "applicability": "Applies to every component the delivery model ships as a buildable artifact; resolves NOT_APPLICABLE (deployment-model) when the subject ships no buildable artifact",
       "expected": "An in-tree build definition produces every deliverable: manifests, build scripts, or container builds are present and internally consistent, and declared toolchain floors and builder image versions satisfy every language feature and dependency minimum the code uses",
       "method": "Census build definitions per deployable component - a build definition is a committed file a named build tool consumes to produce a deliverable (build manifest, build script, Makefile, Dockerfile, or CI build job); 'consistent' means every declared toolchain floor, builder and base image tag, and documented prerequisite equals or exceeds the minimum version each used language feature, each used API, and each declared dependency requires; record each mismatch as a named triple - the used feature or requirement, its minimum-version evidence, and the declared version that predates it - and record any pair of definitions for one component declaring contradictory floors",
-      "sufficiency": "INSPECTED definitions; this criterion measures build-definition consistency, not a completed build - a 'builds successfully' claim requires a recorded build artifact per the Claim Sufficiency deployability row, and a Dockerfile being present is not such proof; a feature-versus-version comparison whose required minimum cannot be established is recorded unresolved, and the criterion resolves UNKNOWN only when every required comparison is unresolved or which components are deployable cannot be determined",
+      "sufficiency": "INSPECTED definitions; this criteria entry measures build-definition consistency, not a completed build - a 'builds successfully' claim requires a recorded build artifact per the Claim Sufficiency deployability row, and a Dockerfile being present is not such proof; a feature-versus-version comparison whose required minimum cannot be established is recorded unresolved, and the criteria entry resolves UNKNOWN only when every required comparison is unresolved or which components are deployable cannot be determined",
       "levels": {
         "PASS": "A committed build definition covers every deployable component and zero consistency defects are found",
         "P75": "Definitions cover all components with 1-2 inconsistencies that contradict no used feature or dependency minimum",
@@ -1320,7 +1249,7 @@
       "applicability": "Applies when the product carries a runtime configuration surface; resolves NOT_APPLICABLE (deployment-model) for a fixed-behavior product with no runtime configuration surface",
       "expected": "Runtime configuration is declared, externalized per environment, and validated: every consumed key is declared in a schema, example, or document, required keys fail fast when missing or invalid, and every injected flag is actually consulted",
       "method": "Census every configuration key a code path reads at runtime against keys declared in a schema, example file, manifest, or committed document - 'consumed' means a code path reads the key or binds it to a typed structure, and 'consulted' means the read value branches or parameterizes behavior, so an injected-but-unconsulted flag is a declared or wired setting with no read path; check startup validation - observable when a schema, binding layer, or explicit startup check rejects a missing or invalid required key before the service path runs; check environment-specific values are externalized rather than hardcoded in source",
-      "sufficiency": "INSPECTED config surface and consumption trace; N/A when the product carries no runtime configuration surface; a key whose consumption cannot be traced to a read path is recorded unresolved rather than auto-declared, and the criterion resolves UNKNOWN when no consumed key can be traced or whether a runtime configuration surface exists cannot be determined",
+      "sufficiency": "INSPECTED config surface and consumption trace; N/A when the product carries no runtime configuration surface; a key whose consumption cannot be traced to a read path is recorded unresolved rather than auto-declared, and the criteria entry resolves UNKNOWN when no consumed key can be traced or whether a runtime configuration surface exists cannot be determined",
       "levels": {
         "PASS": "Every consumed key is declared, every required key is rejected fail-fast by a schema, binding layer, or explicit startup check, environment values are externalized, and zero injected-but-unconsulted flags exist",
         "P75": "At most 2 consumed-but-undeclared keys, or at most 2 settings accepting silent defaults where the surface declares validation",
@@ -1344,7 +1273,7 @@
       "applicability": "Applies when the product ships a default-bearing runtime surface (ports, bind addresses, credentials, debug endpoints, transport security, file permissions, healthcheck semantics); resolves NOT_APPLICABLE (deployment-model) when no shipped surface carries an operator-facing default",
       "expected": "Shipped defaults pass least-privilege review: ports, bind addresses, credentials, debug endpoints, transport security, file permissions, and healthcheck semantics match documented operator obligations",
       "method": "Defaults sweep: read each shipped default from committed configuration, schema defaults, or code constants - the shipped value is what applies when the operator supplies no override, never a documented or intended value; classify each surface SAFE (exposes nothing sensitive without operator action), REVIEW (safe only once the operator acts, and documented when a committed operator obligation names it), or UNSAFE (exposes a sensitive surface on the shipped path: a wildcard bind on a listening or privileged surface, a shipped credential, or a debug endpoint enabled by default)",
-      "sufficiency": "INSPECTED shipped default values and documented operator obligations; secret-bearing source is measured by SEC-SECRET - this criterion counts only shipped default values; a surface whose shipped value cannot be determined from committed configuration or constants is recorded unresolved, and the criterion resolves UNKNOWN when no named default surface can be resolved",
+      "sufficiency": "INSPECTED shipped default values and documented operator obligations; secret-bearing source is measured by SEC-SECRET - this criteria entry counts only shipped default values; a surface whose shipped value cannot be determined from committed configuration or constants is recorded unresolved, and the criteria entry resolves UNKNOWN when no named default surface can be resolved",
       "levels": {
         "PASS": "The sweep returns zero UNSAFE defaults and every REVIEW default is documented as an operator obligation",
         "P75": "1-2 REVIEW defaults, each documented as an operator obligation",
@@ -1365,7 +1294,7 @@
       "na_rules": [],
       "applicability": "always applies",
       "expected": "A documented path takes the product from source to running: documented build, run, and deploy steps resolve to real definitions, prerequisites are named, and every manual step in the release path is documented",
-      "method": "Resolve every documented build, run, and deploy command to a file or definition; census documented prerequisites against manifests; list the manual steps the release path requires and check each is documented; doc-code drift on non-deploy surfaces is measured by MNT-DOCSYNC and excluded here",
+      "method": "Resolve every documented build, run, and deploy command to a file or definition; census documented prerequisites against manifests; list the manual steps the release path requires and check each is documented; doc-code drift on non-deploy surfaces is measured by DOC-SYNC and excluded here",
       "sufficiency": "INSPECTED documentation resolved to files and definitions; evaluates the documented path, not a completed deployment - a recorded build or provisioning on the intended target is required for a verified-deployability claim",
       "levels": {
         "PASS": "Every documented step resolves to a real definition, prerequisites are named, and manual release steps are documented",
@@ -1412,7 +1341,7 @@
       "na_rules": [
         "census-none"
       ],
-      "applicability": "Applies to every deployable component of the owning project, covering the forward promotion path only - the revert and rollback mechanism is scored under the operational-safety criterion (OPS-REVERT) and stays out of this criterion's levels; resolves NOT_APPLICABLE (census-none) only when the automation census for the owning project records none - member crates inherit the workspace root's census when they ship no automation of their own",
+      "applicability": "Applies to every deployable component of the owning project, covering the forward promotion path only - the revert and rollback mechanism is scored under the operational-safety criteria entry (OPS-REVERT) and stays out of this criteria entry's levels; resolves NOT_APPLICABLE (census-none) only when the automation census for the owning project records none - member crates inherit the workspace root's census when they ship no automation of their own",
       "expected": "Releases follow a defined automated path: versioned immutable artifacts are produced and promoted across environments, and manual steps are minimal and documented",
       "method": "Trace the release path in pipeline and infrastructure definitions: artifact production with versioned identity, promotion steps per environment, and the deploy mechanism; census the manual steps and check each is documented; blast-radius-limiting patterns (staged, canary, blue-green) count toward the promoted-path verdict where the topology supports them",
       "sufficiency": "INSPECTED release and promotion definitions; resolves NOT_APPLICABLE (census-none) when the owning project's automation census is none, member crates inheriting the workspace root's census; an external census scores only what the pointer establishes; UNKNOWN when release or promotion definitions exist but their promotion behavior cannot be read",
@@ -1440,7 +1369,7 @@
       "method": "Census the declared non-functional requirements in requirements, design, and deployment documents; record a target or NOT SPECIFIED per claimed quality",
       "sufficiency": "INSPECTED declared targets; an unstated target is NOT SPECIFIED, never inferred from mechanism descriptions or enforced limits in code; UNKNOWN only when no requirements, design, or deployment document can be inspected at all - a completed census always resolves a level",
       "levels": {
-        "PASS": "Every declared scale or performance requirement in the census carries a quantified target with unit and threshold; an enforced limit in code is not required at this criterion",
+        "PASS": "Every declared scale or performance requirement in the census carries a quantified target with unit and threshold; an enforced limit in code is not required at this criteria entry",
         "P75": "At least half of the declared requirements carry a quantified target with unit and threshold; every remainder is recorded NOT SPECIFIED by name",
         "P50": "At least one declared requirement carries a quantified target and fewer than half do",
         "FAIL": "The census finds declared scale or performance requirements and none carries a quantified target with unit and threshold, or the census finds no declared requirement where the deployment model implies a scale expectation; an enforced code limit without a declared target never substitutes"
@@ -1462,7 +1391,7 @@
       "applicability": "Applies when the subject has request paths or replicated components a scaling model could govern; N/A for a deployment model that cannot carry a scale model, such as a single-component library or one-shot converter with no request paths",
       "expected": "The declared scaling model (horizontal or vertical, statelessness, partitioning, redundancy) is consistent with inspected state handling on request paths",
       "method": "Trace shared mutable state, local-disk affinity, and singleton coordination across request paths and replicated components; compare with the declared scaling model or record NOT SPECIFIED",
-      "sufficiency": "INSPECTED state flow across request paths; a DECLARED scaling claim never closes the criterion alone; UNKNOWN only when request-path source cannot be inspected at all - an undeclared model with inspectable state handling resolves P50 or FAIL, never UNKNOWN",
+      "sufficiency": "INSPECTED state flow across request paths; a DECLARED scaling claim never closes the criteria entry alone; UNKNOWN only when request-path source cannot be inspected at all - an undeclared model with inspectable state handling resolves P50 or FAIL, never UNKNOWN",
       "levels": {
         "PASS": "A scaling model is declared and no inspected state pattern contradicts it - every traced request-path state pattern is consistent with the declared model, or no replication requirement is declared and no state pattern would block replication",
         "P50": "No scaling model is declared and no inspected state pattern contradicts replication; the model is recorded NOT SPECIFIED",
@@ -1506,7 +1435,7 @@
       "applicability": "Applies when at least one latency or throughput target is declared or the deployment model implies one; N/A when no performance target is declared and none is implied by the deployment model",
       "expected": "Every declared latency or throughput target is verified by measurement under a defined workload",
       "method": "Pair each declared performance target with measured evidence: a committed benchmark or load-test artifact, or a commissioned run under an executed evidence mode",
-      "sufficiency": "MEASURED evidence per the Claim Sufficiency concurrency/latency row - defined workload, environment, warmup, duration, error budget, percentile target; a mechanism description never substitutes; under source-only this criterion resolves UNKNOWN only when no committed measurement artifact and no measurable benchmark or load-test harness exist - a present-but-stale artifact grades P25 or lower, never UNKNOWN, and a current committed artifact counts as DECLARED and reaches at most P50",
+      "sufficiency": "MEASURED evidence per the Claim Sufficiency concurrency/latency row - defined workload, environment, warmup, duration, error budget, percentile target; a mechanism description never substitutes; under source-only this criteria entry resolves UNKNOWN only when no committed measurement artifact and no measurable benchmark or load-test harness exist - a present-but-stale artifact grades P25 or lower, never UNKNOWN, and a current committed artifact counts as DECLARED and reaches at most P50",
       "levels": {
         "PASS": "Measured evidence under a defined workload meets every declared latency and throughput target",
         "P50": "Measured evidence covers only a strict subset of declared targets with each unverified target named, or coverage rests entirely on current DECLARED committed measurement artifacts",
@@ -1577,7 +1506,7 @@
       "applicability": "Applies when the subject issues or accepts credentials, tokens, or sessions of any type; N/A for a product that issues and accepts no credentials under its deployment model",
       "expected": "Every credential, token, or session type the system issues or accepts shows a complete lifecycle - issuance, expiry, revocation, rotation, eviction, and behavior after principal removal or demotion - and each credential type is accepted only at its intended endpoint",
       "method": "Lifecycle matrix per credential type across the six stages with a code anchor per stage; a type-separation check on the claims each accepting endpoint enforces",
-      "sufficiency": "INSPECTED per lifecycle stage per credential type; issuance and verification alone never close the criterion; UNKNOWN only when no credential type can be enumerated or its lifecycle inspected - a type with missing stages resolves a level, never UNKNOWN",
+      "sufficiency": "INSPECTED per lifecycle stage per credential type; issuance and verification alone never close the criteria entry; UNKNOWN only when no credential type can be enumerated or its lifecycle inspected - a type with missing stages resolves a level, never UNKNOWN",
       "levels": {
         "PASS": "Every enumerated credential type shows all lifecycle stages anchored in code - expiry enforced, a revocation path, rotation or eviction, and a defined residual-access window after removal or demotion - and type claims are enforced at each accepting endpoint",
         "P50": "Expiry is enforced on every credential type but at least one named type lacks revocation or rotation, or the residual-access window is undefined for at least one type",
@@ -1758,7 +1687,7 @@
       "na_rules": [
         "deployment-model"
       ],
-      "applicability": "Applies when the subject emits outbound flows carrying personal or usage data - telemetry, analytics, or third-party calls on a user-data handling surface; N/A for products with no outbound personal or usage-data flows, where the presence of any data at rest does not trigger the criterion",
+      "applicability": "Applies when the subject emits outbound flows carrying personal or usage data - telemetry, analytics, or third-party calls on a user-data handling surface; N/A for products with no outbound personal or usage-data flows, where the presence of any data at rest does not trigger the criteria entry",
       "expected": "Every outbound flow carrying personal or usage data to a third party or telemetry endpoint is opt-in or carries a recorded basis, and each such flow is disclosed",
       "method": "Census outbound data paths such as telemetry, analytics, and third-party calls carrying user data; record a consent or basis verdict and a disclosure verdict per flow",
       "sufficiency": "INSPECTED flow census with a consent gate or DECLARED basis per flow; a global privacy policy without a per-flow verdict is insufficient; UNKNOWN only when outbound data paths cannot be enumerated at all",
@@ -1922,7 +1851,7 @@
       "applicability": "Applies when the deployment model includes a long-running entry point holding in-flight work; N/A for products with no long-running process or in-flight work",
       "expected": "Every long-running entry point handles termination signals, drains in-flight work within a bounded window, and releases held resources on the shutdown path",
       "method": "Enumerate long-running entry points and in-flight work classes; trace the signal-handling, drain, and release path for each and record the bound on the drain window",
-      "sufficiency": "INSPECTED shutdown path per entry point; a signal handler that only sets a flag without a drain path does not close the criterion; UNKNOWN only when long-running entry points cannot be enumerated at all",
+      "sufficiency": "INSPECTED shutdown path per entry point; a signal handler that only sets a flag without a drain path does not close the criteria entry; UNKNOWN only when long-running entry points cannot be enumerated at all",
       "levels": {
         "PASS": "Every enumerated long-running entry point handles termination signals, drains each in-flight work class within a bounded window, and releases held resources on the shutdown path",
         "P50": "Termination is handled at every enumerated entry point but the drain window is unbounded, or at least one named in-flight work class is abandoned without completion or acknowledgment",
@@ -1992,13 +1921,134 @@
       "applicability": "Applies when the declared deployment model intends production operation by an operator; N/A for products consumed purely as a dependency with no operated deployment",
       "expected": "Documented operational procedures cover each enumerated operational need - startup, shutdown, common failure responses, and escalation - and a responsible operating role is recorded",
       "method": "Enumerate the operational needs implied by the deployment model; check each for a documented procedure and record the named operating role or UNKNOWN",
-      "sufficiency": "INSPECTED or DECLARED procedures per enumerated need; an empty runbook heading does not count; UNKNOWN only when the deployment model's operational needs cannot be enumerated - an unrecorded operating role is an UNKNOWN-role verdict inside a resolved level, not criterion UNKNOWN",
+      "sufficiency": "INSPECTED or DECLARED procedures per enumerated need; an empty runbook heading does not count; UNKNOWN only when the deployment model's operational needs cannot be enumerated - an unrecorded operating role is an UNKNOWN-role verdict inside a resolved level, not criteria-entry UNKNOWN",
       "levels": {
         "PASS": "Every enumerated operational need - startup, shutdown, each common failure response, and escalation - has a documented procedure, and a responsible operating role is recorded",
         "P50": "Documented procedures exist for at least half of the enumerated needs with each gap named, or the operating role and escalation path are unrecorded",
         "FAIL": "No documented operational procedure exists although the declared deployment model intends production operation"
       },
       "source": "assessment/operational-readiness.md",
+      "mechanical": false
+    },
+    {
+      "id": "DOC-EXIST",
+      "dimension": "documentation",
+      "weight": 3,
+      "criticality": "high",
+      "natures": [
+        "*"
+      ],
+      "na_rules": [],
+      "applicability": "always applies",
+      "expected": "Entry documentation explains purpose, setup, and usage; an onboarding path is documented; public interfaces carry documentation",
+      "method": "Census the committed documentation surface: presence and completeness of the README or equivalent (purpose, setup, and usage each present as committed content), presence of a documented build-and-run path, and the share of the public-interface surface carrying committed documentation; 'documented' here means committed content exists - whether that content is current or correct is DOC-SYNC's verdict and never lowers a presence verdict in this criteria entry",
+      "sufficiency": "INSPECTED documents; this criteria entry measures presence and coverage - whether the documented build and run commands actually resolve is measured by the deployability run-path criteria entry and doc-code agreement by DOC-SYNC; UNKNOWN applies only when the documentation surface itself cannot be enumerated",
+      "levels": {
+        "PASS": "Committed entry documentation covers purpose, setup, and usage, a build-and-run path is documented in the tree, and at least 90% of the public-interface surface carries committed documentation",
+        "P75": "Committed entry documentation covers purpose, setup, and usage and interface documentation covers 50-90% of the public surface",
+        "P50": "A committed entry document exists but omits setup or usage, or interface documentation covers less than 50% of the public surface",
+        "P25": "Only a token entry document is committed (it names the project without a usable setup path)",
+        "FAIL": "No committed documentation exists where the system's scale clearly requires it: no entry document, or no setup path is documented anywhere"
+      },
+      "source": "assessment/documentation-review.md",
+      "mechanical": false
+    },
+    {
+      "id": "DOC-SYNC",
+      "dimension": "documentation",
+      "weight": 2,
+      "criticality": "high",
+      "natures": [
+        "*"
+      ],
+      "na_rules": [],
+      "applicability": "always applies",
+      "expected": "Documentation agrees with the code: documented figures reproduce, documented commands, options, environment variables, config keys, and file paths resolve to the implemented surface, embedded code excerpts match, and same-named documents do not diverge",
+      "method": "Documented-claim verification: recalculate every quantitative claim against the measured repository, diff every documented command, option, env var, key, and path against the implemented surface, classify embedded code blocks and diff current-implementation excerpts, and diff duplicate documents; count findings; the build/run/deploy path itself is censused by the deployability run-path criteria entry and excluded here",
+      "sufficiency": "INSPECTED verification over the full documented surface; a documented-but-unimplemented item and an implemented-but-undocumented surface both count as drift findings",
+      "levels": {
+        "PASS": "Zero drift findings: every checked figure reproduces and every documented item resolves",
+        "P75": "1-2 drift findings, none on a documented onboarding or usage path",
+        "P50": "3-5 drift findings, or 1 drift finding on a documented usage path",
+        "P25": "More than 5 drift findings, or divergent duplicate documents on a normative surface",
+        "FAIL": "Documentation systematically contradicts the code: the documented surface describes a different system than the implemented one"
+      },
+      "source": "assessment/documentation-review.md",
+      "mechanical": false
+    },
+    {
+      "id": "DOC-ARCH",
+      "dimension": "documentation",
+      "weight": 2,
+      "criticality": "medium",
+      "natures": [
+        "*"
+      ],
+      "na_rules": [
+        "deployment-model"
+      ],
+      "applicability": "Applies to every subject whose scale produces significant, hard-to-reverse decisions; resolves NOT_APPLICABLE (deployment-model) for a trivial system where no decision rises to that level",
+      "expected": "Significant, hard-to-reverse decisions are recorded with context and consequences, and recorded decisions match the implemented system",
+      "method": "Build the significant-decision census for the subject (data store, framework choice, state management model, key algorithm weightings, authentication model, and any equivalent choices); mark each RECORDED or MISSING against a decisions directory or equivalent records; diff recorded decisions against the implemented system for staleness",
+      "sufficiency": "INSPECTED decision records matched to code-embodied decisions; a decision documented only in prose counts as RECORDED when it carries context and consequences",
+      "levels": {
+        "PASS": "Every significant decision in the census is RECORDED and current",
+        "P75": "At most 25% of censused significant decisions are MISSING or stale",
+        "P50": "26-50% of censused significant decisions are MISSING, or a recorded decision contradicts the implemented system",
+        "P25": "More than 50% of censused significant decisions are MISSING",
+        "FAIL": "No decision is recorded for a system carrying clearly significant, hard-to-reverse choices"
+      },
+      "source": "assessment/change-management.md",
+      "mechanical": false
+    },
+    {
+      "id": "DOC-OPER",
+      "dimension": "documentation",
+      "weight": 2,
+      "criticality": "high",
+      "natures": [
+        "*"
+      ],
+      "na_rules": [
+        "deployment-model"
+      ],
+      "applicability": "Applies to every subject type; resolves NOT_APPLICABLE (deployment-model) where the deployment model carries no operator surface - a subject that is never installed, run, configured, or upgraded by an operator",
+      "expected": "Operator-facing documentation covers the full operating lifecycle: install or build, run, configure, and upgrade or teardown, each with working detail an operator can follow",
+      "method": "Census the operator-lifecycle surface: locate the committed install/build, run, configure, and upgrade/teardown documentation and check each area carries working detail - commands, options, or steps that resolve to the implemented surface rather than placeholder prose",
+      "sufficiency": "INSPECTED operator documentation across all four lifecycle areas; UNKNOWN applies when the documentation surface itself cannot be enumerated; whether the documented commands actually resolve is the DOC-SYNC verdict",
+      "levels": {
+        "PASS": "All four lifecycle areas - install/build, run, configure, upgrade/teardown - are documented with working detail",
+        "P75": "Three of the four lifecycle areas are documented with working detail",
+        "P50": "Two of the four lifecycle areas are documented with working detail",
+        "P25": "Only one lifecycle area carries working detail, or the operator docs are placeholder prose throughout",
+        "FAIL": "No operator-facing documentation exists where the deployment model clearly requires it"
+      },
+      "source": "assessment/documentation-review.md",
+      "mechanical": false
+    },
+    {
+      "id": "DOC-API",
+      "dimension": "documentation",
+      "weight": 1,
+      "criticality": "medium",
+      "natures": [
+        "*"
+      ],
+      "na_rules": [
+        "deployment-model"
+      ],
+      "applicability": "Applies to every subject exposing a public or consumable interface surface; resolves NOT_APPLICABLE (deployment-model) for a subject with no public or consumable surface to document",
+      "expected": "Every public interface surface - endpoints, exported API, configuration schema - carries reference documentation a consumer can code against",
+      "method": "Census the public interface surface (endpoints, exported symbols, configuration schema keys) and measure the share carrying committed reference documentation; 'documented' means a committed reference entry exists - whether it is current is DOC-SYNC's verdict",
+      "sufficiency": "INSPECTED reference documentation over the full public interface surface; UNKNOWN applies when the interface surface cannot be enumerated",
+      "levels": {
+        "PASS": "At least 90% of the public interface surface carries committed reference documentation",
+        "P75": "50-90% of the public interface surface carries committed reference documentation",
+        "P50": "Less than 50% of the public interface surface carries committed reference documentation",
+        "P25": "Only token reference documentation exists - it names the surface without usable detail",
+        "FAIL": "No committed reference documentation exists for a subject whose consumable surface clearly requires it"
+      },
+      "source": "assessment/documentation-review.md + assessment/api-contract.md",
       "mechanical": false
     },
     {
@@ -2015,7 +2065,7 @@
       "applicability": "Applies when the subject - or the workspace member under audit - is published or declared as a reusable package (a versioned manifest intended for external consumers); a member crate inherits the workspace's natures unless independently published, so an internal workspace member consumed only in-tree is NOT_APPLICABLE via deployment-model, as is a deployable service or application that publishes no reusable package",
       "expected": "The boundary between public and internal API is defined by a committed artifact (shipped-API baseline, generated API report, exports manifest) or a documented visibility convention that lets an auditor classify every published module; applies only to a published reusable library or package, N/A for a deployable service or application",
       "method": "Locate the declared surface definition; census export sites across every published module; verify the mechanism decides public membership for each module",
-      "sufficiency": "INSPECTED baseline, report, manifest, or documented convention plus an export census covering every published module; an undocumented convention (DECLARED alone) is insufficient; when the published-module inventory itself cannot be enumerated, coverage has no denominator and source-only resolves the criterion as UNKNOWN",
+      "sufficiency": "INSPECTED baseline, report, manifest, or documented convention plus an export census covering every published module; an undocumented convention (DECLARED alone) is insufficient; when the published-module inventory itself cannot be enumerated, coverage has no denominator and source-only resolves the criteria entry as UNKNOWN",
       "levels": {
         "PASS": "A tracked-surface mechanism - a committed shipped-API baseline, generated API report, or exports manifest - covers every published module, and, where it is a committed baseline, matches the current exports",
         "P50": "A mechanism or documented convention covers every published module but is not machine-checkable, or a committed baseline exists but is stale relative to current exports",
@@ -2039,7 +2089,7 @@
       "applicability": "Applies when the subject - or the workspace member under audit - is published or declared as a reusable package (a versioned manifest intended for external consumers); a member crate inherits the workspace's natures unless independently published, so an internal workspace member consumed only in-tree is NOT_APPLICABLE via deployment-model, as is a deployable service or application that publishes no reusable package",
       "expected": "An automated compatibility check is configured and enabled on the path that produces published artifacts - package validation, API comparator, or ABI-diff tooling appropriate to the stack; applies only to a published reusable library or package",
       "method": "Enumerate every release path that produces a published artifact; search build, project, packaging, and pipeline files for a named compatibility-gate mechanism; verify it is enabled and positioned to inspect the release artifact on each path",
-      "sufficiency": "INSPECTED configuration naming the mechanism, its enablement, and its invocation path, with the denominator being every committed release path that produces a published artifact; tool configuration is evidence of intent, so source-only establishes configuration, never a recorded run; when the release path is not represented by any committed file (the packaging or pipeline lives entirely outside the tree), enablement cannot be inspected and source-only resolves the criterion as UNKNOWN",
+      "sufficiency": "INSPECTED configuration naming the mechanism, its enablement, and its invocation path, with the denominator being every committed release path that produces a published artifact; tool configuration is evidence of intent, so source-only establishes configuration, never a recorded run; when the release path is not represented by any committed file (the packaging or pipeline lives entirely outside the tree), enablement cannot be inspected and source-only resolves the criteria entry as UNKNOWN",
       "levels": {
         "PASS": "A named compatibility-gate mechanism is configured and enabled on every release path that produces a published artifact (zero of the paths uncovered), positioned to inspect the release artifact",
         "P50": "A gate is configured and enabled on at least 1 but not all release paths that produce published artifacts, or it is invoked only through an optional or manual step",
@@ -2062,7 +2112,7 @@
       "applicability": "Applies when the subject - or the workspace member under audit - is published or declared as a reusable package (a versioned manifest intended for external consumers); a member crate inherits the workspace's natures unless independently published, so an internal workspace member consumed only in-tree is NOT_APPLICABLE via deployment-model, as is a deployable service or application that publishes no reusable package",
       "expected": "A versioning scheme is declared or unambiguously evidenced, and every inspectable version surface - manifest version, changelog entries, release notes, and tags where history is in scope - agrees with it; applies only to a published reusable library or package",
       "method": "Locate the declared scheme; census manifest version, changelog and release entries, and tags when history is present; check each surface against the declared semantics and against the version the manifest ships",
-      "sufficiency": "INSPECTED declared scheme plus every inspectable version surface; a README versioning claim alone (DECLARED) does not establish practice; when zero inspectable version surfaces exist, there is no denominator and source-only resolves the criterion as UNKNOWN",
+      "sufficiency": "INSPECTED declared scheme plus every inspectable version surface; a README versioning claim alone (DECLARED) does not establish practice; when zero inspectable version surfaces exist, there is no denominator and source-only resolves the criteria entry as UNKNOWN",
       "levels": {
         "PASS": "A scheme is declared and zero of the inspectable surfaces contradict it - the manifest version, changelog entries, release notes, and tags where in scope all agree with the declared semantics and with each other",
         "P50": "No scheme is declared but all inspectable surfaces agree with each other, or a declared scheme exists with exactly 1 divergent surface and no incompatible-change evidence",
@@ -2085,7 +2135,7 @@
       "applicability": "Applies when the subject - or the workspace member under audit - is published or declared as a reusable package (a versioned manifest intended for external consumers); a member crate inherits the workspace's natures unless independently published, so an internal workspace member consumed only in-tree is NOT_APPLICABLE via deployment-model, as is a deployable service or application that publishes no reusable package",
       "expected": "Every public member marked for removal carries the stack's recognized deprecation mechanism, and every marked member or recorded breaking-change item names the version or date that removes it; applies only to a published reusable library or package",
       "method": "Census deprecation markers ([Obsolete], #[deprecated], @Deprecated, doc tags) and recorded breaking-change entries (changelog entries, tracked items in-repo); the denominator is the union of marked members and recorded items; verify each carries a removal target",
-      "sufficiency": "INSPECTED markers and recorded entries over the full public surface; an unrecorded intention does not count; when the public surface cannot be enumerated the marker census is incomplete and source-only resolves the criterion as UNKNOWN",
+      "sufficiency": "INSPECTED markers and recorded entries over the full public surface; an unrecorded intention does not count; when the public surface cannot be enumerated the marker census is incomplete and source-only resolves the criteria entry as UNKNOWN",
       "levels": {
         "PASS": "Every item in the census - all marked members and all recorded breaking-change items - carries a named removal version or dated timeline; an empty census is a PASS",
         "P50": "Markers or tracking records exist and cover every deprecated member, but at least 1 marked member or recorded breaking item lacks a named removal target, or at least 1 deprecated member escapes the marking mechanism",
@@ -2108,7 +2158,7 @@
       "applicability": "Applies when the subject - or the workspace member under audit - is published or declared as a reusable package (a versioned manifest intended for external consumers); a member crate inherits the workspace's natures unless independently published, so an internal workspace member consumed only in-tree is NOT_APPLICABLE via deployment-model, as is a deployable service or application that publishes no reusable package",
       "expected": "The current public surface contains every member recorded in the compatibility baseline or previously released surface, and every removal or incompatible signature change is bound to a recorded major release or completed deprecation path; applies only to a published reusable library or package",
       "method": "Diff the recorded stable surface (shipped-API baseline, generated API report, or prior tagged release surface when history is present) against current exports; reconcile each delta against version and deprecation records",
-      "sufficiency": "INSPECTED baseline or prior-release surface plus a STATICALLY_DERIVED diff and recorded version binding; the denominator is the delta set between the compared surface and current exports; when no baseline exists and history is absent, the diff has no input and source-only resolves the criterion as UNKNOWN rather than FAIL - the missing baseline is scored by CMP-SURFACE",
+      "sufficiency": "INSPECTED baseline or prior-release surface plus a STATICALLY_DERIVED diff and recorded version binding; the denominator is the delta set between the compared surface and current exports; when no baseline exists and history is absent, the diff has no input and source-only resolves the criteria entry as UNKNOWN rather than FAIL - the missing baseline is scored by CMP-SURFACE",
       "levels": {
         "PASS": "Every delta versus the compared surface is an addition or is bound to a recorded major release or deprecation path - zero unrecorded removals or incompatible changes out of the whole delta set",
         "FAIL": "At least 1 member was removed or incompatibly changed versus the compared surface with no recorded major-version or deprecation binding"
@@ -2130,7 +2180,7 @@
       "applicability": "Applies to every subject when VCS history is in scope; NOT_APPLICABLE via history-out-of-scope when history is absent or out of scope",
       "expected": "Releases occur at a sustained cadence: release points (tags or recorded releases) recur across the observed history window and continue into its recent half",
       "method": "List tags with dates and recorded releases (changelog entries, release notes) over the history window; count release points per window half",
-      "sufficiency": "INSPECTED tag list or committed release records with the counting rule recorded; commit cadence is not a release proxy, and with zero release points and no recorded release intent source-only resolves the criterion as UNKNOWN",
+      "sufficiency": "INSPECTED tag list or committed release records with the counting rule recorded; commit cadence is not a release proxy, and with zero release points and no recorded release intent source-only resolves the criteria entry as UNKNOWN",
       "levels": {
         "PASS": "At least 2 release points exist in the observed window and at least 1 falls in its most recent half",
         "P50": "Release points exist but none falls in the most recent half of the window, or exactly 1 release point exists",
@@ -2153,7 +2203,7 @@
       "applicability": "Applies to every subject when VCS history is in scope; NOT_APPLICABLE via history-out-of-scope when history is absent or out of scope",
       "expected": "Commit authorship is not concentrated on a single identity: the top author's share of non-merge commits in the observed window is below the rubric's HIGH band, agent-bot identities excluded, or a HIGH concentration is mitigated by committed succession evidence",
       "method": "Run the author-concentration census (non-merge commits grouped by author, agent-bot identities excluded) over the observed window; record top share, active-contributor count, and window; when the share reaches the HIGH band, census committed mitigation evidence - a succession plan, onboarding guide, or maintainer-handover documentation",
-      "sufficiency": "INSPECTED census output over the scoped history with the counting rule recorded, plus INSPECTED committed mitigation documents when the census shows HIGH concentration; when the census cannot be produced or the window holds zero non-merge commits, source-only resolves the criterion as UNKNOWN",
+      "sufficiency": "INSPECTED census output over the scoped history with the counting rule recorded, plus INSPECTED committed mitigation documents when the census shows HIGH concentration; when the census cannot be produced or the window holds zero non-merge commits, source-only resolves the criteria entry as UNKNOWN",
       "levels": {
         "PASS": "Top-author share is below 50% with at least 2 active contributors in the window - no material concentration",
         "P50": "Top-author share is 50-79% (moderate concentration), or the share is at least 80% or single-author but partial mitigation evidence exists - a committed succession, onboarding, or maintainer-handover document",
@@ -2200,7 +2250,7 @@
       "applicability": "Applies to every subject when VCS history is in scope; NOT_APPLICABLE via history-out-of-scope when history is absent or out of scope",
       "expected": "Integration evidence shows changes were integrated by an identity other than their author for a material share of merges, or - when the merge census has no surface - a committed mechanism requires review by a non-author identity",
       "method": "Census merge commits in the window; compare each merge's committer identity against the authors of the merged commits; record the externally integrated share; when the window holds fewer than 5 merge commits, census committed review artifacts instead - CODEOWNERS, pull-request templates, required-approval or protected-branch configuration, documented review conventions",
-      "sufficiency": "INSPECTED merge census with the counting rule recorded when at least 5 merge commits exist, otherwise INSPECTED committed review artifacts; when the window holds fewer than 5 merge commits and no committed review artifact exists either, both proxies lack a surface and source-only resolves the criterion as UNKNOWN",
+      "sufficiency": "INSPECTED merge census with the counting rule recorded when at least 5 merge commits exist, otherwise INSPECTED committed review artifacts; when the window holds fewer than 5 merge commits and no committed review artifact exists either, both proxies lack a surface and source-only resolves the criteria entry as UNKNOWN",
       "levels": {
         "PASS": "At least 25% of merge commits are externally integrated (the committer differs from every merged author) with at least 2 distinct integrator identities; or, under the in-tree proxy, a committed mechanism mandates review by a non-author identity - CODEOWNERS covering the tree plus a required-approval or protected-branch configuration",
         "P50": "At least 25% of merges are externally integrated but only 1 distinct external integrator exists; or, under the in-tree proxy, a committed review mechanism exists without non-author enforcement - a pull-request template requesting review, or CODEOWNERS with no required-approval configuration",
@@ -2208,97 +2258,6 @@
         "FAIL": "At least 5 merge commits are observed and every one is self-integrated (the committer equals a merged author)"
       },
       "source": "references/delivery-practice.md",
-      "mechanical": false
-    },
-    {
-      "id": "AIP-ATTRIB",
-      "dimension": "ai_provenance",
-      "weight": 3,
-      "criticality": "high",
-      "natures": [
-        "*"
-      ],
-      "na_rules": [
-        "deployment-model",
-        "history-out-of-scope"
-      ],
-      "applicability": "Applies when generated artifacts or an AI-assisted workflow are in scope or evidenced and VCS history is in scope; NOT_APPLICABLE via deployment-model when no generated artifacts or AI workflow are in scope or evidenced - a clean attribution census is Undetermined and resolves here, never as PASS - and NOT_APPLICABLE via history-out-of-scope when VCS history is absent or out of scope",
-      "expected": "Every in-scope artifact group carries an assigned provenance basis from the evidence tiers, established by the attribution census over the scoped VCS history, and every adopted attribution requirement is satisfied; N/A by deployment-model when no generated artifacts or AI workflow are in scope, N/A by history-out-of-scope when VCS history is absent",
-      "method": "Run the attribution census (agent commit trailers, bot author or committer identities, session markers per the signature table) over the scoped history; assign each artifact group a basis of Declared, Attested, Supplied, Indicated, or Undetermined; reconcile against any declared AI-use policy",
-      "sufficiency": "INSPECTED census over the full scoped history with the counting rule recorded; a clean census is Undetermined, never evidence of human authorship, and resolves the criterion NOT_APPLICABLE via deployment-model; when the census cannot be executed over the scoped history, source-only resolves the criterion as UNKNOWN",
-      "levels": {
-        "PASS": "The census covers the scoped history, the workflow's provenance basis is Declared or Attested, and every adopted attribution requirement is satisfied by INSPECTED artifacts",
-        "P50": "The census is complete and the basis is Indicated or Supplied - an agent workflow is supported but per-artifact attribution is absent - with no declared requirement contradicted",
-        "P25": "Census coverage is incomplete (uninspectable ranges or ref-only gaps), or adopted attribution requirements are partially satisfied",
-        "FAIL": "A declared or adopted attribution requirement is demonstrably defeated - attributed changes exist that the declared policy would mark but lack the marker, or attribution records are falsified or rewritten"
-      },
-      "source": "assessment/generated-code.md",
-      "mechanical": false
-    },
-    {
-      "id": "AIP-DECL",
-      "dimension": "ai_provenance",
-      "weight": 2,
-      "criticality": "medium",
-      "natures": [
-        "*"
-      ],
-      "na_rules": [
-        "deployment-model"
-      ],
-      "applicability": "Applies when the subject carries declared or attested generation records that name artifacts - a generation manifest, SPDX createdBy or createdUsing record, CycloneDX formulation or declarations entry, in-toto or SLSA attestation file; NOT_APPLICABLE via deployment-model when no declared generation record names artifacts",
-      "expected": "Every declared or attested generation record (generation manifest, SPDX createdBy or createdUsing record, CycloneDX formulation or declarations entry, in-toto or SLSA attestation file) reconciles with the tree, and every artifact such records name as generated carries validation linkage - a requirement reference, an exercising test, or a recorded review; N/A when the subject carries no declared generation records naming artifacts",
-      "method": "Enumerate provenance records; verify each named artifact exists; trace each named artifact to its validation evidence",
-      "sufficiency": "INSPECTED records plus a per-artifact linkage census; a record's existence establishes intent only - reconciliation and linkage decide; when declared records exist but cannot be inspected or reconciled (unparseable records, or the named-artifact census cannot be completed), source-only resolves the criterion as UNKNOWN",
-      "levels": {
-        "PASS": "Every record reconciles (every named artifact present, scope consistent) and every named generated artifact carries at least 1 validation linkage - a requirement reference, an exercising test, or a recorded review",
-        "P50": "Records reconcile but at least 1 named artifact lacks validation linkage, or at least 1 but not all named artifacts are absent or moved",
-        "FAIL": "Declared records are contradicted by the tree - zero of the named artifacts are present, or zero named artifacts carry the declared validation linkage"
-      },
-      "source": "assessment/generated-code.md",
-      "mechanical": false
-    },
-    {
-      "id": "AIP-ERASE",
-      "dimension": "ai_provenance",
-      "weight": 1,
-      "criticality": "medium",
-      "natures": [
-        "*"
-      ],
-      "na_rules": [],
-      "applicability": "always applies",
-      "expected": "No committed setting, hook, or tooling suppresses, strips, or rewrites agent-attribution records for an agent workflow the tree supports or evidences",
-      "method": "Census committed agent settings, hooks, and automation for attribution-suppression or history-rewriting mechanisms; compare against the evidenced workflow and existing attribution artifacts",
-      "sufficiency": "INSPECTED configuration and automation files; a suppression setting is Indicated workflow evidence and becomes a criterion failure only when it defeats records for an evidenced workflow or contradicts a declared attribution requirement; when a committed settings or automation file cannot be inspected (opaque or unparseable), the census is incomplete and source-only resolves the criterion as UNKNOWN",
-      "levels": {
-        "PASS": "The census over committed agent settings, hooks, and automation finds zero mechanisms that suppress, strip, or rewrite attribution records for an evidenced or supported agent workflow",
-        "FAIL": "At least 1 committed mechanism suppresses or rewrites attribution for an evidenced or supported workflow - a committed setting disabling attribution markers, history-scrub automation, or authorship-rewriting tooling - or existing attribution artifacts coexist with a mechanism that defeats them"
-      },
-      "source": "assessment/generated-code.md",
-      "mechanical": false
-    },
-    {
-      "id": "AIP-MODEL",
-      "dimension": "ai_provenance",
-      "weight": 2,
-      "criticality": "high",
-      "natures": [
-        "*"
-      ],
-      "na_rules": [
-        "deployment-model"
-      ],
-      "applicability": "Applies when AI-model or dataset artifacts exist in scope - models or datasets the subject vendors, serves, trains, or declares as a dependency; NOT_APPLICABLE via deployment-model when no model or dataset artifacts or declared model dependencies are in scope",
-      "expected": "Every model and dataset the subject vendors, serves, trains, or declares as a dependency is identified by name, a pinned revision (version, digest, or tag), and a source or retrieval record; every dataset additionally records collection scope, license, and transformation history; N/A when no model or dataset artifacts or declared model dependencies are in scope",
-      "method": "Enumerate model and dataset references across manifests, configs, weights, and docs; check each against the provenance fields; verify pinned identities resolve to a recorded source",
-      "sufficiency": "INSPECTED manifests, registries, data cards, and configuration; a model name without a digest, version, source, or retrieval date is incomplete provenance evidence; when the enumeration of model and dataset artifacts cannot be completed (an uninspectable registry or manifest), source-only resolves the criterion as UNKNOWN",
-      "levels": {
-        "PASS": "Every model and dataset in scope carries a name, a pinned revision, and a source or retrieval record; every dataset additionally carries collection scope, license, and transformation history",
-        "P50": "Every model and dataset is identified but at least 1 lacks a pinned revision or recorded source, or at least 1 dataset lacks license or lineage records",
-        "FAIL": "At least 1 model or dataset in scope carries no provenance record at all, or a recorded provenance claim is contradicted by the tree"
-      },
-      "source": "assessment/ai-system.md",
       "mechanical": false
     },
     {
@@ -2315,7 +2274,7 @@
       "applicability": "Applies when the work is distributed or published, carries a stated intent for distribution or commercial use, or has third-party dependencies; NOT_APPLICABLE via deployment-model for a personal prototype with no stated intent for distribution or commercial use and no third-party dependencies",
       "expected": "The distributed work carries a complete license declaration: license text at the repository root consistent with every declared ownership, manifest, and distribution statement; N/A for a personal prototype with no stated intent for distribution or commercial use and no third-party dependencies",
       "method": "Locate license text files, manifest license fields, and declared ownership or distribution statements; the denominator is every declaration surface; compare all surfaces for agreement",
-      "sufficiency": "INSPECTED license text and declarations; a README license claim alone (DECLARED) without text does not establish the terms that apply; when declaration surfaces cannot be enumerated (unreadable root or unparseable manifest), source-only resolves the criterion as UNKNOWN",
+      "sufficiency": "INSPECTED license text and declarations; a README license claim alone (DECLARED) without text does not establish the terms that apply; when declaration surfaces cannot be enumerated (unreadable root or unparseable manifest), source-only resolves the criteria entry as UNKNOWN",
       "levels": {
         "PASS": "License text exists at the repository root and every declaration surface - manifest license field, ownership statement, distribution statement - agrees with the shipped text; surfaces naming no license do not contradict",
         "P50": "A license is declared on at least 1 surface but the root text is absent, the declaration surfaces disagree with each other, or the declaration names no specific license",
@@ -2338,7 +2297,7 @@
       "applicability": "Applies when the subject has direct third-party dependencies or is distributed; NOT_APPLICABLE via deployment-model when the subject has no third-party dependencies and is not distributed - zero dependencies on a distributed work still applies and scores vacuously",
       "expected": "Every direct third-party component carries an inspected license declaration classified into the canonical classes, no strong-copyleft component links into an incompatibly distributed work, and declared license policies are honored; N/A when the subject has no third-party dependencies and is not distributed",
       "method": "Classify every component in the dependency inventory per the declaration-source order; flag Conflicts (strong-copyleft linked into incompatible distribution) and Review items; reconcile against any published permitted-license policy",
-      "sufficiency": "INSPECTED declarations only - manifest fields, vendored license files, lockfile fields, explicit policy entries; the denominator is the count of direct components in the dependency inventory, with statically linked transitives counted for the Conflict test; a component's usual license is not evidence, and an undeclared component classifies as Unknown; when the inventory cannot be enumerated (no inspectable manifest or lockfile), source-only resolves the criterion as UNKNOWN",
+      "sufficiency": "INSPECTED declarations only - manifest fields, vendored license files, lockfile fields, explicit policy entries; the denominator is the count of direct components in the dependency inventory, with statically linked transitives counted for the Conflict test; a component's usual license is not evidence, and an undeclared component classifies as Unknown; when the inventory cannot be enumerated (no inspectable manifest or lockfile), source-only resolves the criteria entry as UNKNOWN",
       "levels": {
         "PASS": "100% of direct components in the inventory classify non-Unknown, with zero Conflicts and zero policy violations",
         "P75": "Zero Conflicts and zero policy violations; at least 80% but under 100% of direct components classify non-Unknown",
@@ -2362,7 +2321,7 @@
       "applicability": "Applies when the subject vendors or bundles third-party components or assets, or an adopted license mandates notices; NOT_APPLICABLE via deployment-model when neither condition holds",
       "expected": "Every vendored or bundled third-party component and every non-code asset carries attribution - a notices-file entry, bundled license text, or in-file notice - and notices required by the adopted licenses are present; N/A when the subject vendors or bundles no third-party components or assets and no adopted license requires notices",
       "method": "Census vendored trees, bundled binaries, and non-code assets; reconcile each against notice files, bundled license texts, and in-file notices; check license-mandated notices",
-      "sufficiency": "INSPECTED notice files, headers, and bundled texts reconciled against the vendored and asset census; the denominator is the vendored and bundled census count; per-file SPDX identifiers are required only where an adopted license or policy mandates them; when the vendored or bundled census cannot be completed (opaque or uninspectable bundled artifacts), source-only resolves the criterion as UNKNOWN",
+      "sufficiency": "INSPECTED notice files, headers, and bundled texts reconciled against the vendored and asset census; the denominator is the vendored and bundled census count; per-file SPDX identifiers are required only where an adopted license or policy mandates them; when the vendored or bundled census cannot be completed (opaque or uninspectable bundled artifacts), source-only resolves the criteria entry as UNKNOWN",
       "levels": {
         "PASS": "Every vendored or bundled component and asset - 100% of the census - resolves to an attribution record, and every license-mandated notice is present",
         "P50": "An attribution mechanism exists covering at least 1 item, but at least 1 vendored component or asset lacks a record, or at least 1 mandated notice is missing",
@@ -2383,7 +2342,7 @@
       "applicability": "always applies",
       "expected": "The census of foreign-origin markers - external copyright notices, source-attribution comments naming external origins, and verbatim reimplementations - resolves every marker to a declared license or attribution record",
       "method": "Census in-scope files for foreign-origin markers; for each marker locate the resolving declaration; record unresolved markers and demonstrated unattributed copies",
-      "sufficiency": "INSPECTED markers reconciled against declared records; the denominator is every in-scope file carrying a foreign-origin marker; absence of recognizable copied snippets does not establish originality - when the census cannot be completed or the origin of key blocks cannot be determined, source-only resolves the criterion as UNKNOWN",
+      "sufficiency": "INSPECTED markers reconciled against declared records; the denominator is every in-scope file carrying a foreign-origin marker; absence of recognizable copied snippets does not establish originality - when the census cannot be completed or the origin of key blocks cannot be determined, source-only resolves the criteria entry as UNKNOWN",
       "levels": {
         "PASS": "The census covers every in-scope file, every marker resolves to a declared license or attribution record, and zero demonstrated unattributed copies exist",
         "P50": "At least 1 marker is unresolved - foreign-origin evidence whose licensing cannot be confirmed from the tree - and zero demonstrated unattributed copies exist",
@@ -2406,7 +2365,7 @@
       "applicability": "Applies when the subject ships agent-facing artifacts - specifically authored SKILL.md files in scope; a subject merely read or operated on by agents, carrying no authored agent-facing artifacts, is NOT_APPLICABLE via deployment-model",
       "expected": "Every authored in-scope SKILL.md carries YAML frontmatter with a spec-valid name (1-64 chars, lowercase alphanumerics and hyphens, no leading, trailing, or consecutive hyphens, matching the parent directory) and a spec-valid description (1-1024 chars stating what the skill does and when to use it); every present optional field conforms to its constraint; N/A when the subject carries no authored SKILL.md",
       "method": "For each authored SKILL.md, parse frontmatter; check name, description, and each optional field against the field-constraint table; record spec violations separately from platform-constraint findings",
-      "sufficiency": "INSPECTED frontmatter of every in-scope skill checked against the recorded baseline (snapshot date or live fetch); when in-scope skills cannot be enumerated (unreadable skill directories), source-only resolves the criterion as UNKNOWN",
+      "sufficiency": "INSPECTED frontmatter of every in-scope skill checked against the recorded baseline (snapshot date or live fetch); when in-scope skills cannot be enumerated (unreadable skill directories), source-only resolves the criteria entry as UNKNOWN",
       "levels": {
         "PASS": "Every in-scope SKILL.md satisfies every required-field constraint, the description states what and when with task-specific trigger terms, and optional fields conform",
         "P50": "Required fields are present everywhere; at least 1 constraint violation exists, or a description is over the limit, missing what-or-when content, or lacking task-specific trigger terms, or an optional field violates its constraint",
@@ -2429,7 +2388,7 @@
       "applicability": "Applies when the subject ships agent-facing artifacts - specifically authored SKILL.md files in scope; a subject merely read or operated on by agents, carrying no authored agent-facing artifacts, is NOT_APPLICABLE via deployment-model",
       "expected": "Every authored in-scope SKILL.md respects progressive disclosure - body under 500 lines, file references resolving to existing files within one level, non-conventional directories justified in the body; N/A when the subject carries no authored SKILL.md",
       "method": "Count body lines; extract every referenced path and test resolution; measure reference depth; compare directory layout against conventional names and check justification",
-      "sufficiency": "INSPECTED SKILL.md bodies and filesystem resolution of every referenced path; when an in-scope SKILL.md body cannot be read, its references and line count are undecidable and source-only resolves the criterion as UNKNOWN",
+      "sufficiency": "INSPECTED SKILL.md bodies and filesystem resolution of every referenced path; when an in-scope SKILL.md body cannot be read, its references and line count are undecidable and source-only resolves the criteria entry as UNKNOWN",
       "levels": {
         "PASS": "Every body is at most 500 lines, every reference resolves, reference chains stay at most 1 level deep, and non-conventional directories carry recorded justification",
         "P50": "Every reference resolves, but at least one of: a body exceeds 500 lines, a reference chain exceeds 1 level, or non-conventional directories lack recorded justification",
@@ -2452,7 +2411,7 @@
       "applicability": "Applies when the subject ships non-skill agent-facing artifacts - memory files, rules directories, plugin manifests, subagent definitions, instruction files, MCP configuration, tool manifests; a subject merely read or operated on by agents, carrying no authored agent-facing artifacts, is NOT_APPLICABLE via deployment-model",
       "expected": "Every discovered non-skill agent-facing artifact - memory files, rules directories, plugin manifests, subagent definitions, instruction files, MCP configuration - conforms to its format baseline: valid structure, required fields present, resolvable imports, paths, and globs, no dead patterns, no deprecated variants, no plaintext secrets in env blocks; N/A when the subject carries no non-skill agent-facing artifacts",
       "method": "Enumerate non-skill artifacts; apply each format's checkable constraints from the baseline; separate hard-constraint violations from functional gaps",
-      "sufficiency": "INSPECTED artifacts against each format's recorded baseline; an artifact in an unrecognized format is recorded uncheckable, and when every discovered artifact is uncheckable source-only resolves the criterion as UNKNOWN; a plaintext secret in an env block is a hard-constraint violation while the secret itself is a security finding",
+      "sufficiency": "INSPECTED artifacts against each format's recorded baseline; an artifact in an unrecognized format is recorded uncheckable, and when every discovered artifact is uncheckable source-only resolves the criteria entry as UNKNOWN; a plaintext secret in an env block is a hard-constraint violation while the secret itself is a security finding",
       "levels": {
         "PASS": "Every discovered artifact conforms to every checkable constraint of its format",
         "P50": "Artifacts parse and function but at least 1 gap exists - a dead glob or applyTo pattern, a deprecated variant left alongside, a missing recommended field, or conflicting instructions across formats",
@@ -2475,7 +2434,7 @@
       "applicability": "Applies when the subject ships a declared structured agent-guidance set - more than a lone thin entry file; a subject merely read by agents, or carrying only a thin single entry file, is NOT_APPLICABLE via deployment-model",
       "expected": "A declared agent-guidance set resolves into a coherent topology - resolvable entry route, exactly one index of record, declared roles resolving to existing paths, recorded topic owners, restricted directories carrying read-boundary statements; N/A when the subject carries no structured guidance set (a lone thin entry file at most)",
       "method": "Enumerate the guidance set; trace the entry route from each entry file; locate authority declarations; resolve every declared role to a path; check owner selection, restricted-directory statements, vendored-document markers, and execution policy",
-      "sufficiency": "INSPECTED documents and resolved paths; absence of structure is an observation, not a verdict - the criterion applies only to a declared set; when the set's documents cannot be inspected, source-only resolves the criterion as UNKNOWN",
+      "sufficiency": "INSPECTED documents and resolved paths; absence of structure is an observation, not a verdict - the criteria entry applies only to a declared set; when the set's documents cannot be inspected, source-only resolves the criteria entry as UNKNOWN",
       "levels": {
         "PASS": "The entry route resolves from every entry file, exactly one index of record exists, every declared role resolves to an existing path, each topic has a recorded owner or explicit N/A, restricted directories carry read-boundary statements, and no conflicting or stale guidance exists",
         "P50": "The set functions but carries at least 1 gap - a second authority declaration, duplicated rule text across owners, unrecorded consolidation, a stale vendored document, an undeclared restricted directory, or an unrecorded execution policy",
@@ -2498,7 +2457,7 @@
       "applicability": "Applies when the subject ships authored skills with bundled files; a subject merely read or operated on by agents, carrying no authored skills, is NOT_APPLICABLE via deployment-model",
       "expected": "The census over every bundled skill file finds no security-surface risk pattern - unexpected network calls, file access outside declared scope, tool invocations exceeding allowed-tools, instructions fetched from mutable external sources, or unexplained sensitive-data access; N/A when the subject carries no authored skills",
       "method": "Census every bundled file (SKILL.md, scripts, resources) for the named risk patterns; reconcile each hit against the skill's stated purpose and declared allowed-tools",
-      "sufficiency": "INSPECTED bundled files reconciled against the stated purpose; the declared purpose bounds what counts as unexpected; when bundled files cannot be inspected (opaque or unreadable resources that could carry the named patterns), source-only resolves the criterion as UNKNOWN rather than PASS",
+      "sufficiency": "INSPECTED bundled files reconciled against the stated purpose; the declared purpose bounds what counts as unexpected; when bundled files cannot be inspected (opaque or unreadable resources that could carry the named patterns), source-only resolves the criteria entry as UNKNOWN rather than PASS",
       "levels": {
         "PASS": "Zero risk-pattern hits, or every hit is inside the declared scope and consistent with the stated purpose and declared tools",
         "P50": "At least 1 risk-pattern hit sits outside the declared scope but consistent with the stated purpose, including documented fetches of mutable external content",
@@ -2521,7 +2480,7 @@
       "applicability": "Applies when the subject ships two or more authored skills; a subject with fewer than two authored skills, or one merely read by agents without authored agent-facing artifacts, is NOT_APPLICABLE via deployment-model",
       "expected": "A multi-skill subject is a coherent collection: every authored skill declares a unique name, every authored skill is listed in a catalog or index, and sibling skills share layout conventions; N/A when fewer than two authored skills are in scope",
       "method": "Compare declared names across skills; locate the catalog or index and reconcile it against the discovered skill inventory; compare directory layouts",
-      "sufficiency": "INSPECTED frontmatter names, catalog content, and layouts; installed or out-of-scope skills do not enter the comparison; when the authored-skill inventory cannot be completed, source-only resolves the criterion as UNKNOWN",
+      "sufficiency": "INSPECTED frontmatter names, catalog content, and layouts; installed or out-of-scope skills do not enter the comparison; when the authored-skill inventory cannot be completed, source-only resolves the criteria entry as UNKNOWN",
       "levels": {
         "PASS": "All names are unique, every authored skill is catalogued, and layouts are consistent",
         "P50": "All names are unique; the catalog is absent or incomplete, or layouts diverge without a recorded reason",

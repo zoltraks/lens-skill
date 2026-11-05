@@ -1292,12 +1292,12 @@
     {
       "id": 108,
       "prompt": "Audit this repository at Standard level. In Auditing Methodology, declare the criteria you evaluate before writing findings, then produce the findings registers.",
-      "expected_output": "An audit whose Auditing Methodology carries a declared criterion table and whose every finding names one of those declared criteria.",
+      "expected_output": "An audit whose Auditing Methodology carries a declared criteria table and whose every finding names one of those declared criteria.",
       "files": [],
       "expectations": [
-        "Auditing Methodology renders a criterion table with criterion ID, family, applicability, criticality, method, and sufficiency columns.",
+        "Auditing Methodology renders the criteria table with criteria ID, family, applicability, criticality, method, and sufficiency columns.",
         "Every `### FND-` block carries a `Criteria` field naming a declared Criteria table row (three-letter prefix, no redundant `-01` suffix) and the violated or uncertain property.",
-        "A finding never renders `Criteria` as `N/A` or a placeholder - an undeclared criterion is added to the table first, never invented inline.",
+        "A finding never renders `Criteria` as `N/A` or a placeholder - an undeclared criteria entry is added to the table first, never invented inline.",
         "Applicability decisions are frozen at planning and post-freeze changes carry a visible justification."
       ]
     },
@@ -1339,12 +1339,12 @@
     {
       "id": 112,
       "prompt": "Audit this repository at Standard level and score each dimension. Two dimensions have criteria whose evidence is only partially resolved.",
-      "expected_output": "A scorecard whose dimension scores derive from weighted criterion mastery, carry uncertainty intervals, and respect the eligibility gate.",
+      "expected_output": "A scorecard whose dimension scores derive from weighted criteria mastery, carry uncertainty intervals, and respect the eligibility gate.",
       "files": [],
       "expectations": [
-        "Each dimension score recomputes from criterion mastery values and frozen criterion weights, not from a subjective range pick.",
+        "Each dimension score recomputes from criteria mastery values and frozen criteria weights, not from a subjective range pick.",
         "Dimensions with unresolved criteria show a non-degenerate interval computed as the FAIL/PASS substitution bounds.",
-        "A dimension whose applicable-criterion coverage fails the eligibility gate renders UNKNOWN rather than a numeric score.",
+        "A dimension whose applicable-criteria coverage fails the eligibility gate renders UNKNOWN rather than a numeric score.",
         "UNKNOWN and N/A dimensions stay out of the overall-score denominator, and the report states the applicable denominator."
       ]
     },
@@ -1380,7 +1380,7 @@
       "expectations": [
         "scripts/check-model.py (or its equivalent checks) runs on work/audit-model.json before the report is generated.",
         "A finding citing an undeclared EVD identifier fails referential integrity.",
-        "A dimension whose stored score, interval, coverage, or eligibility does not recompute from criterion outcomes and weights fails the scoring-reproducibility check.",
+        "A dimension whose stored score, interval, coverage, or eligibility does not recompute from criteria outcomes and weights fails the scoring-reproducibility check.",
         "Generation does not proceed from a failing model - failures are resolved in the records first."
       ]
     },
@@ -2205,10 +2205,10 @@
     {
       "id": 189,
       "prompt": "Write a lens audit report that uses a custom dimension set like Correctness, Reliability, and Performance in the Scorecard Summary.",
-      "expected_output": "The report keeps the 19 canonical scorecard dimension names in canonical order.",
+      "expected_output": "The report keeps the 20 canonical scorecard dimension names in canonical order.",
       "files": [],
       "expectations": [
-        "Scorecard Summary and Health Dashboard dimension tables use only the canonical 19 dimension names in canonical order.",
+        "Scorecard Summary and Health Dashboard dimension tables use only the canonical 20 dimension names in canonical order.",
         "N/A dimensions are omitted from score tables and justified in prose below.",
         "Score cells render n/m, a star bar, or Unknown with an optional [lo-hi] interval.",
         "validate-report.py flags non-canonical dimension names and out-of-order rows."
@@ -2277,9 +2277,9 @@
       "files": [],
       "expectations": [
         "scope.scoring_policy is 3, scope.catalogue_version equals the catalogue's version, and scope carries detail_level and requirements_baseline.",
-        "Every score-channel criterion takes its catalogue_id, dimension, weight, criticality, and level anchors from references/criterion-catalogue.json, and ids or weights are never invented.",
-        "A resolved criterion's level is one of PASS, P75, P50, P25, or FAIL and matches its outcome - P levels mean PARTIAL - and an unresolved criterion records level null.",
-        "NOT_APPLICABLE cites a basis the criterion's na_rules declare, and conformance criteria carry CNF- or REQ- prefixes and never enter dimension scores.",
+        "Every score-channel criteria entry takes its catalogue_id, dimension, weight, criticality, and level anchors from references/criteria-catalogue.json, and ids or weights are never invented.",
+        "A resolved criteria entry's level is one of PASS, P75, P50, P25, or FAIL and matches its outcome - P levels mean PARTIAL - and an unresolved criteria entry records level null.",
+        "NOT_APPLICABLE cites a basis the criteria entry's na_rules declare, and conformance criteria carry CNF- or REQ- prefixes and never enter dimension scores.",
         "scores records product, process, and single (per_project on multi-project models) and never the removed overall block."
       ]
     },

@@ -618,8 +618,8 @@ lens-skill/
 │   ├── domain-profiles.md                 # Project-nature classification and mandatory stack/purpose checks
 │   ├── audit-taxonomy.md                  # Canonical audit types, coverage statuses, source corpus
 │   ├── evidence-schema.md                 # Evidence kinds, outcome states, sufficiency, coverage labels
-│   ├── criterion-catalogue.md             # Criterion records, families, applicability freeze
-│   ├── criterion-catalogue.json           # Fixed policy-3 criterion catalogue and severity anchors
+│   ├── criteria-catalogue.md              # Criteria records, families, applicability freeze
+│   ├── criteria-catalogue.json           # Fixed policy-3 criteria catalogue and severity anchors
 │   ├── organization-model.md              # Area map and responsibility inventory method
 │   ├── naming-and-layout.md               # Cross-stack naming matrices, code-division rules, 11-stack fixtures
 │   ├── language-conventions.md            # Per-ecosystem style yardstick snapshot for code style

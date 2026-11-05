@@ -6,7 +6,7 @@
 > production-readiness gates
 > **Key items:** score inputs, score caps, confidence, readiness state, sign-off limits
 
-This file defines how Lens converts criterion outcomes into comparable scores without treating an
+This file defines how Lens converts criteria outcomes into comparable scores without treating an
 average as a production approval.
 
 Apply `principles/evaluation-rules.md` throughout.
@@ -16,7 +16,7 @@ Apply `principles/evaluation-rules.md` throughout.
 | Section                   | Line | What it covers                     |
 |---------------------------|------|------------------------------------|
 | Separate Decision Outputs | 29   | Category status vs dimension score |
-| Criterion Inputs          | 49   | Criterion Inputs guidance          |
+| Criteria Inputs           | 49   | Criteria Inputs guidance           |
 | Dimension Scoring         | 75   | Dimension Scoring guidance         |
 | Scoring Policy 3          | 196  | Scoring Policy 3 guidance          |
 | Overall Score             | 244  | Overall Score guidance             |
@@ -32,7 +32,7 @@ Every full audit keeps these outputs separate:
 
 - **Category status:** whether an assessed capability is present, incomplete, absent, unknown, or
   inapplicable.
-- **Dimension score:** a bounded summary of weighted criterion mastery and evidence quality.
+- **Dimension score:** a bounded summary of weighted criteria mastery and evidence quality.
 - **Evidence confidence:** how strongly the inspected or reported evidence supports the conclusion.
 - **Maturity level:** the development state supported by the evidence.
 - **Readiness state:** whether the stated decision gate is met.
@@ -46,23 +46,23 @@ It does not mean the subject is production-approved.
 This distinction is audit-internal semantics. The report itself never carries a sentence
 disclaiming production acceptance.
 
-## Criterion Inputs
+## Criteria Inputs
 
-Start each score from the frozen criterion table declared in Auditing Methodology per
-`references/criterion-catalogue.md` - each criterion carries its `dimension`, `weight`, and
+Start each score from the frozen criteria table declared in Auditing Methodology per
+`references/criteria-catalogue.md` - each criteria entry carries its `dimension`, `weight`, and
 `criticality`, and `process`-family criteria never enter the product-quality aggregate.
 
-Each criterion resolves to one outcome state from `references/evidence-schema.md`, and the
+Each criteria entry resolves to one outcome state from `references/evidence-schema.md`, and the
 state maps to a mastery value:
 
-| Outcome          | Mastery treatment                                         | Evidence interpretation                   |
-|------------------|-----------------------------------------------------------|-------------------------------------------|
-| `PASS`           | `1.0`                                                     | Criterion satisfied within assessed scope |
-| `PARTIAL`        | Recorded fraction `0 < m < 1` naming the satisfied subset | A demonstrated subset satisfies it        |
-| `FAIL`           | `0.0`                                                     | Violated, with evidence of violation      |
-| `UNKNOWN`        | Unresolved - excluded from the point estimate             | Evidence cannot decide the criterion      |
-| `NOT_ASSESSED`   | Unresolved - excluded from the point estimate             | The criterion's method did not run        |
-| `NOT_APPLICABLE` | Excluded from the denominator entirely                    | Cannot apply to this deployment model     |
+| Outcome          | Mastery treatment                                         | Evidence interpretation                        |
+|------------------|-----------------------------------------------------------|------------------------------------------------|
+| `PASS`           | `1.0`                                                     | Criteria entry satisfied within assessed scope |
+| `PARTIAL`        | Recorded fraction `0 < m < 1` naming the satisfied subset | A demonstrated subset satisfies it             |
+| `FAIL`           | `0.0`                                                     | Violated, with evidence of violation           |
+| `UNKNOWN`        | Unresolved - excluded from the point estimate             | Evidence cannot decide the criteria entry      |
+| `NOT_ASSESSED`   | Unresolved - excluded from the point estimate             | The criteria entry's method did not run        |
+| `NOT_APPLICABLE` | Excluded from the denominator entirely                    | Cannot apply to this deployment model          |
 
 `FAIL` requires an applicable requirement and evidence of absence or defeat.
 
@@ -100,8 +100,8 @@ means - they do not substitute for the computation.
 Every dimension score carries an interval beside the point value:
 
 - `lo` - mastery recomputed with every unresolved (`UNKNOWN`, `NOT_ASSESSED`) applicable
-  criterion treated as `FAIL`, mapped to the scale.
-- `hi` - mastery recomputed with every unresolved applicable criterion treated as `PASS`,
+  criteria entry treated as `FAIL`, mapped to the scale.
+- `hi` - mastery recomputed with every unresolved applicable criteria entry treated as `PASS`,
   mapped to the scale.
 - When `lo` equals `hi` - no unresolved applicable criteria - the interval is omitted.
 
@@ -112,8 +112,8 @@ The interval is stated, never hidden: a score with a wide unresolved spread repo
 
 A numeric dimension score publishes only when both hold:
 
-- Resolved criteria carry more than half of the dimension's applicable criterion weight.
-- At least one resolved criterion rests on `INSPECTED`, `STATICALLY_DERIVED`, `EXECUTED`, or
+- Resolved criteria carry more than half of the dimension's applicable criteria weight.
+- At least one resolved criteria entry rests on `INSPECTED`, `STATICALLY_DERIVED`, `EXECUTED`, or
   `MEASURED` evidence - a dimension resolved on `DECLARED` material alone is not scored.
 
 A dimension that fails the gate renders `Unknown` with the missing coverage named. It never
@@ -143,19 +143,19 @@ The scoring engine enforces this section mechanically as **scoring policy 2**
 - Every finding declares a `claim_class`: `confirmed defect`, `confirmed structural
   weakness`, `configuration risk`, `plausible hypothesis`, or `evidence gap`.
 - An `Open` finding in a bounding class (`confirmed defect`, `confirmed structural
-  weakness`, `configuration risk`) bounds its criterion's mastery: `CRITICAL` -> 0.0,
+  weakness`, `configuration risk`) bounds its criteria entry's mastery: `CRITICAL` -> 0.0,
   `HIGH` -> 0.25, `MEDIUM` -> 0.5, `LOW` -> 0.75. A confirmed finding resolves its
-  criterion - it never cites an `UNKNOWN`, `NOT_ASSESSED`, or `NOT_APPLICABLE`
-  criterion without the `Absence` exemption.
+  criteria entry - it never cites an `UNKNOWN`, `NOT_ASSESSED`, or `NOT_APPLICABLE`
+  criteria entry without the `Absence` exemption.
 - Every `PARTIAL`/`FAIL` deduction traces to an open finding or a recorded
   `shortfall` with backing evidence - an unexplained deduction is a model error.
-- A criterion outcome `NOT_APPLICABLE` records `na_basis`: `deployment-model`
+- A criteria entry with outcome `NOT_APPLICABLE` records `na_basis`: `deployment-model`
   (with an applicability justification), `census-none` (the project's automation
   census is `none`), or `history-out-of-scope` (`scope.history` is `absent` or
   `out-of-scope`).
 - The score recomputes as `uncapped` first, then mechanical caps apply:
   `severity-critical` -> 3/10, `severity-high` -> 5/10, `material-unknown` -> 8/10
-  (a `critical`/`high` criticality criterion left `UNKNOWN` or `NOT_ASSESSED`),
+  (a `critical`/`high` criticality criteria entry left `UNKNOWN` or `NOT_ASSESSED`),
   `historical-only` -> 7/10 (evidence-cited). Scale conversion is proportional
   for scales 5 and 3 - the only supported `scale_max` values are 10, 5, and 3.
 - A capped interval recomputes through the same cap, and a degenerate interval is
@@ -199,18 +199,18 @@ The scoring engine enforces this section mechanically as **scoring policy 3**
 (`model_version: 2`, `scope.scoring_policy: 3`, and `scope.catalogue_version` equal to the
 loaded catalogue's version, checked by `scripts/check-model.py`):
 
-- The criterion set is fixed. `references/criterion-catalogue.json` declares the canonical
-  dimension order and tiers, every criterion's id, dimension, weight, criticality,
+- The criteria set is fixed. `references/criteria-catalogue.json` declares the canonical
+  dimension order and tiers, each criteria entry's id, dimension, weight, criticality,
   declared `level` anchors (`PASS`, `P75`, `P50`, `P25`, `FAIL`), and `na_rules` - the
   planner assigns outcomes and levels, it never renames ids or reweights criteria.
-- Every catalogue criterion applicable to the project's `product_profile.natures` appears
+- Each catalogue criteria entry applicable to the project's `product_profile.natures` appears
   exactly once among that project's score-channel criteria, and its dimension, weight,
   and criticality equal the catalogue values.
-- A resolved criterion carries a `level` the catalogue anchors allow, and the level fixes
+- A resolved criteria entry carries a `level` the catalogue anchors allow, and the level fixes
   the outcome and mastery: `PASS` and `FAIL` map to `PASS` and `FAIL`, and `P75`, `P50`,
-  and `P25` map to `PARTIAL` at their declared fractions. An unresolved criterion records
+  and `P25` map to `PARTIAL` at their declared fractions. An unresolved criteria entry records
   `level: null`.
-- `NOT_APPLICABLE` cites only a basis the criterion's `na_rules` declare, and the census
+- `NOT_APPLICABLE` cites only a basis the criteria entry's `na_rules` declare, and the census
   and history outcomes make some bases deterministic: an `automation_census` of `none`
   forces `census-none`, and a `scope.history` of `absent` or `out-of-scope` forces
   `history-out-of-scope`.
@@ -390,7 +390,7 @@ Shared gates and trade-offs use project-qualified IDs.
 The Validation Protocol must confirm:
 
 - Every numeric score has supporting evidence and confidence.
-- Every dimension score recomputes from criterion mastery and frozen weights, and each stated
+- Every dimension score recomputes from criteria mastery and frozen weights, and each stated
   interval equals the FAIL/PASS substitution bounds.
 - Every numeric dimension passed the eligibility gate, and gated dimensions render `Unknown`
   with their missing coverage named.

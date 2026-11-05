@@ -29,7 +29,7 @@ published` or a different `single.flag` is out of tolerance regardless of number
 
 ## Out Of Tolerance
 
-- Diff the two models with `compare-models.py` and name the criterion levels whose
+- Diff the two models with `compare-models.py` and name the criteria levels whose
   divergence produced the breach.
 - Tighten the catalogue's level text or method field for those criteria, bump the
   catalogue version, and rerun both audits once.

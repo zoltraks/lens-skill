@@ -43,7 +43,7 @@ SCORECARD = """## Health Dashboard
 | Observability          | 7/10    | x     |
 | Operational Safety     | 9/10    | x     |
 | Delivery & Continuity  | 6/10    | x     |
-| AI Provenance          | Unknown | x     |
+| Originality & Licensing| Unknown | x     |
 """
 
 HEADLINE = """## Executive Summary
@@ -58,9 +58,9 @@ HEADLINE = """## Executive Summary
 REPORT = DOC_INFO + "\n" + HEADLINE + "\n" + SCORECARD
 
 PROCESS_PUBLISHED_SCORECARD = SCORECARD.replace(
-    "| AI Provenance          | Unknown | x     |\n",
-    "| AI Provenance          | 7/10    | x     |\n"
-    "| Originality & Licensing| 8/10    | x     |\n",
+    "| Originality & Licensing| Unknown | x     |\n",
+    "| Originality & Licensing| 8/10    | x     |\n"
+    "| Skill Definition       | 7/10    | x     |\n",
 )
 
 PROCESS_PUBLISHED_HEADLINE = """## Executive Summary
@@ -317,8 +317,8 @@ class TestModelHeadline(unittest.TestCase):
             "scope": {"projects": [{"name": None}]},
             "criteria": [
                 {
-                    "id": "AIP-DOC",
-                    "dimension": "ai_provenance",
+                    "id": "CPR-LIC",
+                    "dimension": "originality_licensing",
                     "outcome": "PASS",
                 }
             ],
@@ -348,7 +348,7 @@ class TestModelHeadline(unittest.TestCase):
                     "observability": {"score": 7},
                     "operational_safety": {"score": 9},
                     "delivery_continuity": {"score": 6},
-                    "ai_provenance": {"score": None},
+                    "originality_licensing": {"score": None},
                 },
                 "product": {
                     "score": 7.0,

@@ -62,9 +62,9 @@ so no score appears before its band is defined.
 | Compliance              |       |       |
 | Observability           |       |       |
 | Operational Safety      |       |       |
+| Documentation           |       |       |
 | API Compatibility       |       |       |
 | Delivery & Continuity   |       |       |
-| AI Provenance           |       |       |
 | Originality & Licensing |       |       |
 | Skill Definition        |       |       |
 

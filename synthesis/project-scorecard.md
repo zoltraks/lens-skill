@@ -21,13 +21,13 @@ A score is a summary of evidence, not an impression.
 | Section                          | Line | What it covers                           |
 |----------------------------------|------|------------------------------------------|
 | Table Format                     | 32   | Fixed dimension set and column order     |
-| Scoring Rubric                   | 94   | Band definitions and alternative scales  |
-| Handling Unknowns                | 204  | Unknown handling guidance                |
-| Handling Not Applicable          | 212  | N/A handling guidance                    |
-| Dimension To Category Mapping    | 226  | Dimension to assessment-category mapping |
-| ISO/IEC 25010:2023 Crosswalk     | 253  | Standards crosswalk mapping              |
-| Score Confidence And Aggregation | 297  | Confidence and aggregation rules         |
-| Rules                            | 335  | Scorecard rules                          |
+| Scoring Rubric                   | 95   | Band definitions and alternative scales  |
+| Handling Unknowns                | 205  | Unknown handling guidance                |
+| Handling Not Applicable          | 213  | N/A handling guidance                    |
+| Dimension To Category Mapping    | 227  | Dimension to assessment-category mapping |
+| ISO/IEC 25010:2023 Crosswalk     | 254  | Standards crosswalk mapping              |
+| Score Confidence And Aggregation | 298  | Confidence and aggregation rules         |
+| Rules                            | 336  | Scorecard rules                          |
 
 ## Table Format
 
@@ -35,6 +35,7 @@ Use this fixed column order and dimension set:
 
 | Dimension               | Score | Notes |
 |-------------------------|-------|-------|
+| Functional Suitability  |       |       |
 | Testability             |       |       |
 | Design Soundness        |       |       |
 | Code Quality            |       |       |
@@ -49,11 +50,11 @@ Use this fixed column order and dimension set:
 | Compliance              |       |       |
 | Observability           |       |       |
 | Operational Safety      |       |       |
+| Documentation           |       |       |
+| API Compatibility       |       |       |
 | Delivery & Continuity   |       |       |
-| AI Provenance           |       |       |
 | Originality & Licensing |       |       |
 | Skill Definition        |       |       |
-| API Compatibility       |       |       |
 
 Keep the dimension names and order identical across every audit so scores are comparable.
 
@@ -236,7 +237,7 @@ Each scorecard dimension summarizes one or more assessment categories.
 | Code Style              | Code Style                                               |
 | Stack Alignment         | Stack Best Practices                                     |
 | Dependency Health       | Dependencies and Supply Chain                            |
-| Maintainability         | Maintainability, Change Management, Documentation        |
+| Maintainability         | Maintainability, Change Management                       |
 | Structure               | Structure Review                                         |
 | Deployability           | Deployment Strategy, Rollback Strategy                   |
 | Scalability             | Non-Functional Requirements                              |
@@ -244,11 +245,11 @@ Each scorecard dimension summarizes one or more assessment categories.
 | Compliance              | Compliance and Data Protection                           |
 | Observability           | Observability                                            |
 | Operational Safety      | Operational Readiness, Error Handling, Rollback Strategy |
+| Documentation           | Documentation                                            |
+| API Compatibility       | API Compatibility And Versioning Discipline              |
 | Delivery & Continuity   | Delivery Practice & Team Continuity                      |
-| AI Provenance           | AI-Generated Code & Provenance                           |
 | Originality & Licensing | Copyrights & Originality                                 |
 | Skill Definition        | Skill Definition Conformance                             |
-| API Compatibility       | API Compatibility And Versioning Discipline              |
 
 ## ISO/IEC 25010:2023 Crosswalk
 
@@ -297,7 +298,7 @@ it is not mapped onto a characteristic.
 ## Score Confidence And Aggregation
 
 Each dimension score derives from weighted mastery over its declared criteria per
-`process/readiness-scoring.md`: criterion outcomes map to mastery values, the weighted mean of
+`process/readiness-scoring.md`: criteria outcomes map to mastery values, the weighted mean of
 resolved applicable criteria maps to the scale, and the uncertainty interval and eligibility
 gate ride beside the score.
 

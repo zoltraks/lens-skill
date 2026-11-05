@@ -323,7 +323,7 @@ It reads source files as data and never executes the subject, and two runs on th
 produce identical output.
 
 `check-model.py` verifies a `work/audit-model.json` before report generation - referential
-integrity across records, criterion-outcome validity, and recomputation of each dimension's
+integrity across records, criteria-outcome validity, and recomputation of each dimension's
 score, interval bounds, coverage, and eligibility per `process/readiness-scoring.md`.
 
 It reads the model as data and treats a failed check as a reason not to generate from it.

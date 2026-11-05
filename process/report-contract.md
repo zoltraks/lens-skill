@@ -40,7 +40,7 @@ Rationale and detail live in the section specs under `process/report-format/` an
 - At `Detail Level: Detailed`, when `## Glossary Index` is present, it carries a separate
   `**Identifier triplets**` table (`Triplet | Scope | Description`) after the alphabetical
   `Term | Definition` index table, starting with `FND` and `EVD`, followed by the other
-  register triplets (`TDR`, `RSK`, `REC`, `PAR`) and every three-letter criterion and
+  register triplets (`TDR`, `RSK`, `REC`, `PAR`) and every three-letter criteria prefix and
   finding-pillar triplet used in the report.
 - The `Structure Review` section carries the five verdict rows (`Directory organization`,
   `Naming conventions`, `Component placement`, `Supporting-artifact layout`, `Consistency`)
@@ -94,7 +94,7 @@ Rationale and detail live in the section specs under `process/report-format/` an
   `applicable`, `conditional`, `inapplicable`, or `unverified`.
 - `Provenance basis` starts with `Declared`, `Attested`, `Supplied`, `Indicated`, or
   `Undetermined` - required on `FND-AIP-` blocks, omitted on other pillars.
-- A `Criteria` value never renders `N/A` or a placeholder, and every cited criterion
+- A `Criteria` value never renders `N/A` or a placeholder, and each cited criteria entry
   resolves to a declared row of the report's `**Criteria table**` with a three-letter prefix
   and no redundant `-01` suffix - `audit`-style findings naming criteria without a declared
   table fail.
@@ -131,7 +131,7 @@ English renders title case where the vocabulary lists give canonical uppercase n
 - An audit `Requirements Conformance` table keeps one row per requirement - a merged
   range row such as `A-01 through A-11` or `A-01..A-11` fails.
 - Every `Dimension | Score` table - each `**Scorecard Summary**` table and every table
-  inside a `Health Dashboard` section - uses only the 20 canonical dimension names, in
+  inside a `Health Dashboard` section - uses only the 19 canonical dimension names, in
   canonical order with `N/A` rows omitted, and each Score cell renders `n/m`, a star bar,
   or `Unknown` with an optional `[lo-hi]` interval.
 - Every `Health Dashboard` section - single-project or per-project - carries a `Risk Map`,
@@ -250,9 +250,9 @@ dimension key each maps to:
 | 13 | Compliance            | compliance            |
 | 14 | Observability         | observability         |
 | 15 | Operational Safety    | operational_safety    |
-| 16 | API Compatibility     | api_compatibility     |
-| 17 | Delivery & Continuity | delivery_continuity   |
-| 18 | AI Provenance         | ai_provenance         |
+| 16 | Documentation         | documentation         |
+| 17 | API Compatibility     | api_compatibility     |
+| 18 | Delivery & Continuity | delivery_continuity   |
 | 19 | Originality & Licensing | originality_licensing |
 | 20 | Skill Definition      | skill_definition      |
 

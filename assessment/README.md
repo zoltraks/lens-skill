@@ -41,7 +41,7 @@ relevant file.
 
 ## Conditional Files
 
-Load these only when the subject meets an inclusion criterion in `process/report-format.md`.
+Load these only when the subject meets the inclusion criteria in `process/report-format.md`.
 
 - **`assessment/data-flow.md`** - Data flows, trust boundaries. Include for cross-boundary systems.
 - **`assessment/design-patterns.md`** - GoF/POSA pattern fitness. Include for recurring structure.

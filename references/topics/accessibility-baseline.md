@@ -83,7 +83,7 @@ From the maintainer's accessibility standard.
 
 ## Live Check
 
-When web fetch is available, spot-check one criterion number against the WCAG 2.2 text and one
+When web fetch is available, spot-check one success-criteria number against the WCAG 2.2 text and one
 pattern name against the ARIA APG.
 
 Record whichever baseline - this snapshot or the live pages - the audit used, and note drift in

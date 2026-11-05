@@ -193,7 +193,7 @@ architectural anti-pattern, or code flaw]
 * **Security:** [CWE and rationale, CVSS version/vector/score or gap] *(omit when N/A)*
 * **Targets:** [Exact paths or components evaluated]
 * **Basis:** [Applicable requirement or explicitly optional improvement]
-* **Criteria:** [Criteria ID from the report's criterion table] - [the violated or
+* **Criteria:** [Criteria ID from the report's criteria table] - [the violated or
   uncertain property the finding establishes]
 * **Absence:** [No documented rationale | Deliberate - recorded decision | Undetermined],
   [one-line evidence basis] *(omit when no capability is absent)*
@@ -275,7 +275,7 @@ field list, never straight into `* **Field:**` lines.
 Every finding resolves to a remediation entry or an `Accepted - no action` disposition -
 an unmapped finding is a report defect.
 
-The `Criteria` field names exactly one declared criterion row, never a comma-joined list.
+The `Criteria` field names exactly one declared criteria row, never a comma-joined list.
 
 The description paragraph must explain what the discovered state is,
 where it is located (citing file paths and line numbers), and why it constitutes a finding.
@@ -304,12 +304,12 @@ inference awaiting confirmation, `Not applicable` when no runtime claim exists.
 Every runtime-claiming summary must match this field - a finding without a `Runtime` field
 never appears as verified in a summary table.
 
-The `Criteria` field names the declared criterion the finding bears on, from the criterion
+The `Criteria` field names the declared criteria entry the finding bears on, from the criteria
 table in Auditing Methodology per `process/report-format/methodology-scoring.md`, followed by
 the violated or uncertain property the finding establishes.
 
-A finding without a declared criterion has no seat in the score model - declare or extend a
-criterion first, per `references/criterion-catalogue.md`.
+A finding without a declared criteria entry has no seat in the score model - declare or extend a
+criteria entry first, per `references/criteria-catalogue.md`.
 
 Every count the report states - of sites, files, tests, or findings - derives from the
 classified records in `audit-model.json`, and narrative numbers agree with the register rows
