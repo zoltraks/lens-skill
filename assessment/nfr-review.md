@@ -2,8 +2,8 @@
 
 ## Purpose
 
-> **Scope:** Performance, scalability, availability, reliability, resilience
-> **Key items:** stated targets, measured evidence, scaling model, failure tolerance
+> **Scope:** Performance, scalability, availability, reliability,
+> resilience **Key items:** stated targets, measured evidence, scaling model, failure tolerance
 
 This file guides assessment of the qualities a system must exhibit beyond its functions.
 
@@ -33,14 +33,14 @@ Distinguish a stated target from a measured result, and mark unstated targets as
 
 For an operated service, record a small set of user-relevant SLIs and approved SLOs.
 
-Use the [Google SRE guidance](https://sre.google/workbook/implementing-slos/) for explicit targets
-and error-budget decisions rather than universal uptime or latency thresholds.
+Use the [Google SRE guidance](https://sre.google/workbook/implementing-slos/)
+for explicit targets and error-budget decisions rather than universal uptime or latency thresholds.
 
 For each objective, record the user journey, SLI definition, source/query, measurement window,
 target, measured result, exclusions, and owner or `NOT SPECIFIED`.
 
-Examples include successful eligible requests divided by all eligible requests, latency below an
-agreed threshold, data freshness, and successful job completion.
+Examples include successful eligible requests divided by all eligible requests,
+latency below an agreed threshold, data freshness, and successful job completion.
 
 Report p95 latency with the sampled workload and window, not as an assumed production guarantee.
 
@@ -57,10 +57,10 @@ requiring service uptime, on-call, or distributed tracing.
 
 ## Status Criteria
 
-- `PASS`: Targets are stated and met with measured evidence, and the architecture supports the
-  required scale and resilience.
-- `PARTIAL`: Targets are stated but only partly evidenced, or the architecture supports some
-  qualities but not others.
+- `PASS`: Targets are stated and met with measured evidence,
+  and the architecture supports the required scale and resilience.
+- `PARTIAL`: Targets are stated but only partly evidenced,
+  or the architecture supports some qualities but not others.
 - `FAIL`: Required NFRs are clearly unmet, with evidence.
 - `UNKNOWN`: NFR targets or measurements were not provided.
 

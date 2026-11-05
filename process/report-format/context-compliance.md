@@ -2,8 +2,8 @@
 
 ## Purpose
 
-> **Scope:** System context, component inventory, and license review sections
-> **Key items:** technology stack, SBOM, license classification
+> **Scope:** System context, component inventory,
+> and license review sections **Key items:** technology stack, SBOM, license classification
 
 ## System Context
 
@@ -21,11 +21,11 @@ Present the factual context without critique.
 
 Omit a row for any aspect the input does not establish.
 
-When no aspect is established at all, state that in one prose sentence instead of rendering an
-empty table.
+When no aspect is established at all, state that in one prose sentence instead of
+rendering an empty table.
 
-When the report language is not English, apply the table header and aspect name translations from
-the matching `translations/` file.
+When the report language is not English,
+apply the table header and aspect name translations from the matching `translations/` file.
 
 ### Technology Stack
 
@@ -54,15 +54,15 @@ Omit a layer row the input does not reveal.
 Add or omit rows to fit the subject, but keep the layer names in this column and translate them into
 the report language.
 
-After the tables, add further subsections for major components (e.g., `### Backend`, `### Frontend`,
-`### Deployment`).
+After the tables, add further subsections for major components (e.g., `### Backend`,
+`### Frontend`, `### Deployment`).
 
 Put exactly one empty line after each subsection header before the first sentence.
 
 Separate every sentence with an empty line.
 
-For operated systems, add a compact **Operational Objectives** table with metric, target, measured
-result, window, source, and owner, using the NFR and operational-readiness guides.
+For operated systems, add a compact **Operational Objectives** table with metric, target,
+measured result, window, source, and owner, using the NFR and operational-readiness guides.
 
 Keep SLIs/SLOs, error budgets, RPO/RTO, and DORA delivery measures distinct.
 
@@ -71,8 +71,8 @@ Use `Unknown` for missing measurements and `Not specified` for unapproved target
 For technical due diligence, add a **Due Diligence Coverage** table with concern, status, evidence,
 and missing artifact or next step.
 
-Cover continuity, ownership cost, roadmap feasibility, supplier continuity, IP rights, and data
-obligations using `assessment/operational-readiness.md` and its related category guides.
+Cover continuity, ownership cost, roadmap feasibility, supplier continuity, IP rights,
+and data obligations using `assessment/operational-readiness.md` and its related category guides.
 
 Add a data-lifecycle summary under Compliance findings when relevant, referencing categories,
 stores, recipients, retention/deletion, and the applicable obligation basis.
@@ -94,29 +94,29 @@ Build the table per `references/sbom-schema.md` from the manifests and lockfiles
 
 License values come from inspected declarations only, `Unknown` otherwise.
 
-`Risk` values are `None`, `Review`, `Conflict`,
-or `Unknown` per `references/license-compliance.md`.
+`Risk` values are `None`, `Review`, `Conflict`, or `Unknown` per `references/license-compliance.md`.
 
-`Advisory` uses the five states `Applicable`, `Mitigated`, `Not applicable`,
-`None identified`, and `Not checked` per `references/evidence-schema.md` Advisory States -
-`Not checked` is the default, and an upgrade requires committed advisory or scan evidence,
-or the disabling evidence for `Mitigated`/`Not applicable`.
+`Advisory` uses the five states `Applicable`, `Mitigated`, `Not applicable`, `None identified`,
+and `Not checked` per `references/evidence-schema.md` Advisory States - `Not checked` is the
+default, and an upgrade requires committed advisory or scan evidence,
+or the disabling evidence for `Mitigated` / `Not applicable`.
 
 Close the section with the direct and transitive totals and any manifest-lockfile drift noted.
 
-When no dependency manifest or lockfile exists in the project, state `No dependency manifests or
-lockfiles found` in place of the table rather than omitting the section.
+When no dependency manifest or lockfile exists in the project,
+state `No dependency manifests or lockfiles found` in place of the table rather than
+omitting the section.
 
-The Audit Coverage table claims `Covered` for SBOM or component-inventory rows only
-when this section exists with its completeness statement - a module line-count inventory
-is not an SBOM, and the validator rejects the mismatch.
+The Audit Coverage table claims `Covered` for SBOM or component-inventory rows only when this
+section exists with its completeness statement - a module line-count inventory is not an SBOM,
+and the validator rejects the mismatch.
 
-Advisory coverage likewise states
-which advisories were checked (advisory ID, exact version, dependency path, reachability
-or `Unknown`) - a scanner's finding count is not a confirmed application-defect count.
+Advisory coverage likewise states which advisories were checked (advisory ID, exact version,
+dependency path, reachability or `Unknown`)
+- a scanner's finding count is not a confirmed application-defect count.
 
-When the report language is not English, apply the column header translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the column header translations from the matching `translations/` file.
 
 ## License Compliance
 
@@ -142,13 +142,15 @@ When no components were classified at all, state that in prose instead of render
 
 Below the table, state in short paragraphs:
 
-- Any `Conflict` copyleft-trap result, naming the component, its license, the project's license or
-  distribution model, and the linkage evidence, cross-referenced to its `FND-CPR` finding.
-- Whether the project's own license file, headers, and third-party notices are consistent with the
-  component set, referencing the Copyrights & Originality assessment.
-- The share of components whose license could not be determined from inspected sources, and what
-  artifact (a maintained SBOM, a `THIRD-PARTY-NOTICES` file, per-package license declarations)
-  would resolve it.
+- Any `Conflict` copyleft-trap result, naming the component, its license,
+  the project's license or distribution model, and the linkage evidence,
+  cross-referenced to its `FND-CPR` finding.
+- Whether the project's own license file, headers,
+  and third-party notices are consistent with the component set,
+  referencing the Copyrights & Originality assessment.
+- The share of components whose license could not be determined from inspected sources,
+  and what artifact (a maintained SBOM, a `THIRD-PARTY-NOTICES` file,
+  per-package license declarations) would resolve it.
 
-When the report language is not English, apply the column header translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the column header translations from the matching `translations/` file.

@@ -2,8 +2,9 @@
 
 ## Purpose
 
-> **Scope:** Exception handling strategy, retries, fallbacks, user-facing error handling
-> **Key items:** consistent error strategy, retry safety, graceful degradation, clear failures
+> **Scope:** Exception handling strategy, retries, fallbacks,
+> user-facing error handling **Key items:** consistent error strategy, retry safety,
+> graceful degradation, clear failures
 
 This file guides assessment of how the system behaves when operations fail.
 
@@ -17,17 +18,16 @@ here the focus is the code-level handling of failures.
 - Exception handling strategy: whether errors are handled consistently and at the right boundaries.
 - Retries: whether transient failures are retried safely, with limits and backoff.
 - Fallbacks: whether the system degrades gracefully when a dependency fails.
-- User-facing error handling: whether failures produce clear, safe messages without leaking
-  internals.
-- Bulk iteration: whether per-item failures stay isolated inside batch loops, directory
-  walks, and stream processing - enumerate each iteration and its failure contract.
-- Error contract: whether each exception family reaching the transport boundary maps to a
-  correct distinct outcome - a catch-all handler that answers every client error with 500 is
-  a finding, and so is a response body carrying raw exception messages, absolute paths, or
-  engine error text.
-- Multi-resource failure: whether an operation mutating more than one non-transactional
-  resource compensates or reconciles when a later write fails, per the ordering rules in
-  `references/topics/data-persistence.md`.
+- User-facing error handling: whether failures produce clear,
+  safe messages without leaking internals.
+- Bulk iteration: whether per-item failures stay isolated inside batch loops, directory walks,
+  and stream processing - enumerate each iteration and its failure contract.
+- Error contract: whether each exception family reaching the transport boundary maps to a correct
+  distinct outcome - a catch-all handler that answers every client error with 500 is a finding,
+  and so is a response body carrying raw exception messages, absolute paths, or engine error text.
+- Multi-resource failure: whether an operation mutating more than one non-transactional resource
+  compensates or reconciles when a later write fails,
+  per the ordering rules in `references/topics/data-persistence.md`.
 
 ## Evidence To Look For
 
@@ -43,10 +43,10 @@ here the focus is the code-level handling of failures.
 
 ## Status Criteria
 
-- `PASS`: Errors are handled consistently at clear boundaries, retries are safe, fallbacks exist
-  where needed, and user-facing failures are clear and safe, with evidence.
-- `PARTIAL`: Handling exists but is inconsistent, retries are unsafe, or some paths swallow or leak
-  errors.
+- `PASS`: Errors are handled consistently at clear boundaries, retries are safe,
+  fallbacks exist where needed, and user-facing failures are clear and safe, with evidence.
+- `PARTIAL`: Handling exists but is inconsistent, retries are unsafe,
+  or some paths swallow or leak errors.
 - `FAIL`: Errors are unhandled or hidden where handling is clearly required, with evidence.
 - `UNKNOWN`: Error-handling code was not provided.
 
@@ -55,9 +55,9 @@ here the focus is the code-level handling of failures.
 - Swallowed exceptions hide failures until they cause larger incidents.
 - Unbounded or non-idempotent retries amplify load and cause duplicate effects.
 - A failed dependency takes the whole system down for lack of a fallback.
-- A per-item failure that escapes the loop aborts the whole batch - a wrapper exception
-  type escaping the declared catch (`UncheckedIOException` wrapping `IOException`) is the
-  checkable blind spot.
+- A per-item failure that escapes the loop aborts the whole batch - a wrapper exception type
+  escaping the declared catch (`UncheckedIOException` wrapping `IOException`)
+  is the checkable blind spot.
 - Internal details leaked in error messages aid attackers and confuse users.
 
 ## What Raises Confidence

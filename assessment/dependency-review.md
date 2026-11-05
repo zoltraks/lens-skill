@@ -2,12 +2,12 @@
 
 ## Purpose
 
-> **Scope:** Dependency health, known vulnerabilities, license compliance, lockfiles, provenance
-> **Key items:** outdated dependencies, known CVEs, license obligations, pinning, SBOM, build
-> provenance
+> **Scope:** Dependency health, known vulnerabilities, license compliance, lockfiles,
+> provenance **Key items:** outdated dependencies, known CVEs, license obligations, pinning,
+> SBOM, build provenance
 
-This file guides assessment of third-party dependencies and the software supply chain, a primary
-concern for production code.
+This file guides assessment of third-party dependencies and the software supply chain,
+a primary concern for production code.
 
 Apply `principles/evaluation-rules.md` throughout.
 
@@ -19,13 +19,13 @@ The audit never runs audit or generation tools.
 
 - Dependency freshness: whether dependencies are current or significantly outdated.
 - Known vulnerabilities: whether dependencies carry published vulnerabilities.
-- License compliance: whether dependency licenses are compatible with the project's license and
-  distribution.
+- License compliance: whether dependency licenses are compatible with the project's
+  license and distribution.
 - Pinning and lockfiles: whether versions are pinned and locked for reproducibility.
 - Provenance: whether the origin and integrity of dependencies are verifiable.
 - Bill of materials: whether an SBOM or equivalent inventory exists.
-- Target lifecycle: whether declared runtimes, frameworks, and platform targets are still
-  vendor-supported.
+- Target lifecycle: whether declared runtimes, frameworks,
+  and platform targets are still vendor-supported.
 
 ## Evidence To Look For
 
@@ -40,29 +40,29 @@ The audit never runs audit or generation tools.
 
 ## Verification And Advisory Triage
 
-Use the evidence ledger and the no-execution rule in `process/audit-workflow.md`.
+Use the evidence ledger and the no-execution rule in `process/audit-workflow/evidence-gathering.md`.
 
 For Rust, inspect each workspace or independent manifest and its resolved lockfile.
 
-Do not run `cargo audit`, `cargo deny check advisories`, or an ecosystem equivalent
-unless `dependency-advisories` is on and the evidence mode permits it per
+Do not run `cargo audit`, `cargo deny check advisories`,
+or an ecosystem equivalent unless `dependency-advisories` is on and the evidence mode permits it per
 `process/parameter-configuration.md`.
 
-A commissioned sweep that runs or is fetched counts as `Reported` evidence - record its
-tool, version, and scope the same way.
+A commissioned sweep that runs or is fetched counts as `Reported` evidence - record its tool,
+version, and scope the same way.
 
 Look for committed scan reports, CI pipeline steps that run them, or documented advisory reviews.
 
 When a report exists, record the advisory database revision, tool version,
 and scope from the artifact as `Reported` evidence.
 
-[Cargo audit and cargo deny](https://rustsec.org/) have different scopes, do not treat them as
-interchangeable proof of application security.
+[Cargo audit and cargo deny](https://rustsec.org/) have different scopes,
+do not treat them as interchangeable proof of application security.
 
 For other stacks, note the existing ecosystem equivalent and state its supported scope.
 
-When no scan report exists and advisory status cannot be checked from repository contents, mark
-vulnerability status `UNKNOWN` and recommend the scan as a roadmap item rather than treating
+When no scan report exists and advisory status cannot be checked from repository contents,
+mark vulnerability status `UNKNOWN` and recommend the scan as a roadmap item rather than treating
 freshness as clearance.
 
 For each advisory, record package and resolved version, dependency path, affected and fixed ranges,
@@ -72,8 +72,8 @@ Distinguish vulnerable, unmaintained, yanked, outdated, and duplicate dependenci
 
 A pre-1.0 version or an old release is not proof of vulnerability or abandonment.
 
-Assess reachability when evidence permits, otherwise mark it `UNKNOWN` without dismissing an
-applicable advisory.
+Assess reachability when evidence permits,
+otherwise mark it `UNKNOWN` without dismissing an applicable advisory.
 
 Record suppressions with their rationale, owner, and expiry, never silently add exceptions.
 
@@ -81,33 +81,33 @@ Do not call a replacement crate safe or maintained without checking its current 
 advisories, compatibility, and support signals.
 
 Under `executed-readonly` evidence mode, a commissioned scanner run is `EXECUTED` evidence:
-record the tool, version, advisory database revision, exact command, exit code, and retained
-output per `process/report-format/report-closing.md`.
+record the tool, version, advisory database revision, exact command, exit code,
+and retained output per `process/report-format/report-closing.md`.
 
-A repository policy file (`deny.toml`, `audit.toml`, Dependabot configuration, a recorded
-exception) establishes the intended check, never its result - treat it as `Reported` intent
-unless executed evidence exists.
+A repository policy file (`deny.toml`, `audit.toml`, Dependabot configuration, a recorded exception)
+establishes the intended check, never its result - treat it as `Reported` intent unless
+executed evidence exists.
 
-Every advisory-derived finding carries an applicability verdict: `applicable`, `conditional`
-with the enabling feature or configuration named, `inapplicable` with the disabling evidence
-cited, or `unverified`.
+Every advisory-derived finding carries an applicability verdict: `applicable`,
+`conditional` with the enabling feature or configuration named,
+`inapplicable` with the disabling evidence cited, or `unverified`.
 
 Advisory presence in a lockfile is not exploitability.
 
-Map the triage result to the five Advisory states in `references/evidence-schema.md`, in this
-source precedence: a recorded scan or advisory artifact decides `KNOWN_*` and
-`NONE_IDENTIFIED_BY_RECORDED_SCAN`, a consulted advisory source that covers the component
-decides `KNOWN_APPLICABLE`, `KNOWN_MITIGATED`, or `KNOWN_NOT_APPLICABLE` with the deciding
-evidence named, and no consulted source renders `NOT_CHECKED`, never `None identified`.
+Map the triage result to the five Advisory states in `references/evidence-schema.md`,
+in this source precedence: a recorded scan or advisory artifact decides `KNOWN_*` and
+`NONE_IDENTIFIED_BY_RECORDED_SCAN`, a consulted advisory source that covers the component decides
+`KNOWN_APPLICABLE`, `KNOWN_MITIGATED`, or `KNOWN_NOT_APPLICABLE` with the deciding evidence named,
+and no consulted source renders `NOT_CHECKED`, never `None identified`.
 
-A `Mitigated` or `Not applicable` cell names the recorded control or disabling evidence that
-earns it.
+A `Mitigated` or `Not applicable` cell names the recorded control or disabling
+evidence that earns it.
 
 Check manifest metadata completeness: `license` or `license-file`, the toolchain floor field,
 `repository`, and description fields per the stack's manifest spec.
 
-A missing machine-readable license field is a packaging-metadata finding, distinct from
-license compliance itself.
+A missing machine-readable license field is a packaging-metadata finding,
+distinct from license compliance itself.
 
 ## SBOM And License Evidence
 
@@ -119,8 +119,8 @@ The audit does not generate one.
 When no SBOM exists, derive a source-level component list from the manifests and lockfiles using the
 readers in `references/dependency-manifests.md`.
 
-The derived list is `Inspected` evidence of the declared and resolved dependency set at the audited
-revision.
+The derived list is `Inspected` evidence of the declared and resolved dependency set at
+the audited revision.
 
 It partially closes the inventory gap without claiming to be a shipped-artifact SBOM.
 
@@ -131,14 +131,13 @@ and Advisory columns.
 License cells come from inspected declarations only, `Unknown` otherwise,
 and the license pass itself follows `references/license-compliance.md`.
 
-When an SBOM exists, record the CycloneDX or SPDX schema version, generator, timestamp, and
-source or binary basis.
+When an SBOM exists, record the CycloneDX or SPDX schema version, generator, timestamp,
+and source or binary basis.
 
 Both formats support supply-chain and licensing use cases, neither guarantees completeness.
 
-Inspect direct and transitive components, dependency relationships, package identifiers and
-versions,
-license expressions, and unknown components.
+Inspect direct and transitive components, dependency relationships,
+package identifiers and versions, license expressions, and unknown components.
 
 State whether native libraries, vendored code, container OS packages, build dependencies, models,
 and other shipped assets are included or excluded.
@@ -162,8 +161,8 @@ source and dependency inputs, artifact subject, and verification state.
 Provenance configuration is intent, not proof that a build produced the claimed artifact.
 
 For Rust, `cargo cyclonedx` for inventory and `cargo deny check licenses` for policy checks are
-typical documented tooling, assess their configuration and committed output rather than running
-them.
+typical documented tooling, assess their configuration and committed output
+rather than running them.
 
 Use the existing license policy, and distinguish a scanner's default-policy rejection from an
 established legal incompatibility.
@@ -171,21 +170,22 @@ established legal incompatibility.
 [Cargo deny checks](https://embarkstudios.github.io/cargo-deny/checks/index.html) are configurable,
 so record the policy and any exceptions along with the result.
 
-Review SPDX `AND`/`OR` expressions, notices, linking, distribution, and service-use obligations
-against the actual delivery model, escalating ambiguous cases for legal review.
+Review SPDX `AND` / `OR` expressions, notices, linking, distribution,
+and service-use obligations against the actual delivery model,
+escalating ambiguous cases for legal review.
 
 A root MIT license does not settle transitive obligations, and a lockfile is not a license audit.
 
-Consult [CycloneDX ECMA-424](https://ecma-tc54.github.io/ECMA-424/) and
-[SPDX specifications](https://spdx.dev/specifications/) for the selected schema and inventory
-limitations.
+Consult [CycloneDX ECMA-424](https://ecma-tc54.github.io/ECMA-424/)
+and [SPDX specifications](https://spdx.dev/specifications/)
+for the selected schema and inventory limitations.
 
 Do not claim SBOM procurement obligations without a specific applicable contract or regime.
 
 ## Container And Maintainer Risk
 
-For an in-scope container, assess its build context, ignore rules, builder stage, published runtime
-image, and exported caches separately.
+For an in-scope container, assess its build context, ignore rules, builder stage,
+published runtime image, and exported caches separately.
 
 Do not run image scanners such as Trivy.
 
@@ -195,8 +195,8 @@ and results as `Reported` evidence.
 
 A final-image scan does not cover unpublished builder layers or external build caches.
 
-Check Dockerfiles and image build contexts for copied secrets, never suggest baking a real
-secret into a test image.
+Check Dockerfiles and image build contexts for copied secrets,
+never suggest baking a real secret into a test image.
 
 For critical dependencies, inspect release/support policy, ownership continuity, security response,
 and feasible replacement or fork paths using dated primary evidence.
@@ -218,11 +218,12 @@ mark it `UNKNOWN` and record which lifecycle page would resolve it.
 
 ## Status Criteria
 
-- `PASS`: Applicable support, integrity, advisory, and license requirements are evidenced for the
-  resolved dependency scope, including version locking where required.
+- `PASS`: Applicable support, integrity, advisory,
+  and license requirements are evidenced for the resolved dependency scope,
+  including version locking where required.
 - `PARTIAL`: Dependencies are managed but outdated, unscanned, or license posture is unclear.
-- `FAIL`: Dependencies carry known unaddressed vulnerabilities or incompatible licenses, with
-  evidence.
+- `FAIL`: Dependencies carry known unaddressed vulnerabilities or incompatible
+  licenses, with evidence.
 - `UNKNOWN`: Manifests, lockfiles, or license data were not provided.
 
 ## Common Risks

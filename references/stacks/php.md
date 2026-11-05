@@ -2,70 +2,71 @@
 
 ## Purpose
 
-> **Scope:** Checkable constraints for PHP services and libraries
-> **Key items:** PSR-4 autoload layout, PSR-12 style, Composer commands, PHPUnit, PHPStan
-> ladder, php.ini hardening
+> **Scope:** Checkable constraints for PHP services and libraries **Key items:** PSR-4 autoload
+> layout, PSR-12 style, Composer commands, PHPUnit, PHPStan ladder, php.ini hardening
 
-This file distills the PHP-FIG standards, PHP security manual, Composer, PHPUnit, PHPStan, and
-OWASP PHP sources listed in `references/source-catalog.md` into constraints an audit can verify
+This file distills the PHP-FIG standards, PHP security manual, Composer, PHPUnit, PHPStan,
+and OWASP PHP sources listed in `references/source-catalog.md` into constraints an audit can verify
 from repository source.
 
 Snapshot date: 2026-10-27.
 
 Feeds `assessment/best-practices.md`, `assessment/security-review.md`,
-`assessment/dependency-review.md`, `assessment/testing-review.md`, and
-`assessment/baseline-conformance.md` for PHP subjects.
+`assessment/dependency-review.md`, `assessment/testing-review.md`,
+and `assessment/baseline-conformance.md` for PHP subjects.
 
 ## Autoload, Layout, And Style
 
-From PSR-1 (https://www.php-fig.org/psr/psr-1/), PSR-4 (https://www.php-fig.org/psr/psr-4/),
-and PSR-12 (https://www.php-fig.org/psr/psr-12/).
+From PSR-1 ( https://www.php-fig.org/psr/psr-1/), PSR-4 ( https://www.php-fig.org/psr/psr-4/),
+and PSR-12 ( https://www.php-fig.org/psr/psr-12/).
 
-- PSR-1 and PSR-4 map a namespace prefix (`OrderApp\`) to `src/` and `OrderApp\Tests\` to
-  `tests/` in `composer.json`. A class, interface, trait, or backed enum
-  `Vendor\Package\Sub\Class` must resolve 1:1 to `<base>/Sub/Class.php` in `PascalCase` - a
-  source file outside its mapped path or defining multiple classes breaks autoloading and
-  discoverability.
-- Web services isolate the front controller in `public/index.php`, keep runtime state (such as
-  SQLite files or caches) in gitignored `var/`, and organize `src/` into singular `PascalCase`
-  role directories (`Domain/`, `Repository/`, `Service/`, `Http/`).
-- Naming conventions: classes, interfaces (no `I` prefix, e.g. `OrderRepository`), and enum
-  cases (`OrderStatus::Pending`) use `PascalCase`, methods and `$variables` use `camelCase`,
-  class constants use `UPPER_SNAKE_CASE`, and PHPUnit test files end in `Test.php`
-  (`OrderServiceTest.php`).
+- PSR-1 and PSR-4 map a namespace prefix (`OrderApp\`)
+  to `src/` and `OrderApp\Tests\` to `tests/` in `composer.json`. A class, interface, trait,
+  or backed enum `Vendor\Package\Sub\Class` must resolve 1:1 to `<base>/Sub/Class.php` in
+  `PascalCase` - a source file outside its mapped path or defining multiple classes breaks
+  autoloading and discoverability.
+- Web services isolate the front controller in `public/index.php`,
+  keep runtime state (such as SQLite files or caches) in gitignored `var/`,
+  and organize `src/` into singular `PascalCase` role directories (`Domain/`, `Repository/`,
+  `Service/`, `Http/`).
+- Naming conventions: classes, interfaces (no `I` prefix, e.g. `OrderRepository`),
+  and enum cases (`OrderStatus::Pending`) use `PascalCase`,
+  methods and `$variables` use `camelCase`, class constants use `UPPER_SNAKE_CASE`,
+  and PHPUnit test files end in `Test.php` (`OrderServiceTest.php`).
 - `autoload-dev` holds test namespaces. Production autoloads must not require dev paths.
-- PSR-12 is the extended style floor: `declare(strict_types=1);` conventions aside, it fixes
-  brace placement, visibility keywords on all members, `elseif` (not `else if`), one
-  statement per line, and the `?>` closing tag omitted from PHP-only files.
+- PSR-12 is the extended style floor: `declare(strict_types=1);` conventions aside,
+  it fixes brace placement, visibility keywords on all members, `elseif` (not `else if`),
+  one statement per line, and the `?>` closing tag omitted from PHP-only files.
 - `strict_types` declarations are opt-in per file. Their absence is a type-safety
   observation, not a violation.
 - Role-directory conventions from the maintainer's PHP standard: `src/` groups `Controller/`,
-  `Command/`, `Service/` or `Services/`, `Repository/` or `Repositories/`, `Entity/` or
-  `Domain/`, `DTO/`/`ValueObject/`, `Exception/`, and `Contract/`/`Interface/` by
-  responsibility, `tests/` splits `Unit/` and `Integration/` mirroring `src/`, `config/`
-  holds service and environment wiring, and `var/` carries cache/log write paths - a flat
-  `src/` past roughly a dozen classes is the review threshold.
+  `Command/`, `Service/` or `Services/`, `Repository/` or `Repositories/`, `Entity/` or `Domain/`,
+  `DTO/` / `ValueObject/`, `Exception/`, and `Contract/` / `Interface/` by responsibility,
+  `tests/` splits `Unit/` and `Integration/` mirroring `src/`,
+  `config/` holds service and environment wiring,
+  and `var/` carries cache/log write paths - a flat `src/` past roughly a dozen classes is
+  the review threshold.
 - Classic and template-rendered PHP applications (WordPress-family themes, admin panels,
-  legacy front-controllers) follow a different shape: `index.php` or a `public/` front
-  controller, `includes/` or `inc/` for shared requires, `templates/` or `views/` for markup,
-  and `assets/`/`static/` for web resources - the audit resolves which shape the project
-  declares before applying the PSR-4 fixture.
+  legacy front-controllers) follow a different shape: `index.php` or a `public/` front controller,
+  `includes/` or `inc/` for shared requires, `templates/` or `views/` for markup,
+  and `assets/` / `static/` for web resources - the audit resolves which shape the project declares
+  before applying the PSR-4 fixture.
 
 ## Composer
 
 From https://getcomposer.org/doc/03-cli.md.
 
-- `composer.json`/`composer.lock` pair semantics mirror npm: applications commit both,
+- `composer.json` / `composer.lock` pair semantics mirror npm: applications commit both,
   libraries conventionally commit `composer.json` only.
 - `composer validate` checks manifest schema. `composer install` honors the lockfile.
-  `composer update` rewrites it - the audit distinguishes install-from-lock evidence from
-  update evidence.
-- `composer audit` reports known vulnerabilities from the FriendsOfPHP advisory database. Its
-  output is advisory evidence.
-- `require` versus `require-dev` separation is checkable: test frameworks and debug tooling
-  in `require` is a dependency-hygiene finding.
-- `platform` config pins the PHP version Composer resolves against. A `platform.php` value
-  below the deployed runtime masks incompatibility.
+  `composer update` rewrites it - the audit distinguishes install-from-lock evidence
+  from update evidence.
+- `composer audit` reports known vulnerabilities from the FriendsOfPHP advisory database.
+  Its output is advisory evidence.
+- `require` versus `require-dev` separation is checkable:
+  test frameworks and debug tooling in `require` is a dependency-hygiene finding.
+- `platform` config pins the PHP version Composer resolves against.
+  A `platform.php` value below the deployed runtime masks incompatibility.
 
 ## Testing
 
@@ -73,57 +74,57 @@ From https://docs.phpunit.de/.
 
 - PHPUnit is the de-facto harness. `phpunit.xml` configures bootstrap, testsuite directories,
   and coverage. An empty `testsuite` directory list is a zero-test pass.
-- Test classes extend `PHPUnit\Framework\TestCase`. Modern versions use attributes
-  (`#[Test]`, `#[CoversClass]`) where PHPUnit 10+ doc-comment annotations were removed.
+- Test classes extend `PHPUnit\Framework\TestCase`. Modern versions use attributes (`#[Test]`,
+  `#[CoversClass]`) where PHPUnit 10+ doc-comment annotations were removed.
 - `assertSame` versus `assertEquals` distinction matters: `==` coercion hides type bugs.
-- `vendor/bin/phpunit` is the project-pinned binary. A global `phpunit` in CI drifts from the
-  locked version.
+- `vendor/bin/phpunit` is the project-pinned binary.
+  A global `phpunit` in CI drifts from the locked version.
 
 ## Static Analysis
 
 From https://phpstan.org/user-guide/rule-levels.
 
-- PHPStan levels form a maturity ladder 0-9 (0 = basic unknown-class checks, 5 = argument
-  types, 9 = `mixed` strictness). The configured `level` in `phpstan.neon` states the floor.
-- Running at level 0-2 is better than none but shallow. The audit records the configured
-  level, not the maximum achievable.
-- `baseline.neon` files grandfather existing violations. A large baseline converts
-  "passes at level N" into "passes at level N with N suppressed findings" - count the
-  baseline entries.
+- PHPStan levels form a maturity ladder 0-9 (0 = basic unknown-class checks, 5 = argument types,
+  9 = `mixed` strictness). The configured `level` in `phpstan.neon` states the floor.
+- Running at level 0-2 is better than none but shallow. The audit records the configured level,
+  not the maximum achievable.
+- `baseline.neon` files grandfather existing violations.
+  A large baseline converts "passes at level N" into "passes at level N with N suppressed findings"
+  - count the baseline entries.
 - Larastan/Psalm equivalents inherit the same maturity-ladder reading.
 
 ## php.ini Hardening
 
-From the PHP security manual (https://www.php.net/manual/en/security.php) and the OWASP PHP
-Configuration cheat sheet
-(https://cheatsheetseries.owasp.org/cheatsheets/PHP_Configuration_Cheat_Sheet.html).
+From the PHP security manual ( https://www.php.net/manual/en/security.php)
+and the OWASP PHP Configuration cheat sheet (
+https://cheatsheetseries.owasp.org/cheatsheets/PHP_Configuration_Cheat_Sheet.html).
 
-- `display_errors = Off` and `log_errors = On` for production. `expose_php = Off` removes the
-  version banner.
-- `allow_url_fopen`/`allow_url_include` enabled expands SSRF and remote-include surface.
+- `display_errors = Off` and `log_errors = On` for production.
+  `expose_php = Off` removes the version banner.
+- `allow_url_fopen` / `allow_url_include` enabled expands SSRF and remote-include surface.
   `allow_url_include` should always be `Off`.
-- `open_basedir`, `disable_functions` (`exec`, `shell_exec`, `system`, `passthru` where
-  unused), and `post_max_size`/`upload_max_filesize` bounds are the checkable hardening set.
-- Session settings: `session.cookie_httponly`, `session.cookie_secure`, `session.use_strict_mode`
-  = 1, and `session.cookie_samesite` per deployment.
-- File uploads: `file_uploads`, `upload_tmp_dir` outside web root, and MIME/content
-  verification rather than extension trust.
+- `open_basedir`, `disable_functions` (`exec`, `shell_exec`, `system`, `passthru` where unused),
+  and `post_max_size` / `upload_max_filesize` bounds are the checkable hardening set.
+- Session settings: `session.cookie_httponly`, `session.cookie_secure`,
+  `session.use_strict_mode` = 1, and `session.cookie_samesite` per deployment.
+- File uploads: `file_uploads`, `upload_tmp_dir` outside web root,
+  and MIME/content verification rather than extension trust.
 
 ## Maintainer-Standard Floor
 
 From the maintainer's PHP engineering standard.
 
 - The defect floor: `composer.json` `config.platform.php` plus `.php-version` pin the runtime,
-  `declare(strict_types=1);` opens every file, PHPStan level 8+ (or Psalm equivalent) reports
-  no errors, PHP-CS-Fixer produces no diff, `composer.lock` is committed, no floating
-  dependency versions, and `composer audit` is clean.
+  `declare(strict_types=1);` opens every file, PHPStan level 8+ (or Psalm equivalent)
+  reports no errors, PHP-CS-Fixer produces no diff, `composer.lock` is committed,
+  no floating dependency versions, and `composer audit` is clean.
 
 ## Live Check
 
-When web fetch is available, spot-check one PSR rule against the PHP-FIG text and one
-`php.ini` directive against the OWASP cheat sheet.
+When web fetch is available, spot-check one PSR rule against the PHP-FIG text and one `php.ini`
+directive against the OWASP cheat sheet.
 
-Record whichever baseline - this snapshot or the live pages - the audit used, and note drift in
-Known Limitations.
+Record whichever baseline - this snapshot or the live pages - the audit used,
+and note drift in Known Limitations.
 
 The check is best-effort, never blocks the audit, and never executes the audited project.

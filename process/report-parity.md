@@ -2,18 +2,17 @@
 
 ## Purpose
 
-> **Scope:** The mandatory core checklist applied to every audit report and the consistency
-> gate that runs before a report is marked final
-> **Key items:** core checklist, capability set, consistency gate, applicability
-> justifications, cross-report discovery
+> **Scope:** The mandatory core checklist applied to every audit report and the consistency gate
+> that runs before a report is marked final **Key items:** core checklist, capability set,
+> consistency gate, applicability justifications, cross-report discovery
 
-This file defines what a complete audit report must contain regardless of subject, language,
-or detail level.
+This file defines what a complete audit report must contain regardless of subject,
+language, or detail level.
 
 The checklist and gate bind `audit`, `hunt`, and full-scope `review` reports.
 
-A structure-variant review report per `process/report-format/structure-review.md` is validated
-by its own contract instead, and no report style serves as a parity baseline for another.
+A structure-variant review report per `process/report-format/structure-review.md` is validated by
+its own contract instead, and no report style serves as a parity baseline for another.
 
 Check the list explicitly before finalizing any report.
 
@@ -50,7 +49,7 @@ Do not rely on per-run memory of what a previous report happened to include.
 | PAR-25 | Generated, vendored, third-party, and forced-external identifiers are excluded from style census denominators, and the exclusions are disclosed in the ledger                                                         | `assessment/code-style.md`                                            |
 | PAR-26 | No `REC` proposes a bulk rename of a consistent convention for ecosystem purity alone, and style recommendations follow the remediation ladder                                                                        | `process/report-format/code-style.md`                                 |
 | PAR-27 | The subject's linters and formatters appear only as `Not run` evidence rows or `Method` suggestions, never as executed checks                                                                                         | `assessment/code-style.md`                                            |
-| PAR-28 | Check-execution reconciliation is present: every activated probe and every applicable check in the loaded assessment files produced `EVD` rows or a recorded `NOT ASSESSED` or `inapplicable` skip                    | `process/audit-workflow.md`                                           |
+| PAR-28 | Check-execution reconciliation is present: every activated probe and every applicable check in the loaded assessment files produced `EVD` rows or a recorded `NOT ASSESSED` or `inapplicable` skip                    | `process/audit-workflow/evidence-gathering.md`                        |
 | PAR-29 | The read-depth floor is honored: `Sampled` and `Listed` rows in the read-depth table carry justifications and touch no file an activated check reaches                                                                | `process/report-format/methodology-scoring.md`                        |
 | PAR-30 | When Requirements Conformance applies, the conformance table enumerates every stated requirement and acceptance criteria entry, one row each                                                                          | `assessment/requirements-conformance.md`                              |
 | PAR-31 | Every `FND` row in each Technical Findings summary table has exactly one `### FND-<id>:` block and every block has exactly one summary row - a truncated or partial emission reconciles before delivery               | `process/report-format/findings-registers.md`                         |
@@ -59,23 +58,23 @@ Do not rely on per-run memory of what a previous report happened to include.
 
 PAR-5 may report `Not collected` when Git history is unavailable, silence is not acceptable.
 
-PAR-18 reports `N/A` under `Report Style: hunt` or `review`. Neither style carries a
-Recommendation Classification subsection, disposition lives in Remediation Phases or the
-Improvement Plan, per `process/report-format/hunt-style.md` and
-`process/report-format/review-style.md`.
+PAR-18 reports `N/A` under `Report Style: hunt` or `review`.
+Neither style carries a Recommendation Classification subsection,
+disposition lives in Remediation Phases or the Improvement Plan,
+per `process/report-format/hunt-style.md` and `process/report-format/review-style.md`.
 
-PAR-20 reports `N/A` under `Report Style: hunt`. The structure assessment is not part of
-the hunt evidence base.
+PAR-20 reports `N/A` under `Report Style: hunt`.
+The structure assessment is not part of the hunt evidence base.
 
-PAR-21 through PAR-27 report `N/A` under `Report Style: hunt` or when the subject carries no
-source code.
+PAR-21 through PAR-27 report `N/A` under `Report Style: hunt` or when the subject
+carries no source code.
 
-A checklist row is `Applied` only when the requirement is met as written - a partially met
-item records its actual state with a justification rather than redefining the requirement
-to earn `Applied`.
+A checklist row is `Applied` only when the requirement is met as written - a partially met item
+records its actual state with a justification rather than redefining the
+requirement to earn `Applied`.
 
-PAR-9 re-derivation means re-selecting references from the current stack lookup for the detected
-stack.
+PAR-9 re-derivation means re-selecting references from the current stack lookup
+for the detected stack.
 
 Identical output to a prior report is expected when the stack is unchanged,
 the requirement forbids inheriting the list without re-deriving it.
@@ -88,8 +87,8 @@ A report's capability set is the union of:
 - Baseline and conditional sections present.
 - Required per-section elements (coverage matrix, criteria table, severity clarification,
   ISO crosswalk, Team & Continuity line, component inventory, license classification,
-  delivery-practice proxies, score formula, score floor, confidence, Observation/Concern
-  tags, and readiness state).
+  delivery-practice proxies, score formula, score floor, confidence, Observation/Concern tags,
+  and readiness state).
 
 The Validation Protocol renders this set so a future report can diff it mechanically.
 
@@ -98,23 +97,23 @@ The Validation Protocol renders this set so a future report can diff it mechanic
 Run this gate before marking a report final.
 
 1. Build the report's capability set.
-2. Diff it against the Mandatory Core Checklist: every item is `Applied` or `N/A` with an
-   applicability justification.
-3. Diff it against the most recent audit report found for ANY subject during intake
-   discovery. Extract that report's capability set from its Validation Protocol when present,
+2. Diff it against the Mandatory Core Checklist:
+   every item is `Applied` or `N/A` with an applicability justification.
+3. Diff it against the most recent audit report found for ANY subject during intake discovery.
+   Extract that report's capability set from its Validation Protocol when present,
    otherwise from its section headings.
-4. Apply any capability present in that report but absent here, or record an explicit
-   inapplicability justification (for example, "API Compatibility pillar: `N/A`, subject is a
-   service, not a library"). Inheriting an omission from the subject's own prior revision is
-   never a justification.
+4. Apply any capability present in that report but absent here,
+   or record an explicit inapplicability justification (for example, "API Compatibility pillar:
+   `N/A`, subject is a service, not a library").
+   Inheriting an omission from the subject's own prior revision is never a justification.
 5. When no other report is accessible, record `none found` and gate on the checklist alone.
-6. Run the semantic consistency checks for identifiers, criteria references, scores, risk
-   placement, evidence references, conditional-section justifications, translation tokens,
-   and project-qualified shared references.
-   On a confirmed re-audit, also verify that the baseline file still matches the checksum recorded
-   at intake, and stop publication on a mismatch.
-7. Record the outcome in the Validation Protocol - the report is complete when every gate result is
-   named there.
+6. Run the semantic consistency checks for identifiers, criteria references, scores, risk placement,
+   evidence references, conditional-section justifications, translation tokens,
+   and project-qualified shared references. On a confirmed re-audit,
+   also verify that the baseline file still matches the checksum recorded at intake,
+   and stop publication on a mismatch.
+7. Record the outcome in the Validation Protocol - the report is complete when every gate
+   result is named there.
 
 A report may be complete and useful while a gate result stays open in its Validation Protocol.
 
@@ -137,16 +136,16 @@ Omitted conditional sections also appear in Scope Exclusions.
 
 ## Discovery Scope
 
-The cross-report diff searches the same locations as previous-report discovery: `audit/` and
-`report/` directories - including a `report/` directory's purpose-named `audit/` or `review/`
-subdirectory matching the report style - and bare roots under `docs/`, `document/`, and `doc/`,
-the repository root, and the document structure when governed by another skill.
+The cross-report diff searches the same locations as previous-report discovery:
+`audit/` and `report/` directories - including a `report/` directory's purpose-named `audit/` or
+`review/` subdirectory matching the report style - and bare roots under `docs/`, `document/`,
+and `doc/`, the repository root, and the document structure when governed by another skill.
 
 "Most recent" is the audit report with the highest revision number and latest report date among
 files matching the audit naming pattern.
 
-Structure-variant review reports and legacy `REVIEW`-family files never enter this diff -
-their contracts carry none of the shared capability set.
+Structure-variant review reports and legacy `REVIEW` -family files never enter this diff - their
+contracts carry none of the shared capability set.
 
 A report the user supplies also counts.
 

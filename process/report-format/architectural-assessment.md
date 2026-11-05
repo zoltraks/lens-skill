@@ -2,8 +2,8 @@
 
 ## Purpose
 
-> **Scope:** The architectural assessment section and its conditional subsections
-> **Key items:** design principles, data flow diagram, design patterns, decision records
+> **Scope:** The architectural assessment section and its conditional subsections **Key items:**
+> design principles, data flow diagram, design patterns, decision records
 
 Provide an architectural critique against industry baselines.
 
@@ -109,15 +109,16 @@ Then list the trust boundaries.
 | Network ingress | Client  | Auth layer | JWT validation        |
 | Storage         | Handler | Filesystem | Path canonicalization |
 
-Use framed nodes with box-drawing characters for every DFD element - `╭` `─` `╮` top
-borders, `│` sides, `╰` `─` `╯` bottom borders, and `┌` `┬` `┼` `┐` junction glyphs where a
-flow fans out to several targets.
+Use framed nodes with box-drawing characters for every DFD element - `╭` `─` `╮` top borders,
+`│` sides, `╰` `─` `╯` bottom borders, and `┌` `┬` `┼` `┐` junction glyphs where a flow fans
+out to several targets.
 
-Every row of a frame shares the same left and right border columns: each `│` side sits exactly
-under its `╭` or `╮` corner, and `╰` and `╯` close exactly under the sides.
+Every row of a frame shares the same left and right border columns:
+each `│` side sits exactly under its `╭` or `╮` corner,
+and `╰` and `╯` close exactly under the sides.
 
-A content or border row shifted even one column off its frame is a defect - redraw the frame
-rather than leaving a drifted edge.
+A content or border row shifted even one column off its frame is a defect - redraw the frame rather
+than leaving a drifted edge.
 
 Set each frame's interior width to its longest label line plus two - one space of padding on each
 side of the longest line.
@@ -129,57 +130,60 @@ A frame's first content row is an empty line, so a label never sits directly und
 
 A frame whose label is a single line also ends with one empty row.
 
-Frames sharing one horizontal row may pad with trailing empty rows to keep their bottom borders
-level.
+Frames sharing one horizontal row may pad with trailing empty rows to keep their
+bottom borders level.
 
-Center every label horizontally inside the frame, placing the extra space on the right when the
-padding cannot split evenly.
+Center every label horizontally inside the frame,
+placing the extra space on the right when the padding cannot split evenly.
 
 A label wrapped over several lines forms one block: indent every line to the same left column,
 chosen so the longest line sits centered.
 
-A label that stacks several distinct items keeps every item left-aligned with exactly one leading
-space.
+A label that stacks several distinct items keeps every item left-aligned with
+exactly one leading space.
 
 Do not enclose labels in brackets.
 
 Write the label as plain text without `[..]`, `(..)`, or `{..}`.
 
-Draw a horizontal edge as `─` filling the entire gap between two frames, with `>` touching the
-target's left border - no space column between `>` and `│`, and no `>` floating inside the gap.
+Draw a horizontal edge as `─` filling the entire gap between two frames,
+with `>` touching the target's left border - no space column between `>` and `│`,
+and no `>` floating inside the gap.
 
-Draw a vertical edge as `│` rows on the center column of the frames it connects, ending with `v`
-on the row directly above the target's top border, or with `^` on the row directly below the
-target's bottom border for an upward flow.
+Draw a vertical edge as `│` rows on the center column of the frames it connects,
+ending with `v` on the row directly above the target's top border,
+or with `^` on the row directly below the target's bottom border for an upward flow.
 
-When a flow fans out to several side-by-side frames, end the `│` drop in a junction row: `┌`
-opens on the leftmost target's center column, `┐` closes on the rightmost, `┬` marks each inner
-drop column, `┼` continues the source's center column, and `─` fills between the junction glyphs.
+When a flow fans out to several side-by-side frames, end the `│` drop in a junction row:
+`┌` opens on the leftmost target's center column, `┐` closes on the rightmost,
+`┬` marks each inner drop column, `┼` continues the source's center column,
+and `─` fills between the junction glyphs.
 
-The row below the junction row carries one `v` on every drop column, directly above the target
-top borders.
+The row below the junction row carries one `v` on every drop column,
+directly above the target top borders.
 
 Every vertical drop and every `v` lands on the center column of the frame it enters - shift the
 frame or re-space the junction row until they match.
 
 Flow arrows (`─>`, `│`) must align with the center of the frame they connect to.
 
-When placing a label above or below a horizontal arrow, the label row must span the exact same width
-as the arrow row so the frames above and below remain aligned.
+When placing a label above or below a horizontal arrow,
+the label row must span the exact same width as the arrow row so the frames above and
+below remain aligned.
 
-Before moving on, recount the columns: every `│` sits under its `╭` or `╮`, every `╰` and `╯`
-closes under its side, every arrowhead touches or centers on its target, and no label touches a
-border.
+Before moving on, recount the columns: every `│` sits under its `╭` or `╮`,
+every `╰` and `╯` closes under its side, every arrowhead touches or centers on its target,
+and no label touches a border.
 
 Anchor every node to a file or module.
 
 ## Design Patterns
 
-Include this subsection only when the codebase exhibits recurring structure, per
-`assessment/design-patterns.md`.
+Include this subsection only when the codebase exhibits recurring structure,
+per `assessment/design-patterns.md`.
 
-Present a table of the patterns in use with a fitness verdict, then describe each material pattern
-or anti-pattern with evidence.
+Present a table of the patterns in use with a fitness verdict,
+then describe each material pattern or anti-pattern with evidence.
 
 | Pattern        | Location                   | Assessment | Description                                      |
 |----------------|----------------------------|------------|--------------------------------------------------|
@@ -193,15 +197,14 @@ Cross-reference any anti-pattern that is also a code-origin signal to its `FND-A
 
 ## Architecture Decision Records
 
-Include this subsection only when the system is production-bound with significant decisions, per the
-ADR gap guidance in `assessment/change-management.md`.
+Include this subsection only when the system is production-bound with significant decisions,
+per the ADR gap guidance in `assessment/change-management.md`.
 
-Present a table of decisions that should carry an ADR, each marked `RECORDED` or `MISSING`, anchored
-to the code that embodies the decision.
+Present a table of decisions that should carry an ADR, each marked `RECORDED` or `MISSING`,
+anchored to the code that embodies the decision.
 
-Name each decision by the artifact or mechanism it governs in a few words -
-`Schema migration`, not `Automated schema migration` - manner qualifiers that state the obvious
-only lengthen the label.
+Name each decision by the artifact or mechanism it governs in a few words - `Schema migration`,
+not `Automated schema migration` - manner qualifiers that state the obvious only lengthen the label.
 
 | Decision             | Location                  | ADR Status |
 |----------------------|---------------------------|------------|
@@ -209,5 +212,5 @@ only lengthen the label.
 | Web framework choice | `Cargo.toml`              | MISSING    |
 | Session state model  | `main.rs`                 | MISSING    |
 
-Missing decision rationale limits confidence regardless of origin, do not infer AI authorship or
-an AI default from absent ADRs.
+Missing decision rationale limits confidence regardless of origin,
+do not infer AI authorship or an AI default from absent ADRs.

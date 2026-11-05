@@ -2,9 +2,9 @@
 
 ## Purpose
 
-> **Scope:** Code, API, and user documentation, onboarding, knowledge transfer
-> **Key items:** README accuracy, API docs, inline docs, setup/onboarding, decision records,
-> contract references, calibration captures
+> **Scope:** Code, API, and user documentation, onboarding,
+> knowledge transfer **Key items:** README accuracy, API docs, inline docs, setup/onboarding,
+> decision records, contract references, calibration captures
 
 This file guides assessment of whether the system is documented well enough to be understood,
 operated, and extended.
@@ -22,11 +22,10 @@ Assess whether documentation exists and matches the code, not its prose style.
 - Knowledge transfer: whether key decisions and operational facts are recorded rather than tacit.
 - Contract and usage references: whether interface-contract or per-surface usage documents are
   maintained in lockstep with the implemented surface.
-- Environment calibration: whether captured environment or target-application quirks are
-  recorded separately from normative rules, so behavior-specific facts stay out of portable
-  standards.
-- Community health files: whether `SECURITY.md`, `CONTRIBUTING.md`, and `CODE_OF_CONDUCT.md`, or the
-  stack's equivalents, exist.
+- Environment calibration: whether captured environment or target-application quirks are recorded
+  separately from normative rules, so behavior-specific facts stay out of portable standards.
+- Community health files: whether `SECURITY.md`, `CONTRIBUTING.md`, and `CODE_OF_CONDUCT.md`,
+  or the stack's equivalents, exist.
 
 ## Evidence To Look For
 
@@ -64,13 +63,14 @@ Review significant decisions using `assessment/change-management.md`.
 
 ## Support Continuity
 
-For production readiness or technical due diligence, assess knowledge concentration and handover
-artifacts as system continuity risks, not individual performance.
+For production readiness or technical due diligence,
+assess knowledge concentration and handover artifacts as system continuity risks,
+not individual performance.
 
-Inspect ownership files, support procedures, reviewer coverage, onboarding evidence, and maintenance
-of critical subsystems.
+Inspect ownership files, support procedures, reviewer coverage, onboarding evidence,
+and maintenance of critical subsystems.
 
-A dedicated maintainer-onboarding document (a `HANDOVER.md`-style walkthrough for the next
+A dedicated maintainer-onboarding document (a `HANDOVER.md` -style walkthrough for the next
 maintainer) is continuity evidence distinct from contributor-facing `CONTRIBUTING.md` material.
 
 A bounded Git summary such as `git shortlog -sn --no-merges HEAD` can inform contributor
@@ -78,16 +78,16 @@ concentration when history is in scope.
 
 Record revision range, observation window, merge handling, bots, aliases, and any shallow history.
 
-Commit concentration is only a proxy, it does not measure operational access, expertise, review
-work, or the number of people able to restore service.
+Commit concentration is only a proxy, it does not measure operational access, expertise,
+review work, or the number of people able to restore service.
 
-Request evidence of backup ownership, access handover, and a second operator's build/restore drill
-before asserting a bus-factor number.
+Request evidence of backup ownership, access handover,
+and a second operator's build/restore drill before asserting a bus-factor number.
 
 Report aggregate or role-level information, not personal rankings or contributor email addresses.
 
 Whatever this pass collects must surface in the report,
-per the collected-evidence rule in `process/audit-workflow.md`.
+per the collected-evidence rule in `process/audit-workflow/evidence-gathering.md`.
 
 Contributor concentration, commit cadence,
 and tag history appear at minimum as the Team & Continuity line in the Health Dashboard,
@@ -95,11 +95,11 @@ even when they produce no adverse finding.
 
 ## Community Health Files
 
-Check for `SECURITY.md`, `CONTRIBUTING.md`, and `CODE_OF_CONDUCT.md`, or the stack's
-equivalents.
+Check for `SECURITY.md`, `CONTRIBUTING.md`, and `CODE_OF_CONDUCT.md`, or the stack's equivalents.
 
-The absence of `SECURITY.md` is a named finding, not a silent gap, whenever the audited subject
-has any security-relevant surface and is published for external consumption.
+The absence of `SECURITY.md` is a named finding, not a silent gap,
+whenever the audited subject has any security-relevant surface and is published for
+external consumption.
 
 The file conventions and `SECURITY.md` semantics are baselined in
 `references/topics/project-health.md`.
@@ -109,50 +109,49 @@ The file conventions and `SECURITY.md` semantics are baselined in
 Two mechanical drift checks apply to every documented surface.
 
 The documented-figure check recalculates every quantitative claim in the docs - file counts,
-test counts, coverage percentages, version numbers, supported-platform lists - against the
-measured repository.
+test counts, coverage percentages, version numbers,
+supported-platform lists - against the measured repository.
 
-A documented figure that no census reproduces is a drift finding, and the measured figure is
-recorded beside the claim.
+A documented figure that no census reproduces is a drift finding,
+and the measured figure is recorded beside the claim.
 
-The docs-to-code check diffs documented commands, options, environment variables, and file
-paths against the implemented surface - every documented `npm run` script, CLI flag, env var,
-and config key must resolve to the code.
+The docs-to-code check diffs documented commands, options, environment variables,
+and file paths against the implemented surface - every documented `npm run` script, CLI flag,
+env var, and config key must resolve to the code.
 
 A documented-but-unimplemented item is `NOT SPECIFIED` coverage drift.
 
-An implemented-but-
-undocumented surface is a documentation gap.
+An implemented-but- undocumented surface is a documentation gap.
 
 Both directions are findings, never prose generalizations.
 
 The embedded-code check diffs normative and reference code blocks inside documentation
 against the implementation.
 
-Classify each passage as normative design, illustrative pseudocode, or a
-current-implementation excerpt before proposing correction: an excerpt that drifted is a
-documentation defect, while a normative requirement the code violates is an implementation
-defect.
+Classify each passage as normative design, illustrative pseudocode,
+or a current-implementation excerpt before proposing correction:
+an excerpt that drifted is a documentation defect,
+while a normative requirement the code violates is an implementation defect.
 
 ## Duplicate-Document Drift
 
-When two documents carry the same name or the same purpose in different locations, diff
-their content.
+When two documents carry the same name or the same purpose in different
+locations, diff their content.
 
-Divergent copies are a finding naming both paths - a reader cannot tell which describes the
-system, and the pair usually means one copy stopped tracking the code.
+Divergent copies are a finding naming both paths - a reader cannot tell which describes the system,
+and the pair usually means one copy stopped tracking the code.
 
-Record which copy - if either - matches the implementation, and treat marked-stale or
-archival copies as an observation rather than a defect.
+Record which copy - if either - matches the implementation,
+and treat marked-stale or archival copies as an observation rather than a defect.
 
 ## Agent-Facing Documentation
 
-Agent-facing guidance documents are assessed elsewhere and cross-referenced here, not
-duplicated: per-artifact format conformance belongs to `assessment/skill-definition.md`,
+Agent-facing guidance documents are assessed elsewhere and cross-referenced here, not duplicated:
+per-artifact format conformance belongs to `assessment/skill-definition.md`,
 set-level topology and authority to `assessment/agent-guidance.md`.
 
-When those assessments report drift in agent-facing documents, record it there and keep this
-file's findings to the human-facing surface.
+When those assessments report drift in agent-facing documents,
+record it there and keep this file's findings to the human-facing surface.
 
 ## Status Criteria
 

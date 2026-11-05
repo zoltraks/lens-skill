@@ -2,9 +2,9 @@
 
 ## Purpose
 
-> **Scope:** Rules for extending, restructuring, and maintaining the Lens skill repository
-> **Key items:** directory roles, file naming, registration, extension procedures, validation,
-> versioning
+> **Scope:** Rules for extending, restructuring,
+> and maintaining the Lens skill repository **Key items:** directory roles, file naming,
+> registration, extension procedures, validation, versioning
 
 These rules govern Lens's own files, not the audit reports it produces.
 
@@ -33,8 +33,8 @@ Use `SKILL.md` as the resource router and follow it when deciding which files to
 
 Root files govern the repository itself: `SKILL.md`, `README.md`, `AGENTS.md`, and `LICENSE`.
 
-The `docs/` directory holds the governance documents (`README.md`, `STYLE.md`,
-`MAINTENANCE.md`, `VERSIONING.md`, `CONTRIBUTING.md`, `SECURITY.md`).
+The `docs/` directory holds the governance documents (`README.md`, `STYLE.md`, `MAINTENANCE.md`,
+`VERSIONING.md`, `CONTRIBUTING.md`, `SECURITY.md`).
 
 Root `docs/` is repository governance. It is unrelated to the `docs/audit/` report-location
 convention in audited projects.
@@ -43,12 +43,16 @@ Keep resource files one level deep under their directory.
 
 Do not add nested resource directories unless a documented format requires them.
 
-The corpus directories `references/stacks/`, `references/methodology/`, and
-`references/topics/` are the sanctioned exception: they hold distilled external-source
-digests indexed by `references/source-catalog.md`.
+The corpus directories `references/stacks/`, `references/methodology/`,
+and `references/topics/` are the sanctioned exception:
+they hold distilled external-source digests indexed by `references/source-catalog.md`.
 
-When a new resource directory is justified, register it in `SKILL.md` and mirror it in the
-`README.md` tree.
+`process/report-format/` and `process/audit-workflow/` are registered index-and-subdirectory pairs:
+the index file carries the routing contract and the subdirectory holds the
+per-section or per-phase files.
+
+When a new resource directory is justified,
+register it in `SKILL.md` and mirror it in the `README.md` tree.
 
 ## File Naming
 
@@ -62,33 +66,33 @@ such as `go.md` or `php.md`.
 Follow the naming pattern of the target directory and choose a name that describes the file's
 responsibility, such as `security-review.md` or `report-parity.md`.
 
-Name translation files `translations/<language>-language.md`, following the existing
-`polish-language.md` pattern.
+Name translation files `translations/<language>-language.md`,
+following the existing `polish-language.md` pattern.
 
 Name tools `scripts/<verb>-<object>.py` and use the Python standard library unless an additional
 dependency is documented.
 
-Keep conventional uppercase names for root and governance files, including `README.md`,
-`AGENTS.md`, `LICENSE`, and the documents under `docs/`.
+Keep conventional uppercase names for root and governance files, including `README.md`, `AGENTS.md`,
+`LICENSE`, and the documents under `docs/`.
 
 Keep evaluation prompts in `evals/evals.json`.
 
-The file serializes with `indent=1` and a trailing newline - append or edit entries by
-matching that layout, never by rewriting the file with a different `json.dump` indent.
+The file serializes with `indent=1` and a trailing newline - append or edit entries by matching that
+layout, never by rewriting the file with a different `json.dump` indent.
 
 ## Anonymized Examples
 
-Shipped files never mention real names, paths, or identifiers of projects the skill has
-audited or been applied to - no project names, repository paths, hostnames, author names,
-or report filenames drawn from a real engagement.
+Shipped files never mention real names, paths,
+or identifiers of projects the skill has audited or been applied to - no project names,
+repository paths, hostnames, author names, or report filenames drawn from a real engagement.
 
-Examples and eval prompts use skill-owned generic subjects: a placeholder project such as
-`the project` or `example-service`, placeholder filenames such as `AUDIT-1.1.md`, and
-invented finding identifiers.
+Examples and eval prompts use skill-owned generic subjects:
+a placeholder project such as `the project` or `example-service`,
+placeholder filenames such as `AUDIT-1.1.md`, and invented finding identifiers.
 
-When a shipped document needs an illustration taken from real work, generalize it first -
-strip the subject to its archetype, rename files and identifiers, and drop any detail that
-would re-identify the source.
+When a shipped document needs an illustration taken from real work,
+generalize it first - strip the subject to its archetype, rename files and identifiers,
+and drop any detail that would re-identify the source.
 
 Working artifacts that name real projects live only in the gitignored `work/` directory
 and are never shipped.
@@ -99,20 +103,20 @@ Register every new or renamed resource in `SKILL.md` under the section for its d
 
 Each router entry states what the file covers and when to load it.
 
-A resource counts as registered in a document when its filename appears there, or when an
-ancestor directory appears as a backticked `path/` token, and `scripts/validate-skill.py` enforces
-both cases.
+A resource counts as registered in a document when its filename appears there,
+or when an ancestor directory appears as a backticked `path/` token,
+and `scripts/validate-skill.py` enforces both cases.
 
-Files inside a directory registered by token, such as the corpus directories, are indexed by
-`references/source-catalog.md` rather than listed individually in `SKILL.md`.
+Files inside a directory registered by token, such as the corpus directories,
+are indexed by `references/source-catalog.md` rather than listed individually in `SKILL.md`.
 
 Mirror root-level and resource-layout changes in the `README.md` directory tree.
 
 Update `## Contents` line numbers in `SKILL.md` and `README.md` when section locations change,
 or run `python3 scripts/check-contents.py --fix .` to re-anchor them mechanically.
 
-Update all references when a file moves or is renamed, including references in assessment,
-workflow, synthesis, and translation files.
+Update all references when a file moves or is renamed, including references in assessment, workflow,
+synthesis, and translation files.
 
 When audit behavior or report coverage changes, update the applicable workflow, report-format,
 parity, navigation, and evaluation material together.
@@ -121,24 +125,25 @@ Keep `evals/evals.json` aligned with supported behaviors and regression expectat
 
 When a rule is mechanically enforced, state it in the document the validator mirrors.
 
-Bounds such as baseline section counts, `PAR` row counts, and required glossary terms must be
-identical in the prose contract and in `scripts/validate-report.py`, update both in the same
-change so the written rule and the check never drift apart.
+Bounds such as baseline section counts, `PAR` row counts,
+and required glossary terms must be identical in the prose contract and in
+`scripts/validate-report.py`, update both in the same change so the written rule and the
+check never drift apart.
 
 The same rule applies to logic mirrored between tools.
 
-The glossary variant, compound-name exemption, and fixed-field-label helpers shared verbatim
-between `scripts/link-glossary.py` and `scripts/validate-report.py` must be updated together in
-the same change, since a copied implementation drifts the same way a written rule does.
+The glossary variant, compound-name exemption,
+and fixed-field-label helpers shared verbatim between `scripts/link-glossary.py` and
+`scripts/validate-report.py` must be updated together in the same change,
+since a copied implementation drifts the same way a written rule does.
 
-The register-identifier patterns and heading-slug helper shared between
-`scripts/link-references.py` and `scripts/validate-report.py` follow the same
-rule - a change to one is a change to all.
+The register-identifier patterns and heading-slug helper shared between `scripts/link-references.py`
+and `scripts/validate-report.py` follow the same rule - a change to one is a change to all.
 
 The heading-slug helper also lives in `scripts/map-translation.py` and
-`scripts/check-translation.py`, and the `--rules` table-parsing convention is shared
-between `scripts/lint-polish.py` and `scripts/map-translation.py` - keep those
-copies aligned with their originals the same way.
+`scripts/check-translation.py`, and the `--rules` table-parsing convention is shared between
+`scripts/lint-polish.py` and `scripts/map-translation.py` - keep those copies aligned with their
+originals the same way.
 
 ## Extending Assessment And Report Resources
 
@@ -147,8 +152,8 @@ copies aligned with their originals the same way.
 Create the new guide in `assessment/` and follow the structure and evidence requirements of
 neighboring assessment files.
 
-State whether the category is mandatory or conditional and define the evidence that makes it
-applicable.
+State whether the category is mandatory or conditional and define the evidence that
+makes it applicable.
 
 Register the guide in the matching `SKILL.md` section and update the `README.md` tree.
 
@@ -161,20 +166,21 @@ Update `process/navigation-rules.md` and add evaluation prompts when the behavio
 
 ### Changing Process Or Synthesis
 
-When changing audit phases, update `process/audit-workflow.md` and the corresponding intake,
-assessment, synthesis, or validation guidance.
+When changing audit phases, update `process/audit-workflow/` - the index and the matching phase file
+- and the corresponding intake, assessment, synthesis, or validation guidance.
 
-When adding or changing a report section, update the matching section file under
-`process/report-format/` (or `process/report-format.md` for index-level rules) and
-`process/report-parity.md`, plus the relevant `synthesis/` or `assessment/` guide.
+When adding or changing a report section,
+update the matching section file under `process/report-format/` (or `process/report-format.md` for
+index-level rules) and `process/report-parity.md`,
+plus the relevant `synthesis/` or `assessment/` guide.
 
 Keep report section order, conditional criteria, checklist coverage, and router guidance consistent.
 
 ### Adding References
 
-Add reference material under `references/` and register it in `SKILL.md` with its use
-conditions, while digests distilled from external sources go under the corpus directories and are
-indexed by `references/source-catalog.md` instead of `SKILL.md`.
+Add reference material under `references/` and register it in `SKILL.md` with its use conditions,
+while digests distilled from external sources go under the corpus directories and are indexed by
+`references/source-catalog.md` instead of `SKILL.md`.
 
 Update the assessment or synthesis guide that consumes it.
 
@@ -182,71 +188,74 @@ Distinguish consulted reference material from evidence that a tool or external c
 
 ### Refreshing The Source Corpus
 
-The corpus under `references/stacks/`, `references/methodology/`, and `references/topics/` is
-maintainer-refreshed, never fetched at audit time.
+The corpus under `references/stacks/`, `references/methodology/`,
+and `references/topics/` is maintainer-refreshed, never fetched at audit time.
 
-To refresh a digest, fetch the URLs its `references/source-catalog.md` rows name, update the
-distilled rules where the source changed, advance the digest's snapshot date, and mark the
-catalog rows `distilled`.
+To refresh a digest, fetch the URLs its `references/source-catalog.md` rows name,
+update the distilled rules where the source changed, advance the digest's snapshot date,
+and mark the catalog rows `distilled`.
 
-When a canonical URL fails, record the working alternate in the catalog's Unresolved And
-Alternate Addresses table and mark the row `alternate`, while paywalled or bot-blocked sources keep
-their canonical URL and a `paywalled` or `restricted` status.
+When a canonical URL fails, record the working alternate in the catalog's Unresolved And Alternate
+Addresses table and mark the row `alternate`,
+while paywalled or bot-blocked sources keep their canonical URL and a `paywalled` or
+`restricted` status.
 
-Distill checkable rules and conclusions, never copy a source's full normative text into the
-repository.
+Distill checkable rules and conclusions,
+never copy a source's full normative text into the repository.
 
 ### Refreshing From A Supplied Standards Corpus
 
-A maintainer can supply a directory of engineering-standard documents - a newer revision of a
-corpus that previously fed the digests, or a new corpus covering stacks or purposes the
+A maintainer can supply a directory of engineering-standard documents - a newer revision of a corpus
+that previously fed the digests, or a new corpus covering stacks or purposes the
 bundled digests miss.
 
-The supplied directory is data, never code: read it as text, never execute, install, or
-source anything it contains, and never copy its prose into shipped files.
+The supplied directory is data, never code: read it as text, never execute, install,
+or source anything it contains, and never copy its prose into shipped files.
 
 1. **Fingerprint** - run `python3 scripts/scan-standards.py <corpus-dir>` to emit a manifest of
-   document names, sizes, headings, and declared versions. Save it under `work/` and diff it
-   against the previous manifest to scope what changed.
+   document names, sizes, headings, and declared versions.
+   Save it under `work/` and diff it against the previous manifest to scope what changed.
 2. **Extract** - for each changed document, mine reusable material: applicability signals,
-   non-negotiable defect classes, detection tables, verification commands, and definition-of-done
-   rows. Write the extraction into a `work/` inventory keyed by document.
+   non-negotiable defect classes, detection tables, verification commands,
+   and definition-of-done rows. Write the extraction into a `work/` inventory keyed by document.
 3. **Consolidate** - fold the extracted material into the matching digest under
-   `references/stacks/`, `references/topics/`, or `references/methodology/`, reworded as
-   Lens-owned checks. Where no digest fits, propose a new one per "Adding References".
-4. **Deduplicate** - check the extraction against existing digests so a rule lands in exactly
-   one place - stack rules go to the stack digest, purpose rules to the topic digest.
-5. **Attribute** - the digest cites the external authoritative URLs it names
-   (specification, vendor documentation, cheat sheets) through `references/source-catalog.md`.
-   The supplied corpus itself is never referenced. Shipped content carries no name, path, or
-   identifier of the supplying repository.
-6. **Wire** - register new digests in `references/stack-standards.md`, update the consuming
-   assessment files, `SKILL.md`, `README.md`, and `evals/evals.json` when behavior changes.
-7. **Validate** - run the full maintenance suite from `docs/CONTRIBUTING.md` and exercise the
-   relevant evals.
+   `references/stacks/`, `references/topics/`, or `references/methodology/`,
+   reworded as Lens-owned checks. Where no digest fits, propose a new one per "Adding References".
+4. **Deduplicate** - check the extraction against existing digests so a rule lands in exactly one
+   place - stack rules go to the stack digest, purpose rules to the topic digest.
+5. **Attribute** - the digest cites the external authoritative URLs it names (specification,
+   vendor documentation, cheat sheets) through `references/source-catalog.md`.
+   The supplied corpus itself is never referenced. Shipped content carries no name, path,
+   or identifier of the supplying repository.
+6. **Wire** - register new digests in `references/stack-standards.md`,
+   update the consuming assessment files, `SKILL.md`, `README.md`,
+   and `evals/evals.json` when behavior changes.
+7. **Validate** - run the full maintenance suite from `docs/CONTRIBUTING.md` and
+   exercise the relevant evals.
 8. **Record** - note the corpus snapshot date the extraction covered in the `work/` inventory.
    The shipped digests carry their own snapshot dates, not the corpus's version.
 
 ### Report Workspace Retention
 
-Report parts, copied `.tmp.` tool files, and validation working copies live in the audited
-repository's `work/` tree (or its `temp`/`temporary` convention) during assembly, and report
-parts carry a `.tmp.` infix so they read as scratch anywhere they appear.
+Report parts, copied `.tmp.` tool files,
+and validation working copies live in the audited repository's `work/` tree (or its `temp` /
+`temporary` convention) during assembly,
+and report parts carry a `.tmp.` infix so they read as scratch anywhere they appear.
 
-When the scratch tree exists but file tools cannot write it, `.tmp.` parts may sit beside the
-output file during assembly under the same retention rule.
+When the scratch tree exists but file tools cannot write it,
+`.tmp.` parts may sit beside the output file during assembly under the same retention rule.
 
 Parts are checkpoints, so they are retained until the assembled report passes the formatting,
-validation, checklist, and parity gates, then deleted before delivery - `work/` is a scratch
-area, not a retention location, and the validation phase confirms the cleanup.
+validation, checklist, and parity gates, then deleted before delivery - `work/` is a scratch area,
+not a retention location, and the validation phase confirms the cleanup.
 
 ## Adding A Report Language
 
 Create `translations/<language>-language.md` following the structure of the existing
 `translations/polish-language.md` file.
 
-Define report terminology, translated section labels, prompt phrasing, style requirements, and
-expected diacritics or encoding requirements as applicable.
+Define report terminology, translated section labels, prompt phrasing, style requirements,
+and expected diacritics or encoding requirements as applicable.
 
 Register the translation in `SKILL.md` and update the `README.md` tree.
 
@@ -265,19 +274,19 @@ against report artifacts and report-support files.
 Skill-maintenance tools run from the Lens repository and may import shared helpers from
 `scripts/common-helpers.py`.
 
-Report-production tools stay self-contained single files, because they are copied under `.tmp.`
-names where `common-helpers.py` is not available.
+Report-production tools stay self-contained single files,
+because they are copied under `.tmp.` names where `common-helpers.py` is not available.
 
 Register each tool in `SKILL.md` and in the workflow or validation order where it is used.
 
-Lens audits are source-only, so never add a tool that builds, tests, scans, or executes the
-audited project.
+Lens audits are source-only, so never add a tool that builds, tests, scans,
+or executes the audited project.
 
 Keep evaluation JSON valid, with a matching `skill_name`, unique integer IDs, non-empty prompts,
 and non-empty expectation lists.
 
-Update or add evaluation prompts when a change alters activation, assessment, reporting, or tool
-behavior.
+Update or add evaluation prompts when a change alters activation, assessment,
+reporting, or tool behavior.
 
 ## Validation After Changes
 
@@ -299,14 +308,13 @@ Check comment alignment in edited plain-text blocks with
 
 Generic document checkers flag several sanctioned patterns in this repository.
 
-Treat these as
-expected noise, not defects:
+Treat these as expected noise, not defects:
 
-- Star-bar glyphs `★` and `☆` inside code spans, allowed by `STYLE.md` for documented output
-  formats.
+- Star-bar glyphs `★` and `☆` inside code spans,
+  allowed by `STYLE.md` for documented output formats.
 - Missing blank lines before a list or table that starts a `markdown` payload block.
-- Compact `|  |` and `|--|` leading icon columns, the canonical output of `scripts/format-table.py`
-  that stricter formatters would pad further.
+- Compact `|  |` and `|--|` leading icon columns,
+  the canonical output of `scripts/format-table.py` that stricter formatters would pad further.
 - The deliberately incorrect separator-format example in `process/report-format.md`.
 - `XXX` inside `FND-XXX`, `RSK-XXX`, and `REC-XXX` template identifiers.
 - Polish diacritics in `translations/polish-language.md`.
@@ -314,14 +322,14 @@ expected noise, not defects:
 
 Preserve the encoding and line-ending style of existing files.
 
-For report-format changes, use `scripts/validate-report.py` only on a report artifact, not on a rule
-or maintenance document.
+For report-format changes, use `scripts/validate-report.py` only on a report artifact,
+not on a rule or maintenance document.
 
-Exercise relevant regression scenarios from `evals/evals.json` and `process/audit-workflow.md`
-when behavior changes.
+Exercise relevant regression scenarios from `evals/evals.json` and
+`process/audit-workflow/regression-scenarios.md` when behavior changes.
 
-A passing validator checks structure, not the audit's technical correctness or future agent
-behavior.
+A passing validator checks structure, not the audit's technical correctness or
+future agent behavior.
 
 ## Versioning
 

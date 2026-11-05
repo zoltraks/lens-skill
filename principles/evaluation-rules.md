@@ -2,10 +2,9 @@
 
 ## Purpose
 
-> **Scope:** Evidence-based reasoning, no-assumption rule, neutrality, status markers, hard
-> constraints
-> **Key items:** `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `NOT SPECIFIED`, `INSUFFICIENT INFORMATION`,
-> neutrality, no blame
+> **Scope:** Evidence-based reasoning, no-assumption rule, neutrality, status markers,
+> hard constraints **Key items:** `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `NOT SPECIFIED`,
+> `INSUFFICIENT INFORMATION`, neutrality, no blame
 
 This file defines the non-negotiable rules that govern every audit.
 
@@ -19,26 +18,27 @@ If a finding cannot satisfy these rules, mark it as unknown rather than guessing
 
 | Section                             | Line | What it covers                        |
 |-------------------------------------|------|---------------------------------------|
-| Evidence-Based Reasoning            | 36   | Traceability and missing-info tokens  |
+| Evidence-Based Reasoning            | 35   | Traceability and missing-info tokens  |
 | Evidence Strength And Claim Control | 53   | Evidence bases, types, confidence     |
-| No Assumptions                      | 252  | The no-assumption rule                |
-| No Personal Judgement               | 266  | Neutrality toward people              |
-| Architectural Neutrality            | 280  | Judging within stated constraints     |
-| Status Markers                      | 293  | PASS, PARTIAL, FAIL, UNKNOWN, N/A     |
-| Contextual Applicability            | 312  | N/A usage for inapplicable categories |
-| Absent Capability Assessment        | 341  | Intentional-versus-oversight tokens   |
-| Evidence Citation                   | 381  | Anchoring claims to sources           |
-| Confidence And Scope Limits         | 392  | Confidence and scope boundaries       |
-| Information Security And Redaction  | 403  | Secret handling rules                 |
-| Indexing And Traceability           | 428  | ID schemes and ordering               |
-| Critical Constraints                | 500  | Non-negotiable hard limits            |
+| No Assumptions                      | 253  | The no-assumption rule                |
+| No Personal Judgement               | 267  | Neutrality toward people              |
+| Architectural Neutrality            | 281  | Judging within stated constraints     |
+| Status Markers                      | 294  | PASS, PARTIAL, FAIL, UNKNOWN, N/A     |
+| Contextual Applicability            | 313  | N/A usage for inapplicable categories |
+| Absent Capability Assessment        | 342  | Intentional-versus-oversight tokens   |
+| Evidence Citation                   | 382  | Anchoring claims to sources           |
+| Confidence And Scope Limits         | 393  | Confidence and scope boundaries       |
+| Information Security And Redaction  | 404  | Secret handling rules                 |
+| Indexing And Traceability           | 429  | ID schemes and ordering               |
+| Critical Constraints                | 501  | Non-negotiable hard limits            |
 
 ## Evidence-Based Reasoning
 
 State only what is explicitly supported by the input.
 
-Every finding must be traceable to a concrete fact in the supplied material: a file, a configuration
-value, a stated requirement, a command, a log line, or an explicit statement from the user.
+Every finding must be traceable to a concrete fact in the supplied material: a file,
+a configuration value, a stated requirement, a command, a log line,
+or an explicit statement from the user.
 
 When information is missing, mark it explicitly with one of these tokens:
 
@@ -54,64 +54,63 @@ A clearly marked gap is more valuable than a confident guess.
 
 Assign an evidence ID (`EVD-001` onward) to each material observation or tool execution.
 
-Record its source, revision, scope, collection method, and limitations in the evidence ledger
-specified in `process/audit-workflow.md`.
+Record its source, revision, scope, collection method,
+and limitations in the evidence ledger specified in `process/audit-workflow/evidence-gathering.md`.
 
 Distinguish these evidence bases in finding detail:
 
 - **Inspected**: directly observed in source, configuration, or documentation, not executed.
-- **Reported**: supplied by documentation, a stakeholder, a prior report, or a committed artifact
-  such as CI output, a coverage report, or a scan result.
+- **Reported**: supplied by documentation, a stakeholder, a prior report,
+  or a committed artifact such as CI output, a coverage report, or a scan result.
 - **Inferred**: reasoned from cited evidence, with prerequisites and uncertainty stated.
-- **Executed**: produced by a non-mutating analyzer the user commissioned under
-  `executed-readonly` evidence mode, or by a commissioned non-mutating command such as a
-  test suite or isolated reproduction harness under `executed-commands`, recorded with tool,
-  version, command, and timestamp.
+- **Executed**: produced by a non-mutating analyzer the user commissioned under `executed-readonly`
+  evidence mode, or by a commissioned non-mutating command such as a test suite or isolated
+  reproduction harness under `executed-commands`, recorded with tool, version,
+  command, and timestamp.
 
 The audit never executes checks itself under `source-only`.
 
-Under `executed-readonly` only the
-commissioned non-mutating analyzers run, and the project is still never built, tested, or run.
+Under `executed-readonly` only the commissioned non-mutating analyzers run,
+and the project is still never built, tested, or run.
 
-Under `executed-commands` the explicitly commissioned non-mutating commands run - including
-tests, builds, and reproduction harnesses. While the subject is still never deployed,
-mutated, or connected to live systems.
+Under `executed-commands` the explicitly commissioned non-mutating commands run - including tests,
+builds, and reproduction harnesses. While the subject is still never deployed, mutated,
+or connected to live systems.
 
-Executed output carries a fixed status vocabulary - `PASS`, `FAIL`, `ERROR`, `BLOCKED`,
-`SKIPPED`, `NOT RUN`, `N/A`. `ERROR` and `BLOCKED` describe the runner, never the product,
+Executed output carries a fixed status vocabulary - `PASS`, `FAIL`, `ERROR`, `BLOCKED`, `SKIPPED`,
+`NOT RUN`, `N/A`. `ERROR` and `BLOCKED` describe the runner, never the product,
 and `NOT RUN` never counts toward a pass.
 
-Where a finding's reach matters, record its evidence level separately from its evidence
-basis: `Source` (read in code), `Model` (isolated reproduction), `App` (the real
-application locally), `Deployed` (a live environment), or `Unknown`.
+Where a finding's reach matters, record its evidence level separately from its evidence basis:
+`Source` (read in code), `Model` (isolated reproduction), `App` (the real application locally),
+`Deployed` (a live environment), or `Unknown`.
 
-A `Model`
-reproduction demonstrates a mechanism and never upgrades application-wide claims.
+A `Model` reproduction demonstrates a mechanism and never upgrades application-wide claims.
 
 Results produced outside the audit are `Reported` evidence, regardless of who ran them.
 
-A `Reported` claim - documentation, changelog, policy file, or recorded decision - establishes
-intent, never the current control.
+A `Reported` claim - documentation, changelog, policy file,
+or recorded decision - establishes intent, never the current control.
 
-Before such a claim can support a verified control, a
-score, or a readiness gate, it must be re-derived from code at the audited snapshot.
+Before such a claim can support a verified control, a score, or a readiness gate,
+it must be re-derived from code at the audited snapshot.
 
 These labels describe evidence, not replacement category statuses.
 
-Alongside the evidence basis, tag each evidence-ledger row and each finding with its rhetorical
-type:
+Alongside the evidence basis, tag each evidence-ledger row and each finding with
+its rhetorical type:
 
-- **Observation**: a fact another auditor can re-derive from the same artifact, such as a measured
-  count, a quoted line, or a recorded state.
-- **Concern**: a risk judgment built on one or more observations, including its reasoning and
-  remaining uncertainty.
+- **Observation**: a fact another auditor can re-derive from the same artifact,
+  such as a measured count, a quoted line, or a recorded state.
+- **Concern**: a risk judgment built on one or more observations,
+  including its reasoning and remaining uncertainty.
 
 The type tag disciplines narrative sections so a judgment cannot appear dressed as a fact.
 
 Theoretical exploitability reasoning is not an evidence basis.
 
-It follows the tiers in `references/exploitability-narrative.md` and never claims execution
-occurred.
+It follows the tiers in `references/exploitability-narrative.md` and never
+claims execution occurred.
 
 Record confidence as `HIGH`, `MEDIUM`, or `LOW`, with a reason independent of severity.
 
@@ -139,8 +138,8 @@ Before finalizing every `CRITICAL` or `HIGH` finding, look for evidence that cou
 - Identify actor access, deployment prerequisites, blast radius, and compensating controls.
 - Record the counter-check and remaining uncertainty, the audit never performs execution.
 
-A guarded `unwrap()` is not a demonstrated panic, and an unregistered module does not necessarily
-add compile time.
+A guarded `unwrap()` is not a demonstrated panic,
+and an unregistered module does not necessarily add compile time.
 
 A Docker builder-stage exposure does not prove inclusion in the published runtime image.
 
@@ -154,8 +153,8 @@ Separate mandatory requirements, adopted recommendations, and optional improveme
 
 Cite the requirement and its applicability before recording nonconformance.
 
-A standard's popularity does not make its adoption mandatory, and a recommendation does not
-become a requirement merely because the report lists it.
+A standard's popularity does not make its adoption mandatory,
+and a recommendation does not become a requirement merely because the report lists it.
 
 **Baseline consultation order**
 
@@ -163,22 +162,22 @@ When a judgement needs an external standard, consult sources in this order:
 
 1. The subject's own development standards documents.
 2. The bundled corpus digests under `references/stacks/`, `references/methodology/`,
-   `references/topics/`, and the flat `references/` files, located through
-   `references/stack-standards.md` and `references/source-catalog.md`.
-3. The live authoritative URL named by the digest, only when the earlier sources leave the
-   question open and fetching is permitted.
+   `references/topics/`, and the flat `references/` files,
+   located through `references/stack-standards.md` and `references/source-catalog.md`.
+3. The live authoritative URL named by the digest,
+   only when the earlier sources leave the question open and fetching is permitted.
 
 Record which baseline decided the judgement and, for corpus files, the snapshot date.
 
-Do not infer code originality, authorship, review history, or organizational practices from
-source style or absence of contrary evidence.
+Do not infer code originality, authorship, review history,
+or organizational practices from source style or absence of contrary evidence.
 
 ## Critical Evaluation
 
 For each favorable claim, attempt a relevant counter-check.
 
-Trace the mechanism across entry point, validation, authorization, state change, result, and
-failure handling where applicable.
+Trace the mechanism across entry point, validation, authorization, state change, result,
+and failure handling where applicable.
 
 A mechanism, directory, test, policy, or document receives credit only for the property it
 demonstrably establishes.
@@ -219,8 +218,8 @@ For every negative claim, actively inspect mitigating controls and competing exp
 Classify every claim before reporting it:
 
 - **Confirmed defect** - the violated property is demonstrated by sufficient evidence.
-- **Confirmed structural weakness** - a boundary or responsibility violation is demonstrated
-  without a behavioral defect.
+- **Confirmed structural weakness** - a boundary or responsibility violation is demonstrated without
+  a behavioral defect.
 - **Configuration risk** - a defect materializes only under a named configuration or topology.
 - **Plausible hypothesis** - the mechanism suggests a problem that evidence does not yet decide.
 - **Evidence gap** - the property is unknown, reported as such rather than filled in.
@@ -229,25 +228,27 @@ A `Plausible hypothesis` never counts in verified-finding totals, severity count
 
 It is tracked through the Further Verification or re-audit plan until evidence
 promotes or closes it.
+
 - **Optional improvement** - a beneficial change that is not a defect at all.
 
-A mechanism observation is not a target violation: a serialized lock establishes contention
-potential, and it becomes a performance defect only when the intended workload and acceptance
-target are violated or a sufficiently complete analytical model demonstrates it.
+A mechanism observation is not a target violation:
+a serialized lock establishes contention potential,
+and it becomes a performance defect only when the intended workload and acceptance target are
+violated or a sufficiently complete analytical model demonstrates it.
 
-A custom implementation is not defective merely for being custom - missing conformance evidence
-is the different finding.
+A custom implementation is not defective merely for being custom - missing conformance evidence is
+the different finding.
 
 ## Bounded Statements
 
 State conclusions at the boundary the evidence reaches.
 
-Write "scope checks are present at inspected entry points, and result isolation remains
-unverified" rather than "authorization is enforced end to end" when the end-to-end path was not
-traced.
+Write "scope checks are present at inspected entry points,
+and result isolation remains unverified" rather than "authorization is enforced end to end" when the
+end-to-end path was not traced.
 
-Favorable claims carry the same evidence discipline as unfavorable ones - presence of a
-mechanism never substitutes for the property the mechanism exists to provide.
+Favorable claims carry the same evidence discipline as unfavorable ones - presence of a mechanism
+never substitutes for the property the mechanism exists to provide.
 
 ## No Assumptions
 
@@ -287,8 +288,8 @@ A simple solution that meets stated requirements is not a weakness.
 
 Flag complexity only when it is unjustified by a stated requirement.
 
-When the input does not state a constraint, mark the constraint as `NOT SPECIFIED` rather than
-assuming an industry norm.
+When the input does not state a constraint,
+mark the constraint as `NOT SPECIFIED` rather than assuming an industry norm.
 
 ## Status Markers
 
@@ -316,11 +317,11 @@ Some categories do not apply to every system.
 A local binary may not need hosted telemetry or on-call, but can still need safe updates, rollback,
 file-operation safeguards, and recovery from corruption.
 
-Use `N/A` only when the capability cannot apply given the system's stated or clearly evident
-deployment model.
+Use `N/A` only when the capability cannot apply given the system's stated or clearly
+evident deployment model.
 
-Every `N/A` must carry a one-line justification anchored to the deployment model, for example
-"single-user desktop binary, no hosted runtime".
+Every `N/A` must carry a one-line justification anchored to the deployment model,
+for example "single-user desktop binary, no hosted runtime".
 
 `N/A` is not an escape hatch.
 
@@ -340,9 +341,9 @@ See `synthesis/project-scorecard.md`.
 
 ## Absent Capability Assessment
 
-When a finding records an absent capability - a configuration, control, automation, or artifact
-that could apply to the subject but is not present - record the documentary status of the
-absence in the finding block's `Absence` field, never an inferred motive.
+When a finding records an absent capability - a configuration, control, automation,
+or artifact that could apply to the subject but is not present - record the documentary status of
+the absence in the finding block's `Absence` field, never an inferred motive.
 
 Use exactly these tokens:
 
@@ -355,17 +356,17 @@ Use exactly these tokens:
 A finding that does not record an absent capability omits the `Absence` field entirely.
 
 When repository evidence points at the capability living outside the audited tree - such as
-documentation or badges naming an external pipeline or CI service - the capability is not
-absent: record the pointer as `Reported` evidence, keep its internals out of scope, and record
-no absence finding.
+documentation or badges naming an external pipeline or CI service - the capability is not absent:
+record the pointer as `Reported` evidence, keep its internals out of scope,
+and record no absence finding.
 
 Signals of a deliberate absence include documented scope limits such as a prototype or local-only
 delivery model, a documented manual process, and no envisaged delivery or release process at all.
 
-Signals only ever support the `Deliberate` token when they point at an actual record -
-documentation that prescribes the missing check, automation-adjacent directories without the
-pipeline itself such as `.github/` without `workflows/`, badges or pull request templates that
-reference automated checks, or helper scripts that nothing invokes describe a gap, not a motive,
+Signals only ever support the `Deliberate` token when they point at an actual record - documentation
+that prescribes the missing check, automation-adjacent directories without the pipeline itself such
+as `.github/` without `workflows/`, badges or pull request templates that reference automated
+checks, or helper scripts that nothing invokes describe a gap, not a motive,
 and stay under `No documented rationale` or `Undetermined`.
 
 Classify `Undetermined` when the signals conflict or are absent.
@@ -382,8 +383,8 @@ Cite the signals that produced the reading in one line after the token.
 
 For every status, record the evidence that supports it.
 
-Cite the smallest concrete anchor available: a file path, a config key, a command, a documented
-step, or a direct quote from the user input.
+Cite the smallest concrete anchor available: a file path, a config key, a command,
+a documented step, or a direct quote from the user input.
 
 If a status rests on absence of evidence, say so plainly.
 
@@ -397,33 +398,33 @@ If only a subset of the system was provided, say which parts were in scope and w
 
 Do not generalize from a sampled part to the whole system without marking the extrapolation.
 
-If the input is a description rather than running code, note that findings are based on description
-and not on verified behavior.
+If the input is a description rather than running code,
+note that findings are based on description and not on verified behavior.
 
 ## Information Security And Redaction
 
-Never output explicit plaintext secrets, actual database passwords, or cryptographic keys extracted
-from the source files within high-level summaries, observations, or the risk register.
+Never output explicit plaintext secrets, actual database passwords,
+or cryptographic keys extracted from the source files within high-level summaries, observations,
+or the risk register.
 
-The rule extends to infrastructure identifiers and personal data: internal hostnames, IP
-addresses, connection strings, usernames, and personal email addresses are cited by location
-and exposure type, never by value.
+The rule extends to infrastructure identifiers and personal data: internal hostnames, IP addresses,
+connection strings, usernames, and personal email addresses are cited by location and exposure
+type, never by value.
 
 Replace exact credentials with masked placeholders or generic technical descriptions.
 
-Use `[REDACTED]` for specific values, and `[REDACTED_<class>]` tokens such as
-`[REDACTED_HOST]` or `[REDACTED_IP]` when several redacted values must stay distinguishable.
+Use `[REDACTED]` for specific values, and `[REDACTED_<class>]` tokens such as `[REDACTED_HOST]` or
+`[REDACTED_IP]` when several redacted values must stay distinguishable.
 
-Use phrases such as "plaintext database credentials found in tracking file" instead of quoting the
-credential string.
+Use phrases such as "plaintext database credentials found in tracking file" instead of quoting
+the credential string.
 
 File paths and config keys may be cited as evidence.
 
 The redaction rule applies only to the secret value itself, not to the location where it was found.
 
-Before delivery, sweep the finished report for every sensitive literal gathered during
-evidence collection - a value that reached a finding must not survive in excerpts, tables, or
-appendix text.
+Before delivery, sweep the finished report for every sensitive literal gathered during evidence
+collection - a value that reached a finding must not survive in excerpts, tables, or appendix text.
 
 ## Indexing And Traceability
 
@@ -441,8 +442,8 @@ Format: `FND-[PILLAR]-[001]`
   - `INF` - Infrastructure & CI/CD
   - `AIP` - AI Provenance & Code Origin
   - `CPR` - Copyrights & Originality
-  - `API` - API Compatibility & Versioning Discipline (conditional, reusable libraries and
-    packages only, per `assessment/api-compatibility.md`)
+  - `API` - API Compatibility & Versioning Discipline (conditional,
+    reusable libraries and packages only, per `assessment/api-compatibility.md`)
 - `001` is a zero-padded sequential number per pillar.
 
 Assign IDs in the order findings are presented.
@@ -466,15 +467,15 @@ Format: `REC-[001]`
 **Cross-referencing rules**
 
 - A risk without a source finding is incomplete. Trace every risk to at least one `FND-XXX`.
-- A recommendation without a target finding is incomplete. Trace every recommendation to at least
-  one `FND-XXX`.
+- A recommendation without a target finding is incomplete.
+  Trace every recommendation to at least one `FND-XXX`.
 - When multiple findings contribute to one risk, list the primary `FND-XXX`.
 - When one finding generates multiple recommendations, create separate `REC-XXX` rows.
 
 **Pillar assignment**
 
-When a finding could belong to more than one pillar, assign it by the recurring cases below
-before defaulting to judgment.
+When a finding could belong to more than one pillar,
+assign it by the recurring cases below before defaulting to judgment.
 
 | Finding class                                     | Pillar                                |
 |---------------------------------------------------|---------------------------------------|
@@ -510,11 +511,12 @@ These constraints are absolute:
 - Always mark missing information explicitly.
 - Do not issue absolute directives unless the user explicitly requests them.
 - Never compile, build, test, or execute the audited project, and never run linters, scanners,
-  or generators against it. Tool availability cannot be assumed. Analysis rests on repository
-  contents alone: source files, configuration, build scripts, pipeline definitions,
-  documentation, and committed artifacts. Read-only inspection commands such as file listing,
-  search, and version control history remain in scope. The exceptions are the opt-in evidence
-  modes: `executed-readonly` permits non-mutating analyzers the user explicitly commissions,
-  and `executed-commands` additionally permits explicitly commissioned non-mutating commands
-  such as tests, builds, and isolated reproduction harnesses, while the subject is still
-  never deployed, mutated, or connected to live systems.
+  or generators against it. Tool availability cannot be assumed.
+  Analysis rests on repository contents alone: source files, configuration, build scripts,
+  pipeline definitions, documentation, and committed artifacts.
+  Read-only inspection commands such as file listing, search,
+  and version control history remain in scope. The exceptions are the opt-in evidence modes:
+  `executed-readonly` permits non-mutating analyzers the user explicitly commissions,
+  and `executed-commands` additionally permits explicitly commissioned non-mutating commands such as
+  tests, builds, and isolated reproduction harnesses, while the subject is still never deployed,
+  mutated, or connected to live systems.

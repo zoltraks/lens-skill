@@ -2,13 +2,12 @@
 
 ## Purpose
 
-> **Scope:** Where license declarations live per ecosystem and what counts as evidence
-> **Key items:** LICENSE/COPYING files, manifest `license` fields, header conventions,
-> SPDX identifiers, NOTICE obligations
+> **Scope:** Where license declarations live per ecosystem and what counts as evidence **Key
+> items:** LICENSE/COPYING files, manifest `license` fields, header conventions, SPDX
+> identifiers, NOTICE obligations
 
-This file consolidates per-ecosystem license evidence locations proven across audit
-sessions. `references/methodology/sbom-licensing.md` covers SBOM generation and obligation
-classes.
+This file consolidates per-ecosystem license evidence locations proven across audit sessions.
+`references/methodology/sbom-licensing.md` covers SBOM generation and obligation classes.
 
 This file is the lookup table for where declarations physically sit.
 
@@ -18,15 +17,15 @@ Feeds `assessment/documentation-review.md` and `assessment/standards-conformance
 
 ## Repository-Level Files
 
-- `LICENSE`, `LICENSE.md`, `LICENSE.txt`, `COPYING`, `COPYING.*` at repository root are the
-  primary declaration. Multiple files (`LICENSE-APACHE` + `LICENSE-MIT`) signal dual
-  licensing.
-- `NOTICE` files carry attribution text that Apache-2.0 and similar licenses require
-  redistributors to preserve. Their presence/absence is a compliance signal.
+- `LICENSE`, `LICENSE.md`, `LICENSE.txt`, `COPYING`,
+  `COPYING.*` at repository root are the primary declaration.
+  Multiple files (`LICENSE-APACHE` + `LICENSE-MIT`) signal dual licensing.
+- `NOTICE` files carry attribution text that Apache-2.0 and similar licenses require redistributors
+  to preserve. Their presence/absence is a compliance signal.
 - `LICENSES/` directories (REUSE convention) hold one file per SPDX identifier used.
 - `COPYING.LESSER` alongside `COPYING` is the LGPL pairing.
-- A README license badge (`shields.io` license badge) is `Reported` evidence - the file
-  itself is the declaration.
+- A README license badge (`shields.io` license badge)
+  is `Reported` evidence - the file itself is the declaration.
 
 ## Manifest Fields Per Ecosystem
 
@@ -48,8 +47,8 @@ Feeds `assessment/documentation-review.md` and `assessment/standards-conformance
 ## Evidence Quality Classes
 
 - `Verified`: a license file exists AND a manifest field or header agrees with it.
-- `Reported`: a badge, README claim, or manifest field without a license file - or the
-  reverse, a file with no manifest claim.
+- `Reported`: a badge, README claim, or manifest field without a license file - or the reverse,
+  a file with no manifest claim.
 - `NOT SPECIFIED`: no file, no field, no headers.
 - Conflict between file text and manifest field is a finding (e.g. `LICENSE` says MIT,
   `package.json` says `ISC`).
@@ -58,8 +57,8 @@ Feeds `assessment/documentation-review.md` and `assessment/standards-conformance
 
 - Per-file SPDX headers (`// SPDX-License-Identifier: MIT`) are the REUSE-style convention.
   Consistent headers plus a `LICENSES/` dir is the strongest posture.
-- License headers that contradict the root file are per-file dual-licensing evidence, not
-  necessarily defects - record which is which.
+- License headers that contradict the root file are per-file dual-licensing evidence,
+  not necessarily defects - record which is which.
 
 ## Live Check
 
@@ -67,5 +66,4 @@ Session-derived.
 
 No single external source owns this table.
 
-License obligation classes are
-in `references/methodology/sbom-licensing.md`.
+License obligation classes are in `references/methodology/sbom-licensing.md`.

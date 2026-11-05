@@ -3,19 +3,18 @@
 ## Purpose
 
 > **Scope:** Checkable constraints for projects that persist data: query construction,
-> transaction and async boundaries, schema evolution, connection lifecycle, engine fidelity in
-> tests
-> **Key items:** bound parameters, migration discipline, short transactions, pragma/practice
-> floors, engine-match testing
+> transaction and async boundaries, schema evolution, connection lifecycle,
+> engine fidelity in tests **Key items:** bound parameters, migration discipline,
+> short transactions, pragma/practice floors, engine-match testing
 
-This file distills the SQLite documentation, the OWASP SQL Injection cheat sheet, and the
-Jakarta Persistence specification sources listed in `references/source-catalog.md` into
+This file distills the SQLite documentation, the OWASP SQL Injection cheat sheet,
+and the Jakarta Persistence specification sources listed in `references/source-catalog.md` into
 constraints an audit can verify from repository source.
 
 Snapshot date: 2026-10-09.
 
-Feeds `assessment/baseline-conformance.md`, `assessment/security-review.md`, and
-`assessment/nfr-review.md` for subjects classified `database` in
+Feeds `assessment/baseline-conformance.md`, `assessment/security-review.md`,
+and `assessment/nfr-review.md` for subjects classified `database` in
 `references/domain-profiles.md`.
 
 ## Query Construction
@@ -24,108 +23,104 @@ From https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Che
 
 - Every value reaching a query is bound - never string-concatenated or formatted into SQL.
   Identifier quoting is the narrow documented exception, not a license to build statements.
-- Credentials never sit in source or configuration: the environment or a secret store
-  supplies them, and connection strings in the repository are a finding regardless of
-  environment targeting.
-- Query errors propagate to the caller. Swallowing an error and returning an empty or default
-  value hides corruption as missing data.
+- Credentials never sit in source or configuration: the environment or a secret store supplies them,
+  and connection strings in the repository are a finding regardless of environment targeting.
+- Query errors propagate to the caller. Swallowing an error and returning an empty or default value
+  hides corruption as missing data.
 
 ## Schema Evolution
 
-- Schema changes are versioned migrations: immutable once released, applied in order at
-  startup, and transactional (DDL rolled back on failure). A modified released migration is a
-  finding - environment state can no longer be trusted.
-- ORM auto-DDL is forbidden outside disposable environments: `ddl-auto: validate` at most in
-  configuration, with real changes going through the migration path.
+- Schema changes are versioned migrations: immutable once released, applied in order at startup,
+  and transactional (DDL rolled back on failure).
+  A modified released migration is a finding - environment state can no longer be trusted.
+- ORM auto-DDL is forbidden outside disposable environments:
+  `ddl-auto: validate` at most in configuration, with real changes going through the migration path.
 - Migration tests run against the real engine through containers or the project's declared
   equivalent - an embedded substitute accepts DDL the target rejects.
-- Column bounds fit the real data: identity and contact columns sized to an arbitrary
-  short default truncate real values, and a foreign-key column type that differs from the
-  referenced key type is a defect.
+- Column bounds fit the real data: identity and contact columns sized to an arbitrary short default
+  truncate real values, and a foreign-key column type that differs from the referenced
+  key type is a defect.
 
 ## Transactions And Async Boundaries
 
-- Transactions live at the service boundary and stay short. A transaction never spans a
-  network call, file IO, or an `.await` - each widens the lock window into contention the
-  caller cannot see.
-- A connection or transaction handle never crosses an `.await`: holding one suspends a scarce
-  resource for an unbounded duration.
-- Read-only report methods are explicitly non-transactional where the stack supports it, so a
-  read cannot outlive its need.
-- Optimistic concurrency (a `@Version`-style column) is the default answer to concurrent
-  writes - destructive concurrent updates are a finding.
+- Transactions live at the service boundary and stay short.
+  A transaction never spans a network call, file IO,
+  or an `.await` - each widens the lock window into contention the caller cannot see.
+- A connection or transaction handle never crosses an `.await`:
+  holding one suspends a scarce resource for an unbounded duration.
+- Read-only report methods are explicitly non-transactional where the stack supports it,
+  so a read cannot outlive its need.
+- Optimistic concurrency (a `@Version` -style column)
+  is the default answer to concurrent writes - destructive concurrent updates are a finding.
 
 ## Connection And Engine Floor
 
-- The connection path is single-sourced: one constructor applies every pragma or session
-  setting, so a connection that misses `foreign_keys`, journal mode, `synchronous`, or
-  `busy_timeout` cannot exist in the codebase.
-- Pools are sized to real concurrency. For embedded engines the pool serializes correctly
-  (SQLite write concurrency is one) - a pool larger than the engine's honest ceiling is
-  configuration noise, and blocking call sites that must serialize use an explicit per-resource
-  lock.
-- Embedded-engine tests prefer a temp file over in-memory: `:memory:` skips the WAL and
-  locking paths the production file exercises.
+- The connection path is single-sourced: one constructor applies every pragma or session setting,
+  so a connection that misses `foreign_keys`, journal mode, `synchronous`,
+  or `busy_timeout` cannot exist in the codebase.
+- Pools are sized to real concurrency. For embedded engines the pool serializes correctly (SQLite
+  write concurrency is one) - a pool larger than the engine's honest ceiling is configuration noise,
+  and blocking call sites that must serialize use an explicit per-resource lock.
+- Embedded-engine tests prefer a temp file over in-memory:
+  `:memory:` skips the WAL and locking paths the production file exercises.
 
 ## Derived Data
 
-- Secondary indexes - full-text search, vector or derived stores - are owned beside their base
-  data, updated in the same transaction where practical, and carry a single reindex entry point
-  so rebuilding cannot be improvised per call site.
-- A derived index with no rebuild path, or one built lazily on a hot request path, is a
-  finding.
+- Secondary indexes - full-text search, vector or derived stores - are owned beside their base data,
+  updated in the same transaction where practical,
+  and carry a single reindex entry point so rebuilding cannot be improvised per call site.
+- A derived index with no rebuild path, or one built lazily on a hot request path, is a finding.
 
 ## Tombstoned Rows
 
-- When entities carry a soft-delete flag - a `deletedAt`-style tombstone, an `active`
-  boolean, or a status column - every read path must apply the filter.
-- Enumerate the repository and query methods serving read paths and verify each one
-  filters: a `findById`-style accessor that returns a tombstoned row defeats the flag
-  everywhere downstream, and sequential-identifier access needs the same check.
-- Uniqueness and dedup queries must declare whether tombstoned rows count. A tombstone
-  that blocks a re-create is a decision, not an accident - the checkable question is
-  whether the semantics were chosen, not which answer the code gives.
+- When entities carry a soft-delete flag - a `deletedAt` -style tombstone, an `active` boolean,
+  or a status column - every read path must apply the filter.
+- Enumerate the repository and query methods serving read paths and verify each one filters:
+  a `findById` -style accessor that returns a tombstoned row defeats the flag everywhere downstream,
+  and sequential-identifier access needs the same check.
+- Uniqueness and dedup queries must declare whether tombstoned rows count.
+  A tombstone that blocks a re-create is a decision,
+  not an accident - the checkable question is whether the semantics were chosen,
+  not which answer the code gives.
 
 ## Multi-Resource Mutation Ordering
 
-- When one logical operation mutates two or more resources that share no transaction -
-  a database row plus a filesystem file, two stores, a record plus a queue entry -
-  record the write order, the crash window between the writes, and the compensation
-  path on failure of the second write.
-- A commit-then-write order leaves the record pointing at a missing object, and a
-  write-then-commit order leaves an orphan object the next run may treat as an error
-  or a duplicate - either order is a finding unless a documented reconciliation path
-  exists.
-- Record the overwrite semantics of the primitive the code calls: platform `move`,
-  `rename`, and `copy` operations differ on whether an existing destination is
-  replaced, so a `FileAlreadyExistsException`-style guard or catch may be dead code on
-  platforms where the call silently overwrites - losing data without an error.
+- When one logical operation mutates two or more resources that share no transaction - a database
+  row plus a filesystem file, two stores, a record plus a queue entry - record the write order,
+  the crash window between the writes, and the compensation path on failure of the second write.
+- A commit-then-write order leaves the record pointing at a missing object,
+  and a write-then-commit order leaves an orphan object the next run may treat as an error or a
+  duplicate - either order is a finding unless a documented reconciliation path exists.
+- Record the overwrite semantics of the primitive the code calls: platform `move`, `rename`,
+  and `copy` operations differ on whether an existing destination is replaced,
+  so a `FileAlreadyExistsException` -style guard or catch may be dead code on platforms where the
+  call silently overwrites - losing data without an error.
 - The operation's identity needs a uniqueness constraint the datastore enforces - a
-  check-then-insert read is a race window, and a constraint that treats `NULL` keys as
-  distinct silently permits the duplicates it was meant to block.
-- A consistency-repair path - periodic reconciliation of records against objects,
-  orphan detection, idempotent retry - is the compensating control that makes an
-  ordering choice survivable, and its absence raises severity.
+  check-then-insert read is a race window,
+  and a constraint that treats `NULL` keys as distinct silently permits the duplicates
+  it was meant to block.
+- A consistency-repair path - periodic reconciliation of records against objects, orphan detection,
+  idempotent retry - is the compensating control that makes an ordering choice survivable,
+  and its absence raises severity.
 
 ## Schema And Identity Adequacy
 
-- Index coverage is assessed against observed query patterns, not declarations: every
-  query shape found in the code - filtered sort, join key, duplicate check, ordered
-  status read - gets an index verdict, and a hot-path query on an unindexed column is
-  a finding.
-- Identity and dedup keys carry a collision-adequacy verdict: a weakened or
-  collision-prone digest such as MD5 used as a uniqueness key admits planted
+- Index coverage is assessed against observed query patterns, not declarations:
+  every query shape found in the code - filtered sort, join key, duplicate check,
+  ordered status read - gets an index verdict,
+  and a hot-path query on an unindexed column is a finding.
+- Identity and dedup keys carry a collision-adequacy verdict:
+  a weakened or collision-prone digest such as MD5 used as a uniqueness key admits planted
   collisions, where a second preimage defeats the dedup guarantee.
-- Column bounds and types stay portable across the declared target engines - a DDL
-  dialect specific to the development engine and a column too short for real
-  upstream values are both findings.
+- Column bounds and types stay portable across the declared target engines - a DDL dialect specific
+  to the development engine and a column too short for real upstream values are both findings.
 
 ## Live Check
 
-When web fetch is available, spot-check one pragma or session-setting default against the
-target engine's documentation before citing the floor above.
+When web fetch is available, spot-check one pragma or session-setting default against the target
+engine's documentation before citing the floor above.
 
-Record whichever baseline - this snapshot or the live pages - the audit used, and note drift in
-Known Limitations.
+Record whichever baseline - this snapshot or the live pages - the audit used,
+and note drift in Known Limitations.
 
 The check is best-effort, never blocks the audit, and never executes the audited project.

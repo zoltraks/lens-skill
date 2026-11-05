@@ -2,9 +2,10 @@
 
 ## Purpose
 
-> **Scope:** Structured threat enumeration using STRIDE, mapped to trust boundaries and data flows
-> **Key items:** Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service,
-> Elevation of Privilege, attack surface, trust boundaries
+> **Scope:** Structured threat enumeration using STRIDE,
+> mapped to trust boundaries and data flows **Key items:** Spoofing, Tampering, Repudiation,
+> Information Disclosure, Denial of Service, Elevation of Privilege, attack
+> surface, trust boundaries
 
 This file guides a structured threat model of the system using the STRIDE framework,
 anchored to the data flow model in `assessment/data-flow.md`.
@@ -22,11 +23,11 @@ do not perform offensive actions or credential harvesting.
 ## When This Applies
 
 This assessment applies when the system has a security-relevant attack surface: a network service,
-an API, an authentication or authorization boundary, multi-tenant data, or any flow that crosses a
-trust boundary.
+an API, an authentication or authorization boundary, multi-tenant data,
+or any flow that crosses a trust boundary.
 
-It does not apply to a single-user local utility with no network surface, no untrusted input,
-and no shared data.
+It does not apply to a single-user local utility with no network surface, no untrusted
+input, and no shared data.
 
 In that case, mark the section `N/A` with a one-line justification anchored to the deployment model.
 
@@ -45,22 +46,21 @@ STRIDE enumerates six threat categories, each the inverse of a security property
 | Denial of Service      | Availability    | Can the system be made unavailable?                 |
 | Elevation of Privilege | Authorization   | Can an actor gain rights beyond their grant?        |
 
-STRIDE originates with Microsoft threat-modeling practice and its current anchor is the
-Microsoft Threat Modeling Tool documentation alongside the OWASP Threat Modeling project - the
-distilled rules and source status live in
-`references/methodology/risk-modeling.md`.
+STRIDE originates with Microsoft threat-modeling practice and its current anchor is the Microsoft
+Threat Modeling Tool documentation alongside the OWASP Threat Modeling project - the distilled rules
+and source status live in `references/methodology/risk-modeling.md`.
 
-Each category maps to a cheat-sheet family in
-`references/methodology/owasp-baselines.md` - for example Tampering to integrity and
-deserialization sheets, Information Disclosure to logging and transport sheets - so a STRIDE
-row can name the concrete control guidance that would mitigate it.
+Each category maps to a cheat-sheet family in `references/methodology/owasp-baselines.md` - for
+example Tampering to integrity and deserialization sheets,
+Information Disclosure to logging and transport sheets - so a STRIDE row can name the concrete
+control guidance that would mitigate it.
 
 ## Method
 
 Use STRIDE for threat enumeration and NIST SP 800-30 where its risk-assessment process is applied.
 
-Select applicable ASVS requirements and level using `assessment/security-review.md`, a STRIDE table
-does not by itself establish ASVS conformance.
+Select applicable ASVS requirements and level using `assessment/security-review.md`,
+a STRIDE table does not by itself establish ASVS conformance.
 
 **Establish the model**
 
@@ -103,41 +103,42 @@ then describe each material threat with evidence and its linked `FND-XXX` / `RSK
 
 Use these examples to avoid overlooking categories that are often missed:
 
-- **Information Disclosure**: Unencrypted network transport (for example, `ws://` instead of
-  `wss://`), verbose error messages revealing internal paths, log files containing sensitive tokens,
-  broad API responses exposing extra fields.
-- **Elevation of Privilege**: Filesystem access without path validation (for example, loading ROM
-  files from user input allowing directory traversal), missing authorization checks on
-  administrative endpoints, ability to escalate from guest to admin via parameter tampering.
-- **Repudiation**: Absence of audit logs on security-relevant actions (for example, WebSocket
-  connection events, configuration changes, authentication attempts), missing timestamps or actor
-  attribution in logs.
-- **Spoofing**: Missing origin validation on cross-origin requests, weak or absent token
-  verification, unauthenticated WebSocket connections.
+- **Information Disclosure**: Unencrypted network transport (for example,
+  `ws://` instead of `wss://`), verbose error messages revealing internal paths,
+  log files containing sensitive tokens, broad API responses exposing extra fields.
+- **Elevation of Privilege**: Filesystem access without path validation (for example,
+  loading ROM files from user input allowing directory traversal),
+  missing authorization checks on administrative endpoints,
+  ability to escalate from guest to admin via parameter tampering.
+- **Repudiation**: Absence of audit logs on security-relevant actions (for example,
+  WebSocket connection events, configuration changes, authentication attempts),
+  missing timestamps or actor attribution in logs.
+- **Spoofing**: Missing origin validation on cross-origin requests,
+  weak or absent token verification, unauthenticated WebSocket connections.
 - **Tampering**: Unsigned serialized data, lack of integrity checks on downloaded artifacts,
   writable configuration without validation.
-- **Denial of Service**: Unbounded input buffers, missing rate limits, unauthenticated endpoints
-  that trigger heavy computation.
+- **Denial of Service**: Unbounded input buffers, missing rate limits,
+  unauthenticated endpoints that trigger heavy computation.
 
 ## Status Criteria
 
-- `PASS`: All trust boundaries are enumerated and each material STRIDE threat has an evidenced
-  mitigating control.
-- `PARTIAL`: Boundaries are enumerated but some STRIDE categories have unmitigated or unverified
-  threats.
+- `PASS`: All trust boundaries are enumerated and each material STRIDE threat has an
+  evidenced mitigating control.
+- `PARTIAL`: Boundaries are enumerated but some STRIDE categories have unmitigated
+  or unverified threats.
 - `FAIL`: Material threats exist at a trust boundary with no mitigating control, with evidence.
 - `UNKNOWN`: The attack surface could not be determined from the input.
 - `N/A`: The system has no security-relevant trust boundary, with justification.
 
 ## Rules
 
-- Check all six STRIDE categories at every trust boundary. A threat model with fewer than six
-  categories examined is incomplete.
+- Check all six STRIDE categories at every trust boundary.
+  A threat model with fewer than six categories examined is incomplete.
 - Anchor every threat to a specific trust boundary and flow from the data flow model.
 - Do not list a threat that does not map to a concrete boundary or flow.
 - Distinguish a present control from a verified-effective control.
-- Every unmitigated threat must trace to a finding and a risk, do not leave threats floating outside
-  the register.
+- Every unmitigated threat must trace to a finding and a risk,
+  do not leave threats floating outside the register.
 - Do not output plaintext secrets, tokens, or keys when describing a disclosure threat.
-- If a STRIDE category yields no material threat at a boundary, record it as `None identified` with
-  a one-line justification rather than omitting it.
+- If a STRIDE category yields no material threat at a boundary,
+  record it as `None identified` with a one-line justification rather than omitting it.

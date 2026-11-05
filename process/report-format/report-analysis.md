@@ -2,8 +2,8 @@
 
 ## Purpose
 
-> **Scope:** Trade-off analysis and threat model sections
-> **Key items:** engineering trade-offs, STRIDE threats
+> **Scope:** Trade-off analysis and threat model sections **Key items:** engineering
+> trade-offs, STRIDE threats
 
 ## Solution Comparison
 
@@ -17,13 +17,14 @@ Use a table with this fixed column order:
 | Trade-off | Context | Option A: gain / cost | Option B: gain / cost | Evidence | Implication |
 |-----------|---------|-----------------------|-----------------------|----------|-------------|
 
-When the report language is not English, apply the column header translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the column header translations from the matching `translations/` file.
 
 Column meanings:
 
-- **Trade-off**: a short name for the tension. Name the artifact or mechanism it governs and
-  drop qualifiers that state the obvious (`Schema migration`, not `Automated schema migration`).
+- **Trade-off**: a short name for the tension.
+  Name the artifact or mechanism it governs and drop qualifiers that state the obvious
+  (`Schema migration`, not `Automated schema migration`).
 - **Context**: the stated constraint or goal that frames the choice, or `NOT SPECIFIED`.
 - **Option A**: the quality gained and the quality reduced for the first side.
 - **Option B**: the quality gained and the quality reduced for the alternative.
@@ -32,21 +33,21 @@ Column meanings:
 
 **Rules**
 
-- Frame each trade-off against a stated constraint. If no constraint is stated, put `NOT SPECIFIED`
-  in Context and present the trade-off without judging the choice.
+- Frame each trade-off against a stated constraint. If no constraint is stated,
+  put `NOT SPECIFIED` in Context and present the trade-off without judging the choice.
 - Do not label either side as right or wrong outside an explicit recommendation request.
-- A choice that fits the stated context is not a weakness, even if it would be unusual in a
-  different context.
+- A choice that fits the stated context is not a weakness,
+  even if it would be unusual in a different context.
 - Keep cell language neutral and anchored to evidence.
 - Trade-off reasoning may also be embedded into individual finding blocks (under Description or
-  Impact) when it directly explains a specific finding. The standalone table here surfaces the
-  system-level tensions.
+  Impact) when it directly explains a specific finding.
+  The standalone table here surfaces the system-level tensions.
 - For a multi-project report, each project block carries its own Solution Comparison after that
   project's Architectural Assessment. A combined report-level Solution Comparison holds only
   cross-project trade-offs, per the Multi-Project Report Structure section.
-- When the trade-off analysis includes an explicit recommendation, that recommendation must also
-  appear as a `REC-XXX` entry in the Remediation Roadmap, traced to the relevant
-  `FND-XXX`.
+- When the trade-off analysis includes an explicit recommendation,
+  that recommendation must also appear as a `REC-XXX` entry in the Remediation Roadmap,
+  traced to the relevant `FND-XXX`.
 
 ## Threat Model
 
@@ -58,11 +59,11 @@ and note the omission in Scope Exclusions.
 
 Apply STRIDE to the evidenced trust boundaries in the Data Flow Diagram.
 
-Identify selected NIST SP 800-30 or ASVS requirements only when actually assessed, do not claim
-ASVS Level 2 coverage merely because a threat table exists.
+Identify selected NIST SP 800-30 or ASVS requirements only when actually assessed,
+do not claim ASVS Level 2 coverage merely because a threat table exists.
 
-Present one table keyed by trust boundary and STRIDE category, then describe each material threat
-with evidence and its linked `FND-XXX` and `RSK-XXX`.
+Present one table keyed by trust boundary and STRIDE category,
+then describe each material threat with evidence and its linked `FND-XXX` and `RSK-XXX`.
 
 | Boundary        | STRIDE            | Threat Description                | Control              | Finding     |
 |-----------------|-------------------|-----------------------------------|----------------------|-------------|
@@ -79,5 +80,5 @@ Every unmitigated threat must trace to a finding and a risk.
 
 Never output plaintext secrets when describing an information-disclosure threat.
 
-When the report language is not English, apply the column header translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the column header translations from the matching `translations/` file.

@@ -3,10 +3,9 @@
 ## Purpose
 
 > **Scope:** Checkable requirements of the Agent Skills specification used as the conformance
-> baseline for the Skill Definition Conformance assessment
-> **Key items:** frontmatter field constraints, platform constraints, directory conventions,
-> progressive disclosure, file-reference rules, skill security surface, live-check drift
-> procedure
+> baseline for the Skill Definition Conformance assessment **Key items:** frontmatter field
+> constraints, platform constraints, directory conventions, progressive disclosure,
+> file-reference rules, skill security surface, live-check drift procedure
 
 This file distills the [Agent Skills specification](https://agentskills.io/specification)
 into the constraints an audit can check mechanically.
@@ -17,9 +16,8 @@ Snapshot date: 2026-10-02.
 
 `assessment/skill-definition.md` consumes this file.
 
-`references/agent-configuration.md` holds the baselines for every other agent-facing
-format discovered alongside `SKILL.md`, such as `AGENTS.md`, rules directories, and plugin
-manifests.
+`references/agent-configuration.md` holds the baselines for every other agent-facing format
+discovered alongside `SKILL.md`, such as `AGENTS.md`, rules directories, and plugin manifests.
 
 When the live-check clause below applies,
 record the fetched result as the baseline instead of this snapshot.
@@ -46,20 +44,20 @@ A skill is a directory containing, at minimum, a `SKILL.md` file.
 ## Platform Constraints
 
 Anthropic's skill documentation at
-`https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview` adds constraints
-that are not in the agentskills.io specification but apply to skills targeting its products:
+`https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview` adds constraints that
+are not in the agentskills.io specification but apply to skills targeting its products:
 
 - `name` must not contain the reserved substrings `anthropic` or `claude`.
 - `name` and `description` must not contain XML tags.
-- `description` is injected into the system prompt, so it must be written in third person -
-  first- or second-person phrasing disrupts skill discovery.
+- `description` is injected into the system prompt,
+  so it must be written in third person - first- or second-person phrasing disrupts skill discovery.
 
 An audit records these as platform-constraint findings distinct from spec violations.
 
 ## Progressive Disclosure
 
-Agents load skills in three stages: `name` and `description` at startup, the full `SKILL.md` body
-on activation, and resource files on demand.
+Agents load skills in three stages: `name` and `description` at startup,
+the full `SKILL.md` body on activation, and resource files on demand.
 
 The specification recommends keeping `SKILL.md` under 500 lines and under 5,000 tokens.
 
@@ -107,14 +105,14 @@ authoritative source for these signals:
 - `scripts/` entries are self-contained or document their dependencies.
 - `metadata` key names are reasonably unique to avoid conflicts.
 - `allowed-tools` lists only the tools the skill's procedures actually invoke.
-- Skill names prefer gerund form (`processing-pdfs`, `analyzing-spreadsheets`) and avoid vague or
-  generic names (`helper`, `utils`, `documents`, `data`).
+- Skill names prefer gerund form (`processing-pdfs`, `analyzing-spreadsheets`)
+  and avoid vague or generic names (`helper`, `utils`, `documents`, `data`).
 - Instruction specificity matches task fragility: exact scripts for fragile low-freedom steps,
   goal-level guidance for tolerant high-freedom steps.
 - Every paragraph is expected to justify its token cost - content the agent already knows is
   waste, not completeness.
-- The quality floor is at least three evaluation prompts exercised against real usage, across
-  the model tiers the skill targets.
+- The quality floor is at least three evaluation prompts exercised against real usage,
+  across the model tiers the skill targets.
 - Anti-patterns the guide names: Windows-style paths, offering too many near-duplicate options,
   and unjustified "voodoo" constants in scripts.
 
@@ -123,29 +121,29 @@ authoritative source for these signals:
 The overview's security considerations define the checkable surface for an audited skill,
 treating an untrusted skill like installing third-party software:
 
-- Every bundled file is reviewed - `SKILL.md`, scripts, and resources - for unexpected network
-  calls, file access outside the skill's declared scope, and operations that do not match its
-  stated purpose.
-- Instructions or scripts that fetch content from external URLs are a distinct risk class: the
-  fetched content is mutable and unpinnable, so a trustworthy skill can turn malicious when its
-  dependencies change.
-- Tool invocations exceeding the `allowed-tools` declaration, and reads or writes of sensitive
-  data with no stated need, are exposure findings.
+- Every bundled file is reviewed - `SKILL.md`, scripts,
+  and resources - for unexpected network calls, file access outside the skill's declared scope,
+  and operations that do not match its stated purpose.
+- Instructions or scripts that fetch content from external URLs are a distinct risk class:
+  the fetched content is mutable and unpinnable,
+  so a trustworthy skill can turn malicious when its dependencies change.
+- Tool invocations exceeding the `allowed-tools` declaration,
+  and reads or writes of sensitive data with no stated need, are exposure findings.
 - The OWASP Agentic Skills Top 10 vocabulary in `references/methodology/owasp-baselines.md`
-  (AST01-AST10) anchors these finding classes, and update-drift findings (AST07) pair with the
-  integrity rules in `references/topics/git-integrity.md`.
+  (AST01-AST10) anchors these finding classes, and update-drift findings (AST07)
+  pair with the integrity rules in `references/topics/git-integrity.md`.
 
 ## Live Check
 
 When web fetch is available, retrieve `https://agentskills.io/specification` during the audit and
-compare its headline constraints - required fields, character limits, directory conventions, and
-disclosure budgets - against this snapshot.
+compare its headline constraints - required fields, character limits, directory conventions,
+and disclosure budgets - against this snapshot.
 
-When the fetched spec differs, record the live constraints as the conformance baseline and note
-the drift in the report's Known Limitations.
+When the fetched spec differs, record the live constraints as the conformance baseline and note the
+drift in the report's Known Limitations.
 
-When the fetch is unavailable, run the assessment against this snapshot and record the snapshot
-date as the baseline in the audit's evidence.
+When the fetch is unavailable, run the assessment against this snapshot and record the snapshot date
+as the baseline in the audit's evidence.
 
 The check is best-effort.
 
@@ -162,26 +160,24 @@ and mark it `Reported` rather than `Verified`.
 
 ## Astra Member Baseline
 
-A subject carrying the astra markers - `SKILL.md` with `name`/`description`/
-`metadata.version` frontmatter plus `AGENTS.md` and `scripts/check-update.py` -
-evaluates against the member contract: required files (`SKILL.md`, `AGENTS.md`,
-`README.md`, `LICENSE`, `docs/` governance set, `evals/`), the five shared
-`process/` procedures (`skill-activation`, `json-exchange`, `operation-timing`,
-`session-review`, `operations-catalog`) plus `decision-modes.md`, and the
-once-per-session update check.
+A subject carrying the astra markers - `SKILL.md` with `name` / `description` / `metadata.version`
+frontmatter plus `AGENTS.md` and `scripts/check-update.py` - evaluates against the member contract:
+required files (`SKILL.md`, `AGENTS.md`, `README.md`, `LICENSE`, `docs/` governance set, `evals/`),
+the five shared `process/` procedures (`skill-activation`, `json-exchange`, `operation-timing`,
+`session-review`, `operations-catalog`) plus `decision-modes.md`,
+and the once-per-session update check.
 
-Member-owned variance is conformant when recorded - the member's own documents
-first, the owning collection's member contract when one resolves.
+Member-owned variance is conformant when recorded - the member's own documents first,
+the owning collection's member contract when one resolves.
 
 Absent a collection, the member's own docs alone decide.
 
-Sanctioned shapes include `CHANGELOG.md` presence or absence, test-layout depth
-or missing `tests/`, `docs/MAINTENANCE.md` beside or instead of
-`process/skill-maintenance.md`, vendored canonical `references/` corpora,
-`process/` subdirectories, extra interaction modes, prose-profile variance,
-sanctioned non-ASCII, evals schema variants, `docs/decisions/` and
-`docs/standard/` subtrees, missing `parameter-configuration.md`, and
-multilingual `languages/`/`translations/` corpora.
+Sanctioned shapes include `CHANGELOG.md` presence or absence, test-layout depth or missing `tests/`,
+`docs/MAINTENANCE.md` beside or instead of `process/skill-maintenance.md`,
+vendored canonical `references/` corpora, `process/` subdirectories, extra interaction modes,
+prose-profile variance, sanctioned non-ASCII, evals schema variants,
+`docs/decisions/` and `docs/standard/` subtrees, missing `parameter-configuration.md`,
+and multilingual `languages/` / `translations/` corpora.
 
-Absent shared files or unrecorded divergence are findings; recorded variance
-reports as conformant with citation.
+Absent shared files or unrecorded divergence are findings.
+Recorded variance reports as conformant with citation.

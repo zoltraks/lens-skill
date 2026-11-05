@@ -4,24 +4,23 @@
 
 > **Scope:** Whether a code-bearing subject carries the engineering floor that well-governed
 > projects of its detected stack and purpose standardize - independent of whether the subject
-> documents its own standards
-> **Key items:** universal floor rows, stack and purpose baseline digests, applicability
-> conditions, baseline selection record
+> documents its own standards **Key items:** universal floor rows,
+> stack and purpose baseline digests, applicability conditions, baseline selection record
 
-This file guides assessment of whether the project meets the baseline a comparable
-well-governed project would carry, even when the subject documents no standards of its own.
+This file guides assessment of whether the project meets the baseline a comparable well-governed
+project would carry, even when the subject documents no standards of its own.
 
-Where `assessment/standards-conformance.md` measures the code against the project's own
-documented rules, this assessment measures the code against the engineering floor that
-projects using similar technology or serving a similar purpose widely adopt.
+Where `assessment/standards-conformance.md` measures the code against the project's own documented
+rules, this assessment measures the code against the engineering floor that projects using similar
+technology or serving a similar purpose widely adopt.
 
 Apply `principles/evaluation-rules.md` throughout.
 
-This assessment is conditional: it applies when the subject ships or develops executable
-source and at least one bundled baseline digest covers its detected stack or nature.
+This assessment is conditional: it applies when the subject ships or develops executable source and
+at least one bundled baseline digest covers its detected stack or nature.
 
-When no bundled baseline covers the subject - for example a documentation-only repository or
-a stack with no digest - omit this category and note the omission in Scope Exclusions.
+When no bundled baseline covers the subject - for example a documentation-only repository or a stack
+with no digest - omit this category and note the omission in Scope Exclusions.
 
 ## Baseline Selection
 
@@ -30,18 +29,21 @@ Methodology section.
 
 Consult the baselines in this order:
 
-1. The subject's own development standards documents, when found during intake - they are the
-   project's declared floor and `assessment/standards-conformance.md` measures them.
-2. The bundled digests: `references/stacks/` for the detected stack, `references/topics/` for
-   the detected nature or purpose, mapped through `references/source-catalog.md`.
-3. The live authoritative URL a digest names, only when the bundled material leaves the
-   question open and fetching is permitted.
+1. The subject's own development standards documents,
+   when found during intake - they are the project's declared floor and
+   `assessment/standards-conformance.md` measures them.
+2. The bundled digests: `references/stacks/` for the detected stack,
+   `references/topics/` for the detected nature or purpose,
+   mapped through `references/source-catalog.md`.
+3. The live authoritative URL a digest names,
+   only when the bundled material leaves the question open and fetching is permitted.
 
-Record which baseline governed each judgement and the digest's snapshot date, so a report can
-be re-derived later.
+Record which baseline governed each judgement and the digest's snapshot date,
+so a report can be re-derived later.
 
-Never apply a baseline outside its applicability signals: an MCP contract applies to a project
-that exposes tools over MCP, not to every project that happens to use JSON.
+Never apply a baseline outside its applicability signals:
+an MCP contract applies to a project that exposes tools over MCP,
+not to every project that happens to use JSON.
 
 ## Universal Floor Rows
 
@@ -77,12 +79,12 @@ Rows drawn from the bundled digests apply only when their applicability signals 
 
 ## Status Criteria
 
-- `PASS`: Every applicable baseline row has source evidence of the expected control, and no
-  row is a defect.
-- `PARTIAL`: Some rows pass but others show the control absent, unenforced, or applied
-  inconsistently.
-- `FAIL`: Multiple applicable floor rows are absent where the subject's role makes them
-  load-bearing.
+- `PASS`: Every applicable baseline row has source evidence of the expected control,
+  and no row is a defect.
+- `PARTIAL`: Some rows pass but others show the control absent, unenforced,
+  or applied inconsistently.
+- `FAIL`: Multiple applicable floor rows are absent where the subject's role
+  makes them load-bearing.
 - `UNKNOWN`: Evidence was not gathered deeply enough to judge the applicable rows.
 - `N/A`: No bundled baseline covers the subject's detected stack or nature.
 
@@ -103,20 +105,21 @@ Rows drawn from the bundled digests apply only when their applicability signals 
 
 - A documented check that is never executed is weaker than an executed one - record it as
   documented-not-enforced, not as a pass.
-- A missing baseline is an observation when the subject's role does not depend on it, and it is a
-  finding only where the subject's purpose makes the control load-bearing.
-- Cross-feed rows into the other categories: a missing lockfile feeds `dependency-review`, a
-  missing test floor feeds `testing-review`, secrets findings feed `security-review`. This
-  section reports the aggregate floor, not every individual gap.
-- A subject's own documented standard overrides the bundled baseline where they conflict -
-  record the override rather than silently applying the stricter external rule.
+- A missing baseline is an observation when the subject's role does not depend on it,
+  and it is a finding only where the subject's purpose makes the control load-bearing.
+- Cross-feed rows into the other categories: a missing lockfile feeds `dependency-review`,
+  a missing test floor feeds `testing-review`, secrets findings feed `security-review`.
+  This section reports the aggregate floor, not every individual gap.
+- A subject's own documented standard overrides the bundled baseline where they conflict - record
+  the override rather than silently applying the stricter external rule.
 
 ## Common Risks
 
-- A project that documents no standards can still be well-governed, and this assessment fills the
-  floor that `assessment/standards-conformance.md` cannot measure when no project documents
-  exist.
-- Baseline absence concentrated on one surface (for example, no exit-code contract on a CLI
-  whose whole purpose is scripting) is a stronger finding than the same absence spread thin.
-- An unenforced floor - a linter configured but never run in CI, a budget file nothing
-  consumes is harder to detect and more honest to report than a clean pass.
+- A project that documents no standards can still be well-governed,
+  and this assessment fills the floor that `assessment/standards-conformance.md` cannot measure when
+  no project documents exist.
+- Baseline absence concentrated on one surface (for example,
+  no exit-code contract on a CLI whose whole purpose is scripting)
+  is a stronger finding than the same absence spread thin.
+- An unenforced floor - a linter configured but never run in CI,
+  a budget file nothing consumes is harder to detect and more honest to report than a clean pass.

@@ -2,8 +2,8 @@
 
 ## Purpose
 
-> **Scope:** Index of the repository-governance documents under `docs/`.
-> **Key items:** style, maintenance, versioning, contributing, security.
+> **Scope:** Index of the repository-governance documents under `docs/`. **Key items:** style,
+> maintenance, versioning, contributing, security.
 
 These documents govern the Lens repository itself, not the audit reports the skill produces.
 
@@ -17,5 +17,6 @@ These documents govern the Lens repository itself, not the audit reports the ski
 
 `AGENTS.md` at the root is the agent-facing entry point and summarizes the same contract.
 
-Root `docs/` holds repository governance only. It is unrelated to the `docs/audit/` report
-location convention that audits may find in subject repositories.
+Root `docs/` holds repository governance only.
+It is unrelated to the `docs/audit/` report location convention that audits may find in
+subject repositories.

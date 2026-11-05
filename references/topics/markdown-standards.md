@@ -2,12 +2,11 @@
 
 ## Purpose
 
-> **Scope:** Checkable anchors for Markdown conformance and documentation architecture
-> **Key items:** CommonMark conformance surface, Diataxis documentation quadrants, prose
-> format contracts
+> **Scope:** Checkable anchors for Markdown conformance and documentation architecture **Key
+> items:** CommonMark conformance surface, Diataxis documentation quadrants, prose format contracts
 
-This file distills the CommonMark spec and Diataxis sources listed in
-`references/source-catalog.md` into constraints an audit can verify from repository source.
+This file distills the CommonMark spec and Diataxis sources listed in `references/source-catalog.md`
+into constraints an audit can verify from repository source.
 
 Snapshot date: 2026-10-02.
 
@@ -17,52 +16,50 @@ Feeds `assessment/documentation-review.md` and the style surface of `docs/STYLE.
 
 From https://spec.commonmark.org/0.31.2/ (version pinned for stability).
 
-- CommonMark defines the conforming subset: ATX/Setext headings, fenced/indented code,
-  lists, links, images, tables are NOT core (GFM extension).
-- Heading depth and blank-line discipline the report validator enforces
-  (`#`/`##`/`###`, one blank after) are Lens's own contract - CommonMark accepts more, the
-  contract is stricter on purpose.
-- Tables, footnotes, strikethrough, and task lists are GFM or platform extensions. A doc
-  relying on them declares a renderer assumption.
-- Reference-style links and inline links both conform. `](/)`-style bare brackets and
-  unclosed emphasis markers are the common defects.
-- Fence info strings are free-form. Non-alphanumeric info strings may not render per
-  renderer.
-- Section 4.5 makes `~~~` and ```` ``` ```` fences equivalent and forbids mixing them in one
-  block: the closing fence must use the same character and run at least as long as the opening
-  fence. A Markdown-processing tool that only tracks the backtick prefix handles tilde-fenced
-  code as live document content - a real defect class, not a corner case.
-- A backtick fence's info string may not contain backticks, while a tilde fence's may. Both fences
-  allow up to three leading spaces, and the same indentation is stripped from content lines.
-- An unclosed fence runs to the end of the containing block or document - there is no
-  backtracking - and a fence may interrupt a paragraph with no blank line required. Fence
-  content is literal text, never parsed as inlines.
+- CommonMark defines the conforming subset: ATX/Setext headings, fenced/indented code, lists, links,
+  images, tables are NOT core (GFM extension).
+- Heading depth and blank-line discipline the report validator enforces (`#` / `##` / `###`,
+  one blank after) are Lens's own contract - CommonMark accepts more,
+  the contract is stricter on purpose.
+- Tables, footnotes, strikethrough, and task lists are GFM or platform extensions.
+  A doc relying on them declares a renderer assumption.
+- Reference-style links and inline links both conform.
+  `](/)` -style bare brackets and unclosed emphasis markers are the common defects.
+- Fence info strings are free-form. Non-alphanumeric info strings may not render per renderer.
+- Section 4.5 makes `~~~` and ```` ``` ```` fences equivalent and forbids mixing them in one block:
+  the closing fence must use the same character and run at least as long as the opening fence.
+  A Markdown-processing tool that only tracks the backtick prefix handles tilde-fenced code as live
+  document content - a real defect class, not a corner case.
+- A backtick fence's info string may not contain backticks, while a tilde fence's may.
+  Both fences allow up to three leading spaces,
+  and the same indentation is stripped from content lines.
+- An unclosed fence runs to the end of the containing block or document - there is no backtracking -
+  and a fence may interrupt a paragraph with no blank line required. Fence content is literal text,
+  never parsed as inlines.
 
 ## Diataxis
 
 From https://diataxis.fr/.
 
-- Diataxis splits documentation into four quadrants: Tutorials (learning), How-to guides
-  (tasks), Reference (facts), Explanation (context) - a doc set missing one quadrant has a
-  documented gap.
-- Reference docs describe, how-tos guide, tutorials teach, explanations clarify. A README
-  trying to be all four usually fails the how-to side.
-- The audit checks *presence and separation* of the forms in a doc corpus, not compliance
-  with Diataxis as a doctrine - it is a lens for coverage, not a score.
+- Diataxis splits documentation into four quadrants: Tutorials (learning), How-to guides (tasks),
+  Reference (facts), Explanation (context) - a doc set missing one quadrant has a documented gap.
+- Reference docs describe, how-tos guide, tutorials teach, explanations clarify.
+  A README trying to be all four usually fails the how-to side.
+- The audit checks *presence and separation* of the forms in a doc corpus,
+  not compliance with Diataxis as a doctrine - it is a lens for coverage, not a score.
 
 ## Report Contract Recap
 
-- `docs/STYLE.md` owns the prose rules for shipped skill docs: UTF-8/LF, H1 + Purpose, one
-  sentence per paragraph, no H4+, `## Contents` over 300 lines.
-- `process/report-format.md` owns the report's own stricter contract. `lint-prose.py`
-  enforces the prose subset mechanically.
+- `docs/STYLE.md` owns the prose rules for shipped skill docs: UTF-8/LF, H1 + Purpose,
+  one sentence per paragraph, no H4+, `## Contents` over 300 lines.
+- `process/report-format.md` owns the report's own stricter contract.
+  `lint-prose.py` enforces the prose subset mechanically.
 
 ## Live Check
 
-When web fetch is available, spot-check the CommonMark spec version and the Diataxis quadrant
-names.
+When web fetch is available, spot-check the CommonMark spec version and the Diataxis quadrant names.
 
-Record whichever baseline - this snapshot or the live pages - the audit used, and note drift in
-Known Limitations.
+Record whichever baseline - this snapshot or the live pages - the audit used,
+and note drift in Known Limitations.
 
 The check is best-effort, never blocks the audit, and never executes the audited project.

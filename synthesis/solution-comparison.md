@@ -3,17 +3,17 @@
 ## Purpose
 
 > **Scope:** Surfacing and presenting engineering trade-offs as a standalone section and within
-> findings
-> **Key items:** option comparisons, cost versus quality, speed versus maintainability, simplicity
-> versus flexibility
+> findings **Key items:** option comparisons, cost versus quality, speed versus maintainability,
+> simplicity versus flexibility
 
 This file guides trade-off reasoning that appears in two places:
 
-- A standalone **Solution Comparison** section in the report, immediately after the Architectural
-  Assessment, so trade-offs are discussed in the same pass as the decisions they concern.
-- Embedded into individual `FND-ARC-XXX`, `FND-CQY-XXX`, `FND-AIP-XXX`, or `FND-CPR-XXX` finding
-  blocks, under the Description or Impact bullet, when the trade-off directly explains a specific
-  finding.
+- A standalone **Solution Comparison** section in the report,
+  immediately after the Architectural Assessment,
+  so trade-offs are discussed in the same pass as the decisions they concern.
+- Embedded into individual `FND-ARC-XXX`, `FND-CQY-XXX`, `FND-AIP-XXX`,
+  or `FND-CPR-XXX` finding blocks, under the Description or Impact bullet,
+  when the trade-off directly explains a specific finding.
 
 A trade-off is a deliberate exchange of one quality for another.
 
@@ -53,8 +53,8 @@ Use this fixed column order:
 | Trade-off | Context | Option A: gain / cost | Option B: gain / cost | Evidence | Implication |
 |-----------|---------|-----------------------|-----------------------|----------|-------------|
 
-When the report language is not English, apply the column header translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the column header translations from the matching `translations/` file.
 
 Column meanings:
 
@@ -76,8 +76,8 @@ A trade-off qualifies as cross-project only when the decision was made once and 
 one project, such as a shared dependency choice or a repository-wide workspace or build decision.
 
 The same issue type appearing independently in two projects is a repeated per-project finding,
-not a cross-project trade-off. Both crates using `unwrap()` in production is the same
-per-project finding occurring twice, not a shared decision.
+not a cross-project trade-off. Both crates using `unwrap()` in production is the same per-project
+finding occurring twice, not a shared decision.
 
 The combined table adds a leading `Project` column.
 
@@ -86,16 +86,17 @@ and when no trade-off qualifies it carries a single `N/A` row with a one-line ju
 
 ## Rules
 
-- Frame each trade-off against a stated constraint. If no constraint is stated, put `NOT SPECIFIED`
-  in Context and present the trade-off without judging the choice.
+- Frame each trade-off against a stated constraint. If no constraint is stated,
+  put `NOT SPECIFIED` in Context and present the trade-off without judging the choice.
 - Do not label either side as right or wrong outside an explicit recommendation request.
-- A choice that fits the stated context is not a weakness, even if it would be unusual in a
-  different context.
+- A choice that fits the stated context is not a weakness,
+  even if it would be unusual in a different context.
 - Keep cell language neutral and anchored to evidence.
-- When the trade-off analysis includes an explicit recommendation (for example, "Build both targets"
-  or "Archive prototypes"), that recommendation must appear as a `REC-XXX` entry in the Actionable
-  Remediation Roadmap, traced to the relevant `FND-XXX`. Do not leave recommendations in the
-  trade-off table without a corresponding roadmap entry.
+- When the trade-off analysis includes an explicit recommendation (for example,
+  "Build both targets" or "Archive prototypes"),
+  that recommendation must appear as a `REC-XXX` entry in the Actionable Remediation Roadmap,
+  traced to the relevant `FND-XXX`. Do not leave recommendations in the trade-off table without a
+  corresponding roadmap entry.
 
 ## Example
 

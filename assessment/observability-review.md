@@ -2,8 +2,8 @@
 
 ## Purpose
 
-> **Scope:** Logging, metrics, tracing, alerting
-> **Key items:** structured logs, meaningful metrics, request tracing, actionable alerts
+> **Scope:** Logging, metrics, tracing, alerting **Key items:** structured logs, meaningful metrics,
+> request tracing, actionable alerts
 
 This file guides assessment of how well the system can be understood while running.
 
@@ -34,8 +34,8 @@ Operational use of observability data is assessed in `assessment/operational-rea
 Connect telemetry to the SLIs in `assessment/nfr-review.md` and the response procedures in
 `assessment/operational-readiness.md`.
 
-Distinguish instrumentation present in source from collected signals, usable dashboards, tested
-alerts, and a verified response path.
+Distinguish instrumentation present in source from collected signals, usable dashboards,
+tested alerts, and a verified response path.
 
 Record measurement queries, time windows, alert conditions, routing, and evidence of alert testing.
 
@@ -48,8 +48,8 @@ Assess redaction, cardinality, retention, and telemetry cost alongside diagnosti
 
 ## Status Criteria
 
-- `PASS`: Structured logs, meaningful metrics, request tracing, and actionable alerts are present,
-  with evidence.
+- `PASS`: Structured logs, meaningful metrics, request tracing, and actionable alerts are
+  present, with evidence.
 - `PARTIAL`: Some signals exist but are unstructured, incomplete, or lack alerting.
 - `FAIL`: No usable observability where it is clearly required, with evidence.
 - `UNKNOWN`: Observability artifacts were not provided.

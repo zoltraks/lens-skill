@@ -2,10 +2,9 @@
 
 ## Purpose
 
-> **Scope:** Verifying code originality, license compliance, and proper attribution of third-party
-> code and assets
-> **Key items:** original code, license headers, dependency licenses, copied snippets, attribution,
-> binary asset rights
+> **Scope:** Verifying code originality, license compliance,
+> and proper attribution of third-party code and assets **Key items:** original code,
+> license headers, dependency licenses, copied snippets, attribution, binary asset rights
 
 This file defines how to assess whether a codebase respects copyright and licensing rules.
 
@@ -26,11 +25,11 @@ and unauthorized copying of code snippets or assets.
 - Identical or near-identical code blocks found in public repositories (StackOverflow, GitHub Gists,
   blog posts) without attribution.
 - Files with copyright notices from other authors or organizations that do not match the project.
-- Code comments that reference external sources ("from StackOverflow", "copied from X") without
-  license documentation.
+- Code comments that reference external sources ("from StackOverflow", "copied from X")
+  without license documentation.
 - Utility functions that are verbatim copies of well-known library implementations.
-- Boilerplate files (license headers, standard config files) that are acceptable if they carry their
-  own license.
+- Boilerplate files (license headers, standard config files)
+  that are acceptable if they carry their own license.
 
 **License headers and notices**
 
@@ -42,8 +41,8 @@ and unauthorized copying of code snippets or assets.
 **Dependency license compatibility**
 
 - All direct and transitive dependencies have documented licenses.
-- No dependencies with licenses incompatible with the project's stated license (for example, GPL in
-  a proprietary project).
+- No dependencies with licenses incompatible with the project's stated license (for example,
+  GPL in a proprietary project).
 - No dependencies with copyleft requirements that are not being honored.
 - `SBOM` or `THIRD-PARTY-NOTICES` file present and current.
 
@@ -51,8 +50,8 @@ and unauthorized copying of code snippets or assets.
 
 - Images, fonts, icons, or media files without documented source or license.
 - Embedded data files (JSON, XML, SQL dumps) from external sources without attribution.
-- Certificate files, key files, or proprietary configuration formats that may carry their own
-  licensing.
+- Certificate files, key files, or proprietary configuration formats that may carry
+  their own licensing.
 
 **Evidence of copying**
 
@@ -71,8 +70,8 @@ and unauthorized copying of code snippets or assets.
 
 **Code originality**
 
-- [ ] Does the code contain blocks that appear to be copied from external sources without
-  attribution?
+- [ ] Does the code contain blocks that appear to be copied from external sources
+      without attribution?
 - [ ] Are utility functions or algorithms documented as original or attributed?
 - [ ] Are there any files with copyright notices from other authors not listed as contributors?
 
@@ -89,11 +88,11 @@ and unauthorized copying of code snippets or assets.
 
 ## Status Markers
 
-- `PASS` : Required ownership, attribution, and licensing evidence is complete for the assessed
-  scope.
+- `PASS` : Required ownership, attribution,
+  and licensing evidence is complete for the assessed scope.
 - `PARTIAL`: Some applicable evidence is present, with identified attribution or licensing gaps.
-- `FAIL`: Evidence of copied code without attribution, incompatible dependency licenses, or
-  copyrighted material used without permission.
+- `FAIL`: Evidence of copied code without attribution, incompatible dependency licenses,
+  or copyrighted material used without permission.
 - `UNKNOWN`: The origin of key code blocks cannot be determined from the provided files.
 - `N/A`: The system is a personal prototype with no stated intent for distribution or commercial
   use, and no third-party dependencies.
@@ -113,8 +112,8 @@ produces an `FND-CPR` finding.
 
 Undeterminable licenses stay `Unknown` and count as a license-hygiene gap.
 
-Distinguish declared licenses, observed notices, and reviewed conclusions for the distribution
-model.
+Distinguish declared licenses, observed notices,
+and reviewed conclusions for the distribution model.
 
 Absence of recognizable copied snippets does not establish that all code is original.
 
@@ -128,15 +127,15 @@ contract, or adopted policy requires them.
 
 ## Rules
 
-- Do not accuse without evidence. A suspicion of copying is not a finding. Cite the specific file
-  and the probable source.
-- Distinguish between copying and legitimate inspiration. A reimplemented pattern with original code
-  is not a copyright violation.
-- When a dependency license is incompatible, state the specific dependency, its license, and the
-  project's license so the conflict is clear.
-- When marking `FAIL`, list the specific files or assets that violate copyright rules, not a general
-  assertion.
+- Do not accuse without evidence. A suspicion of copying is not a finding.
+  Cite the specific file and the probable source.
+- Distinguish between copying and legitimate inspiration.
+  A reimplemented pattern with original code is not a copyright violation.
+- When a dependency license is incompatible, state the specific dependency, its license,
+  and the project's license so the conflict is clear.
+- When marking `FAIL`, list the specific files or assets that violate copyright rules,
+  not a general assertion.
 - Never reproduce copyrighted code from external sources in the audit report, even as evidence.
   Describe the match in general terms.
-- Respect fair-use and de minimis principles. Standard boilerplate (empty class templates, common
-  regex patterns) is not a copyright concern.
+- Respect fair-use and de minimis principles. Standard boilerplate (empty class templates,
+  common regex patterns) is not a copyright concern.

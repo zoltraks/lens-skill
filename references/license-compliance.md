@@ -3,8 +3,8 @@
 ## Purpose
 
 > **Scope:** Classifying component licenses from inspected declarations and detecting
-> copyleft-versus-distribution conflicts
-> **Key items:** license classes, declaration sources, copyleft trap, Unknown handling
+> copyleft-versus-distribution conflicts **Key items:** license classes, declaration sources,
+> copyleft trap, Unknown handling
 
 This file defines the license-classification pass that runs over the SBOM table
 (`references/sbom-schema.md`) and feeds the License Compliance section and
@@ -28,15 +28,15 @@ Every component in the SBOM table receives exactly one class:
 | `Proprietary`     | Commercial or custom restrictive terms, license files forbidding reuse |
 | `Unknown`         | No inspected declaration                                               |
 
-An SPDX expression resolves to the strictest class it contains: `MIT OR GPL-3.0` is treated as
-`Strong-copyleft` until the project's chosen option is documented.
+An SPDX expression resolves to the strictest class it contains:
+`MIT OR GPL-3.0` is treated as `Strong-copyleft` until the project's chosen option is documented.
 
 ## Declaration Sources
 
 Checked in this order, first inspected declaration wins:
 
-1. A `license` or `licenses` field in the component's own manifest or package metadata committed
-   to the repository.
+1. A `license` or `licenses` field in the component's own manifest or package metadata
+   committed to the repository.
 2. A `LICENSE`, `COPYING`, or `NOTICE` file inside the component's vendored or downloaded tree.
 3. A lockfile license field, in the rare formats that carry one.
 4. Project-level license-policy documents that name the component's license explicitly.
@@ -52,17 +52,18 @@ The per-ecosystem file and field locations this pass reads are catalogued in
 
 Normalize declarations to SPDX identifiers before classifying.
 
-Common non-SPDX spellings (`Apache 2.0`, `Apache License`, `BSD`, `GPL`) map to their SPDX
-identifiers, and an unmapped or misspelled identifier is recorded verbatim with the
-normalization attempted - never silently corrected.
+Common non-SPDX spellings (`Apache 2.0`, `Apache License`, `BSD`, `GPL`)
+map to their SPDX identifiers, and an unmapped or misspelled identifier is recorded verbatim with
+the normalization attempted - never silently corrected.
 
-The [REUSE specification](https://reuse.software/spec/) convention - per-file
-`SPDX-License-Identifier` headers plus a `LICENSES/` directory - is the strongest declaration
-posture and is recorded as such when present.
+The [REUSE specification](https://reuse.software/spec/)
+convention - per-file `SPDX-License-Identifier` headers plus a `LICENSES/` directory - is the
+strongest declaration posture and is recorded as such when present.
 
-When the project publishes a permitted-license list or policy, reconcile every classified row
-against it: a component outside the permitted list is a policy finding separate from the
-copyleft check, and the policy file itself is the declaration that governs.
+When the project publishes a permitted-license list or policy,
+reconcile every classified row against it:
+a component outside the permitted list is a policy finding separate from the copyleft check,
+and the policy file itself is the declaration that governs.
 
 ## The Copyleft Trap
 
@@ -73,11 +74,11 @@ Flag a `Conflict` when all of these hold:
 
 - The component classifies as `Strong-copyleft`.
 - It is a `direct` or statically linked `transitive` component of the distributed work.
-- The project's own license or stated distribution model is proprietary or otherwise
-  incompatible with the copyleft terms.
+- The project's own license or stated distribution model is proprietary or otherwise incompatible
+  with the copyleft terms.
 
-A `Conflict` always produces an `FND-CPR` finding naming the component, its license, the
-project's license, and the linkage evidence.
+A `Conflict` always produces an `FND-CPR` finding naming the component, its license,
+the project's license, and the linkage evidence.
 
 Flag `Review` for weak-copyleft components where the linkage mode is undetermined,
 for dual or unusual licenses, and for `Proprietary` third-party code.
@@ -87,9 +88,9 @@ Flag `Unknown` where no declaration was found.
 ## Rules
 
 - License classification runs over every SBOM row, not a sample.
-- Undeterminable licenses are a finding input themselves: a high `Unknown` count means the project
-  cannot demonstrate license hygiene to a reviewer.
-- The audit makes no legal determination. Findings describe the conflict mechanics and cite the
-  declarations, remediation owners decide.
-- Distinguish declared licenses, observed notices, and reviewed conclusions for the distribution
-  model, per `assessment/copyright-review.md`.
+- Undeterminable licenses are a finding input themselves:
+  a high `Unknown` count means the project cannot demonstrate license hygiene to a reviewer.
+- The audit makes no legal determination.
+  Findings describe the conflict mechanics and cite the declarations, remediation owners decide.
+- Distinguish declared licenses, observed notices,
+  and reviewed conclusions for the distribution model, per `assessment/copyright-review.md`.

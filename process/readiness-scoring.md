@@ -2,9 +2,9 @@
 
 ## Purpose
 
-> **Scope:** Deterministic scorecard aggregation, evidence confidence, maturity, and
-> production-readiness gates
-> **Key items:** score inputs, score caps, confidence, readiness state, sign-off limits
+> **Scope:** Deterministic scorecard aggregation, evidence confidence, maturity,
+> and production-readiness gates **Key items:** score inputs, score caps, confidence,
+> readiness state, sign-off limits
 
 This file defines how Lens converts criteria outcomes into comparable scores without treating an
 average as a production approval.
@@ -18,42 +18,42 @@ Apply `principles/evaluation-rules.md` throughout.
 | Separate Decision Outputs | 29   | Category status vs dimension score |
 | Criteria Inputs           | 49   | Criteria Inputs guidance           |
 | Dimension Scoring         | 75   | Dimension Scoring guidance         |
-| Scoring Policy 3          | 196  | Scoring Policy 3 guidance          |
-| Overall Score             | 244  | Overall Score guidance             |
-| Confidence                | 275  | Confidence guidance                |
-| Maturity Levels           | 293  | Maturity Levels guidance           |
-| Readiness Gates           | 312  | Readiness Gates guidance           |
-| Required Summary Fields   | 365  | Required Summary Fields guidance   |
-| Multi-Project Rules       | 378  | Multi-Project Rules guidance       |
+| Scoring Policy 3          | 192  | Scoring Policy 3 guidance          |
+| Overall Score             | 241  | Overall Score guidance             |
+| Confidence                | 273  | Confidence guidance                |
+| Maturity Levels           | 291  | Maturity Levels guidance           |
+| Readiness Gates           | 310  | Readiness Gates guidance           |
+| Required Summary Fields   | 362  | Required Summary Fields guidance   |
+| Multi-Project Rules       | 375  | Multi-Project Rules guidance       |
 
 ## Separate Decision Outputs
 
 Every full audit keeps these outputs separate:
 
-- **Category status:** whether an assessed capability is present, incomplete, absent, unknown, or
-  inapplicable.
+- **Category status:** whether an assessed capability is present, incomplete, absent,
+  unknown, or inapplicable.
 - **Dimension score:** a bounded summary of weighted criteria mastery and evidence quality.
 - **Evidence confidence:** how strongly the inspected or reported evidence supports the conclusion.
 - **Maturity level:** the development state supported by the evidence.
 - **Readiness state:** whether the stated decision gate is met.
-- **Production sign-off:** an authorized decision outside the audit, with confirmed owners and
-  closure evidence.
+- **Production sign-off:** an authorized decision outside the audit,
+  with confirmed owners and closure evidence.
 
 A completed report means the scoped report passed its report-quality gates.
 
 It does not mean the subject is production-approved.
 
-This distinction is audit-internal semantics. The report itself never carries a sentence
-disclaiming production acceptance.
+This distinction is audit-internal semantics.
+The report itself never carries a sentence disclaiming production acceptance.
 
 ## Criteria Inputs
 
 Start each score from the frozen criteria table declared in Auditing Methodology per
-`references/criteria-catalogue.md` - each criteria entry carries its `dimension`, `weight`, and
-`criticality`, and `process`-family criteria never enter the product-quality aggregate.
+`references/criteria-catalogue.md` - each criteria entry carries its `dimension`, `weight`,
+and `criticality`, and `process` -family criteria never enter the product-quality aggregate.
 
-Each criteria entry resolves to one outcome state from `references/evidence-schema.md`, and the
-state maps to a mastery value:
+Each criteria entry resolves to one outcome state from `references/evidence-schema.md`,
+and the state maps to a mastery value:
 
 | Outcome          | Mastery treatment                                         | Evidence interpretation                        |
 |------------------|-----------------------------------------------------------|------------------------------------------------|
@@ -66,16 +66,16 @@ state maps to a mastery value:
 
 `FAIL` requires an applicable requirement and evidence of absence or defeat.
 
-`UNKNOWN` and `NOT_ASSESSED` are not low mastery and are never converted to `0.0` - they widen
-the interval and reduce coverage instead.
+`UNKNOWN` and `NOT_ASSESSED` are not low mastery and are never converted to `0.0` - they widen the
+interval and reduce coverage instead.
 
-`NOT_APPLICABLE` requires a deployment-model justification frozen at planning, and must not be
-used for missing evidence.
+`NOT_APPLICABLE` requires a deployment-model justification frozen at planning,
+and must not be used for missing evidence.
 
 ## Dimension Scoring
 
-A dimension's score derives from weighted mastery over its applicable criteria. It is never
-picked from an evidence-pattern range.
+A dimension's score derives from weighted mastery over its applicable criteria.
+It is never picked from an evidence-pattern range.
 
 Compute each dimension's point mastery over its resolved applicable criteria:
 
@@ -89,18 +89,18 @@ Map mastery to the selected scale's integer score:
 score = max(1, round(mastery * scale_max))
 ```
 
-`PARTIAL` fractions are recorded in the model with the satisfied subset named, so a re-audit
-reproduces the same mastery.
+`PARTIAL` fractions are recorded in the model with the satisfied subset named,
+so a re-audit reproduces the same mastery.
 
-The band definitions in `synthesis/project-scorecard.md` describe what the resulting score
-means - they do not substitute for the computation.
+The band definitions in `synthesis/project-scorecard.md` describe what the resulting score means -
+they do not substitute for the computation.
 
 **Uncertainty interval**
 
 Every dimension score carries an interval beside the point value:
 
-- `lo` - mastery recomputed with every unresolved (`UNKNOWN`, `NOT_ASSESSED`) applicable
-  criteria entry treated as `FAIL`, mapped to the scale.
+- `lo` - mastery recomputed with every unresolved (`UNKNOWN`, `NOT_ASSESSED`)
+  applicable criteria entry treated as `FAIL`, mapped to the scale.
 - `hi` - mastery recomputed with every unresolved applicable criteria entry treated as `PASS`,
   mapped to the scale.
 - When `lo` equals `hi` - no unresolved applicable criteria - the interval is omitted.
@@ -113,19 +113,19 @@ The interval is stated, never hidden: a score with a wide unresolved spread repo
 A numeric dimension score publishes only when both hold:
 
 - Resolved criteria carry more than half of the dimension's applicable criteria weight.
-- At least one resolved criteria entry rests on `INSPECTED`, `STATICALLY_DERIVED`, `EXECUTED`, or
-  `MEASURED` evidence - a dimension resolved on `DECLARED` material alone is not scored.
+- At least one resolved criteria entry rests on `INSPECTED`, `STATICALLY_DERIVED`, `EXECUTED`,
+  or `MEASURED` evidence - a dimension resolved on `DECLARED` material alone is not scored.
 
-A dimension that fails the gate renders `Unknown` with the missing coverage named. It never
-publishes a numeric score on thin evidence, and `NOT_APPLICABLE` criteria never count toward
-either side of the gate.
+A dimension that fails the gate renders `Unknown` with the missing coverage named.
+It never publishes a numeric score on thin evidence,
+and `NOT_APPLICABLE` criteria never count toward either side of the gate.
 
 Apply these caps unless a stronger project-specific rule is explicitly stated:
 
 - An unresolved `Critical` finding caps its affected dimension at `3/10`.
 - An unresolved `High` finding caps its affected dimension at `5/10`.
-- A dimension with only reported historical execution results cannot exceed `7/10` without
-  current inspected evidence that supports the same capability.
+- A dimension with only reported historical execution results cannot exceed `7/10` without current
+  inspected evidence that supports the same capability.
 - A dimension with material unresolved unknowns cannot exceed `8/10`.
 - A dimension with no scoreable category evidence is `Unknown`, not `1/10`.
 
@@ -136,128 +136,126 @@ A cap is a reporting rule, not a severity assignment.
 The scoring engine enforces this section mechanically as **scoring policy 2**
 (`scope.scoring_policy: 2` in `audit-model.json`, checked by `scripts/check-model.py`):
 
-- Dimensions carry canonical ids - the snake_case keys rendered in the generated
-  contract block of `process/report-contract.md` (`security`, `design_soundness`,
-  `delivery_continuity`, and the rest) - and multi-project models prefix each key
-  with the project name (`<project>.security`).
-- Every finding declares a `claim_class`: `confirmed defect`, `confirmed structural
-  weakness`, `configuration risk`, `plausible hypothesis`, or `evidence gap`.
-- An `Open` finding in a bounding class (`confirmed defect`, `confirmed structural
-  weakness`, `configuration risk`) bounds its criteria entry's mastery: `CRITICAL` -> 0.0,
-  `HIGH` -> 0.25, `MEDIUM` -> 0.5, `LOW` -> 0.75. A confirmed finding resolves its
-  criteria entry - it never cites an `UNKNOWN`, `NOT_ASSESSED`, or `NOT_APPLICABLE`
-  criteria entry without the `Absence` exemption.
-- Every `PARTIAL`/`FAIL` deduction traces to an open finding or a recorded
-  `shortfall` with backing evidence - an unexplained deduction is a model error.
-- A criteria entry with outcome `NOT_APPLICABLE` records `na_basis`: `deployment-model`
-  (with an applicability justification), `census-none` (the project's automation
-  census is `none`), or `history-out-of-scope` (`scope.history` is `absent` or
-  `out-of-scope`).
-- The score recomputes as `uncapped` first, then mechanical caps apply:
-  `severity-critical` -> 3/10, `severity-high` -> 5/10, `material-unknown` -> 8/10
-  (a `critical`/`high` criticality criteria entry left `UNKNOWN` or `NOT_ASSESSED`),
-  `historical-only` -> 7/10 (evidence-cited). Scale conversion is proportional
-  for scales 5 and 3 - the only supported `scale_max` values are 10, 5, and 3.
-- A capped interval recomputes through the same cap, and a degenerate interval is
-  omitted.
-- `scope.history` records `present`, `absent`, or `out-of-scope` so the
-  `history-out-of-scope` basis and `historical-only` cap are auditable.
-- Multi-project models publish `scores.per_project` records - `overall.score`
-  stays null and no combined mean collapses the projects.
+- Dimensions carry canonical ids - the snake_case keys rendered in the generated contract block of
+  `process/report-contract.md` (`security`, `design_soundness`, `delivery_continuity`, and the rest)
+  - and multi-project models prefix each key with the project name (`<project>.security`).
+- Every finding declares a `claim_class`: `confirmed defect`, `confirmed structural weakness`,
+  `configuration risk`, `plausible hypothesis`, or `evidence gap`.
+- An `Open` finding in a bounding class (`confirmed defect`, `confirmed structural weakness`,
+  `configuration risk`) bounds its criteria entry's mastery: `CRITICAL` -> 0.0, `HIGH` -> 0.25,
+  `MEDIUM` -> 0.5, `LOW` -> 0.75. A confirmed finding resolves its criteria entry - it never cites
+  an `UNKNOWN`, `NOT_ASSESSED`, or `NOT_APPLICABLE` criteria entry without the `Absence` exemption.
+- Every `PARTIAL` / `FAIL` deduction traces to an open finding or a recorded `shortfall` with
+  backing evidence - an unexplained deduction is a model error.
+- A criteria entry with outcome `NOT_APPLICABLE` records `na_basis`:
+  `deployment-model` (with an applicability justification),
+  `census-none` (the project's automation census is `none`),
+  or `history-out-of-scope` (`scope.history` is `absent` or `out-of-scope`).
+- The score recomputes as `uncapped` first, then mechanical caps apply: `severity-critical` -> 3/10,
+  `severity-high` -> 5/10, `material-unknown` -> 8/10 (a `critical` / `high` criticality criteria
+  entry left `UNKNOWN` or `NOT_ASSESSED`), `historical-only` -> 7/10 (evidence-cited).
+  Scale conversion is proportional for scales 5 and 3 - the only supported `scale_max`
+  values are 10, 5, and 3.
+- A capped interval recomputes through the same cap, and a degenerate interval is omitted.
+- `scope.history` records `present`, `absent`,
+  or `out-of-scope` so the `history-out-of-scope` basis and `historical-only` cap are auditable.
+- Multi-project models publish `scores.per_project` records - `overall.score` stays null and no
+  combined mean collapses the projects.
 
-`scope.scoring_policy` records which policy produced the scores; models written
-before policy 2 fail the check until migrated or regenerated.
+`scope.scoring_policy` records which policy produced the scores;
+models written before policy 2 fail the check until migrated or regenerated.
 
 Severity and conformance anchor two further rules:
 
-- A control the subject's own documentation, specification, or contract promises but the code
-  does not implement is a spec violation - its severity grades against the documented promise,
-  not against generic best practice.
-- A deviation from the subject's own development standards is a conformance finding even when
-  the deviation is otherwise defensible - governance evidence weighs on its own.
+- A control the subject's own documentation, specification,
+  or contract promises but the code does not implement is a spec violation - its severity grades
+  against the documented promise, not against generic best practice.
+- A deviation from the subject's own development standards is a conformance finding even when the
+  deviation is otherwise defensible - governance evidence weighs on its own.
 
 **Functional-defect gates**
 
-A documented or advertised capability that the code does not implement - a supported workflow
-that fails end to end, a stub behind an advertised feature, a builder image that cannot
-compile the code is a spec violation and a hard readiness gate.
+A documented or advertised capability that the code does not implement - a supported workflow that
+fails end to end, a stub behind an advertised feature,
+a builder image that cannot compile the code is a spec violation and a hard readiness gate.
 
-While such a gate stays open the readiness state is `Not ready` or `Pending evidence`
-regardless of dimension scores, and its dimension is capped per the finding's severity.
+While such a gate stays open the readiness state is `Not ready` or `Pending evidence` regardless of
+dimension scores, and its dimension is capped per the finding's severity.
 
 Severity starts at `Medium`.
 
-An advertised core journey that fails end to end is at least
-`High`.
+An advertised core journey that fails end to end is at least `High`.
 
-An overall mean never hides a broken advertised capability - every readiness statement and
-verdict names it explicitly.
+An overall mean never hides a broken advertised capability - every readiness statement and verdict
+names it explicitly.
 
 ## Scoring Policy 3
 
-The scoring engine enforces this section mechanically as **scoring policy 3**
-(`model_version: 2`, `scope.scoring_policy: 3`, and `scope.catalogue_version` equal to the
-loaded catalogue's version, checked by `scripts/check-model.py`):
+The scoring engine enforces this section mechanically as **scoring policy 3** (`model_version: 2`,
+`scope.scoring_policy: 3`, and `scope.catalogue_version` equal to the loaded catalogue's version,
+checked by `scripts/check-model.py`):
 
-- The criteria set is fixed. `references/criteria-catalogue.json` declares the canonical
-  dimension order and tiers, each criteria entry's id, dimension, weight, criticality,
-  declared `level` anchors (`PASS`, `P75`, `P50`, `P25`, `FAIL`), and `na_rules` - the
-  planner assigns outcomes and levels, it never renames ids or reweights criteria.
+- The criteria set is fixed. `references/criteria-catalogue.json` declares the canonical dimension
+  order and tiers, each criteria entry's id, dimension, weight, criticality,
+  declared `level` anchors (`PASS`, `P75`, `P50`, `P25`, `FAIL`),
+  and `na_rules` - the planner assigns outcomes and levels,
+  it never renames ids or reweights criteria.
 - Each catalogue criteria entry applicable to the project's `product_profile.natures` appears
   exactly once among that project's score-channel criteria, and its dimension, weight,
   and criticality equal the catalogue values.
-- A resolved criteria entry carries a `level` the catalogue anchors allow, and the level fixes
-  the outcome and mastery: `PASS` and `FAIL` map to `PASS` and `FAIL`, and `P75`, `P50`,
-  and `P25` map to `PARTIAL` at their declared fractions. An unresolved criteria entry records
-  `level: null`.
-- `NOT_APPLICABLE` cites only a basis the criteria entry's `na_rules` declare, and the census
-  and history outcomes make some bases deterministic: an `automation_census` of `none`
-  forces `census-none`, and a `scope.history` of `absent` or `out-of-scope` forces
-  `history-out-of-scope`.
-- `channel: "conformance"` criteria - `CNF-` prefixed standards and `REQ-` prefixed
-  requirements - never enter dimension scores, so a finding that cites one bounds
-  nothing. `channel: "score"` criteria enter the computation as before.
+- A resolved criteria entry carries a `level` the catalogue anchors allow,
+  and the level fixes the outcome and mastery: `PASS` and `FAIL` map to `PASS` and `FAIL`,
+  and `P75`, `P50`, and `P25` map to `PARTIAL` at their declared fractions.
+  An unresolved criteria entry records `level: null`.
+- `NOT_APPLICABLE` cites only a basis the criteria entry's `na_rules` declare,
+  and the census and history outcomes make some bases deterministic:
+  an `automation_census` of `none` forces `census-none`,
+  and a `scope.history` of `absent` or `out-of-scope` forces `history-out-of-scope`.
+- `channel: "conformance"` criteria - `CNF-` prefixed standards and `REQ-` prefixed requirements -
+  never enter dimension scores, so a finding that cites one bounds nothing.
+  `channel: "score"` criteria enter the computation as before.
 - `requirements[]` freezes the subject's declared or advertised requirements registry,
-  `scope.requirements_baseline` records its hash, and a `PARTIAL` or `FAIL` requirement
-  cites an open finding.
-- The `FNC-REQ` level is mechanical: it derives from the coverage ratio over graded
-  mandatory requirements per the catalogue's bands, and the recorded level must equal
-  the computed one.
-- Three headline records replace the single overall mean. `product` is the tier-weighted
-  mean of the eligible product dimensions and publishes only when every applicable
-  tier-3 dimension is eligible and the eligible tier weight exceeds half the applicable
-  weight. `process` is the equal-weight mean of the eligible process dimensions and
-  publishes only when more than half the applicable process dimensions scored. `single`
-  blends `0.7 * product + 0.3 * process` when both publish, or takes the product value
-  flagged `product-only` when process is unpublished, then applies the ceiling: `3` on
-  an open Critical, `6` on an open High or a `NOT READY` readiness at scale 10,
-  proportional on scales 5 and 3.
+  `scope.requirements_baseline` records its hash,
+  and a `PARTIAL` or `FAIL` requirement cites an open finding.
+- The `FNC-REQ` level is mechanical: it derives from the coverage ratio over graded mandatory
+  requirements per the catalogue's bands, and the recorded level must equal the computed one.
+- Three headline records replace the single overall mean.
+  `product` is the tier-weighted mean of the eligible product dimensions and publishes only when
+  every applicable tier-3 dimension is eligible and the eligible tier weight exceeds half the
+  applicable weight. `process` is the equal-weight mean of the eligible process dimensions and
+  publishes only when more than half the applicable process dimensions scored.
+  `single` blends `0.7 * product + 0.3 * process` when both publish,
+  or takes the product value flagged `product-only` when process is unpublished,
+  then applies the ceiling: `3` on an open Critical,
+  `6` on an open High or a `NOT READY` readiness at scale 10, proportional on scales 5 and 3.
 - Multi-project models carry the three records under `scores.per_project[<name>]` while
-  `scores.product`, `scores.process`, and `scores.single` stay absent, and `readiness`
-  becomes `{"per_project": {<name>: {"state", "blocking"}}}`.
-- `scores.overall` from model v1 is removed and must be absent - models written before
-  policy 3 fail the check until regenerated.
+  `scores.product`, `scores.process`, and `scores.single` stay absent,
+  and `readiness` becomes `{"per_project": {<name>: {"state", "blocking"}}}`.
+- `scores.overall` from model v1 is removed and must be absent - models written before policy 3 fail
+  the check until regenerated.
 
-`scope.scoring_policy` records which policy produced the scores. Models written under
-policy 2 are not policy-3 models and must be regenerated under the fixed catalogue.
+`scope.scoring_policy` records which policy produced the scores.
+Models written under policy 2 are not policy-3 models and must be regenerated under
+the fixed catalogue.
 
 ## Overall Score
 
 Use the unweighted arithmetic mean of numeric dimension scores.
 
-Under scoring policy 3 the audit's `single` headline record replaces this mean - `product`
-and `process` publish independently and `single` blends them with its ceiling applied.
+Under scoring policy 3 the audit's `single` headline record replaces this mean - `product` and
+`process` publish independently and `single` blends them with its ceiling applied.
 
 Exclude `Unknown` and `N/A` dimensions from the denominator.
 
-When the scale is ordinal - `5 stars`, `3 stars`, or a rubric whose levels are ordered
-labels rather than measured intervals - report the per-dimension distribution beside any
-mean (for example `11 dimensions: good, 3: average`), or prefer the distribution alone.
+When the scale is ordinal - `5 stars`, `3 stars`,
+or a rubric whose levels are ordered labels rather than measured intervals - report the
+per-dimension distribution beside any mean (for example `11 dimensions: good, 3: average`),
+or prefer the distribution alone.
 
 A decimal mean such as `3.8/5` implies interval precision the rubric does not supply.
 
-Report the formula, scored dimension count, rounding rule, mean, and lowest-scoring applicable
-dimension together.
+Report the formula, scored dimension count, rounding rule, mean,
+and lowest-scoring applicable dimension together.
 
 If several dimensions tie for the lowest score, name all of them.
 
@@ -266,11 +264,11 @@ scores - below that the report presents per-dimension results and coverage with 
 
 Do not report an overall score when no dimension has a numeric score.
 
-Do not compare means across reports when the scale, dimension set, or evidence scope differs without
-stating the comparability limit.
+Do not compare means across reports when the scale, dimension set,
+or evidence scope differs without stating the comparability limit.
 
-An overall mean never overrides a material risk, an unresolved readiness gate, or missing closure
-ownership.
+An overall mean never overrides a material risk, an unresolved readiness gate,
+or missing closure ownership.
 
 ## Confidence
 
@@ -323,24 +321,23 @@ At minimum, assess:
 - Dependency and artifact identity for shipped software.
 - Business, legal, support, cost, and data artifacts for due diligence.
 
-When the project defines no gates of its own, reconstruct the minimum set above from the
-subject's deployment model and stated purpose.
+When the project defines no gates of its own,
+reconstruct the minimum set above from the subject's deployment model and stated purpose.
 
 **Permitted-use profiles**
 
 When the subject is pre-production, the report states which use profile each gate guards:
 
 - `Laboratory` - the defect exists and matters, but isolated experiments may proceed.
-- `Controlled sharing` - the defect must be closed before the artifact reaches a bounded
-  group of users or another team.
+- `Controlled sharing` - the defect must be closed before the artifact reaches a bounded group of
+  users or another team.
 - `Production` - the defect must be closed before real data or untrusted users.
 
-A gate scoped to a later profile stays open for that profile without blocking the current
-one - a missing SLO is a conditional production requirement, not automatically a present
-laboratory defect.
+A gate scoped to a later profile stays open for that profile without blocking the current one - a
+missing SLO is a conditional production requirement, not automatically a present laboratory defect.
 
-An incorrect authorization check or a broken declared invariant is a
-defect under every profile: laboratory status never legitimizes it.
+An incorrect authorization check or a broken declared invariant is a defect under every profile:
+laboratory status never legitimizes it.
 
 A gate the evidence cannot satisfy stays open - silence never waives a reconstructed gate.
 
@@ -353,8 +350,8 @@ Use these readiness states:
 | `PENDING EVIDENCE` | Decision depends on missing or unrun evidence           |
 | `NOT ASSESSED`     | Readiness was outside the requested audit purpose       |
 
-When the report language is not English, the readiness state is rendered per the matching
-`translations/` file.
+When the report language is not English,
+the readiness state is rendered per the matching `translations/` file.
 
 `READY` requires current closure evidence for every blocking gate.
 
@@ -390,12 +387,12 @@ Shared gates and trade-offs use project-qualified IDs.
 The Validation Protocol must confirm:
 
 - Every numeric score has supporting evidence and confidence.
-- Every dimension score recomputes from criteria mastery and frozen weights, and each stated
-  interval equals the FAIL/PASS substitution bounds.
-- Every numeric dimension passed the eligibility gate, and gated dimensions render `Unknown`
-  with their missing coverage named.
-- Every overall score reports its formula, denominator, rounding, and floor, and published only
-  when more than half of the applicable dimensions scored.
+- Every dimension score recomputes from criteria mastery and frozen weights,
+  and each stated interval equals the FAIL/PASS substitution bounds.
+- Every numeric dimension passed the eligibility gate,
+  and gated dimensions render `Unknown` with their missing coverage named.
+- Every overall score reports its formula, denominator, rounding, and floor,
+  and published only when more than half of the applicable dimensions scored.
 - `Unknown` and `N/A` dimensions are excluded from the mean.
 - Blocking findings and readiness state agree.
 - Sign-off is pending when required ownership or closure evidence is missing.

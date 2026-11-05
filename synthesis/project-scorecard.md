@@ -2,9 +2,9 @@
 
 ## Purpose
 
-> **Scope:** The 1-10 project scorecard, dimensions, scoring rubric, with optional 1-5, 1-3, and
-> star-bar scales
-> **Key items:** fixed dimensions, integer scores, star bars, evidence per score, unknown handling
+> **Scope:** The 1-10 project scorecard, dimensions, scoring rubric, with optional 1-5, 1-3,
+> and star-bar scales **Key items:** fixed dimensions, integer scores, star bars,
+> evidence per score, unknown handling
 
 This file defines the comparative project scorecard.
 
@@ -21,13 +21,13 @@ A score is a summary of evidence, not an impression.
 | Section                          | Line | What it covers                           |
 |----------------------------------|------|------------------------------------------|
 | Table Format                     | 32   | Fixed dimension set and column order     |
-| Scoring Rubric                   | 95   | Band definitions and alternative scales  |
-| Handling Unknowns                | 205  | Unknown handling guidance                |
-| Handling Not Applicable          | 213  | N/A handling guidance                    |
-| Dimension To Category Mapping    | 227  | Dimension to assessment-category mapping |
-| ISO/IEC 25010:2023 Crosswalk     | 254  | Standards crosswalk mapping              |
+| Scoring Rubric                   | 94   | Band definitions and alternative scales  |
+| Handling Unknowns                | 204  | Unknown handling guidance                |
+| Handling Not Applicable          | 212  | N/A handling guidance                    |
+| Dimension To Category Mapping    | 226  | Dimension to assessment-category mapping |
+| ISO/IEC 25010:2023 Crosswalk     | 253  | Standards crosswalk mapping              |
 | Score Confidence And Aggregation | 298  | Confidence and aggregation rules         |
-| Rules                            | 336  | Scorecard rules                          |
+| Rules                            | 337  | Scorecard rules                          |
 
 ## Table Format
 
@@ -58,18 +58,17 @@ Use this fixed column order and dimension set:
 
 Keep the dimension names and order identical across every audit so scores are comparable.
 
-Omit rows whose score is `N/A` from the rendered table entirely: the table lists scored
-dimensions only.
+Omit rows whose score is `N/A` from the rendered table entirely:
+the table lists scored dimensions only.
 
-A Score cell carries the point value first, then the uncertainty interval when it is
-non-degenerate: `7/10` or `7/10 [4-9]`, per the interval rule in
-`process/readiness-scoring.md`.
+A Score cell carries the point value first, then the uncertainty interval when it is non-degenerate:
+`7/10` or `7/10 [4-9]`, per the interval rule in `process/readiness-scoring.md`.
 
-A dimension gated to `Unknown` by the eligibility gate renders `Unknown` in the Score cell and
-names its missing coverage in Notes.
+A dimension gated to `Unknown` by the eligibility gate renders `Unknown` in the Score cell and names
+its missing coverage in Notes.
 
-At the `Detailed` level, add a paragraph below the table naming each omitted `N/A` dimension and
-its applicability reason.
+At the `Detailed` level, add a paragraph below the table naming each omitted `N/A` dimension and its
+applicability reason.
 
 The Delivery & Continuity dimension summarizes the Delivery Practice & Team Continuity section:
 
@@ -77,20 +76,20 @@ delivery-practice proxies and contributor concentration per `references/delivery
 
 It is `N/A` when Git history was not in scope.
 
-The Deployability dimension is bounded by the intake automation signal census: under `none` it
-renders `N/A` when the deployment model cannot carry deployment automation and `Unknown` with
-the justification in Notes otherwise, and an `external` census is named in Notes.
+The Deployability dimension is bounded by the intake automation signal census:
+under `none` it renders `N/A` when the deployment model cannot carry deployment automation and
+`Unknown` with the justification in Notes otherwise, and an `external` census is named in Notes.
 
 The API Compatibility dimension applies only when the subject is a reusable library or package,
 per `assessment/api-compatibility.md`.
 
 For a deployable service or application it is `N/A`.
 
-The Code Style dimension summarizes the `Code Style` section per `assessment/code-style.md`
-and is `N/A` only when the subject carries no source code.
+The Code Style dimension summarizes the `Code Style` section per `assessment/code-style.md` and is
+`N/A` only when the subject carries no source code.
 
-When the report language is not English, apply the column header and dimension name translations
-from the matching `translations/` file.
+When the report language is not English,
+apply the column header and dimension name translations from the matching `translations/` file.
 
 ## Scoring Rubric
 
@@ -114,8 +113,8 @@ Present this rubric matrix in the report so that scores are objective and reprod
 | Average   | 4-6         | Capability is present but uneven, limited, or inconsistent   |
 | Poor      | 1-3         | Capability is minimal, fragmentary, or absent where required |
 
-When the report language is not English, apply the band name and definition translations from the
-matching `translations/` file.
+When the report language is not English,
+apply the band name and definition translations from the matching `translations/` file.
 
 Per-score meanings:
 
@@ -132,8 +131,8 @@ Per-score meanings:
 | 2     | Fragments present, mostly unevidenced                         |
 | 1     | Capability is absent where required, with evidence of absence |
 
-When the report language is not English, apply the header and per-score description translations
-from the matching `translations/` file.
+When the report language is not English,
+apply the header and per-score description translations from the matching `translations/` file.
 
 ### Alternative Rubric (1-5)
 
@@ -147,8 +146,8 @@ Use this scale when the user selects `1-5` or `5 stars`.
 | Poor      | 2           | Capability is minimal or fragmentary where required         |
 | Bad       | 1           | Capability is absent or negligible where required           |
 
-When the report language is not English, apply the same band translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the same band translations from the matching `translations/` file.
 
 | Score | Meaning                                                       |
 |-------|---------------------------------------------------------------|
@@ -158,8 +157,8 @@ When the report language is not English, apply the same band translations from t
 | 2     | Capability is present but limited or inconsistent             |
 | 1     | Capability is absent where required, with evidence of absence |
 
-When the report language is not English, apply the header and description translations from the
-matching `translations/` file.
+When the report language is not English,
+apply the header and description translations from the matching `translations/` file.
 
 ### Compact Rubric (1-3)
 
@@ -177,8 +176,8 @@ Use this scale when the user selects `1-3` or `3 stars`.
 | 2     | Capability is adequate but uneven                             |
 | 1     | Capability is absent where required, with evidence of absence |
 
-When the report language is not English, apply the same band and description translations from
-the matching `translations/` file.
+When the report language is not English,
+apply the same band and description translations from the matching `translations/` file.
 
 ### Star Display
 
@@ -196,11 +195,11 @@ Render `Unknown` as text, not as a star bar, and `N/A` rows are omitted from the
 
 A non-degenerate interval renders in brackets beside the bar, for example `★★★☆☆ [2-4]`.
 
-For an overall mean under a star scale, round to the nearest integer for the star bar and keep
-the exact mean in parentheses, for example `★★★☆☆ (3.4/5)`.
+For an overall mean under a star scale, round to the nearest integer for the star bar and keep the
+exact mean in parentheses, for example `★★★☆☆ (3.4/5)`.
 
-A star scale is ordinal, so the
-per-dimension distribution appears beside the bar per `process/readiness-scoring.md`.
+A star scale is ordinal, so the per-dimension distribution appears beside the bar per
+`process/readiness-scoring.md`.
 
 ## Handling Unknowns
 
@@ -212,10 +211,10 @@ Reserve the minimum score for evidenced absence of a required capability.
 
 ## Handling Not Applicable
 
-When every source category for a dimension is `N/A`, mark the dimension `N/A` rather than scoring
-it, and omit its row from the rendered table.
+When every source category for a dimension is `N/A`,
+mark the dimension `N/A` rather than scoring it, and omit its row from the rendered table.
 
-Carry the applicability justification in the `Detailed`-level paragraph below the table,
+Carry the applicability justification in the `Detailed` -level paragraph below the table,
 anchored to the deployment model.
 
 Do not let `N/A` dimensions drag a summary score.
@@ -253,8 +252,8 @@ Each scorecard dimension summarizes one or more assessment categories.
 
 ## ISO/IEC 25010:2023 Crosswalk
 
-Use this crosswalk as a coverage aid, not a claim of ISO certification or an ISO-defined scoring
-formula.
+Use this crosswalk as a coverage aid, not a claim of ISO certification or an
+ISO-defined scoring formula.
 
 Lens scores remain the existing rubric, and process/governance dimensions are complementary rather
 than direct ISO product-quality ratings.
@@ -273,22 +272,23 @@ than direct ISO product-quality ratings.
 
 The 2023 edition uses Interaction Capability and Flexibility and adds Safety compared with 2011.
 
-Consult the [ISO publication record](https://www.iso.org/standard/78176.html) and identify when
-only a public summary, such as the
-[arc42 revision overview](https://quality.arc42.org/articles/iso-25010-update-2023), was accessible.
+Consult the [ISO publication record](https://www.iso.org/standard/78176.html)
+and identify when only a public summary,
+such as the [arc42 revision overview](https://quality.arc42.org/articles/iso-25010-update-2023),
+was accessible.
 
 Do not claim clause-level assessment from a summary.
 
 For a full audit, check all nine characteristics for applicability and identify assessed, unknown,
 and inapplicable coverage in Scoring Rubrics or Scope Exclusions.
 
-Functional completeness, interoperability, and user interaction need explicit evidence even when no
-Lens dimension maps to them one-to-one.
+Functional completeness, interoperability,
+and user interaction need explicit evidence even when no Lens dimension maps to them one-to-one.
 
 Do not invent extra scores or claim the existing dimensions cover every characteristic completely.
 
-Operational Safety is broader than ISO Safety, map only evidenced hazards and harm-prevention
-controls to Safety.
+Operational Safety is broader than ISO Safety,
+map only evidenced hazards and harm-prevention controls to Safety.
 
 Delivery & Continuity has no direct ISO 25010 product-quality characteristic.
 
@@ -298,9 +298,9 @@ it is not mapped onto a characteristic.
 ## Score Confidence And Aggregation
 
 Each dimension score derives from weighted mastery over its declared criteria per
-`process/readiness-scoring.md`: criteria outcomes map to mastery values, the weighted mean of
-resolved applicable criteria maps to the scale, and the uncertainty interval and eligibility
-gate ride beside the score.
+`process/readiness-scoring.md`: criteria outcomes map to mastery values,
+the weighted mean of resolved applicable criteria maps to the scale,
+and the uncertainty interval and eligibility gate ride beside the score.
 
 Apply `process/readiness-scoring.md` for the formula, caps, gates, confidence, readiness gates,
 and multi-project aggregation.
@@ -309,13 +309,14 @@ Cite supporting evidence IDs, material findings, and confidence for each scored 
 
 Do not reward an unexecuted build or unverified runtime behavior as demonstrated capability.
 
-If an overall score is requested, state the aggregation formula, weights, rounding rule, and scored
-versus applicable dimensions, excluding `Unknown` and `N/A` from the numeric denominator, and
-apply the half-dimensions eligibility floor to publishing any overall.
+If an overall score is requested, state the aggregation formula, weights, rounding rule,
+and scored versus applicable dimensions, excluding `Unknown` and `N/A` from the numeric denominator,
+and apply the half-dimensions eligibility floor to publishing any overall.
 
 Always disclose the floor next to the mean: the overall-score cell holds only the score display,
-such as `5.8/10 (Average)` or `★★★☆☆ (3.4/5)`, and the lowest-scoring applicable dimension and
-its score go in a paragraph directly below the table, for example "Lowest-scoring dimensions:
+such as `5.8/10 (Average)` or `★★★☆☆ (3.4/5)`,
+and the lowest-scoring applicable dimension and its score go in a paragraph directly below the
+table, for example "Lowest-scoring dimensions:
 
 Security ★★☆☆☆".
 
@@ -328,8 +329,8 @@ In a multi-project report, state the floor per project.
 
 Do not collapse unrelated projects into one aggregate.
 
-Disclose missing coverage beside the result, and do not compare aggregates with different scopes
-without explaining the difference.
+Disclose missing coverage beside the result,
+and do not compare aggregates with different scopes without explaining the difference.
 
 An average never overrides a material risk or incomplete production-readiness gate.
 
@@ -337,6 +338,6 @@ An average never overrides a material risk or incomplete production-readiness ga
 
 - Every score must cite evidence in the detailed paragraph body.
 - Keep notes neutral and technical.
-- Do not average away a critical gap. If a dimension has a critical weakness, the score must reflect
-  it and the notes must name it.
+- Do not average away a critical gap. If a dimension has a critical weakness,
+  the score must reflect it and the notes must name it.
 - Scores describe the system, never the people who built it.

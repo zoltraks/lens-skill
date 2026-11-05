@@ -2,9 +2,9 @@
 
 ## Purpose
 
-> **Scope:** Output style, terminology, status and severity vocabularies, consistency rules
-> **Key items:** precise structured prose, tables over paragraphs, fixed vocabularies, repeatable
-> output
+> **Scope:** Output style, terminology, status and severity vocabularies,
+> consistency rules **Key items:** precise structured prose, tables over paragraphs,
+> fixed vocabularies, repeatable output
 
 This file defines how the audit report should read.
 
@@ -23,10 +23,10 @@ Two audits of similar systems should produce reports of similar shape, vocabular
 | Fixed Vocabularies             | 84   | Status and severity word lists   |
 | Consistency Rules              | 180  | Same input, same output shape    |
 | Plain-Text Friendly Formatting | 196  | Terminal and diff readability    |
-| Multilingual Output            | 306  | Non-English report rendering     |
+| Multilingual Output            | 304  | Non-English report rendering     |
 | Information Security In Output | 443  | Redaction and disclosure limits  |
 | Report Termination             | 458  | End-of-report rules              |
-| Determinism                    | 479  | Repeatability guarantees         |
+| Determinism                    | 478  | Repeatability guarantees         |
 
 ## Tone And Register
 
@@ -68,12 +68,12 @@ Each sentence should stand on its own line, with an empty line between consecuti
 
 Anchor every claim to a concrete fact: a file path, a config key, a command, or a direct quote.
 
-Date and numeric ranges use words, never `..` - `between **2026-08-20** and **2026-10-24**`
-for a standalone range, `**2026-08-20** to **2026-10-24**` when the range modifies a noun,
+Date and numeric ranges use words, never `..` - `between **2026-08-20** and **2026-10-24**` for a
+standalone range, `**2026-08-20** to **2026-10-24**` when the range modifies a noun,
 and the range dates render bold.
 
-Register identifiers are cited individually, never as a range -
-write `REC-001, REC-002, REC-003`, never `REC-001..003`.
+Register identifiers are cited individually, never as a range - write `REC-001, REC-002, REC-003`,
+never `REC-001..003`.
 
 Use headers for section titles rather than bold runs of text.
 
@@ -93,8 +93,8 @@ Status values:
 - `UNKNOWN`
 - `N/A`
 
-Use `N/A` only under the contextual-applicability rule in `principles/evaluation-rules.md`, always
-with a one-line justification.
+Use `N/A` only under the contextual-applicability rule in `principles/evaluation-rules.md`,
+always with a one-line justification.
 
 Missing-information tokens:
 
@@ -117,17 +117,17 @@ The audit never executes checks, externally produced results are `REPORTED`.
 
 Confidence uses `HIGH`, `MEDIUM`, and `LOW`, separately from severity.
 
-The evidence ledger has no execution column: the audit never executes checks, so a documented
-but unrun check writes `NOT RUN` in its `Result` cell and a source observation carries the
-observed result, separately from category status or scanner findings.
+The evidence ledger has no execution column: the audit never executes checks,
+so a documented but unrun check writes `NOT RUN` in its `Result` cell and a source observation
+carries the observed result, separately from category status or scanner findings.
 
 Validation Protocol results are `APPLIED`, `PASS`, or `N/A`, separately from category status.
 
 An `N/A` always carries a justification.
 
-A cell drawn from a fixed vocabulary renders the natural form the report language defines -
-the uppercase forms in the vocabulary lists above are the canonical token names, never the
-rendered text.
+A cell drawn from a fixed vocabulary renders the natural form the report language defines - the
+uppercase forms in the vocabulary lists above are the canonical token names,
+never the rendered text.
 
 English cells render these forms:
 
@@ -152,16 +152,16 @@ English cells render these forms:
 | `READY` `NOT READY` `PENDING EVIDENCE`                                  | `Ready` `Not ready` `Pending evidence`                                          |
 | `IN PROGRESS` `NOT APPLICABLE`                                          | `In progress` `Not applicable`                                                  |
 
-This covers status, severity, result, verification, lifecycle, change, readiness,
-concentration, and classification cells in every report language - each `translations/`
-file defines the localized rendered forms for its language.
+This covers status, severity, result, verification, lifecycle, change, readiness, concentration,
+and classification cells in every report language - each `translations/` file defines the localized
+rendered forms for its language.
 
-A token followed by a qualifier inside a `* **Field:**` value or a cell joins with a
-comma, for example `High, chain traced end to end` or `Undetermined, no rationale found` -
-the spaced hyphen keeps its aside role, never a token-qualifier join.
+A token followed by a qualifier inside a `* **Field:**` value or a cell joins with a comma,
+for example `High, chain traced end to end` or `Undetermined, no rationale found` - the spaced
+hyphen keeps its aside role, never a token-qualifier join.
 
 Machine tokens stay unchanged: record and classification identifiers (`EVD-001`, `FND-XXX`,
-`RSK-XXX`, `REC-XXX`, `TDR-XXX`, `PAR-NN`, `P1`-`P4`, CWE IDs, CVSS vectors, OWASP IDs)
+`RSK-XXX`, `REC-XXX`, `TDR-XXX`, `PAR-NN`, `P1` - `P4`, CWE IDs, CVSS vectors, OWASP IDs)
 and tool commands render verbatim in every report language.
 
 Maturity levels:
@@ -172,8 +172,8 @@ Maturity levels:
 - `Production-ready`
 - `Undetermined`
 
-Score scale: integers `1` to `10` by default, with optional `1-5`, `1-3`, `5 stars`, and
-`3 stars` scales, defined in `synthesis/project-scorecard.md`.
+Score scale: integers `1` to `10` by default, with optional `1-5`, `1-3`, `5 stars`,
+and `3 stars` scales, defined in `synthesis/project-scorecard.md`.
 
 The value `0` is reserved and never used as a score.
 
@@ -205,9 +205,10 @@ such as after a comma or clause end, per the Selecting The Wrap Width rule in `d
 Do not break inside inline code, file paths, or URLs.
 
 A wrapped sentence keeps its terminal period on the last line only - a wrap point never adds a `.`
-of its own, so a line that ends in `.` and is followed by a line starting with a lowercase letter
-is a split-sentence defect: join the lines or repunctuate, and the same rule covers a `.` left
-behind after another mark (`foo,.`), per the wrap rules in `docs/STYLE.md`.
+of its own, so a line that ends in `.` and is followed by a line starting with a lowercase letter is
+a split-sentence defect: join the lines or repunctuate,
+and the same rule covers a `.` left behind after another mark (`foo,.`),
+per the wrap rules in `docs/STYLE.md`.
 
 Do not use the semicolon character in prose.
 
@@ -216,21 +217,20 @@ Join closely related clauses with a comma or split them into separate sentences.
 The prose scope includes sentences, headings, table cells, and list items, only code blocks,
 inline code, and file paths are exempt.
 
-An enumeration of parallel items inside a table cell, a `* **Field:**` value, or a list
-item joins with commas - `one, two, three`.
+An enumeration of parallel items inside a table cell, a `* **Field:**` value,
+or a list item joins with commas - `one, two, three`.
 
-Reserve the spaced hyphen ` - ` for attaching a qualifier, consequence, or exception to a
-claim, never for separating the members of an enumeration.
+Reserve the spaced hyphen ` - ` for attaching a qualifier, consequence, or exception to a claim,
+never for separating the members of an enumeration.
 
 Use single-sentence paragraphs by default.
 
-Every sentence in a prose paragraph stands alone - one empty line separates it from the
-previous and the next sentence, so each sentence renders as its own paragraph in Markdown.
+Every sentence in a prose paragraph stands alone - one empty line separates it from the previous and
+the next sentence, so each sentence renders as its own paragraph in Markdown.
 
-Single-sentence paragraphs are suppressed only when the user explicitly asks for joined
-prose - phrasing such as "don't break sentences" or "no blank lines between sentences" -
-and the suppression is recorded in the `Sentence breaks` Document Information row per
-`process/report-format.md`.
+Single-sentence paragraphs are suppressed only when the user explicitly asks for joined prose -
+phrasing such as "don't break sentences" or "no blank lines between sentences" - and the suppression
+is recorded in the `Sentence breaks` Document Information row per `process/report-format.md`.
 
 Put exactly one empty line before and after lists of items.
 
@@ -244,8 +244,8 @@ Avoid numbered lists for non-sequential items.
 
 Use bullet points.
 
-When a prose paragraph lists three or more related items, use a bullet list instead of an inline
-comma-separated list.
+When a prose paragraph lists three or more related items,
+use a bullet list instead of an inline comma-separated list.
 
 For process or workflow steps, use bold headers separated by empty lines instead of numbered lists.
 
@@ -264,8 +264,8 @@ Do not put qualifiers in section names using parentheses.
 Use headers for section titles rather than bold runs of text.
 
 Put exactly one empty line before a heading that follows content,
-and exactly one empty line after every markdown header (`#`, `##`, `###`) before the first content
-line.
+and exactly one empty line after every markdown header (`#`, `##`, `###`)
+before the first content line.
 
 Do not use `####` or deeper headings in the report.
 
@@ -279,17 +279,15 @@ Use the standard ASCII hyphen-minus `-` (U+002D) for all hyphens, dashes, and mi
 
 Do not use the em dash `-` (U+2014) or en dash `-` (U+2013) anywhere in the report.
 
-Use ASCII `->` for arrows in prose, do not use `->` or other typographic arrows outside code
-blocks.
+Use ASCII `->` for arrows in prose, do not use `->` or other typographic arrows outside code blocks.
 
-Box-drawing characters like "│", "├", "└" are allowed in code blocks for directory trees and simple
-diagrams.
+Box-drawing characters like "│", "├", "└" are allowed in code blocks for directory trees
+and simple diagrams.
 
 If a diagram already uses box-drawing characters, keep them.
 
-Node-and-edge diagrams the report draws - the Data Flow Diagram and any architecture sketch -
-follow the frame and connector geometry rules in
-`process/report-format/architectural-assessment.md`.
+Node-and-edge diagrams the report draws - the Data Flow Diagram and any architecture sketch - follow
+the frame and connector geometry rules in `process/report-format/architectural-assessment.md`.
 
 Do not replace box-drawing characters with "+", "-", or "`".
 
@@ -305,8 +303,8 @@ Leave diagrams, directory trees, console output, and plain text untagged.
 
 ## Multilingual Output
 
-When the user requests a specific natural language for the report, translate all user-facing prose
-into that language.
+When the user requests a specific natural language for the report,
+translate all user-facing prose into that language.
 
 The default report language is English.
 
@@ -315,17 +313,19 @@ When the request language is ambiguous or cannot be determined, default to Engli
 **Language output**
 
 When the resolved report language is not English, the run ships a two-file pair by default:
-the canonical English report is produced and validated first, then rendered into the report
-language in a single translation pass that applies the matching `translations/` file.
+the canonical English report is produced and validated first,
+then rendered into the report language in a single translation pass that applies the matching
+`translations/` file.
 
-The translated file is a rendering of the English report, never an independent audit. It
-carries identical register identifiers (`EVD`, `FND`, `RSK`, `REC`, `TDR`, `PAR`), severities,
-revisions, and evidence qualifications, and each file's Document Information names the sibling
-in its `Translations` row.
+The translated file is a rendering of the English report, never an independent audit.
+It carries identical register identifiers (`EVD`, `FND`, `RSK`, `REC`, `TDR`, `PAR`), severities,
+revisions, and evidence qualifications, and each file's Document Information names the sibling in
+its `Translations` row.
 
-Pair filenames share the English report stem and differ only by language suffix, for example
-`AUDIT-1.4-EN.md` with `AUDIT-1.4-PL.md`, per the naming rules in `process/audit-workflow.md`
-and the matching `translations/` file.
+Pair filenames share the English report stem and differ only by language suffix,
+for example `AUDIT-1.4-EN.md` with `AUDIT-1.4-PL.md`,
+per the naming rules in `process/audit-workflow/parameter-phase.md` and the matching
+`translations/` file.
 
 Links in the translated file point at its own headings and sections - anchors derive from the
 translated heading text, never carried over verbatim from the English file.
@@ -333,13 +333,13 @@ translated heading text, never carried over verbatim from the English file.
 An explicit request scoped to the non-English language alone ("only the Polish report")
 produces a single translated file instead, and analysis still runs in English.
 
-A `pair` is also the default when the discovered previous report was produced as a
-language pair - sibling files sharing the English stem and differing only by a language
-suffix, such as `AUDIT-1.4-EN.md` with `AUDIT-1.4-PL.md`.
+A `pair` is also the default when the discovered previous report was produced as a language pair -
+sibling files sharing the English stem and differing only by a language suffix,
+such as `AUDIT-1.4-EN.md` with `AUDIT-1.4-PL.md`.
 
 The audit convention continues until an explicit single-language request breaks it:
-the new run ships its own `<stem>-EN` file plus the translation sibling in the previous
-pair's second language, even when the report language is English.
+the new run ships its own `<stem>-EN` file plus the translation sibling in the previous pair's
+second language, even when the report language is English.
 
 **Analysis language**
 
@@ -350,13 +350,13 @@ and assembled part files are written in English,
 and the report is rendered into the report language in a single pass that applies the matching
 `translations/` file.
 
-Reasoning in English keeps the analysis anchored to the English rules, rubrics, and fixed
-vocabularies in this skill, and a single render pass applies one terminology convention to the
-whole document.
+Reasoning in English keeps the analysis anchored to the English rules, rubrics,
+and fixed vocabularies in this skill, and a single render pass applies one terminology convention
+to the whole document.
 
-When the audited project establishes its own terminology in the report language, for example a
-project glossary or design documents, prefer those established forms over the translation file's
-defaults and record the choice.
+When the audited project establishes its own terminology in the report language,
+for example a project glossary or design documents,
+prefer those established forms over the translation file's defaults and record the choice.
 
 Direct quotes, code, configuration keys, file paths, and machine tokens are never translated.
 
@@ -369,42 +369,41 @@ Each file is named after the language (for example, `translations/polish-languag
 When the report language is not English,
 load the matching translation file and apply every translation defined there.
 
-To add support for a new language, create a new file in `translations/` following the structure of
-the existing files.
+To add support for a new language, create a new file in `translations/` following the structure
+of the existing files.
 
 The file must define translations for status and severity vocabulary, section headings,
 table headers, style rules, and any language-specific encoding or diacritics requirements.
 
 **What must be translated:**
 
-- All section headings (e.g., "Technology Stack", "Executive Summary", "Health Dashboard", "Detailed
-  Technical Findings")
+- All section headings (e.g., "Technology Stack", "Executive Summary", "Health Dashboard",
+  "Detailed Technical Findings")
 - All table column headers (e.g., "Layer", "Technology", "Category", "Status", "Risks", "Notes",
   "Dimension", "Score")
-- All finding pillar names in the Technical Findings summary table (e.g., "Architecture &
-  Design", "Structure & Organization", "Code Quality", "Security & Compliance", "Infrastructure &
-  CI/CD", "AI Provenance & Code Origin", "Copyrights & Originality")
-- All dimension names in the Scorecard Summary (e.g., "Testability", "Design Soundness", "Code
-  Quality")
+- All finding pillar names in the Technical Findings summary table (e.g., "Architecture & Design",
+  "Structure & Organization", "Code Quality", "Security & Compliance", "Infrastructure & CI/CD",
+  "AI Provenance & Code Origin", "Copyrights & Originality")
+- All dimension names in the Scorecard Summary (e.g., "Testability", "Design
+  Soundness", "Code Quality")
 - All risk names in the Unified Risk Register
 - All recommendation summaries in the Remediation Roadmap
 - All descriptive paragraphs, evidence, reasoning, and justification text
 - "Summary description" and observation paragraph headings
-- All descriptive fixed values: maturity levels (`Prototype`, `Early development`,
-  `Pre-production`, `Production-ready`, `Undetermined`), detail
-  level, evaluation scale names, readiness states, and audit-purpose values, rendered per the
-  matching `translations/` file
+- All descriptive fixed values: maturity levels (`Prototype`, `Early development`, `Pre-production`,
+  `Production-ready`, `Undetermined`), detail level, evaluation scale names, readiness states,
+  and audit-purpose values, rendered per the matching `translations/` file
 
 **What stays unchanged across languages:**
 
 - Record and classification identifiers (`EVD-001`, `FND-XXX`, `RSK-XXX`, `REC-XXX`, `TDR-XXX`,
-  `PAR-NN`, `P1`-`P4`, CWE IDs, CVSS vectors, OWASP IDs)
+  `PAR-NN`, `P1` - `P4`, CWE IDs, CVSS vectors, OWASP IDs)
 - File paths, config keys, commands, code snippets, and direct quotes from the input
 
 **Status, severity, and score format:**
 
-The English rendered forms (`Pass`, `Partial`, `Fail`, `Unknown`, `N/A`, `Low`, `Medium`,
-`High`, `Critical`, `Score:`) are the default.
+The English rendered forms (`Pass`, `Partial`, `Fail`, `Unknown`, `N/A`, `Low`, `Medium`, `High`,
+`Critical`, `Score:`) are the default.
 
 Each translation file defines the equivalents for its language,
 which may localize the markers themselves, including result markers such as `NOT RUN`,
@@ -423,33 +422,34 @@ and encoding requirements are defined per language in the translation file.
 
 **Grammatical agreement:**
 
-Where the report language declines adjectives, a declinable cell or `* **Field:**` value takes
-the form that agrees with the noun named by its column header.
+Where the report language declines adjectives,
+a declinable cell or `* **Field:**` value takes the form that agrees with the noun named
+by its column header.
 
 In a two-column key-value table, the row label's head noun governs instead.
 
-Each translation file defines the agreement paradigms, the governing noun of each governed
-column and field, and the tokens that do not decline.
+Each translation file defines the agreement paradigms,
+the governing noun of each governed column and field, and the tokens that do not decline.
 
 **Tokens in running prose:**
 
-When prose cites a fixed-vocabulary value - a severity, a readiness state, a result marker -
-it renders as a bold natural-case word of the report language, declined as grammar requires,
-for example `**high**` or `**not ready**`.
+When prose cites a fixed-vocabulary value - a severity, a readiness state,
+a result marker - it renders as a bold natural-case word of the report language,
+declined as grammar requires, for example `**high**` or `**not ready**`.
 
-Literal token forms appear only in token columns, `* **Field:**` bullet values, and the tables
-that define the vocabulary.
+Literal token forms appear only in token columns, `* **Field:**` bullet values,
+and the tables that define the vocabulary.
 
 ## Information Security In Output
 
-Never reproduce plaintext secrets, passwords, or cryptographic keys in summaries, observations, risk
-descriptions, or recommendation text.
+Never reproduce plaintext secrets, passwords, or cryptographic keys in summaries, observations,
+risk descriptions, or recommendation text.
 
-When a finding involves a secret, describe the location and nature of the exposure without quoting
-the value.
+When a finding involves a secret, describe the location and nature of the exposure
+without quoting the value.
 
-Use `[REDACTED]` as a placeholder or a generic phrase such as "plaintext database credentials found
-in tracking file".
+Use `[REDACTED]` as a placeholder or a generic phrase such as "plaintext database credentials
+found in tracking file".
 
 The file path and configuration key that contains the secret may still be cited as evidence.
 
@@ -466,19 +466,18 @@ End after Reference Sources without trailing boilerplate.
 
 Table-cell and field-value conventions:
 
-- Prose cells and `* **Field:**` values start with an uppercase first letter.
-  Exceptions: code spans, identifiers, package names, paths, camelCase names, and
-  controlled-vocabulary tokens render verbatim.
+- Prose cells and `* **Field:**` values start with an uppercase first letter. Exceptions:
+  code spans, identifiers, package names, paths, camelCase names,
+  and controlled-vocabulary tokens render verbatim.
 - A datum with no value renders an empty cell - never a placeholder token such as
   `NOT SPECIFIED` or `Not specified`.
 - A column that would carry an empty cell in every data row is omitted from the table.
-- Column names prefer a single word - `Owner`, `Evidence`, `Trigger`, `Justification` -
-  over multi-word labels.
-
+- Column names prefer a single word - `Owner`, `Evidence`, `Trigger`,
+  `Justification` - over multi-word labels.
 
 ## Determinism
 
 Given the same input, aim to produce the same findings, statuses, and scores.
 
-Anchor every judgement to a rule in this skill and to evidence in the input, so that the result is
-reproducible rather than stylistic.
+Anchor every judgement to a rule in this skill and to evidence in the input,
+so that the result is reproducible rather than stylistic.

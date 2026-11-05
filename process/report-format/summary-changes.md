@@ -2,15 +2,15 @@
 
 ## Purpose
 
-> **Scope:** Executive summary and the previous-audit comparison block
-> **Key items:** readiness threshold, changes since previous audit
+> **Scope:** Executive summary and the previous-audit comparison block **Key items:** readiness
+> threshold, changes since previous audit
 
 ## Executive Summary
 
 Provide a compact overview a reader can absorb without the detail sections.
 
-Precede the table with a one-line legend naming the band for each score range of the selected
-scale, so no score appears before its band is defined:
+Precede the table with a one-line legend naming the band for each score range of the selected scale,
+so no score appears before its band is defined:
 
 - `1-10`: `1-3 Poor · 4-6 Average · 7-8 Good · 9-10 Excellent`
 - `1-5`: `1 Bad · 2 Poor · 3 Average · 4 Good · 5 Excellent`
@@ -28,8 +28,8 @@ Use a key-value table:
 | Maturity level | <maturity level>                                      |
 | Overall score  | <score display>                                       |
 
-Maturity level is one of: `Prototype`, `Early development`, `Pre-production`, `Production-ready`,
-or `Undetermined`.
+Maturity level is one of: `Prototype`, `Early development`, `Pre-production`,
+`Production-ready`, or `Undetermined`.
 
 When the report language is not English,
 the value is rendered per the matching `translations/` file.
@@ -41,8 +41,8 @@ for example `★★★☆☆ (3.4/5)`.
 
 The Overall score cell holds only the score display.
 
-Under scoring policy 3 the key-value table is followed by the headline score table, rendered
-from the model with `scripts/render-tables.py --part headline` rather than typed by hand:
+Under scoring policy 3 the key-value table is followed by the headline score table,
+rendered from the model with `scripts/render-tables.py --part headline` rather than typed by hand:
 
 | Score               | Value           | Basis                                                       |
 |---------------------|-----------------|-------------------------------------------------------------|
@@ -50,28 +50,28 @@ from the model with `scripts/render-tables.py --part headline` rather than typed
 | Engineering Process | <score display> | Equal-weight mean, lowest <dims>                            |
 | Overall Score       | <score display> | <blend wording, Product-only, ceiling>                      |
 
-Each numeric `Product Quality` and `Engineering Process` value names its lowest-scoring
-eligible dimensions with the word `lowest` - the validator checks the six-line window after
-the value, and the Basis cell carries it.
+Each numeric `Product Quality` and `Engineering Process` value names its lowest-scoring eligible
+dimensions with the word `lowest` - the validator checks the six-line window after the value,
+and the Basis cell carries it.
 
-A sub-score that fails its publish gate renders `Not published` - the process record gates on
-scored count, the product record on tier-3 eligibility and eligible tier weight.
+A sub-score that fails its publish gate renders `Not published` - the process record gates on scored
+count, the product record on tier-3 eligibility and eligible tier weight.
 
-When `Engineering Process` renders `Not published`, the `Overall Score` basis names
-`Product-only`, and when the overall sits below the blend recomputed from the displayed
-sub-scores the basis names `ceiling` with its limit and reasons.
+When `Engineering Process` renders `Not published`, the `Overall Score` basis names `Product-only`,
+and when the overall sits below the blend recomputed from the displayed sub-scores the basis names
+`ceiling` with its limit and reasons.
 
 The lowest-scoring applicable dimension and its score go in a paragraph directly below the table,
 so a weak pillar is never hidden inside the average,
-for example `Lowest-scoring dimensions: Security ★★☆☆☆.` Exclude `N/A` and `Unknown` dimensions from
-both values.
+for example `Lowest-scoring dimensions: Security ★★☆☆☆.` Exclude `N/A` and `Unknown`
+dimensions from both values.
 
 When several dimensions tie for the lowest score, name them all.
 
 Omit the row and the paragraph only when no dimensions were scored.
 
-When the report language is not English, apply the table header and field name translations from the
-matching `translations/` file.
+When the report language is not English,
+apply the table header and field name translations from the matching `translations/` file.
 
 Do not add a "Summary description" row to this table.
 
@@ -81,8 +81,8 @@ The summary description belongs in a paragraph after the table, as described bel
 
 **Summary description**
 
-When the report language is not English, apply the heading translation from the matching
-`translations/` file.
+When the report language is not English,
+apply the heading translation from the matching `translations/` file.
 
 Write one paragraph immediately after the table.
 
@@ -100,8 +100,8 @@ Break lines that exceed the selected wrap width (default 100) per `docs/STYLE.md
 
 The maturity level must be justified by evidence in later sections, not asserted.
 
-The Executive Summary never carries a sentence disclaiming that the final report is not a
-production acceptance - readiness and sign-off state are expressed through the readiness fields.
+The Executive Summary never carries a sentence disclaiming that the final report is not a production
+acceptance - readiness and sign-off state are expressed through the readiness fields.
 
 **Coverage and risk flags**
 
@@ -119,8 +119,8 @@ Omit a flag line when it does not apply.
 
 **Production Readiness Threshold**
 
-When the report language is not English, apply the heading translation from the matching
-`translations/` file.
+When the report language is not English,
+apply the heading translation from the matching `translations/` file.
 
 State the conditions and evidence required to justify `Production-ready` for the stated deployment.
 
@@ -132,19 +132,21 @@ unapproved criteria.
 For readiness or due diligence, add an **Evidence And Decision Limits** paragraph stating which
 required checks are documented, which were not run, critical uncertainties, and sign-off state.
 
-Keep any "builds", "tests pass", "secure", or "production-ready" claim within the evidence actually
-collected, carrying the same qualifications as the detailed findings.
+Keep any "builds", "tests pass", "secure",
+or "production-ready" claim within the evidence actually collected,
+carrying the same qualifications as the detailed findings.
 
-Add **Readiness Cost** using `synthesis/remediation-roadmap.md`, with the supported range or
-`Insufficient information`, known subtotal, exclusions, and unestimated work.
+Add **Readiness Cost** using `synthesis/remediation-roadmap.md`,
+with the supported range or `Insufficient information`, known subtotal, exclusions,
+and unestimated work.
 
-For due diligence, summarize support continuity, ownership cost, roadmap, supplier, IP, and data
-obligations, including missing business evidence.
+For due diligence, summarize support continuity, ownership cost, roadmap, supplier, IP,
+and data obligations, including missing business evidence.
 
 Proposed targets and gates are not stakeholder-approved requirements until confirmed.
 
-Incomplete required checks or unassigned verification ownership leave sign-off pending, regardless
-of the scorecard average.
+Incomplete required checks or unassigned verification ownership leave sign-off pending,
+regardless of the scorecard average.
 
 ## Changes Since Previous Audit
 
@@ -167,20 +169,20 @@ Open with a report reference table:
 
 When the previous report records no revision, show `1.0 (assumed)` in the Revision row.
 
-When parameters differ between reports, state the difference in a paragraph below the table
-before comparing content, since a scale or detail-level change affects comparability.
+When parameters differ between reports, state the difference in a paragraph below the table before
+comparing content, since a scale or detail-level change affects comparability.
 
-When the previous report predates the current schema, read its field and column names through
-the legacy mapping in `synthesis/report-comparison.md` and name the rename as a capability
-change in this section.
+When the previous report predates the current schema,
+read its field and column names through the legacy mapping in `synthesis/report-comparison.md` and
+name the rename as a capability change in this section.
 
-When the report language is not English, apply the column header translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the column header translations from the matching `translations/` file.
 
 **Finding transitions**
 
-Present a table of findings that changed remediation state or first appeared since the
-previous report:
+Present a table of findings that changed remediation state or first appeared since
+the previous report:
 
 | Finding | Previous | Current | Note               |
 |---------|----------|---------|--------------------|
@@ -188,8 +190,8 @@ previous report:
 | FND-XXX | Open     | Open    | still reproduces   |
 | FND-XXX | -        | New     | first reported     |
 
-A previous finding that no longer reproduces stays in the table as `Closed` with the evidence
-that closes it, it is never silently dropped.
+A previous finding that no longer reproduces stays in the table as `Closed` with the evidence that
+closes it, it is never silently dropped.
 
 **Score delta**
 
@@ -216,6 +218,6 @@ Anchor every claim to a `FND-XXX`, `RSK-XXX`, or `EVD-XXX` in the current report
 - New findings keep their assigned `FND-XXX` IDs and appear as `New` in the transition table.
 - Mark a comparison element `Unknown` when the previous report cannot supply it, do not guess.
 - For multi-project reports, place the combined section after the condensed combined Executive
-  Summary, give each compared project its own level-3 subsection, and qualify every identifier
-  with the project identifier.
+  Summary, give each compared project its own level-3 subsection,
+  and qualify every identifier with the project identifier.
 - Do not include plaintext secrets, passwords, or cryptographic keys in comparison text.

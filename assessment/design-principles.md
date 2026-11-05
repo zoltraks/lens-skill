@@ -2,11 +2,12 @@
 
 ## Purpose
 
-> **Scope:** SOLID principles, cohesion and coupling, DRY, separation of concerns
-> **Key items:** SRP, OCP, LSP, ISP, DIP, high cohesion, low coupling, no needless duplication
+> **Scope:** SOLID principles, cohesion and coupling, DRY,
+> separation of concerns **Key items:** SRP, OCP, LSP, ISP, DIP, high cohesion, low coupling,
+> no needless duplication
 
-This file guides assessment of object and module design quality against established design
-principles.
+This file guides assessment of object and module design quality against
+established design principles.
 
 Apply `principles/evaluation-rules.md` throughout.
 
@@ -19,16 +20,16 @@ code-level metrics in `assessment/code-quality.md`, this file covers design prin
 
 Evaluate each SOLID principle as an observable property of the code:
 
-- Single Responsibility (SRP): each unit has one reason to change, classes and modules are not
-  catch-alls.
-- Open/Closed (OCP): behavior can be extended without modifying existing, tested code, typically via
-  abstraction.
+- Single Responsibility (SRP): each unit has one reason to change,
+  classes and modules are not catch-alls.
+- Open/Closed (OCP): behavior can be extended without modifying existing, tested code,
+  typically via abstraction.
 - Liskov Substitution (LSP): subtypes are usable wherever their base type is expected without
   surprising behavior.
-- Interface Segregation (ISP): clients depend on narrow interfaces, not large ones with unused
-  members.
-- Dependency Inversion (DIP): high-level modules depend on abstractions, not on concrete low-level
-  details.
+- Interface Segregation (ISP): clients depend on narrow interfaces,
+  not large ones with unused members.
+- Dependency Inversion (DIP): high-level modules depend on abstractions,
+  not on concrete low-level details.
 
 Also evaluate the companion principles:
 
@@ -51,12 +52,12 @@ Also evaluate the companion principles:
 
 ## Status Criteria
 
-- `PASS`: The design consistently follows SOLID and the companion principles, with evidence across
-  representative units.
-- `PARTIAL`: Principles are followed in places but violated in others, such as god objects, concrete
-  dependencies, or duplication.
-- `FAIL`: The design broadly violates these principles where the scale clearly calls for them, with
-  evidence.
+- `PASS`: The design consistently follows SOLID and the companion principles,
+  with evidence across representative units.
+- `PARTIAL`: Principles are followed in places but violated in others, such as god objects,
+  concrete dependencies, or duplication.
+- `FAIL`: The design broadly violates these principles where the scale clearly calls for
+  them, with evidence.
 - `UNKNOWN`: Source was not provided in enough depth to judge design.
 
 ## Common Risks

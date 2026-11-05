@@ -1777,7 +1777,7 @@
     {
       "id": 150,
       "prompt": "Audit this repository, diagnostic mode.",
-      "expected_output": "The audit intake runs per process/audit-workflow.md, and the response ends with a separate paragraph whose last sentence reports '<description> operation took <m:ss>' in minutes:seconds format.",
+      "expected_output": "The audit intake runs per process/audit-workflow/audit-intake.md, and the response ends with a separate paragraph whose last sentence reports '<description> operation took <m:ss>' in minutes:seconds format.",
       "files": [],
       "expectations": [
         "The agent loaded process/operation-timing.md for the diagnostic flag.",
@@ -1788,7 +1788,7 @@
     {
       "id": 151,
       "prompt": "Audit this repository, informational mode.",
-      "expected_output": "The audit intake runs per process/audit-workflow.md, and the response ends with a separate paragraph whose last sentence reports '<description> operation took <m:ss>' in minutes:seconds format.",
+      "expected_output": "The audit intake runs per process/audit-workflow/audit-intake.md, and the response ends with a separate paragraph whose last sentence reports '<description> operation took <m:ss>' in minutes:seconds format.",
       "files": [],
       "expectations": [
         "The agent loaded process/operation-timing.md for the informational flag - the diagnostic surface stays in process/json-exchange.md.",
@@ -1800,7 +1800,7 @@
     {
       "id": 152,
       "prompt": "Audit this repository, timing mode.",
-      "expected_output": "The audit intake runs per process/audit-workflow.md, and the response ends with a separate paragraph whose last sentence reports '<description> operation took <m:ss>' in minutes:seconds format.",
+      "expected_output": "The audit intake runs per process/audit-workflow/audit-intake.md, and the response ends with a separate paragraph whose last sentence reports '<description> operation took <m:ss>' in minutes:seconds format.",
       "files": [],
       "expectations": [
         "The agent loaded process/operation-timing.md for the timing flag.",
@@ -2098,7 +2098,7 @@
     {
       "id": 180,
       "prompt": "Audit a repository whose routes accept caller-controlled path segments and page-size parameters, where only the preview endpoint normalizes paths.",
-      "expected_output": "The report carries a per-endpoint traversal-guard verdict per the operation matrix in process/audit-workflow.md, findings cite the matrix rows, and the read-depth table shows full reads or justifications on the touched areas.",
+      "expected_output": "The report carries a per-endpoint traversal-guard verdict per the operation matrix in process/audit-workflow/evidence-gathering.md, findings cite the matrix rows, and the read-depth table shows full reads or justifications on the touched areas.",
       "files": [],
       "expectations": [
         "Traversal verdicts are enumerated per endpoint, not sampled impressions",

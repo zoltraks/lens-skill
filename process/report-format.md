@@ -2,26 +2,25 @@
 
 ## Purpose
 
-> **Scope:** The required structure and template for the final audit report
-> **Key items:** document information, technology stack, executive summary, health dashboard,
-> auditing methodology, scoring rubrics, system context, architectural assessment, detailed
-> technical findings, unified risk register, trade-off analysis, remediation roadmap, scope
-> exclusions
+> **Scope:** The required structure and template for the final audit report **Key items:** document
+> information, technology stack, executive summary, health dashboard, auditing methodology,
+> scoring rubrics, system context, architectural assessment, detailed technical findings,
+> unified risk register, trade-off analysis, remediation roadmap, scope exclusions
 
-This file defines the exact shape of the audit report and indexes the per-section
-specifications under `process/report-format/`.
+This file defines the exact shape of the audit report and indexes the per-section specifications
+under `process/report-format/`.
 
-The `hunt` report style follows `process/report-format/hunt-style.md`, which reuses the
-finding, risk, and roadmap contracts defined here under its own section order.
+The `hunt` report style follows `process/report-format/hunt-style.md`, which reuses the finding,
+risk, and roadmap contracts defined here under its own section order.
 
-The `review` report style follows `process/report-format/review-style.md`, which adds an
-execution register, evidence levels, and a retest register on top of the same contracts - a
-structure-scoped request renders the variant defined in
-`process/report-format/structure-review.md` instead.
+The `review` report style follows `process/report-format/review-style.md`,
+which adds an execution register, evidence levels,
+and a retest register on top of the same contracts - a structure-scoped request renders the variant
+defined in `process/report-format/structure-review.md` instead.
 
-For a fast mechanical view before producing a report, `process/report-contract.md` lists
-only the validator-enforced constraints, and `scripts/validate-report.py --dump-contract`
-emits the same surface as JSON.
+For a fast mechanical view before producing a report,
+`process/report-contract.md` lists only the validator-enforced constraints,
+and `scripts/validate-report.py --dump-contract` emits the same surface as JSON.
 
 Produce the sections in this order.
 
@@ -38,13 +37,13 @@ A present-but-empty section signals a gap, a missing section hides it.
 
 | Section                                     | Line | What it covers                              |
 |---------------------------------------------|------|---------------------------------------------|
-| Formatting Rules                            | 49   | Formatting Rules guidance                   |
-| Report Delivery And Parameter Configuration | 372  | Report delivery and output configuration    |
-| Detail Level Configuration                  | 428  | Standard, detailed, and brief reports       |
-| Conditional Sections                        | 539  | Inclusion criteria for conditional sections |
-| Section Order                               | 599  | Single-project and multi-project order      |
-| Specification Files                         | 701  | Per-section specification file index        |
-| Pre-Delivery Mechanical Checklist           | 736  | Final mechanical checks                     |
+| Formatting Rules                            | 48   | Formatting Rules guidance                   |
+| Report Delivery And Parameter Configuration | 369  | Report delivery and output configuration    |
+| Detail Level Configuration                  | 426  | Standard, detailed, and brief reports       |
+| Conditional Sections                        | 537  | Inclusion criteria for conditional sections |
+| Section Order                               | 597  | Single-project and multi-project order      |
+| Specification Files                         | 699  | Per-section specification file index        |
+| Pre-Delivery Mechanical Checklist           | 734  | Final mechanical checks                     |
 
 ## Formatting Rules
 
@@ -56,10 +55,10 @@ Paragraphs below the table provide the detailed evidence, risks, and reasoning.
 
 In tables, use shortened, general values.
 
-Every table cell's prose begins with a capital letter - `In-tree`, not `in-tree` - in
-header and body cells alike. Cells opening with a code span or link (an identifier,
-command, or path) keep their verbatim form; the capital-first rule covers prose starts,
-never identifier casing.
+Every table cell's prose begins with a capital letter - `In-tree`,
+not `in-tree` - in header and body cells alike.
+Cells opening with a code span or link (an identifier, command, or path) keep their verbatim form;
+the capital-first rule covers prose starts, never identifier casing.
 
 One or two words per cell.
 
@@ -87,20 +86,20 @@ The matching `translations/` file defines the casing rule for non-English report
 
 Keep column headers identical to the templates below across every audit.
 
-Prefer single-word column headers where the shorter form stays unambiguous -
-multi-word headers wrap badly in narrow plain-text layouts.
+Prefer single-word column headers where the shorter form stays unambiguous - multi-word headers wrap
+badly in narrow plain-text layouts.
 
 When the user requests a specific language,
 translate the column headers into that language while keeping the structure identical.
 
 Keep table cells single-line and use commas for compact lists, placing explanations below the table.
 
-Tables may exceed the prose wrap width because rendered cells wrap, but the formatted source
-width stays within a 300-character budget.
+Tables may exceed the prose wrap width because rendered cells wrap,
+but the formatted source width stays within a 300-character budget.
 
-When a cell's detail stretches the table beyond that budget, shorten the cell to a compact
-summary and move the removed detail into a paragraph directly below the table - the detail
-is relocated, never dropped.
+When a cell's detail stretches the table beyond that budget,
+shorten the cell to a compact summary and move the removed detail into a paragraph directly below
+the table - the detail is relocated, never dropped.
 
 One or more columns may render as separate paragraphs below the table instead of columns,
 and the paragraph names the column whose content it carries.
@@ -143,15 +142,14 @@ so each sentence renders as its own paragraph in Markdown.
 
 This is the default layout for running prose.
 
-List items, `* **Field:**` register lines,
-table cells, and headings are already one unit per line and stay unsplit.
+List items, `* **Field:**` register lines, table cells,
+and headings are already one unit per line and stay unsplit.
 
-The layout is suppressed only when the user explicitly asks for joined prose - phrasing such
-as "don't break sentences", "no sentence breaks", or "don't put blank lines between
-sentences".
+The layout is suppressed only when the user explicitly asks for joined prose - phrasing such as
+"don't break sentences", "no sentence breaks", or "don't put blank lines between sentences".
 
-Record the suppression in Document Information as `| Sentence breaks | Off |`
-and write no row when the default applies, per `process/report-format/report-opening.md`.
+Record the suppression in Document Information as `| Sentence breaks | Off |` and write no row when
+the default applies, per `process/report-format/report-opening.md`.
 
 Do not use the semicolon character in prose.
 
@@ -170,21 +168,20 @@ Do not add a Contents or table-of-contents section.
 but the report navigates by its fixed section order and the Health Dashboard,
 so the omission is deliberate.
 
-Leave one blank line between a table and any adjacent block - a paragraph, a bold
-paragraph heading, a list, or a heading.
+Leave one blank line between a table and any adjacent block - a paragraph, a bold paragraph heading,
+a list, or a heading.
 
-A non-table line butting directly onto a `|` row is a layout defect: renderers disagree
-about where the table ends.
+A non-table line butting directly onto a `|` row is a layout defect:
+renderers disagree about where the table ends.
 
-Literal names of software, tools, packages, and special files render in code spans -
-`Node.js`, `package-lock.json`, `nginx`, `LICENSE` - so a literal name stands apart
-from prose.
+Literal names of software, tools, packages, and special files render in code spans - `Node.js`,
+`package-lock.json`, `nginx`, `LICENSE` - so a literal name stands apart from prose.
 
-Generic concepts stay plain text, and a governed vocabulary token or a linked glossary
-term keeps its own rendering.
+Generic concepts stay plain text, and a governed vocabulary token or a linked glossary term
+keeps its own rendering.
 
-Match names case-sensitively: a package name that collides with a prose word is wrapped
-only where it names the artifact, never where the word is used.
+Match names case-sensitively: a package name that collides with a prose word is wrapped only where
+it names the artifact, never where the word is used.
 
 ### Table Formatting Rules
 
@@ -223,8 +220,8 @@ not a layout choice.
 
 A column that is empty in every row is not a column - delete it.
 
-An intentionally empty first cell keeps the single-pipe start and padding like any other
-cell - `||` is never a valid row start.
+An intentionally empty first cell keeps the single-pipe start and padding like any other cell - `||`
+is never a valid row start.
 
 **Cell padding**: Pad every cell with trailing spaces so it matches the widest cell in that column.
 
@@ -240,8 +237,8 @@ column, including the header.
 Include all Markdown formatting characters (backticks, asterisks, spaces, punctuation)
 in the width measurement.
 
-Link and image markup counts in full: a `[text](target)` or `![alt](src)` cell measures
-brackets, text, and target together. Nothing is stripped before measuring.
+Link and image markup counts in full: a `[text](target)` or `![alt](src)` cell measures brackets,
+text, and target together. Nothing is stripped before measuring.
 
 **Compacting**: After calculating column widths,
 compact the table by removing any padding that exceeds the widest cell in each column.
@@ -251,16 +248,17 @@ The compacted version - minimum width that fits every cell - is the correct vers
 **Checklist for every table**:
 
 - Identify all cells including the header row.
-- Measure each cell width including all formatting characters - link and image markup
-  counts its full source text.
+- Measure each cell width including all formatting characters - link and image markup counts
+  its full source text.
 - Determine the maximum width per column.
 - Pad every cell with trailing spaces to match the column maximum.
 - Build the separator with hyphens equal to the column width plus two, no spaces.
-- Keep at least one hyphen in every separator cell, and drop any column that stays empty in
-  every row.
+- Keep at least one hyphen in every separator cell,
+  and drop any column that stays empty in every row.
 - Verify all `|` separators align vertically in plain text.
-- Never put a literal `|` inside a cell, even inside backticks or code spans. Table parsers split
-  on every `|` regardless of code formatting, so write "pipe" or use a different character.
+- Never put a literal `|` inside a cell, even inside backticks or code spans.
+  Table parsers split on every `|` regardless of code formatting,
+  so write "pipe" or use a different character.
 
 **Automated formatting**
 
@@ -269,8 +267,8 @@ Format every table with a script, do not count column widths by hand.
 Manual counting is error-prone and produces misaligned columns, per `docs/STYLE.md`.
 
 Before delivering a File-mode report, run a script that implements the checklist above:
-parse each table, measure every cell width in source text, pad each cell to the column
-maximum, and rebuild each separator as the column width plus two hyphens.
+parse each table, measure every cell width in source text, pad each cell to the column maximum,
+and rebuild each separator as the column width plus two hyphens.
 
 Handle both `\n` and `\r\n` input and preserve the file's original line-ending style.
 
@@ -331,29 +329,28 @@ end the report after the final section without any trailing boilerplate.
 
 ### Register Reference Links
 
-Every register identifier cited outside its defining location is a Markdown link to the
-definition.
+Every register identifier cited outside its defining location is a Markdown link to the definition.
 
 The register families are `EVD-NNN` (Evidence Ledger), `FND-<pillar>-NNN` (findings),
-`RSK-NNN` (risks), `REC-NNN` (recommendations), `TDR-NNN` (technical debt), and `PAR-NN`
-(Validation Protocol rows), including project-qualified forms such as
-`FND-SEC-001` - the bare identifier alone.
+`RSK-NNN` (risks), `REC-NNN` (recommendations), `TDR-NNN` (technical debt),
+and `PAR-NN` (Validation Protocol rows),
+including project-qualified forms such as `FND-SEC-001` - the bare identifier alone.
 
 `FND`, `RSK`, `REC`, and `TDR` identifiers link to their `### <ID>:` block heading anchor,
 for example `[FND-SEC-001](#fnd-sec-001-hardcoded-jwt-signing-key)`.
 
-`EVD` and `PAR` identifiers are defined as table rows, not headings, so they link to the
-anchor of the section holding the register table, for example
-`[EVD-004](#evidence-list)` or `[PAR-10](#validation-protocol)`.
+`EVD` and `PAR` identifiers are defined as table rows, not headings,
+so they link to the anchor of the section holding the register table,
+for example `[EVD-004](#evidence-list)` or `[PAR-10](#validation-protocol)`.
 
-The defining location itself stays unlinked: the `### <ID>:` heading and the register row
-whose first cell carries the identifier.
+The defining location itself stays unlinked:
+the `### <ID>:` heading and the register row whose first cell carries the identifier.
 
-Each register identifier has exactly one `### <ID>:` block in the report - a citation from
-another project's section uses the project-qualified link, never a second heading.
+Each register identifier has exactly one `### <ID>:` block in the report - a citation from another
+project's section uses the project-qualified link, never a second heading.
 
-A register identifier with no defining `###` block in the current revision, for example a
-finding `Closed` in this audit that survives only in the Changes Since Previous Audit
+A register identifier with no defining `###` block in the current revision,
+for example a finding `Closed` in this audit that survives only in the Changes Since Previous Audit
 disposition table, is cited inside a code span - an unlinked bare citation of a retired
 identifier fails validation.
 
@@ -362,17 +359,17 @@ Cite every register identifier individually - never render an identifier range s
 
 Fenced code, inline code, existing links, and URLs are exempt.
 
-Apply the pass with `scripts/link-references.py`, never by hand. It derives anchors from
-the report's own headings, so it applies unchanged to every report language.
+Apply the pass with `scripts/link-references.py`, never by hand.
+It derives anchors from the report's own headings, so it applies unchanged to every report language.
 
 Draft every citation as the bare identifier with no link markup - the linker inserts the
-`[ID](#anchor)` form itself, and a hand-written link is preserved verbatim, so a guessed
-anchor survives the pass and only fails at validation.
+`[ID](#anchor)` form itself, and a hand-written link is preserved verbatim,
+so a guessed anchor survives the pass and only fails at validation.
 
 ## Report Delivery And Parameter Configuration
 
 Report delivery and output-file selection are determined during the Parameter Configuration phase in
-`process/audit-workflow.md`.
+`process/audit-workflow/parameter-phase.md`.
 
 Do not ask delivery questions here, they are handled upstream.
 
@@ -384,22 +381,23 @@ Selecting a file path chooses both delivery and output location.
 When the user names an output file in the original request,
 for example "write the audit to AUDIT.md", honor that filename without asking again.
 
-Resolve the output directory using the location rules in `process/audit-workflow.md` unless a full
-path was given.
+Resolve the output directory using the location rules in `process/audit-workflow/parameter-phase.md`
+unless a full path was given.
 
 When the user states only a File preference without naming a path,
 ask the same question with `Inline` omitted.
 
 Retain the applicable file-location and `Custom report file` options.
 
-When the user invokes an audit without naming an output file, the Parameter Configuration phase
-resolves the output base and offers the applicable file paths in the delivery question.
+When the user invokes an audit without naming an output file,
+the Parameter Configuration phase resolves the output base and offers the applicable file paths in
+the delivery question.
 
 Default delivery is **File** when an `audit/` or `report/` directory exists under `docs/`,
 `document/`, or `doc/` in the audited repository or directory, otherwise **Inline**.
 
 Location resolution, subdirectory-pattern matching,
-and the delivery-question options are defined in `process/audit-workflow.md`,
+and the delivery-question options are defined in `process/audit-workflow/parameter-phase.md`,
 which is the single source of truth: the pattern recorded during Output location discovery there
 determines whether a version-numbered, date-named, or plain base path is offered.
 
@@ -407,23 +405,23 @@ The default filename carries the report revision: `AUDIT-1.0.md` for a first Eng
 or the language-specific revisioned name such as `AUDYT-1.0.md`,
 with the filename without the revision number offered as an alternative.
 
-A `hunt`-style report uses the `HUNT` stem instead - or the language-specific stem such as
-`POLOWANIE` - and defaults to the bare `HUNT.md` for a first report, with `HUNT-1.0.md`
-offered as the revisioned alternative.
+A `hunt` -style report uses the `HUNT` stem instead - or the language-specific stem such as
+`POLOWANIE` - and defaults to the bare `HUNT.md` for a first report,
+with `HUNT-1.0.md` offered as the revisioned alternative.
 
-A `review`-style report uses the `REVIEW` stem -
-`PRZEGLĄD` in Polish - under the same bare-first default.
+A `review` -style report uses the `REVIEW` stem - `PRZEGLĄD` in Polish - under the
+same bare-first default.
 
 When a previous audit report exists, the filename carries the new revision whether the audit mode is
 re-audit or fresh audit, for example `AUDIT-2.0.md`, and the previous file is never overwritten.
 
-A bare `<stem>.md` previous report is renamed to `<stem>-<revision>.md` before the new report
-is written, per `synthesis/report-comparison.md`.
+A bare `<stem>.md` previous report is renamed to `<stem>-<revision>.md` before the new report is
+written, per `synthesis/report-comparison.md`.
 
 `Custom report file` asks the user to specify the location and filename before writing.
 
-For a single-dimension request that produces only a short subsection, returning the result
-inline is acceptable without asking, unless the user asked for a file.
+For a single-dimension request that produces only a short subsection,
+returning the result inline is acceptable without asking, unless the user asked for a file.
 
 ## Detail Level Configuration
 
@@ -453,21 +451,20 @@ All twenty-two baseline sections are present in full, subject to explicit parame
 - Structure Review
 - Solution Comparison
 - Strengths & What's Working
-- Technical Findings (all findings with full Description, Impact, Recommendation, and
-  Method)
+- Technical Findings (all findings with full Description, Impact, Recommendation, and Method)
 
-Every scaffolded field on a finding block is required output - `Method`,
-`Mitigating factors`, and `Defect scenario` are never dropped. `Method` carries
-the concrete check that confirms the finding; `Mitigating factors` lists what
-limits the exposure (`Brak` when none); `Defect scenario` carries the
-initial-conditions, steps, expected, observed, confirmation narrative.
+Every scaffolded field on a finding block is required output - `Method`, `Mitigating factors`,
+and `Defect scenario` are never dropped.
+`Method` carries the concrete check that confirms the finding;
+`Mitigating factors` lists what limits the exposure (`Brak` when none);
+`Defect scenario` carries the initial-conditions, steps, expected, observed, confirmation narrative.
 
-Every criteria identifier cited in a `* **Criteria:**` field appears as a row in
-the Auditing Methodology criteria table - citing an undeclared criteria entry is a
-defect.
+Every criteria identifier cited in a `* **Criteria:**` field appears as a row in the Auditing
+Methodology criteria table - citing an undeclared criteria entry is a defect.
 
-Every `FND-` identifier appears in the Remediation Roadmap or the finding block
-carries an explicit `Accepted - no action` disposition - an undisposed finding is
+Every `FND-` identifier appears in the Remediation Roadmap or the finding block carries an explicit
+`Accepted - no action` disposition - an undisposed finding is
+
 a defect.
 - Unified Risk Register
 - Remediation Roadmap (full matrix with P1-P4, impact/effort/complexity, verification)
@@ -480,17 +477,17 @@ In addition, any conditional sections whose criteria are met are included in ful
 
 See the Conditional Sections rule below for the inclusion criteria of the Data Flow Diagram,
 Design Patterns, Architecture Decision Records, Threat Model, API Contract Conformance,
-Skill Definition Conformance, Agent Guidance Conformance, AI System Assessment, Standards
-Conformance, Requirements Conformance, Engineering Baseline Conformance, Structure
-Conformance, Code Style,
-API Compatibility & Versioning Discipline, Technical Debt Register, and Follow-up Plan.
+Skill Definition Conformance, Agent Guidance Conformance, AI System Assessment,
+Standards Conformance, Requirements Conformance, Engineering Baseline Conformance,
+Structure Conformance, Code Style, API Compatibility & Versioning Discipline,
+Technical Debt Register, and Follow-up Plan.
 
 **Detailed**
 
 Same sections as Standard, plus the following extensions.
 
-At the Detailed level, evaluate each conditional section's criteria explicitly and include each
-one that applies:
+At the Detailed level, evaluate each conditional section's criteria explicitly and include
+each one that applies:
 
 - Executive Summary includes a longer Production Readiness Threshold paragraph.
 - Health Dashboard includes an expanded Risk Map with all risks plotted.
@@ -500,10 +497,10 @@ one that applies:
 - Solution Comparison includes additional trade-offs surfaced during assessment.
 - Remediation Roadmap includes additional context for each recommendation (blocking dependencies,
   estimated timeframes).
-- Threat Model expands reasoning for all six STRIDE categories at each boundary, which are checked
-  at every detail level, including explicit no-material-threat outcomes.
-- Technical Debt Register, when included, lists cost of delay for every item rather than only the
-  top items.
+- Threat Model expands reasoning for all six STRIDE categories at each boundary,
+  which are checked at every detail level, including explicit no-material-threat outcomes.
+- Technical Debt Register, when included,
+  lists cost of delay for every item rather than only the top items.
 
 **Brief**
 
@@ -512,8 +509,8 @@ Condensed output for rapid review:
 - Document Information (full)
 - Glossary (when Descriptive mode is enabled)
 - Executive Summary (summary table, evidence limits, readiness gate, and cost uncertainty)
-- Changes Since Previous Audit (report reference and finding transition tables only) when a
-  re-audit was confirmed
+- Changes Since Previous Audit (report reference and finding transition tables only)
+  when a re-audit was confirmed
 - System Context (Technology Stack subsection only)
 - Health Dashboard (scorecard summary and risk map only)
 - High-Level Observations (full)
@@ -527,12 +524,13 @@ Condensed output for rapid review:
 - Validation Protocol (full)
 - Reference Sources (full)
 
-Omitted in Brief: full Auditing Methodology, Scoring Rubrics, the System Context aspects beyond
-the Technology Stack subsection, Architectural Assessment critique, full findings, full risk
-register, full trade-offs, full roadmap, and Recommendation Classification.
+Omitted in Brief: full Auditing Methodology, Scoring Rubrics,
+the System Context aspects beyond the Technology Stack subsection,
+Architectural Assessment critique, full findings, full risk register, full trade-offs, full roadmap,
+and Recommendation Classification.
 
-Retain a compact check summary and evidence IDs in Scope Exclusions, and blocked/unrun checks in
-Known Limitations.
+Retain a compact check summary and evidence IDs in Scope Exclusions,
+and blocked/unrun checks in Known Limitations.
 
 Do not omit critical decision limitations to meet the shorter format.
 
@@ -558,32 +556,32 @@ The following sections and subsections are conditional.
 
 Each lists its inclusion criteria and the assessment file that governs it:
 
-| Section / Subsection                                        | Include When                                                                         | Governing File                            |
-|-------------------------------------------------------------|--------------------------------------------------------------------------------------|-------------------------------------------|
-| Data Flow Diagram (in Architectural Assessment)             | The system moves data across one or more trust boundaries                            | `assessment/data-flow.md`                 |
-| Design Patterns (in Architectural Assessment)               | The codebase is large enough to exhibit recurring structure                          | `assessment/design-patterns.md`           |
-| Architecture Decision Records (in Architectural Assessment) | The system is production-bound with significant decisions                            | `assessment/change-management.md`         |
-| Threat Model (standalone)                                   | The system has a security-relevant attack surface or boundary                        | `assessment/threat-model.md`              |
-| API Contract Conformance (standalone)                       | The system defines, exposes, or consumes an API contract                             | `assessment/api-contract.md`              |
-| Skill Definition Conformance (standalone)                   | The subject holds `SKILL.md` files or other agent-facing artifacts                   | `assessment/skill-definition.md`          |
-| Agent Guidance Conformance (standalone)                     | The subject carries a structured agent-guidance documentation set                    | `assessment/agent-guidance.md`            |
-| AI System Assessment (standalone)                           | The project trains, serves, or materially depends on AI                              | `assessment/ai-system.md`                 |
-| Standards Conformance (standalone)                          | The project contains documented development standards                                | `assessment/standards-conformance.md`     |
-| Requirements Conformance (standalone)                       | The subject carries a document declaring product requirements or acceptance criteria | `assessment/requirements-conformance.md`  |
-| Engineering Baseline Conformance (standalone)               | The subject ships code a bundled stack or purpose baseline covers                    | `assessment/baseline-conformance.md`      |
-| Structure Conformance (standalone)                          | The subject contains source code or a structured documentation set                   | `assessment/structure-review.md`          |
-| Code Style (standalone)                                     | The subject contains source code files                                               | `assessment/code-style.md`                |
-| API Compatibility & Versioning Discipline (standalone)      | The subject is a reusable library or package                                         | `assessment/api-compatibility.md`         |
-| Technical Debt Register (standalone)                        | Structural debt distinct from risks is surfaced                                      | `synthesis/debt-register.md`              |
-| Follow-up Plan (subsection of Remediation Roadmap) | The roadmap contains a P1 or P2 recommendation                                   | `synthesis/reaudit-plan.md`               |
-| Changes Since Previous Audit (standalone)                   | Previous report found and confirmed as the re-audit baseline                         | `synthesis/report-comparison.md`          |
+| Section / Subsection                                              | Include When                                                                         | Governing File                            |
+|-------------------------------------------------------------------|--------------------------------------------------------------------------------------|-------------------------------------------|
+| Data Flow Diagram (in Architectural Assessment)                   | The system moves data across one or more trust boundaries                            | `assessment/data-flow.md`                 |
+| Design Patterns (in Architectural Assessment)                     | The codebase is large enough to exhibit recurring structure                          | `assessment/design-patterns.md`           |
+| Architecture Decision Records (in Architectural Assessment)       | The system is production-bound with significant decisions                            | `assessment/change-management.md`         |
+| Threat Model (standalone)                                         | The system has a security-relevant attack surface or boundary                        | `assessment/threat-model.md`              |
+| API Contract Conformance (standalone)                             | The system defines, exposes, or consumes an API contract                             | `assessment/api-contract.md`              |
+| Skill Definition Conformance (standalone)                         | The subject holds `SKILL.md` files or other agent-facing artifacts                   | `assessment/skill-definition.md`          |
+| Agent Guidance Conformance (standalone)                           | The subject carries a structured agent-guidance documentation set                    | `assessment/agent-guidance.md`            |
+| AI System Assessment (standalone)                                 | The project trains, serves, or materially depends on AI                              | `assessment/ai-system.md`                 |
+| Standards Conformance (standalone)                                | The project contains documented development standards                                | `assessment/standards-conformance.md`     |
+| Requirements Conformance (standalone)                             | The subject carries a document declaring product requirements or acceptance criteria | `assessment/requirements-conformance.md`  |
+| Engineering Baseline Conformance (standalone)                     | The subject ships code a bundled stack or purpose baseline covers                    | `assessment/baseline-conformance.md`      |
+| Structure Conformance (standalone)                                | The subject contains source code or a structured documentation set                   | `assessment/structure-review.md`          |
+| Code Style (standalone)                                           | The subject contains source code files                                               | `assessment/code-style.md`                |
+| API Compatibility & Versioning Discipline (standalone)            | The subject is a reusable library or package                                         | `assessment/api-compatibility.md`         |
+| Technical Debt Register (standalone)                              | Structural debt distinct from risks is surfaced                                      | `synthesis/debt-register.md`              |
+| Follow-up Plan (subsection of Remediation Roadmap)                | The roadmap contains a P1 or P2 recommendation                                       | `synthesis/reaudit-plan.md`               |
+| Changes Since Previous Audit (standalone)                         | Previous report found and confirmed as the re-audit baseline                         | `synthesis/report-comparison.md`          |
 | Glossary Index (standalone)                                       | Descriptive mode is enabled (default)                                                | `process/report-format.md`                |
-| Recommendation Classification (subsection of Remediation Roadmap) | Detail level is Standard or Detailed and the roadmap exists                  | `synthesis/remediation-roadmap.md`        |
-| Contradiction Register (standalone or in Limitations)       | An external or prior report asserts conflicting claims                               | `synthesis/report-triangulation.md`       |
-| Further Verification (standalone)                           | `source-only` evidence mode - the default                                            | `process/report-format/report-closing.md` |
-| Executed Evidence Log (standalone)                          | `executed-readonly` or `executed-commands` evidence mode                             | `process/report-format/report-closing.md` |
-| Retest Register (standalone, review style)                  | The Execution Register carries `Fail`/`Error`/`Blocked` rows                         | `process/report-format/review-style.md`   |
-| Artifact Manifest (standalone, review style)                | `executed-readonly` or `executed-commands` evidence mode                             | `process/report-format/review-style.md`   |
+| Recommendation Classification (subsection of Remediation Roadmap) | Detail level is Standard or Detailed and the roadmap exists                          | `synthesis/remediation-roadmap.md`        |
+| Contradiction Register (standalone or in Limitations)             | An external or prior report asserts conflicting claims                               | `synthesis/report-triangulation.md`       |
+| Further Verification (standalone)                                 | `source-only` evidence mode - the default                                            | `process/report-format/report-closing.md` |
+| Executed Evidence Log (standalone)                                | `executed-readonly` or `executed-commands` evidence mode                             | `process/report-format/report-closing.md` |
+| Retest Register (standalone, review style)                        | The Execution Register carries `Fail`/`Error`/`Blocked` rows                         | `process/report-format/review-style.md`   |
+| Artifact Manifest (standalone, review style)                      | `executed-readonly` or `executed-commands` evidence mode                             | `process/report-format/review-style.md`   |
 
 In a multi-project report, evaluate each section's inclusion criteria independently per project.
 
@@ -591,8 +589,8 @@ A section may apply to one project and be omitted for another,
 record each deliberate omission in Scope Exclusions.
 
 When in doubt about whether a conditional section applies,
-prefer including it with explicit `N/A` or `Not specified` markers over silently dropping a relevant
-concern.
+prefer including it with explicit `N/A` or `Not specified` markers over silently
+dropping a relevant concern.
 
 Only omit a section when it genuinely cannot apply to the subject.
 
@@ -602,8 +600,8 @@ The report has these top-level sections, in this order, with unnumbered headings
 
 The Specification Files table below maps each section to its specification file.
 
-Sections marked *(conditional)* are included only when their criteria in the Conditional Sections
-table are met.
+Sections marked *(conditional)* are included only when their criteria in the Conditional
+Sections table are met.
 
 For a **single-project** audit:
 
@@ -644,8 +642,8 @@ For a **single-project** audit:
 - Further Verification *(source-only mode)* / Executed Evidence Log
   *(executed-readonly or executed-commands mode, conditional)*
 - Validation Protocol
-- Remediation Roadmap (with Recommendation Classification *(conditional)* and Follow-up
-  Plan *(conditional)* subsections)
+- Remediation Roadmap (with Recommendation Classification *(conditional)* and Follow-up Plan
+  *(conditional)* subsections)
 - Reference Sources
 
 For a **multi-project** audit, the structure changes.
@@ -691,11 +689,11 @@ In summary:
 - Solution Comparison (combined, cross-project trade-offs only)
 - Scope Exclusions (once, shared)
 - Known Limitations (once, shared)
-- Further Verification *(source-only mode)* / Executed Evidence Log
-  *(executed-readonly or executed-commands mode, conditional)* (once, shared)
+- Further Verification *(source-only mode)* / Executed Evidence Log *(executed-readonly or
+  executed-commands mode, conditional)* (once, shared)
 - Validation Protocol (once, shared)
-- Remediation Roadmap (once, shared - consolidated matrix and registers with a Project
-  column, carrying Recommendation Classification and Follow-up Plan subsections)
+- Remediation Roadmap (once, shared - consolidated matrix and registers with a Project column,
+  carrying Recommendation Classification and Follow-up Plan subsections)
 - Reference Sources (once, shared)
 
 ## Specification Files
@@ -704,7 +702,7 @@ Each report section is specified in a file under `process/report-format/`.
 
 | File                          | Sections                                                 |
 |-------------------------------|----------------------------------------------------------|
-| `report-opening.md`           | Document Information, Audit Coverage,               |
+| `report-opening.md`           | Document Information, Audit Coverage,                    |
 |                               | Glossary                                                 |
 | `multi-project.md`            | Multi-Project Report Structure                           |
 | `summary-changes.md`          | Executive Summary, Changes Since Previous Audit          |
@@ -714,7 +712,7 @@ Each report section is specified in a file under `process/report-format/`.
 |                               | High-Level Observations                                  |
 | `methodology-scoring.md`      | Auditing Methodology, Scoring Rubrics                    |
 | `architectural-assessment.md` | Architectural Assessment and its conditional subsections |
-| `report-analysis.md`          | Solution Comparison, Threat Model                         |
+| `report-analysis.md`          | Solution Comparison, Threat Model                        |
 | `conditional-conformance.md`  | API Contract, Skill Definition, Agent Guidance,          |
 |                               | AI System, Standards, Requirements, Engineering          |
 |                               | Baseline, Structure Conformance, API Compatibility &     |
@@ -723,9 +721,9 @@ Each report section is specified in a file under `process/report-format/`.
 | `findings-registers.md`       | Strengths, Technical Findings, Technical Debt            |
 |                               | Register, Unified Risk Register, Remediation Roadmap,    |
 |                               | Recommendation Classification                            |
-| `report-closing.md`           | Scope Exclusions, Known Limitations, Verification |
+| `report-closing.md`           | Scope Exclusions, Known Limitations, Verification        |
 |                               | Handoff, Executed Evidence Log, Follow-up Plan,          |
-|                               | Validation Protocol, Reference Sources                            |
+|                               | Validation Protocol, Reference Sources                   |
 | `hunt-style.md`               | Hunt report style: verdict, domain register, journey     |
 |                               | traces, remediation phases                               |
 | `review-style.md`             | Review report style: execution register, evidence        |
@@ -762,18 +760,18 @@ every item is mechanical and takes seconds to verify.
 | Table separation | One blank line between a table and any adjacent block - paragraph, bold heading, list, or heading                                            |
 | Bold markers     | `**` pairs balance on every line - a stray marker after a `**Field:**` label renders as literal asterisks                                    |
 | Registers        | Every RSK cites an FND, every REC cites an FND, risk-map covers rated risks                                                                  |
-| Classification   | At Standard/Detailed, the Recommendation Classification subsection of the Remediation Roadmap lists every REC exactly once                  |
+| Classification   | At Standard/Detailed, the Recommendation Classification subsection of the Remediation Roadmap lists every REC exactly once                   |
 | Project scope    | Inventory lists only intake-confirmed projects, exclusions disclosed in Scope Exclusions                                                     |
 | Location         | Report path matches the output directory recorded during intake                                                                              |
-| Ending           | Reference Sources is the last section, no closing line after it                                                                                     |
+| Ending           | Reference Sources is the last section, no closing line after it                                                                              |
 
 `scripts/format-table.py` in the skill repository is the canonical formatting script,
 copy it into the audited repository's `work/` directory before use.
 
-`scripts/lint-prose.py` runs the prose rules (semicolons, typographic dashes, arrows, heading
-spacing, split-sentence and doubled-end-mark defects, `..` identifier ranges, sentences joined
-inside one paragraph, table rows butting onto surrounding text, and unbalanced `**` markers)
-on draft parts before assembly, copy it the same way.
+`scripts/lint-prose.py` runs the prose rules (semicolons, typographic dashes, arrows,
+heading spacing, split-sentence and doubled-end-mark defects, `..` identifier ranges,
+sentences joined inside one paragraph, table rows butting onto surrounding text,
+and unbalanced `**` markers) on draft parts before assembly, copy it the same way.
 
 Pass `--no-sentence-breaks` when linting a report recorded with `Sentence breaks | Off`.
 
@@ -781,10 +779,10 @@ Pass `--no-sentence-breaks` when linting a report recorded with `Sentence breaks
 register cross-reference, and PAR-row checks, copy and run it the same way.
 
 `scripts/finalize-report.py` orchestrates the full sequence - glossary linking,
-register-reference linking, table formatting, then report validation - against sibling
-`.tmp.` copies in one call, or against the skill repository directly with
-`--skill-root <path>` or `LENS_SKILL_ROOT`.
+register-reference linking, table formatting,
+then report validation - against sibling `.tmp.` copies in one call,
+or against the skill repository directly with `--skill-root <path>` or `LENS_SKILL_ROOT`.
 
 `scripts/new-report.py --style audit|hunt|review` emits a validated skeleton carrying these
-sections, table headers, and field-labeled template blocks, so the structure is correct
-before any content is written.
+sections, table headers, and field-labeled template blocks,
+so the structure is correct before any content is written.

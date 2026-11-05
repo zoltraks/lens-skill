@@ -2,21 +2,20 @@
 
 ## Purpose
 
-> **Scope:** Prioritized, traceable remediation plan with Impact vs Effort matrix, complexity
-> ratings, and explicit verification steps
-> **Key items:** `REC-[001]` indexing, `FND-XXX` traceability, priority tiers, non-prescriptive
-> options
+> **Scope:** Prioritized, traceable remediation plan with Impact vs Effort matrix,
+> complexity ratings, and explicit verification steps **Key items:** `REC-[001]` indexing,
+> `FND-XXX` traceability, priority tiers, non-prescriptive options
 
 This file guides the remediation roadmap section.
 
-The goal is to present a prioritized, traceable plan where every recommendation resolves a specific
-finding.
+The goal is to present a prioritized, traceable plan where every recommendation
+resolves a specific finding.
 
-The section renders once per report - in a multi-project report it is a shared level-2
-section immediately before `Reference Sources` that merges every project's
-recommendations, per `process/report-format/multi-project.md` - and it closes with the
-Recommendation Classification subsection and, when a P1 or P2 recommendation exists, the
-Follow-up Plan subsection per `synthesis/reaudit-plan.md`.
+The section renders once per report - in a multi-project report it is a shared level-2 section
+immediately before `Reference Sources` that merges every project's recommendations,
+per `process/report-format/multi-project.md` - and it closes with the Recommendation Classification
+subsection and, when a P1 or P2 recommendation exists,
+the Follow-up Plan subsection per `synthesis/reaudit-plan.md`.
 
 Apply `principles/evaluation-rules.md` throughout.
 
@@ -33,8 +32,8 @@ Use this fixed column order:
 | Rec | Priority | Finding | Recommendation | Impact | Effort | Complexity | Breaking | Verification |
 |-----|----------|---------|----------------|--------|--------|------------|----------|--------------|
 
-When the report language is not English, apply the column header translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the column header translations from the matching `translations/` file.
 
 Column meanings:
 
@@ -44,8 +43,8 @@ Column meanings:
 - **Recommendation**: a concise, actionable technical step.
 - **Impact**: the business or technical impact of applying this fix (`High`, `Medium`, `Low`).
 - **Effort**: the estimated engineering effort to implement (`High`, `Medium`, `Low`).
-- **Complexity**: the architectural or organizational complexity of the change (`High`, `Medium`,
-  `Low`).
+- **Complexity**: the architectural or organizational complexity of the change
+  (`High`, `Medium`, `Low`).
 - **Breaking**: the compatibility impact of the change (`None`, `Internal`, or `Public API`),
   matching the finding's `Breaking change` field.
 - **Verification**: a specific test, command, or process to confirm the fix is successful,
@@ -65,33 +64,33 @@ Priority expresses urgency, not a delivery commitment, use only supplied or appr
 ## Rules
 
 - Every `REC-XXX` entry must resolve a specific `FND-XXX`.
-- Do not introduce new findings in this section. Recommendations must trace back to gaps in the
-  Technical Findings.
+- Do not introduce new findings in this section.
+  Recommendations must trace back to gaps in the Technical Findings.
 - Tie every recommendation to a finding from the assessment or risk register.
 - Keep options non-prescriptive. Present them as choices with consequences.
 - Do not rank or select a single option unless the user explicitly asks for a recommendation.
-- When the user does ask for a single recommendation, state the chosen option, the reason anchored
-  to evidence, and the residual risk.
+- When the user does ask for a single recommendation, state the chosen option,
+  the reason anchored to evidence, and the residual risk.
 - Keep language neutral and free of blame.
-- When a recommendation would require information that was never provided, state the missing
-  information rather than assuming it.
-- Do not reproduce plaintext secrets, passwords, or cryptographic keys in the Recommendation or
-  Verification columns.
+- When a recommendation would require information that was never provided,
+  state the missing information rather than assuming it.
+- Do not reproduce plaintext secrets, passwords,
+  or cryptographic keys in the Recommendation or Verification columns.
 - Any recommendation stated in the Solution Comparison must also appear as a `REC-XXX` in this
-  roadmap, traced to the same `FND-XXX`. Do not allow recommendations to exist only in the trade-off
-  table.
+  roadmap, traced to the same `FND-XXX`. Do not allow recommendations to exist only in
+  the trade-off table.
 - Disposition completeness: every open non-Pass finding maps to at least one `REC-XXX` or to an
-  explicit `Accepted`, `Deferred`, or `Rejected` disposition with its rationale recorded next to
-  the finding. No adverse finding is silently unactioned. The validator reconciles the
-  mapping and flags an unmapped finding.
-- An action is usable without reinterpreting the report: a recommendation block carries a
-  required `Condition` field - the verifiable end state the action must establish - and
-  may carry `Alternatives`, `Effort confidence`, `Residual`, `Owner` (a role or
-  `UNASSIGNED`), `Depends on`, `Acceptance milestone`, and `Closure evidence` fields so the
-  roadmap functions as an action tracker.
-- When the subject already contains a correct implementation of the mechanism the finding
-  needs - a shared helper or a sibling module that does it right - the Recommendation
-  names it as the remediation template rather than inventing a parallel fix.
+  explicit `Accepted`, `Deferred`, or `Rejected` disposition with its rationale recorded next to the
+  finding. No adverse finding is silently unactioned.
+  The validator reconciles the mapping and flags an unmapped finding.
+- An action is usable without reinterpreting the report:
+  a recommendation block carries a required `Condition` field - the verifiable end state the action
+  must establish - and may carry `Alternatives`, `Effort confidence`, `Residual`,
+  `Owner` (a role or `UNASSIGNED`), `Depends on`, `Acceptance milestone`,
+  and `Closure evidence` fields so the roadmap functions as an action tracker.
+- When the subject already contains a correct implementation of the mechanism the finding needs - a
+  shared helper or a sibling module that does it right - the Recommendation names it as the
+  remediation template rather than inventing a parallel fix.
 
 ## Cost To Reach Readiness
 
@@ -111,25 +110,25 @@ Sum only non-overlapping work in compatible units, with common work counted once
 
 Include tests, migration, review, rollout, and re-verification in the stated scope.
 
-If any required work lacks an estimate, show the known subtotal and unestimated items, never label
-the subtotal the total cost of production readiness.
+If any required work lacks an estimate, show the known subtotal and unestimated items,
+never label the subtotal the total cost of production readiness.
 
-Place the resulting range or `Insufficient information` in the Executive Summary, along with its
-scope, exclusions, confidence, and dependencies.
+Place the resulting range or `Insufficient information` in the Executive Summary,
+along with its scope, exclusions, confidence, and dependencies.
 
-Keep infrastructure spend separate from one-time remediation and avoid currency conversions without
-supplied rates.
+Keep infrastructure spend separate from one-time remediation and avoid currency conversions
+without supplied rates.
 
 ## Verification Quality
 
 Match verification to the actual defect and the chosen remediation option.
 
 For an integrity or data-loss finding, the `Verification` field includes a forensic step:
-a detection query or scan that checks whether the defect already caused damage, because
-removing the cause does not repair the data the defect already corrupted.
+a detection query or scan that checks whether the defect already caused damage,
+because removing the cause does not repair the data the defect already corrupted.
 
-Require negative and positive controls, observable side effects, and an explicit success condition
-for security-sensitive fixes.
+Require negative and positive controls, observable side effects,
+and an explicit success condition for security-sensitive fixes.
 
 A clean linter cannot close a behavioral authorization finding.
 
@@ -145,52 +144,52 @@ If an option only corrects documentation, do not claim it delivers the missing f
 
 ## Recommendation Classification
 
-At `Standard` and `Detailed` detail levels, classify every `REC-XXX` for the Recommendation
-Classification subsection that closes the roadmap, per
-`process/report-format/findings-registers.md`.
+At `Standard` and `Detailed` detail levels,
+classify every `REC-XXX` for the Recommendation Classification subsection that closes the roadmap,
+per `process/report-format/findings-registers.md`.
 
 Use exactly these classes:
 
-- `Recommended` - the finding has an established requirement basis or an evidenced risk, and action
-  is advised now.
+- `Recommended` - the finding has an established requirement basis or an evidenced risk,
+  and action is advised now.
 - `Optional` - the recommendation is a beneficial improvement that is not required at the current
   state of the project.
-- `Not recommended` - there is no certainty that the moment is right, or the intent behind the
-  finding is unknown.
+- `Not recommended` - there is no certainty that the moment is right,
+  or the intent behind the finding is unknown.
 
 An absent capability assessed `No documented rationale` or `Undetermined` per
-`principles/evaluation-rules.md` lands in `Not recommended`, since the report cannot tell whether
-the gap is deliberate. `Deliberate - recorded decision` lands there only when the recorded
-decision still holds under current evidence.
+`principles/evaluation-rules.md` lands in `Not recommended`,
+since the report cannot tell whether the gap is deliberate.
+`Deliberate - recorded decision` lands there only when the recorded decision still holds
+under current evidence.
 
-Worked example: a subject ships no rate limiting and no documented reason for its absence, so
-`Absence` reads `Undetermined`, the roadmap entry is classified `Not recommended`, and its
-paragraph names the evidence that would reclassify it - a documented decision, a threat model
-showing no hostile caller, or a deployment constraint.
+Worked example: a subject ships no rate limiting and no documented reason for its absence,
+so `Absence` reads `Undetermined`, the roadmap entry is classified `Not recommended`,
+and its paragraph names the evidence that would reclassify it - a documented decision,
+a threat model showing no hostile caller, or a deployment constraint.
 
 A P1 entry classified `Not recommended` still states the residual risk of not acting in its
-reclassification paragraph - declining an immediate action never erases the finding's
-consequence.
+reclassification paragraph - declining an immediate action never erases the finding's consequence.
 
 Every `REC-XXX` receives exactly one class.
 
-The class is orthogonal to the P1-P4 priority: priority orders urgency, class records whether
-action is advised at the report's state of knowledge.
+The class is orthogonal to the P1-P4 priority: priority orders urgency,
+class records whether action is advised at the report's state of knowledge.
 
 A `Not recommended` entry keeps its priority for when its blocking uncertainty resolves.
 
-The classification does not change the Follow-up Plan subsection trigger, which stays a
-P1 or P2 recommendation present in the roadmap.
+The classification does not change the Follow-up Plan subsection trigger,
+which stays a P1 or P2 recommendation present in the roadmap.
 
 ## Relationship To Other Sections
 
 Recommendations summarize and plan, they do not introduce new findings.
 
-Every recommendation must trace back to a finding in the Technical Findings or an entry in
-the Unified Risk Register.
+Every recommendation must trace back to a finding in the Technical Findings or an entry in the
+Unified Risk Register.
 
 Trade-off analyses appear both as a standalone Solution Comparison section (immediately after the
 Architectural Assessment) and embedded into relevant findings.
 
-The roadmap references the relevant `FND-XXX` finding regardless of where the trade-off is
-presented.
+The roadmap references the relevant `FND-XXX` finding regardless of where the
+trade-off is presented.

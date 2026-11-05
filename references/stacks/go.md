@@ -2,42 +2,41 @@
 
 ## Purpose
 
-> **Scope:** Checkable constraints for Go services, libraries, and CLIs
-> **Key items:** module files, version-suffix rules, idiomatic conventions, security tooling,
-> CLI structure, crypto primitives
+> **Scope:** Checkable constraints for Go services, libraries, and CLIs **Key items:** module files,
+> version-suffix rules, idiomatic conventions, security tooling, CLI structure, crypto primitives
 
-This file distills the Go documentation, module reference, security policy, OWASP Go-SCP, and
-tooling sources listed in `references/source-catalog.md` into constraints an audit can verify
+This file distills the Go documentation, module reference, security policy, OWASP Go-SCP,
+and tooling sources listed in `references/source-catalog.md` into constraints an audit can verify
 from repository source.
 
 Snapshot date: 2026-10-27.
 
 Feeds `assessment/best-practices.md`, `assessment/dependency-review.md`,
-`assessment/security-review.md`, `assessment/api-compatibility.md`,
-`assessment/testing-review.md`, `assessment/structure-review.md`, and
-`assessment/baseline-conformance.md` for Go subjects.
+`assessment/security-review.md`, `assessment/api-compatibility.md`, `assessment/testing-review.md`,
+`assessment/structure-review.md`, and `assessment/baseline-conformance.md` for Go subjects.
 
 ## Module And Dependency Rules
 
-From https://go.dev/ref/mod, https://go.dev/doc/modules/managing-dependencies, and
-https://go.dev/doc/modules/version-numbers.
+From https://go.dev/ref/mod, https://go.dev/doc/modules/managing-dependencies,
+and https://go.dev/doc/modules/version-numbers.
 
-- `go.mod` declares the module path and Go floor. `go.sum` records content hashes of every
-  module and `go.mod` file - both are committed for applications and libraries.
+- `go.mod` declares the module path and Go floor.
+  `go.sum` records content hashes of every module and `go.mod` file - both are committed for
+  applications and libraries.
 - A missing `go.sum`, or one drifting from `go.mod`, breaks reproducible verification.
   `go mod verify` checks the module cache against `go.sum`.
-- Semantic import versioning: a module at v2.0.0 or higher must carry the `/vN` suffix in its
-  module path. A `v2.x` tag on a `/v1`-path module is a compatibility defect.
-- `replace` directives redirect dependency resolution and bypass the proxy. Each one is a
-  reviewable exception, especially `replace` to local paths in published modules.
-- `retract` directives mark broken versions. A repo retracting its own releases signals
-  maintenance awareness.
-- `go` directive version sets language semantics for the module. Toolchains may
-  auto-upgrade - check `toolchain` lines for an explicit pin.
-- `go mod tidy` producing a diff is hygiene debt - a tidy module is committed state, and
-  `go mod verify` in CI confirms `go.sum` still matches.
-- A third-party dependency is justified only where the standard library is genuinely
-  insufficient - every added module is a maintenance and advisory surface.
+- Semantic import versioning: a module at v2.0.0 or higher must carry the `/vN` suffix in its module
+  path. A `v2.x` tag on a `/v1` -path module is a compatibility defect.
+- `replace` directives redirect dependency resolution and bypass the proxy.
+  Each one is a reviewable exception, especially `replace` to local paths in published modules.
+- `retract` directives mark broken versions.
+  A repo retracting its own releases signals maintenance awareness.
+- `go` directive version sets language semantics for the module.
+  Toolchains may auto-upgrade - check `toolchain` lines for an explicit pin.
+- `go mod tidy` producing a diff is hygiene debt - a tidy module is committed state,
+  and `go mod verify` in CI confirms `go.sum` still matches.
+- A third-party dependency is justified only where the standard library is genuinely insufficient -
+  every added module is a maintenance and advisory surface.
 
 ## Idiomatic Conventions, Naming, And Layout
 
@@ -45,28 +44,29 @@ From https://go.dev/doc/effective_go, https://go.dev/doc/modules/layout,
 https://go.dev/blog/package-names, and https://github.com/golang-standards/project-layout
 (convention, not a standard - treat as informative).
 
-- Errors are values: functions return `(T, error)`, errors are checked, and
-  `fmt.Errorf`/`errors.Is`/`errors.As` wrap chains. Discarding errors with `_` is a finding
-  when the error matters.
+- Errors are values: functions return `(T, error)`, errors are checked,
+  and `fmt.Errorf` / `errors.Is` / `errors.As` wrap chains.
+  Discarding errors with `_` is a finding when the error matters.
 - Package and file naming: package names are short, lowercase, single-word nouns (`domain`,
-  `repository`, `service`, `api`) with no underscores or `mixedCaps`, source files use
-  `snake_case.go` with co-located `*_test.go` test files, and `util`, `common`, `misc`
-  grab-bags are a structural finding.
-- Identifier naming: exported types, functions, methods, and constants use `PascalCase`
-  (`MixedCaps`), unexported identifiers use `camelCase`, initialisms keep uniform casing (`ID`,
-  `URL`, `HTTP`, `writeJSON`), and sentinel errors use the `Err` prefix (`ErrOrderNotFound`).
+  `repository`, `service`, `api`) with no underscores or `mixedCaps`,
+  source files use `snake_case.go` with co-located `*_test.go` test files, and `util`, `common`,
+  `misc` grab-bags are a structural finding.
+- Identifier naming: exported types, functions, methods,
+  and constants use `PascalCase` (`MixedCaps`), unexported identifiers use `camelCase`,
+  initialisms keep uniform casing (`ID`, `URL`, `HTTP`, `writeJSON`),
+  and sentinel errors use the `Err` prefix (`ErrOrderNotFound`).
 - Interfaces are defined by the consumer (`type Repository interface` in `internal/service`),
   not exported preemptively from the producer, and carry no `I` prefix.
 - `gofmt`/`goimports` formatting is mechanical. Unformatted source signals missing tooling.
 - Exported identifiers carry doc comments starting with the identifier name.
-- `internal/` directories enforce compile-time privacy. Code under `internal/` is not
-  importable outside the subtree.
-- `cmd/<name>/main.go` + `internal/` (and optional exported library packages) is the
-  conventional multi-package binary layout per `https://go.dev/doc/modules/layout`.
-- `pkg/` is reserved for library modules or packages other modules in the same monorepo
-  import - a `pkg/` tree inside a single-binary application is layout noise.
-- A `.go` file past roughly 300 lines usually mixes responsibilities - the bound is a
-  signal, not a hard gate - and every package carries a package comment.
+- `internal/` directories enforce compile-time privacy.
+  Code under `internal/` is not importable outside the subtree.
+- `cmd/<name>/main.go` + `internal/` (and optional exported library packages)
+  is the conventional multi-package binary layout per `https://go.dev/doc/modules/layout`.
+- `pkg/` is reserved for library modules or packages other modules in the same monorepo import - a
+  `pkg/` tree inside a single-binary application is layout noise.
+- A `.go` file past roughly 300 lines usually mixes responsibilities - the bound is a signal,
+  not a hard gate - and every package carries a package comment.
 - `bin/` or the project's build-output directory stays gitignored - a committed binary is a
   freshness hazard, and a naked `return` in a function longer than a few lines is a defect.
 
@@ -75,111 +75,114 @@ https://go.dev/blog/package-names, and https://github.com/golang-standards/proje
 From https://go.dev/blog/go1.13-errors, https://go.dev/blog/slog,
 https://google.github.io/styleguide/go/, and https://golangci-lint.run/.
 
-- Discarding an error with `_` requires a comment stating why it is safe, and a `panic` in
-  library code is a defect. `fmt.Errorf` with `%w` wraps errors crossing a package boundary,
-  while `%v` is used at a public API boundary so callers never depend on an implementation
-  error type. `errors.Join` combines independent failures, and comparing errors with `==`
-  is a defect because wrapping breaks equality.
+- Discarding an error with `_` requires a comment stating why it is safe,
+  and a `panic` in library code is a defect.
+  `fmt.Errorf` with `%w` wraps errors crossing a package boundary,
+  while `%v` is used at a public API boundary so callers never depend on an implementation error
+  type. `errors.Join` combines independent failures,
+  and comparing errors with `==` is a defect because wrapping breaks equality.
 - `context.Context` is the first argument of every function that performs I/O or can block,
-  is passed to every downstream call that accepts one, and is never stored in a struct
-  field.
-- `http.Client` carries an explicit `Timeout` - the zero-value client hangs forever on a
-  dead server. Response bodies close via `defer`, and status codes are checked because the
-  client only returns transport errors, never HTTP error responses.
-- Structured logging runs through `log/slog`: a JSON handler in production and text in
-  development, an explicitly passed logger rather than the global default, `logger.With`
-  for request-scoped attributes, and typed `slog.Attr` constructors over variadic key-value
-  pairs.
-- `gofmt -l .` and `goimports -l .` produce no output and `golangci-lint run` reports zero
-  findings - a suppression without a `//nolint:<linter>` reason comment is a finding.
-- Configuration resolves flag over environment over file, and a package whose name needs
-  "and" usually mixes two responsibilities.
+  is passed to every downstream call that accepts one, and is never stored in a struct field.
+- `http.Client` carries an explicit `Timeout` - the zero-value client hangs forever on a dead
+  server. Response bodies close via `defer`,
+  and status codes are checked because the client only returns transport errors,
+  never HTTP error responses.
+- Structured logging runs through `log/slog`: a JSON handler in production and text in development,
+  an explicitly passed logger rather than the global default,
+  `logger.With` for request-scoped attributes,
+  and typed `slog.Attr` constructors over variadic key-value pairs.
+- `gofmt -l .` and `goimports -l .` produce no output and `golangci-lint run` reports zero findings
+  - a suppression without a `//nolint:<linter>` reason comment is a finding.
+- Configuration resolves flag over environment over file,
+  and a package whose name needs "and" usually mixes two responsibilities.
 
 ## Security
 
 From https://go.dev/doc/security/, https://pkg.go.dev/vuln/,
-https://pkg.go.dev/golang.org/x/vuln/cmd/govulncheck,
-https://github.com/OWASP/Go-SCP, and https://github.com/securego/gosec.
+https://pkg.go.dev/golang.org/x/vuln/cmd/govulncheck, https://github.com/OWASP/Go-SCP,
+and https://github.com/securego/gosec.
 
-- `govulncheck` is the source-aware advisory check: it reports only vulnerabilities whose
-  affected symbols are actually reachable, making it stronger evidence than manifest matching.
-- `gosec` rule classes feed `references/cwe-analyzer.md`: G101 hardcoded credentials, G102-G106
-  binding/crypto/TLS, G201-G203 SQL injection, G204 command execution via `os/exec`, G304 file
-  inclusion, G401-G406 weak crypto/TLS settings, G501-G505 deprecated ciphers.
-- `crypto/subtle` (https://pkg.go.dev/crypto/subtle) provides `ConstantTimeCompare` for
-  secret comparison. `==` on secrets is a timing-side-channel finding.
-- `net/http` servers need explicit `ReadTimeout`/`WriteTimeout`/`IdleTimeout`. The zero-value
-  server accepts slow-loris-style connections unbounded.
-- `html/template` (not `text/template`) is the XSS-safe HTML renderer. `text/template` to HTML
-  output is an injection finding.
-- `database/sql` queries with `fmt.Sprintf` interpolation instead of placeholders are SQL
-  injection findings.
-- x/crypto/ssh (https://pkg.go.dev/golang.org/x/crypto/ssh) is the library path for SSH needs.
-  Shelling out to `ssh`/`scp` binaries is a portability and argument-injection surface.
-- CLI secret storage belongs in an OS keychain (for example
-  https://github.com/zalando/go-keyring), not plaintext dotfiles.
+- `govulncheck` is the source-aware advisory check:
+  it reports only vulnerabilities whose affected symbols are actually reachable,
+  making it stronger evidence than manifest matching.
+- `gosec` rule classes feed `references/cwe-analyzer.md`: G101 hardcoded credentials,
+  G102-G106 binding/crypto/TLS, G201-G203 SQL injection, G204 command execution via `os/exec`,
+  G304 file inclusion, G401-G406 weak crypto/TLS settings, G501-G505 deprecated ciphers.
+- `crypto/subtle` ( https://pkg.go.dev/crypto/subtle)
+  provides `ConstantTimeCompare` for secret comparison.
+  `==` on secrets is a timing-side-channel finding.
+- `net/http` servers need explicit `ReadTimeout` / `WriteTimeout` / `IdleTimeout`.
+  The zero-value server accepts slow-loris-style connections unbounded.
+- `html/template` (not `text/template`) is the XSS-safe HTML renderer.
+  `text/template` to HTML output is an injection finding.
+- `database/sql` queries with `fmt.Sprintf` interpolation instead of placeholders are
+  SQL injection findings.
+- x/crypto/ssh ( https://pkg.go.dev/golang.org/x/crypto/ssh) is the library path for SSH needs.
+  Shelling out to `ssh` / `scp` binaries is a portability and argument-injection surface.
+- CLI secret storage belongs in an OS keychain (for example https://github.com/zalando/go-keyring),
+  not plaintext dotfiles.
 
 ## CLI Structure
 
 From https://github.com/spf13/cobra and https://clig.dev/.
 
-- Cobra is the conventional command framework: root command plus subcommands, flags via
-  `persistent`/`local` scopes, `--help` generated automatically.
-- CLI conventions from the maintainer's Go standard: long flags are `--kebab-case`
-  (`--repo-url`, `--config-file`), commands are lowercase verbs or verb-noun phrases
-  (`lucy-sync`, `bench run`), and environment variables are `UPPER_SNAKE_CASE` carrying the
-  tool prefix.
+- Cobra is the conventional command framework: root command plus subcommands,
+  flags via `persistent` / `local` scopes, `--help` generated automatically.
+- CLI conventions from the maintainer's Go standard: long flags are `--kebab-case` (`--repo-url`,
+  `--config-file`), commands are lowercase verbs or verb-noun phrases (`lucy-sync`, `bench run`),
+  and environment variables are `UPPER_SNAKE_CASE` carrying the tool prefix.
 - A single-purpose CLI may keep `main.go` at the module root with `snake_case.go` siblings,
-  while multi-binary and library projects use `cmd/<name>/main.go` plus `internal/`, and
-  `cmd/` plus `internal/` mixing is the structural smell, not the choice between them.
-- Configuration files are dot-prefixed YAML/JSON/TOML (`.app.yaml`, `.lucy.json`), and a
-  `Version` string or constant is conventionally injected at link time
+  while multi-binary and library projects use `cmd/<name>/main.go` plus `internal/`,
+  and `cmd/` plus `internal/` mixing is the structural smell, not the choice between them.
+- Configuration files are dot-prefixed YAML/JSON/TOML (`.app.yaml`, `.lucy.json`),
+  and a `Version` string or constant is conventionally injected at link time
   (`-ldflags "-X main.Version=$(VERSION)"`).
 - The clig.dev conventions apply: stderr for errors, stdout for output, non-zero exit codes,
   `NO_COLOR` support, stdin where sensible.
-- `os.Exit` codes are semantic and documented: usage errors (flag parse failure, missing
-  argument) exit `2` under `flag` convention and must not collide with runtime-failure codes.
-- Parsing completes before side effects: a `flag.Parse` that runs after a file write makes
-  every usage error a partial mutation.
-- Interrupt handling binds `main` to `signal.NotifyContext`, so `SIGINT`/`SIGTERM` tear down
-  subprocesses and network calls cleanly.
-- Color disables per stream - `NO_COLOR`, `TERM=dumb`, or a non-TTY stream - and a single
-  stdout-derived `isatty` check leaks colored stderr into redirected logs.
-- Every structured-data command supports `--json` emitting objects, and a dual-mode emitter
-  picks the machine format when the flag is set or stdout is not a TTY. Formatter code is
-  the only place `fmt.Println` reaches stdout - a `forbidigo` rule or equivalent keeps
-  diagnostics off the payload stream.
+- `os.Exit` codes are semantic and documented: usage errors (flag parse failure, missing argument)
+  exit `2` under `flag` convention and must not collide with runtime-failure codes.
+- Parsing completes before side effects: a `flag.Parse` that runs after a file write makes every
+  usage error a partial mutation.
+- Interrupt handling binds `main` to `signal.NotifyContext`,
+  so `SIGINT` / `SIGTERM` tear down subprocesses and network calls cleanly.
+- Color disables per stream - `NO_COLOR`, `TERM=dumb`,
+  or a non-TTY stream - and a single stdout-derived `isatty` check leaks colored stderr
+  into redirected logs.
+- Every structured-data command supports `--json` emitting objects,
+  and a dual-mode emitter picks the machine format when the flag is set or stdout is not a TTY.
+  Formatter code is the only place `fmt.Println` reaches stdout - a `forbidigo` rule or equivalent
+  keeps diagnostics off the payload stream.
 - `panic` is never the recoverable-error path and `init()` does no complex setup - both are
   testability defects.
-- Exit codes are observable only from outside the process, so exit-code tests build the
-  binary once and drive it through `exec.Command` or a subprocess.
-- A statically-linked Go CLI ships in a distroless or scratch multi-stage image, and the
-  compiled binary lands in the gitignored `bin/` directory - never the project root or
-  `cmd/`.
-- The full CLI contract lives in `references/topics/cli-contract.md` - this section carries
-  the Go-specific shape only.
+- Exit codes are observable only from outside the process,
+  so exit-code tests build the binary once and drive it through `exec.Command` or a subprocess.
+- A statically-linked Go CLI ships in a distroless or scratch multi-stage image,
+  and the compiled binary lands in the gitignored `bin/` directory - never the
+  project root or `cmd/`.
+- The full CLI contract lives in `references/topics/cli-contract.md` - this section carries the
+  Go-specific shape only.
 
 ## Testing
 
 From https://pkg.go.dev/testing and the corpus verification rows.
 
-- `*_test.go` files sit in the same package as the code, and table-driven tests with `t.Run`
-  subtests are the conventional shape - `t.Fatal`/`t.Fatalf` stop on setup failure while
-  `t.Error`/`t.Errorf` assert and continue.
+- `*_test.go` files sit in the same package as the code,
+  and table-driven tests with `t.Run` subtests are the conventional shape - `t.Fatal` / `t.Fatalf`
+  stop on setup failure while `t.Error` / `t.Errorf` assert and continue.
 - HTTP clients and servers test against `net/http/httptest` mocks - a test that dials a real
   service is a finding.
-- Functions parsing untrusted input carry `testing.F` fuzz targets, run in CI under a time
-  budget because fuzzing is open-ended.
-- The documented verification set - `go build ./...`, `go test -cover ./...`, a clean
-  `go mod tidy`, `go mod verify`, `govulncheck ./...` - is evidence the audit looks for in
-  build scripts and CI configuration, not commands the audit runs.
+- Functions parsing untrusted input carry `testing.F` fuzz targets,
+  run in CI under a time budget because fuzzing is open-ended.
+- The documented verification set - `go build ./...`, `go test -cover ./...`, a clean `go mod tidy`,
+  `go mod verify`, `govulncheck ./...` - is evidence the audit looks for in build scripts and CI
+  configuration, not commands the audit runs.
 
 ## Live Check
 
 When web fetch is available, compare the current Go release policy against
 https://go.dev/doc/security/ and spot-check one `gosec` rule ID against the source.
 
-Record whichever baseline - this snapshot or the live pages - the audit used, and note drift in
-Known Limitations.
+Record whichever baseline - this snapshot or the live pages - the audit used,
+and note drift in Known Limitations.
 
 The check is best-effort, never blocks the audit, and never executes the audited project.

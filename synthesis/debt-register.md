@@ -2,9 +2,9 @@
 
 ## Purpose
 
-> **Scope:** A formal inventory of technical debt items, distinct from the risk register
-> **Key items:** `TDR-[001]` indexing, debt category, remediation cost, cost of delay, `FND-XXX`
-> traceability
+> **Scope:** A formal inventory of technical debt items,
+> distinct from the risk register **Key items:** `TDR-[001]` indexing, debt category,
+> remediation cost, cost of delay, `FND-XXX` traceability
 
 This file defines the Technical Debt Register (TDR),
 a structured inventory of debt items that are not security risks but compound over time.
@@ -35,11 +35,11 @@ Do not duplicate the risk register here.
 
 Use this fixed column order:
 
-| Debt | Item | Category | Source |
-|------|------|----------|--------|------|-------|--------|
+| Debt | Item | Category | Source |  |  |  |
+|------|------|----------|--------|--|--|--|
 
-When the report language is not English, apply the column header translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the column header translations from the matching `translations/` file.
 
 Column meanings:
 
@@ -47,15 +47,15 @@ Column meanings:
 - **Item**: a concrete, neutrally stated debt, anchored to a file or pattern.
 - **Category**: one of the CISQ characteristics the debt degrades: `Reliability`,
   `Performance Efficiency`, `Security`, `Maintainability`.
-- **Source**: the `FND-XXX` identifier that produced this item, or `Direct observation` when
-  it stems from code review without a standalone finding.
+- **Source**: the `FND-XXX` identifier that produced this item,
+  or `Direct observation` when it stems from code review without a standalone finding.
   When the producing finding is closed and carries no `###` block in the current revision,
-  a resolved item marks the source `Direct observation` and cites the retired identifier
-  inside a code span.
-- **Cost**: evidence-based person-hour/day range or a qualitative note, never
-  `Insufficient information`, and the field is omitted entirely when nothing is estimable.
-- **Delay**: quantified ongoing cost over a stated horizon or a qualitative note, never
-  `Insufficient information`, and the field is omitted entirely when nothing is estimable.
+  a resolved item marks the source `Direct observation` and cites the retired
+  identifier inside a code span.
+- **Cost**: evidence-based person-hour/day range or a qualitative note,
+  never `Insufficient information`, and the field is omitted entirely when nothing is estimable.
+- **Delay**: quantified ongoing cost over a stated horizon or a qualitative note,
+  never `Insufficient information`, and the field is omitted entirely when nothing is estimable.
 - **Status**: `Open` by default.
 
 ## What Belongs Here
@@ -77,32 +77,32 @@ Discarded authorization results belong in security findings and the risk registe
 
 ## Cost Model
 
-Use a declared estimation basis rather than converting `Low`, `Medium`, and `High` into arbitrary
-hours.
+Use a declared estimation basis rather than converting `Low`, `Medium`,
+and `High` into arbitrary hours.
 
 Qualitative ratings may remain when numeric inputs are unavailable, but are not summable costs.
 
-For each numeric range, record the estimator or model, assumptions, confidence, unit, and included
-work: implementation, tests, review, migration, rollout, and verification.
+For each numeric range, record the estimator or model, assumptions, confidence, unit,
+and included work: implementation, tests, review, migration, rollout, and verification.
 
-Define hours per person-day if converting units, and keep engineering effort separate from elapsed
-delivery time.
+Define hours per person-day if converting units,
+and keep engineering effort separate from elapsed delivery time.
 
-For cost of delay, use evidenced change frequency, extra effort per change, incident impact, or
-operating expense over a specified horizon.
+For cost of delay, use evidenced change frequency, extra effort per change, incident impact,
+or operating expense over a specified horizon.
 
 Do not invent incident probabilities or monetary losses from source inspection.
 
 Label scenario estimates as estimates, not measured values or commitments.
 
-Describe the approach as SQALE-inspired unless an actual SQALE quality and estimation model was
-used.
+Describe the approach as SQALE-inspired unless an actual SQALE quality and
+estimation model was used.
 
 [SQALE's author explains](https://www.cutter.com/article/managing-technical-debt-sqale-method-490726)
 remediation cost and non-remediation cost as distinct calibrated models, not severity labels.
 
-Link overlapping work to one canonical recommendation and count its cost once across registers
-and projects.
+Link overlapping work to one canonical recommendation and count its cost once across
+registers and projects.
 
 Do not double-count a security remediation as both risk work and structural debt.
 
@@ -112,8 +112,8 @@ Do not double-count a security remediation as both risk work and structural debt
 - Every item must trace to a `FND-XXX` or be marked `Direct observation` with a cited file.
 - State each item as a property of the code, never as a fault of a person.
 - Keep remediation cost and cost of delay anchored to evidence, not intuition.
-- A debt item may also be a recommendation target, reference it from the roadmap by its source
-  finding, not by `TDR-XXX`.
+- A debt item may also be a recommendation target,
+  reference it from the roadmap by its source finding, not by `TDR-XXX`.
 
 ## Example Row
 

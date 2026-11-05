@@ -2,11 +2,12 @@
 
 ## Purpose
 
-> **Scope:** Canonical standards, guidelines, and authoritative sources per detected stack
-> **Key items:** stack detection, canonical citations, security advisories, compatibility tooling
+> **Scope:** Canonical standards, guidelines,
+> and authoritative sources per detected stack **Key items:** stack detection, canonical citations,
+> security advisories, compatibility tooling
 
-This file maps detected languages and ecosystems to the canonical references the audit should
-consult and cite.
+This file maps detected languages and ecosystems to the canonical references the audit
+should consult and cite.
 
 It turns "cite generic standards" into a stack-aware habit:
 every audit names the authoritative guidance for the subject's actual stack,
@@ -18,24 +19,25 @@ Apply `principles/evaluation-rules.md` throughout.
 
 - During Intake and Evidence Gathering, detect each stack from the signals in the table below.
 - Load the matching row or rows and consult the listed references when assessing Stack Best
-  Practices, Structure Review, Structure Conformance, Code Style, Security Posture, Dependency
-  Review, Standards Conformance, and API Compatibility.
+  Practices, Structure Review, Structure Conformance, Code Style, Security Posture,
+  Dependency Review, Standards Conformance, and API Compatibility.
 - Consult `references/naming-and-layout.md` alongside the stack row for component-role layout
-  expectations, cross-language naming matrices, and code-division rules, and
-  `references/language-conventions.md` for the code-style yardstick.
+  expectations, cross-language naming matrices, and code-division rules,
+  and `references/language-conventions.md` for the code-style yardstick.
 - Name the consulted sources in the Auditing Methodology's "Reference standards" step and in the
   References section, per `process/report-format/report-closing.md`.
 - Cite only sources actually consulted. A row in this map is a pointer, not a citation.
-- A bundled corpus digest counts as the consulted baseline when its snapshot answered the
-  question - follow the consultation order in `principles/evaluation-rules.md` and record
-  which baseline decided each judgement.
-- When the detected stack has no row, research canonical sources and note the gap. Extend this
-  map when a new stack is audited.
-- Re-derive the applicable reference set from stack detection on every audit. Never copy a prior
-  report's reference list verbatim, so a stack-specific standard adopted in one audit becomes
-  available to every later audit of that stack.
-- Prefer primary documentation, official specifications, and first-party guidance over blogs and
-  secondary summaries.
+- A bundled corpus digest counts as the consulted baseline when its snapshot answered the question -
+  follow the consultation order in `principles/evaluation-rules.md` and record which baseline
+  decided each judgement.
+- When the detected stack has no row, research canonical sources and note the gap.
+  Extend this map when a new stack is audited.
+- Re-derive the applicable reference set from stack detection on every audit.
+  Never copy a prior report's reference list verbatim,
+  so a stack-specific standard adopted in one audit becomes available to every later
+  audit of that stack.
+- Prefer primary documentation, official specifications,
+  and first-party guidance over blogs and secondary summaries.
 - Per-ecosystem manifest and lockfile locations for the component inventory live in
   `references/dependency-manifests.md`, not in this map.
 
@@ -110,16 +112,14 @@ Canonical URLs for the stack rows above:
   [Oracle Secure Coding Guidelines for Java SE](https://www.oracle.com/java/technologies/javase/seccodeguide.html),
   [FindSecBugs patterns](https://find-sec-bugs.github.io/bugs.htm),
   [Maven guides](https://maven.apache.org/guides/),
-  [Gradle documentation](https://docs.gradle.org/),
-  [japicmp](https://github.com/siom79/japicmp), [Revapi](https://revapi.org/),
-  [Kotlin documentation](https://kotlinlang.org/docs/home.html),
+  [Gradle documentation](https://docs.gradle.org/), [japicmp](https://github.com/siom79/japicmp),
+  [Revapi](https://revapi.org/), [Kotlin documentation](https://kotlinlang.org/docs/home.html),
   [Kotlin coding conventions](https://kotlinlang.org/docs/coding-conventions.html),
   [binary-compatibility-validator](https://github.com/Kotlin/binary-compatibility-validator)
 - **Python**: [Python documentation](https://docs.python.org/3/),
   [PEP 8](https://peps.python.org/pep-0008/),
   [PyPA packaging guide](https://packaging.python.org/en/latest/),
-  [Bandit documentation](https://bandit.readthedocs.io/),
-  [OSV advisories](https://osv.dev/),
+  [Bandit documentation](https://bandit.readthedocs.io/), [OSV advisories](https://osv.dev/),
   [griffe](https://mkdocstrings.github.io/griffe/),
   [PyPA versioning spec](https://packaging.python.org/en/latest/specifications/version-specifiers/)
 - **TypeScript, JavaScript, React, and Electron**:
@@ -189,11 +189,11 @@ Canonical URLs for the stack rows above:
 
 ## Corpus Digests
 
-The bundled corpus under `references/stacks/`, `references/methodology/`, and
-`references/topics/` holds the offline distillation of these sources.
+The bundled corpus under `references/stacks/`, `references/methodology/`,
+and `references/topics/` holds the offline distillation of these sources.
 
-Consult the matching digest first - it records the snapshot date, the distilled checkable
-rules, and the live-check procedure.
+Consult the matching digest first - it records the snapshot date, the distilled checkable rules,
+and the live-check procedure.
 
 | Detection signal                    | Digest                                         |
 |-------------------------------------|------------------------------------------------|
@@ -244,8 +244,8 @@ rules, and the live-check procedure.
 | Persistence and migration rules     | `references/topics/data-persistence.md`        |
 | Subject's own standards anatomy     | `references/topics/standards-anatomy.md`       |
 
-`references/source-catalog.md` maps every digest back to its authoritative URLs and records
-each source's consolidation status.
+`references/source-catalog.md` maps every digest back to its authoritative URLs and records each
+source's consolidation status.
 
 ## Cross-Cutting References
 
@@ -273,8 +273,8 @@ artifact identity, vulnerability exchange or disposition data, and SLSA provenan
 Mark absent artifacts as gaps and unavailable external status as `UNKNOWN`.
 
 For projects that train, serve, or materially depend on AI systems,
-consult the conditional AI-system assessment and select the relevant NIST AI RMF or ISO/IEC 42001
-practices.
+consult the conditional AI-system assessment and select the relevant NIST AI RMF or
+ISO/IEC 42001 practices.
 
 Do not apply those references to ordinary software that only has unknown code authorship.
 
@@ -285,5 +285,5 @@ Do not apply those references to ordinary software that only has unknown code au
 - Record the internal project standards (for example `docs/standard/` in the audited repository)
   separately in Standards Conformance. Internal standards complement canonical sources and never
   replace them in the References section.
-- When a cited page could not be consulted during the audit, do not list it in References. List
-  only consulted sources, per `process/report-format/report-closing.md`.
+- When a cited page could not be consulted during the audit, do not list it in References.
+  List only consulted sources, per `process/report-format/report-closing.md`.

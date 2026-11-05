@@ -2,8 +2,9 @@
 
 ## Purpose
 
-> **Scope:** Modularity, coupling, code structure, technical-debt signals
-> **Key items:** module boundaries, dependency direction, structure clarity, debt markers
+> **Scope:** Modularity, coupling, code structure,
+> technical-debt signals **Key items:** module boundaries, dependency direction, structure
+> clarity, debt markers
 
 This file guides assessment of how easily the system can be understood and changed.
 
@@ -15,9 +16,8 @@ Describe code properties, never the authors.
 
 - Modularity: whether the system is divided into coherent units with clear responsibilities.
 - Coupling: how strongly modules depend on each other, and the direction of dependencies.
-- Code structure: consistency of internal layering and logical organization - physical
-  directory layout, naming, and artifact placement are assessed by
-  `assessment/structure-review.md`.
+- Code structure: consistency of internal layering and logical organization - physical directory
+  layout, naming, and artifact placement are assessed by `assessment/structure-review.md`.
 - Technical-debt signals: duplicated logic, dead code, long files, and explicit debt markers.
 
 ## Evidence To Look For
@@ -33,8 +33,8 @@ Describe code properties, never the authors.
 
 ## Status Criteria
 
-- `PASS`: Clear module boundaries, controlled coupling, consistent structure, and few debt signals,
-  with evidence.
+- `PASS`: Clear module boundaries, controlled coupling, consistent structure, and few debt
+  signals, with evidence.
 - `PARTIAL`: Reasonable structure with notable coupling, inconsistency, or localized debt.
 - `FAIL`: No clear boundaries, pervasive coupling, or structural disorder, with evidence.
 - `UNKNOWN`: Source structure was not provided for inspection.

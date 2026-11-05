@@ -2,10 +2,9 @@
 
 ## Purpose
 
-> **Scope:** Git-derived delivery-practice proxies and the contributor-concentration rubric for
-> the Delivery Practice & Team Continuity section
-> **Key items:** five-metric DORA model, source-only proxies, bus-factor rubric, NOT SPECIFIED
-> discipline
+> **Scope:** Git-derived delivery-practice proxies and the contributor-concentration rubric for the
+> Delivery Practice & Team Continuity section **Key items:** five-metric DORA model,
+> source-only proxies, bus-factor rubric, NOT SPECIFIED discipline
 
 This file defines how a source-only audit approximates delivery health.
 
@@ -22,8 +21,8 @@ Proxy figures are derived evidence about the repository, not measurements of a p
 
 ## DORA Metrics Under A Source-Only Audit
 
-The distilled DORA model, SLO definitions, and NIST SSDF practice anchors live in
-`references/methodology/delivery-metrics.md`.
+The distilled DORA model, SLO definitions,
+and NIST SSDF practice anchors live in `references/methodology/delivery-metrics.md`.
 
 Consult that digest before citing the live DORA source.
 
@@ -42,28 +41,29 @@ Two are approximable from Git history, three are not:
 
 ## Computing The Proxies
 
-Use the canonical census commands in `references/census-commands.md` so a re-audit reproduces
-the figures.
+Use the canonical census commands in `references/census-commands.md` so a re-audit
+reproduces the figures.
 
-- **Deployment frequency proxy.** List tags (`git tag`) with creation dates, count tags per
-  observed month or quarter. A project with no tags gets `NOT SPECIFIED`, not a commit-cadence
-  substitution, commits are not deployments.
-- **Change lead time proxy.** For each tag, take the earliest commit it contains, compute the
-  interval between that commit's date and the tag's date. Report the median interval and the
-  window it covers. State that this measures release lag, not true production lead time.
-- **Reviewer diversity.** Pull-request review data does not live in the repository. Merge-author
-  vs commit-author overlap in `git log` is the only proxy available, label it as such or mark
-  `NOT SPECIFIED`.
+- **Deployment frequency proxy.** List tags (`git tag`) with creation dates,
+  count tags per observed month or quarter. A project with no tags gets `NOT SPECIFIED`,
+  not a commit-cadence substitution, commits are not deployments.
+- **Change lead time proxy.** For each tag, take the earliest commit it contains,
+  compute the interval between that commit's date and the tag's date.
+  Report the median interval and the window it covers. State that this measures release lag,
+  not true production lead time.
+- **Reviewer diversity.** Pull-request review data does not live in the repository.
+  Merge-author vs commit-author overlap in `git log` is the only proxy available,
+  label it as such or mark `NOT SPECIFIED`.
 
 ## Bus-Factor Rubric
 
 Score contributor concentration from `git log --no-merges --format="%an"` per
 `references/census-commands.md`.
 
-Agent-bot author identities (`copilot-swe-agent[bot]`, `devin-ai-integration[bot]`, and the
-other signatures in `references/methodology/ai-provenance.md`) are excluded from the
-contributor count and reported separately through the attribution census - a bot is not a
-bus-factor contributor and not a second active contributor.
+Agent-bot author identities (`copilot-swe-agent[bot]`, `devin-ai-integration[bot]`,
+and the other signatures in `references/methodology/ai-provenance.md`)
+are excluded from the contributor count and reported separately through the attribution census - a
+bot is not a bus-factor contributor and not a second active contributor.
 
 | Share of commits from the top author | Concentration rating |
 |--------------------------------------|----------------------|
@@ -83,20 +83,19 @@ Report it in aggregate form only, never as a personal assessment.
 
 ## History Hygiene
 
-When Git is in scope, the history-quality censuses in `references/census-commands.md` feed
-the Delivery Practice & Team Continuity section alongside the DORA proxies.
+When Git is in scope, the history-quality censuses in `references/census-commands.md` feed the
+Delivery Practice & Team Continuity section alongside the DORA proxies.
 
-- **Commit-subject descriptiveness**: the share of subjects under the stated word
-  threshold. A high share of terse subjects raises review and archaeology cost.
-- **Commit granularity**: the files-per-commit outliers. Giant commits defeat review and
-  bisect, and the top entries are named.
+- **Commit-subject descriptiveness**: the share of subjects under the stated word threshold.
+  A high share of terse subjects raises review and archaeology cost.
+- **Commit granularity**: the files-per-commit outliers. Giant commits defeat review and bisect,
+  and the top entries are named.
 - **Branch divergence**: ahead/behind counts and last-touch dates per branch.
   Long-diverged branches signal stalled integration and rebase risk.
 - **Merge noise**: the share of self-merge subjects such as "merge remote-tracking".
   Routine pull-merges indicate a non-rebase workflow and inflate the merge count.
 
-Report the results inside Delivery Practice & Team Continuity, each figure beside its
-counting rule.
+Report the results inside Delivery Practice & Team Continuity, each figure beside its counting rule.
 
 ## Boundary With Deployment Review
 
@@ -113,8 +112,8 @@ per `principles/evaluation-rules.md`, not here.
 ## Rules
 
 - A proxy is never presented as a measured DORA metric. Label each computed value as a proxy.
-- `NOT SPECIFIED` fields stay in the table with their reason. Omitting them implies they were
-  measured.
-- Non-Git subjects mark the whole section `NOT COLLECTED`, mirroring the PAR-5 rule for the
-  Team & Continuity line.
+- `NOT SPECIFIED` fields stay in the table with their reason.
+  Omitting them implies they were measured.
+- Non-Git subjects mark the whole section `NOT COLLECTED`,
+  mirroring the PAR-5 rule for the Team & Continuity line.
 - Concentration figures anchor to `EVD-XXX` rows.

@@ -2,13 +2,14 @@
 
 ## Purpose
 
-> **Scope:** Checkable constraints for performance budgets, their measurement discipline, and
-> CI enforcement across frontend, service, CLI, and database surfaces
-> **Key items:** budget tables by surface, percentile discipline, regression gates, detection
-> signals
+> **Scope:** Checkable constraints for performance budgets, their measurement discipline,
+> and CI enforcement across frontend, service, CLI,
+> and database surfaces **Key items:** budget tables by surface, percentile discipline,
+> regression gates, detection signals
 
-This file distills the Core Web Vitals, Lighthouse CI, k6, and hyperfine sources listed in
-`references/source-catalog.md` into constraints an audit can verify from repository source.
+This file distills the Core Web Vitals, Lighthouse CI, k6,
+and hyperfine sources listed in `references/source-catalog.md` into constraints an audit can verify
+from repository source.
 
 Snapshot date: 2026-10-27.
 
@@ -20,19 +21,20 @@ From https://web.dev/vitals/ and https://k6.io/docs/.
 
 - Budgets are enforced in CI, not documented aspirationally: a regression fails the build.
   A budget file with no consuming pipeline step is an unenforced declaration.
-- Tail percentiles (p95/p99) are the unit of account. Mean or median budgets hide the tail
-  latency users actually hit.
-- Cold start is part of the contract for serverless handlers and CLIs: first-invocation
-  latency counts, not only warm-loop numbers.
-- Memory budgets cover RSS and heap together, with a soak window (a 24-hour leak check or a
-  declared equivalent) rather than a snapshot.
-- Synthetic runs approximate production-like conditions: a benchmark that cannot plausibly
-  represent the deployed environment is weaker evidence and the audit says so.
+- Tail percentiles (p95/p99) are the unit of account.
+  Mean or median budgets hide the tail latency users actually hit.
+- Cold start is part of the contract for serverless handlers and CLIs:
+  first-invocation latency counts, not only warm-loop numbers.
+- Memory budgets cover RSS and heap together,
+  with a soak window (a 24-hour leak check or a declared equivalent) rather than a snapshot.
+- Synthetic runs approximate production-like conditions:
+  a benchmark that cannot plausibly represent the deployed environment is weaker evidence
+  and the audit says so.
 
 ## Surface Budgets
 
-Representative thresholds widely adopted per surface - a project's own declared budget
-overrides these, and the audit checks presence and enforcement before magnitude:
+Representative thresholds widely adopted per surface - a project's own declared budget overrides
+these, and the audit checks presence and enforcement before magnitude:
 
 | Surface         | Representative budgets                                                                   |
 |-----------------|------------------------------------------------------------------------------------------|
@@ -56,29 +58,29 @@ overrides these, and the audit checks presence and enforcement before magnitude:
 
 ## Regression Comparison
 
-- A regression gate compares against the baseline branch, not absolute numbers alone: a
-  threshold such as "no more than 10% slower than main" catches drift the fixed budgets miss.
-- Bundle-size budgets pair with deterministic filenames or an analyzer report, so the compared
-  artifact is the one that ships.
-- An absent performance posture is an observation, not a defect: report the missing contract
-  where the subject's role makes latency or footprint load-bearing, and mark it
-  `NOT ASSESSED` where budgets were never claimed.
+- A regression gate compares against the baseline branch, not absolute numbers alone:
+  a threshold such as "no more than 10% slower than main" catches drift the fixed budgets miss.
+- Bundle-size budgets pair with deterministic filenames or an analyzer report,
+  so the compared artifact is the one that ships.
+- An absent performance posture is an observation, not a defect:
+  report the missing contract where the subject's role makes latency or footprint load-bearing,
+  and mark it `NOT ASSESSED` where budgets were never claimed.
 
 ## Maintainer-Standard Floor
 
 From the maintainer's performance-budgets standard.
 
-- The defect floor: budgets are enforced in CI (a PR without performance assertions is an
-  unbudgeted change), measured under production-like conditions, expressed as p95/p99
-  percentiles (means hide tail latency), include cold start, and memory budgets cover RSS plus
-  heap over a soak window.
+- The defect floor: budgets are enforced in CI (a PR without performance assertions is an unbudgeted
+  change), measured under production-like conditions,
+  expressed as p95/p99 percentiles (means hide tail latency), include cold start,
+  and memory budgets cover RSS plus heap over a soak window.
 
 ## Live Check
 
 When web fetch is available, spot-check the current Core Web Vitals thresholds against
 https://web.dev/vitals/ before citing the defaults above.
 
-Record whichever baseline - this snapshot or the live pages - the audit used, and note drift in
-Known Limitations.
+Record whichever baseline - this snapshot or the live pages - the audit used,
+and note drift in Known Limitations.
 
 The check is best-effort, never blocks the audit, and never executes the audited project.

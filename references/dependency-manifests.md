@@ -2,8 +2,8 @@
 
 ## Purpose
 
-> **Scope:** Source-derivable component inventories from dependency manifests and lockfiles
-> **Key items:** per-ecosystem extraction procedures, component list format, evidence labeling
+> **Scope:** Source-derivable component inventories from dependency manifests and lockfiles **Key
+> items:** per-ecosystem extraction procedures, component list format, evidence labeling
 
 This file defines a family of text-only manifest readers.
 
@@ -37,16 +37,17 @@ otherwise mark `UNKNOWN` rather than copying registry assumptions.
 
 ## Reading Rules
 
-- The inventory reflects the manifests at the audited revision. It is a source-derived component
-  list, not a shipped-artifact SBOM. State that distinction wherever the inventory is used.
+- The inventory reflects the manifests at the audited revision.
+  It is a source-derived component list, not a shipped-artifact SBOM.
+  State that distinction wherever the inventory is used.
 - A lockfile entry proves resolution intent, not what a released binary or container contains.
 - Count direct and transitive components separately and report both totals.
-- Record manifest-lockfile drift: a declared dependency missing from the lockfile, or a locked
-  component with no declared path, is a finding input.
+- Record manifest-lockfile drift: a declared dependency missing from the lockfile,
+  or a locked component with no declared path, is a finding input.
 - Deduplicate by (ecosystem, name, version). Note repeated versions of the same component.
-- Cap the displayed inventory when it is long. Show direct components in full, summarize
-  transitive components by count and notable entries, and record full totals in the evidence
-  ledger.
+- Cap the displayed inventory when it is long. Show direct components in full,
+  summarize transitive components by count and notable entries,
+  and record full totals in the evidence ledger.
 - Record each manifest and lockfile read in the evidence ledger with `Inspected` labels.
 
 ## Rust
@@ -138,30 +139,32 @@ Mark version and relationship `UNKNOWN` when not derivable.
 
 ## Lockfile Conventions
 
-- Library-versus-application: an application lockfile is expected evidence, while a published
-  library may legitimately ship none because registries resolve `dependencies` ranges at
-  install time. An absent lockfile in a library subject is an observation, not a defect, when
-  the manifest declares ranges and CI installs them - see `references/stacks/nodejs.md`.
-- The npm lockfile license census: `package-lock.json` v2+ entries may carry a `license`
-  field, but coverage is partial and reflects the publisher's manifest declaration, not the
-  package's LICENSE text. Record lockfile licenses as `Reported` evidence and mark `Unknown`
+- Library-versus-application: an application lockfile is expected evidence,
+  while a published library may legitimately ship none because registries resolve `dependencies`
+  ranges at install time. An absent lockfile in a library subject is an observation, not a defect,
+  when the manifest declares ranges and CI installs them - see `references/stacks/nodejs.md`.
+- The npm lockfile license census: `package-lock.json` v2+ entries may carry a `license` field,
+  but coverage is partial and reflects the publisher's manifest declaration,
+  not the package's LICENSE text. Record lockfile licenses as `Reported` evidence and mark `Unknown`
   when the field is absent - the authoritative per-package declaration locations are listed in
   `references/topics/license-evidence.md`.
-- `composer.lock` carries `packages` and `packages-dev` with `license` arrays per package -
-  the strongest manifest-derived license evidence of the covered ecosystems.
-- `packages.lock.json` and `go.sum` carry integrity data, not licenses, so license fields must
-  come from the NuGet `.nuspec` metadata or module documentation respectively.
-- A lockfile newer than its manifest signals drift, so record both file timestamps and the
-  delta per the manifest-lockfile drift rule above.
+- `composer.lock` carries `packages` and `packages-dev` with `license` arrays per package - the
+  strongest manifest-derived license evidence of the covered ecosystems.
+- `packages.lock.json` and `go.sum` carry integrity data, not licenses,
+  so license fields must come from the NuGet `.nuspec` metadata or module
+  documentation respectively.
+- A lockfile newer than its manifest signals drift,
+  so record both file timestamps and the delta per the manifest-lockfile drift rule above.
 
 ## Using The Inventory
 
-- The inventory feeds Dependencies and Supply Chain (`assessment/dependency-review.md`), license
-  review, and supply-chain findings.
-- It populates the Software Bill of Materials report section defined in
-  `references/sbom-schema.md`, which extends this output contract with license, risk, and
-  advisory columns.
-- It partially closes an "no SBOM" finding: the audit demonstrates what a manifest-derived
-  component list looks like, while still noting that no shipped-artifact SBOM exists.
-- It never substitutes for advisory checking. Resolved versions with no vulnerability evidence
-  remain `UNKNOWN` for advisory status, per `assessment/dependency-review.md`.
+- The inventory feeds Dependencies and Supply Chain (`assessment/dependency-review.md`),
+  license review, and supply-chain findings.
+- It populates the Software Bill of Materials report section defined in `references/sbom-schema.md`,
+  which extends this output contract with license, risk, and advisory columns.
+- It partially closes an "no SBOM" finding:
+  the audit demonstrates what a manifest-derived component list looks like,
+  while still noting that no shipped-artifact SBOM exists.
+- It never substitutes for advisory checking.
+  Resolved versions with no vulnerability evidence remain `UNKNOWN` for advisory status,
+  per `assessment/dependency-review.md`.

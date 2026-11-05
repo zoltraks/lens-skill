@@ -2,10 +2,9 @@
 
 ## Purpose
 
-> **Scope:** Risk table format, impact and likelihood rating, severity scale, bidirectional
-> cross-referencing with findings
-> **Key items:** structured risks, fixed columns, `Low`, `Medium`, `High`, `Critical`, `RSK-[001]`
-> indexing, `FND-XXX` traceability
+> **Scope:** Risk table format, impact and likelihood rating, severity scale,
+> bidirectional cross-referencing with findings **Key items:** structured risks, fixed columns,
+> `Low`, `Medium`, `High`, `Critical`, `RSK-[001]` indexing, `FND-XXX` traceability
 
 This file defines how to record risks surfaced during assessment.
 
@@ -24,8 +23,8 @@ Use this fixed column order:
 | Risk | Description | Source | Impact | Likelihood | Severity | Mitigation |
 |------|-------------|--------|--------|------------|----------|------------|
 
-When the report language is not English, apply the column header translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the column header translations from the matching `translations/` file.
 
 Column meanings:
 
@@ -95,19 +94,21 @@ Explain any difference between technical vulnerability severity and the contextu
 
 Keep confidence and verification limits visible in risk detail.
 
-For material risks, also record the trigger, controls, residual, affected scope (`Scope` -
-components, users, or data the realization affects, omitted when it is the whole subject),
-status, an owner when a responsible role is established, and closure or re-audit trigger.
+For material risks, also record the trigger, controls, residual,
+affected scope (`Scope` - components, users, or data the realization affects,
+omitted when it is the whole subject), status, an owner when a responsible role is established,
+and closure or re-audit trigger.
 
 These fields may appear in the risk detail block when the summary table would become too wide.
 
-If impact or likelihood lacks a defensible basis, use `Unknown` for the rating and severity rather
-than forcing a matrix value, and identify the evidence needed to rate it.
+If impact or likelihood lacks a defensible basis,
+use `Unknown` for the rating and severity rather than forcing a matrix value,
+and identify the evidence needed to rate it.
 
 Risk confidence is separate from severity.
 
-A high-severity risk can have low confidence when a reachability or deployment condition remains
-unresolved.
+A high-severity risk can have low confidence when a reachability or deployment
+condition remains unresolved.
 
 `Unknown` here denotes a missing rating, not an additional severity band.
 
@@ -115,10 +116,10 @@ List unrated risks beside the risk map instead of placing them in an invented ce
 
 ## Cross-Referencing Rules
 
-- Every `RSK-XXX` entry must reference its source `FND-XXX`, and its description paragraph plus any
-  `Scope` field must characterize the same problem that finding describes - identifier
-  existence alone does not satisfy the reference, per
-  `process/report-format/findings-registers.md`.
+- Every `RSK-XXX` entry must reference its source `FND-XXX`,
+  and its description paragraph plus any `Scope` field must characterize the same problem that
+  finding describes - identifier existence alone does not satisfy the reference,
+  per `process/report-format/findings-registers.md`.
 - When multiple findings contribute to one risk, list the primary `FND-XXX`.
 - Do not create risks that do not trace to a finding in the Technical Findings.
 - Do not output plaintext secrets, passwords, or cryptographic keys in the Risk column.
@@ -127,16 +128,17 @@ List unrated risks beside the risk map instead of placing them in an invented ce
 
 - One row per distinct risk. Do not merge unrelated risks.
 - State each risk as a property of the system, never as a fault of a person.
-- When a risk rests on missing information, mark its likelihood basis as `Insufficient information`
-  in the risk text.
-- Mitigations are options, not directives. Do not phrase them as commands unless the user asked for
-  directives.
+- When a risk rests on missing information,
+  mark its likelihood basis as `Insufficient information` in the risk text.
+- Mitigations are options, not directives.
+  Do not phrase them as commands unless the user asked for directives.
 - Keep risk wording consistent with the finding notes that produced it.
-- Re-derive every matrix placement during a re-audit. When re-derivation moves a risk's
-  severity, record the band change and the matrix rationale in the Changes section, never
-  silently preserve or adjust a prior rating.
-- Every rated risk occupies exactly one risk-map cell. The union of risk-map cells must equal
-  the register's rated risk set, `Unknown`-rated risks are listed beside the map instead.
+- Re-derive every matrix placement during a re-audit. When re-derivation moves a risk's severity,
+  record the band change and the matrix rationale in the Changes section,
+  never silently preserve or adjust a prior rating.
+- Every rated risk occupies exactly one risk-map cell.
+  The union of risk-map cells must equal the register's rated risk set,
+  `Unknown` -rated risks are listed beside the map instead.
 
 ## Example Row
 
@@ -144,5 +146,5 @@ List unrated risks beside the risk map instead of placing them in an invented ce
 | RSK-001 | Hardcoded JWT signing key in committed config | FND-SEC-001 | Authentication bypass or token forgery | High | Critical | Move key to secrets manager and rotate |
 ```
 
-The example columns follow the table order: `Risk`, `Description`, `Source`,
-`Impact`, `Likelihood`, `Severity`, `Mitigation`.
+The example columns follow the table order: `Risk`, `Description`, `Source`, `Impact`, `Likelihood`,
+`Severity`, `Mitigation`.

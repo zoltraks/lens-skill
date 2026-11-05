@@ -2,9 +2,9 @@
 
 ## Purpose
 
-> **Scope:** Project-internal development standards and their conformance with the codebase, plus
-> the quality of the standards themselves against external best practices
-> **Key items:** standards discovery, code-to-standards conformance, standards-to-best-practices
+> **Scope:** Project-internal development standards and their conformance with the codebase,
+> plus the quality of the standards themselves against external best practices **Key items:**
+> standards discovery, code-to-standards conformance, standards-to-best-practices
 > quality, external references
 
 This file guides assessment of whether the project documents its own development standards and
@@ -20,35 +20,38 @@ standards that its documentation indicates should be followed.
 
 When no such documents exist, omit this category and note the omission in Scope Exclusions.
 
-Naming and style rules discovered here feed `assessment/code-style.md` as its T1 declared
-tier - this assessment judges whether the standards exist, conform, and are well formed, and
-the style assessment applies them as the yardstick.
+Naming and style rules discovered here feed `assessment/code-style.md` as its T1 declared tier -
+this assessment judges whether the standards exist, conform, and are well formed,
+and the style assessment applies them as the yardstick.
 
 ## What To Evaluate
 
 - **Standards discovery**: whether the project contains development standard documents that
-  prescribe how source code should be written, which frameworks to use, which library functions are
-  preferred, naming conventions, project structure, or technology-stack rules.
-- **Standards scope**: whether the standards cover the relevant dimensions for the stack: language
-  version, project structure, naming conventions, error handling, testing, formatting and linting,
-  dependency management, build, comments, and security considerations. Standards may also cover
-  domains or activities beyond per-stack files - an automation-domain standard or an
-  inline-language standard alongside the language standard is breadth evidence, not a gap.
-- **Standards portability**: whether each standard stays generic to its subject. A standard that
-  leaks project-specific identifiers - executable names, repository paths, product names - or
-  absorbs project facts that belong in decision or reference documents is a standards-quality
-  finding, because the standard can no longer be reused or judged against the stack.
-- **Code conformance**: whether the codebase follows the documented standards across the areas the
-  standards cover.
+  prescribe how source code should be written, which frameworks to use,
+  which library functions are preferred, naming conventions, project structure,
+  or technology-stack rules.
+- **Standards scope**: whether the standards cover the relevant dimensions for the stack:
+  language version, project structure, naming conventions, error handling, testing,
+  formatting and linting, dependency management, build, comments, and security considerations.
+  Standards may also cover domains or activities beyond per-stack files - an automation-domain
+  standard or an inline-language standard alongside the language standard is breadth
+  evidence, not a gap.
+- **Standards portability**: whether each standard stays generic to its subject.
+  A standard that leaks project-specific identifiers - executable names, repository paths,
+  product names - or absorbs project facts that belong in decision or reference documents is a
+  standards-quality finding, because the standard can no longer be reused or
+  judged against the stack.
+- **Code conformance**: whether the codebase follows the documented standards across the areas
+  the standards cover.
 - **Standards quality**: whether the documented standards are themselves consistent with the
-  established good practices for the technology stack, programming language, and software type
-  (browser application, web service, desktop application, console tool, library, embedded firmware,
-  and so on).
+  established good practices for the technology stack, programming language,
+  and software type (browser application, web service, desktop application, console tool, library,
+  embedded firmware, and so on).
 - **Standards currency**: whether the standards reference current versions of the language,
-  framework, and tooling, or whether they are stale relative to the versions the project actually
-  uses.
-- **Enforcement**: whether the standards are enforced through tooling (linters, formatters, CI
-  checks) or exist only as documentation that drifts from practice.
+  framework, and tooling, or whether they are stale relative to the versions the
+  project actually uses.
+- **Enforcement**: whether the standards are enforced through tooling (linters, formatters,
+  CI checks) or exist only as documentation that drifts from practice.
 
 ## Evidence To Look For
 
@@ -68,17 +71,19 @@ the style assessment applies them as the yardstick.
 
 ## Status Criteria
 
-- `PASS`: The project documents development standards, the codebase conforms to them across the
-  covered areas, and the standards are themselves consistent with established good practices for the
-  stack.
-- `PARTIAL`: Standards exist but conformance is uneven, or the standards are partly inconsistent
-  with good practices for the stack, or enforcement is missing in areas the standards cover.
-- `FAIL`: Standards exist and are referenced as authoritative, but the codebase broadly ignores
-  them, or the standards contradict established good practices for the stack in material ways.
-- `UNKNOWN`: Standards are referenced but were not provided, or the codebase was not inspected in
-  enough depth to judge conformance.
-- `N/A`: The project contains no documented development standards. Omit this category and note the
-  omission in Scope Exclusions.
+- `PASS`: The project documents development standards,
+  the codebase conforms to them across the covered areas,
+  and the standards are themselves consistent with established good practices for the stack.
+- `PARTIAL`: Standards exist but conformance is uneven,
+  or the standards are partly inconsistent with good practices for the stack,
+  or enforcement is missing in areas the standards cover.
+- `FAIL`: Standards exist and are referenced as authoritative,
+  but the codebase broadly ignores them, or the standards contradict established good practices for
+  the stack in material ways.
+- `UNKNOWN`: Standards are referenced but were not provided,
+  or the codebase was not inspected in enough depth to judge conformance.
+- `N/A`: The project contains no documented development standards.
+  Omit this category and note the omission in Scope Exclusions.
 
 ## Common Risks
 
@@ -88,10 +93,10 @@ the style assessment applies them as the yardstick.
   patterns that experienced practitioners would flag as anti-patterns.
 - Stale standards that reference older language or framework versions block adoption of safer or
   clearer patterns the current version offers.
-- Standards without tooling enforcement drift from practice over time, because nothing catches
-  deviations.
-- Standards that cover only some areas leave the rest to convention, which fragments as the team
-  grows.
+- Standards without tooling enforcement drift from practice over time,
+  because nothing catches deviations.
+- Standards that cover only some areas leave the rest to convention,
+  which fragments as the team grows.
 - Missing standards in a multi-project repository let each project invent its own conventions,
   increasing cross-project review cost.
 
@@ -99,16 +104,16 @@ the style assessment applies them as the yardstick.
 
 - Standards documents that cover the dimensions relevant to the stack and software type.
 - Code that consistently follows the documented rules across representative files.
-- Standards that align with established good practices for the language, framework, and software
-  type.
+- Standards that align with established good practices for the language,
+  framework, and software type.
 - Tooling that enforces the standards in CI or pre-commit, so conformance is verified automatically.
-- Convention-checker scripts that validate rules a linter cannot express, such as structure or
-  documentation conventions.
-- Living-standard mechanisms: a findings or session-review appendix that indexes each surfaced
-  wound back to the rule that now prevents it.
+- Convention-checker scripts that validate rules a linter cannot express,
+  such as structure or documentation conventions.
+- Living-standard mechanisms: a findings or session-review appendix that indexes each surfaced wound
+  back to the rule that now prevents it.
 - Standards kept current with the language and framework versions the project actually uses.
-- Standards referenced from `README.md` or `AGENTS.md` so they are discoverable and treated as
-  authoritative.
+- Standards referenced from `README.md` or `AGENTS.md` so they are discoverable and
+  treated as authoritative.
 
 Mark each missing signal explicitly rather than inferring its presence.
 
@@ -123,8 +128,8 @@ or convention for the stack.
 Quote or closely paraphrase the actual rule and record whether it is mandatory, recommended,
 optional, or conditional before judging conformance.
 
-Honor alternatives and scope, for example "thiserror or manual errors where needed" does not
-require a particular dependency in every module.
+Honor alternatives and scope, for example "thiserror or manual errors where needed" does not require
+a particular dependency in every module.
 
 Verify process requirements using process evidence, not unrelated source-code properties.
 
@@ -142,8 +147,8 @@ necessary security invariant.
 **Clause-to-checklist conversion**
 
 Convert every prescriptive clause in the standards document into a checkable row before judging
-conformance: the clause, its modal strength (`must`, `should`, `may`), its scope, and the
-source pattern that satisfies or violates it.
+conformance: the clause, its modal strength (`must`, `should`, `may`), its scope,
+and the source pattern that satisfies or violates it.
 
 Judgements cite checklist rows, not the document as a whole - a verdict against "the standard"
 without a clause is not anchored.
@@ -153,12 +158,13 @@ without a clause is not anchored.
 The declared minimum runtime version is itself a standard the code must satisfy.
 
 Read the floor from the manifests (`requires-python`, `engines`, `go` directive,
-`<TargetFramework>`, CI matrix minimums) and check the syntax and APIs the code uses against
-that floor, per the version-feature tables in the matching `references/stacks/` digest - for
-example the PEP 585/604 boundary catalogued in `references/stacks/python.md`.
+`<TargetFramework>`, CI matrix minimums)
+and check the syntax and APIs the code uses against that floor,
+per the version-feature tables in the matching `references/stacks/` digest - for example the PEP
+585/604 boundary catalogued in `references/stacks/python.md`.
 
-Code using a feature newer than the declared floor is a conformance finding against the
-project's own declared contract.
+Code using a feature newer than the declared floor is a conformance finding against the project's
+own declared contract.
 
 ## External References
 

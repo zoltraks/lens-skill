@@ -2,11 +2,11 @@
 
 ## Purpose
 
-> **Scope:** How to report vulnerabilities in the Lens skill and what to expect
-> **Key items:** private reporting, covered risks, supported versions, response expectations
+> **Scope:** How to report vulnerabilities in the Lens skill and what to expect **Key items:**
+> private reporting, covered risks, supported versions, response expectations
 
-Lens is a routed instruction set: its Markdown content becomes agent instructions, so content
-integrity issues are security issues.
+Lens is a routed instruction set: its Markdown content becomes agent instructions,
+so content integrity issues are security issues.
 
 ## Reporting A Vulnerability
 
@@ -20,20 +20,19 @@ Report vulnerabilities privately through GitHub Security Advisories:
 
 Reports are welcome for:
 
-- The skill-update path: `scripts/check-update.py` and the `Skill Update Check` flow in
-  `SKILL.md`, including tag-integrity and upstream-divergence handling.
+- The skill-update path: `scripts/check-update.py` and the `Skill Update Check` flow in `SKILL.md`,
+  including tag-integrity and upstream-divergence handling.
 - Skill content that could produce unsafe or misleading audit instructions.
-- Script behavior that writes files, mutates repositories, or executes commands outside its
-  documented contract.
+- Script behavior that writes files, mutates repositories,
+  or executes commands outside its documented contract.
 
 ## Accepted Posture
 
-The skill-update path deliberately relies on HTTPS transport, a clean-tree gate, `ff-only`
-merges, and explicit user confirmation (or an explicit automated-run request) rather than signed
-commits or tags.
+The skill-update path deliberately relies on HTTPS transport, a clean-tree gate, `ff-only` merges,
+and explicit user confirmation (or an explicit automated-run request)
+rather than signed commits or tags.
 
-Commit-hash pinning per `VERSIONING.md` is the documented integrity anchor consumers verify
-against.
+Commit-hash pinning per `VERSIONING.md` is the documented integrity anchor consumers verify against.
 
 This posture is a standing accepted decision, revisited at each audit.
 
@@ -41,8 +40,7 @@ This posture is a standing accepted decision, revisited at each audit.
 
 The current release line declared in `SKILL.md` `metadata.version` receives fixes.
 
-Older releases are not maintained - update to the latest release commit on `main` before
-reporting.
+Older releases are not maintained - update to the latest release commit on `main` before reporting.
 
 ## What To Expect
 

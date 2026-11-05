@@ -2,8 +2,9 @@
 
 ## Purpose
 
-> **Scope:** Runbooks, on-call, capacity, backups, incident response
-> **Key items:** day-two operations, recovery procedures, ownership, capacity planning
+> **Scope:** Runbooks, on-call, capacity, backups,
+> incident response **Key items:** day-two operations, recovery procedures,
+> ownership, capacity planning
 
 This file guides assessment of whether the system can be run and supported in production.
 
@@ -33,8 +34,8 @@ here the focus is the operational practices that consume them.
 
 ## Recovery And Ownership Evidence
 
-Distinguish authoritative data from disposable indexes, and inspect whether supposedly rebuildable
-stores include unique usage, audit, or business records.
+Distinguish authoritative data from disposable indexes,
+and inspect whether supposedly rebuildable stores include unique usage, audit, or business records.
 
 Record required RPO (acceptable data loss) and RTO (acceptable recovery time), their approval basis,
 and documented restore results with data volume and environment.
@@ -55,8 +56,8 @@ Unknown ownership is a readiness evidence gap, not permission to invent a person
 
 ## Technical Due Diligence
 
-When acquisition, investment, or supplier review is in scope, cover these business-facing concerns
-through existing categories.
+When acquisition, investment, or supplier review is in scope,
+cover these business-facing concerns through existing categories.
 
 | Concern             | Evidence                      | Governing Assessment  |
 |---------------------|-------------------------------|-----------------------|
@@ -86,10 +87,10 @@ Missing deployment scale or prices means `INSUFFICIENT INFORMATION`, not a fabri
 
 ## Status Criteria
 
-- `PASS`: Runbooks, defined ownership, capacity planning, tested backups, and an incident process
-  are present, with evidence.
-- `PARTIAL`: Some operational practices exist but key procedures are undocumented, untested, or
-  unowned.
+- `PASS`: Runbooks, defined ownership, capacity planning, tested backups,
+  and an incident process are present, with evidence.
+- `PARTIAL`: Some operational practices exist but key procedures are undocumented,
+  untested, or unowned.
 - `FAIL`: No operational practices where production operation is clearly intended, with evidence.
 - `UNKNOWN`: Operational artifacts were not provided.
 

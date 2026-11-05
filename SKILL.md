@@ -2,15 +2,13 @@
 name: lens-skill
 description: >-
   Software audit skill. Produces structured, evidence-based engineering
-  assessments of prototypes, codebases, multi-project locations, skill
-  collections, production systems, and technical proposals - covering code
-  quality, security, dependencies, operations, and standards conformance.
-  Source-only: the audit never builds, tests, or executes the subject. Use
-  for software or architecture audits, codebase and structure reviews,
-  production readiness, technical due diligence, risk registers, scorecards,
-  or remediation roadmaps. Triggers on audit this codebase, engineering
-  assessment, run lens, lens audit, perform lens on, review this codebase,
-  structure review, defect hunt, code style review.
+  assessments of codebases, prototypes, multi-project locations, skill
+  collections, and technical proposals - code quality, security,
+  dependencies, operations, standards conformance. Source-only: never
+  builds, tests, or executes the subject. Use for software or architecture
+  audits, codebase and structure reviews, production readiness, technical
+  due diligence, risk registers, scorecards, or remediation roadmaps.
+  Triggers on audit this codebase, run lens, review this codebase, defect hunt, code style review.
 license: MIT
 compatibility: >-
   Designed for agent coding environments with file system access (Claude Code,
@@ -20,42 +18,42 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.6.8"
+  version: "2.6.9"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
 
 # Software Audit Skill
 
-> **Type:** Root router and taxonomy
-> **Purpose:** Route software audit requests to the smallest useful audit file and enforce
-> evidence-based, neutral assessment.
+> **Type:** Root router and taxonomy **Purpose:** Route software audit requests to the smallest
+> useful audit file and enforce evidence-based, neutral assessment.
 
 ## Contents
 
 | Section                 | Line | What it covers                                     |
 |-------------------------|------|----------------------------------------------------|
-| Skill Update Check      | 64   | Once-per-session git freshness gate before use     |
+| Skill Update Check      | 62   | Once-per-session git freshness gate before use     |
 | Trigger Keywords        | 84   | Activation phrases                                 |
-| How To Use              | 116  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 138  | Defaults and user-controlled report shape          |
-| Principles              | 146  | Evaluation and output rules                        |
-| Process                 | 152  | Workflow, format, and parity                       |
-| Assessments             | 193  | Core and conditional assessment guides             |
-| Synthesis               | 199  | Findings, risk, score, and remediation assembly    |
-| Translations            | 211  | Per-language report translations                   |
-| References              | 220  | Lookup tables                                      |
-| Scripts                 | 246  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 277  | Behavioral regression prompts                      |
-| Repository Files        | 281  | Housekeeping files governing this repository       |
-| Evidence Contract       | 293  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 323  | File-selection and section-placement rules         |
+| How To Use              | 114  | Progressive disclosure and mandatory reading       |
+| Parameter Configuration | 137  | Defaults and user-controlled report shape          |
+| Principles              | 144  | Evaluation and output rules                        |
+| Process                 | 150  | Workflow, format, and parity                       |
+| Assessments             | 195  | Core and conditional assessment guides             |
+| Synthesis               | 201  | Findings, risk, score, and remediation assembly    |
+| Translations            | 213  | Per-language report translations                   |
+| References              | 224  | Lookup tables                                      |
+| Scripts                 | 252  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 284  | Behavioral regression prompts                      |
+| Repository Files        | 288  | Housekeeping files governing this repository       |
+| Evidence Contract       | 300  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 329  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
-You analyze any software subject - a prototype, a codebase under development, a live production
-system, or a technical proposal - and produce a structured, evidence-based engineering assessment
-covering technical quality, code health, operational readiness, and architectural soundness.
+You analyze any software subject - a prototype, a codebase under development,
+a live production system, or a technical proposal - and produce a structured,
+evidence-based engineering assessment covering technical quality, code health,
+operational readiness, and architectural soundness.
 
 The same structure applies to prototypes and mature production code - only the categories differ.
 
@@ -63,17 +61,19 @@ You do not evaluate people, assign blame, infer intent, or give personal opinion
 
 ## Skill Update Check
 
-Before any other step, once per session, run `python <skill-root>/scripts/check-update.py`, where
-`<skill-root>` is the directory holding this `SKILL.md` - never the audited subject.
+Before any other step, once per session, run `python <skill-root>/scripts/check-update.py`,
+where `<skill-root>` is the directory holding this `SKILL.md` - never the audited subject.
 
-- `UPDATE-AVAILABLE` - ask the user to update the skill now or skip for this session, and wait
-  for the answer - an automated run merges without asking. On approval or under automation, run
-  `git -C <skill-root> merge --ff-only <tip_sha>` when the reported state allows it (`ahead=0`
-  and `dirty=no`), then re-read `SKILL.md` and any loaded rule files. A blocked or declined
-  merge reports briefly and continues with the current version, never re-asked this session.
-- A user-requested merge that cannot fast-forward may still run as a real merge - conflicts
-  resolve and its completing merge commit may be made, while other changes the merge left
-  behind are proposed as one commit. Pushing runs only on a separately named request.
+- `UPDATE-AVAILABLE` - ask the user to update the skill now or skip for this session,
+  and wait for the answer - an automated run merges without asking. On approval or under automation,
+  run `git -C <skill-root> merge --ff-only <tip_sha>` when the reported state allows it (`ahead=0`
+  and `dirty=no`), then re-read `SKILL.md` and any loaded rule files.
+  A blocked or declined merge reports briefly and continues with the current version,
+  never re-asked this session.
+- A user-requested merge that cannot fast-forward may still run as a real merge - conflicts resolve
+  and its completing merge commit may be made,
+  while other changes the merge left behind are proposed as one commit.
+  Pushing runs only on a separately named request.
 - The `tip_sha` and `tip_date` detail lines identify the incoming tip commit - cite them when
   reviewing `git log @{u}..` diffs before a merge or when pinning or reverting to a known state.
   The merge fast-forwards to the reported `tip_sha`, never a later tip.
@@ -85,33 +85,31 @@ The check writes no state files and never commits, stashes, or discards skill ch
 
 The skill activates on phrases such as:
 
-- audit requests: software audit, architecture audit, prototype audit, code audit, audit this
-  system, audit this codebase, audit this directory, audit this location, workspace audit,
-  engineering assessment, technical due diligence, production readiness, review this codebase
+- audit requests: software audit, architecture audit, audit this codebase, engineering assessment,
+  technical due diligence, production readiness, review this codebase
 - analysis artifacts: risk register, scorecard, maturity assessment, trade-off analysis, NFR review
-- focused reviews: security review, dependency audit, supply chain review, code quality review,
-  code style review, naming conventions, SOLID, design principles, TDD, test coverage,
-  testability, license audit, SBOM review
-- operational reviews: observability review, operational readiness, rollback strategy,
-  deployment strategy review, maintainability assessment
-- conventions: best practices, idiomatic code, coding conventions, stack conventions, framework
-  conventions, standards conformance, development standards review, coding standards audit
-- lens invocations: perform lens on, make audit report on, run lens, lens audit
-- skill audits: audit this skill, skill audit, skill definition review, skill spec conformance,
-  skill collection audit, skills inventory, agent-guidance review, audit a collection member
+- focused reviews: security review, dependency audit, supply chain review,
+  code quality or style review, testability, license audit, SBOM review
+- operational reviews: observability, operational readiness, rollback or deployment strategy,
+  maintainability assessment
+- conventions: best practices, coding conventions, stack or framework conventions,
+  standards conformance, coding standards audit
+- lens invocations: perform lens on, run lens, lens audit
+- skill audits: audit this skill, skill definition review, skill spec conformance,
+  skill collection audit, agent-guidance review
 - library reviews: api compatibility, api versioning audit, library audit
-- review requests: review report, run the checks, structure review, review the project structure
-- skill maintenance: work on lens-skill, update lens-skill, work on this skill, maintain this skill
-- stack feed: feed lens skill with, feed this skill with, extend stack standards with
+- review requests: review report, run the checks, structure review
+- skill maintenance: work on lens-skill, update lens-skill, maintain this skill
+- stack feed: feed lens skill with, extend stack standards with
 - automated invocations: audit automatically, automated mode, unattended, non-interactive
-- catalog requests: list all operations, show all capabilities, what
-  operations can this skill perform
+- catalog requests: list all operations, show all capabilities
 
-A request that names no report artifact - "explain how it works", "describe what it brings" -
-is descriptive analysis: inline and evidence-based, never entering `process/audit-workflow.md`.
+A request that names no report artifact - "explain how it works",
+"describe what it brings" - is descriptive analysis: inline and evidence-based,
+never entering `process/audit-workflow.md`.
 
-Bare activation and `work on lens-skill` standby follow `process/skill-activation.md`, and
-scope-matched audit or review work in any repository activates the skill without being named.
+Bare activation and `work on lens-skill` standby follow `process/skill-activation.md`,
+and scope-matched audit or review work in any repository activates the skill without being named.
 
 ## How To Use This Skill
 
@@ -119,11 +117,12 @@ Use progressive disclosure:
 
 - Read this router first - a bare activation follows `process/skill-activation.md` instead.
 - Read `principles/evaluation-rules.md` (evidence-only reasoning, no-assumption rule, neutrality,
-  status markers, hard constraints) and `process/audit-workflow.md` (the end-to-end audit process
-  from intake to final report) before producing any audit. They are mandatory for every audit.
-- For report production, `process/report-contract.md` is the first read - the mechanically
-  enforced contract - then the selected style file (`process/report-format.md` or the
-  `hunt-style.md`/`review-style.md` under it) - `--dump-contract` emits the same JSON surface.
+  status markers, hard constraints) and `process/audit-workflow.md` (the workflow index,
+  whose phase files load as the audit enters each phase) before producing any audit.
+  They are mandatory for every audit.
+- For report production, `process/report-contract.md` is the first read - the mechanically enforced
+  contract - then the selected style file (`process/report-format.md` or the `hunt-style.md` /
+  `review-style.md` under it) - `--dump-contract` emits the same JSON surface.
 - Apply `process/navigation-rules.md` to every report - it carries the file-selection and
   section-placement rules.
 - Open only the assessment files that match the system under audit - the index is
@@ -138,20 +137,21 @@ When asked how this skill works, explain that Lens produces evidence-based engin
 ## Parameter Configuration
 
 Before beginning the audit, the agent runs the Parameter Configuration phase in
-`process/audit-workflow.md` and MUST ask whether to accept defaults, configure options,
-or specify the operation to run -
-the parameter surfaces, defaults, resolution rules, and re-audit parameters live in
-`process/parameter-configuration.md`.
+`process/audit-workflow/parameter-phase.md` and MUST ask whether to accept defaults,
+configure options, or specify the operation to run - the parameter surfaces, defaults,
+resolution rules, and re-audit parameters live in `process/parameter-configuration.md`.
 
 ## `principles/` - Rules Of Evaluation
 
-- **`principles/evaluation-rules.md`** - Evidence-only reasoning, no assumptions,
-  neutrality, status markers, absent-capability assessment.
+- ** `principles/evaluation-rules.md` ** - Evidence-only reasoning, no assumptions, neutrality,
+  status markers, absent-capability assessment.
 - **`principles/output-style.md`** - Tone, fixed vocabularies, consistency, determinism.
 
 ## `process/` - Audit Process
 
-- **`process/audit-workflow.md`** - End-to-end audit process: intake to validated report.
+- **`process/audit-workflow.md`** - Audit workflow index: phase order, checklists, variants.
+- ** `process/audit-workflow/` ** - Per-phase workflow files,
+  mapped in the index's Step Overview table.
 - **`process/audit-model.md`** - Evidence-to-finding pipeline and the canonical audit model.
 - **`process/decision-modes.md`** - Interaction-mode matrix: interactive and automated resolution.
 - **`process/calibration.md`** - Paired-run reproducibility procedure and tolerances.
@@ -167,20 +167,20 @@ the parameter surfaces, defaults, resolution rules, and re-audit parameters live
 - **`process/report-format/report-analysis.md`** - Solution Comparison, Threat Model.
 - **`process/report-format/conditional-conformance.md`** - Conditional conformance sections.
 - **`process/report-format/findings-registers.md`** - Strengths, findings, debt, risk, roadmap.
-- **`process/report-format/report-closing.md`** - Exclusions, Limitations, Validation, Reference Sources.
+- ** `process/report-format/report-closing.md` ** - Exclusions, Limitations,
+  Validation, Reference Sources.
 - **`process/report-format/code-style.md`** - Code Style section spec.
 - **`process/report-format/hunt-style.md`** / **`review-style.md`** - `hunt` and `review` styles.
 - **`process/report-format/structure-review.md`** - Structure Review variant contract.
 - **`process/json-exchange.md`** - JSON parameter documents for intake question surfaces.
-- **`process/operation-timing.md`** - Timing under verbose, informational, diagnostic, or timing
-  modes.
+- ** `process/operation-timing.md` ** - Timing under verbose, informational,
+  diagnostic, or timing modes.
 - **`process/parameter-configuration.md`** - Parameter surfaces, defaults, and resolution rules.
 - **`process/parallel-execution.md`** - Delegated read-only scout model for large audit surfaces.
-- **`process/housekeeping.md`** - Self-repository upkeep: registration, coverage, workspace, validation.
+- ** `process/housekeeping.md` ** - Self-repository upkeep: registration, coverage,
+  workspace, validation.
 - **`process/self-healing.md`** - The evidence-gated self-repair loop for this skill.
 - **`process/development.md`** - Standby-for-specification mode for developing this skill.
-
-Timing is armed by default on every operation - `no timing` opts out for that request.
 - **`process/navigation-rules.md`** - File-selection and section-placement rules for every report.
 - **`process/report-parity.md`** - Mandatory core checklist and consistency gate.
 - **`process/readiness-scoring.md`** - Score aggregation, confidence, maturity, readiness gates.
@@ -190,22 +190,24 @@ Timing is armed by default on every operation - `no timing` opts out for that re
 - **`process/session-review.md`** - Improve-the-skill session review: findings, gate, modes.
 - **`process/stack-feed.md`** - External standards intake into `references/` digests, gated.
 
+Timing is armed by default on every operation - `no timing` opts out for that request.
+
 ## `assessment/` - Assessment Categories
 
-Open only the assessment files that match the system under audit - the index of core
-and conditional files is `assessment/README.md`, and a conditional file loads only when
-the subject meets its inclusion criteria in `process/report-format.md`.
+Open only the assessment files that match the system under audit - the index of core and conditional
+files is `assessment/README.md`, and a conditional file loads only when the subject meets its
+inclusion criteria in `process/report-format.md`.
 
 ## `synthesis/` - Findings And Report Assembly
 
 - **`synthesis/risk-register.md`** - Unified risk register: `RSK-[001]` to `FND-XXX` findings.
 - **`synthesis/project-scorecard.md`** - 1-10 scorecard, rubric, scales (1-5, 1-3, star bars).
 - **`synthesis/solution-comparison.md`** - Trade-offs as a standalone section and embedded findings.
-- **`synthesis/remediation-roadmap.md`** - Prioritized roadmap with impact-vs-effort matrix and
+- ** `synthesis/remediation-roadmap.md` ** - Prioritized roadmap with impact-vs-effort matrix and
   the Recommended/Optional/Not recommended classification.
 - **`synthesis/debt-register.md`** - `TDR-[001]` inventory (CISQ/SQALE), for structural debt.
 - **`synthesis/reaudit-plan.md`** - Verification owners, sign-off gates, P1/P2 findings.
-- **`synthesis/report-comparison.md`** / **`report-triangulation.md`** - Re-audit discovery and
+- ** `synthesis/report-comparison.md` ** / ** `report-triangulation.md` ** - Re-audit discovery and
   second-opinion rules for prior or external reports.
 
 ## `translations/` - Report Languages
@@ -215,7 +217,9 @@ Load the matching file when the report language is not English.
 Analysis runs in English and the report renders into the report language in a single pass,
 per `principles/output-style.md`:
 
-- **`translations/polish-language.md`** - Polish rendering: vocabulary, terminology, style rules.
+- ** `translations/polish-language.md` ** - Polish rendering: vocabulary, terminology, style rules.
+  Large file - read the vocabulary and style sections first,
+  then resolve each section block by heading as the report emits it.
 
 ## `references/` - Lookup Tables
 
@@ -228,10 +232,11 @@ Load these during intake, assessment, and report writing when the stack or findi
 - **`references/audit-taxonomy.md`** - Audit types, coverage statuses, methodology corpus.
 - **`references/evidence-schema.md`** - Evidence kinds, outcome states, sufficiency, coverage.
 - **`references/criteria-catalogue.md`** - Criteria records, families, applicability freeze.
-- **`references/criteria-catalogue.json`** - Fixed scoring-policy-3 criteria catalogue
-  (levels, dimension order/tiers, criteria weights, severity anchors).
+- ** `references/criteria-catalogue.json` ** - Fixed scoring-policy-3 criteria catalogue (levels,
+  dimension order/tiers, criteria weights, severity anchors).
 - **`references/organization-model.md`** - Area map and responsibility inventory method.
-- **`references/naming-and-layout.md`** - Naming matrices, code-division rules, 11-stack fixtures.
+- **`references/naming-and-layout.md`** - Naming matrices, code-division rules, 11-stack fixtures
+  - load only the matrix matching the detected stack.
 - **`references/language-conventions.md`** - Per-ecosystem style yardstick snapshot (T3 tier).
 - **`references/sbom-schema.md`** - Source-derived inventory report schema.
 - **`references/license-compliance.md`** - License classes, copyleft, attribution, ownership checks.
@@ -240,30 +245,32 @@ Load these during intake, assessment, and report writing when the stack or findi
 - **`references/exploitability-narrative.md`** - Attack-path narrative format and tiers.
 - **`references/agent-skills.md`** - Agent Skills spec corpus and live-check baseline.
 - **`references/agent-configuration.md`** - AGENTS.md, rules, plugin, MCP, guidance-set baselines.
-- **`references/source-catalog.md`** - Authoritative external-source registry and corpus index.
+- ** `references/source-catalog.md` ** - Authoritative external-source registry and corpus index -
+  grep the catalog row needed rather than loading it whole.
 - **`references/stacks/`** / **`methodology/`** / **`topics/`** - digests, see `source-catalog.md`.
 
 ## `scripts/` - Canonical Scripts
 
-They are report-production tooling, not analysis of the audited project - run them from the
-skill tree via `finalize-report.py --skill-root <path>`, or copy them into the audited
-repository's `work/` directory under a `.tmp.` name and remove the copies when done.
+They are report-production tooling, not analysis of the audited project - run them from the skill
+tree via `finalize-report.py --skill-root <path>`,
+or copy them into the audited repository's `work/` directory under a `.tmp.` name and remove
+the copies when done.
 
 - **`scripts/format-table.py`** / **`align-comments.py`** - Table formatter and `#`-comment aligner.
 - **`scripts/check-model.py`** - Audit-model checker (referential integrity, scoring recompute).
 - **`scripts/link-glossary.py`** / **`link-references.py`** - Glossary and register linkers.
-- **`scripts/validate-report.py`** - Mechanical report checker (`--dump-contract` emits JSON,
-  `--model`/`--state` cross-check report against model and run state).
-- **`scripts/render-contract.py`** - Regenerates the `report-contract.md` enumeration block
-  from `--dump-contract` (`--check` gates drift).
-- **`scripts/extract-requirements.py`** - Extracts requirement ids and obligation hints from
-  spec documents into the model's `requirements[]` registry.
-- **`scripts/render-tables.py`** - Renders scorecard, headline, criteria, and requirements
-  tables mechanically from `audit-model.json`.
-- **`scripts/compare-models.py`** - Compares two or more policy-3 audit models side by
-  side, refusing rankings across incompatible denominators.
+- ** `scripts/validate-report.py` ** - Mechanical report checker (`--dump-contract` emits JSON,
+  `--model` / `--state` cross-check report against model and run state).
+- ** `scripts/render-contract.py` ** - Regenerates the `report-contract.md` enumeration block from
+  `--dump-contract` (`--check` gates drift).
+- ** `scripts/extract-requirements.py` ** - Extracts requirement ids and obligation hints from spec
+  documents into the model's `requirements[]` registry.
+- ** `scripts/render-tables.py` ** - Renders scorecard, headline, criteria,
+  and requirements tables mechanically from `audit-model.json`.
+- ** `scripts/compare-models.py` ** - Compares two or more policy-3 audit models side by side,
+  refusing rankings across incompatible denominators.
 - **`scripts/new-report.py`** - Report skeleton generator (`--style`, `--scope`, `--params`).
-- **`scripts/validate-skill.py`** / **`check-references.py`** / **`check-contents.py`** -
+- ** `scripts/validate-skill.py` ** / ** `check-references.py` ** / ** `check-contents.py` ** -
   Frontmatter, disclosure, reference, and Contents validators.
 - **`scripts/check-update.py`** / **`style-census.py`** - Update check and identifier-shape census.
 - **`scripts/scan-standards.py`** / **`scan-structure.py`** - Corpus manifest and tree census.
@@ -292,33 +299,32 @@ These files govern the skill repository itself rather than audit production:
 
 ## Evidence And Decision Contract
 
-Use the verification plan and evidence ledger in `process/audit-workflow.md` for every audit
-and every review - the audit never builds, tests, or executes the project, while under the
-`executed-readonly` evidence mode it may additionally run commissioned non-mutating analyzers,
-and under `executed-commands` commissioned non-mutating commands run per
-`references/topics/execution-isolation.md` and are recorded in the
-Executed Evidence Log.
+Use the verification plan and evidence ledger in `process/audit-workflow/evidence-gathering.md` for
+every audit and every review - the audit never builds, tests, or executes the project,
+while under the `executed-readonly` evidence mode it may additionally run commissioned non-mutating
+analyzers, and under `executed-commands` commissioned non-mutating commands run per
+`references/topics/execution-isolation.md` and are recorded in the Executed Evidence Log.
 
 All evidence comes from inspected repository contents: source, configuration, build scripts,
 documentation, and committed artifacts.
 
-Record documented but unrun checks and their effect on confidence rather than treating a
-source-only review as verified production readiness, keeping evidence basis, confidence,
-category status, vulnerability severity, and business risk distinct.
+Record documented but unrun checks and their effect on confidence rather than treating a source-only
+review as verified production readiness, keeping evidence basis, confidence, category status,
+vulnerability severity, and business risk distinct.
 
 For security findings, use the CWE/CVSS and control-verification guidance in
-`assessment/security-review.md` - for full audits of executable projects, load
-`assessment/testing-review.md` and `assessment/dependency-review.md` for stack-aware
-verification, SBOM, and license review, and for technical due diligence, also load
-`assessment/operational-readiness.md`, `assessment/documentation-review.md`,
-`assessment/compliance-review.md`, and `synthesis/remediation-roadmap.md` for continuity,
-cost, data lifecycle, and roadmap evidence.
+`assessment/security-review.md` - for full audits of executable projects,
+load `assessment/testing-review.md` and `assessment/dependency-review.md` for stack-aware
+verification, SBOM, and license review, and for technical due diligence,
+also load `assessment/operational-readiness.md`, `assessment/documentation-review.md`,
+`assessment/compliance-review.md`, and `synthesis/remediation-roadmap.md` for continuity, cost,
+data lifecycle, and roadmap evidence.
 
 Use `synthesis/project-scorecard.md` for the ISO/IEC 25010:2023 crosswalk without changing Lens
 scores into purported ISO ratings, treat unknown authorship as unknown using
-`assessment/generated-code.md` rather than style heuristics, and validate summaries against
-evidence while running the regression scenarios in `process/audit-workflow.md` when maintaining
-the skill.
+`assessment/generated-code.md` rather than style heuristics,
+and validate summaries against evidence while running the regression scenarios in
+`process/audit-workflow/regression-scenarios.md` when maintaining the skill.
 
 ## Navigation Rules
 

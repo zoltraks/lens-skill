@@ -3,212 +3,209 @@
 ## Purpose
 
 > **Scope:** Checkable constraints for Node.js runtimes, npm packages, Express/Fastify services,
-> and Node-based CLIs
-> **Key items:** release floor, manifest fields, lockfile rules, security checklist, testing and
-> packaging expectations
+> and Node-based CLIs **Key items:** release floor, manifest fields, lockfile rules,
+> security checklist, testing and packaging expectations
 
-This file distills the authoritative Node.js, npm, Express, Fastify, and OWASP sources listed in
-`references/source-catalog.md` into constraints an audit can verify from repository source alone.
+This file distills the authoritative Node.js, npm, Express, Fastify,
+and OWASP sources listed in `references/source-catalog.md` into constraints an audit can verify from
+repository source alone.
 
 Snapshot date: 2026-10-27.
 
 Feeds `assessment/best-practices.md`, `assessment/security-review.md`,
-`assessment/dependency-review.md`, `assessment/testing-review.md`, and
-`assessment/baseline-conformance.md` for JavaScript backends.
+`assessment/dependency-review.md`, `assessment/testing-review.md`,
+and `assessment/baseline-conformance.md` for JavaScript backends.
 
 ## Runtime Floor
 
-The Node.js release schedule (https://nodejs.org/en/about/previous-releases) and the
-machine-readable mirror (https://endoflife.date/api/node.json) give the support floor.
+The Node.js release schedule ( https://nodejs.org/en/about/previous-releases)
+and the machine-readable mirror ( https://endoflife.date/api/node.json) give the support floor.
 
-- Production deployments run an Active LTS or Maintenance LTS line. At snapshot time Node 24
-  (Krypton) is LTS, Node 22 (Jod) is LTS, and Node 26 is Current.
-- Node 20 reached end-of-life 2026-04-30. Odd-numbered lines before Node 27 expire six months
-  after release and from Node 27 every major moves to LTS.
-- `engines.node` in `package.json` should express the floor the code actually uses. The floor
-  has no effect unless `.npmrc` sets `engine-strict=true` or the installer runs with
-  `--engine-strict`.
-- `.nvmrc` (or `.node-version`) pins the development runtime independently of `engines` -
-  the two agreeing is the reproducible posture - `engines` alone only constrains installers
-  that opt in.
+- Production deployments run an Active LTS or Maintenance LTS line.
+  At snapshot time Node 24 (Krypton) is LTS, Node 22 (Jod) is LTS, and Node 26 is Current.
+- Node 20 reached end-of-life 2026-04-30.
+  Odd-numbered lines before Node 27 expire six months after release and from Node 27
+  every major moves to LTS.
+- `engines.node` in `package.json` should express the floor the code actually uses.
+  The floor has no effect unless `.npmrc` sets `engine-strict=true` or the installer runs
+  with `--engine-strict`.
+- `.nvmrc` (or `.node-version`) pins the development runtime independently of `engines` - the two
+  agreeing is the reproducible posture - `engines` alone only constrains installers that opt in.
 - A runtime older than the oldest Maintenance LTS line is a finding regardless of test status.
 
 ## Manifest And Lockfile
 
-From the npm documentation (https://docs.npmjs.com/cli/v11/configuring-npm/package-json,
+From the npm documentation ( https://docs.npmjs.com/cli/v11/configuring-npm/package-json,
 https://docs.npmjs.com/cli/v11/configuring-npm/package-lock-json,
-https://docs.npmjs.com/cli/v11/commands/npm-ci,
-https://docs.npmjs.com/cli/v11/commands/npm-audit).
+https://docs.npmjs.com/cli/v11/commands/npm-ci, https://docs.npmjs.com/cli/v11/commands/npm-audit).
 
-- Published packages need `name`, `version`, `description`, `license`, and an entry surface
-  (`main`, `exports`, or `bin`). `files` whitelists the published surface.
-- `exports` is authoritative when present: subpaths not listed are unreachable, which changes
-  what "public API" means for a compatibility audit.
+- Published packages need `name`, `version`, `description`, `license`, and an entry surface (`main`,
+  `exports`, or `bin`). `files` whitelists the published surface.
+- `exports` is authoritative when present: subpaths not listed are unreachable,
+  which changes what "public API" means for a compatibility audit.
 - Libraries should not commit `package-lock.json` unless the project policy says otherwise.
   Applications should always commit it.
-- `npm ci` is the reproducible install: it deletes `node_modules`, installs strictly from the
-  lockfile, and fails when the manifest and lockfile disagree, so it is the CI form.
+- `npm ci` is the reproducible install: it deletes `node_modules`,
+  installs strictly from the lockfile, and fails when the manifest and lockfile disagree,
+  so it is the CI form.
 - `lockfileVersion` 3 is the npm 9+ default. Version 1 lacks the hidden lockfile metadata.
 - `npm audit` output is advisory evidence, not execution evidence of vulnerable code paths.
-- `npm audit --omit=dev` in CI is the checkable gate form: it keeps dev-only advisories from
-  drowning the production signal.
-- `npm publish --provenance` emits a Sigstore attestation tying the artifact to a public repo
-  and workflow. Its absence is at most an observation.
-- Install flags that force resolution - `--legacy-peer-deps`, `--force` - mask dependency
-  conflicts rather than resolving them. Their presence in CI, docs, or `.npmrc` is a
-  finding class, and the masked peer-range conflict is the thing to cite.
+- `npm audit --omit=dev` in CI is the checkable gate form:
+  it keeps dev-only advisories from drowning the production signal.
+- `npm publish --provenance` emits a Sigstore attestation tying the artifact to a public repo and
+  workflow. Its absence is at most an observation.
+- Install flags that force resolution - `--legacy-peer-deps`,
+  `--force` - mask dependency conflicts rather than resolving them. Their presence in CI, docs,
+  or `.npmrc` is a finding class, and the masked peer-range conflict is the thing to cite.
 
 ## Node.js Security Baseline
 
-From the Node.js security best-practices page
-(https://nodejs.org/en/learn/getting-started/security-best-practices) and the OWASP Node.js
-cheat sheet (https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html).
+From the Node.js security best-practices page (
+https://nodejs.org/en/learn/getting-started/security-best-practices) and the OWASP Node.js cheat
+sheet ( https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html).
 
 The official threat list names the classes an audit checks directly:
 
-- HTTP server DoS (CWE-400): servers need socket error handlers, request timeouts, and body
-  size limits. The runtime does not bound request bodies for the application.
+- HTTP server DoS (CWE-400): servers need socket error handlers, request timeouts,
+  and body size limits. The runtime does not bound request bodies for the application.
 - DNS rebinding (CWE-346): services bound to public interfaces must not trust `Host` blindly.
 - Timing attacks (CWE-208): secret comparison uses `crypto.timingSafeEqual`, never `===`.
 - Prototype pollution (CWE-1321): avoid merging attacker-controlled objects. Prefer `Map`,
   `Object.create(null)`, or schema validation.
 - Uncontrolled search path (CWE-427): child-process spawn resolves binaries against `PATH`.
   Pin absolute paths or control the environment.
-- Malicious third-party modules (CWE-1357): typosquatting and takeover are dependency-review
-  items. Lockfile pinning and `ignore-scripts` reduce install-time execution.
-- Monkey patching (CWE-349) and experimental flags: code that patches globals or needs
-  `--experimental-*` in production is a finding.
+- Malicious third-party modules (CWE-1357): typosquatting and takeover are dependency-review items.
+  Lockfile pinning and `ignore-scripts` reduce install-time execution.
+- Monkey patching (CWE-349) and experimental flags:
+  code that patches globals or needs `--experimental-*` in production is a finding.
 
 Checkable hardening items:
 
-- `eval`, `new Function`, and `vm` module use are flagged. The `vm` module documentation states
-  it is not a security sandbox.
-- `child_process.exec` with interpolated strings enables shell injection. `execFile`/`spawn`
-  with argument arrays avoids a shell.
-- Regular expressions on user input carry ReDoS risk. Untested regexes on request paths are
-  reportable.
-- Secrets never live in source or `package.json`. `.npmrc` tokens and `NODE_OPTIONS` misuse are
-  checked in `assessment/security-review.md`.
-- `process.env` is the 12-factor configuration surface. Missing validation of required
-  variables at startup is an absent-control observation.
-- The `node:test` runner (`node --test`, `describe`/`it`, `mock`, coverage flags) is the stdlib
-  harness. Its presence satisfies the "has tests" floor without extra dependencies.
+- `eval`, `new Function`, and `vm` module use are flagged.
+  The `vm` module documentation states it is not a security sandbox.
+- `child_process.exec` with interpolated strings enables shell injection.
+  `execFile` / `spawn` with argument arrays avoids a shell.
+- Regular expressions on user input carry ReDoS risk.
+  Untested regexes on request paths are reportable.
+- Secrets never live in source or `package.json`.
+  `.npmrc` tokens and `NODE_OPTIONS` misuse are checked in `assessment/security-review.md`.
+- `process.env` is the 12-factor configuration surface.
+  Missing validation of required variables at startup is an absent-control observation.
+- The `node:test` runner (`node --test`, `describe` / `it`, `mock`, coverage flags)
+  is the stdlib harness. Its presence satisfies the "has tests" floor without extra dependencies.
 
 ## Express
 
-From the Express security guide (https://expressjs.com/en/advanced/best-practice-security.html),
-error-handling guide (https://expressjs.com/en/guide/error-handling.html), Express 5 API
-(https://expressjs.com/en/5x/api.html), and migration guide
-(https://expressjs.com/en/guide/migrating-5.html).
+From the Express security guide ( https://expressjs.com/en/advanced/best-practice-security.html),
+error-handling guide ( https://expressjs.com/en/guide/error-handling.html),
+Express 5 API ( https://expressjs.com/en/5x/api.html),
+and migration guide ( https://expressjs.com/en/guide/migrating-5.html).
 
 - Express 2.x and 3.x are unmaintained. Their presence is a finding.
 - `app.disable('x-powered-by')` or Helmet removes the fingerprinting header.
 - Helmet's default set covers CSP, HSTS, `X-Content-Type-Options`, `X-Frame-Options`,
-  `Referrer-Policy`, `Origin-Agent-Cluster`, and removes `X-Powered-By`. A service without
-  Helmet or an equivalent header layer is an observation.
-- Session middleware must not use default cookie names or insecure options. The built-in
-  memory session store is documented as unsuitable for production.
+  `Referrer-Policy`, `Origin-Agent-Cluster`, and removes `X-Powered-By`.
+  A service without Helmet or an equivalent header layer is an observation.
+- Session middleware must not use default cookie names or insecure options.
+  The built-in memory session store is documented as unsuitable for production.
 - Open redirects must validate target hosts before `res.redirect`.
-- Error-handling middleware has the four-argument `(err, req, res, next)` signature. A missing
-  error handler leaves stack-trace leakage to defaults, and production expects
-  `NODE_ENV=production`.
-- Rate limiting (`express-rate-limit` or equivalent) belongs on authentication and
-  resource-heavy endpoints.
+- Error-handling middleware has the four-argument `(err, req, res, next)` signature.
+  A missing error handler leaves stack-trace leakage to defaults,
+  and production expects `NODE_ENV=production`.
+- Rate limiting (`express-rate-limit` or equivalent)
+  belongs on authentication and resource-heavy endpoints.
 - Express 5 changed route syntax (`*` wildcards became `/*splat`, optional segments changed),
-  `req.host` no longer strips the port, and middleware moved out of the core. A v4-to-v5 port
-  inherits those deltas.
+  `req.host` no longer strips the port, and middleware moved out of the core.
+  A v4-to-v5 port inherits those deltas.
 
 ## Fastify And CLIs
 
-From the Fastify server reference (https://fastify.dev/docs/latest/Reference/Server/) and the
-CLI guidelines at https://clig.dev/.
+From the Fastify server reference ( https://fastify.dev/docs/latest/Reference/Server/)
+and the CLI guidelines at https://clig.dev/.
 
-- Fastify validates request and response payloads with JSON Schema per route. Routes without
-  schemas skip that check.
-- `trustProxy` controls whether `X-Forwarded-For` is trusted for client IPs. A proxied service
-  without it mis-attributes callers.
-- CLI conventions: `-h`/`--help` and `--version` exist, errors go to stderr with a non-zero
-  exit code, output is machine-parseable on stdout, color is disabled when piped or under
-  `NO_COLOR`, and stdin input is supported where it makes sense.
+- Fastify validates request and response payloads with JSON Schema per route.
+  Routes without schemas skip that check.
+- `trustProxy` controls whether `X-Forwarded-For` is trusted for client IPs.
+  A proxied service without it mis-attributes callers.
+- CLI conventions: `-h` / `--help` and `--version` exist,
+  errors go to stderr with a non-zero exit code, output is machine-parseable on stdout,
+  color is disabled when piped or under `NO_COLOR`,
+  and stdin input is supported where it makes sense.
 
 ## Package Surface, Layout, And Naming
 
-From https://publint.dev/, https://arethetypeswrong.github.io/, and
-https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules.
+From https://publint.dev/, https://arethetypeswrong.github.io/,
+and https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules.
 
 - Directory layout and code division: services separate the HTTP listener (`src/server.js`)
-  from the app factory (`src/app.js`) so tests can mount the app without hardcoded ports, and
-  group source under `src/{domain,repositories,services,routes}` with tests in `test/*.test.js`.
+  from the app factory (`src/app.js`) so tests can mount the app without hardcoded ports,
+  and group source under `src/{domain,repositories,services,routes}` with tests in `test/*.test.js`.
 - Naming conventions: module filenames use `kebab-case.js` (`in-memory-order-repository.js`,
   `order-service.js`), classes and error types use `PascalCase` (`OrderService`,
   `OrderNotFoundError`), functions, methods, and variables use `camelCase` (`createOrder`),
-  private class fields use native `#fieldName` syntax, and frozen constants use
-  `UPPER_SNAKE_CASE`.
-- Published packages should survive `publint` and `arethetypeswrong` checks: correct `exports`
-  conditions, `types` present under `exports`, no dual CJS/ESM hazard, `files` covering the
-  entry surface.
-- `main` without `exports`, missing `types`, or `type: module` mismatches are package-surface
-  findings for libraries.
-- Role-directory conventions from the maintainer's JavaScript standards: `src/` groups
-  `routes/` (or `endpoints/`), `middleware/`, `services/` (or `logic/`), `repositories/`
-  (or `db/`), `models/`, `config/`, and `utils/`/`helpers/` by responsibility, and `test/` or
-  `tests/` mirrors that structure (`test/services/order-service.test.js`) - a flat `src/`
-  past roughly a dozen files is the review threshold.
+  private class fields use native `#fieldName` syntax, and frozen constants use `UPPER_SNAKE_CASE`.
+- Published packages should survive `publint` and `arethetypeswrong` checks:
+  correct `exports` conditions, `types` present under `exports`, no dual CJS/ESM hazard,
+  `files` covering the entry surface.
+- `main` without `exports`, missing `types`,
+  or `type: module` mismatches are package-surface findings for libraries.
+- Role-directory conventions from the maintainer's JavaScript standards:
+  `src/` groups `routes/` (or `endpoints/`), `middleware/`, `services/` (or `logic/`),
+  `repositories/` (or `db/`), `models/`, `config/`, and `utils/` / `helpers/` by responsibility,
+  and `test/` or `tests/` mirrors that structure (`test/services/order-service.test.js`)
+  - a flat `src/` past roughly a dozen files is the review threshold.
 - Runtime and toolchain pins are dotfiles: `.nvmrc` or `.node-version` for the runtime,
-  `.env.example` for configuration keys, and `Dockerfile`/`compose.yaml` for deploy - a
-  README that documents a Node version no pin file agrees with is a configuration
-  observation.
-- Multi-package repositories place packages under `packages/` or top-level capability
-  directories (`compiler/`, `library/` each carrying `src/`, `test/` or `tests/`, and its
-  own `package.json`), with the workspace tool (`npm`/`pnpm`/`yarn` workspaces) declared in
-  the root manifest.
+  `.env.example` for configuration keys, and `Dockerfile` / `compose.yaml` for deploy - a README
+  that documents a Node version no pin file agrees with is a configuration observation.
+- Multi-package repositories place packages under `packages/` or top-level capability directories
+  (`compiler/`, `library/` each carrying `src/`, `test/` or `tests/`, and its own `package.json`),
+  with the workspace tool (`npm` / `pnpm` / `yarn` workspaces) declared in the root manifest.
 
 ## Testing And Analysis Expectations
 
 - `node:test` covers the floor. Vitest and Jest configs are covered in
   `references/stacks/typescript.md`.
-- `supertest` (https://github.com/forwardemail/supertest) provides HTTP-level assertions
-  against an app instance without binding a port.
-- `eslint-plugin-security` (https://github.com/eslint-community/eslint-plugin-security) and
-  `eslint-plugin-n` (https://github.com/eslint-community/eslint-plugin-n) supply the CWE-linked
-  rule names consumed by `references/cwe-analyzer.md`.
-- `node-jsonwebtoken` (https://github.com/auth0/node-jsonwebtoken) callers must pin
-  `algorithms` in `jwt.verify`. Omitting it accepts whatever the token header claims,
-  including `none` where configured.
+- `supertest` ( https://github.com/forwardemail/supertest)
+  provides HTTP-level assertions against an app instance without binding a port.
+- `eslint-plugin-security` ( https://github.com/eslint-community/eslint-plugin-security)
+  and `eslint-plugin-n` ( https://github.com/eslint-community/eslint-plugin-n)
+  supply the CWE-linked rule names consumed by `references/cwe-analyzer.md`.
+- `node-jsonwebtoken` ( https://github.com/auth0/node-jsonwebtoken)
+  callers must pin `algorithms` in `jwt.verify`.
+  Omitting it accepts whatever the token header claims, including `none` where configured.
 
 ## Dependency Provenance And Test Reality
 
-From
-https://docs.npmjs.com/cli/v11/configuring-npm/package-json, and
-https://docs.npmjs.com/cli/v11/using-npm/package-spec.
+From https://docs.npmjs.com/cli/v11/configuring-npm/package-json,
+and https://docs.npmjs.com/cli/v11/using-npm/package-spec.
 
 - Dependencies pinned to tarball URLs, git refs, or `file:` paths bypass registry semantics,
-  version metadata, and advisory feeds - a documented constraint must justify each one, and
-  an unexplained non-registry dependency is a provenance finding.
-- `overrides`/`resolutions` blocks suppress upstream version drift selectively - a large or
+  version metadata, and advisory feeds - a documented constraint must justify each one,
+  and an unexplained non-registry dependency is a provenance finding.
+- `overrides` / `resolutions` blocks suppress upstream version drift selectively - a large or
   growing block signals unresolved dependency debt, not hygiene.
 - A `test` script that exists but executes nothing (`echo`, `exit 0`, a no-op placeholder)
   masks an absent suite - the script's actual behavior, not its presence, is the evidence.
-
 
 ## Maintainer-Standard Floor
 
 From the maintainer's JavaScript and Express engineering standards.
 
-- The defect floor: `engines` field plus `.nvmrc` pin the Node version, `"type": "module"`
-  declares the module system explicitly, `package-lock.json` is committed, `npm audit
-  --omit=dev` passes in CI, no floating dependency versions, and `eslint .` plus
-  `prettier --check .` produce no findings.
-- Express floor: every route validates its input, authorization runs in middleware on every
-  protected route, helmet-equivalent security headers on every response, rate limiting on
-  endpoints, and structured logging carries request-scoped correlation IDs.
+- The defect floor: `engines` field plus `.nvmrc` pin the Node version,
+  `"type": "module"` declares the module system explicitly, `package-lock.json` is committed,
+  `npm audit --omit=dev` passes in CI, no floating dependency versions,
+  and `eslint .` plus `prettier --check .` produce no findings.
+- Express floor: every route validates its input,
+  authorization runs in middleware on every protected route,
+  helmet-equivalent security headers on every response, rate limiting on endpoints,
+  and structured logging carries request-scoped correlation IDs.
 
 ## Live Check
 
 When web fetch is available, compare the runtime floor against `endoflife.date` and the Node.js
 releases page, and spot-check one security list item against the OWASP cheat sheet.
 
-Record whichever baseline - this snapshot or the live pages - the audit used, and note drift in
-Known Limitations.
+Record whichever baseline - this snapshot or the live pages - the audit used,
+and note drift in Known Limitations.
 
 The check is best-effort, never blocks the audit, and never executes the audited project.

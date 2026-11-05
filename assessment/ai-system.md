@@ -2,12 +2,12 @@
 
 ## Purpose
 
-> **Scope:** AI and machine-learning system risk, provenance, evaluation, safety, privacy, and
-> operational controls
-> **Key items:** model and data provenance, evaluation, misuse resistance, monitoring, rollback
+> **Scope:** AI and machine-learning system risk, provenance, evaluation, safety, privacy,
+> and operational controls **Key items:** model and data provenance, evaluation, misuse resistance,
+> monitoring, rollback
 
-This file guides assessment of a software project that trains, fine-tunes, serves, or materially
-depends on an AI or machine-learning model.
+This file guides assessment of a software project that trains, fine-tunes, serves,
+or materially depends on an AI or machine-learning model.
 
 Apply `principles/evaluation-rules.md` throughout.
 
@@ -21,13 +21,13 @@ Apply `principles/evaluation-rules.md` throughout.
 ## When This Applies
 
 Include this assessment when the repository contains model weights, training or fine-tuning code,
-model-serving code, prompt or agent orchestration, retrieval-augmented generation, AI evaluation
-harnesses, or documentation that makes AI behavior a material system function.
+model-serving code, prompt or agent orchestration, retrieval-augmented generation,
+AI evaluation harnesses, or documentation that makes AI behavior a material system function.
 
 Do not include it because a project used an AI coding assistant.
 
-When the system only contains ordinary generated source and no AI runtime or model lifecycle, use
-`assessment/generated-code.md` instead.
+When the system only contains ordinary generated source and no AI runtime or model lifecycle,
+use `assessment/generated-code.md` instead.
 
 ## What To Evaluate
 
@@ -55,15 +55,15 @@ When the system only contains ordinary generated source and no AI runtime or mod
 
 ## Provenance And Reproducibility
 
-Record the model, data, code, configuration, dependency, and artifact revisions that determine the
-assessed behavior.
+Record the model, data, code, configuration, dependency,
+and artifact revisions that determine the assessed behavior.
 
 Distinguish declared provenance from verified provenance.
 
 A model name without a digest, version, source, or retrieval date is incomplete provenance evidence.
 
-A dataset name without collection scope, license, and transformation history is incomplete data
-provenance evidence.
+A dataset name without collection scope, license,
+and transformation history is incomplete data provenance evidence.
 
 Do not reproduce sensitive training data, prompts, credentials, or model artifacts in the report.
 
@@ -71,8 +71,8 @@ Do not reproduce sensitive training data, prompts, credentials, or model artifac
 
 Assess whether evaluation criteria match the system's stated purpose and risk.
 
-Look for positive, negative, boundary, abuse, regression, and out-of-distribution cases where the
-use case makes them relevant.
+Look for positive, negative, boundary, abuse, regression,
+and out-of-distribution cases where the use case makes them relevant.
 
 Do not invent a universal accuracy, safety, or fairness threshold.
 
@@ -80,18 +80,18 @@ Mark proposed thresholds as proposed until an owner confirms them.
 
 A benchmark score does not prove production safety, robustness, or suitability for every user group.
 
-Record the evaluation dataset, metric definition, model revision, exclusions, and result basis when
-reported results are present.
+Record the evaluation dataset, metric definition, model revision, exclusions,
+and result basis when reported results are present.
 
 ## Security And Authorization Boundaries
 
-Trace untrusted input through model prompts, retrieval, tool calls, structured output, and side
-effects.
+Trace untrusted input through model prompts, retrieval, tool calls, structured
+output, and side effects.
 
 Check whether model output is treated as data or as an authorization decision.
 
-Check whether tool access is independently authorized rather than granted because a model requested
-it.
+Check whether tool access is independently authorized rather than granted because
+a model requested it.
 
 Assess prompt injection, indirect instruction injection, sensitive-data disclosure, unsafe tool use,
 resource exhaustion, and untrusted output handling when the architecture exposes those surfaces.
@@ -100,16 +100,16 @@ Do not perform adversarial exploitation against a live system.
 
 ## Operations And Change Management
 
-Assess model and prompt versioning, release approval, rollback, monitoring, incident response, and
-cost controls.
+Assess model and prompt versioning, release approval, rollback, monitoring, incident
+response, and cost controls.
 
 For hosted inference, distinguish target latency or cost from measured results.
 
-For local inference, assess resource limits, model loading failures, update safety, and recovery
-from partial or corrupted artifacts.
+For local inference, assess resource limits, model loading failures, update safety,
+and recovery from partial or corrupted artifacts.
 
-A model registry or deployment manifest shows intended control, not successful rollback or runtime
-monitoring.
+A model registry or deployment manifest shows intended control,
+not successful rollback or runtime monitoring.
 
 ## Framework References
 
@@ -117,8 +117,8 @@ Use selected practices from the
 [NIST AI Risk Management Framework 1.0](https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10)
 when AI risk management is in scope.
 
-Use [ISO/IEC 42001](https://www.iso.org/standard/42001) only as a management-system reference
-when organizational AI governance is explicitly relevant.
+Use [ISO/IEC 42001](https://www.iso.org/standard/42001)
+only as a management-system reference when organizational AI governance is explicitly relevant.
 
 Neither reference creates a conformance claim from repository inspection alone.
 
@@ -147,5 +147,5 @@ according to `process/report-format/conditional-conformance.md`.
 
 Keep AI-system risks separate from AI-generated-code provenance findings.
 
-Link every material gap to `FND-SEC-XXX`, `FND-ARC-XXX`, `FND-INF-XXX`, or another pillar where the
-fix lives.
+Link every material gap to `FND-SEC-XXX`, `FND-ARC-XXX`, `FND-INF-XXX`,
+or another pillar where the fix lives.

@@ -3,75 +3,75 @@
 ## Purpose
 
 > **Scope:** Emit and consume machine-readable parameter documents in place of, or alongside,
-> the question surfaces in `process/audit-workflow.md`
-> **Key items:** emission trigger, diagnostic output, emitted document, parameter catalog,
-> returned document, authority
+> the question surfaces in `process/audit-workflow/` **Key items:** emission trigger,
+> diagnostic output, emitted document, parameter catalog, returned document, authority
 
 This file defines how Lens exposes its intake questions as JSON and how it consumes JSON answers.
 
 ## When to Emit
 
-When the request asks for the questions, settings, or parameters "in JSON", "as JSON", or another
-machine-readable format, emit a parameter document instead of the question menus and checkbox
-lists.
+When the request asks for the questions, settings, or parameters "in JSON", "as JSON",
+or another machine-readable format, emit a parameter document instead of the question
+menus and checkbox lists.
 
-Repository discovery and the blocking-gate conditions still run first: the document contains only
-the questions that are actually pending in this session.
+Repository discovery and the blocking-gate conditions still run first:
+the document contains only the questions that are actually pending in this session.
 
 Emit the document where the request directs - inline in the response by default.
 
 ## Diagnostic Output
 
-When the request names a debugging mode, a diagnostic mode, a timing mode, or asks for
-detailed or verbose information, emit the parameter document for information purposes
-only.
+When the request names a debugging mode, a diagnostic mode, a timing mode,
+or asks for detailed or verbose information,
+emit the parameter document for information purposes only.
 
 The informational mode never triggers this emission - it arms only the elapsed-time report in
 `process/operation-timing.md`.
 
-The emission order is fixed: the JSON document first, then a text description of the pending
-decisions, then the question menus.
+The emission order is fixed: the JSON document first,
+then a text description of the pending decisions, then the question menus.
 
 The question menus still run. The emitted document does not replace the question flow.
 
 Answers may still arrive as menu selections, natural-language responses, or a returned document.
 
-The same emission applies when diagnostics are implied: a malformed returned document, an
-unresolved parameter conflict, or an intake validation failure may accompany the parameter
+The same emission applies when diagnostics are implied: a malformed returned document,
+an unresolved parameter conflict, or an intake validation failure may accompany the parameter
 document and a text note, while the menus proceed.
 
 ## Emitted Document
 
-The document carries a `description`, context fields (`target`, `task`, `date`, `time`), and an
-`intake` array.
+The document carries a `description`, context fields (`target`, `task`, `date`, `time`),
+and an `intake` array.
 
 - `target` - the audited subject or directory name.
 - `task` - `audit`, `hunt`, or `review`, per the report style resolved at intake.
 - `date` - the current day in `YYYY-MM-DD` format.
-- `time` - the local time in `hh:mm:ss` followed by the timezone offset, for example
-  `13:45:21 GMT+2`.
+- `time` - the local time in `hh:mm:ss` followed by the timezone offset,
+  for example `13:45:21 GMT+2`.
 
-Each parameter object keeps a fixed key order: `id`, `question`, `answer`, `description`, optional `when`, `type`,
-`menu`, `open`, `default` - the `default` key is always the last key of the object.
+Each parameter object keeps a fixed key order: `id`, `question`, `answer`, `description`,
+optional `when`, `type`, `menu`, `open`,
+`default` - the `default` key is always the last key of the object.
 
 - `id` - a stable kebab-case identifier for the parameter.
 - `question` - the literal question wording presented to the answering side.
-- `answer` - emitted as an empty string (an empty array for `selection`), to be filled by the
-  answering side.
+- `answer` - emitted as an empty string (an empty array for `selection`),
+  to be filled by the answering side.
 - `description` - what the parameter controls and the discovery evidence behind its default.
 - `type` - `choice` for a single-option answer, `selection` when multiple options may be chosen,
   or `text` for free input.
 - `menu` - required for `choice` and `selection` types and omitted for `text`, letter-keyed (`A`,
-  `B`, `C`, ...), and the recommended option label carries "(recommended)". `Cancel - abort the
-  operation` is the last entry of every `choice` and `selection` menu, and
-  `Cancel` is never the `default`.
+  `B`, `C`, ...), and the recommended option label carries "(recommended)".
+  `Cancel - abort the operation` is the last entry of every `choice` and `selection` menu,
+  and `Cancel` is never the `default`.
 - `open` - whether the answer is open to free text beyond the listed options.
 - `default` - the option letter or suggested text applied when the answer stays empty - for
   `selection`, the array of letters that are pre-checked.
 
 Routine prompts' trailing `Use default: <value>` and `Use defaults for all remaining questions`
-options do not become `menu` entries - the `default` key and the returned document's "use
-defaults" semantics cover them.
+options do not become `menu` entries - the `default` key and the returned document's "use defaults"
+semantics cover them.
 
 ```json
 {
@@ -131,7 +131,7 @@ defaults" semantics cover them.
 
 Every pending question surface emits with a stable kebab-case `id`:
 
-| Parameter                 | Type        | Surface in `process/audit-workflow.md`                                                                                                                                         |
+| Parameter                 | Type        | Surface in `process/audit-workflow/`                                                                                                                                           |
 |---------------------------|-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `audit-mode`              | `choice`    | Re-audit, changed-parameters, or fresh-audit gate and its confirm variants                                                                                                     |
 | `skills-scope`            | `choice`    | Assess embedded skills as components or independent projects                                                                                                                   |
@@ -143,41 +143,39 @@ Every pending question surface emits with a stable kebab-case `id`:
 | `operation-description`   | `text`      | Free-text operation description - emitted only when `operation-selection` resolves to `Custom operation`                                                                       |
 | `report-delivery`         | `choice`    | Delivery and output-file prompt - a `pair` language output names both report files in every file option                                                                        |
 | `language-output`         | `choice`    | `pair` (default under a non-English report language) or `single` - resolved from the request wording, never prompted, a returned document may override it                      |
+| `project-layout`          | `choice`    | `separate` (default) or `combined` register grouping - emitted only when multiple projects are included                                                                        |
 | `report-style`            | `choice`    | `audit` (default), `hunt`, or `review` - `check` accepted as an alias for `review`                                                                                             |
 | `review-scope`            | `choice`    | `full` (default) or `structure` - resolves the structure-review variant, emitted only under `review` style                                                                     |
 | `detail-level`            | `choice`    | Brief, Standard, or Detailed                                                                                                                                                   |
 | `evaluation-scale`        | `choice`    | Four options in fixed order: `1-10`, `1-5`, `1-3`, `Stars`                                                                                                                     |
 | `star-count`              | `choice`    | Star count follow-up (`5 stars` default, `3 stars`) - applies only when `evaluation-scale` resolves to `Stars`, ignored otherwise                                              |
-| `evidence-mode`           | `choice`    | `source-only` (default), `executed-readonly`, or `executed-commands` - routine prompt under `Configure options`, resolved from the request otherwise                            |
-| `commissioned-commands`   | `text`      | Commissioned analyzer or command list - emitted only when `evidence-mode` resolves to `executed-readonly` or `executed-commands`                                              |
+| `evidence-mode`           | `choice`    | `source-only` (default), `executed-readonly`, or `executed-commands` - routine prompt under `Configure options`, resolved from the request otherwise                           |
+| `commissioned-commands`   | `text`      | Commissioned analyzer or command list - emitted only when `evidence-mode` resolves to `executed-readonly` or `executed-commands`                                               |
 | `session-review-approval` | `choice`    | Approve the session-review findings report before applying changes - `process/session-review.md`, not `audit-workflow.md`                                                      |
 
-Thin-input clarifications emit as `text` or `choice` parameters as they arise, with `open: true`
-when free input is appropriate.
+Thin-input clarifications emit as `text` or `choice` parameters as they arise,
+with `open: true` when free input is appropriate.
 
 ## Returned Document
 
-A returned JSON document answers the pending surfaces by `id`, in either of two
-forms.
+A returned JSON document answers the pending surfaces by `id`, in either of two forms.
 
 The first form is the emitted document itself with `answer` fields filled.
 
-The second form keeps a `response` key - either an array of entry objects
-or a condensed object keyed by parameter `id`.
+The second form keeps a `response` key - either an array of entry objects or a condensed object
+keyed by parameter `id`.
 
-Each array entry requires only `id` and `answer` - an option letter for `choice`, an array of
-letters for `selection`, or free text for `text`.
+Each array entry requires only `id` and `answer` - an option letter for `choice`,
+an array of letters for `selection`, or free text for `text`.
 
 Other keys may be echoed or omitted.
 
-Interoperating tools may emit a catalog form of the parameter document - the full parameter
-surface with a `pending` marker and a prefilled `answer` per entry rather than pending questions
-only.
+Interoperating tools may emit a catalog form of the parameter document - the full parameter surface
+with a `pending` marker and a prefilled `answer` per entry rather than pending questions only.
 
 A returned document carrying those keys is tolerated, not malformed.
 
-Lens itself keeps
-emitting pending questions with empty `answer` fields only.
+Lens itself keeps emitting pending questions with empty `answer` fields only.
 
 In the condensed form, each key is a parameter `id` and each value is its `answer`.
 
@@ -188,11 +186,12 @@ Entries or keys with an unknown `id` are ignored.
 
 Answering "use defaults" applies every `default` value.
 
-A returned document is accepted whenever it appears - on any question surface, on its own or
-embedded inside a natural-language reply.
+A returned document is accepted whenever it appears - on any question surface,
+on its own or embedded inside a natural-language reply.
 
-Answers are applied from the `response` value. Natural language surrounding the document is
-treated as supplementary context, not as part of the answers.
+Answers are applied from the `response` value.
+Natural language surrounding the document is treated as supplementary context,
+not as part of the answers.
 
 ```json
 {
@@ -228,30 +227,29 @@ The same answers in the condensed form:
 ## Autonomous Surfaces
 
 A procedure that defines an autonomous mode - such as the session review's autonomous flag in
-`process/session-review.md` - resolves each of its pending surfaces to the recommended option
-without waiting.
+`process/session-review.md` - resolves each of its pending surfaces to the recommended
+option without waiting.
 
-The document emits with the resolved value in `answer` instead of the empty string, and the
-resolution is reported in the reply like an answered question.
+The document emits with the resolved value in `answer` instead of the empty string,
+and the resolution is reported in the reply like an answered question.
 
-A verbose flag additionally reports the full `menu` and the rationale behind each resolved
-default.
+A verbose flag additionally reports the full `menu` and the rationale behind each resolved default.
 
 ## Authority
 
 The JSON format is a presentation format, not an authority change.
 
-Every gate still follows `process/audit-workflow.md`: blocking gates still wait for an answer,
+Every gate still follows `process/audit-workflow/`: blocking gates still wait for an answer,
 and returned documents answer the same questions the menus would have asked.
 
-An orchestrating agent may emit and consume these documents without human interaction, and every
-automated decision is still recorded as answered through the exchange.
+An orchestrating agent may emit and consume these documents without human interaction,
+and every automated decision is still recorded as answered through the exchange.
 
-Under an automated run per `process/audit-workflow.md` the pending surfaces are not emitted or
-asked at all - each resolves to its discovered or `default` answer directly.
+Under an automated run per `process/audit-workflow/audit-intake.md` the pending surfaces are not
+emitted or asked at all - each resolves to its discovered or `default` answer directly.
 
 ## What Does Not Apply
 
 - No parameter document emits while no question surface is pending.
-- The catalog is not a parameter surface - `process/operations-catalog.md`
-  answers inline and never emits JSON.
+- The catalog is not a parameter surface - `process/operations-catalog.md` answers inline
+  and never emits JSON.

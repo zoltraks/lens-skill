@@ -3,12 +3,11 @@
 ## Purpose
 
 > **Scope:** Test pyramid (unit, integration, end-to-end), TDD practice, coverage, CI automation,
-> design-for-testability
-> **Key items:** test layers, test-driven development, coverage evidence, automated execution, seams
-> and injectability
+> design-for-testability **Key items:** test layers, test-driven development, coverage evidence,
+> automated execution, seams and injectability
 
-This file guides assessment of how the system verifies its own behavior and how amenable the code is
-to testing.
+This file guides assessment of how the system verifies its own behavior and how amenable
+the code is to testing.
 
 Apply `principles/evaluation-rules.md` throughout.
 
@@ -22,17 +21,17 @@ Design-level testability overlaps with the Dependency Inversion principle in
 - Unit tests: isolated tests of functions, classes, or modules.
 - Integration tests: tests across module or service boundaries, including data stores.
 - End-to-end tests: tests that exercise the system through its external interfaces.
-- Test pyramid balance: whether the mix is weighted toward fast unit tests with fewer, targeted
-  integration and e2e tests, rather than inverted.
+- Test pyramid balance: whether the mix is weighted toward fast unit tests with fewer,
+  targeted integration and e2e tests, rather than inverted.
 - Test-driven development: whether there are signals that tests are written alongside or before
   code, such as commit interleaving, red-green history, or a documented TDD practice.
-- Design-for-testability: whether the code exposes seams - dependency injection, interfaces, pure
-  functions - that make units testable without heavy mocking.
-- CI automation: whether tests run automatically on change, and whether failures block merge or
-  release.
-- Coverage depth: whether tests verify edge cases, boundary conditions, error paths, and negative
-  cases, not just happy-path execution. Counting test lines or test files is not evidence of
-  semantic coverage.
+- Design-for-testability: whether the code exposes seams - dependency injection, interfaces,
+  pure functions - that make units testable without heavy mocking.
+- CI automation: whether tests run automatically on change,
+  and whether failures block merge or release.
+- Coverage depth: whether tests verify edge cases, boundary conditions, error paths,
+  and negative cases, not just happy-path execution.
+  Counting test lines or test files is not evidence of semantic coverage.
 
 ## Evidence To Look For
 
@@ -56,8 +55,9 @@ Inventory tests per project and distinguish declared, discovered, and documented
 Under `source-only` evidence mode the audit never executes the suite.
 
 Executed, passed, failed, and ignored counts exist only when a committed report or documentation
-records them, cited as `Reported` evidence, or when a commissioned run under
-`executed-commands` produced them, classified per `references/topics/execution-isolation.md`.
+records them, cited as `Reported` evidence,
+or when a commissioned run under `executed-commands` produced them,
+classified per `references/topics/execution-isolation.md`.
 
 Classify test layers by the boundaries exercised, not just the directory or test name.
 
@@ -70,24 +70,25 @@ Do not run them.
 Judge whether tests run automatically on change and whether failures block merge or release from
 pipeline definitions, not from execution.
 
-The intake automation signal census bounds this judgement: under `signals` evaluate the gate
-on failure from the pipeline definitions, under `external` record the pointer as `Reported`
-evidence and judge only in-tree aspects, and under `none` record a single observation without
-evaluating gate detail - the Deployment Strategy assessment owns the absence classification.
+The intake automation signal census bounds this judgement:
+under `signals` evaluate the gate on failure from the pipeline definitions,
+under `external` record the pointer as `Reported` evidence and judge only in-tree aspects,
+and under `none` record a single observation without evaluating gate detail - the Deployment
+Strategy assessment owns the absence classification.
 
-When no pipeline definitions exist and the census is not `none`, record the finding and
-classify the absence per `principles/evaluation-rules.md`, reusing the CI/CD signal guidance
-in `assessment/deployment-review.md`.
+When no pipeline definitions exist and the census is not `none`,
+record the finding and classify the absence per `principles/evaluation-rules.md`,
+reusing the CI/CD signal guidance in `assessment/deployment-review.md`.
 
 Keep compilation claims, inspected test counts, and documented passing results separate.
 
 **Coverage**
 
-Treat coverage as evidence only when a committed report, badge source, or documented run supplies
-it.
+Treat coverage as evidence only when a committed report, badge source,
+or documented run supplies it.
 
-Inspect the report's covered/total counts, line/region/branch metric, exclusions, and critical
-modules separately from the project aggregate.
+Inspect the report's covered/total counts, line/region/branch metric, exclusions,
+and critical modules separately from the project aggregate.
 
 Branch and line coverage measure different things, do not infer one from the other.
 
@@ -99,8 +100,8 @@ Assess mutation testing from committed configuration, harnesses, and reports.
 
 Do not run [cargo-mutants](https://mutants.rs/) or a stack equivalent.
 
-When a mutation score is documented, check whether its numerator, denominator, and excluded
-outcomes are defined.
+When a mutation score is documented, check whether its numerator, denominator,
+and excluded outcomes are defined.
 
 A documented survivor is a review candidate, not automatically proof of a missing assertion,
 because equivalent mutations and harness limitations can occur.
@@ -109,8 +110,8 @@ Do not infer mutation scores or repository-wide weakness from a selected sample.
 
 **Fuzz and property testing**
 
-Prioritize parsers, path resolution, protocol framing, and serialization boundaries when judging
-whether fuzz coverage is warranted.
+Prioritize parsers, path resolution, protocol framing,
+and serialization boundaries when judging whether fuzz coverage is warranted.
 
 Assess fuzzing from harness presence, declared scope, invariants, corpus, and committed results.
 
@@ -126,27 +127,25 @@ Describe what behavior is not checked, recognizing that schema/default-value tes
 
 Do not invent a universal behavioral-to-struct-test ratio or coverage target.
 
-Derive acceptance criteria from required behavior, including unauthorized rejection, permitted
-success, no unintended side effects, failure handling, and regression coverage.
+Derive acceptance criteria from required behavior, including unauthorized rejection,
+permitted success, no unintended side effects, failure handling, and regression coverage.
 
 **Reconciliation checks**
 
 Apply three mechanical checks before judging coverage.
 
-The include-pattern census lists the test-selection patterns the project declares - framework
-config (`testMatch`, `testpaths`, `include`), CI step filters, and script invocations - and
-compares them against the test tree on disk.
+The include-pattern census lists the test-selection patterns the project declares - framework config
+(`testMatch`, `testpaths`, `include`), CI step filters,
+and script invocations - and compares them against the test tree on disk.
 
 A test file that no include pattern selects never runs, whatever its content.
 
 The harness-versus-specs check compares declared frameworks and harnesses in manifests and CI
-against the imports and runners the test files actually use - a declared harness with no
-consuming test is configuration drift, and a used harness with no declaration is an
-undocumented dependency.
+against the imports and runners the test files actually use - a declared harness with no consuming
+test is configuration drift, and a used harness with no declaration is an undocumented dependency.
 
-The verification-coverage row maps each enumerated dispatch entry point. HTTP routes, CLI
-commands, consumers, scheduled jobs, per `references/topics/evidence-recipes.md` - to the
-tests that name it.
+The verification-coverage row maps each enumerated dispatch entry point. HTTP routes, CLI commands,
+consumers, scheduled jobs, per `references/topics/evidence-recipes.md` - to the tests that name it.
 
 An entry point no test references is a coverage gap to report, not to assume tested.
 
@@ -155,29 +154,31 @@ tests that only re-assert a stub's fixed output evidence nothing about the subje
 
 **Target matrix and harness coherence**
 
-When the subject declares multiple build targets, compare the test project's executed target
-list against the library's declared target list - every declared target with no test evidence
-bounds the coverage claim, even when the suite passes on the one target it runs.
+When the subject declares multiple build targets,
+compare the test project's executed target list against the library's declared target list - every
+declared target with no test evidence bounds the coverage claim,
+even when the suite passes on the one target it runs.
 
-Compare the test source's framework API surface against the declared framework version -
-test code calling members absent from the declared or locally resolvable version indicates
-the declared version never compiled the suite, which is version drift, not coverage.
+Compare the test source's framework API surface against the declared framework version - test code
+calling members absent from the declared or locally resolvable version indicates the declared
+version never compiled the suite, which is version drift, not coverage.
 
 **Test-double adequacy**
 
-Inventory the test doubles and fixtures - fake repositories, in-memory stores, stub
-transports, hand-built responses - and map which production boundary each one replaces.
+Inventory the test doubles and fixtures - fake repositories, in-memory stores, stub transports,
+hand-built responses - and map which production boundary each one replaces.
 
-A journey whose tests exercise only doubles never saw production behavior: record which
-advertised workflows from `references/domain-profiles.md` have real-backend coverage versus
-double-only coverage, and which components no test touches.
+A journey whose tests exercise only doubles never saw production behavior:
+record which advertised workflows from `references/domain-profiles.md` have real-backend coverage
+versus double-only coverage, and which components no test touches.
 
 Test quantity is a census figure, not an adequacy statement.
 
 **Design versus count**
 
-Report test adequacy from design signals, and name which of these measures the assessment
-applied - a count of test functions or files never stands in for any of them.
+Report test adequacy from design signals,
+and name which of these measures the assessment applied - a count of test functions or files never
+stands in for any of them.
 
 | Measure            | What it samples                                                |
 |--------------------|----------------------------------------------------------------|
@@ -186,16 +187,16 @@ applied - a count of test functions or files never stands in for any of them.
 | Assertion depth    | Sampled tests scoring assertions versus trivial or stub checks |
 | Fixture realism    | Doubles and fixtures versus the production boundary they mock  |
 
-A count belongs in the census only. Report it beside these measures as scale context, never
-as their substitute, per the `Test adequacy` row in `references/evidence-schema.md`.
+A count belongs in the census only. Report it beside these measures as scale context,
+never as their substitute, per the `Test adequacy` row in `references/evidence-schema.md`.
 
 ## Status Criteria
 
-- `PASS`: Tests exist across the layers the system needs in a balanced pyramid, the code is
-  structured for testability, CI configuration runs tests on change, and failures block release,
-  with evidence.
-- `PARTIAL`: Some layers, automation, or testability seams exist but coverage is uneven, the pyramid
-  is inverted, gates are missing, or evidence is incomplete.
+- `PASS`: Tests exist across the layers the system needs in a balanced pyramid,
+  the code is structured for testability, CI configuration runs tests on change,
+  and failures block release, with evidence.
+- `PARTIAL`: Some layers, automation, or testability seams exist but coverage is uneven,
+  the pyramid is inverted, gates are missing, or evidence is incomplete.
 - `FAIL`: No meaningful tests where the system clearly requires them, with evidence of absence.
 - `UNKNOWN`: Testing artifacts were not provided or cannot be inspected.
 
@@ -203,11 +204,11 @@ as their substitute, per the `Test adequacy` row in `references/evidence-schema.
 
 - Regressions ship undetected because no automated gate blocks failing changes.
 - An inverted pyramid (many slow e2e, few units) makes the suite slow and flaky.
-- Tightly coupled code without seams forces brittle, mock-heavy tests or blocks unit testing
-  entirely.
+- Tightly coupled code without seams forces brittle,
+  mock-heavy tests or blocks unit testing entirely.
 - Coverage numbers exist without assertions of behavior, giving false confidence.
-- Large test counts mask shallow coverage: edge cases, boundary conditions, and error paths are
-  untested.
+- Large test counts mask shallow coverage: edge cases, boundary conditions,
+  and error paths are untested.
 - Integration paths are untested while units pass in isolation.
 - Tests exist but are not run in CI, so they decay.
 
@@ -218,8 +219,8 @@ as their substitute, per the `Test adequacy` row in `references/evidence-schema.
 - Code with injectable dependencies and pure functions that are testable in isolation.
 - A CI configuration that runs the suite on every change with an enforced quality gate.
 - Tests that assert behavior and outcomes, not just that code executes.
-- Tests that cover edge cases, boundary conditions, error paths, and negative cases, evidenced by
-  assertion variety.
+- Tests that cover edge cases, boundary conditions, error paths, and negative cases,
+  evidenced by assertion variety.
 
 Mark each missing signal explicitly rather than inferring its presence.
 

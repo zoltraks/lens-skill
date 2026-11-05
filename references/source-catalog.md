@@ -2,23 +2,23 @@
 
 ## Purpose
 
-> **Scope:** Registry of the authoritative external sources Lens relies on, each mapped to the
-> local corpus file that consolidates it
-> **Key items:** canonical addresses, publishers, consuming reference files, consolidation status
+> **Scope:** Registry of the authoritative external sources Lens relies on,
+> each mapped to the local corpus file that consolidates it **Key items:** canonical addresses,
+> publishers, consuming reference files, consolidation status
 
 This catalog is the single registry mapping each live source to its bundled static digest.
 
-When an audit cannot fetch a source, the catalog points at the corpus file that already
-consolidated it, so every reference resolves statically offline.
+When an audit cannot fetch a source, the catalog points at the corpus file that already consolidated
+it, so every reference resolves statically offline.
 
 Each corpus file records its own snapshot date.
 
-This catalog tracks the consolidation state of
-the mapping rather than the snapshot content.
+This catalog tracks the consolidation state of the mapping rather than the snapshot content.
 
-Statuses: `pending` (registered, not yet consolidated), `distilled` (consolidated into the
-named file), `paywalled` (public summary only), `restricted` (license limits reproduction to
-identifiers and names), `alternate` (fallback address for the row above).
+Statuses: `pending` (registered, not yet consolidated),
+`distilled` (consolidated into the named file), `paywalled` (public summary only),
+`restricted` (license limits reproduction to identifiers and names),
+`alternate` (fallback address for the row above).
 
 ## Contents
 
@@ -27,7 +27,7 @@ identifiers and names), `alternate` (fallback address for the row above).
 | Sources                            | 32   | Source registry grouped by consuming corpus file |
 | Session-Derived Files              | 559  | Corpus files built from session knowledge        |
 | Unresolved And Alternate Addresses | 575  | Fetch failures and working alternates            |
-| Maintenance                        | 595  | Row-addition and canonicalization rules          |
+| Maintenance                        | 594  | Row-addition and canonicalization rules          |
 
 ## Sources
 
@@ -574,8 +574,7 @@ These corpus files consolidate session knowledge rather than fetched sources.
 
 ## Unresolved And Alternate Addresses
 
-Ten registered URLs did not return a retrievable page during the 2026-09-30 and 2026-10-02
-fetches.
+Ten registered URLs did not return a retrievable page during the 2026-09-30 and 2026-10-02 fetches.
 
 The working alternates below carry the distilled content where a replacement exists.
 
@@ -594,8 +593,8 @@ The working alternates below carry the distilled content where a replacement exi
 
 ## Maintenance
 
-Add a row whenever a corpus file cites a new source, and update the status when the source is
-consolidated or re-fetched.
+Add a row whenever a corpus file cites a new source,
+and update the status when the source is consolidated or re-fetched.
 
-Keep one row per canonical address: versioned or locale variants of the same document share a
-row under the canonical URL.
+Keep one row per canonical address: versioned or locale variants of the same document share a row
+under the canonical URL.

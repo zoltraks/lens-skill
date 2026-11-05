@@ -2,21 +2,20 @@
 
 ## Purpose
 
-> **Scope:** Canonical style yardsticks per programming ecosystem for the code-style
-> assessment
-> **Key items:** casing conventions, unit granularity, naming temperament, primary
-> authorities, snapshot date, fallback rule
+> **Scope:** Canonical style yardsticks per programming ecosystem for the code-style assessment
+> **Key items:** casing conventions, unit granularity, naming temperament, primary authorities,
+> snapshot date, fallback rule
 
-This reference records the canonical naming and style convention of each supported
-ecosystem as a dated snapshot, supplying the T3 yardstick for `assessment/code-style.md`.
+This reference records the canonical naming and style convention of each supported ecosystem as a
+dated snapshot, supplying the T3 yardstick for `assessment/code-style.md`.
 
 Apply `principles/evaluation-rules.md` throughout.
 
 Snapshot date: 2026-10-27.
 
-For the eleven stacks covered by `references/naming-and-layout.md`, that file's per-element
-matrices and code-division rules remain the authority, and this file adds temperament and
-style-family notes.
+For the eleven stacks covered by `references/naming-and-layout.md`,
+that file's per-element matrices and code-division rules remain the authority,
+and this file adds temperament and style-family notes.
 
 For every other ecosystem this file is the yardstick.
 
@@ -43,44 +42,45 @@ For every other ecosystem this file is the yardstick.
 | SQL                  | `snake_case`, consistent singular or plural tables, `id`/`<table>_id` keys                                                        |                                                                | Either plural or singular is fine, consistency decides, no reserved words                                                                                  | Project convention                                                          |
 | Assembly             | Dialect labels, local-label syntax, consistent mnemonic case, `UPPER` equates                                                     | File per module or segment                                     | Terse names are idiomatic. Readability levers are routine contracts (inputs, outputs, clobbered registers, cycles), named constants, documented memory map | Assembler manual (ca65, DASM, sjasmplus), project convention                |
 
-Also record initialism rules where they differ: Go all-caps (`ID`, `URL`), .NET two-letter
-caps with longer acronyms as Pascal words (`IO`, `Html`), and Java or Google style treating
-acronyms as words (`Http`).
+Also record initialism rules where they differ: Go all-caps (`ID`, `URL`),
+.NET two-letter caps with longer acronyms as Pascal words (`IO`, `Html`),
+and Java or Google style treating acronyms as words (`Http`).
 
 ## Temperament Notes
 
-- **Short-name ecosystems** (Rust, Go, C, small scopes anywhere): `cfg`, `ctx`, `buf`, `i`,
-  `err`, `s` receivers are canonical, and judging them as noise names is a false positive.
-- **Prefix-idiomatic ecosystems**: C# `I`/`Async`, Delphi `T`/`F`/`A`/`E`, Unreal letter
-  prefixes are mandated by the stack, while the same prefixes in TS, Java, or Python are
-  foreign holdovers unless a T1 rule declares them.
-- **Terse ecosystems** (assembly, shell): readability evidence is contracts, equates, and
-  memory-map documentation, not name length.
-- **Granularity**: one-type-per-file is a Java, C#, PHP, and Delphi-family expectation, never
-  a Rust, Go, Python, Zig, or C expectation.
-- **Framework-mandated names** (`Service`, `Controller`, `Repository`, `*Endpoints`) are
-  judged by cohesion of responsibility, not by the presence of the word.
-- **Full-word ecosystems** (C#, and the maintainer's C# and Java standards): a word the
-  ecosystem habitually shortens is still written in full - `Configuration` not `Conf`,
+- **Short-name ecosystems** (Rust, Go, C, small scopes anywhere): `cfg`, `ctx`, `buf`, `i`, `err`,
+  `s` receivers are canonical, and judging them as noise names is a false positive.
+- **Prefix-idiomatic ecosystems**: C# `I` / `Async`, Delphi `T` / `F` / `A` / `E`,
+  Unreal letter prefixes are mandated by the stack, while the same prefixes in TS, Java,
+  or Python are foreign holdovers unless a T1 rule declares them.
+- **Terse ecosystems** (assembly, shell): readability evidence is contracts, equates,
+  and memory-map documentation, not name length.
+- **Granularity**: one-type-per-file is a Java, C#, PHP, and Delphi-family expectation,
+  never a Rust, Go, Python, Zig, or C expectation.
+- **Framework-mandated names** (`Service`, `Controller`, `Repository`, `*Endpoints`)
+  are judged by cohesion of responsibility, not by the presence of the word.
+- **Full-word ecosystems** (C#, and the maintainer's C# and Java standards):
+  a word the ecosystem habitually shortens is still written in full - `Configuration` not `Conf`,
   `Specification` not `Spec`, `Arguments` not `Args` - in file, type, and project names,
   while canonical idioms (`args` locals) stay.
-- **Initialism casing is ecosystem-fixed**: Go all-caps (`HTTPClient`, `urlParser`
-  unexported), .NET two-letter caps with longer acronyms as Pascal words, Java treating
-  acronyms as words - mixing conventions inside one partition is the finding.
+- **Initialism casing is ecosystem-fixed**: Go all-caps (`HTTPClient`, `urlParser` unexported),
+  .NET two-letter caps with longer acronyms as Pascal words,
+  Java treating acronyms as words - mixing conventions inside one partition is the finding.
 
 ## Fallback For Unlisted Ecosystems
 
-For a language not listed, resolve the yardstick by T1, then T2 dominance, then the T4
-readability lenses in `assessment/code-style.md`, and record that no T3 baseline applied.
+For a language not listed, resolve the yardstick by T1, then T2 dominance,
+then the T4 readability lenses in `assessment/code-style.md`,
+and record that no T3 baseline applied.
 
 ## Authorities
 
-Verify each row against the official guide when refreshing this snapshot and record the new
-snapshot date: Google Java Style Guide, Oracle Code Conventions, *Effective Java*, Kotlin
-Coding Conventions, .NET Framework Design Guidelines, C# Coding Conventions, Rust API
-Guidelines, Rust Style Guide, Effective Go, Go Code Review Comments, Google Go Style Guide,
-PEP 8, PEP 257, Google TypeScript Style Guide, PSR-1, PSR-12, PSR-4, Linux Kernel Coding
-Style, MISRA C, C++ Core Guidelines section NL, Google C++ Style Guide, LLVM Coding
-Standards, Object Pascal Style Guide, Free Pascal Reference, Zig Style Guide, Swift API
-Design Guidelines, RuboCop Ruby Style Guide, Google Shell Style Guide, and the target
-assembler's manual (ca65, DASM, sjasmplus, or equivalent).
+Verify each row against the official guide when refreshing this snapshot and record the new snapshot
+date: Google Java Style Guide, Oracle Code Conventions, *Effective Java*, Kotlin Coding Conventions,
+.NET Framework Design Guidelines, C# Coding Conventions, Rust API Guidelines, Rust Style Guide,
+Effective Go, Go Code Review Comments, Google Go Style Guide, PEP 8, PEP 257,
+Google TypeScript Style Guide, PSR-1, PSR-12, PSR-4, Linux Kernel Coding Style, MISRA C,
+C++ Core Guidelines section NL, Google C++ Style Guide, LLVM Coding Standards,
+Object Pascal Style Guide, Free Pascal Reference, Zig Style Guide, Swift API Design Guidelines,
+RuboCop Ruby Style Guide, Google Shell Style Guide, and the target assembler's manual (ca65, DASM,
+sjasmplus, or equivalent).

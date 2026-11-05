@@ -2,15 +2,15 @@
 
 ## Purpose
 
-> **Scope:** Auditing methodology and scoring rubric sections
-> **Key items:** method, standards, evidence ledger, score bands, ISO crosswalk
+> **Scope:** Auditing methodology and scoring rubric sections **Key items:** method, standards,
+> evidence ledger, score bands, ISO crosswalk
 
 ## Contents
 
 | Section              | Line | What it covers                             |
 |----------------------|------|--------------------------------------------|
 | Auditing Methodology | 15   | Method, standards, criteria matrix, ledger |
-| Scoring Rubrics      | 303  | Score bands, grouping, ISO crosswalk       |
+| Scoring Rubrics      | 304  | Score bands, grouping, ISO crosswalk       |
 
 ## Auditing Methodology
 
@@ -20,40 +20,40 @@ The earlier dashboard is a summary, its scores refer to the methodology and rubr
 
 **Methodology overview**
 
-When the report language is not English, apply the heading translation from the matching
-`translations/` file.
+When the report language is not English,
+apply the heading translation from the matching `translations/` file.
 
 State that the audit uses evidence-based reasoning across 19 core assessment categories grouped into
 seven pillars, plus conditional assessments (data flow, design patterns, threat model, API contract,
-skill definition, agent guidance, AI system, standards conformance, engineering baseline, naming and
-layout) applied when the subject warrants them,
+skill definition, agent guidance, AI system, standards conformance, engineering baseline,
+naming and layout) applied when the subject warrants them,
 and the conditional API Compatibility & Versioning Discipline pillar for libraries and packages.
 
 List the pillars:
 
 - **Architecture & Design** - Design principles, maintainability, change management, documentation,
   non-functional requirements
-- **Structure & Organization** - Directory layout, file placement, naming conventions, component
-  boundaries, supporting artifacts
+- **Structure & Organization** - Directory layout, file placement, naming conventions,
+  component boundaries, supporting artifacts
 - **Code Quality** - Testing, code quality, stack best practices
 - **Security & Compliance** - Security, compliance and data protection
 - **Infrastructure & CI/CD** - Dependencies, deployment, rollback, observability, error handling,
   operational readiness
-- **AI Provenance & Code Origin** - Explicit attribution, generated-artifact validation, and SDLC
-  evidence, without authorship inference from style
-- **Copyrights & Originality** - Code originality, license compliance, attribution, dependency
-  license compatibility
-- **API Compatibility & Versioning Discipline** - Public API stability, versioning consistency, and
-  breaking-change tracking. Conditional, applied only when the subject is a reusable library or
-  package.
+- **AI Provenance & Code Origin** - Explicit attribution, generated-artifact validation,
+  and SDLC evidence, without authorship inference from style
+- **Copyrights & Originality** - Code originality, license compliance, attribution,
+  dependency license compatibility
+- **API Compatibility & Versioning Discipline** - Public API stability, versioning consistency,
+  and breaking-change tracking. Conditional,
+  applied only when the subject is a reusable library or package.
 
-When the report language is not English, apply the pillar name translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the pillar name translations from the matching `translations/` file.
 
 **Reference standards**
 
-When the report language is not English, apply the heading translation from the matching
-`translations/` file.
+When the report language is not English,
+apply the heading translation from the matching `translations/` file.
 
 Name the external standards the audit aligns with,
 so the methodology is credible to an external reader.
@@ -62,20 +62,19 @@ Cite only the standards actually applied to the subject.
 
 Typical references:
 
-- **ISO/IEC 25010:2023** - nine-characteristic product quality coverage, using the explicit
-  crosswalk
-  in `synthesis/project-scorecard.md`, not an ISO scoring formula.
+- **ISO/IEC 25010:2023** - nine-characteristic product quality coverage,
+  using the explicit crosswalk in `synthesis/project-scorecard.md`, not an ISO scoring formula.
 - **OWASP ASVS 5.0.0** - selected version-qualified security controls, with scope and level stated.
 - **CWE and CVSS** - weakness classification and vulnerability severity where applicable.
 - **SSDF and SAMM** - selected secure-development practices when process evidence is assessed.
-- **OWASP Top 10 (2025)** and, for APIs, **OWASP API Security Top 10 (2023)** - for the security
-  category coverage.
+- **OWASP Top 10 (2025)** and, for APIs, **OWASP API Security Top 10 (2023)** - for the
+  security category coverage.
 - **NIST SP 800-30** - risk assessment process, for the risk register and threat model.
 - **STRIDE** - threat enumeration framework, when a threat model is included.
-- **CISQ / SQALE** - structural quality and technical-debt cost model, when a technical debt
-  register is included.
-- **ISO 19011** and **NIST RMF** - audit follow-up and continuous monitoring, when a re-audit plan
-  is included.
+- **CISQ / SQALE** - structural quality and technical-debt cost model,
+  when a technical debt register is included.
+- **ISO 19011** and **NIST RMF** - audit follow-up and continuous monitoring,
+  when a re-audit plan is included.
 
 Beyond the generic standards above, name the stack-specific canonical sources applied,
 selected per `references/stack-standards.md`:
@@ -93,15 +92,16 @@ Every standard named here appears in the Reference Sources section with its cano
 
 **Criteria matrix**
 
-For each quality attribute the audit scores, a short matrix binds the evaluation objective
-to its outcome, so the presence of a section or tool is never mistaken for the result:
+For each quality attribute the audit scores,
+a short matrix binds the evaluation objective to its outcome,
+so the presence of a section or tool is never mistaken for the result:
 
 | Attribute   | Criteria                   | Method                        | Evidence | Outcome  |
 |-------------|----------------------------|-------------------------------|----------|----------|
 | <attribute> | <what makes it acceptable> | <inspection or check applied> | EVD-XXX  | <result> |
 
-This is an adaptation of the ISO/IEC 25040 evaluation objective/criteria/method chain -
-it traces the audit's own reasoning, it does not claim ISO conformity.
+This is an adaptation of the ISO/IEC 25040 evaluation objective/criteria/method chain - it traces
+the audit's own reasoning, it does not claim ISO conformity.
 
 **Criteria table**
 
@@ -112,34 +112,35 @@ finding's `Criteria` field resolves to a declared row:
 |---------------|----------|----------------------------------------------------------------|---------------|---------------------|--------------------|
 | <criteria id> | <family> | <scope qualifier, title-cased - drop the `applicable` keyword> | <Criticality> | <collection method> | <sufficiency rule> |
 
-Every `<criteria id>` uses a three-letter uppercase prefix (`TST-UNIT`, `MNT-COHES`,
-`DEP-BUILD`, `SCA-POOL`, `COM-DATA`, `DLY-HIST`, `SKL-PRES`) and omits a trailing `-01` number
-unless multiple distinct criteria share the same `<FAM>-<SUBJ>` stem.
+Every `<criteria id>` uses a three-letter uppercase prefix (`TST-UNIT`, `MNT-COHES`, `DEP-BUILD`,
+`SCA-POOL`, `COM-DATA`, `DLY-HIST`, `SKL-PRES`)
+and omits a trailing `-01` number unless multiple distinct criteria share the same
+`<FAM>-<SUBJ>` stem.
 
-Cell values are title-cased. The `Applicability` column names the scope directly -
-`Data adapters`, `Session feature` - without an `applicable` prefix.
+Cell values are title-cased. The `Applicability` column names the scope directly - `Data adapters`,
+`Session feature` - without an `applicable` prefix.
 
-The table is the authoritative identifier source for the `Criteria` field on findings -
-the validator rejects a finding that names an undeclared criteria entry.
+The table is the authoritative identifier source for the `Criteria` field on findings - the
+validator rejects a finding that names an undeclared criteria entry.
 
-Applicability decisions frozen at planning render their reasons inline, and any post-freeze
-change is marked in the table's note line.
+Applicability decisions frozen at planning render their reasons inline,
+and any post-freeze change is marked in the table's note line.
 
 **Audit evidence statement**
 
-When the report language is not English, apply the heading translation from the matching
-`translations/` file.
+When the report language is not English,
+apply the heading translation from the matching `translations/` file.
 
 Begin the Methodology section with 2-3 sentences stating exactly what was inspected.
 
 Include:
 
-- The number of source files, test files, and configuration files reviewed. State whether
-  `.gitignore` exclusions were applied. If `.gitignore` was absent, record that fact without
-  assuming a defect.
+- The number of source files, test files, and configuration files reviewed.
+  State whether `.gitignore` exclusions were applied. If `.gitignore` was absent,
+  record that fact without assuming a defect.
 - Whether Git history was examined.
-- Which documented check results, such as CI output, coverage reports, or scan artifacts, were
-  supplied or committed.
+- Which documented check results, such as CI output, coverage reports, or scan artifacts,
+  were supplied or committed.
 
 Example: "This audit inspected 147 source files, 8 test files,
 and 4 configuration files from the repository root, excluding files listed in `.gitignore`.
@@ -151,48 +152,49 @@ all findings are based on static inspection of the repository contents."
 
 **Read-depth table**
 
-At `Standard` and `Detailed` detail levels, the Methodology section carries a read-depth table
-disclosing how deep each source area was examined, so a reader can tell what absence of a
-finding means:
+At `Standard` and `Detailed` detail levels,
+the Methodology section carries a read-depth table disclosing how deep each source area was
+examined, so a reader can tell what absence of a finding means:
 
 | Area | Files | Read depth |
 |------|-------|------------|
 
-Read-depth values: `Full read` (every file read), `Sampled` (named subset read, the sampling
-rule stated), or `Listed` (counted but not read).
+Read-depth values: `Full read` (every file read), `Sampled` (named subset read,
+the sampling rule stated), or `Listed` (counted but not read).
 
 A `Listed` area supports no conformance claim. Mark its categories `Unknown` where applicable.
 
 A `Sampled` or `Listed` row on an area an activated probe or applicable check touches needs a
-one-line justification under the table - the floor rule in `process/audit-workflow.md`
-requires full reads on those files, so a non-full depth there is a disclosed limitation, and
-its justification names why the check's target was nonetheless covered or why it was not.
+one-line justification under the table - the floor rule in
+`process/audit-workflow/evidence-gathering.md` requires full reads on those files,
+so a non-full depth there is a disclosed limitation,
+and its justification names why the check's target was nonetheless covered or why it was not.
 
 Group rows by module or directory so the table stays compact.
 
-It is a coverage disclosure,
-not a per-file list.
+It is a coverage disclosure, not a per-file list.
 
 **Evidence List**
 
-Include the per-project check summary and evidence records from `process/audit-workflow.md`.
+Include the per-project check summary and evidence records from
+`process/audit-workflow/evidence-gathering.md`.
 
 | Evidence | Source              | Result   | Type          | Artifact      |
 |----------|---------------------|----------|---------------|---------------|
 | EVD-001  | <source or command> | <result> | <obs/concern> | <path or gap> |
 
-The audit never executes checks, so there is no execution column: a documented but unrun check
-writes `Not run, <what the check would establish>` in `Result`, and a source observation
-carries the observed result directly.
+The audit never executes checks, so there is no execution column:
+a documented but unrun check writes `Not run, <what the check would establish>` in `Result`,
+and a source observation carries the observed result directly.
 
 A `Result` cell carries a short verdict token rather than a repeated qualifier.
 
-When every row would share the same qualifier - `verified in sources` on a source-only
-audit - the column keeps the bare token and one legend sentence under the table states
-what the token means.
+When every row would share the same qualifier - `verified in sources` on a source-only audit - the
+column keeps the bare token and one legend sentence under the table states what the token means.
 
-A `Not run` row is its own ledger class: the check is documented or was selected by the
-verification plan, and the audit recorded rather than executed it.
+A `Not run` row is its own ledger class:
+the check is documented or was selected by the verification plan,
+and the audit recorded rather than executed it.
 
 `Not run` bounds the verification claim - it never weakens a finding that rests on positive
 inspected evidence, and every such row feeds the Known Limitations table per
@@ -202,32 +204,32 @@ The full convention is codified in `references/topics/evidence-recipes.md`.
 
 **Key Measurements**
 
-At `Standard` and `Detailed` detail levels, when the audit produced census figures, the
-Methodology section carries a consolidated headline table of the headline measurements -
-every figure already carries its own `EVD-XXX` row and counting rule in the ledger, this
-table only gathers them:
+At `Standard` and `Detailed` detail levels, when the audit produced census figures,
+the Methodology section carries a consolidated headline table of the headline measurements - every
+figure already carries its own `EVD-XXX` row and counting rule in the ledger,
+this table only gathers them:
 
 | Measurement | Value | Evidence |
 |-------------|-------|----------|
 | <metric>    | <n>   | EVD-XXX  |
 
-Typical rows: source files and lines per project, test files and methods, route or endpoint
-counts, entity or migration counts, defect-pattern tallies, commit and contributor counts.
+Typical rows: source files and lines per project, test files and methods, route or endpoint counts,
+entity or migration counts, defect-pattern tallies, commit and contributor counts.
 
 Omit the table at `Brief` level or when the audit produced no census figures.
 
 **Reproducing The Census**
 
 At `Standard` and `Detailed` detail levels, when the audit ran non-trivial census commands,
-a fenced block lists the exact commands or patterns behind the reported figures, so a
-re-audit or a reader can reproduce the numbers:
+a fenced block lists the exact commands or patterns behind the reported figures,
+so a re-audit or a reader can reproduce the numbers:
 
 ```
 <command or pattern per reported figure, one per line>
 ```
 
-Shell pipelines stay verbatim. A figure produced by reading, not a command, is named by its
-method instead. The block is the report-level view of the recording rule in
+Shell pipelines stay verbatim. A figure produced by reading, not a command,
+is named by its method instead. The block is the report-level view of the recording rule in
 `references/census-commands.md` - the ledger still carries the per-figure method.
 
 Omit the block when no census commands ran or when the only figures are file reads.
@@ -251,8 +253,7 @@ exclusions, and limitations below the table rather than abbreviating away tracea
 An anchor may be a line range or a mechanism description when no single line carries the defect,
 an honest range beats a fabricated line.
 
-Include documented checks that were not run, and label supplied or committed results as
-reported.
+Include documented checks that were not run, and label supplied or committed results as reported.
 
 For dependencies, summarize inventory/SBOM scope, schema version, license policy, advisory triage,
 and artifact paths, not just direct manifest versions.
@@ -271,8 +272,8 @@ for example `EVD-017 in AUDIT-1.2`.
 
 **Severity definitions**
 
-When the report language is not English, apply the heading translation from the matching
-`translations/` file.
+When the report language is not English,
+apply the heading translation from the matching `translations/` file.
 
 Add a 4-row rubric defining each qualitative severity band.
 
@@ -294,11 +295,11 @@ Do not assign a fixed likelihood to each severity band or confuse CVSS with this
 
 Use `Unknown` for an unsupported rating and list unrated risks separately from the risk map.
 
-When the report language is not English, apply the column header and severity description
-translations from the matching `translations/` file.
+When the report language is not English,
+apply the column header and severity description translations from the matching
+`translations/` file.
 
-Use these definitions consistently across the Technical Findings and the Unified Risk
-Register.
+Use these definitions consistently across the Technical Findings and the Unified Risk Register.
 
 ## Scoring Rubrics
 
@@ -324,8 +325,8 @@ For the `1-10` scale:
 | Average   | 4-6         | Capability is present but uneven, limited, or inconsistent   |
 | Poor      | 1-3         | Capability is minimal, fragmentary, or absent where required |
 
-When the report language is not English, apply the band name and definition translations from
-the matching `translations/` file.
+When the report language is not English,
+apply the band name and definition translations from the matching `translations/` file.
 
 For the `1-5` and `5 stars` scales:
 
@@ -345,8 +346,8 @@ For the `1-3` and `3 stars` scales:
 | Average   | 2     | Capability is adequate but uneven                           |
 | Poor      | 1     | Capability is minimal, limited, or absent where required    |
 
-When the report language is not English, apply the same band translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the same band translations from the matching `translations/` file.
 
 For `5 stars`, render each score as a five-position star bar using `★` for filled positions and `☆`
 for empty positions, such as `★★★☆☆` for `3`.
@@ -361,30 +362,29 @@ When a dimension cannot apply, mark it `N/A`.
 
 Apply the ISO/IEC 25010:2023 crosswalk in `synthesis/project-scorecard.md` and show coverage gaps.
 
-The scorecard distinguishes three groups when the subject warrants it: product quality
-(code and architecture dimensions), process maturity (delivery, testing, dependency
-hygiene), and governance (documentation, licensing, continuity).
+The scorecard distinguishes three groups when the subject warrants it:
+product quality (code and architecture dimensions), process maturity (delivery, testing,
+dependency hygiene), and governance (documentation, licensing, continuity).
 
-Strong governance or
-agent tooling never lifts a product-quality or security score on its own. Each group is
-aggregated and reported separately before any combined mean.
+Strong governance or agent tooling never lifts a product-quality or security score on its own.
+Each group is aggregated and reported separately before any combined mean.
 
-Static test-structure assessment is separated from effectiveness: the count and
-organization of test files is inspectable evidence, while pass/fail and coverage are
-`Reported` or `Not run` until executed.
+Static test-structure assessment is separated from effectiveness:
+the count and organization of test files is inspectable evidence,
+while pass/fail and coverage are `Reported` or `Not run` until executed.
 
-For every numeric or star score, include evidence references and confidence in its supporting
-paragraph.
+For every numeric or star score, include evidence references and confidence in its
+supporting paragraph.
 
 If an overall score is shown, disclose its formula, weights, rounding, and coverage denominator.
 
-State the lowest-scoring applicable dimension and its score in a paragraph below the table, per
-`synthesis/project-scorecard.md`.
+State the lowest-scoring applicable dimension and its score in a paragraph below the table,
+per `synthesis/project-scorecard.md`.
 
-Never close the Scorecard Summary table with an overall row - the `Overall score` row and
-the headline score table live in the Executive Summary only, and a numeric row inside the
-table corrupts the validator's score recompute.
+Never close the Scorecard Summary table with an overall row - the `Overall score` row and the
+headline score table live in the Executive Summary only,
+and a numeric row inside the table corrupts the validator's score recompute.
 
-The overall statement names the mean formula, the coverage denominator, and the
-lowest-scoring applicable dimension with its score - the validator checks a six-line
-window after every numeric headline value for the word `lowest`.
+The overall statement names the mean formula, the coverage denominator,
+and the lowest-scoring applicable dimension with its score - the validator checks a six-line window
+after every numeric headline value for the word `lowest`.

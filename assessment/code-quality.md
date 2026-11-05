@@ -2,8 +2,9 @@
 
 ## Purpose
 
-> **Scope:** Static analysis, complexity, duplication, dead code, type safety, style enforcement
-> **Key items:** linting, formatting, type strictness, cyclomatic complexity, duplication, dead code
+> **Scope:** Static analysis, complexity, duplication, dead code, type safety,
+> style enforcement **Key items:** linting, formatting, type strictness, cyclomatic complexity,
+> duplication, dead code
 
 This file guides assessment of code-level quality in an existing or production codebase.
 
@@ -13,9 +14,9 @@ This category covers code-level health, architectural structure is assessed in
 `assessment/maintainability-review.md`.
 
 Identifier naming, naming quality, and style-convention conformance are assessed in
-`assessment/code-style.md` - this category keeps the tooling view: whether linters and
-formatters are configured, which rules they declare, and whether naming or style rules exist
-in configuration at all.
+`assessment/code-style.md` - this category keeps the tooling view:
+whether linters and formatters are configured, which rules they declare,
+and whether naming or style rules exist in configuration at all.
 
 ## What To Evaluate
 
@@ -41,8 +42,8 @@ in configuration at all.
 
 Treat lint configuration as evidence of configuration, not successful execution or enforcement.
 
-Record the analyzer's declared version, rules, exclusions, and documented output in the evidence
-ledger.
+Record the analyzer's declared version, rules, exclusions,
+and documented output in the evidence ledger.
 
 Before claiming a panic, trace guards, slice lengths, invariants, and the runtime's panic boundary.
 
@@ -60,16 +61,16 @@ A clean report is not proof of soundness or insecurity.
 
 Report "no unsafe found in the reviewed scope", not "memory safe" or "no unsafe anywhere".
 
-For interpreted stacks, configuration expressed in the language itself - `setup.py`,
-`config.py`, `*.config.js`, Rakefiles, `conftest.py` is executable code and receives the
-same review as source: lint status, complexity, and secret-bearing literals all apply to it.
+For interpreted stacks, configuration expressed in the language itself - `setup.py`, `config.py`,
+`*.config.js`, Rakefiles, `conftest.py` is executable code and receives the same review as source:
+lint status, complexity, and secret-bearing literals all apply to it.
 
 ## Complexity Measurement
 
 Estimate cyclomatic complexity per method from source parsing alone, never by execution.
 
-Count one per method plus one per decision point: `if`/`else`, loops, `case`/`when` branches,
-`catch`, ternaries, and boolean `&&`/`||` chains.
+Count one per method plus one per decision point: `if` / `else`, loops, `case` / `when` branches,
+`catch`, ternaries, and boolean `&&` / `||` chains.
 
 Flag methods above roughly 15-20, naming the file, method, and estimated count.
 
@@ -89,35 +90,35 @@ using a token-based or structural comparison.
 When no dedicated tool is configured, compare suspiciously similar regions manually by structure:
 the same sequence of operations under renamed identifiers still counts as duplication.
 
-Flag candidate clusters explicitly, for example several hand-rolled codecs or parsers that share
-one shape, and record the files and extent of each cluster.
+Flag candidate clusters explicitly, for example several hand-rolled codecs or parsers that share one
+shape, and record the files and extent of each cluster.
 
 ## Dead-Code And Consistency Censuses
 
-Count the commented-out share: production files whose body is substantially dead block
-comments get a per-file line count and a project share with the denominator recorded - a
-meaningful share of commented-out code is a finding, and wholly commented-out source files
-are dead code regardless of intent.
+Count the commented-out share: production files whose body is substantially dead block comments get
+a per-file line count and a project share with the denominator recorded - a meaningful share of
+commented-out code is a finding, and wholly commented-out source files are dead code
+regardless of intent.
 
-Census unused dependencies: every manifest or lockfile entry gets an import-or-reference
-verdict, and an entry nothing uses is a finding coordinated with
-`assessment/dependency-review.md`, which owns the advisories view.
+Census unused dependencies: every manifest or lockfile entry gets an import-or-reference verdict,
+and an entry nothing uses is a finding coordinated with `assessment/dependency-review.md`,
+which owns the advisories view.
 
-Census divergent implementations: two libraries or APIs serving one function - two logging
-facades, two serialization stacks, two HTTP clients - is a consistency finding naming both
-sides and the call-site split.
+Census divergent implementations: two libraries or APIs serving one function - two logging facades,
+two serialization stacks, two HTTP clients - is a consistency finding naming both sides and
+the call-site split.
 
-Census dead client helpers: exported helpers, API modules, and store actions no call site
-reaches are dead code like any other.
+Census dead client helpers: exported helpers, API modules,
+and store actions no call site reaches are dead code like any other.
 
 ## Status Criteria
 
-- `PASS`: Linting, formatting, and type checks are configured and strict, with low complexity and
-  little duplication, supported by evidence.
-- `PARTIAL`: Some tooling exists but rules are loose, unenforced, or complexity and duplication are
-  notable.
-- `FAIL`: No static analysis or type discipline where the language and scale clearly call for it,
-  with evidence.
+- `PASS`: Linting, formatting, and type checks are configured and strict,
+  with low complexity and little duplication, supported by evidence.
+- `PARTIAL`: Some tooling exists but rules are loose, unenforced,
+  or complexity and duplication are notable.
+- `FAIL`: No static analysis or type discipline where the language and scale clearly call
+  for it, with evidence.
 - `UNKNOWN`: Source and tooling configuration were not provided.
 
 ## Common Risks

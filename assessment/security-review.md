@@ -2,9 +2,9 @@
 
 ## Purpose
 
-> **Scope:** Authentication, authorization, input validation, OWASP risks, data exposure
-> **Key items:** identity, access control, untrusted input handling, secret management, data
-> protection
+> **Scope:** Authentication, authorization, input validation, OWASP risks,
+> data exposure **Key items:** identity, access control, untrusted input handling,
+> secret management, data protection
 
 This file guides assessment of the system's defensive posture.
 
@@ -16,19 +16,19 @@ Do not perform credential harvesting or offensive actions, this is a defensive r
 
 ## Contents
 
-| Section                                  | Line | What it covers                                    |
-|------------------------------------------|------|---------------------------------------------------|
-| What To Evaluate                         | 33   | Assessment dimensions                             |
-| Evidence To Look For                     | 41   | Signal locations                                  |
-| Control Verification                     | 52   | End-to-end tracing, scope and trust checks        |
-| Weakness And Vulnerability Classification| 187  | CWE and CVSS mapping                              |
-| Analyzer Cross-Reference                 | 234  | Static-analyzer rule equivalents                  |
-| Exploitability Narrative                 | 256  | Attack-path reasoning                             |
-| Standards Coverage                       | 271  | OWASP and ASVS baselines                          |
-| Tool Corroboration                       | 300  | Scanner corroboration rules                       |
-| Status Criteria                          | 322  | PASS/PARTIAL/FAIL/UNKNOWN                         |
-| Common Risks                             | 330  | Recurring risk patterns                           |
-| What Raises Confidence                   | 338  | Positive signals                                  |
+| Section                                   | Line | What it covers                             |
+|-------------------------------------------|------|--------------------------------------------|
+| What To Evaluate                          | 33   | Assessment dimensions                      |
+| Evidence To Look For                      | 41   | Signal locations                           |
+| Control Verification                      | 52   | End-to-end tracing, scope and trust checks |
+| Weakness And Vulnerability Classification | 185  | CWE and CVSS mapping                       |
+| Analyzer Cross-Reference                  | 234  | Static-analyzer rule equivalents           |
+| Exploitability Narrative                  | 256  | Attack-path reasoning                      |
+| Standards Coverage                        | 271  | OWASP and ASVS baselines                   |
+| Tool Corroboration                        | 301  | Scanner corroboration rules                |
+| Status Criteria                           | 324  | PASS/PARTIAL/FAIL/UNKNOWN                  |
+| Common Risks                              | 332  | Recurring risk patterns                    |
+| What Raises Confidence                    | 340  | Positive signals                           |
 
 ## What To Evaluate
 
@@ -55,17 +55,16 @@ Trace identity, authorization, input validation, and the protected operation end
 
 For each exposed transport, check object, action, and tenant/path scope independently.
 
-Object scope includes visibility filters, not only authorization gates: a soft-delete or
-tombstone flag, a tenant boundary, or an ownership flag must constrain every read path the
-object can reach, because a read path that skips the filter serves the row regardless of
-the gate in front of it.
+Object scope includes visibility filters, not only authorization gates:
+a soft-delete or tombstone flag, a tenant boundary,
+or an ownership flag must constrain every read path the object can reach,
+because a read path that skips the filter serves the row regardless of the gate in front of it.
 
-Every endpoint that maps user input to a filesystem path gets its own traversal-guard
-verdict - read paths such as download and preview, and write paths such as upload, move,
-rename, and delete.
+Every endpoint that maps user input to a filesystem path gets its own traversal-guard verdict - read
+paths such as download and preview, and write paths such as upload, move, rename, and delete.
 
-A `normalize()` plus `startsWith(base)` guard on one path never generalizes to siblings -
-an unguarded write path is a finding even when the read path is defended.
+A `normalize()` plus `startsWith(base)` guard on one path never generalizes to siblings - an
+unguarded write path is a finding even when the read path is defended.
 
 A policy function or middleware name does not prove the caller uses its result.
 
@@ -73,43 +72,42 @@ Check REST, MCP, background work, and direct library calls separately where appl
 
 For filesystem operations, distinguish reading an existing path from creating a new destination.
 
-Canonicalizing a nonexistent destination fails, and checking a path before using it can leave a
-symlink or time-of-check/time-of-use race.
+Canonicalizing a nonexistent destination fails,
+and checking a path before using it can leave a symlink or time-of-check/time-of-use race.
 
 Recommendations should preserve valid operations while constraining them to the authorized root,
 using platform-appropriate containment and atomic operations where needed.
 
-Verify relative and absolute paths, platform-specific prefixes, missing parents, links, and
-concurrent changes in an isolated fixture, not against real system files.
+Verify relative and absolute paths, platform-specific prefixes, missing parents, links,
+and concurrent changes in an isolated fixture, not against real system files.
 
 For local credential storage, evaluate file permissions or ACLs, inheritance, token lifetime,
 backup exposure, and the OS threat model before rating severity.
 
-Verify lifecycle completeness from source for identity, session, token, and credential
-objects: issuance, expiry, revocation, rotation, and behavior after identity removal or
-demotion - including the residual-access window of already-issued tokens and live sessions.
+Verify lifecycle completeness from source for identity, session, token, and credential objects:
+issuance, expiry, revocation, rotation, and behavior after identity removal or demotion - including
+the residual-access window of already-issued tokens and live sessions.
 
 Issuance and verification alone do not establish lifecycle completeness.
 
-A missing
-revocation or expiry path is a finding of absence with the searched hops cited.
+A missing revocation or expiry path is a finding of absence with the searched hops cited.
 
 **Credential-type separation**
 
-When the system issues more than one credential type - access and refresh tokens,
-single-use codes, API keys - verify each type is accepted only at its intended endpoint.
+When the system issues more than one credential type - access and refresh tokens, single-use codes,
+API keys - verify each type is accepted only at its intended endpoint.
 
-A refresh token that satisfies the access-token filter, or any signed token accepted as
-proof of a different grant, is a finding.
+A refresh token that satisfies the access-token filter,
+or any signed token accepted as proof of a different grant, is a finding.
 
-Check the claims that distinguish the types (`typ`, `aud`, `scope`, custom claims) and
-whether the filter and the refresh or exchange endpoint each enforce them.
+Check the claims that distinguish the types (`typ`, `aud`, `scope`, custom claims)
+and whether the filter and the refresh or exchange endpoint each enforce them.
 
 **Public auth-surface abuse**
 
 Public authentication endpoints - login, token, registration, reset - get an abuse verdict:
-rate limiting, lockout, backoff, or captcha, and whether failed and successful attempts
-reach the audit trail.
+rate limiting, lockout, backoff, or captcha,
+and whether failed and successful attempts reach the audit trail.
 
 Distinguishable failure responses - "account disabled" versus "invalid credentials",
 differing statuses or timings for existing and nonexistent principals - are an
@@ -117,28 +115,28 @@ enumeration-oracle finding.
 
 **Bounds and exposure of request parameters**
 
-Every caller-controlled parameter that sizes a response gets a bounds verdict: `size`,
-`page`, `limit`, `depth`, file-size, and count parameters carry an upper bound and a
-defined out-of-range behavior, not a 500 from a parse or allocation error.
+Every caller-controlled parameter that sizes a response gets a bounds verdict: `size`, `page`,
+`limit`, `depth`, file-size, and count parameters carry an upper bound and a defined out-of-range
+behavior, not a 500 from a parse or allocation error.
 
 An unbounded page size is an unrestricted-resource-consumption finding (OWASP API4:2023).
 
 **Cross-origin and header trust**
 
-A credentialed cross-origin policy combined with a wildcard origin is a finding - the
-pair lets any origin read authenticated responses.
+A credentialed cross-origin policy combined with a wildcard origin is a finding - the pair lets any
+origin read authenticated responses.
 
 An injected but unused allowlist is configuration drift, not a control.
 
-Client-attribution headers such as `X-Forwarded-For` or `X-Real-IP` count only behind a
-trusted proxy - the unattributed-IP rule in the scope and trust-boundary checks above.
+Client-attribution headers such as `X-Forwarded-For` or `X-Real-IP` count only behind a trusted
+proxy - the unattributed-IP rule in the scope and trust-boundary checks above.
 
-A response body that exposes raw exception messages, absolute filesystem paths, or engine
-error text is a data-exposure finding - the error-contract mapping rule lives in
+A response body that exposes raw exception messages, absolute filesystem paths,
+or engine error text is a data-exposure finding - the error-contract mapping rule lives in
 `assessment/error-handling.md`.
 
-Do not assert that process arguments or environment variables are readable by every user on every
-OS.
+Do not assert that process arguments or environment variables are readable by
+every user on every OS.
 
 Do not collect real credentials to demonstrate exposure.
 
@@ -149,8 +147,8 @@ Apply four scoping checks before severity is assigned.
 Permission-surface scoping records which actor the finding assumes: local user, network caller,
 authenticated principal, or the operator themselves.
 
-A defect reachable only by the machine's owner is scoped differently than one reachable by a
-remote caller, and the assumed actor is stated in the finding.
+A defect reachable only by the machine's owner is scoped differently than one reachable by a remote
+caller, and the assumed actor is stated in the finding.
 
 Secret fallback-chain tracing follows every credential reference through its resolution order -
 environment, file, vault, default literal - per the recipe in
@@ -158,64 +156,65 @@ environment, file, vault, default literal - per the recipe in
 
 Each fallback step is evidence.
 
-A chain terminating in a committed file or a default literal is
-the finding, and the finding cites the chain, not just the leak site.
+A chain terminating in a committed file or a default literal is the finding,
+and the finding cites the chain, not just the leak site.
 
 The secret-shape census that feeds this tracing covers the whole tracked tree per
-`references/census-commands.md` - a committed credential in a directory the project-inclusion
-gate excluded is still a finding.
+`references/census-commands.md` - a committed credential in a directory the project-inclusion gate
+excluded is still a finding.
 
-The user-code-by-design rubric, shared with `references/exploitability-narrative.md`, separates
-intentional execution of supplied code - plugin systems, template engines, scripting surfaces -
-from unintended execution.
+The user-code-by-design rubric, shared with `references/exploitability-narrative.md`,
+separates intentional execution of supplied code - plugin systems, template engines,
+scripting surfaces - from unintended execution.
 
 Code execution that the feature exists to provide is not an injection finding.
 
-The review
-focuses on whether inputs escape the intended sandbox or trust level.
+The review focuses on whether inputs escape the intended sandbox or trust level.
 
-The config trust-boundary check maps which configuration inputs the code trusts without
-validation: a config file read as authoritative is one boundary class, while config values
-crossing into commands, queries, or deserialized objects are another and carry injection weight.
+The config trust-boundary check maps which configuration inputs the code trusts without validation:
+a config file read as authoritative is one boundary class,
+while config values crossing into commands, queries,
+or deserialized objects are another and carry injection weight.
 
-Audit-trail attribution data - client IP, user agent, forwarded identity - counts only
-from trusted sources.
+Audit-trail attribution data - client IP, user agent,
+forwarded identity - counts only from trusted sources.
 
-A proxy header such as `X-Forwarded-For` or `X-Real-IP` is attribution evidence only
-behind a trusted proxy, and an unauthenticated caller can set it freely otherwise.
+A proxy header such as `X-Forwarded-For` or `X-Real-IP` is attribution evidence only behind a
+trusted proxy, and an unauthenticated caller can set it freely otherwise.
 
 ## Weakness And Vulnerability Classification
 
-For each security finding, record the most specific supported CWE root cause, its title, and a
-short mapping rationale, or `UNKNOWN` if the evidence does not support a mapping.
+For each security finding, record the most specific supported CWE root cause, its title,
+and a short mapping rationale, or `UNKNOWN` if the evidence does not support a mapping.
 
-Omit the `Security` field for findings that are not security weaknesses, including general
-documentation or organizational gaps.
+Omit the `Security` field for findings that are not security weaknesses,
+including general documentation or organizational gaps.
 
 Follow [MITRE root-cause mapping guidance](https://cwe.mitre.org/documents/cwe_usage/guidance.html).
 
-Missing authorization may map to CWE-862, incorrect authorization to CWE-863, and path traversal to
-CWE-22 or a more specific child when justified by the trace.
+Missing authorization may map to CWE-862, incorrect authorization to CWE-863,
+and path traversal to CWE-22 or a more specific child when justified by the trace.
 
 Check the entry's mapping guidance rather than tagging by title alone.
 
-The [2025 CWE Top 25](https://cwe.mitre.org/top25/archive/2025/2025_cwe_top25.html) ranks CWE-862
-fourth and CWE-22 sixth, but prevalence does not establish this project's severity or
-exploitability.
+The [2025 CWE Top 25](https://cwe.mitre.org/top25/archive/2025/2025_cwe_top25.html)
+ranks CWE-862 fourth and CWE-22 sixth, but prevalence does not establish this project's
+severity or exploitability.
 
-For a supported vulnerability, prefer CVSS v4.0, retaining v3.1 where a stakeholder or advisory
-requires it.
+For a supported vulnerability, prefer CVSS v4.0,
+retaining v3.1 where a stakeholder or advisory requires it.
 
 Record the version, full vector, calculated score, metric group, and rationale for each metric.
 
 For v4.0 use `CVSS-B`, `CVSS-BT`, `CVSS-BE`, or `CVSS-BTE` to state the groups considered.
 
 Validate score/vector agreement with the
-[FIRST calculator](https://www.first.org/cvss/calculator/4.0)
-or a verified implementation, never invent a score from the qualitative label.
+[FIRST calculator](https://www.first.org/cvss/calculator/4.0) or a verified implementation,
+never invent a score from the qualitative label.
 
-If prerequisites or impact cannot be established, record `INSUFFICIENT INFORMATION` and the missing
-metrics, or clearly label bounded scenario vectors as provisional.
+If prerequisites or impact cannot be established,
+record `INSUFFICIENT INFORMATION` and the missing metrics,
+or clearly label bounded scenario vectors as provisional.
 
 When no calculator or verified implementation is accessible,
 record the derived vector and mark the score `INSUFFICIENT INFORMATION`.
@@ -224,8 +223,9 @@ Never emit a score that was not validated.
 
 Separate a publisher's advisory vector from a locally assessed vector.
 
-CVSS describes technical vulnerability severity, not the Lens risk-register likelihood or business
-priority, as explained in the [FIRST user guide](https://www.first.org/cvss/v4.0/user-guide).
+CVSS describes technical vulnerability severity,
+not the Lens risk-register likelihood or business priority,
+as explained in the [FIRST user guide](https://www.first.org/cvss/v4.0/user-guide).
 
 Retain Lens qualitative severities for engineering and business risks.
 
@@ -233,8 +233,8 @@ Do not apply CVSS to bus factor, debt, licensing uncertainty, or missing runbook
 
 ## Analyzer Cross-Reference
 
-For every CWE-classified finding, consult `references/cwe-analyzer.md` for the equivalent
-static analyzer rule in the detected stack.
+For every CWE-classified finding, consult `references/cwe-analyzer.md` for the equivalent static
+analyzer rule in the detected stack.
 
 When a rule exists, record it in the finding with its enablement state,
 for example "the equivalent automated check is `CA5359`, not yet enabled".
@@ -260,8 +260,8 @@ in its `Exploitability` field, per `references/exploitability-narrative.md`.
 
 The narrative reasons through precondition, attack path, and impact at an explicit confidence tier.
 
-Under the default source-only scope the tier is `Theoretical` or `Static-Confirmed`, never
-`Dynamically-Verified`.
+Under the default source-only scope the tier is `Theoretical` or `Static-Confirmed`,
+never `Dynamically-Verified`.
 
 A network-facing surface is a component reachable across a trust boundary: endpoints, listeners,
 message consumers, and parsers of externally supplied input.
@@ -270,20 +270,21 @@ Findings on internal-only code paths omit the field entirely.
 
 ## Standards Coverage
 
-Use [OWASP Top 10:2025](https://owasp.org/Top10/2025/) as an awareness taxonomy, including
-A01 Broken Access Control and A03 Software Supply Chain Failures where relevant.
+Use [OWASP Top 10:2025](https://owasp.org/Top10/2025/) as an awareness taxonomy,
+including A01 Broken Access Control and A03 Software Supply Chain Failures where relevant.
 
 For APIs, retain the distinct OWASP API Security Top 10:2023 mapping.
 
-For subjects that are or orchestrate agents, anchor findings to the ASI and AST vocabularies in
-`references/methodology/owasp-baselines.md` - ASI codes for agent-orchestrating systems, AST
-codes for Agent Skill packages - as vocabulary anchors, not severity claims.
+For subjects that are or orchestrate agents,
+anchor findings to the ASI and AST vocabularies in `references/methodology/owasp-baselines.md` - ASI
+codes for agent-orchestrating systems, AST codes for Agent Skill packages - as vocabulary anchors,
+not severity claims.
 
 For control verification, select applicable requirements from
 [OWASP ASVS 5.0.0](https://github.com/OWASP/ASVS) and record the chosen level and rationale.
 
-Use version-qualified requirement IDs from the consulted release, not remembered IDs from another
-version or the repository's development branch.
+Use version-qualified requirement IDs from the consulted release,
+not remembered IDs from another version or the repository's development branch.
 
 Report assessed, unassessed, and inapplicable controls with evidence IDs.
 
@@ -292,8 +293,8 @@ record the selected level or rationale.
 
 Do not use unversioned requirement numbers when editions may change them.
 
-A sampled review does not establish full ASVS level conformance, and a Top 10 mapping is not a
-security certification.
+A sampled review does not establish full ASVS level conformance,
+and a Top 10 mapping is not a security certification.
 
 Recheck editions at audit time and preserve a requested legacy baseline with an explanation.
 
@@ -304,8 +305,8 @@ The audit does not run SAST engines or scanners.
 Corroboration comes from manual tracing plus any committed scan results, CI security steps,
 or documented reviews.
 
-When a committed report claims coverage, check that the engine supports the project's language
-and framework.
+When a committed report claims coverage,
+check that the engine supports the project's language and framework.
 
 [CodeQL lists Rust support](https://docs.github.com/en/code-security/code-scanning/introduction-to-code-scanning/about-code-scanning-with-codeql)
 and
@@ -313,16 +314,17 @@ and
 
 Neither language support nor a clean scan establishes coverage of custom authorization semantics.
 
-`cargo audit` checks dependency advisories, and `cargo clippy` checks configured lints, neither
-verifies application authorization or path containment, even when their output is documented.
+`cargo audit` checks dependency advisories, and `cargo clippy` checks configured lints,
+neither verifies application authorization or path containment,
+even when their output is documented.
 
-For serious findings, recommend a targeted negative regression test and a valid-operation
-control for the verification owner, recording why the audit cannot perform it.
+For serious findings, recommend a targeted negative regression test and a valid-operation control
+for the verification owner, recording why the audit cannot perform it.
 
 ## Status Criteria
 
-- `PASS`: Identity, access control, and input handling are present and consistent, and secrets and
-  sensitive data are protected, with evidence.
+- `PASS`: Identity, access control, and input handling are present and consistent,
+  and secrets and sensitive data are protected, with evidence.
 - `PARTIAL`: Some controls are present but inconsistent, incomplete, or only partly evidenced.
 - `FAIL`: A required control is absent or clearly defeated, with evidence.
 - `UNKNOWN`: Security-relevant artifacts were not provided.

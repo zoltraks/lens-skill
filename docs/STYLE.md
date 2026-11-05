@@ -2,11 +2,11 @@
 
 ## Purpose
 
-This document defines the formatting and prose style for every Markdown document that is part of
-this Agent Skill.
+This document defines the formatting and prose style for every Markdown document that is part
+of this Agent Skill.
 
-It compiles rules from the [Agent Skills specification](https://agentskills.io/specification), the
-`skill-creator` skill, and general Markdown formatting best practices.
+It compiles rules from the [Agent Skills specification](https://agentskills.io/specification),
+the `skill-creator` skill, and general Markdown formatting best practices.
 
 Every document created or modified as part of this skill must follow the rules below.
 
@@ -16,13 +16,13 @@ Every document created or modified as part of this skill must follow the rules b
 |-----------------------------|------|-------------------------------------------------|
 | Document Structure          | 27   | Titles, purpose blocks, and contents tables     |
 | Paragraphs And Wrapping     | 91   | Sentence structure and line width               |
-| Headings And Lists          | 154  | Heading depth, lists, and spacing               |
-| Code And Inline Formatting  | 193  | Fences, code spans, and special characters      |
-| Tables                      | 293  | Source-width alignment and automated formatting |
-| Characters And Language     | 480  | Box-drawing, emoji, and per-language rules      |
-| File References             | 501  | Relative paths and backticked file paths        |
-| Skill Document Requirements | 515  | Frontmatter and progressive disclosure          |
-| Maintenance                 | 576  | File naming, encoding, and registration         |
+| Headings And Lists          | 155  | Heading depth, lists, and spacing               |
+| Code And Inline Formatting  | 194  | Fences, code spans, and special characters      |
+| Tables                      | 294  | Source-width alignment and automated formatting |
+| Characters And Language     | 482  | Box-drawing, emoji, and per-language rules      |
+| File References             | 503  | Relative paths and backticked file paths        |
+| Skill Document Requirements | 517  | Frontmatter and progressive disclosure          |
+| Maintenance                 | 579  | File naming, encoding, and registration         |
 
 ## Document Structure
 
@@ -49,8 +49,8 @@ This format is recommended for reference files and topic documents.
 
 ### Out-of-Scope Table
 
-When a document covers a focused topic within a larger skill, include an out-of-scope table
-directing readers to related files.
+When a document covers a focused topic within a larger skill,
+include an out-of-scope table directing readers to related files.
 
 ```
 | Out of scope   | See instead        |
@@ -70,8 +70,8 @@ Use backtick code spans around the file path in the `See instead` column.
 Include a Contents table in files longer than 300 lines.
 
 Report files are exempt: names beginning with `AUDIT`, `AUDYT`, `REVIEW`, or `PRZEGLĄD`,
-or ending in `-REVIEW` or `-PRZEGLĄD`, have their layout governed by
-`process/report-format.md` or `process/report-format/review-style.md` instead.
+or ending in `-REVIEW` or `-PRZEGLĄD`, have their layout governed by `process/report-format.md` or
+`process/report-format/review-style.md` instead.
 
 ```markdown
 ## Contents
@@ -110,8 +110,8 @@ The 100-character limit applies to paragraph text only.
 
 It does not apply to table rows, table column values, URLs, links, or file paths.
 
-A line that exceeds 100 characters only because of an unbreakable link, URL, or path atom is
-acceptable.
+A line that exceeds 100 characters only because of an unbreakable link, URL,
+or path atom is acceptable.
 
 Break at a natural boundary such as after a comma, conjunction, or clause end.
 
@@ -122,34 +122,35 @@ Do not break lines inside inline code, file paths, URLs, or link markup.
 
 Let each sentence occupy one logical line when it is under 100 characters.
 
-A wrapped sentence keeps its terminal period on the last line only - a wrap point never adds a `.`
-of its own.
+A wrapped sentence keeps its terminal period on the last line only - a wrap point never
+adds a `.` of its own.
 
 A line that ends in `.` and is followed by a line starting with a lowercase letter is a
-split-sentence defect: join the lines or repunctuate, and the same rule covers a `.` left behind
-after another mark (`foo,.`) or any doubled end mark.
+split-sentence defect: join the lines or repunctuate,
+and the same rule covers a `.` left behind after another mark (`foo,.`) or any doubled end mark.
 
-Hard-wrap at a forced line break only when the source itself needs one, such as inside a code block
-or a diagram.
+Hard-wrap at a forced line break only when the source itself needs one,
+such as inside a code block or a diagram.
 
 ### Selecting The Wrap Width
 
 The default prose width is 100 characters.
 
-When applying this rule to wrap lines in a document, whether a generated report or an existing
-document being fixed, first offer the user a choice of widths:
+When applying this rule to wrap lines in a document,
+whether a generated report or an existing document being fixed,
+first offer the user a choice of widths:
 
 - `100` (default) - the standard prose width.
-- `<detected width>` - the boundary the document's prose lines already cluster near, offered only
-  when the document appears to use one and it differs from 100. Measure prose lines only: exclude
-  table rows, headings, code blocks, URLs, and file paths. A document wrapped for narrow readers
-  may cluster near 60 characters.
+- `<detected width>` - the boundary the document's prose lines already cluster near,
+  offered only when the document appears to use one and it differs from 100.
+  Measure prose lines only: exclude table rows, headings, code blocks, URLs, and file paths.
+  A document wrapped for narrow readers may cluster near 60 characters.
 - `Custom width` - ask the user for a different limit, larger or smaller than 100.
 
 When no boundary can be detected, offer `100` and `Custom width`.
 
-Apply the selected width to the whole document and use it wherever the wrap rules in this file or
-in `process/report-format.md` say 100 characters.
+Apply the selected width to the whole document and use it wherever the wrap rules in this file or in
+`process/report-format.md` say 100 characters.
 
 ## Headings
 
@@ -167,8 +168,8 @@ Do not put descriptive qualifiers in section names using parentheses.
 
 Put qualifiers like "mandatory" or "do not repeat" in the section body instead.
 
-Parenthetical content in headings is allowed for compact technical identifiers only, such as address
-ranges, register numbers, or standard disambiguators.
+Parenthetical content in headings is allowed for compact technical identifiers only,
+such as address ranges, register numbers, or standard disambiguators.
 
 Avoid headings with trailing punctuation.
 
@@ -206,19 +207,19 @@ Do not use trailing spaces at the end of lines.
 
 ## Code Blocks
 
-Use a language tag on every fenced code block that contains code in a programming, markup, or data
-language.
+Use a language tag on every fenced code block that contains code in a programming,
+markup, or data language.
 
-Do not use a language tag on fenced blocks that contain ASCII art, directory trees, diagrams, plain
-text, console output, or tables.
+Do not use a language tag on fenced blocks that contain ASCII art, directory trees, diagrams,
+plain text, console output, or tables.
 
 Leave those blocks as plain fenced blocks with no tag.
 
-Do not use the `markdown` tag on fenced blocks that contain tables, console output, ASCII art, or
-plain text content.
+Do not use the `markdown` tag on fenced blocks that contain tables, console output, ASCII art,
+or plain text content.
 
-The `markdown` tag is only for blocks that demonstrate Markdown syntax itself as an example of
-formatted content.
+The `markdown` tag is only for blocks that demonstrate Markdown syntax itself as an example
+of formatted content.
 
 Do not leave a blank line as the first or last line inside the block.
 
@@ -228,13 +229,13 @@ Use backticks for inline code, file names, commands, and values.
 
 ### Comments In Plain-Text Blocks
 
-Lines inside a plain-text block, such as a directory tree or a file listing, may carry a `#`
-comment after the entry text.
+Lines inside a plain-text block, such as a directory tree or a file listing,
+may carry a `#` comment after the entry text.
 
 Start every comment in the same block at the same column.
 
-Set the comment column from the longest entry in the block: the comment begins at least two
-spaces after the end of that entry.
+Set the comment column from the longest entry in the block:
+the comment begins at least two spaces after the end of that entry.
 
 The longest entry keeps a two-space gap.
 
@@ -265,16 +266,16 @@ Use italics sparingly.
 
 Do not overuse emphasis.
 
-Report field examples such as `* **Absence:** N/A` carry fixed-vocabulary tokens as literal
-values - the token is data in that position, so it is written plainly and is exempt from the
-report's glossary-linking rules per `process/report-format/report-opening.md`.
+Report field examples such as `* **Absence:** N/A` carry fixed-vocabulary tokens as literal values -
+the token is data in that position, so it is written plainly and is exempt from the report's
+glossary-linking rules per `process/report-format/report-opening.md`.
 
 ## Semicolons
 
 Do not use the semicolon character in prose.
 
-Separate independent clauses with a full stop, a colon (when the second clause explains
-the first), or a conjunction - never a bare comma.
+Separate independent clauses with a full stop, a colon (when the second clause explains the first),
+or a conjunction - never a bare comma.
 
 A comma joins clauses only when they are subordinate or share a subject and structure.
 
@@ -332,8 +333,8 @@ A space-only separator cell is a defect, not a layout choice.
 
 A column that stays empty in every row is not a column - delete it.
 
-An intentionally empty first cell keeps the single-pipe start and padding like any other
-cell - `||` is never a valid row start.
+An intentionally empty first cell keeps the single-pipe start and padding like any other cell - `||`
+is never a valid row start.
 
 ### Cell Padding
 
@@ -349,8 +350,8 @@ Use left alignment for all cells.
 
 ### Column Widths
 
-Calculate the column width as the maximum character width of all cells in that column, including the
-header cell.
+Calculate the column width as the maximum character width of all cells in that column,
+including the header cell.
 
 Measure the width as the length of the cell string between the cell delimiters.
 
@@ -358,19 +359,20 @@ The width is the **source text** character count, not the rendered character cou
 
 This is the most important rule in this section.
 
-Count every character that appears in the plain-text Markdown source, including all formatting
-markers.
+Count every character that appears in the plain-text Markdown source,
+including all formatting markers.
 
 Do not strip, interpret, or collapse any characters before measuring.
 
 Do not measure the width of what the cell would look like after a Markdown renderer processes it.
 
-A `[text](target)` or `![alt](src)` cell counts its full markup - brackets, text, and target
-included, so `[EVD-004](#verification-and-evidence-ledger)` counts as thirty-nine characters,
-not seven.
+A `[text](target)` or `![alt](src)` cell counts its full markup - brackets, text,
+and target included, so `[EVD-004](#verification-and-evidence-ledger)` counts as thirty-nine
+characters, not seven.
 
-A Markdown renderer hides backticks, asterisks, link targets, and other formatting markers from
-the reader, but those markers are still present in the source text and must be counted.
+A Markdown renderer hides backticks, asterisks, link targets,
+and other formatting markers from the reader,
+but those markers are still present in the source text and must be counted.
 
 The table is formatted for plain-text readability first, and a Markdown renderer second.
 
@@ -381,8 +383,8 @@ In plain-text view, every character is visible, so every character must be count
 The following characters are part of the cell content and must be included in the width measurement.
 
 - Backticks around inline code (e.g., the cell `` `some.value` `` has 13 characters, not 11).
-- Double backticks around code containing backticks (e.g., the cell `` `` `00` `` `` has 8
-  characters, not 4).
+- Double backticks around code containing backticks (e.g.,
+  the cell `` `` `00` `` `` has 8 characters, not 4).
 - Asterisks for emphasis (e.g., the cell `*italic*` has 9 characters, not 7).
 - Double asterisks for bold (e.g., the cell `**bold**` has 10 characters, not 4).
 - Underscores for emphasis (e.g., the cell `_under_` has 8 characters, not 5).
@@ -391,16 +393,16 @@ The following characters are part of the cell content and must be included in th
 
 **Common Mistake**
 
-The most common formatting mistake is measuring the **rendered** width instead of the **source**
-width.
+The most common formatting mistake is measuring the **rendered** width instead of
+the **source** width.
 
-For example, the cell `` `config.settings.json` `` contains 22 characters in the source text,
+For example, the cell `` ` config.settings.json ` `` contains 22 characters in the source text,
 including the two backticks.
 
 A Markdown renderer displays only `config.settings.json`, which is 20 characters.
 
-If the formatter uses 20 instead of 22, the column will be too narrow and the pipes will not align
-in plain text.
+If the formatter uses 20 instead of 22, the column will be too narrow and the pipes will not
+align in plain text.
 
 Always count the source text, never the rendered text.
 
@@ -408,8 +410,8 @@ Always count the source text, never the rendered text.
 
 Compact the table after calculating column widths.
 
-The column width is the minimum character count needed to fit the widest value in any row, including
-the header.
+The column width is the minimum character count needed to fit the widest value in any row,
+including the header.
 
 Do not add extra padding beyond what the widest cell requires.
 
@@ -425,8 +427,8 @@ The compacted version is the correct version.
 
 Editing any cell can change a column's width, so reformat the whole table after every edit.
 
-Recompute each column's width, re-pad every data cell, and replace every separator cell with the
-correct number of hyphens.
+Recompute each column's width, re-pad every data cell,
+and replace every separator cell with the correct number of hyphens.
 
 A table is only correctly edited when every cell in a column has the same width and every separator
 cell matches that width plus two.
@@ -437,13 +439,13 @@ Use a script or automated tool to format tables instead of counting character wi
 
 Manual counting by an AI model is error-prone and leads to misaligned columns.
 
-Write a temporary script in JavaScript or Python that parses the table, calculates column widths
-from source text, and outputs the formatted table.
+Write a temporary script in JavaScript or Python that parses the table,
+calculates column widths from source text, and outputs the formatted table.
 
 Name the script with a `.tmp.` infix, for example `format-table.tmp.js` or `format-table.tmp.py`.
 
-Place the script in a `work/` directory when one exists in the repository, otherwise place it in the
-repository root without creating a directory solely for it.
+Place the script in a `work/` directory when one exists in the repository,
+otherwise place it in the repository root without creating a directory solely for it.
 
 Remove the script after use.
 
@@ -468,9 +470,9 @@ A table is a summary view, not a full explanation.
 When a cell description is long, put a short abbreviation or summary in the table cell and place the
 full clarification in a separate sentence below the table.
 
-A whole column may move out of the table and render as paragraphs below it when its content
-makes the table exceed the 300-character source-width budget - the paragraph names the column
-it carries, and the detail is relocated, never dropped.
+A whole column may move out of the table and render as paragraphs below it when its content makes
+the table exceed the 300-character source-width budget - the paragraph names the column it carries,
+and the detail is relocated, never dropped.
 
 Prefer fewer than 10 columns per table.
 
@@ -523,10 +525,11 @@ The `SKILL.md` file must contain YAML frontmatter followed by Markdown content.
 
 Required frontmatter fields:
 
-- **`name`** - 1-64 characters, lowercase letters and hyphens only, must not start or end with a
-  hyphen, must not contain consecutive hyphens, must match the parent directory name.
-- **`description`** - 1-1024 characters, non-empty, describes what the skill does and when to use
-  it, should include specific trigger keywords.
+- ** `name` ** - 1-64 characters, lowercase letters and hyphens only,
+  must not start or end with a hyphen, must not contain consecutive hyphens,
+  must match the parent directory name.
+- ** `description` ** - 1-1024 characters, non-empty,
+  describes what the skill does and when to use it, should include specific trigger keywords.
 
 Optional frontmatter fields:
 
@@ -541,8 +544,8 @@ Skills use a three-level loading system.
 
 1. **Metadata** - The `name` and `description` fields are loaded at startup for all skills.
 2. **Instructions** - The full `SKILL.md` body is loaded when the skill is activated.
-3. **Resources** - Files in `scripts/`, `references/`, `assets/`, or other directories are loaded
-   only when required.
+3. **Resources** - Files in `scripts/`, `references/`, `assets/`,
+   or other directories are loaded only when required.
 
 Keep `SKILL.md` under 500 lines.
 
@@ -570,8 +573,8 @@ Optional directories:
 - `references/` - Documentation loaded into context as needed.
 - `assets/` - Files used in output such as templates, icons, and fonts.
 
-When a skill supports multiple domains or frameworks, organize by variant and let the agent read
-only the relevant reference file.
+When a skill supports multiple domains or frameworks,
+organize by variant and let the agent read only the relevant reference file.
 
 ## Adding New Files
 
@@ -579,8 +582,8 @@ only the relevant reference file.
 
 Every new file must be registered in `SKILL.md`.
 
-Add a reference to the appropriate section or table in `SKILL.md` with guidance on when to read the
-file.
+Add a reference to the appropriate section or table in `SKILL.md` with guidance on
+when to read the file.
 
 ### File Naming
 
@@ -590,11 +593,10 @@ Use hyphens for multi-word names: `dasm-assembler.md`, `risk-register.md`.
 
 Match the word-count convention already used in the directory.
 
-If a directory consistently uses
-two-word names, new files in it keep two-word names.
+If a directory consistently uses two-word names, new files in it keep two-word names.
 
-If a directory mixes word counts, use the
-lowest word count present as the minimum and pick the best-fitting name at or above it.
+If a directory mixes word counts, use the lowest word count present as the minimum and pick the
+best-fitting name at or above it.
 
 ### Required Sections
 
@@ -604,10 +606,9 @@ Every new topic file must include at minimum:
 - `## Purpose` section
 - One or more main content sections
 
-Files over 300 lines must also include a `## Contents` table, except report files:
-`AUDIT`-, `AUDYT`-, `REVIEW`-, or `PRZEGLĄD`-prefixed names and `-REVIEW`- or
-`-PRZEGLĄD`-suffixed names, which follow `process/report-format.md` or
-`process/report-format/review-style.md`.
+Files over 300 lines must also include a `## Contents` table, except report files: `AUDIT` -,
+`AUDYT` -, `REVIEW` -, or `PRZEGLĄD` -prefixed names and `-REVIEW` - or `-PRZEGLĄD` -suffixed names,
+which follow `process/report-format.md` or `process/report-format/review-style.md`.
 
 ## File Maintenance
 

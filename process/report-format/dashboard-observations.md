@@ -2,8 +2,9 @@
 
 ## Purpose
 
-> **Scope:** Health dashboard, delivery practice, and reader-facing observations
-> **Key items:** risk map, scorecard, continuity proxies, observation blocks
+> **Scope:** Health dashboard, delivery practice,
+> and reader-facing observations **Key items:** risk map, scorecard, continuity
+> proxies, observation blocks
 
 ## Health Dashboard
 
@@ -24,8 +25,8 @@ Use a table:
 | Medium   |     |        |      |
 | Low      |     |        |      |
 
-When the report language is not English, apply the axis label translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the axis label translations from the matching `translations/` file.
 
 Populate cells with `RSK-XXX` identifiers from the Unified Risk Register.
 
@@ -37,8 +38,8 @@ Use generic descriptions or masked placeholders.
 
 **Scorecard Summary**
 
-When the report language is not English, apply the heading translation from the matching
-`translations/` file.
+When the report language is not English,
+apply the heading translation from the matching `translations/` file.
 
 Provide a compact summary of the project scorecard dimensions.
 
@@ -70,31 +71,32 @@ so no score appears before its band is defined.
 
 Omit rows whose Score is `N/A` from the table entirely: the table lists scored dimensions only.
 
-The Delivery & Continuity dimension is `N/A` when Git history was not in scope, per
-`references/delivery-practice.md`.
+The Delivery & Continuity dimension is `N/A` when Git history was not in scope,
+per `references/delivery-practice.md`.
 
 The API Compatibility dimension is `N/A` unless the subject is a reusable library or package,
 per `assessment/api-compatibility.md`.
 
-At the `Detailed` level, add a paragraph below the table naming each omitted `N/A` dimension and
-its applicability reason, for example `API Compatibility. The subject is not a reusable library
-or package`.
+At the `Detailed` level, add a paragraph below the table naming each omitted `N/A` dimension and its
+applicability reason, for example
+`API Compatibility. The subject is not a reusable library or package`.
 
 Render each Score cell in the selected evaluation scale: `7/10` for `1-10`, `4/5` for `1-5`,
 `2/3` for `1-3`, `★★★★☆` for `5 stars`, and `★★☆` for `3 stars`.
 
 Render `UNKNOWN` as text, not as a star bar - `N/A` rows are omitted from the table entirely.
 
-Never add an `Overall score` row to this table: the validator recomputes the mean from every
-numeric Score cell, and a numeric overall row enters that mean and corrupts it.
+Never add an `Overall score` row to this table:
+the validator recomputes the mean from every numeric Score cell,
+and a numeric overall row enters that mean and corrupts it.
 
-The overall
-score belongs to the Executive Summary key-value table, per
-`process/report-format/summary-changes.md`, and the validator compares the stated overall
-against the recomputed mean. They must agree under the documented rounding.
+The overall score belongs to the Executive Summary key-value table,
+per `process/report-format/summary-changes.md`,
+and the validator compares the stated overall against the recomputed mean.
+They must agree under the documented rounding.
 
-When the report language is not English, apply the translations from the matching `translations/`
-file.
+When the report language is not English,
+apply the translations from the matching `translations/` file.
 
 **Team & Continuity**
 
@@ -113,11 +115,11 @@ Commit concentration is a proxy for continuity, not a measure of operational acc
 
 This line is the at-a-glance summary.
 
-The full delivery-practice proxies and concentration detail live in the Delivery Practice & Team
-Continuity section.
+The full delivery-practice proxies and concentration detail live in the Delivery Practice &
+Team Continuity section.
 
-When the report language is not English, apply the heading translation from the matching
-`translations/` file.
+When the report language is not English,
+apply the heading translation from the matching `translations/` file.
 
 ## Delivery Practice & Team Continuity
 
@@ -147,8 +149,8 @@ Label computed values as proxies, never as measured DORA metrics.
 A project with no tags reports the proxy rows as `None` with the reason,
 commits are not deployments.
 
-A repository with no tags and no release or deployment data reports `None` on all
-five rows: no proxy is computable and nothing else is measurable from source.
+A repository with no tags and no release or deployment data reports `None` on all five rows:
+no proxy is computable and nothing else is measurable from source.
 
 When Git history was not in scope, mark the whole table `Not collected`.
 
@@ -158,8 +160,8 @@ State the bus-factor rating from `references/delivery-practice.md`: the top-auth
 the active-contributor count, the observation window, and the resulting `High`, `Moderate`,
 or `Low` concentration rating, anchored to `EVD-XXX` rows.
 
-The rating renders as a natural fixed-vocabulary form, matching `None` and
-`Not collected` usage in the same section.
+The rating renders as a natural fixed-vocabulary form,
+matching `None` and `Not collected` usage in the same section.
 
 Reviewer diversity is `None` unless the repository itself records review data,
 pull-request reviews do not live in Git history.
@@ -169,13 +171,13 @@ and any continuity-relevant `FND-INF` or `RSK-XXX` references.
 
 Keep the content aggregate and neutral, never a personal assessment.
 
-When the report language is not English, apply the heading, column header, and status
-translations from the matching `translations/` file.
+When the report language is not English, apply the heading, column header,
+and status translations from the matching `translations/` file.
 
 ## High-Level Observations
 
-Surface the most important findings in a compact table a reader can scan before reading the detail
-sections.
+Surface the most important findings in a compact table a reader can scan before reading
+the detail sections.
 
 Include at most five observations.
 
@@ -187,8 +189,8 @@ Use this single-column table:
 |---------------|
 | <observation> |
 
-When the report language is not English, apply the table header translation from the matching
-`translations/` file.
+When the report language is not English,
+apply the table header translation from the matching `translations/` file.
 
 Write one paragraph per observation immediately after the table,
 in the same order as the table rows.

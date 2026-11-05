@@ -2,9 +2,9 @@
 
 ## Purpose
 
-> **Scope:** Data flow diagrams, trust boundaries, data stores, inter-process flows
-> **Key items:** Level-0 context diagram, Level-1 decomposition, external entities, processes, data
-> stores, trust boundaries
+> **Scope:** Data flow diagrams, trust boundaries, data stores,
+> inter-process flows **Key items:** Level-0 context diagram, Level-1 decomposition,
+> external entities, processes, data stores, trust boundaries
 
 This file guides construction of a data flow model that makes the system's data movement and trust
 boundaries explicit.
@@ -21,14 +21,14 @@ Mark inferred flows as inferred.
 ## When This Applies
 
 This assessment applies when the system moves data across one or more trust boundaries, for example:
-a network service, an API, a multi-process system, a system that reads or writes external stores, or
-a system that integrates with third-party services.
+a network service, an API, a multi-process system, a system that reads or writes external stores,
+or a system that integrates with third-party services.
 
 It does not apply to a pure library, a single-file script with no external I/O,
 or a system with no trust boundary.
 
-In those cases, mark the section `N/A` with a one-line justification anchored to the deployment
-model.
+In those cases, mark the section `N/A` with a one-line justification anchored to
+the deployment model.
 
 ## What To Model
 
@@ -45,16 +45,18 @@ Use these consistently:
 
 Model two levels:
 
-- **Level-0 (context diagram)**: the entire system as a single process, surrounded by its external
-  entities and the data flows between them. This shows the system boundary and scope.
-- **Level-1 (decomposition)**: the main process broken into its major internal processes, with the
-  data stores and the flows between them. This shows the internal structure and the trust
-  boundaries.
+- **Level-0 (context diagram)**: the entire system as a single process,
+  surrounded by its external entities and the data flows between them.
+  This shows the system boundary and scope.
+- **Level-1 (decomposition)**: the main process broken into its major internal processes,
+  with the data stores and the flows between them.
+  This shows the internal structure and the trust boundaries.
 
 ## Trust Boundaries
 
-A trust boundary is a line where the level of trust changes, for example between an unauthenticated
-client and an authenticated handler, or between application code and the filesystem.
+A trust boundary is a line where the level of trust changes,
+for example between an unauthenticated client and an authenticated handler,
+or between application code and the filesystem.
 
 Mark each boundary explicitly.
 
@@ -71,16 +73,16 @@ Every flow that crosses a boundary is a candidate for threat analysis in
 | Data flows        | Function calls across modules, network calls, file reads and writes               |
 | Trust boundaries  | Auth middleware, authorization checks, deserialization points, process boundaries |
 
-Trust boundary examples include authentication middleware, authorization checks, deserialization
-points, and process boundaries.
+Trust boundary examples include authentication middleware, authorization checks,
+deserialization points, and process boundaries.
 
 ## How To Present
 
 Render the model in the Architectural Assessment section as described in
 `process/report-format/architectural-assessment.md`.
 
-Present the Level-0 and Level-1 diagrams as fenced ASCII blocks or as a flow table, then list the
-trust boundaries in a table.
+Present the Level-0 and Level-1 diagrams as fenced ASCII blocks or as a flow table,
+then list the trust boundaries in a table.
 
 Tie every node and flow to a concrete file path, module, or config key.
 

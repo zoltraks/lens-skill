@@ -2,33 +2,34 @@
 
 ## Purpose
 
-> **Scope:** Checkable constraints for shell scripts, Windows batch, and PowerShell automation
-> **Key items:** ShellCheck rule classes, Google shell style, PSScriptAnalyzer conventions,
-> quoting and error-handling review classes
+> **Scope:** Checkable constraints for shell scripts, Windows batch,
+> and PowerShell automation **Key items:** ShellCheck rule classes, Google shell style,
+> PSScriptAnalyzer conventions, quoting and error-handling review classes
 
-This file distills the ShellCheck wiki, Google Shell Style Guide, and PSScriptAnalyzer sources
-listed in `references/source-catalog.md` into constraints an audit can verify from repository
-source.
+This file distills the ShellCheck wiki, Google Shell Style Guide,
+and PSScriptAnalyzer sources listed in `references/source-catalog.md` into constraints an audit can
+verify from repository source.
 
 Snapshot date: 2026-10-27.
 
-Feeds `assessment/best-practices.md`, `assessment/code-quality.md`, and
-`assessment/security-review.md`, and `assessment/baseline-conformance.md` for script-heavy
-subjects.
+Feeds `assessment/best-practices.md`, `assessment/code-quality.md`,
+and `assessment/security-review.md`, and `assessment/baseline-conformance.md` for
+script-heavy subjects.
 
 ## ShellCheck Rule Classes
 
 From https://www.shellcheck.net/wiki/ - rule IDs feed `references/cwe-analyzer.md`.
 
-- Quoting: SC2046/SC2086 (unquoted expansion word-splitting), SC2059 (`printf` with variable
-  format strings) - unquoted `$var` in commands is the highest-frequency defect class.
+- Quoting: SC2046/SC2086 (unquoted expansion word-splitting),
+  SC2059 (`printf` with variable format strings)
+  - unquoted `$var` in commands is the highest-frequency defect class.
 - Safety: SC2115 (`rm -rf "$var/"` empty-var expansion), SC2145 (glob/unquoted mixing),
   SC2181 (`$?` tested after a pipeline instead of `if cmd`).
-- Portability: SC2039/SC3010-3037 (`[[`, `local`, arrays in `sh`-declared scripts) - check the
-  shebang against the syntax used.
+- Portability: SC2039/SC3010-3037 (`[[`, `local`, arrays in `sh` -declared scripts)
+  - check the shebang against the syntax used.
 - Input handling: SC2162 (`read` without `-r` mangles backslashes), SC2002 (useless `cat`).
-- `# shellcheck disable=SCxxxx` comments are auditable suppressions. Each should carry a
-  justification.
+- `# shellcheck disable=SCxxxx` comments are auditable suppressions.
+  Each should carry a justification.
 
 ## Google Shell Style
 
@@ -36,61 +37,61 @@ From https://google.github.io/styleguide/shellguide.html (CC-BY.
 
 Distilled, not copied).
 
-- `#!/bin/bash` for bash features, `#!/bin/sh` only for genuinely portable scripts. `env`-path
-  shebangs for user-installed interpreters.
-- `set -o errexit -o nounset -o pipefail` (or the `set -euo pipefail` short form) is the
-  safety baseline. Scripts without it continue silently past failures.
-- `main "$@"` at the end for multi-function scripts. Function names lowercase with
-  underscores, constants and environment-derived variables `UPPER_CASE`.
-- `$(...)` over backticks. `[[ ]]` over `[ ]` under bash. `readonly`/`declare -r` for
-  constants.
-- Pipelines default to the last command's exit status. `pipefail` or explicit checks make
-  intermediate failures visible.
+- `#!/bin/bash` for bash features, `#!/bin/sh` only for genuinely portable scripts.
+  `env` -path shebangs for user-installed interpreters.
+- `set -o errexit -o nounset -o pipefail` (or the `set -euo pipefail` short form)
+  is the safety baseline. Scripts without it continue silently past failures.
+- `main "$@"` at the end for multi-function scripts. Function names lowercase with underscores,
+  constants and environment-derived variables `UPPER_CASE`.
+- `$(...)` over backticks. `[[ ]]` over `[ ]` under bash. `readonly`/`declare -r` for constants.
+- Pipelines default to the last command's exit status.
+  `pipefail` or explicit checks make intermediate failures visible.
 
 ## PowerShell
 
 From https://github.com/PSScriptAnalyzer (MIT-licensed rule set).
 
-- Approved verbs (`Get-`, `Set-`, `New-`, `Invoke-`...) in function names. Unapproved-verb
-  functions are convention findings (PSUseApprovedVerbs).
-- `PSAvoidUsingWriteHost` (use `Write-Output`/`Write-Verbose`/`Write-Information`),
-  `PSAvoidUsingPlainTextForPassword` (`SecureString`/`PSCredential` parameters),
+- Approved verbs (`Get-`, `Set-`, `New-`, `Invoke-`...) in function names.
+  Unapproved-verb functions are convention findings (PSUseApprovedVerbs).
+- `PSAvoidUsingWriteHost` (use `Write-Output` / `Write-Verbose` / `Write-Information`),
+  `PSAvoidUsingPlainTextForPassword` (`SecureString` / `PSCredential` parameters),
   `PSUsePSCredentialType`, `PSAvoidUsingInvokeExpression`,
   `PSAvoidUsingConvertToSecureStringWithPlainText`.
-- Error handling: `$ErrorActionPreference = 'Stop'` or per-cmdlet `-ErrorAction`, plus
-  `try/catch` around terminating-risk calls.
-- Signed-script posture: `Set-ExecutionPolicy` weakening (`Bypass`/`Unrestricted` persisted)
+- Error handling: `$ErrorActionPreference = 'Stop'` or per-cmdlet `-ErrorAction`,
+  plus `try/catch` around terminating-risk calls.
+- Signed-script posture: `Set-ExecutionPolicy` weakening (`Bypass` / `Unrestricted` persisted)
   is a finding. Script signing is evidence of controlled automation.
 
 ## Batch And Cross-Cutting
 
-- `.bat`/`.cmd` files lack structured error handling. `if errorlevel` checks and `setlocal`
-  scoping are the minimum.
-- Secrets on command lines are visible in process lists and logs across every shell: review
-  any `-password`, `token`, or key material passed as arguments.
-- `curl | sh` install patterns, unchecked `cd` before `rm -rf`, and temp files under
-  predictable `/tmp` names are the recurring audit findings.
+- `.bat` / `.cmd` files lack structured error handling.
+  `if errorlevel` checks and `setlocal` scoping are the minimum.
+- Secrets on command lines are visible in process lists and logs across every shell:
+  review any `-password`, `token`, or key material passed as arguments.
+- `curl | sh` install patterns, unchecked `cd` before `rm -rf`,
+  and temp files under predictable `/tmp` names are the recurring audit findings.
 
 ## Naming And Layout
 
-From https://google.github.io/styleguide/shellguide.html, the PowerShell approved-verbs
-reference registered in `references/source-catalog.md`, and the maintainer's shell, batch,
-PowerShell, and AppleScript engineering standards.
+From https://google.github.io/styleguide/shellguide.html,
+the PowerShell approved-verbs reference registered in `references/source-catalog.md`,
+and the maintainer's shell, batch, PowerShell, and AppleScript engineering standards.
 
-- Committed scripts live in a conventional `script/`, `scripts/`, `bin/`, or `tools/`
-  directory rather than the repository root, and one script does one logical operation -
-  `build.sh`, `deploy.sh`, `sync-openapi.sh` over `utils.sh` grab-bags.
-- Bash and POSIX script filenames use `snake_case.sh` or `kebab-case.sh` (pick one per
-  project), functions use `snake_case`, and `UPPER_CASE` marks exported and
-  environment-derived variables.
+- Committed scripts live in a conventional `script/`, `scripts/`, `bin/`,
+  or `tools/` directory rather than the repository root,
+  and one script does one logical operation - `build.sh`, `deploy.sh`,
+  `sync-openapi.sh` over `utils.sh` grab-bags.
+- Bash and POSIX script filenames use `snake_case.sh` or `kebab-case.sh` (pick one per project),
+  functions use `snake_case`, and `UPPER_CASE` marks exported and environment-derived variables.
 - PowerShell scripts use `kebab-case.ps1` or `PascalCase.ps1` filenames and approved-verb
-  `Verb-Noun` function names (`Get-ProcessState`, `Invoke-Sync`) - a function name without an
-  approved verb is the lint-rule finding PSScriptAnalyzer raises.
-- Batch files use `snake_case.bat` filenames and `snake_case` `:labels`, keep `SET`/`IF`/`FOR`
-  builtins uppercase, and document external tool dependencies in a header comment.
-- Throwaway probe scripts live under the gitignored workspace (`work/scripts/*.tmp.sh`,
-  `*.tmp.ps1`, `*.tmp.mjs`, `*.tmp.py`, `*.tmp.scpt`) - a `*.tmp.*` probe committed to tracked
-  source is a hygiene finding across every scripting dialect.
+  `Verb-Noun` function names (`Get-ProcessState`, `Invoke-Sync`)
+  - a function name without an approved verb is the lint-rule finding PSScriptAnalyzer raises.
+- Batch files use `snake_case.bat` filenames and `snake_case` `:labels`,
+  keep `SET` / `IF` / `FOR` builtins uppercase,
+  and document external tool dependencies in a header comment.
+- Throwaway probe scripts live under the gitignored workspace (`work/scripts/*.tmp.sh`, `*.tmp.ps1`,
+  `*.tmp.mjs`, `*.tmp.py`, `*.tmp.scpt`) - a `*.tmp.*` probe committed to tracked source is a
+  hygiene finding across every scripting dialect.
 - Environment variable names are `UPPER_SNAKE_CASE` and descriptive (`AUTOMATION_TARGET_PATH`),
   and timeout or interval constants carry their unit (`POLL_TIMEOUT_MS`, `MaxWaitTime`).
 
@@ -98,21 +99,21 @@ PowerShell, and AppleScript engineering standards.
 
 From the maintainer's Bash, Batch, PowerShell, and inline-scripting standards.
 
-- Batch floor: `@ECHO OFF` opens every script, `SETLOCAL`/`ENDLOCAL` scope state, every `CALL`
-  is followed by an `IF ERRORLEVEL` check, paths with spaces are quoted, no `::` comments
-  inside `FOR` blocks (they break the parser), no hardcoded secrets, and every script exits
-  with a meaningful `ERRORLEVEL`.
-- Inline floor (all hosts): multi-statement logic goes to stdin or a scratch file rather than
-  a `-e`/`-c` string, heredocs stay single-quoted, script source never interpolates through
-  another shell's quoting, a probe prints observed evidence rather than pass/fail, and no
-  secrets reach stdout.
+- Batch floor: `@ECHO OFF` opens every script, `SETLOCAL` / `ENDLOCAL` scope state,
+  every `CALL` is followed by an `IF ERRORLEVEL` check, paths with spaces are quoted,
+  no `::` comments inside `FOR` blocks (they break the parser), no hardcoded secrets,
+  and every script exits with a meaningful `ERRORLEVEL`.
+- Inline floor (all hosts): multi-statement logic goes to stdin or a scratch file rather than a `-e`
+  / `-c` string, heredocs stay single-quoted,
+  script source never interpolates through another shell's quoting,
+  a probe prints observed evidence rather than pass/fail, and no secrets reach stdout.
 
 ## Live Check
 
-When web fetch is available, spot-check one SC rule ID against the ShellCheck wiki and one
-PS rule name against the PSScriptAnalyzer repository.
+When web fetch is available, spot-check one SC rule ID against the ShellCheck wiki and one PS rule
+name against the PSScriptAnalyzer repository.
 
-Record whichever baseline - this snapshot or the live pages - the audit used, and note drift in
-Known Limitations.
+Record whichever baseline - this snapshot or the live pages - the audit used,
+and note drift in Known Limitations.
 
 The check is best-effort, never blocks the audit, and never executes the audited project.

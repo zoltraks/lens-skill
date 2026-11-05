@@ -2,18 +2,19 @@
 
 ## Purpose
 
-> **Scope:** The combined multi-project report layout
-> **Key items:** project inventory, shared sections, per-project blocks
+> **Scope:** The combined multi-project report layout **Key items:** project inventory,
+> shared sections, per-project blocks
 
 When the audit covers more than one project in a repository or directory,
 the report uses a combined structure.
 
-The `project_layout` parameter selects between two structures: `separate` (the default -
-each project receives its own complete set of sections, as this file first describes) and
-`combined` (a fully grouped layout with no per-project level-2 blocks - see the
-Combined-layout section below). The agent may ask at the Parameter Configuration gate
-whether findings, observations, and registers are grouped across projects or described
-per project; when the user does not choose, `separate` applies.
+The `project_layout` parameter selects between two structures:
+`separate` (the default - each project receives its own complete set of sections,
+as this file first describes) and `combined` (a fully grouped layout with no per-project level-2
+blocks - see the Combined-layout section below).
+The agent asks the `project-layout` surface during the Parameter Configuration phase - whether
+findings, observations, and registers are grouped across projects or described per project;
+when the user does not choose, `separate` applies.
 
 Each project is assessed independently regardless of layout.
 
@@ -23,20 +24,19 @@ The title uses the repository or directory name, not a single project name.
 
 Include a `Projects` row in the table listing the audited projects.
 
-The **Audit Coverage** table appears once, immediately after Document
-Information and before the Project Inventory.
+The **Audit Coverage** table appears once,
+immediately after Document Information and before the Project Inventory.
 
 **Project Inventory** appears after the Coverage Matrix.
 
-It lists each project confirmed at the intake inclusion question with its path, version,
-provenance, and a one-line description.
+It lists each project confirmed at the intake inclusion question with its path, version, provenance,
+and a one-line description.
 
-The `Source` column carries the project's provenance: `Tree` for a project inside the
-audited tree, `Submodule` for a git submodule member, `Embedded` for an unclassified nested
-repository.
+The `Source` column carries the project's provenance: `Tree` for a project inside the audited tree,
+`Submodule` for a git submodule member, `Embedded` for an unclassified nested repository.
 
-Projects the user unchecked, or that intake classified as installed or `not fetched`, do not
-appear here: they are disclosed once in Scope Exclusions with their exclusion reason.
+Projects the user unchecked, or that intake classified as installed or `not fetched`,
+do not appear here: they are disclosed once in Scope Exclusions with their exclusion reason.
 
 ```
 | Project                    | Path           | Version | Source     | Description            |
@@ -44,20 +44,21 @@ appear here: they are disclosed once in Scope Exclusions with their exclusion re
 | [Project `<name>`](#project-<slug>) | <project path> | <ver> | <Tree> | <one-line description> |
 ```
 
-A project name always renders as ``Project `<name>` `` - the `Project` label followed by
-the codename in a code span - never as a bare lowercase codename, in the Document Information
-`Projects` row, the Contents entries, the Project Inventory, per-project `##` headings, and
-every table cell naming a project. In a Polish pair file the label translates like every
-section name - ``Projekt `<name>` `` with `](#projekt-<slug>)` link targets.
+A project name always renders as ``Project ` <name> ` `` - the `Project` label followed by the
+codename in a code span - never as a bare lowercase codename,
+in the Document Information `Projects` row, the Contents entries, the Project Inventory,
+per-project `##` headings, and every table cell naming a project.
+In a Polish pair file the label translates like every section name - ``Projekt ` <name> ` `` with
+`](#projekt-<slug>)` link targets.
 
-Under the `separate` layout the link target is the project's `##` heading; under the
-`combined` layout it is the project's row in the shared registers.
+Under the `separate` layout the link target is the project's `##` heading;
+under the `combined` layout it is the project's row in the shared registers.
 
-When the report language is not English, apply the column header translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the column header translations from the matching `translations/` file.
 
-**Combined summary sections** appear immediately after the Project Inventory, so orientation
-material precedes per-project detail.
+**Combined summary sections** appear immediately after the Project Inventory,
+so orientation material precedes per-project detail.
 
 The **Executive Summary** is a condensed combined summary.
 
@@ -69,18 +70,19 @@ Write a short orientation paragraph, then a compact table with one row per proje
 | Project `<name>`   | <mean>/<scale> (<band>) | <dimension> <score> | <top RSK-XXX or `None`> | <readiness state> |
 ```
 
-The **Changes Since Previous Audit** section is combined at report level when a re-audit was
-confirmed.
+The **Changes Since Previous Audit** section is combined at report level when a
+re-audit was confirmed.
 
-Give each compared project its own level-3 subsection inside this section and keep project-qualified
-finding IDs.
+Give each compared project its own level-3 subsection inside this section and keep
+project-qualified finding IDs.
 
 Do not repeat the section inside the per-project blocks.
 
 **Per-project sections** follow the combined summary sections.
 
-Each project gets a level-2 heading (`##`) in the ``Project `<name>` `` form - for example
-``## Project `api-service` `` - followed by the full set of report sections for that project:
+Each project gets a level-2 heading (`##`)
+in the ``Project ` <name> ` `` form - for example ``## Project ` api-service ` `` - followed by the
+full set of report sections for that project:
 
 - Executive Summary
 - System Context (with the Technology Stack subsection)
@@ -112,34 +114,34 @@ Each project gets a level-2 heading (`##`) in the ``Project `<name>` `` form - f
 
 Use level-3 headings (`###`) for subsections within each project block.
 
-Recommendations never render inside a project block - the consolidated Remediation
-Roadmap described below owns them report-wide.
+Recommendations never render inside a project block - the consolidated Remediation Roadmap described
+below owns them report-wide.
 
 **Finding IDs** number globally across the whole report.
 
-`EVD`, `RSK`, `REC`, `TDR`, and `PAR` run as single sequences, and `FND` numbers contiguously
-within each pillar across projects - `FND-SEC-001` occurs once report-wide, and the next SEC
-finding in any project continues the sequence.
+`EVD`, `RSK`, `REC`, `TDR`, and `PAR` run as single sequences,
+and `FND` numbers contiguously within each pillar across projects - `FND-SEC-001` occurs once
+report-wide, and the next SEC finding in any project continues the sequence.
 
 Qualify each finding heading with the project identifier as a trailing parenthetical so the
 reader can navigate.
 
 For example: `### FND-ARC-001: Missing input validation (api-service)`.
 
-Register-item headings stay `###` exactly - never `####` or deeper - even inside `##`
-project blocks, and each carries the `(<project>)` suffix.
+Register-item headings stay `###` exactly - never `####` or deeper - even inside `##` project
+blocks, and each carries the `(<project>)` suffix.
 
-Register references use the bare identifier alone - `FND-SEC-001` - everywhere, inside
-shared sections and project blocks alike, since every register family numbers
-report-globally and the ID is unambiguous on its own.
+Register references use the bare identifier alone - `FND-SEC-001` - everywhere,
+inside shared sections and project blocks alike,
+since every register family numbers report-globally and the ID is unambiguous on its own.
 
-On a re-audit, a prior cross-cutting finding that now maps to one project keeps its identifier
-and gains that project's `(<project>)` suffix, and the mapping is recorded in the Changes Since
-Previous Audit section.
+On a re-audit, a prior cross-cutting finding that now maps to one project keeps its identifier and
+gains that project's `(<project>)` suffix,
+and the mapping is recorded in the Changes Since Previous Audit section.
 
 A prior finding that applies to several projects splits into one finding per project,
-each receiving the next identifier of its pillar in the report-global sequence under its
-own project suffix, and the split is recorded in the Changes section.
+each receiving the next identifier of its pillar in the report-global sequence under its own project
+suffix, and the split is recorded in the Changes section.
 
 **Shared sections** appear once at the end of the report, after all per-project sections:
 
@@ -165,14 +167,14 @@ The combined table adds a leading `Project` column.
 When no cross-project trade-off qualifies,
 the section stays present and the table carries a single `N/A` row with a one-line justification.
 
-The consolidated **Remediation Roadmap** renders once, immediately before
-`Reference Sources`, merging every project's recommendations into one prioritized matrix,
+The consolidated **Remediation Roadmap** renders once, immediately before `Reference Sources`,
+merging every project's recommendations into one prioritized matrix,
 one set of `### REC` detail blocks, and one `### Recommendation Classification` table,
-and closes with the `### Follow-up Plan` subsection when the roadmap carries a P1 or P2
-recommendation.
+and closes with the `### Follow-up Plan` subsection when the roadmap carries a P1
+or P2 recommendation.
 
-Its matrix and classification tables gain a leading `Project` column, and `### REC`
-headings keep their `(<project>)` suffix.
+Its matrix and classification tables gain a leading `Project` column,
+and `### REC` headings keep their `(<project>)` suffix.
 
 A project with no `REC` rows simply does not appear in the merged tables - the per-project
 `### Remediation Roadmap` and `### Recommendation Classification` blocks no longer exist.
@@ -184,36 +186,36 @@ Qualify rows per project using the project identifier.
 
 The validator enforces three multi-project rules once a `Project Inventory` exists:
 
-- A shared-table cell never carries an ambiguous project label - `both`, `either`, and
-  `the projects` all fail, so split the row or name each project explicitly.
-- Identifier references are bare everywhere - `FND-SEC-001` - since every register family
-  numbers report-globally; the `(<project>)` suffix on the defining heading names the
-  owner.
-- The Project column appears only in combined and shared tables - a single-project report
-  without a Project Inventory must not carry one, and the evidence ledger follows the same rule.
-- The Remediation Roadmap renders once at level 2 - a `### Remediation Roadmap` or a
-  project-block `### Recommendation Classification` heading fails, and `Recommendation
-  Classification` and `Follow-up Plan` render only as `###` subsections inside it.
+- A shared-table cell never carries an ambiguous project label - `both`, `either`,
+  and `the projects` all fail, so split the row or name each project explicitly.
+- Identifier references are bare everywhere - `FND-SEC-001` - since every register family numbers
+  report-globally; the `(<project>)` suffix on the defining heading names the owner.
+- The Project column appears only in combined and shared tables - a single-project report without a
+  Project Inventory must not carry one, and the evidence ledger follows the same rule.
+- The Remediation Roadmap renders once at level 2 - a `### Remediation Roadmap` or a project-block
+  `### Recommendation Classification` heading fails,
+  and `Recommendation Classification` and `Follow-up Plan` render only as `###`
+  subsections inside it.
 
 **Combined layout** (`project_layout: combined`)
 
 Under `combined` the report carries no per-project level-2 blocks.
 
-Sections appear once at level 2 in the standard single-project order, and every register,
-scorecard, and per-project table gains a `Project` column carrying the project identifier -
-one Technical Findings table, one Unified Risk Register, one Remediation Roadmap, one
-Evidence List, each with all projects' rows merged - the roadmap carries the
-Recommendation Classification and Follow-up Plan subsections like a single-project
-report.
+Sections appear once at level 2 in the standard single-project order, and every register, scorecard,
+and per-project table gains a `Project` column carrying the project identifier - one Technical
+Findings table, one Unified Risk Register, one Remediation Roadmap, one Evidence List,
+each with all projects' rows merged - the roadmap carries the Recommendation Classification and
+Follow-up Plan subsections like a single-project report.
 
-Finding and register headings still carry the `(<project>)` suffix, and every shared table
-qualifies its rows through the `Project` column, never through `project::ID` prefixes.
+Finding and register headings still carry the `(<project>)` suffix,
+and every shared table qualifies its rows through the `Project` column,
+never through `project::ID` prefixes.
 
-The Executive Summary keeps one row per project, and the Project Inventory links each name
-to the first shared table that lists that project.
+The Executive Summary keeps one row per project,
+and the Project Inventory links each name to the first shared table that lists that project.
 
-A project with no rows in a register is named `none` in that table only when the register
-itself is otherwise non-empty.
+A project with no rows in a register is named `none` in that table only when the register itself is
+otherwise non-empty.
 
 **Single-project reports** use the standard structure without the Project Inventory table and
 without per-project level-2 headings.

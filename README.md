@@ -6,9 +6,9 @@
  > ^ <
 ```
 
-> Evidence-based engineering audits of any software subject - prototypes, codebases under
-> development, and already-running production systems - in audit, hunt, or review style,
-> including dedicated structure analysis.
+> Evidence-based engineering audits of any software subject - prototypes,
+> codebases under development, and already-running production systems - in audit, hunt,
+> or review style, including dedicated structure analysis.
 >
 > [Versioning Policy](./docs/VERSIONING.md)
 >
@@ -23,56 +23,57 @@
 | Installation                       | 170  | Clone and update instructions                       |
 | Usage                              | 203  | Activation, parameters, and report delivery         |
 | Example Prompts                    | 240  | Full and focused audit requests                     |
-| Workflow Diagrams                  | 317  | ASCII and Mermaid audit pipelines                   |
-| Evidence And Decision Quality      | 377  | Evidence strength and verification limits           |
-| Core Principles                    | 435  | Evaluation constraints and status rules             |
-| Report Format                      | 451  | Report structure, identifiers, and style            |
-| When To Use This Skill             | 488  | Supported requests and exclusions                   |
-| What's Inside                      | 512  | Documents, references, tools, and conditional files |
-| Document Style                     | 691  | Pointer to the style rules file                     |
-| Specification                      | 701  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 722  | Maintenance checks and regression scenarios         |
-| License                            | 750  | License for the skill itself                        |
-| Credits                            | 756  | Authorship and attribution                          |
+| Workflow Diagrams                  | 321  | ASCII and Mermaid audit pipelines                   |
+| Evidence And Decision Quality      | 381  | Evidence strength and verification limits           |
+| Core Principles                    | 440  | Evaluation constraints and status rules             |
+| Report Format                      | 456  | Report structure, identifiers, and style            |
+| When To Use This Skill             | 493  | Supported requests and exclusions                   |
+| What's Inside                      | 517  | Documents, references, tools, and conditional files |
+| Document Style                     | 705  | Pointer to the style rules file                     |
+| Specification                      | 715  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 736  | Maintenance checks and regression scenarios         |
+| License                            | 767  | License for the skill itself                        |
+| Credits                            | 773  | Authorship and attribution                          |
 
 ## Overview
 
 Lens is a structured audit process packaged as an agent skill.
 
 It guides an AI coding agent through a complete engineering assessment of any software subject - a
-prototype, codebase under development, production system, or technical proposal - producing a
-neutral, repeatable report anchored to concrete facts rather than impressions.
+prototype, codebase under development, production system,
+or technical proposal - producing a neutral,
+repeatable report anchored to concrete facts rather than impressions.
 
-Unlike a generic "review my code" prompt, Lens enforces a fixed workflow: intake, parameter
-configuration, scope definition, evidence gathering, per-category assessment, synthesis, and
-validation.
+Unlike a generic "review my code" prompt, Lens enforces a fixed workflow: intake,
+parameter configuration, scope definition, evidence gathering, per-category assessment,
+synthesis, and validation.
 
-The intake, evidence gathering, and assessment pipeline is shared by all report styles -
-only the section contract and the validation checks differ.
+The intake, evidence gathering, and assessment pipeline is shared by all report styles - only the
+section contract and the validation checks differ.
 
-The default output is an Audit report with twenty-two baseline sections: Document Information, the
-Audit Coverage table, Executive Summary, System Context (including the technology
-stack), a source-derived Software Bill of Materials, License Compliance, Health
-Dashboard, Delivery Practice & Team Continuity, High-Level Observations, Auditing Methodology,
-Scoring Rubrics, Architectural Assessment, Structure Review, Solution Comparison, Strengths &
-What's Working, Technical Findings with theoretical exploitability narratives on serious
-security findings, Unified Risk Register, Remediation Roadmap, Scope Exclusions,
-Known Limitations, Validation Protocol, and Reference Sources.
+The default output is an Audit report with twenty-two baseline sections: Document Information,
+the Audit Coverage table, Executive Summary, System Context (including the technology stack),
+a source-derived Software Bill of Materials, License Compliance, Health Dashboard,
+Delivery Practice & Team Continuity, High-Level Observations, Auditing Methodology, Scoring Rubrics,
+Architectural Assessment, Structure Review, Solution Comparison, Strengths & What's Working,
+Technical Findings with theoretical exploitability narratives on serious security findings,
+Unified Risk Register, Remediation Roadmap, Scope Exclusions, Known Limitations,
+Validation Protocol, and Reference Sources.
 
-Conditional sections appear only when the subject warrants them: Data Flow Diagram, Design
-Patterns, Architecture Decision Records, Threat Model, API Contract Conformance, Skill Definition
-Conformance, Agent Guidance Conformance, AI System Assessment, Standards Conformance, Engineering
-Baseline Conformance, Structure Conformance, Code Style, API Compatibility & Versioning
-Discipline,
-Technical Debt Register, Changes Since Previous Audit, and Follow-up Plan.
+Conditional sections appear only when the subject warrants them: Data Flow Diagram, Design Patterns,
+Architecture Decision Records, Threat Model, API Contract Conformance, Skill Definition Conformance,
+Agent Guidance Conformance, AI System Assessment, Standards Conformance,
+Engineering Baseline Conformance, Structure Conformance, Code Style,
+API Compatibility & Versioning Discipline, Technical Debt Register, Changes Since Previous
+Audit, and Follow-up Plan.
 
 At Standard and Detailed detail levels the Remediation Roadmap closes with a Recommendation
-Classification subsection that assigns every recommendation a `Recommended`, `Optional`, or
-`Not recommended` class, and with a Follow-up Plan subsection when the roadmap carries a P1
-or P2 recommendation, so the report can serve directly as a basis for change documents.
+Classification subsection that assigns every recommendation a `Recommended`, `Optional`,
+or `Not recommended` class, and with a Follow-up Plan subsection when the roadmap carries a P1 or P2
+recommendation, so the report can serve directly as a basis for change documents.
 
-Every section uses a hybrid table-paragraph format for scannable summaries backed by detailed
-evidence.
+Every section uses a hybrid table-paragraph format for scannable summaries backed
+by detailed evidence.
 
 A `hunt` report renders the same evidence base as a defect-hunt verdict with journey traces and
 remediation phases, and a `review` report renders it as an execution register with evidence levels
@@ -80,8 +81,7 @@ and a retest register, per `process/report-format/hunt-style.md` and
 `process/report-format/review-style.md`.
 
 A request scoped to the project structure - "make a structure review" - produces a review-style
-report under the structure-review variant contract in
-`process/report-format/structure-review.md`.
+report under the structure-review variant contract in `process/report-format/structure-review.md`.
 
 ---
 
@@ -91,8 +91,8 @@ When you ask for an audit, the agent loads the skill and performs the following:
 
 **Checks for updates**
 
-Once per session, the agent runs a git self-update check on the skill's own repository and offers
-to merge incoming commits before starting, when the skill lives in a git clone.
+Once per session, the agent runs a git self-update check on the skill's own repository and offers to
+merge incoming commits before starting, when the skill lives in a git clone.
 
 **Reads everything you supplied**
 
@@ -116,9 +116,10 @@ and is linked from every acronym occurrence in the report.
 
 Advanced parameters can still be changed when explicitly specified.
 
-When the request asks for machine-readable parameters, every pending intake question emits as a
-JSON parameter document per `process/json-exchange.md` - under a diagnostic or verbose request the
-document is emitted for information first, then the question menus still run.
+When the request asks for machine-readable parameters,
+every pending intake question emits as a JSON parameter document per `process/json-exchange.md` -
+under a diagnostic or verbose request the document is emitted for information first,
+then the question menus still run.
 
 **Defines scope explicitly**
 
@@ -142,10 +143,9 @@ The analysis never builds, tests, or executes the project.
 **Assesses across 19 categories**
 
 Testing, design principles, code quality, stack best practices, dependencies, deployment, rollback,
-maintainability, structure and organization, change management, documentation, non-functional
-requirements, security,
-compliance, observability, error handling, operational readiness,
-AI-generated code detection and provenance, and copyrights and originality.
+maintainability, structure and organization, change management, documentation,
+non-functional requirements, security, compliance, observability, error handling,
+operational readiness, AI-generated code detection and provenance, and copyrights and originality.
 
 Each category receives one of five statuses: `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, or `N/A`.
 
@@ -162,8 +162,8 @@ Optional scales are `1-5`, `1-3`, `5 stars`, and `3 stars`.
 
 **Produces a validated report**
 
-Re-checks every finding against the evaluation rules: no assumptions, no personal judgment, no
-emotional language, every claim anchored to a concrete fact.
+Re-checks every finding against the evaluation rules: no assumptions, no personal judgment,
+no emotional language, every claim anchored to a concrete fact.
 
 ---
 
@@ -171,8 +171,8 @@ emotional language, every claim anchored to a concrete fact.
 
 Lens is a filesystem-based [Agent Skill](https://agentskills.io/specification).
 
-Clone the repository and place the `lens-skill/` directory in your agent's configured skills
-directory:
+Clone the repository and place the `lens-skill/` directory in your agent's
+configured skills directory:
 
 ```bash
 git clone https://github.com/zoltraks/lens-skill.git
@@ -188,8 +188,8 @@ An automated audit run merges without asking when the tree allows it.
 
 It merges only when the repository is clean and a fast-forward is possible.
 
-The check also reports `tip_sha` and `tip_date` for the incoming upstream tip, so the new
-state can be reviewed and pinned to a specific commit before merging.
+The check also reports `tip_sha` and `tip_date` for the incoming upstream tip,
+so the new state can be reviewed and pinned to a specific commit before merging.
 
 To update the clone manually:
 
@@ -202,38 +202,38 @@ git -C <skills-dir>/lens-skill merge --ff-only <tip_sha>
 
 ## Usage
 
-Lens activates when you request a software audit, architecture audit, prototype review, production
-code audit, technical due diligence, readiness assessment, risk register, scorecard, or remediation
-roadmap.
+Lens activates when you request a software audit, architecture audit, prototype review,
+production code audit, technical due diligence, readiness assessment, risk register, scorecard,
+or remediation roadmap.
 
 Name the software subject and the audit or assessment you want, such as an architecture audit,
 production-readiness assessment, dependency review, or technical due diligence.
 
 Audit remains the default report style.
 
-An explicit request for a review report or a check run selects the `review` style, and a defect
-hunt selects the `hunt` style - both reuse the same evidence base under their own section
-contracts.
+An explicit request for a review report or a check run selects the `review` style,
+and a defect hunt selects the `hunt` style - both reuse the same evidence base under their
+own section contracts.
 
-Before a new audit, Lens asks whether to accept the default parameters, configure the core report
-settings, or specify the operation to run - the full audit, the operations catalog, or a custom
-operation description.
+Before a new audit, Lens asks whether to accept the default parameters,
+configure the core report settings, or specify the operation to run - the full audit,
+the operations catalog, or a custom operation description.
 
 An automated run asks nothing: every gate resolves to its discovered or default answer - re-audit
-with recovered parameters when a previous report exists, and the report writes to the resolved
-location.
+with recovered parameters when a previous report exists,
+and the report writes to the resolved location.
 
 A confirmed re-audit reuses the prior report's recorded parameters unless you request changes.
 
-The report can be returned inline or written to a file, according to the resolved output location
-and your choice.
+The report can be returned inline or written to a file,
+according to the resolved output location and your choice.
 
 Lens assesses software.
 
 It does not implement changes.
 
-The audit inspects repository contents and does not build, test, scan, or execute the audited
-project.
+The audit inspects repository contents and does not build, test, scan,
+or execute the audited project.
 
 ---
 
@@ -244,8 +244,9 @@ project.
 > register, scorecard, and actionable remediation roadmap.
 
 **Audit to a file**
-> Perform lens on this service and write the audit report to AUDIT.md. (The agent will accept
-> the filename and ask whether to accept other defaults or configure core parameters.)
+> Perform lens on this service and write the audit report to AUDIT.md.
+> (The agent will accept the filename and ask whether to accept other defaults or
+> configure core parameters.)
 
 **Audit without a named file**
 > Make audit report on this codebase. (The agent will ask whether to accept default parameters,
@@ -253,64 +254,67 @@ project.
 > and custom-file choices.)
 
 **Readiness assessment**
-> Is this system production-ready? Assess testing, deployment, rollback, observability, and
-> operational readiness, and state the maturity level with evidence.
+> Is this system production-ready? Assess testing, deployment, rollback, observability,
+> and operational readiness, and state the maturity level with evidence.
 
 **Single dimension**
-> Review only the security posture of this codebase. Mark anything you cannot determine from the
-> provided files.
+> Review only the security posture of this codebase.
+> Mark anything you cannot determine from the provided files.
 
 **SOLID and testability**
-> Assess this codebase against SOLID principles and its testing strategy: test pyramid balance, TDD
-> signals, and how testable the code is.
+> Assess this codebase against SOLID principles and its testing strategy: test pyramid balance,
+> TDD signals, and how testable the code is.
 
 **Stack best practices**
 > Review whether this code follows the idiomatic best practices of its stack: language idioms,
 > framework conventions, ecosystem layout, and any deprecated APIs.
 
 **Dependency and supply-chain audit**
-> Audit the dependencies of this project: flag outdated and vulnerable packages, license
-> compatibility, and whether builds are locked and reproducible.
+> Audit the dependencies of this project: flag outdated and vulnerable packages,
+> license compatibility, and whether builds are locked and reproducible.
 
 **Risk register**
-> Build a risk register for this architecture proposal. Use Low / Medium / High / Critical
-> severities and tie each risk to evidence.
+> Build a risk register for this architecture proposal.
+> Use Low / Medium / High / Critical severities and tie each risk to evidence.
 
 **Architectural trade-off**
 > Evaluate the trade-off between keeping in-memory state versus introducing an external store for
-> this prototype, given a single-instance target. Include a standalone trade-off table and embed the
-> analysis into the relevant architectural finding.
+> this prototype, given a single-instance target.
+> Include a standalone trade-off table and embed the analysis into the relevant
+> architectural finding.
 
 **Automated audit**
-> Audit this codebase automatically - run the whole job without asking me anything. (The agent
-> merges a pending skill update when allowed, resolves every question to its discovered or default
-> answer, and writes the report to the resolved location.)
+> Audit this codebase automatically - run the whole job without asking me anything.
+> (The agent merges a pending skill update when allowed,
+> resolves every question to its discovered or default answer,
+> and writes the report to the resolved location.)
 
 **Re-audit**
-> Re-run the audit on this codebase after the latest fixes. (The agent finds the previous report
-> and asks you to choose a mode: re-audit against it, re-audit with changed parameters, or a
-> fresh audit that ignores its content. It then writes a new revision-numbered file such as
-> `AUDIT-1.1.md` without overwriting it and adds a Changes Since Previous Audit section on
-> either re-audit mode.)
+> Re-run the audit on this codebase after the latest fixes.
+> (The agent finds the previous report and asks you to choose a mode: re-audit against it,
+> re-audit with changed parameters, or a fresh audit that ignores its content.
+> It then writes a new revision-numbered file such as `AUDIT-1.1.md` without overwriting it and adds
+> a Changes Since Previous Audit section on either re-audit mode.)
 
 **Thin input**
-> Here is a one-paragraph description of a service. Audit what you can and list exactly what
-> additional artifacts would raise confidence.
+> Here is a one-paragraph description of a service.
+> Audit what you can and list exactly what additional artifacts would raise confidence.
 
 **Skill definition audit**
-> Audit this Agent Skill for spec conformance. Check the SKILL.md frontmatter against the Agent
-> Skills specification, verify all file references resolve, and assess whether the description
-> triggers correctly.
+> Audit this Agent Skill for spec conformance.
+> Check the SKILL.md frontmatter against the Agent Skills specification,
+> verify all file references resolve, and assess whether the description triggers correctly.
 
 **Review report**
-> Run the checks on this codebase and produce a review report. (The agent writes a review-style
-> report - verdict, execution register, domain findings, improvement plan - to `REVIEW.md` unless
-> you name a different file.)
+> Run the checks on this codebase and produce a review report.
+> (The agent writes a review-style report - verdict, execution register, domain findings,
+> improvement plan - to `REVIEW.md` unless you name a different file.)
 
 **Structure review**
-> Make a structure review of this project. (The agent produces a review-style report scoped to the
-> structure - project context, structural overview, `FND-STR-` findings, recommendations, and
-> prioritization - under the structure-review variant contract.)
+> Make a structure review of this project.
+> (The agent produces a review-style report scoped to the structure - project context,
+> structural overview, `FND-STR-` findings, recommendations,
+> and prioritization - under the structure-review variant contract.)
 
 ---
 
@@ -378,9 +382,10 @@ flowchart TD
 
 Lens separates inspected source, executed checks, reported claims, and inference.
 
-Every audit records a verification plan and evidence ledger with revision, documented command or
-source, declared tool or report version, recorded result when one exists in the repository,
-artifact, and limitations, including checks that were not run.
+Every audit records a verification plan and evidence ledger with revision,
+documented command or source, declared tool or report version,
+recorded result when one exists in the repository, artifact, and limitations,
+including checks that were not run.
 
 The audit inspects repository contents only.
 
@@ -388,8 +393,8 @@ It never builds, tests, or executes the project, and tool availability is not as
 
 Documented or committed check results count as reported evidence, not verification.
 
-Serious findings receive a counter-check for reachability, existing guards, and alternative
-explanations before they reach the executive summary.
+Serious findings receive a counter-check for reachability, existing guards,
+and alternative explanations before they reach the executive summary.
 
 Security findings use justified CWE mappings and CVSS vectors where applicable,
 while engineering and business risks retain the Lens risk matrix.
@@ -407,8 +412,8 @@ Every overall score is reported with its lowest-scoring dimension in a paragraph
 and every material piece of collected evidence must surface in the report.
 
 The guides cover how to assess documented or committed evidence for baseline checks, coverage,
-mutation and fuzz testing, unsafe-use statistics, dependency advisories, SBOMs, and license
-policies across stacks.
+mutation and fuzz testing, unsafe-use statistics, dependency advisories, SBOMs,
+and license policies across stacks.
 
 A clean scan is not proof of security, and a source-only audit is not runtime verification.
 
@@ -417,8 +422,8 @@ The quality crosswalk uses ISO/IEC 25010:2023 without claiming ISO certification
 ASVS 5.0.0, OWASP Top 10:2025, API Top 10:2023, and RFC 9457 are applied only where relevant,
 with versions and coverage recorded and publication status checked at audit time.
 
-Technical due diligence includes support continuity, operating costs, roadmap feasibility, supplier
-risk, IP rights, and data lifecycle evidence through the existing categories.
+Technical due diligence includes support continuity, operating costs, roadmap feasibility,
+supplier risk, IP rights, and data lifecycle evidence through the existing categories.
 
 Missing business inputs remain visible rather than being filled with invented budgets or owners.
 
@@ -436,13 +441,13 @@ even when the scoped report is final.
 
 Every audit follows these non-negotiable rules:
 
-- **Evidence only** - findings trace to a concrete fact: a file, a config value, a command, a log
-  line.
-- **No assumptions** - missing information is marked `UNKNOWN`, `NOT SPECIFIED`, or
-  `INSUFFICIENT INFORMATION`.
+- **Evidence only** - findings trace to a concrete fact: a file, a config value, a
+  command, a log line.
+- **No assumptions** - missing information is marked `UNKNOWN`, `NOT SPECIFIED`,
+  or `INSUFFICIENT INFORMATION`.
 - **No personal judgement** - the report evaluates the system, never the people who built it.
-- **Architectural neutrality** - choices are judged within stated constraints, not against a favored
-  stack.
+- **Architectural neutrality** - choices are judged within stated constraints,
+  not against a favored stack.
 - **Contextual applicability** - categories that cannot apply to the deployment model are marked
   `N/A` with justification, not treated as failures.
 
@@ -457,31 +462,31 @@ All report styles share a hybrid table-paragraph format throughout:
 - **Finding IDs** are shown as `FND-[PILLAR]-[001]` in the detailed findings section.
 - **Risk IDs** are shown as `RSK-[001]` and cross-referenced to source findings.
 - **Recommendation IDs** are shown as `REC-[001]` and traced to specific findings.
-- **Scores** use `Score: 7/10` for the default scale, `Score: X/5` or `Score: X/3` for
-  alternate numeric scales, and a star bar for star scales.
+- **Scores** use `Score: 7/10` for the default scale,
+  `Score: X/5` or `Score: X/3` for alternate numeric scales, and a star bar for star scales.
 
   ```
   Score: ★★★★☆
   Score: ★★☆
   ```
 
-- **Severities** are shown as `SEVERITY: CRITICAL` inline after the finding title. Severity,
-  status, and result-marker tokens localize per the report language's `translations/` file.
+- **Severities** are shown as `SEVERITY: CRITICAL` inline after the finding title. Severity, status,
+  and result-marker tokens localize per the report language's `translations/` file.
 - **High-Level Observations** provide a fast-skim path for non-technical readers.
 - **Strengths & What's Working** balances the tone with 5-8 acknowledged positives.
 - **Solution Comparison** surfaces architectural tensions in a dedicated table.
 - **Document style** - generated reports follow the same Markdown rules as the skill's documents:
-  `#`/`##`/`###` headings only, one-sentence paragraphs, prose wrapping at a selectable width
-  (default 100), and tables aligned by a temporary formatting script.
+  `#` / `##` / `###` headings only, one-sentence paragraphs,
+  prose wrapping at a selectable width (default 100),
+  and tables aligned by a temporary formatting script.
 
 This format keeps the report readable in plain-text consoles while preserving depth.
 
 Audit reports follow `process/report-format.md` and carry `AUDIT-<revision>.md` filenames.
 
-Review reports follow the execution-register contract in
-`process/report-format/review-style.md` - or the structure-review variant in
-`process/report-format/structure-review.md` - and carry `REVIEW.md`/`REVIEW-<revision>.md`
-filenames.
+Review reports follow the execution-register contract in `process/report-format/review-style.md` -
+or the structure-review variant in `process/report-format/structure-review.md` - and carry
+`REVIEW.md` / `REVIEW-<revision>.md` filenames.
 
 ---
 
@@ -528,7 +533,16 @@ lens-skill/
 │   ├── evaluation-rules.md                # Evidence-only, no assumptions, neutrality, status markers, constraints
 │   └── output-style.md                    # Tone, fixed vocabularies, consistency, determinism
 ├── process/
-│   ├── audit-workflow.md                  # Intake, scope, evidence, assessment, synthesis, validation
+│   ├── audit-workflow.md                  # Workflow index: phase order, checklists, variants
+│   ├── audit-workflow/                    # Per-phase audit workflow files
+│   │   ├── audit-intake.md                # Intake phase: input reading, project census, audit mode
+│   │   ├── parameter-phase.md             # Parameter Configuration phase: gates, delivery, modes
+│   │   ├── scope-definition.md            # Scope Definition phase: scope, domain profile, criteria
+│   │   ├── evidence-gathering.md          # Evidence Gathering phase: sweeps, Verification Plan, ledger
+│   │   ├── category-assessment.md         # Category Assessment phase: per-category checklists
+│   │   ├── report-synthesis.md            # Synthesis phase: drafting, assembly, counter-evidence
+│   │   ├── report-validation.md           # Validation phase: mechanical gates, decision checks
+│   │   └── regression-scenarios.md        # Skill-maintenance regression scenario table
 │   ├── audit-model.md                     # Evidence-to-finding pipeline and canonical audit-model.json
 │   ├── calibration.md                     # Paired-run reproducibility procedure and tolerances
 │   ├── decision-modes.md                  # Interaction-mode matrix: interactive and automated resolution
@@ -597,14 +611,13 @@ lens-skill/
 │   ├── skill-definition.md                # (conditional) Agent Skills spec conformance
 │   ├── agent-guidance.md                  # (conditional) Agent-guidance set topology and authority
 │   ├── standards-conformance.md           # (conditional) Project development standards conformance and quality
-│   ├── requirements-conformance.md        # (conditional) Declared product-requirements/spec conformance table
+│   ├── requirements-conformance.md        # (conditional) Declared product requirements and acceptance criteria
 │   ├── baseline-conformance.md            # (conditional) Engineering floor against bundled stack/purpose baselines
-│   ├── api-compatibility.md               # (conditional) API compat gates, versioning, breaking-change tracking
-│   └── requirements-conformance.md        # (conditional) Declared product requirements and acceptance criteria
+│   └── api-compatibility.md               # (conditional) API compat gates, versioning, breaking-change tracking
 ├── synthesis/
 │   ├── risk-register.md                   # Unified risk register with FND cross-referencing
 │   ├── project-scorecard.md               # Project scorecard, rubric, and scale display rules
-│   ├── solution-comparison.md               # Engineering trade-offs in standalone table and embedded findings
+│   ├── solution-comparison.md             # Engineering trade-offs in standalone table and embedded findings
 │   ├── remediation-roadmap.md             # Actionable remediation roadmap with priority matrix and classification
 │   ├── report-triangulation.md            # Contradiction register and external-report reconciliation
 │   ├── debt-register.md                   # (conditional) TDR inventory with CISQ/SQALE cost model
@@ -619,7 +632,7 @@ lens-skill/
 │   ├── audit-taxonomy.md                  # Canonical audit types, coverage statuses, source corpus
 │   ├── evidence-schema.md                 # Evidence kinds, outcome states, sufficiency, coverage labels
 │   ├── criteria-catalogue.md              # Criteria records, families, applicability freeze
-│   ├── criteria-catalogue.json           # Fixed policy-3 criteria catalogue and severity anchors
+│   ├── criteria-catalogue.json            # Fixed policy-3 criteria catalogue and severity anchors
 │   ├── organization-model.md              # Area map and responsibility inventory method
 │   ├── naming-and-layout.md               # Cross-stack naming matrices, code-division rules, 11-stack fixtures
 │   ├── language-conventions.md            # Per-ecosystem style yardstick snapshot for code style
@@ -675,9 +688,10 @@ and use the repository root only when none exists.
 
 Run them only against report artifacts and remove the copies after use.
 
-File-mode reports are composed as `.tmp.<stem>-part-NN.md` part files in the same scratch
-locations, concatenated in section order into the output file, and the parts are deleted only
-after the assembled report passes validation. They are checkpoints against mid-flight loss.
+File-mode reports are composed as `.tmp.<stem>-part-NN.md` part files in the same scratch locations,
+concatenated in section order into the output file,
+and the parts are deleted only after the assembled report passes validation.
+They are checkpoints against mid-flight loss.
 
 Sections marked *(conditional)* appear in a report only when the subject warrants them.
 
@@ -693,8 +707,8 @@ The inclusion criteria are defined in the Conditional Sections table of `process
 Every document that is part of this skill must follow the rules specified in
 [docs/STYLE.md](./docs/STYLE.md).
 
-That file compiles Markdown text style, table formatting, and Agent Skills document requirements
-into a single reference.
+That file compiles Markdown text style, table formatting,
+and Agent Skills document requirements into a single reference.
 
 ---
 
@@ -702,8 +716,8 @@ into a single reference.
 
 Lens conforms to the [Agent Skills specification](https://agentskills.io/specification).
 
-`SKILL.md` declares `name`, `description`, `license`, `compatibility`, `metadata`, and
-`allowed-tools` in YAML frontmatter, and the repository follows the conventional `scripts/`,
+`SKILL.md` declares `name`, `description`, `license`, `compatibility`, `metadata`,
+and `allowed-tools` in YAML frontmatter, and the repository follows the conventional `scripts/`,
 `references/` layout with progressive disclosure.
 
 Verify the structure and file references:
@@ -714,38 +728,41 @@ python scripts/check-references.py .
 ```
 
 `assessment/skill-definition.md` encodes the same conformance rules for auditing other skills,
-and `references/agent-configuration.md` extends the coverage to `AGENTS.md`, rules
-directories, plugin manifests, subagent definitions, instruction files, and MCP configuration.
+and `references/agent-configuration.md` extends the coverage to `AGENTS.md`, rules directories,
+plugin manifests, subagent definitions, instruction files, and MCP configuration.
 
 ---
 
 ## Verification For Skill Maintenance
 
-This repository contains Markdown instructions, not an application build or an automated model
-benchmark suite.
+This repository contains Markdown instructions,
+not an application build or an automated model benchmark suite.
 
 When changing the skill, follow `docs/MAINTENANCE.md` and:
 
 - Run `python scripts/validate-skill.py .`, `python scripts/check-references.py .`,
   `python scripts/check-contents.py .`, and the `tests/` suite
   (`python -m unittest discover -s tests`) after changing skill files.
-- The repository runs no CI workflow by deliberate choice. The checklist above is the standing
-  pre-merge gate, and the maintainer runs it on every change before merging.
+- The repository runs no CI workflow by deliberate choice.
+  The checklist above is the standing pre-merge gate,
+  and the maintainer runs it on every change before merging.
 - Run `git diff --check` to detect whitespace errors.
 - Format edited tables using an automated source-width formatter per `docs/STYLE.md`.
 - Check Contents tables in files over 300 lines and preserve encoding and line endings.
 - Review router, workflow, templates, synthesis guides, and translations for agreement.
-- Exercise the regression scenarios in `process/audit-workflow.md` and record limitations.
+- Exercise the regression scenarios in `process/audit-workflow/regression-scenarios.md`
+  and record limitations.
 
-Name temporary validation scripts with a `.tmp.` infix, place them in `work/` when it exists and in
-the repository root otherwise, and remove them after use.
+Name temporary validation scripts with a `.tmp.` infix,
+place them in `work/` when it exists and in the repository root otherwise,
+and remove them after use.
 
 Report part files follow the same `.tmp.` infix and scratch placement,
-and may sit beside the output file during assembly when the scratch tree is not writable by
-file tools.
+and may sit beside the output file during assembly when the scratch tree is not
+writable by file tools.
 
-Structural checks do not prove that future agents will follow the instructions, a fresh audit or
-independent model evaluation is a separate behavioral verification step.
+Structural checks do not prove that future agents will follow the instructions,
+a fresh audit or independent model evaluation is a separate behavioral verification step.
 
 ## License
 

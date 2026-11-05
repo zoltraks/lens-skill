@@ -2,12 +2,12 @@
 
 ## Purpose
 
-> **Scope:** Data protection, privacy, regulatory obligations, licensing, auditability
-> **Key items:** personal data handling, retention, consent, regulatory scope, license compliance,
-> audit trail
+> **Scope:** Data protection, privacy, regulatory obligations, licensing,
+> auditability **Key items:** personal data handling, retention, consent, regulatory scope,
+> license compliance, audit trail
 
-This file guides assessment of legal and regulatory obligations that apply to a system, especially
-one handling user or business data in production.
+This file guides assessment of legal and regulatory obligations that apply to a system,
+especially one handling user or business data in production.
 
 Apply `principles/evaluation-rules.md` throughout.
 
@@ -22,10 +22,10 @@ This is a technical assessment of observable controls, not legal advice.
 - Consent and rights: whether consent and data-subject rights are handled where applicable.
 - Regulatory scope: whether a regime such as data-protection or sector regulation plausibly applies.
 - Licensing: whether the project's own license and third-party obligations are satisfied.
-- Auditability: whether security-relevant actions leave an audit trail. Enumerate the
-  security-relevant operations - administrative operations, role and lifecycle changes,
-  and permitted actions that run without an authenticated principal - and reconcile them
-  against the instrumented set.
+- Auditability: whether security-relevant actions leave an audit trail.
+  Enumerate the security-relevant operations - administrative operations,
+  role and lifecycle changes, and permitted actions that run without an authenticated principal -
+  and reconcile them against the instrumented set.
 
 ## Evidence To Look For
 
@@ -45,51 +45,53 @@ Start with data categories and flows, not an assumed regulation or a demand for 
 For material categories, record purpose, source, subjects, storage, recipients, access controls,
 retention/deletion behavior, and the requirement or policy basis.
 
-Include identity fields, free-text queries, logs, backups, Git history, caches, embeddings, and
-third-party processing when these are in scope.
+Include identity fields, free-text queries, logs, backups, Git history, caches, embeddings,
+and third-party processing when these are in scope.
 
-A committed data inventory - a registry of client or personal records tracked in version
-control - persists in history even after the file is deleted.
+A committed data inventory - a registry of client or personal records tracked in version control -
+persists in history even after the file is deleted.
 
-Removing the file does not remove the data, and a history-scrub decision routes to the
-data-protection owner, not an engineering call.
+Removing the file does not remove the data,
+and a history-scrub decision routes to the data-protection owner, not an engineering call.
 
 A knowledge base can contain personal data even without a dedicated customer table.
 
-A derived index is not necessarily anonymous, and deleting a source record does not prove deletion
-from replicas, backups, logs, or model-related stores.
+A derived index is not necessarily anonymous,
+and deleting a source record does not prove deletion from replicas, backups, logs,
+or model-related stores.
 
 Use schema and synthetic fixtures rather than exposing personal data in evidence.
 
 For due diligence, record deployment jurisdictions, controller/processor responsibilities,
 subprocessors, transfer arrangements, and contractual obligations from supplied evidence.
 
-If GDPR or another regime may apply but context is missing, identify the unanswered questions and
-request legal confirmation instead of claiming either compliance or noncompliance.
+If GDPR or another regime may apply but context is missing,
+identify the unanswered questions and request legal confirmation instead of claiming either
+compliance or noncompliance.
 
 Keep licensing assessment applicable even when personal-data controls are `N/A`.
 
 ## Audit-Trail Quality
 
-Enumeration alone does not establish auditability - assess the trail's quality on the
-instrumented operations it does cover.
+Enumeration alone does not establish auditability - assess the trail's quality on the instrumented
+operations it does cover.
 
-- **Write reliability**: trace what happens when audit emission itself fails. An audit
-  write that can fail silently - a swallowed handler exception, a snapshot built outside
-  the transaction that produced it - lets the business operation succeed unrecorded, which
-  is worse than no trail because the gap is invisible.
-- **State captured**: a mutation record must let a reader reconstruct what changed - the
-  state before and after, or the old and new values. A record holding only the prior
-  snapshot, or only the action name, cannot answer "from where to where".
-- **Signal versus noise**: distinguish deliberate actor operations from automated traffic
-  the client generates - prefetches, hover lookups, polling. A trail that cannot separate
-  them makes real events unfindable.
-- **Attribution integrity**: attribution fields (principal, source address) count only
-  from trusted sources - the proxy-header rule in `assessment/security-review.md`.
-- **Store properties**: the audit store's own retention, append-integrity, and protection
-  from the actors it records - a trail editable by the audited administrator, or living in
-  the same writable store as production data with no archival path, has bounded
-  accountability value.
+- **Write reliability**: trace what happens when audit emission itself fails.
+  An audit write that can fail silently - a swallowed handler exception,
+  a snapshot built outside the transaction that produced it - lets the business operation succeed
+  unrecorded, which is worse than no trail because the gap is invisible.
+- **State captured**: a mutation record must let a reader reconstruct what changed - the state
+  before and after, or the old and new values. A record holding only the prior snapshot,
+  or only the action name, cannot answer "from where to where".
+- **Signal versus noise**: distinguish deliberate actor operations from automated traffic the client
+  generates - prefetches, hover lookups, polling.
+  A trail that cannot separate them makes real events unfindable.
+- **Attribution integrity**: attribution fields (principal, source address)
+  count only from trusted sources - the proxy-header rule in `assessment/security-review.md`.
+- **Store properties**: the audit store's own retention, append-integrity,
+  and protection from the actors it records - a trail editable by the audited administrator,
+  or living in the same writable store as production data with no archival path,
+  has bounded accountability value.
 
 ## Status Criteria
 

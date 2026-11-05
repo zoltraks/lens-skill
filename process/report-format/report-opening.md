@@ -2,25 +2,25 @@
 
 ## Purpose
 
-> **Scope:** Document information, audit-type coverage, and glossary at the top of the report
-> **Key items:** document information, coverage matrix, glossary, descriptive-mode gate
+> **Scope:** Document information, audit-type coverage,
+> and glossary at the top of the report **Key items:** document information, coverage matrix,
+> glossary, descriptive-mode gate
 
 ## Contents
 
 | Section              | Line | What it covers                       |
 |----------------------|------|--------------------------------------|
-| Document Information | 17   | Report metadata and revisions        |
-| Contents             | 170  | Linked navigation of report sections |
-| Audit Coverage       | 190  | Coverage of canonical audit types    |
+| Document Information | 18   | Report metadata and revisions        |
+| Contents             | 172  | Linked navigation of report sections |
+| Audit Coverage       | 191  | Coverage of canonical audit types    |
 | Glossary             | 250  | Abbreviation and acronym definitions |
 
 ## Document Information
 
-Open the report with a document title as a level-1 markdown heading (`#`), followed by the
-`## Document Information` section.
+Open the report with a document title as a level-1 markdown heading (`#`),
+followed by the `## Document Information` section.
 
-Present the document metadata as a two-column table with an empty header row and no column
-names:
+Present the document metadata as a two-column table with an empty header row and no column names:
 
 ```markdown
 # <System Name> Software Audit Report
@@ -39,74 +39,75 @@ names:
 
 Pad the empty header cells to the column width like any other cell.
 
-The empty header row is load-bearing - replacing it with a second separator row
-breaks the table contract, and the row is rebuilt by `scripts/format-table.py`,
-never padded by hand.
+The empty header row is load-bearing - replacing it with a second separator row breaks the table
+contract, and the row is rebuilt by `scripts/format-table.py`, never padded by hand.
 
 Rows appear in this order, each label in the first column and its value in the second:
 
 - `Report Revision` - the report document revision, assigned per the report revision rules below.
 - `Report Date` - the audit date.
-- `Report Style` - `Audit`, `Hunt`, or `Review`, per `process/report-format/hunt-style.md`
-  and `process/report-format/review-style.md`.
-- `Review Scope` - `Structure`, written only when a `review`-style report renders the
-  structure-review variant per `process/report-format/structure-review.md`, and omit the row on
-  a full-scope review.
+- `Report Style` - `Audit`, `Hunt`, or `Review`,
+  per `process/report-format/hunt-style.md` and `process/report-format/review-style.md`.
+- `Review Scope` - `Structure`, written only when a `review` -style report renders the
+  structure-review variant per `process/report-format/structure-review.md`,
+  and omit the row on a full-scope review.
 - `Detail Level` - `Standard`, `Detailed`, or `Brief`.
 - `Evaluation Scale` - `1-10`, `1-5`, `1-3`, `5 stars`, or `3 stars`.
-- `Sentence breaks` - `Off`, written only when the user explicitly suppressed
-  sentence-per-paragraph prose per `process/report-format.md`, and omit the row when the default
+- `Sentence breaks` - `Off`, written only when the user explicitly suppressed sentence-per-paragraph
+  prose per `process/report-format.md`, and omit the row when the default
   sentence-separated layout applies.
 - `Language` - the report language.
-- `Translations` - the sibling language renderings of the same report, written only when the
-  run ships a language pair per `principles/output-style.md`: names each sibling file and its
-  language, for example `AUDIT-1.4-PL.md (Polish)` in the English report and
-  `AUDIT-1.4-EN.md (English - canonical)` in the translation. Omit the row on a
-  single-language report.
-- `Audit Purpose` - engineering improvement, production readiness, or technical due
-  diligence. The cell carries the purpose value only. A re-audit is marked by
-  `Report Revision`, `Previous Report`, and the Changes section, never prefixed into
-  `Audit Purpose`.
+- `Translations` - the sibling language renderings of the same report,
+  written only when the run ships a language pair per `principles/output-style.md`:
+  names each sibling file and its language,
+  for example `AUDIT-1.4-PL.md (Polish)` in the English report and
+  `AUDIT-1.4-EN.md (English - canonical)` in the translation.
+  Omit the row on a single-language report.
+- `Audit Purpose` - engineering improvement, production readiness, or technical due diligence.
+  The cell carries the purpose value only. A re-audit is marked by `Report Revision`,
+  `Previous Report`, and the Changes section, never prefixed into `Audit Purpose`.
 - `Target Environment` - where the software runs or ships.
-- `Verification Scope` - `Static repository analysis (code, configuration,
-  documentation, git history) - no execution` for `Source-only`, or the same phrase plus
-  `; commissioned non-mutating analyzers executed` under `executed-readonly` or
-  `; commissioned non-mutating commands executed` under `executed-commands` - the short token
-  `Source-only` may stand when a previous revision already established it.
+- `Verification Scope` -
+  `Static repository analysis (code, configuration, documentation, git history) - no execution` for
+  `Source-only`, or the same phrase plus `; commissioned non-mutating analyzers executed` under
+  `executed-readonly` or `; commissioned non-mutating commands executed` under `executed-commands` -
+  the short token `Source-only` may stand when a previous revision already established it.
 - `Evidence Mode` - `Source-only`, `Executed-readonly`, or `Executed-commands`.
-- `Subject Revision` - the audited revision of the subject: the commit SHA with branch or
-  detached state in parentheses when VCS metadata exists, or `unversioned working tree` with
-  the capture timestamp when it does not. This row is never omitted - a report without a
-  snapshot anchor cannot be reconciled against another audit.
-- `Dirty-Tree State` - the working tree state at audit time, optional and written
-  only when the tree is dirty and snapshot integrity matters to the operator. Omit the row
-  otherwise - a dirty tree lists its paths in the evidence ledger regardless.
-- `Skill Version` - the version of the audit skill that produced the report, written as the
-  bare version string (for example `2.0.2`), never prefixed with the skill name.
-- `Time taken` - elapsed audit time in `MM:SS`, measured from the start timestamp recorded the
-  moment parameter questions were resolved. Before the remaining skill rule documents are
-  loaded - to the final clock reading before report delivery. The window spans document
-  familiarization, evidence gathering, report part composition, concatenation, formatting, and
-  validation, and an interrupted or re-done assembly does not reset the start timestamp.
-- `Previous Report` - the previous report path and revision, only on a confirmed re-audit. Omit
-  the row on a fresh audit.
-- `Projects` - the audited project names rendered as links to their `##`
-  sections, multi-project reports only - `[api-service](#api-service)`.
+- `Subject Revision` - the audited revision of the subject:
+  the commit SHA with branch or detached state in parentheses when VCS metadata exists,
+  or `unversioned working tree` with the capture timestamp when it does not.
+  This row is never omitted - a report without a snapshot anchor cannot be reconciled
+  against another audit.
+- `Dirty-Tree State` - the working tree state at audit time,
+  optional and written only when the tree is dirty and snapshot integrity matters to the operator.
+  Omit the row otherwise - a dirty tree lists its paths in the evidence ledger regardless.
+- `Skill Version` - the version of the audit skill that produced the report,
+  written as the bare version string (for example `2.0.2`), never prefixed with the skill name.
+- `Time taken` - elapsed audit time in `MM:SS`,
+  measured from the start timestamp recorded the moment parameter questions were resolved.
+  Before the remaining skill rule documents are loaded - to the final clock reading before report
+  delivery. The window spans document familiarization, evidence gathering, report part composition,
+  concatenation, formatting, and validation,
+  and an interrupted or re-done assembly does not reset the start timestamp.
+- `Previous Report` - the previous report path and revision, only on a confirmed re-audit.
+  Omit the row on a fresh audit.
+- `Projects` - the audited project names rendered as links to their `##` sections,
+  multi-project reports only - `[api-service](#api-service)`.
 
 Omit a row entirely when the input does not establish its value.
 
-Descriptive value cells share one casing convention: each descriptive value's first
-letter starts uppercase - `Audit`, `Source-only`, `Static repository analysis`.
+Descriptive value cells share one casing convention:
+each descriptive value's first letter starts uppercase - `Audit`, `Source-only`,
+`Static repository analysis`.
 
-Literal values - versions, dates, paths, revisions, identifiers, links, and code - stay
-verbatim.
+Literal values - versions, dates, paths, revisions, identifiers, links, and code - stay verbatim.
 
 Never write an empty value cell or a `Not specified` token in this table.
 
 Do not include a `Delivery Mode` or `Report Delivery` row.
 
-Whether the report was delivered as a file or an inline response is evident from the delivery
-itself.
+Whether the report was delivered as a file or an inline response is evident from
+the delivery itself.
 
 Do not include a `Descriptive Mode` row.
 
@@ -118,23 +119,24 @@ The word `revision` refers to the report document.
 The word `version` refers to the audited software, a project, a library, or the skill itself,
 as in `Subject Revision` for the audited commit and `Skill Version` for the skill.
 
-Resolve `<System Name>` from the subject's declared human-readable name - a project
-specification heading such as `docs/PROJECT.md`, a manifest `name` field, or a README
-title - and fall back to the repository or directory name only when no declared name exists.
+Resolve `<System Name>` from the subject's declared human-readable name - a project specification
+heading such as `docs/PROJECT.md`, a manifest `name` field,
+or a README title - and fall back to the repository or directory name only when no
+declared name exists.
 
-For a multi-project audit, use the declared collection or repository name as the system name
-in the title and include the `Projects` row.
+For a multi-project audit, use the declared collection or repository name as the system name in the
+title and include the `Projects` row.
 
 These fields support reproducible re-audits and prevent historical tool results being attributed
 to a different tree.
 
-A generated report is a final artifact by construction - it carries no in-progress marker, and
-a later modification is that modification's own responsibility, not a state the report records.
+A generated report is a final artifact by construction - it carries no in-progress marker,
+and a later modification is that modification's own responsibility, not a state the report records.
 
 A completed report does not mean the system is approved for production.
 
-This distinction is audit-internal semantics. The report itself never carries a sentence
-disclaiming production acceptance.
+This distinction is audit-internal semantics.
+The report itself never carries a sentence disclaiming production acceptance.
 
 **Report revision**
 
@@ -149,7 +151,7 @@ This applies to both a confirmed re-audit and a fresh audit.
 When the previous report records no revision, treat it as `1.0` and assign `1.1`.
 
 Earlier reports may record the document revision differently: a bold-label `Version` field,
-or a `Field`/`Value` table with a `Version` row.
+or a `Field` / `Value` table with a `Version` row.
 
 Read any of these forms as the report revision.
 
@@ -169,9 +171,8 @@ and `Verification Scope` are rendered per the same file.
 
 ## Table of Contents
 
-A `## Table of Contents` section is never written - the report navigates by its fixed
-section order, and `process/report-format.md` and `process/navigation-rules.md` forbid a
-contents table.
+A `## Table of Contents` section is never written - the report navigates by its fixed section order,
+and `process/report-format.md` and `process/navigation-rules.md` forbid a contents table.
 
 It lists every level-2 section as a bullet of links to its heading anchor:
 
@@ -189,21 +190,21 @@ A section that carries no navigable subsection still lists once.
 
 ## Audit Coverage
 
-State at a glance which canonical audit types this report answers and which it deliberately does
-not run.
+State at a glance which canonical audit types this report answers and which it
+deliberately does not run.
 
 The table makes the report's coverage explicit so it cannot be mistaken for a penetration test,
 a certifying audit, or a full technical due diligence.
 
 The section appears once per report, immediately after `## Table of Contents` and before
-`## Project Inventory` in a multi-project report, or before `## Glossary Index` in a single-project
-report.
+`## Project Inventory` in a multi-project report,
+or before `## Glossary Index` in a single-project report.
 
-Present the fixed table from `references/audit-taxonomy.md`, one row per canonical audit type
-whose status is not `Not applicable`.
+Present the fixed table from `references/audit-taxonomy.md`,
+one row per canonical audit type whose status is not `Not applicable`.
 
-A type classified `Not applicable` produces no row. The table never mentions audit types that
-do not apply to the subject.
+A type classified `Not applicable` produces no row.
+The table never mentions audit types that do not apply to the subject.
 
 | Report type                          | Status   | Rationale                              |
 |--------------------------------------|----------|----------------------------------------|
@@ -224,8 +225,7 @@ Status values come from the fixed vocabulary in `references/audit-taxonomy.md`: 
 `PARTIALLY`, `NOT DONE`, `NOT APPLICABLE`.
 
 The uppercase forms are the canonical token names - English cells render the natural forms
-`Covered`, `Partially`, and `Not done` per the rendered-forms table in
-`principles/output-style.md`.
+`Covered`, `Partially`, and `Not done` per the rendered-forms table in `principles/output-style.md`.
 
 A `NOT APPLICABLE` status is decided per type but never rendered as a row.
 
@@ -233,14 +233,14 @@ Default statuses and per-type rationale are defined there.
 
 A status other than the default carries its reason in the Rationale column.
 
-A rationale names covered artifacts directly - `threat model, CWE` - not nominalized
-wrappers that hang off the term.
+A rationale names covered artifacts directly - `threat model, CWE` - not nominalized wrappers
+that hang off the term.
 
-A `Not done` rationale stays minimal, for example `Separate engagement type` - the
-matching Scope Exclusions bullet carries the caveat, not the cell.
+A `Not done` rationale stays minimal, for example `Separate engagement type` - the matching Scope
+Exclusions bullet carries the caveat, not the cell.
 
-When the report language is not English, apply the column header, report-type, and status
-translations from the matching `translations/` file.
+When the report language is not English, apply the column header, report-type,
+and status translations from the matching `translations/` file.
 
 The matrix must agree with Scope Exclusions: every `Not done` row has a matching exclusion bullet,
 and no `Covered` row is later disclaimed.
@@ -256,8 +256,8 @@ and omitted when Descriptive mode is `Disabled`.
 
 When omitted, record the deliberate omission with a one-line justification in Scope Exclusions.
 
-The section appears immediately after `## Audit Coverage`, or after
-`## Project Inventory` in a multi-project report, and always before `## Executive Summary`.
+The section appears immediately after `## Audit Coverage`,
+or after `## Project Inventory` in a multi-project report, and always before `## Executive Summary`.
 
 A multi-project report carries one shared Glossary Index covering terms used in every project block.
 
@@ -268,8 +268,8 @@ Present the terms as a two-column table, one row per term, sorted alphabetically
 The Term cell holds the acronym in plain form,
 or a markdown link when the term carries a long description below the table.
 
-The Definition cell gives the expansion plus one clause of plain-language meaning or role in
-context.
+The Definition cell gives the expansion plus one clause of plain-language
+meaning or role in context.
 
 ```markdown
 ## Glossary Index
@@ -285,8 +285,8 @@ context.
 
 At the `Detailed` detail level, follow the alphabetical index table (before the `###`
 long-description subsections) with a dedicated `**Identifier triplets**` table listing every
-three-letter code used in findings, evidences, registers, and criteria identifiers across the
-report:
+three-letter code used in findings, evidences, registers,
+and criteria identifiers across the report:
 
 ```markdown
 **Identifier triplets**
@@ -308,13 +308,13 @@ Order the rows as follows:
 
 1. `FND` first, then `EVD` second.
 2. Any remaining register identifier triplets used in the report (`TDR`, `RSK`, `REC`, `PAR`).
-3. Every three-letter criteria prefix (from `**Criteria table**`) and finding-pillar code
-   (`FND-<PILLAR>-NNN`) used in the report, in the order they appear in the Criteria table and
-   findings.
+3. Every three-letter criteria prefix (from `**Criteria table**`)
+   and finding-pillar code (`FND-<PILLAR>-NNN`) used in the report,
+   in the order they appear in the Criteria table and findings.
 
 The `**Identifier triplets**` table documents internal identifier structure and is not an
-acronym-linking index - `scripts/link-glossary.py` links body acronyms from the first (`Term |
-Definition`) table only.
+acronym-linking index - `scripts/link-glossary.py` links body acronyms from the first
+(`Term | Definition`) table only.
 
 Every register family numbers globally across the whole report - `EVD`, `TDR`, `RSK`, `REC`,
 and `PAR` run as single sequences, and `FND` numbers contiguously within each pillar across
@@ -324,15 +324,15 @@ clarity, not disambiguation.
 **Long descriptions**
 
 Terms that need more than an expansion get a `###` subsection below the index table,
-still inside `## Glossary`, sorted alphabetically by term ignoring case, matching the index
-table's ordering rule.
+still inside `## Glossary`, sorted alphabetically by term ignoring case,
+matching the index table's ordering rule.
 
-A term serving as a fixed identifier prefix throughout the report - `EVD`, `FND`, `RSK`,
-`REC`, `TDR`, `PAR` - carries a `###` description in addition to its index-table row, never instead of it, since
-the reader meets it in every register and finding block.
+A term serving as a fixed identifier prefix throughout the report - `EVD`, `FND`, `RSK`, `REC`,
+`TDR`, `PAR` - carries a `###` description in addition to its index-table row, never instead of it,
+since the reader meets it in every register and finding block.
 
-The index-table row for such a term renders as a link to the `###` anchor -
-`[EVD](#evd)` - and the `###` heading carries the bare term so its slug matches.
+The index-table row for such a term renders as a link to the `###` anchor - `[EVD](#evd)` - and the
+`###` heading carries the bare term so its slug matches.
 
 Name each subsection `### TERM (Expansion)` when the expansion is established,
 or `### TERM` when it is not.
@@ -374,19 +374,20 @@ Exempt:
 
 - The Glossary section itself, including its index table and `###` descriptions.
 - Headings, fenced code blocks, inline code, existing link text, and URLs.
-- Occurrences inside a longer hyphenated or slashed identifier, such as `FND` inside
-  `FND-SEC-001`, `REC` inside `REC-BE-01`, or `PAR` inside `PAR-10`, and occurrences inside a
-  longer word, such as `SQL` inside `SQLite` or `API` inside `OpenAPI`. Link the whole compound
-  instead when the compound itself is a glossary term, such as `[SI-API](#si-api)` or
-  `[ISO/IEC](#glossary-index)`.
-- Acronyms that are part of a capitalized compound name: an acronym adjacent by whitespace to a
-  word starting with an uppercase letter on either side, for example `AI` in `AI Provenance`,
-  `API` in `API Compatibility & Versioning Discipline`, `UI` in `Material UI`, or `RMF` in
-  `NIST RMF`. Adjacent acronym pairs count as compounds too, so `the REST API` and `NIST RMF`
-  stay fully unlinked. Sentence-initial function words such as `The`, `A`, `Every`, and `No` do
-  not create compounds - `The PWA` still links.
-- Inflected forms keep the suffix inside the link text, for example
-  `[SLOs](#slo-service-level-objective)`.
+- Occurrences inside a longer hyphenated or slashed identifier, such as `FND` inside `FND-SEC-001`,
+  `REC` inside `REC-BE-01`, or `PAR` inside `PAR-10`, and occurrences inside a longer word,
+  such as `SQL` inside `SQLite` or `API` inside `OpenAPI`.
+  Link the whole compound instead when the compound itself is a glossary term,
+  such as `[SI-API](#si-api)` or `[ISO/IEC](#glossary-index)`.
+- Acronyms that are part of a capitalized compound name:
+  an acronym adjacent by whitespace to a word starting with an uppercase letter on either side,
+  for example `AI` in `AI Provenance`, `API` in `API Compatibility & Versioning Discipline`,
+  `UI` in `Material UI`, or `RMF` in `NIST RMF`. Adjacent acronym pairs count as compounds too,
+  so `the REST API` and `NIST RMF` stay fully unlinked.
+  Sentence-initial function words such as `The`, `A`, `Every`,
+  and `No` do not create compounds - `The PWA` still links.
+- Inflected forms keep the suffix inside the link text,
+  for example `[SLOs](#slo-service-level-objective)`.
 
 Apply body linking with a scripted pass rather than by hand.
 
@@ -394,20 +395,21 @@ A report can hold hundreds of standalone acronym occurrences,
 and the reliable procedure is to walk the body once with the report's own index table and `###`
 anchors, skipping the exemptions above, and to rerun the pass after any late content edit.
 
-Hand-linking a long report reliably leaves misses that PAR-10 and `validate-report.py` then surface
-one by one.
+Hand-linking a long report reliably leaves misses that PAR-10 and `validate-report.py`
+then surface one by one.
 
 Three discipline notes keep new prose from reintroducing failures the pass just cleared:
 
-- Prose added after the first pass reintroduces unlinked occurrences, so any new section or
-  edited paragraph triggers a rerun of the whole pass, not a spot check.
-- An acronym first introduced by new content must exist in the index table before it is linked
-  in the body. Adding `SPDX` to a new section, for example, requires a matching index row first.
-- `N/A` is itself a glossary term, so a bare `N/A` in prose fails the same check. Prefer the
-  words `Not applicable` in sentences where no status token is required.
-- The compound-name exemption fails in both directions: a standalone acronym left unlinked is
-  flagged, and a linked acronym adjacent to a capitalized compound word is flagged too, so
-  `the [VPS](#glossary-index) deployment` passes while `Traefik [VPS](#glossary-index)` does not.
+- Prose added after the first pass reintroduces unlinked occurrences,
+  so any new section or edited paragraph triggers a rerun of the whole pass, not a spot check.
+- An acronym first introduced by new content must exist in the index table before it is linked in
+  the body. Adding `SPDX` to a new section, for example, requires a matching index row first.
+- `N/A` is itself a glossary term, so a bare `N/A` in prose fails the same check.
+  Prefer the words `Not applicable` in sentences where no status token is required.
+- The compound-name exemption fails in both directions:
+  a standalone acronym left unlinked is flagged,
+  and a linked acronym adjacent to a capitalized compound word is flagged too,
+  so `the [VPS](#glossary-index) deployment` passes while `Traefik [VPS](#glossary-index)` does not.
 
 **Mechanical traps**
 
@@ -415,32 +417,35 @@ The validator enforces these additional rules that routine drafting tends to vio
 
 State them here so the prose contract and the mechanical check agree.
 
-- `SLO`, `RPO`, and `RTO` are always indexed. The index table must carry a row for each even
-  when the report body never uses them, for example a subject with no service-level vocabulary.
-- A spaced slash does not form a compound. `SBOM / Software` still requires `[SBOM](#glossary-index)`
-  on the acronym, only the adjacent form `SBOM/Software` is exempt.
-- Machine-readable `* **Field:**` value positions are exempt from linking when the field
-  carries a fixed-vocabulary token. The exempt labels are `Pillar`, `Severity`, `Type`,
-  `Security`, `Status`, `Change`, `Absence`, `Verification`, `Confidence`, `Class`, `Result`,
-  `Priority`, `Likelihood`, `Residual`, `Owner`, and `Exploitability`. The value of such a
-  line stays literal even when the token is a glossary term, so `* **Priority:** P2` keeps a
-  bare `P2` and `* **Absence:** N/A` keeps a bare `N/A`. A `* **Field:**` label not on this
-  list still links normally.
-- The status tokens that populate those fields - `N/A`, `PASS`, `FAIL`, `UNKNOWN`,
-  `NOT RUN`, `NOT PERFORMED`, `NOT SPECIFIED`, `INSUFFICIENT INFORMATION`, `NO BASELINE`,
-  `NO GAPS` are a fixed vocabulary. They may be indexed as terms when the report uses them
-  in prose, but inside the exempt field values above they are data, not glossary terms.
-- Parenthesized terms such as `HTTP(S)` cannot carry a `###` description, the term is parsed
-  before the parenthesis, keep them index-only.
-- A link must point at the term's own anchor: `[SLO](#slo...)` when the term has a `###`
-  subsection, `[API](#glossary-index)` when it does not. Linking a described term to `#glossary-index`,
+- `SLO`, `RPO`, and `RTO` are always indexed.
+  The index table must carry a row for each even when the report body never uses them,
+  for example a subject with no service-level vocabulary.
+- A spaced slash does not form a compound.
+  `SBOM / Software` still requires `[SBOM](#glossary-index)` on the acronym,
+  only the adjacent form `SBOM/Software` is exempt.
+- Machine-readable `* **Field:**` value positions are exempt from linking when the field carries a
+  fixed-vocabulary token. The exempt labels are `Pillar`, `Severity`, `Type`, `Security`, `Status`,
+  `Change`, `Absence`, `Verification`, `Confidence`, `Class`, `Result`, `Priority`, `Likelihood`,
+  `Residual`, `Owner`, and `Exploitability`.
+  The value of such a line stays literal even when the token is a glossary term,
+  so `* **Priority:** P2` keeps a bare `P2` and `* **Absence:** N/A` keeps a bare `N/A`.
+  A `* **Field:**` label not on this list still links normally.
+- The status tokens that populate those fields - `N/A`, `PASS`, `FAIL`, `UNKNOWN`, `NOT RUN`,
+  `NOT PERFORMED`, `NOT SPECIFIED`, `INSUFFICIENT INFORMATION`, `NO BASELINE`,
+  `NO GAPS` are a fixed vocabulary. They may be indexed as terms when the report uses them in prose,
+  but inside the exempt field values above they are data, not glossary terms.
+- Parenthesized terms such as `HTTP(S)` cannot carry a `###` description,
+  the term is parsed before the parenthesis, keep them index-only.
+- A link must point at the term's own anchor: `[SLO](#slo...)` when the term has a `###` subsection,
+  `[API](#glossary-index)` when it does not. Linking a described term to `#glossary-index`,
   or an index-only term to a `###` slug, both fail.
-- Reference Sources tables are not exempt: standalone publisher cells such as `| ISO |` and
-  `| NIST |` link like any other occurrence.
+- Reference Sources tables are not exempt:
+  standalone publisher cells such as `| ISO |` and `| NIST |` link like any other occurrence.
 - Link text must be the term or a known variant exactly: `[EVD](#glossary-index)` passes,
   `[EVD-001](#glossary-index)` fails because `EVD-001` is not a term - a numbered register
-  identifier links to its own definition instead, per Register Reference Links in
-  `process/report-format.md`, for example `[EVD-001](#evidence-list)`.
+  identifier links to its own definition instead,
+  per Register Reference Links in `process/report-format.md`,
+  for example `[EVD-001](#evidence-list)`.
 
 **Coverage**
 
@@ -448,19 +453,20 @@ Include every abbreviation and acronym used anywhere in the report body:
 
 - Report-internal identifier prefixes such as `EVD`, `FND`, `RSK`, `REC`, `TDR`, and `PAR`.
 - Priority tiers `P1`-`P4` and abbreviation-shaped tokens such as `N/A`.
-- Technology and standard names such as `API`, `CWE`, `CVSS`, `OWASP`, `STRIDE`, `SBOM`,
-  `SLO`, `RPO`, `RTO`, `PWA`, `SPA`, `CI/CD`, `TOTP`, `HMAC`, `CSP`, and `i18n`.
+- Technology and standard names such as `API`, `CWE`, `CVSS`, `OWASP`, `STRIDE`, `SBOM`, `SLO`,
+  `RPO`, `RTO`, `PWA`, `SPA`, `CI/CD`, `TOTP`, `HMAC`, `CSP`, and `i18n`.
 - Subject-specific terms established by the audited project, such as product or protocol names.
 
 Each definition expands the abbreviation and adds one clause of plain-language meaning or role in
 context, as in the SLO, RPO, and RTO examples above.
 
 Do not list ordinary words, brand or product names that are not abbreviations, file extensions,
-command names, or fixed vocabulary tokens that are complete words such as `PASS`, `FAIL`, `UNKNOWN`,
-or `NOT SPECIFIED`.
+command names, or fixed vocabulary tokens that are complete words such as `PASS`, `FAIL`,
+`UNKNOWN`, or `NOT SPECIFIED`.
 
 Do not invent expansions for product names the audited source does not establish,
 describe the term's role instead.
 
-When the report language is not English, keep each term in its original form and write the
-definition in the report language, per the matching `translations/` file.
+When the report language is not English,
+keep each term in its original form and write the definition in the report language,
+per the matching `translations/` file.

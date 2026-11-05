@@ -2,35 +2,34 @@
 
 ## Purpose
 
-> **Scope:** The criteria record schema, minimum criteria families, applicability rules, and
-> the freeze discipline that anchors every audit score and verdict
-> **Key items:** criteria records, families, applicability freeze, crosswalk integrity,
-> criticality and weight
+> **Scope:** The criteria record schema, minimum criteria families, applicability rules,
+> and the freeze discipline that anchors every audit score and verdict **Key items:** criteria
+> records, families, applicability freeze, crosswalk integrity, criticality and weight
 
 This file defines how an audit declares the criteria it evaluates before it reads the evidence.
 
-A criteria entry is an evaluable requirement with an identifier, a method, and a sufficiency rule -
-not a folder name, a section heading, or a checklist of presence.
+A criteria entry is an evaluable requirement with an identifier, a method,
+and a sufficiency rule - not a folder name, a section heading, or a checklist of presence.
 
 Apply `principles/evaluation-rules.md` throughout.
 
-The catalogue is per-audit: the criteria planner stage of `process/audit-model.md` selects,
-adapts, and freezes it for the subject, and `references/evidence-schema.md` defines the outcome
-states each criteria entry resolves to.
+The catalogue is per-audit: the criteria planner stage of `process/audit-model.md` selects, adapts,
+and freezes it for the subject, and `references/evidence-schema.md` defines the outcome states each
+criteria entry resolves to.
 
 Under scoring policy 3 the planner starts from the fixed catalogue in
-`references/criteria-catalogue.json` - the canonical dimension order and tiers, fixed
-criteria ids, weights, criticality, declared level anchors, `na_rules`, and severity
-anchors - and the model's completeness, membership, level, and census/history decisions are
-checked mechanically against it per `process/readiness-scoring.md`.
+`references/criteria-catalogue.json` - the canonical dimension order and tiers, fixed criteria ids,
+weights, criticality, declared level anchors, `na_rules`,
+and severity anchors - and the model's completeness, membership, level,
+and census/history decisions are checked mechanically against it per `process/readiness-scoring.md`.
 
 ## Contents
 
 | Section                | Line | What it covers                              |
 |------------------------|------|---------------------------------------------|
-| Criteria Records       | 37   | The fields every criteria entry carries     |
-| Applicability Freeze   | 72   | Denominator locking and change rules        |
-| Criteria Families      | 87   | Minimum family set and per-family notes     |
+| Criteria Records       | 36   | The fields every criteria entry carries     |
+| Applicability Freeze   | 71   | Denominator locking and change rules        |
+| Criteria Families      | 86   | Minimum family set and per-family notes     |
 | Criticality And Weight | 140  | How criteria earn weight inside a dimension |
 | Crosswalk Integrity    | 151  | Mapping to external quality models honestly |
 
@@ -54,34 +53,34 @@ Every criteria entry in `audit-model.json` `criteria[]` carries these fields:
 
 Criteria identifier rules:
 
-- Every criteria-entry `id` starts with a **three-letter uppercase prefix** (`<FAM>-<SUBJ>`, such as
-  `TST-UNIT`, `MNT-COHES`, `DEP-BUILD`, `SCA-POOL`, `COM-DATA`, `DLY-HIST`, `SKL-PRES`) - never
-  a four-or-more-letter prefix (`TEST-`, `MAINT-`, `DEPLOY-`, `SCALE-`, `COMP-`, `DELIV-`,
-  `SKILL-`).
-- Omit numeric suffixes (`-01`, `-1`) when only one criteria entry uses a given `<FAM>-<SUBJ>`
-  stem, and append `-01`, `-02` only when multiple distinct criteria in the same report share
-  the same `<FAM>-<SUBJ>` stem.
+- Every criteria-entry `id` starts with a **three-letter uppercase prefix** (`<FAM>-<SUBJ>`,
+  such as `TST-UNIT`, `MNT-COHES`, `DEP-BUILD`, `SCA-POOL`, `COM-DATA`, `DLY-HIST`, `SKL-PRES`)
+  - never a four-or-more-letter prefix (`TEST-`, `MAINT-`, `DEPLOY-`, `SCALE-`, `COMP-`,
+  `DELIV-`, `SKILL-`).
+- Omit numeric suffixes (`-01`, `-1`) when only one criteria entry uses a given `<FAM>-<SUBJ>` stem,
+  and append `-01`, `-02` only when multiple distinct criteria in the same report share the same
+  `<FAM>-<SUBJ>` stem.
 
-Distinguish stakeholder requirements from auditor-proposed criteria and reconstructed
-assumptions in `source` - the reader must see which requirements the subject actually made.
+Distinguish stakeholder requirements from auditor-proposed criteria and reconstructed assumptions in
+`source` - the reader must see which requirements the subject actually made.
 
-Record the product profile the catalogue was tuned to: product type, intended users, deployment
-topology, data sensitivity, operating scale, critical functions, external contracts, and the
-release purpose, distinguishing supplied facts from auditor reconstructions.
+Record the product profile the catalogue was tuned to: product type, intended users,
+deployment topology, data sensitivity, operating scale, critical functions, external contracts,
+and the release purpose, distinguishing supplied facts from auditor reconstructions.
 
 ## Applicability Freeze
 
-Freeze the applicable criteria set - the denominator - before reading favorable or unfavorable
-findings.
+Freeze the applicable criteria set - the denominator - before reading favorable or
+unfavorable findings.
 
-Deciding a criteria entry is inapplicable after its evidence turned out unfavorable is denominator
-gaming.
+Deciding a criteria entry is inapplicable after its evidence turned out unfavorable
+is denominator gaming.
 
-Every post-freeze applicability change carries a recorded reason in `audit-model.json` and a
-visible justification in the report.
+Every post-freeze applicability change carries a recorded reason in `audit-model.json` and a visible
+justification in the report.
 
-`NOT_APPLICABLE` means the criteria entry cannot apply to the deployment model, with the
-contextual-applicability justification from `principles/evaluation-rules.md` - never "not
+`NOT_APPLICABLE` means the criteria entry cannot apply to the deployment model,
+with the contextual-applicability justification from `principles/evaluation-rules.md` - never "not
 checked" or "evidence was missing".
 
 ## Criteria Families
@@ -117,44 +116,44 @@ Add or adapt families when the product profile justifies it, and record the adap
 | `SAF`  | Conditional: hazards, fail-safe behavior where consequences warrant               |
 | `MDL`  | Conditional: model/retrieval quality where the product depends on it              |
 
-`FNC` criteria are planned and evidenced per `assessment/correctness-review.md`, which owns
-the defect-pattern and shipped-surface completeness censuses.
+`FNC` criteria are planned and evidenced per `assessment/correctness-review.md`,
+which owns the defect-pattern and shipped-surface completeness censuses.
 
 Compatibility criteria cover every external contract the subject exposes - service protocols,
-CLI flags and exit behavior, configuration schemas, persisted data, and supported version
-combinations - not only libraries.
+CLI flags and exit behavior, configuration schemas, persisted data,
+and supported version combinations - not only libraries.
 
 Deployable binaries carry breaking-change surface the same as packages.
 
 Deployment-pipeline criteria inside `DEP` resolve `not applicable` at planning when the intake
-automation signal census records `none` for the project, with the census cited as the recorded
-reason - the census precedes the applicability freeze, so this is not denominator gaming.
+automation signal census records `none` for the project,
+with the census cited as the recorded reason - the census precedes the applicability freeze,
+so this is not denominator gaming.
 
 Under an `external` census the pipeline criteria stay applicable only for what the external
 pointer establishes.
 
-Assess delivery practice, team continuity, and license obligations in separate
-process families marked `process` - their results remain release gates where applicable but
-never enter the product-quality aggregate.
+Assess delivery practice, team continuity,
+and license obligations in separate process families marked `process` - their results remain release
+gates where applicable but never enter the product-quality aggregate.
 
 ## Criticality And Weight
 
-A `critical` criteria entry is one whose `FAIL` state prevents safe release, operation, or
-maintenance of the subject as scoped - a non-compensatory gate.
+A `critical` criteria entry is one whose `FAIL` state prevents safe release, operation,
+or maintenance of the subject as scoped - a non-compensatory gate.
 
-Weight reflects the criteria entry's contribution inside its dimension and is frozen with the
-catalogue.
+Weight reflects the criteria entry's contribution inside its dimension and is
+frozen with the catalogue.
 
-New weights, criteria, or applicability decisions after publication require a scoring-policy
-version bump recorded in the audit model.
+New weights, criteria, or applicability decisions after publication require a scoring-policy version
+bump recorded in the audit model.
 
 ## Crosswalk Integrity
 
-A standards crosswalk - such as the ISO/IEC 25010:2023 map in
-`synthesis/project-scorecard.md` - points at actual evaluated criteria and names unresolved
-gaps.
+A standards crosswalk - such as the ISO/IEC 25010:2023 map in `synthesis/project-scorecard.md` -
+points at actual evaluated criteria and names unresolved gaps.
 
 Listing nine characteristic names does not demonstrate nine-characteristic coverage.
 
-Each mapped row cites the criteria that produced its evidence, and unmapped or unresolved
-characteristics are named, not implied.
+Each mapped row cites the criteria that produced its evidence,
+and unmapped or unresolved characteristics are named, not implied.

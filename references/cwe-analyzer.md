@@ -5,8 +5,8 @@
 > **Scope:** Cross-reference between CWE identifiers and ecosystem-specific static analyzer rules
 > **Key items:** rule IDs per stack, enablement evidence, "not yet enabled" reporting
 
-This file maps CWE identifiers to the static-analysis rules that check for the matching code pattern
-in each ecosystem.
+This file maps CWE identifiers to the static-analysis rules that check for the matching code
+pattern in each ecosystem.
 
 It is a documentation lookup, not execution: the audit never runs an analyzer.
 
@@ -16,18 +16,19 @@ Apply `principles/evaluation-rules.md` throughout.
 
 ## How To Apply
 
-- For every security finding that carries a CWE classification, look up the CWE in the matching
-  stack subsection below.
-- When a rule exists, close the finding's classification with the equivalent automated check and
-  its enablement state, for example: "The equivalent automated check is `CA5359`, not yet
-  enabled."
-- Determine enablement from evidence, not assumption. Check the enablement sources listed below
-  before writing "not yet enabled". When evidence exists, name it, for example ".editorconfig
-  sets `dotnet_diagnostic.CA5359.severity = warning`".
-- When no row or rule exists, state it plainly: "No direct analyzer rule exists for CWE-319 in
-  this stack." Do not stretch a related rule into coverage it does not claim.
-- Mappings are approximate. A rule covers the patterns its own documentation describes, which is
-  often a subset of the CWE. State the rule's documented scope when it differs from the CWE.
+- For every security finding that carries a CWE classification,
+  look up the CWE in the matching stack subsection below.
+- When a rule exists, close the finding's classification with the equivalent automated check and its
+  enablement state, for example: "The equivalent automated check is `CA5359`, not yet enabled."
+- Determine enablement from evidence, not assumption.
+  Check the enablement sources listed below before writing "not yet enabled". When evidence exists,
+  name it, for example ".editorconfig sets `dotnet_diagnostic.CA5359.severity = warning`".
+- When no row or rule exists, state it plainly:
+  "No direct analyzer rule exists for CWE-319 in this stack." Do not stretch a related rule into
+  coverage it does not claim.
+- Mappings are approximate. A rule covers the patterns its own documentation describes,
+  which is often a subset of the CWE. State the rule's documented scope when it
+  differs from the CWE.
 - Analyzer rules complement, never replace, manual review evidence.
 
 ## C# / .NET
@@ -103,8 +104,8 @@ Core SpotBugs also ships a few relevant detectors.
 
 ## JavaScript / TypeScript
 
-The main rule source is
-[`eslint-plugin-security`](https://github.com/eslint-community/eslint-plugin-security).
+The main rule source is [`eslint-plugin-security`]
+( https://github.com/eslint-community/eslint-plugin-security).
 
 The `eslint-plugin-no-unsanitized` plugin covers DOM XSS sinks.
 
@@ -200,5 +201,5 @@ Before writing "not yet enabled", check the sources where the rule would be conf
 | Rust    | `deny.toml`, CI steps invoking `cargo audit`/`cargo deny`, Clippy config                                                                                                             |
 | C / C++ | `clang-tidy` config (`.clang-tidy`), `CMAKE_CXX_CLANG_TIDY`, CI steps                                                                                                                |
 
-"Not yet enabled" means no evidence of enablement was found in these sources, and the audit says
-that, rather than asserting the rule is off.
+"Not yet enabled" means no evidence of enablement was found in these sources,
+and the audit says that, rather than asserting the rule is off.

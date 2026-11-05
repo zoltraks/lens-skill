@@ -2,15 +2,15 @@
 
 ## Purpose
 
-> **Scope:** Canonical software audit types, the fixed coverage-status vocabulary, and the
-> verified source corpus the taxonomy and related methodology draw on
-> **Key items:** audit-type table, coverage statuses, source corpus, coverage matrix rules
+> **Scope:** Canonical software audit types, the fixed coverage-status vocabulary,
+> and the verified source corpus the taxonomy and related methodology draw on **Key items:**
+> audit-type table, coverage statuses, source corpus, coverage matrix rules
 
 This file names the audit types a synthesis report distinguishes and defines the fixed status
 vocabulary used by the Audit Coverage table in `process/report-format/report-opening.md`.
 
-It also registers the external sources the skill's audit-type rules were derived from, so the
-report's References section can cite them the same way it cites standards.
+It also registers the external sources the skill's audit-type rules were derived from,
+so the report's References section can cite them the same way it cites standards.
 
 Apply `principles/evaluation-rules.md` throughout.
 
@@ -27,17 +27,17 @@ The Coverage Matrix uses exactly these statuses, and no others:
 
 `NOT DONE` declares a scope decision about an engagement kind, never a defect of the subject.
 
-The taxonomy vocabulary is uppercase, but Status cells render title case like every other
-report vocabulary - `Covered`, `Partially`, `Not done` - and `NOT APPLICABLE` rows are
-omitted entirely.
+The taxonomy vocabulary is uppercase, but Status cells render title case like every other report
+vocabulary - `Covered`, `Partially`, `Not done` - and `NOT APPLICABLE` rows are omitted entirely.
 
-`NOT APPLICABLE` differs: the type's trigger condition is absent entirely, for example an AI
-Governance Audit for a project with no AI dependency, and a row carrying it is never rendered.
+`NOT APPLICABLE` differs: the type's trigger condition is absent entirely,
+for example an AI Governance Audit for a project with no AI dependency,
+and a row carrying it is never rendered.
 
 This is the engagement-level vocabulary.
 
-Per-criteria outcome and coverage states are a
-separate vocabulary in `references/evidence-schema.md` and never appear in this matrix.
+Per-criteria outcome and coverage states are a separate vocabulary in
+`references/evidence-schema.md` and never appear in this matrix.
 
 ## Canonical Audit Types
 
@@ -48,7 +48,7 @@ and the Rationale column always states why.
 
 | Report type                          | Answered by                                                        | Default status |
 |--------------------------------------|--------------------------------------------------------------------|----------------|
-| Software Architecture Review         | Architectural Assessment, Structure Review, Solution Comparison     | COVERED        |
+| Software Architecture Review         | Architectural Assessment, Structure Review, Solution Comparison    | COVERED        |
 | Code Quality Audit                   | Code Quality pillar findings, Technical Debt Register              | COVERED        |
 | Security Vulnerability Assessment    | Security pillar findings, Threat Model, CWE mappings               | COVERED        |
 | Open Source License Compliance       | License Compliance, SBOM license pass                              | COVERED        |
@@ -65,8 +65,8 @@ and the Rationale column always states why.
 The AI Governance Audit row takes `COVERED` when the AI System Assessment applies per
 `assessment/ai-system.md`, and is omitted when it does not.
 
-The Requirements Conformance Review row takes `COVERED` when the subject carries a
-requirements or acceptance-criteria document per `assessment/requirements-conformance.md`,
+The Requirements Conformance Review row takes `COVERED` when the subject carries a requirements or
+acceptance-criteria document per `assessment/requirements-conformance.md`,
 and is omitted when it does not.
 
 ## Per-Type Rationale
@@ -88,8 +88,8 @@ supply them, labeled `REPORTED`.
 **Security Vulnerability Assessment.** Manual source review plus threat modeling maps to the
 SAST-equivalent tier of a vulnerability assessment.
 
-No scanner executes, and CWE-to-analyzer mappings from `references/cwe-analyzer.md` name checks
-that would run, not checks that ran.
+No scanner executes, and CWE-to-analyzer mappings from `references/cwe-analyzer.md` name checks that
+would run, not checks that ran.
 
 **Open Source License Compliance.** License inspection over manifests, notices,
 and vendored code answers the core license-compliance question.
@@ -100,8 +100,8 @@ per `references/license-compliance.md`.
 **Penetration Test.** A penetration test validates exploitability against a running target.
 
 Source-only audits never execute the subject,
-so this row is always `NOT DONE` unless the engagement scope explicitly lifts the no-execution
-constraint.
+so this row is always `NOT DONE` unless the engagement scope explicitly lifts the
+no-execution constraint.
 
 Exploitability Narratives carry the attack-path reasoning habit at `Theoretical` confidence only.
 
@@ -128,41 +128,40 @@ engagement: architecture, code, security, licensing, and delivery-practice proxi
 Interviews, team assessment, business fit, and commercial analysis are not performed,
 so the row stays `PARTIALLY`.
 
-**SBOM / Software Composition Analysis.** The manifest-derived inventory answers the inventory
-question.
+**SBOM / Software Composition Analysis.** The manifest-derived inventory answers
+the inventory question.
 
 It is not a shipped-artifact SBOM and performs no advisory-database lookups,
 per `references/sbom-schema.md`.
 
-**Requirements Conformance Review.** When the subject declares product requirements or
-acceptance criteria, the Requirements Conformance section grades each stated requirement
-against code and configuration evidence.
+**Requirements Conformance Review.** When the subject declares product requirements or acceptance
+criteria, the Requirements Conformance section grades each stated requirement against code and
+configuration evidence.
 
-When no requirements document exists the row is omitted, and assurance beyond the declared
-spec stays outside scope.
+When no requirements document exists the row is omitted,
+and assurance beyond the declared spec stays outside scope.
 
 **ISO/IEC 27001 Certification.** The standard's requirements are used as a scoring rubric
 and coverage checklist.
 
-The report makes no certification claim - certification of an information-security
-management system is a separate accredited process.
+The report makes no certification claim - certification of an information-security management system
+is a separate accredited process.
 
-**SOC 2 Attestation Examination.** The framework's criteria are used as a coverage
-checklist.
+**SOC 2 Attestation Examination.** The framework's criteria are used as a coverage checklist.
 
-The report makes no attestation claim - a SOC 2 report is an examination performed by a
-CPA firm, not a certification.
+The report makes no attestation claim - a SOC 2 report is an examination performed by a CPA firm,
+not a certification.
 
 ## Consistency Rules
 
-- Do not add or rename rows inside a report, and omit the row when the status is
-  `NOT APPLICABLE`.
+- Do not add or rename rows inside a report, and omit the row when the status is `NOT APPLICABLE`.
 - A status other than the default carries a one-line justification in the Rationale column.
-- The matrix must agree with Scope Exclusions: no `COVERED` row may be disclaimed later, and no
-  exclusion may contradict a `COVERED` status. PAR-11 enforces this.
+- The matrix must agree with Scope Exclusions: no `COVERED` row may be disclaimed later,
+  and no exclusion may contradict a `COVERED` status. PAR-11 enforces this.
 - `NOT DONE` rows reference the corresponding exclusion bullet in Scope Exclusions.
-- In a multi-project report the matrix appears once, before the Project Inventory, and statuses
-  reflect the engagement as a whole. Per-project differences go in the Rationale column.
+- In a multi-project report the matrix appears once, before the Project Inventory,
+  and statuses reflect the engagement as a whole.
+  Per-project differences go in the Rationale column.
 
 ## Source Corpus
 
@@ -195,10 +194,10 @@ The corpus lists methodology sources, not scoring inputs.
 Prefer primary standards for report citations per `references/stack-standards.md`,
 while these entries ground the report's structure and terminology choices.
 
-Several rows now have bundled digests that carry the distilled rules - consult them before the
-live source: `references/methodology/delivery-metrics.md` for the DORA row,
+Several rows now have bundled digests that carry the distilled rules - consult them before the live
+source: `references/methodology/delivery-metrics.md` for the DORA row,
 `references/methodology/sbom-licensing.md` for the CISA SBOM row,
-`references/methodology/versioning-release.md` for release documentation sources, and
-`references/methodology/quality-models.md` for the CISQ row.
+`references/methodology/versioning-release.md` for release documentation sources,
+and `references/methodology/quality-models.md` for the CISQ row.
 
 `references/source-catalog.md` records each source's consolidation status.

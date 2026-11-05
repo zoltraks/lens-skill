@@ -2,10 +2,10 @@
 
 ## Purpose
 
-> **Scope:** Cross-stack directory layouts, file-naming rules, language-idiomatic code
-> division, and in-code identifier conventions by component purpose and technology stack
-> **Key items:** component-role layout rules, cross-language naming matrices, code-division
-> idioms, 11 canonical stack fixtures, fallback procedure for unlisted stacks
+> **Scope:** Cross-stack directory layouts, file-naming rules, language-idiomatic code division,
+> and in-code identifier conventions by component purpose and technology stack **Key items:**
+> component-role layout rules, cross-language naming matrices, code-division idioms,
+> 11 canonical stack fixtures, fallback procedure for unlisted stacks
 
 This reference consolidates directory-organization rules, source-file naming conventions,
 language-idiomatic code division, and in-code identifier naming across supported programming
@@ -14,8 +14,8 @@ languages, frameworks, and documentation projects.
 Apply `principles/evaluation-rules.md` throughout.
 
 It feeds `assessment/structure-review.md`, `assessment/best-practices.md`,
-`assessment/standards-conformance.md`, and `assessment/baseline-conformance.md`, and anchors
-the `Structure Review` and `Structure Conformance` report sections.
+`assessment/standards-conformance.md`, and `assessment/baseline-conformance.md`,
+and anchors the `Structure Review` and `Structure Conformance` report sections.
 
 Snapshot date: 2026-10-27.
 
@@ -29,20 +29,20 @@ Snapshot date: 2026-10-27.
 | Cross-Language Naming Matrices     | 142  | File, package, type, member, variable, and test conventions |
 | Framework And Tooling Overrides    | 214  | Framework-imposed names that supersede language defaults    |
 | Language-Idiomatic Code Division   | 239  | Type-to-file rules, interfaces, abstracts, and DI wiring    |
-| Layout Convention Catalog          | 290  | Selectable layout shapes and the toolchain-binding rule     |
-| Canonical Stack Fixtures           | 324  | Reference layouts and idioms across 11 languages/stacks     |
-| Fallback For Unlisted Technologies | 786  | Auditing languages, frameworks, and docs not in the tables  |
+| Layout Convention Catalog          | 294  | Selectable layout shapes and the toolchain-binding rule     |
+| Canonical Stack Fixtures           | 330  | Reference layouts and idioms across 11 languages/stacks     |
+| Fallback For Unlisted Technologies | 797  | Auditing languages, frameworks, and docs not in the tables  |
 
 ## Component-Purpose Layout Rules
 
 Evaluate every component in a repository independently against its own purpose (`library`,
-`service`, `application`, `cli`, `test-suite`, `documentation`, or `agent-package`) per
-`references/domain-profiles.md`, never as an undifferentiated tree.
+`service`, `application`, `cli`, `test-suite`, `documentation`, or `agent-package`)
+per `references/domain-profiles.md`, never as an undifferentiated tree.
 
-A single repository often contains components of different natures - for example a reusable
-core library under `src/OrderApp.Domain/`, an HTTP service under `src/OrderApp.Api/`, a CLI
-migration tool under `tools/`, a test suite under `tests/`, and a documentation tree under
-`docs/`.
+A single repository often contains components of different natures - for example a reusable core
+library under `src/OrderApp.Domain/`, an HTTP service under `src/OrderApp.Api/`,
+a CLI migration tool under `tools/`, a test suite under `tests/`,
+and a documentation tree under `docs/`.
 
 Different structural and naming rules govern each component role:
 
@@ -58,12 +58,12 @@ Different structural and naming rules govern each component role:
 
 Component-specific evaluation rules:
 
-- **Libraries** must separate public API contracts from internal implementation (`internal/` in
-  Go, `pub` vs `pub(crate)` in Rust, `public` vs `internal` assemblies/namespaces in C#,
+- **Libraries** must separate public API contracts from internal implementation (`internal/` in Go,
+  `pub` vs `pub(crate)` in Rust, `public` vs `internal` assemblies/namespaces in C#,
   `include/<pkg>/` vs `src/` in C++20, exported package roots in Python/TypeScript).
-- **Services** must separate wire/transport concerns (HTTP controllers, route handlers, request
-  and response DTOs, auth/error middleware) from domain models and persistence adapters so
-  transport types do not leak into domain logic.
+- **Services** must separate wire/transport concerns (HTTP controllers, route handlers,
+  request and response DTOs, auth/error middleware)
+  from domain models and persistence adapters so transport types do not leak into domain logic.
 - **Applications and CLIs** must keep the entry point (`main`, `Program.cs`, `__main__.py`,
   `index.php`) as a thin composition root that wires configuration and dependencies without
   embedding business rules.
@@ -71,25 +71,26 @@ Component-specific evaluation rules:
   discovery-compatible file naming (`test_*.py`, `*Test.java`, `*Tests.cs`, `*_test.go`,
   `*.test.ts`, `*Test.php`, `*_test.cpp`).
 - **Documentation projects** and `docs/` trees are audited against
-  `references/topics/markdown-standards.md` and `assessment/agent-guidance.md`: lowercase
-  `kebab-case.md` topic files, uppercase root governance files (`README.md`, `AGENTS.md`,
+  `references/topics/markdown-standards.md` and `assessment/agent-guidance.md`:
+  lowercase `kebab-case.md` topic files, uppercase root governance files (`README.md`, `AGENTS.md`,
   `LICENSE`, `CHANGELOG.md`, `CONTRIBUTING.md`), and clear separation between reference specs,
   how-to guides, and architecture decisions.
 - **Agent packages** and skill collections follow the layout conventions distilled in
-  `references/agent-skills.md` and `references/agent-configuration.md`: a root `SKILL.md`
-  entry, conventional optional directories (`scripts/`, `references/`, `assets/`), and for a
-  collection an index plus one separated directory per member.
+  `references/agent-skills.md` and `references/agent-configuration.md`: a root `SKILL.md` entry,
+  conventional optional directories (`scripts/`, `references/`, `assets/`),
+  and for a collection an index plus one separated directory per member.
 
 ## Polyglot Repositories
 
-A repository that ships several language partitions resolves a naming and layout baseline
-**per partition**, never one baseline for the whole tree.
+A repository that ships several language partitions resolves a naming and layout baseline **per
+partition**, never one baseline for the whole tree.
 
-A multi-language repository - for example a product that ships sibling C#, Go, Java, and
-Node.js implementations of the same service, or a client in TypeScript beside a PHP server -
-gives each partition its own baseline: the Java partition answers to the Maven/Gradle layout
-and Spring suffixes, the Go partition to `cmd/`/`internal/` and `snake_case.go`, the C#
-partition to solution/project/namespace mirroring, and shared infrastructure (workflows,
+A multi-language repository - for example a product that ships sibling C#, Go, Java,
+and Node.js implementations of the same service,
+or a client in TypeScript beside a PHP server - gives each partition its own baseline:
+the Java partition answers to the Maven/Gradle layout and Spring suffixes,
+the Go partition to `cmd/` / `internal/` and `snake_case.go`,
+the C# partition to solution/project/namespace mirroring, and shared infrastructure (workflows,
 compose files, OpenAPI contracts, shell scripts) to its own digest.
 
 Apply these rules:
@@ -98,46 +99,45 @@ Apply these rules:
   partition's stack from its own manifests (`pom.xml`, `go.mod`, `*.csproj`, `package.json`,
   `composer.json`, `Cargo.toml`, `build.zig`) before any naming judgement applies.
 - **One baseline per partition** - inside one partition only that stack's matrix row, fixture,
-  and `references/stacks/` digest apply. A `camelCase` helper in the Go partition and a
-  `PascalCase` class in the C# partition of the same repository are both correct.
-- **Cross-partition consistency is the reportable signal** - when partitions claim to mirror
-  each other (parallel ports, shared protocol buffers, one OpenAPI contract generating several
-  clients), divergent naming of the *same* domain concept across partitions is an observation
-  under `Structure Conformance`, recorded as cross-partition drift, not as a style defect in
-  either partition.
-- **Root-level conventions belong to the repository role** - `README.md`, `.github/`,
-  `docs/`, and `work/` follow the component-role rules above regardless of which partitions
-  exist underneath.
+  and `references/stacks/` digest apply. A `camelCase` helper in the Go partition and a `PascalCase`
+  class in the C# partition of the same repository are both correct.
+- **Cross-partition consistency is the reportable signal** - when partitions claim to mirror each
+  other (parallel ports, shared protocol buffers, one OpenAPI contract generating several clients),
+  divergent naming of the *same* domain concept across partitions is an observation under
+  `Structure Conformance`, recorded as cross-partition drift,
+  not as a style defect in either partition.
+- **Root-level conventions belong to the repository role** - `README.md`, `.github/`, `docs/`,
+  and `work/` follow the component-role rules above regardless of which partitions exist underneath.
 - **No partition without a baseline** - an unlisted or hybrid partition falls through to the
-  fallback procedure below for that partition only, while the rest of the repository keeps its
-  resolved baselines.
+  fallback procedure below for that partition only,
+  while the rest of the repository keeps its resolved baselines.
 
 ## Directory Naming Principles
 
-Directory names are the primary navigation surface of a codebase and map directly to packages
-or namespaces in Java, C#, Python, Go, and PHP.
+Directory names are the primary navigation surface of a codebase and map directly to packages or
+namespaces in Java, C#, Python, Go, and PHP.
 
 Apply these checks to every component's directory hierarchy:
 
 - **Full words over arbitrary abbreviations** - in ecosystems whose standard libraries use
-  unabbreviated words (C#/.NET, Java, Python, PHP, TypeScript), directory and namespace names
-  use full domain terms (`Application`, `Authentication`, `Configuration`, `Documentation`,
-  `Controllers`, `Repositories`, `Services`, `Exceptions`) rather than ad-hoc truncations
-  (`App`, `Auth`, `Config`, `Docs`, `Repo`, `Svc`, `Exc`).
-- **Recognized ecosystem directory tokens** - standard top-level build/layout roots (`src`,
-  `tests`, `test`, `cmd`, `internal`, `pkg`, `include`, `public`, `var`, `db`, `api`, `dto`)
+  unabbreviated words (C#/.NET, Java, Python, PHP, TypeScript),
+  directory and namespace names use full domain terms (`Application`, `Authentication`,
+  `Configuration`, `Documentation`, `Controllers`, `Repositories`, `Services`, `Exceptions`)
+  rather than ad-hoc truncations (`App`, `Auth`, `Config`, `Docs`, `Repo`, `Svc`, `Exc`).
+- **Recognized ecosystem directory tokens** - standard top-level build/layout roots (`src`, `tests`,
+  `test`, `cmd`, `internal`, `pkg`, `include`, `public`, `var`, `db`, `api`, `dto`)
   are established conventions when the language or build tool prescribes them.
 - **Abbreviation consistency** - when a project deliberately adopts short feature-folder names
   (`Auth/`, `Config/`, `Docs/`, `Sql/`), check whether the choice is documented as a project
   convention and whether it conflicts with the language's namespace design guidelines (such as
   Microsoft's .NET Framework Design Guidelines for namespace naming).
 - **Singular versus plural consistency** - a layer-organized tree uses either plural collection
-  nouns (`Controllers/`, `Services/`, `Repositories/`, `Entities/`, `Enums/`, `Exceptions/` in
-  C#, Python, JS/TS, Delphi) or singular package nouns (`api/`, `domain/`, `service/`,
+  nouns (`Controllers/`, `Services/`, `Repositories/`, `Entities/`, `Enums/`, `Exceptions/` in C#,
+  Python, JS/TS, Delphi) or singular package nouns (`api/`, `domain/`, `service/`,
   `repository/` in Java, Go, Rust, C++), never an unexplained mix at the same level.
-- **Ban on catch-all directories** - directories or units named `Misc`, `Util`, `Utils`,
-  `Common`, `Helpers`, or `Shared` that accumulate unrelated responsibilities (for example
-  mixing cryptographic hashing with HTTP context extraction) are structural findings.
+- **Ban on catch-all directories** - directories or units named `Misc`, `Util`, `Utils`, `Common`,
+  `Helpers`, or `Shared` that accumulate unrelated responsibilities (for example mixing
+  cryptographic hashing with HTTP context extraction) are structural findings.
 
 ## Cross-Language Naming Matrices
 
@@ -168,16 +168,15 @@ and
 ### PHP 8.3, Rust, Go 1.22+, JavaScript, TypeScript, Pascal, And C++20
 
 Canonical sources: [PSR-1](https://www.php-fig.org/psr/psr-1/),
-[PSR-4](https://www.php-fig.org/psr/psr-4/),
-[PSR-12](https://www.php-fig.org/psr/psr-12/),
+[PSR-4](https://www.php-fig.org/psr/psr-4/), [PSR-12](https://www.php-fig.org/psr/psr-12/),
 [Rust API Guidelines](https://rust-lang.github.io/api-guidelines/naming.html),
 [Cargo Project Layout](https://doc.rust-lang.org/cargo/guide/project-layout.html),
 [Effective Go](https://go.dev/doc/effective_go#names),
 [Go Module Layout](https://go.dev/doc/modules/layout),
 [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html),
 [Free Pascal Reference](https://www.freepascal.org/docs-html/ref/ref.html),
-[Object Pascal Style Guide](https://edn.embarcadero.com/article/10280),
-and [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#S-naming).
+[Object Pascal Style Guide](https://edn.embarcadero.com/article/10280), and
+[C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#S-naming).
 
 | Language    | Source File               | Types / Interfaces                  | Functions / Methods      | Fields / Params / Constants                    | Test Files                   |
 |-------------|---------------------------|-------------------------------------|--------------------------|------------------------------------------------|------------------------------|
@@ -207,14 +206,15 @@ Zig file naming follows the official type rule (a file that *is* a struct uses `
 namespace files use `snake_case`), yet many projects adopt uniform `snake_case` - detect the
 partition's declared or dominant rule before flagging either shape.
 
-Assembly label casing is dialect- and project-specific: the working yardstick is the dominant
-shape inside the partition, and terse labels plus dialect local-label syntax are idiomatic
-rather than noise - see `references/stacks/assembly.md`.
+Assembly label casing is dialect- and project-specific:
+the working yardstick is the dominant shape inside the partition,
+and terse labels plus dialect local-label syntax are idiomatic rather than noise - see
+`references/stacks/assembly.md`.
 
 ## Framework And Tooling Overrides
 
-A detected framework or toolchain imposes names that supersede the language defaults in the
-matrices - framework-conforming names are never flagged against the language row.
+A detected framework or toolchain imposes names that supersede the language defaults in the matrices
+- framework-conforming names are never flagged against the language row.
 
 | Detected signal                               | Override the language defaults with                                                                              |
 |-----------------------------------------------|------------------------------------------------------------------------------------------------------------------|
@@ -232,69 +232,74 @@ matrices - framework-conforming names are never flagged against the language row
 | OpenAPI `openapi:` key                        | `PascalCase` schemas, `kebab-case` paths/tags, `operationId` `camelCase`                                         |
 | `build.zig`/`build.zig.zon`                   | Zig type-rule file naming, `src/main.zig`/`src/lib.zig` entries                                                  |
 
-An override applies only when its detection signal is present in that partition - a plain
-TypeScript library answers to `kebab-case.ts`, while the same repository's React partition
-answers to `PascalCase.tsx` components.
+An override applies only when its detection signal is present in that partition - a plain TypeScript
+library answers to `kebab-case.ts`, while the same repository's React partition answers to
+`PascalCase.tsx` components.
 
 ## Language-Idiomatic Code Division
 
-Code division - how declarations, abstractions, implementations, and wiring are distributed
-across files and directories - follows distinct idioms in each language.
+Code division - how declarations, abstractions, implementations,
+and wiring are distributed across files and directories - follows distinct idioms in each language.
 
-Porting one language's file-splitting or prefix habits into another is a structural and
-naming finding.
+Porting one language's file-splitting or prefix habits into another is a
+structural and naming finding.
 
-- **One public top-level type per file (Java, C#, PHP PSR-4)** - Java enforces one public
-  top-level type per `.java` file matching the type name, PHP PSR-4 requires one class,
-  interface, trait, or enum per `.php` file matching its autoloaded path, and C# convention
-  places each public class, interface, struct, enum, or record group in its own `PascalCase.cs`
-  file. Co-locating an interface and its implementation (such as `IRevocationStore` and
-  `NullRevocationStore` in `IRevocationStore.cs`) or bundling helper classes, enums, and
-  exceptions into a service file obscures discoverability.
-- **Module-level cohesion (Python, Go, Rust)** - Python modules (`order_repository.py`), Go
-  packages (`internal/service`), and Rust modules (`src/repository.rs`) group closely related
-  types and functions in a single file (`OrderRepository` protocol beside
+- **One public top-level type per file (Java, C#,
+  PHP PSR-4)** - Java enforces one public top-level type per `.java` file matching the type name,
+  PHP PSR-4 requires one class, interface, trait,
+  or enum per `.php` file matching its autoloaded path, and C# convention places each public class,
+  interface, struct, enum, or record group in its own `PascalCase.cs` file.
+  Co-locating an interface and its implementation (such as `IRevocationStore` and
+  `NullRevocationStore` in `IRevocationStore.cs`) or bundling helper classes, enums,
+  and exceptions into a service file obscures discoverability.
+- **Module-level cohesion (Python, Go, Rust)** - Python modules (`order_repository.py`),
+  Go packages (`internal/service`), and Rust modules (`src/repository.rs`)
+  group closely related types and functions in a single file (`OrderRepository` protocol beside
   `InMemoryOrderRepository`) without forcing one-class-per-file fragmentation.
 - **Interface, abstract class, and implementation division**:
-  - **Java**: Interfaces wear the domain noun (`OrderService`, `OrderRepository`) and concrete
-    classes name the strategy or default (`DefaultOrderService`, `InMemoryOrderRepository`,
-    `JpaOrderRepository`). When only one implementation exists and no seam is needed, Spring
-    Boot idioms allow a concrete `@Service` class (`OrderService`) directly.
-  - **C#**: Interfaces carry the `I` prefix (`IOrderService`, `IOrderRepository`) and the
-    primary implementation uses the unadorned noun (`OrderService`, `OrderRepository`), while
-    shared partial behavior across implementations uses an `abstract class` (`DbEngineBase` or
+  - **Java**: Interfaces wear the domain noun (`OrderService`, `OrderRepository`)
+    and concrete classes name the strategy or default (`DefaultOrderService`,
+    `InMemoryOrderRepository`, `JpaOrderRepository`).
+    When only one implementation exists and no seam is needed,
+    Spring Boot idioms allow a concrete `@Service` class (`OrderService`) directly.
+  - **C#**: Interfaces carry the `I` prefix (`IOrderService`, `IOrderRepository`)
+    and the primary implementation uses the unadorned noun (`OrderService`, `OrderRepository`),
+    while shared partial behavior across implementations uses an `abstract class` (`DbEngineBase` or
     framework `ControllerBase`).
   - **Go**: Interfaces are defined in the consuming package (`type Repository interface` inside
     `internal/service`) rather than exported preemptively from the producer package.
-  - **Rust**: Traits (`pub trait OrderRepository: Send + Sync`) and their implementations sit in
-    the domain/repository module, while `src/lib.rs` exports `build_app()` so integration tests
-    in `tests/` drive the router without opening a socket.
-  - **Free Pascal and Delphi**: Each unit file separates public contracts in the `interface`
-    section from private helpers and method bodies in the `implementation` section. Constructors
-    use `Create`, so domain creation methods on services use `CreateOrder` to avoid shadowing
-    `TObject.Create`.
+  - **Rust**: Traits (`pub trait OrderRepository: Send + Sync`)
+    and their implementations sit in the domain/repository module,
+    while `src/lib.rs` exports `build_app()` so integration tests in `tests/` drive the router
+    without opening a socket.
+  - **Free Pascal and Delphi**: Each unit file separates public contracts in the `interface` section
+    from private helpers and method bodies in the `implementation` section.
+    Constructors use `Create`, so domain creation methods on services use `CreateOrder` to avoid
+    shadowing `TObject.Create`.
   - **C++20**: Public declarations live under `include/<project>/` (`.hpp` with `#pragma once`),
-    definitions live in mirroring paths under `src/` (`.cpp`), and `CMakeLists.txt` compiles the
-    core into a library target (`order_core`) linked by both the executable and the test binary.
+    definitions live in mirroring paths under `src/` (`.cpp`),
+    and `CMakeLists.txt` compiles the core into a library target (`order_core`)
+    linked by both the executable and the test binary.
 - **Cross-language contamination checks**:
-  - C# code using Delphi/Pascal enum-member prefixes (`psNew`, `psConnected`), type-letter
-    method suffixes (`ValueI`, `ValueB`), or unit-style catch-all classes (`Misc`, `RedisMain`)
-    is flagged as ported-idiom drift.
-  - TypeScript or Java interfaces prefixed with `I` (`IOrderService`) or Python classes split
-    one-per-file with Java-style `*Impl` suffixes are flagged when no project standard mandates
-    them.
-  - Static endpoint-registration classes in ASP.NET Core Minimal APIs named `*Controller`
-    (when they do not inherit from `ControllerBase`) misstate the framework pattern - consistent
-    `*Endpoints` or `*Handler` naming is expected.
+  - C# code using Delphi/Pascal enum-member prefixes (`psNew`, `psConnected`),
+    type-letter method suffixes (`ValueI`, `ValueB`), or unit-style catch-all classes (`Misc`,
+    `RedisMain`) is flagged as ported-idiom drift.
+  - TypeScript or Java interfaces prefixed with `I` (`IOrderService`)
+    or Python classes split one-per-file with Java-style `*Impl` suffixes are flagged when no
+    project standard mandates them.
+  - Static endpoint-registration classes in ASP.NET Core Minimal APIs named `*Controller` (when they
+    do not inherit from `ControllerBase`) misstate the framework pattern - consistent `*Endpoints`
+    or `*Handler` naming is expected.
 
 ## Layout Convention Catalog
 
-The named conventions below are the selectable layout shapes a project may declare - an audit
-first checks whether a declared convention matches the tree, and only then judges by the
-stack's natural default. A toolchain that binds names to paths (MSBuild namespace parity,
-Maven source roots, Cargo module trees, PSR-4 autoload prefixes, the `internal/` visibility
-boundary) makes its layout the low-friction default; where the toolchain is silent, component
-purpose and cohesion decide.
+The named conventions below are the selectable layout shapes a project may declare - an audit first
+checks whether a declared convention matches the tree,
+and only then judges by the stack's natural default.
+A toolchain that binds names to paths (MSBuild namespace parity, Maven source roots,
+Cargo module trees, PSR-4 autoload prefixes, the `internal/` visibility boundary)
+makes its layout the low-friction default. Where the toolchain is silent,
+component purpose and cohesion decide.
 
 | Convention              | Shape                                                                     | Natural fit                                       |
 |-------------------------|---------------------------------------------------------------------------|---------------------------------------------------|
@@ -316,27 +321,28 @@ purpose and cohesion decide.
 | `partitioned-polyglot`  | Language partitions at top level, repo artifacts stay at root             | Parallel multi-language implementations           |
 
 Key enforcement signals: mixed file-and-directory modules are normal in Rust only when one
-module-file style is pinned (`clippy::self_named_module_files`); a `cmd/` package holding
-subcommands is the Cobra shape while `cmd/<name>/main.go` directories of mains are the module
-shape - one module picks one meaning; and `config/` example files sit outside packaged trees
-(`src/main/resources`, web-SDK-globbed project folders) so samples never ship as content.
+module-file style is pinned (`clippy::self_named_module_files`);
+a `cmd/` package holding subcommands is the Cobra shape while `cmd/<name>/main.go` directories of
+mains are the module shape - one module picks one meaning;
+and `config/` example files sit outside packaged trees (`src/main/resources`,
+web-SDK-globbed project folders) so samples never ship as content.
 
 ## Canonical Stack Fixtures
 
 All eleven reference fixtures model the same order-management HTTP API (`POST /orders` and
-`GET /orders/{id}`) so directory layouts, file boundaries, and identifier conventions can be
-compared directly across stacks.
+`GET /orders/{id}`) so directory layouts, file boundaries,
+and identifier conventions can be compared directly across stacks.
 
-The fixtures deliberately cover the service shape of each stack, and non-service shapes of the
-same languages - SPAs, Electron desktops, CLI tools, library packages, workspace layouts, and
-assembly partitions - carry their conventions in the per-stack digests under
+The fixtures deliberately cover the service shape of each stack,
+and non-service shapes of the same languages - SPAs, Electron desktops, CLI tools, library packages,
+workspace layouts, and assembly partitions - carry their conventions in the per-stack digests under
 `references/stacks/` rather than as parallel fixtures here.
 
 ### 1. Python 3.10+ (FastAPI)
 
-Uses a `src/order_app/` package layout (`pyproject.toml` with `where = ["src"]`), `Protocol`
-for structural repository typing, Pydantic `BaseModel` schemas in `api/schemas.py`, `Depends`
-wiring in `api/dependencies.py`, and `@app.exception_handler` in `main.py`.
+Uses a `src/order_app/` package layout (`pyproject.toml` with `where = ["src"]`),
+`Protocol` for structural repository typing, Pydantic `BaseModel` schemas in `api/schemas.py`,
+`Depends` wiring in `api/dependencies.py`, and `@app.exception_handler` in `main.py`.
 
 ```
 order-app/
@@ -374,20 +380,20 @@ order-app/
 
 Key Python conventions verified from this fixture:
 
-- Package directory uses `snake_case` (`src/order_app/`) while distribution name in
-  `pyproject.toml` uses `kebab-case` (`name = "order-app"`).
+- Package directory uses `snake_case` (`src/order_app/`)
+  while distribution name in `pyproject.toml` uses `kebab-case` (`name = "order-app"`).
 - `OrderStatus(str, Enum)` uses `UPPER_SNAKE_CASE` members (`PENDING`, `PAID`, `CANCELLED`),
-  `@dataclass class Order` and `OrderRepository(Protocol)` use `PascalCase`, and private
-  attributes use a leading underscore (`self._repository`, `self._orders`).
-- Domain exceptions end with `Error` (`OrderNotFoundError`), matching Python standard-library
-  exception naming rather than Java/C# `*Exception`.
+  `@dataclass class Order` and `OrderRepository(Protocol)` use `PascalCase`,
+  and private attributes use a leading underscore (`self._repository`, `self._orders`).
+- Domain exceptions end with `Error` (`OrderNotFoundError`),
+  matching Python standard-library exception naming rather than Java/C# `*Exception`.
 
 ### 2. Java 17+ (Maven And Spring Boot 3)
 
-Uses the Maven standard directory layout (`src/main/java`, `src/main/resources`,
-`src/test/java`) with reverse-domain package path `com/example/orderapp/`, Java 17 `record`
-types for immutable domain records and DTOs, and `@RestControllerAdvice` returning RFC 9457
-`ProblemDetail`.
+Uses the Maven standard directory layout (`src/main/java`, `src/main/resources`, `src/test/java`)
+with reverse-domain package path `com/example/orderapp/`,
+Java 17 `record` types for immutable domain records and DTOs,
+and `@RestControllerAdvice` returning RFC 9457 `ProblemDetail`.
 
 ```
 order-app/
@@ -429,22 +435,22 @@ order-app/
 
 Key Java conventions verified from this fixture:
 
-- Every directory segment under `src/main/java/` matches the `package` declaration exactly, and
-  every public top-level `class`, `interface`, `enum`, or `record` lives in its own
-  `PascalCase.java` file.
-- Package names are singular lowercase nouns (`api`, `api.dto`, `config`, `domain`, `service`,
-  `repository`).
-- When an interface has a single default implementation, pair `OrderService` with
-  `DefaultOrderService` (or use a concrete `@Service class OrderService` when no seam is
-  needed), and name technology-specific adapters by their backing store
+- Every directory segment under `src/main/java/` matches the `package` declaration exactly,
+  and every public top-level `class`, `interface`, `enum`,
+  or `record` lives in its own `PascalCase.java` file.
+- Package names are singular lowercase nouns (`api`, `api.dto`, `config`, `domain`,
+  `service`, `repository`).
+- When an interface has a single default implementation,
+  pair `OrderService` with `DefaultOrderService` (or use a concrete `@Service class OrderService`
+  when no seam is needed), and name technology-specific adapters by their backing store
   (`InMemoryOrderRepository`, `JpaOrderRepository`).
 
 ### 3. C# 8+ (.NET Solution And ASP.NET Core)
 
-Uses `Directory.Build.props` at the solution root to share `TargetFramework`, `LangVersion`, and
-`<Nullable>enable</Nullable>`, and separates Clean Architecture layers into distinct `.csproj`
-projects so compile-time `<ProjectReference>` edges enforce dependency direction (`Application`
-and `Infrastructure` depend on `Domain`, and `Api` is the composition root).
+Uses `Directory.Build.props` at the solution root to share `TargetFramework`, `LangVersion`,
+and `<Nullable>enable</Nullable>`, and separates Clean Architecture layers into distinct `.csproj`
+projects so compile-time `<ProjectReference>` edges enforce dependency direction (`Application` and
+`Infrastructure` depend on `Domain`, and `Api` is the composition root).
 
 ```
 OrderApp/
@@ -497,25 +503,26 @@ Key C# and .NET conventions verified from this fixture:
 
 - Directories and namespaces use full `PascalCase` words (`Application`, `Infrastructure`,
   `Controllers`, `Contracts`, `Middleware`, `Interfaces`, `Services`, `Entities`, `Enums`,
-  `Exceptions`, `Persistence`, `Repositories`), and namespaces mirror folder paths
-  (`OrderApp.Domain.Entities`).
-- Even in a single-project ASP.NET Core service organized by feature or technical folder, folder
-  and namespace names avoid arbitrary abbreviations (`Configuration` over `Config`,
-  `Authentication` over `Auth`, `Documentation` over `Docs`, `Application` or `Operations` over
-  `App`) unless an explicit project standard documents the short names.
-- One public top-level type per `.cs` file: `IOrderRepository.cs` holds only the interface, and
-  `InMemoryOrderRepository.cs` holds the implementation.
+  `Exceptions`, `Persistence`, `Repositories`),
+  and namespaces mirror folder paths (`OrderApp.Domain.Entities`).
+- Even in a single-project ASP.NET Core service organized by feature or technical folder,
+  folder and namespace names avoid arbitrary abbreviations (`Configuration` over `Config`,
+  `Authentication` over `Auth`, `Documentation` over `Docs`,
+  `Application` or `Operations` over `App`)
+  unless an explicit project standard documents the short names.
+- One public top-level type per `.cs` file: `IOrderRepository.cs` holds only the interface,
+  and `InMemoryOrderRepository.cs` holds the implementation.
 - Interfaces start with `I` (`IOrderService`), async methods end with `Async` (`CreateAsync`,
-  `GetAsync`), enum members use unadorned `PascalCase` (`Pending`, `Paid`, `Cancelled`), private
-  fields use `_camelCase` (`_repository`, `_orders`), and C# keyword aliases (`bool`, `int`,
+  `GetAsync`), enum members use unadorned `PascalCase` (`Pending`, `Paid`, `Cancelled`),
+  private fields use `_camelCase` (`_repository`, `_orders`), and C# keyword aliases (`bool`, `int`,
   `string`) are used instead of BCL struct names (`Boolean`, `Int32`, `String`).
 
 ### 4. PHP 8.3 (Slim 4 And PSR-4)
 
-Maps `OrderApp\` to `src/` and `OrderApp\Tests\` to `tests/` via `composer.json` PSR-4
-autoloading, keeps the web entry point isolated in `public/index.php`, and uses external
-persistence (`var/orders.sqlite`) because PHP's shared-nothing execution model discards
-in-memory state between requests.
+Maps `OrderApp\` to `src/` and `OrderApp\Tests\` to `tests/` via `composer.json` PSR-4 autoloading,
+keeps the web entry point isolated in `public/index.php`,
+and uses external persistence (`var/orders.sqlite`)
+because PHP's shared-nothing execution model discards in-memory state between requests.
 
 ```
 order-app/
@@ -542,17 +549,18 @@ order-app/
 Key PHP conventions verified from this fixture:
 
 - Every file starts with `declare(strict_types=1);` and omits the closing `?>` tag per PSR-12.
-- Directory names under `src/` are `PascalCase` singular nouns (`Domain`, `Repository`,
-  `Service`, `Http`) matching namespace segments (`OrderApp\Domain`), and each `.php` file
-  defines exactly one `final readonly class`, `final class`, `interface`, or backed `enum`.
-- Interfaces use the domain noun without an `I` prefix (`OrderRepository`), and enum cases use
-  `PascalCase` (`OrderStatus::Pending`).
+- Directory names under `src/` are `PascalCase` singular nouns (`Domain`, `Repository`, `Service`,
+  `Http`) matching namespace segments (`OrderApp\Domain`),
+  and each `.php` file defines exactly one `final readonly class`, `final class`,
+  `interface`, or backed `enum`.
+- Interfaces use the domain noun without an `I` prefix (`OrderRepository`),
+  and enum cases use `PascalCase` (`OrderStatus::Pending`).
 
 ### 5. Rust (axum 0.8, Edition 2021)
 
-Splits `src/lib.rs` (exporting `pub fn build_app() -> Router`) from a thin `src/main.rs` so
-integration tests under `tests/orders_api.rs` exercise the full router via `tower::ServiceExt`
-without binding a network port.
+Splits `src/lib.rs` (exporting `pub fn build_app() -> Router`)
+from a thin `src/main.rs` so integration tests under `tests/orders_api.rs` exercise the full router
+via `tower::ServiceExt` without binding a network port.
 
 ```
 order-app/
@@ -571,17 +579,19 @@ order-app/
 
 Key Rust conventions verified from this fixture:
 
-- Crate name in `Cargo.toml` uses `kebab-case` (`order-app`), while module files and crate
-  import identifiers use `snake_case` (`order_app`, `api.rs`, `domain.rs`).
-- Wire-serialization casing (`#[serde(rename_all = "camelCase")]`) is declared on the struct or
-  enum, keeping Rust fields in idiomatic `snake_case` (`customer_email`, `total_cents`).
+- Crate name in `Cargo.toml` uses `kebab-case` (`order-app`),
+  while module files and crate import identifiers use `snake_case` (`order_app`,
+  `api.rs`, `domain.rs`).
+- Wire-serialization casing (`#[serde(rename_all = "camelCase")]`)
+  is declared on the struct or enum, keeping Rust fields in idiomatic `snake_case`
+  (`customer_email`, `total_cents`).
 - Domain errors use a typed `enum AppError` deriving `thiserror::Error` and implementing
   `IntoResponse` in `src/error.rs`.
 
 ### 6. Go 1.22+ (Standard Library `net/http`)
 
-Uses `cmd/orderapp/main.go` for the binary entry point and places non-exported application
-packages under `internal/` so the Go compiler enforces package privacy.
+Uses `cmd/orderapp/main.go` for the binary entry point and places non-exported application packages
+under `internal/` so the Go compiler enforces package privacy.
 
 ```
 order-app/
@@ -604,10 +614,10 @@ order-app/
 
 Key Go conventions verified from this fixture:
 
-- Package names are short, lowercase, single-word nouns (`domain`, `repository`, `service`,
-  `api`), and source files use `snake_case.go` with co-located `*_test.go` files.
-- The `Repository` interface is defined in `internal/service/order_service.go` where it is
-  consumed, while `internal/repository/memory.go` exports the concrete `Memory` struct and
+- Package names are short, lowercase, single-word nouns (`domain`, `repository`, `service`, `api`),
+  and source files use `snake_case.go` with co-located `*_test.go` files.
+- The `Repository` interface is defined in `internal/service/order_service.go` where it is consumed,
+  while `internal/repository/memory.go` exports the concrete `Memory` struct and
   `NewMemory()` constructor.
 - Exported identifiers use `PascalCase` with uniform initialism casing (`ID`, `URL`, `HTTP`,
   `writeJSON`), and domain errors are package-level sentinel values (`ErrOrderNotFound`,
@@ -615,8 +625,8 @@ Key Go conventions verified from this fixture:
 
 ### 7. JavaScript (ES2022 Modules, Node 20+, Express 5)
 
-Separates the HTTP listener (`src/server.js`) from the Express application factory
-(`src/app.js`) so `node:test` suites in `test/orders.test.js` can bind an ephemeral port (`0`).
+Separates the HTTP listener (`src/server.js`) from the Express application factory (`src/app.js`)
+so `node:test` suites in `test/orders.test.js` can bind an ephemeral port (`0`).
 
 ```
 order-app/
@@ -647,8 +657,8 @@ Key JavaScript conventions verified from this fixture:
 ### 8. TypeScript 5.x (Fastify 5, Zod, Vitest)
 
 Follows the same `kebab-case.ts` module layout as Node.js while adding explicit `interface`
-contracts (`src/repositories/order-repository.ts`) and Zod boundary validation in the route
-layer (`CreateOrderBody.parse`).
+contracts (`src/repositories/order-repository.ts`)
+and Zod boundary validation in the route layer (`CreateOrderBody.parse`).
 
 ```
 order-app/
@@ -673,16 +683,16 @@ order-app/
 
 Key TypeScript conventions verified from this fixture:
 
-- Interfaces (`Order`, `OrderRepository`) use `PascalCase` without a C#-style `I` prefix, and
-  type-only imports use `import type` (`verbatimModuleSyntax: true`).
-- Under `moduleResolution: "NodeNext"`, relative imports carry the `.js` extension even inside
-  `.ts` source files.
+- Interfaces (`Order`, `OrderRepository`) use `PascalCase` without a C#-style `I` prefix,
+  and type-only imports use `import type` (`verbatimModuleSyntax: true`).
+- Under `moduleResolution: "NodeNext"`, relative imports carry the `.js` extension even
+  inside `.ts` source files.
 
 ### 9. Free Pascal 3.2+ (`fcl-web` And `fpcunit`)
 
-Places the program entry in `orderapp.lpr` at the root, unit files in `src/` with lowercase
-filenames matching each `unit` declaration (`unit orderdomain;` in `src/orderdomain.pas`), and
-`fpcunit` test runners under `tests/`.
+Places the program entry in `orderapp.lpr` at the root,
+unit files in `src/` with lowercase filenames matching each `unit` declaration (`unit orderdomain;`
+in `src/orderdomain.pas`), and `fpcunit` test runners under `tests/`.
 
 ```
 order-app/
@@ -700,19 +710,20 @@ order-app/
 
 Key Free Pascal conventions verified from this fixture:
 
-- Type prefixes distinguish roles: `T` for classes, records, and enums (`TOrder`,
-  `TOrderStatus`, `TOrderService`), `I` for reference-counted interfaces (`IOrderRepository`),
+- Type prefixes distinguish roles: `T` for classes, records, and enums (`TOrder`, `TOrderStatus`,
+  `TOrderService`), `I` for reference-counted interfaces (`IOrderRepository`),
   and `E` for exceptions (`EOrderNotFound`).
-- Private fields use the `F` prefix (`FOrders`, `FRepository`), parameters use the `A` prefix
-  (`ACustomerEmail`, `AOrder`), and enum values carry a lowercase type-initials prefix
-  (`osPending`, `osPaid`, `osCancelled`) because standard Pascal enums share unit scope.
-- Service creation methods use `CreateOrder` so they do not collide with the `Create`
-  constructor inherited from `TObject`.
+- Private fields use the `F` prefix (`FOrders`, `FRepository`),
+  parameters use the `A` prefix (`ACustomerEmail`, `AOrder`),
+  and enum values carry a lowercase type-initials prefix (`osPending`, `osPaid`, `osCancelled`)
+  because standard Pascal enums share unit scope.
+- Service creation methods use `CreateOrder` so they do not collide with the `Create` constructor
+  inherited from `TObject`.
 
 ### 10. Delphi 11/12 (Horse And DUnitX)
 
-Uses dotted namespace unit names (`OrderApp.Domain.Order.pas`,
-`OrderApp.Services.OrderService.pas`) paired with `OrderApp.dpr` and `OrderApp.dproj`.
+Uses dotted namespace unit names (`OrderApp.Domain.Order.pas`, `OrderApp.Services.OrderService.pas`)
+paired with `OrderApp.dpr` and `OrderApp.dproj`.
 
 ```
 OrderApp/
@@ -735,14 +746,14 @@ Key Delphi conventions verified from this fixture:
 - Unit filenames match the dotted `unit` identifier (`unit OrderApp.Repositories.Contracts;`),
   grouping layers by dotted prefix (`OrderApp.Domain.*`, `OrderApp.Repositories.*`,
   `OrderApp.Services.*`, `OrderApp.Api.*`).
-- Interfaces carry a GUID (`['{...}']`) and `I` prefix, classes/records carry `T`, exceptions
-  carry `E`, fields carry `F`, and parameters carry `A`.
+- Interfaces carry a GUID (`['{...}']`) and `I` prefix, classes/records carry `T`,
+  exceptions carry `E`, fields carry `F`, and parameters carry `A`.
 
 ### 11. C++20 (CMake, `include/` And `src/` Split, Catch2)
 
 Separates public headers under `include/order_app/` from implementation files under `src/` and
-builds a static library target (`order_core`) in `CMakeLists.txt` shared by both the
-`order_app` executable and the `order_tests` Catch2 binary.
+builds a static library target (`order_core`)
+in `CMakeLists.txt` shared by both the `order_app` executable and the `order_tests` Catch2 binary.
 
 ```
 order-app/
@@ -775,41 +786,41 @@ order-app/
 
 Key C++20 conventions verified from this fixture:
 
-- Header and source filenames use `snake_case.hpp` and `snake_case.cpp`, nested namespaces
-  mirror the header path (`namespace order_app::domain`), and closing braces carry a
-  `// namespace ...` comment.
-- Types (`Order`, `OrderRepository`, `InMemoryOrderRepository`) use `PascalCase`, functions and
-  methods (`register_routes`, `to_string`) use `snake_case`, `enum class` values use
-  `snake_case` (`OrderStatus::pending`), and private data members use a trailing underscore
-  (`mutex_`, `orders_`, `repository_`).
+- Header and source filenames use `snake_case.hpp` and `snake_case.cpp`,
+  nested namespaces mirror the header path (`namespace order_app::domain`),
+  and closing braces carry a `// namespace ...` comment.
+- Types (`Order`, `OrderRepository`, `InMemoryOrderRepository`) use `PascalCase`,
+  functions and methods (`register_routes`, `to_string`) use `snake_case`,
+  `enum class` values use `snake_case` (`OrderStatus::pending`),
+  and private data members use a trailing underscore (`mutex_`, `orders_`, `repository_`).
 
 ## Fallback For Unlisted Technologies
 
 Lens audits any software or documentation repository, including languages, frameworks, DSLs,
 and project types not listed in the matrices above.
 
-When a partition uses a technology not covered by a bundled digest, matrix row, or
-`references/stacks/` file, establish its governing naming and layout baseline in this order
+When a partition uses a technology not covered by a bundled digest, matrix row,
+or `references/stacks/` file, establish its governing naming and layout baseline in this order
 (applied per partition in polyglot repositories):
 
 1. **Project-declared standards** - inspect `AGENTS.md`, `CONTRIBUTING.md`, `STANDARDS.md`,
    `docs/standards/`, `.editorconfig`, and linter/formatter configs (`.clang-format`,
-   `.rubocop.yml`, `checkstyle.xml`, `detekt.yml`, `swiftlint.yml`, `flake8`/`ruff.toml`) for
-   explicit rules.
+   `.rubocop.yml`, `checkstyle.xml`, `detekt.yml`, `swiftlint.yml`, `flake8` /
+   `ruff.toml`) for explicit rules.
 2. **Ecosystem and compiler/linter conventions** - apply the language's standard-library and
    official toolchain conventions (for example `snake_case` files and `PascalCase` modules in
-   Elixir/Ruby, `PascalCase` modules in Haskell/OCaml/F#, `snake_case` in Zig/Nim, `camelCase`
-   / `PascalCase` in Swift/Kotlin/Dart).
-3. **Authoritative live source lookup** - when web fetch is permitted, consult the official
-   language style guide or framework documentation and record its URL in the `References`
-   section.
-4. **Internal consistency census** - measure the dominant directory, file, and identifier
-   patterns across the component itself via `scripts/scan-structure.py` and flag unexplained
-   within-component deviations as `Established`-tier consistency findings.
+   Elixir/Ruby, `PascalCase` modules in Haskell/OCaml/F#, `snake_case` in Zig/Nim,
+   `camelCase` / `PascalCase` in Swift/Kotlin/Dart).
+3. **Authoritative live source lookup** - when web fetch is permitted,
+   consult the official language style guide or framework documentation and record its URL in the
+   `References` section.
+4. **Internal consistency census** - measure the dominant directory, file,
+   and identifier patterns across the component itself via `scripts/scan-structure.py` and flag
+   unexplained within-component deviations as `Established` -tier consistency findings.
 
-Record which baseline governed the evaluation in `Auditing Methodology` and `Structure
-Conformance`, and never invent an arbitrary rule when neither the ecosystem nor the project
-defines one.
+Record which baseline governed the evaluation in `Auditing Methodology` and `Structure Conformance`,
+and never invent an arbitrary rule when neither the ecosystem nor the project defines one.
 
-In-code identifier naming quality is governed by `assessment/code-style.md`, which uses the
-naming matrices here as its T3 yardstick alongside `references/language-conventions.md`.
+In-code identifier naming quality is governed by `assessment/code-style.md`,
+which uses the naming matrices here as its T3 yardstick alongside
+`references/language-conventions.md`.

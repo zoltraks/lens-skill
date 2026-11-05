@@ -2,21 +2,20 @@
 
 ## Purpose
 
-> **Scope:** Strengths, detailed findings, the debt, risk, and roadmap registers, and the
-> recommendation classification
-> **Key items:** finding blocks, TDR items, RSK items, REC items, severity and priority
-> vocabularies, recommendation classes
+> **Scope:** Strengths, detailed findings, the debt, risk, and roadmap registers,
+> and the recommendation classification **Key items:** finding blocks, TDR items, RSK items,
+> REC items, severity and priority vocabularies, recommendation classes
 
 ## Contents
 
-| Section                       | Line | What it covers                       |
-|-------------------------------|------|--------------------------------------|
-| Strengths & What's Working    | 21   | Evidence-based positive baselines    |
-| Technical Findings            | 59   | Finding summary and detail blocks    |
-| Technical Debt Register       | 409  | Distinct accumulated debt            |
-| Unified Risk Register         | 458  | Cross-referenced risks               |
-| Remediation Roadmap           | 559  | Prioritized recommendations, once    |
-| Recommendation Classification | 656  | Roadmap-closing disposition classes  |
+| Section                       | Line | What it covers                      |
+|-------------------------------|------|-------------------------------------|
+| Strengths & What's Working    | 20   | Evidence-based positive baselines   |
+| Technical Findings            | 58   | Finding summary and detail blocks   |
+| Technical Debt Register       | 403  | Distinct accumulated debt           |
+| Unified Risk Register         | 453  | Cross-referenced risks              |
+| Remediation Roadmap           | 552  | Prioritized recommendations, once   |
+| Recommendation Classification | 647  | Roadmap-closing disposition classes |
 
 ## Strengths & What's Working
 
@@ -43,11 +42,11 @@ This catches a broad class of type errors at compile time.
 
 For single-sentence strengths, keep them as plain bullets:
 
-- Dependency injection is consistently applied in `Program.cs`, enabling testable service
-  registration.
+- Dependency injection is consistently applied in `Program.cs`,
+  enabling testable service registration.
 - Nullable reference types are enabled project-wide, reducing null-reference defects.
-- SQL database connection pooling is configured with sensible `MinPoolSize` and `MaxPoolSize`
-  values.
+- SQL database connection pooling is configured with sensible `MinPoolSize` and
+  `MaxPoolSize` values.
 - JWT bearer authentication is implemented with standard ASP.NET Core middleware.
 
 Do not invent strengths.
@@ -59,8 +58,8 @@ Use fewer than the suggested count when evidence is thin and state the limitatio
 ## Technical Findings
 
 Present all findings grouped under seven pillars,
-plus the conditional API Compatibility & Versioning Discipline pillar when the subject is a reusable
-library or package.
+plus the conditional API Compatibility & Versioning Discipline pillar when the subject is a
+reusable library or package.
 
 Each finding receives a unique deterministic index.
 
@@ -69,24 +68,24 @@ and `PAR` run as single sequences, and `FND` numbers contiguously within each pi
 projects, so `FND-SEC-001` occurs once report-wide and the next SEC finding in any project
 continues the sequence.
 
-The `(<project>)` heading suffix stays for clarity, per
-`process/report-format/multi-project.md` - citations use the bare identifier alone
+The `(<project>)` heading suffix stays for clarity,
+per `process/report-format/multi-project.md` - citations use the bare identifier alone
 (`FND-SEC-001`), since every register family numbers report-globally.
 
 When multiple evidence passes surface the same defect - parallel scouts per
-`process/parallel-execution.md`, or overlapping criteria - the register carries one row
-with the merged evidence references, never a second finding under another pillar.
+`process/parallel-execution.md`, or overlapping criteria - the register carries one row with the
+merged evidence references, never a second finding under another pillar.
 
 Every confirmed distinct defect gets its own register entry.
 
-Merging is reserved for genuinely identical defects seen through different paths - a finding
-that covers a class of defects names every member of the class, and distinct mechanisms,
-locations, or consequences stay distinct findings.
+Merging is reserved for genuinely identical defects seen through different paths - a finding that
+covers a class of defects names every member of the class, and distinct mechanisms, locations,
+or consequences stay distinct findings.
 
 **Summary table:**
 
-When the report language is not English, apply the heading translation from the matching
-`translations/` file.
+When the report language is not English,
+apply the heading translation from the matching `translations/` file.
 
 Present a compact summary of all findings:
 
@@ -105,15 +104,15 @@ The `Title` column copies the finding's `### FND-...` heading verbatim - the sum
 rephrases a heading.
 
 A cell drawn from any fixed vocabulary in this file - Status, Change, Verification, Result,
-Severity, Impact, Effort, Complexity, Absence, Breaking change, Provenance basis, Evidence
-level, or the debt, risk, and classification vocabularies - renders the token in the form the
-report language defines: English cells render the natural forms (`Open`, `New`, `Pass`,
-`High`, `Verified`), while the uppercase forms in the vocabulary lists below are the
-canonical token names, not the rendered cells.
+Severity, Impact, Effort, Complexity, Absence, Breaking change, Provenance basis, Evidence level,
+or the debt, risk, and classification vocabularies - renders the token in the form the report
+language defines: English cells render the natural forms (`Open`, `New`, `Pass`, `High`,
+`Verified`), while the uppercase forms in the vocabulary lists below are the canonical token names,
+not the rendered cells.
 
-The rendered-forms table in `principles/output-style.md` is the single source of truth for
-every fixed vocabulary, and a token followed by a qualifier inside a `* **Field:**` value
-joins with a comma.
+The rendered-forms table in `principles/output-style.md` is the single source of truth for every
+fixed vocabulary, and a token followed by a qualifier inside a `* **Field:**`
+value joins with a comma.
 
 Languages that decline tokens render the agreed form per the matching `translations/` file,
 per `principles/output-style.md`.
@@ -125,18 +124,18 @@ Title and description columns are prose, not tokens. They keep natural casing.
 Column meanings:
 
 - **Finding**: the `FND-XXX` identifier.
-- **Result**: the assessment status of the evaluated control -
-  `Pass`, `Partial`, `Fail`, `Unknown`, or `N/A`.
-- **Status**: the finding lifecycle state - English cells render `Open`, `Closed`, or `Pass`
-  for a re-verified passing control.
+- **Result**: the assessment status of the evaluated control - `Pass`, `Partial`, `Fail`,
+  `Unknown`, or `N/A`.
+- **Status**: the finding lifecycle state - English cells render `Open`, `Closed`,
+  or `Pass` for a re-verified passing control.
 - **Change**: how the finding moved since the previous audit - English cells render `New`,
   `Unchanged`, `Reopened`, or `Closed` - first-audit findings always carry `New`.
-- **Verification**: an optional trailing column carrying the evidence qualifier - English
-  cells render `Verified`, `Confirmed`, or `Reported`. Omit the whole column when no
-  finding was verified this run; the validator tolerates both forms.
+- **Verification**: an optional trailing column carrying the evidence qualifier - English cells
+  render `Verified`, `Confirmed`, or `Reported`.
+  Omit the whole column when no finding was verified this run. The validator tolerates both forms.
 
-When the report language is not English, apply the column header translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the column header translations from the matching `translations/` file.
 
 Pillar abbreviations for IDs:
 
@@ -149,29 +148,30 @@ Pillar abbreviations for IDs:
 - `CPR` - Copyrights & Originality
 - `API` - API Compatibility & Versioning Discipline (conditional, libraries and packages only)
 
-When the report language is not English, apply the pillar name translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the pillar name translations from the matching `translations/` file.
 
 Severity values: `CRITICAL`, `HIGH`, `MEDIUM`, `LOW` - rendered `Critical`, `High`, `Medium`,
 `Low` in English cells.
 
-Result values: `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A` - rendered `Pass`, `Partial`,
-`Fail`, `Unknown`, `N/A` in English cells.
+Result values: `PASS`, `PARTIAL`, `FAIL`, `UNKNOWN`, `N/A` - rendered `Pass`, `Partial`, `Fail`,
+`Unknown`, `N/A` in English cells.
 
 Status values: `OPEN`, `CLOSED`, `PASS` - rendered `Open`, `Closed`, `Pass` in English cells.
 
-Change values: `NEW`, `UNCHANGED`, `REOPENED`, `CLOSED` - rendered `New`, `Unchanged`,
-`Reopened`, `Closed` in English cells.
+Change values: `NEW`, `UNCHANGED`, `REOPENED`, `CLOSED` - rendered `New`, `Unchanged`, `Reopened`,
+`Closed` in English cells.
 
 Verification values: `VERIFIED`, `CONFIRMED`, `REPORTED` - rendered `Verified`, `Confirmed`,
 `Reported` in English cells.
 
-When the report language is not English, these tokens render in the localized forms defined by
-the matching `translations/` file, along with result markers such as `NOT RUN`,
-`NOT ASSESSED`, `NOT INSPECTED`, `EXCLUDED BY SCOPE`, and `INSUFFICIENT INFORMATION`.
+When the report language is not English,
+these tokens render in the localized forms defined by the matching `translations/` file,
+along with result markers such as `NOT RUN`, `NOT ASSESSED`, `NOT INSPECTED`, `EXCLUDED BY SCOPE`,
+and `INSUFFICIENT INFORMATION`.
 
-`* **Field:**` bullet values in the detailed blocks render title case too - the canonical
-uppercase forms name the vocabulary, they are not the rendered form.
+`* **Field:**` bullet values in the detailed blocks render title case too - the canonical uppercase
+forms name the vocabulary, they are not the rendered form.
 
 **Detailed findings**
 
@@ -219,33 +219,30 @@ architectural anti-pattern, or code flaw]
 * **Recommendation:** [Step-by-step technical guidance to resolve the finding]
 ```
 
-The validator parses only the literal `* **Field:**` form - an asterisk bullet, a bold field
-name matching the list below exactly (asterisk-capitalized like `Breaking change`, not
-`BREAKING CHANGE`), a colon outside the bold, then the value.
+The validator parses only the literal `* **Field:**` form - an asterisk bullet,
+a bold field name matching the list below exactly (asterisk-capitalized like `Breaking change`,
+not `BREAKING CHANGE`), a colon outside the bold, then the value.
 
-Bold-only lines without the
-bullet, trailing punctuation inside the bold, or renamed fields are not seen as fields at all
-and fail as missing.
+Bold-only lines without the bullet, trailing punctuation inside the bold,
+or renamed fields are not seen as fields at all and fail as missing.
 
-The required fields, in template order: `Pillar`, `Severity`, `Type`,
-`Targets`, `Basis`, `Criteria`, `Impact`, `Method`,
-`Confidence`, `Mitigating factors`, `Evidence`, `Recommendation` - `Status`, `Change`,
-`Verification`, and `Runtime` are conditional and appear only when they differ from their
-default or apply.
+The required fields, in template order: `Pillar`, `Severity`, `Type`, `Targets`, `Basis`,
+`Criteria`, `Impact`, `Method`, `Confidence`, `Mitigating factors`, `Evidence`,
+`Recommendation` - `Status`, `Change`, `Verification`,
+and `Runtime` are conditional and appear only when they differ from their default or apply.
 
-Every finding identifier
-must match `FND-<pillar>-NNN` with a pillar abbreviation from the list above - a stem like
-`FND-PERF-001` parses but is not a legal pillar.
+Every finding identifier must match `FND-<pillar>-NNN` with a pillar abbreviation from the list
+above - a stem like `FND-PERF-001` parses but is not a legal pillar.
 
-When the report language is not English, apply the bullet label translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the bullet label translations from the matching `translations/` file.
 
 Omit a field line entirely when its value would be `N/A` or an unspecified token: `Security`,
 `Exploitability`, `Absence`, and `Provenance basis` render only when they carry information,
 and the same applies in every report language.
 
-`Provenance basis` is the inverse conditional: it is required on `FND-AIP-` blocks and
-omitted on every other pillar.
+`Provenance basis` is the inverse conditional:
+it is required on `FND-AIP-` blocks and omitted on every other pillar.
 
 Each finding must cite concrete evidence: file paths, config keys, commands, or direct quotes.
 
@@ -260,20 +257,20 @@ an empty line, then the sentence indented to the bullet's content column.
 The indentation keeps the continuation inside the list item,
 so a stricter Markdown linter reads it as list content rather than a list break.
 
-The same rule applies to every register block - `RSK`, `REC`, `TDR`, and any other `* **Field:**`
-run.
+The same rule applies to every register block - `RSK`, `REC`, `TDR`,
+and any other `* **Field:**` run.
 
-Every finding carries a description paragraph under its heading, plus Impact, Recommendation,
-and Method.
+Every finding carries a description paragraph under its heading, plus Impact,
+Recommendation, and Method.
 
 A finding with only a title and status is incomplete.
 
-The same rule applies to `RSK`, `REC`, and `TDR` register blocks -
-each `###` register heading is followed by its own description paragraph before the
-field list, never straight into `* **Field:**` lines.
+The same rule applies to `RSK`, `REC`, and `TDR` register blocks - each `###` register heading is
+followed by its own description paragraph before the field list,
+never straight into `* **Field:**` lines.
 
-Every finding resolves to a remediation entry or an `Accepted - no action` disposition -
-an unmapped finding is a report defect.
+Every finding resolves to a remediation entry or an `Accepted - no action` disposition - an unmapped
+finding is a report defect.
 
 The `Criteria` field names exactly one declared criteria row, never a comma-joined list.
 
@@ -292,37 +289,37 @@ each with a short qualifier such as `Yes, observed in source`.
 
 `Verification` covers source-level re-derivation only.
 
-The re-audit lifecycle fields `Change` and `Verification` appear on `### FND-` blocks
-only - `### RSK-`, `### REC-`, and `### TDR-` blocks never carry them, and a bulk
-insert anchored on a shared field such as `* **Confidence:**` leaks them into risk
-blocks.
+The re-audit lifecycle fields `Change` and `Verification` appear on `### FND-` blocks only -
+`### RSK-`, `### REC-`, and `### TDR-` blocks never carry them,
+and a bulk insert anchored on a shared field such as `* **Confidence:**` leaks
+them into risk blocks.
 
-The `Runtime` field appears only when the claimed behavior was confirmed by execution - unconfirmed findings omit the field:
-`Yes` only under `executed-readonly` or documented runtime evidence, `No` for a static
-inference awaiting confirmation, `Not applicable` when no runtime claim exists.
+The `Runtime` field appears only when the claimed behavior was confirmed by execution - unconfirmed
+findings omit the field: `Yes` only under `executed-readonly` or documented runtime evidence,
+`No` for a static inference awaiting confirmation, `Not applicable` when no runtime claim exists.
 
-Every runtime-claiming summary must match this field - a finding without a `Runtime` field
-never appears as verified in a summary table.
+Every runtime-claiming summary must match this field - a finding without a `Runtime` field never
+appears as verified in a summary table.
 
-The `Criteria` field names the declared criteria entry the finding bears on, from the criteria
-table in Auditing Methodology per `process/report-format/methodology-scoring.md`, followed by
-the violated or uncertain property the finding establishes.
+The `Criteria` field names the declared criteria entry the finding bears on,
+from the criteria table in Auditing Methodology per `process/report-format/methodology-scoring.md`,
+followed by the violated or uncertain property the finding establishes.
 
 A finding without a declared criteria entry has no seat in the score model - declare or extend a
 criteria entry first, per `references/criteria-catalogue.md`.
 
-Every count the report states - of sites, files, tests, or findings - derives from the
-classified records in `audit-model.json`, and narrative numbers agree with the register rows
-they summarize.
+Every count the report states - of sites, files, tests,
+or findings - derives from the classified records in `audit-model.json`,
+and narrative numbers agree with the register rows they summarize.
 
-A `REC-XXX` or `RSK-XXX` reference must identify the same responsibility or problem its
-`FND-XXX` describes - identifier existence is necessary, not sufficient, and a mismatched
-semantic link is a publication stop per `process/audit-model.md`.
+A `REC-XXX` or `RSK-XXX` reference must identify the same responsibility or problem its `FND-XXX`
+describes - identifier existence is necessary, not sufficient,
+and a mismatched semantic link is a publication stop per `process/audit-model.md`.
 
 The `Breaking change` field records the remediation's compatibility impact: `None`,
 `Internal` (callers inside the codebase adapt), or `Public API` (consumers, wire protocol,
-configuration, stored data, credentials, or deployment prerequisites change), with the
-affected surfaces and any migration note.
+configuration, stored data, credentials, or deployment prerequisites change),
+with the affected surfaces and any migration note.
 
 The `Applicability` field is required on dependency-advisory findings and states whether the
 vulnerable code path is `applicable`, `conditional` on a named feature or configuration,
@@ -330,56 +327,54 @@ vulnerable code path is `applicable`, `conditional` on a named feature or config
 
 Advisory presence in a lockfile is not exploitability.
 
-The `Defect scenario` field turns a defect into a scenario another person can run: initial
-conditions, the reproduction steps, the expected result, the observed result, and the
-confirmation level reached (`Source`, `Model`, `App`, `Deployed`, or `Unknown`).
+The `Defect scenario` field turns a defect into a scenario another person can run:
+initial conditions, the reproduction steps, the expected result, the observed result,
+and the confirmation level reached (`Source`, `Model`, `App`, `Deployed`, or `Unknown`).
 
-It is
-required on every `High` or `Critical` finding under `Report Style: audit` and `Report
-Style: hunt` - a source-only report still supplies a precise operator scenario, and
-`Source`-level confirmation satisfies it - and optional elsewhere.
+It is required on every `High` or `Critical` finding under `Report Style: audit` and
+`Report Style: hunt` - a source-only report still supplies a precise operator scenario,
+and `Source` -level confirmation satisfies it - and optional elsewhere.
 
 The `Evidence level` field records the strongest level the cited evidence reaches:
 `Source` (read in code or configuration), `Model` (an isolated reproduction or harness),
-`App` (the real application running locally), `Deployed` (a deployed environment), or
-`Unknown`.
+`App` (the real application running locally), `Deployed` (a deployed environment), or `Unknown`.
 
-It is required on every finding under `Report Style: review` - the validator
-rejects a review finding without it - and optional elsewhere.
+It is required on every finding under `Report Style: review` - the validator rejects a review
+finding without it - and optional elsewhere.
 
-A `Model` reproduction
-demonstrates a mechanism - it never upgrades application-wide reachability claims.
+A `Model` reproduction demonstrates a mechanism - it never upgrades application-wide
+reachability claims.
 
 The `Status` field carries the lifecycle state: `Open`, `Closed`,
 or `Pass` for a re-verified passing control.
 
-The `Change` field carries the movement since the previous audit: `New`, `Unchanged`,
-`Reopened`, or `Closed` - it records provenance, never a lifecycle state.
+The `Change` field carries the movement since the previous audit: `New`, `Unchanged`, `Reopened`,
+or `Closed` - it records provenance, never a lifecycle state.
 
 The `Type` field separates fact from judgment per `principles/evaluation-rules.md`:
 `Observation` for a finding stating an independently re-derivable fact,
 `Concern` for a risk judgment built on observations.
 
-The `Absence` field carries the token from `principles/evaluation-rules.md` on every
-finding that records an absent capability: `No documented rationale`, `Deliberate -
-recorded decision`, or `Undetermined`, each followed by a one-line evidence basis.
+The `Absence` field carries the token from `principles/evaluation-rules.md` on every finding that
+records an absent capability: `No documented rationale`, `Deliberate - recorded decision`,
+or `Undetermined`, each followed by a one-line evidence basis.
 
-Assert intent only when a documented decision or an equivalent record exists -
-absence evidence alone never earns the `Deliberate` token.
+Assert intent only when a documented decision or an equivalent record exists - absence evidence
+alone never earns the `Deliberate` token.
 
 On every other finding the field is omitted.
 
 Most findings are `Concern`.
 
-The `Exploitability` field is required on every `High` or `Critical` Security & Compliance
-finding whose target sits on a network-facing surface, where it carries the tier and
-attack-path reasoning per `references/exploitability-narrative.md`.
+The `Exploitability` field is required on every `High` or `Critical` Security & Compliance finding
+whose target sits on a network-facing surface,
+where it carries the tier and attack-path reasoning per `references/exploitability-narrative.md`.
 
 On every other finding the field is omitted.
 
-When referencing secrets, credentials, or keys in the description paragraph or Impact field, replace exact
-values with `[REDACTED]` or generic descriptions such as "plaintext database credentials found in
-tracking file".
+When referencing secrets, credentials, or keys in the description paragraph or Impact field,
+replace exact values with `[REDACTED]` or generic descriptions such as "plaintext database
+credentials found in tracking file".
 
 Keep trade-offs in the standalone section and embed relevant reasoning in the finding.
 
@@ -392,19 +387,18 @@ Do not assign a CVSS score or adverse severity to an ordinary positive observati
 
 Place strengths in Strengths & What's Working rather than using `Pass` as a severity.
 
-Shared sections use bare identifiers - the ID alone is unambiguous because every
-register family numbers report-globally.
+Shared sections use bare identifiers - the ID alone is unambiguous because every register family
+numbers report-globally.
 
-Every identifier is a compound token written whole and plainly: `FND-SEC-001`,
-`REC-003`, `PAR-10`.
+Every identifier is a compound token written whole and plainly: `FND-SEC-001`, `REC-003`, `PAR-10`.
 
 The compound is never split, partially linked, or abbreviated to a bare prefix in prose.
 
 Every occurrence outside the identifier's defining location links to the definition,
-per Register Reference Links in `process/report-format.md` - the summary `Finding` cell,
-`Source`, `Resolves`, `Evidence`, and traceability columns all carry `[ID](#anchor)` forms,
-while the `### <ID>:` heading and the `EVD`/`PAR` register row that declares the identifier
-stay plain.
+per Register Reference Links in `process/report-format.md` - the summary `Finding` cell, `Source`,
+`Resolves`, `Evidence`, and traceability columns all carry `[ID](#anchor)` forms,
+while the `### <ID>:` heading and the `EVD` / `PAR` register row that declares the
+identifier stay plain.
 
 ## Technical Debt Register
 
@@ -413,11 +407,11 @@ per `synthesis/debt-register.md`.
 
 Omit it when no such debt exists.
 
-This register is distinct from the Unified Risk Register: risks describe what could go wrong, debt
-describes accumulated cost that is already present.
+This register is distinct from the Unified Risk Register: risks describe what could go wrong,
+debt describes accumulated cost that is already present.
 
-Use the CISQ categories and SQALE-inspired cost guidance in `synthesis/debt-register.md`, claiming
-full method application only when its models were used.
+Use the CISQ categories and SQALE-inspired cost guidance in `synthesis/debt-register.md`,
+claiming full method application only when its models were used.
 
 Use this column order:
 
@@ -426,14 +420,15 @@ Use this column order:
 | TDR-001 | <debt item> | <characteristic> | <FND ID> |
 
 `Cost` and `Delay` columns appear only when at least one row carries an estimate - never an
-`Insufficient information` cell (leave the cell empty instead), and a column whose rows are
-all empty is dropped entirely. `Status` appears only when at least one row differs from `Open`.
+`Insufficient information` cell (leave the cell empty instead),
+and a column whose rows are all empty is dropped entirely.
+`Status` appears only when at least one row differs from `Open`.
 
-When the report language is not English, apply the column header translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the column header translations from the matching `translations/` file.
 
-Category is one of the CISQ characteristics: `Reliability`, `Performance Efficiency`, `Security`,
-`Maintainability`.
+Category is one of the CISQ characteristics: `Reliability`, `Performance Efficiency`,
+`Security`, `Maintainability`.
 
 Every item must trace to a `FND-XXX` or be marked `Direct observation` with a cited file.
 
@@ -452,8 +447,8 @@ Use this exact markdown block pattern:
 * **Source:** [FND-XXX or Direct observation]
 ```
 
-When the report language is not English, apply the bullet label translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the bullet label translations from the matching `translations/` file.
 
 ## Unified Risk Register
 
@@ -467,13 +462,12 @@ Every risk must trace back to a specific finding.
 |---------|-----------------|---------|---------------|---------------|------------|------------|
 | RSK-001 | <concrete risk> | FND-XXX | <consequence> | <probability> | <severity> | <action>   |
 
-When the report language is not English, apply the column header translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the column header translations from the matching `translations/` file.
 
 Column meanings:
 
-- **Risk**: `RSK-[001]` ascending across the whole report - one sequence, never reset per
-  project.
+- **Risk**: `RSK-[001]` ascending across the whole report - one sequence, never reset per project.
 - **Description**: a concrete technical risk, stated neutrally.
 - **Source**: the `FND-XXX` identifier that produced this risk.
 - **Impact**: the consequence if the risk is realized.
@@ -481,16 +475,15 @@ Column meanings:
 - **Severity**: one of `Low`, `Medium`, `High`, `Critical`.
 - **Mitigation**: a neutral, optional action that would reduce the risk.
 
-A summary row's **Description** cell carries the block's full title verbatim -
-a shortened or paraphrased title breaks the index check that pairs each `### RSK-`
-block with its summary row.
+A summary row's **Description** cell carries the block's full title verbatim - a shortened or
+paraphrased title breaks the index check that pairs each `### RSK-` block with its summary row.
 
 **Rating guidance**
 
 Rate impact and likelihood from evidence, not intuition.
 
-Impact bands - the canonical tokens are `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`, rendered
-`Low`, `Medium`, `High`, `Critical` in cells per `principles/output-style.md`:
+Impact bands - the canonical tokens are `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`, rendered `Low`,
+`Medium`, `High`, `Critical` in cells per `principles/output-style.md`:
 
 - `LOW`: limited or cosmetic effect.
 - `MEDIUM`: degraded function or contained outage.
@@ -512,18 +505,18 @@ Likelihood bands:
 | Medium              | Low    | Medium   | High     |
 | Low                 | Low    | Low      | Medium   |
 
-When the report language is not English, apply the axis label translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the axis label translations from the matching `translations/` file.
 
 **Rules**
 
 - One row per distinct risk. Do not merge unrelated risks.
 - Every `RSK-XXX` entry must reference its source `FND-XXX`.
 - State each risk as a property of the system, never as a fault of a person.
-- When a rating is unsupported, use `Unknown`, state the missing evidence, and omit it from
-  numeric aggregation and risk-map placement, per `synthesis/risk-register.md`.
-- Mitigations are options, not directives. Do not phrase them as commands unless the user asked for
-  directives.
+- When a rating is unsupported, use `Unknown`, state the missing evidence,
+  and omit it from numeric aggregation and risk-map placement, per `synthesis/risk-register.md`.
+- Mitigations are options, not directives.
+  Do not phrase them as commands unless the user asked for directives.
 - Do not output plaintext secrets, passwords, or cryptographic keys in the Risk column.
 
 After the table, write one block per risk in the same order.
@@ -550,11 +543,11 @@ Use this exact markdown block pattern:
 * **Mitigation:** [Neutral, optional action that would reduce the risk]
 ```
 
-When the report language is not English, apply the bullet label translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the bullet label translations from the matching `translations/` file.
 
-Omit `Owner` when the input establishes no responsible role. The field never renders
-`Not specified` or an empty value.
+Omit `Owner` when the input establishes no responsible role.
+The field never renders `Not specified` or an empty value.
 
 ## Remediation Roadmap
 
@@ -562,10 +555,9 @@ This section transforms recommendations into a prioritized, traceable remediatio
 
 Every recommendation must resolve a specific finding.
 
-The section renders once per report - a single-project report carries it after the
-Unified Risk Register, and a multi-project report renders it as a shared level-2
-section after the combined Solution Comparison, merging every project's
-recommendations into one matrix and one block set per
+The section renders once per report - a single-project report carries it after the Unified Risk
+Register, and a multi-project report renders it as a shared level-2 section after the combined
+Solution Comparison, merging every project's recommendations into one matrix and one block set per
 `process/report-format/multi-project.md`.
 
 **Prioritized matrix**
@@ -580,35 +572,34 @@ Use this fixed column order:
 |---------|----------|---------|----------------|-------------------|-------------------|-------------------|---------------------|
 | REC-001 | <P1-P4>  | FND-XXX | <action>       | <High/Medium/Low> | <High/Medium/Low> | <High/Medium/Low> | <verification step> |
 
-When the report language is not English, apply the column header translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the column header translations from the matching `translations/` file.
 
 Column meanings:
 
-- **Rec**: `REC-[001]` ascending across the whole report - one sequence, never reset per
-  project.
-- **Project**: the owning project identifier - a leading column present only in a
-  multi-project report's merged matrix.
+- **Rec**: `REC-[001]` ascending across the whole report - one sequence, never reset per project.
+- **Project**: the owning project identifier - a leading column present only in a multi-project
+  report's merged matrix.
 - **Priority**: `P1` (immediate), `P2` (short-term), `P3` (medium-term), `P4` (long-term).
 - **Finding**: the `FND-XXX` identifier this recommendation resolves.
 - **Recommendation**: a concise, actionable technical step.
 - **Impact**: the business or technical impact of applying this fix (`High`, `Medium`, `Low`).
 - **Effort**: the estimated engineering effort to implement (`High`, `Medium`, `Low`).
-- **Complexity**: the architectural or organizational complexity of the change (`High`, `Medium`,
-  `Low`).
+- **Complexity**: the architectural or organizational complexity of the change
+  (`High`, `Medium`, `Low`).
 - **Verification**: a specific test, command, or process to confirm the fix is successful.
 
 **Rules**
 
 - Every `REC-XXX` entry must resolve a specific `FND-XXX`.
-- Do not introduce new findings in this section. Recommendations must trace back to gaps in the
-  Technical Findings.
+- Do not introduce new findings in this section.
+  Recommendations must trace back to gaps in the Technical Findings.
 - Keep language neutral and free of blame.
 - Do not rank or select a single option unless the user explicitly asks for a recommendation.
-- When the user does ask for a single recommendation, state the chosen option, the reason anchored
-  to evidence, and the residual risk.
-- When a recommendation would require information that was never provided, state the missing
-  information rather than assuming it.
+- When the user does ask for a single recommendation, state the chosen option,
+  the reason anchored to evidence, and the residual risk.
+- When a recommendation would require information that was never provided,
+  state the missing information rather than assuming it.
 
 After the table, write one block per recommendation in the same order.
 
@@ -640,29 +631,29 @@ Use this exact markdown block pattern:
   already names it)*
 ```
 
-When the report language is not English, apply the bullet label translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the bullet label translations from the matching `translations/` file.
 
 For readiness or due diligence, include the supported cost rollup and dependency ordering from
 `synthesis/remediation-roadmap.md`, counting shared work only once.
 
-Numeric totals require evidence-based compatible units, unknown work remains visible beside any
-known subtotal.
+Numeric totals require evidence-based compatible units,
+unknown work remains visible beside any known subtotal.
 
-The section closes with the `### Recommendation Classification` subsection at `Standard`
-and `Detailed` detail levels and with the `### Follow-up Plan` subsection when the roadmap
-carries a P1 or P2 recommendation - neither renders as a standalone level-2 section.
+The section closes with the `### Recommendation Classification` subsection at `Standard` and
+`Detailed` detail levels and with the `### Follow-up Plan` subsection when the roadmap carries a P1
+or P2 recommendation - neither renders as a standalone level-2 section.
 
 ## Recommendation Classification
 
-Include this subsection at the bottom of the Remediation Roadmap when the detail level is
-`Standard` or `Detailed` and the roadmap is present.
+Include this subsection at the bottom of the Remediation Roadmap when the detail level is `Standard`
+or `Detailed` and the roadmap is present.
 
-Omit it at `Brief`, or when improvement suggestions are disabled, and record the omission in
-Scope Exclusions.
+Omit it at `Brief`, or when improvement suggestions are disabled,
+and record the omission in Scope Exclusions.
 
-The subsection follows the recommendation detail blocks inside the Remediation Roadmap and
-precedes the `### Follow-up Plan` subsection.
+The subsection follows the recommendation detail blocks inside the Remediation Roadmap and precedes
+the `### Follow-up Plan` subsection.
 
 It assigns every recommendation a disposition class so the report can serve directly as a basis
 for change documents.
@@ -675,29 +666,30 @@ Use this fixed column order:
 |---------|----------------|---------|----------------|
 | REC-001 | <action>       | <class> | <short reason> |
 
-When the report language is not English, apply the column header translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the column header translations from the matching `translations/` file.
 
 Column meanings:
 
 - **Rec**: the `REC-[001]` identifier from the Remediation Roadmap.
 - **Recommendation**: the recommendation summary from the roadmap row.
-- **Class**: one of `Recommended`, `Optional`, or `Not recommended` - the validator rejects
-  every other casing, the uppercase forms elsewhere in this file name the canonical tokens.
+- **Class**: one of `Recommended`, `Optional`,
+  or `Not recommended` - the validator rejects every other casing,
+  the uppercase forms elsewhere in this file name the canonical tokens.
 - **Basis**: a short reason for the classification, such as `blocks readiness gate`,
   `optional improvement`, or `intent undetermined`.
 
 **Rules**
 
 - Every `REC-XXX` in the roadmap appears exactly once in this table.
-- The class complements the P1-P4 priority: priority orders urgency, class records whether the
-  report advises acting now given current evidence.
+- The class complements the P1-P4 priority: priority orders urgency,
+  class records whether the report advises acting now given current evidence.
 - A `Not recommended` row keeps its priority for the moment its blocking uncertainty resolves.
 - After the table, write one paragraph per `Not recommended` entry naming the evidence or decision
   that would reclassify it, using the bold-heading paragraph pattern.
-- The paragraph's `REC-XXX` appears once, in the bold heading. Its body cites the `FND-XXX` the
-  recommendation resolves, never the `REC-XXX` again - the classification table owns the
-  `REC-XXX` occurrence count.
+- The paragraph's `REC-XXX` appears once, in the bold heading.
+  Its body cites the `FND-XXX` the recommendation resolves,
+  never the `REC-XXX` again - the classification table owns the `REC-XXX` occurrence count.
 - The subsection introduces no new findings and no new recommendations.
-- In a multi-project report the single merged table gains a leading `Project` column -
-  per-project classification blocks do not render.
+- In a multi-project report the single merged table gains a leading `Project` column - per-project
+  classification blocks do not render.

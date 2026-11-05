@@ -3,19 +3,18 @@
 ## Purpose
 
 > **Scope:** Idiomatic use of the chosen languages, frameworks, runtimes, and libraries,
-> stack-specific conventions and anti-patterns
-> **Key items:** language idioms, framework conventions, ecosystem layout, official style guides,
-> recommended libraries, deprecated APIs, version-appropriate patterns
+> stack-specific conventions and anti-patterns **Key items:** language idioms,
+> framework conventions, ecosystem layout, official style guides, recommended libraries,
+> deprecated APIs, version-appropriate patterns
 
 This file guides assessment of how closely the code follows the documented best practices and idioms
 of its own technology stack.
 
 Apply `principles/evaluation-rules.md` throughout.
 
-Select the stack's canonical guidance from `references/stack-standards.md` - its digest table
-leads to the per-stack digests, whose `Maintainer-Standard Floor` sections carry the distilled
-defect floors - and anchor judgements to
-it.
+Select the stack's canonical guidance from `references/stack-standards.md` - its digest table leads
+to the per-stack digests, whose `Maintainer-Standard Floor` sections carry the distilled defect
+floors - and anchor judgements to it.
 
 Judge adherence to the conventions of the stack the subject already uses.
 
@@ -23,9 +22,10 @@ Do not penalize the stack choice itself or compare it against a preferred stack,
 per the architectural-neutrality rule.
 
 Generic, language-agnostic design principles are assessed in `assessment/design-principles.md`,
-code-level metrics such as linting and complexity in `assessment/code-quality.md`, and in-code
-naming and style conformance in `assessment/code-style.md`, which consumes this file's
-idiomatic-fluency judgement as its SL-7 lens - this file covers stack-specific convention.
+code-level metrics such as linting and complexity in `assessment/code-quality.md`,
+and in-code naming and style conformance in `assessment/code-style.md`,
+which consumes this file's idiomatic-fluency judgement as its SL-7 lens - this file covers
+stack-specific convention.
 
 ## What To Evaluate
 
@@ -34,14 +34,14 @@ idiomatic-fluency judgement as its SL-7 lens - this file covers stack-specific c
 - Framework conventions: whether the code follows the framework's prescribed structure, lifecycle,
   data flow, and extension points.
 - Ecosystem layout: whether code-level framework conventions are followed - the layout verdict
-  itself is owned by `assessment/structure-review.md`, which consumes this file's stack
-  conventions as its baseline.
-- Stack style guide: whether an official or community style guide and the ecosystem-standard tooling
-  are adopted.
+  itself is owned by `assessment/structure-review.md`,
+  which consumes this file's stack conventions as its baseline.
+- Stack style guide: whether an official or community style guide and the ecosystem-standard
+  tooling are adopted.
 - Recommended libraries: whether the stack's established libraries are used instead of
   reimplementing solved problems.
-- Deprecated APIs: whether deprecated or discouraged APIs of the language, framework, or libraries
-  are avoided.
+- Deprecated APIs: whether deprecated or discouraged APIs of the language, framework,
+  or libraries are avoided.
 - Version-appropriate patterns: whether the code uses the patterns the installed stack version
   offers rather than outdated ones it has superseded.
 - Stack anti-patterns: whether anti-patterns known to the specific stack are absent.
@@ -60,22 +60,22 @@ idiomatic-fluency judgement as its SL-7 lens - this file covers stack-specific c
 
 ## Status Criteria
 
-- `PASS`: The code consistently follows the documented idioms and conventions of its stack, with
-  evidence across representative areas.
+- `PASS`: The code consistently follows the documented idioms and conventions of its stack,
+  with evidence across representative areas.
 - `PARTIAL`: Conventions are followed in places but violated in others, such as foreign idioms,
   off-pattern framework use, or deprecated APIs.
-- `FAIL`: The code broadly ignores the stack's established conventions where they clearly apply,
-  with evidence.
-- `UNKNOWN`: The stack could not be identified, or source was not provided in enough depth to judge
-  convention.
+- `FAIL`: The code broadly ignores the stack's established conventions where they clearly
+  apply, with evidence.
+- `UNKNOWN`: The stack could not be identified,
+  or source was not provided in enough depth to judge convention.
 
 ## Common Risks
 
 - Foreign idioms make the code harder for stack-experienced maintainers to read and review.
 - Off-pattern framework use forfeits framework guarantees and complicates upgrades.
 - Non-standard project layout slows onboarding and breaks tooling that expects conventions.
-- Hand-rolled replacements for standard libraries carry defects the established library has already
-  solved.
+- Hand-rolled replacements for standard libraries carry defects the established
+  library has already solved.
 - Deprecated APIs are removed in later versions, blocking upgrades and creating future breakage.
 - Outdated patterns miss safety and clarity improvements the current stack version provides.
 

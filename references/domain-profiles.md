@@ -2,13 +2,12 @@
 
 ## Purpose
 
-> **Scope:** Project-nature classification and the mandatory evidence probes each nature
-> activates
-> **Key items:** nature classification, advertised-workflow discovery, probe selection,
-> completeness rules
+> **Scope:** Project-nature classification and the mandatory evidence probes each nature activates
+> **Key items:** nature classification, advertised-workflow discovery, probe
+> selection, completeness rules
 
-This file defines how an audit classifies what the subject IS before it assesses what the
-subject does well.
+This file defines how an audit classifies what the subject IS before it assesses what
+the subject does well.
 
 Apply `principles/evaluation-rules.md` throughout.
 
@@ -17,8 +16,7 @@ and documentation claims - never assumed from the repository name or the user's 
 
 ## Classification
 
-During Scope Definition, assign one primary nature and any number of secondary natures per
-project:
+During Scope Definition, assign one primary nature and any number of secondary natures per project:
 
 | Nature          | Recognized by                                                                   |
 |-----------------|---------------------------------------------------------------------------------|
@@ -36,23 +34,24 @@ project:
 
 The classification records which documentation claims count as advertised workflows.
 
-A capability named in README, specifications, or contract surfaces is an advertised workflow
-even when the implementation is thin.
+A capability named in README, specifications,
+or contract surfaces is an advertised workflow even when the implementation is thin.
 
-A root `SKILL.md` does not by itself make the subject `agent-tooling` primary: distinguish a
-repository that IS the skill - `SKILL.md` is the product entry and the payload is instructions -
-from a software repository that ships a `SKILL.md` capability catalog alongside compiled or
-runtime payloads, which classifies by its deliverable and keeps `agent-tooling` secondary.
+A root `SKILL.md` does not by itself make the subject `agent-tooling` primary:
+distinguish a repository that IS the skill - `SKILL.md` is the product entry and the payload is
+instructions - from a software repository that ships a `SKILL.md` capability catalog alongside
+compiled or runtime payloads, which classifies by its deliverable and keeps
+`agent-tooling` secondary.
 
-Cross-reference the authored-versus-installed rules in `assessment/skill-definition.md` so a
-catalog of the project's own utilities is not misfiled as a separate skill project.
+Cross-reference the authored-versus-installed rules in `assessment/skill-definition.md` so a catalog
+of the project's own utilities is not misfiled as a separate skill project.
 
-`automation` is distinct from ordinary product UI testing: a Playwright suite against the
-subject's own frontend is testing evidence, not the nature.
+`automation` is distinct from ordinary product UI testing:
+a Playwright suite against the subject's own frontend is testing evidence, not the nature.
 
-The nature activates when the
-subject inspects or drives a separate application the user may be operating at the same time -
-the read-only contract, live-user cohabitation, and calibration probes below then apply.
+The nature activates when the subject inspects or drives a separate application the user may be
+operating at the same time - the read-only contract, live-user cohabitation,
+and calibration probes below then apply.
 
 `references/topics/ui-automation.md` carries the checkable baseline.
 
@@ -78,32 +77,31 @@ It never produces a finding by itself.
 
 Extended probe sets by nature:
 
-- `service` adds pagination bounds and the public auth-surface abuse verdict - rate
-  limiting, lockout, enumeration oracle - per `assessment/security-review.md`.
-- `pipeline` adds multi-resource mutation ordering per
-  `references/topics/data-persistence.md`.
-- `frontend` adds client-storage residue after logout, the accessibility census per
-  `references/topics/accessibility-baseline.md`, the DOM-sink census per
-  `references/topics/frontend-security.md`, and the dead-feature and frontend-backend
-  agreement checks per `assessment/frontend-review.md`.
+- `service` adds pagination bounds and the public auth-surface abuse verdict - rate limiting,
+  lockout, enumeration oracle - per `assessment/security-review.md`.
+- `pipeline` adds multi-resource mutation ordering per `references/topics/data-persistence.md`.
+- `frontend` adds client-storage residue after logout,
+  the accessibility census per `references/topics/accessibility-baseline.md`,
+  the DOM-sink census per `references/topics/frontend-security.md`,
+  and the dead-feature and frontend-backend agreement checks per `assessment/frontend-review.md`.
 
 ## Cross-Cutting Probes
 
 Every nature also activates these probes:
 
-- **Identifier trace** - for every value crossing a component boundary (paths, IDs, tokens,
-  claims, config keys, error shapes), a producer/consumer matrix naming each site and the
-  representation it emits or expects.
-- **Journey trace** - for each advertised workflow, the declared path through its hops with
-  conforming and failing hops recorded.
-- **Stub census** - uniform-return functions, `unimplemented!`/`todo!` bodies, cfg-gated or
-  never-called modules, and feature-flagged fallbacks behind advertised capabilities.
-- **Lifecycle completeness** - for credentials, tokens, sessions, and synced state:
-  revocation, expiry, rotation, and post-removal behavior.
-- **Defaults sweep** - shipped ports, addresses, credentials, debug endpoints, transport
-  security, and file permissions against least-privilege expectations.
-- **Toolchain compatibility** - manifest edition/MSRV, builder images, and documented
-  prerequisites against the language features and APIs the code uses.
+- **Identifier trace** - for every value crossing a component boundary (paths, IDs, tokens, claims,
+  config keys, error shapes), a producer/consumer matrix naming each site and the representation
+  it emits or expects.
+- **Journey trace** - for each advertised workflow,
+  the declared path through its hops with conforming and failing hops recorded.
+- **Stub census** - uniform-return functions, `unimplemented!` / `todo!` bodies,
+  cfg-gated or never-called modules, and feature-flagged fallbacks behind advertised capabilities.
+- **Lifecycle completeness** - for credentials, tokens, sessions, and synced state: revocation,
+  expiry, rotation, and post-removal behavior.
+- **Defaults sweep** - shipped ports, addresses, credentials, debug endpoints, transport security,
+  and file permissions against least-privilege expectations.
+- **Toolchain compatibility** - manifest edition/MSRV, builder images,
+  and documented prerequisites against the language features and APIs the code uses.
 
 ## Recording
 
@@ -111,5 +109,4 @@ Record the profile assignment and activated probes in the Auditing Methodology s
 
 A skipped probe requires a recorded reason.
 
-An unprobeable item is a `NOT ASSESSED` evidence
-row, not silence.
+An unprobeable item is a `NOT ASSESSED` evidence row, not silence.

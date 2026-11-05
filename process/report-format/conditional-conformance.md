@@ -2,23 +2,23 @@
 
 ## Purpose
 
-> **Scope:** The conditional conformance sections of the report
-> **Key items:** API contract, skill definition, agent guidance, AI system, standards,
-> requirements, engineering baseline, naming and layout, API compatibility
+> **Scope:** The conditional conformance sections of the report **Key items:** API contract,
+> skill definition, agent guidance, AI system, standards, requirements, engineering baseline,
+> naming and layout, API compatibility
 
 ## Contents
 
 | Section                                   | Line | What it covers                             |
 |-------------------------------------------|------|--------------------------------------------|
 | API Contract Conformance                  | 23   | API specification and security conformance |
-| Skill Definition Conformance              | 50   | Agent Skill and artifact spec conformance  |
-| Agent Guidance Conformance                | 117  | Guidance-set topology and ownership        |
-| AI System Assessment                      | 147  | AI model, dataset, and safety assessment   |
-| Standards Conformance                     | 166  | Project development standards conformance  |
-| Requirements Conformance                  | 229  | Declared requirements and criteria checks  |
-| Engineering Baseline Conformance          | 275  | Bundled stack and purpose baseline floor   |
-| Structure Conformance                     | 302  | Directory, file, and code-division rules   |
-| API Compatibility & Versioning Discipline | 353  | Library API surface and SemVer discipline  |
+| Skill Definition Conformance              | 49   | Agent Skill and artifact spec conformance  |
+| Agent Guidance Conformance                | 116  | Guidance-set topology and ownership        |
+| AI System Assessment                      | 146  | AI model, dataset, and safety assessment   |
+| Standards Conformance                     | 165  | Project development standards conformance  |
+| Requirements Conformance                  | 228  | Declared requirements and criteria checks  |
+| Engineering Baseline Conformance          | 274  | Bundled stack and purpose baseline floor   |
+| Structure Conformance                     | 300  | Directory, file, and code-division rules   |
+| API Compatibility & Versioning Discipline | 352  | Library API surface and SemVer discipline  |
 
 ## API Contract Conformance
 
@@ -31,10 +31,9 @@ then describe each gap with evidence and its linked `FND-XXX`.
 
 Map each API security gap to its OWASP API Security Top 10 (2023) code where one applies.
 
-A deviation from the declared contract is not automatically API8 `Security
-Misconfiguration` - classify by the deviation's character (missing controls, unsafe
-defaults, excessive exposure) or map to a CWE instead, and leave the mapping empty when
-no category genuinely fits.
+A deviation from the declared contract is not automatically API8 `Security Misconfiguration` -
+classify by the deviation's character (missing controls, unsafe defaults, excessive exposure)
+or map to a CWE instead, and leave the mapping empty when no category genuinely fits.
 
 | Dimension                  | Status  | Evidence                                        |
 |----------------------------|---------|-------------------------------------------------|
@@ -44,25 +43,25 @@ no category genuinely fits.
 | Versioning strategy        | Unknown | compatibility policy not supplied               |
 | Spec-to-code agreement     | Partial | `/health` marked `security: []` but behind auth |
 
-When the report language is not English, apply the column header translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the column header translations from the matching `translations/` file.
 
 ## Skill Definition Conformance
 
 Include this section only when the subject is an Agent Skill, a skill collection,
-or contains agent-facing artifacts such as `SKILL.md` files, `AGENTS.md`, `CLAUDE.md`, rules
-directories, plugin manifests, subagent definitions, instruction files, or MCP configuration,
+or contains agent-facing artifacts such as `SKILL.md` files, `AGENTS.md`, `CLAUDE.md`,
+rules directories, plugin manifests, subagent definitions, instruction files, or MCP configuration,
 per `assessment/skill-definition.md`.
 
 Omit it entirely for a project with no in-scope agent-facing artifacts,
 and note the omission in Scope Exclusions.
 
-Record the spec baseline used for each format: the `references/agent-skills.md`
-and `references/agent-configuration.md` snapshot dates or the live-fetch results when
-the optional check ran.
+Record the spec baseline used for each format:
+the `references/agent-skills.md` and `references/agent-configuration.md` snapshot dates or the
+live-fetch results when the optional check ran.
 
-Present a conformance table across the evaluated dimensions, then describe each gap with evidence
-and its linked `FND-XXX`.
+Present a conformance table across the evaluated dimensions,
+then describe each gap with evidence and its linked `FND-XXX`.
 
 | Dimension                | Status  | Evidence                                               |
 |--------------------------|---------|--------------------------------------------------------|
@@ -76,9 +75,9 @@ and its linked `FND-XXX`.
 | Description triggering   | Partial | Description lacks specific trigger keywords            |
 | Body content quality     | Pass    | Instructions, examples, and edge cases present         |
 
-When the subject contains more than one skill - a collection, or embedded skills assessed as
-components - precede the dimension table with a Skills Inventory matrix listing every discovered
-`SKILL.md`:
+When the subject contains more than one skill - a collection,
+or embedded skills assessed as components - precede the dimension table with a Skills Inventory
+matrix listing every discovered `SKILL.md`:
 
 | Skill         | Path                          | Name Match | Status       | Key Gaps                        |
 |---------------|-------------------------------|------------|--------------|---------------------------------|
@@ -87,13 +86,13 @@ components - precede the dimension table with a Skills Inventory matrix listing 
 | legacy-bot    | `plugins/legacy/`             | Yes        | Fail         | Missing `description` field     |
 | helper-bot    | `.claude/skills/helper/`      | Yes        | Out of scope | Installed, excluded at intake   |
 
-Every discovered `SKILL.md` appears in the matrix, including ones excluded as installed,
-unfetched, or unchecked at intake, which carry `Out of scope` as their status and the exclusion
+Every discovered `SKILL.md` appears in the matrix, including ones excluded as installed, unfetched,
+or unchecked at intake, which carry `Out of scope` as their status and the exclusion
 reason as the gap note.
 
-When non-skill agent-facing artifacts exist, follow the Skills Inventory with an Agent Artifacts
-table listing every discovered memory file, rules directory, subagent definition, plugin
-manifest, instruction file, or MCP configuration:
+When non-skill agent-facing artifacts exist,
+follow the Skills Inventory with an Agent Artifacts table listing every discovered memory file,
+rules directory, subagent definition, plugin manifest, instruction file, or MCP configuration:
 
 | Artifact        | Type        | Path               | Status       | Notes                         |
 |-----------------|-------------|--------------------|--------------|-------------------------------|
@@ -102,31 +101,31 @@ manifest, instruction file, or MCP configuration:
 | Greeting plugin | Plugin      | `plugins/greeter/` | Pass         | Manifest `name` present       |
 | Vendor rules    | Rules dir   | `.windsurf/rules/` | Out of scope | Installed, excluded at intake |
 
-Follow the matrix with the dimension table per skill that warrants detail - at minimum every
-non-`Pass` skill and every skill in a collection - then describe each gap with evidence and its
-linked `FND-XXX`.
+Follow the matrix with the dimension table per skill that warrants detail - at minimum every non-
+`Pass` skill and every skill in a collection - then describe each gap with evidence and
+its linked `FND-XXX`.
 
-Apply the same per-artifact detail rule to every non-`Pass`, non-excluded row
-of the Agent Artifacts table.
+Apply the same per-artifact detail rule to every non- `Pass`,
+non-excluded row of the Agent Artifacts table.
 
 The aggregate status follows the weakest in-scope item.
 
-When the report language is not English, apply the column header translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the column header translations from the matching `translations/` file.
 
 ## Agent Guidance Conformance
 
-Include this section only when the subject carries a structured agent-guidance documentation
-set, per `assessment/agent-guidance.md`.
+Include this section only when the subject carries a structured agent-guidance documentation set,
+per `assessment/agent-guidance.md`.
 
 Omit it entirely for a project whose agent-facing material is a lone thin entry file or less,
 and note the omission in Scope Exclusions.
 
-Record the baseline used: the `references/agent-configuration.md` Guidance Set Baselines
-snapshot date, or the live-fetch result when the optional check ran.
+Record the baseline used: the `references/agent-configuration.md` Guidance Set Baselines snapshot
+date, or the live-fetch result when the optional check ran.
 
-Present a conformance table across the evaluated dimensions, then describe each gap with
-evidence and its linked `FND-XXX`.
+Present a conformance table across the evaluated dimensions,
+then describe each gap with evidence and its linked `FND-XXX`.
 
 | Dimension              | Status  | Evidence                                                       |
 |------------------------|---------|----------------------------------------------------------------|
@@ -141,22 +140,22 @@ evidence and its linked `FND-XXX`.
 
 The aggregate status follows the weakest evaluated dimension.
 
-When the report language is not English, apply the column header translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the column header translations from the matching `translations/` file.
 
 ## AI System Assessment
 
-Include this section only when the project trains, serves, or materially depends on an AI or
-machine-learning system, per `assessment/ai-system.md`.
+Include this section only when the project trains, serves,
+or materially depends on an AI or machine-learning system, per `assessment/ai-system.md`.
 
 Keep this section distinct from AI-generated-code provenance.
 
 A project can have AI-assisted source without having an AI system,
 and an AI system can contain no evidence about how its source was authored.
 
-An `AI Governance Audit` row omitted from the coverage table as `Not applicable` never
-suppresses AI-provenance findings in the `AIP` pillar - the row answers whether
-governance of an AI system was assessed, the pillar answers how the source was authored.
+An `AI Governance Audit` row omitted from the coverage table as `Not applicable` never suppresses
+AI-provenance findings in the `AIP` pillar - the row answers whether governance of an AI system was
+assessed, the pillar answers how the source was authored.
 
 Present the evaluated lifecycle, model and data provenance, evaluation evidence, safety boundaries,
 operational controls, and unresolved limitations.
@@ -183,13 +182,13 @@ List the development standards documents found in the project:
 |----------|--------|----------------------------------------|
 | <title>  | <path> | <languages, frameworks, software type> |
 
-When the report language is not English, apply the column header translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the column header translations from the matching `translations/` file.
 
 **Code conformance**
 
-Present a conformance table across the areas the standards cover, then describe each gap with
-evidence and its linked `FND-XXX`:
+Present a conformance table across the areas the standards cover,
+then describe each gap with evidence and its linked `FND-XXX`:
 
 | Area                  | Standard Rule         | Status  | Evidence                                  |
 |-----------------------|-----------------------|---------|-------------------------------------------|
@@ -202,13 +201,13 @@ evidence and its linked `FND-XXX`:
 | Dependency management | <rule from standards> | Pass    | <manifest and lockfile matching the rule> |
 | Security              | <rule from standards> | Fail    | <file or pattern violating the rule>      |
 
-When the report language is not English, apply the column header translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the column header translations from the matching `translations/` file.
 
 **Standards quality**
 
-Evaluate whether the documented standards are consistent with established good practices for the
-stack.
+Evaluate whether the documented standards are consistent with established good
+practices for the stack.
 
 Anchor every judgement to a named external best practice, style guide, or convention:
 
@@ -216,13 +215,13 @@ Anchor every judgement to a named external best practice, style guide, or conven
 |--------|--------------------------------|-------------------------|--------------------------------|
 | <area> | <what the standards prescribe> | <named external source> | Aligned / Partially / Diverges |
 
-When the report language is not English, apply the column header translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the column header translations from the matching `translations/` file.
 
 After the table, describe each divergence with evidence.
 
-Name the external source and explain how the standards position differs from the established
-practice.
+Name the external source and explain how the standards position differs from the
+established practice.
 
 Cross-reference any conformance gap that also produces a `FND-XXX` finding.
 
@@ -234,8 +233,8 @@ acceptance criteria, per `assessment/requirements-conformance.md`.
 Omit it entirely for a subject with no declared requirements document,
 and note the omission in Scope Exclusions.
 
-This section evaluates whether the codebase satisfies the product's own declared requirements -
-it is distinct from Standards Conformance, which evaluates documented development standards,
+This section evaluates whether the codebase satisfies the product's own declared requirements - it
+is distinct from Standards Conformance, which evaluates documented development standards,
 from Documented-Claim Verification, which checks quantitative claims against measured evidence,
 and from API Contract Conformance, which evaluates interface contracts.
 
@@ -247,13 +246,13 @@ List the requirements and acceptance-criteria documents found in the subject:
 |----------|--------|----------------------------------------|
 | <title>  | <path> | <requirements or criteria it declares> |
 
-When the report language is not English, apply the column header translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the column header translations from the matching `translations/` file.
 
 **Requirement conformance**
 
-Present a per-requirement conformance table, then describe each gap with evidence and its linked
-`FND-XXX`:
+Present a per-requirement conformance table,
+then describe each gap with evidence and its linked `FND-XXX`:
 
 | Requirement            | Source                | Status  | Evidence                           |
 |------------------------|-----------------------|---------|------------------------------------|
@@ -269,23 +268,22 @@ and the code evidence.
 
 An `Unknown` row names the artifact or check that would resolve it.
 
-When the report language is not English, apply the column header translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the column header translations from the matching `translations/` file.
 
 ## Engineering Baseline Conformance
 
-Include this section when the subject ships or develops executable source and at least one
-bundled baseline digest covers its detected stack or nature,
-per `assessment/baseline-conformance.md`.
+Include this section when the subject ships or develops executable source and at least one bundled
+baseline digest covers its detected stack or nature, per `assessment/baseline-conformance.md`.
 
 Omit it entirely for a subject with no code or no covering baseline,
 and note the omission in Scope Exclusions.
 
-Record which baselines governed the judgement - the digest files and their snapshot dates, or
-the subject's own standards where they overrode - in the Auditing Methodology section.
+Record which baselines governed the judgement - the digest files and their snapshot dates,
+or the subject's own standards where they overrode - in the Auditing Methodology section.
 
-Present a conformance table across the evaluated baseline rows, then describe each gap with
-evidence and its linked `FND-XXX`.
+Present a conformance table across the evaluated baseline rows,
+then describe each gap with evidence and its linked `FND-XXX`.
 
 | Baseline                   | Status  | Evidence                                          |
 |----------------------------|---------|---------------------------------------------------|
@@ -296,30 +294,31 @@ evidence and its linked `FND-XXX`.
 | Secrets hygiene            | Pass    | no secrets in source, `.env` gitignored           |
 | CLI output contract        | N/A     | subject is not a `cli` nature                     |
 
-When the report language is not English, apply the column header translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the column header translations from the matching `translations/` file.
 
 ## Structure Conformance
 
-Include this section when the subject contains source code files or a structured documentation
-tree, per `assessment/structure-review.md` and `references/naming-and-layout.md`.
+Include this section when the subject contains source code files or a structured documentation tree,
+per `assessment/structure-review.md` and `references/naming-and-layout.md`.
 
-Omit it only for a subject with neither source files nor a structured documentation tree (such
-as a single-file prose proposal), and note the omission in Scope Exclusions.
+Omit it only for a subject with neither source files nor a structured documentation tree (such as a
+single-file prose proposal), and note the omission in Scope Exclusions.
 
 Evaluate each component (`src/<Component>`, `tests/<Component>`, `scripts/`, `docs/`)
-independently against its component role (`library`, `service`, `application`, `cli`,
-`test-suite`, `documentation`) and the governing stack or documentation conventions from
+independently against its component role (`library`, `service`, `application`, `cli`, `test-suite`,
+`documentation`) and the governing stack or documentation conventions from
 `references/naming-and-layout.md` and `references/stacks/`.
 
-Cite the consulted authoritative external sources in `Auditing Methodology` and include their
-links in `Reference Sources` so the governing rules can be retrieved on demand.
+Cite the consulted authoritative external sources in `Auditing Methodology` and include their links
+in `Reference Sources` so the governing rules can be retrieved on demand.
 
 **Directory and file naming**
 
-Present a per-component conformance table covering directory organization, directory naming
-(full words versus abbreviations such as `App`/`Config`/`Auth`/`Docs`, singular/plural
-consistency, absence of `Misc`/`Util` catch-alls), source-file naming, and test-file naming:
+Present a per-component conformance table covering directory organization,
+directory naming (full words versus abbreviations such as `App` / `Config` / `Auth` / `Docs`,
+singular/plural consistency, absence of `Misc` / `Util` catch-alls), source-file naming,
+and test-file naming:
 
 | Component          | Surface       | Convention                     | Observed                           | Status  | Evidence                 |
 |--------------------|---------------|--------------------------------|------------------------------------|---------|--------------------------|
@@ -330,8 +329,8 @@ consistency, absence of `Misc`/`Util` catch-alls), source-file naming, and test-
 
 **Code division**
 
-Present a conformance table evaluating how types, interfaces, abstract classes, and
-implementations are divided across files and modules according to idioms natural for the
+Present a conformance table evaluating how types, interfaces, abstract classes,
+and implementations are divided across files and modules according to idioms natural for the
 language and component role:
 
 | Component          | Division Rule                             | Observed                                          | Status  | Evidence                 |
@@ -340,15 +339,15 @@ language and component role:
 | `src/OrderApp.Api` | Interface separated from implementation   | `IRevocationStore` + `NullRevocationStore` paired | Partial | `EVD-037`, `FND-STR-002` |
 | `src/OrderApp.Api` | Single-responsibility component placement | `App/Misc.cs` catch-all, `App/RedisMain.cs`       | Fail    | `EVD-038`, `FND-STR-002` |
 
-When the report language is not English, apply the column header translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the column header translations from the matching `translations/` file.
 
-After the tables, describe each non-`Pass` row in single-sentence paragraphs with concrete file
-and line evidence and link to the corresponding `FND-STR-NNN` finding.
+After the tables, describe each non- `Pass` row in single-sentence paragraphs with concrete file and
+line evidence and link to the corresponding `FND-STR-NNN` finding.
 
-In-code identifier naming - classes, methods, fields, constants, and variables - is assessed by
-`assessment/code-style.md` and reported in the `Code Style` section per
-`process/report-format/code-style.md`, not in this section.
+In-code identifier naming - classes, methods, fields, constants,
+and variables - is assessed by `assessment/code-style.md` and reported in the `Code Style` section
+per `process/report-format/code-style.md`, not in this section.
 
 ## API Compatibility & Versioning Discipline
 
@@ -357,8 +356,8 @@ per `assessment/api-compatibility.md`.
 
 Omit it entirely for a deployable service or application, and note the omission in Scope Exclusions.
 
-Present a conformance table across the evaluated dimensions, then describe each gap with evidence
-and its linked `FND-XXX`.
+Present a conformance table across the evaluated dimensions,
+then describe each gap with evidence and its linked `FND-XXX`.
 
 | Dimension                  | Status  | Evidence                                          |
 |----------------------------|---------|---------------------------------------------------|
@@ -369,8 +368,8 @@ and its linked `FND-XXX`.
 | Deprecation policy         | Unknown | Deprecation markers and removal timeline          |
 | Breaking changes tracked   | Fail    | Known items bound to a named future major version |
 
-When the report language is not English, apply the column header translations from the matching
-`translations/` file.
+When the report language is not English,
+apply the column header translations from the matching `translations/` file.
 
 After the table, list each known future-breaking item and the version it is bound to.
 

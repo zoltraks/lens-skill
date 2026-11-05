@@ -2,14 +2,14 @@
 
 ## Purpose
 
-> **Scope:** Polish rendering of the audit report and parameter prompts: analysis model, status
-> and severity vocabulary, fixed vocabulary values, terminology dictionary, prompt phrasing,
-> section headings, table headers, style rules, encoding, and diacritics preservation
-> **Key items:** English-first analysis, translation tables, terminology dictionary, prompt
-> phrasing, status and severity mapping, style rules, diacritics
+> **Scope:** Polish rendering of the audit report and parameter prompts: analysis model,
+> status and severity vocabulary, fixed vocabulary values, terminology dictionary, prompt phrasing,
+> section headings, table headers, style rules, encoding,
+> and diacritics preservation **Key items:** English-first analysis, translation tables,
+> terminology dictionary, prompt phrasing, status and severity mapping, style rules, diacritics
 
-This file defines the Polish rendering of the audit report and of the parameter-configuration
-prompts.
+This file defines the Polish rendering of the audit report and of the
+parameter-configuration prompts.
 
 When the report language is Polish, apply every translation and rule in this file to the
 corresponding English terms.
@@ -23,64 +23,64 @@ This file is loaded only when the report language is Polish.
 | Section                                     | Line | What it covers                              |
 |---------------------------------------------|------|---------------------------------------------|
 | Analysis And Rendering                      | 85   | Analysis model and terminology precedence   |
-| Pair Skeleton                               | 115  | English-skeleton pair convention            |
-| Status And Severity Vocabulary              | 173  | Status And Severity Vocabulary guidance     |
-| Fixed Vocabulary Values                     | 336  | Polish renderings of descriptive values     |
-| Terminology                                 | 393  | English to Polish technical dictionary      |
-| Calque And Style Replacements               | 555  | Forbidden calques and their replacements    |
-| Parameter Prompts                           | 696  | Polish phrasing for configuration questions |
-| Style Rules                                 | 756  | Style Rules guidance                        |
-| Translation Pre-Flight Checklist            | 922  | Defect classes to fix before the pipeline   |
-| Diacritics Frequently Misspelled            | 974  | Diacritics Frequently Misspelled guidance   |
-| Output Filename                             | 1009  | Output Filename guidance                    |
-| Document Information                        | 1040 | Document Information guidance               |
-| Audit Coverage                              | 1118 | Coverage rendering                          |
-| Project Inventory                           | 1160 | Project Inventory guidance                  |
-| Glossary                                    | 1170 | Glossary guidance                           |
-| Technology Stack                            | 1245 | Technology Stack guidance                   |
-| Executive Summary                           | 1262 | Executive Summary guidance                  |
-| Health Dashboard                            | 1284 | Health Dashboard guidance                   |
-| Scorecard                                   | 1295 | Scorecard guidance                          |
-| Scoring Rubrics                             | 1323 | Scoring Rubrics guidance                    |
-| Delivery Practice & Team Continuity         | 1348 | Delivery and continuity rendering           |
-| High-Level Observations                     | 1372 | High-Level Observations guidance            |
-| Auditing Methodology                        | 1379 | Auditing Methodology guidance               |
-| System Context                              | 1408 | System Context guidance                     |
-| Software Bill of Materials                  | 1421 | SBOM section rendering                      |
-| License Compliance                          | 1443 | License and IP section rendering            |
-| Architectural Assessment                    | 1461 | Architectural Assessment guidance           |
-| Architectural Subsections                   | 1468 | Architectural Subsections guidance          |
-| Skill Definition Conformance                | 1485 | Skill Definition Conformance guidance       |
-| Agent Guidance Conformance                  | 1493 | Agent Guidance Conformance guidance         |
-| AI System Assessment                        | 1507 | AI System Assessment guidance               |
-| Standards Conformance                       | 1518 | Standards Conformance guidance              |
-| Requirements Conformance                    | 1539 | Requirements Conformance guidance           |
-| Engineering Baseline Conformance            | 1554 | Engineering Baseline Conformance guidance   |
-| Structure Conformance                       | 1568 | Structure Conformance guidance              |
-| Code Style                                  | 1585 | Code Style guidance                         |
-| Reference Sources                           | 1616 | Reference Sources guidance                  |
-| Strengths And What's Working                | 1627 | Strengths And What's Working guidance       |
-| Technical Findings                          | 1633 | Technical Findings guidance                 |
-| Technical Debt Register                     | 1701 | Technical Debt Register guidance            |
-| Unified Risk Register                       | 1717 | Unified Risk Register guidance              |
-| Solution Comparison                         | 1738 | Solution Comparison guidance                |
-| Remediation Roadmap                         | 1750 | Remediation Roadmap guidance                |
-| Recommendation Classification               | 1773 | Recommendation Classification guidance      |
-| Changes Since Previous Audit                | 1788 | Changes Since Previous Audit guidance       |
-| Scope Exclusions                            | 1822 | Scope Exclusions guidance                   |
-| Limitations And Unknowns                    | 1830 | Limitations And Unknowns guidance           |
-| Follow-up Plan                              | 1847 | Follow-up Plan guidance                     |
-| Further Verification                        | 1862 | Further Verification guidance               |
-| Executed Evidence Log                       | 1875 | Executed Evidence Log guidance              |
-| Hunt Style Sections                         | 1888 | Hunt Style Sections guidance                |
-| Review Style Sections                       | 1917 | Review Style Sections guidance              |
-| Validation Protocol                         | 1963 | Validation Protocol guidance                |
-| Threat Model                                | 2022 | Threat Model guidance                       |
-| API Contract Conformance                    | 2038 | API Contract Conformance guidance           |
-| API Compatibility And Versioning Discipline | 2047 | API Compatibility And Versioning guidance   |
-| Evidence And Decision Terms                 | 2056 | Evidence And Decision Terms guidance        |
-| Skill Definition Conformance Table          | 2117 | Skill Definition Conformance Table guidance |
-| Structure Review                            | 2132 | Structure Review guidance                   |
+| Pair Skeleton                               | 114  | English-skeleton pair convention            |
+| Status And Severity Vocabulary              | 174  | Status And Severity Vocabulary guidance     |
+| Fixed Vocabulary Values                     | 334  | Polish renderings of descriptive values     |
+| Terminology                                 | 391  | English to Polish technical dictionary      |
+| Calque And Style Replacements               | 553  | Forbidden calques and their replacements    |
+| Parameter Prompts                           | 693  | Polish phrasing for configuration questions |
+| Style Rules                                 | 755  | Style Rules guidance                        |
+| Translation Pre-Flight Checklist            | 927  | Defect classes to fix before the pipeline   |
+| Diacritics Frequently Misspelled            | 969  | Diacritics Frequently Misspelled guidance   |
+| Output Filename                             | 1004 | Output Filename guidance                    |
+| Document Information                        | 1035 | Document Information guidance               |
+| Audit Coverage                              | 1111 | Coverage rendering                          |
+| Project Inventory                           | 1153 | Project Inventory guidance                  |
+| Glossary                                    | 1163 | Glossary guidance                           |
+| Technology Stack                            | 1238 | Technology Stack guidance                   |
+| Executive Summary                           | 1255 | Executive Summary guidance                  |
+| Health Dashboard                            | 1278 | Health Dashboard guidance                   |
+| Scorecard                                   | 1289 | Scorecard guidance                          |
+| Scoring Rubrics                             | 1317 | Scoring Rubrics guidance                    |
+| Delivery Practice & Team Continuity         | 1342 | Delivery and continuity rendering           |
+| High-Level Observations                     | 1366 | High-Level Observations guidance            |
+| Auditing Methodology                        | 1373 | Auditing Methodology guidance               |
+| System Context                              | 1402 | System Context guidance                     |
+| Software Bill of Materials                  | 1415 | SBOM section rendering                      |
+| License Compliance                          | 1437 | License and IP section rendering            |
+| Architectural Assessment                    | 1455 | Architectural Assessment guidance           |
+| Architectural Subsections                   | 1462 | Architectural Subsections guidance          |
+| Skill Definition Conformance                | 1478 | Skill Definition Conformance guidance       |
+| Agent Guidance Conformance                  | 1486 | Agent Guidance Conformance guidance         |
+| AI System Assessment                        | 1500 | AI System Assessment guidance               |
+| Standards Conformance                       | 1511 | Standards Conformance guidance              |
+| Requirements Conformance                    | 1532 | Requirements Conformance guidance           |
+| Engineering Baseline Conformance            | 1547 | Engineering Baseline Conformance guidance   |
+| Structure Conformance                       | 1561 | Structure Conformance guidance              |
+| Code Style                                  | 1578 | Code Style guidance                         |
+| Reference Sources                           | 1609 | Reference Sources guidance                  |
+| Strengths And What's Working                | 1620 | Strengths And What's Working guidance       |
+| Technical Findings                          | 1626 | Technical Findings guidance                 |
+| Technical Debt Register                     | 1693 | Technical Debt Register guidance            |
+| Unified Risk Register                       | 1709 | Unified Risk Register guidance              |
+| Solution Comparison                         | 1730 | Solution Comparison guidance                |
+| Remediation Roadmap                         | 1742 | Remediation Roadmap guidance                |
+| Recommendation Classification               | 1765 | Recommendation Classification guidance      |
+| Changes Since Previous Audit                | 1780 | Changes Since Previous Audit guidance       |
+| Scope Exclusions                            | 1814 | Scope Exclusions guidance                   |
+| Limitations And Unknowns                    | 1822 | Limitations And Unknowns guidance           |
+| Follow-up Plan                              | 1839 | Follow-up Plan guidance                     |
+| Further Verification                        | 1854 | Further Verification guidance               |
+| Executed Evidence Log                       | 1867 | Executed Evidence Log guidance              |
+| Hunt Style Sections                         | 1880 | Hunt Style Sections guidance                |
+| Review Style Sections                       | 1909 | Review Style Sections guidance              |
+| Validation Protocol                         | 1951 | Validation Protocol guidance                |
+| Threat Model                                | 2009 | Threat Model guidance                       |
+| API Contract Conformance                    | 2024 | API Contract Conformance guidance           |
+| API Compatibility And Versioning Discipline | 2033 | API Compatibility And Versioning guidance   |
+| Evidence And Decision Terms                 | 2042 | Evidence And Decision Terms guidance        |
+| Skill Definition Conformance Table          | 2103 | Skill Definition Conformance Table guidance |
+| Structure Review                            | 2118 | Structure Review guidance                   |
 
 ## Analysis And Rendering
 
@@ -90,21 +90,20 @@ Evidence notes, finding drafts, partial conclusions,
 and assembled part files are written in English,
 and the report is rendered into Polish in a single pass that applies this file.
 
-Reasoning in English keeps the analysis anchored to the English rules, rubrics, and fixed
-vocabularies in the rest of the skill, and a single render pass applies one terminology convention
-to the whole document.
+Reasoning in English keeps the analysis anchored to the English rules, rubrics,
+and fixed vocabularies in the rest of the skill,
+and a single render pass applies one terminology convention to the whole document.
 
-A Polish-language request produces a file pair by default: the canonical English report is
-written and validated first, then this file renders it into Polish, and both files ship in the
-same operation - `AUDIT-<rewizja>-EN.md` and `AUDIT-<rewizja>-PL.md`, per Output Filename and
-`principles/output-style.md`.
+A Polish-language request produces a file pair by default:
+the canonical English report is written and validated first, then this file renders it into Polish,
+and both files ship in the same operation - `AUDIT-<rewizja>-EN.md` and `AUDIT-<rewizja>-PL.md`,
+per Output Filename and `principles/output-style.md`.
 
-Only an explicit "only the Polish report" scope produces the
-Polish file alone.
+Only an explicit "only the Polish report" scope produces the Polish file alone.
 
-When the audited project establishes its own Polish terminology, for example a project glossary or
-Polish design documents, prefer those established forms over the defaults in this file and record
-the choice.
+When the audited project establishes its own Polish terminology,
+for example a project glossary or Polish design documents,
+prefer those established forms over the defaults in this file and record the choice.
 
 Direct quotes, code, configuration keys, file paths, identifiers,
 and record IDs are never translated.
@@ -116,67 +115,68 @@ and result markers - render in Polish per Status And Severity Vocabulary.
 
 A report shipped as a language pair (`<stem>-<revision>-EN.md` plus `<stem>-<revision>-PL.md`)
 renders a fully Polish surface in the translation file: `##` and `###` section headings,
-`* **Label:**` field labels, Document Information row labels, summary-table headers, and
-status and verdict tokens all render per this file's canonical tables - `## Spis treści`,
+`* **Label:**` field labels, Document Information row labels, summary-table headers,
+and status and verdict tokens all render per this file's canonical tables - `## Spis treści`,
 `## Słownik pojęć`, `* **Filar:**`, `Styl raportu`, `Zastosowany`, `OK`.
 
-The English skeleton that remains is the declared set only: register and evidence
-identifiers (`FND-SEC-001`, `EVD-022`, `PAR-1`), `###` glossary acronym and register
-subsections (`### FND`, `### SPI`, `### SLO (Service Level Objective)`), governed
-vocabulary declared English in the vocabulary tables, and code spans, file paths,
-commands, and identifiers, which stay verbatim.
+The English skeleton that remains is the declared set only:
+register and evidence identifiers (`FND-SEC-001`, `EVD-022`, `PAR-1`),
+`###` glossary acronym and register subsections (`### FND`, `### SPI`,
+`### SLO (Service Level Objective)`), governed vocabulary declared English in the vocabulary tables,
+and code spans, file paths, commands, and identifiers, which stay verbatim.
 
-`###` register block headings keep the `ID: <translated title> (proj)` shape - the
-identifier and project suffix are English, the title is Polish.
+`###` register block headings keep the `ID: <translated title> (proj)` shape - the identifier and
+project suffix are English, the title is Polish.
 
 `](#anchor)` link targets follow the translated headings and become Polish slugs -
-`[CWE](#słownik-pojęć)`, `](#metodologia-audytu)`, `](#projekt-<name>)` - while targets
-inside English `###` glossary subsections stay English (`](#fnd)`, `](#rsk)`).
+`[CWE](#słownik-pojęć)`, `](#metodologia-audytu)`,
+`](#projekt-<name>)` - while targets inside English `###` glossary subsections stay English
+(`](#fnd)`, `](#rsk)`).
 
-Anchor slugs are always lowercase - `#sbom`, `#stride` - never a literal uppercase form
-like `#SBOM`, and every internal link keeps its `#` prefix.
+Anchor slugs are always lowercase - `#sbom`,
+`#stride` - never a literal uppercase form like `#SBOM`,
+and every internal link keeps its `#` prefix.
 
-Editing a governed heading after links exist recomputes the slug - a renamed heading
-invalidates every link to it, so anchor targets are regenerated alongside the rename.
+Editing a governed heading after links exist recomputes the slug - a renamed heading invalidates
+every link to it, so anchor targets are regenerated alongside the rename.
 
-Every surface carrying a section name or governed phrase renders the canonical Polish
-form, not only headings - Contents link texts, coverage and inventory row labels, bold
-pseudo-headings, the document title, and section-name references inside prose and
-table cells. A `Status` column and a `Werdykt` column carry different governed sets:
-status cells render `OK`/`Częściowy`/`Niezaliczony`/`Nieznany`/`N/D`, verdict cells
-`Zaliczony`/`Częściowo`/`Niezaliczony` - `Pozytywny` and `Częściowy` never appear in a
-`Werdykt` column.
+Every surface carrying a section name or governed phrase renders the canonical Polish form,
+not only headings - Contents link texts, coverage and inventory row labels, bold pseudo-headings,
+the document title, and section-name references inside prose and table cells.
+A `Status` column and a `Werdykt` column carry different governed sets:
+status cells render `OK` / `Częściowy` / `Niezaliczony` / `Nieznany` / `N/D`,
+verdict cells `Zaliczony` / `Częściowo` / `Niezaliczony` - `Pozytywny` and `Częściowy` never appear
+in a `Werdykt` column.
 
-The ``Projekt `<name>` `` form renders `## Projekt `<name>`` in the Polish file and
-`## Project `<name>`` in the English file - the governed project label translates
-like every other section name, and Contents entries and project-naming cells follow
-the same convention.
+The ``Projekt ` <name> ` `` form renders `## Projekt ` <name> `` in the Polish file and ` ## Project
+`<name>`` in the English file - the governed project label translates like every other section name,
+and Contents entries and project-naming cells follow the same convention.
 
-The `Projects`/`Projekty` row of the Document Information table is the one exception -
-it lists the bare project names as linked code spans, `[`name`](#projekt-name)` or
-`[`name`](#project-name)`, never `[Projekt `name`]` or `[Project `name`]`.
+The `Projects` / `Projekty` row of the Document Information table is the one exception - it lists
+the bare project names as linked code spans,
+`[` name `](#projekt-name)` or `[` name `](#project-name)`,
+never `[Projekt ` name `]` or `[Project ` name `]`.
 
 `check-translation.py` accepts sibling-matching English headings and labels via `--en` or an
-auto-detected `-EN` sibling; `lint-polish.py` exempts the same surfaces on a pair file.
+auto-detected `-EN` sibling. `lint-polish.py` exempts the same surfaces on a pair file.
 
-`map-translation.py --en` heading and identifier parity is the authoritative structural check
-for a pair - run it before the prose checks. Every translated heading, label, and header
-must appear in this file's tables so the reverse map restores the English surface.
+`map-translation.py --en` heading and identifier parity is the authoritative structural check for a
+pair - run it before the prose checks. Every translated heading, label,
+and header must appear in this file's tables so the reverse map restores the English surface.
 
-Pairs whose English forms collide on one Polish token - `Fail`/`Failed` or `Pass`/`Passed`
-mapping to the same declined token - resolve by column context: the governed nouns table
-assigns `Failed`/`Passed` to `Werdykt` columns and `Fail`/`Pass` to `Status`/`Wynik`
-columns, and the reverse map keeps the first-declared pair. `check-translation.py --en`
-compares each pair file against its English sibling and reports only failures the
-translation introduced; anomalies identical in both files print as `INHERITED` notes.
+Pairs whose English forms collide on one Polish token - `Fail` / `Failed` or `Pass` / `Passed`
+mapping to the same declined token - resolve by column context:
+the governed nouns table assigns `Failed` / `Passed` to `Werdykt` columns and `Fail` / `Pass` to
+`Status` / `Wynik` columns, and the reverse map keeps the first-declared pair.
+`check-translation.py --en` compares each pair file against its English sibling and reports only
+failures the translation introduced. Anomalies identical in both files print as `INHERITED` notes.
 
 ## Status And Severity Vocabulary
 
 Fixed report tokens render in Polish in the report body.
 
-The English column in the tables below carries the report's rendered forms (`Pass`,
-`High`, `Not run`) - the canonical uppercase tokens stay in the vocabulary
-definitions.
+The English column in the tables below carries the report's rendered forms (`Pass`, `High`,
+`Not run`) - the canonical uppercase tokens stay in the vocabulary definitions.
 
 The English forms remain the analysis and validation vocabulary - mechanical checks run on the
 English-mapped working copy.
@@ -201,30 +201,27 @@ Tokens that do not decline keep fixed label forms:
 
 `Observation` and `Concern` are the evidence/finding type tags:
 `Obserwacja` records an independently re-derivable fact,
-`Zastrzeżenie` is a judgment built on observations - never `Wniosek`,
-which means conclusion.
+`Zastrzeżenie` is a judgment built on observations - never `Wniosek`, which means conclusion.
 
 In `* **Field:**` bullet lists they render title-cased `Obserwacja`/`Zastrzeżenie`.
 
 The Due Diligence Coverage column named `Concern` keeps its separate rendering `Obszar ryzyka`,
 the two uses are not the same word's job.
 
-Declinable values agree in gender with the noun their column header or `* **Field:**` label
-names.
+Declinable values agree in gender with the noun their column header or `* **Field:**` label names.
 
-The governed nouns are masculine `wynik`, `status`, `charakter odstępstwa`, `wpływ`,
-`wysiłek`, `priorytet`, and `poziom`, feminine `ważność`, `złożoność`, `pewność oceny`,
-`gotowość`, `zmiana`, `weryfikacja`, `klasa`, `ocena`, `zgodność`, and `licencja`, and neuter
-`prawdopodobieństwo`, `wykorzystanie podatności`, `ryzyko rezydualne`, and
-`ryzyko licencyjne`.
+The governed nouns are masculine `wynik`, `status`, `charakter odstępstwa`, `wpływ`, `wysiłek`,
+`priorytet`, and `poziom`, feminine `ważność`, `złożoność`, `pewność oceny`, `gotowość`, `zmiana`,
+`weryfikacja`, `klasa`, `ocena`, `zgodność`, and `licencja`, and neuter `prawdopodobieństwo`,
+`wykorzystanie podatności`, `ryzyko rezydualne`, and `ryzyko licencyjne`.
 
-In a two-column key-value table the row label's head noun governs - `Poziom szczegółowości`
-takes `Szczegółowy` and `Gotowość` takes `Niegotowa`.
+In a two-column key-value table the row label's head noun governs - `Poziom szczegółowości` takes
+`Szczegółowy` and `Gotowość` takes `Niegotowa`.
 
-A header that names no declinable noun - `Bezpośredni/przechodni`, `Podstawa`, `Uwagi`,
-`Poprzedni`, `Bieżący` - defers to the row's subject noun, so a transition-table cell
-describing an `ustalenie` renders the neuter form `Otwarte`/`Nowe`/`Zamknięte` and a
-`Bezpośredni/przechodni` cell for a `zależność` renders `programistyczna`.
+A header that names no declinable noun - `Bezpośredni/przechodni`, `Podstawa`, `Uwagi`, `Poprzedni`,
+`Bieżący` - defers to the row's subject noun,
+so a transition-table cell describing an `ustalenie` renders the neuter form `Otwarte` / `Nowe` /
+`Zamknięte` and a `Bezpośredni/przechodni` cell for a `zależność` renders `programistyczna`.
 
 | English                  | Masculine                 | Feminine                  | Neuter                    |
 |--------------------------|---------------------------|---------------------------|---------------------------|
@@ -274,33 +271,33 @@ describing an `ustalenie` renders the neuter form `Otwarte`/`Nowe`/`Zamknięte` 
 | `Planned`                | Zaplanowany               | Zaplanowana               | Zaplanowane               |
 | `Unresolved`             | Nierozstrzygnięty         | Nierozstrzygnięta         | Nierozstrzygnięte         |
 
-Token columns (`Wynik`, `Status`, `Zmiana`, `Weryfikacja`, `Ważność`, `Wpływ`,
-`Prawdopodobieństwo`, `Klasa`, `Ocena`, `Gotowość`, `Pewność oceny`,
-`Charakter odstępstwa`) and token-definition tables use the agreed title-case form -
-the first letter uppercase, the rest lowercase.
+Token columns (`Wynik`, `Status`, `Zmiana`, `Weryfikacja`, `Ważność`, `Wpływ`, `Prawdopodobieństwo`,
+`Klasa`, `Ocena`, `Gotowość`, `Pewność oceny`, `Charakter odstępstwa`)
+and token-definition tables use the agreed title-case form - the first letter
+uppercase, the rest lowercase.
 
-All-caps Polish words never appear in report cells: Polish reads them as shouted
-abbreviations, so `WYSOKA`, `TEORETYCZNE`, or `WNIOSEK` are always wrong.
+All-caps Polish words never appear in report cells: Polish reads them as shouted abbreviations,
+so `WYSOKA`, `TEORETYCZNE`, or `WNIOSEK` are always wrong.
 
 Only true abbreviations stay uppercase: `OK`, `N/D`.
 
 `scripts/lint-polish.py` flags all-caps Polish token forms as errors.
 
-A token-column cell is one word - only the indeclinable phrase tokens (`Częściowo`,
-`Poza zakresem`, `Nie dotyczy`, `Niewystarczające informacje`) run longer.
+A token-column cell is one word - only the indeclinable phrase tokens (`Częściowo`, `Poza zakresem`,
+`Nie dotyczy`, `Niewystarczające informacje`) run longer.
 
 In `* **Field:**` bullet lists, values keep title case consistent with neighboring values,
 for example `Ważność: Wysoka` next to `Status: Otwarty` - never `Niskie` next to `Otwarty`.
 
-Running prose cites a token as a bold declined lowercase word - `ustalenia o ważności
-**wysokiej**`, `gotowość oceniona jako **niegotowa**`, `wynik **nieokreślony**`.
+Running prose cites a token as a bold declined lowercase word - `ustalenia o ważności **wysokiej**`,
+`gotowość oceniona jako **niegotowa**`, `wynik **nieokreślony**`.
 
 Narrative table cells use natural sentence case - `sześć ustaleń wysokich`.
 
-A `Wynik`/`Result` column draws its values only from `OK`, `Częściowy`, `Niezaliczony`,
+A `Wynik` / `Result` column draws its values only from `OK`, `Częściowy`, `Niezaliczony`,
 `Nieznany`, `N/D`, `Brak`, `Nie podano`, `Nieuruchomiony`, `Nieoceniony`, `Niezbadany`,
-`Poza zakresem`, `Zastosowany`, `Zweryfikowany`, `Zadeklarowany`, `Wniosekowany`, and the
-numeric or star forms the selected scale defines.
+`Poza zakresem`, `Zastosowany`, `Zweryfikowany`, `Zadeklarowany`, `Wniosekowany`,
+and the numeric or star forms the selected scale defines.
 
 The `Status` column carries lifecycle states - `Otwarty`, `Zamknięty`, `OK`, `Trwający`,
 `Rozwiązany`, `Zaakceptowany`, `Przeniesiony`, `Monitorowany` - and coverage states `Objęty`,
@@ -309,24 +306,25 @@ The `Status` column carries lifecycle states - `Otwarty`, `Zamknięty`, `OK`, `T
 The `Zmiana` column carries only movement since the previous audit: `Nowa`, `Niezmieniona`,
 `Wznowiona`, `Zamknięta`.
 
-The `Status` and `Zmiana` columns never share values on the same
-row beyond the deliberate `Zamknięty`/`Zamknięta` overlap.
+The `Status` and `Zmiana` columns never share values on the same row beyond the deliberate
+`Zamknięty` / `Zamknięta` overlap.
 
-The `Weryfikacja` state column carries `Zweryfikowana`, `Potwierdzona`, or `Zadeklarowana`
-and stays empty for a `Nowa` finding.
+The `Weryfikacja` state column carries `Zweryfikowana`, `Potwierdzona`,
+or `Zadeklarowana` and stays empty for a `Nowa` finding.
 
-The `Klasa` column carries `Zalecana`, `Opcjonalna`, or `Niezalecana`, the `Ocena` column
-carries `OK`, `Częściowo`, `Niezaliczona`, or `N/D`, and the `Gotowość` column and
-`Gotowość` key-value rows carry `Gotowa`, `Niegotowa`, `Oczekująca`, or `Nieoceniona`.
+The `Klasa` column carries `Zalecana`, `Opcjonalna`, or `Niezalecana`,
+the `Ocena` column carries `OK`, `Częściowo`, `Niezaliczona`, or `N/D`,
+and the `Gotowość` column and `Gotowość` key-value rows carry `Gotowa`, `Niegotowa`,
+`Oczekująca`, or `Nieoceniona`.
 
 The `Charakter odstępstwa` bullet values are `Brak udokumentowanego uzasadnienia`,
 `Świadomy - udokumentowana decyzja`, `Nieokreślony`, or `N/D`.
 
-Reports written before this revision carried neuter fixed forms (`Otwarte`, `Nowe`,
-`Niezaliczone`) and all-caps agreed forms (`WYSOKA`, `NIEZALICZONE`) in governed
-columns - a re-audit reads all of them.
+Reports written before this revision carried neuter fixed forms (`Otwarte`, `Nowe`, `Niezaliczone`)
+and all-caps agreed forms (`WYSOKA`, `NIEZALICZONE`)
+in governed columns - a re-audit reads all of them.
 
-Record identifiers (`FND-001`, `EVD-042`, `RSK-010`), priority codes (`P1`-`P4`), `CWE-####`,
+Record identifiers (`FND-001`, `EVD-042`, `RSK-010`), priority codes (`P1` - `P4`), `CWE-####`,
 CVSS vectors, commands, and anything inside verbatim evidence stay unchanged.
 
 When the `1-5` or `1-3` numeric scale is selected, use `Wynik: X/5` or `Wynik: X/3`.
@@ -335,10 +333,10 @@ When `5 stars` or `3 stars` is selected, use `Wynik:` followed by the unchanged 
 
 ## Fixed Vocabulary Values
 
-Descriptive values are rendered in Polish and agree in gender with the noun they describe:
-`wpływ`, `wysiłek`, and `priorytet` take `Wysoki`/`Średni`/`Niski`, `złożoność` and
-`ważność` take `Wysoka`/`Średnia`/`Niska`, `prawdopodobieństwo` and `ryzyko` take
-`Wysokie`/`Średnie`/`Niskie`.
+Descriptive values are rendered in Polish and agree in gender with the noun they describe: `wpływ`,
+`wysiłek`, and `priorytet` take `Wysoki` / `Średni` / `Niski`,
+`złożoność` and `ważność` take `Wysoka` / `Średnia` / `Niska`,
+`prawdopodobieństwo` and `ryzyko` take `Wysokie` / `Średnie` / `Niskie`.
 
 | English                          | Polish                                   |
 |----------------------------------|------------------------------------------|
@@ -395,8 +393,8 @@ Numeric scales `1-10`, `1-5`, and `1-3` stay unchanged.
 The dictionary maps recurring English technical terms to their preferred Polish forms.
 
 Entries with two forms separated by `/` are context-dependent,
-pick the form that fits the sentence rather than always translating the same English word
-identically.
+pick the form that fits the sentence rather than always translating the same
+English word identically.
 
 | English                                | Polish                                                                      |
 |----------------------------------------|-----------------------------------------------------------------------------|
@@ -554,8 +552,8 @@ identically.
 
 ## Calque And Style Replacements
 
-This table is machine-readable - `scripts/lint-polish.py` parses it and flags every
-`Instead of` form it finds in Polish report output.
+This table is machine-readable - `scripts/lint-polish.py` parses it and flags every `Instead of`
+form it finds in Polish report output.
 
 Keep entries as single words or short fixed phrases the checker can match literally.
 
@@ -662,9 +660,8 @@ Keep entries as single words or short fixed phrases the checker can match litera
 
 ### Sanctioned Idioms
 
-This table is machine-readable - `scripts/lint-polish.py` masks every `Allowed phrase`
-before the calque check, so the fixed idioms below do not fire the `pod` stem or other
-calque rules.
+This table is machine-readable - `scripts/lint-polish.py` masks every `Allowed phrase` before the
+calque check, so the fixed idioms below do not fire the `pod` stem or other calque rules.
 
 | Allowed phrase    | Covers                                                    |
 |-------------------|-----------------------------------------------------------|
@@ -678,11 +675,11 @@ calque rules.
 
 ### Canonical Names Kept Verbatim
 
-This table is machine-readable - `scripts/lint-polish.py` masks every `Canonical name`
-before the calque check, so stems such as `request` do not fire inside these names.
+This table is machine-readable - `scripts/lint-polish.py` masks every `Canonical name` before the
+calque check, so stems such as `request` do not fire inside these names.
 
-External-taxonomy names not listed here (CWE titles, OWASP names, RFC titles) stay
-wrapped in backticks instead.
+External-taxonomy names not listed here (CWE titles, OWASP names, RFC titles)
+stay wrapped in backticks instead.
 
 | Canonical name              | Reason                         |
 |-----------------------------|--------------------------------|
@@ -704,51 +701,53 @@ Apply these phrasing rules:
 - The file option without the revision number is `Plik bez numeru rewizji` (for example
   `docs/report/AUDYT.md`). The English `stem` is never used in a Polish prompt.
   Under `pair` language output the filenames keep the English stem with language suffixes -
-  `docs/report/AUDIT-1.0-EN.md` and `docs/report/AUDIT-1.0-PL.md`, bare option
-  `docs/report/AUDIT-PL.md` - and `AUDYT` names only a single-language report.
-  For a `polowanie na usterki` or `przegląd` report this bare option
-  (`docs/report/POLOWANIE.md`, `docs/report/PRZEGLĄD.md`) is the default and the
-  revisioned `POLOWANIE-1.0.md`/`PRZEGLĄD-1.0.md` is the alternative.
-- Date-named subdirectory options use `katalogi dzienne` or `ścieżka daty`/`ścieżka dzienna`.
+  `docs/report/AUDIT-1.0-EN.md` and `docs/report/AUDIT-1.0-PL.md`,
+  bare option `docs/report/AUDIT-PL.md` - and `AUDYT` names only a single-language report.
+  For a `polowanie na usterki` or `przegląd` report this bare option (`docs/report/POLOWANIE.md`,
+  `docs/report/PRZEGLĄD.md`) is the default and the revisioned `POLOWANIE-1.0.md` /
+  `PRZEGLĄD-1.0.md` is the alternative.
+- Date-named subdirectory options use `katalogi dzienne` or `ścieżka daty` / `ścieżka dzienna`.
   `Datowy` and `datowa` are not proper Polish words and must not be used.
 - The detail-level question is `Jaki poziom szczegółowości powinien mieć raport?` with options
   `Szczegółowy` (domyślny), `Standardowy`, and `Skrócony`.
 - The evaluation-scale question is `Jaką skalę ocen zastosować dla karty wyników?` with options
-  `1-10` (domyślna), `1-5`, `1-3`, and `Gwiazdy`. When `Gwiazdy` is selected, ask the follow-up
-  `Ile gwiazd ma mieć skala?` with options `5 gwiazd` (domyślnie) and `3 gwiazdy`.
+  `1-10` (domyślna), `1-5`, `1-3`, and `Gwiazdy`. When `Gwiazdy` is selected,
+  ask the follow-up `Ile gwiazd ma mieć skala?` with options `5 gwiazd` (domyślnie) and `3 gwiazdy`.
 - `Inline` is offered as `W treści odpowiedzi` and `Custom report file` as `Własny plik raportu`.
 - The trailing bypass options are `Użyj wartości domyślnej: <wartość>` and
   `Użyj wartości domyślnych dla wszystkich pozostałych pytań`.
-- The Skill Update Check question is `Dostępna jest aktualizacja umiejętności (<n> nowych
-  zatwierdzeń). Zaktualizować teraz czy pominąć w tej sesji?` with options `Zaktualizuj teraz` and
-  `Pomiń w tej sesji`.
+- The Skill Update Check question is
+  `Dostępna jest aktualizacja umiejętności (<n> nowych zatwierdzeń). Zaktualizować teraz czy pominąć w tej sesji?`
+  with options `Zaktualizuj teraz` and `Pomiń w tej sesji`.
 - The `Report style` row in the defaults summary renders `Styl raportu` with values `audyt`,
   `polowanie na usterki`, and `przegląd`.
-- When a previous review report is found, the audit-mode question reads `Znaleziono poprzedni
-  raport przeglądu: <ścieżka> (rewizja <n>, data <d>). Czy wykonać ponowny przegląd względem
-  tego raportu, czy nowy przegląd?` with the `Ponowny przegląd` and `Nowy przegląd` option
-  forms matching the audit-mode variants.
+- When a previous review report is found,
+  the audit-mode question reads
+  `Znaleziono poprzedni raport przeglądu: <ścieżka> (rewizja <n>, data <d>). Czy wykonać ponowny przegląd względem tego raportu, czy nowy przegląd?`
+  with the `Ponowny przegląd` and `Nowy przegląd` option forms matching the audit-mode variants.
 - The audit-mode question is `Znaleziono poprzedni raport audytu: <ścieżka> (rewizja <n>, data
   <d>). Czy wykonać ponowny audyt względem tego raportu, czy nowy audyt?` with options
-  `Ponowny audyt - porównaj z <plik>`, `Ponowny audyt ze zmienionymi parametrami - porównaj
-  i zmień parametry`, and `Nowy audyt - zignoruj poprzedni raport`. The baseline-confirmation
-  variant is `Potwierdź, że <ścieżka> to poprawna podstawa ponownego audytu.` with options
-  `Potwierdź - ponowny audyt względem <plik>`, `Ponowny audyt ze zmienionymi parametrami`, and
-  `Nowy audyt`. The changed-parameters follow-up is `Które parametry zmienić?`, and the
-  recovered value on each prompt is marked `(poprzednia, domyślna)`. When a requested re-audit
-  finds no previous report, ask `Nie znaleziono poprzedniego raportu audytu. Wykonać nowy
-  audyt (rewizja 1.0)?` with the option `Wykonaj nowy audyt`. Mark the recommended option with
-  `(zalecane)`.
-- The project-inclusion question is `Które projekty uwzględnić w audycie?`, a multi-select list
-  naming each project by path and kind, with recommended projects checked by default and
-  installed or external directories listed unchecked with the reason `zainstalowane/zewnętrzne`.
+  `Ponowny audyt - porównaj z <plik>`,
+  `Ponowny audyt ze zmienionymi parametrami - porównaj i zmień parametry`, and
+  `Nowy audyt - zignoruj poprzedni raport`. The baseline-confirmation variant is
+  `Potwierdź, że <ścieżka> to poprawna podstawa ponownego audytu.` with options
+  `Potwierdź - ponowny audyt względem <plik>`, `Ponowny audyt ze zmienionymi parametrami`,
+  and `Nowy audyt`. The changed-parameters follow-up is `Które parametry zmienić?`,
+  and the recovered value on each prompt is marked `(poprzednia, domyślna)`.
+  When a requested re-audit finds no previous report,
+  ask `Nie znaleziono poprzedniego raportu audytu. Wykonać nowy audyt (rewizja 1.0)?` with the
+  option `Wykonaj nowy audyt`. Mark the recommended option with `(zalecane)`.
+- The project-inclusion question is `Które projekty uwzględnić w audycie?`,
+  a multi-select list naming each project by path and kind,
+  with recommended projects checked by default and installed or external directories listed
+  unchecked with the reason `zainstalowane/zewnętrzne`.
   An all-unchecked answer asks `Wykluczono wszystkie projekty. Przerwać audyt?`.
-- The skills-scope question is `Ocenić umiejętności jako komponenty projektu czy jako niezależne
-  projekty?` with options `Oceń jako komponenty projektu` (zalecane) and `Oceń każdą umiejętność
-  jako niezależny projekt`.
-- JSON parameter documents per `process/json-exchange.md` keep English keys, parameter `id`s, and
-  `menu` letters untranslated. Only `question` and `description` text and option labels render in
-  Polish.
+- The skills-scope question is
+  `Ocenić umiejętności jako komponenty projektu czy jako niezależne projekty?` with options
+  `Oceń jako komponenty projektu` (zalecane) and `Oceń każdą umiejętność jako niezależny projekt`.
+- JSON parameter documents per `process/json-exchange.md` keep English keys, parameter `id` s,
+  and `menu` letters untranslated. Only `question` and `description` text and option
+  labels render in Polish.
 - The diagnostic-mode context description following the emitted document is `Oczekujące decyzje:
   <lista parametrów>. Dokument JSON powyżej ma charakter informacyjny - pytania zostaną zadane
   jak zwykle.`
@@ -757,67 +756,74 @@ Apply these phrasing rules:
 
 - Do not use "Title Case" in section and chapter names, use sentence case.
 - Use "Przykład zawartości" instead of "Content Example".
-- Use neuter gender for acronyms treated as nouns: "czyste PWA" (not "czysta PWA"), "czyste SPA"
-  (not "czysta SPA").
+- Use neuter gender for acronyms treated as nouns: "czyste PWA" (not "czysta PWA"),
+  "czyste SPA" (not "czysta SPA").
 - Preserve all Polish diacritics (for example, "ą", "ę", "ć", "ł", "ń", "ó", "ś", "ź", "ż", "Ą",
-  "Ę", "Ć", "Ł", "Ń", "Ó", "Ś", "Ź", "Ż") in every section, heading, table cell, and paragraph. Do
-  not transliterate or strip diacritics.
+  "Ę", "Ć", "Ł", "Ń", "Ó", "Ś", "Ź", "Ż") in every section, heading, table cell, and paragraph.
+  Do not transliterate or strip diacritics.
 - Write the report in UTF-8 encoding. Do not use ASCII-only fallback for Polish text.
 - Prefer the Polish form from the Terminology table. Established anglicisms such as `endpoint`,
-  `frontend`, `backend`, `CI/CD`, and `lint` may stay untranslated. Never combine both forms of
-  one term in a single phrase: write `środowisko uruchomieniowe` or `runtime`, never
-  `środowisko uruchomieniowe runtime`.
-- `Runtime` compounds translate in full: `środowisko uruchomieniowe definicji` for `definition
-  runtime`, or the standalone `środowisko uruchomieniowe` when the qualifier can be dropped. A
-  bare `Runtime` never modifies a Polish noun, so `Runtime definicji` is wrong.
-- `Package` renders `pakiet`, never `paczka`, and `installation package` renders `pakiet
-  instalacyjny`. Compounds follow the same rule: `anatomia pakietu`, `anatomia pakietu
-  definicji`, or the shorter `anatomia definicji`, never `anatomia paczki definicji`.
-- `Join` renders `łączenie` (`łączenia` in plural), never `joiny`, and `lookup` renders
-  `wyszukiwanie` (`wyszukiwania` in plural), never `lookupy`.
+  `frontend`, `backend`, `CI/CD`, and `lint` may stay untranslated.
+  Never combine both forms of one term in a single phrase:
+  write `środowisko uruchomieniowe` or `runtime`, never `środowisko uruchomieniowe runtime`.
+- `Runtime` compounds translate in full: `środowisko uruchomieniowe definicji` for
+  `definition runtime`, or the standalone `środowisko uruchomieniowe` when the qualifier can be
+  dropped. A bare `Runtime` never modifies a Polish noun, so `Runtime definicji` is wrong.
+- `Package` renders `pakiet`, never `paczka`,
+  and `installation package` renders `pakiet instalacyjny`. Compounds follow the same rule:
+  `anatomia pakietu`, `anatomia pakietu definicji`, or the shorter `anatomia definicji`,
+  never `anatomia paczki definicji`.
+- `Join` renders `łączenie` (`łączenia` in plural), never `joiny`,
+  and `lookup` renders `wyszukiwanie` (`wyszukiwania` in plural), never `lookupy`.
 - `Prefetch` renders `wstępne pobranie` or the shorter `pobranie`.
 - `Visual designer` renders `projektowanie wizualne`, never `designer wizualny`.
-- `Fail-closed` renders `odmowa dostępu` or `zamknięcie w przypadku błędu`, depending on
-  context.
-- Do not translate one English word the same way everywhere. Software-engineering terms are
-  context-dependent: `weakness` is `błąd bezpieczeństwa` or `podatność bezpieczeństwa`, `drift` is
-  `rozbieżność` or `dezaktualizacja`, `gate` is `warunek` or `kontrola`, `workflow` is
-  `przepływ pracy` or `proces`, `fallback` is `mechanizm awaryjny` or `obsługa zastępcza`.
+- `Fail-closed` renders `odmowa dostępu` or `zamknięcie w przypadku błędu`, depending on context.
+- Do not translate one English word the same way everywhere.
+  Software-engineering terms are context-dependent:
+  `weakness` is `błąd bezpieczeństwa` or `podatność bezpieczeństwa`,
+  `drift` is `rozbieżność` or `dezaktualizacja`, `gate` is `warunek` or `kontrola`,
+  `workflow` is `przepływ pracy` or `proces`,
+  `fallback` is `mechanizm awaryjny` or `obsługa zastępcza`.
 - Avoid literal calques. Use `rozbieżność` or `niezgodność` instead of `rozjazd`,
   `dezaktualizacja dokumentacji` or `rozbieżność dokumentacji ze stanem systemu` instead of
-  `dryf dokumentacji`, `nieustalona wersja środowiska` (for example `nieustalona wersja
-  środowiska Node.js`) instead of `nieprzypięty toolchain`, `nieskuteczna kontrola lintowania`
-  instead of `martwa brama lint`, `warunki weryfikacyjne` instead of `bramy weryfikacji`, and
-  `weryfikacja i klasyfikacja podatności` instead of `triaż podatności`.
-- Describe `CWE` as `klasyfikacja typowych błędów bezpieczeństwa oprogramowania`. CWE classifies
-  weakness types that can lead to vulnerabilities, CVE identifies concrete vulnerabilities.
+  `dryf dokumentacji`, `nieustalona wersja środowiska` (for example
+  `nieustalona wersja środowiska Node.js`) instead of `nieprzypięty toolchain`,
+  `nieskuteczna kontrola lintowania` instead of `martwa brama lint`,
+  `warunki weryfikacyjne` instead of `bramy weryfikacji`,
+  and `weryfikacja i klasyfikacja podatności` instead of `triaż podatności`.
+- Describe `CWE` as `klasyfikacja typowych błędów bezpieczeństwa oprogramowania`.
+  CWE classifies weakness types that can lead to vulnerabilities,
+  CVE identifies concrete vulnerabilities.
 - Describe `CSP` as `polityka bezpieczeństwa`, not `polityka nagłówkowa`.
 - Describe `CI/CD` as `ciągłe budowanie i wdrażanie`, not `potok budowania i wdrażania`.
 - `ASCII` needs no Polish gloss such as `ograniczony zestaw znaków`.
 - `CRLF`, `CR`, and `LF` are character codes, do not expand or describe them.
 - Use `odpowiednie do przedmiotu` for "applicable to the subject", not `stosowne do przedmiotu`.
-- Within a table column, keep capitalization consistent: when most cells in a column start with an
-  uppercase letter, capitalize the first letter of every value in that column. The rule covers the
-  value column of the `Informacje o dokumencie` table the same way - `Doskonalenie inżynieryjne`,
-  `Wewnętrzne środowisko produkcyjne` - while literal values (versions, dates, paths, revisions,
-  links) stay verbatim.
-- A value cell that carries a fixed-vocabulary token renders the agreed title-case form, and the
-  `Wersja umiejętności` cell carries the bare version (`2.0.2`), never a product-name prefix.
-- When one modifier governs a likelihood-impact pair in prose, name `prawdopodobieństwo` first
-  and join with `oraz`: `o wysokim prawdopodobieństwie oraz wpływie`.
-- The static-scope sentence reads `Nie uruchamiano aplikacji, testów, budowania ani skanowania
-  podatności.` - `skanowanie` names the unrun activity, `skanery` would name tools.
+- Within a table column, keep capitalization consistent:
+  when most cells in a column start with an uppercase letter,
+  capitalize the first letter of every value in that column.
+  The rule covers the value column of the `Informacje o dokumencie` table the same way -
+  `Doskonalenie inżynieryjne`, `Wewnętrzne środowisko produkcyjne` - while literal values (versions,
+  dates, paths, revisions, links) stay verbatim.
+- A value cell that carries a fixed-vocabulary token renders the agreed title-case form,
+  and the `Wersja umiejętności` cell carries the bare version (`2.0.2`),
+  never a product-name prefix.
+- When one modifier governs a likelihood-impact pair in prose,
+  name `prawdopodobieństwo` first and join with `oraz`:
+  `o wysokim prawdopodobieństwie oraz wpływie`.
+- The static-scope sentence reads
+  `Nie uruchamiano aplikacji, testów, budowania ani skanowania podatności.` - `skanowanie` names the
+  unrun activity, `skanery` would name tools.
 - In a multi-project report the project tag trails the title or heading as a parenthetical -
-  `Brak pliku LICENSE (backend)`, `### FND-SEC-001: Tytuł (backend)` - never a `[backend]`
-  prefix.
-- `* **Field:**` bullet-list values start with an uppercase letter, for example
-  `Podstawa: Kontrola dostępu bez uwierzytelnienia`. Values that start with a code span
-  or link stay verbatim.
-- A code span holding a governed vocabulary token - a status, severity, confidence,
-  maturity, or verdict word is translated like the unspanned form:
-  `Poziom: \`Teoretyczne\``, never `Poziom: \`Theoretical\``. Code spans preserve
-  only machine tokens - identifiers, paths, commands, flags, and literals quoted
-  from the subject.
+  `Brak pliku LICENSE (backend)`, `### FND-SEC-001: Tytuł (backend)` - never a `[backend]` prefix.
+- `* **Field:**` bullet-list values start with an uppercase letter,
+  for example `Podstawa: Kontrola dostępu bez uwierzytelnienia`.
+  Values that start with a code span or link stay verbatim.
+- A code span holding a governed vocabulary token - a status, severity, confidence, maturity,
+  or verdict word is translated like the unspanned form:
+  `Poziom: \` Teoretyczne\ ``, never ` Poziom: \ `Theoretical\``.
+  Code spans preserve only machine tokens - identifiers, paths, commands, flags,
+  and literals quoted from the subject.
 - In the Słownik pojęć, definition cells and the Polish gloss after ` - ` start with an uppercase
   letter: `Secure Shell - Szyfrowana powłoka`, `znaki końca linii` renders `Znaki końca linii`.
 - Glossary glosses name the thing precisely, without padding: `SSH - Szyfrowana powłoka`,
@@ -825,150 +831,139 @@ Apply these phrasing rules:
   `SCP - Kopiowanie plików protokołem SSH`, `TLS - Szyfrowana warstwa transportu`,
   `TTL - Czas życia`, `RSK - Identyfikator w rejestrze ryzyk`.
 - Describe `pipeline` as `proces`, `proces CI`, or `proces CI/CD`, never `potok`.
-- Use `bez uwierzytelnienia` instead of `nieuwierzytelniony`: `kontrola dostępu bez
-  uwierzytelnienia`, `punkt przyjęcia raportów błędów bez uwierzytelnienia`.
-- `version pinning` renders `zamrożenie wersji`, and `przypięcie` is reserved for host keys
-  (`przypięcie klucza hosta`, `przypięcie known_hosts`).
-- `new endpoint` as a unit of change reads `nowa operacja`, and the standalone anglicism `endpoint`
-  stays.
-- `Inferred` renders `Wnioskowane` in descriptive use and `Wniosekowany`/`Wniosekowana`/
-  `Wniosekowane` in token columns, never `Wywnioskowane`. `Wniosekowany` belongs to
-  `wnioskować` (to infer) - it is unrelated to `Zastrzeżenie`, the `Concern` tag.
-- Keep one register per report. The default register is everyday Polish software-engineering
-  usage (`audyt`, `audytor`, `audytowanie`), not the ISO-standards register that writes
-  `audit`/`auditor`. The ISO spelling is a documented exception only, never mixed in with the
-  default, and never a per-section choice.
-- `pull request`, `merge`, `roadmapa`, `due diligence`, `copyleft`, and `SBOM`
-  (spelled out once as `zestawienie składników oprogramowania`) are settled loanwords and stay
-  untranslated. `commit` is not a loanword here. It follows its Terminology
-  entry `zatwierdzenie`.
-- Every English term the skill adds to report headings or scored dimensions gets a Terminology
-  entry before it is used in a Polish report. Polish reports are checked against this file
-  verbatim under PAR-16, ad hoc translation is not allowed.
+- Use `bez uwierzytelnienia` instead of `nieuwierzytelniony`:
+  `kontrola dostępu bez uwierzytelnienia`, `punkt przyjęcia raportów błędów bez uwierzytelnienia`.
+- `version pinning` renders `zamrożenie wersji`,
+  and `przypięcie` is reserved for host keys (`przypięcie klucza hosta`, `przypięcie known_hosts`).
+- `new endpoint` as a unit of change reads `nowa operacja`,
+  and the standalone anglicism `endpoint` stays.
+- `Inferred` renders `Wnioskowane` in descriptive use and `Wniosekowany` / `Wniosekowana` /
+  `Wniosekowane` in token columns, never `Wywnioskowane`.
+  `Wniosekowany` belongs to `wnioskować` (to infer) - it is unrelated to
+  `Zastrzeżenie`, the `Concern` tag.
+- Keep one register per report. The default register is everyday Polish software-engineering usage
+  (`audyt`, `audytor`, `audytowanie`), not the ISO-standards register that writes `audit` /
+  `auditor`. The ISO spelling is a documented exception only, never mixed in with the default,
+  and never a per-section choice.
+- `pull request`, `merge`, `roadmapa`, `due diligence`, `copyleft`,
+  and `SBOM` (spelled out once as `zestawienie składników oprogramowania`)
+  are settled loanwords and stay untranslated. `commit` is not a loanword here.
+  It follows its Terminology entry `zatwierdzenie`.
+- Every English term the skill adds to report headings or scored dimensions gets a Terminology entry
+  before it is used in a Polish report. Polish reports are checked against this file verbatim under
+  PAR-16, ad hoc translation is not allowed.
 - Use `N/D` for `N/A` and `Błąd` for `ERROR`/`Error` in Polish reports.
 - The score-band legend is labeled `Skala oceny`, never `Legenda pasm` or `Skala ocen`.
 - Broad test coverage is `rozbudowany zakres testów`, not `szeroki inwentarz testowy`.
 - Effort estimates use plain units: `godziny`, not `godziny-dzień`.
-- The verb `rozejść się` uses the past-tense forms `rozszedł się`, `rozeszła się`,
-  `rozeszło się`, and `rozeszli`/`rozeszły się`, never `rozeszedł się`, for example `kontrakt
-  rozszedł się z implementacją`.
+- The verb `rozejść się` uses the past-tense forms `rozszedł się`, `rozeszła się`, `rozeszło się`,
+  and `rozeszli` / `rozeszły się`, never `rozeszedł się`,
+  for example `kontrakt rozszedł się z implementacją`.
 - Keep one thought per sentence. Most prose sentences run 15-25 words,
   and approximately 35 words is the practical upper limit.
   Split longer sentences instead of chaining clauses.
 - Never join two independent clauses with a bare comma. Use a full stop,
-  a colon when the second clause explains the first, or a conjunction
-  (`więc`, `natomiast`, `ponieważ`).
-- Every prose sentence carries an explicit predicate. Nominal fragments belong
-  in table cells and bullet labels, not in running prose.
-- The grammatical subject that performs an action is a person, a tool, or a process.
-  Files, branches, sections, and repositories do not act - describe their state with a
-  passive or nominal construction: `gałąź została rozszerzona` or `rozszerzenie gałęzi`,
-  not `gałąź dodaje`.
-- An adverbial participle (`imiesłów przysłówkowy`) is allowed only when its subject
-  matches the main clause's subject: `przechodząc do` is wrong when the subject of the
-  main clause is a document or a table.
-- Keep enumeration members in the same grammatical form. Prefer a bulleted list once
-  an enumeration exceeds four members or carries nested structure.
+  a colon when the second clause explains the first, or a conjunction (`więc`,
+  `natomiast`, `ponieważ`).
+- Every prose sentence carries an explicit predicate.
+  Nominal fragments belong in table cells and bullet labels, not in running prose.
+- The grammatical subject that performs an action is a person, a tool, or a process. Files,
+  branches, sections, and repositories do not act - describe their state with a passive or nominal
+  construction: `gałąź została rozszerzona` or `rozszerzenie gałęzi`, not `gałąź dodaje`.
+- An adverbial participle (`imiesłów przysłówkowy`)
+  is allowed only when its subject matches the main clause's subject:
+  `przechodząc do` is wrong when the subject of the main clause is a document or a table.
+- Keep enumeration members in the same grammatical form.
+  Prefer a bulleted list once an enumeration exceeds four members or carries nested structure.
 - Noun chains stop at three members - expand beyond that into a prepositional phrase.
-- One concept carries one name through the whole report. Precedence order: established
-  Polish term, then a settled English loanword used uninflected and glossed at first use,
-  then a Polish description. Jargon derivatives such as `commitowany` or `onboardowanie`
-  are replaced by the Terminology entry or a description.
-- A term without a settled Polish equivalent takes a first-use gloss with the English
-  word in parentheses - `punkt podstawienia (ang. seam)` - then the bare Polish form.
+- One concept carries one name through the whole report. Precedence order: established Polish term,
+  then a settled English loanword used uninflected and glossed at first use,
+  then a Polish description. Jargon derivatives such as `commitowany` or `onboardowanie` are
+  replaced by the Terminology entry or a description.
+- A term without a settled Polish equivalent takes a first-use gloss with the English word in
+  parentheses - `punkt podstawienia (ang. seam)` - then the bare Polish form.
   The gloss stays out of headings and table titles, which must match verbatim.
-- Technical names keep canonical spelling - `Git`, `SemVer`, `Docker`, `Node.js` -
-  and product names decline normally where grammar requires (`Dockera`).
-  Filenames, commands, and identifiers never decline and take a generic noun instead:
-  `plik \`AGENTS.md\``, `system GitLab`. Abbreviations expand at first use and enter
-  the Słownik pojęć: `MR`, `SAST`. Do not abbreviate `wierszy` as `w.`.
-- Literal names of software, tools, packages, and special files render in code spans -
-  `Node.js`, `Express`, `package-lock.json`, `nginx`, `LICENSE` - so a literal name
-  stands apart from prose. Match case-sensitively and by context: a package name that
-  collides with a Polish word is wrapped only where it names the artifact, never where
-  the word itself is used - `jest` in a dependency list is the test runner, `jest` in
-  `Token jest zapisywany` is the verb. Glossary acronyms keep their link instead of a
-  code span - `[API](#słownik)`, never `` `API` ``.
-- A section or subsection name cited inside a sentence declines to the case the
-  sentence requires - `w sekcji Szczegółowych ustaleń technicznych`, `sekcje oceny
-  architektury` - the nominative heading form pasted into prose reads like a label,
-  not a sentence part.
-- A count or measurement drawn from evidence renders as an exact figure without an
-  approximation hedge - `561 zatwierdzeń`, not `około 561 zatwierdzeń` - and `około`
-  marks only a magnitude the evidence does not pin down.
+- Technical names keep canonical spelling - `Git`, `SemVer`, `Docker`,
+  `Node.js` - and product names decline normally where grammar requires (`Dockera`). Filenames,
+  commands, and identifiers never decline and take a generic noun instead:
+  `plik \` AGENTS.md\ ``, ` system GitLab
+  `. Abbreviations expand at first use and enter the Słownik pojęć: ` MR `, ` SAST
+  `. Do not abbreviate ` wierszy ` as ` w.`.
+- Literal names of software, tools, packages, and special files render in code spans - `Node.js`,
+  `Express`, `package-lock.json`, `nginx`, `LICENSE` - so a literal name stands apart from prose.
+  Match case-sensitively and by context: a package name that collides with a Polish word is wrapped
+  only where it names the artifact, never where the word itself is used - `jest` in a dependency
+  list is the test runner, `jest` in `Token jest zapisywany` is the verb.
+  Glossary acronyms keep their link instead of a code span - `[API](#słownik)`, never `` ` API ` ``.
+- A section or subsection name cited inside a sentence declines to the case the sentence requires -
+  `w sekcji Szczegółowych ustaleń technicznych`, `sekcje oceny architektury` - the nominative
+  heading form pasted into prose reads like a label, not a sentence part.
+- A count or measurement drawn from evidence renders as an exact figure without an approximation
+  hedge - `561 zatwierdzeń`, not `około 561 zatwierdzeń` - and `około` marks only a magnitude the
+  evidence does not pin down.
 - An agreement or decision described as `ustny` renders by its documentation state -
-  `Udokumentowane`, `Nieudokumentowane`, `Brak dokumentacji` - a verbal claim is not
-  evidence and the word stays out of status cells.
-- Verbatim foreign-language quotations are marked as quotations and carry a Polish gloss
-  beside them, and they are never woven into Polish grammar. Own renderings are paraphrased
-  or marked as translations, not presented as quotes.
+  `Udokumentowane`, `Nieudokumentowane`, `Brak dokumentacji` - a verbal claim is not evidence and
+  the word stays out of status cells.
+- Verbatim foreign-language quotations are marked as quotations and carry a Polish gloss beside
+  them, and they are never woven into Polish grammar.
+  Own renderings are paraphrased or marked as translations, not presented as quotes.
 - Polish report output uses ASCII punctuation by default: straight quotes `"` and `'`,
-  the spaced hyphen ` - ` for dashes, `...` for an ellipsis, and `->` or a word
-  (`->` spelled out) for arrows. Typographic forms (`"..."`, `-`, `-`, `->`, `...`) appear only
-  when the task or the source document explicitly establishes them - for audit reports
+  the spaced hyphen ` - ` for dashes, `...` for an ellipsis, and `->` or a word (`->` spelled out)
+  for arrows. Typographic forms (`"..."`, `-`, `-`, `->`, `...`)
+  appear only when the task or the source document explicitly establishes them - for audit reports
   they are never introduced on the writer's own initiative.
-- Defined Polish names are used verbatim mid-sentence without extra capitalization:
-  `źródła prawdy`, not `Źródła Prawdy`, in the middle of a sentence.
+- Defined Polish names are used verbatim mid-sentence without extra capitalization: `źródła prawdy`,
+  not `Źródła Prawdy`, in the middle of a sentence.
 - `referencja Git (ref)` at first use, then `ref`.
-- Finding titles in summary tables are copied verbatim from the `### FND-...` headings -
-  never rephrased. The same verbatim-copy rule covers recommendation titles from the
-  `### REC-...` headings and every later repetition of either title: risk registers,
-  roadmaps, follow-up plans, and the Validation Protocol all cite the title exactly as
-  the heading states it.
-- A `Typ systemu` value, `Poziom dojrzałości`, `Cel audytu`, and readiness gates must not
-  contradict one another: a `środowisko produkcyjne` claim alongside an
-  `etap przedprodukcyjny` engagement context is a defect to fix before delivery.
+- Finding titles in summary tables are copied verbatim from the `### FND-...` headings - never
+  rephrased. The same verbatim-copy rule covers recommendation titles from the `### REC-...`
+  headings and every later repetition of either title: risk registers, roadmaps, follow-up plans,
+  and the Validation Protocol all cite the title exactly as the heading states it.
+- A `Typ systemu` value, `Poziom dojrzałości`, `Cel audytu`,
+  and readiness gates must not contradict one another:
+  a `środowisko produkcyjne` claim alongside an `etap przedprodukcyjny` engagement context is a
+  defect to fix before delivery.
 
 ## Translation Pre-Flight Checklist
 
-Run this checklist after the rendering pass, before running the lint
-and mapping pipeline.
+Run this checklist after the rendering pass, before running the lint and mapping pipeline.
 
-Every item encodes a defect class that has been
-observed failing a shipped report. Fixing them here is cheaper than
-discovering them through validator output.
+Every item encodes a defect class that has been observed failing a shipped report.
+Fixing them here is cheaper than discovering them through validator output.
 
-- **Prose punctuation:** no `;` in prose (outside code spans, fences,
-  and tables) - split the sentence or use ` - `. No typographic
-  characters anywhere: `""""--''...` are all flagged - use ASCII `"` `-`
-  `'` `...` only.
-- **No literal `per`:** decline it - `dla każdego`, `na`, `dla`, or
-  rewrite. `per` inside a hyphenated compound is still a hit.
-- **Approximations and abbreviations:** `~N` -> `ok. N`, and never `w.`
-  as an abbreviation - write `wierszy` in full.
-- **Verbatim terms:** contract English terms that must not be
-  translated (`pin the measured baseline`, CI/CD stage names, tool
-  identifiers) stay inside code spans - `lint-polish` flags them in
-  plain text.
-- **Block field labels:** `* **Label:**` fields inside `### FND-...`,
-  `### RSK-...`, `### REC-...`, `### TDR-...` blocks come from that
-  register's label table only - `Wpływ` on findings, never `Skutek`
-  (which is `Effect` and belongs to risk narrative, not a field label
-  at all). `check-translation.py` flags any out-of-set label.
+- **Prose punctuation:** no `;` in prose (outside code spans, fences, and tables)
+  - split the sentence or use ` - `. No typographic characters anywhere:
+  `""""--''...` are all flagged - use ASCII `"` `-` `'` `...` only.
+- **No literal `per`: ** decline it - `dla każdego`, `na`, `dla`, or rewrite.
+  `per` inside a hyphenated compound is still a hit.
+- **Approximations and abbreviations:** `~N` -> `ok. N`,
+  and never `w.` as an abbreviation - write `wierszy` in full.
+- **Verbatim terms:** contract English terms that must not be translated
+  (`pin the measured baseline`, CI/CD stage names, tool identifiers)
+  stay inside code spans - `lint-polish` flags them in plain text.
+- **Block field labels:** `* **Label:**` fields inside `### FND-...`, `### RSK-...`, `### REC-...`,
+  `### TDR-...` blocks come from that register's label table only - `Wpływ` on findings,
+  never `Skutek` (which is `Effect` and belongs to risk narrative, not a field label at all).
+  `check-translation.py` flags any out-of-set label.
 - **Register titles:** summary-table title cells copy the `### ID:
   <title>` heading text verbatim - including the ` (project)` suffix
-  on multi-project reports. Never rephrase a title between the summary
-  and the detail block.
-- **Heading anchors:** after any `###` heading rename, re-derive its
-  GitHub slug (lowercase, diacritics kept, spaces to hyphens) and
-  update every `](#...)` link that targets it - `check-translation.py`
-  flags unresolved anchors.
-- **Glossary-link placement:** keep a lowercase word, ` - `, or
-  punctuation between an `[ACRONYM](#słownik)` link and any capitalized
-  noun - otherwise the English-mapped copy reads as a compound name.
-  Working patterns: `warstwa nad [IDB]`, `[API] - dyscyplina`,
-  `Metryka - [DORA]`, `klucz dla [WAL]`.
-- **Canonical governed phrases:** governed terms come from this
-  contract verbatim - `Punkt odniesienia zgodności`, `Metryka`,
-  `Wywódzenie` - not paraphrased. `map-translation.py` reports
-  collisions as warnings - every one is a review target.
-- **Block separation:** one blank line separates a table from the next
-  block - a `**label**` or paragraph butting onto the last `|` row
-  renders inside the table or breaks the label.
-- **Balanced bold:** every `**` on a line closes its pair - a stray
-  `** ` after a `**Field:**` label renders as literal asterisks.
-- **Sentence length:** sentences over ~40 words are warn-level, not
-  fail-level - but mass violations usually mean calqued English syntax.
+  on multi-project reports. Never rephrase a title between the summary and the detail block.
+- **Heading anchors:** after any `###` heading rename, re-derive its GitHub slug (lowercase,
+  diacritics kept, spaces to hyphens) and update every `](#...)` link that targets it -
+  `check-translation.py` flags unresolved anchors.
+- **Glossary-link placement:** keep a lowercase word, ` - `,
+  or punctuation between an `[ACRONYM](#słownik)` link and any capitalized noun - otherwise the
+  English-mapped copy reads as a compound name. Working patterns: `warstwa nad [IDB]`,
+  `[API] - dyscyplina`, `Metryka - [DORA]`, `klucz dla [WAL]`.
+- **Canonical governed phrases:** governed terms come from this contract verbatim -
+  `Punkt odniesienia zgodności`, `Metryka`, `Wywódzenie` - not paraphrased.
+  `map-translation.py` reports collisions as warnings - every one is a review target.
+- **Block separation:** one blank line separates a table from the next block - a `**label**` or
+  paragraph butting onto the last `|` row renders inside the table or breaks the label.
+- **Balanced bold:** every `**` on a line closes its pair - a stray `** ` after a `**Field:**` label
+  renders as literal asterisks.
+- **Sentence length:** sentences over ~40 words are warn-level,
+  not fail-level - but mass violations usually mean calqued English syntax.
   Split before linting rather than after.
 
 ## Diacritics Frequently Misspelled
@@ -1008,26 +1003,26 @@ Always use the correct form with diacritics:
 
 ## Output Filename
 
-A Polish-language request resolves `Language output` to `pair` unless it explicitly scopes to a
-single language.
+A Polish-language request resolves `Language output` to `pair` unless it explicitly scopes
+to a single language.
 
 Under `pair` both files share the English stem with a language suffix:
-`AUDIT-1.0-EN.md` for the canonical English report and `AUDIT-1.0-PL.md` for its Polish
-rendering, with `AUDIT-EN.md`/`AUDIT-PL.md` offered as the bare alternative pair.
+`AUDIT-1.0-EN.md` for the canonical English report and `AUDIT-1.0-PL.md` for its Polish rendering,
+with `AUDIT-EN.md` / `AUDIT-PL.md` offered as the bare alternative pair.
 
 The `AUDYT` stem never appears in a pair.
 
 A single-language Polish report carries the report revision on the Polish stem:
-`AUDYT-1.0.md` for a first audit instead of `AUDIT-1.0.md`, with plain `AUDYT.md` offered as an
-alternative.
+`AUDYT-1.0.md` for a first audit instead of `AUDIT-1.0.md`,
+with plain `AUDYT.md` offered as an alternative.
 
 When a previous report exists, the default filename carries the new revision - for example
-`AUDIT-1.1-EN.md`/`AUDIT-1.1-PL.md` under `pair`, `AUDYT-1.1.md` for a single-language report -
-and the previous file is never overwritten.
+`AUDIT-1.1-EN.md` / `AUDIT-1.1-PL.md` under `pair`,
+`AUDYT-1.1.md` for a single-language report - and the previous file is never overwritten.
 
 A `polowanie na usterki` report uses the `POLOWANIE` stem and inverts the default:
-`POLOWANIE.md` for a first hunt, with `POLOWANIE-1.0.md` offered as the revisioned
-alternative, and `POLOWANIE-<revision>.md` once a previous hunt report exists.
+`POLOWANIE.md` for a first hunt, with `POLOWANIE-1.0.md` offered as the revisioned alternative,
+and `POLOWANIE-<revision>.md` once a previous hunt report exists.
 
 A `przegląd` report uses the `PRZEGLĄD` stem under the same bare-first default:
 `PRZEGLĄD.md` for a first review, `PRZEGLĄD-1.0.md` as the revisioned alternative,
@@ -1076,8 +1071,8 @@ The `Stan prac` row is written only when the working tree is dirty.
 
 It is omitted when the tree is clean.
 
-The `Podział zdań` row is written only when the user explicitly suppressed
-sentence-per-paragraph prose, with the value `Wyłączony`.
+The `Podział zdań` row is written only when the user explicitly suppressed sentence-per-paragraph
+prose, with the value `Wyłączony`.
 
 It is omitted when the default sentence-separated layout applies.
 
@@ -1087,32 +1082,30 @@ The setting is evident from the presence or absence of the `Słownik pojęć` se
 and a re-audit recovers it that way.
 
 Value cells use the Fixed Vocabulary Values table for `State`, `Detail Level`, `Evaluation Scale`,
-`Audit Purpose`, `Verification Scope`, `Report Style`, and `Evidence Mode`, and `Polski` for
-`Language`.
+`Audit Purpose`, `Verification Scope`, `Report Style`, and `Evidence Mode`,
+and `Polski` for `Language`.
 
-Under `pair` language output each file's `Tłumaczenia`/`Translations` row names the sibling file -
-the Polish report lists `AUDIT-<rewizja>-EN.md`, the English report lists
-`AUDIT-<rewizja>-PL.md`.
+Under `pair` language output each file's `Tłumaczenia` / `Translations` row names the sibling file -
+the Polish report lists `AUDIT-<rewizja>-EN.md`, the English report lists `AUDIT-<rewizja>-PL.md`.
 
 The row carries the sibling filename only - no language annotation such as
 `(Angielski - kanoniczny)` follows it.
 
 A single-language report omits the row.
 
-The `Cel audytu` cell carries a purpose value only - `ponowny audyt` is never prefixed
-into it, since `Rewizja raportu`, `Poprzedni raport`, and the `Zmiany od poprzedniego
-audytu` section already carry the re-audit status.
+The `Cel audytu` cell carries a purpose value only - `ponowny audyt` is never prefixed into it,
+since `Rewizja raportu`, `Poprzedni raport`,
+and the `Zmiany od poprzedniego audytu` section already carry the re-audit status.
 
-A re-audit `Styl raportu` cell reads `Audyt (ponowny względem <plik-bazowy>)` - `Audyt`
-is already the style value, so `ponowny audyt względem` shortens to `ponowny względem`
-there; standalone `ponowny audyt` forms keep the noun elsewhere.
+A re-audit `Styl raportu` cell reads `Audyt (ponowny względem <plik-bazowy>)` - `Audyt` is already
+the style value, so `ponowny audyt względem` shortens to `ponowny względem` there.
+Standalone `ponowny audyt` forms keep the noun elsewhere.
 
-The `Czas wykonania` cell carries the audit run's own duration, identical to the English
-report.
+The `Czas wykonania` cell carries the audit run's own duration, identical to the English report.
 
-A Polish rendering produced in a later pass keeps that figure, and when it
-records its own generation time instead, the cell annotates the difference, for example
-`hh:mm (czas wygenerowania wersji PL - audyt EN: hh:mm)` - a bare mismatch with the
+A Polish rendering produced in a later pass keeps that figure,
+and when it records its own generation time instead, the cell annotates the difference,
+for example `hh:mm (czas wygenerowania wersji PL - audyt EN: hh:mm)` - a bare mismatch with the
 English value is a defect.
 
 ## Audit Coverage
@@ -1136,20 +1129,20 @@ English value is a defect.
 | ISO/IEC 27001 Certification          | Certyfikacja ISO/IEC 27001           |
 | SOC 2 Attestation Examination        | Badanie atestacyjne SOC 2            |
 
-The four coverage statuses render per Status And Severity Vocabulary: `Objęty`,
-`Częściowo`, `Niewykonany`, `Nie dotyczy`.
+The four coverage statuses render per Status And Severity Vocabulary: `Objęty`, `Częściowo`,
+`Niewykonany`, `Nie dotyczy`.
 
 A row classified `Nie dotyczy` is omitted from the table entirely.
 
-SOC 2 is an attestation examination performed by a CPA firm, not a certification -
-keep the two rows separate and never write `certyfikacja SOC 2`.
+SOC 2 is an attestation examination performed by a CPA firm,
+not a certification - keep the two rows separate and never write `certyfikacja SOC 2`.
 
 The table records which audit types the report does and does not answer,
 and it never claims an assurance level the audit does not define.
 
-An `Audyt zarządzania AI` row omitted as `Nie dotyczy` never suppresses AI-provenance
-findings in the `Pochodzenie AI` pillar - the row answers whether governance of an
-AI system was assessed, the pillar answers how the source was authored.
+An `Audyt zarządzania AI` row omitted as `Nie dotyczy` never suppresses AI-provenance findings in
+the `Pochodzenie AI` pillar - the row answers whether governance of an AI system was assessed,
+the pillar answers how the source was authored.
 
 A `Uzasadnienie` cell names covered artifacts directly with their linked terms -
 `model zagrożeń, [CWE](#słownik)` - not nominalized wrappers like `mapowania CWE`.
@@ -1188,8 +1181,8 @@ Acronym occurrences in the report body link to the description,
 or to the index table at `#słownik` when there is none.
 
 Register-identifier links resolve against the Polish file's own headings: a cited `FND`, `RSK`,
-`REC`, or `TDR` identifier links to its `### <ID>:` block heading rendered with the Polish
-title, and `EVD`/`PAR` identifiers link to their Polish register-section anchors - for example
+`REC`, or `TDR` identifier links to its `### <ID>:` block heading rendered with the Polish title,
+and `EVD` / `PAR` identifiers link to their Polish register-section anchors - for example
 `#rejestr-dowodów-audytowych` and `#protokół-walidacji` - never to the English anchors.
 
 The identifier text itself is never translated.
@@ -1202,13 +1195,13 @@ Definitions and descriptions are written in Polish.
 
 The Słownik pojęć mirrors the English glossary term for term - nothing added, nothing dropped.
 
-A term the English glossary does not carry, for example `MR`, is written as plain text
-in the body and never takes a `#słownik` link - adding a row to satisfy an invented link
-breaks parity in both directions.
+A term the English glossary does not carry, for example `MR`,
+is written as plain text in the body and never takes a `#słownik` link - adding a row to satisfy an
+invented link breaks parity in both directions.
 
-Identifier descriptions in `###` subsections prefer short, direct phrasing, for example
-`Identyfikatory obowiązują tylko w tym raporcie i w kolejnych wersjach mogą być inne.` and
-`Identyfikator zalecenia w działaniach naprawczych`.
+Identifier descriptions in `###` subsections prefer short, direct phrasing,
+for example `Identyfikatory obowiązują tylko w tym raporcie i w kolejnych wersjach mogą być inne.`
+and `Identyfikator zalecenia w działaniach naprawczych`.
 
 A register-identifier definition writes the name and its role as a comma apposition -
 `Lista dowodów, prefiks identyfikatorów dowodów` - not with a spaced hyphen.
@@ -1216,8 +1209,8 @@ A register-identifier definition writes the name and its role as a comma apposit
 Every acronym used anywhere in the report gets a Słownik pojęć entry when the term is one the
 Słownik pojęć defines - acronyms outside its set stay plain text per the mirror rule above.
 
-The entry names the class of the thing precisely - an organization, a standard, a
-specification, a framework, a metric set, a file format - not just the expansion:
+The entry names the class of the thing precisely - an organization, a standard, a specification,
+a framework, a metric set, a file format - not just the expansion:
 
 - `OWASP` is an organization and its project names - `Fundacja OWASP` - never `standard OWASP`.
 - `REST` is an architectural style - `styl architektoniczny` - not a contract or a protocol.
@@ -1233,14 +1226,14 @@ specification, a framework, a metric set, a file format - not just the expansion
 - `NFR` is `wymaganie niefunkcjonalne`.
 - `OSS` is `oprogramowanie o otwartym kodzie źródłowym`.
 - `RMF` is `ramy zarządzania ryzykiem NIST`.
-- `CVE` is `identyfikator konkretnej podatności` - distinguished from `CWE`, which classifies
-  weakness types.
+- `CVE` is `identyfikator konkretnej podatności` - distinguished from `CWE`,
+  which classifies weakness types.
 - `XSS` is `wstrzykiwanie skryptów` - script injection into rendered markup.
 - `ISO` is the organization `Międzynarodowa Organizacja Normalizacyjna` and `IEC` is
-  `Międzynarodowa Komisja Elektrotechniczna` - separate entries, joint standards carry
-  both marks as `ISO/IEC`.
-- `TDD` collides with `test-driven development` - spell out `due diligence techniczne`
-  in full and never abbreviate it `TDD` in a Polish report.
+  `Międzynarodowa Komisja Elektrotechniczna` - separate entries,
+  joint standards carry both marks as `ISO/IEC`.
+- `TDD` collides with `test-driven development` - spell out `due diligence techniczne` in full and
+  never abbreviate it `TDD` in a Polish report.
 
 ## Technology Stack
 
@@ -1272,8 +1265,9 @@ specification, a framework, a metric set, a file format - not just the expansion
 | Maturity level    | Poziom dojrzałości      |
 
 The label is `Źródło danych` - `Podstawa źródłowa` is never a governed label here,
-and `Poziom dojrzałości` carries the governed value `Etap przedprodukcyjny`, never
-the bare adjective `Przedprodukcyjny`.
+and `Poziom dojrzałości` carries the governed value `Etap przedprodukcyjny`,
+never the bare adjective `Przedprodukcyjny`.
+
 | Overall score                  | Wynik ogólny                |
 | Summary description            | Opis podsumowujący          |
 | Production Readiness Threshold | Próg gotowości produkcyjnej |
@@ -1336,8 +1330,8 @@ the bare adjective `Przedprodukcyjny`.
 | Score Range | Zakres wyników |
 | Definition  | Definicja      |
 
-The one-line legend preceding a scorecard is labeled `Skala oceny` and names every band of the
-selected scale:
+The one-line legend preceding a scorecard is labeled `Skala oceny` and names every band
+of the selected scale:
 
 - `1-10`: `Skala oceny: 1-3 Słaba · 4-6 Średnia · 7-8 Dobra · 9-10 Doskonała`
 - `1-5`: `Skala oceny: 1 Zła · 2 Słaba · 3 Średnia · 4 Dobra · 5 Doskonała`
@@ -1366,8 +1360,8 @@ selected scale:
 | `LOW`                               | `Niskie`                                 |
 | Support / cost obligations          | Zobowiązania wsparcia i kosztów          |
 
-Metric cells keep machine-readable `NOT SPECIFIED` rendering as `Nieokreślony`, matching the
-fixed-vocabulary treatment of missing organizational data.
+Metric cells keep machine-readable `NOT SPECIFIED` rendering as `Nieokreślony`,
+matching the fixed-vocabulary treatment of missing organizational data.
 
 ## High-Level Observations
 
@@ -1479,8 +1473,7 @@ License-class cells use the feminine adjective forms shown, agreeing with `licen
 
 `Rejestr decyzji architektonicznych` is the in-section label.
 
-Where the decisions list stands as
-a main section, `Decyzje architektoniczne` is also correct.
+Where the decisions list stands as a main section, `Decyzje architektoniczne` is also correct.
 
 ## Skill Definition Conformance
 
@@ -1547,9 +1540,9 @@ a main section, `Decyzje architektoniczne` is also correct.
 | Status                   | Status                 |
 | Evidence                 | Dowód                  |
 
-The section appears when the subject ships a document that declares product requirements
-or acceptance criteria, and each requirement row renders `OK`, `Częściowy`,
-`Niezaliczony`, or `Nieznany` in its `Status` cell.
+The section appears when the subject ships a document that declares product requirements or
+acceptance criteria, and each requirement row renders `OK`, `Częściowy`, `Niezaliczony`,
+or `Nieznany` in its `Status` cell.
 
 ## Engineering Baseline Conformance
 
@@ -1667,23 +1660,22 @@ or acceptance criteria, and each requirement row renders `OK`, `Częściowy`,
 The `Weryfikacja` field carries a title-cased evidence note such as `Zaobserwowane w źródłach`,
 for example `* **Weryfikacja:** Zaobserwowane w źródłach`. Omit the field when not verified.
 
-The `Uruchomienie` field appears only when execution confirmed the behavior - unconfirmed
-findings omit it, and the label never renders a calque that leaves a bare `Runtime` before a
-Polish noun.
+The `Uruchomienie` field appears only when execution confirmed the behavior - unconfirmed findings
+omit it, and the label never renders a calque that leaves a bare `Runtime` before a Polish noun.
 
-The `Łamanie kompatybilności` field takes `Brak`, `wewnętrzne`, or `publiczne API`, and the
-`Dotyczy` field takes `dotyczy`, `warunkowe`, `nie dotyczy`, or `niezweryfikowane`.
+The `Łamanie kompatybilności` field takes `Brak`, `wewnętrzne`, or `publiczne API`,
+and the `Dotyczy` field takes `dotyczy`, `warunkowe`, `nie dotyczy`, or `niezweryfikowane`.
 
-`Pewność oceny` and `Wykorzystanie podatności` carry the same title-case token values as
-every other field (`Wysoka`, `Teoretyczne`), and `Ważność`, `Status`, `Zmiana`, `Typ`,
-and `Charakter odstępstwa` take title-case phrases
-(`Wysoka`, `Otwarty`, `Nowa`, `Obserwacja`, `Nieokreślony`).
+`Pewność oceny` and `Wykorzystanie podatności` carry the same title-case token values as every other
+field (`Wysoka`, `Teoretyczne`), and `Ważność`, `Status`, `Zmiana`, `Typ`,
+and `Charakter odstępstwa` take title-case phrases (`Wysoka`, `Otwarty`, `Nowa`,
+`Obserwacja`, `Nieokreślony`).
 
 The `Podstawa pochodzenia` field appears only on `FND-AIP-` blocks and takes `Zadeklarowana`,
 `Zaświadczona`, `Dostarczona`, `Wskazana`, or `Nieokreślona`.
 
-The exploitability narrative labels translate as `Warunek wstępny:`, `Ścieżka:`, `Wpływ:`, and
-`Niepewność:` - they are part of the narrative prose, not fixed tokens.
+The exploitability narrative labels translate as `Warunek wstępny:`, `Ścieżka:`, `Wpływ:`,
+and `Niepewność:` - they are part of the narrative prose, not fixed tokens.
 
 ### Pillar Names
 
@@ -1710,9 +1702,9 @@ The exploitability narrative labels translate as `Warunek wstępny:`, `Ścieżka
 | Delay    | Zwłoka    |
 | Status   | Status    |
 
-The `Źródło` cell carries an `FND-XXX` link or the literal token `Bezpośrednia
-obserwacja` for a `Direct observation` source - `Obserwacja bezpośrednia` is the
-reversed-order calque and never renders.
+The `Źródło` cell carries an `FND-XXX` link or the literal token `Bezpośrednia obserwacja` for a
+`Direct observation` source - `Obserwacja bezpośrednia` is the reversed-order
+calque and never renders.
 
 ## Unified Risk Register
 
@@ -1840,9 +1832,9 @@ Wartość `Undetermined` w polu `Charakter odstępstwa` przyjmuje formę `Nieokr
 | Resolution        | Rozwiązanie          |
 
 A `Rejestr sprzeczności` block inside this section or a standalone section in the
-`polowanie na usterki` and `sprawdzenie` styles renders its columns as `Temat`,
-`Ten audyt`, `Stwierdzenie zewnętrzne`, `Wskazania dowodów`, and `Status`, with status
-values `Potwierdzone`, `Obalone`, `Nieodtwarzalne`, or `Oczekujące`.
+`polowanie na usterki` and `sprawdzenie` styles renders its columns as `Temat`, `Ten audyt`,
+`Stwierdzenie zewnętrzne`, `Wskazania dowodów`, and `Status`, with status values `Potwierdzone`,
+`Obalone`, `Nieodtwarzalne`, or `Oczekujące`.
 
 ## Follow-up Plan
 
@@ -1869,8 +1861,8 @@ values `Potwierdzone`, `Obalone`, `Nieodtwarzalne`, or `Oczekujące`.
 | Command              | Polecenie          |
 | Expected evidence    | Oczekiwany dowód   |
 
-The handoff lists runtime checks the operator can run to convert `Uruchomienie:
-nie` findings into executed evidence.
+The handoff lists runtime checks the operator can run to convert `Uruchomienie: nie` findings
+into executed evidence.
 
 ## Executed Evidence Log
 
@@ -1904,15 +1896,15 @@ The log records every bounded execution a `wykonanie tylko do odczytu` report pe
 | Phase                    | Faza                         |
 | Window                   | Okno                         |
 
-The `Werdykt` paragraph takes `Gotowy`, `Warunkowo gotowy`, or `Niegotowy`, and a hard
-readiness gate renders `Spełniona`, `Niespełniona`, or `Nieoceniona`.
+The `Werdykt` paragraph takes `Gotowy`, `Warunkowo gotowy`, or `Niegotowy`,
+and a hard readiness gate renders `Spełniona`, `Niespełniona`, or `Nieoceniona`.
 
-The fixed domains render `Poprawność`, `Bezpieczeństwo`, `Niezawodność`, `Wydajność`,
-`Zależności`, `Wdrożenie`, `Testowalność`, `Dokumentacja`, `Utrzymywalność`, and `Pochodzenie`,
+The fixed domains render `Poprawność`, `Bezpieczeństwo`, `Niezawodność`, `Wydajność`, `Zależności`,
+`Wdrożenie`, `Testowalność`, `Dokumentacja`, `Utrzymywalność`, and `Pochodzenie`,
 with ratings `Czerwona`, `Bursztynowa`, `Zielona`, or `Nieoceniona` agreeing with `ocena`.
 
-A `polowanie na usterki` report replaces the scorecard and recommendation classification with
-domain verdicts and remediation phases, and `Kontekst systemu` carries the project discovery.
+A `polowanie na usterki` report replaces the scorecard and recommendation classification with domain
+verdicts and remediation phases, and `Kontekst systemu` carries the project discovery.
 
 ## Review Style Sections
 
@@ -1934,31 +1926,27 @@ domain verdicts and remediation phases, and `Kontekst systemu` carries the proje
 | Contradiction Register     | Rejestr sprzeczności        |
 | Appendix                   | Załącznik                   |
 
-A `przegląd` report replaces the scorecard and recommendation classification with the
-execution register and improvement plan.
+A `przegląd` report replaces the scorecard and recommendation classification with the execution
+register and improvement plan.
 
-Its `Werdykt` paragraph takes the same `Gotowy`,
-`Warunkowo gotowy`, or `Niegotowy` values as `polowanie na usterki`.
+Its `Werdykt` paragraph takes the same `Gotowy`, `Warunkowo gotowy`,
+or `Niegotowy` values as `polowanie na usterki`.
 
-An optional appendix
-heading renders `Załącznik <litera>: <tytuł>`.
+An optional appendix heading renders `Załącznik <litera>: <tytuł>`.
 
-The `Rejestr wykonania` `Wynik` column carries
-`OK`, `Niezaliczony`, `Błąd`, `Zablokowany`, `Pominięty`, `Nieuruchomiony`, or `N/D` -
-the masculine forms agree with `wynik`.
+The `Rejestr wykonania` `Wynik` column carries `OK`, `Niezaliczony`, `Błąd`, `Zablokowany`,
+`Pominięty`, `Nieuruchomiony`, or `N/D` - the masculine forms agree with `wynik`.
 
-The `Dyspozycja` column carries `Zaplanowana`,
-`Odroczona`, `Zaakceptowana - brak działania`, or `Nierozstrzygnięta`.
+The `Dyspozycja` column carries `Zaplanowana`, `Odroczona`, `Zaakceptowana - brak działania`,
+or `Nierozstrzygnięta`.
 
-A `Poziom dowodu`
-field takes `Źródło`, `Model`, `Aplikacja`, `Wdrożenie`, or `Nieznany`, and a permitted-use
-profile renders `laboratoryjny`, `kontrolowane udostępnienie`, or `produkcyjny`.
+A `Poziom dowodu` field takes `Źródło`, `Model`, `Aplikacja`, `Wdrożenie`, or `Nieznany`,
+and a permitted-use profile renders `laboratoryjny`, `kontrolowane udostępnienie`, or `produkcyjny`.
 
-The summary `Wynik` column header never renders `Rezultat` - `Rezultat` maps `Outcome`
-in criteria and conformance tables, not the findings-summary `Result` header.
+The summary `Wynik` column header never renders `Rezultat` - `Rezultat` maps `Outcome` in criteria
+and conformance tables, not the findings-summary `Result` header.
 
-A `Podstawa pochodzenia` field takes `Wskazana`, never `Wskazane` - the governed forms
-are feminine.
+A `Podstawa pochodzenia` field takes `Wskazana`, never `Wskazane` - the governed forms are feminine.
 
 ## Validation Protocol
 
@@ -1977,25 +1965,23 @@ are feminine.
 | Conditional sections     | Sekcje warunkowe            |
 | Formatting               | Formatowanie                |
 
-`Zastosowany` is the only governed PAR result token - the impersonal `Zastosowano`
-never appears.
+`Zastosowany` is the only governed PAR result token - the impersonal `Zastosowano` never appears.
 
 The `Protokół walidacji` carries rows `PAR-1` through `PAR-20` in fixed order.
 
-`PAR-18` renders `N/D` under `Styl raportu: polowanie na usterki` or `przegląd` - neither
-style carries a `Klasyfikacja zaleceń` section, and `PAR-20` renders `N/D` under
-`polowanie na usterki`, which never runs the structure assessment.
+`PAR-18` renders `N/D` under `Styl raportu: polowanie na usterki` or `przegląd` - neither style
+carries a `Klasyfikacja zaleceń` section, and `PAR-20` renders `N/D` under `polowanie na usterki`,
+which never runs the structure assessment.
 
-A Polish report mirrors the English Validation Protocol row for row - the same checks in
-the same order, no rows added or dropped, and check names and justifications rendered in
-Polish.
+A Polish report mirrors the English Validation Protocol row for row - the same checks in the same
+order, no rows added or dropped, and check names and justifications rendered in Polish.
 
-Rows that record a language-dependent check are re-evaluated for the report
-language, not mirrored verbatim: `PAR-16` renders `Zastosowany` with evidence such as
+Rows that record a language-dependent check are re-evaluated for the report language,
+not mirrored verbatim: `PAR-16` renders `Zastosowany` with evidence such as
 `Język raportu to polski. Zastosowano kontrakt językowy` - never a literal `N/A`.
 
-Tool names in evidence text stay as the English record names them
-(`lint-prose.py`, `validate-report.py`, `format-table.py`).
+Tool names in evidence text stay as the English record names them (`lint-prose.py`,
+`validate-report.py`, `format-table.py`).
 
 Polish-language quality checks run as pre-delivery gates and never earn report rows.
 
@@ -2003,21 +1989,22 @@ The tool map is explicit about which file each gate applies to:
 
 - a spell-check pass over the rendered Polish text,
 - `scripts/lint-polish.py` reporting zero errors - run it with
-  `--rules <path to translations/polish-language.md>` whenever the script executes as a
-  `.tmp.` copy outside the skill repository, or the calque tables never load,
-- `scripts/check-translation.py` reporting zero errors - it covers summary-table title
-  agreement against `### FND-...`/`### REC-...` headings, reconciliation of register counts
-  in prose against the tables, and the sentence-length review against Style Rules,
+  `--rules <path to translations/polish-language.md>` whenever the script executes as a `.tmp.` copy
+  outside the skill repository, or the calque tables never load,
+- `scripts/check-translation.py` reporting zero errors - it covers summary-table title agreement
+  against `### FND-...` / `### REC-...` headings,
+  reconciliation of register counts in prose against the tables,
+  and the sentence-length review against Style Rules,
 - `scripts/map-translation.py` with `--rules` producing the English-mapped copy,
-  then `scripts/validate-report.py` reporting zero issues on that copy - the validator
-  never runs on a translated report directly and exits with guidance instead,
-- `scripts/format-table.py` runs on the English source - on the translation run it with
-  `--check` first, and when the source carries a table geometry quirk, mirror it and
-  note the intentional deviation in the parity evidence row.
+  then `scripts/validate-report.py` reporting zero issues on that copy - the validator never runs on
+  a translated report directly and exits with guidance instead,
+- `scripts/format-table.py` runs on the English source - on the translation run it with `--check`
+  first, and when the source carries a table geometry quirk,
+  mirror it and note the intentional deviation in the parity evidence row.
 
-Where a row records translation parity, its evidence states `tokeny maszynowe
-przetłumaczone, parytet strukturalny zachowany` - never a claim of preserved English
-tokens, which the Polish token vocabulary contradicts.
+Where a row records translation parity, its evidence states
+`tokeny maszynowe przetłumaczone, parytet strukturalny zachowany` - never a claim of preserved
+English tokens, which the Polish token vocabulary contradicts.
 
 ## Threat Model
 
@@ -2030,10 +2017,9 @@ tokens, which the Polish token vocabulary contradicts.
 | Control            | Środek ograniczający |
 | Finding            | Ustalenie            |
 
-Bold lead-in labels that name each threat in narrative paragraphs
-(for example `**Token forgery**` or `**Session context bleed**`) are translated
-like table cells - `**Podszycie tokenu**` - keeping the bold markup and
-sentence-case Polish.
+Bold lead-in labels that name each threat in narrative paragraphs (for example `**Token forgery**`
+or `**Session context bleed**`) are translated like table cells - `**Podszycie tokenu**` - keeping
+the bold markup and sentence-case Polish.
 
 ## API Contract Conformance
 
@@ -2055,8 +2041,8 @@ sentence-case Polish.
 
 ## Evidence And Decision Terms
 
-Translate prose labels below, while preserving machine tokens such as `EVD-001`, CWE IDs, CVSS
-vectors, tool commands, and execution-state codes.
+Translate prose labels below, while preserving machine tokens such as `EVD-001`, CWE IDs,
+CVSS vectors, tool commands, and execution-state codes.
 
 | English                      | Polish                            |
 |------------------------------|-----------------------------------|
@@ -2131,8 +2117,8 @@ Record identifiers, CWE IDs, CVSS vectors, tool commands, and code stay unchange
 
 ## Structure Review
 
-The structure review content defined in `process/report-format/structure-review.md` renders
-in Polish with the mappings below.
+The structure review content defined in `process/report-format/structure-review.md` renders in
+Polish with the mappings below.
 
 | English                     | Polish                        |
 |-----------------------------|-------------------------------|
@@ -2166,9 +2152,10 @@ in Polish with the mappings below.
 | Rationale                   | Uzasadnienie                  |
 | Addresses                   | Odnosi się do                 |
 
-Verdict cells in the `Werdykt` column render `Zaliczony`, `Częściowo`, or `Niezaliczony`
-for `Passed`, `Partially`, and `Failed`, and `FND-STR-` identifiers stay unchanged.
+Verdict cells in the `Werdykt` column render `Zaliczony`, `Częściowo`,
+or `Niezaliczony` for `Passed`, `Partially`, and `Failed`,
+and `FND-STR-` identifiers stay unchanged.
 
-A `przegląd` request scoped to a change set - a commit range, pull or merge request, or
-branch diff - produces a standard review-style report scoped to that change set, with the
-range recorded in the `Zakres przeglądu` row of `Informacje o dokumencie`.
+A `przegląd` request scoped to a change set - a commit range, pull or merge request,
+or branch diff - produces a standard review-style report scoped to that change set,
+with the range recorded in the `Zakres przeglądu` row of `Informacje o dokumencie`.

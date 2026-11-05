@@ -3,21 +3,21 @@
 ## Purpose
 
 > **Scope:** The canonical evidence kinds, outcome states, record fields, sufficiency rules,
-> advisory states, and coverage labels used by the audit model
-> **Key items:** `DECLARED`, `INSPECTED`, `STATICALLY_DERIVED`, `EXECUTED`, `MEASURED`,
-> `CORROBORATED`, outcome vocabulary, claim sufficiency, advisory states, coverage labels
+> advisory states, and coverage labels used by the audit model **Key items:** `DECLARED`,
+> `INSPECTED`, `STATICALLY_DERIVED`, `EXECUTED`, `MEASURED`, `CORROBORATED`, outcome vocabulary,
+> claim sufficiency, advisory states, coverage labels
 
 This file defines the evidence vocabulary the audit model uses, per `process/audit-model.md`.
 
-It answers two questions for every claim: what kind of observation supports it, and what that
-kind can and cannot establish.
+It answers two questions for every claim: what kind of observation supports it,
+and what that kind can and cannot establish.
 
 Apply `principles/evaluation-rules.md` throughout.
 
-The report-level `Basis` vocabulary (`inspected`, `reported`, `inferred`, `executed`) and the
-ledger `Observation`/`Concern` tags stay unchanged - the kinds below are the analytic layer
-recorded in the audit model and cited in finding `Evidence` fields, with the mapping defined
-here.
+The report-level `Basis` vocabulary (`inspected`, `reported`, `inferred`, `executed`)
+and the ledger `Observation` / `Concern` tags stay unchanged - the kinds below are the analytic
+layer recorded in the audit model and cited in finding `Evidence` fields,
+with the mapping defined here.
 
 ## Contents
 
@@ -26,10 +26,10 @@ here.
 | Evidence Kinds                   | 36   | What each kind can and cannot establish            |
 | Outcome States                   | 71   | Per-criteria result vocabulary                     |
 | Evidence Records                 | 96   | Required fields and redaction rules                |
-| Supplied And Historical Evidence | 138  | Reuse rules for prior artifacts                    |
-| Coverage And Collection          | 148  | Inventory, classification, and sampling discipline |
-| Claim Sufficiency                | 165  | What verification each claim type requires         |
-| Closure Rules                    | 183  | What may and may not close a criteria entry        |
+| Supplied And Historical Evidence | 137  | Reuse rules for prior artifacts                    |
+| Coverage And Collection          | 147  | Inventory, classification, and sampling discipline |
+| Claim Sufficiency                | 164  | What verification each claim type requires         |
+| Closure Rules                    | 182  | What may and may not close a criteria entry        |
 | Advisory States                  | 198  | Dependency-advisory vocabulary                     |
 | Coverage Labels                  | 219  | Criteria-coverage label vocabulary                 |
 
@@ -46,8 +46,8 @@ here.
 
 The kinds are not one universal ranking.
 
-Full source and module inspection may satisfy a structural claim, while a performance claim
-normally needs measurement.
+Full source and module inspection may satisfy a structural claim,
+while a performance claim normally needs measurement.
 
 Two statements copied from one source are not independent corroboration.
 
@@ -62,11 +62,11 @@ Two statements copied from one source are not independent corroboration.
 | `MEASURED`           | `executed`     | Observation | `EXECUTED` with workload and condition fields      |
 | `CORROBORATED`       | `inferred`     | Concern     | Names the independent observations combined        |
 
-Under `source-only` evidence mode only `DECLARED`, `INSPECTED`, `STATICALLY_DERIVED`, and
-`CORROBORATED` may appear.
+Under `source-only` evidence mode only `DECLARED`, `INSPECTED`, `STATICALLY_DERIVED`,
+and `CORROBORATED` may appear.
 
-`EXECUTED` and `MEASURED` require `executed-readonly` or `executed-commands` per the evidence
-mode rules, or they arrive as `DECLARED`/`Reported` artifacts produced outside the audit.
+`EXECUTED` and `MEASURED` require `executed-readonly` or `executed-commands` per the evidence mode
+rules, or they arrive as `DECLARED` / `Reported` artifacts produced outside the audit.
 
 ## Outcome States
 
@@ -85,8 +85,8 @@ Every criteria result uses exactly one of these states:
 
 `NOT_ASSESSED` and `NOT_APPLICABLE` both require a recorded reason.
 
-The mapping to report markers is `PASS`/`FAIL`/`PARTIAL`/`UNKNOWN`/`N/A` unchanged, with
-`NOT_ASSESSED` rendered as `Not assessed` and `NOT_APPLICABLE` rendered as `N/A` where the
+The mapping to report markers is `PASS` / `FAIL` / `PARTIAL` / `UNKNOWN` / `N/A` unchanged,
+with `NOT_ASSESSED` rendered as `Not assessed` and `NOT_APPLICABLE` rendered as `N/A` where the
 report vocabulary requires it.
 
 Executed-procedure rows keep their own runner vocabulary (`PASS`, `FAIL`, `ERROR`, `BLOCKED`,
@@ -95,8 +95,7 @@ outcome, and `NOT RUN` never counts toward `PASS`.
 
 ## Evidence Records
 
-Every material observation or procedure in `audit-model.json` carries a record with these
-fields:
+Every material observation or procedure in `audit-model.json` carries a record with these fields:
 
 | Field         | Required content                                                      |
 |---------------|-----------------------------------------------------------------------|
@@ -132,26 +131,26 @@ Favorable claims carry the same record discipline as unfavorable ones.
 
 Never retain raw credentials, tokens, passwords, or keys in records, snippets, or logs.
 
-A redacted example still demonstrates the mechanism - record `[REDACTED]` in place of the
-value per `principles/evaluation-rules.md`.
+A redacted example still demonstrates the mechanism - record `[REDACTED]` in place of the value per
+`principles/evaluation-rules.md`.
 
 ## Supplied And Historical Evidence
 
-A committed or supplied artifact (CI output, scan result, prior report, coverage export) keeps
-its original revision and environment in the record.
+A committed or supplied artifact (CI output, scan result, prior report, coverage export)
+keeps its original revision and environment in the record.
 
 Reuse it only after checking it remains relevant to the current claim.
 
-It is `DECLARED`/`Reported` evidence regardless of who produced it, and it is never relabeled
-as executed during the current audit.
+It is `DECLARED` / `Reported` evidence regardless of who produced it,
+and it is never relabeled as executed during the current audit.
 
 ## Coverage And Collection
 
 Inventory all in-scope source files before sampling.
 
 Classify each file as production code, unit or integration test, test support, generated code,
-vendored code, example, or script - `scripts/scan-structure.py` additionally separates the
-non-code classes doc, config, asset, and other inside the same `inventory[]` records.
+vendored code, example, or script - `scripts/scan-structure.py` additionally separates the non-code
+classes doc, config, asset, and other inside the same `inventory[]` records.
 
 Record excluded and unread files explicitly in `inventory[]` and the Scope Exclusions section.
 
@@ -186,14 +185,15 @@ A criteria entry closes only on evidence that establishes its intended postcondi
 
 A warning can close a visibility criteria entry, such as "the risk is disclosed to the operator".
 
-A warning cannot close a prevention criteria entry, such as "no secret reaches the process argument
-list", unless an authorized owner explicitly accepts it as a compensating control - and the
-residual exposure is then recorded, not erased.
+A warning cannot close a prevention criteria entry,
+such as "no secret reaches the process argument list",
+unless an authorized owner explicitly accepts it as a compensating control - and the residual
+exposure is then recorded, not erased.
 
 A "not run" control never appears as successful verification.
 
-Formal acceptance changes a risk's disposition, not its technical effectiveness, and never
-earns remediation credit.
+Formal acceptance changes a risk's disposition, not its technical effectiveness,
+and never earns remediation credit.
 
 ## Advisory States
 
@@ -207,12 +207,12 @@ Dependency-advisory cells and records use exactly these states:
 | `NONE_IDENTIFIED_BY_RECORDED_SCAN` | A recorded scan or check found no advisory for the component     |
 | `NOT_CHECKED`                      | No advisory source was consulted for the component               |
 
-The SBOM `Advisory` column renders the compact forms `Applicable`, `Mitigated`,
-`Not applicable`, `None identified`, and `Not checked`.
+The SBOM `Advisory` column renders the compact forms `Applicable`, `Mitigated`, `Not applicable`,
+`None identified`, and `Not checked`.
 
-Every non-`NOT_CHECKED` state records its provenance - which scan, advisory artifact, or
-inspection established it - and `KNOWN_MITIGATED`/`KNOWN_NOT_APPLICABLE` carry the mitigation or
-disabling evidence.
+Every non- `NOT_CHECKED` state records its provenance - which scan, advisory artifact,
+or inspection established it - and `KNOWN_MITIGATED` / `KNOWN_NOT_APPLICABLE` carry the mitigation
+or disabling evidence.
 
 `NOT_CHECKED` is a disclosed gap, never silently upgraded to `NONE_IDENTIFIED_BY_RECORDED_SCAN`.
 
@@ -229,9 +229,8 @@ Criteria-coverage reporting uses exactly these labels:
 
 Broad engagement labels always disclose the evidence mode beside them.
 
-A static source review is not a penetration test, and an embedding-component review is not an
-organizational AI-governance assessment.
+A static source review is not a penetration test,
+and an embedding-component review is not an organizational AI-governance assessment.
 
-The Audit Coverage matrix keeps its own type-level vocabulary per
-`references/audit-taxonomy.md` - these labels describe criteria coverage, not engagement
-coverage.
+The Audit Coverage matrix keeps its own type-level vocabulary per `references/audit-taxonomy.md` -
+these labels describe criteria coverage, not engagement coverage.

@@ -2,8 +2,8 @@
 
 ## Purpose
 
-> **Scope:** Feature flags, ADR usage, release governance
-> **Key items:** controlled rollout, recorded decisions, change approval, traceability
+> **Scope:** Feature flags, ADR usage, release governance **Key items:** controlled rollout,
+> recorded decisions, change approval, traceability
 
 This file guides assessment of how changes are introduced, recorded, and governed.
 
@@ -14,48 +14,47 @@ Assess processes and artifacts, not the people who run them.
 ## What To Evaluate
 
 - Feature flags: whether changes can be enabled and disabled without redeploying.
-- Architecture decision records: whether significant decisions are recorded with context and
-  consequences.
+- Architecture decision records: whether significant decisions are recorded with
+  context and consequences.
 - Change-record lifecycle: whether change requests and their implementation plans are separate
-  records paired by a shared identifier, and whether executed changes carry an outcome or
-  completion record rather than staying permanently open.
-- Proportional thresholds: whether the governance policy records which changes are exempt from
-  the full record path. A recorded exemption for small fixes is governance, an unrecorded gap
-  is not.
-- Reserved decisions: whether the set records which calls stay with a human - commit
-  authorship, version bumps, release-baseline selection - rather than leaving authority
-  implicit.
+  records paired by a shared identifier, and whether executed changes carry an outcome or completion
+  record rather than staying permanently open.
+- Proportional thresholds: whether the governance policy records which changes are exempt from the
+  full record path. A recorded exemption for small fixes is governance, an unrecorded gap is not.
+- Reserved decisions: whether the set records which calls stay with a human - commit authorship,
+  version bumps, release-baseline selection - rather than leaving authority implicit.
 - Release governance: how changes are reviewed, approved, and traced to requirements.
-- Release versioning: whether manifest versions advance over the observed history and releases
-  carry tags. A long commit window under a static version with no tags is an evidenced
-  release-discipline gap, not merely absent release data - report it as a finding rather than
-  folding it into a `NOT SPECIFIED` delivery row.
+- Release versioning: whether manifest versions advance over the observed history and releases carry
+  tags. A long commit window under a static version with no tags is an evidenced release-discipline
+  gap, not merely absent release data - report it as a finding rather than folding it into a
+  `NOT SPECIFIED` delivery row.
 
 ## Evidence To Look For
 
-| Signal              | Where It Appears                                 |
-|---------------------|--------------------------------------------------|
-| Feature flag system | Flag configuration, flag libraries, toggles      |
-| Decision records    | ADR directory, design docs, recorded rationale   |
-| Change records      | Change-request directories, per-change status    |
-| Plan pairing        | Implementation plans sharing the change's number |
-| Outcome records     | Completion or status fields on executed changes  |
-| Reserved decisions  | Recorded human-only commit, version, baseline    |
-| Change review       | Pull request templates, review rules, approvals  |
-| Traceability        | Links between changes and requirements or issues |
-| Changelog           | Maintained changelog or release notes            |
+| Signal              | Where It Appears                                    |
+|---------------------|-----------------------------------------------------|
+| Feature flag system | Flag configuration, flag libraries, toggles         |
+| Decision records    | ADR directory, design docs, recorded rationale      |
+| Change records      | Change-request directories, per-change status       |
+| Plan pairing        | Implementation plans sharing the change's number    |
+| Outcome records     | Completion or status fields on executed changes     |
+| Reserved decisions  | Recorded human-only commit, version, baseline       |
+| Change review       | Pull request templates, review rules, approvals     |
+| Traceability        | Links between changes and requirements or issues    |
+| Changelog           | Maintained changelog or release notes               |
 | Version progression | Manifest version changes, git tags, release commits |
 
-When per-change documentation exists but is not rolled into one changelog file, cite
-[Keep a Changelog](https://keepachangelog.com/) as the target format and note the gap explicitly
-rather than describing the existing per-change documents as sufficient.
+When per-change documentation exists but is not rolled into one changelog file,
+cite [Keep a Changelog](https://keepachangelog.com/)
+as the target format and note the gap explicitly rather than describing the existing per-change
+documents as sufficient.
 
 ## Status Criteria
 
-- `PASS`: Changes are controlled by flags where useful, significant decisions are recorded, and a
-  governed review path exists, with evidence.
-- `PARTIAL`: Some governance exists but decisions are undocumented, flags are absent, or review is
-  inconsistent.
+- `PASS`: Changes are controlled by flags where useful, significant decisions are recorded,
+  and a governed review path exists, with evidence.
+- `PARTIAL`: Some governance exists but decisions are undocumented, flags are absent,
+  or review is inconsistent.
 - `FAIL`: No change control where it is clearly required, with evidence of absence.
 - `UNKNOWN`: Change-management artifacts were not provided.
 
@@ -65,8 +64,8 @@ rather than describing the existing per-change documents as sufficient.
 - Undocumented decisions are re-litigated and lost as staff changes.
 - Unreviewed changes raise the rate of defects reaching production.
 - Lack of traceability makes it hard to tie a defect to its originating change.
-- Static versions and untagged releases make every build indistinguishable and defeat rollback
-  targeting.
+- Static versions and untagged releases make every build indistinguishable and
+  defeat rollback targeting.
 
 ## What Raises Confidence
 
@@ -93,19 +92,20 @@ records Title, Status, Context, Decision, and Consequences.
 
 Alternatives are a useful extension, not a mandatory field in the original format.
 
-Accept equivalent decision records in existing documentation rather than requiring a particular
-tool.
+Accept equivalent decision records in existing documentation rather than
+requiring a particular tool.
 
-Keep superseded decisions linked to their replacements and distinguish proposed decisions from
-accepted ones.
+Keep superseded decisions linked to their replacements and distinguish proposed
+decisions from accepted ones.
 
 **What to evaluate**
 
-- Whether a decisions directory exists (for example, `docs/decisions/`, `docs/adr/`) and contains
-  ADRs.
-- Which significant decisions lack a recorded rationale. List the decisions that should have been
-  recorded, for example: choice of data store, choice of web framework, state management model, key
-  algorithm weightings, and the authentication model.
+- Whether a decisions directory exists (for example, `docs/decisions/`,
+  `docs/adr/`) and contains ADRs.
+- Which significant decisions lack a recorded rationale.
+  List the decisions that should have been recorded, for example: choice of data store,
+  choice of web framework, state management model, key algorithm weightings,
+  and the authentication model.
 - Whether the recorded decisions match the implemented system.
 
 **Render as**
@@ -113,8 +113,8 @@ accepted ones.
 Render the ADR gap as a subsection of the Architectural Assessment per
 `process/report-format/architectural-assessment.md`.
 
-Present a table of decisions that should have an ADR, each marked `RECORDED` or `MISSING`, anchored
-to the file or code that embodies the decision.
+Present a table of decisions that should have an ADR, each marked `RECORDED` or `MISSING`,
+anchored to the file or code that embodies the decision.
 
 **Interaction with AI provenance**
 
@@ -122,19 +122,19 @@ Missing rationale limits confidence in a decision regardless of code origin.
 
 Do not infer an AI default or raise severity from style-based provenance signals.
 
-Cross-reference `assessment/generated-code.md` only when explicit provenance evidence is
-relevant, and qualify it with the tier vocabulary in
-`references/methodology/ai-provenance.md` - `Declared` or `Attested` attribution evidence
-supports a provenance statement, `Indicated` and `Supplied` only support a qualified one.
+Cross-reference `assessment/generated-code.md` only when explicit provenance evidence is relevant,
+and qualify it with the tier vocabulary in `references/methodology/ai-provenance.md` - `Declared` or
+`Attested` attribution evidence supports a provenance statement,
+`Indicated` and `Supplied` only support a qualified one.
 
-For technical due diligence, compare roadmap commitments with documented prerequisites, integration
-constraints, deprecation plans, and supplied capacity estimates.
+For technical due diligence, compare roadmap commitments with documented prerequisites,
+integration constraints, deprecation plans, and supplied capacity estimates.
 
 Do not infer delivery capacity from commit counts or issue counts.
 
 **Status**
 
-Use `PASS` when significant decisions are recorded and current, `PARTIAL` when some are recorded but
-key ones are missing, `FAIL` when no decisions are recorded for a production system with clearly
-significant choices, and `N/A` for a trivial system where no architectural decision rises to the
-level of an ADR.
+Use `PASS` when significant decisions are recorded and current,
+`PARTIAL` when some are recorded but key ones are missing,
+`FAIL` when no decisions are recorded for a production system with clearly significant choices,
+and `N/A` for a trivial system where no architectural decision rises to the level of an ADR.

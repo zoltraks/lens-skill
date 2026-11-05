@@ -2,8 +2,8 @@
 
 ## Purpose
 
-> **Scope:** The report-table schema for the per-project Software Bill of Materials section
-> **Key items:** column contract, license and advisory fields, completeness touchstone,
+> **Scope:** The report-table schema for the per-project Software Bill of Materials section **Key
+> items:** column contract, license and advisory fields, completeness touchstone,
 > source-derived disclaimer
 
 This file defines the table shape of the Software Bill of Materials section in
@@ -43,23 +43,25 @@ A lockfile entry proves resolution intent, not what a released binary or contain
 
 ## Rules
 
-- Populate `License` only from inspected declarations: a `license` field in the manifest, a
-  vendored `LICENSE` or `NOTICE` file inside the component, or a lockfile license field where the
-  format carries one. Registry knowledge and typical-license guesses are not evidence, mark
-  `Unknown` instead.
-- `Risk` follows `references/license-compliance.md`: `Conflict` for a
-  copyleft-versus-distribution clash, `Review` for licenses needing legal attention, `Unknown`
-  when the license itself is unknown, `None` otherwise.
+- Populate `License` only from inspected declarations: a `license` field in the manifest,
+  a vendored `LICENSE` or `NOTICE` file inside the component,
+  or a lockfile license field where the format carries one.
+  Registry knowledge and typical-license guesses are not evidence, mark `Unknown` instead.
+- `Risk` follows `references/license-compliance.md`:
+  `Conflict` for a copyleft-versus-distribution clash,
+  `Review` for licenses needing legal attention, `Unknown` when the license itself is
+  unknown, `None` otherwise.
 - `Advisory` uses the five states from `references/evidence-schema.md` Advisory States.
-  `Not checked` is the default - an upgrade to any other state requires committed
-  vulnerability or scan output, or inspection evidence for `Mitigated`/`Not applicable`,
-  and every non-`Not checked` state records its provenance. Naming an advisory database is
-  not checking it.
-- `Unknown` licenses are expected, most manifest formats do not declare dependency licenses. A
-  high `Unknown` count is itself a license-compliance finding input, not a table defect.
+  `Not checked` is the default - an upgrade to any other state requires committed vulnerability or
+  scan output, or inspection evidence for `Mitigated` / `Not applicable`,
+  and every non- `Not checked` state records its provenance.
+  Naming an advisory database is not checking it.
+- `Unknown` licenses are expected, most manifest formats do not declare dependency licenses.
+  A high `Unknown` count is itself a license-compliance finding input, not a table defect.
 - Count direct and transitive components separately and report both totals under the table.
-- Cap a long table: show direct components in full, summarize transitive components by count and
-  notable entries, and record full totals in the evidence ledger.
+- Cap a long table: show direct components in full,
+  summarize transitive components by count and notable entries,
+  and record full totals in the evidence ledger.
 - Record every manifest and lockfile read as an `Inspected` evidence row.
 
 ## Completeness Touchstone
@@ -67,16 +69,16 @@ A lockfile entry proves resolution intent, not what a released binary or contain
 Use the current CISA Minimum Elements for an SBOM as a completeness reference when judging how much
 of a real SBOM the table approximates.
 
-The CISA baseline (2026 edition per
-`references/methodology/sbom-licensing.md`) names these data fields: supplier name, component
-name, component version, unique identifiers, dependency relationship, SBOM author, and
-timestamp - plus automation-support and practices guidance.
+The CISA baseline (2026 edition per `references/methodology/sbom-licensing.md`)
+names these data fields: supplier name, component name, component version, unique identifiers,
+dependency relationship, SBOM author, and timestamp - plus automation-support
+and practices guidance.
 
 The 2026 edition makes Component License a minimum element,
 which is why `Unknown` license cells are surfaced rather than silently omitted.
 
-The CycloneDX component model distinguishes what the table records (name, version, license, and
-the `direct`/`transitive` totals split) from what a generated SBOM adds:
+The CycloneDX component model distinguishes what the table records (name, version, license,
+and the `direct` / `transitive` totals split) from what a generated SBOM adds:
 component `type` (`library`, `application`, `framework`, `container`, `operating-system`),
 `purl` identifiers, hashes, and the separate `dependencies` graph.
 

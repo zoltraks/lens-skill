@@ -2,9 +2,8 @@
 
 ## Purpose
 
-> **Scope:** Canonical counting methods for recurring audit censuses
-> **Key items:** git history, author concentration, conditional directives, catch clauses,
-> test inventory, tracked artifacts
+> **Scope:** Canonical counting methods for recurring audit censuses **Key items:** git history,
+> author concentration, conditional directives, catch clauses, test inventory, tracked artifacts
 
 This file defines the standard measurement for each recurring census an audit reports.
 
@@ -15,11 +14,12 @@ A census figure without its counting rule is not comparable across reports.
 
 ## Recording Rule
 
-For every census number in a report, the ledger note names the command or pattern and the
-denominator.
+For every census number in a report, the ledger note names the command or pattern
+and the denominator.
 
-When the previous report used a different method, restate the figure under the canonical method
-and record the change as an evidence correction per `synthesis/report-comparison.md`.
+When the previous report used a different method,
+restate the figure under the canonical method and record the change as an evidence correction per
+`synthesis/report-comparison.md`.
 
 ## Snapshot Identity
 
@@ -32,8 +32,8 @@ and record the change as an evidence correction per `synthesis/report-comparison
 
 These values feed Document Information.
 
-Every claim in the report binds to this snapshot, and a re-audit on a different snapshot is a
-different tree until proven otherwise.
+Every claim in the report binds to this snapshot,
+and a re-audit on a different snapshot is a different tree until proven otherwise.
 
 ## Git History
 
@@ -55,8 +55,8 @@ Author concentration uses the non-merge denominator.
 
 State which count a figure uses wherever it appears, the total includes merges.
 
-The subject-quality, commit-size, divergence, and merge-noise censuses feed the History
-Hygiene block in `references/delivery-practice.md`.
+The subject-quality, commit-size, divergence,
+and merge-noise censuses feed the History Hygiene block in `references/delivery-practice.md`.
 
 ## Conditional Directives
 
@@ -69,8 +69,7 @@ Count `#if`-family directives with a stated inclusion rule.
 | `#else`   | State whether counted             |
 | `#endif`  | Never counted as a directive site |
 
-The reported figure names the directives included, for example
-"167 `#if` plus 19 `#elif`/`#else`".
+The reported figure names the directives included, for example "167 `#if` plus 19 `#elif`/`#else`".
 
 ## Catch Clauses
 
@@ -104,15 +103,15 @@ Distinguish attributed test classes from all source files, they are different co
 
 Count declarations, not keyword mentions.
 
-A keyword such as `interface`, `class`, or `public` appears in comments, strings, and member
-names besides declarations.
+A keyword such as `interface`, `class`, or `public` appears in comments, strings,
+and member names besides declarations.
 
 Use a declaration-shaped pattern or an explicit enumeration of declaring lines.
 
 ## Identifier Shape Census
 
-The code-style census classifies every declaration in a partition by casing shape, per
-`assessment/code-style.md`.
+The code-style census classifies every declaration in a partition by casing shape,
+per `assessment/code-style.md`.
 
 | Step            | Method                                                                                                                                             |
 |-----------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -168,36 +167,36 @@ Each is a search pattern or file enumeration, never an executed build or test.
 
 Count what the probe counts and record the pattern beside the figure.
 
-The secret-shape scan sweeps the whole tracked tree regardless of which projects the
-inclusion gate selected - exposure in an excluded example, test, or docs directory is still a
-finding in the audited tree.
+The secret-shape scan sweeps the whole tracked tree regardless of which projects the inclusion gate
+selected - exposure in an excluded example, test,
+or docs directory is still a finding in the audited tree.
 
-A probe result is a candidate set - each candidate is confirmed by reading the file before it
-becomes a finding.
+A probe result is a candidate set - each candidate is confirmed by reading the file before
+it becomes a finding.
 
 ## Attribution Census
 
 The attribution census counts agent-attributed commits, not agent-written code.
 
 Scan author names, author emails, and trailer lines against the signature table in
-`references/methodology/ai-provenance.md`, count matches per tool, and report each count
-beside the non-merge total.
+`references/methodology/ai-provenance.md`, count matches per tool,
+and report each count beside the non-merge total.
 
-Merge commits carrying a bot author identity are counted separately - a bot-authored
-merge is an attributed integration, not an attributed change.
+Merge commits carrying a bot author identity are counted separately - a bot-authored merge is an
+attributed integration, not an attributed change.
 
 Author and committer identities outrank trailers when the two disagree.
 
-Squash merges and history rewrites erase trailers, and attribution is opt-out, so the
-census is a floor: report attributed counts, never a "percentage human" remainder.
+Squash merges and history rewrites erase trailers, and attribution is opt-out,
+so the census is a floor: report attributed counts, never a "percentage human" remainder.
 
-The figure feeds the provenance assessment in `assessment/generated-code.md` and excludes
-automation identities (`github-actions[bot]`, `dependabot[bot]`, release bots) that mark
-machine-driven changes rather than generative authorship.
+The figure feeds the provenance assessment in `assessment/generated-code.md` and excludes automation
+identities (`github-actions[bot]`, `dependabot[bot]`, release bots)
+that mark machine-driven changes rather than generative authorship.
 
 ## Anchor Precision
 
 Anchor every observation to a file and line range.
 
-When no single line carries the defect, describe the mechanism and give the nearest anchor, an
-honest range beats a fabricated line.
+When no single line carries the defect, describe the mechanism and give the nearest anchor,
+an honest range beats a fabricated line.
