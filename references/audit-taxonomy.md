@@ -27,6 +27,10 @@ The Coverage Matrix uses exactly these statuses, and no others:
 
 `NOT DONE` declares a scope decision about an engagement kind, never a defect of the subject.
 
+The taxonomy vocabulary is uppercase, but Status cells render title case like every other
+report vocabulary - `Covered`, `Partially`, `Not done` - and `NOT APPLICABLE` rows are
+omitted entirely.
+
 `NOT APPLICABLE` differs: the type's trigger condition is absent entirely, for example an AI
 Governance Audit for a project with no AI dependency, and a row carrying it is never rendered.
 

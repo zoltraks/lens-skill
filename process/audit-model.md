@@ -23,9 +23,9 @@ records live in `references/criterion-catalogue.md`.
 |-------------------------|------|--------------------------------------------------|
 | Pipeline Stages         | 30   | The nine stages and their publication conditions |
 | The Model Artifact      | 48   | `work/audit-model.json` schema and lifecycle     |
-| Derivation Rule         | 128  | Rendering every surface from the model           |
-| Counter-Evidence Review | 173  | The second-pass challenge discipline             |
-| Publication Stops       | 189  | Errors that block final publication              |
+| Derivation Rule         | 138  | Rendering every surface from the model           |
+| Counter-Evidence Review | 183  | The second-pass challenge discipline             |
+| Publication Stops       | 199  | Errors that block final publication              |
 
 ## Pipeline Stages
 
@@ -112,6 +112,16 @@ Top-level shape:
 ```
 
 `model_version` is `1` for this schema.
+
+Criterion-to-evidence linkage runs through `evidence[].claims` - each evidence record names
+the criterion ids its result supports, and a criterion is scored-relevant only when at least
+one resolved criterion carries `INSPECTED`, `STATICALLY_DERIVED`, `EXECUTED`, or `MEASURED`
+evidence per the eligibility gate in `process/readiness-scoring.md`. A dimension that fails
+the gate omits its `score` and `eligible` fields entirely rather than recording a zero.
+
+Each scored dimension's `interval` records the substitution bounds: `lo` recomputes mastery
+with every unresolved applicable criterion treated as `FAIL`, `hi` treats them as `PASS`,
+and a degenerate interval (`lo` equals `hi`) is omitted.
 
 The `projects[]` scope record carries the intake discovery: each project's provenance, fetch
 state, pin state, and automation signal census outcome, recorded before criterion planning so

@@ -2201,6 +2201,40 @@
         "Re-audit lifecycle fields `Zmiana`/`Weryfikacja` appear on `### FND-` blocks only - risk blocks never carry them.",
         "Internal link anchors are lowercase slugs with the `#` prefix preserved - no `#SBOM` or space-bearing slugs."
       ]
+    },
+    {
+      "id": 189,
+      "prompt": "Write a lens audit report that uses a custom dimension set like Correctness, Reliability, and Performance in the Scorecard Summary.",
+      "expected_output": "The report keeps the 19 canonical scorecard dimension names in canonical order.",
+      "files": [],
+      "expectations": [
+        "Scorecard Summary and Health Dashboard dimension tables use only the canonical 19 dimension names in canonical order.",
+        "N/A dimensions are omitted from score tables and justified in prose below.",
+        "Score cells render n/m, a star bar, or Unknown with an optional [lo-hi] interval.",
+        "validate-report.py flags non-canonical dimension names and out-of-order rows."
+      ]
+    },
+    {
+      "id": 190,
+      "prompt": "Produce a Health Dashboard section for an audit report.",
+      "expected_output": "A dashboard carrying Risk Map, Scorecard Summary, and Team & Continuity.",
+      "files": [],
+      "expectations": [
+        "The Health Dashboard section contains a Risk Map marker, a Scorecard Summary marker, and a Team & Continuity line.",
+        "The same structure applies per-project inside multi-project reports.",
+        "validate-report.py reports a dashboard missing any of the three markers."
+      ]
+    },
+    {
+      "id": 191,
+      "prompt": "Fill in the Document Information table for a lens report.",
+      "expected_output": "A Document Information table with the canonical field list and a bare Skill Version.",
+      "files": [],
+      "expectations": [
+        "Required rows include Report Revision, Report Date, Report Style, Detail Level, Evaluation Scale, Language, Audit Purpose, Target Environment, Verification Scope, Evidence Mode, Subject Revision, Skill Version, and Time taken.",
+        "Skill Version renders the bare version string like 2.6.6, never prefixed with the skill name.",
+        "No row is empty or carries Not specified, and no non-canonical labels appear."
+      ]
     }
   ]
 }

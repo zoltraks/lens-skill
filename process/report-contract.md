@@ -36,7 +36,7 @@ Rationale and detail live in the section specs under `process/report-format/` an
   and an executed `review`-style report additionally carries an Artifact Manifest.
 - The Audit Coverage table keeps only `Covered`, `Partially`, and `Not done` status
   cells - `Not Applicable` rows are omitted entirely.
-- The Validation Protocol carries rows `PAR-1` through `PAR-27` in fixed order.
+- The Validation Protocol carries rows `PAR-1` through `PAR-33` in fixed order.
 - At `Detail Level: Detailed`, when `## Glossary Index` is present, it carries a separate
   `**Identifier triplets**` table (`Triplet | Scope | Description`) after the alphabetical
   `Term | Definition` index table, starting with `FND` and `EVD`, followed by the other
@@ -121,6 +121,19 @@ English renders title case where the vocabulary lists give canonical uppercase n
   the mean and compares it to every stated `Overall score` row, and they must agree.
 - `Overall score` never appears inside the scorecard table - it lives in the Executive
   Summary key-value table.
+- Every `Dimension | Score` table - each `**Scorecard Summary**` table and every table
+  inside a `Health Dashboard` section - uses only the 19 canonical dimension names, in
+  canonical order with `N/A` rows omitted, and each Score cell renders `n/m`, a star bar,
+  or `Unknown` with an optional `[lo-hi]` interval.
+- Every `Health Dashboard` section - single-project or per-project - carries a `Risk Map`,
+  a `Scorecard Summary`, and a `Team & Continuity` marker (bold label or heading).
+- Document Information rows come from the canonical field list in
+  `process/report-format/report-opening.md`: required rows are `Report Revision`,
+  `Report Date`, `Report Style`, `Detail Level`, `Evaluation Scale`, `Language`,
+  `Audit Purpose`, `Target Environment`, `Verification Scope`, `Evidence Mode`,
+  `Subject Revision`, `Skill Version`, and `Time taken`; `Skill Version` renders the bare
+  version string (for example `2.6.5`), never prefixed with the skill name, and no row
+  carries an empty or `Not specified` value.
 - Every line stating an overall `x.y/n` score needs the word `lowest` within six lines.
 - `N/A` scorecard rows are omitted, never rendered.
 - A Score cell's `n/m` value leads the cell, and an optional `[lo-hi]` uncertainty interval

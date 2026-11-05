@@ -1375,3 +1375,86 @@ class TestDefectScenarios(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestScorecardConformance(unittest.TestCase):
+    def test_noncanonical_dimension_flagged(self):
+        vr = load_script("validate-report.py")
+        text = "**Scorecard Summary**\n\n| Dimension | Score | Notes |\n|---|---|---|\n| Correctness | 7/10 | x |\n| Security | 6/10 | y |\n"
+        fails = vr.check_scorecard_dimensions(text)
+        self.assertTrue(any("Correctness" in f for f in fails))
+
+    def test_out_of_order_dimension_flagged(self):
+        vr = load_script("validate-report.py")
+        text = "**Scorecard Summary**\n\n| Dimension | Score | Notes |\n|---|---|---|\n| API Compatibility | 3/10 | x |\n| Security | 6/10 | y |\n"
+        fails = vr.check_scorecard_dimensions(text)
+        self.assertTrue(any("order" in f for f in fails))
+
+    def test_na_row_flagged_in_dashboard_table(self):
+        vr = load_script("validate-report.py")
+        text = "### Health Dashboard\n\n| Dimension | Score | Basis |\n|---|---|---|\n| Testability | N/A | none |\n"
+        fails = vr.check_scorecard_dimensions(text)
+        self.assertTrue(any("N/A" in f for f in fails))
+
+    def test_interval_cell_accepted(self):
+        vr = load_script("validate-report.py")
+        text = "**Scorecard Summary**\n\n| Dimension | Score | Notes |\n|---|---|---|\n| Scalability | 8/10 [6-8] | x |\n"
+        self.assertEqual(vr.check_scorecard_dimensions(text), [])
+
+
+class TestHealthDashboard(unittest.TestCase):
+    def _report(self, dashboard_body):
+        return ("# R\n\n## Document Information\n\n| | |\n|---|---|\n"
+                + "## Health Dashboard\n\n" + dashboard_body)
+
+    def test_missing_markers_flagged(self):
+        vr = load_script("validate-report.py")
+        fails = vr.check_health_dashboard(self._report("| a | b |\n|---|---|\n"))
+        self.assertEqual(len(fails), 3)
+
+    def test_bold_and_heading_forms_accepted(self):
+        vr = load_script("validate-report.py")
+        body = "**Risk Map**\n\nx\n\n**Scorecard Summary**\n\ny\n\n**Team & Continuity**\n\nz\n"
+        self.assertEqual(vr.check_health_dashboard(self._report(body)), [])
+        body2 = "### Risk Map\n\nx\n\n### Scorecard Summary\n\ny\n\n### Team & Continuity\n\nz\n"
+        self.assertEqual(vr.check_health_dashboard(self._report(body2)), [])
+
+
+class TestDocInfoFields(unittest.TestCase):
+    def _report(self, rows):
+        table = "\n".join(f"| {k} | {v} |" for k, v in rows)
+        return "## Document Information\n\n| | |\n|---|---|\n" + table + "\n"
+
+    REQUIRED = [
+        ("Report Revision", "1.0"), ("Report Date", "2026-01-01"),
+        ("Report Style", "Audit"), ("Detail Level", "Detailed"),
+        ("Evaluation Scale", "1-10"), ("Language", "English"),
+        ("Audit Purpose", "Production readiness"),
+        ("Target Environment", "Self-hosted"),
+        ("Verification Scope", "Static repository analysis"),
+        ("Evidence Mode", "Source-only"),
+        ("Subject Revision", "abc123 (main)"),
+        ("Skill Version", "2.6.5"), ("Time taken", "10:00"),
+    ]
+
+    def test_conforming_table_passes(self):
+        vr = load_script("validate-report.py")
+        self.assertEqual(vr.check_doc_info_fields(self._report(self.REQUIRED)), [])
+
+    def test_missing_required_flagged(self):
+        vr = load_script("validate-report.py")
+        rows = [r for r in self.REQUIRED if r[0] != "Language"]
+        fails = vr.check_doc_info_fields(self._report(rows))
+        self.assertTrue(any("Language" in f for f in fails))
+
+    def test_prefixed_skill_version_flagged(self):
+        vr = load_script("validate-report.py")
+        rows = [(k, "lens-skill" if k == "Skill Version" else v) for k, v in self.REQUIRED]
+        fails = vr.check_doc_info_fields(self._report(rows))
+        self.assertTrue(any("Skill Version" in f for f in fails))
+
+    def test_noncanonical_row_flagged(self):
+        vr = load_script("validate-report.py")
+        rows = self.REQUIRED + [("System type", "Codebase under development")]
+        fails = vr.check_doc_info_fields(self._report(rows))
+        self.assertTrue(any("System type" in f for f in fails))

@@ -899,6 +899,236 @@ SCORECARD_MARKER = re.compile(
 )
 
 
+SCORECARD_DIMENSIONS = [
+    "Testability",
+    "Design Soundness",
+    "Code Quality",
+    "Code Style",
+    "Stack Alignment",
+    "Dependency Health",
+    "Maintainability",
+    "Structure",
+    "Deployability",
+    "Scalability",
+    "Security",
+    "Compliance",
+    "Observability",
+    "Operational Safety",
+    "Delivery & Continuity",
+    "AI Provenance",
+    "Originality & Licensing",
+    "Skill Definition",
+    "API Compatibility",
+]
+
+DOC_INFO_FIELDS = {
+    "Report Revision",
+    "Report Date",
+    "Report Style",
+    "Review Scope",
+    "Detail Level",
+    "Evaluation Scale",
+    "Sentence breaks",
+    "Language",
+    "Translations",
+    "Audit Purpose",
+    "Target Environment",
+    "Verification Scope",
+    "Evidence Mode",
+    "Subject Revision",
+    "Dirty-Tree State",
+    "Skill Version",
+    "Time taken",
+    "Previous Report",
+    "Projects",
+}
+DOC_INFO_REQUIRED = {
+    "Report Revision",
+    "Report Date",
+    "Report Style",
+    "Detail Level",
+    "Evaluation Scale",
+    "Language",
+    "Audit Purpose",
+    "Target Environment",
+    "Verification Scope",
+    "Evidence Mode",
+    "Subject Revision",
+    "Skill Version",
+    "Time taken",
+}
+
+DASHBOARD_BLOCK = re.compile(r"^#{2,3}\s+Health Dashboard\s*$", re.MULTILINE)
+SCORE_VALUE = re.compile(r"^(?:\d+(?:\.\d+)?/\d+|[★☆]+|Unknown)(?:\s*\[\d+-\d+\])?.*$")
+
+
+def dashboard_sections(text: str) -> list[str]:
+    """Yield the body of every `##`/`### Health Dashboard` section."""
+    blocks: list[str] = []
+    matches = list(DASHBOARD_BLOCK.finditer(text))
+    for index, match in enumerate(matches):
+        start = match.end()
+        if index + 1 < len(matches):
+            boundary = re.search(r"^#{1,3}\s+", text[start:], re.MULTILINE)
+            end = start + (boundary.start() if boundary else len(text) - start)
+        else:
+            boundary = re.search(r"^#{1,2}\s+", text[start:], re.MULTILINE)
+            end = start + (boundary.start() if boundary else len(text) - start)
+        blocks.append(text[start:end])
+    return blocks
+
+
+def dimension_tables(block: str) -> list[list[list[str]]]:
+    """Return parsed Dimension|Score tables inside a text block."""
+    found: list[list[list[str]]] = []
+    table: list[str] = []
+    for line in block.split("\n"):
+        if line.startswith("|"):
+            table.append(line)
+        elif table:
+            found.append(table)
+            table = []
+    if table:
+        found.append(table)
+    parsed = []
+    for rows in found:
+        if len(rows) < 2:
+            continue
+        header = [cell.strip() for cell in raw_cells(rows[0])]
+        if "Dimension" in header and "Score" in header:
+            parsed.append(
+                [[cell.strip() for cell in raw_cells(row)] for row in rows]
+            )
+    return parsed
+
+
+def check_scorecard_dimensions(text: str) -> list[str]:
+    failures: list[str] = []
+    tables: list[list[list[str]]] = []
+    for marker in SCORECARD_MARKER.finditer(text):
+        rest = text[marker.end():]
+        lines = rest.split("\n")
+        table = []
+        for line in lines:
+            if line.startswith("|"):
+                table.append(line)
+            elif table:
+                break
+        if len(table) >= 2:
+            tables.append([[cell.strip() for cell in raw_cells(row)] for row in table])
+    for block in dashboard_sections(text):
+        tables.extend(dimension_tables(block))
+    seen: set[tuple] = set()
+    uniq: list[list[list[str]]] = []
+    for table in tables:
+        key = tuple(tuple(row) for row in table)
+        if key in seen:
+            continue
+        seen.add(key)
+        uniq.append(table)
+    for table in uniq:
+        header = table[0]
+        if "Dimension" not in header or "Score" not in header:
+            continue
+        position = -1
+        dim_idx = header.index("Dimension")
+        score_idx = header.index("Score")
+        for row in table[2:]:
+            if len(row) <= max(dim_idx, score_idx):
+                continue
+            name = row[dim_idx].strip("*`[]() ")
+            score = row[score_idx].strip()
+            if name in ("", "Overall score"):
+                continue
+            try:
+                pos = SCORECARD_DIMENSIONS.index(name)
+            except ValueError:
+                failures.append(
+                    f"scorecard dimension '{name}' is not in the canonical set - "
+                    "keep the 19 fixed names so reports stay comparable"
+                )
+                continue
+            if pos <= position:
+                failures.append(
+                    f"scorecard dimension '{name}' is out of canonical order"
+                )
+            position = max(position, pos)
+            if score == "N/A":
+                failures.append(
+                    f"scorecard keeps an N/A row: {name} - omit N/A rows entirely"
+                )
+            elif not SCORE_VALUE.match(score):
+                failures.append(
+                    f"scorecard cell for '{name}' is '{score}' - expected n/m, "
+                    "star bar, or Unknown"
+                )
+    return failures
+
+
+def check_health_dashboard(text: str) -> list[str]:
+    failures: list[str] = []
+    blocks = dashboard_sections(text)
+    if "Document Information" not in text:
+        return failures
+    if not blocks:
+        return failures  # required-sections already reports a missing dashboard
+    required = ("Risk Map", "Scorecard Summary", "Team & Continuity")
+    for index, block in enumerate(blocks, 1):
+        for label in required:
+            pattern = rf"(\*\*{re.escape(label)}\*\*|^#+\s+{re.escape(label)}\s*$)"
+            if not re.search(pattern, block, re.MULTILINE):
+                failures.append(
+                    f"Health Dashboard {index} has no '{label}' - the dashboard "
+                    "carries a Risk Map, a Scorecard Summary, and a Team & Continuity line"
+                )
+    return failures
+
+
+def check_doc_info_fields(text: str) -> list[str]:
+    failures: list[str] = []
+    match = re.search(r"^#{2,3}\s+Document Information\s*$", text, re.MULTILINE)
+    if not match:
+        return failures
+    rest = text[match.end():]
+    boundary = re.search(r"^#{2,3}\s+", rest, re.MULTILINE)
+    block = rest[: boundary.start() if boundary else len(rest)]
+    labels: list[str] = []
+    values: dict[str, str] = {}
+    for line in block.split("\n"):
+        if not line.startswith("|"):
+            continue
+        cells = [cell.strip() for cell in raw_cells(line)]
+        if len(cells) < 2:
+            continue
+        label = cells[0].strip("*` ")
+        if not label or set(label) <= {"-", ":"} or label in ("Field", "Value"):
+            continue
+        if set(cells[1].strip()) <= {"-", ":"}:
+            continue
+        labels.append(label)
+        values[label] = cells[1].strip()
+    for field in sorted(DOC_INFO_REQUIRED - set(labels)):
+        failures.append(f"Document Information misses required row '{field}'")
+    for label in labels:
+        if label not in DOC_INFO_FIELDS:
+            failures.append(
+                f"Document Information carries non-canonical row '{label}'"
+            )
+    if "Skill Version" in values:
+        if not re.fullmatch(r"\d+\.\d+\.\d+", values["Skill Version"]):
+            failures.append(
+                f"Skill Version renders '{values['Skill Version']}' - expected a bare "
+                "version like 2.6.5, never prefixed with the skill name"
+            )
+    for label, value in values.items():
+        if value in ("", "Not specified"):
+            failures.append(
+                f"Document Information row '{label}' carries an empty or "
+                "Not specified value - omit the row instead"
+            )
+    return failures
+
+
 def check_scorecard_mean(text: str) -> list[str]:
     failures: list[str] = []
     summaries: list[tuple[float, int]] = []
@@ -3297,6 +3527,9 @@ def main(path: str, repo_root: str | None = None) -> int:
                     ("scorecard intervals", check_scorecard_interval(text)),
                     ("ledger columns", check_ledger_columns(text)),
                     ("scorecard N/A rows", check_scorecard_na(text)),
+                    ("scorecard dimensions", check_scorecard_dimensions(text)),
+                    ("health dashboard", check_health_dashboard(text)),
+                    ("document information fields", check_doc_info_fields(text)),
                     ("security classifications", check_security_classification(lines)),
                     ("score disclosure", check_score_disclosure(lines)),
                     ("project qualification", check_project_qualification(text)),

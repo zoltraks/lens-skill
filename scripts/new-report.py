@@ -75,6 +75,7 @@ DOC_INFO = [
     ("Evidence Mode", "Source-only"),
     ("Subject Revision", "<commit> (branch <branch>)"),
     ("Skill Version", "<version>"),
+    ("Time taken", "<mm:ss>"),
 ]
 
 COVERAGE_HEADER = "| Report type | Status | Rationale |\n|---|---|---|\n"
@@ -152,6 +153,17 @@ def table(header: str, separator: str, rows: list[str] | None = None) -> str:
     return header + "\n" + separator + "\n" + "".join(rows or []) + "\n"
 
 
+def skill_version() -> str:
+    skill_md = Path(__file__).resolve().parent.parent / "SKILL.md"
+    try:
+        for line in skill_md.read_text().split("\n"):
+            if line.strip().startswith("version:"):
+                return line.split(":", 1)[1].strip().strip('"').strip("'")
+    except OSError:
+        pass
+    return "<version>"
+
+
 def document_info(style: str, projects: list[str], params: dict) -> str:
     rows = []
     for field, value in DOC_INFO:
@@ -161,6 +173,8 @@ def document_info(style: str, projects: list[str], params: dict) -> str:
             value = params.get("detail_level", "Standard")
         elif field == "Evidence Mode":
             value = params.get("evidence_mode", "Source-only")
+        elif field == "Skill Version":
+            value = skill_version()
         rows.append(f"| {field} | {value} |")
         if field == "Report Style" and params.get("review_scope") == "structure":
             rows.append("| Review Scope | Structure |")
@@ -262,6 +276,7 @@ def audit_project_body(project: str, number: int = 1) -> list[str]:
             )
             parts.append("Lowest-scoring applicable dimension: <dimension> <score>.\n\n")
         elif section == "Health Dashboard":
+            parts.append("**Risk Map**\n\n")
             parts.append(
                 table(
                     "| Impact | Low | Medium | High |",
@@ -272,6 +287,11 @@ def audit_project_body(project: str, number: int = 1) -> list[str]:
             )
             parts.append("**Scorecard Summary**\n\n")
             parts.append(table("| Dimension | Score | Notes |", "|---|---|---|"))
+            parts.append("**Team & Continuity**\n\n")
+            parts.append(
+                "<one-line contributor/continuity summary anchored to EVD-XXX - "
+                "`Not collected` when git history was out of scope>\n\n"
+            )
         elif section == "Structure Review":
             parts.append(
                 "<context line - stack, component roles, architectural approach, "

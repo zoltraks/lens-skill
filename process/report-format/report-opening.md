@@ -11,8 +11,8 @@
 |----------------------|------|--------------------------------------|
 | Document Information | 17   | Report metadata and revisions        |
 | Contents             | 170  | Linked navigation of report sections |
-| Audit Coverage       | 188  | Coverage of canonical audit types    |
-| Glossary             | 248  | Abbreviation and acronym definitions |
+| Audit Coverage       | 190  | Coverage of canonical audit types    |
+| Glossary             | 250  | Abbreviation and acronym definitions |
 
 ## Document Information
 
@@ -169,7 +169,9 @@ and `Verification Scope` are rendered per the same file.
 
 ## Table of Contents
 
-A `## Table of Contents` section follows `## Document Information` and precedes `## Audit Coverage`.
+A `## Table of Contents` section is never written - the report navigates by its fixed
+section order, and `process/report-format.md` and `process/navigation-rules.md` forbid a
+contents table.
 
 It lists every level-2 section as a bullet of links to its heading anchor:
 
