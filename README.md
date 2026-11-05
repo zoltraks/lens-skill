@@ -29,11 +29,11 @@
 | Report Format                      | 451  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 488  | Supported requests and exclusions                   |
 | What's Inside                      | 512  | Documents, references, tools, and conditional files |
-| Document Style                     | 685  | Pointer to the style rules file                     |
-| Specification                      | 695  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 716  | Maintenance checks and regression scenarios         |
-| License                            | 744  | License for the skill itself                        |
-| Credits                            | 750  | Authorship and attribution                          |
+| Document Style                     | 686  | Pointer to the style rules file                     |
+| Specification                      | 696  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 717  | Maintenance checks and regression scenarios         |
+| License                            | 745  | License for the skill itself                        |
+| Credits                            | 751  | Authorship and attribution                          |
 
 ## Overview
 
@@ -637,6 +637,7 @@ lens-skill/
 │   ├── link-glossary.py                   # Glossary body-link inserter, run before the linker
 │   ├── link-references.py                 # Register-identifier linker, run before the formatter
 │   ├── validate-report.py                 # Audit and Review report validator (`--dump-contract` JSON)
+│   ├── render-contract.py                 # Regenerates the report-contract enumeration block
 │   ├── new-report.py                      # Report skeleton generator (audit, hunt, or review)
 │   ├── finalize-report.py                 # Runs links, format, and validate in order on a report
 │   ├── validate-skill.py                  # Dependency-light Agent Skill validator

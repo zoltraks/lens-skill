@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import copy
+import json
 import subprocess
 import sys
 import tempfile
@@ -947,6 +949,10 @@ class TestCheckModel(unittest.TestCase):
             "model_version": 1,
             "scope": {"subject": "demo", "revision": "abc123",
                       "purpose": "audit", "evidence_mode": "source-only",
+                      "scoring_policy": 2, "history": "present",
+                      "projects": [{"path": ".", "provenance": "in-tree",
+                                    "fetch_state": "n/a", "pin_state": "n/a",
+                                    "automation_census": "signals"}],
                       "product_profile": {}},
             "inventory": [{"path": "src/app.py", "class": "production",
                            "module": "src", "read": True,
@@ -961,17 +967,19 @@ class TestCheckModel(unittest.TestCase):
                  "applicability": "applicable", "criticality": "high",
                  "weight": 1.0, "expected": "...", "method": "...",
                  "sufficiency": "...", "dimension": "security",
-                 "outcome": "PARTIAL", "mastery": 0.5},
+                 "outcome": "PARTIAL", "mastery": 0.25},
                 {"id": "SEC-CRYPTO", "source": "catalogue",
                  "applicability": "applicable", "criticality": "medium",
                  "weight": 1.0, "expected": "...", "method": "...",
                  "sufficiency": "...", "dimension": "security",
                  "outcome": "UNKNOWN", "mastery": None},
-                {"id": "DOC-API", "source": "catalogue",
-                 "applicability": "not_applicable", "criticality": "low",
+                {"id": "CMP-API", "source": "catalogue",
+                 "applicability": "not applicable - deployable service, not a published library",
+                 "criticality": "low",
                  "weight": 1.0, "expected": "...", "method": "...",
-                 "sufficiency": "...", "dimension": "documentation",
-                 "outcome": "NOT_APPLICABLE", "mastery": None},
+                 "sufficiency": "...", "dimension": "api_compatibility",
+                 "outcome": "NOT_APPLICABLE", "mastery": None,
+                 "na_basis": "deployment-model"},
             ],
             "evidence": [
                 {"id": "EVD-001", "kind": "INSPECTED", "collector": "x",
@@ -1013,11 +1021,13 @@ class TestCheckModel(unittest.TestCase):
             "scores": {
                 "scale_max": 10,
                 "dimensions": {
-                    "security": {"mastery": 0.75, "score": 8,
-                                 "interval": [5, 8], "coverage": 0.67,
-                                 "eligible": True},
+                    "security": {"mastery": 0.625, "uncapped": 6, "score": 5,
+                                 "interval": [4, 5], "coverage": 0.67,
+                                 "eligible": True,
+                                 "caps": [{"rule": "severity-high", "limit": 5,
+                                           "source": ["FND-SEC-001"]}]},
                 },
-                "overall": {"score": 8.0, "scored": 1, "applicable": 1},
+                "overall": {"score": 5.0, "scored": 1, "applicable": 1},
             },
             "coverage": {"families": {}, "labels": {"security": "PARTIAL"}},
             "exclusions": ["docs/generated - generated content"],
@@ -1037,8 +1047,9 @@ class TestCheckModel(unittest.TestCase):
         self.assertIn("claims unknown criterion SEC-NOPE-01", joined)
         self.assertIn("no recorded counter-evidence", joined)
         self.assertIn("cites unknown finding 'FND-SEC-099'", joined)
-        self.assertIn("does not equal the FAIL/PASS substitution bounds [5, 8]",
-                      joined)
+        self.assertIn(
+            "does not equal the capped FAIL/PASS substitution bounds [4, 5]",
+            joined)
 
     def test_partial_without_mastery_fails(self):
         model = self._valid_model()
@@ -1055,6 +1066,221 @@ class TestCheckModel(unittest.TestCase):
             any("fails the eligibility gate" in failure for failure in failures),
             failures,
         )
+
+    def _finding(self, fid, criterion, severity, claim_class, **extra):
+        finding = {"id": fid, "criterion": criterion, "type": "Concern",
+                   "severity": severity, "claim_class": claim_class,
+                   "observation": "...", "property": "...",
+                   "evidence": ["EVD-001"],
+                   "counter": "checked alternate paths",
+                   "consequence": "...", "scope": "...", "confidence": "HIGH",
+                   "status": "Open", "next_verification": "..."}
+        finding.update(extra)
+        return finding
+
+    def _criterion(self, cid, dimension, outcome, **extra):
+        criterion = {"id": cid, "source": "catalogue",
+                     "applicability": "applicable", "criticality": "medium",
+                     "weight": 1.0, "expected": "...", "method": "...",
+                     "sufficiency": "...", "dimension": dimension,
+                     "outcome": outcome, "mastery": None}
+        criterion.update(extra)
+        return criterion
+
+    def test_open_bounding_finding_bounds_criterion_mastery(self):
+        model = copy.deepcopy(self._valid_model())
+        model["findings"].append(
+            self._finding("FND-SEC-002", "SEC-AUTHZ", "MEDIUM",
+                          "confirmed defect"))
+        joined = "\n".join(self.checker.check_model(model))
+        self.assertIn("exceeds the 0.5 bound", joined)
+
+    def test_bounding_finding_citing_unresolved_criterion_fails(self):
+        model = copy.deepcopy(self._valid_model())
+        model["findings"].append(
+            self._finding("FND-SEC-003", "SEC-CRYPTO", "MEDIUM",
+                          "confirmed defect"))
+        joined = "\n".join(self.checker.check_model(model))
+        self.assertIn("cites unresolved criterion SEC-CRYPTO", joined)
+
+    def test_census_none_basis_checked_against_project_census(self):
+        def model_with(census):
+            model = copy.deepcopy(self._valid_model())
+            model["scope"]["projects"][0]["automation_census"] = census
+            model["criteria"].append(
+                self._criterion(
+                    "DEP-CI", "deployability", "NOT_APPLICABLE",
+                    na_basis="census-none",
+                    applicability="not applicable - automation census none"))
+            model["findings"].append(
+                self._finding("FND-INF-001", "DEP-CI", "MEDIUM",
+                              "confirmed structural weakness",
+                              absence="No documented rationale"))
+            return model
+
+        self.assertEqual(self.checker.check_model(model_with("none")), [])
+        joined = "\n".join(self.checker.check_model(model_with("signals")))
+        self.assertIn("census-none basis requires automation census none", joined)
+
+    def test_deduction_needs_open_finding_or_evidenced_shortfall(self):
+        model = copy.deepcopy(self._valid_model())
+        model["criteria"].append(
+            self._criterion("SEC-SESS", "security", "PARTIAL", mastery=0.5))
+        model["evidence"][0]["claims"].append("SEC-SESS")
+        failures = self.checker.check_model(model)
+        self.assertIn(
+            "SEC-SESS: PARTIAL deduction has no open finding and no recorded "
+            "shortfall with evidence",
+            failures,
+        )
+        model["criteria"][-1]["shortfall"] = "session rotation absent"
+        failures = self.checker.check_model(model)
+        self.assertNotIn(
+            "SEC-SESS: PARTIAL deduction has no open finding and no recorded "
+            "shortfall with evidence",
+            failures,
+        )
+
+    def test_noncanonical_dimension_id_fails(self):
+        model = copy.deepcopy(self._valid_model())
+        model["criteria"][0]["dimension"] = "design-soundness"
+        joined = "\n".join(self.checker.check_model(model))
+        self.assertIn(
+            "dimension 'design-soundness' is not a canonical dimension id",
+            joined)
+
+    def test_half_up_rounding_of_uncapped(self):
+        model = {
+            "model_version": 1,
+            "scope": {"scoring_policy": 2, "history": "present",
+                      "projects": [{"path": ".",
+                                    "automation_census": "signals"}]},
+            "inventory": [],
+            "criteria": [
+                self._criterion("CQY-DEAD", "code_quality", "PARTIAL",
+                                mastery=0.85,
+                                shortfall="dead code paths remain"),
+            ],
+            "evidence": [
+                {"id": "EVD-001", "kind": "INSPECTED", "collector": "x",
+                 "method": "read", "timestamp": "...", "tool": None,
+                 "locator": {"path": "src/app.py", "lines": [1, 40]},
+                 "procedure": None, "result": "...",
+                 "claims": ["CQY-DEAD"], "limits": "...",
+                 "sampling": "full", "counter": "...", "redaction": "none",
+                 "unavailable": None},
+            ],
+            "findings": [], "risks": [], "recommendations": [],
+            "scores": {
+                "scale_max": 10,
+                "dimensions": {
+                    "code_quality": {"mastery": 0.85, "uncapped": 9,
+                                     "score": 9, "coverage": 1.0,
+                                     "eligible": True},
+                },
+                "overall": {"score": 9.0, "scored": 1, "applicable": 1},
+            },
+            "coverage": {"families": {}, "labels": {}},
+            "exclusions": [],
+        }
+        self.assertEqual(self.checker.check_model(model), [])
+        model["scores"]["dimensions"]["code_quality"]["uncapped"] = 8
+        model["scores"]["dimensions"]["code_quality"]["score"] = 8
+        joined = "\n".join(self.checker.check_model(model))
+        self.assertIn("does not recompute to 9", joined)
+
+    def test_missing_triggered_mechanical_cap_fails(self):
+        model = copy.deepcopy(self._valid_model())
+        del model["scores"]["dimensions"]["security"]["caps"]
+        joined = "\n".join(self.checker.check_model(model))
+        self.assertIn(
+            "missing mechanical cap severity-high triggered by FND-SEC-001",
+            joined)
+
+    def test_material_unknown_cap_tracks_criticality(self):
+        model = copy.deepcopy(self._valid_model())
+        model["criteria"][2]["criticality"] = "high"
+        joined = "\n".join(self.checker.check_model(model))
+        self.assertIn(
+            "missing mechanical cap material-unknown triggered by SEC-CRYPTO",
+            joined)
+        model["scores"]["dimensions"]["security"]["caps"].append(
+            {"rule": "material-unknown", "limit": 8, "source": ["SEC-CRYPTO"]})
+        self.assertEqual(self.checker.check_model(model), [])
+
+    def test_undeclared_claim_class_fails(self):
+        model = copy.deepcopy(self._valid_model())
+        model["findings"][0]["claim_class"] = "suspected bug"
+        joined = "\n".join(self.checker.check_model(model))
+        self.assertIn("is not a declared claim class", joined)
+
+    def test_not_applicable_needs_valid_na_basis(self):
+        model = copy.deepcopy(self._valid_model())
+        del model["criteria"][3]["na_basis"]
+        joined = "\n".join(self.checker.check_model(model))
+        self.assertIn("NOT_APPLICABLE needs na_basis", joined)
+
+        model = copy.deepcopy(self._valid_model())
+        model["criteria"][3]["na_basis"] = "history-out-of-scope"
+        joined = "\n".join(self.checker.check_model(model))
+        self.assertIn(
+            "history-out-of-scope basis requires scope.history absent or "
+            "out-of-scope",
+            joined)
+
+    def test_nonbounding_findings_carry_no_bound(self):
+        model = copy.deepcopy(self._valid_model())
+        model["findings"].append(
+            self._finding("FND-SEC-004", "SEC-CRYPTO", "LOW",
+                          "plausible hypothesis"))
+        model["findings"].append(
+            self._finding("FND-SEC-005", "SEC-CRYPTO", "LOW",
+                          "evidence gap"))
+        self.assertEqual(self.checker.check_model(model), [])
+
+    def test_multi_project_scores_per_project(self):
+        model = copy.deepcopy(self._valid_model())
+        model["scope"]["projects"] = [
+            {"name": "api", "automation_census": "signals"},
+            {"name": "cli", "automation_census": "signals"},
+        ]
+        model["criteria"] = [
+            self._criterion("SEC-AUTHZ", "api.security", "PASS",
+                            criticality="high"),
+            self._criterion("SEC-ARGV", "cli.security", "PASS",
+                            criticality="high"),
+        ]
+        model["evidence"][0]["claims"] = ["SEC-AUTHZ", "SEC-ARGV"]
+        del model["evidence"][1]
+        model["findings"] = []
+        model["risks"] = []
+        model["recommendations"] = []
+        model["scores"]["dimensions"] = {
+            "api.security": {"mastery": 1.0, "uncapped": 10, "score": 10,
+                             "coverage": 1.0, "eligible": True},
+            "cli.security": {"mastery": 1.0, "uncapped": 10, "score": 10,
+                             "coverage": 1.0, "eligible": True},
+        }
+        model["scores"]["overall"] = {"score": None, "scored": 2,
+                                      "applicable": 2}
+        model["scores"]["per_project"] = {
+            "api": {"score": 10.0, "scored": 1, "applicable": 1},
+            "cli": {"score": 10.0, "scored": 1, "applicable": 1},
+        }
+        self.assertEqual(self.checker.check_model(model), [])
+        model["scores"]["overall"]["score"] = 10.0
+        joined = "\n".join(self.checker.check_model(model))
+        self.assertIn("must be null in a multi-project model", joined)
+        model["scores"]["overall"]["score"] = None
+        del model["scores"]["per_project"]["cli"]
+        joined = "\n".join(self.checker.check_model(model))
+        self.assertIn("per_project record missing for project 'cli'", joined)
+
+    def test_scoring_policy_must_be_two(self):
+        model = copy.deepcopy(self._valid_model())
+        del model["scope"]["scoring_policy"]
+        joined = "\n".join(self.checker.check_model(model))
+        self.assertIn("scope.scoring_policy is None, expected 2", joined)
 
 
 class TestRegisterBlocks(unittest.TestCase):
@@ -1458,3 +1684,485 @@ class TestDocInfoFields(unittest.TestCase):
         rows = self.REQUIRED + [("System type", "Codebase under development")]
         fails = vr.check_doc_info_fields(self._report(rows))
         self.assertTrue(any("System type" in f for f in fails))
+
+
+class TestModelConsistency(unittest.TestCase):
+    def setUp(self):
+        self.validator = load_script("validate-report.py")
+
+    def _model(self) -> dict:
+        return {
+            "model_version": 1,
+            "scope": {"subject": "demo", "scoring_policy": 2, "history": "present",
+                      "projects": [{"path": ".", "name": "demo",
+                                    "automation_census": "signals"}]},
+            "inventory": [],
+            "criteria": [
+                {"id": "SEC-AUTHZ", "dimension": "security", "outcome": "PASS",
+                 "weight": 1.0, "mastery": None},
+                {"id": "SEC-INJ", "dimension": "security", "outcome": "PARTIAL",
+                 "weight": 1.0, "mastery": 0.25},
+                {"id": "CMP-API", "dimension": "api_compatibility",
+                 "outcome": "NOT_APPLICABLE", "weight": 1.0, "mastery": None},
+            ],
+            "evidence": [
+                {"id": "EVD-001", "kind": "INSPECTED", "claims": ["SEC-AUTHZ"]},
+                {"id": "EVD-002", "kind": "INSPECTED", "claims": ["SEC-INJ"]},
+            ],
+            "findings": [
+                {"id": "FND-SEC-001", "criterion": "SEC-INJ", "severity": "HIGH",
+                 "claim_class": "confirmed defect", "status": "Open",
+                 "evidence": ["EVD-002"]},
+            ],
+            "risks": [
+                {"id": "RSK-001", "finding": "FND-SEC-001", "severity": "HIGH"},
+            ],
+            "recommendations": [
+                {"id": "REC-001", "finding": "FND-SEC-001", "priority": "P1"},
+            ],
+            "scores": {
+                "scale_max": 10,
+                "dimensions": {
+                    "security": {"mastery": 0.625, "uncapped": 6, "score": 5,
+                                 "interval": [4, 5], "coverage": 0.67,
+                                 "eligible": True,
+                                 "caps": [{"rule": "severity-high", "limit": 5,
+                                           "source": ["FND-SEC-001"]}]},
+                },
+                "overall": {"score": 5.0, "scored": 1, "applicable": 1},
+            },
+            "coverage": {"families": {}, "labels": {}},
+            "exclusions": [],
+        }
+
+    REPORT = """## Document Information
+
+| Field | Value |
+|-------|-------|
+| Report Style | audit |
+
+## Executive Summary
+
+| Overall score | 5.0/10 |
+|---------------|--------|
+
+The lowest dimension is security.
+
+## Health Dashboard
+
+**Scorecard Summary**
+
+| Dimension | Score      | Notes |
+|-----------|------------|-------|
+| Security  | 5/10 [4-5] | x     |
+
+## Technical Findings
+
+### FND-SEC-001: Injection sink reaches the handler
+
+* **Severity:** High
+
+## Unified Risk Register
+
+### RSK-001: Injection ships to release
+
+* **Severity:** High
+
+## Remediation Roadmap
+
+### REC-001: Validate the input path
+
+* **Priority:** P1
+
+## Auditing Methodology
+
+**Evidence List**
+
+| Evidence | Source | Result |
+|----------|--------|--------|
+| EVD-001  | read   | ok     |
+| EVD-002  | read   | ok     |
+"""
+
+    def _check(self, text=None, model=None, style="audit"):
+        return self.validator.check_model_consistency(
+            self.REPORT if text is None else text,
+            self._model() if model is None else model,
+            style,
+        )
+
+    def test_x1_consistent_fragment_passes(self):
+        self.assertEqual(self._check(), [])
+
+    def test_x2_score_mismatch(self):
+        text = self.REPORT.replace("5/10 [4-5]", "6/10 [4-5]")
+        fails = self._check(text)
+        self.assertTrue(any("Security" in f and "model has 5/10 [4-5]" in f
+                            for f in fails), fails)
+
+    def test_x2_interval_in_report_absent_in_model(self):
+        model = self._model()
+        del model["scores"]["dimensions"]["security"]["interval"]
+        fails = self._check(model=model)
+        self.assertTrue(any("model has 5/10" in f for f in fails), fails)
+
+    def test_x2_unknown_cell_while_model_scores(self):
+        text = self.REPORT.replace("5/10 [4-5]", "Unknown")
+        fails = self._check(text)
+        self.assertTrue(any("Security" in f for f in fails), fails)
+
+    def test_x2_applicable_dimension_omitted(self):
+        model = self._model()
+        model["criteria"].append(
+            {"id": "TST-UNIT", "dimension": "testability", "outcome": "PASS",
+             "weight": 1.0, "mastery": None}
+        )
+        fails = self._check(model=model)
+        self.assertTrue(
+            any("omits applicable dimension Testability" in f for f in fails),
+            fails,
+        )
+
+    def test_x3_overall_value_differs(self):
+        text = self.REPORT.replace("| Overall score | 5.0/10 |",
+                                   "| Overall score | 5.5/10 |")
+        fails = self._check(text)
+        self.assertTrue(any("overall score 5.5/10 differs" in f for f in fails),
+                        fails)
+
+    def test_x4_register_mismatches(self):
+        model = self._model()
+        model["findings"].append(
+            {"id": "FND-SEC-002", "criterion": "SEC-INJ", "severity": "LOW",
+             "claim_class": "confirmed defect", "status": "Open",
+             "evidence": ["EVD-002"]}
+        )
+        fails = self._check(model=model)
+        joined = "\n".join(fails)
+        self.assertIn("report has 1 FND blocks, model has 2", joined)
+        self.assertIn("FND-SEC-002 appears in the model but not in the report",
+                      joined)
+        text = self.REPORT.replace("* **Severity:** High",
+                                   "* **Severity:** Low", 1)
+        fails = self._check(text)
+        self.assertTrue(any("FND-SEC-001: report severity Low differs" in f
+                            for f in fails), fails)
+
+    def test_x5_evidence_mismatches(self):
+        text = self.REPORT + "\nCited: EVD-099 nowhere.\n"
+        fails = self._check(text)
+        self.assertTrue(any("EVD-099 not present in the model" in f
+                            for f in fails), fails)
+        model = self._model()
+        model["evidence"].append(
+            {"id": "EVD-003", "kind": "INSPECTED", "claims": ["SEC-AUTHZ"]}
+        )
+        fails = self._check(model=model)
+        self.assertTrue(any("evidence ledger lists 2 records, model has 3" in f
+                            for f in fails), fails)
+
+    def test_x6_multi_project_mapping(self):
+        model = self._model()
+        model["scope"]["projects"] = [
+            {"path": "a", "name": "api", "automation_census": "none"},
+            {"path": "c", "name": "cli", "automation_census": "none"},
+        ]
+        model["criteria"] = [
+            {"id": "SEC-A", "dimension": "api.security", "outcome": "PASS",
+             "weight": 1.0, "mastery": None},
+            {"id": "SEC-C", "dimension": "cli.security", "outcome": "PASS",
+             "weight": 1.0, "mastery": None},
+        ]
+        model["scores"]["dimensions"] = {
+            "api.security": {"score": 5, "interval": [4, 5], "eligible": True},
+            "cli.security": {"score": 7, "interval": None, "eligible": True},
+        }
+        model["scores"]["per_project"] = {
+            "api": {"score": 5.0, "scored": 1, "applicable": 1},
+            "cli": {"score": 7.0, "scored": 1, "applicable": 1},
+        }
+        model["scores"]["overall"] = {"score": None, "scored": 2, "applicable": 2}
+        model["findings"] = []
+        model["risks"] = []
+        model["recommendations"] = []
+        model["evidence"] = []
+        text = """## Document Information
+
+| Field | Value |
+|-------|-------|
+| Report Style | audit |
+
+## Project `api`
+
+| Overall score | 5.0/10 |
+|---------------|--------|
+
+**Scorecard Summary**
+
+| Dimension | Score      | Notes |
+|-----------|------------|-------|
+| Security  | 5/10 [4-5] | x     |
+
+## Project `cli`
+
+| Overall score | 7.0/10 |
+|---------------|--------|
+
+**Scorecard Summary**
+
+| Dimension | Score | Notes |
+|-----------|-------|-------|
+| Security  | 7/10  | x     |
+"""
+        self.assertEqual(self._check(text, model), [])
+        swapped = text.replace("| Overall score | 7.0/10 |",
+                               "| Overall score | 5.0/10 |")
+        fails = self._check(swapped, model)
+        self.assertTrue(any("overall score cli 5.0/10 differs" in f
+                            for f in fails), fails)
+
+    def test_x7_criteria_table_outcome_mismatch(self):
+        text = self.REPORT + """
+**Criteria table**
+
+| Criteria  | Outcome |
+|-----------|---------|
+| SEC-AUTHZ | PASS    |
+| SEC-INJ   | PASS    |
+"""
+        fails = self._check(text)
+        self.assertTrue(
+            any("criteria table SEC-INJ: report PASS differs from the model "
+                "PARTIAL" in f for f in fails),
+            fails,
+        )
+
+
+class TestStateConsistency(unittest.TestCase):
+    def setUp(self):
+        self.validator = load_script("validate-report.py")
+
+    def _state(self) -> dict:
+        return {
+            "state_version": 1,
+            "run": {"phase": "validation",
+                    "started": "2026-11-05T12:00:00Z",
+                    "completed_phases": list(self.validator.PHASES[:6]),
+                    "failed_phases": []},
+            "gates": {
+                g: {"resolution": "accepted", "tier": "explicit"}
+                for g in self.validator.REQUIRED_GATES
+            },
+            "artifacts": [
+                {"path": "report.md", "kind": "report",
+                 "declared_phase": "validation"},
+                {"path": "part-1.md", "kind": "part",
+                 "declared_phase": "synthesis"},
+            ],
+            "timestamps": {"created": "2026-11-05T12:00:00Z",
+                           "updated": "2026-11-05T13:00:00Z"},
+        }
+
+    def _check(self, state, root):
+        state_path = Path(root) / "work" / "audit-state.json"
+        return self.validator.check_state_consistency(state, state_path, None)
+
+    def test_s1_consistent_state_passes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            work = Path(tmp) / "work"
+            work.mkdir()
+            (Path(tmp) / "report.md").write_text("x", encoding="utf-8")
+            self.assertEqual(self._check(self._state(), tmp), [])
+
+    def test_s2_wrong_phase_fails(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            work = Path(tmp) / "work"
+            work.mkdir()
+            (Path(tmp) / "report.md").write_text("x", encoding="utf-8")
+            state = self._state()
+            state["run"]["phase"] = "scope-definition"
+            fails = self._check(state, tmp)
+            self.assertTrue(any("run.phase" in f for f in fails), fails)
+
+    def test_s3_capitalized_phase_fails_twice(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            work = Path(tmp) / "work"
+            work.mkdir()
+            (Path(tmp) / "report.md").write_text("x", encoding="utf-8")
+            state = self._state()
+            state["run"]["completed_phases"] = ["intake", "Synthesis"]
+            fails = self._check(state, tmp)
+            joined = "\n".join(fails)
+            self.assertIn("phase name 'Synthesis' is not a workflow phase",
+                          joined)
+            self.assertIn("must list intake through synthesis", joined)
+
+    def test_s4_missing_model_artifact_fails_part_exempt(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            work = Path(tmp) / "work"
+            work.mkdir()
+            (Path(tmp) / "report.md").write_text("x", encoding="utf-8")
+            state = self._state()
+            state["artifacts"].append(
+                {"path": "audit-model.json", "kind": "model",
+                 "declared_phase": "synthesis"}
+            )
+            fails = self._check(state, tmp)
+            self.assertTrue(
+                any("'audit-model.json' (model) is missing" in f for f in fails),
+                fails,
+            )
+            self.assertFalse(any("part-1.md" in f for f in fails), fails)
+
+    def test_s5_unknown_gate_tier_fails(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            work = Path(tmp) / "work"
+            work.mkdir()
+            (Path(tmp) / "report.md").write_text("x", encoding="utf-8")
+            state = self._state()
+            state["gates"]["audit-mode"]["tier"] = "guess"
+            fails = self._check(state, tmp)
+            self.assertTrue(any("gate audit-mode" in f for f in fails), fails)
+
+
+class TestModelStateCli(unittest.TestCase):
+    def test_cli_returns_zero_for_consistent_pair(self):
+        validator = load_script("validate-report.py")
+        generator = load_script("new-report.py")
+        state_helper = TestStateConsistency()
+        state_helper.setUp()
+        with tempfile.TemporaryDirectory() as tmp:
+            report = Path(tmp) / "AUDIT-1.0.md"
+            rc = generator.main(
+                ["new-report.py", "--output", str(report)]
+            )
+            self.assertEqual(rc, 0)
+            model_doc = {
+                "scope": {"projects": [
+                    {"path": ".", "name": "demo"}
+                ]},
+                "criteria": [],
+                "evidence": [],
+                "findings": [
+                    {"id": "FND-SEC-001", "severity": "HIGH"}
+                ],
+                "risks": [{"id": "RSK-001", "severity": "HIGH"}],
+                "recommendations": [{"id": "REC-001"}],
+                "scores": {"scale_max": 10, "dimensions": {},
+                           "overall": {"score": None}},
+            }
+            model = Path(tmp) / "audit-model.json"
+            model.write_text(json.dumps(model_doc), encoding="utf-8")
+            state = Path(tmp) / "work" / "audit-state.json"
+            state.parent.mkdir()
+            state.write_text(
+                json.dumps(state_helper._state()), encoding="utf-8"
+            )
+            (Path(tmp) / "report.md").write_text("x", encoding="utf-8")
+            rc = validator.main(str(report), model_path=str(model),
+                                state_path=str(state))
+            self.assertEqual(rc, 0)
+            model_doc["findings"] = [{"id": "FND-SEC-002", "severity": "LOW"}]
+            model.write_text(json.dumps(model_doc), encoding="utf-8")
+            rc = validator.main(str(report), model_path=str(model))
+            self.assertEqual(rc, 1)
+
+    def test_dimension_id_parity_with_check_model(self):
+        validator = load_script("validate-report.py")
+        checker = load_script("check-model.py")
+        self.assertEqual(
+            [validator.dimension_slug(n) for n in validator.SCORECARD_DIMENSIONS],
+            list(checker.CANONICAL_DIMENSIONS),
+        )
+
+
+class TestRepairs26(unittest.TestCase):
+    def setUp(self):
+        self.validator = load_script("validate-report.py")
+
+    def test_r1_optional_doc_info_rows(self):
+        rows = [
+            ("Report Revision", "1.0"), ("Report Date", "2026-11-05"),
+            ("Report Style", "audit"), ("Detail Level", "Detailed"),
+            ("Evaluation Scale", "1-10"), ("Language", "English"),
+            ("Verification Scope", "Static repository analysis"),
+            ("Evidence Mode", "Source-only"), ("Subject Revision", "abc123"),
+            ("Skill Version", "2.6.6"), ("Time taken", "1:00"),
+        ]
+        text = "## Document Information\n\n| Field | Value |\n|---|---|\n"
+        text += "".join(f"| {k} | {v} |\n" for k, v in rows)
+        self.assertEqual(self.validator.check_doc_info_fields(text), [])
+
+    def test_r2_linked_dimension_name(self):
+        text = ("**Scorecard Summary**\n\n"
+                "| Dimension | Score | Notes |\n|---|---|---|\n"
+                "| [Security](#security) | 7/10 | x |\n")
+        self.assertEqual(self.validator.check_scorecard_dimensions(text), [])
+
+    def test_r3_anchored_score_grammar(self):
+        text = ("**Scorecard Summary**\n\n"
+                "| Dimension | Score | Notes |\n|---|---|---|\n"
+                "| Security | 7/10 garbage | x |\n")
+        fails = self.validator.check_scorecard_dimensions(text)
+        self.assertTrue(any("expected n/m" in f for f in fails), fails)
+
+    def test_r4_dashboard_subsections_do_not_end_block(self):
+        text = ("## Document Information\n\n| Field | Value |\n|---|---|\n"
+                "| Report Style | audit |\n\n"
+                "## Health Dashboard\n\n"
+                "### Risk Map\n\nx\n\n"
+                "### Scorecard Summary\n\nx\n\n"
+                "### Team & Continuity\n\nx\n\n"
+                "## Scope Exclusions\n\nx\n")
+        self.assertEqual(self.validator.check_health_dashboard(text), [])
+
+    def test_r5_fresh_audit_section_name_not_a_claim(self):
+        lines = [
+            "## Scope Exclusions",
+            "",
+            "No Changes Since Previous Audit section - fresh audit.",
+        ]
+        fences = [False] * len(lines)
+        self.assertEqual(
+            self.validator.check_fresh_audit_claims(lines, fences), []
+        )
+        comparative = ["Security improved since the previous audit."]
+        fails = self.validator.check_fresh_audit_claims(comparative, [False])
+        self.assertTrue(any("comparative claim" in f for f in fails), fails)
+
+
+class TestRenderContract(unittest.TestCase):
+    def setUp(self):
+        self.renderer = load_script("render-contract.py")
+
+    def test_dump_contract_exposes_canonical_enumerations(self):
+        validator = load_script("validate-report.py")
+        contract = validator.report_contract()
+        self.assertEqual(
+            contract["dimension_ids"],
+            [validator.dimension_slug(n) for n in validator.SCORECARD_DIMENSIONS],
+        )
+        for key in (
+            "scorecard_dimensions", "health_dashboard_markers", "doc_info",
+            "run_state", "par_rows",
+        ):
+            self.assertIn(key, contract)
+        self.assertEqual(contract["par_rows"], 33)
+        self.assertNotIn("Audit Purpose", contract["doc_info"]["required"])
+        self.assertIn("Audit Purpose", contract["doc_info"]["allowed"])
+
+    def test_check_passes_on_checked_in_contract(self):
+        rc = self.renderer.main(
+            ["render-contract.py", "--check", "process/report-contract.md"]
+        )
+        self.assertEqual(rc, 0)
+
+    def test_check_flags_stale_block(self):
+        source = Path("process/report-contract.md").read_text(encoding="utf-8")
+        stale = source.replace("`validation`", "`delivery`", 1)
+        self.assertNotEqual(stale, source)
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "report-contract.md"
+            target.write_text(stale, encoding="utf-8")
+            rc = self.renderer.main(["render-contract.py", "--check", str(target)])
+        self.assertEqual(rc, 1)

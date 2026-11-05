@@ -18,12 +18,12 @@ Apply `principles/evaluation-rules.md` throughout.
 | Separate Decision Outputs | 28   | Category status vs dimension score |
 | Criterion Inputs          | 48   | Criterion Inputs guidance          |
 | Dimension Scoring         | 74   | Dimension Scoring guidance         |
-| Overall Score             | 160  | Overall Score guidance             |
-| Confidence                | 188  | Confidence guidance                |
-| Maturity Levels           | 206  | Maturity Levels guidance           |
-| Readiness Gates           | 225  | Readiness Gates guidance           |
-| Required Summary Fields   | 278  | Required Summary Fields guidance   |
-| Multi-Project Rules       | 291  | Multi-Project Rules guidance       |
+| Overall Score             | 195  | Overall Score guidance             |
+| Confidence                | 223  | Confidence guidance                |
+| Maturity Levels           | 241  | Maturity Levels guidance           |
+| Readiness Gates           | 260  | Readiness Gates guidance           |
+| Required Summary Fields   | 313  | Required Summary Fields guidance   |
+| Multi-Project Rules       | 326  | Multi-Project Rules guidance       |
 
 ## Separate Decision Outputs
 
@@ -131,6 +131,41 @@ Apply these caps unless a stronger project-specific rule is explicitly stated:
 Convert caps proportionally for other numeric scales.
 
 A cap is a reporting rule, not a severity assignment.
+
+The scoring engine enforces this section mechanically as **scoring policy 2**
+(`scope.scoring_policy: 2` in `audit-model.json`, checked by `scripts/check-model.py`):
+
+- Dimensions carry canonical ids - the snake_case keys rendered in the generated
+  contract block of `process/report-contract.md` (`security`, `design_soundness`,
+  `delivery_continuity`, and the rest) - and multi-project models prefix each key
+  with the project name (`<project>.security`).
+- Every finding declares a `claim_class`: `confirmed defect`, `confirmed structural
+  weakness`, `configuration risk`, `plausible hypothesis`, or `evidence gap`.
+- An `Open` finding in a bounding class (`confirmed defect`, `confirmed structural
+  weakness`, `configuration risk`) bounds its criterion's mastery: `CRITICAL` -> 0.0,
+  `HIGH` -> 0.25, `MEDIUM` -> 0.5, `LOW` -> 0.75. A confirmed finding resolves its
+  criterion - it never cites an `UNKNOWN`, `NOT_ASSESSED`, or `NOT_APPLICABLE`
+  criterion without the `Absence` exemption.
+- Every `PARTIAL`/`FAIL` deduction traces to an open finding or a recorded
+  `shortfall` with backing evidence - an unexplained deduction is a model error.
+- A criterion outcome `NOT_APPLICABLE` records `na_basis`: `deployment-model`
+  (with an applicability justification), `census-none` (the project's automation
+  census is `none`), or `history-out-of-scope` (`scope.history` is `absent` or
+  `out-of-scope`).
+- The score recomputes as `uncapped` first, then mechanical caps apply:
+  `severity-critical` -> 3/10, `severity-high` -> 5/10, `material-unknown` -> 8/10
+  (a `critical`/`high` criticality criterion left `UNKNOWN` or `NOT_ASSESSED`),
+  `historical-only` -> 7/10 (evidence-cited). Scale conversion is proportional
+  for scales 5 and 3 - the only supported `scale_max` values are 10, 5, and 3.
+- A capped interval recomputes through the same cap, and a degenerate interval is
+  omitted.
+- `scope.history` records `present`, `absent`, or `out-of-scope` so the
+  `history-out-of-scope` basis and `historical-only` cap are auditable.
+- Multi-project models publish `scores.per_project` records - `overall.score`
+  stays null and no combined mean collapses the projects.
+
+`scope.scoring_policy` records which policy produced the scores; models written
+before policy 2 fail the check until migrated or regenerated.
 
 Severity and conformance anchor two further rules:
 

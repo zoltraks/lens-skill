@@ -23,11 +23,11 @@ are unchanged.
 | Section            | Line | What it covers                            |
 |--------------------|------|-------------------------------------------|
 | The State Artifact | 32   | `work/audit-state.json` schema            |
-| Lifecycle          | 74   | Creation, updates, single-writer rule     |
-| Timestamps         | 94   | Clock discipline for every recorded time  |
-| Resume Protocol    | 104  | Restarting an interrupted run             |
-| Malformed State    | 123  | Stop-and-report rule for a damaged file   |
-| Reconciliation     | 137  | Declared-artifact check at finalization   |
+| Lifecycle          | 85   | Creation, updates, single-writer rule     |
+| Timestamps         | 105   | Clock discipline for every recorded time  |
+| Resume Protocol    | 115  | Restarting an interrupted run             |
+| Malformed State    | 134  | Stop-and-report rule for a damaged file   |
+| Reconciliation     | 148  | Declared-artifact check at finalization   |
 
 ## The State Artifact
 
@@ -66,10 +66,21 @@ Top-level shape:
 
 `state_version` is `1` for this schema.
 
+Phase names are the canonical workflow vocabulary: `intake`,
+`parameter-configuration`, `scope-definition`, `evidence-gathering`,
+`category-assessment`, `synthesis`, `validation` - lower-kebab, in workflow order.
+`run.phase` names the phase currently in progress (a delivered report ends in
+`validation`), and `completed_phases` lists finished phases in that order.
+Artifact `kind` is one of `params`, `model`, `state`, `part`, `report`,
+`translation`; `part` files consumed by assembly are exempt from the on-disk
+reconciliation.
+
 The `gates` map records one entry per resolved question surface - the surface name from
 `process/audit-workflow.md` (`audit-mode`, `project-inclusion`, `parameters-acceptance`,
 `report-delivery`, and so on), the resolution reached, and the precedence tier that
-supplied it per `process/decision-modes.md`.
+supplied it per `process/decision-modes.md` (`explicit`, `convention`, `discovered`,
+`default`, `automated`, `unknown`). The four surfaces named here are the required set a
+finalized state records.
 
 ## Lifecycle
 

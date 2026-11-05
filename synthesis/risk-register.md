@@ -144,5 +144,5 @@ List unrated risks beside the risk map instead of placing them in an invented ce
 | RSK-001 | Hardcoded JWT signing key in committed config | FND-SEC-001 | Authentication bypass or token forgery | High | Critical | Move key to secrets manager and rotate |
 ```
 
-The example columns follow the table order: `Risk`, `Source`, `Impact`,
-`Likelihood`, `Severity`, `Closure`, `Source`, `Confidence`, `Mitigation`.
+The example columns follow the table order: `Risk`, `Description`, `Source`,
+`Impact`, `Likelihood`, `Severity`, `Mitigation`.

@@ -12,11 +12,14 @@ the script locates its siblings by filename. When the copies are absent, pass
 ``--skill-root <path>`` (or set ``LENS_SKILL_ROOT``) pointing at the skill
 repository so the tools are found in its ``scripts/`` directory instead.
 
-Usage: python finalize-report.py [--polish] [--skill-root <dir>] <report.md>
+Usage: python finalize-report.py [--polish] [--skill-root <dir>]
+     [--model <audit-model.json>] [--state <audit-state.json>] <report.md>
 ``--polish`` runs the translated-report gates instead of the English
 validator: ``link-glossary.py --lang pl``, ``lint-polish.py --rules``,
 ``check-translation.py``, then ``map-translation.py`` and the
 formatter+validator on the mapped copy, which is removed after a pass.
+``--model`` and ``--state`` pass through to every ``validate-report.py``
+invocation for the report-versus-model and run-state consistency checks.
 Exit code 0 means formatting, linting, and validation all pass.
 """
 
@@ -79,15 +82,22 @@ def polish_rules(skill_root: Path | None) -> Path | None:
 def main(argv: list[str]) -> int:
     arguments: list[str] = []
     skill_root: Path | None = None
+    model: str | None = None
+    state: str | None = None
     index = 1
     while index < len(argv):
         argument = argv[index]
-        if argument == "--skill-root":
+        if argument in ("--skill-root", "--model", "--state"):
             index += 1
             if index >= len(argv):
-                print("--skill-root needs a directory")
+                print(f"{argument} needs a path")
                 return 1
-            skill_root = Path(argv[index])
+            if argument == "--skill-root":
+                skill_root = Path(argv[index])
+            elif argument == "--model":
+                model = argv[index]
+            else:
+                state = argv[index]
         elif argument.startswith("-"):
             pass
         else:
@@ -98,7 +108,8 @@ def main(argv: list[str]) -> int:
         skill_root = Path(os.environ["LENS_SKILL_ROOT"])
     if len(arguments) != 1:
         print(
-            "Usage: python finalize-report.py [--polish] [--skill-root <dir>] <report.md>"
+            "Usage: python finalize-report.py [--polish] [--skill-root <dir>] "
+            "[--model <audit-model.json>] [--state <audit-state.json>] <report.md>"
         )
         return 1
     target = Path(arguments[0])
@@ -109,12 +120,17 @@ def main(argv: list[str]) -> int:
     glossary = locate(directory, "link-glossary", skill_root)
     references = locate(directory, "link-references", skill_root)
     formatter = locate(directory, "format-table", skill_root)
+    validate_args: list[str] = []
+    if model is not None:
+        validate_args += ["--model", model]
+    if state is not None:
+        validate_args += ["--state", state]
     if not polish:
         steps = [
             (glossary, target, []),
             (references, target, []),
             (formatter, target, []),
-            (locate(directory, "validate-report", skill_root), target, []),
+            (locate(directory, "validate-report", skill_root), target, validate_args),
         ]
     else:
         rules = polish_rules(skill_root)
@@ -139,7 +155,7 @@ def main(argv: list[str]) -> int:
                 map_arg,
             ),
             (formatter, mapped, []),
-            (locate(directory, "validate-report", skill_root), mapped, []),
+            (locate(directory, "validate-report", skill_root), mapped, validate_args),
         ]
     for tool, step_target, extra in steps:
         result = run(tool, step_target, extra)

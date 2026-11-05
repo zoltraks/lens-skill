@@ -20,11 +20,11 @@ defined in `process/report-format/hunt-style.md` and `process/report-format/revi
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 2270 | Intake Checklist guidance        |
-| Handling Thin Input     | 2295 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 2309 | Single-Dimension Audits guidance |
-| Re-Audit                | 2323 | Re-Audit guidance                |
-| Multi-Project Audits    | 2389 | Multi-Project Audits guidance    |
+| Intake Checklist        | 2277 | Intake Checklist guidance        |
+| Handling Thin Input     | 2302 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 2316 | Single-Dimension Audits guidance |
+| Re-Audit                | 2330 | Re-Audit guidance                |
+| Multi-Project Audits    | 2396 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -1829,6 +1829,13 @@ disagreements and their dispositions in the model.
 **Validation**
 
 `scripts/validate-report.py` detects the report style and applies that style's contract.
+
+Run `scripts/check-model.py work/audit-model.json` first - a model that fails is never
+generated from - then run `validate-report.py` with `--model work/audit-model.json` and
+`--state work/audit-state.json` so scorecard cells, overall scores, register blocks,
+evidence citations, criteria outcomes, and the run-state vocabulary reconcile with the
+records they render from. `finalize-report.py` accepts the same two flags and passes them
+through.
 
 Re-check every finding against `principles/evaluation-rules.md`.
 

@@ -16,12 +16,19 @@ current contract.
 
 Usage:
   python validate-report.py <report.md> [--repo-root <dir>]
+       [--model <audit-model.json>] [--state <audit-state.json>]
   python validate-report.py --dump-contract
 
 Exit code 0 means all checks pass, 1 means failures were found.
 
 With ``--repo-root`` the validator also checks that ``path:line`` citations in
 finding ``Targets``/``Evidence`` fields resolve to real files within range.
+
+With ``--model`` the ``model consistency`` check cross-checks scorecard cells,
+overall scores, register blocks, evidence citations, and the criteria table
+against the canonical audit model. With ``--state`` the ``state consistency``
+check validates the run-state artifact's shape, phase vocabulary, gates, and
+declared artifacts.
 
 ``--dump-contract`` prints the mechanically enforced contract as JSON - required
 sections, field lists, token sets, and the hunt- and check-specific rules - so an
@@ -949,8 +956,6 @@ DOC_INFO_REQUIRED = {
     "Detail Level",
     "Evaluation Scale",
     "Language",
-    "Audit Purpose",
-    "Target Environment",
     "Verification Scope",
     "Evidence Mode",
     "Subject Revision",
@@ -959,47 +964,90 @@ DOC_INFO_REQUIRED = {
 }
 
 DASHBOARD_BLOCK = re.compile(r"^#{2,3}\s+Health Dashboard\s*$", re.MULTILINE)
-SCORE_VALUE = re.compile(r"^(?:\d+(?:\.\d+)?/\d+|[★☆]+|Unknown)(?:\s*\[\d+-\d+\])?.*$")
+SCORE_VALUE = re.compile(
+    r"^(?:\d+(?:\.\d+)?/\d+|[★☆]+|Unknown)"
+    r"(?:\s*\[\d+(?:\.\d+)?-\d+(?:\.\d+)?\])?$"
+)
 
 
-def dashboard_sections(text: str) -> list[str]:
-    """Yield the body of every `##`/`### Health Dashboard` section."""
-    blocks: list[str] = []
-    matches = list(DASHBOARD_BLOCK.finditer(text))
-    for index, match in enumerate(matches):
+def dimension_slug(name: str) -> str:
+    """Model dimension key for a canonical scorecard display name."""
+    return re.sub(r"[ _]+", "_", name.replace("&", "").lower()).strip("_")
+
+
+DIMENSION_IDS = {name: dimension_slug(name) for name in SCORECARD_DIMENSIONS}
+DIMENSION_NAMES = {ident: name for name, ident in DIMENSION_IDS.items()}
+PHASES = (
+    "intake",
+    "parameter-configuration",
+    "scope-definition",
+    "evidence-gathering",
+    "category-assessment",
+    "synthesis",
+    "validation",
+)
+GATE_TIERS = ("explicit", "convention", "discovered", "default", "automated", "unknown")
+REQUIRED_GATES = (
+    "audit-mode",
+    "project-inclusion",
+    "parameters-acceptance",
+    "report-delivery",
+)
+ARTIFACT_KINDS = ("params", "model", "state", "part", "report", "translation")
+
+
+def dashboard_sections(text: str) -> list[tuple[int, str]]:
+    """(position, body) of every `##`/`### Health Dashboard` section - a
+    section ends at the next heading whose level is less than or equal to
+    the dashboard heading's own level."""
+    blocks: list[tuple[int, str]] = []
+    for match in DASHBOARD_BLOCK.finditer(text):
+        level = len(match.group(0)) - len(match.group(0).lstrip("#"))
         start = match.end()
-        if index + 1 < len(matches):
-            boundary = re.search(r"^#{1,3}\s+", text[start:], re.MULTILINE)
-            end = start + (boundary.start() if boundary else len(text) - start)
-        else:
-            boundary = re.search(r"^#{1,2}\s+", text[start:], re.MULTILINE)
-            end = start + (boundary.start() if boundary else len(text) - start)
-        blocks.append(text[start:end])
+        boundary = re.search(rf"^#{{1,{level}}}\s", text[start:], re.MULTILINE)
+        end = start + (boundary.start() if boundary else len(text) - start)
+        blocks.append((start, text[start:end]))
     return blocks
 
 
-def dimension_tables(block: str) -> list[list[list[str]]]:
-    """Return parsed Dimension|Score tables inside a text block."""
-    found: list[list[list[str]]] = []
+def dimension_tables(block: str, offset: int = 0) -> list[tuple[int, list[list[str]]]]:
+    """Return parsed Dimension|Score tables inside a text block with the
+    absolute position of each table's first row."""
+    found: list[tuple[int, list[str]]] = []
     table: list[str] = []
+    tstart = 0
+    cursor = 0
     for line in block.split("\n"):
         if line.startswith("|"):
+            if not table:
+                tstart = cursor
             table.append(line)
         elif table:
-            found.append(table)
+            found.append((offset + tstart, table))
             table = []
+        cursor += len(line) + 1
     if table:
-        found.append(table)
+        found.append((offset + tstart, table))
     parsed = []
-    for rows in found:
+    for position, rows in found:
         if len(rows) < 2:
             continue
         header = [cell.strip() for cell in raw_cells(rows[0])]
         if "Dimension" in header and "Score" in header:
             parsed.append(
-                [[cell.strip() for cell in raw_cells(row)] for row in rows]
+                (position, [[cell.strip() for cell in raw_cells(row)] for row in rows])
             )
     return parsed
+
+
+def dimension_name(cell: str) -> str:
+    """Display name inside a scorecard dimension cell - a `[Name](#anchor)`
+    link uses `Name`, and emphasis and backticks strip away."""
+    cell = cell.strip()
+    link = re.match(r"\[([^\]]+)\]\([^)]*\)", cell)
+    if link:
+        cell = link.group(1)
+    return cell.strip("*` ")
 
 
 def check_scorecard_dimensions(text: str) -> list[str]:
@@ -1016,8 +1064,8 @@ def check_scorecard_dimensions(text: str) -> list[str]:
                 break
         if len(table) >= 2:
             tables.append([[cell.strip() for cell in raw_cells(row)] for row in table])
-    for block in dashboard_sections(text):
-        tables.extend(dimension_tables(block))
+    for _, block in dashboard_sections(text):
+        tables.extend(parsed for _, parsed in dimension_tables(block))
     seen: set[tuple] = set()
     uniq: list[list[list[str]]] = []
     for table in tables:
@@ -1036,7 +1084,7 @@ def check_scorecard_dimensions(text: str) -> list[str]:
         for row in table[2:]:
             if len(row) <= max(dim_idx, score_idx):
                 continue
-            name = row[dim_idx].strip("*`[]() ")
+            name = dimension_name(row[dim_idx])
             score = row[score_idx].strip()
             if name in ("", "Overall score"):
                 continue
@@ -1067,7 +1115,7 @@ def check_scorecard_dimensions(text: str) -> list[str]:
 
 def check_health_dashboard(text: str) -> list[str]:
     failures: list[str] = []
-    blocks = dashboard_sections(text)
+    blocks = [block for _, block in dashboard_sections(text)]
     if "Document Information" not in text:
         return failures
     if not blocks:
@@ -1278,11 +1326,12 @@ def check_type_tags(lines: list[str], fences: list[bool]) -> list[str]:
 
 
 PAR_RESULTS = ("Applied", "Pass", "N/A")
+PAR_COUNT = 33
 
 
 def check_par_rows(text: str) -> list[str]:
     failures: list[str] = []
-    for number in range(1, 34):
+    for number in range(1, PAR_COUNT + 1):
         if not re.search(rf"^\|\s*PAR-{number}(?:\s|\||:)", text, re.MULTILINE):
             failures.append(f"missing Validation Protocol row PAR-{number}")
     for match in re.finditer(r"^\|\s*PAR-\d+\s*\|\s*([^|]*)\|", text, re.MULTILINE):
@@ -3068,8 +3117,17 @@ def check_fresh_audit_claims(lines: list[str], fences: list[bool]) -> list[str]:
             re.IGNORECASE,
         ):
             continue
-        if re.search(r"baseline|previous (audit|report|revision)", line, re.IGNORECASE) and re.search(
-            r"better|improv|differ|regress|compar|since", line, re.IGNORECASE
+        probe = re.sub(
+            r"\[changes since previous audit\]\([^)]*\)", " ", line, flags=re.IGNORECASE
+        )
+        probe = re.sub(
+            r"[\"'`\u201c\u201d]*changes since previous audit[\"'`\u201c\u201d]*",
+            " ",
+            probe,
+            flags=re.IGNORECASE,
+        )
+        if re.search(r"baseline|previous (audit|report|revision)", probe, re.IGNORECASE) and re.search(
+            r"better|improv|differ|regress|compar|since", probe, re.IGNORECASE
         ):
             failures.append(
                 f"line {index + 1}: comparative claim against a previous report in a fresh audit"
@@ -3216,6 +3274,493 @@ def check_location(path: str) -> list[str]:
     return []
 
 
+def covered_dimension_tables(text: str) -> list[tuple[int, list[list[str]]]]:
+    """(position, parsed table) of every Dimension|Score table under a
+    `Scorecard Summary` marker or inside a `Health Dashboard` section."""
+    tables: list[tuple[int, list[list[str]]]] = []
+    for marker in SCORECARD_MARKER.finditer(text):
+        cursor = marker.end()
+        rows: list[str] = []
+        tstart = 0
+        for line in text[marker.end() :].split("\n"):
+            if line.startswith("|"):
+                if not rows:
+                    tstart = cursor
+                rows.append(line)
+            elif rows:
+                break
+            cursor += len(line) + 1
+        if len(rows) >= 2:
+            parsed = [[cell.strip() for cell in raw_cells(row)] for row in rows]
+            header = parsed[0]
+            if "Dimension" in header and "Score" in header:
+                tables.append((tstart, parsed))
+    for position, block in dashboard_sections(text):
+        tables.extend(dimension_tables(block, position))
+    deduped: list[tuple[int, list[list[str]]]] = []
+    seen: set[int] = set()
+    for position, table in tables:
+        if position in seen:
+            continue
+        seen.add(position)
+        deduped.append((position, table))
+    return deduped
+
+
+def project_ranges(text: str, names: set[str]) -> list[tuple[int, int, str]]:
+    """Char ranges of multi-project `## Project <name>` sections - a bare
+    `## <name>` heading also names its project."""
+    headings = list(re.finditer(r"^##\s+(.+?)\s*$", text, re.MULTILINE))
+    ranges: list[tuple[int, int, str]] = []
+    for index, match in enumerate(headings):
+        title = match.group(1).strip()
+        project = re.match(r"Project\s+`?([^`\s]+)`?\s*$", title)
+        if project and project.group(1) in names:
+            name = project.group(1)
+        elif title in names:
+            name = title
+        else:
+            continue
+        end = headings[index + 1].start() if index + 1 < len(headings) else len(text)
+        ranges.append((match.start(), end, name))
+    return ranges
+
+
+def section_project(ranges: list[tuple[int, int, str]], position: int) -> str | None:
+    for start, end, name in ranges:
+        if start <= position < end:
+            return name
+    return None
+
+
+SCORE_CELL = re.compile(
+    r"^(\d+(?:\.\d+)?)/(\d+)"
+    r"(?:\s*\[\s*(\d+(?:\.\d+)?)\s*-\s*(\d+(?:\.\d+)?)\s*\])?$"
+)
+STAR_CELL = re.compile(
+    r"^([★☆]+)"
+    r"(?:\s*\[\s*(\d+(?:\.\d+)?)\s*-\s*(\d+(?:\.\d+)?)\s*\])?$"
+)
+OVERALL_VALUE = re.compile(
+    r"Overall score\*{0,2}\s*\|?\s*\*{0,2}(\d+(?:\.\d+)?)/(\d+)"
+)
+REGISTER_HEADING = re.compile(r"^###\s+(FND-[A-Z]{3}-\d{3}|RSK-\d{3}|REC-\d{3})")
+EVD_TOKEN = re.compile(r"EVD-\d{3}")
+
+
+def parse_score_cell(cell: str) -> tuple[str, float | None, list[float] | None]:
+    """Classify a scorecard Score cell: ("score", point, interval),
+    ("unknown", None, None), or ("other", None, None)."""
+    cell = cell.strip().strip("*`").strip()
+    if cell == "Unknown":
+        return ("unknown", None, None)
+    match = SCORE_CELL.match(cell)
+    if match:
+        interval = (
+            [float(match.group(3)), float(match.group(4))]
+            if match.group(3) is not None
+            else None
+        )
+        return ("score", float(match.group(1)), interval)
+    match = STAR_CELL.match(cell)
+    if match:
+        interval = (
+            [float(match.group(2)), float(match.group(3))]
+            if match.group(2) is not None
+            else None
+        )
+        return ("score", float(match.group(1).count("★")), interval)
+    return ("other", None, None)
+
+
+def expected_score(record, scale_max) -> str:
+    """How a model dimension record renders as a scorecard cell."""
+    if not isinstance(record, dict) or record.get("score") is None:
+        return "Unknown"
+    rendered = f"{float(record['score']):g}/{scale_max}"
+    interval = record.get("interval")
+    if interval:
+        rendered += f" [{float(interval[0]):g}-{float(interval[1]):g}]"
+    return rendered
+
+
+def register_blocks(lines: list[str]) -> dict[str, list[tuple[str, str]]]:
+    """Block id -> (family, block text) for `### FND-`, `### RSK-`, and
+    `### REC-` register detail blocks."""
+    starts = [
+        (index, REGISTER_HEADING.match(line).group(1))
+        for index, line in enumerate(lines)
+        if REGISTER_HEADING.match(line)
+    ]
+    blocks: dict[str, list[tuple[str, str]]] = {"FND": [], "RSK": [], "REC": []}
+    for position, (start, ident) in enumerate(starts):
+        end = starts[position + 1][0] if position + 1 < len(starts) else len(lines)
+        cursor = start + 1
+        while cursor < end and not re.match(r"^#{1,3}\s", lines[cursor]):
+            cursor += 1
+        family = ident.split("-", 1)[0]
+        blocks[family].append((ident, NL.join(lines[start:cursor])))
+    return blocks
+
+
+def check_model_consistency(text: str, model: dict, style: str) -> list[str]:
+    """Cross-check the rendered report against the canonical audit model:
+    scorecard cells, overall scores, register blocks, evidence citations,
+    and the criteria table."""
+    failures: list[str] = []
+    if "Document Information" not in text:
+        return failures
+    scope = model.get("scope", {})
+    if not isinstance(scope, dict):
+        scope = {}
+    named = {
+        p.get("name")
+        for p in scope.get("projects", [])
+        if isinstance(p, dict) and p.get("name")
+    }
+    multi = len(named) >= 2
+    ranges = project_ranges(text, named) if multi else []
+    scores = model.get("scores", {})
+    if not isinstance(scores, dict):
+        scores = {}
+    dims = scores.get("dimensions", {})
+    if not isinstance(dims, dict):
+        dims = {}
+    scale_max = scores.get("scale_max", 10)
+    criteria = model.get("criteria", [])
+    applicable_keys = {
+        c.get("dimension")
+        for c in criteria
+        if c.get("outcome") != "NOT_APPLICABLE"
+    }
+    lines = text.split("\n")
+
+    if style == "audit":
+        covered: dict[str | None, set[str]] = {}
+        for tstart, table in covered_dimension_tables(text):
+            project = section_project(ranges, tstart) if multi else None
+            covered.setdefault(project, set())
+            header = table[0]
+            dim_idx = header.index("Dimension")
+            score_idx = header.index("Score")
+            for row in table[2:]:
+                if len(row) <= max(dim_idx, score_idx):
+                    continue
+                name = dimension_name(row[dim_idx])
+                if name not in DIMENSION_IDS:
+                    continue  # scorecard dimensions already reports it
+                leaf = DIMENSION_IDS[name]
+                key = f"{project}.{leaf}" if project else leaf
+                covered[project].add(key)
+                kind, point, interval = parse_score_cell(row[score_idx])
+                if kind == "other":
+                    continue  # scorecard grammar already reports the cell
+                record = dims.get(key)
+                expected = expected_score(record, scale_max)
+                where = f"{project} " if project else ""
+                cell = row[score_idx].strip()
+                score = record.get("score") if isinstance(record, dict) else None
+                if kind == "unknown":
+                    if score is not None:
+                        mismatch = True
+                    elif key not in applicable_keys:
+                        mismatch = True
+                        expected = "not applicable"
+                    else:
+                        mismatch = False
+                else:
+                    record_interval = (
+                        record.get("interval") if isinstance(record, dict) else None
+                    )
+                    same_interval = (
+                        (record_interval is None and interval is None)
+                        or (
+                            isinstance(record_interval, list)
+                            and interval is not None
+                            and len(record_interval) == 2
+                            and [float(v) for v in record_interval] == interval
+                        )
+                    )
+                    mismatch = (
+                        score is None or float(score) != point or not same_interval
+                    )
+                if mismatch:
+                    failures.append(
+                        f"scorecard {where}{name}: report shows {cell!r}, "
+                        f"model has {expected}"
+                    )
+        for key in sorted(k for k in applicable_keys if isinstance(k, str)):
+            project = None
+            leaf = key
+            if multi and "." in key:
+                prefix, _, leaf = key.partition(".")
+                if prefix in named:
+                    project = prefix
+            if key not in covered.get(project, set()):
+                where = f"{project} " if project else ""
+                display = DIMENSION_NAMES.get(leaf, leaf)
+                failures.append(
+                    f"scorecard {where}omits applicable dimension {display}"
+                )
+
+        overall = scores.get("overall", {})
+        if not isinstance(overall, dict):
+            overall = {}
+        per_project = scores.get("per_project", {})
+        if not isinstance(per_project, dict):
+            per_project = {}
+        cursor = 0
+        for line in lines:
+            match = OVERALL_VALUE.search(strip_spans(line))
+            if match:
+                value = float(match.group(1))
+                shown = f"{match.group(1)}/{match.group(2)}"
+                if multi:
+                    project = section_project(ranges, cursor)
+                    record = per_project.get(project) if project else None
+                    score = (
+                        record.get("score") if isinstance(record, dict) else None
+                    )
+                    where = f"{project} " if project else ""
+                else:
+                    score = overall.get("score")
+                    where = ""
+                expected = (
+                    f"{float(score):g}/{scale_max}" if score is not None else "none"
+                )
+                if score is None or abs(float(score) - value) >= 0.001:
+                    failures.append(
+                        f"overall score {where}{shown} differs from the "
+                        f"model {expected}"
+                    )
+            cursor += len(line) + 1
+
+    findings = {f.get("id"): f for f in model.get("findings", [])}
+    risks = {r.get("id"): r for r in model.get("risks", [])}
+    recommendations = {r.get("id"): r for r in model.get("recommendations", [])}
+    blocks = register_blocks(lines)
+    for family, model_map, label in (
+        ("FND", findings, "findings"),
+        ("RSK", risks, "risks"),
+    ):
+        report_ids = [ident for ident, _ in blocks[family]]
+        if len(report_ids) != len(model_map):
+            failures.append(
+                f"report has {len(report_ids)} {family} blocks, "
+                f"model has {len(model_map)}"
+            )
+        for ident in report_ids:
+            if ident not in model_map:
+                failures.append(f"{ident} appears in the report but not in the model")
+        for ident in model_map:
+            if ident not in report_ids:
+                failures.append(f"{ident} appears in the model but not in the report")
+        for ident, block in blocks[family]:
+            record = model_map.get(ident)
+            if record is None:
+                continue
+            shown = field_value(block, "Severity")
+            expected = record.get("severity")
+            if (
+                shown
+                and not shown.startswith("<")
+                and expected
+                and field_token(shown).upper() != str(expected).upper()
+            ):
+                failures.append(
+                    f"{ident}: report severity {field_token(shown)} differs "
+                    f"from the model {expected}"
+                )
+    report_recs = [ident for ident, _ in blocks["REC"]]
+    if not report_recs:
+        for line in lines:
+            if line.startswith("|"):
+                report_recs.extend(re.findall(r"REC-\d{3}", line))
+        report_recs = sorted(set(report_recs))
+    if len(report_recs) != len(recommendations):
+        failures.append(
+            f"report has {len(report_recs)} REC blocks, "
+            f"model has {len(recommendations)}"
+        )
+    for ident in report_recs:
+        if ident not in recommendations:
+            failures.append(f"{ident} appears in the report but not in the model")
+    for ident in recommendations:
+        if ident not in report_recs:
+            failures.append(f"{ident} appears in the model but not in the report")
+
+    evidence_ids = {e.get("id") for e in model.get("evidence", [])}
+    fences = split_code(lines)
+    cited: set[str] = set()
+    ledger_ids: set[str] = set()
+    for line, fenced in zip(lines, fences):
+        if fenced:
+            continue
+        cited.update(EVD_TOKEN.findall(line))
+        if line.startswith("|"):
+            cells = raw_cells(line)
+            if cells:
+                plain = re.sub(
+                    r"\[([^\]]+)\]\([^)]*\)", r"\1", cells[0]
+                ).strip("*` ")
+                if EVD_TOKEN.fullmatch(plain):
+                    ledger_ids.add(plain)
+    for ident in sorted(cited - evidence_ids):
+        failures.append(f"report cites {ident} not present in the model")
+    if len(ledger_ids) != len(evidence_ids):
+        failures.append(
+            f"evidence ledger lists {len(ledger_ids)} records, "
+            f"model has {len(evidence_ids)}"
+        )
+
+    if style == "audit":
+        outcomes = {
+            c.get("id"): c.get("outcome") for c in criteria
+        }
+        for header, rows in criteria_tables(lines):
+            column = next(
+                (
+                    index
+                    for index, cell in enumerate(header)
+                    if cell.lower() in ("outcome", "result", "status")
+                ),
+                None,
+            )
+            if column is None:
+                continue
+            for row in rows:
+                if len(row) <= column:
+                    continue
+                cid = row[0].strip().strip("`")
+                expected = outcomes.get(cid)
+                if expected is None:
+                    continue
+                shown = row[column].strip()
+                normalized = shown.upper().replace(" ", "_").replace("-", "_")
+                if normalized in ("N/A", "NOT_APPLICABLE"):
+                    normalized = "NOT_APPLICABLE"
+                if normalized != expected:
+                    failures.append(
+                        f"criteria table {cid}: report {shown} differs "
+                        f"from the model {expected}"
+                    )
+    return failures
+
+
+def criteria_tables(lines: list[str]) -> list[tuple[list[str], list[list[str]]]]:
+    """(header, rows) of each table under a `**Criteria table**` or
+    `##/### Criteria table` marker."""
+    found: list[tuple[list[str], list[list[str]]]] = []
+    for index, line in enumerate(lines):
+        if not re.match(
+            r"(?:\*\*Criteria table\*\*|#{2,3}\s+Criteria table\s*$)",
+            line,
+            re.IGNORECASE,
+        ):
+            continue
+        j = index + 1
+        while j < len(lines) and not lines[j].lstrip().startswith("|"):
+            if re.match(r"\*\*[^*]+\*\*", lines[j]) or lines[j].startswith("#"):
+                break
+            j += 1
+        if j >= len(lines) or not lines[j].lstrip().startswith("|"):
+            continue
+        header = [cell.strip() for cell in lines[j].strip("|").split("|")]
+        if not header or header[0].lower() != "criteria":
+            continue
+        j += 1
+        if j < len(lines) and set(lines[j].strip()) <= set("|-: "):
+            j += 1
+        rows: list[list[str]] = []
+        while j < len(lines) and lines[j].lstrip().startswith("|"):
+            rows.append([cell.strip() for cell in lines[j].strip("|").split("|")])
+            j += 1
+        found.append((header, rows))
+    return found
+
+
+def check_state_consistency(state: dict, state_path: Path, repo_root: str | None) -> list[str]:
+    """Validate a `work/audit-state.json` run-state artifact: schema shape,
+    canonical phase vocabulary, required gates, and declared artifacts."""
+    failures: list[str] = []
+    if not isinstance(state, dict):
+        return ["state file is not a JSON object"]
+    if state.get("state_version") != 1:
+        failures.append(f"state_version is {state.get('state_version')!r}, expected 1")
+    run = state.get("run", {})
+    if not isinstance(run, dict):
+        run = {}
+    phase = run.get("phase")
+    if phase != "validation":
+        failures.append(
+            f"run.phase is {phase!r}, expected validation - a report under "
+            "final validation is in the validation phase"
+        )
+    completed = run.get("completed_phases")
+    if completed != list(PHASES[:6]) and completed != list(PHASES):
+        failures.append(
+            f"completed_phases {completed!r} must list intake through "
+            "synthesis in workflow order"
+        )
+    for value in (completed or []) + (run.get("failed_phases") or []):
+        if value not in PHASES:
+            failures.append(f"phase name {value!r} is not a workflow phase")
+    if not isinstance(run.get("started"), str) or not run["started"].strip():
+        failures.append("run.started is not recorded")
+    gates = state.get("gates", {})
+    if not isinstance(gates, dict):
+        failures.append("gates is not recorded")
+        gates = {}
+    for surface in REQUIRED_GATES:
+        entry = gates.get(surface)
+        if not isinstance(entry, dict):
+            failures.append(f"gate {surface} is not recorded")
+            continue
+        if (
+            not isinstance(entry.get("resolution"), str)
+            or not entry["resolution"].strip()
+            or entry.get("tier") not in GATE_TIERS
+        ):
+            failures.append(f"gate {surface}: resolution or tier is invalid")
+    artifacts = state.get("artifacts", [])
+    if not isinstance(artifacts, list):
+        failures.append("artifacts is not a list")
+        artifacts = []
+    if repo_root is not None:
+        base = Path(repo_root)
+    elif state_path.parent.name == "work":
+        base = state_path.parent.parent
+    else:
+        base = state_path.parent
+    for entry in artifacts:
+        if not isinstance(entry, dict):
+            failures.append(f"artifact entry {entry!r} is not an object")
+            continue
+        path = entry.get("path")
+        kind = entry.get("kind")
+        if kind not in ARTIFACT_KINDS:
+            failures.append(f"artifact {path!r}: kind {kind!r} is not an artifact kind")
+        declared = entry.get("declared_phase")
+        if declared not in PHASES:
+            failures.append(f"phase name {declared!r} is not a workflow phase")
+        if isinstance(path, str) and kind != "part":
+            target = Path(path)
+            if not target.is_absolute():
+                target = base / target
+            if not target.is_file():
+                failures.append(
+                    f"declared artifact {path!r} ({kind}) is missing"
+                )
+    timestamps = state.get("timestamps", {})
+    if not isinstance(timestamps, dict):
+        timestamps = {}
+    for key in ("created", "updated"):
+        value = timestamps.get(key)
+        if not isinstance(value, str) or not value.strip():
+            failures.append(f"timestamps.{key} is not recorded")
+    return failures
+
+
 def report_contract() -> dict:
     """The mechanically enforced contract, generated from the live constants."""
     return {
@@ -3346,6 +3891,25 @@ def report_contract() -> dict:
             "provenance_basis": list(PROVENANCE_BASIS_VALUES),
             "evidence_mode": ["source-only", "executed-readonly", "executed-commands"],
         },
+        "scorecard_dimensions": SCORECARD_DIMENSIONS,
+        "dimension_ids": [DIMENSION_IDS[name] for name in SCORECARD_DIMENSIONS],
+        "health_dashboard_markers": [
+            "Risk Map",
+            "Scorecard Summary",
+            "Team & Continuity",
+        ],
+        "doc_info": {
+            "required": sorted(DOC_INFO_REQUIRED),
+            "allowed": sorted(DOC_INFO_FIELDS),
+        },
+        "run_state": {
+            "state_version": 1,
+            "phases": list(PHASES),
+            "gate_tiers": list(GATE_TIERS),
+            "required_gates": list(REQUIRED_GATES),
+            "artifact_kinds": list(ARTIFACT_KINDS),
+        },
+        "par_rows": PAR_COUNT,
         "tables": {
             "findings_summary_columns": [
                 "Finding",
@@ -3441,8 +4005,45 @@ def reconfigure_stdio() -> None:
             pass
 
 
-def main(path: str, repo_root: str | None = None) -> int:
+def main(
+    path: str,
+    repo_root: str | None = None,
+    model_path: str | None = None,
+    state_path: str | None = None,
+) -> int:
     reconfigure_stdio()
+    model = None
+    if model_path is not None:
+        try:
+            model = json.loads(Path(model_path).read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            print(
+                f"validate-report: cannot parse model {model_path}: {exc}",
+                file=sys.stderr,
+            )
+            return 2
+        if not isinstance(model, dict):
+            print(
+                "validate-report: model top-level value is not an object",
+                file=sys.stderr,
+            )
+            return 2
+    state = None
+    if state_path is not None:
+        try:
+            state = json.loads(Path(state_path).read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            print(
+                f"validate-report: cannot parse state {state_path}: {exc}",
+                file=sys.stderr,
+            )
+            return 2
+        if not isinstance(state, dict):
+            print(
+                "validate-report: state top-level value is not an object",
+                file=sys.stderr,
+            )
+            return 2
     text = Path(path).read_text(encoding="utf-8")
     lines = text.replace("\r\n", "\n").split("\n")
     fences = split_code(lines)
@@ -3583,6 +4184,17 @@ def main(path: str, repo_root: str | None = None) -> int:
             if style in ("audit", "hunt"):
                 checks.append(("defect scenarios", check_hunt_scenarios(lines)))
             checks.append(("AIP provenance basis", check_aip_provenance(lines)))
+        if model is not None and "Document Information" in text:
+            checks.append(
+                ("model consistency", check_model_consistency(text, model, style))
+            )
+        if state is not None and "Document Information" in text:
+            checks.append(
+                (
+                    "state consistency",
+                    check_state_consistency(state, Path(state_path), repo_root),
+                )
+            )
     if kind == "audit":
         label = report_style(text)
         if variant:
@@ -3605,10 +4217,28 @@ def main(path: str, repo_root: str | None = None) -> int:
 
 
 if __name__ == "__main__":
-    if sys.argv[1:] == ["--dump-contract"]:
+    argv = sys.argv[1:]
+    if argv == ["--dump-contract"]:
         print(json.dumps(report_contract(), indent=2))
         raise SystemExit(0)
-    if len(sys.argv) not in (2, 4) or (len(sys.argv) == 4 and sys.argv[2] != "--repo-root"):
-        print("Usage: python validate-report.py <report.md> [--repo-root <dir>] | --dump-contract")
+    USAGE = (
+        "Usage: python validate-report.py <report.md> [--repo-root <dir>] "
+        "[--model <audit-model.json>] [--state <audit-state.json>] | "
+        "--dump-contract"
+    )
+    if not argv or argv[0].startswith("-"):
+        print(USAGE)
         raise SystemExit(1)
-    raise SystemExit(main(sys.argv[1], sys.argv[3] if len(sys.argv) == 4 else None))
+    report_path = argv[0]
+    options = {"--repo-root": None, "--model": None, "--state": None}
+    index = 1
+    while index < len(argv):
+        flag = argv[index]
+        if flag not in options or index + 1 >= len(argv) or options[flag] is not None:
+            print(USAGE)
+            raise SystemExit(1)
+        options[flag] = argv[index + 1]
+        index += 2
+    raise SystemExit(
+        main(report_path, options["--repo-root"], options["--model"], options["--state"])
+    )

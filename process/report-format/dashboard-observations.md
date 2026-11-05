@@ -50,6 +50,7 @@ so no score appears before its band is defined.
 | Testability             |       |       |
 | Design Soundness        |       |       |
 | Code Quality            |       |       |
+| Code Style              |       |       |
 | Stack Alignment         |       |       |
 | Dependency Health       |       |       |
 | Maintainability         |       |       |

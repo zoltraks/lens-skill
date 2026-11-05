@@ -20,7 +20,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.6.6"
+  version: "2.6.7"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -46,10 +46,10 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 | Translations            | 210  | Per-language report translations                   |
 | References              | 219  | Lookup tables                                      |
 | Scripts                 | 243  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 265  | Behavioral regression prompts                      |
-| Repository Files        | 269  | Housekeeping files governing this repository       |
-| Evidence Contract       | 281  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 311  | File-selection and section-placement rules         |
+| Evaluation Prompts      | 268  | Behavioral regression prompts                      |
+| Repository Files        | 272  | Housekeeping files governing this repository       |
+| Evidence Contract       | 284  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 314  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -249,7 +249,10 @@ repository's `work/` directory under a `.tmp.` name and remove the copies when d
 - **`scripts/format-table.py`** / **`align-comments.py`** - Table formatter and `#`-comment aligner.
 - **`scripts/check-model.py`** - Audit-model checker (referential integrity, scoring recompute).
 - **`scripts/link-glossary.py`** / **`link-references.py`** - Glossary and register linkers.
-- **`scripts/validate-report.py`** - Mechanical report checker (`--dump-contract` emits JSON).
+- **`scripts/validate-report.py`** - Mechanical report checker (`--dump-contract` emits JSON,
+  `--model`/`--state` cross-check report against model and run state).
+- **`scripts/render-contract.py`** - Regenerates the `report-contract.md` enumeration block
+  from `--dump-contract` (`--check` gates drift).
 - **`scripts/new-report.py`** - Report skeleton generator (`--style`, `--scope`, `--params`).
 - **`scripts/validate-skill.py`** / **`check-references.py`** / **`check-contents.py`** -
   Frontmatter, disclosure, reference, and Contents validators.

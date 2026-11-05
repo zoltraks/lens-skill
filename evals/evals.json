@@ -2231,9 +2231,43 @@
       "expected_output": "A Document Information table with the canonical field list and a bare Skill Version.",
       "files": [],
       "expectations": [
-        "Required rows include Report Revision, Report Date, Report Style, Detail Level, Evaluation Scale, Language, Audit Purpose, Target Environment, Verification Scope, Evidence Mode, Subject Revision, Skill Version, and Time taken.",
-        "Skill Version renders the bare version string like 2.6.6, never prefixed with the skill name.",
+        "Required rows include Report Revision, Report Date, Report Style, Detail Level, Evaluation Scale, Language, Verification Scope, Evidence Mode, Subject Revision, Skill Version, and Time taken.",
+        "Skill Version renders the bare version string like 2.6.7, never prefixed with the skill name.",
+        "Audit Purpose and Target Environment are optional - they render only when the input establishes them.",
         "No row is empty or carries Not specified, and no non-canonical labels appear."
+      ]
+    },
+    {
+      "id": 192,
+      "prompt": "Validate a finished audit report against its canonical model and run state.",
+      "expected_output": "validate-report.py run with --model and --state so report and records reconcile.",
+      "files": [],
+      "expectations": [
+        "The command passes --model work/audit-model.json and --state work/audit-state.json to validate-report.py (or to finalize-report.py, which forwards them).",
+        "Scorecard cells, overall scores, register blocks, evidence citations, and criteria outcomes must equal the model values.",
+        "A report that disagrees with its model is fixed in the model or the report, never left inconsistent."
+      ]
+    },
+    {
+      "id": 193,
+      "prompt": "The run-state file records the audit's final phase before delivery.",
+      "expected_output": "audit-state.json uses the canonical phase vocabulary ending in validation.",
+      "files": [],
+      "expectations": [
+        "run.phase reads validation for a delivered report and completed_phases lists intake through synthesis in workflow order.",
+        "Phase names come from intake, parameter-configuration, scope-definition, evidence-gathering, category-assessment, synthesis, validation - never capitalized or invented variants.",
+        "Artifact kinds are params, model, state, part, report, or translation and every required gate records a resolution and tier."
+      ]
+    },
+    {
+      "id": 194,
+      "prompt": "Keep the documented report contract in step with the validator.",
+      "expected_output": "The generated enumeration block in report-contract.md is regenerated, not hand-edited.",
+      "files": [],
+      "expectations": [
+        "scripts/render-contract.py regenerates the block between <!-- contract:begin --> and <!-- contract:end --> from validate-report.py --dump-contract.",
+        "render-contract.py --check fails when the checked-in block drifts from the live constants.",
+        "Canonical dimension names, model dimension ids, Document Information fields, dashboard markers, run-state vocabulary, and the PAR row count all come from the dump."
       ]
     }
   ]

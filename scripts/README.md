@@ -58,7 +58,14 @@ Artifact Manifest section to the skeleton.
 `validate-report.py --dump-contract` prints the mechanically enforced contract - required
 sections, field lists, token sets, hunt- and review-specific rules - as JSON generated from
 the live constants, for agents that want the contract without reading the documentation
-corpus.
+corpus. `--model <audit-model.json>` adds the report-versus-model cross-check (scorecard
+cells, overall scores, register blocks, evidence citations, criteria outcomes), and
+`--state <audit-state.json>` validates the run-state artifact's shape, phase vocabulary,
+gates, and declared artifacts.
+
+`render-contract.py` regenerates the marked enumeration block in
+`process/report-contract.md` from that dump, and `--check` fails when the checked-in block
+has drifted from the live constants.
 
 `format-table.py` warns when a row begins with `||` or a column is empty in every row.
 
@@ -330,8 +337,9 @@ python scripts/lint-prose.py path/to/draft.md [--no-sentence-breaks]
 python scripts/link-references.py path/to/AUDIT.md
 python scripts/format-table.py path/to/AUDIT.md [--check] [--drop-empty-columns]
 python scripts/align-comments.py path/to/AUDIT.md [--check]
-python scripts/validate-report.py path/to/AUDIT.md [--repo-root path/to/repo]
+python scripts/validate-report.py path/to/AUDIT.md [--repo-root path/to/repo] [--model path/to/audit-model.json] [--state path/to/audit-state.json]
 python scripts/validate-report.py --dump-contract
+python scripts/render-contract.py [--check] [process/report-contract.md]
 python scripts/new-report.py --style hunt --projects api,cli --output path/to/HUNT.md
 python scripts/new-report.py --style review --scope structure --output path/to/REVIEW.md
 python scripts/lint-polish.py path/to/AUDYT.md --rules translations/polish-language.md

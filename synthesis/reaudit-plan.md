@@ -35,8 +35,12 @@ Use this fixed column order.
 
 Include one row per P1 and P2 finding at minimum, P3 and P4 findings may be grouped.
 
-| Finding | Priority | Verification Owner | Closure Evidence | Target Re-audit Trigger |
-|---------|----------|--------------------|------------------|-------------------------|
+| Finding | Priority | Owner | Evidence | Trigger |
+|---------|----------|-------|----------|---------|
+
+The `Owner` column renders only when at least one row names a concrete owner, per
+`process/report-format/report-closing.md` - omit the column when every owner is
+unspecified.
 
 When the report language is not English, apply the column header translations from the matching
 `translations/` file.
@@ -45,10 +49,10 @@ Column meanings:
 
 - **Finding**: the `FND-XXX` identifier to be verified.
 - **Priority**: the priority tier from the remediation roadmap (`P1`-`P4`).
-- **Verification Owner**: the role responsible for confirming the fix - the cell stays empty
+- **Owner**: the role responsible for confirming the fix - the cell stays empty
   when the input establishes none.
-- **Closure Evidence**: the specific artifact, test, or check required to close the finding.
-- **Target Re-audit Trigger**: the milestone or date that should trigger re-verification, or
+- **Evidence**: the specific artifact, test, or check required to close the finding.
+- **Trigger**: the milestone or date that should trigger re-verification, or
   `Not specified`.
 
 ## Sign-off Gates

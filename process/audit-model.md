@@ -23,9 +23,9 @@ records live in `references/criterion-catalogue.md`.
 |-------------------------|------|--------------------------------------------------|
 | Pipeline Stages         | 30   | The nine stages and their publication conditions |
 | The Model Artifact      | 48   | `work/audit-model.json` schema and lifecycle     |
-| Derivation Rule         | 138  | Rendering every surface from the model           |
-| Counter-Evidence Review | 183  | The second-pass challenge discipline             |
-| Publication Stops       | 199  | Errors that block final publication              |
+| Derivation Rule         | 154  | Rendering every surface from the model           |
+| Counter-Evidence Review | 199  | The second-pass challenge discipline             |
+| Publication Stops       | 215  | Errors that block final publication              |
 
 ## Pipeline Stages
 
@@ -57,9 +57,10 @@ Top-level shape:
  "model_version": 1,
  "scope": {
   "subject": "<name>", "revision": "<full identity>", "purpose": "<audit purpose>",
-  "evidence_mode": "source-only", "product_profile": {},
+  "evidence_mode": "source-only", "scoring_policy": 2,
+  "history": "present|absent|out-of-scope", "product_profile": {},
   "projects": [
-   {"path": "...", "provenance": "in-tree|submodule|embedded",
+   {"path": "...", "name": "<project name>", "provenance": "in-tree|submodule|embedded",
     "fetch_state": "fetched|unfetched|n/a", "pin_state": "pinned|ahead|n/a",
     "automation_census": "signals|external|none"}
   ]
@@ -72,7 +73,7 @@ Top-level shape:
   {"id": "SEC-AUTHZ", "source": "...", "applicability": "applicable",
    "criticality": "high", "weight": 1.0, "expected": "...", "method": "...",
    "sufficiency": "...", "dimension": "security",
-   "outcome": "PASS", "mastery": null}
+   "outcome": "PASS", "mastery": null, "na_basis": null, "shortfall": null}
  ],
  "evidence": [
   {"id": "EVD-001", "kind": "INSPECTED", "collector": "...", "method": "...",
@@ -86,7 +87,7 @@ Top-level shape:
    "severity": "HIGH", "claim_class": "confirmed defect", "observation": "...",
    "property": "...", "evidence": ["EVD-001"], "counter": "...",
    "consequence": "...", "scope": "...", "confidence": "HIGH",
-   "status": "Open", "next_verification": "..."}
+   "status": "Open", "absence": null, "next_verification": "..."}
  ],
  "risks": [
   {"id": "RSK-001", "finding": "FND-SEC-001", "impact": "...", "likelihood": "...",
@@ -101,10 +102,13 @@ Top-level shape:
  "scores": {
   "scale_max": 10,
   "dimensions": {
-   "security": {"mastery": 0.7, "score": 7, "interval": [4, 9],
-                "coverage": 0.9, "eligible": true}
+   "security": {"mastery": 0.7, "uncapped": 7, "score": 5, "interval": [4, 5],
+                "coverage": 0.9, "eligible": true,
+                "caps": [{"rule": "severity-high", "limit": 5,
+                          "source": ["FND-SEC-001"]}]}
   },
-  "overall": {"score": null, "scored": 0, "applicable": 0}
+  "overall": {"score": null, "scored": 0, "applicable": 0},
+  "per_project": {}
  },
  "coverage": {"families": {}, "labels": {}},
  "exclusions": ["..."]
@@ -112,6 +116,18 @@ Top-level shape:
 ```
 
 `model_version` is `1` for this schema.
+
+Criterion `dimension` values are the canonical ids in `process/readiness-scoring.md`
+(scoring policy 2) - snake_case keys like `security` and `delivery_continuity`, never the
+legacy `process` bucket or kebab-case; a process-family criterion names its own dimension
+(`delivery_continuity`, `ai_provenance`, `originality_licensing`, `skill_definition`).
+Multi-project models prefix each dimension key with the project `name` (`<project>.security`)
+and publish `scores.per_project` while `overall.score` stays null.
+
+`NOT_APPLICABLE` criteria carry `na_basis` (`deployment-model`, `census-none`, or
+`history-out-of-scope`), and `PARTIAL`/`FAIL` criteria carry either an open finding or a
+recorded `shortfall` with evidence per the deduction-traceability rule in
+`process/readiness-scoring.md`.
 
 Criterion-to-evidence linkage runs through `evidence[].claims` - each evidence record names
 the criterion ids its result supports, and a criterion is scored-relevant only when at least
