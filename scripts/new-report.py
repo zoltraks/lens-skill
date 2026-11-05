@@ -8,7 +8,7 @@ until the author replaces them, which is deliberate.
 
 Usage:
   python new-report.py --style audit|hunt|review [--scope structure]
-                       [--projects a,b] [--params file] [--output report.md]
+                       [--projects a,b] [--params file] [--model file]\n                       [--output report.md]
 
 ``--params`` reads a saved intake file (``work/lens-params.json``) carrying
 ``report_style``, ``review_scope``, ``projects``, ``subject``, ``revision``,
@@ -21,6 +21,7 @@ variant contract instead of the execution-register one.
 from __future__ import annotations
 
 import json
+import re
 import os
 import subprocess
 import sys
@@ -744,12 +745,268 @@ def structure_review_skeleton(projects: list[str], params: dict) -> str:
     return "".join(parts)
 
 
+
+
+DIMENSION_ORDER = [
+    "Functional Suitability", "Testability", "Design Soundness", "Code Quality",
+    "Code Style", "Stack Alignment", "Dependency Health", "Maintainability",
+    "Structure", "Deployability", "Scalability", "Security", "Compliance",
+    "Observability", "Operational Safety", "Documentation",
+    "API Compatibility", "Delivery & Continuity", "Originality & Licensing",
+    "Skill Definition",
+]
+
+PILLAR_LABELS = {
+    "ARC": "Architecture & Design", "CQY": "Code Quality",
+    "SEC": "Security & Compliance", "INF": "Delivery & Operations",
+    "AIP": "AI Provenance", "CPR": "Licensing & Provenance",
+    "API": "API Compatibility", "STR": "Structure",
+}
+
+
+def _pillar(fnd_id: str) -> str:
+    parts = fnd_id.split("-")
+    return PILLAR_LABELS.get(parts[1], "Security & Compliance") if len(parts) > 2 else "Security & Compliance"
+
+
+def _clean(text: str) -> str:
+    """Sanitize model text for report prose - no semicolons, no trailing space."""
+    return re.sub(r"\s{2,}", " ", str(text).replace(";", ",")).strip()
+
+
+def populate_audit(body: str, model: dict) -> str:
+    """Seed an audit skeleton's model-driven cells from ``audit-model.json``.
+
+    Fills the scorecard, executive-summary score cells, finding/risk/rec
+    registers, requirements table, criteria table, evidence ledger, and the
+    executed-evidence log. Author prose, exclusions, and limitations stay as
+    placeholders.
+    """
+    scores = model.get("scores", {})
+    scale = int(scores.get("scale_max", 10))
+    dims = scores.get("dimensions", {})
+    rows = []
+    for name in DIMENSION_ORDER:
+        key = name.lower().replace(" & ", "_").replace(" ", "_")
+        cell = dims.get(key, {})
+        if not cell or not cell.get("eligible", True):
+            continue
+        interval = cell.get("interval")
+        interval_text = f" [{interval[0]}-{interval[1]}]" if interval else ""
+        rows.append(f"| {name} | {cell['score']}/{scale}{interval_text} |  |\n")
+    if rows:
+        body = body.replace(
+            "| Dimension | Score | Notes |\n|---|---|---|\n",
+            "| Dimension | Score | Notes |\n|---|---|---|\n" + "".join(rows),
+            1,
+        )
+    prod = scores.get("product", {})
+    proc = scores.get("process", {})
+    single = scores.get("single", {})
+    scale_max = scores.get("scale_max", 10)
+    if prod.get("score") is not None:
+        body = body.replace(
+            "| Product Quality | <score>/<scale> (<band>) | <formula>, lowest <dimension> <score> |",
+            f"| Product Quality | {prod['score']}/{scale_max} | tier-weighted, lowest "
+            f"{', '.join(prod.get('lowest') or ['-'])} |",
+            1,
+        )
+        body = body.replace(
+            "| Engineering Process | <score>/<scale> (<band>) or Not published | <formula>, lowest <dimension> <score> |",
+            f"| Engineering Process | {proc['score']}/{scale_max} | mean of {proc.get('scored','?')} dimensions, lowest "
+            f"{', '.join(proc.get('lowest') or ['-'])} |",
+            1,
+        )
+        ceiling = (single.get("ceiling") or {}).get("reasons")
+        ceiling_text = f"ceiling {ceiling}" if ceiling else "blend"
+        body = body.replace(
+            "| Overall Score | <score>/<scale> (<band>) or Not published | <blend, Product-only, ceiling wording> |",
+            f"| Overall Score | {single['score']}/{scale_max} ({single.get('band','')}) | {ceiling_text}, raw {single.get('raw','?')} |",
+            1,
+        )
+        body = body.replace(
+            "| Overall score | <mean>/<scale> (<band>) |",
+            f"| Overall score | {single['score']}/{scale_max} ({single.get('band','')}) |",
+            1,
+        )
+    findings = model.get("findings", [])
+    subject = model.get("scope", {}).get("subject", "<subject>")
+    if findings:
+        summary_rows = "".join(
+            f"| {f['id']} | {_pillar(f['id'])} | {f['severity'].title()} | {_clean(f.get('observation',''))[:60]} |"
+            f" {_clean(f.get('claim_class',''))} | Open | New | "
+            f"{'Confirmed' if any(e.get('kind')=='EXECUTED' for e in model.get('evidence',[]) if e.get('id') in f.get('evidence',[])) else ('Verification' if f.get('confidence')=='HIGH' else '')} |\n"
+            for f in findings
+        )
+        body = re.sub(
+            r"\| FND-[A-Z]+-001 \| [^\n]*<severity>[^\n]*\|\n",
+            summary_rows, body, count=1,
+        )
+        blocks = ""
+        for f in findings:
+            evidence = ", ".join(f.get("evidence", [])) or "<EVD IDs>"
+            verification = ""
+            if any(
+                e.get("kind") == "EXECUTED"
+                for e in model.get("evidence", [])
+                if e.get("id") in f.get("evidence", [])
+            ):
+                verification = "* **Runtime:** Confirmed - executed evidence\n"
+            elif f.get("confidence") == "HIGH":
+                verification = "* **Verification:** Verified - source inspection\n"
+            absence = f"* **Absence:** {f['absence']}\n" if f.get("absence") else ""
+            blocks += (
+                f"### {f['id']}: {_clean(f.get('observation',''))[:70]}\n\n"
+                f"{_clean(f.get('observation',''))}\n\n"
+                f"* **Pillar:** {_pillar(f['id'])}\n"
+                f"* **Severity:** {f['severity'].title()}\n"
+                f"* **Type:** {f.get('type','Concern')}\n"
+                f"* **Targets:** {subject}\n"
+                f"* **Basis:** Inspected\n"
+                f"* **Criteria:** {f.get('criteria','')}\n"
+                f"* **Impact:** {_clean(f.get('consequence',''))}\n"
+                f"* **Method:** {_clean(f.get('next_verification',''))}\n"
+                f"{verification}"
+                f"* **Confidence:** {f.get('confidence','').title()}\n"
+                f"* **Mitigating factors:** {_clean(f.get('counter',''))}\n"
+                f"* **Evidence:** {evidence}\n"
+                f"* **Recommendation:** {_clean(f.get('next_verification',''))}\n"
+                f"{absence}\n"
+            )
+        body = re.sub(
+            r"### FND-[A-Z]+-001:.*?(?=### |## |\Z)",
+            blocks.rstrip() + "\n\n", body, count=1, flags=re.S,
+        )
+    risks = model.get("risks", [])
+    if risks:
+        blocks = ""
+        for r in risks:
+            blocks += (
+                f"### {r['id']}: {_clean(r.get('impact',''))[:60]}\n\n"
+                f"{_clean(r.get('impact',''))}.\n\n"
+                f"* **Severity:** {r.get('severity','').title()}\n"
+                f"* **Likelihood:** {_clean(r.get('likelihood',''))}\n"
+                f"* **Residual:** {r.get('severity','').title()}\n"
+                f"* **Impact:** {_clean(r.get('impact',''))}\n"
+                f"* **Trigger:** {_clean(r.get('prerequisites',''))}\n"
+                f"* **Controls:** {_clean(r.get('controls',''))}\n"
+                f"* **Closure:** {_clean(r.get('closure','<closure condition>'))}\n"
+                f"* **Source:** {r.get('finding','')}\n"
+                f"* **Confidence:** {r.get('uncertainty','').title()}\n"
+                f"* **Mitigation:** {_clean(r.get('mitigation','<treatment plan>'))}\n\n"
+            )
+        body = re.sub(
+            r"### RSK-001:.*?(?=### |## |\Z)",
+            blocks.rstrip() + "\n\n", body, count=1, flags=re.S,
+        )
+    recs = model.get("recommendations", [])
+    if recs:
+        blocks = ""
+        for r in recs:
+            blocks += (
+                f"### {r['id']}: {_clean(r.get('postcondition',''))[:60]}\n\n"
+                f"{_clean(r.get('postcondition',''))}.\n\n"
+                f"* **Priority:** {r.get('priority','P3')}\n"
+                f"* **Finding:** {r.get('finding','')}\n"
+                f"* **Condition:** {_clean(r.get('postcondition',''))}\n"
+                f"* **Impact:** {_clean(r.get('residual','closes the finding'))}\n"
+                f"* **Effort:** {r.get('effort','M')}\n"
+                f"* **Complexity:** low\n"
+                f"* **Verification:** {_clean(r.get('verification',''))}\n\n"
+            )
+        body = re.sub(
+            r"### REC-001:.*?(?=### |## |\Z)",
+            blocks.rstrip() + "\n\n", body, count=1, flags=re.S,
+        )
+        roadmap_rows = "".join(
+            f"| {r['id']} | {r.get('priority','P3')} | {r.get('finding','')} |"
+            f" {_clean(r.get('options',''))} | {_clean(r.get('residual',''))} |"
+            f" {r.get('effort','M')} | low | None | {_clean(r.get('verification',''))} |\n"
+            for r in recs
+        )
+        body = re.sub(
+            r"\| REC-001 \| P1 \| FND-[A-Z]+-001 \|[^\n]*\|\n",
+            roadmap_rows, body, count=1,
+        )
+        class_rows = "".join(
+            f"| {r['id']} | {_clean(r.get('postcondition',''))[:50]} |"
+            f" {'Optional' if r.get('priority') == 'P4' else 'Recommended'} | {r.get('finding','')} |\n"
+            for r in recs
+        )
+        body = re.sub(
+            r"\| REC-001 \| <action> \| Recommended \| FND-[A-Z]+-001[^\n]*\|\n",
+            class_rows, body, count=1,
+        )
+        follow_rows = "".join(
+            f"| {r.get('finding','')} | {r.get('priority','P3')} | {_clean(r.get('verification',''))} | {r['id']} |\n"
+            for r in recs
+        )
+        body = re.sub(
+            r"\| FND-[A-Z]+-001 \| P1 \| <verifiable artifact> \| <milestone> \|\n",
+            follow_rows, body, count=1,
+        )
+    evidence = model.get("evidence", [])
+    if evidence:
+        ledger_rows = "".join(
+            f"| {e['id']} | {_clean(e.get('method',''))} - `{e.get('locator',{}).get('path','')}` |"
+            f" {_clean(e.get('result',''))[:120]} | {e.get('type','Observation')} | <artifact> |\n"
+            for e in evidence
+        )
+        ledger = "## Evidence Ledger\n\n| Evidence | Source | Result | Type | Artifact |\n|---|---|---|---|---|\n" + ledger_rows + "\n"
+        body = body.replace("## Validation Protocol", ledger + "\n## Validation Protocol", 1)
+    executed = [e for e in evidence if e.get("kind") == "EXECUTED"]
+    executed_rows = "".join(
+        f"| {_clean(e.get('method',''))[:40]} | `{_clean(e.get('locator',{}).get('path',''))}` |"
+        f" {'Pass' if 'PASS' in str(e.get('result','')).upper()[:10] else 'Fail'} | {_clean(e.get('result',''))[:140]} |\n"
+        for e in executed
+    )
+    if executed:
+        executed_log = (
+            "## Executed Evidence Log\n\n"
+            "| Check | Command | Result | Interpretation |\n|---|---|---|---|\n"
+            + executed_rows + "\n"
+        )
+        body = body.replace("## Further Verification", executed_log, 1)
+        body = re.sub(
+            r"Every material claim the audit could not resolve from source, with the\n"
+            r"exact command or procedure and its pass criteria\.\n",
+            "", body, count=1,
+        )
+    criteria = model.get("criteria", [])
+    if criteria and findings:
+        crit_rows = "".join(
+            f"| {c['id']} | {c.get('dimension','')} | {c.get('weight','')} | {c.get('criticality','')} | {c.get('outcome','')} |\n"
+            for c in criteria if c.get("outcome") not in ("PASS", "NOT_APPLICABLE")
+        )
+        if crit_rows:
+            crit_table = (
+                "**Criteria table**\n\n"
+                "| Criteria | Dimension | Weight | Criticality | Outcome |\n|---|---|---|---|---|\n"
+                + crit_rows + "\n"
+            )
+            body = body.replace(
+                "## Scoring Rubrics", crit_table + "\n## Scoring Rubrics", 1
+            )
+    body = re.sub(r"[ \t]+$", "", body, flags=re.M)
+    body = re.sub(r"\n{3,}", "\n\n", body)
+    requirements = model.get("requirements", [])
+    if requirements:
+        req_rows = "".join(
+            f"| {r['id']} | {r.get('obligation','')} | "
+            f"{'Partial' if r.get('status') == 'PARTIAL' else r.get('status','Pass').title()} |"
+            f" <basis> |\n"
+            for r in requirements
+        )
+        body = body.replace("## Standards Conformance", "## Requirements Conformance\n\n| Requirement | Obligation | Status | Basis |\n|---|---|---|---|\n" + req_rows + "\n## Standards Conformance", 1)
+    return body
+
+
 def parse_args(argv: list[str]) -> dict:
-    options: dict = {"style": None, "scope": None, "projects": [], "params": None, "output": None}
+    options: dict = {"style": None, "scope": None, "projects": [], "params": None, "output": None, "model": None}
     index = 1
     while index < len(argv):
         argument = argv[index]
-        if argument in ("--style", "--scope", "--projects", "--params", "--output"):
+        if argument in ("--style", "--scope", "--projects", "--params", "--output", "--model"):
             index += 1
             if index >= len(argv):
                 raise SystemExit(f"{argument} needs a value")
@@ -789,6 +1046,9 @@ def main(argv: list[str]) -> int:
         body = review_skeleton(projects, params)
     else:
         body = audit_skeleton(projects, params)
+        if options["model"]:
+            model = json.loads(Path(options["model"]).read_text(encoding="utf-8"))
+            body = populate_audit(body, model)
     if options["output"]:
         target = Path(options["output"])
         target.write_text(body, encoding="utf-8")

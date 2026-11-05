@@ -482,6 +482,66 @@ class TestNewReport(unittest.TestCase):
             self.assertIn("| Reference | Publisher or Author | Used In |", body)
             self.assertIn("[<title>](<url>)", body)
 
+    def test_model_population_validates_clean(self):
+        validator = load_script("validate-report.py")
+        model = {
+            "scope": {"subject": "Fixture Service"},
+            "scores": {
+                "scale_max": 10,
+                "dimensions": {
+                    "functional_suitability": {"score": 9, "eligible": True},
+                    "security": {"score": 8, "eligible": True},
+                },
+                "product": {"score": 8.5, "lowest": ["security"]},
+                "process": {"score": 6.0, "scored": 3, "lowest": ["delivery_continuity"]},
+                "single": {"score": 6.0, "raw": 8.5, "band": "Average",
+                           "ceiling": {"reasons": ["readiness:NOT READY"]}},
+            },
+            "findings": [{
+                "id": "FND-SEC-001", "severity": "MEDIUM", "type": "Concern",
+                "criteria": "SEC-SESS", "observation": "tokens persist without atomic write",
+                "consequence": "mass invalidation", "confidence": "HIGH",
+                "counter": "narrow window", "evidence": ["EVD-001"],
+                "next_verification": "atomic persist adopted",
+            }],
+            "risks": [{
+                "id": "RSK-001", "finding": "FND-SEC-001", "severity": "MEDIUM",
+                "impact": "all tokens die", "likelihood": "low",
+                "prerequisites": "crash during write", "controls": "fresh-key fallback",
+                "uncertainty": "medium",
+            }],
+            "recommendations": [{
+                "id": "REC-001", "finding": "FND-SEC-001", "priority": "P3",
+                "postcondition": "atomic persist adopted", "effort": "S",
+                "verification": "fault-injection test",
+            }],
+            "criteria": [{
+                "id": "SEC-SESS", "dimension": "security", "weight": 2,
+                "criticality": "high", "outcome": "PARTIAL",
+            }],
+            "evidence": [{
+                "id": "EVD-001", "kind": "INSPECTED", "method": "file read",
+                "locator": {"path": "src/auth.rs"}, "result": "non-atomic write",
+            }],
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            model_path = Path(tmp) / "audit-model.json"
+            model_path.write_text(json.dumps(model))
+            target = Path(tmp) / "AUDIT-1.0.md"
+            rc = self.generator.main(
+                ["new-report.py", "--style", "audit",
+                 "--model", str(model_path), "--output", str(target)]
+            )
+            self.assertEqual(rc, 0)
+            self.assertEqual(validator.main(str(target)), 0)
+            body = target.read_text()
+            self.assertIn("### FND-SEC-001", body)
+            self.assertIn("FND-SEC-001", body)
+            self.assertIn("Security & Compliance", body)
+            self.assertIn("### RSK-001", body)
+            self.assertIn("### REC-001", body)
+            self.assertIn("| Functional Suitability | 9/10", body)
+
     def test_skeletons_validate_clean(self):
         validator = load_script("validate-report.py")
         with tempfile.TemporaryDirectory() as tmp:

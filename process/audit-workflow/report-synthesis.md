@@ -116,6 +116,9 @@ token vocabularies - so blocks are composed to the enforced shape rather than co
 Scaffold the report with `scripts/new-report.py` (with `--projects` for multi-project subjects)
 instead of hand-authoring the skeleton, so every required heading, table header,
 and register block shape starts conformant.
+When `work/audit-model.json` holds registers, `--model` also seeds the scorecard,
+register rows and blocks, evidence ledger, and requirements table from the model,
+so population is generated rather than transcribed.
 
 Run `scripts/finalize-report.py` early and repeatedly while composing,
 then continue editing on the formatted, linked text - link and format passes rewrite identifiers and

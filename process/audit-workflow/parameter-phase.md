@@ -18,19 +18,19 @@ On completion, proceed to `process/audit-workflow/scope-definition.md`.
 |--------------------------------------------|------|--------------------------------------------|
 | Parameter Configuration                    | 36   | Parameter Configuration                    |
 | Saved Parameters (`work/lens-params.json`) | 167  | Saved Parameters (`work/lens-params.json`) |
-| Parameter Prompts                          | 187  | Parameter Prompts                          |
-| Delivery And Output File                   | 215  | Delivery And Output File                   |
-| Previous Report Files                      | 366  | Previous Report Files                      |
-| Report Language                            | 386  | Report Language                            |
-| Report Style                               | 408  | Report Style                               |
+| Parameter Prompts                          | 192  | Parameter Prompts                          |
+| Delivery And Output File                   | 220  | Delivery And Output File                   |
+| Previous Report Files                      | 371  | Previous Report Files                      |
+| Report Language                            | 391  | Report Language                            |
+| Report Style                               | 413  | Report Style                               |
 | Project Layout                             | ?    | Project Layout                             |
-| Evidence Mode                              | 442  | Evidence Mode                              |
-| Detail Level                               | 480  | Detail Level                               |
-| Evaluation Scale                           | 496  | Evaluation Scale                           |
-| Improvement Suggestions                    | 525  | Improvement Suggestions                    |
-| Trade-off Analysis                         | 538  | Trade-off Analysis                         |
-| Descriptive Mode                           | 550  | Descriptive Mode                           |
-| Bypass Rule                                | 564  | Bypass Rule                                |
+| Evidence Mode                              | 447  | Evidence Mode                              |
+| Detail Level                               | 485  | Detail Level                               |
+| Evaluation Scale                           | 501  | Evaluation Scale                           |
+| Improvement Suggestions                    | 530  | Improvement Suggestions                    |
+| Trade-off Analysis                         | 543  | Trade-off Analysis                         |
+| Descriptive Mode                           | 555  | Descriptive Mode                           |
+| Bypass Rule                                | 569  | Bypass Rule                                |
 
 
 ## Parameter Configuration
@@ -183,6 +183,11 @@ Resolved intake values only - and it changes nothing about the source-only bound
 
 The parameter file and `work/audit-state.json` are siblings: the params file locks resolved choices,
 the state file locks run progress, and neither duplicates the other's content.
+
+A fresh audit rewrites all three artifacts from this run: stale `work/lens-params.json`,
+`work/audit-model.json`, and `work/audit-state.json` content from an earlier run is replaced,
+never merged - registers, findings, and identifier sequences never carry over under fresh-audit
+semantics, and only a confirmed re-audit inherits from the previous run's model.
 
 ## Parameter Prompts
 

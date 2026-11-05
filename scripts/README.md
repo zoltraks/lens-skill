@@ -39,7 +39,7 @@ When the copies are absent, pass `--skill-root <path>` (or set `LENS_SKILL_ROOT`
 pointing at the skill repository so the tools resolve in its `scripts/` directory - running it
 straight from the skill tree needs no flag at all.
 
-`new-report.py --style audit|hunt|review [--scope structure] [--projects a,b] [--params work/lens-params.json] [--output file]`
+`new-report.py --style audit|hunt|review [--scope structure] [--projects a,b] [--params work/lens-params.json] [--model work/audit-model.json] [--output file]`
 emits a structurally valid report skeleton - required sections, table headers,
 and one field-labeled template block per register - and runs `format-table.py` on `--output` when
 the formatter resolves next to the script or under `LENS_SKILL_ROOT`.
@@ -386,3 +386,10 @@ Use the evaluation prompts in `evals/evals.json` for behavioral regression check
 Never treat a configured scanner, formatter, test command,
 or build command as executed evidence unless the audit scope explicitly records a committed or
 supplied result as `Reported`.
+
+## Document-Formatting Tools
+
+The document-formatting battery lives in this directory and loads only for document-formatting
+tasks: `detect-encoding.py`, `census-document.py`, `normalize-chars.py`, `split-sentences.py`,
+`reflow-prose.py`, `wrap-prose.py`, `format-table.py`, `align-comments.py`, `validate-document.py`,
+`check-document.py`, `diff-content.py`.

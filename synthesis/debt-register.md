@@ -35,8 +35,8 @@ Do not duplicate the risk register here.
 
 Use this fixed column order:
 
-| Debt | Item | Category | Source |  |  |  |
-|------|------|----------|--------|--|--|--|
+| Debt | Item | Category | Source |   |   |   |
+|------|------|----------|--------|---|---|---|
 
 When the report language is not English,
 apply the column header translations from the matching `translations/` file.

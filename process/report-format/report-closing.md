@@ -207,9 +207,9 @@ concrete owner - omit the column when every owner is unspecified.
 
 Include one row per P1 and P2 finding at minimum.
 
-| Finding | Priority | Evidence              | Trigger              |  |
-|---------|----------|-----------------------|----------------------|--|
-| FND-XXX | P1       | <verifiable artifact> | <milestone or empty> |  |
+| Finding | Priority | Evidence              | Trigger              |   |
+|---------|----------|-----------------------|----------------------|---|
+| FND-XXX | P1       | <verifiable artifact> | <milestone or empty> |   |
 
 When the report language is not English,
 apply the column header translations from the matching `translations/` file.

@@ -66,6 +66,25 @@ these, and the audit checks presence and enforcement before magnitude:
   report the missing contract where the subject's role makes latency or footprint load-bearing,
   and mark it `NOT ASSESSED` where budgets were never claimed.
 
+## Measurement Methodology
+
+From the audit-session evidence base and the benchmarking-toolchain guidance.
+
+- Profile truth: measurements made under a debug or test profile never grade a production target -
+  debug builds differ by an order of magnitude.
+  A result names its profile and host, or it is measurement, not verification.
+- Percentiles carry units and thresholds: `p99 <= 200 ms`, `>= 20 ops/s`,
+  `<= 50 MB RSS` - a bare `fast` or an average is not a target.
+- Targets declared `provisional` are recorded as such - the audit reports misses as data and never
+  fabricates a confirmed baseline.
+- Reference-environment baselining: numbers transfer only to the profile and platform they were
+  measured on; a debug-on-laptop figure is a `limits` -tagged proxy for the release-on-server claim.
+- Contention metrics (claim races, queue rejects, lock waits)
+  are reported beside throughput - a high-throughput figure under zero contention hides the
+  coordination cost that dominates at scale.
+- Report-vs-gate rows are distinguished: a measurement a gate never enforces informs the scorecard
+  but does not block readiness claims.
+
 ## Maintainer-Standard Floor
 
 From the maintainer's performance-budgets standard.

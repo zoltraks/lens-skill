@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Canonical comment aligner implementing the Comments In Plain-Text Blocks
-rule in `docs/STYLE.md`.
+"""Canonical comment aligner implementing the plain-text comment rules in
+conventions/plain-text-comments.md.
 
 Inside every fenced block that carries trailing `#` comments - untagged
 plain-text blocks and shell-tagged blocks - all comments share one column.
@@ -12,9 +12,12 @@ A fenced block is skipped entirely when `<!-- align-comments: off -->` is the
 line before its opening fence, optionally separated from the fence by one
 blank line - intended for deliberate examples of misalignment.
 
-Copy this file into the working repository's `work/` directory (or the
-repository root when no `work/` exists) as `align-comments.tmp.py`, run it
-on the document file, verify the block, then remove the copy.
+Run this file in place from the skill repository -
+`python <skill-root>/scripts/align-comments.py` - and run it on the
+document file, verify the block. Copy it under a `.tmp.` name into the
+working repository's `temp/` directory (or the repository root when no
+`temp/` exists) only when the skill root cannot be invoked, and remove
+the copy afterward.
 
 Usage: python align-comments.py <document.md> [--check] [--compact] [--payload-markdown]
 
@@ -26,15 +29,13 @@ Usage: python align-comments.py <document.md> [--check] [--compact] [--payload-m
                        ```markdown payload blocks
 """
 
-from __future__ import annotations
-
 import argparse
 import os
 import re
 import sys
 from collections import Counter
 
-FENCE = re.compile(r"^\s*(`{3,})\s*(\w*)")
+FENCE = re.compile(r"^\s*(`{3,}|~{3,})\s*(\w*)")
 COMMENT = re.compile(r"^(.*\S)( +)(#(?: .*)?)$")
 
 SHELL_TAGS = {"bash", "sh", "zsh", "shell", "console", "shellsession"}
@@ -57,7 +58,7 @@ def processable(fences, payload_markdown):
         return False
     outers = fences[:-1]
     return not outers or (payload_markdown and all(
-        lang == "markdown" for _, lang in outers))
+        lang == "markdown" for _, lang, *_ in outers))
 
 
 def align(lines, payload_markdown, compact):
@@ -89,17 +90,20 @@ def align(lines, payload_markdown, compact):
             flush()
             marker = len(fence.group(1))
             if fences:
-                if marker >= fences[-1][0]:
+                if marker >= fences[-1][0] and \
+                        fence.group(1)[0] == fences[-1][2]:
                     fences.pop()
                     if not fences:
                         disabled = False
+                elif fences[-1][1] == "markdown":
+                    fences.append((marker, fence.group(2), fence.group(1)[0]))
             else:
                 before = i - 1
                 if before >= 0 and not lines[before].strip():
                     before -= 1
                 disabled = before >= 0 and \
                     lines[before].strip() == DISABLE_COMMENT
-                fences.append((marker, fence.group(2)))
+                fences.append((marker, fence.group(2), fence.group(1)[0]))
             continue
         if disabled or not processable(fences, payload_markdown):
             continue
@@ -124,7 +128,7 @@ def main(path, check_only, compact, payload_markdown):
         text, encoding = decode(raw)
     except UnicodeDecodeError:
         print(f"FAIL {path}: not decodable as UTF-8 or UTF-16, "
-              "check the file encoding first")
+              "check encoding first (see conventions/file-encoding.md)")
         return 1
     lines = text.replace("\r\n", "\n").split("\n")
 
@@ -149,6 +153,8 @@ def main(path, check_only, compact, payload_markdown):
         finally:
             if os.path.exists(tmp):
                 os.unlink(tmp)
+        if crlf:
+            print("note: file uses CRLF line endings - preserved")
     print(f"aligned {len(misaligned)} comment(s)")
     return 0
 
