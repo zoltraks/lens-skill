@@ -118,11 +118,20 @@ English renders title case where the vocabulary lists give canonical uppercase n
 ## Scorecard And Overall Score
 
 - `**Scorecard Summary**` rows carry numeric `n/m` Score cells - the validator recomputes
-  the mean and compares it to every stated `Overall score` row, and they must agree.
+  the mean and compares it to every stated `Overall score` row in `hunt` and `review`
+  reports, and they must agree.
 - `Overall score` never appears inside the scorecard table - it lives in the Executive
   Summary key-value table.
+- An audit Executive Summary carries `Product Quality`, `Engineering Process`, and
+  `Overall Score` rows - a numeric sub-score value names `lowest` within six lines,
+  `Overall Score` names `Product-only` when `Engineering Process` is `Not published`
+  and names `ceiling` when it sits below the value recomputed from the displayed
+  sub-scores, and every headline value recomputes from the displayed scorecard cells
+  under the catalogue tier weights.
+- An audit `Requirements Conformance` table keeps one row per requirement - a merged
+  range row such as `A-01 through A-11` or `A-01..A-11` fails.
 - Every `Dimension | Score` table - each `**Scorecard Summary**` table and every table
-  inside a `Health Dashboard` section - uses only the 19 canonical dimension names, in
+  inside a `Health Dashboard` section - uses only the 20 canonical dimension names, in
   canonical order with `N/A` rows omitted, and each Score cell renders `n/m`, a star bar,
   or `Unknown` with an optional `[lo-hi]` interval.
 - Every `Health Dashboard` section - single-project or per-project - carries a `Risk Map`,
@@ -132,7 +141,8 @@ English renders title case where the vocabulary lists give canonical uppercase n
   `Skill Version` renders the bare
   version string (for example `2.6.5`), never prefixed with the skill name, and no row
   carries an empty or `Not specified` value.
-- Every line stating an overall `x.y/n` score needs the word `lowest` within six lines.
+- In `hunt` and `review` reports every line stating an overall `x.y/n` score needs the
+  word `lowest` within six lines.
 - `N/A` scorecard rows are omitted, never rendered.
 - A Score cell's `n/m` value leads the cell, and an optional `[lo-hi]` uncertainty interval
   follows it - the validator's scorecard checks read the `n/m` value, and a rendered
@@ -225,25 +235,26 @@ dimension key each maps to:
 
 | #  | Scorecard name        | Model id              |
 |----|-----------------------|-----------------------|
-| 1  | Testability           | testability           |
-| 2  | Design Soundness      | design_soundness      |
-| 3  | Code Quality          | code_quality          |
-| 4  | Code Style            | code_style            |
-| 5  | Stack Alignment       | stack_alignment       |
-| 6  | Dependency Health     | dependency_health     |
-| 7  | Maintainability       | maintainability       |
-| 8  | Structure             | structure             |
-| 9  | Deployability         | deployability         |
-| 10 | Scalability           | scalability           |
-| 11 | Security              | security              |
-| 12 | Compliance            | compliance            |
-| 13 | Observability         | observability         |
-| 14 | Operational Safety    | operational_safety    |
-| 15 | Delivery & Continuity | delivery_continuity   |
-| 16 | AI Provenance         | ai_provenance         |
-| 17 | Originality & Licensing | originality_licensing |
-| 18 | Skill Definition      | skill_definition      |
-| 19 | API Compatibility     | api_compatibility     |
+| 1  | Functional Suitability | functional_suitability |
+| 2  | Testability           | testability           |
+| 3  | Design Soundness      | design_soundness      |
+| 4  | Code Quality          | code_quality          |
+| 5  | Code Style            | code_style            |
+| 6  | Stack Alignment       | stack_alignment       |
+| 7  | Dependency Health     | dependency_health     |
+| 8  | Maintainability       | maintainability       |
+| 9  | Structure             | structure             |
+| 10 | Deployability         | deployability         |
+| 11 | Scalability           | scalability           |
+| 12 | Security              | security              |
+| 13 | Compliance            | compliance            |
+| 14 | Observability         | observability         |
+| 15 | Operational Safety    | operational_safety    |
+| 16 | API Compatibility     | api_compatibility     |
+| 17 | Delivery & Continuity | delivery_continuity   |
+| 18 | AI Provenance         | ai_provenance         |
+| 19 | Originality & Licensing | originality_licensing |
+| 20 | Skill Definition      | skill_definition      |
 
 Multi-project models prefix each key - `<project>.security`.
 

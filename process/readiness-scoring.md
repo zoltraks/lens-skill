@@ -15,15 +15,16 @@ Apply `principles/evaluation-rules.md` throughout.
 
 | Section                   | Line | What it covers                     |
 |---------------------------|------|------------------------------------|
-| Separate Decision Outputs | 28   | Category status vs dimension score |
-| Criterion Inputs          | 48   | Criterion Inputs guidance          |
-| Dimension Scoring         | 74   | Dimension Scoring guidance         |
-| Overall Score             | 195  | Overall Score guidance             |
-| Confidence                | 223  | Confidence guidance                |
-| Maturity Levels           | 241  | Maturity Levels guidance           |
-| Readiness Gates           | 260  | Readiness Gates guidance           |
-| Required Summary Fields   | 313  | Required Summary Fields guidance   |
-| Multi-Project Rules       | 326  | Multi-Project Rules guidance       |
+| Separate Decision Outputs | 29   | Category status vs dimension score |
+| Criterion Inputs          | 49   | Criterion Inputs guidance          |
+| Dimension Scoring         | 75   | Dimension Scoring guidance         |
+| Scoring Policy 3          | 196  | Scoring Policy 3 guidance          |
+| Overall Score             | 244  | Overall Score guidance             |
+| Confidence                | 275  | Confidence guidance                |
+| Maturity Levels           | 293  | Maturity Levels guidance           |
+| Readiness Gates           | 312  | Readiness Gates guidance           |
+| Required Summary Fields   | 365  | Required Summary Fields guidance   |
+| Multi-Project Rules       | 378  | Multi-Project Rules guidance       |
 
 ## Separate Decision Outputs
 
@@ -192,9 +193,60 @@ An advertised core journey that fails end to end is at least
 An overall mean never hides a broken advertised capability - every readiness statement and
 verdict names it explicitly.
 
+## Scoring Policy 3
+
+The scoring engine enforces this section mechanically as **scoring policy 3**
+(`model_version: 2`, `scope.scoring_policy: 3`, and `scope.catalogue_version` equal to the
+loaded catalogue's version, checked by `scripts/check-model.py`):
+
+- The criterion set is fixed. `references/criterion-catalogue.json` declares the canonical
+  dimension order and tiers, every criterion's id, dimension, weight, criticality,
+  declared `level` anchors (`PASS`, `P75`, `P50`, `P25`, `FAIL`), and `na_rules` - the
+  planner assigns outcomes and levels, it never renames ids or reweights criteria.
+- Every catalogue criterion applicable to the project's `product_profile.natures` appears
+  exactly once among that project's score-channel criteria, and its dimension, weight,
+  and criticality equal the catalogue values.
+- A resolved criterion carries a `level` the catalogue anchors allow, and the level fixes
+  the outcome and mastery: `PASS` and `FAIL` map to `PASS` and `FAIL`, and `P75`, `P50`,
+  and `P25` map to `PARTIAL` at their declared fractions. An unresolved criterion records
+  `level: null`.
+- `NOT_APPLICABLE` cites only a basis the criterion's `na_rules` declare, and the census
+  and history outcomes make some bases deterministic: an `automation_census` of `none`
+  forces `census-none`, and a `scope.history` of `absent` or `out-of-scope` forces
+  `history-out-of-scope`.
+- `channel: "conformance"` criteria - `CNF-` prefixed standards and `REQ-` prefixed
+  requirements - never enter dimension scores, so a finding that cites one bounds
+  nothing. `channel: "score"` criteria enter the computation as before.
+- `requirements[]` freezes the subject's declared or advertised requirements registry,
+  `scope.requirements_baseline` records its hash, and a `PARTIAL` or `FAIL` requirement
+  cites an open finding.
+- The `FNC-REQ` level is mechanical: it derives from the coverage ratio over graded
+  mandatory requirements per the catalogue's bands, and the recorded level must equal
+  the computed one.
+- Three headline records replace the single overall mean. `product` is the tier-weighted
+  mean of the eligible product dimensions and publishes only when every applicable
+  tier-3 dimension is eligible and the eligible tier weight exceeds half the applicable
+  weight. `process` is the equal-weight mean of the eligible process dimensions and
+  publishes only when more than half the applicable process dimensions scored. `single`
+  blends `0.7 * product + 0.3 * process` when both publish, or takes the product value
+  flagged `product-only` when process is unpublished, then applies the ceiling: `3` on
+  an open Critical, `6` on an open High or a `NOT READY` readiness at scale 10,
+  proportional on scales 5 and 3.
+- Multi-project models carry the three records under `scores.per_project[<name>]` while
+  `scores.product`, `scores.process`, and `scores.single` stay absent, and `readiness`
+  becomes `{"per_project": {<name>: {"state", "blocking"}}}`.
+- `scores.overall` from model v1 is removed and must be absent - models written before
+  policy 3 fail the check until regenerated.
+
+`scope.scoring_policy` records which policy produced the scores. Models written under
+policy 2 are not policy-3 models and must be regenerated under the fixed catalogue.
+
 ## Overall Score
 
 Use the unweighted arithmetic mean of numeric dimension scores.
+
+Under scoring policy 3 the audit's `single` headline record replaces this mean - `product`
+and `process` publish independently and `single` blends them with its ceiling applied.
 
 Exclude `Unknown` and `N/A` dimensions from the denominator.
 

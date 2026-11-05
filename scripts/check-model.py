@@ -2,10 +2,11 @@
 """Model-quality checker for `work/audit-model.json`.
 
 Validates the canonical audit model before report generation: required shape,
-referential integrity across evidence/criteria/findings/risks/recommendations,
-and recomputation of the scoring engine's outputs (mastery, interval bounds,
-coverage, eligibility, caps, overall mean) under scoring policy 2 per
-`process/readiness-scoring.md`.
+referential integrity across evidence/criteria/findings/risks/requirements/
+recommendations, catalogue membership and level/outcome consistency, and
+recomputation of the scoring engine's outputs (mastery, interval bounds,
+coverage, eligibility, caps, headline records) under scoring policy 3 per
+`process/readiness-scoring.md` and `references/criterion-catalogue.json`.
 
 Usage:
     python scripts/check-model.py path/to/work/audit-model.json [--json]
@@ -17,6 +18,7 @@ usage or parse errors.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 import re
@@ -39,17 +41,38 @@ COVERAGE_LABELS = {
     "COMPLETE_FOR_DECLARED_SCOPE", "PARTIAL", "NOT_ASSESSED", "NOT_APPLICABLE",
 }
 TOP_LEVEL = [
-    "model_version", "scope", "inventory", "criteria", "evidence",
-    "findings", "risks", "recommendations", "scores", "coverage", "exclusions",
+    "model_version", "scope", "inventory", "criteria", "requirements", "evidence",
+    "findings", "risks", "recommendations", "readiness", "scores", "coverage",
+    "exclusions",
 ]
 
 CANONICAL_DIMENSIONS = (
-    "testability", "design_soundness", "code_quality", "code_style", "stack_alignment",
-    "dependency_health", "maintainability", "structure", "deployability", "scalability",
-    "security", "compliance", "observability", "operational_safety", "delivery_continuity",
-    "ai_provenance", "originality_licensing", "skill_definition", "api_compatibility",
+    "functional_suitability", "testability", "design_soundness", "code_quality",
+    "code_style", "stack_alignment", "dependency_health", "maintainability",
+    "structure", "deployability", "scalability", "security", "compliance",
+    "observability", "operational_safety", "api_compatibility",
+    "delivery_continuity", "ai_provenance", "originality_licensing",
+    "skill_definition",
 )
-SCORING_POLICY = 2
+DIMENSION_GROUP = {
+    name: "process" for name in (
+        "delivery_continuity", "ai_provenance",
+        "originality_licensing", "skill_definition",
+    )
+}
+DIMENSION_GROUP.update(
+    {name: "product" for name in CANONICAL_DIMENSIONS if name not in DIMENSION_GROUP}
+)
+DIMENSION_TIER = {
+    "functional_suitability": 3, "testability": 3, "design_soundness": 2,
+    "code_quality": 2, "code_style": 1, "stack_alignment": 1,
+    "dependency_health": 2, "maintainability": 2, "structure": 1,
+    "deployability": 2, "scalability": 2, "security": 3, "compliance": 2,
+    "observability": 2, "operational_safety": 3, "api_compatibility": 2,
+    "delivery_continuity": 1, "ai_provenance": 1,
+    "originality_licensing": 1, "skill_definition": 1,
+}
+SCORING_POLICY = 3
 SEVERITIES = ("CRITICAL", "HIGH", "MEDIUM", "LOW")
 SEVERITY_BOUND = {"CRITICAL": 0.0, "HIGH": 0.25, "MEDIUM": 0.5, "LOW": 0.75}
 BOUNDING_CLASSES = ("confirmed defect", "confirmed structural weakness", "configuration risk")
@@ -57,6 +80,36 @@ CLAIM_CLASSES = BOUNDING_CLASSES + ("plausible hypothesis", "evidence gap")
 ABSENCE_TOKENS = ("No documented rationale", "Deliberate - recorded decision", "Undetermined")
 NA_BASES = ("deployment-model", "census-none", "history-out-of-scope")
 HISTORY_STATES = ("present", "absent", "out-of-scope")
+DETAIL_LEVELS = ("Detailed", "Standard", "Brief")
+PRODUCT_NATURES = (
+    "service", "library", "cli", "pipeline", "retrieval",
+    "agent-tooling", "frontend", "automation", "unclassified",
+)
+CRITERION_CHANNELS = ("score", "conformance")
+CONFORMANCE_PREFIXES = ("CNF-", "REQ-")
+LEVEL_OUTCOME = {
+    "PASS": "PASS", "P75": "PARTIAL", "P50": "PARTIAL",
+    "P25": "PARTIAL", "FAIL": "FAIL",
+}
+LEVEL_VALUES = {
+    "PASS": Fraction(1), "P75": Fraction(3, 4), "P50": Fraction(1, 2),
+    "P25": Fraction(1, 4), "FAIL": Fraction(0),
+}
+OBLIGATIONS = ("mandatory", "recommended", "optional", "future")
+REQUIREMENT_STATES = ("PASS", "PARTIAL", "FAIL", "UNKNOWN")
+READINESS_STATES = ("READY", "NOT READY", "PENDING EVIDENCE", "NOT ASSESSED")
+SINGLE_CEILINGS = {
+    10: {"critical": 3, "high": 6},
+    5: {"critical": 2, "high": 3},
+    3: {"critical": 1, "high": 2},
+}
+SINGLE_BANDS = {
+    10: ((9, "Excellent"), (7, "Good"), (4, "Average"), (1, "Poor")),
+    5: ((5, "Excellent"), (4, "Good"), (3, "Average"), (2, "Poor"), (1, "Bad")),
+    3: ((3, "Excellent"), (2, "Average"), (1, "Poor")),
+}
+FNC_REQ_APPLICABILITY = "no mandatory requirements declared or advertised"
+CATALOGUE_FILE = "references/criterion-catalogue.json"
 SCALES = (10, 5, 3)
 CAP_LIMITS = {
     10: {"severity-critical": 3, "severity-high": 5, "material-unknown": 8, "historical-only": 7},
@@ -124,13 +177,161 @@ def recompute_dimension(criteria: list[dict], backing: dict[str, set[str]]):
     return applicable, mastery, lo, hi, coverage, eligible
 
 
-def check_model(model: dict) -> list[str]:
+def load_catalogue() -> dict | None:
+    """Load `references/criterion-catalogue.json` from the skill root.
+
+    Returns the parsed catalogue dict, or None when the file is absent or
+    cannot be parsed.
+    """
+    path = Path(__file__).resolve().parent.parent / CATALOGUE_FILE
+    if not path.is_file():
+        return None
+    try:
+        catalogue = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    return catalogue if isinstance(catalogue, dict) else None
+
+
+def _group_mean(
+    group_dims: list[str], dims: dict, key: str, weighted: bool
+) -> Fraction | None:
+    """Tier-weighted (product) or equal (process) mean of `key` over dims."""
+    total = Fraction(0)
+    denom = Fraction(0)
+    for name in group_dims:
+        weight = Fraction(DIMENSION_TIER[name]) if weighted else Fraction(1)
+        total += weight * Fraction(str(dims[name][key]))
+        denom += weight
+    if not denom:
+        return None
+    return total / denom
+
+
+def compute_headline(dims, scale_max, critical_open, high_open, readiness_state):
+    """Recompute the product/process/single headline records.
+
+    `dims` maps canonical dimension ids to
+    `{"applicable": bool, "eligible": bool, "score": int | None,
+      "lo": int, "hi": int}` - `lo`/`hi` are the capped interval bounds, both
+    equal to `score` when the interval is omitted, and the substitution bounds
+    for an ineligible applicable dimension (`lo` 1 and `hi` scale_max when no
+    criterion resolved). All arithmetic is exact.
+    """
+    def applicable(group: str) -> list[str]:
+        return [
+            name for name in CANONICAL_DIMENSIONS
+            if DIMENSION_GROUP[name] == group
+            and isinstance(dims.get(name), dict)
+            and dims[name].get("applicable", True)
+        ]
+
+    def block(group: str):
+        app = applicable(group)
+        eligible = [d for d in app if dims[d].get("eligible")]
+        if group == "product":
+            t3_ok = all(
+                dims[d].get("eligible")
+                for d in app if DIMENSION_TIER[d] == 3
+            )
+            weight_of = lambda d: Fraction(DIMENSION_TIER[d])
+            eligible_weight = int(sum(weight_of(d) for d in eligible))
+            applicable_weight = int(sum(weight_of(d) for d in app))
+            published = t3_ok and eligible_weight * 2 > applicable_weight
+            extra = {
+                "eligible_weight": eligible_weight,
+                "applicable_weight": applicable_weight,
+            }
+        else:
+            published = len(eligible) * 2 > len(app) and len(app) >= 1
+            extra = {"scored": len(eligible), "applicable": len(app)}
+        score = interval = None
+        lowest = []
+        weighted = group == "product"
+        if published:
+            score = float(
+                half_up(_group_mean(eligible, dims, "score", weighted), 1)
+            )
+            lo = half_up(_group_mean(app, dims, "lo", weighted), 1)
+            hi = half_up(_group_mean(app, dims, "hi", weighted), 1)
+            interval = [float(lo), float(hi)] if lo != hi else None
+            floor = min(Fraction(str(dims[d]["score"])) for d in eligible)
+            lowest = [
+                d for d in eligible
+                if Fraction(str(dims[d]["score"])) == floor
+            ]
+        return {
+            "score": score, "interval": interval, "published": published,
+            "lowest": lowest, **extra,
+        }
+
+    product = block("product")
+    process = block("process")
+
+    if not product["published"]:
+        single = {
+            "score": None, "raw": None, "interval": None,
+            "flag": None, "ceiling": None, "band": None,
+        }
+    else:
+        p_lo, p_hi = product["interval"] or (product["score"], product["score"])
+        if process["published"]:
+            q_lo, q_hi = (
+                process["interval"] or (process["score"], process["score"])
+            )
+            blend = lambda a, b: Fraction(7, 10) * Fraction(str(a)) + Fraction(
+                3, 10
+            ) * Fraction(str(b))
+            raw = half_up(blend(product["score"], process["score"]), 1)
+            lo = half_up(blend(p_lo, q_lo), 1)
+            hi = half_up(blend(p_hi, q_hi), 1)
+            flag = None
+        else:
+            raw = Fraction(str(product["score"]))
+            lo, hi = Fraction(str(p_lo)), Fraction(str(p_hi))
+            flag = "product-only"
+        reasons = []
+        limits = []
+        ceilings = SINGLE_CEILINGS[scale_max]
+        if critical_open:
+            reasons.append("severity:CRITICAL")
+            limits.append(ceilings["critical"])
+        if high_open:
+            reasons.append("severity:HIGH")
+            limits.append(ceilings["high"])
+        if readiness_state == "NOT READY":
+            reasons.append("readiness:NOT READY")
+            limits.append(ceilings["high"])
+        ceiling = (
+            {"limit": min(limits), "reasons": reasons} if reasons else None
+        )
+        limit = ceiling["limit"] if ceiling else None
+        score = float(min(raw, limit)) if limit is not None else float(raw)
+        lo_s = float(min(lo, limit)) if limit is not None else float(lo)
+        hi_s = float(min(hi, limit)) if limit is not None else float(hi)
+        interval = [lo_s, hi_s] if lo_s != hi_s else None
+        band = next(
+            (
+                name for floor, name in SINGLE_BANDS[scale_max]
+                if half_up(Fraction(str(score))) >= floor
+            ),
+            SINGLE_BANDS[scale_max][-1][1],
+        )
+        single = {
+            "score": score, "raw": float(raw), "interval": interval,
+            "flag": flag, "ceiling": ceiling, "band": band,
+        }
+
+    return {"product": product, "process": process, "single": single}
+
+
+def check_model(model: dict, catalogue: dict | None = None) -> list[str]:
     failures: list[str] = []
     for key in TOP_LEVEL:
         if key not in model:
             failures.append(f"missing top-level key '{key}'")
-    if model.get("model_version") != 1:
-        failures.append(f"model_version is {model.get('model_version')!r}, expected 1")
+    if model.get("model_version") != 2:
+        failures.append(f"model_version is {model.get('model_version')!r}, expected 2")
     if failures:
         return failures
 
@@ -145,6 +346,41 @@ def check_model(model: dict) -> list[str]:
             f"scope.history is {scope.get('history')!r}, expected present, "
             "absent, or out-of-scope"
         )
+    if scope.get("detail_level") not in DETAIL_LEVELS:
+        failures.append(
+            f"scope.detail_level {scope.get('detail_level')!r} is not "
+            "Detailed, Standard, or Brief"
+        )
+    natures = scope.get("product_profile", {}).get("natures")
+    if not isinstance(natures, list) or not natures:
+        failures.append("scope.product_profile.natures is required")
+        natures = []
+    else:
+        for nature in natures:
+            if nature not in PRODUCT_NATURES:
+                failures.append(
+                    f"scope.product_profile.natures entry {nature!r} is not "
+                    "a declared project nature"
+                )
+
+    if catalogue is None:
+        catalogue = load_catalogue()
+    catalogue_ok = isinstance(catalogue, dict)
+    cat_entries: dict[str, dict] = {}
+    level_values = dict(LEVEL_VALUES)
+    if not catalogue_ok:
+        failures.append(f"catalogue file {CATALOGUE_FILE} is missing")
+    else:
+        for entry in catalogue.get("criteria", []):
+            cat_entries[entry.get("id")] = entry
+        for name, value in catalogue.get("levels", {}).items():
+            level_values[name] = Fraction(str(value))
+        if scope.get("catalogue_version") != catalogue.get("catalogue_version"):
+            failures.append(
+                f"scope.catalogue_version "
+                f"{scope.get('catalogue_version')!r} does not match "
+                f"catalogue version {catalogue.get('catalogue_version')!r}"
+            )
 
     scale_max = model.get("scores", {}).get("scale_max", 10)
     if scale_max not in SCALES:
@@ -185,8 +421,21 @@ def check_model(model: dict) -> list[str]:
         if f.get("status") == "Open":
             open_findings_by_criterion.setdefault(f.get("criterion"), []).append(f)
 
+    def owner_project(dimension) -> dict | None:
+        if isinstance(dimension, str) and "." in dimension:
+            prefix = dimension.partition(".")[0]
+            return next(
+                (p for p in projects if p.get("name") == prefix), None
+            )
+        return projects[0] if projects else None
+
+    multi = len(named) >= 2
+    seen_crit_ids: set[str] = set()
     for c in criteria:
         cid = c.get("id", "<no id>")
+        if cid in seen_crit_ids:
+            failures.append(f"{cid}: criterion id {cid!r} is not unique")
+        seen_crit_ids.add(cid)
         if not CRITERION_ID_SHAPE.match(str(cid)):
             failures.append(
                 f"{cid}: criterion id must start with a three-letter uppercase prefix"
@@ -205,7 +454,112 @@ def check_model(model: dict) -> list[str]:
             failures.append(
                 f"{cid}: dimension {dimension!r} is not a canonical dimension id"
             )
+        channel = c.get("channel")
+        if channel not in CRITERION_CHANNELS:
+            failures.append(
+                f"{cid}: channel {channel!r} is not a criterion channel"
+            )
+        if channel == "conformance":
+            if not str(cid).startswith(CONFORMANCE_PREFIXES):
+                failures.append(
+                    f"{cid}: conformance criteria use the CNF- or REQ- prefix"
+                )
         outcome = c.get("outcome")
+        if channel == "score" and catalogue_ok:
+            cat_id = c.get("catalogue_id")
+            if not multi and cid != cat_id:
+                failures.append(
+                    f"{cid}: id must equal catalogue_id {cat_id!r} in a "
+                    "single-project model"
+                )
+            entry = cat_entries.get(cat_id)
+            if entry is None:
+                failures.append(
+                    f"{cid}: catalogue_id {cat_id!r} is not in catalogue "
+                    f"version {catalogue.get('catalogue_version')}"
+                )
+            else:
+                leaf = (
+                    str(dimension).partition(".")[2]
+                    if isinstance(dimension, str) and "." in dimension
+                    else dimension
+                )
+                for field, value in (
+                    ("dimension", leaf),
+                    ("weight", c.get("weight")),
+                    ("criticality", c.get("criticality")),
+                ):
+                    if value != entry.get(field):
+                        failures.append(
+                            f"{cid}: {field} {value!r} differs from the "
+                            f"catalogue value {entry.get(field)!r}"
+                        )
+                allowed = set(entry.get("levels", {}))
+                level = c.get("level")
+                if outcome in RESOLVED:
+                    if level not in allowed:
+                        failures.append(
+                            f"{cid}: level {level!r} is not allowed by the "
+                            "catalogue"
+                        )
+                    elif LEVEL_OUTCOME.get(level) != outcome:
+                        failures.append(
+                            f"{cid}: level {level} does not match outcome "
+                            f"{outcome}"
+                        )
+                    else:
+                        value = level_values[level]
+                        mastery = c.get("mastery")
+                        numeric = isinstance(mastery, (int, float))
+                        if not numeric or Fraction(str(mastery)) != value:
+                            shown = f"{mastery:g}" if numeric else repr(mastery)
+                            failures.append(
+                                f"{cid}: mastery {shown} does not equal "
+                                f"level {level} value {float(value):g}"
+                            )
+                elif level is not None:
+                    if level not in allowed:
+                        failures.append(
+                            f"{cid}: level {level!r} is not allowed by the "
+                            "catalogue"
+                        )
+                    else:
+                        failures.append(
+                            f"{cid}: level {level} does not match outcome "
+                            f"{outcome}"
+                        )
+                if outcome == "NOT_APPLICABLE":
+                    if c.get("na_basis") not in entry.get("na_rules", []):
+                        failures.append(
+                            f"{cid}: na_basis {c.get('na_basis')} is not a "
+                            "declared N/A rule for this criterion"
+                        )
+                if (
+                    "census-none" in entry.get("na_rules", [])
+                    and (owner_project(dimension) or {}).get(
+                        "automation_census"
+                    ) == "none"
+                    and (
+                        outcome != "NOT_APPLICABLE"
+                        or c.get("na_basis") != "census-none"
+                    )
+                ):
+                    failures.append(
+                        f"{cid}: automation census none makes this criterion "
+                        "NOT_APPLICABLE (census-none)"
+                    )
+                if (
+                    "history-out-of-scope" in entry.get("na_rules", [])
+                    and scope.get("history") in ("absent", "out-of-scope")
+                    and (
+                        outcome != "NOT_APPLICABLE"
+                        or c.get("na_basis") != "history-out-of-scope"
+                    )
+                ):
+                    failures.append(
+                        f"{cid}: scope.history {scope.get('history')} makes "
+                        "this criterion NOT_APPLICABLE (history-out-of-scope)"
+                    )
         if outcome not in CRITERION_OUTCOMES:
             failures.append(f"{cid}: outcome {outcome!r} is not a criterion state")
         if outcome == "PARTIAL":
@@ -262,6 +616,42 @@ def check_model(model: dict) -> list[str]:
                     f"{cid}: {outcome} deduction has no open finding and no "
                     "recorded shortfall with evidence"
                 )
+
+    if catalogue_ok:
+        applicable_entries = [
+            entry for entry in catalogue.get("criteria", [])
+            if "*" in entry.get("natures", [])
+            or set(entry.get("natures", [])) & set(natures)
+        ]
+
+        def project_score_criteria(prefix) -> list[dict]:
+            if prefix is None:
+                return [c for c in criteria if c.get("channel") == "score"]
+            return [
+                c for c in criteria
+                if c.get("channel") == "score"
+                and isinstance(c.get("dimension"), str)
+                and c["dimension"].startswith(prefix + ".")
+            ]
+
+        for name in (sorted(named) if multi else [None]):
+            cset = project_score_criteria(name)
+            label = name if name is not None else "subject"
+            for entry in applicable_entries:
+                count = sum(
+                    1 for c in cset
+                    if c.get("catalogue_id") == entry.get("id")
+                )
+                if count == 0:
+                    failures.append(
+                        f"{label}: catalogue criterion {entry.get('id')} is "
+                        "missing from the model"
+                    )
+                elif count > 1:
+                    failures.append(
+                        f"{label}: catalogue criterion {entry.get('id')} "
+                        f"appears {count} times"
+                    )
 
     for e in evidence:
         eid = e.get("id", "<no id>")
@@ -339,7 +729,8 @@ def check_model(model: dict) -> list[str]:
 
     dimensions: dict[str, list[dict]] = {}
     for c in criteria:
-        dimensions.setdefault(c.get("dimension", "<none>"), []).append(c)
+        if c.get("channel") == "score":
+            dimensions.setdefault(c.get("dimension", "<none>"), []).append(c)
 
     dims = model["scores"].get("dimensions", {})
     for key in dims:
@@ -355,26 +746,32 @@ def check_model(model: dict) -> list[str]:
         if f.get("status") == "Open" and f.get("claim_class") in BOUNDING_CLASSES
     ]
 
-    scored = 0
-    applicable_dims = 0
-    scored_dims: set[str] = set()
-    applicable_dim_names: set[str] = set()
+    recomputed: dict[str, dict] = {}
     for dim, cs in dimensions.items():
         applicable, mastery, lo, hi, coverage, eligible = recompute_dimension(cs, backing)
         if not applicable:
             continue
-        applicable_dims += 1
-        applicable_dim_names.add(dim)
         record = dims.get(dim)
-        if record is None:
-            failures.append(f"dimension '{dim}' has applicable criteria but no score record")
-            continue
         if not eligible:
+            sub_lo = scale_score(lo, scale_max) if lo is not None else 1
+            sub_hi = scale_score(hi, scale_max) if hi is not None else scale_max
+            recomputed[dim] = {
+                "eligible": False, "score": None, "lo": sub_lo, "hi": sub_hi,
+            }
+            if record is None:
+                failures.append(
+                    f"dimension '{dim}' has applicable criteria but no score "
+                    "record"
+                )
+                continue
             if record.get("eligible") or record.get("score") is not None:
                 failures.append(
                     f"dimension '{dim}': fails the eligibility gate but carries a "
                     "numeric score or eligible flag"
                 )
+            continue
+        if record is None:
+            failures.append(f"dimension '{dim}' has applicable criteria but no score record")
             continue
         if record.get("mastery") is not None and not math.isclose(
             record["mastery"], float(mastery), abs_tol=0.01
@@ -497,94 +894,286 @@ def check_model(model: dict) -> list[str]:
             )
         if record.get("eligible") is not True:
             failures.append(f"dimension '{dim}': eligible is not true on a scoring dimension")
-        scored += 1
-        scored_dims.add(dim)
+        recomputed[dim] = {
+            "eligible": True, "score": expected, "lo": lo_s, "hi": hi_s,
+        }
 
-    overall = model["scores"].get("overall", {})
-    if overall.get("scored") != scored:
+    requirements = model.get("requirements", [])
+    if not isinstance(requirements, list):
         failures.append(
-            f"overall.scored {overall.get('scored')!r} does not match {scored} "
-            "eligible dimensions"
+            f"requirements is {type(requirements).__name__}, expected a list"
         )
-    if overall.get("applicable") != applicable_dims:
+        requirements = []
+    req_ids: set[str] = set()
+    for r in requirements:
+        rid = r.get("id", "<no id>")
+        if rid in req_ids:
+            failures.append(f"{rid}: id {rid!r} is invalid")
+        req_ids.add(rid)
+        if r.get("obligation") not in OBLIGATIONS:
+            failures.append(
+                f"{rid}: obligation {r.get('obligation')!r} is invalid"
+            )
+        if r.get("status") not in REQUIREMENT_STATES:
+            failures.append(f"{rid}: status {r.get('status')!r} is invalid")
+        if r.get("status") in ("PARTIAL", "FAIL"):
+            target = next(
+                (f for f in findings if f.get("id") == r.get("finding")), None
+            )
+            if target is None or target.get("status") != "Open":
+                failures.append(
+                    f"{rid}: {r.get('status')} requirement needs an open finding"
+                )
+        for eid in r.get("evidence", []):
+            if eid not in evd_ids:
+                failures.append(f"{rid}: cites unknown evidence {eid}")
+    if requirements:
+        digest = hashlib.sha256(
+            "\n".join(
+                sorted(
+                    f"{r.get('id')}:{r.get('obligation')}"
+                    for r in requirements
+                )
+            ).encode("utf-8")
+        ).hexdigest()
+        if scope.get("requirements_baseline") != digest:
+            failures.append(
+                "requirements_baseline does not match the requirements "
+                "registry"
+            )
+    elif scope.get("requirements_baseline") is not None:
         failures.append(
-            f"overall.applicable {overall.get('applicable')!r} does not match "
-            f"{applicable_dims} applicable dimensions"
+            "requirements_baseline does not match the requirements registry"
         )
 
-    def recorded_points(dim_names) -> list[Fraction]:
-        return [
-            Fraction(str(dims[d]["score"])) for d in dims
-            if d in dim_names
-            and dims[d].get("score") is not None
-            and dims[d].get("eligible")
+    if catalogue_ok:
+        REQ_VALUES = {
+            "PASS": Fraction(1), "PARTIAL": Fraction(1, 2), "FAIL": Fraction(0),
+        }
+        mandatory = [
+            r for r in requirements if r.get("obligation") == "mandatory"
         ]
-
-    score = overall.get("score")
-    if len(named) >= 2:
-        if score is not None:
-            failures.append(
-                "overall.score must be null in a multi-project model - score "
-                "per project"
+        n_req = len(mandatory)
+        graded = [r for r in mandatory if r.get("status") != "UNKNOWN"]
+        g_req = len(graded)
+        coverage_req = (
+            sum(
+                (REQ_VALUES.get(r.get("status"), Fraction(0)) for r in graded),
+                Fraction(0),
             )
-        per_project = model["scores"].get("per_project", {})
-        for name in sorted(named):
-            record = per_project.get(name)
-            if record is None:
-                failures.append(f"per_project record missing for project {name!r}")
+            / g_req if g_req else Fraction(0)
+        )
+        if n_req == 0:
+            computed = "NOT_APPLICABLE"
+        elif g_req * 2 <= n_req:
+            computed = "UNKNOWN"
+        else:
+            computed = "FAIL"
+            for bound, level in (
+                (Fraction(19, 20), "PASS"), (Fraction(17, 20), "P75"),
+                (Fraction(7, 10), "P50"), (Fraction(1, 2), "P25"),
+            ):
+                if coverage_req >= bound:
+                    computed = level
+                    break
+        for c in criteria:
+            if c.get("channel") != "score":
                 continue
-            p_dims = {
-                d for d in dimensions
-                if "." in str(d) and str(d).partition(".")[0] == name
-            }
-            p_scored = len(p_dims & scored_dims)
-            p_applicable = len(p_dims & applicable_dim_names)
-            if record.get("scored") != p_scored:
-                failures.append(
-                    f"per_project[{name!r}].scored {record.get('scored')!r} does "
-                    f"not match {p_scored}"
-                )
-            if record.get("applicable") != p_applicable:
-                failures.append(
-                    f"per_project[{name!r}].applicable {record.get('applicable')!r} "
-                    f"does not match {p_applicable}"
-                )
-            p_score = record.get("score")
-            if p_scored * 2 <= p_applicable and p_score is not None:
-                failures.append(
-                    f"per_project[{name!r}].score is set while half or fewer "
-                    "applicable dimensions scored"
-                )
-            if p_scored > 0 and p_score is not None:
-                points = recorded_points(p_dims | {
-                    d for d in dims
-                    if "." in str(d) and str(d).partition(".")[0] == name
-                })
-                if points:
-                    expected_score = float(
-                        half_up(sum(points, Fraction(0)) / len(points), 1)
-                    )
-                    if abs(p_score - expected_score) >= 0.001:
-                        failures.append(
-                            f"per_project[{name!r}].score {p_score!r} does not "
-                            f"recompute to {expected_score}"
-                        )
-    else:
-        if scored * 2 <= applicable_dims and score is not None:
-            failures.append(
-                "overall.score is set while half or fewer applicable dimensions scored"
+            entry = cat_entries.get(c.get("catalogue_id"))
+            if not isinstance(entry, dict) or not entry.get("mechanical"):
+                continue
+            cid = c.get("id", "<no id>")
+            expected_level = computed if computed in LEVEL_VALUES else None
+            expected_outcome = (
+                LEVEL_OUTCOME[computed]
+                if expected_level is not None else computed
             )
-        if scored > 0 and score is not None:
-            points = recorded_points(set(dims))
-            if points:
-                expected_overall = float(
-                    half_up(sum(points, Fraction(0)) / len(points), 1)
+            if (
+                c.get("level") != expected_level
+                or c.get("outcome") != expected_outcome
+            ):
+                failures.append(
+                    f"{cid}: level {c.get('level')!r} does not match the "
+                    f"computed {computed} (coverage "
+                    f"{float(coverage_req):.3f} over {g_req} of {n_req} "
+                    "mandatory requirements)"
                 )
-                if abs(score - expected_overall) >= 0.001:
-                    failures.append(
-                        f"overall.score {score!r} does not recompute to the "
-                        f"dimension mean {expected_overall}"
+            elif computed == "NOT_APPLICABLE" and (
+                c.get("na_basis") != "deployment-model"
+                or c.get("applicability") != FNC_REQ_APPLICABILITY
+            ):
+                failures.append(
+                    f"{cid}: NOT_APPLICABLE requires na_basis "
+                    "deployment-model and applicability "
+                    f"'{FNC_REQ_APPLICABILITY}'"
+                )
+
+    scores = model.get("scores", {})
+    if "overall" in scores:
+        failures.append(
+            "scores.overall is removed in model v2 - record product, process, "
+            "and single"
+        )
+    if multi:
+        for key in ("product", "process", "single"):
+            if key in scores:
+                failures.append(
+                    f"scores.{key} must be absent in a multi-project model - "
+                    "record scores.per_project"
+                )
+    elif "per_project" in scores:
+        failures.append(
+            "scores.per_project must be absent in a single-project model"
+        )
+
+    def project_dims(prefix) -> dict:
+        """compute_headline `dims` input for one scoring scope."""
+        leaf_dims = {}
+        for leaf in CANONICAL_DIMENSIONS:
+            key = f"{prefix}.{leaf}" if prefix is not None else leaf
+            entry = recomputed.get(key)
+            if entry is not None:
+                leaf_dims[leaf] = {"applicable": True, **entry}
+        return leaf_dims
+
+    def project_open(prefix) -> tuple[bool, bool]:
+        """Open CRITICAL/HIGH bounding findings in one scoring scope."""
+        critical = high = False
+        for f in bounding:
+            if prefix is not None:
+                dim = crit_dim.get(f.get("criterion"))
+                if not isinstance(dim, str) or not dim.startswith(prefix + "."):
+                    continue
+            if f.get("severity") == "CRITICAL":
+                critical = True
+            if f.get("severity") == "HIGH":
+                high = True
+        return critical, high
+
+    def fields_match(record, expected) -> list[tuple]:
+        mismatches = []
+        for field, want in expected.items():
+            got = record.get(field)
+            if field == "interval":
+                ok = (
+                    got is None if want is None else
+                    isinstance(got, list) and len(got) == 2
+                    and all(
+                        isinstance(g, (int, float)) and abs(g - w) < 0.001
+                        for g, w in zip(got, want)
                     )
+                )
+            elif field in ("score", "raw"):
+                ok = (
+                    got is None if want is None else
+                    isinstance(got, (int, float)) and abs(got - want) < 0.001
+                )
+            else:
+                ok = got == want
+            if not ok:
+                mismatches.append((field, got, want))
+        return mismatches
+
+    readiness = model.get("readiness", {})
+    readiness = readiness if isinstance(readiness, dict) else {}
+    scopes = sorted(named) if multi else [None]
+    per_project = scores.get("per_project", {})
+    for name in scopes:
+        prefix = name if multi else None
+        critical_open, high_open = project_open(prefix)
+        if prefix is None:
+            records = scores
+            readiness_record = readiness
+        else:
+            records = per_project.get(name)
+            if not isinstance(records, dict):
+                failures.append(
+                    f"per_project record missing for project {name!r}"
+                )
+                continue
+            readiness_record = (
+                readiness.get("per_project", {}).get(name, {})
+                if isinstance(readiness.get("per_project"), dict) else {}
+            )
+        state = readiness_record.get("state")
+        expected = compute_headline(
+            project_dims(prefix), scale_max, critical_open, high_open, state
+        )
+        for rec_name, expected_record in expected.items():
+            label = (
+                rec_name if prefix is None
+                else f"per_project[{name}].{rec_name}"
+            )
+            record = records.get(rec_name)
+            record = record if isinstance(record, dict) else {}
+            for field, got, want in fields_match(record, expected_record):
+                failures.append(
+                    f"{label}.{field} {got!r} does not recompute to {want!r}"
+                )
+
+    known_ids = (
+        fnd_ids
+        | {r.get("id") for r in risks}
+        | {r.get("id") for r in recommendations}
+    )
+
+    def check_readiness_record(record, label, prefix) -> None:
+        state = record.get("state")
+        if state not in READINESS_STATES:
+            failures.append(f"{label}.state {state!r} is not a readiness state")
+        blocking = record.get("blocking")
+        blocking = blocking if isinstance(blocking, list) else []
+        for bid in blocking:
+            if not (
+                isinstance(bid, str)
+                and (bid in known_ids or bid.startswith("gate:"))
+            ):
+                failures.append(f"{label}.blocking cites unknown {bid}")
+        if state == "READY":
+            for f in bounding:
+                if f.get("severity") not in ("CRITICAL", "HIGH"):
+                    continue
+                if prefix is not None:
+                    dim = crit_dim.get(f.get("criterion"))
+                    if not isinstance(dim, str) or not dim.startswith(
+                        prefix + "."
+                    ):
+                        continue
+                failures.append(
+                    f"{label} READY conflicts with open "
+                    f"{f.get('severity')} finding {f.get('id')}"
+                )
+        if state in ("NOT READY", "PENDING EVIDENCE") and not blocking:
+            failures.append(
+                f"{label} {state} needs at least one blocking id"
+            )
+        if (
+            state == "NOT ASSESSED"
+            and "readiness" in str(scope.get("purpose", "")).lower()
+        ):
+            failures.append(
+                f"{label} NOT ASSESSED conflicts with a readiness purpose"
+            )
+
+    if multi:
+        per_project_readiness = readiness.get("per_project", {})
+        per_project_readiness = (
+            per_project_readiness
+            if isinstance(per_project_readiness, dict) else {}
+        )
+        for name in sorted(named):
+            record = per_project_readiness.get(name)
+            if not isinstance(record, dict):
+                failures.append(
+                    f"readiness.per_project record missing for project "
+                    f"{name!r}"
+                )
+                continue
+            check_readiness_record(
+                record, f"per_project[{name}].readiness", name
+            )
+    else:
+        check_readiness_record(readiness, "readiness", None)
 
     if not all(isinstance(x, str) and x.strip() for x in model.get("exclusions", [])):
         failures.append("an exclusion entry is empty - every exclusion names its reason")

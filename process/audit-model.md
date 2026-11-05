@@ -23,9 +23,9 @@ records live in `references/criterion-catalogue.md`.
 |-------------------------|------|--------------------------------------------------|
 | Pipeline Stages         | 30   | The nine stages and their publication conditions |
 | The Model Artifact      | 48   | `work/audit-model.json` schema and lifecycle     |
-| Derivation Rule         | 154  | Rendering every surface from the model           |
-| Counter-Evidence Review | 199  | The second-pass challenge discipline             |
-| Publication Stops       | 215  | Errors that block final publication              |
+| Derivation Rule         | 203  | Rendering every surface from the model           |
+| Counter-Evidence Review | 252  | The second-pass challenge discipline             |
+| Publication Stops       | 268  | Errors that block final publication              |
 
 ## Pipeline Stages
 
@@ -54,11 +54,12 @@ Top-level shape:
 
 ```json
 {
- "model_version": 1,
+ "model_version": 2,
  "scope": {
   "subject": "<name>", "revision": "<full identity>", "purpose": "<audit purpose>",
-  "evidence_mode": "source-only", "scoring_policy": 2,
-  "history": "present|absent|out-of-scope", "product_profile": {},
+  "evidence_mode": "source-only", "scoring_policy": 3, "catalogue_version": 2,
+  "history": "present|absent|out-of-scope", "detail_level": "Detailed|Standard|Brief",
+  "requirements_baseline": "<sha256 hex>|null", "product_profile": {"natures": ["service"]},
   "projects": [
    {"path": "...", "name": "<project name>", "provenance": "in-tree|submodule|embedded",
     "fetch_state": "fetched|unfetched|n/a", "pin_state": "pinned|ahead|n/a",
@@ -70,10 +71,17 @@ Top-level shape:
    "module": "...", "read": true, "excluded_reason": null}
  ],
  "criteria": [
-  {"id": "SEC-AUTHZ", "source": "...", "applicability": "applicable",
+  {"id": "SEC-AUTHZ", "catalogue_id": "SEC-AUTHZ", "channel": "score|conformance",
+   "source": "...", "applicability": "applicable",
    "criticality": "high", "weight": 1.0, "expected": "...", "method": "...",
    "sufficiency": "...", "dimension": "security",
-   "outcome": "PASS", "mastery": null, "na_basis": null, "shortfall": null}
+   "outcome": "PASS", "level": "PASS", "mastery": 1.0, "na_basis": null, "shortfall": null}
+ ],
+ "requirements": [
+  {"id": "A-01", "source": {"path": "...", "line": 1}, "statement": "...",
+   "obligation": "mandatory|recommended|optional|future",
+   "status": "PASS|PARTIAL|FAIL|UNKNOWN", "evidence": ["EVD-001"],
+   "finding": "FND-SEC-001|null"}
  ],
  "evidence": [
   {"id": "EVD-001", "kind": "INSPECTED", "collector": "...", "method": "...",
@@ -99,6 +107,8 @@ Top-level shape:
    "options": "...", "owner": "...", "effort": "...", "verification": "...",
    "residual": "...", "priority": "P1"}
  ],
+ "readiness": {"state": "READY|NOT READY|PENDING EVIDENCE|NOT ASSESSED",
+               "blocking": ["FND-SEC-001"]},
  "scores": {
   "scale_max": 10,
   "dimensions": {
@@ -107,22 +117,39 @@ Top-level shape:
                 "caps": [{"rule": "severity-high", "limit": 5,
                           "source": ["FND-SEC-001"]}]}
   },
-  "overall": {"score": null, "scored": 0, "applicable": 0},
-  "per_project": {}
+  "product": {"score": 7.0, "interval": null, "published": true,
+              "eligible_weight": 29, "applicable_weight": 29,
+              "lowest": ["testability"]},
+  "process": {"score": null, "interval": null, "published": false,
+              "scored": 1, "applicable": 2, "lowest": []},
+  "single": {"score": 6.0, "raw": 7.0, "interval": null, "flag": "product-only",
+             "ceiling": {"limit": 6, "reasons": ["readiness:NOT READY"]},
+             "band": "Average"}
  },
  "coverage": {"families": {}, "labels": {}},
  "exclusions": ["..."]
 }
 ```
 
-`model_version` is `1` for this schema.
+`model_version` is `2` for this schema.
 
 Criterion `dimension` values are the canonical ids in `process/readiness-scoring.md`
-(scoring policy 2) - snake_case keys like `security` and `delivery_continuity`, never the
+(scoring policy 3) - snake_case keys like `security` and `delivery_continuity`, never the
 legacy `process` bucket or kebab-case; a process-family criterion names its own dimension
 (`delivery_continuity`, `ai_provenance`, `originality_licensing`, `skill_definition`).
 Multi-project models prefix each dimension key with the project `name` (`<project>.security`)
-and publish `scores.per_project` while `overall.score` stays null.
+and publish the three headline records under `scores.per_project[<name>]` while
+`scores.product`, `scores.process`, and `scores.single` stay absent, and `readiness`
+becomes `{"per_project": {<name>: {"state", "blocking"}}}`.
+
+Score-channel criteria carry `catalogue_id` naming their entry in the fixed catalogue of
+`references/criterion-catalogue.json` - in a single-project model `id` equals
+`catalogue_id` - and a resolved criterion's `level` comes from that entry's declared
+anchors.
+
+`scope.scoring_policy` records which policy produced the scores, so a model written under
+policy 2 is not a policy-3 model - it fails the check until regenerated under the fixed
+catalogue, and `scores.overall` is removed rather than migrated.
 
 `NOT_APPLICABLE` criteria carry `na_basis` (`deployment-model`, `census-none`, or
 `history-out-of-scope`), and `PARTIAL`/`FAIL` criteria carry either an open finding or a
@@ -142,6 +169,28 @@ and a degenerate interval (`lo` equals `hi`) is omitted.
 The `projects[]` scope record carries the intake discovery: each project's provenance, fetch
 state, pin state, and automation signal census outcome, recorded before criterion planning so
 applicability decisions cite the census.
+
+Scope-model determinations are contracted so two auditors reach the same partition:
+
+- A project's `name` is the basename of its `path` - never an abbreviation or display name,
+  so paired audits pair projects mechanically.
+- A subject is multi-project when its root manifest aggregates member packages that each
+  ship an independently buildable or deliverable artifact - two auditors must reach the
+  same decomposition, so the rule is the manifest, not judgment. A subject whose root is
+  itself the deliverable is single-project even when it carries internal modules.
+- A directory that only aggregates sub-projects is not itself a project. It becomes one only
+  when it ships first-party code at its own root outside the member trees.
+- `automation_census` is mechanical: `none` when no build, CI, packaging, or deployment
+  automation files exist under the project root, `signals` when in-tree automation exists,
+  `external` when automation is declared but lives outside the tree. Member crates inherit
+  the workspace root's census when they ship no automation of their own.
+- `product_profile.natures` follows the delivered artifact kind - a member crate inherits
+  the workspace's natures unless it is independently published as a reusable package, in
+  which case `library` applies to that crate alone.
+- A criterion resolves `UNKNOWN` only when the evidence its `sufficiency` names cannot be
+  located or cannot distinguish adjacent levels. When partial evidence exists the criterion
+  grades at the level that evidence supports - `UNKNOWN` is never a shortcut for a hard
+  grading call.
 
 The artifact lives until validation passes, then follows the `work/` retention rule for report
 parts - deleted before delivery unless the user asks to keep it.
@@ -189,9 +238,13 @@ mechanically:
   evidence claims all resolve to declared identifiers.
 - Outcome validity: criterion outcomes come from the declared state set, `PARTIAL` carries a
   recorded mastery fraction, and `CRITICAL`/`HIGH` findings carry counter-evidence.
+- Catalogue conformance: score-channel criteria match the fixed catalogue on id, dimension,
+  weight, criticality, declared `level` anchors, and `na_rules`, completeness holds per
+  project, and the `requirements[]` registry matches `scope.requirements_baseline`.
 - Scoring reproducibility: each dimension's score, interval bounds, coverage, and eligibility
-  recompute from criterion outcomes, weights, and backing evidence kinds, and the overall row
-  matches the eligible dimension set and its mean.
+  recompute from criterion outcomes, weights, and backing evidence kinds, and the `product`,
+  `process`, and `single` headline records recompute from the dimension set under the
+  catalogue's tier weights, publish gates, blend, and ceilings.
 
 A model that fails these checks is not generated from. The failures are resolved in the
 records first, per the Derivation Rule.

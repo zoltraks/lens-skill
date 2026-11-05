@@ -381,10 +381,10 @@ If an overall score is shown, disclose its formula, weights, rounding, and cover
 State the lowest-scoring applicable dimension and its score in a paragraph below the table, per
 `synthesis/project-scorecard.md`.
 
-Never close the Scorecard Summary table with an overall row - `Overall score` lives in the
-Executive Summary key-value table only, and a numeric row inside the table corrupts the
-validator's mean recompute.
+Never close the Scorecard Summary table with an overall row - the `Overall score` row and
+the headline score table live in the Executive Summary only, and a numeric row inside the
+table corrupts the validator's score recompute.
 
 The overall statement names the mean formula, the coverage denominator, and the
 lowest-scoring applicable dimension with its score - the validator checks a six-line
-window after every `Overall score` value for the word `lowest`.
+window after every numeric headline value for the word `lowest`.

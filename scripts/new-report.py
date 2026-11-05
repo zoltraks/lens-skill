@@ -274,6 +274,17 @@ def audit_project_body(project: str, number: int = 1) -> list[str]:
                     ],
                 )
             )
+            parts.append(
+                table(
+                    "| Score | Value | Basis |",
+                    "|---|---|---|",
+                    [
+                        "| Product Quality | <score>/<scale> (<band>) | <formula>, lowest <dimension> <score> |\n",
+                        "| Engineering Process | <score>/<scale> (<band>) or Not published | <formula>, lowest <dimension> <score> |\n",
+                        "| Overall Score | <score>/<scale> (<band>) or Not published | <blend, Product-only, ceiling wording> |\n",
+                    ],
+                )
+            )
             parts.append("Lowest-scoring applicable dimension: <dimension> <score>.\n\n")
         elif section == "Health Dashboard":
             parts.append("**Risk Map**\n\n")

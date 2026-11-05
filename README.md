@@ -29,11 +29,11 @@
 | Report Format                      | 451  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 488  | Supported requests and exclusions                   |
 | What's Inside                      | 512  | Documents, references, tools, and conditional files |
-| Document Style                     | 686  | Pointer to the style rules file                     |
-| Specification                      | 696  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 717  | Maintenance checks and regression scenarios         |
-| License                            | 745  | License for the skill itself                        |
-| Credits                            | 751  | Authorship and attribution                          |
+| Document Style                     | 691  | Pointer to the style rules file                     |
+| Specification                      | 701  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 722  | Maintenance checks and regression scenarios         |
+| License                            | 750  | License for the skill itself                        |
+| Credits                            | 756  | Authorship and attribution                          |
 
 ## Overview
 
@@ -530,6 +530,7 @@ lens-skill/
 ├── process/
 │   ├── audit-workflow.md                  # Intake, scope, evidence, assessment, synthesis, validation
 │   ├── audit-model.md                     # Evidence-to-finding pipeline and canonical audit-model.json
+│   ├── calibration.md                     # Paired-run reproducibility procedure and tolerances
 │   ├── decision-modes.md                  # Interaction-mode matrix: interactive and automated resolution
 │   ├── development.md                     # Standby-for-specification development mode
 │   ├── housekeeping.md                    # Self-repository upkeep routine
@@ -618,6 +619,7 @@ lens-skill/
 │   ├── audit-taxonomy.md                  # Canonical audit types, coverage statuses, source corpus
 │   ├── evidence-schema.md                 # Evidence kinds, outcome states, sufficiency, coverage labels
 │   ├── criterion-catalogue.md             # Criterion records, families, applicability freeze
+│   ├── criterion-catalogue.json           # Fixed policy-3 criterion catalogue and severity anchors
 │   ├── organization-model.md              # Area map and responsibility inventory method
 │   ├── naming-and-layout.md               # Cross-stack naming matrices, code-division rules, 11-stack fixtures
 │   ├── language-conventions.md            # Per-ecosystem style yardstick snapshot for code style
@@ -638,6 +640,9 @@ lens-skill/
 │   ├── link-references.py                 # Register-identifier linker, run before the formatter
 │   ├── validate-report.py                 # Audit and Review report validator (`--dump-contract` JSON)
 │   ├── render-contract.py                 # Regenerates the report-contract enumeration block
+│   ├── render-tables.py                   # Renders report tables from the audit model
+│   ├── extract-requirements.py            # Requirement-id inventory extractor
+│   ├── compare-models.py                  # Side-by-side policy-3 model comparison
 │   ├── new-report.py                      # Report skeleton generator (audit, hunt, or review)
 │   ├── finalize-report.py                 # Runs links, format, and validate in order on a report
 │   ├── validate-skill.py                  # Dependency-light Agent Skill validator

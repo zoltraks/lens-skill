@@ -18,15 +18,21 @@ The catalogue is per-audit: the criterion planner stage of `process/audit-model.
 adapts, and freezes it for the subject, and `references/evidence-schema.md` defines the outcome
 states each criterion resolves to.
 
+Under scoring policy 3 the planner starts from the fixed catalogue in
+`references/criterion-catalogue.json` - the canonical dimension order and tiers, fixed
+criterion ids, weights, criticality, declared level anchors, `na_rules`, and severity
+anchors - and the model's completeness, membership, level, and census/history decisions are
+checked mechanically against it per `process/readiness-scoring.md`.
+
 ## Contents
 
 | Section                | Line | What it covers                              |
 |------------------------|------|---------------------------------------------|
-| Criterion Records      | 31   | The fields every criterion carries          |
-| Applicability Freeze   | 66   | Denominator locking and change rules        |
-| Criterion Families     | 81   | Minimum family set and per-family notes     |
-| Criticality And Weight | 134  | How criteria earn weight inside a dimension |
-| Crosswalk Integrity    | 145  | Mapping to external quality models honestly |
+| Criterion Records      | 37   | The fields every criterion carries          |
+| Applicability Freeze   | 72   | Denominator locking and change rules        |
+| Criterion Families     | 87   | Minimum family set and per-family notes     |
+| Criticality And Weight | 140  | How criteria earn weight inside a dimension |
+| Crosswalk Integrity    | 151  | Mapping to external quality models honestly |
 
 ## Criterion Records
 

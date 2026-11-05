@@ -25,9 +25,9 @@ A score is a summary of evidence, not an impression.
 | Handling Unknowns                | 204  | Unknown handling guidance                |
 | Handling Not Applicable          | 212  | N/A handling guidance                    |
 | Dimension To Category Mapping    | 226  | Dimension to assessment-category mapping |
-| ISO/IEC 25010:2023 Crosswalk     | 252  | Standards crosswalk mapping              |
-| Score Confidence And Aggregation | 296  | Confidence and aggregation rules         |
-| Rules                            | 334  | Scorecard rules                          |
+| ISO/IEC 25010:2023 Crosswalk     | 253  | Standards crosswalk mapping              |
+| Score Confidence And Aggregation | 297  | Confidence and aggregation rules         |
+| Rules                            | 335  | Scorecard rules                          |
 
 ## Table Format
 
@@ -229,6 +229,7 @@ Each scorecard dimension summarizes one or more assessment categories.
 
 | Dimension               | Source Categories                                        |
 |-------------------------|----------------------------------------------------------|
+| Functional Suitability  | Functional Correctness, Requirements Conformance         |
 | Testability             | Testing and Testability                                  |
 | Design Soundness        | Design Principles                                        |
 | Code Quality            | Code Quality                                             |

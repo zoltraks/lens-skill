@@ -20,11 +20,11 @@ defined in `process/report-format/hunt-style.md` and `process/report-format/revi
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 2277 | Intake Checklist guidance        |
-| Handling Thin Input     | 2302 | Handling Thin Input guidance     |
-| Single-Dimension Audits | 2316 | Single-Dimension Audits guidance |
-| Re-Audit                | 2330 | Re-Audit guidance                |
-| Multi-Project Audits    | 2396 | Multi-Project Audits guidance    |
+| Intake Checklist        | 2299 | Intake Checklist guidance        |
+| Handling Thin Input     | 2324 | Handling Thin Input guidance     |
+| Single-Dimension Audits | 2338 | Single-Dimension Audits guidance |
+| Re-Audit                | 2352 | Re-Audit guidance                |
+| Multi-Project Audits    | 2418 | Multi-Project Audits guidance    |
 
 ## Step Overview
 
@@ -1264,6 +1264,16 @@ Build the audit's criterion table from `references/criterion-catalogue.md` using
 profile and audit purpose, recording each criterion's source, applicability, criticality,
 weight, method, and sufficiency rule.
 
+Under scoring policy 3 the start point is the fixed catalogue in
+`references/criterion-catalogue.json` - ids, dimensions, weights, criticality, level
+anchors, and `na_rules` are declared there, so planning assigns each criterion its channel,
+outcome, and level instead of adapting the records.
+
+Run `scripts/extract-requirements.py <doc.md> ...` over the subject's requirement documents
+to inventory requirement ids with obligation hints, then freeze the confirmed set into the
+model's `requirements[]` registry - the script proposes the inventory, the auditor decides
+the obligations.
+
 Freeze the applicable denominator before reading favorable or unfavorable findings, and record
 any later applicability change with its reason.
 
@@ -1678,6 +1688,11 @@ Every risk must reference its source `FND-XXX`.
 Build the project scorecard using `synthesis/project-scorecard.md` and
 `process/readiness-scoring.md`.
 
+Render the score-bearing tables - Scorecard Summary, the headline score rows, the frozen
+criteria table, and the Requirements Conformance table - with `scripts/render-tables.py`
+(`--part scorecard|headline|criteria|requirements|all`, plus `--project` on multi-project
+models), so the report never retypes a model value.
+
 Present the scoring rubric before the scores.
 
 Wherever an overall score is stated, report the lowest-scoring applicable dimension and its score
@@ -1950,8 +1965,15 @@ Confirm the Delivery Practice & Team Continuity section is present per project: 
 metrics are labeled as proxies, unmeasurable metrics are `Not specified` with reasons, and the
 bus-factor rating carries its commit-share, contributor-count, and window basis.
 
-Confirm every place an overall score appears reports the lowest-scoring applicable dimension
-and its score in a paragraph below the table, per `synthesis/project-scorecard.md`.
+Confirm the audit Executive Summary carries the `Product Quality`, `Engineering Process`,
+and `Overall Score` rows - each numeric sub-score names its lowest dimensions, and the
+`Overall Score` names `Product-only` and `ceiling` when they apply - per
+`process/report-format/summary-changes.md`, and every place an overall score appears
+reports the lowest-scoring applicable dimension and its score in a paragraph below the
+table, per `synthesis/project-scorecard.md`.
+
+Confirm the Requirements Conformance table keeps one row per requirement - a merged range
+row such as `A-01 through A-11` is a defect.
 
 Confirm every numeric dimension has evidence IDs, confidence, and a justified score point or cap.
 

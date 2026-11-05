@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import contextlib
 import copy
+import hashlib
+import io
 import json
 import subprocess
 import sys
@@ -943,44 +946,78 @@ class TestScanStructure(unittest.TestCase):
 class TestCheckModel(unittest.TestCase):
     def setUp(self):
         self.checker = load_script("check-model.py")
+        self.catalogue = self._catalogue()
+
+    def _cat_entry(self, cid, dimension, weight=1.0, criticality="medium",
+                   na_rules=None, mechanical=False):
+        return {"id": cid, "dimension": dimension, "weight": weight,
+                "criticality": criticality, "natures": ["*"],
+                "na_rules": na_rules or [],
+                "levels": {"PASS": "...", "P75": "...", "P50": "...",
+                           "P25": "...", "FAIL": "..."},
+                "mechanical": mechanical}
+
+    def _catalogue(self, criteria=None) -> dict:
+        if criteria is None:
+            criteria = [
+                self._cat_entry("SEC-AUTHZ", "security", criticality="high"),
+                self._cat_entry("SEC-INJ", "security", criticality="high"),
+                self._cat_entry("SEC-CRYPTO", "security", criticality="medium"),
+                self._cat_entry("CMP-API", "api_compatibility",
+                                criticality="low",
+                                na_rules=["deployment-model"]),
+            ]
+        return {
+            "catalogue_version": 1, "scoring_policy": 3,
+            "levels": {"PASS": 1.0, "P75": 0.75, "P50": 0.5,
+                       "P25": 0.25, "FAIL": 0.0},
+            "dimensions": [], "criteria": criteria, "severity_anchors": [],
+        }
 
     def _valid_model(self) -> dict:
         return {
-            "model_version": 1,
+            "model_version": 2,
             "scope": {"subject": "demo", "revision": "abc123",
                       "purpose": "audit", "evidence_mode": "source-only",
-                      "scoring_policy": 2, "history": "present",
+                      "scoring_policy": 3, "catalogue_version": 1,
+                      "history": "present", "detail_level": "Standard",
+                      "requirements_baseline": None,
                       "projects": [{"path": ".", "provenance": "in-tree",
                                     "fetch_state": "n/a", "pin_state": "n/a",
                                     "automation_census": "signals"}],
-                      "product_profile": {}},
+                      "product_profile": {"natures": ["service"]}},
             "inventory": [{"path": "src/app.py", "class": "production",
                            "module": "src", "read": True,
                            "excluded_reason": None}],
             "criteria": [
-                {"id": "SEC-AUTHZ", "source": "catalogue",
+                {"id": "SEC-AUTHZ", "catalogue_id": "SEC-AUTHZ",
+                 "channel": "score", "source": "catalogue",
                  "applicability": "applicable", "criticality": "high",
                  "weight": 1.0, "expected": "...", "method": "...",
                  "sufficiency": "...", "dimension": "security",
-                 "outcome": "PASS", "mastery": None},
-                {"id": "SEC-INJ", "source": "catalogue",
+                 "outcome": "PASS", "level": "PASS", "mastery": 1.0},
+                {"id": "SEC-INJ", "catalogue_id": "SEC-INJ",
+                 "channel": "score", "source": "catalogue",
                  "applicability": "applicable", "criticality": "high",
                  "weight": 1.0, "expected": "...", "method": "...",
                  "sufficiency": "...", "dimension": "security",
-                 "outcome": "PARTIAL", "mastery": 0.25},
-                {"id": "SEC-CRYPTO", "source": "catalogue",
+                 "outcome": "PARTIAL", "level": "P25", "mastery": 0.25},
+                {"id": "SEC-CRYPTO", "catalogue_id": "SEC-CRYPTO",
+                 "channel": "score", "source": "catalogue",
                  "applicability": "applicable", "criticality": "medium",
                  "weight": 1.0, "expected": "...", "method": "...",
                  "sufficiency": "...", "dimension": "security",
-                 "outcome": "UNKNOWN", "mastery": None},
-                {"id": "CMP-API", "source": "catalogue",
+                 "outcome": "UNKNOWN", "level": None, "mastery": None},
+                {"id": "CMP-API", "catalogue_id": "CMP-API",
+                 "channel": "score", "source": "catalogue",
                  "applicability": "not applicable - deployable service, not a published library",
                  "criticality": "low",
                  "weight": 1.0, "expected": "...", "method": "...",
                  "sufficiency": "...", "dimension": "api_compatibility",
-                 "outcome": "NOT_APPLICABLE", "mastery": None,
+                 "outcome": "NOT_APPLICABLE", "level": None, "mastery": None,
                  "na_basis": "deployment-model"},
             ],
+            "requirements": [],
             "evidence": [
                 {"id": "EVD-001", "kind": "INSPECTED", "collector": "x",
                  "method": "read", "timestamp": "...", "tool": None,
@@ -1018,6 +1055,8 @@ class TestCheckModel(unittest.TestCase):
                  "effort": "...", "verification": "...", "residual": "...",
                  "priority": "P1"},
             ],
+            "readiness": {"state": "PENDING EVIDENCE",
+                          "blocking": ["FND-SEC-001"]},
             "scores": {
                 "scale_max": 10,
                 "dimensions": {
@@ -1027,14 +1066,29 @@ class TestCheckModel(unittest.TestCase):
                                  "caps": [{"rule": "severity-high", "limit": 5,
                                            "source": ["FND-SEC-001"]}]},
                 },
-                "overall": {"score": 5.0, "scored": 1, "applicable": 1},
+                "product": {"score": 5.0, "interval": [4.0, 5.0],
+                            "published": True, "eligible_weight": 3,
+                            "applicable_weight": 3, "lowest": ["security"]},
+                "process": {"score": None, "interval": None,
+                            "published": False, "scored": 0,
+                            "applicable": 0, "lowest": []},
+                "single": {"score": 5.0, "raw": 5.0, "interval": [4.0, 5.0],
+                           "flag": "product-only",
+                           "ceiling": {"limit": 6,
+                                       "reasons": ["severity:HIGH"]},
+                           "band": "Average"},
             },
             "coverage": {"families": {}, "labels": {"security": "PARTIAL"}},
             "exclusions": ["docs/generated - generated content"],
         }
 
+    def check(self, model, catalogue=None):
+        return self.checker.check_model(
+            model, self.catalogue if catalogue is None else catalogue
+        )
+
     def test_valid_model_passes(self):
-        self.assertEqual(self.checker.check_model(self._valid_model()), [])
+        self.assertEqual(self.check(self._valid_model()), [])
 
     def test_broken_model_reports_each_failure(self):
         model = self._valid_model()
@@ -1042,7 +1096,7 @@ class TestCheckModel(unittest.TestCase):
         model["findings"][0]["counter"] = ""
         model["risks"][0]["finding"] = "FND-SEC-099"
         model["scores"]["dimensions"]["security"]["interval"] = [6, 9]
-        failures = self.checker.check_model(model)
+        failures = self.check(model)
         joined = "\n".join(failures)
         self.assertIn("claims unknown criterion SEC-NOPE-01", joined)
         self.assertIn("no recorded counter-evidence", joined)
@@ -1054,14 +1108,14 @@ class TestCheckModel(unittest.TestCase):
     def test_partial_without_mastery_fails(self):
         model = self._valid_model()
         model["criteria"][1]["mastery"] = None
-        joined = "\n".join(self.checker.check_model(model))
+        joined = "\n".join(self.check(model))
         self.assertIn("PARTIAL requires a recorded mastery fraction", joined)
 
     def test_declared_only_dimension_fails_gate(self):
         model = self._valid_model()
         model["evidence"][0]["kind"] = "DECLARED"
         model["evidence"][1]["kind"] = "DECLARED"
-        failures = self.checker.check_model(model)
+        failures = self.check(model)
         self.assertTrue(
             any("fails the eligibility gate" in failure for failure in failures),
             failures,
@@ -1079,11 +1133,12 @@ class TestCheckModel(unittest.TestCase):
         return finding
 
     def _criterion(self, cid, dimension, outcome, **extra):
-        criterion = {"id": cid, "source": "catalogue",
+        criterion = {"id": cid, "catalogue_id": cid, "channel": "score",
+                     "source": "catalogue",
                      "applicability": "applicable", "criticality": "medium",
                      "weight": 1.0, "expected": "...", "method": "...",
                      "sufficiency": "...", "dimension": dimension,
-                     "outcome": outcome, "mastery": None}
+                     "outcome": outcome, "level": None, "mastery": None}
         criterion.update(extra)
         return criterion
 
@@ -1092,7 +1147,7 @@ class TestCheckModel(unittest.TestCase):
         model["findings"].append(
             self._finding("FND-SEC-002", "SEC-AUTHZ", "MEDIUM",
                           "confirmed defect"))
-        joined = "\n".join(self.checker.check_model(model))
+        joined = "\n".join(self.check(model))
         self.assertIn("exceeds the 0.5 bound", joined)
 
     def test_bounding_finding_citing_unresolved_criterion_fails(self):
@@ -1100,10 +1155,17 @@ class TestCheckModel(unittest.TestCase):
         model["findings"].append(
             self._finding("FND-SEC-003", "SEC-CRYPTO", "MEDIUM",
                           "confirmed defect"))
-        joined = "\n".join(self.checker.check_model(model))
+        joined = "\n".join(self.check(model))
         self.assertIn("cites unresolved criterion SEC-CRYPTO", joined)
 
     def test_census_none_basis_checked_against_project_census(self):
+        catalogue = self._catalogue(
+            self.catalogue["criteria"] + [
+                self._cat_entry("DEP-CI", "deployability",
+                                na_rules=["census-none", "deployment-model"]),
+            ]
+        )
+
         def model_with(census):
             model = copy.deepcopy(self._valid_model())
             model["scope"]["projects"][0]["automation_census"] = census
@@ -1118,23 +1180,29 @@ class TestCheckModel(unittest.TestCase):
                               absence="No documented rationale"))
             return model
 
-        self.assertEqual(self.checker.check_model(model_with("none")), [])
-        joined = "\n".join(self.checker.check_model(model_with("signals")))
+        self.assertEqual(self.check(model_with("none"), catalogue), [])
+        joined = "\n".join(self.check(model_with("signals"), catalogue))
         self.assertIn("census-none basis requires automation census none", joined)
 
     def test_deduction_needs_open_finding_or_evidenced_shortfall(self):
         model = copy.deepcopy(self._valid_model())
+        catalogue = self._catalogue(
+            self.catalogue["criteria"] + [
+                self._cat_entry("SEC-SESS", "security"),
+            ]
+        )
         model["criteria"].append(
-            self._criterion("SEC-SESS", "security", "PARTIAL", mastery=0.5))
+            self._criterion("SEC-SESS", "security", "PARTIAL", mastery=0.5,
+                            level="P50"))
         model["evidence"][0]["claims"].append("SEC-SESS")
-        failures = self.checker.check_model(model)
+        failures = self.check(model, catalogue)
         self.assertIn(
             "SEC-SESS: PARTIAL deduction has no open finding and no recorded "
             "shortfall with evidence",
             failures,
         )
         model["criteria"][-1]["shortfall"] = "session rotation absent"
-        failures = self.checker.check_model(model)
+        failures = self.check(model, catalogue)
         self.assertNotIn(
             "SEC-SESS: PARTIAL deduction has no open finding and no recorded "
             "shortfall with evidence",
@@ -1144,23 +1212,29 @@ class TestCheckModel(unittest.TestCase):
     def test_noncanonical_dimension_id_fails(self):
         model = copy.deepcopy(self._valid_model())
         model["criteria"][0]["dimension"] = "design-soundness"
-        joined = "\n".join(self.checker.check_model(model))
+        joined = "\n".join(self.check(model))
         self.assertIn(
             "dimension 'design-soundness' is not a canonical dimension id",
             joined)
 
     def test_half_up_rounding_of_uncapped(self):
+        """A P25 mastery (0.25 x 10 = 2.5) rounds up to 3 - Python round()
+        gives 2."""
         model = {
-            "model_version": 1,
-            "scope": {"scoring_policy": 2, "history": "present",
+            "model_version": 2,
+            "scope": {"scoring_policy": 3, "history": "present",
+                      "catalogue_version": 1, "detail_level": "Standard",
+                      "requirements_baseline": None,
+                      "product_profile": {"natures": ["service"]},
                       "projects": [{"path": ".",
                                     "automation_census": "signals"}]},
             "inventory": [],
             "criteria": [
                 self._criterion("CQY-DEAD", "code_quality", "PARTIAL",
-                                mastery=0.85,
+                                mastery=0.25, level="P25",
                                 shortfall="dead code paths remain"),
             ],
+            "requirements": [],
             "evidence": [
                 {"id": "EVD-001", "kind": "INSPECTED", "collector": "x",
                  "method": "read", "timestamp": "...", "tool": None,
@@ -1171,58 +1245,73 @@ class TestCheckModel(unittest.TestCase):
                  "unavailable": None},
             ],
             "findings": [], "risks": [], "recommendations": [],
+            "readiness": {"state": "READY", "blocking": []},
             "scores": {
                 "scale_max": 10,
                 "dimensions": {
-                    "code_quality": {"mastery": 0.85, "uncapped": 9,
-                                     "score": 9, "coverage": 1.0,
+                    "code_quality": {"mastery": 0.25, "uncapped": 3,
+                                     "score": 3, "coverage": 1.0,
                                      "eligible": True},
                 },
-                "overall": {"score": 9.0, "scored": 1, "applicable": 1},
+                "product": {"score": 3.0, "interval": None,
+                            "published": True, "eligible_weight": 2,
+                            "applicable_weight": 2,
+                            "lowest": ["code_quality"]},
+                "process": {"score": None, "interval": None,
+                            "published": False, "scored": 0,
+                            "applicable": 0, "lowest": []},
+                "single": {"score": 3.0, "raw": 3.0, "interval": None,
+                           "flag": "product-only", "ceiling": None,
+                           "band": "Poor"},
             },
             "coverage": {"families": {}, "labels": {}},
             "exclusions": [],
         }
-        self.assertEqual(self.checker.check_model(model), [])
-        model["scores"]["dimensions"]["code_quality"]["uncapped"] = 8
-        model["scores"]["dimensions"]["code_quality"]["score"] = 8
-        joined = "\n".join(self.checker.check_model(model))
-        self.assertIn("does not recompute to 9", joined)
+        catalogue = self._catalogue(
+            [self._cat_entry("CQY-DEAD", "code_quality")]
+        )
+        self.assertEqual(self.check(model, catalogue), [])
+        model["scores"]["dimensions"]["code_quality"]["uncapped"] = 2
+        model["scores"]["dimensions"]["code_quality"]["score"] = 2
+        joined = "\n".join(self.check(model, catalogue))
+        self.assertIn("does not recompute to 3", joined)
 
     def test_missing_triggered_mechanical_cap_fails(self):
         model = copy.deepcopy(self._valid_model())
         del model["scores"]["dimensions"]["security"]["caps"]
-        joined = "\n".join(self.checker.check_model(model))
+        joined = "\n".join(self.check(model))
         self.assertIn(
             "missing mechanical cap severity-high triggered by FND-SEC-001",
             joined)
 
     def test_material_unknown_cap_tracks_criticality(self):
         model = copy.deepcopy(self._valid_model())
+        catalogue = copy.deepcopy(self.catalogue)
         model["criteria"][2]["criticality"] = "high"
-        joined = "\n".join(self.checker.check_model(model))
+        catalogue["criteria"][2]["criticality"] = "high"
+        joined = "\n".join(self.check(model, catalogue))
         self.assertIn(
             "missing mechanical cap material-unknown triggered by SEC-CRYPTO",
             joined)
         model["scores"]["dimensions"]["security"]["caps"].append(
             {"rule": "material-unknown", "limit": 8, "source": ["SEC-CRYPTO"]})
-        self.assertEqual(self.checker.check_model(model), [])
+        self.assertEqual(self.check(model, catalogue), [])
 
     def test_undeclared_claim_class_fails(self):
         model = copy.deepcopy(self._valid_model())
         model["findings"][0]["claim_class"] = "suspected bug"
-        joined = "\n".join(self.checker.check_model(model))
+        joined = "\n".join(self.check(model))
         self.assertIn("is not a declared claim class", joined)
 
     def test_not_applicable_needs_valid_na_basis(self):
         model = copy.deepcopy(self._valid_model())
         del model["criteria"][3]["na_basis"]
-        joined = "\n".join(self.checker.check_model(model))
+        joined = "\n".join(self.check(model))
         self.assertIn("NOT_APPLICABLE needs na_basis", joined)
 
         model = copy.deepcopy(self._valid_model())
         model["criteria"][3]["na_basis"] = "history-out-of-scope"
-        joined = "\n".join(self.checker.check_model(model))
+        joined = "\n".join(self.check(model))
         self.assertIn(
             "history-out-of-scope basis requires scope.history absent or "
             "out-of-scope",
@@ -1236,7 +1325,7 @@ class TestCheckModel(unittest.TestCase):
         model["findings"].append(
             self._finding("FND-SEC-005", "SEC-CRYPTO", "LOW",
                           "evidence gap"))
-        self.assertEqual(self.checker.check_model(model), [])
+        self.assertEqual(self.check(model), [])
 
     def test_multi_project_scores_per_project(self):
         model = copy.deepcopy(self._valid_model())
@@ -1246,41 +1335,59 @@ class TestCheckModel(unittest.TestCase):
         ]
         model["criteria"] = [
             self._criterion("SEC-AUTHZ", "api.security", "PASS",
-                            criticality="high"),
-            self._criterion("SEC-ARGV", "cli.security", "PASS",
-                            criticality="high"),
+                            criticality="high", level="PASS", mastery=1.0),
+            self._criterion("SEC-AUTHZ-02", "cli.security", "PASS",
+                            criticality="high", level="PASS", mastery=1.0,
+                            catalogue_id="SEC-AUTHZ"),
         ]
-        model["evidence"][0]["claims"] = ["SEC-AUTHZ", "SEC-ARGV"]
+        catalogue = self._catalogue([
+            self._cat_entry("SEC-AUTHZ", "security", criticality="high"),
+        ])
+        model["evidence"][0]["claims"] = ["SEC-AUTHZ", "SEC-AUTHZ-02"]
         del model["evidence"][1]
         model["findings"] = []
         model["risks"] = []
         model["recommendations"] = []
+        model["readiness"] = {"per_project": {
+            "api": {"state": "READY", "blocking": []},
+            "cli": {"state": "READY", "blocking": []},
+        }}
         model["scores"]["dimensions"] = {
             "api.security": {"mastery": 1.0, "uncapped": 10, "score": 10,
                              "coverage": 1.0, "eligible": True},
             "cli.security": {"mastery": 1.0, "uncapped": 10, "score": 10,
                              "coverage": 1.0, "eligible": True},
         }
-        model["scores"]["overall"] = {"score": None, "scored": 2,
-                                      "applicable": 2}
-        model["scores"]["per_project"] = {
-            "api": {"score": 10.0, "scored": 1, "applicable": 1},
-            "cli": {"score": 10.0, "scored": 1, "applicable": 1},
+        for key in ("product", "process", "single"):
+            del model["scores"][key]
+        headline = {
+            "product": {"score": 10.0, "interval": None, "published": True,
+                        "eligible_weight": 3, "applicable_weight": 3,
+                        "lowest": ["security"]},
+            "process": {"score": None, "interval": None, "published": False,
+                        "scored": 0, "applicable": 0, "lowest": []},
+            "single": {"score": 10.0, "raw": 10.0, "interval": None,
+                       "flag": "product-only", "ceiling": None,
+                       "band": "Excellent"},
         }
-        self.assertEqual(self.checker.check_model(model), [])
-        model["scores"]["overall"]["score"] = 10.0
-        joined = "\n".join(self.checker.check_model(model))
-        self.assertIn("must be null in a multi-project model", joined)
-        model["scores"]["overall"]["score"] = None
+        model["scores"]["per_project"] = {
+            "api": copy.deepcopy(headline),
+            "cli": copy.deepcopy(headline),
+        }
+        self.assertEqual(self.check(model, catalogue), [])
+        model["scores"]["overall"] = {"score": None}
+        joined = "\n".join(self.check(model, catalogue))
+        self.assertIn("scores.overall is removed in model v2", joined)
+        del model["scores"]["overall"]
         del model["scores"]["per_project"]["cli"]
-        joined = "\n".join(self.checker.check_model(model))
+        joined = "\n".join(self.check(model, catalogue))
         self.assertIn("per_project record missing for project 'cli'", joined)
 
-    def test_scoring_policy_must_be_two(self):
+    def test_scoring_policy_must_be_three(self):
         model = copy.deepcopy(self._valid_model())
         del model["scope"]["scoring_policy"]
-        joined = "\n".join(self.checker.check_model(model))
-        self.assertIn("scope.scoring_policy is None, expected 2", joined)
+        joined = "\n".join(self.check(model))
+        self.assertIn("scope.scoring_policy is None, expected 3", joined)
 
 
 class TestRegisterBlocks(unittest.TestCase):
@@ -2166,3 +2273,1381 @@ class TestRenderContract(unittest.TestCase):
             target.write_text(stale, encoding="utf-8")
             rc = self.renderer.main(["render-contract.py", "--check", str(target)])
         self.assertEqual(rc, 1)
+
+
+class TestComputeHeadline(unittest.TestCase):
+    """The scoring-policy-3 spec's E1-E12 worked examples, asserted verbatim."""
+
+    def setUp(self):
+        self.checker = load_script("check-model.py")
+
+    def _dims(self, entries):
+        dims = {}
+        for ident, spec in entries.items():
+            if isinstance(spec, dict):
+                dims[ident] = {"applicable": True, **spec}
+            else:
+                dims[ident] = {"applicable": True, "eligible": True,
+                               "score": spec, "lo": spec, "hi": spec}
+        return dims
+
+    def _ineligible(self):
+        return {"eligible": False, "score": None, "lo": 1, "hi": 10}
+
+    def _e2_dims(self):
+        return self._dims({
+            "functional_suitability": 8, "testability": 8, "security": 7,
+            "operational_safety": 7, "design_soundness": 6, "code_quality": 6,
+            "maintainability": 6, "dependency_health": 6, "deployability": 6,
+            "scalability": 6, "observability": 6, "compliance": 6,
+            "code_style": 5, "stack_alignment": 5, "structure": 5,
+            "delivery_continuity": 4, "ai_provenance": 6,
+            "originality_licensing": 5, "skill_definition": 7,
+        })
+
+    def test_e1_product_only_not_ready(self):
+        dims = self._dims({
+            "functional_suitability": 6, "testability": 4, "security": 8,
+            "operational_safety": 9, "design_soundness": 6, "code_quality": 7,
+            "maintainability": 4, "dependency_health": 8, "scalability": 8,
+            "observability": 7, "compliance": 8, "code_style": 9,
+            "structure": 8, "stack_alignment": 8,
+            "originality_licensing": 7,
+            "ai_provenance": self._ineligible(),
+        })
+        result = self.checker.compute_headline(
+            dims, 10, False, False, "NOT READY")
+        product = result["product"]
+        self.assertEqual(product["score"], 7.0)  # 202/29 = 6.9655
+        self.assertIsNone(product["interval"])
+        self.assertTrue(product["published"])
+        self.assertEqual(product["eligible_weight"], 29)
+        self.assertEqual(product["applicable_weight"], 29)
+        self.assertEqual(
+            product["lowest"], ["testability", "maintainability"])
+        process = result["process"]
+        self.assertFalse(process["published"])
+        self.assertIsNone(process["score"])
+        self.assertEqual(process["scored"], 1)
+        self.assertEqual(process["applicable"], 2)
+        single = result["single"]
+        self.assertEqual(single["raw"], 7.0)
+        self.assertEqual(single["flag"], "product-only")
+        self.assertEqual(
+            single["ceiling"],
+            {"limit": 6, "reasons": ["readiness:NOT READY"]})
+        self.assertEqual(single["score"], 6.0)
+        self.assertIsNone(single["interval"])
+        self.assertEqual(single["band"], "Average")
+
+    def test_e2_both_published_no_ceiling(self):
+        result = self.checker.compute_headline(
+            self._e2_dims(), 10, False, False, "PENDING EVIDENCE")
+        self.assertEqual(result["product"]["score"], 6.5)  # 201/31 = 6.4839
+        self.assertEqual(result["process"]["score"], 5.5)
+        self.assertEqual(result["process"]["scored"], 4)
+        self.assertEqual(result["process"]["applicable"], 4)
+        self.assertEqual(
+            result["process"]["lowest"], ["delivery_continuity"])
+        single = result["single"]
+        self.assertEqual(single["raw"], 6.2)
+        self.assertEqual(single["score"], 6.2)
+        self.assertIsNone(single["flag"])
+        self.assertIsNone(single["ceiling"])
+        self.assertEqual(single["band"], "Average")
+
+    def test_e3_float_hazard(self):
+        dims = self._e2_dims()
+        for ident in ("delivery_continuity", "ai_provenance",
+                      "originality_licensing", "skill_definition"):
+            dims[ident] = {"applicable": True, "eligible": True,
+                           "score": 5, "lo": 5, "hi": 5}
+        result = self.checker.compute_headline(
+            dims, 10, False, False, "PENDING EVIDENCE")
+        self.assertEqual(result["product"]["score"], 6.5)
+        self.assertEqual(result["process"]["score"], 5.0)
+        # 0.7 x 6.5 + 0.3 x 5.0 = 6.05 -> half-up 6.1; a float floor gives 6.0
+        self.assertEqual(result["single"]["raw"], 6.1)
+        self.assertEqual(result["single"]["score"], 6.1)
+
+    def test_e4_open_high(self):
+        result = self.checker.compute_headline(
+            self._e2_dims(), 10, False, True, "READY")
+        single = result["single"]
+        self.assertEqual(single["raw"], 6.2)
+        self.assertEqual(
+            single["ceiling"], {"limit": 6, "reasons": ["severity:HIGH"]})
+        self.assertEqual(single["score"], 6.0)
+        self.assertEqual(single["band"], "Average")
+
+    def test_e5_open_critical_and_high(self):
+        result = self.checker.compute_headline(
+            self._e2_dims(), 10, True, True, "NOT READY")
+        single = result["single"]
+        self.assertEqual(
+            single["ceiling"],
+            {"limit": 3, "reasons": ["severity:CRITICAL", "severity:HIGH",
+                                     "readiness:NOT READY"]})
+        self.assertEqual(single["score"], 3.0)
+        self.assertEqual(single["band"], "Poor")
+
+    def test_e6_core_dimension_ineligible(self):
+        dims = self._e2_dims()
+        dims["security"] = self._ineligible()
+        result = self.checker.compute_headline(
+            dims, 10, False, False, "PENDING EVIDENCE")
+        product = result["product"]
+        self.assertFalse(product["published"])
+        self.assertIsNone(product["score"])
+        self.assertEqual(product["eligible_weight"], 28)
+        self.assertEqual(product["applicable_weight"], 31)
+        self.assertTrue(
+            all(value is None for value in result["single"].values()))
+        self.assertEqual(result["process"]["score"], 5.5)
+
+    def test_e7_weight_floor(self):
+        dims = self._dims({
+            "functional_suitability": 8, "testability": 8, "security": 7,
+            "operational_safety": 7,
+        })
+        for ident in ("design_soundness", "code_quality", "maintainability",
+                      "dependency_health", "deployability", "scalability",
+                      "observability", "compliance", "code_style",
+                      "stack_alignment", "structure"):
+            dims[ident] = self._ineligible()
+        result = self.checker.compute_headline(
+            dims, 10, False, False, "READY")
+        # 12 * 2 = 24 is not more than 31
+        self.assertFalse(result["product"]["published"])
+        self.assertFalse(result["process"]["published"])
+        self.assertEqual(result["process"]["applicable"], 0)
+        self.assertTrue(
+            all(value is None for value in result["single"].values()))
+
+    def test_e8_process_floor_gives_product_only(self):
+        dims = self._e2_dims()
+        del dims["delivery_continuity"]
+        del dims["skill_definition"]
+        dims["originality_licensing"] = self._ineligible()
+        result = self.checker.compute_headline(
+            dims, 10, False, False, "READY")
+        process = result["process"]
+        self.assertFalse(process["published"])
+        self.assertEqual(process["scored"], 1)
+        self.assertEqual(process["applicable"], 2)
+        single = result["single"]
+        self.assertEqual(single["raw"], 6.5)
+        self.assertEqual(single["flag"], "product-only")
+        self.assertEqual(single["score"], 6.5)
+        self.assertEqual(single["band"], "Good")
+
+    def test_e9_scale_5(self):
+        dims = self._dims({
+            "functional_suitability": 4, "testability": 4, "security": 4,
+            "operational_safety": 4, "design_soundness": 4, "code_quality": 4,
+            "maintainability": 4, "dependency_health": 4, "deployability": 4,
+            "scalability": 4, "observability": 4, "compliance": 4,
+            "code_style": 5, "stack_alignment": 5, "structure": 5,
+            "delivery_continuity": 3, "ai_provenance": 3,
+            "originality_licensing": 3, "skill_definition": 3,
+        })
+        result = self.checker.compute_headline(
+            dims, 5, False, True, "READY")
+        self.assertEqual(result["product"]["score"], 4.1)  # 127/31 = 4.0968
+        self.assertEqual(result["process"]["score"], 3.0)
+        single = result["single"]
+        self.assertEqual(single["raw"], 3.8)  # hu1(3.77)
+        self.assertEqual(
+            single["ceiling"], {"limit": 3, "reasons": ["severity:HIGH"]})
+        self.assertEqual(single["score"], 3.0)
+        self.assertEqual(single["band"], "Average")
+
+    def test_e10_intervals(self):
+        dims = self._e2_dims()
+        dims["observability"] = self._ineligible()
+        result = self.checker.compute_headline(
+            dims, 10, False, False, "PENDING EVIDENCE")
+        product = result["product"]
+        self.assertEqual(product["score"], 6.5)  # 189/29 = 6.5172
+        self.assertEqual(product["interval"], [6.2, 6.7])
+        self.assertEqual(product["eligible_weight"], 29)
+        self.assertEqual(product["applicable_weight"], 31)
+        self.assertEqual(result["process"]["score"], 5.5)
+        self.assertIsNone(result["process"]["interval"])
+        single = result["single"]
+        self.assertEqual(single["raw"], 6.2)
+        self.assertEqual(single["interval"], [6.0, 6.3])
+        self.assertEqual(single["score"], 6.2)
+        self.assertEqual(single["band"], "Average")
+
+    def test_e11_not_ready_both_published(self):
+        dims = self._dims({
+            "functional_suitability": 8, "testability": 7, "security": 8,
+            "operational_safety": 7, "design_soundness": 7, "code_quality": 7,
+            "maintainability": 7, "dependency_health": 7, "deployability": 7,
+            "scalability": 7, "observability": 7, "compliance": 7,
+            "code_style": 8, "stack_alignment": 8, "structure": 8,
+            "delivery_continuity": 6, "ai_provenance": 6,
+            "originality_licensing": 7, "skill_definition": 7,
+        })
+        result = self.checker.compute_headline(
+            dims, 10, False, False, "NOT READY")
+        self.assertEqual(result["product"]["score"], 7.3)  # 226/31 = 7.2903
+        self.assertEqual(result["process"]["score"], 6.5)
+        single = result["single"]
+        self.assertEqual(single["raw"], 7.1)  # hu1(5.11 + 1.95 = 7.06)
+        self.assertEqual(
+            single["ceiling"],
+            {"limit": 6, "reasons": ["readiness:NOT READY"]})
+        self.assertEqual(single["score"], 6.0)
+
+    def test_e12_dimension_intervals_propagate(self):
+        dims = self._e2_dims()
+        dims["testability"] = {"applicable": True, "eligible": True,
+                               "score": 8, "lo": 6, "hi": 9}
+        result = self.checker.compute_headline(
+            dims, 10, False, False, "PENDING EVIDENCE")
+        product = result["product"]
+        self.assertEqual(product["score"], 6.5)
+        self.assertEqual(product["interval"], [6.3, 6.6])
+        single = result["single"]
+        self.assertEqual(single["interval"], [6.1, 6.3])
+        self.assertEqual(single["raw"], 6.2)
+        self.assertEqual(single["score"], 6.2)
+
+
+class TestCheckModelPolicy3(unittest.TestCase):
+    def setUp(self):
+        self.checker = load_script("check-model.py")
+
+    def _cat_entry(self, cid, dimension, weight=1.0, criticality="medium",
+                   na_rules=None, mechanical=False):
+        return {"id": cid, "dimension": dimension, "weight": weight,
+                "criticality": criticality, "natures": ["*"],
+                "na_rules": na_rules or [],
+                "levels": {"PASS": "...", "P75": "...", "P50": "...",
+                           "P25": "...", "FAIL": "..."},
+                "mechanical": mechanical}
+
+    def _catalogue(self, extra=()):
+        return {
+            "catalogue_version": 1, "scoring_policy": 3,
+            "levels": {"PASS": 1.0, "P75": 0.75, "P50": 0.5,
+                       "P25": 0.25, "FAIL": 0.0},
+            "dimensions": [],
+            "criteria": [
+                self._cat_entry("FNC-REQ", "functional_suitability", weight=3,
+                                criticality="critical", mechanical=True,
+                                na_rules=["deployment-model"]),
+                self._cat_entry("SEC-AUTHZ", "security", criticality="high"),
+                self._cat_entry("SEC-INJ", "security", criticality="high"),
+                self._cat_entry("SEC-CRYPTO", "security"),
+                self._cat_entry("CMP-API", "api_compatibility",
+                                criticality="low",
+                                na_rules=["deployment-model"]),
+                *extra,
+            ],
+            "severity_anchors": [],
+        }
+
+    def _criterion(self, cid, dimension, outcome, **extra):
+        criterion = {"id": cid, "catalogue_id": cid, "channel": "score",
+                     "source": "catalogue", "applicability": "applicable",
+                     "criticality": "medium", "weight": 1.0, "expected": "...",
+                     "method": "...", "sufficiency": "...",
+                     "dimension": dimension, "outcome": outcome,
+                     "level": None, "mastery": None}
+        criterion.update(extra)
+        return criterion
+
+    def _valid_model(self):
+        return {
+            "model_version": 2,
+            "scope": {"subject": "demo", "revision": "abc123",
+                      "purpose": "audit", "evidence_mode": "source-only",
+                      "scoring_policy": 3, "catalogue_version": 1,
+                      "history": "present", "detail_level": "Standard",
+                      "requirements_baseline": None,
+                      "projects": [{"path": ".",
+                                    "automation_census": "signals"}],
+                      "product_profile": {"natures": ["service"]}},
+            "inventory": [],
+            "criteria": [
+                self._criterion(
+                    "FNC-REQ", "functional_suitability", "NOT_APPLICABLE",
+                    criticality="critical", weight=3,
+                    na_basis="deployment-model",
+                    applicability=(
+                        "no mandatory requirements declared or advertised")),
+                self._criterion("SEC-AUTHZ", "security", "PASS",
+                                criticality="high", level="PASS",
+                                mastery=1.0),
+                self._criterion("SEC-INJ", "security", "PARTIAL",
+                                criticality="high", level="P25",
+                                mastery=0.25),
+                self._criterion("SEC-CRYPTO", "security", "UNKNOWN"),
+                self._criterion(
+                    "CMP-API", "api_compatibility", "NOT_APPLICABLE",
+                    criticality="low", na_basis="deployment-model",
+                    applicability="not a published library"),
+            ],
+            "requirements": [],
+            "evidence": [
+                {"id": "EVD-001", "kind": "INSPECTED", "collector": "x",
+                 "method": "read", "timestamp": "...", "tool": None,
+                 "locator": {"path": "src/app.py", "lines": [1, 40]},
+                 "procedure": None, "result": "...",
+                 "claims": ["SEC-AUTHZ", "SEC-INJ"], "limits": "...",
+                 "sampling": "full", "counter": "...", "redaction": "none",
+                 "unavailable": None},
+                {"id": "EVD-002", "kind": "INSPECTED", "collector": "x",
+                 "method": "read", "timestamp": "...", "tool": None,
+                 "locator": {"path": "src/db.py", "lines": [1, 20]},
+                 "procedure": None, "result": "...",
+                 "claims": ["SEC-INJ"], "limits": "...",
+                 "sampling": "full", "counter": "...", "redaction": "none",
+                 "unavailable": None},
+            ],
+            "findings": [
+                {"id": "FND-SEC-001", "criterion": "SEC-INJ",
+                 "type": "Concern", "severity": "HIGH",
+                 "claim_class": "confirmed defect", "observation": "...",
+                 "property": "...", "evidence": ["EVD-002"],
+                 "counter": "checked alternate injection paths",
+                 "consequence": "...", "scope": "...", "confidence": "HIGH",
+                 "status": "Open", "next_verification": "..."},
+            ],
+            "risks": [], "recommendations": [],
+            "readiness": {"state": "PENDING EVIDENCE",
+                          "blocking": ["FND-SEC-001"]},
+            "scores": {
+                "scale_max": 10,
+                "dimensions": {
+                    "security": {"mastery": 0.625, "uncapped": 6, "score": 5,
+                                 "interval": [4, 5], "coverage": 0.67,
+                                 "eligible": True,
+                                 "caps": [{"rule": "severity-high", "limit": 5,
+                                           "source": ["FND-SEC-001"]}]},
+                },
+                "product": {"score": 5.0, "interval": [4.0, 5.0],
+                            "published": True, "eligible_weight": 3,
+                            "applicable_weight": 3, "lowest": ["security"]},
+                "process": {"score": None, "interval": None,
+                            "published": False, "scored": 0,
+                            "applicable": 0, "lowest": []},
+                "single": {"score": 5.0, "raw": 5.0, "interval": [4.0, 5.0],
+                           "flag": "product-only",
+                           "ceiling": {"limit": 6,
+                                       "reasons": ["severity:HIGH"]},
+                           "band": "Average"},
+            },
+            "coverage": {}, "exclusions": [],
+        }
+
+    def check(self, model, catalogue=None):
+        return self.checker.check_model(
+            model, self._catalogue() if catalogue is None else catalogue)
+
+    def test_valid_model_passes(self):
+        self.assertEqual(self.check(self._valid_model()), [])
+
+    def test_model_v2_shape_rules(self):
+        model = self._valid_model()
+        model["model_version"] = 1
+        failures = self.check(model)
+        self.assertIn("model_version is 1, expected 2", failures)
+
+        model = self._valid_model()
+        model["scope"]["scoring_policy"] = 2
+        failures = self.check(model)
+        self.assertIn("scope.scoring_policy is 2, expected 3", failures)
+
+        model = self._valid_model()
+        model["scope"]["catalogue_version"] = 9
+        failures = self.check(model)
+        self.assertIn(
+            "scope.catalogue_version 9 does not match catalogue version 1",
+            failures)
+
+        model = self._valid_model()
+        del model["scope"]["detail_level"]
+        failures = self.check(model)
+        self.assertIn(
+            "scope.detail_level None is not Detailed, Standard, or Brief",
+            failures)
+
+        model = self._valid_model()
+        model["scope"]["product_profile"] = {}
+        failures = self.check(model)
+        self.assertIn("scope.product_profile.natures is required", failures)
+        model["scope"]["product_profile"] = {"natures": ["service", "qubit"]}
+        failures = self.check(model)
+        self.assertIn(
+            "scope.product_profile.natures entry 'qubit' is not a declared "
+            "project nature",
+            failures)
+
+        model = self._valid_model()
+        model["scores"]["overall"] = {"score": 5.0}
+        failures = self.check(model)
+        self.assertIn(
+            "scores.overall is removed in model v2 - record product, "
+            "process, and single",
+            failures)
+
+    def test_missing_catalogue_reports_once_and_other_checks_run(self):
+        original = self.checker.load_catalogue
+        self.checker.load_catalogue = lambda: None
+        try:
+            model = self._valid_model()
+            model["scores"]["product"]["score"] = 9.9
+            failures = self.checker.check_model(model)
+        finally:
+            self.checker.load_catalogue = original
+        missing = "catalogue file references/criterion-catalogue.json is missing"
+        self.assertIn(missing, failures)
+        self.assertEqual(failures.count(missing), 1)
+        self.assertIn("product.score 9.9 does not recompute to 5.0", failures)
+
+    def test_c1_membership(self):
+        model = self._valid_model()
+        model["criteria"][0]["catalogue_id"] = "FNC-NOPE"
+        failures = self.check(model)
+        self.assertIn(
+            "FNC-REQ: catalogue_id 'FNC-NOPE' is not in catalogue version 1",
+            failures)
+
+        model = self._valid_model()
+        model["criteria"][1]["weight"] = 2
+        failures = self.check(model)
+        self.assertIn(
+            "SEC-AUTHZ: weight 2 differs from the catalogue value 1.0",
+            failures)
+
+    def test_c1_id_equals_catalogue_id_single_project(self):
+        model = self._valid_model()
+        model["criteria"][1]["id"] = "SEC-AUTHZ-01"
+        failures = self.check(model)
+        self.assertIn(
+            "SEC-AUTHZ-01: id must equal catalogue_id 'SEC-AUTHZ' in a "
+            "single-project model",
+            failures)
+
+    def test_c2_completeness(self):
+        model = self._valid_model()
+        del model["criteria"][3]
+        failures = self.check(model)
+        self.assertIn(
+            "subject: catalogue criterion SEC-CRYPTO is missing from the model",
+            failures)
+
+        model = self._valid_model()
+        model["criteria"].append(
+            self._criterion("SEC-DUP", "security", "PASS", level="PASS",
+                            mastery=1.0, catalogue_id="SEC-AUTHZ",
+                            criticality="high"))
+        failures = self.check(model)
+        self.assertIn(
+            "subject: catalogue criterion SEC-AUTHZ appears 2 times", failures)
+
+    def test_c3_level_outcome_mastery(self):
+        model = self._valid_model()
+        model["criteria"][1]["level"] = "P50"
+        failures = self.check(model)
+        self.assertIn(
+            "SEC-AUTHZ: level P50 does not match outcome PASS", failures)
+
+        model = self._valid_model()
+        model["criteria"][1]["level"] = "BAD"
+        failures = self.check(model)
+        self.assertIn(
+            "SEC-AUTHZ: level 'BAD' is not allowed by the catalogue", failures)
+
+        model = self._valid_model()
+        model["criteria"][2]["mastery"] = 0.5
+        failures = self.check(model)
+        self.assertIn(
+            "SEC-INJ: mastery 0.5 does not equal level P25 value 0.25",
+            failures)
+
+        model = self._valid_model()
+        model["criteria"][3]["level"] = "PASS"
+        failures = self.check(model)
+        self.assertIn(
+            "SEC-CRYPTO: level PASS does not match outcome UNKNOWN", failures)
+
+    def test_c4_na_basis_declared_rules_only(self):
+        model = self._valid_model()
+        model["criteria"][4]["na_basis"] = "census-none"
+        failures = self.check(model)
+        self.assertIn(
+            "CMP-API: na_basis census-none is not a declared N/A rule for "
+            "this criterion",
+            failures)
+
+    def test_c5_census_determinism(self):
+        catalogue = self._catalogue([
+            self._cat_entry("DEP-CI", "deployability",
+                            na_rules=["census-none", "deployment-model"]),
+        ])
+        model = self._valid_model()
+        model["scope"]["projects"][0]["automation_census"] = "none"
+        model["criteria"].append(
+            self._criterion("DEP-CI", "deployability", "NOT_APPLICABLE",
+                            na_basis="deployment-model",
+                            applicability="no deployable target"))
+        failures = self.check(model, catalogue)
+        self.assertIn(
+            "DEP-CI: automation census none makes this criterion "
+            "NOT_APPLICABLE (census-none)",
+            failures)
+        model["criteria"][-1]["na_basis"] = "census-none"
+        joined = "\n".join(self.check(model, catalogue))
+        self.assertNotIn("makes this criterion NOT_APPLICABLE", joined)
+
+    def test_c6_history_determinism(self):
+        catalogue = self._catalogue([
+            self._cat_entry("DLY-HIST", "delivery_continuity",
+                            na_rules=["history-out-of-scope",
+                                      "deployment-model"]),
+        ])
+        model = self._valid_model()
+        model["scope"]["history"] = "absent"
+        model["criteria"].append(
+            self._criterion("DLY-HIST", "delivery_continuity",
+                            "NOT_APPLICABLE", na_basis="deployment-model",
+                            applicability="not applicable"))
+        failures = self.check(model, catalogue)
+        self.assertIn(
+            "DLY-HIST: scope.history absent makes this criterion "
+            "NOT_APPLICABLE (history-out-of-scope)",
+            failures)
+
+    def test_c7_conformance_channel_prefix(self):
+        model = self._valid_model()
+        model["criteria"].append(
+            self._criterion("SKL-DEPS", "skill_definition", "PASS",
+                            channel="conformance"))
+        failures = self.check(model)
+        self.assertIn(
+            "SKL-DEPS: conformance criteria use the CNF- or REQ- prefix",
+            failures)
+
+        model = self._valid_model()
+        model["criteria"].append(
+            self._criterion("CNF-STYLE", "skill_definition", "PASS",
+                            channel="conformance"))
+        failures = self.check(model)
+        self.assertFalse(
+            [f for f in failures if f.startswith("CNF-STYLE")], failures)
+
+    def test_c8_requirements_registry(self):
+        model = self._valid_model()
+        model["requirements"] = [
+            {"id": "A-01", "obligation": "optional", "status": "PASS",
+             "evidence": ["EVD-001"], "finding": None, "statement": "x",
+             "source": {"path": "docs/X.md", "line": 1}},
+        ]
+        digest = hashlib.sha256(b"A-01:optional").hexdigest()
+        model["scope"]["requirements_baseline"] = digest
+        self.assertEqual(self.check(model), [])
+
+        model["scope"]["requirements_baseline"] = "0" * 64
+        joined = "\n".join(self.check(model))
+        self.assertIn(
+            "requirements_baseline does not match the requirements registry",
+            joined)
+
+        model["scope"]["requirements_baseline"] = digest
+        model["requirements"] = []
+        joined = "\n".join(self.check(model))
+        self.assertIn(
+            "requirements_baseline does not match the requirements registry",
+            joined)
+
+        model["requirements"] = [
+            {"id": "A-01", "obligation": "must", "status": "PASS",
+             "evidence": [], "finding": None, "statement": "x",
+             "source": {"path": "docs/X.md", "line": 1}},
+        ]
+        joined = "\n".join(self.check(model))
+        self.assertIn("A-01: obligation 'must' is invalid", joined)
+
+        model["requirements"][0]["obligation"] = "mandatory"
+        model["requirements"][0]["status"] = "FAIL"
+        joined = "\n".join(self.check(model))
+        self.assertIn("A-01: FAIL requirement needs an open finding", joined)
+
+        model["requirements"][0]["status"] = "PASS"
+        model["requirements"][0]["evidence"] = ["EVD-999"]
+        joined = "\n".join(self.check(model))
+        self.assertIn("A-01: cites unknown evidence EVD-999", joined)
+
+        model["requirements"].append(
+            {"id": "A-01", "obligation": "mandatory", "status": "PASS",
+             "evidence": [], "finding": None, "statement": "x",
+             "source": {"path": "docs/X.md", "line": 2}})
+        joined = "\n".join(self.check(model))
+        self.assertIn("A-01: id 'A-01' is invalid", joined)
+
+    def test_c9_fnc_req_mechanical_derivation(self):
+        model = copy.deepcopy(self._valid_model())
+        model["criteria"][0].update(
+            {"outcome": "PARTIAL", "level": "P50", "mastery": 0.5,
+             "na_basis": None, "applicability": "applicable"})
+        model["requirements"] = [
+            {"id": "A-01", "obligation": "mandatory", "status": "PASS",
+             "evidence": ["EVD-001"], "finding": None, "statement": "x",
+             "source": {"path": "docs/X.md", "line": 1}},
+            {"id": "A-02", "obligation": "mandatory", "status": "PARTIAL",
+             "evidence": ["EVD-001"], "finding": "FND-REQ-001",
+             "statement": "y", "source": {"path": "docs/X.md", "line": 2}},
+        ]
+        model["scope"]["requirements_baseline"] = hashlib.sha256(
+            b"A-01:mandatory\nA-02:mandatory").hexdigest()
+        model["evidence"][0]["claims"].append("FNC-REQ")
+        model["findings"].append(
+            {"id": "FND-REQ-001", "criterion": "FNC-REQ", "type": "Concern",
+             "severity": "LOW", "claim_class": "evidence gap",
+             "observation": "...", "property": "...", "evidence": ["EVD-001"],
+             "counter": None, "consequence": "...", "scope": "...",
+             "confidence": "LOW", "status": "Open",
+             "next_verification": "..."})
+        model["scores"]["dimensions"]["functional_suitability"] = {
+            "mastery": 0.5, "uncapped": 5, "score": 5, "coverage": 1.0,
+            "eligible": True}
+        model["scores"]["product"] = {
+            "score": 5.0, "interval": [4.5, 5.0], "published": True,
+            "eligible_weight": 6, "applicable_weight": 6,
+            "lowest": ["functional_suitability", "security"]}
+        model["scores"]["single"] = {
+            "score": 5.0, "raw": 5.0, "interval": [4.5, 5.0],
+            "flag": "product-only",
+            "ceiling": {"limit": 6, "reasons": ["severity:HIGH"]},
+            "band": "Average"}
+        self.assertEqual(self.check(model), [])
+        model["criteria"][0]["level"] = "PASS"
+        joined = "\n".join(self.check(model))
+        self.assertIn(
+            "FNC-REQ: level 'PASS' does not match the computed P50 "
+            "(coverage 0.750 over 2 of 2 mandatory requirements)",
+            joined)
+
+    def test_c9_zero_mandatory_is_not_applicable(self):
+        model = self._valid_model()
+        model["criteria"][0].update(
+            {"outcome": "UNKNOWN", "level": None, "na_basis": None,
+             "applicability": "applicable"})
+        joined = "\n".join(self.check(model))
+        self.assertIn(
+            "FNC-REQ: level None does not match the computed NOT_APPLICABLE "
+            "(coverage 0.000 over 0 of 0 mandatory requirements)",
+            joined)
+
+    def test_c9_unknown_band(self):
+        model = self._valid_model()
+        model["requirements"] = [
+            {"id": "A-01", "obligation": "mandatory", "status": "PASS",
+             "evidence": ["EVD-001"], "finding": None, "statement": "x",
+             "source": {"path": "docs/X.md", "line": 1}},
+            {"id": "A-02", "obligation": "mandatory", "status": "UNKNOWN",
+             "evidence": [], "finding": None, "statement": "y",
+             "source": {"path": "docs/X.md", "line": 2}},
+        ]
+        model["scope"]["requirements_baseline"] = hashlib.sha256(
+            b"A-01:mandatory\nA-02:mandatory").hexdigest()
+        joined = "\n".join(self.check(model))
+        # g = 1, n = 2: 1 * 2 <= 2 -> UNKNOWN
+        self.assertIn(
+            "FNC-REQ: level None does not match the computed UNKNOWN "
+            "(coverage 1.000 over 1 of 2 mandatory requirements)",
+            joined)
+
+    def test_c10_headline_records_recompute(self):
+        model = self._valid_model()
+        model["scores"]["product"]["score"] = 9.9
+        failures = self.check(model)
+        self.assertIn("product.score 9.9 does not recompute to 5.0", failures)
+
+        model = self._valid_model()
+        model["scores"]["single"]["flag"] = "both"
+        failures = self.check(model)
+        self.assertIn(
+            "single.flag 'both' does not recompute to 'product-only'",
+            failures)
+
+        model = self._valid_model()
+        model["scores"]["product"]["lowest"] = ["testability"]
+        failures = self.check(model)
+        self.assertIn(
+            "product.lowest ['testability'] does not recompute to "
+            "['security']",
+            failures)
+
+    def test_c11_readiness_states(self):
+        model = self._valid_model()
+        model["readiness"] = {"state": "BOGUS", "blocking": []}
+        failures = self.check(model)
+        self.assertIn(
+            "readiness.state 'BOGUS' is not a readiness state", failures)
+
+        model = self._valid_model()
+        model["readiness"] = {"state": "READY", "blocking": []}
+        failures = self.check(model)
+        self.assertIn(
+            "readiness READY conflicts with open HIGH finding FND-SEC-001",
+            failures)
+
+        model = self._valid_model()
+        model["readiness"] = {"state": "NOT READY", "blocking": []}
+        failures = self.check(model)
+        self.assertIn(
+            "readiness NOT READY needs at least one blocking id", failures)
+
+        model = self._valid_model()
+        model["readiness"] = {"state": "PENDING EVIDENCE",
+                              "blocking": ["FND-NOPE"]}
+        failures = self.check(model)
+        self.assertIn("readiness.blocking cites unknown FND-NOPE", failures)
+
+        model = self._valid_model()
+        model["scope"]["purpose"] = "readiness review"
+        model["readiness"] = {"state": "NOT ASSESSED", "blocking": []}
+        failures = self.check(model)
+        self.assertIn(
+            "readiness NOT ASSESSED conflicts with a readiness purpose",
+            failures)
+
+    def test_cli_missing_catalogue_exits_1(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "model.json"
+            path.write_text(json.dumps(self._valid_model()),
+                            encoding="utf-8")
+            original = self.checker.load_catalogue
+            self.checker.load_catalogue = lambda: None
+            out = io.StringIO()
+            try:
+                with contextlib.redirect_stdout(out):
+                    rc = self.checker.main([str(path), "--json"])
+            finally:
+                self.checker.load_catalogue = original
+        self.assertEqual(rc, 1)
+        failures = json.loads(out.getvalue())["failures"]
+        self.assertIn(
+            "catalogue file references/criterion-catalogue.json is missing",
+            failures)
+
+
+class TestExtractRequirements(unittest.TestCase):
+    FIXTURE = (
+        "# Requirements\n\n"
+        "| ID   | Requirement                     | Note  |\n"
+        "|------|---------------------------------|-------|\n"
+        "| A-01 | The service SHALL restart in 5s | core  |\n"
+        "| A-02 | proposed cache layer for reads  | row   |\n"
+        "| F-01 | deferred export to CSV          | later |\n\n"
+        "### N-01 Latency budget\n\n"
+        "- N-02: list-defined item\n\n"
+        "A-03 is mentioned only in prose.\n"
+    )
+
+    def setUp(self):
+        self.extractor = load_script("extract-requirements.py")
+
+    def _run_json(self, args):
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            rc = self.extractor.main(args)
+        return rc, out.getvalue()
+
+    def test_ids_hints_and_referenced_only(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "doc.md"
+            path.write_text(self.FIXTURE, encoding="utf-8")
+            rc, raw = self._run_json([str(path), "--json"])
+        self.assertEqual(rc, 0)
+        result = json.loads(raw)
+        self.assertEqual(
+            [r["id"] for r in result["requirements"]],
+            ["A-01", "A-02", "F-01", "N-01", "N-02"])
+        self.assertEqual(
+            [r["obligation_hint"] for r in result["requirements"]],
+            ["mandatory", "optional", "future", "mandatory", "mandatory"])
+        self.assertEqual(result["referenced_only"], ["A-03"])
+        self.assertEqual(result["documents"], [str(path)])
+        self.assertEqual(result["pattern"], self.extractor.DEFAULT_PATTERN)
+
+    def test_first_defining_location_wins(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            first = Path(tmp) / "one.md"
+            second = Path(tmp) / "two.md"
+            first.write_text("| B-01 | first definition |\n|---|\n",
+                             encoding="utf-8")
+            second.write_text("### B-01 second definition\n",
+                              encoding="utf-8")
+            rc, raw = self._run_json(
+                [str(first), str(second), "--json"])
+        self.assertEqual(rc, 0)
+        record = json.loads(raw)["requirements"][0]
+        self.assertEqual(record["id"], "B-01")
+        self.assertEqual(record["path"], str(first))
+        self.assertEqual(record["line"], 1)
+        self.assertEqual(record["occurrences"], 2)
+
+    def test_custom_pattern_and_missing_file(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "doc.md"
+            path.write_text("### WIDGET-9 Widget requirement\n",
+                            encoding="utf-8")
+            rc, raw = self._run_json(
+                [str(path), "--pattern", r"WIDGET-\d+", "--json"])
+            self.assertEqual(rc, 0)
+            self.assertEqual(
+                [r["id"] for r in json.loads(raw)["requirements"]],
+                ["WIDGET-9"])
+            rc, _ = self._run_json([str(Path(tmp) / "none.md")])
+            self.assertEqual(rc, 2)
+
+
+class TestRenderTables(unittest.TestCase):
+    def setUp(self):
+        self.renderer = load_script("render-tables.py")
+
+    def _model(self):
+        return {
+            "model_version": 2,
+            "scope": {"projects": [{"path": "."}],
+                      "product_profile": {"natures": ["service"]}},
+            "criteria": [
+                {"id": "SEC-INJ", "catalogue_id": "SEC-INJ",
+                 "channel": "score", "dimension": "security", "weight": 2,
+                 "level": "P50", "outcome": "PARTIAL"},
+                {"id": "SEC-AUTHZ", "catalogue_id": "SEC-AUTHZ",
+                 "channel": "score", "dimension": "security", "weight": 1,
+                 "level": "PASS", "outcome": "PASS"},
+                {"id": "CNF-STYLE", "catalogue_id": None,
+                 "channel": "conformance", "dimension": "skill_definition",
+                 "weight": 1, "level": None, "outcome": "PASS"},
+            ],
+            "requirements": [
+                {"id": "A-01", "obligation": "mandatory", "status": "PASS",
+                 "evidence": ["EVD-001"]},
+                {"id": "A-02", "obligation": "recommended",
+                 "status": "UNKNOWN", "evidence": []},
+            ],
+            "scores": {
+                "scale_max": 10,
+                "dimensions": {
+                    "testability": {"score": None, "eligible": False,
+                                    "note": "coverage too thin"},
+                    "design_soundness": {"score": 7},
+                    "security": {"score": 5, "interval": [4, 5]},
+                },
+                "product": {"score": 5.0, "interval": [4.0, 5.0],
+                            "published": True, "eligible_weight": 3,
+                            "applicable_weight": 3, "lowest": ["security"]},
+                "process": {"score": None, "interval": None,
+                            "published": False, "scored": 1,
+                            "applicable": 2, "lowest": []},
+                "single": {"score": 5.0, "raw": 5.0, "interval": [4.0, 5.0],
+                           "flag": "product-only",
+                           "ceiling": {"limit": 6,
+                                       "reasons": ["severity:HIGH"]},
+                           "band": "Average"},
+            },
+        }
+
+    def test_scorecard_canonical_order_unknown_and_na_omitted(self):
+        text = self.renderer.render_scorecard(self._model(), None)
+        lines = text.splitlines()
+        self.assertTrue(lines[0].startswith("| Dimension"))
+        names = [line.split("|")[1].strip() for line in lines[2:]]
+        self.assertEqual(
+            names, ["Testability", "Design Soundness", "Security"])
+        self.assertIn("Unknown", text)
+        self.assertIn("5/10 [4-5]", text)
+        self.assertIn("7/10", text)
+        self.assertIn("coverage too thin", text)
+        self.assertNotIn("Functional Suitability", text)
+
+    def test_headline_rows(self):
+        text = self.renderer.render_headline(self._model(), None)
+        lines = text.splitlines()
+        self.assertTrue(lines[0].startswith("| Score"))
+        self.assertIn("| Product Quality", text)
+        self.assertIn("5.0/10 (Average)", text)
+        self.assertIn("[4-5]", text)
+        self.assertIn("Tier-weighted mean of 3 product dimensions", text)
+        self.assertIn("lowest Security 5/10", text)
+        self.assertIn("| Engineering Process | Not published", text)
+        self.assertIn("1 of 2 applicable process dimensions scored", text)
+        self.assertIn("| Overall Score", text)
+        self.assertIn("Product-only", text)
+        self.assertIn("ceiling 6: severity HIGH", text)
+
+    def test_criteria_table_catalogue_order(self):
+        catalogue = {
+            "criteria": [
+                {"id": "SEC-AUTHZ"}, {"id": "SEC-INJ"},
+            ]
+        }
+        text = self.renderer.render_criteria(
+            self._model(), None, catalogue)
+        lines = text.splitlines()
+        self.assertTrue(lines[0].startswith("| Criteria"))
+        self.assertIn("| Dimension", lines[0])
+        self.assertIn("| Weight", lines[0])
+        self.assertIn("| Level", lines[0])
+        self.assertIn("| Outcome", lines[0])
+        ids = [line.split("|")[1].strip() for line in lines[2:]]
+        self.assertEqual(ids, ["SEC-AUTHZ", "SEC-INJ"])
+        self.assertNotIn("CNF-STYLE", text)
+
+    def test_requirements_table(self):
+        text = self.renderer.render_requirements(self._model(), None)
+        lines = text.splitlines()
+        self.assertTrue(lines[0].startswith("| Requirement"))
+        self.assertIn("| Obligation", lines[0])
+        self.assertIn("| Status", lines[0])
+        self.assertIn("| Evidence", lines[0])
+        ids = [line.split("|")[1].strip() for line in lines[2:]]
+        self.assertEqual(ids, ["A-01", "A-02"])
+        self.assertIn("EVD-001", text)
+
+    def test_cli_all_and_output_and_lang_fallback(self):
+        model = self._model()
+        with tempfile.TemporaryDirectory() as tmp:
+            model_path = Path(tmp) / "model.json"
+            model_path.write_text(json.dumps(model), encoding="utf-8")
+            out_path = Path(tmp) / "tables.md"
+            err = io.StringIO()
+            with contextlib.redirect_stderr(err):
+                rc = self.renderer.main(
+                    [str(model_path), "--part", "all", "--lang", "pl",
+                     "--output", str(out_path)])
+            self.assertEqual(rc, 0)
+            self.assertIn("--lang pl", err.getvalue())
+            text = out_path.read_text(encoding="utf-8")
+            for marker in ("| Dimension", "| Score", "| Criteria",
+                           "| Requirement"):
+                self.assertIn(marker, text)
+            rc = self.renderer.main(
+                [str(model_path), "--part", "all", "--project", "ghost"])
+            self.assertEqual(rc, 2)
+
+
+class TestCompareModels(unittest.TestCase):
+    def setUp(self):
+        self.comparator = load_script("compare-models.py")
+        self.checker = load_script("check-model.py")
+
+    def _cat_entry(self, cid, dimension, weight=1.0, criticality="medium",
+                   na_rules=None, mechanical=False):
+        return {"id": cid, "dimension": dimension, "weight": weight,
+                "criticality": criticality, "natures": ["*"],
+                "na_rules": na_rules or [],
+                "levels": {"PASS": "...", "P75": "...", "P50": "...",
+                           "P25": "...", "FAIL": "..."},
+                "mechanical": mechanical}
+
+    def _catalogue(self, extra=()):
+        return {
+            "catalogue_version": 1, "scoring_policy": 3,
+            "levels": {"PASS": 1.0, "P75": 0.75, "P50": 0.5,
+                       "P25": 0.25, "FAIL": 0.0},
+            "dimensions": [],
+            "criteria": [
+                self._cat_entry("FNC-REQ", "functional_suitability", weight=3,
+                                criticality="critical", mechanical=True,
+                                na_rules=["deployment-model"]),
+                self._cat_entry("SEC-AUTHZ", "security", criticality="high"),
+                self._cat_entry("SEC-INJ", "security", criticality="high"),
+                self._cat_entry("SEC-CRYPTO", "security"),
+                self._cat_entry("CMP-API", "api_compatibility",
+                                criticality="low",
+                                na_rules=["deployment-model"]),
+                *extra,
+            ],
+            "severity_anchors": [],
+        }
+
+    def _small_catalogue(self):
+        return {
+            "catalogue_version": 1, "scoring_policy": 3,
+            "levels": {"PASS": 1.0, "P75": 0.75, "P50": 0.5,
+                       "P25": 0.25, "FAIL": 0.0},
+            "dimensions": [],
+            "criteria": [
+                self._cat_entry("SEC-AUTHZ", "security", criticality="high"),
+            ],
+            "severity_anchors": [],
+        }
+
+    def _criterion(self, cid, dimension, outcome, **extra):
+        criterion = {"id": cid, "catalogue_id": cid, "channel": "score",
+                     "source": "catalogue", "applicability": "applicable",
+                     "criticality": "medium", "weight": 1.0, "expected": "...",
+                     "method": "...", "sufficiency": "...",
+                     "dimension": dimension, "outcome": outcome,
+                     "level": None, "mastery": None}
+        criterion.update(extra)
+        return criterion
+
+    def _valid_model(self):
+        return {
+            "model_version": 2,
+            "scope": {"subject": "demo", "revision": "abc123",
+                      "purpose": "audit", "evidence_mode": "source-only",
+                      "scoring_policy": 3, "catalogue_version": 1,
+                      "history": "present", "detail_level": "Standard",
+                      "requirements_baseline": None,
+                      "projects": [{"path": ".",
+                                    "automation_census": "signals"}],
+                      "product_profile": {"natures": ["service"]}},
+            "inventory": [],
+            "criteria": [
+                self._criterion(
+                    "FNC-REQ", "functional_suitability", "NOT_APPLICABLE",
+                    criticality="critical", weight=3,
+                    na_basis="deployment-model",
+                    applicability=(
+                        "no mandatory requirements declared or advertised")),
+                self._criterion("SEC-AUTHZ", "security", "PASS",
+                                criticality="high", level="PASS",
+                                mastery=1.0),
+                self._criterion("SEC-INJ", "security", "PARTIAL",
+                                criticality="high", level="P25",
+                                mastery=0.25),
+                self._criterion("SEC-CRYPTO", "security", "UNKNOWN"),
+                self._criterion(
+                    "CMP-API", "api_compatibility", "NOT_APPLICABLE",
+                    criticality="low", na_basis="deployment-model",
+                    applicability="not a published library"),
+            ],
+            "requirements": [],
+            "evidence": [
+                {"id": "EVD-001", "kind": "INSPECTED", "collector": "x",
+                 "method": "read", "timestamp": "...", "tool": None,
+                 "locator": {"path": "src/app.py", "lines": [1, 40]},
+                 "procedure": None, "result": "...",
+                 "claims": ["SEC-AUTHZ", "SEC-INJ"], "limits": "...",
+                 "sampling": "full", "counter": "...", "redaction": "none",
+                 "unavailable": None},
+                {"id": "EVD-002", "kind": "INSPECTED", "collector": "x",
+                 "method": "read", "timestamp": "...", "tool": None,
+                 "locator": {"path": "src/db.py", "lines": [1, 20]},
+                 "procedure": None, "result": "...",
+                 "claims": ["SEC-INJ"], "limits": "...",
+                 "sampling": "full", "counter": "...", "redaction": "none",
+                 "unavailable": None},
+            ],
+            "findings": [
+                {"id": "FND-SEC-001", "criterion": "SEC-INJ",
+                 "type": "Concern", "severity": "HIGH",
+                 "claim_class": "confirmed defect", "observation": "...",
+                 "property": "...", "evidence": ["EVD-002"],
+                 "counter": "checked alternate injection paths",
+                 "consequence": "...", "scope": "...", "confidence": "HIGH",
+                 "status": "Open", "next_verification": "..."},
+            ],
+            "risks": [], "recommendations": [],
+            "readiness": {"state": "PENDING EVIDENCE",
+                          "blocking": ["FND-SEC-001"]},
+            "scores": {
+                "scale_max": 10,
+                "dimensions": {
+                    "security": {"mastery": 0.625, "uncapped": 6, "score": 5,
+                                 "interval": [4, 5], "coverage": 0.67,
+                                 "eligible": True,
+                                 "caps": [{"rule": "severity-high", "limit": 5,
+                                           "source": ["FND-SEC-001"]}]},
+                },
+                "product": {"score": 5.0, "interval": [4.0, 5.0],
+                            "published": True, "eligible_weight": 3,
+                            "applicable_weight": 3, "lowest": ["security"]},
+                "process": {"score": None, "interval": None,
+                            "published": False, "scored": 0,
+                            "applicable": 0, "lowest": []},
+                "single": {"score": 5.0, "raw": 5.0, "interval": [4.0, 5.0],
+                           "flag": "product-only",
+                           "ceiling": {"limit": 6,
+                                       "reasons": ["severity:HIGH"]},
+                           "band": "Average"},
+            },
+            "coverage": {}, "exclusions": [],
+        }
+
+    def _process_catalogue(self):
+        return self._catalogue([
+            self._cat_entry("DLY-OPS", "delivery_continuity",
+                            na_rules=["deployment-model"]),
+        ])
+
+    def _with_na_dly(self, model):
+        model = copy.deepcopy(model)
+        model["criteria"].append(
+            self._criterion(
+                "DLY-OPS", "delivery_continuity", "NOT_APPLICABLE",
+                na_basis="deployment-model",
+                applicability="no delivery process in scope"))
+        return model
+
+    def _with_process(self, model):
+        model = copy.deepcopy(model)
+        model["criteria"].append(
+            self._criterion("DLY-OPS", "delivery_continuity", "PASS",
+                            level="PASS", mastery=1.0))
+        model["evidence"].append(
+            {"id": "EVD-003", "kind": "INSPECTED", "collector": "x",
+             "method": "read", "timestamp": "...", "tool": None,
+             "locator": {"path": "src/ops.py", "lines": [1, 10]},
+             "procedure": None, "result": "...", "claims": ["DLY-OPS"],
+             "limits": "...", "sampling": "full", "counter": "...",
+             "redaction": "none", "unavailable": None})
+        model["scores"]["dimensions"]["delivery_continuity"] = {
+            "mastery": 1.0, "uncapped": 10, "score": 10, "coverage": 1.0,
+            "eligible": True}
+        dims = {
+            "security": {"applicable": True, "eligible": True, "score": 5,
+                         "lo": 4, "hi": 5},
+            "delivery_continuity": {"applicable": True, "eligible": True,
+                                    "score": 10, "lo": 10, "hi": 10},
+        }
+        expected = self.checker.compute_headline(
+            dims, 10, False, True, "PENDING EVIDENCE")
+        for key in ("product", "process", "single"):
+            model["scores"][key] = expected[key]
+        return model
+
+    def _with_api_scored(self, model):
+        model = copy.deepcopy(model)
+        criterion = next(
+            c for c in model["criteria"] if c["id"] == "CMP-API")
+        criterion.update(
+            {"outcome": "PASS", "level": "PASS", "mastery": 1.0,
+             "na_basis": None, "applicability": "applicable"})
+        model["evidence"][0]["claims"].append("CMP-API")
+        model["scores"]["dimensions"]["api_compatibility"] = {
+            "mastery": 1.0, "uncapped": 10, "score": 10, "coverage": 1.0,
+            "eligible": True}
+        dims = {
+            "security": {"applicable": True, "eligible": True, "score": 5,
+                         "lo": 4, "hi": 5},
+            "api_compatibility": {"applicable": True, "eligible": True,
+                                  "score": 10, "lo": 10, "hi": 10},
+        }
+        expected = self.checker.compute_headline(
+            dims, 10, False, True, "PENDING EVIDENCE")
+        for key in ("product", "process", "single"):
+            model["scores"][key] = expected[key]
+        return model
+
+    def _multi_model(self, names):
+        model = self._valid_model()
+        model["scope"]["projects"] = [
+            {"name": n, "path": ".", "automation_census": "signals"}
+            for n in names
+        ]
+        criteria = []
+        claims = []
+        dimensions = {}
+        per_project = {}
+        readiness = {}
+        for i, name in enumerate(names):
+            cid = "SEC-AUTHZ" if i == 0 else f"SEC-AUTHZ-{i + 1:02d}"
+            criteria.append(self._criterion(
+                cid, f"{name}.security", "PASS", criticality="high",
+                level="PASS", mastery=1.0, catalogue_id="SEC-AUTHZ"))
+            claims.append(cid)
+            dimensions[f"{name}.security"] = {
+                "mastery": 1.0, "uncapped": 10, "score": 10,
+                "coverage": 1.0, "eligible": True}
+            per_project[name] = {
+                "product": {"score": 10.0, "interval": None,
+                            "published": True, "eligible_weight": 3,
+                            "applicable_weight": 3, "lowest": ["security"]},
+                "process": {"score": None, "interval": None,
+                            "published": False, "scored": 0,
+                            "applicable": 0, "lowest": []},
+                "single": {"score": 10.0, "raw": 10.0, "interval": None,
+                           "flag": "product-only", "ceiling": None,
+                           "band": "Excellent"},
+            }
+            readiness[name] = {"state": "READY", "blocking": []}
+        model["criteria"] = criteria
+        model["evidence"] = [
+            {"id": "EVD-001", "kind": "INSPECTED", "collector": "x",
+             "method": "read", "timestamp": "...", "tool": None,
+             "locator": {"path": "src/app.py", "lines": [1, 40]},
+             "procedure": None, "result": "...", "claims": claims,
+             "limits": "...", "sampling": "full", "counter": "...",
+             "redaction": "none", "unavailable": None},
+        ]
+        model["findings"] = []
+        model["risks"] = []
+        model["recommendations"] = []
+        model["readiness"] = {"per_project": readiness}
+        model["scores"]["dimensions"] = dimensions
+        for key in ("product", "process", "single"):
+            del model["scores"][key]
+        model["scores"]["per_project"] = per_project
+        return model
+
+    def _run(self, argv):
+        out, err = io.StringIO(), io.StringIO()
+        with contextlib.redirect_stdout(out), \
+                contextlib.redirect_stderr(err):
+            rc = self.comparator.main(argv)
+        return rc, out.getvalue(), err.getvalue()
+
+    def _write(self, tmp, model, name):
+        path = Path(tmp) / name
+        path.write_text(json.dumps(model), encoding="utf-8")
+        return path
+
+    def _patched_check(self, fn):
+        original = self.comparator.CHECK.check_model
+        self.comparator.CHECK.check_model = fn
+        return original
+
+    def test_identical_models_zero_deltas_and_leads_by_zero(self):
+        model = self._valid_model()
+        self.assertEqual(
+            self.checker.check_model(model, self._catalogue()), [])
+        result, failures = self.comparator.compare(
+            [model, copy.deepcopy(model)], catalogue=self._catalogue())
+        self.assertEqual(failures, [])
+        comp = result["compared"][0]
+        self.assertTrue(comp["product"]["comparable"])
+        self.assertTrue(comp["single"]["comparable"])
+        for row in comp["dimensions"]:
+            self.assertEqual(row["delta"], 0, row)
+        self.assertIn("leads m2 by 0.0", comp["ranking"]["line"])
+        self.assertIn(
+            "product-only vs product-only", comp["ranking"]["line"])
+        text = self.comparator.render_text(result)
+        self.assertIn("ranking: m1 leads m2 by 0.0", text)
+
+    def test_unpublished_process_marks_not_comparable(self):
+        catalogue = self._process_catalogue()
+        m1 = self._with_na_dly(self._valid_model())
+        m2 = self._with_process(self._valid_model())
+        self.assertEqual(self.checker.check_model(m1, catalogue), [])
+        self.assertEqual(self.checker.check_model(m2, catalogue), [])
+        result, failures = self.comparator.compare(
+            [m1, m2], catalogue=catalogue)
+        self.assertEqual(failures, [])
+        comp = result["compared"][0]
+        self.assertIn(
+            "not comparable - process unpublished",
+            comp["process"]["comparison"])
+        self.assertIn("not comparable", comp["single"]["comparison"])
+        self.assertIn("delta", comp["product"]["comparison"])
+
+    def test_catalogue_version_mismatch_exits_2(self):
+        m2 = self._valid_model()
+        m2["scope"]["catalogue_version"] = 2
+        with tempfile.TemporaryDirectory() as tmp:
+            p1 = self._write(tmp, self._valid_model(), "m1.json")
+            p2 = self._write(tmp, m2, "m2.json")
+            original = self._patched_check(lambda m, c=None: [])
+            try:
+                rc, _out, err = self._run([str(p1), str(p2)])
+            finally:
+                self.comparator.CHECK.check_model = original
+        self.assertEqual(rc, 2)
+        self.assertIn("catalogue_version differs", err)
+        # through the real check_model the mismatching model already fails
+        result, failures = self.comparator.compare(
+            [self._valid_model(), m2], catalogue=self._catalogue())
+        self.assertIsNone(result)
+        self.assertTrue(any("catalogue_version" in f for f in failures))
+
+    def test_failing_input_exits_2(self):
+        bad = self._valid_model()
+        bad["scope"]["subject"] = "bad"
+        with tempfile.TemporaryDirectory() as tmp:
+            p1 = self._write(tmp, self._valid_model(), "m1.json")
+            p2 = self._write(tmp, bad, "m2.json")
+            original = self._patched_check(
+                lambda m, c=None: (
+                    ["subject bad: intentional failure"]
+                    if m.get("scope", {}).get("subject") == "bad" else []
+                )
+            )
+            try:
+                rc, _out, err = self._run([str(p1), str(p2)])
+            finally:
+                self.comparator.CHECK.check_model = original
+        self.assertEqual(rc, 2)
+        self.assertIn("intentional failure", err)
+        # real check_model failures abort the same way
+        broken = self._valid_model()
+        broken["criteria"][1]["outcome"] = "BOGUS"
+        result, failures = self.comparator.compare(
+            [self._valid_model(), broken], catalogue=self._catalogue())
+        self.assertIsNone(result)
+        self.assertTrue(any("not a criterion state" in f for f in failures))
+
+    def test_multi_project_pairs_by_name_and_lists_unpaired(self):
+        catalogue = self._small_catalogue()
+        m1 = self._multi_model(["api", "cli"])
+        m2 = self._multi_model(["api", "ghost"])
+        self.assertEqual(self.checker.check_model(m1, catalogue), [])
+        self.assertEqual(self.checker.check_model(m2, catalogue), [])
+        result, failures = self.comparator.compare(
+            [m1, m2], catalogue=catalogue)
+        self.assertEqual(failures, [])
+        self.assertEqual(
+            [c["scope"] for c in result["compared"]], ["api"])
+        self.assertEqual(result["unpaired"], [
+            {"name": "cli", "only_in": ["m1"]},
+            {"name": "ghost", "only_in": ["m2"]},
+        ])
+        text = self.comparator.render_text(result)
+        self.assertIn("unpaired: cli (only in m1)", text)
+        self.assertIn("unpaired: ghost (only in m2)", text)
+
+    def test_product_only_vs_full_single_not_comparable(self):
+        catalogue = self._process_catalogue()
+        m1 = self._with_na_dly(self._valid_model())
+        m2 = self._with_process(self._valid_model())
+        result, failures = self.comparator.compare(
+            [m1, m2], catalogue=catalogue)
+        self.assertEqual(failures, [])
+        comp = result["compared"][0]
+        self.assertEqual(comp["single"]["flags"],
+                         {"m1": "product-only", "m2": "full"})
+        self.assertIn("not comparable", comp["single"]["comparison"])
+        self.assertIn("not comparable", comp["ranking"]["line"])
+        self.assertIn("product-only vs full", comp["ranking"]["line"])
+
+    def test_unpaired_applicability_shows_dash(self):
+        m1 = self._valid_model()
+        m2 = self._with_api_scored(self._valid_model())
+        self.assertEqual(
+            self.checker.check_model(m2, self._catalogue()), [])
+        result, failures = self.comparator.compare(
+            [m1, m2], catalogue=self._catalogue())
+        self.assertEqual(failures, [])
+        comp = result["compared"][0]
+        row = next(
+            r for r in comp["dimensions"]
+            if r["dim"] == "api_compatibility")
+        self.assertEqual(row["m1"], "-")
+        self.assertEqual(row["m2"], 10)
+        self.assertEqual(row["delta"], "-")
+
+    def test_detail_level_mismatch_needs_anyway(self):
+        m2 = self._valid_model()
+        m2["scope"]["detail_level"] = "Detailed"
+        result, failures = self.comparator.compare(
+            [self._valid_model(), m2], catalogue=self._catalogue())
+        self.assertIsNone(result)
+        self.assertTrue(any("detail_level differs" in f for f in failures))
+        result, failures = self.comparator.compare(
+            [self._valid_model(), m2], anyway=True,
+            catalogue=self._catalogue())
+        self.assertEqual(failures, [])
+        self.assertTrue(result["detail_level_mismatch"])
+        self.assertIn("warning", result)

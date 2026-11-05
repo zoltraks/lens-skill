@@ -41,6 +41,26 @@ for example `★★★☆☆ (3.4/5)`.
 
 The Overall score cell holds only the score display.
 
+Under scoring policy 3 the key-value table is followed by the headline score table, rendered
+from the model with `scripts/render-tables.py --part headline` rather than typed by hand:
+
+| Score               | Value           | Basis                                                       |
+|---------------------|-----------------|-------------------------------------------------------------|
+| Product Quality     | <score display> | Tier-weighted mean of <n> product dimensions, lowest <dims> |
+| Engineering Process | <score display> | Equal-weight mean, lowest <dims>                            |
+| Overall Score       | <score display> | <blend wording, Product-only, ceiling>                      |
+
+Each numeric `Product Quality` and `Engineering Process` value names its lowest-scoring
+eligible dimensions with the word `lowest` - the validator checks the six-line window after
+the value, and the Basis cell carries it.
+
+A sub-score that fails its publish gate renders `Not published` - the process record gates on
+scored count, the product record on tier-3 eligibility and eligible tier weight.
+
+When `Engineering Process` renders `Not published`, the `Overall Score` basis names
+`Product-only`, and when the overall sits below the blend recomputed from the displayed
+sub-scores the basis names `ceiling` with its limit and reasons.
+
 The lowest-scoring applicable dimension and its score go in a paragraph directly below the table,
 so a weak pillar is never hidden inside the average,
 for example `Lowest-scoring dimensions: Security ★★☆☆☆.` Exclude `N/A` and `Unknown` dimensions from

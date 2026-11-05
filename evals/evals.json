@@ -2269,6 +2269,42 @@
         "render-contract.py --check fails when the checked-in block drifts from the live constants.",
         "Canonical dimension names, model dimension ids, Document Information fields, dashboard markers, run-state vocabulary, and the PAR row count all come from the dump."
       ]
+    },
+    {
+      "id": 195,
+      "prompt": "Author the criteria and scores of work/audit-model.json for a Lens audit under scoring policy 3.",
+      "expected_output": "A model_version 2 artifact whose score-channel criteria name catalogue ids and declared levels, and whose scores carry the product, process, and single headline records.",
+      "files": [],
+      "expectations": [
+        "scope.scoring_policy is 3, scope.catalogue_version equals the catalogue's version, and scope carries detail_level and requirements_baseline.",
+        "Every score-channel criterion takes its catalogue_id, dimension, weight, criticality, and level anchors from references/criterion-catalogue.json, and ids or weights are never invented.",
+        "A resolved criterion's level is one of PASS, P75, P50, P25, or FAIL and matches its outcome - P levels mean PARTIAL - and an unresolved criterion records level null.",
+        "NOT_APPLICABLE cites a basis the criterion's na_rules declare, and conformance criteria carry CNF- or REQ- prefixes and never enter dimension scores.",
+        "scores records product, process, and single (per_project on multi-project models) and never the removed overall block."
+      ]
+    },
+    {
+      "id": 196,
+      "prompt": "Render the score-bearing tables of an audit report from the canonical audit model.",
+      "expected_output": "render-tables.py output pasted into the report so no score or row is retyped by hand.",
+      "files": [],
+      "expectations": [
+        "scripts/render-tables.py runs with --part scorecard, headline, criteria, and requirements (or all), plus --project for a multi-project model.",
+        "The Executive Summary carries Product Quality, Engineering Process, and Overall Score rows rendered from the model's headline records.",
+        "Each numeric sub-score names its lowest dimensions, and Overall Score names Product-only when Engineering Process is Not published and ceiling when capped.",
+        "Score-bearing table cells equal the model values - the report never recalculates or retypes a number."
+      ]
+    },
+    {
+      "id": 197,
+      "prompt": "Build the audit model's requirements registry from the subject's specification documents.",
+      "expected_output": "extract-requirements.py inventory frozen into requirements[] with auditor-confirmed obligations, then rendered as the Requirements Conformance table.",
+      "files": [],
+      "expectations": [
+        "scripts/extract-requirements.py runs over the spec documents and the auditor freezes the confirmed ids and obligations into requirements[] - the script's hints never decide.",
+        "The Requirements Conformance table carries one row per requirement id and never a merged range row such as A-01 through A-11.",
+        "scope.requirements_baseline records the registry hash, a PARTIAL or FAIL requirement cites an open finding, and the FNC-REQ level derives mechanically from the registry."
+      ]
     }
   ]
 }

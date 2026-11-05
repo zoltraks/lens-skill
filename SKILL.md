@@ -20,7 +20,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.6.7"
+  version: "2.6.8"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -41,15 +41,15 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 | Parameter Configuration | 138  | Defaults and user-controlled report shape          |
 | Principles              | 146  | Evaluation and output rules                        |
 | Process                 | 152  | Workflow, format, and parity                       |
-| Assessments             | 192  | Core and conditional assessment guides             |
-| Synthesis               | 198  | Findings, risk, score, and remediation assembly    |
-| Translations            | 210  | Per-language report translations                   |
-| References              | 219  | Lookup tables                                      |
-| Scripts                 | 243  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 268  | Behavioral regression prompts                      |
-| Repository Files        | 272  | Housekeeping files governing this repository       |
-| Evidence Contract       | 284  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 314  | File-selection and section-placement rules         |
+| Assessments             | 193  | Core and conditional assessment guides             |
+| Synthesis               | 199  | Findings, risk, score, and remediation assembly    |
+| Translations            | 211  | Per-language report translations                   |
+| References              | 220  | Lookup tables                                      |
+| Scripts                 | 246  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 277  | Behavioral regression prompts                      |
+| Repository Files        | 281  | Housekeeping files governing this repository       |
+| Evidence Contract       | 293  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 323  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -154,6 +154,7 @@ the parameter surfaces, defaults, resolution rules, and re-audit parameters live
 - **`process/audit-workflow.md`** - End-to-end audit process: intake to validated report.
 - **`process/audit-model.md`** - Evidence-to-finding pipeline and the canonical audit model.
 - **`process/decision-modes.md`** - Interaction-mode matrix: interactive and automated resolution.
+- **`process/calibration.md`** - Paired-run reproducibility procedure and tolerances.
 - **`process/report-format.md`** - Report format index: rules, parameters, spec-file map.
 - **`process/report-contract.md`** - One-page mechanically enforced report contract.
 - **`process/report-format/report-opening.md`** - Document Information, coverage matrix, Glossary.
@@ -227,6 +228,8 @@ Load these during intake, assessment, and report writing when the stack or findi
 - **`references/audit-taxonomy.md`** - Audit types, coverage statuses, methodology corpus.
 - **`references/evidence-schema.md`** - Evidence kinds, outcome states, sufficiency, coverage.
 - **`references/criterion-catalogue.md`** - Criterion records, families, applicability freeze.
+- **`references/criterion-catalogue.json`** - Fixed scoring-policy-3 criterion catalogue
+  (levels, dimension order/tiers, criterion weights, severity anchors).
 - **`references/organization-model.md`** - Area map and responsibility inventory method.
 - **`references/naming-and-layout.md`** - Naming matrices, code-division rules, 11-stack fixtures.
 - **`references/language-conventions.md`** - Per-ecosystem style yardstick snapshot (T3 tier).
@@ -253,6 +256,12 @@ repository's `work/` directory under a `.tmp.` name and remove the copies when d
   `--model`/`--state` cross-check report against model and run state).
 - **`scripts/render-contract.py`** - Regenerates the `report-contract.md` enumeration block
   from `--dump-contract` (`--check` gates drift).
+- **`scripts/extract-requirements.py`** - Extracts requirement ids and obligation hints from
+  spec documents into the model's `requirements[]` registry.
+- **`scripts/render-tables.py`** - Renders scorecard, headline, criteria, and requirements
+  tables mechanically from `audit-model.json`.
+- **`scripts/compare-models.py`** - Compares two or more policy-3 audit models side by
+  side, refusing rankings across incompatible denominators.
 - **`scripts/new-report.py`** - Report skeleton generator (`--style`, `--scope`, `--params`).
 - **`scripts/validate-skill.py`** / **`check-references.py`** / **`check-contents.py`** -
   Frontmatter, disclosure, reference, and Contents validators.

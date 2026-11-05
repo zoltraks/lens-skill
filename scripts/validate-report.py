@@ -42,6 +42,7 @@ import json
 import math
 import re
 import sys
+from fractions import Fraction
 from pathlib import Path
 
 NL = "\n"
@@ -907,6 +908,7 @@ SCORECARD_MARKER = re.compile(
 
 
 SCORECARD_DIMENSIONS = [
+    "Functional Suitability",
     "Testability",
     "Design Soundness",
     "Code Quality",
@@ -921,11 +923,11 @@ SCORECARD_DIMENSIONS = [
     "Compliance",
     "Observability",
     "Operational Safety",
+    "API Compatibility",
     "Delivery & Continuity",
     "AI Provenance",
     "Originality & Licensing",
     "Skill Definition",
-    "API Compatibility",
 ]
 
 DOC_INFO_FIELDS = {
@@ -994,6 +996,61 @@ REQUIRED_GATES = (
     "report-delivery",
 )
 ARTIFACT_KINDS = ("params", "model", "state", "part", "report", "translation")
+
+# Policy-3 headline records - dimension group and tier mirror
+# `references/criterion-catalogue.json` and the same tables in
+# scripts/check-model.py; the mirrored-logic parity rule in
+# docs/MAINTENANCE.md applies.
+DIMENSION_GROUP = {ident: "product" for ident in DIMENSION_IDS.values()}
+DIMENSION_GROUP.update(
+    {
+        "delivery_continuity": "process",
+        "ai_provenance": "process",
+        "originality_licensing": "process",
+        "skill_definition": "process",
+    }
+)
+DIMENSION_TIER = {
+    "functional_suitability": 3,
+    "testability": 3,
+    "design_soundness": 2,
+    "code_quality": 2,
+    "code_style": 1,
+    "stack_alignment": 1,
+    "dependency_health": 2,
+    "maintainability": 2,
+    "structure": 1,
+    "deployability": 2,
+    "scalability": 2,
+    "security": 3,
+    "compliance": 2,
+    "observability": 2,
+    "operational_safety": 3,
+    "api_compatibility": 2,
+    "delivery_continuity": 1,
+    "ai_provenance": 1,
+    "originality_licensing": 1,
+    "skill_definition": 1,
+}
+HEADLINE_ROWS = ("Product Quality", "Engineering Process", "Overall Score")
+HEADLINE_RECORD = {
+    "Product Quality": "product",
+    "Engineering Process": "process",
+    "Overall Score": "single",
+}
+HEADLINE_VALUE = re.compile(r"^(\d+(?:\.\d+)?)/(\d+)")
+HEADLINE_CEILING = re.compile(r"\bceiling\s+(\d+(?:\.\d+)?)", re.IGNORECASE)
+PRODUCT_ONLY = re.compile(r"product-only", re.IGNORECASE)
+CEILING_WORD = re.compile(r"\bceiling\b", re.IGNORECASE)
+REQUIREMENT_HEADING = re.compile(
+    r"^(#{2,4})\s+Requirements Conformance\s*$", re.MULTILINE
+)
+REQUIREMENT_RANGE = re.compile(
+    rf"\b[A-Z]{{1,4}}-\d{{1,3}}\s*"
+    rf"(?:\bthrough\b|\bto\b|\.{{2,}}|{chr(0x2026)}|[-{ENDASH}{EMDASH}])"
+    rf"\s*[A-Z]{{1,4}}-\d{{1,3}}\b",
+    re.IGNORECASE,
+)
 
 
 def dashboard_sections(text: str) -> list[tuple[int, str]]:
@@ -1093,7 +1150,7 @@ def check_scorecard_dimensions(text: str) -> list[str]:
             except ValueError:
                 failures.append(
                     f"scorecard dimension '{name}' is not in the canonical set - "
-                    "keep the 19 fixed names so reports stay comparable"
+                    "keep the 20 fixed names so reports stay comparable"
                 )
                 continue
             if pos <= position:
@@ -3384,6 +3441,315 @@ def expected_score(record, scale_max) -> str:
     return rendered
 
 
+def half_up1(value: Fraction) -> Fraction:
+    """Half-up rounding to one decimal - the headline rounding rule."""
+    return Fraction(math.floor(value * 10 + Fraction(1, 2))) / 10
+
+
+def headline_rows(text: str) -> list[tuple[int, str, str, str]]:
+    """(position, label, value cell, line) of each table row whose first
+    cell names one of the three headline score records."""
+    found: list[tuple[int, str, str, str]] = []
+    cursor = 0
+    for line in text.split("\n"):
+        if line.startswith("|"):
+            cells = [cell.strip() for cell in raw_cells(line)]
+            label = cells[0].strip("*` ") if cells else ""
+            if len(cells) >= 2 and label in HEADLINE_ROWS:
+                found.append((cursor, label, cells[1], line))
+        cursor += len(line) + 1
+    return found
+
+
+def displayed_group_scores(
+    tables: list[tuple[int, list[list[str]]]], start: int, end: int
+) -> dict[str, list[tuple[str, float | None]]]:
+    """Scorecard dimension rows inside the char range [start, end), grouped
+    as `product`/`process` lists of (dimension id, displayed point or None)
+    - `None` marks a displayed `Unknown` cell, which counts as applicable
+    but not eligible."""
+    groups: dict[str, list[tuple[str, float | None]]] = {
+        "product": [],
+        "process": [],
+    }
+    for tstart, table in tables:
+        if not start <= tstart < end:
+            continue
+        header = table[0]
+        dim_idx = header.index("Dimension")
+        score_idx = header.index("Score")
+        for row in table[2:]:
+            if len(row) <= max(dim_idx, score_idx):
+                continue
+            ident = DIMENSION_IDS.get(dimension_name(row[dim_idx]))
+            if ident is None:
+                continue
+            kind, point, _ = parse_score_cell(row[score_idx])
+            groups[DIMENSION_GROUP[ident]].append(
+                (ident, point if kind == "score" else None)
+            )
+    return groups
+
+
+def group_headline(
+    group: str, displayed: list[tuple[str, float | None]]
+) -> Fraction | None:
+    """Recomputed headline sub-score over the displayed scorecard cells:
+    the tier-weighted product mean or the equal-weight process mean.
+    `None` when the displayed rows do not support publication - a tier-3
+    product row without a score, or eligible weight/count not over half
+    of the displayed (applicable) weight/count."""
+    scored = [(ident, point) for ident, point in displayed if point is not None]
+    if group == "product":
+        tier3_ok = all(
+            point is not None
+            for ident, point in displayed
+            if DIMENSION_TIER[ident] == 3
+        )
+        app_weight = sum(
+            (Fraction(DIMENSION_TIER[d]) for d, _ in displayed), Fraction(0)
+        )
+        elig_weight = sum(
+            (Fraction(DIMENSION_TIER[d]) for d, _ in scored), Fraction(0)
+        )
+        if not scored or not tier3_ok or elig_weight * 2 <= app_weight:
+            return None
+        mean = sum(
+            (
+                Fraction(DIMENSION_TIER[d]) * Fraction(str(point))
+                for d, point in scored
+            ),
+            Fraction(0),
+        ) / elig_weight
+        return half_up1(mean)
+    if not displayed or len(scored) * 2 <= len(displayed):
+        return None
+    return half_up1(
+        sum((Fraction(str(point)) for _, point in scored), Fraction(0))
+        / len(scored)
+    )
+
+
+def check_headline_disclosure(text: str) -> list[str]:
+    """Policy-3 audit headline contract: every Executive Summary carries
+    the Product Quality, Engineering Process, and Overall Score rows, a
+    numeric sub-score names its lowest dimensions nearby, the Overall
+    Score names `Product-only` when Engineering Process is `Not published`
+    and `ceiling` when it sits below the value recomputed from the
+    displayed sub-scores, and each value recomputes from the displayed
+    scorecard scores under the catalogue tier weights."""
+    if "Document Information" not in text or report_style(text) != "audit":
+        return []
+    failures: list[str] = []
+    lines = text.split("\n")
+    marks = list(re.finditer(r"^##\s+.+?\s*$", text, re.MULTILINE))
+    level2 = [
+        (
+            match.start(),
+            marks[index + 1].start() if index + 1 < len(marks) else len(text),
+        )
+        for index, match in enumerate(marks)
+    ]
+    cards = covered_dimension_tables(text)
+    found = headline_rows(text)
+    for match in re.finditer(
+        r"^(#{2,3})\s+Executive Summary\s*$", text, re.MULTILINE
+    ):
+        level = len(match.group(1))
+        rest = text[match.end() :]
+        following = re.search(rf"^#{{1,{level}}}\s", rest, re.MULTILINE)
+        block = rest[: following.start()] if following else rest
+        start = match.end()
+        end = start + len(block)
+        block_tables = tables_in(block)
+        if block_tables:
+            header = [cell.strip() for cell in raw_cells(block_tables[0][0])]
+            if "Project" in header:
+                continue  # combined multi-project summary
+        placeholder = any(
+            cell.strip().startswith("<")
+            for table in block_tables
+            for row in table
+            for cell in raw_cells(row)
+        )
+        if placeholder:
+            continue  # unfilled scaffold - placeholders never validate
+        rows: dict[str, tuple[int, str, str]] = {}
+        for pos, label, value, line in found:
+            if start <= pos < end and label not in rows:
+                rows[label] = (pos, value, line)
+        for label in HEADLINE_ROWS:
+            if label not in rows:
+                failures.append(
+                    f"Executive Summary table lacks the {label} row"
+                )
+        scope = (0, len(text))
+        if level == 3:
+            scope = next(
+                ((s, e) for s, e in level2 if s <= match.start() < e), scope
+            )
+        displayed = displayed_group_scores(cards, *scope)
+        shown: dict[str, tuple[float | None, str]] = {}
+        for label in HEADLINE_ROWS:
+            entry = rows.get(label)
+            if entry is None:
+                continue
+            pos, value, line = entry
+            numeric = HEADLINE_VALUE.match(value.strip())
+            shown[label] = (
+                float(numeric.group(1)) if numeric else None,
+                numeric.group(2) if numeric else "10",
+            )
+            if numeric is not None and label != "Overall Score":
+                lno = text[:pos].count("\n")
+                window = " ".join(lines[lno : lno + 6]).lower()
+                if "lowest" not in window:
+                    failures.append(
+                        f"line {lno + 1}: headline {label} value has no "
+                        "lowest-dimension floor"
+                    )
+        for label, group in (
+            ("Product Quality", "product"),
+            ("Engineering Process", "process"),
+        ):
+            entry = rows.get(label)
+            if entry is None:
+                continue
+            _, value, _ = entry
+            cell = value.strip()
+            numeric = HEADLINE_VALUE.match(cell)
+            if numeric is None and cell != "Not published":
+                continue
+            expected = group_headline(group, displayed[group])
+            if expected is None:
+                if numeric is not None:
+                    failures.append(
+                        f"headline {label} {cell} does not recompute from "
+                        "the displayed scores (Not published)"
+                    )
+            elif numeric is None or Fraction(numeric.group(1)) != expected:
+                denom = shown[label][1]
+                failures.append(
+                    f"headline {label} {cell} does not recompute from the "
+                    f"displayed scores ({float(expected):.1f}/{denom})"
+                )
+        entry = rows.get("Overall Score")
+        if entry is not None:
+            _, value, line = entry
+            cell = value.strip()
+            numeric = HEADLINE_VALUE.match(cell)
+            product_num = shown.get("Product Quality", (None, ""))[0]
+            process_num = shown.get("Engineering Process", (None, ""))[0]
+            process_cell = rows.get("Engineering Process", (0, "", ""))[1]
+            if product_num is None:
+                raw = None
+            elif process_num is None:
+                raw = Fraction(str(product_num))
+            else:
+                raw = half_up1(
+                    Fraction(7, 10) * Fraction(str(product_num))
+                    + Fraction(3, 10) * Fraction(str(process_num))
+                )
+            ceiling = HEADLINE_CEILING.search(line)
+            capped = (
+                min(raw, Fraction(ceiling.group(1)))
+                if raw is not None and ceiling is not None
+                else raw
+            )
+            if numeric is not None:
+                if process_cell.strip() == "Not published" and not PRODUCT_ONLY.search(
+                    line
+                ):
+                    failures.append(
+                        f"headline Overall Score {cell} does not name "
+                        "Product-only while Engineering Process is "
+                        "Not published"
+                    )
+                if (
+                    raw is not None
+                    and Fraction(numeric.group(1)) < raw
+                    and not CEILING_WORD.search(line)
+                ):
+                    failures.append(
+                        f"headline Overall Score {cell} does not name "
+                        "ceiling while it sits below the recomputed "
+                        f"{float(raw):g}"
+                    )
+                if capped is None:
+                    failures.append(
+                        f"headline Overall Score {cell} does not recompute "
+                        "from the displayed scores (Not published)"
+                    )
+                elif Fraction(numeric.group(1)) != capped:
+                    failures.append(
+                        f"headline Overall Score {cell} does not recompute "
+                        "from the displayed scores "
+                        f"({float(capped):.1f}/{numeric.group(2)})"
+                    )
+            elif cell == "Not published" and capped is not None:
+                denom = shown.get("Product Quality", (None, "10"))[1]
+                failures.append(
+                    "headline Overall Score Not published does not recompute "
+                    f"from the displayed scores ({float(capped):.1f}/{denom})"
+                )
+    return failures
+
+
+def requirements_tables(
+    text: str,
+) -> list[tuple[list[str], list[list[str]]]]:
+    """(header, rows) of each requirements conformance table - located by a
+    `Requirements Conformance` heading or by a `Requirement | Obligation |
+    Status` header signature."""
+    found: list[tuple[list[str], list[list[str]]]] = []
+    seen: set[tuple] = set()
+
+    def add(table: list[str]) -> None:
+        header, rows = table_cells(table)
+        if not header or header[0].strip("*` ") != "Requirement":
+            return
+        key = (tuple(header), tuple(tuple(row) for row in rows))
+        if key in seen:
+            return
+        seen.add(key)
+        found.append((header, rows))
+
+    for match in REQUIREMENT_HEADING.finditer(text):
+        level = len(match.group(1))
+        rest = text[match.end() :]
+        following = re.search(rf"^#{{1,{level}}}\s", rest, re.MULTILINE)
+        block = rest[: following.start()] if following else rest
+        for table in tables_in(block):
+            add(table)
+    for table in tables_in(text):
+        header, _ = table_cells(table)
+        if len(header) >= 3 and [
+            cell.strip("*` ") for cell in header[:3]
+        ] == ["Requirement", "Obligation", "Status"]:
+            add(table)
+    return found
+
+
+def check_requirements_table(text: str) -> list[str]:
+    """One row per requirement - a Requirements Conformance table never
+    merges several requirements into a single range row such as
+    `A-01 through A-11` or `A-01..A-11`."""
+    if "Document Information" not in text or report_style(text) != "audit":
+        return []
+    failures: list[str] = []
+    for _, rows in requirements_tables(text):
+        for row in rows:
+            if not row:
+                continue
+            cell = cell_text(row[0]).strip("*` ")
+            if REQUIREMENT_RANGE.search(cell):
+                failures.append(
+                    f"requirements table row {cell!r} merges several "
+                    "requirements - one row per requirement"
+                )
+    return failures
+
+
 def register_blocks(lines: list[str]) -> dict[str, list[tuple[str, str]]]:
     """Block id -> (family, block text) for `### FND-`, `### RSK-`, and
     `### REC-` register detail blocks."""
@@ -3521,9 +3887,17 @@ def check_model_consistency(text: str, model: dict, style: str) -> list[str]:
                     score = (
                         record.get("score") if isinstance(record, dict) else None
                     )
+                    if score is None and isinstance(record, dict):
+                        single = record.get("single")
+                        if isinstance(single, dict):
+                            score = single.get("score")
                     where = f"{project} " if project else ""
                 else:
                     score = overall.get("score")
+                    if score is None:
+                        single = scores.get("single")
+                        if isinstance(single, dict):
+                            score = single.get("score")
                     where = ""
                 expected = (
                     f"{float(score):g}/{scale_max}" if score is not None else "none"
@@ -3534,6 +3908,67 @@ def check_model_consistency(text: str, model: dict, style: str) -> list[str]:
                         f"model {expected}"
                     )
             cursor += len(line) + 1
+
+        for pos, label, value, line in headline_rows(text):
+            project = section_project(ranges, pos) if multi else None
+            where = f"{project} " if project else ""
+            records = per_project.get(project) if multi else scores
+            record = (
+                records.get(HEADLINE_RECORD[label])
+                if isinstance(records, dict)
+                else None
+            )
+            cell = value.strip()
+            numeric = HEADLINE_VALUE.match(cell)
+            shown = numeric.group(0) if numeric else cell
+            if not isinstance(record, dict):
+                if numeric is not None:
+                    failures.append(
+                        f"headline {label} {where}{shown} differs from the "
+                        "model none"
+                    )
+                continue
+            score = record.get("score")
+            if label == "Overall Score":
+                expected_value = score
+            else:
+                expected_value = (
+                    score
+                    if record.get("published", score is not None)
+                    else None
+                )
+            expected = (
+                f"{float(expected_value):g}/{scale_max}"
+                if expected_value is not None
+                else "Not published"
+            )
+            mismatch = False
+            if expected_value is None:
+                mismatch = numeric is not None or cell != "Not published"
+            elif numeric is None or abs(
+                float(numeric.group(1)) - float(expected_value)
+            ) >= 0.001:
+                mismatch = True
+            if label == "Overall Score":
+                flags = []
+                want_only = record.get("flag") == "product-only"
+                if want_only:
+                    flags.append("Product-only")
+                ceiling = record.get("ceiling")
+                want_ceiling = isinstance(ceiling, dict)
+                if want_ceiling:
+                    flags.append(f"ceiling {ceiling.get('limit')}")
+                if flags:
+                    expected += " (" + ", ".join(flags) + ")"
+                if bool(PRODUCT_ONLY.search(line)) != want_only:
+                    mismatch = True
+                if bool(CEILING_WORD.search(line)) != want_ceiling:
+                    mismatch = True
+            if mismatch:
+                failures.append(
+                    f"headline {label} {where}{shown} differs from the "
+                    f"model {expected}"
+                )
 
     findings = {f.get("id"): f for f in model.get("findings", [])}
     risks = {r.get("id"): r for r in model.get("risks", [])}
@@ -3642,6 +4077,61 @@ def check_model_consistency(text: str, model: dict, style: str) -> list[str]:
                 if normalized != expected:
                     failures.append(
                         f"criteria table {cid}: report {shown} differs "
+                        f"from the model {expected}"
+                    )
+        requirements = {
+            r.get("id"): r
+            for r in model.get("requirements", [])
+            if isinstance(r, dict)
+        }
+        report_rows: list[tuple[str, str]] = []
+        for header, rows in requirements_tables(text):
+            column = next(
+                (
+                    index
+                    for index, cell in enumerate(header)
+                    if cell.lower() == "status"
+                ),
+                None,
+            )
+            for row in rows:
+                if not row:
+                    continue
+                rid = cell_text(row[0]).strip("*` ")
+                shown = (
+                    row[column].strip()
+                    if column is not None and len(row) > column
+                    else ""
+                )
+                report_rows.append((rid, shown))
+        if report_rows or requirements:
+            report_ids = [rid for rid, _ in report_rows]
+            if len(report_rows) != len(requirements):
+                failures.append(
+                    f"requirements table lists {len(report_rows)} rows, "
+                    f"model has {len(requirements)}"
+                )
+            for rid in dict.fromkeys(report_ids):
+                if rid not in requirements:
+                    failures.append(
+                        f"{rid} appears in the report but not in the model"
+                    )
+            for rid in requirements:
+                if rid not in report_ids:
+                    failures.append(
+                        f"{rid} appears in the model but not in the report"
+                    )
+            for rid, shown in report_rows:
+                record = requirements.get(rid)
+                if record is None:
+                    continue
+                normalized = shown.upper().replace(" ", "_").replace("-", "_")
+                if normalized in ("N/A", "NOT_APPLICABLE"):
+                    normalized = "NOT_APPLICABLE"
+                expected = record.get("status")
+                if normalized != expected:
+                    failures.append(
+                        f"requirements table {rid}: report {shown} differs "
                         f"from the model {expected}"
                     )
     return failures
@@ -4124,7 +4614,6 @@ def main(
                     ("legacy field names", check_legacy_fields(lines, fences)),
                     ("findings summary columns", check_finding_summary(text)),
                     ("findings count", check_finding_counts(text)),
-                    ("scorecard mean", check_scorecard_mean(text)),
                     ("scorecard intervals", check_scorecard_interval(text)),
                     ("ledger columns", check_ledger_columns(text)),
                     ("scorecard N/A rows", check_scorecard_na(text)),
@@ -4132,7 +4621,6 @@ def main(
                     ("health dashboard", check_health_dashboard(text)),
                     ("document information fields", check_doc_info_fields(text)),
                     ("security classifications", check_security_classification(lines)),
-                    ("score disclosure", check_score_disclosure(lines)),
                     ("project qualification", check_project_qualification(text)),
                     ("PAR-1..PAR-33", check_par_rows(text)),
                     ("recommendation classification", check_rec_classification(text)),
@@ -4176,9 +4664,18 @@ def main(
             elif style == "audit":
                 checks.extend(
                     [
+                        ("headline disclosure", check_headline_disclosure(text)),
+                        ("requirements table", check_requirements_table(text)),
                         ("structure and naming conformance", check_structure_and_naming(text)),
                         ("audit finding disposition", check_finding_disposition(text, lines)),
                         ("roadmap structure", check_roadmap_structure(text)),
+                    ]
+                )
+            if style != "audit":
+                checks.extend(
+                    [
+                        ("scorecard mean", check_scorecard_mean(text)),
+                        ("score disclosure", check_score_disclosure(lines)),
                     ]
                 )
             if style in ("audit", "hunt"):

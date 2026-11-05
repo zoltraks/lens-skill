@@ -47,6 +47,7 @@ so no score appears before its band is defined.
 
 | Dimension               | Score | Notes |
 |-------------------------|-------|-------|
+| Functional Suitability  |       |       |
 | Testability             |       |       |
 | Design Soundness        |       |       |
 | Code Quality            |       |       |
@@ -61,11 +62,11 @@ so no score appears before its band is defined.
 | Compliance              |       |       |
 | Observability           |       |       |
 | Operational Safety      |       |       |
+| API Compatibility       |       |       |
 | Delivery & Continuity   |       |       |
 | AI Provenance           |       |       |
 | Originality & Licensing |       |       |
 | Skill Definition        |       |       |
-| API Compatibility       |       |       |
 
 Omit rows whose Score is `N/A` from the table entirely: the table lists scored dimensions only.
 

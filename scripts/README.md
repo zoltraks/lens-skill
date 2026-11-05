@@ -67,6 +67,22 @@ gates, and declared artifacts.
 `process/report-contract.md` from that dump, and `--check` fails when the checked-in block
 has drifted from the live constants.
 
+`extract-requirements.py <doc.md> ... [--json]` inventories requirement ids from spec
+documents - first table cell, heading start, or list item - with obligation hints, for the
+model's `requirements[]` registry. It never decides obligations; the auditor freezes the
+list.
+
+`render-tables.py <audit-model.json> --part scorecard|headline|criteria|requirements|all`
+renders the report's number-bearing tables mechanically from the canonical model, so
+scores and rows are never retyped by hand. `--project NAME` selects a project inside a
+multi-project model.
+
+`compare-models.py <model.json> <model.json> [...] [--json] [--anyway]` compares policy-3
+audit models: headline records, per-dimension deltas, finding and requirement diffs, and
+a ranking line that names each side's flag state. It refuses to rank across unpublished
+or mismatched-flag records and exits 2 when the inputs differ in catalogue version,
+scoring policy, scale, or (without `--anyway`) detail level.
+
 `format-table.py` warns when a row begins with `||` or a column is empty in every row.
 
 `--drop-empty-columns` removes columns that are empty in every row, and separator-shaped
