@@ -121,7 +121,7 @@ Team Continuity section.
 When the report language is not English,
 apply the heading translation from the matching `translations/` file.
 
-## Delivery Practice & Team Continuity
+## Delivery Practice
 
 Assess how the project delivers changes and how concentrated its contributor base is,
 using only what the repository shows.

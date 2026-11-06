@@ -18,7 +18,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.7.2"
+  version: "2.7.3"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -42,11 +42,11 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 | Synthesis               | 201  | Findings, risk, score, and remediation assembly    |
 | Translations            | 213  | Per-language report translations                   |
 | References              | 224  | Lookup tables                                      |
-| Scripts                 | 252  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 284  | Behavioral regression prompts                      |
-| Repository Files        | 288  | Housekeeping files governing this repository       |
-| Evidence Contract       | 300  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 329  | File-selection and section-placement rules         |
+| Scripts                 | 253  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 285  | Behavioral regression prompts                      |
+| Repository Files        | 289  | Housekeeping files governing this repository       |
+| Evidence Contract       | 301  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 330  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -240,6 +240,7 @@ Load these during intake, assessment, and report writing when the stack or findi
 - **`references/language-conventions.md`** - Per-ecosystem style yardstick snapshot (T3 tier).
 - **`references/sbom-schema.md`** - Source-derived inventory report schema.
 - **`references/license-compliance.md`** - License classes, copyleft, attribution, ownership checks.
+- **`references/delivery-checklist.md`** - Authored-side delivery checklist and gate contract.
 - **`references/delivery-practice.md`** - DORA proxies, bus-factor rubric.
 - **`references/domain-profiles.md`** - Project-nature classification and mandatory probes.
 - **`references/exploitability-narrative.md`** - Attack-path narrative format and tiers.
@@ -303,7 +304,7 @@ Use the verification plan and evidence ledger in `process/audit-workflow/evidenc
 every audit and every review - the audit never builds, tests, or executes the project,
 while under the `executed-readonly` evidence mode it may additionally run commissioned non-mutating
 analyzers, and under `executed-commands` commissioned non-mutating commands run per
-`references/topics/execution-isolation.md` and are recorded in the Executed Evidence Log.
+`references/topics/execution-isolation.md` and are recorded in the Executed Evidence.
 
 All evidence comes from inspected repository contents: source, configuration, build scripts,
 documentation, and committed artifacts.

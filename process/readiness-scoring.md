@@ -18,13 +18,13 @@ Apply `principles/evaluation-rules.md` throughout.
 | Separate Decision Outputs | 29   | Category status vs dimension score |
 | Criteria Inputs           | 49   | Criteria Inputs guidance           |
 | Dimension Scoring         | 75   | Dimension Scoring guidance         |
-| Scoring Policy 3          | 192  | Scoring Policy 3 guidance          |
-| Overall Score             | 241  | Overall Score guidance             |
-| Confidence                | 273  | Confidence guidance                |
-| Maturity Levels           | 291  | Maturity Levels guidance           |
-| Readiness Gates           | 310  | Readiness Gates guidance           |
-| Required Summary Fields   | 362  | Required Summary Fields guidance   |
-| Multi-Project Rules       | 375  | Multi-Project Rules guidance       |
+| Scoring Policy 3          | 194  | Scoring Policy 3 guidance          |
+| Overall Score             | 243  | Overall Score guidance             |
+| Confidence                | 275  | Confidence guidance                |
+| Maturity Levels           | 293  | Maturity Levels guidance           |
+| Readiness Gates           | 312  | Readiness Gates guidance           |
+| Required Summary Fields   | 364  | Required Summary Fields guidance   |
+| Multi-Project Rules       | 377  | Multi-Project Rules guidance       |
 
 ## Separate Decision Outputs
 
@@ -97,7 +97,7 @@ they do not substitute for the computation.
 
 **Uncertainty interval**
 
-Every dimension score carries an interval beside the point value:
+Every dimension with unresolved applicable criteria carries an interval:
 
 - `lo` - mastery recomputed with every unresolved (`UNKNOWN`, `NOT_ASSESSED`)
   applicable criteria entry treated as `FAIL`, mapped to the scale.
@@ -105,8 +105,10 @@ Every dimension score carries an interval beside the point value:
   mapped to the scale.
 - When `lo` equals `hi` - no unresolved applicable criteria - the interval is omitted.
 
-The interval is stated, never hidden: a score with a wide unresolved spread reports
-`7/10 [4-9]`, not `7/10`.
+The scorecard cell carries the point score only - the interval is stated, never hidden,
+in a disclosure line under the scorecard table naming each bounded dimension and its spread,
+for example `Scalability carries [4-6]` for unresolved criteria, never `7/10 [4-9]` inside
+the cell.
 
 **Eligibility gate**
 

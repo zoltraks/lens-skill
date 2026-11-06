@@ -278,7 +278,7 @@ The matrix becomes the Further Verification.
 
 Under `executed-readonly` only the commissioned non-mutating analyzers run - builds, tests,
 and the project itself still never execute,
-and their results are `Executed` evidence in the Executed Evidence Log rather than `Not run` rows.
+and their results are `Executed` evidence in the Executed Evidence rather than `Not run` rows.
 
 Under `executed-commands` the commissioned non-mutating commands run - tests and builds included -
 and land in the same register, or in the Execution Register under `Report Style: review`,

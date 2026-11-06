@@ -64,7 +64,7 @@ Produce these top-level sections in this order, with unnumbered headings:
 - Risk Register
 - Remediation Phases
 - Contradiction Register *(conditional - external report found at intake)*
-- Further Verification *(source-only mode)* or Executed Evidence Log
+- Further Verification *(source-only mode)* or Executed Evidence
   *(executed-readonly or executed-commands mode)*
 - Scope Exclusions
 - Known Limitations
@@ -137,7 +137,7 @@ and a component inventory table with per-module size and role.
 States the evidence basis declaration (tiers used and their mix), the read-depth table,
 and the evidence ledger, all per the shared rules.
 
-Under `executed-readonly` or `executed-commands` it also references the Executed Evidence Log.
+Under `executed-readonly` or `executed-commands` it also references the Executed Evidence.
 
 ## Journey Traces
 

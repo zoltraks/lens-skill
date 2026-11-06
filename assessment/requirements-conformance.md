@@ -57,6 +57,7 @@ that should deliver it.
 | Requirement anchors    | Section numbers, story IDs, or quoted clauses in the requirements doc |
 | Implementation proof   | Code paths, configuration, and tests that satisfy each requirement    |
 | Counter-evidence       | Code paths, configuration, or stubs that contradict a requirement     |
+| Emptied evidence       | `git log -- <file>` on cited test files now at zero assertions        |
 
 ## Status Criteria
 

@@ -70,7 +70,7 @@ its missing coverage in Notes.
 At the `Detailed` level, add a paragraph below the table naming each omitted `N/A` dimension and its
 applicability reason.
 
-The Delivery & Continuity dimension summarizes the Delivery Practice & Team Continuity section:
+The Delivery & Continuity dimension summarizes the Delivery Practice section:
 
 delivery-practice proxies and contributor concentration per `references/delivery-practice.md`.
 
@@ -246,7 +246,7 @@ Each scorecard dimension summarizes one or more assessment categories.
 | Operational Safety      | Operational Readiness, Error Handling, Rollback Strategy |
 | Documentation           | Documentation                                            |
 | API Compatibility       | API Compatibility And Versioning Discipline              |
-| Delivery & Continuity   | Delivery Practice & Team Continuity                      |
+| Delivery & Continuity   | Delivery Practice                      |
 | Originality & Licensing | Copyrights & Originality                                 |
 | Skill Definition        | Skill Definition Conformance                             |
 

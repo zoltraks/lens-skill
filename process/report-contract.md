@@ -29,7 +29,7 @@ this page is the fast check, not the specification.
 - Document Information carries `Report Style`, `Evidence Mode`,
   and a `Subject Revision` snapshot anchor.
 - A report under `Evidence Mode: source-only` carries a `Further Verification` - under
-  `executed-readonly` or `executed-commands` an `Executed Evidence Log` replaces it,
+  `executed-readonly` or `executed-commands` an `Executed Evidence` replaces it,
   and an executed `review` -style report additionally carries an Artifact Manifest.
 - The Audit Coverage table keeps only `Covered`, `Partially`,
   and `Not done` status cells - `Not Applicable` rows are omitted entirely.
@@ -223,41 +223,39 @@ then rerun the renderer. Do not edit inside the markers.
 
 ### Canonical Dimensions
 
-Scorecard display names in canonical order and the `audit-model.json` dimension key each maps to:
+Scorecard display names in canonical order and the `audit-model.json`
+dimension key each maps to:
 
-| #  | Scorecard name          | Model id               |
-|----|-------------------------|------------------------|
-| 1  | Functional Suitability  | functional_suitability |
-| 2  | Testability             | testability            |
-| 3  | Design Soundness        | design_soundness       |
-| 4  | Code Quality            | code_quality           |
-| 5  | Code Style              | code_style             |
-| 6  | Stack Alignment         | stack_alignment        |
-| 7  | Dependency Health       | dependency_health      |
-| 8  | Maintainability         | maintainability        |
-| 9  | Structure               | structure              |
-| 10 | Deployability           | deployability          |
-| 11 | Scalability             | scalability            |
-| 12 | Security                | security               |
-| 13 | Compliance              | compliance             |
-| 14 | Observability           | observability          |
-| 15 | Operational Safety      | operational_safety     |
-| 16 | Documentation           | documentation          |
-| 17 | API Compatibility       | api_compatibility      |
-| 18 | Delivery & Continuity   | delivery_continuity    |
-| 19 | Originality & Licensing | originality_licensing  |
-| 20 | Skill Definition        | skill_definition       |
+| #  | Scorecard name        | Model id              |
+|----|-----------------------|-----------------------|
+| 1  | Functional Suitability | functional_suitability |
+| 2  | Testability           | testability           |
+| 3  | Design Soundness      | design_soundness      |
+| 4  | Code Quality          | code_quality          |
+| 5  | Code Style            | code_style            |
+| 6  | Stack Alignment       | stack_alignment       |
+| 7  | Dependency Health     | dependency_health     |
+| 8  | Maintainability       | maintainability       |
+| 9  | Structure             | structure             |
+| 10 | Deployability         | deployability         |
+| 11 | Scalability           | scalability           |
+| 12 | Security              | security              |
+| 13 | Compliance            | compliance            |
+| 14 | Observability         | observability         |
+| 15 | Operational Safety    | operational_safety    |
+| 16 | Documentation         | documentation         |
+| 17 | API Compatibility     | api_compatibility     |
+| 18 | Delivery & Continuity | delivery_continuity   |
+| 19 | Originality & Licensing | originality_licensing |
+| 20 | Skill Definition      | skill_definition      |
 
 Multi-project models prefix each key - `<project>.security`.
 
 ### Document Information Fields
 
-Required rows: `Detail Level`, `Evaluation Scale`, `Evidence Mode`, `Language`, `Report Date`,
-`Report Revision`, `Report Style`, `Skill Version`, `Subject Revision`, `Time taken`,
-`Verification Scope`.
+Required rows: `Detail Level`, `Evaluation Scale`, `Evidence Mode`, `Language`, `Report Date`, `Report Revision`, `Report Style`, `Skill Version`, `Subject Revision`, `Time taken`, `Verification Scope`.
 
-Optional rows: `Audit Purpose`, `Dirty-Tree State`, `Previous Report`, `Projects`, `Review Scope`,
-`Sentence breaks`, `Target Environment`, `Translations`.
+Optional rows: `Audit Purpose`, `Dirty-Tree State`, `Previous Report`, `Projects`, `Review Scope`, `Sentence breaks`, `Target Environment`, `Translations`.
 
 ### Health Dashboard Markers
 
@@ -265,10 +263,10 @@ Every Health Dashboard section carries: `Risk Map`, `Scorecard Summary`, `Team &
 
 ### Run State
 
-`work/audit-state.json` carries `state_version` 1 and this vocabulary:
+`work/audit-state.json` carries `state_version` 1 and
+this vocabulary:
 
-- Phases in order: `intake`, `parameter-configuration`, `scope-definition`, `evidence-gathering`,
-  `category-assessment`, `synthesis`, `validation`.
+- Phases in order: `intake`, `parameter-configuration`, `scope-definition`, `evidence-gathering`, `category-assessment`, `synthesis`, `validation`.
 - Gate tiers: `explicit`, `convention`, `discovered`, `default`, `automated`, `unknown`.
 - Required gates: `audit-mode`, `project-inclusion`, `parameters-acceptance`, `report-delivery`.
 - Artifact kinds: `params`, `model`, `state`, `part`, `report`, `translation`.

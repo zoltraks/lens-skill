@@ -13,7 +13,7 @@
 | Scope Exclusions      | 21   | exclusion bullets, rationale, coverage alignment       |
 | Known Limitations     | 106  | unresolved limits, unknowns, evidence gaps             |
 | Further Verification  | 137  | deferred checks, commands, pass criteria               |
-| Executed Evidence Log | 162  | executed-mode checks, commands, results                |
+| Executed Evidence | 162  | executed-mode checks, commands, results                |
 | Follow-up Plan        | 190  | roadmap-closing retest and re-audit plan               |
 | Validation Protocol   | 233  | PAR-1 through PAR-27 rows, evidence basis              |
 | Reference Sources     | 267  | external sources, link paragraphs, cached-source notes |
@@ -159,7 +159,7 @@ per Register Reference Links in `process/report-format.md` - for example
 
 A claim with no proposed check is a defect of the audit, not of the subject.
 
-## Executed Evidence Log
+## Executed Evidence
 
 Present under `executed-readonly` or `executed-commands` evidence mode in `audit` and `hunt` reports
 - a `review` report records the same provenance in its Execution Register instead.

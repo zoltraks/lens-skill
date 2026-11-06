@@ -462,13 +462,13 @@ Apply `executed-readonly` or `executed-commands` only when the user explicitly c
   such as dependency advisory or policy scanners (`cargo audit`, `cargo deny check`).
   The project itself is still never built, tested, or run,
   no tool is installed or upgraded for the audit,
-  and every executed check is recorded in the Executed Evidence Log with tool, version,
+  and every executed check is recorded in the Executed Evidence with tool, version,
   exact command, and timestamp per `process/report-format/report-closing.md`.
 - ** `executed-commands` ** - additionally runs the explicitly commissioned non-mutating commands
   the user names, which may include test suites, builds, lint, typecheck, coverage runs,
   and isolated reproduction harnesses. The subject is still never deployed, mutated,
   or connected to live systems, no tool is installed or upgraded unless the user commissioned it,
-  and every executed command lands in the Executed Evidence Log - or the Execution Register under
+  and every executed command lands in the Executed Evidence - or the Execution Register under
   `Report Style: review` - with tool, version, exact command, timestamp, exit status,
   and result per `process/report-format/report-closing.md`.
   Commissioned commands run per the procedure in `references/topics/execution-isolation.md`.

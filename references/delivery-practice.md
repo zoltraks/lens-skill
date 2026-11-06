@@ -3,7 +3,7 @@
 ## Purpose
 
 > **Scope:** Git-derived delivery-practice proxies and the contributor-concentration rubric for the
-> Delivery Practice & Team Continuity section **Key items:** five-metric DORA model,
+> Delivery Practice section **Key items:** five-metric DORA model,
 > source-only proxies, bus-factor rubric, NOT SPECIFIED discipline
 
 This file defines how a source-only audit approximates delivery health.
@@ -84,7 +84,7 @@ Report it in aggregate form only, never as a personal assessment.
 ## History Hygiene
 
 When Git is in scope, the history-quality censuses in `references/census-commands.md` feed the
-Delivery Practice & Team Continuity section alongside the DORA proxies.
+Delivery Practice section alongside the DORA proxies.
 
 - **Commit-subject descriptiveness**: the share of subjects under the stated word threshold.
   A high share of terse subjects raises review and archaeology cost.
@@ -95,7 +95,7 @@ Delivery Practice & Team Continuity section alongside the DORA proxies.
 - **Merge noise**: the share of self-merge subjects such as "merge remote-tracking".
   Routine pull-merges indicate a non-rebase workflow and inflate the merge count.
 
-Report the results inside Delivery Practice & Team Continuity, each figure beside its counting rule.
+Report the results inside Delivery Practice, each figure beside its counting rule.
 
 ## Boundary With Deployment Review
 

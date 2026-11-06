@@ -89,7 +89,7 @@ full set of report sections for that project:
 - Software Bill of Materials
 - License Compliance
 - Health Dashboard
-- Delivery Practice & Team Continuity
+- Delivery Practice
 - High-Level Observations
 - Auditing Methodology
 - Scoring Rubrics
@@ -149,7 +149,7 @@ suffix, and the split is recorded in the Changes section.
 - Remediation Roadmap (consolidated)
 - Scope Exclusions
 - Known Limitations
-- Further Verification *(source-only mode)* / Executed Evidence Log *(executed modes)*
+- Further Verification *(source-only mode)* / Executed Evidence *(executed modes)*
 - Validation Protocol
 - Reference Sources
 

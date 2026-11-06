@@ -243,6 +243,12 @@ def main(path: str, lang_name: str = "en", check: bool = False) -> int:
     for term in terms:
         for variant in glossary_variants(term):
             variant_map[variant] = term
+    if not variant_map:
+        print(
+            "warn: glossary yielded no parseable terms - "
+            "expected a term table under the Glossary Index heading"
+        )
+        return 0
     pattern = re.compile(
         "|".join(re.escape(v) for v in sorted(variant_map, key=len, reverse=True))
     )

@@ -443,7 +443,7 @@ All twenty-two baseline sections are present in full, subject to explicit parame
 - Software Bill of Materials
 - License Compliance
 - Health Dashboard
-- Delivery Practice & Team Continuity
+- Delivery Practice
 - High-Level Observations
 - Auditing Methodology
 - Scoring Rubrics
@@ -579,7 +579,7 @@ Each lists its inclusion criteria and the assessment file that governs it:
 | Recommendation Classification (subsection of Remediation Roadmap) | Detail level is Standard or Detailed and the roadmap exists                          | `synthesis/remediation-roadmap.md`        |
 | Contradiction Register (standalone or in Limitations)             | An external or prior report asserts conflicting claims                               | `synthesis/report-triangulation.md`       |
 | Further Verification (standalone)                                 | `source-only` evidence mode - the default                                            | `process/report-format/report-closing.md` |
-| Executed Evidence Log (standalone)                                | `executed-readonly` or `executed-commands` evidence mode                             | `process/report-format/report-closing.md` |
+| Executed Evidence (standalone)                                | `executed-readonly` or `executed-commands` evidence mode                             | `process/report-format/report-closing.md` |
 | Retest Register (standalone, review style)                        | The Execution Register carries `Fail`/`Error`/`Blocked` rows                         | `process/report-format/review-style.md`   |
 | Artifact Manifest (standalone, review style)                      | `executed-readonly` or `executed-commands` evidence mode                             | `process/report-format/review-style.md`   |
 
@@ -614,7 +614,7 @@ For a **single-project** audit:
 - Software Bill of Materials
 - License Compliance
 - Health Dashboard
-- Delivery Practice & Team Continuity
+- Delivery Practice
 - High-Level Observations
 - Auditing Methodology
 - Scoring Rubrics
@@ -639,7 +639,7 @@ For a **single-project** audit:
 - Unified Risk Register
 - Scope Exclusions
 - Known Limitations
-- Further Verification *(source-only mode)* / Executed Evidence Log
+- Further Verification *(source-only mode)* / Executed Evidence
   *(executed-readonly or executed-commands mode, conditional)*
 - Validation Protocol
 - Remediation Roadmap (with Recommendation Classification *(conditional)* and Follow-up Plan
@@ -664,7 +664,7 @@ In summary:
   - Software Bill of Materials
   - License Compliance
   - Health Dashboard
-  - Delivery Practice & Team Continuity
+  - Delivery Practice
   - High-Level Observations
   - Auditing Methodology
   - Scoring Rubrics
@@ -689,7 +689,7 @@ In summary:
 - Solution Comparison (combined, cross-project trade-offs only)
 - Scope Exclusions (once, shared)
 - Known Limitations (once, shared)
-- Further Verification *(source-only mode)* / Executed Evidence Log *(executed-readonly or
+- Further Verification *(source-only mode)* / Executed Evidence *(executed-readonly or
   executed-commands mode, conditional)* (once, shared)
 - Validation Protocol (once, shared)
 - Remediation Roadmap (once, shared - consolidated matrix and registers with a Project column,
@@ -708,7 +708,7 @@ Each report section is specified in a file under `process/report-format/`.
 | `summary-changes.md`          | Executive Summary, Changes Since Previous Audit          |
 | `context-compliance.md`       | System Context, Software Bill of Materials, License      |
 |                               | Compliance Review                                        |
-| `dashboard-observations.md`   | Health Dashboard, Delivery Practice & Team Continuity,   |
+| `dashboard-observations.md`   | Health Dashboard, Delivery Practice,   |
 |                               | High-Level Observations                                  |
 | `methodology-scoring.md`      | Auditing Methodology, Scoring Rubrics                    |
 | `architectural-assessment.md` | Architectural Assessment and its conditional subsections |
@@ -722,7 +722,7 @@ Each report section is specified in a file under `process/report-format/`.
 |                               | Register, Unified Risk Register, Remediation Roadmap,    |
 |                               | Recommendation Classification                            |
 | `report-closing.md`           | Scope Exclusions, Known Limitations, Verification        |
-|                               | Handoff, Executed Evidence Log, Follow-up Plan,          |
+|                               | Handoff, Executed Evidence, Follow-up Plan,          |
 |                               | Validation Protocol, Reference Sources                   |
 | `hunt-style.md`               | Hunt report style: verdict, domain register, journey     |
 |                               | traces, remediation phases                               |

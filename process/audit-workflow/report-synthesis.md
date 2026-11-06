@@ -173,6 +173,18 @@ and stop and surface the discrepancy on a mismatch.
 Concatenate the parts in the fixed section order into the final file with a mechanical file join,
 never by rewriting the document from context.
 
+Finalize with `finalize-report.py`, never by hand-ordering passes - glossary links,
+register links, table formatting, then validation, in that order,
+because link insertion changes cell widths and formatting must follow linking.
+
+Structural edits land on section boundaries, never on substring matches inside cells -
+a cell prefix shared with table vocabulary has swallowed whole row blocks into the
+wrong table. Multi-table edits run in reverse document order or recompute offsets
+after each replacement, and every structural splice re-runs the formatter and
+validator immediately rather than at the end of a batch.
+
+The full authored-side checklist lives in `references/delivery-checklist.md`.
+
 Parts may be written directly in the report language.
 
 A second render pass over the whole document is not required and can itself exceed the write limit.

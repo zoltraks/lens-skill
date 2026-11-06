@@ -33,7 +33,7 @@ AUDIT_SECTIONS = [
     "Software Bill of Materials",
     "License Compliance",
     "Health Dashboard",
-    "Delivery Practice & Team Continuity",
+    "Delivery Practice",
     "High-Level Observations",
     "Auditing Methodology",
     "Scoring Rubrics",
@@ -791,9 +791,7 @@ def populate_audit(body: str, model: dict) -> str:
         cell = dims.get(key, {})
         if not cell or not cell.get("eligible", True):
             continue
-        interval = cell.get("interval")
-        interval_text = f" [{interval[0]}-{interval[1]}]" if interval else ""
-        rows.append(f"| {name} | {cell['score']}/{scale}{interval_text} |  |\n")
+        rows.append(f"| {name} | {cell['score']}/{scale} |  |\n")
     if rows:
         body = body.replace(
             "| Dimension | Score | Notes |\n|---|---|---|\n",
@@ -962,7 +960,7 @@ def populate_audit(body: str, model: dict) -> str:
     )
     if executed:
         executed_log = (
-            "## Executed Evidence Log\n\n"
+            "## Executed Evidence\n\n"
             "| Check | Command | Result | Interpretation |\n|---|---|---|---|\n"
             + executed_rows + "\n"
         )

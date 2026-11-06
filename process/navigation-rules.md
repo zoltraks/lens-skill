@@ -102,7 +102,7 @@
   `Unknown`, never an executed or shipped-artifact SBOM.
 - The License Compliance follows `references/license-compliance.md` and separates observed license
   facts from inferred concerns without legal conclusions.
-- The Delivery Practice & Team Continuity section follows `references/delivery-practice.md`:
+- The Delivery Practice section follows `references/delivery-practice.md`:
   five DORA metrics with labeled source-derived proxies,
   telemetry-dependent metrics `Not specified`, and a bus-factor rating.
 - Every `High` / `Critical` Security & Compliance finding carries an `Exploitability` field per

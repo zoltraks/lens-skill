@@ -182,7 +182,7 @@ and every `### FND-` block's `Type` field must read `Observation` or `Concern`.
 Its snapshot-identity check requires `Subject Revision`, `Report Style`,
 and `Evidence Mode` rows in Document Information,
 and its evidence-sections check requires `Operator Verification Handoff` for source-only reports or
-`Executed Evidence Log` for executed-readonly reports.
+`Executed Evidence` for executed-readonly reports.
 
 Its summary-verification check rejects a `Verified` or `Confirmed` cell in the findings summary when
 the finding block has no `Verification` field or lacks a `Runtime` field.

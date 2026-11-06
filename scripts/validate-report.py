@@ -57,7 +57,7 @@ BASELINE_SECTIONS = [
     "Software Bill of Materials",
     "License Compliance",
     "Health Dashboard",
-    "Delivery Practice & Team Continuity",
+    "Delivery Practice",
     "High-Level Observations",
     "Auditing Methodology",
     "Scoring Rubrics",
@@ -2927,7 +2927,7 @@ def check_risk_consistency(lines: list[str], fences: list[bool]) -> list[str]:
 
 
 def check_executed_log(text: str) -> list[str]:
-    block = section_block(text, r"^#{2,3}\s+Executed Evidence Log\s*$")
+    block = section_block(text, r"^#{2,3}\s+Executed Evidence\s*$")
     if not block:
         return []
     failures: list[str] = []
@@ -3103,8 +3103,8 @@ def check_evidence_sections(text: str) -> list[str]:
             if not re.search(r"^#{2,3}\s+Artifact Manifest\s*$", text, re.MULTILINE):
                 return ["executed review report has no Artifact Manifest section"]
             return []
-        if not re.search(r"^#{2,3}\s+Executed Evidence Log\s*$", text, re.MULTILINE):
-            return [f"{mode} report has no Executed Evidence Log section"]
+        if not re.search(r"^#{2,3}\s+Executed Evidence\s*$", text, re.MULTILINE):
+            return [f"{mode} report has no Executed Evidence section"]
         return []
     if mode not in ("source-only",):
         return [
@@ -3438,11 +3438,7 @@ def expected_score(record, scale_max) -> str:
     """How a model dimension record renders as a scorecard cell."""
     if not isinstance(record, dict) or record.get("score") is None:
         return "Unknown"
-    rendered = f"{float(record['score']):g}/{scale_max}"
-    interval = record.get("interval")
-    if interval:
-        rendered += f" [{float(interval[0]):g}-{float(interval[1]):g}]"
-    return rendered
+    return f"{float(record['score']):g}/{scale_max}"
 
 
 def half_up1(value: Fraction) -> Fraction:
@@ -3830,6 +3826,9 @@ def check_model_consistency(text: str, model: dict, style: str) -> list[str]:
                 where = f"{project} " if project else ""
                 cell = row[score_idx].strip()
                 score = record.get("score") if isinstance(record, dict) else None
+                record_interval = (
+                    record.get("interval") if isinstance(record, dict) else None
+                )
                 if kind == "unknown":
                     if score is not None:
                         mismatch = True
@@ -3839,26 +3838,27 @@ def check_model_consistency(text: str, model: dict, style: str) -> list[str]:
                     else:
                         mismatch = False
                 else:
-                    record_interval = (
-                        record.get("interval") if isinstance(record, dict) else None
-                    )
-                    same_interval = (
-                        (record_interval is None and interval is None)
-                        or (
-                            isinstance(record_interval, list)
-                            and interval is not None
-                            and len(record_interval) == 2
-                            and [float(v) for v in record_interval] == interval
-                        )
-                    )
-                    mismatch = (
-                        score is None or float(score) != point or not same_interval
-                    )
+                    mismatch = score is None or float(score) != point
                 if mismatch:
                     failures.append(
                         f"scorecard {where}{name}: report shows {cell!r}, "
                         f"model has {expected}"
                     )
+                elif interval is not None:
+                    failures.append(
+                        f"scorecard {where}{name}: interval belongs in the "
+                        f"scorecard disclosure line, not the cell"
+                    )
+                if isinstance(record_interval, list) and len(record_interval) == 2:
+                    rendered_int = (
+                        f"[{float(record_interval[0]):g}-"
+                        f"{float(record_interval[1]):g}]"
+                    )
+                    if rendered_int not in text:
+                        failures.append(
+                            f"scorecard {where}{name}: model interval "
+                            f"{rendered_int} is not disclosed in the report"
+                        )
         for key in sorted(k for k in applicable_keys if isinstance(k, str)):
             project = None
             leaf = key
@@ -4302,7 +4302,7 @@ def report_contract() -> dict:
                     "Glossary Index",
                     "Contradiction Register",
                     "Further Verification",
-                    "Executed Evidence Log",
+                    "Executed Evidence",
                 ],
                 "findings_section": "Domain Findings",
                 "domains": list(HUNT_DOMAINS),
@@ -4447,7 +4447,7 @@ def report_contract() -> dict:
             "Error/Blocked are runner states, never product failures - "
             "Not run is never a pass",
             "a model reproduction never upgrades app-level reachability",
-            "Executed Evidence Log and Execution Register Result cells take the "
+            "Executed Evidence and Execution Register Result cells take the "
             "check-status vocabulary",
             "table column widths count the full [text](target) and "
             "![alt](src) markup in source text - brackets, text, and target "

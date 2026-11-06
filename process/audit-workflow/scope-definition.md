@@ -78,7 +78,7 @@ and result triage apply to every executed record.
 
 The project itself is still never run outside the commissioned set,
 no tool is installed or upgraded for the audit unless commissioned,
-and every executed command lands in the Executed Evidence Log - or the Execution Register under
+and every executed command lands in the Executed Evidence - or the Execution Register under
 `Report Style: review` - per `process/report-format/report-closing.md`.
 
 Record the scope as `source-only`, `executed-readonly`, or `executed-commands`.

@@ -111,7 +111,7 @@ for example "This report covers the engineering audit types.
 
 No penetration test or compliance certification was performed".
 
-Flag a `High` contributor-concentration rating from Delivery Practice & Team Continuity and any
+Flag a `High` contributor-concentration rating from Delivery Practice and any
 `Conflict` license risk from License Compliance here, one line each,
 since both are material deal-level facts a summary reader should not have to dig for.
 

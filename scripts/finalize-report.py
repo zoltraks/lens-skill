@@ -14,6 +14,10 @@ repository so the tools are found in its ``scripts/`` directory instead.
 
 Usage: python finalize-report.py [--polish] [--skill-root <dir>]
      [--model <audit-model.json>] [--state <audit-state.json>] <report.md>
+``--gate`` runs the delivery battery after the standard steps - model
+parity, declared-artifact reconciliation, git-status parity, and the
+timing placeholder check - then prints DELIVERY READY or NOT READY.
+
 ``--polish`` runs the translated-report gates instead of the English
 validator: ``link-glossary.py --lang pl``, ``lint-polish.py --rules``,
 ``check-translation.py``, then ``map-translation.py`` and the
@@ -79,6 +83,94 @@ def polish_rules(skill_root: Path | None) -> Path | None:
     return None
 
 
+def repo_root(path: Path) -> Path | None:
+    probe = subprocess.run(
+        ["git", "-C", str(path), "rev-parse", "--show-toplevel"],
+        capture_output=True, text=True, check=False,
+    )
+    return Path(probe.stdout.strip()) if probe.returncode == 0 else None
+
+
+def run_gate(
+    target: Path,
+    model: str | None,
+    state: str | None,
+    directory: Path,
+    skill_root: Path | None,
+) -> int:
+    """Delivery battery - each check prints a verdict line, then one final
+    DELIVERY READY / DELIVERY NOT READY summary."""
+    failures = 0
+    lines: list[str] = []
+
+    if model is None:
+        lines.append("GATE model: SKIPPED (no --model)")
+    else:
+        result = run(locate(directory, "check-model", skill_root),
+                     Path(model), [])
+        lines.append(f"GATE model: {'PASS' if result == 0 else 'FAIL'}")
+        failures += result != 0
+
+    if state is None:
+        lines.append("GATE artifacts: SKIPPED (no --state)")
+    else:
+        missing: list[str] = []
+        try:
+            import json
+            declared = json.loads(Path(state).read_text()).get("artifacts", [])
+        except Exception as exc:
+            lines.append(f"GATE artifacts: FAIL ({exc})")
+            declared = []
+            failures += 1
+        for entry in declared:
+            path = Path(entry.get("path", ""))
+            if not path.exists():
+                missing.append(
+                    f"{path} ({entry.get('kind','?')}, declared in "
+                    f"{entry.get('declared_phase','?')})"
+                )
+        if missing:
+            lines.append("GATE artifacts: FAIL")
+            lines += [f"  Missing artifacts: {name}" for name in missing]
+            failures += 1
+        else:
+            lines.append("GATE artifacts: PASS")
+
+    root = repo_root(target.resolve().parent)
+    if root is None:
+        lines.append("GATE git parity: SKIPPED (not a git repository)")
+    else:
+        probe = subprocess.run(
+            ["git", "-C", str(root), "status", "--porcelain"],
+            capture_output=True, text=True, check=False,
+        )
+        expected = str(target.resolve().relative_to(root))
+        unexpected = [
+            line[3:].strip()
+            for line in probe.stdout.splitlines()
+            if line[3:].strip() != expected
+            and not line[3:].strip().startswith("work/")
+        ]
+        if unexpected:
+            lines.append("GATE git parity: WARN")
+            lines += [f"  unexpected tree entry: {entry}" for entry in unexpected]
+        else:
+            lines.append("GATE git parity: PASS")
+
+    if "TT:TT" in target.read_text(encoding="utf-8", errors="replace"):
+        lines.append("GATE timing: FAIL (Time taken still TT:TT)")
+        failures += 1
+    else:
+        lines.append("GATE timing: PASS")
+
+    print("\n".join(lines))
+    verdict = "DELIVERY READY" if failures == 0 else "DELIVERY NOT READY"
+    if failures == 0 and model is None:
+        verdict += " (reduced scope - no model parity)"
+    print(verdict)
+    return 0 if failures == 0 else 1
+
+
 def main(argv: list[str]) -> int:
     arguments: list[str] = []
     skill_root: Path | None = None
@@ -104,11 +196,15 @@ def main(argv: list[str]) -> int:
             arguments.append(argument)
         index += 1
     polish = "--polish" in argv[1:]
+    gate = "--gate" in argv[1:]
+    if gate and polish:
+        print("--gate does not apply to the polish path")
+        return 1
     if skill_root is None and os.environ.get("LENS_SKILL_ROOT"):
         skill_root = Path(os.environ["LENS_SKILL_ROOT"])
     if len(arguments) != 1:
         print(
-            "Usage: python finalize-report.py [--polish] [--skill-root <dir>] "
+            "Usage: python finalize-report.py [--polish] [--gate] [--skill-root <dir>] "
             "[--model <audit-model.json>] [--state <audit-state.json>] <report.md>"
         )
         return 1
@@ -165,6 +261,8 @@ def main(argv: list[str]) -> int:
     if polish and mapped.exists():
         mapped.unlink()
     print(f"PASS {target.name} finalized")
+    if gate:
+        return run_gate(target, model, state, directory, skill_root)
     return 0
 
 

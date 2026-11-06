@@ -42,7 +42,7 @@ This file is loaded only when the report language is Polish.
 | Health Dashboard                            | 1278 | Health Dashboard guidance                   |
 | Scorecard                                   | 1289 | Scorecard guidance                          |
 | Scoring Rubrics                             | 1317 | Scoring Rubrics guidance                    |
-| Delivery Practice & Team Continuity         | 1342 | Delivery and continuity rendering           |
+| Delivery Practice         | 1342 | Delivery and continuity rendering           |
 | High-Level Observations                     | 1366 | High-Level Observations guidance            |
 | Auditing Methodology                        | 1373 | Auditing Methodology guidance               |
 | System Context                              | 1402 | System Context guidance                     |
@@ -71,7 +71,7 @@ This file is loaded only when the report language is Polish.
 | Limitations And Unknowns                    | 1822 | Limitations And Unknowns guidance           |
 | Follow-up Plan                              | 1839 | Follow-up Plan guidance                     |
 | Further Verification                        | 1854 | Further Verification guidance               |
-| Executed Evidence Log                       | 1867 | Executed Evidence Log guidance              |
+| Executed Evidence                       | 1867 | Executed Evidence guidance              |
 | Hunt Style Sections                         | 1880 | Hunt Style Sections guidance                |
 | Review Style Sections                       | 1909 | Review Style Sections guidance              |
 | Validation Protocol                         | 1951 | Validation Protocol guidance                |
@@ -1339,11 +1339,11 @@ of the selected scale:
 - `5 stars`: `Skala oceny: ★ Zła · ★★ Słaba · ★★★ Średnia · ★★★★ Dobra · ★★★★★ Doskonała`
 - `3 stars`: `Skala oceny: ★ Słaba · ★★ Średnia · ★★★ Doskonała`
 
-## Delivery Practice & Team Continuity
+## Delivery Practice
 
 | English                             | Polish                                   |
 |-------------------------------------|------------------------------------------|
-| Delivery Practice & Team Continuity | Praktyka dostarczania i ciągłość zespołu |
+| Delivery Practice | Praktyka dostarczania i ciągłość zespołu |
 | DORA metric                         | Metryka DORA                             |
 | Change lead time                    | Czas realizacji zmiany                   |
 | Deployment frequency                | Częstotliwość wdrożeń                    |
@@ -1864,11 +1864,11 @@ A `Rejestr sprzeczności` block inside this section or a standalone section in t
 The handoff lists runtime checks the operator can run to convert `Uruchomienie: nie` findings
 into executed evidence.
 
-## Executed Evidence Log
+## Executed Evidence
 
 | English               | Polish                     |
 |-----------------------|----------------------------|
-| Executed Evidence Log | Rejestr dowodów wykonanych |
+| Executed Evidence | Rejestr dowodów wykonanych |
 | Command               | Polecenie                  |
 | Version               | Wersja                     |
 | Scope                 | Zakres                     |

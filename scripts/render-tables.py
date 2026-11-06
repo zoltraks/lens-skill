@@ -127,9 +127,6 @@ def render_scorecard(model: dict, project: str | None) -> str:
             cell = "Unknown"
         else:
             cell = f"{score}/{scale_max}"
-            interval = record.get("interval")
-            if interval:
-                cell += f" [{interval[0]:g}-{interval[1]:g}]"
         rows.append(
             [DIMENSION_NAMES[ident], cell, str(record.get("note") or "-")]
         )

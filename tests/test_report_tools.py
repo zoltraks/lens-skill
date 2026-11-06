@@ -1921,7 +1921,9 @@ The lowest dimension is security.
 
 | Dimension | Score      | Notes |
 |-----------|------------|-------|
-| Security  | 5/10 [4-5] | x     |
+| Security  | 5/10       | x     |
+
+Security's interval [4-5] bounds the unresolved criteria.
 
 ## Technical Findings
 
@@ -1962,19 +1964,25 @@ The lowest dimension is security.
         self.assertEqual(self._check(), [])
 
     def test_x2_score_mismatch(self):
-        text = self.REPORT.replace("5/10 [4-5]", "6/10 [4-5]")
+        text = self.REPORT.replace("| Security  | 5/10       |", "| Security  | 6/10       |")
         fails = self._check(text)
-        self.assertTrue(any("Security" in f and "model has 5/10 [4-5]" in f
+        self.assertTrue(any("Security" in f and "model has 5/10" in f
                             for f in fails), fails)
 
     def test_x2_interval_in_report_absent_in_model(self):
         model = self._model()
         del model["scores"]["dimensions"]["security"]["interval"]
         fails = self._check(model=model)
-        self.assertTrue(any("model has 5/10" in f for f in fails), fails)
+        self.assertFalse(any("interval" in f for f in fails), fails)
+
+    def test_x2_interval_in_cell_flagged(self):
+        text = self.REPORT.replace("| Security  | 5/10       |",
+                                   "| Security  | 5/10 [4-5] |")
+        fails = self._check(text)
+        self.assertTrue(any("disclosure line" in f for f in fails), fails)
 
     def test_x2_unknown_cell_while_model_scores(self):
-        text = self.REPORT.replace("5/10 [4-5]", "Unknown")
+        text = self.REPORT.replace("| Security  | 5/10       |", "| Security  | Unknown    |")
         fails = self._check(text)
         self.assertTrue(any("Security" in f for f in fails), fails)
 
@@ -2068,7 +2076,9 @@ The lowest dimension is security.
 
 | Dimension | Score      | Notes |
 |-----------|------------|-------|
-| Security  | 5/10 [4-5] | x     |
+| Security  | 5/10       | x     |
+
+Security's interval [4-5] bounds the unresolved criteria.
 
 ## Project `cli`
 
@@ -3225,7 +3235,8 @@ class TestRenderTables(unittest.TestCase):
         self.assertEqual(
             names, ["Testability", "Design Soundness", "Security"])
         self.assertIn("Unknown", text)
-        self.assertIn("5/10 [4-5]", text)
+        self.assertIn("| Security  | 5/10/10" if False else "5/10", text)
+        self.assertNotIn("[4-5]", text.split("## ")[0])
         self.assertIn("7/10", text)
         self.assertIn("coverage too thin", text)
         self.assertNotIn("Functional Suitability", text)
@@ -3711,3 +3722,27 @@ class TestCompareModels(unittest.TestCase):
         self.assertEqual(failures, [])
         self.assertTrue(result["detail_level_mismatch"])
         self.assertIn("warning", result)
+
+class TestFinalizeGate(unittest.TestCase):
+    """--gate delivery battery verdicts."""
+
+    def test_gate_functions_exist(self):
+        mod = load_script("finalize-report.py")
+        self.assertTrue(callable(mod.run_gate))
+        self.assertTrue(callable(mod.repo_root))
+
+    def test_gate_not_ready_on_placeholder(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "report.md"
+            target.write_text("| Time taken | TT:TT |" + chr(10), encoding="utf-8")
+            mod = load_script("finalize-report.py")
+            self.assertEqual(mod.run_gate(target, None, None, SCRIPTS, None), 1)
+
+    def test_gate_ready_on_clean_state(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "report.md"
+            target.write_text("| Time taken | 12:34 |" + chr(10), encoding="utf-8")
+            mod = load_script("finalize-report.py")
+            self.assertEqual(mod.run_gate(target, None, None, SCRIPTS, None), 0)

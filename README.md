@@ -16,22 +16,22 @@
 
 | Section                            | Line | What it covers                                      |
 |------------------------------------|------|-----------------------------------------------------|
-| Overview                           | 38   | Audit purpose and standard report shape             |
-| What The Skill Does                | 88   | Update check, evidence, assessment, synthesis       |
-| Installation                       | 170  | Clone and update instructions                       |
-| Usage                              | 203  | Activation, parameters, and report delivery         |
-| Example Prompts                    | 240  | Full and focused audit requests                     |
-| Workflow Diagrams                  | 321  | ASCII and Mermaid audit pipelines                   |
-| Evidence And Decision Quality      | 381  | Evidence strength and verification limits           |
-| Core Principles                    | 440  | Evaluation constraints and status rules             |
-| Report Format                      | 456  | Report structure, identifiers, and style            |
-| When To Use This Skill             | 493  | Supported requests and exclusions                   |
-| What's Inside                      | 517  | Documents, references, tools, and conditional files |
-| Document Style                     | 705  | Pointer to the style rules file                     |
-| Specification                      | 715  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 736  | Maintenance checks and regression scenarios         |
-| License                            | 767  | License for the skill itself                        |
-| Credits                            | 773  | Authorship and attribution                          |
+| Overview                           | 36   | Audit purpose and standard report shape             |
+| What The Skill Does                | 86   | Update check, evidence, assessment, synthesis       |
+| Installation                       | 168  | Clone and update instructions                       |
+| Usage                              | 201  | Activation, parameters, and report delivery         |
+| Example Prompts                    | 238  | Full and focused audit requests                     |
+| Workflow Diagrams                  | 319  | ASCII and Mermaid audit pipelines                   |
+| Evidence And Decision Quality      | 379  | Evidence strength and verification limits           |
+| Core Principles                    | 438  | Evaluation constraints and status rules             |
+| Report Format                      | 454  | Report structure, identifiers, and style            |
+| When To Use This Skill             | 491  | Supported requests and exclusions                   |
+| What's Inside                      | 515  | Documents, references, tools, and conditional files |
+| Document Style                     | 704  | Pointer to the style rules file                     |
+| Specification                      | 714  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 735  | Maintenance checks and regression scenarios         |
+| License                            | 766  | License for the skill itself                        |
+| Credits                            | 772  | Authorship and attribution                          |
 
 ## Overview
 
@@ -52,7 +52,7 @@ section contract and the validation checks differ.
 The default output is an Audit report with twenty-two baseline sections: Document Information,
 the Audit Coverage table, Executive Summary, System Context (including the technology stack),
 a source-derived Software Bill of Materials, License Compliance, Health Dashboard,
-Delivery Practice & Team Continuity, High-Level Observations, Auditing Methodology, Scoring Rubrics,
+Delivery Practice, High-Level Observations, Auditing Methodology, Scoring Rubrics,
 Architectural Assessment, Structure Review, Solution Comparison, Strengths & What's Working,
 Technical Findings with theoretical exploitability narratives on serious security findings,
 Unified Risk Register, Remediation Roadmap, Scope Exclusions, Known Limitations,
@@ -636,6 +636,7 @@ lens-skill/
 │   ├── language-conventions.md            # Per-ecosystem style yardstick snapshot for code style
 │   ├── sbom-schema.md                     # Report-level source-derived component inventory schema
 │   ├── license-compliance.md              # License classes, copyleft, notices, ownership checks
+│   ├── delivery-checklist.md              # Authored-side delivery checklist and gate contract
 │   ├── delivery-practice.md               # DORA proxies, bus-factor rubric, continuity evidence
 │   ├── exploitability-narrative.md        # Theoretical attack-path narrative format and tiers
 │   ├── agent-skills.md                    # Agent Skills specification corpus, live-check baseline

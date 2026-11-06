@@ -190,7 +190,7 @@
   {
    "id": 15,
    "prompt": "Audit this repository, which has nine months of git history, quarterly release tags, a single dominant commit author, and no CI pipeline or incident data. Assess delivery health.",
-   "expected_output": "A Delivery Practice & Team Continuity section that reports source-derived DORA proxies, marks telemetry-dependent metrics NOT SPECIFIED, and rates key-person concentration.",
+   "expected_output": "A Delivery Practice section that reports source-derived DORA proxies, marks telemetry-dependent metrics NOT SPECIFIED, and rates key-person concentration.",
    "files": [],
    "expectations": [
     "All five DORA metrics appear: change lead time, deployment frequency, failed deployment recovery time, change fail rate, and deployment rework rate.",
@@ -715,7 +715,7 @@
   {
    "id": 59,
    "prompt": "Audit this repository whose git history shows a single dominant author. Report the delivery practice.",
-   "expected_output": "A Delivery Practice & Team Continuity section whose concentration rating uses the fixed-vocabulary tokens.",
+   "expected_output": "A Delivery Practice section whose concentration rating uses the fixed-vocabulary tokens.",
    "files": [],
    "expectations": [
     "The bus-factor concentration rating renders as `HIGH`, `MODERATE`, or `LOW` in uppercase, matching `NOT SPECIFIED` and `NOT COLLECTED` usage.",
@@ -826,7 +826,7 @@
    "files": [],
    "expectations": [
     "Document Information records Evidence Mode as executed-readonly.",
-    "The report carries an Executed Evidence Log naming each command, version, scope, and exit status.",
+    "The report carries an Executed Evidence naming each command, version, scope, and exit status.",
     "Runtime fields on findings appear only for behaviors the recorded execution actually exercised.",
     "Findings not exercised by execution carry no Runtime field rather than an unverified claim.",
     "Scanner or test output is never presented as proof of exploitability or application behavior."

@@ -14,7 +14,7 @@ Follow it after Synthesis.
 | Section                      | Line | What it covers               |
 |------------------------------|------|------------------------------|
 | Validation                   | 20   | Validation                   |
-| Evidence And Decision Checks | 326  | Evidence And Decision Checks |
+| Evidence And Decision Checks | 334  | Evidence And Decision Checks |
 
 
 ## Validation
@@ -138,7 +138,7 @@ and that the field is omitted on every other finding.
 Confirm no narrative claims a tier above the evidence,
 `Dynamically-Verified` under the default scope is a defect.
 
-Confirm the Delivery Practice & Team Continuity section is present per project:
+Confirm the Delivery Practice section is present per project:
 computable metrics are labeled as proxies, unmeasurable metrics are `Not specified` with reasons,
 and the bus-factor rating carries its commit-share, contributor-count, and window basis.
 
@@ -216,7 +216,7 @@ equals the reported mean after the documented rounding rule.
 Confirm no summary table promotes a finding's verification status beyond what its block carries.
 A finding without a `Runtime` field cannot appear as verified in any summary.
 
-Under `executed-readonly`, confirm the Executed Evidence Log lists every executed check with tool,
+Under `executed-readonly`, confirm the Executed Evidence lists every executed check with tool,
 version, exact command, and timestamp, and that the report claims no build, test, or project run.
 
 Under `executed-commands`, confirm the same provenance in the log or Execution Register and that
@@ -288,6 +288,14 @@ start, and confirm they were removed or sit inside `work/` before reporting done
 disposable lands in a tracked directory.
 
 Run the Mandatory Core Checklist and Consistency Gate in `process/report-parity.md`.
+
+Run the delivery gate as the last operation before the completion message -
+`finalize-report.py --gate --model work/audit-model.json --state
+work/audit-state.json` - and deliver only on `DELIVERY READY`.
+
+The authored-side checklist in `references/delivery-checklist.md` consolidates
+what the validator enforces - run it against the assembled report before the
+gate so the gate confirms, never discovers.
 
 Write the Known Limitations and Validation Protocol sections from their outcome.
 
