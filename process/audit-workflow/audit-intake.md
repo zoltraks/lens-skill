@@ -9,8 +9,8 @@
 
 This file is a phase of the audit workflow indexed by `process/audit-workflow.md`.
 
-Follow it at the start of every audit. Confirm completeness against the Intake Checklist in
-`process/audit-workflow.md`.
+Follow it at the start of every audit.
+Confirm completeness against the Intake Checklist in `process/audit-workflow.md`.
 
 On completion, proceed to `process/audit-workflow/parameter-phase.md`.
 
@@ -29,9 +29,9 @@ On completion, proceed to `process/audit-workflow/parameter-phase.md`.
 | External Report Discovery                 | 286  | External Report Discovery                 |
 | Agent-facing Artifact Discovery           | 295  | Agent-facing Artifact Discovery           |
 | Project Identification                    | 342  | Project Identification                    |
-| Automation Signal Census                  | 423  | Automation Signal Census                  |
-| Stack And Subject Classification          | 443  | Stack And Subject Classification          |
-| Audit Mode And Previous Reports           | 490  | Audit Mode And Previous Reports           |
+| Automation Signal Census                  | 424  | Automation Signal Census                  |
+| Stack And Subject Classification          | 444  | Stack And Subject Classification          |
+| Audit Mode And Previous Reports           | 491  | Audit Mode And Previous Reports           |
 
 
 ## Intake
@@ -386,7 +386,8 @@ Parameter Configuration.
 **Gate** - `project-inclusion`: a blocking decision gate per `process/decision-modes.md`,
 presenting a checkbox-style multi-select list of every identified project with its path and kind.
 
-The gate is multi-select by definition. Every listed project must be selectable at once,
+The gate is multi-select by definition.
+Every listed project must be selectable at once,
 so an all-inclusive answer is a first-class outcome, never an `Other` escape.
 
 When the question tooling exposes a multi-select or checkbox mode,
@@ -582,9 +583,9 @@ Recover the language output from the sibling files themselves - `<stem>-<LANG>` 
 
 The recovered language output is proposed on every mode that exists alongside a discovered pair -
 re-audit, fresh audit, and style-family switch alike - and the pair survives the switch:
-a `HUNT` pair followed by an `audit` -style report ships `AUDIT-<revision>-EN.md` plus the same
-second language. Name the resolved set in the parameter summary,
-or in the decisions list on an automated run.
+a `HUNT` pair followed by an `audit` -style report ships `AUDIT-<revision>-EN.md` plus the
+same second language.
+Name the resolved set in the parameter summary, or in the decisions list on an automated run.
 
 A report style named in the request always wins over the recovered style - a request for a general
 audit report proposes `audit` even when the previous report was a `hunt` or `review`.

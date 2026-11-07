@@ -36,8 +36,8 @@ Root files govern the repository itself: `SKILL.md`, `README.md`, `AGENTS.md`, a
 The `docs/` directory holds the governance documents (`README.md`, `STYLE.md`, `MAINTENANCE.md`,
 `VERSIONING.md`, `CONTRIBUTING.md`, `SECURITY.md`).
 
-Root `docs/` is repository governance. It is unrelated to the `docs/audit/` report-location
-convention in audited projects.
+Root `docs/` is repository governance.
+It is unrelated to the `docs/audit/` report-location convention in audited projects.
 
 Keep resource files one level deep under their directory.
 

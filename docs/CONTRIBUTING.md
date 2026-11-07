@@ -62,7 +62,8 @@ Bump `metadata.version` per `VERSIONING.md`.
 Every shipped change set increments the patch component once,
 at the point the set is complete and validated.
 
-Releases are anchored by the commit that bumps `metadata.version`. No git tags are used.
+Releases are anchored by the commit that bumps `metadata.version`.
+No git tags are used.
 
 ## Commit Messages
 

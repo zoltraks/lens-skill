@@ -304,6 +304,9 @@ def main(path, width, payload_markdown):
             if ";" in prose and not line.startswith("|"):
                 issues.append(f"line {n}: semicolon in prose")
 
+            if re.search(r"\*\* \S[^*]*\S \*\*", line):
+                issues.append(f"line {n}: spaced bold markers render literally")
+
             if not line.lstrip().startswith("|") \
                     and line.rstrip().endswith("|"):
                 issues.append(

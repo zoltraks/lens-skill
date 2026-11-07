@@ -187,6 +187,9 @@ Use blank lines between list items when the items are long or contain multiple s
 
 A list item may carry multiple sentences when they express a single point.
 
+List items carry no terminal punctuation - no trailing semicolon or period,
+unless the item is a full sentence that ends with one.
+
 Put one blank line between a parent list item and its nested sublist.
 
 For nested lists, indent the sublist to the parent item.
@@ -525,10 +528,10 @@ The `SKILL.md` file must contain YAML frontmatter followed by Markdown content.
 
 Required frontmatter fields:
 
-- ** `name` ** - 1-64 characters, lowercase letters and hyphens only,
+- **`name`** - 1-64 characters, lowercase letters and hyphens only,
   must not start or end with a hyphen, must not contain consecutive hyphens,
   must match the parent directory name.
-- ** `description` ** - 1-1024 characters, non-empty,
+- **`description`** - 1-1024 characters, non-empty,
   describes what the skill does and when to use it, should include specific trigger keywords.
 
 Optional frontmatter fields:

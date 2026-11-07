@@ -324,6 +324,292 @@ def compute_headline(dims, scale_max, critical_open, high_open, readiness_state)
     return {"product": product, "process": process, "single": single}
 
 
+def fix_model(model: dict, catalogue: dict | None = None) -> list[str]:
+    """Fill every mechanically computable record in a model in place.
+
+    The fixer mirrors `check_model`'s recomputation so a model written by
+    `--fix` passes cleanly: criteria `mastery` from the declared level,
+    mechanical criteria levels from the requirements coverage, the frozen
+    `requirements_baseline` digest, `scores.dimensions` records including
+    triggered caps and substitution intervals, and the
+    `product`/`process`/`single` or `per_project` headline records.
+
+    Returns a list of human-readable change descriptions.
+    """
+    changes: list[str] = []
+    scope = model.get("scope", {})
+    criteria = model.get("criteria", [])
+    evidence = model.get("evidence", [])
+    findings = model.get("findings", [])
+    requirements = model.get("requirements", [])
+    scores = model.setdefault("scores", {})
+    scale_max = scores.get("scale_max", 10)
+    if scale_max not in SCALES:
+        scale_max = 10
+        scores["scale_max"] = 10
+        changes.append("scores.scale_max set to 10")
+
+    projects = scope.get("projects", [])
+    named = {
+        p["name"] for p in projects if isinstance(p, dict) and p.get("name")
+    }
+    multi = len(named) >= 2
+
+    # Criteria mastery from the declared level.
+    for c in criteria:
+        level = c.get("level")
+        outcome = c.get("outcome")
+        if level in LEVEL_VALUES and outcome in RESOLVED:
+            want = float(LEVEL_VALUES[level])
+            if c.get("mastery") != want:
+                changes.append(
+                    f"{c.get('id')}: mastery {c.get('mastery')!r} -> {want:g}"
+                )
+                c["mastery"] = want
+        elif outcome == "PASS" and c.get("mastery") != 1.0:
+            changes.append(f"{c.get('id')}: mastery set to 1.0")
+            c["mastery"] = 1.0
+        elif outcome == "FAIL" and c.get("mastery") != 0.0:
+            changes.append(f"{c.get('id')}: mastery set to 0.0")
+            c["mastery"] = 0.0
+        elif outcome in ("PARTIAL",) and not isinstance(c.get("mastery"), (int, float)):
+            c["mastery"] = 0.5
+            changes.append(f"{c.get('id')}: mastery defaulted to 0.5")
+
+    # Requirements baseline digest.
+    if requirements:
+        digest = hashlib.sha256(
+            "\n".join(
+                sorted(
+                    f"{r.get('id')}:{r.get('obligation')}"
+                    for r in requirements
+                )
+            ).encode("utf-8")
+        ).hexdigest()
+        if scope.get("requirements_baseline") != digest:
+            scope["requirements_baseline"] = digest
+            changes.append("scope.requirements_baseline recomputed")
+
+    # Mechanical criteria (e.g. FNC-REQ) from requirements coverage.
+    cat_entries = {
+        e.get("id"): e
+        for e in (catalogue or {}).get("criteria", [])
+        if isinstance(e, dict)
+    }
+    if cat_entries and requirements:
+        req_values = {"PASS": Fraction(1), "PARTIAL": Fraction(1, 2),
+                      "FAIL": Fraction(0)}
+        mandatory = [
+            r for r in requirements if r.get("obligation") == "mandatory"
+        ]
+        graded = [r for r in mandatory if r.get("status") != "UNKNOWN"]
+        n_req, g_req = len(mandatory), len(graded)
+        coverage_req = (
+            sum((req_values.get(r.get("status"), Fraction(0)) for r in graded),
+                Fraction(0)) / g_req
+            if g_req else Fraction(0)
+        )
+        if n_req == 0:
+            computed = "NOT_APPLICABLE"
+        elif g_req * 2 <= n_req:
+            computed = "UNKNOWN"
+        else:
+            computed = "FAIL"
+            for bound, level in (
+                (Fraction(19, 20), "PASS"), (Fraction(17, 20), "P75"),
+                (Fraction(7, 10), "P50"), (Fraction(1, 2), "P25"),
+            ):
+                if coverage_req >= bound:
+                    computed = level
+                    break
+        for c in criteria:
+            if c.get("channel") != "score":
+                continue
+            entry = cat_entries.get(c.get("catalogue_id"))
+            if not isinstance(entry, dict) or not entry.get("mechanical"):
+                continue
+            if computed in LEVEL_VALUES:
+                if c.get("level") != computed:
+                    changes.append(
+                        f"{c.get('id')}: level {c.get('level')!r} -> "
+                        f"{computed} (coverage {float(coverage_req):.3f})"
+                    )
+                    c["level"] = computed
+                if c.get("outcome") != LEVEL_OUTCOME[computed]:
+                    c["outcome"] = LEVEL_OUTCOME[computed]
+                    changes.append(f"{c.get('id')}: outcome -> {c['outcome']}")
+                want = float(LEVEL_VALUES[computed])
+                if c.get("mastery") != want:
+                    c["mastery"] = want
+            elif computed == "NOT_APPLICABLE":
+                c["outcome"] = "NOT_APPLICABLE"
+                c["level"] = None
+                c["mastery"] = None
+                c["na_basis"] = "deployment-model"
+                c["applicability"] = FNC_REQ_APPLICABILITY
+                changes.append(f"{c.get('id')}: marked NOT_APPLICABLE")
+            else:
+                c["outcome"] = computed
+                c["level"] = None
+                c["mastery"] = None
+                changes.append(f"{c.get('id')}: outcome -> {computed}")
+
+    # Evidence backing and bounding findings.
+    backing: dict[str, set[str]] = {}
+    for e in evidence:
+        for claim in e.get("claims", []):
+            backing.setdefault(claim, set()).add(e.get("kind"))
+    bounding = [
+        f for f in findings
+        if f.get("status") == "Open"
+        and f.get("claim_class") in BOUNDING_CLASSES
+    ]
+    crit_dim = {c.get("id"): c.get("dimension", "<none>") for c in criteria}
+
+    dimensions: dict[str, list[dict]] = {}
+    for c in criteria:
+        if c.get("channel") == "score":
+            dimensions.setdefault(c.get("dimension", "<none>"), []).append(c)
+
+    cap_limits = CAP_LIMITS[scale_max]
+    dims = scores.get("dimensions")
+    if not isinstance(dims, dict):
+        dims = {}
+        scores["dimensions"] = dims
+        changes.append("scores.dimensions created")
+    recomputed: dict[str, dict] = {}
+    for dim, cs in dimensions.items():
+        applicable, mastery, lo, hi, coverage, eligible = recompute_dimension(
+            cs, backing
+        )
+        if not applicable:
+            if dim in dims:
+                del dims[dim]
+                changes.append(f"dimension '{dim}': record removed (inapplicable)")
+            continue
+        if not eligible:
+            sub_lo = scale_score(lo, scale_max) if lo is not None else 1
+            sub_hi = scale_score(hi, scale_max) if hi is not None else scale_max
+            record = {
+                "mastery": None, "uncapped": None, "score": None,
+                "interval": [sub_lo, sub_hi] if sub_lo != sub_hi else None,
+                "coverage": round(float(coverage), 4), "eligible": False,
+                "caps": [],
+            }
+            if dims.get(dim) != record:
+                dims[dim] = record
+                changes.append(f"dimension '{dim}': marked ineligible")
+            recomputed[dim] = {
+                "eligible": False, "score": None, "lo": sub_lo, "hi": sub_hi,
+            }
+            continue
+        triggers = {
+            "severity-critical": sorted(
+                f.get("id") for f in bounding
+                if f.get("severity") == "CRITICAL"
+                and crit_dim.get(f.get("criteria")) == dim
+            ),
+            "severity-high": sorted(
+                f.get("id") for f in bounding
+                if f.get("severity") == "HIGH"
+                and crit_dim.get(f.get("criteria")) == dim
+            ),
+            "material-unknown": sorted(
+                c.get("id") for c in cs
+                if c.get("criticality") in ("critical", "high")
+                and c.get("outcome") in ("UNKNOWN", "NOT_ASSESSED")
+            ),
+        }
+        caps = [
+            {"rule": rule, "limit": cap_limits[rule], "source": triggered}
+            for rule in MECHANICAL_CAPS if triggers[rule]
+        ]
+        capmin = min(cap["limit"] for cap in caps) if caps else None
+        uncapped = scale_score(mastery, scale_max)
+        expected_score = (
+            min(uncapped, capmin) if capmin is not None else uncapped
+        )
+        lo_s = scale_score(lo, scale_max)
+        hi_s = scale_score(hi, scale_max)
+        if capmin is not None:
+            lo_s, hi_s = min(lo_s, capmin), min(hi_s, capmin)
+        record = {
+            "mastery": round(float(mastery), 4),
+            "uncapped": uncapped,
+            "score": expected_score,
+            "interval": [lo_s, hi_s] if lo_s != hi_s else None,
+            "coverage": round(float(coverage), 4),
+            "eligible": True,
+            "caps": caps,
+        }
+        if dims.get(dim) != record:
+            dims[dim] = record
+            changes.append(f"dimension '{dim}': score record recomputed")
+        recomputed[dim] = {
+            "eligible": True, "score": expected_score, "lo": lo_s, "hi": hi_s,
+        }
+
+    # Headline records per scoring scope.
+    def project_dims(prefix):
+        leaf = {}
+        for d in CANONICAL_DIMENSIONS:
+            key = f"{prefix}.{d}" if prefix is not None else d
+            entry = recomputed.get(key)
+            if entry is not None:
+                leaf[d] = {"applicable": True, **entry}
+        return leaf
+
+    def project_open(prefix):
+        critical = high = False
+        for f in bounding:
+            if prefix is not None:
+                dim = crit_dim.get(f.get("criteria"))
+                if not isinstance(dim, str) or not dim.startswith(prefix + "."):
+                    continue
+            if f.get("severity") == "CRITICAL":
+                critical = True
+            if f.get("severity") == "HIGH":
+                high = True
+        return critical, high
+
+    readiness = model.get("readiness", {})
+    readiness = readiness if isinstance(readiness, dict) else {}
+    if multi:
+        for key in ("product", "process", "single"):
+            if key in scores:
+                del scores[key]
+                changes.append(f"scores.{key} removed (multi-project model)")
+        per_project = scores.get("per_project")
+        if not isinstance(per_project, dict):
+            per_project = {}
+            scores["per_project"] = per_project
+        readiness_pp = readiness.get("per_project", {})
+        readiness_pp = readiness_pp if isinstance(readiness_pp, dict) else {}
+        for name in sorted(named):
+            critical, high = project_open(name)
+            state = readiness_pp.get(name, {}).get("state")
+            expected = compute_headline(
+                project_dims(name), scale_max, critical, high, state
+            )
+            if per_project.get(name) != expected:
+                per_project[name] = expected
+                changes.append(f"per_project[{name}]: headline recomputed")
+    else:
+        if "per_project" in scores:
+            del scores["per_project"]
+            changes.append("scores.per_project removed (single-project model)")
+        critical, high = project_open(None)
+        state = readiness.get("state")
+        expected = compute_headline(
+            project_dims(None), scale_max, critical, high, state
+        )
+        for key, record in expected.items():
+            if scores.get(key) != record:
+                scores[key] = record
+                changes.append(f"scores.{key} recomputed")
+    return changes
+
+
 def check_model(model: dict, catalogue: dict | None = None) -> list[str]:
     failures: list[str] = []
     for key in TOP_LEVEL:
@@ -1187,6 +1473,14 @@ def main(argv: list[str]) -> int:
     parser.add_argument(
         "--json", action="store_true", help="emit failures as JSON instead of text"
     )
+    parser.add_argument(
+        "--fix",
+        action="store_true",
+        help="recompute mechanically derived records (criteria mastery, "
+        "mechanical criteria, requirements baseline, dimension scores, and "
+        "the product/process/single or per_project headline) in place, then "
+        "run the check",
+    )
     args = parser.parse_args(argv)
 
     path = Path(args.model)
@@ -1201,6 +1495,18 @@ def main(argv: list[str]) -> int:
     if not isinstance(model, dict):
         print("check-model: top-level value is not an object", file=sys.stderr)
         return 2
+
+    if args.fix:
+        changes = fix_model(model, load_catalogue())
+        if changes:
+            path.write_text(
+                json.dumps(model, indent=1) + "\n", encoding="utf-8"
+            )
+            print(f"check-model --fix: {len(changes)} change(s)")
+            for change in changes:
+                print(f"  FIX {change}")
+        else:
+            print("check-model --fix: model already consistent")
 
     failures = check_model(model)
     if args.json:

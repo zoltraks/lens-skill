@@ -54,8 +54,9 @@ or output timestamps - when none exists, the note says so instead of guessing.
 
 While a backgrounded command runs past about a minute,
 the agent reports progress roughly every 60 seconds - the output printed since the last note
-aggregated into one short line carrying the current stage, items done of the total,
-and warnings seen. A poll that finds no new output still earns a brief "still in <stage>" line.
+aggregated into one short line carrying the current stage, items done of the
+total, and warnings seen.
+A poll that finds no new output still earns a brief "still in <stage>" line.
 
 ## Agent Identity
 

@@ -31,7 +31,8 @@ The informational mode never triggers this emission - it arms only the elapsed-t
 The emission order is fixed: the JSON document first,
 then a text description of the pending decisions, then the question menus.
 
-The question menus still run. The emitted document does not replace the question flow.
+The question menus still run.
+The emitted document does not replace the question flow.
 
 Answers may still arrive as menu selections, natural-language responses, or a returned document.
 

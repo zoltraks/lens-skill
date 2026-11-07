@@ -20,17 +20,17 @@ On completion, proceed to `process/audit-workflow/scope-definition.md`.
 | Saved Parameters (`work/lens-params.json`) | 167  | Saved Parameters (`work/lens-params.json`) |
 | Parameter Prompts                          | 192  | Parameter Prompts                          |
 | Delivery And Output File                   | 220  | Delivery And Output File                   |
-| Previous Report Files                      | 371  | Previous Report Files                      |
-| Report Language                            | 391  | Report Language                            |
-| Report Style                               | 413  | Report Style                               |
+| Previous Report Files                      | 372  | Previous Report Files                      |
+| Report Language                            | 392  | Report Language                            |
+| Report Style                               | 414  | Report Style                               |
 | Project Layout                             | ?    | Project Layout                             |
-| Evidence Mode                              | 447  | Evidence Mode                              |
-| Detail Level                               | 485  | Detail Level                               |
-| Evaluation Scale                           | 501  | Evaluation Scale                           |
-| Improvement Suggestions                    | 530  | Improvement Suggestions                    |
-| Trade-off Analysis                         | 543  | Trade-off Analysis                         |
-| Descriptive Mode                           | 555  | Descriptive Mode                           |
-| Bypass Rule                                | 569  | Bypass Rule                                |
+| Evidence Mode                              | 448  | Evidence Mode                              |
+| Detail Level                               | 486  | Detail Level                               |
+| Evaluation Scale                           | 502  | Evaluation Scale                           |
+| Improvement Suggestions                    | 531  | Improvement Suggestions                    |
+| Trade-off Analysis                         | 544  | Trade-off Analysis                         |
+| Descriptive Mode                           | 556  | Descriptive Mode                           |
+| Bypass Rule                                | 570  | Bypass Rule                                |
 
 
 ## Parameter Configuration
@@ -222,8 +222,9 @@ Advanced parameters use their defaults unless explicitly specified.
 Documentation roots are `docs/`, `document/`, and `doc/`, checked in that order,
 and each may contain `audit/`, `report/`, or review-family (`review/`, `reviews/`) subdirectories.
 
-Before asking, consume the base output directory recorded during Output Location Discovery at
-intake. When intake did not record one, resolve it using the following rules,
+Before asking, consume the base output directory recorded during Output Location
+Discovery at intake.
+When intake did not record one, resolve it using the following rules,
 applied in order against the root of the repository or directory being audited:
 
 1. For a `review` -style report, if any `<root>/review/` or `<root>/reviews/` directory exists,
@@ -414,12 +415,12 @@ per `principles/output-style.md`.
 
 Ask: "Which report style should the report use?"
 
-- ** `audit` ** (default) - the governance contract defined across `process/report-format/`:
+- **`audit`** (default) - the governance contract defined across `process/report-format/`:
   per-project assurance blocks, scorecard, risk and debt registers, validation record.
-- ** `hunt` ** - the defect-hunt genre defined in `process/report-format/hunt-style.md`:
+- **`hunt`** - the defect-hunt genre defined in `process/report-format/hunt-style.md`:
   a verdict-first, domain-organized engineering report with `file:line` evidence, journey traces,
   breaking-change assessment, and a phase-mapped roadmap.
-- ** `review` ** - the execution-oriented genre defined in `process/report-format/review-style.md`:
+- **`review`** - the execution-oriented genre defined in `process/report-format/review-style.md`:
   a run register of commissioned checks with per-check status, evidence levels,
   a verdict with permitted-use gates, and a retest register.
 
@@ -456,15 +457,15 @@ Under `Accept defaults` it is never asked and the default applies.
 Apply `executed-readonly` or `executed-commands` only when the user explicitly commissions the mode
 - through this prompt's answer or a statement in the request.
 
-- ** `source-only` ** (default) - the audit executes nothing: no build, test, linter, scanner,
+- **`source-only`** (default) - the audit executes nothing: no build, test, linter, scanner,
   or generator runs against the project, and verification steps become Further Verification entries.
-- ** `executed-readonly` ** - additionally runs non-mutating, read-only analyzers the user names,
+- **`executed-readonly`** - additionally runs non-mutating, read-only analyzers the user names,
   such as dependency advisory or policy scanners (`cargo audit`, `cargo deny check`).
   The project itself is still never built, tested, or run,
   no tool is installed or upgraded for the audit,
-  and every executed check is recorded in the Executed Evidence with tool, version,
-  exact command, and timestamp per `process/report-format/report-closing.md`.
-- ** `executed-commands` ** - additionally runs the explicitly commissioned non-mutating commands
+  and every executed check is recorded in the Executed Evidence with tool, version, exact command,
+  and timestamp per `process/report-format/report-closing.md`.
+- **`executed-commands`** - additionally runs the explicitly commissioned non-mutating commands
   the user names, which may include test suites, builds, lint, typecheck, coverage runs,
   and isolated reproduction harnesses. The subject is still never deployed, mutated,
   or connected to live systems, no tool is installed or upgraded unless the user commissioned it,

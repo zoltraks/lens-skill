@@ -10,7 +10,7 @@
 | Section              | Line | What it covers                             |
 |----------------------|------|--------------------------------------------|
 | Auditing Methodology | 15   | Method, standards, criteria matrix, ledger |
-| Scoring Rubrics      | 304  | Score bands, grouping, ISO crosswalk       |
+| Scoring Rubrics      | 306  | Score bands, grouping, ISO crosswalk       |
 
 ## Auditing Methodology
 
@@ -162,7 +162,8 @@ examined, so a reader can tell what absence of a finding means:
 Read-depth values: `Full read` (every file read), `Sampled` (named subset read,
 the sampling rule stated), or `Listed` (counted but not read).
 
-A `Listed` area supports no conformance claim. Mark its categories `Unknown` where applicable.
+A `Listed` area supports no conformance claim.
+Mark its categories `Unknown` where applicable.
 
 A `Sampled` or `Listed` row on an area an activated probe or applicable check touches needs a
 one-line justification under the table - the floor rule in
@@ -228,9 +229,10 @@ so a re-audit or a reader can reproduce the numbers:
 <command or pattern per reported figure, one per line>
 ```
 
-Shell pipelines stay verbatim. A figure produced by reading, not a command,
-is named by its method instead. The block is the report-level view of the recording rule in
-`references/census-commands.md` - the ledger still carries the per-figure method.
+Shell pipelines stay verbatim.
+A figure produced by reading, not a command, is named by its method instead.
+The block is the report-level view of the recording rule in `references/census-commands.md` - the
+ledger still carries the per-figure method.
 
 Omit the block when no census commands ran or when the only figures are file reads.
 
@@ -354,7 +356,8 @@ for empty positions, such as `★★★☆☆` for `3`.
 
 For `3 stars`, use three positions, such as `★★☆` for `2`.
 
-Render `Unknown` as text, not as a star bar. `N/A` rows are omitted from the table entirely.
+Render `Unknown` as text, not as a star bar.
+`N/A` rows are omitted from the table entirely.
 
 **Zero is not a score.** The value `0` is reserved and never used.
 

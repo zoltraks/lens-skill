@@ -75,12 +75,12 @@ Keep conflicting readings as both readings with their evidence - never silently 
 The parent writes scout results into `work/audit-model.json` itself - the canonical model keeps a
 single writer even under delegation.
 
-Each scout report also lands verbatim under `work/` on receipt, before the parent folds it -
-delegated evidence survives context-window summarization intact.
+Each scout report also lands verbatim under `work/` on receipt,
+before the parent folds it - delegated evidence survives context-window summarization intact.
 
-A contested scout claim is verified against repository state before it enters the model - an
-absence claim resolves through `git ls-files` or a direct read, and a claim that a command is
-unreachable resolves by running it in the parent session.
+A contested scout claim is verified against repository state before it enters the model - an absence
+claim resolves through `git ls-files` or a direct read,
+and a claim that a command is unreachable resolves by running it in the parent session.
 
 When two scouts surface the same defect,
 the findings register carries one row with the merged evidence references per

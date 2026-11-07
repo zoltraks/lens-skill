@@ -18,7 +18,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.7.3"
+  version: "2.7.4"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -43,10 +43,10 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 | Translations            | 213  | Per-language report translations                   |
 | References              | 224  | Lookup tables                                      |
 | Scripts                 | 253  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 285  | Behavioral regression prompts                      |
-| Repository Files        | 289  | Housekeeping files governing this repository       |
-| Evidence Contract       | 301  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 330  | File-selection and section-placement rules         |
+| Evaluation Prompts      | 287  | Behavioral regression prompts                      |
+| Repository Files        | 291  | Housekeeping files governing this repository       |
+| Evidence Contract       | 303  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 332  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -143,14 +143,14 @@ resolution rules, and re-audit parameters live in `process/parameter-configurati
 
 ## `principles/` - Rules Of Evaluation
 
-- ** `principles/evaluation-rules.md` ** - Evidence-only reasoning, no assumptions, neutrality,
+- **`principles/evaluation-rules.md`** - Evidence-only reasoning, no assumptions, neutrality,
   status markers, absent-capability assessment.
 - **`principles/output-style.md`** - Tone, fixed vocabularies, consistency, determinism.
 
 ## `process/` - Audit Process
 
 - **`process/audit-workflow.md`** - Audit workflow index: phase order, checklists, variants.
-- ** `process/audit-workflow/` ** - Per-phase workflow files,
+- **`process/audit-workflow/`** - Per-phase workflow files,
   mapped in the index's Step Overview table.
 - **`process/audit-model.md`** - Evidence-to-finding pipeline and the canonical audit model.
 - **`process/decision-modes.md`** - Interaction-mode matrix: interactive and automated resolution.
@@ -167,17 +167,17 @@ resolution rules, and re-audit parameters live in `process/parameter-configurati
 - **`process/report-format/report-analysis.md`** - Solution Comparison, Threat Model.
 - **`process/report-format/conditional-conformance.md`** - Conditional conformance sections.
 - **`process/report-format/findings-registers.md`** - Strengths, findings, debt, risk, roadmap.
-- ** `process/report-format/report-closing.md` ** - Exclusions, Limitations,
+- **`process/report-format/report-closing.md`** - Exclusions, Limitations,
   Validation, Reference Sources.
 - **`process/report-format/code-style.md`** - Code Style section spec.
 - **`process/report-format/hunt-style.md`** / **`review-style.md`** - `hunt` and `review` styles.
 - **`process/report-format/structure-review.md`** - Structure Review variant contract.
 - **`process/json-exchange.md`** - JSON parameter documents for intake question surfaces.
-- ** `process/operation-timing.md` ** - Timing under verbose, informational,
+- **`process/operation-timing.md`** - Timing under verbose, informational,
   diagnostic, or timing modes.
 - **`process/parameter-configuration.md`** - Parameter surfaces, defaults, and resolution rules.
 - **`process/parallel-execution.md`** - Delegated read-only scout model for large audit surfaces.
-- ** `process/housekeeping.md` ** - Self-repository upkeep: registration, coverage,
+- **`process/housekeeping.md`** - Self-repository upkeep: registration, coverage,
   workspace, validation.
 - **`process/self-healing.md`** - The evidence-gated self-repair loop for this skill.
 - **`process/development.md`** - Standby-for-specification mode for developing this skill.
@@ -203,11 +203,11 @@ inclusion criteria in `process/report-format.md`.
 - **`synthesis/risk-register.md`** - Unified risk register: `RSK-[001]` to `FND-XXX` findings.
 - **`synthesis/project-scorecard.md`** - 1-10 scorecard, rubric, scales (1-5, 1-3, star bars).
 - **`synthesis/solution-comparison.md`** - Trade-offs as a standalone section and embedded findings.
-- ** `synthesis/remediation-roadmap.md` ** - Prioritized roadmap with impact-vs-effort matrix and
+- **`synthesis/remediation-roadmap.md`** - Prioritized roadmap with impact-vs-effort matrix and
   the Recommended/Optional/Not recommended classification.
 - **`synthesis/debt-register.md`** - `TDR-[001]` inventory (CISQ/SQALE), for structural debt.
 - **`synthesis/reaudit-plan.md`** - Verification owners, sign-off gates, P1/P2 findings.
-- ** `synthesis/report-comparison.md` ** / ** `report-triangulation.md` ** - Re-audit discovery and
+- **`synthesis/report-comparison.md`** / **`report-triangulation.md`** - Re-audit discovery and
   second-opinion rules for prior or external reports.
 
 ## `translations/` - Report Languages
@@ -217,7 +217,7 @@ Load the matching file when the report language is not English.
 Analysis runs in English and the report renders into the report language in a single pass,
 per `principles/output-style.md`:
 
-- ** `translations/polish-language.md` ** - Polish rendering: vocabulary, terminology, style rules.
+- **`translations/polish-language.md`** - Polish rendering: vocabulary, terminology, style rules.
   Large file - read the vocabulary and style sections first,
   then resolve each section block by heading as the report emits it.
 
@@ -232,7 +232,7 @@ Load these during intake, assessment, and report writing when the stack or findi
 - **`references/audit-taxonomy.md`** - Audit types, coverage statuses, methodology corpus.
 - **`references/evidence-schema.md`** - Evidence kinds, outcome states, sufficiency, coverage.
 - **`references/criteria-catalogue.md`** - Criteria records, families, applicability freeze.
-- ** `references/criteria-catalogue.json` ** - Fixed scoring-policy-3 criteria catalogue (levels,
+- **`references/criteria-catalogue.json`** - Fixed scoring-policy-3 criteria catalogue (levels,
   dimension order/tiers, criteria weights, severity anchors).
 - **`references/organization-model.md`** - Area map and responsibility inventory method.
 - **`references/naming-and-layout.md`** - Naming matrices, code-division rules, 11-stack fixtures
@@ -246,7 +246,7 @@ Load these during intake, assessment, and report writing when the stack or findi
 - **`references/exploitability-narrative.md`** - Attack-path narrative format and tiers.
 - **`references/agent-skills.md`** - Agent Skills spec corpus and live-check baseline.
 - **`references/agent-configuration.md`** - AGENTS.md, rules, plugin, MCP, guidance-set baselines.
-- ** `references/source-catalog.md` ** - Authoritative external-source registry and corpus index -
+- **`references/source-catalog.md`** - Authoritative external-source registry and corpus index -
   grep the catalog row needed rather than loading it whole.
 - **`references/stacks/`** / **`methodology/`** / **`topics/`** - digests, see `source-catalog.md`.
 
@@ -259,19 +259,21 @@ the copies when done.
 
 - **`scripts/format-table.py`** / **`align-comments.py`** - Table formatter and `#`-comment aligner.
 - **`scripts/check-model.py`** - Audit-model checker (referential integrity, scoring recompute).
+  `--fix` recomputes derived records in place.
 - **`scripts/link-glossary.py`** / **`link-references.py`** - Glossary and register linkers.
-- ** `scripts/validate-report.py` ** - Mechanical report checker (`--dump-contract` emits JSON,
+  `link-references.py` also repairs wrong register anchors in place.
+- **`scripts/validate-report.py`** - Mechanical report checker (`--dump-contract` emits JSON,
   `--model` / `--state` cross-check report against model and run state).
-- ** `scripts/render-contract.py` ** - Regenerates the `report-contract.md` enumeration block from
+- **`scripts/render-contract.py`** - Regenerates the `report-contract.md` enumeration block from
   `--dump-contract` (`--check` gates drift).
-- ** `scripts/extract-requirements.py` ** - Extracts requirement ids and obligation hints from spec
+- **`scripts/extract-requirements.py`** - Extracts requirement ids and obligation hints from spec
   documents into the model's `requirements[]` registry.
-- ** `scripts/render-tables.py` ** - Renders scorecard, headline, criteria,
-  and requirements tables mechanically from `audit-model.json`.
-- ** `scripts/compare-models.py` ** - Compares two or more policy-3 audit models side by side,
+- **`scripts/render-tables.py`** - Renders scorecard, headline, criteria, requirements, findings,
+  risks, roadmap, and evidence tables mechanically from `audit-model.json`.
+- **`scripts/compare-models.py`** - Compares two or more policy-3 audit models side by side,
   refusing rankings across incompatible denominators.
 - **`scripts/new-report.py`** - Report skeleton generator (`--style`, `--scope`, `--params`).
-- ** `scripts/validate-skill.py` ** / ** `check-references.py` ** / ** `check-contents.py` ** -
+- **`scripts/validate-skill.py`** / **`check-references.py`** / **`check-contents.py`** -
   Frontmatter, disclosure, reference, and Contents validators.
 - **`scripts/check-update.py`** / **`style-census.py`** - Update check and identifier-shape census.
 - **`scripts/scan-standards.py`** / **`scan-structure.py`** - Corpus manifest and tree census.

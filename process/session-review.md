@@ -24,7 +24,8 @@ lens-skill from this session, autonomously".
 - **Verbose** - `verbose`. Every surface additionally reports the full option list and the rationale
   for the recommended choice, whether the surface was asked or auto-resolved.
 
-The flags may stack. Autonomous plus verbose resolves every gate and reports all options.
+The flags may stack.
+Autonomous plus verbose resolves every gate and reports all options.
 
 Autonomous mode resolves only this procedure's own gates: it never commits,
 and a session that yields no findings still reports and stops rather than inventing changes.
@@ -64,8 +65,9 @@ never with names or paths of an audited project.
 
 Report the findings and the proposed changes per rule file.
 
-Ask for approval before editing. Under JSON exchange the gate emits as the `session-review-approval`
-`choice` parameter per `process/json-exchange.md`.
+Ask for approval before editing.
+Under JSON exchange the gate emits as the `session-review-approval` `choice` parameter per
+`process/json-exchange.md`.
 
 The gate offers `Apply` (recommended), `Adjust`, and `Cancel`.
 

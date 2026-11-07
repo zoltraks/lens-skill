@@ -20,17 +20,17 @@ If a finding cannot satisfy these rules, mark it as unknown rather than guessing
 |-------------------------------------|------|---------------------------------------|
 | Evidence-Based Reasoning            | 35   | Traceability and missing-info tokens  |
 | Evidence Strength And Claim Control | 53   | Evidence bases, types, confidence     |
-| No Assumptions                      | 253  | The no-assumption rule                |
-| No Personal Judgement               | 267  | Neutrality toward people              |
-| Architectural Neutrality            | 281  | Judging within stated constraints     |
-| Status Markers                      | 294  | PASS, PARTIAL, FAIL, UNKNOWN, N/A     |
-| Contextual Applicability            | 313  | N/A usage for inapplicable categories |
-| Absent Capability Assessment        | 342  | Intentional-versus-oversight tokens   |
-| Evidence Citation                   | 382  | Anchoring claims to sources           |
-| Confidence And Scope Limits         | 393  | Confidence and scope boundaries       |
-| Information Security And Redaction  | 404  | Secret handling rules                 |
-| Indexing And Traceability           | 429  | ID schemes and ordering               |
-| Critical Constraints                | 501  | Non-negotiable hard limits            |
+| No Assumptions                      | 254  | The no-assumption rule                |
+| No Personal Judgement               | 268  | Neutrality toward people              |
+| Architectural Neutrality            | 282  | Judging within stated constraints     |
+| Status Markers                      | 295  | PASS, PARTIAL, FAIL, UNKNOWN, N/A     |
+| Contextual Applicability            | 314  | N/A usage for inapplicable categories |
+| Absent Capability Assessment        | 343  | Intentional-versus-oversight tokens   |
+| Evidence Citation                   | 383  | Anchoring claims to sources           |
+| Confidence And Scope Limits         | 394  | Confidence and scope boundaries       |
+| Information Security And Redaction  | 405  | Secret handling rules                 |
+| Indexing And Traceability           | 430  | ID schemes and ordering               |
+| Critical Constraints                | 502  | Non-negotiable hard limits            |
 
 ## Evidence-Based Reasoning
 
@@ -74,11 +74,12 @@ Under `executed-readonly` only the commissioned non-mutating analyzers run,
 and the project is still never built, tested, or run.
 
 Under `executed-commands` the explicitly commissioned non-mutating commands run - including tests,
-builds, and reproduction harnesses. While the subject is still never deployed, mutated,
-or connected to live systems.
+builds, and reproduction harnesses.
+While the subject is still never deployed, mutated, or connected to live systems.
 
-Executed output carries a fixed status vocabulary - `PASS`, `FAIL`, `ERROR`, `BLOCKED`, `SKIPPED`,
-`NOT RUN`, `N/A`. `ERROR` and `BLOCKED` describe the runner, never the product,
+Executed output carries a fixed status vocabulary - `PASS`, `FAIL`, `ERROR`, `BLOCKED`,
+`SKIPPED`, `NOT RUN`, `N/A`.
+`ERROR` and `BLOCKED` describe the runner, never the product,
 and `NOT RUN` never counts toward a pass.
 
 Where a finding's reach matters, record its evidence level separately from its evidence basis:

@@ -246,7 +246,7 @@ Each scorecard dimension summarizes one or more assessment categories.
 | Operational Safety      | Operational Readiness, Error Handling, Rollback Strategy |
 | Documentation           | Documentation                                            |
 | API Compatibility       | API Compatibility And Versioning Discipline              |
-| Delivery & Continuity   | Delivery Practice                      |
+| Delivery & Continuity   | Delivery Practice                                        |
 | Originality & Licensing | Copyrights & Originality                                 |
 | Skill Definition        | Skill Definition Conformance                             |
 

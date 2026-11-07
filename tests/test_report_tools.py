@@ -83,11 +83,12 @@ class TestLinkReferences(unittest.TestCase):
             self.assertIn("### FND-SEC-001: Bad thing", text)
 
     def test_inline_code_and_links_untouched(self):
-        doc = self.DOC + "\n`EVD-001` stays code and [FND-SEC-001](#x) stays.\n"
+        doc = self.DOC + "\n`EVD-001` stays code and [FND-SEC-001](#x) is repaired.\n"
         with tempfile.TemporaryDirectory() as tmp:
             text = self.write(tmp, doc)
             self.assertIn("`EVD-001` stays code", text)
-            self.assertIn("[FND-SEC-001](#x) stays", text)
+            self.assertIn("[FND-SEC-001](#fnd-sec-001-bad-thing) is repaired", text)
+            self.assertNotIn("(#x)", text)
 
     def test_unicode_heading_slug_keeps_diacritics(self):
         doc = "# T\n\n## Lista dowodów\n\n| Dowód | Wynik |\n|---|---|\n| EVD-001 | ok |\n\nCites EVD-001.\n"

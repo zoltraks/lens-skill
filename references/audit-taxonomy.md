@@ -56,7 +56,7 @@ and the Rationale column always states why.
 | Performance Audit                    | NFR review of stated targets and design, no load measurement       | PARTIALLY      |
 | Cloud Infrastructure Audit           | Deployment and IaC inspection, no live environment state           | PARTIALLY      |
 | AI Governance Audit                  | AI System Assessment when applicable                               | COVERED or N/A |
-| Technical Due Diligence              | Engineering dimensions plus Delivery Practice    | PARTIALLY      |
+| Technical Due Diligence              | Engineering dimensions plus Delivery Practice                      | PARTIALLY      |
 | SBOM / Software Composition Analysis | Software Bill of Materials section, manifest-derived               | COVERED        |
 | Requirements Conformance Review      | Requirements Conformance when a requirements document exists       | COVERED or N/A |
 | ISO/IEC 27001 Certification          | Standard used as a scoring rubric only                             | NOT DONE       |
@@ -187,7 +187,7 @@ per `process/report-format/report-closing.md`.
 | What Is a Code Audit                                               | reinteractive   | Code-audit practice and CISQ cost-of-poor-quality context                       |
 | 2026 Minimum Elements for a Software Bill of Materials             | CISA et al.     | SBOM completeness touchstone, including the Component License element           |
 | Cost of Poor Software Quality in the US, 2022 report               | CISQ            | Macro-context figures only, never a scoring input                               |
-| DORA software delivery performance metrics                         | DORA (dora.dev) | The five-metric delivery model behind Delivery Practice       |
+| DORA software delivery performance metrics                         | DORA (dora.dev) | The five-metric delivery model behind Delivery Practice                         |
 
 The corpus lists methodology sources, not scoring inputs.
 

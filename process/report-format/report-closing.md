@@ -8,15 +8,15 @@
 
 ## Contents
 
-| Section               | Line | What it covers                                         |
-|-----------------------|------|--------------------------------------------------------|
-| Scope Exclusions      | 21   | exclusion bullets, rationale, coverage alignment       |
-| Known Limitations     | 106  | unresolved limits, unknowns, evidence gaps             |
-| Further Verification  | 137  | deferred checks, commands, pass criteria               |
-| Executed Evidence | 162  | executed-mode checks, commands, results                |
-| Follow-up Plan        | 190  | roadmap-closing retest and re-audit plan               |
-| Validation Protocol   | 233  | PAR-1 through PAR-27 rows, evidence basis              |
-| Reference Sources     | 267  | external sources, link paragraphs, cached-source notes |
+| Section              | Line | What it covers                                         |
+|----------------------|------|--------------------------------------------------------|
+| Scope Exclusions     | 21   | exclusion bullets, rationale, coverage alignment       |
+| Known Limitations    | 106  | unresolved limits, unknowns, evidence gaps             |
+| Further Verification | 137  | deferred checks, commands, pass criteria               |
+| Executed Evidence    | 162  | executed-mode checks, commands, results                |
+| Follow-up Plan       | 194  | roadmap-closing retest and re-audit plan               |
+| Validation Protocol  | 237  | PAR-1 through PAR-27 rows, evidence basis              |
+| Reference Sources    | 271  | external sources, link paragraphs, cached-source notes |
 
 ## Scope Exclusions
 
@@ -179,6 +179,10 @@ Result cells take the check-status vocabulary - canonical tokens `PASS`, `FAIL`,
 runner, never the product.
 
 Rows are `Executed` evidence.
+
+Any table inside this section carrying a `Result` column is validated as executed-log rows against
+the check-status vocabulary - supplementary measurement tables name their value column differently
+(for example `Measured`) or live under a different section.
 
 Under `executed-readonly` they describe analyzer output and never imply a build, test,
 or run of the subject occurred.

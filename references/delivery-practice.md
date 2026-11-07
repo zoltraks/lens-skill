@@ -3,8 +3,8 @@
 ## Purpose
 
 > **Scope:** Git-derived delivery-practice proxies and the contributor-concentration rubric for the
-> Delivery Practice section **Key items:** five-metric DORA model,
-> source-only proxies, bus-factor rubric, NOT SPECIFIED discipline
+> Delivery Practice section **Key items:** five-metric DORA model, source-only proxies,
+> bus-factor rubric, NOT SPECIFIED discipline
 
 This file defines how a source-only audit approximates delivery health.
 

@@ -153,7 +153,7 @@ https://owasp.org/www-community/attacks/Regular_expression_Denial_of_Service_-_R
   outbound channel into an interception surface - trust configuration must be explicit and verified,
   especially on auth-bearing channels.
 - Client-IP derivation reads the connection address or a configured trusted-proxy boundary -
-  consuming `X-Forwarded-For` / `X-Real-IP` unconditionally lets any caller spoof identity;
+  consuming `X-Forwarded-For` / `X-Real-IP` unconditionally lets any caller spoof identity
   `forward-headers-strategy` or an equivalent proxy allowlist defines when
   header trust is justified.
 - Multipart ceilings set near memory-sized buffers invite whole-file buffering - uploads should

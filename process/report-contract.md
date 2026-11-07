@@ -75,7 +75,7 @@ this page is the fast check, not the specification.
 - Recommendation blocks require: `Priority`, `Finding`, `Condition`, `Impact`, `Effort`,
   `Complexity`, `Verification`.
 - Debt blocks require: `Category`, `Source` - `Cost` and `Delay` appear only when they carry a real
-  estimate or qualitative note, and never an `Insufficient information` token;
+  estimate or qualitative note, and never an `Insufficient information` token
   a value with no estimable basis omits the field entirely.
 - A risk block's `Source` names a defined `FND-`,
   a recommendation block's `Finding` names a defined `FND-` and its `Depends on` names defined

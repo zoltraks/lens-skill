@@ -49,7 +49,8 @@ The asymmetry rule applies: human authorship is never a report conclusion - a cl
 census is `Undetermined`, not evidence of human authorship.
 
 AI instruction files establish that an agent workflow is supported,
-not that any specific file was generated or that review was absent. They ground `Indicated` at most.
+not that any specific file was generated or that review was absent.
+They ground `Indicated` at most.
 
 Record the provenance source, its scope, and whether it is inspected or reported evidence.
 

@@ -84,7 +84,7 @@ https://docs.github.com/en/actions/reference/security/secure-use, and
 https://github.com/zizmorcore/zizmor.
 
 - Third-party `uses:` references pin to a full commit SHA or a trusted-publisher tag - `@v3` -style
-  floating tags on untrusted publishers are a supply-chain finding;
+  floating tags on untrusted publishers are a supply-chain finding
   `gh actions-lock` pins an entire tree.
 - `permissions:` is minimal and job-scoped; a workflow-level broad grant (`write-all`,
   missing block) is a finding.
@@ -92,7 +92,7 @@ https://github.com/zizmorcore/zizmor.
   with base-repo secrets; unsanitized `${{ }}` interpolation of event fields into `run:` steps is
   an injection finding.
 - OIDC federation replaces stored long-lived cloud credentials where the platform supports it.
-- `zizmor` or CodeQL `actions` scanning in CI is the enforced floor;
+- `zizmor` or CodeQL `actions` scanning in CI is the enforced floor
   a documented absence is acceptable at single-maintainer scale with justification recorded.
 - Secrets pass as discrete named values - never a JSON/XML blob - and transformed values (signed
   tokens, encodings) are registered for log redaction too.

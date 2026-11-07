@@ -50,6 +50,13 @@ the frozen criteria table, and the Requirements Conformance table - with `script
 (`--part scorecard|headline|criteria|requirements|all`, plus `--project` on multi-project models),
 so the report never retypes a model value.
 
+Render the register tables - the findings summary, risk register, remediation roadmap,
+and evidence ledger - with `scripts/render-tables.py`
+(`--part findings|risks|roadmap|evidence|registers`).
+
+Hand-authoring register tables is the largest mechanical error surface:
+every row the model already carries must come from the renderer, never be retyped.
+
 Present the scoring rubric before the scores.
 
 Wherever an overall score is stated, report the lowest-scoring applicable dimension and its score
@@ -173,15 +180,16 @@ and stop and surface the discrepancy on a mismatch.
 Concatenate the parts in the fixed section order into the final file with a mechanical file join,
 never by rewriting the document from context.
 
-Finalize with `finalize-report.py`, never by hand-ordering passes - glossary links,
-register links, table formatting, then validation, in that order,
+Finalize with `finalize-report.py`, never by hand-ordering passes - glossary links, register links,
+table formatting, then validation, in that order,
 because link insertion changes cell widths and formatting must follow linking.
 
-Structural edits land on section boundaries, never on substring matches inside cells -
-a cell prefix shared with table vocabulary has swallowed whole row blocks into the
-wrong table. Multi-table edits run in reverse document order or recompute offsets
-after each replacement, and every structural splice re-runs the formatter and
-validator immediately rather than at the end of a batch.
+Structural edits land on section boundaries,
+never on substring matches inside cells - a cell prefix shared with table vocabulary has swallowed
+whole row blocks into the wrong table.
+Multi-table edits run in reverse document order or recompute offsets after each replacement,
+and every structural splice re-runs the formatter and validator immediately rather than
+at the end of a batch.
 
 The full authored-side checklist lives in `references/delivery-checklist.md`.
 

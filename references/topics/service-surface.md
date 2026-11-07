@@ -39,7 +39,7 @@ https://wstg.owasp.org/ (WebSockets chapter).
   loopback or development-only path.
 - `permessage-deflate` stays off unless needed - compression over secret-bearing traffic leaks
   content (CRIME/BREACH class).
-- Bearer material never travels in the URL - query strings land in proxy and access logs;
+- Bearer material never travels in the URL - query strings land in proxy and access logs
   tickets or headers carry tokens.
 - The handshake authenticates, it does not authorize messages:
   every inbound frame that reads data or acts re-checks permission.
@@ -49,13 +49,13 @@ https://wstg.owasp.org/ (WebSockets chapter).
 From RFC 9457 and the OWASP API guidance.
 
 - Error responses carry a machine-readable problem shape (`application/problem+json` or the
-  subject's documented equivalent) with consistent type, status, and detail fields;
+  subject's documented equivalent) with consistent type, status, and detail fields
   ad-hoc error bodies per endpoint are a consistency finding.
 - Mutating operations honor an idempotency mechanism - a key, natural identifiers,
   or conditional headers - so safe retry cannot double-apply.
 - Authentication failure responses are uniform across endpoints and leak no oracle about which claim
   or principal failed.
-- Correlation identifiers generate at every entry point and propagate to downstream hops;
+- Correlation identifiers generate at every entry point and propagate to downstream hops
   a surface without request-id plumbing limits incident reconstruction.
 
 ## Streaming Surfaces

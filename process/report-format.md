@@ -38,12 +38,12 @@ A present-but-empty section signals a gap, a missing section hides it.
 | Section                                     | Line | What it covers                              |
 |---------------------------------------------|------|---------------------------------------------|
 | Formatting Rules                            | 48   | Formatting Rules guidance                   |
-| Report Delivery And Parameter Configuration | 369  | Report delivery and output configuration    |
-| Detail Level Configuration                  | 426  | Standard, detailed, and brief reports       |
-| Conditional Sections                        | 537  | Inclusion criteria for conditional sections |
-| Section Order                               | 597  | Single-project and multi-project order      |
-| Specification Files                         | 699  | Per-section specification file index        |
-| Pre-Delivery Mechanical Checklist           | 734  | Final mechanical checks                     |
+| Report Delivery And Parameter Configuration | 371  | Report delivery and output configuration    |
+| Detail Level Configuration                  | 428  | Standard, detailed, and brief reports       |
+| Conditional Sections                        | 539  | Inclusion criteria for conditional sections |
+| Section Order                               | 599  | Single-project and multi-project order      |
+| Specification Files                         | 701  | Per-section specification file index        |
+| Pre-Delivery Mechanical Checklist           | 736  | Final mechanical checks                     |
 
 ## Formatting Rules
 
@@ -195,7 +195,8 @@ Place one space after the leading pipe and one space before the trailing pipe.
 
 The separator contains only hyphens and pipe characters.
 
-The hyphens are contiguous with the pipe characters. Do not add spaces between pipes and hyphens.
+The hyphens are contiguous with the pipe characters.
+Do not add spaces between pipes and hyphens.
 
 The separator width for each column equals the column width plus two hyphens.
 
@@ -215,8 +216,8 @@ Incorrect separator format (spaces around hyphens):
 
 **Empty cells**: A cell may be empty only in a column the separator row declares.
 
-Every separator cell carries at least one hyphen. A space-only separator cell is a defect,
-not a layout choice.
+Every separator cell carries at least one hyphen.
+A space-only separator cell is a defect, not a layout choice.
 
 A column that is empty in every row is not a column - delete it.
 
@@ -238,7 +239,8 @@ Include all Markdown formatting characters (backticks, asterisks, spaces, punctu
 in the width measurement.
 
 Link and image markup counts in full: a `[text](target)` or `![alt](src)` cell measures brackets,
-text, and target together. Nothing is stripped before measuring.
+text, and target together.
+Nothing is stripped before measuring.
 
 **Compacting**: After calculating column widths,
 compact the table by removing any padding that exceeds the widest cell in each column.
@@ -579,7 +581,7 @@ Each lists its inclusion criteria and the assessment file that governs it:
 | Recommendation Classification (subsection of Remediation Roadmap) | Detail level is Standard or Detailed and the roadmap exists                          | `synthesis/remediation-roadmap.md`        |
 | Contradiction Register (standalone or in Limitations)             | An external or prior report asserts conflicting claims                               | `synthesis/report-triangulation.md`       |
 | Further Verification (standalone)                                 | `source-only` evidence mode - the default                                            | `process/report-format/report-closing.md` |
-| Executed Evidence (standalone)                                | `executed-readonly` or `executed-commands` evidence mode                             | `process/report-format/report-closing.md` |
+| Executed Evidence (standalone)                                    | `executed-readonly` or `executed-commands` evidence mode                             | `process/report-format/report-closing.md` |
 | Retest Register (standalone, review style)                        | The Execution Register carries `Fail`/`Error`/`Blocked` rows                         | `process/report-format/review-style.md`   |
 | Artifact Manifest (standalone, review style)                      | `executed-readonly` or `executed-commands` evidence mode                             | `process/report-format/review-style.md`   |
 
@@ -708,7 +710,7 @@ Each report section is specified in a file under `process/report-format/`.
 | `summary-changes.md`          | Executive Summary, Changes Since Previous Audit          |
 | `context-compliance.md`       | System Context, Software Bill of Materials, License      |
 |                               | Compliance Review                                        |
-| `dashboard-observations.md`   | Health Dashboard, Delivery Practice,   |
+| `dashboard-observations.md`   | Health Dashboard, Delivery Practice,                     |
 |                               | High-Level Observations                                  |
 | `methodology-scoring.md`      | Auditing Methodology, Scoring Rubrics                    |
 | `architectural-assessment.md` | Architectural Assessment and its conditional subsections |
@@ -722,7 +724,7 @@ Each report section is specified in a file under `process/report-format/`.
 |                               | Register, Unified Risk Register, Remediation Roadmap,    |
 |                               | Recommendation Classification                            |
 | `report-closing.md`           | Scope Exclusions, Known Limitations, Verification        |
-|                               | Handoff, Executed Evidence, Follow-up Plan,          |
+|                               | Handoff, Executed Evidence, Follow-up Plan,              |
 |                               | Validation Protocol, Reference Sources                   |
 | `hunt-style.md`               | Hunt report style: verdict, domain register, journey     |
 |                               | traces, remediation phases                               |

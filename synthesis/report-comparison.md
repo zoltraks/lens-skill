@@ -21,18 +21,18 @@ never assumed from the previous report alone.
 | Section                          | Line | What it covers                             |
 |----------------------------------|------|--------------------------------------------|
 | When This Applies                | 37   | Baseline discovery and confirmation        |
-| Fresh Audit                      | 112  | What does and does not carry over          |
-| Cross-Subject Parity Baseline    | 133  | Any-subject baseline for the parity gate   |
-| Report Revision                  | 144  | Revision numbering                         |
-| Output Filename                  | 163  | Revisioned filename rules                  |
-| Comparison Content               | 221  | What the Changes section compares          |
-| Re-Audit With Changed Params     | 260  | Parameter-change comparison                |
-| Evidence Transitions             | 280  | Finding, evidence, and capability deltas   |
-| Observation Folding              | 299  | Attaching new defects to existing findings |
-| Identifier Continuity            | 310  | FND/RSK/REC sequence rules                 |
-| Status, Change, And Verification | 337  | Status/Change vocabulary for re-audits     |
-| Legacy Field Names               | 370  | Old-schema-to-current name mapping         |
-| Rules                            | 416  | Comparison constraints                     |
+| Fresh Audit                      | 113  | What does and does not carry over          |
+| Cross-Subject Parity Baseline    | 134  | Any-subject baseline for the parity gate   |
+| Report Revision                  | 145  | Revision numbering                         |
+| Output Filename                  | 164  | Revisioned filename rules                  |
+| Comparison Content               | 222  | What the Changes section compares          |
+| Re-Audit With Changed Params     | 261  | Parameter-change comparison                |
+| Evidence Transitions             | 281  | Finding, evidence, and capability deltas   |
+| Observation Folding              | 300  | Attaching new defects to existing findings |
+| Identifier Continuity            | 311  | FND/RSK/REC sequence rules                 |
+| Status, Change, And Verification | 338  | Status/Change vocabulary for re-audits     |
+| Legacy Field Names               | 371  | Old-schema-to-current name mapping         |
+| Rules                            | 417  | Comparison constraints                     |
 
 ## When This Applies
 
@@ -58,7 +58,8 @@ For a `review` -style report, the same rules apply to the review filename family
 identified by a `Report Style` row reading `review` in Document Information.
 
 A `review` -family file carrying a `Review Scope: Structure` row is a structure-variant report and
-baselines only another structure-variant report. Scope is part of the baseline identity.
+baselines only another structure-variant report.
+Scope is part of the baseline identity.
 
 A `REVIEW` -family file lacking the `Report Style: review` identification marker is a legacy report
 shape: it is never a baseline, though its name still occupies the revision slot.

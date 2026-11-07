@@ -45,14 +45,14 @@ and `assessment/maintainability-review.md` for every stack.
   are not duplication, and merging them is a finding in the other direction.
 - YAGNI: code written for a hypothetical future is a finding - extension points earn their cost only
   where a recorded requirement names the second case.
-- KISS: the smallest structure that solves the problem wins;
+- KISS: the smallest structure that solves the problem wins
   a framework or pattern applied beyond its problem is surplus machinery.
 
 ## Naming, Functions, And Comments
 
 - Names describe the role, never the type encoding - Hungarian prefixes and container-word suffixes
   that restate the type are findings outside ecosystems that mandate them.
-- A function does one thing at one level of abstraction;
+- A function does one thing at one level of abstraction
   mixed levels inside one body are a cohesion finding.
 - Comments carry reasons and references, never restatements of the code - commented-out code is a
   finding (version control already keeps history).

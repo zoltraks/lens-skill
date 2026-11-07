@@ -88,10 +88,10 @@ base convention).
 - Categorized error surfaces: one domain exception carrying a failure kind maps to the host's exit
   code or status - parallel exception families per failure kind are duplication.
 - Lazy enumerables throw inside `MoveNext`,
-  not at the call - a `try` / `catch` around `Directory.EnumerateFiles` guards nothing;
+  not at the call - a `try` / `catch` around `Directory.EnumerateFiles` guards nothing
   guard the iteration site or pass `EnumerationOptions` with `IgnoreInaccessible`.
 - A `using` declaration disposes at the end of its block - a resource a consumer still needs after
-  the block (a shared `HttpClient`) is disposed out from under it;
+  the block (a shared `HttpClient`) is disposed out from under it
   give the consumer ownership or create short-lived instances per operation.
 - `async` code passes `CancellationToken` through the whole chain,
   never calls `.Result` / `.Wait()` (deadlock + wasted thread),
@@ -103,7 +103,7 @@ base convention).
 - XML documentation covers every public API member (`<summary>`, `<param>`, `<returns>`,
   deliberate `<exception>`); `<GenerateDocumentationFile>` makes the compiler report `CS1591`,
   and an orphaned `///` block (member inserted between doc and declaration) reports `CS1572`.
-- `.editorconfig` is the single source for style and analyzer severity;
+- `.editorconfig` is the single source for style and analyzer severity
   the checkable analyzer posture is `EnableNETAnalyzers` + `AnalysisLevel=latest` +
   `AnalysisMode=Recommended` + `EnforceCodeStyleInBuild` - without the last,
   `IDExxxx` rules run only in the IDE and CI silently disagrees.
@@ -125,7 +125,7 @@ From the maintainer's `csharp-cli` engineering standard.
 - Resource-root resolution precedence: explicit `--root`, then environment variable,
   then walk-up marker-file discovery - a sidecar resource (cache, note store) degrades to a warning,
   the payload resource fails `not-found`.
-- Layered settings merge recursively (baseline scope, then profile scope;
+- Layered settings merge recursively (baseline scope, then profile scope
   `null` inherits the lower layer), explicit command-line options always outrank configured
   defaults, credentials live in a version-control-excluded secrets file referenced by `secrets:key`
   indirection, and spawned sibling tools receive the resolved root and scope flags.
@@ -166,7 +166,7 @@ reading, per `assessment/correctness-review.md`.
 From the maintainer's C# engineering standards and
 https://learn.microsoft.com/en-us/dotnet/core/tutorials/testing-with-cli.
 
-- One test framework per solution (xUnit, MSTest, or NUnit - all on Microsoft.Testing.Platform);
+- One test framework per solution (xUnit, MSTest, or NUnit - all on Microsoft.Testing.Platform)
   test classes are `sealed`, assert one thing,
   and test observable behavior rather than private steps.
 - Analyzer-clean assertion forms matter under warnings-as-errors - the xUnit analyzers fail the

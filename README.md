@@ -649,10 +649,10 @@ lens-skill/
 │   ├── format-table.py                    # Source-width Markdown table formatter
 │   ├── align-comments.py                  # Plain-text `#` comment column aligner
 │   ├── link-glossary.py                   # Glossary body-link inserter, run before the linker
-│   ├── link-references.py                 # Register-identifier linker, run before the formatter
+│   ├── link-references.py                 # Register-identifier linker and anchor repairer
 │   ├── validate-report.py                 # Audit and Review report validator (`--dump-contract` JSON)
 │   ├── render-contract.py                 # Regenerates the report-contract enumeration block
-│   ├── render-tables.py                   # Renders report tables from the audit model
+│   ├── render-tables.py                   # Renders score, criteria, requirements, and register tables
 │   ├── extract-requirements.py            # Requirement-id inventory extractor
 │   ├── compare-models.py                  # Side-by-side policy-3 model comparison
 │   ├── new-report.py                      # Report skeleton generator (audit, hunt, or review)
@@ -664,7 +664,7 @@ lens-skill/
 │   ├── scan-standards.py                  # Supplied-standards corpus manifest for digest refresh
 │   ├── scan-structure.py                  # Audited-tree file census for the responsibility inventory
 │   ├── style-census.py                    # Identifier-shape census for the code-style assessment
-│   ├── check-model.py                     # Audit-model integrity and scoring-recompute checker
+│   ├── check-model.py                     # Audit-model checker with --fix record recompute
 │   ├── lint-polish.py                     # Polish report linter for calques and typography
 │   ├── map-translation.py                 # English-mapped copy of a translated report for validation
 │   ├── check-translation.py               # Polish-report checker: titles, counts, sentence length

@@ -64,12 +64,14 @@ that dump, and `--check` fails when the checked-in block has drifted from the li
 
 `extract-requirements.py <doc.md> ... [--json]` inventories requirement ids from spec documents -
 first table cell, heading start, or list item - with obligation hints,
-for the model's `requirements[]` registry. It never decides obligations;
-the auditor freezes the list.
+for the model's `requirements[]` registry.
+It never decides obligations; the auditor freezes the list.
 
-`render-tables.py <audit-model.json> --part scorecard|headline|criteria|requirements|all` renders
-the report's number-bearing tables mechanically from the canonical model,
+`render-tables.py <audit-model.json> --part scorecard|headline|criteria|requirements|findings|risks|roadmap|evidence|registers|all`
+renders the report's number-bearing tables mechanically from the canonical model,
 so scores and rows are never retyped by hand.
+`findings`, `risks`, `roadmap`, and `evidence` render the register tables;
+`registers` emits all four; `all` emits every part.
 `--project NAME` selects a project inside a multi-project model.
 
 `compare-models.py <model.json> <model.json> [...] [--json] [--anyway]` compares policy-3 audit
@@ -98,8 +100,8 @@ otherwise the longest entry plus two spaces.
 `--compact` moves the column to the minimum - `--check` reports misalignment without writing.
 
 A block whose opening fence is preceded by `<!-- align-comments: off -->` - optionally with one
-blank line between the marker and the fence. Is skipped entirely,
-so deliberate examples of misalignment stay untouched.
+blank line between the marker and the fence.
+Is skipped entirely, so deliberate examples of misalignment stay untouched.
 
 Run it on any document that contains directory trees, file listings, or commented plain-text blocks,
 including the skill's own files.
@@ -124,6 +126,10 @@ holding the register table.
 
 Defining locations (the `### <ID>:` heading itself and the row whose first cell carries the
 identifier) stay unlinked, as do fenced code, inline code, headings, URLs, and existing links.
+
+Existing `[ID](#anchor)` links whose anchor resolves to the wrong target are repaired in place - the
+pass rewrites the anchor to the computed slug and reports the repair count,
+so hand-written or stale anchors never survive to validation.
 
 Undefined or project-ambiguous identifiers are left plain and warned about - `validate-report.py`
 then fails on them and on any unlinked defined identifier, so the pass must run before validation.
@@ -311,6 +317,11 @@ adoption, and the census reads as a floor for the real dominant shape, not a ver
 It reads source files as data and never executes the subject,
 and two runs on the same tree produce identical output.
 
+`check-model.py --fix` recomputes the mechanically derived records in place - criteria mastery,
+mechanical criteria, the requirements baseline, dimension scores with caps,
+and the `product` / `process` / `single` or `per_project` headline - then runs the check,
+so the model is authored by declaring outcomes rather than by hand-computing score records.
+
 `check-model.py` verifies a `work/audit-model.json` before report generation - referential integrity
 across records, criteria-outcome validity, and recomputation of each dimension's score,
 interval bounds, coverage, and eligibility per `process/readiness-scoring.md`.
@@ -396,8 +407,9 @@ tasks: `detect-encoding.py`, `census-document.py`, `normalize-chars.py`, `split-
 
 Layout handling: `reflow-prose.py` refuses `--wrap` or `--justify` on a document that reads as
 unwrapped - over-width lines that open their own prose units rather than continuing wrapped text.
-Pass `--convert` for an intentional layout conversion. `--loose` reflows only multi-line blocks
-that contain an over-width line and leaves unwrapped sentences alone. `reflow-prose.py` and
-`format-table.py` accept a directory as well as a file and skip `work/`, `.git/`, and every
-`--exclude NAME` component - produced documents under `assets/`, `examples/`, and `templates/`
-keep their own conventions and stay excluded from format sweeps.
+Pass `--convert` for an intentional layout conversion.
+`--loose` reflows only multi-line blocks that contain an over-width line and leaves
+unwrapped sentences alone.
+`reflow-prose.py` and `format-table.py` accept a directory as well as a file and skip `work/`,
+`.git/`, and every `--exclude NAME` component - produced documents under `assets/`, `examples/`,
+and `templates/` keep their own conventions and stay excluded from format sweeps.

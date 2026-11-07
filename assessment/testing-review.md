@@ -144,8 +144,9 @@ The harness-versus-specs check compares declared frameworks and harnesses in man
 against the imports and runners the test files actually use - a declared harness with no consuming
 test is configuration drift, and a used harness with no declaration is an undocumented dependency.
 
-The verification-coverage row maps each enumerated dispatch entry point. HTTP routes, CLI commands,
-consumers, scheduled jobs, per `references/topics/evidence-recipes.md` - to the tests that name it.
+The verification-coverage row maps each enumerated dispatch entry point.
+HTTP routes, CLI commands, consumers, scheduled jobs,
+per `references/topics/evidence-recipes.md` - to the tests that name it.
 
 An entry point no test references is a coverage gap to report, not to assume tested.
 
@@ -187,8 +188,9 @@ stands in for any of them.
 | Assertion depth    | Sampled tests scoring assertions versus trivial or stub checks |
 | Fixture realism    | Doubles and fixtures versus the production boundary they mock  |
 
-A count belongs in the census only. Report it beside these measures as scale context,
-never as their substitute, per the `Test adequacy` row in `references/evidence-schema.md`.
+A count belongs in the census only.
+Report it beside these measures as scale context, never as their substitute,
+per the `Test adequacy` row in `references/evidence-schema.md`.
 
 ## Status Criteria
 

@@ -29,10 +29,10 @@ On completion, proceed to `process/audit-workflow/category-assessment.md`.
 | Read-depth Floor                                  | 209  | Read-depth Floor                                  |
 | Check-execution Reconciliation                    | 220  | Check-execution Reconciliation                    |
 | Shared Evidence Capture (`work/audit-model.json`) | 236  | Shared Evidence Capture (`work/audit-model.json`) |
-| Verification Plan                                 | 261  | Verification Plan                                 |
-| No Execution                                      | 304  | No Execution                                      |
-| Evidence Ledger                                   | 316  | Evidence Ledger                                   |
-| Claim And Evidence Traceability                   | 354  | Claim And Evidence Traceability                   |
+| Verification Plan                                 | 262  | Verification Plan                                 |
+| No Execution                                      | 305  | No Execution                                      |
+| Evidence Ledger                                   | 317  | Evidence Ledger                                   |
+| Claim And Evidence Traceability                   | 355  | Claim And Evidence Traceability                   |
 
 
 ## Evidence Gathering
@@ -242,7 +242,8 @@ and `recommendations[]` registers are populated during evidence collection and a
 and every report section renders from them.
 
 Before generation, `scripts/check-model.py` verifies the model's referential integrity and
-recomputes its scoring records. A failing model is repaired in the records, never rendered around,
+recomputes its scoring records.
+A failing model is repaired in the records, never rendered around,
 per Model Quality Checks in `process/audit-model.md`.
 
 When the session plans more than one report - for example an `audit` and a `hunt` over the same

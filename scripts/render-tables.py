@@ -275,6 +275,129 @@ def render_requirements(model: dict, project: str | None) -> str:
     )
 
 
+OUTCOME_WORD = {
+    "PASS": "Pass", "PARTIAL": "Partial", "FAIL": "Fail",
+    "UNKNOWN": "Unknown", "NOT_ASSESSED": "Unknown",
+    "NOT_APPLICABLE": "N/A",
+}
+
+
+def _title(entry: dict, fallback: str = "<title>") -> str:
+    """Block title for a register row; placeholder when the model carries none."""
+    title = entry.get("title") or entry.get("name")
+    if isinstance(title, str) and title.strip():
+        return title.strip()
+    return fallback
+
+
+def render_findings(model: dict, project: str | None) -> str:
+    """Findings summary table: one row per model finding."""
+    crit_outcome = {
+        c.get("id"): c.get("outcome") for c in model.get("criteria", [])
+    }
+    prefix = f"{project}::" if project else ""
+    rows = []
+    for f in model.get("findings", []):
+        if f.get("pillar") is None:
+            continue
+        severity = str(f.get("severity", "")).title()
+        outcome = crit_outcome.get(f.get("criteria"), "")
+        rows.append(
+            [
+                prefix + str(f.get("id", "")),
+                str(f.get("pillar", "")),
+                severity,
+                _title(f),
+                OUTCOME_WORD.get(outcome, "<result>"),
+                str(f.get("status", "Open")),
+                str(f.get("change", "New")),
+            ]
+        )
+    return render_table(
+        ["Finding", "Pillar", "Severity", "Title", "Result", "Status",
+         "Change"], rows
+    )
+
+
+def render_risks(model: dict, project: str | None) -> str:
+    """Risk register table: one row per model risk.
+
+    The Description cell carries the block title so the register row matches
+    its `### <ID>: <title>` detail block, per the register-fields contract.
+    """
+    prefix = f"{project}::" if project else ""
+    rows = []
+    for r in model.get("risks", []):
+        mitigation = r.get("mitigation") or r.get("controls") or "<mitigation>"
+        description = str(r.get("description", "")).rstrip(" .")
+        title = _title(r)
+        if title != description:
+            description = f"{title} - {description}" if description else title
+        rows.append(
+            [
+                prefix + str(r.get("id", "")),
+                description,
+                str(r.get("finding", "")),
+                str(r.get("impact", "")).title(),
+                str(r.get("likelihood", "")).title(),
+                str(r.get("severity", "")).title(),
+                str(mitigation),
+            ]
+        )
+    return render_table(
+        ["Risk", "Description", "Source", "Impact", "Likelihood", "Severity",
+         "Mitigation"], rows
+    )
+
+
+def render_roadmap(model: dict, project: str | None) -> str:
+    """Remediation roadmap table: one row per model recommendation."""
+    prefix = f"{project}::" if project else ""
+    rows = []
+    for r in model.get("recommendations", []):
+        action = (
+            r.get("title") or r.get("name") or r.get("postcondition")
+            or "<action>"
+        )
+        verification = r.get("verification") or "<verification>"
+        rows.append(
+            [
+                prefix + str(r.get("id", "")),
+                str(r.get("priority", "")),
+                str(r.get("finding", "")),
+                str(action),
+                str(r.get("impact", "")).title() if r.get("impact") else
+                str(r.get("severity", "")).title() or "<impact>",
+                str(r.get("effort", "")).title() if r.get("effort") else "-",
+                str(r.get("complexity", "")).title() if r.get("complexity")
+                else "-",
+                str(verification),
+            ]
+        )
+    return render_table(
+        ["Rec", "Priority", "Finding", "Recommendation", "Impact", "Effort",
+         "Complexity", "Verification"], rows
+    )
+
+
+def render_evidence(model: dict, project: str | None) -> str:
+    """Evidence ledger table: one row per model evidence record."""
+    rows = []
+    for e in model.get("evidence", []):
+        locator = e.get("locator") or {}
+        source = locator.get("path") or e.get("method") or "<source>"
+        result = e.get("result") or "<result>"
+        rows.append(
+            [
+                str(e.get("id", "")),
+                str(source),
+                str(result),
+                str(e.get("type", "Observation")),
+            ]
+        )
+    return render_table(["Evidence", "Source", "Result", "Type"], rows)
+
+
 def main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(
         description="Render audit-model.json sections as Markdown tables"
@@ -283,7 +406,10 @@ def main(argv: list[str]) -> int:
     parser.add_argument(
         "--part",
         required=True,
-        choices=("scorecard", "headline", "criteria", "requirements", "all"),
+        choices=(
+            "scorecard", "headline", "criteria", "requirements",
+            "findings", "risks", "roadmap", "evidence", "registers", "all",
+        ),
         help="which table(s) to render",
     )
     parser.add_argument(
@@ -332,15 +458,28 @@ def main(argv: list[str]) -> int:
             return 2
 
     catalogue = load_catalogue()
+    register_parts = [
+        lambda: render_findings(model, args.project),
+        lambda: render_risks(model, args.project),
+        lambda: render_roadmap(model, args.project),
+        lambda: render_evidence(model, args.project),
+    ]
     parts = {
         "scorecard": lambda: render_scorecard(model, args.project),
         "headline": lambda: render_headline(model, args.project),
         "criteria": lambda: render_criteria(model, args.project, catalogue),
         "requirements": lambda: render_requirements(model, args.project),
+        "findings": lambda: render_findings(model, args.project),
+        "risks": lambda: render_risks(model, args.project),
+        "roadmap": lambda: render_roadmap(model, args.project),
+        "evidence": lambda: render_evidence(model, args.project),
     }
-    selected = (
-        list(parts.values()) if args.part == "all" else [parts[args.part]]
-    )
+    if args.part == "all":
+        selected = list(parts.values())
+    elif args.part == "registers":
+        selected = register_parts
+    else:
+        selected = [parts[args.part]]
     text = "\n\n".join(render() for render in selected) + "\n"
 
     if args.output:

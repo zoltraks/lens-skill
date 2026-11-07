@@ -77,7 +77,7 @@ From https://tokio.rs and https://sunshowers.io/posts/cancelling-async-rust/.
 
 - Shutdown is a sequence, not a flag: stop accepting new work, drain or cancel in-flight tasks,
   then join - with a stated bound on the drain wait.
-- A `CancellationToken` or equivalent cooperative signal propagates to spawned tasks;
+- A `CancellationToken` or equivalent cooperative signal propagates to spawned tasks
   abrupt `abort()` on state-bearing tasks is a finding unless recorded.
 - Persistent writers flush before exit - a graceful path that skips a durable commit
   loses acknowledged state.

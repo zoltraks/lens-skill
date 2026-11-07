@@ -45,6 +45,7 @@ HEADING = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
 H2 = re.compile(r"^##\s+(.+?)\s*$")
 PROJECT_SUFFIX = re.compile(r"\(([^()]+)\)\s*$")
 LINK_MARKUP = re.compile(r"!?\[[^\]]*\]\([^)]*\)")
+REF_LINK = re.compile(r"\[(" + QUALIFIED + ID_TOKEN + r")\]\(#([^)]*)\)")
 
 
 def slugify(heading: str) -> str:
@@ -174,6 +175,7 @@ def main(path: str) -> int:
     lines = raw.decode("utf-8").replace("\r\n", "\n").split("\n")
     blocks, section, warnings = collect(lines)
     linked = 0
+    repaired = 0
     in_fence = False
     current_h2 = ""
     out: list[str] = []
@@ -191,6 +193,24 @@ def main(path: str) -> int:
         if HEADING.match(line):
             out.append(line)
             continue
+        repairs: list[tuple[int, int, str]] = []
+        for link in REF_LINK.finditer(line):
+            token, old_anchor = link.group(1), link.group(2)
+            qualifier, _, bare = token.partition("::")
+            if not bare:
+                qualifier, bare = None, qualifier
+            anchor = resolve(
+                token, bare, qualifier, index + 1, current_h2,
+                blocks, section, warnings,
+            )
+            if anchor is not None and anchor != old_anchor:
+                repairs.append(
+                    (link.start(2), link.end(2), anchor)
+                )
+        for start, end_, anchor in reversed(repairs):
+            line = line[:start] + anchor + line[end_:]
+        repaired += len(repairs)
+
         masked = mask_line(line)
         first, cell_end = first_cell_token(line) if line.startswith("|") else ("", -1)
         inserts: list[tuple[int, int, str]] = []
@@ -221,7 +241,10 @@ def main(path: str) -> int:
         print(f"warn: {warning}", file=sys.stderr)
     eol = "\r\n" if crlf else "\n"
     Path(path).write_bytes(eol.join(out).encode("utf-8"))
-    print(f"linked {linked} register reference(s)")
+    print(
+        f"linked {linked} register reference(s), "
+        f"repaired {repaired} anchor(s)"
+    )
     return 0
 
 

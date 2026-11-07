@@ -76,10 +76,10 @@ JavaScript, AppleScript).
 
 - Multi-statement logic goes to stdin or a scratch file - a `-e` / `-c` string past one statement is
   a defect, and heredocs stay single-quoted so the host shell never expands the script body.
-- Script source never interpolates through another shell's quoting;
+- Script source never interpolates through another shell's quoting
   a probe prints observed evidence (values, counts, structure) rather than a bare pass/fail.
 - Per-host specifics: on Windows the bare `python` name can resolve to a store shim - confirm a real
-  interpreter first; JavaScript picks the module system by extension (`.cjs` always CommonJS);
+  interpreter first; JavaScript picks the module system by extension (`.cjs` always CommonJS)
   AppleScript checks target health before querying and bounds every `tell` with a timeout.
 
 ## Cross-Platform Embedding

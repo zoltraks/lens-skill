@@ -24,9 +24,9 @@ and criteria records live in `references/criteria-catalogue.md`.
 |-------------------------|------|--------------------------------------------------|
 | Pipeline Stages         | 31   | The nine stages and their publication conditions |
 | The Model Artifact      | 49   | `work/audit-model.json` schema and lifecycle     |
-| Derivation Rule         | 208  | Rendering every surface from the model           |
-| Counter-Evidence Review | 258  | The second-pass challenge discipline             |
-| Publication Stops       | 272  | Errors that block final publication              |
+| Derivation Rule         | 209  | Rendering every surface from the model           |
+| Counter-Evidence Review | 267  | The second-pass challenge discipline             |
+| Publication Stops       | 282  | Errors that block final publication              |
 
 ## Pipeline Stages
 
@@ -201,8 +201,9 @@ then follows the `work/` retention rule for report parts - deleted before delive
 user asks to keep it.
 
 The sibling `work/audit-state.json` tracks the run itself - phases, gate resolutions,
-and declared artifacts - per `process/run-state.md`. The model holds audit data,
-the state file holds run progress, and neither duplicates a field the other owns.
+and declared artifacts - per `process/run-state.md`.
+The model holds audit data, the state file holds run progress,
+and neither duplicates a field the other owns.
 Both keep a single writer: the parent agent writes them, delegated scouts never do.
 
 ## Derivation Rule
@@ -237,7 +238,15 @@ The report-generator stage renders only what the model holds:
 ## Model Quality Checks
 
 Before generation, `scripts/check-model.py <work/audit-model.json>` verifies the
-artifact mechanically:
+artifact mechanically.
+
+`scripts/check-model.py --fix <work/audit-model.json>` recomputes the mechanically derived records
+in place - criteria mastery from declared levels,
+mechanical criteria from the requirements coverage, `scope.requirements_baseline`,
+`scores.dimensions` records with caps and intervals,
+and the `product` / `process` / `single` or `per_project` headline - so model authoring declares
+outcomes and the fixer computes the records, then re-runs the check.
+
 
 - Referential integrity: finding criteria and evidence, risk and recommendation findings,
   and evidence claims all resolve to declared identifiers.
@@ -267,7 +276,8 @@ ask what observation would refute it and record the answer in the finding's `cou
 Retain disagreements and their disposition reasons in the model.
 A resolved disagreement is recorded, never erased.
 
-This pass is a second sequential evaluation by the same auditor. Parallel agents are not required.
+This pass is a second sequential evaluation by the same auditor.
+Parallel agents are not required.
 
 ## Publication Stops
 

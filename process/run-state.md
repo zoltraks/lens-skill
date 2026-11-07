@@ -68,8 +68,8 @@ Phase names are the canonical workflow vocabulary: `intake`, `parameter-configur
 `scope-definition`, `evidence-gathering`, `category-assessment`, `synthesis`,
 `validation` - lower-kebab, in workflow order.
 `run.phase` names the phase currently in progress (a delivered report ends in `validation`),
-and `completed_phases` lists finished phases in that order. Artifact `kind` is one of `params`,
-`model`, `state`, `part`, `report`, `translation`;
+and `completed_phases` lists finished phases in that order.
+Artifact `kind` is one of `params`, `model`, `state`, `part`, `report`, `translation`;
 `part` files consumed by assembly are exempt from the on-disk reconciliation.
 
 The `gates` map records one entry per resolved question surface - the surface name from the phase
@@ -118,7 +118,7 @@ On resume:
 
 1. Read and validate the state file before any phase work - a malformed file follows the
    Malformed State rule below.
-2. Verify each artifact already declared in `artifacts` still exists on disk;
+2. Verify each artifact already declared in `artifacts` still exists on disk
    absent files drop from the declaration and the owning phase reruns.
 3. Announce the resume point before continuing - the phase named in `run.phase`,
    the gates already resolved, and the next pending surface.

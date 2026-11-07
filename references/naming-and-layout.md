@@ -298,8 +298,8 @@ checks whether a declared convention matches the tree,
 and only then judges by the stack's natural default.
 A toolchain that binds names to paths (MSBuild namespace parity, Maven source roots,
 Cargo module trees, PSR-4 autoload prefixes, the `internal/` visibility boundary)
-makes its layout the low-friction default. Where the toolchain is silent,
-component purpose and cohesion decide.
+makes its layout the low-friction default.
+Where the toolchain is silent, component purpose and cohesion decide.
 
 | Convention              | Shape                                                                     | Natural fit                                       |
 |-------------------------|---------------------------------------------------------------------------|---------------------------------------------------|

@@ -9,8 +9,9 @@
 This file defines the report produced when `report-style: review` is resolved during Parameter
 Configuration in `process/audit-workflow/parameter-phase.md`.
 
-The `audit` style measures conformance against the governed contract and `hunt` measures fitness for
-use. `review` answers a narrower question: what do the commissioned checks actually show,
+The `audit` style measures conformance against the governed contract and `hunt`
+measures fitness for use.
+`review` answers a narrower question: what do the commissioned checks actually show,
 and what do the findings drawn from them mean.
 
 All three styles share one evidence base: the same finding schema, the same completeness rules,
@@ -58,7 +59,8 @@ section order below.
 
 ## Evidence Mode
 
-The style works under every evidence mode. The mode decides what may run, never what may be claimed:
+The style works under every evidence mode.
+The mode decides what may run, never what may be claimed:
 
 - `source-only` - nothing executes. Every register row is `Not run` with the command that would run
   it, and findings rest on source evidence alone.

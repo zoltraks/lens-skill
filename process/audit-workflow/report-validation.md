@@ -14,7 +14,7 @@ Follow it after Synthesis.
 | Section                      | Line | What it covers               |
 |------------------------------|------|------------------------------|
 | Validation                   | 20   | Validation                   |
-| Evidence And Decision Checks | 334  | Evidence And Decision Checks |
+| Evidence And Decision Checks | 335  | Evidence And Decision Checks |
 
 
 ## Validation
@@ -24,8 +24,9 @@ Follow it after Synthesis.
 Run `scripts/check-model.py work/audit-model.json` first - a model that fails is never generated
 from - then run `validate-report.py` with `--model work/audit-model.json` and
 `--state work/audit-state.json` so scorecard cells, overall scores, register blocks,
-evidence citations, criteria outcomes, and the run-state vocabulary reconcile with the records they
-render from. `finalize-report.py` accepts the same two flags and passes them through.
+evidence citations, criteria outcomes, and the run-state vocabulary reconcile with the
+records they render from.
+`finalize-report.py` accepts the same two flags and passes them through.
 
 Re-check every finding against `principles/evaluation-rules.md`.
 
@@ -290,12 +291,12 @@ disposable lands in a tracked directory.
 Run the Mandatory Core Checklist and Consistency Gate in `process/report-parity.md`.
 
 Run the delivery gate as the last operation before the completion message -
-`finalize-report.py --gate --model work/audit-model.json --state
-work/audit-state.json` - and deliver only on `DELIVERY READY`.
+`finalize-report.py --gate --model work/audit-model.json --state work/audit-state.json` - and
+deliver only on `DELIVERY READY`.
 
-The authored-side checklist in `references/delivery-checklist.md` consolidates
-what the validator enforces - run it against the assembled report before the
-gate so the gate confirms, never discovers.
+The authored-side checklist in `references/delivery-checklist.md` consolidates what the validator
+enforces - run it against the assembled report before the gate so the gate
+confirms, never discovers.
 
 Write the Known Limitations and Validation Protocol sections from their outcome.
 

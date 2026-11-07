@@ -72,8 +72,9 @@ or a custom operation description.
 Each prompt marks the default and ends with `Use default: <value>` and
 `Use defaults for all remaining questions` - when the request asks for parameters in JSON or another
 machine-readable format, or names a diagnostic, timing, or verbose mode,
-apply `process/json-exchange.md` to every pending question surface. A diagnostic, timing, verbose,
-or informational mode applies `process/operation-timing.md` to the operation's closing report.
+apply `process/json-exchange.md` to every pending question surface.
+A diagnostic, timing, verbose, or informational mode applies `process/operation-timing.md` to the
+operation's closing report.
 Non-English reports load the matching `translations/` file and apply every translation,
 style, and encoding rule.
 

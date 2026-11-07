@@ -18,13 +18,13 @@ Apply `principles/evaluation-rules.md` throughout.
 | Separate Decision Outputs | 29   | Category status vs dimension score |
 | Criteria Inputs           | 49   | Criteria Inputs guidance           |
 | Dimension Scoring         | 75   | Dimension Scoring guidance         |
-| Scoring Policy 3          | 194  | Scoring Policy 3 guidance          |
-| Overall Score             | 243  | Overall Score guidance             |
-| Confidence                | 275  | Confidence guidance                |
-| Maturity Levels           | 293  | Maturity Levels guidance           |
-| Readiness Gates           | 312  | Readiness Gates guidance           |
-| Required Summary Fields   | 364  | Required Summary Fields guidance   |
-| Multi-Project Rules       | 377  | Multi-Project Rules guidance       |
+| Scoring Policy 3          | 193  | Scoring Policy 3 guidance          |
+| Overall Score             | 242  | Overall Score guidance             |
+| Confidence                | 274  | Confidence guidance                |
+| Maturity Levels           | 292  | Maturity Levels guidance           |
+| Readiness Gates           | 311  | Readiness Gates guidance           |
+| Required Summary Fields   | 363  | Required Summary Fields guidance   |
+| Multi-Project Rules       | 376  | Multi-Project Rules guidance       |
 
 ## Separate Decision Outputs
 
@@ -107,8 +107,7 @@ Every dimension with unresolved applicable criteria carries an interval:
 
 The scorecard cell carries the point score only - the interval is stated, never hidden,
 in a disclosure line under the scorecard table naming each bounded dimension and its spread,
-for example `Scalability carries [4-6]` for unresolved criteria, never `7/10 [4-9]` inside
-the cell.
+for example `Scalability carries [4-6]` for unresolved criteria, never `7/10 [4-9]` inside the cell.
 
 **Eligibility gate**
 

@@ -50,7 +50,8 @@ whatever the change contains.
 Apply the increment rules above once per change set,
 at the point the set is complete and validated - not once per edit and not once per file.
 
-The version moves at most once between two commits. While the tree carries uncommitted changes,
+The version moves at most once between two commits.
+While the tree carries uncommitted changes,
 every further edit joins the open set and keeps its already-bumped version,
 no matter how many requests or edits arrive.
 

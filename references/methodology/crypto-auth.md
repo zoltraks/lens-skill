@@ -84,7 +84,7 @@ From https://www.rfc-editor.org/rfc/rfc8725 (JSON Web Token Best Current Practic
   constant, never silent.
 - Bearer tokens are short-lived (minutes, not days)
   with a revocation or re-validation path checked per request, not only at issue.
-- Key rotation overlaps old and new keys for the maximum token TTL;
+- Key rotation overlaps old and new keys for the maximum token TTL
   a rotation that orphans live tokens is an availability finding.
 - Signing-key files persist atomically (tmp+rename per `references/topics/durable-writes.md`)
   with `0600` mode; a non-atomic write or silent persist failure risks mass token invalidation.

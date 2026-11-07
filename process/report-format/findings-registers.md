@@ -12,10 +12,10 @@
 |-------------------------------|------|-------------------------------------|
 | Strengths & What's Working    | 20   | Evidence-based positive baselines   |
 | Technical Findings            | 58   | Finding summary and detail blocks   |
-| Technical Debt Register       | 403  | Distinct accumulated debt           |
-| Unified Risk Register         | 453  | Cross-referenced risks              |
-| Remediation Roadmap           | 552  | Prioritized recommendations, once   |
-| Recommendation Classification | 647  | Roadmap-closing disposition classes |
+| Technical Debt Register       | 404  | Distinct accumulated debt           |
+| Unified Risk Register         | 454  | Cross-referenced risks              |
+| Remediation Roadmap           | 553  | Prioritized recommendations, once   |
+| Recommendation Classification | 648  | Roadmap-closing disposition classes |
 
 ## Strengths & What's Working
 
@@ -119,7 +119,8 @@ per `principles/output-style.md`.
 
 Established phrase tokens such as `IN PROGRESS` or `NOT APPLICABLE` stay phrases.
 
-Title and description columns are prose, not tokens. They keep natural casing.
+Title and description columns are prose, not tokens.
+They keep natural casing.
 
 Column meanings:
 

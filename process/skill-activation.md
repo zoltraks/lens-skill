@@ -42,8 +42,8 @@ or document set - while still naming no operation: "use lens on the service repo
 Naming a target is not a task, so the request stays in enable mode with the target held as context
 for the next request.
 
-A purpose qualifier such as "for audits" is not a task either. It names a mode, not an operation,
-and the request stays in enable mode.
+A purpose qualifier such as "for audits" is not a task either.
+It names a mode, not an operation, and the request stays in enable mode.
 
 A request that combines activation with a task is a task request - "run lens,
 audit this repository" enters audit work directly and this procedure does not run.
@@ -70,7 +70,8 @@ Under JSON exchange a genuine ambiguity emits as the `mode-selection` `choice` p
 
 Open with one sentence confirming the skill is enabled.
 
-Follow with one sentence describing the skill. It produces evidence-based engineering audit, hunt,
+Follow with one sentence describing the skill.
+It produces evidence-based engineering audit, hunt,
 and review reports from source-only inspection - and name the skill version read from
 `metadata.version` in the loaded `SKILL.md`.
 
@@ -126,7 +127,8 @@ Write the response in the language of the request.
 
 ## Relation To The Modes
 
-Enable mode is the standby state. It precedes audit work and skill maintenance.
+Enable mode is the standby state.
+It precedes audit work and skill maintenance.
 
 A task-bearing request that follows enters audit work or maintenance per the routing rules in
 `SKILL.md` and `AGENTS.md`, without repeating the update check this session.
