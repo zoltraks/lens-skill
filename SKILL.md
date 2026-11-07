@@ -18,7 +18,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.7.5"
+  version: "2.7.6"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -38,15 +38,15 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 | Parameter Configuration | 137  | Defaults and user-controlled report shape          |
 | Principles              | 144  | Evaluation and output rules                        |
 | Process                 | 150  | Workflow, format, and parity                       |
-| Assessments             | 195  | Core and conditional assessment guides             |
-| Synthesis               | 201  | Findings, risk, score, and remediation assembly    |
-| Translations            | 213  | Per-language report translations                   |
-| References              | 224  | Lookup tables                                      |
-| Scripts                 | 253  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 287  | Behavioral regression prompts                      |
-| Repository Files        | 291  | Housekeeping files governing this repository       |
-| Evidence Contract       | 303  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 332  | File-selection and section-placement rules         |
+| Assessments             | 197  | Core and conditional assessment guides             |
+| Synthesis               | 203  | Findings, risk, score, and remediation assembly    |
+| Translations            | 215  | Per-language report translations                   |
+| References              | 226  | Lookup tables                                      |
+| Scripts                 | 255  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 291  | Behavioral regression prompts                      |
+| Repository Files        | 295  | Housekeeping files governing this repository       |
+| Evidence Contract       | 307  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 336  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -151,6 +151,8 @@ resolution rules, and re-audit parameters live in `process/parameter-configurati
 
 - **`process/audit-workflow.md`** - Audit workflow index: phase order, checklists, variants.
 - **`process/audit-workflow/`** - Per-phase workflow files,
+- **`process/report-reformat.md`** - The `reformat report` operation: mechanical pass,
+  tool pipeline, and manual tail for bringing existing reports to the current contract.
   mapped in the index's Step Overview table.
 - **`process/audit-model.md`** - Evidence-to-finding pipeline and the canonical audit model.
 - **`process/decision-modes.md`** - Interaction-mode matrix: interactive and automated resolution.
@@ -268,6 +270,8 @@ the copies when done.
   `--dump-contract` (`--check` gates drift).
 - **`scripts/extract-requirements.py`** - Extracts requirement ids and obligation hints from spec
   documents into the model's `requirements[]` registry.
+- **`scripts/reformat-report.py`** - Mechanical report reformatter (`--check` dry run,
+  applies title, Document Information, legend, risk-map, and register conventions).
 - **`scripts/render-tables.py`** - Renders scorecard, headline, criteria, requirements, findings,
   risks, roadmap, and evidence tables mechanically from `audit-model.json`.
 - **`scripts/compare-models.py`** - Compares two or more policy-3 audit models side by side,

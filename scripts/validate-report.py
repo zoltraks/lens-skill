@@ -303,6 +303,67 @@ def sep_like(cells: list[str]) -> bool:
     )
 
 
+
+def check_style_conventions(lines: list[str], fences: list[bool]) -> list[str]:
+    """Hard surface rules the reference reports enforce: no contents table,
+    bolded Overall score row, bare project names in the Projects row."""
+    failures = []
+    for index, (line, fenced) in enumerate(zip(lines, fences)):
+        if fenced:
+            continue
+        if (
+            re.match(r"^\s*\|[^|]*\|\s*[a-z]", line)
+            and "Document Information" in "\n".join(lines[max(0, index - 25) : index])
+        ):
+            cells = [c.strip() for c in line.strip().strip("|").split("|")]
+            first = cells[1][:40] if len(cells) > 1 else ""
+            tokens = {
+                "executed-commands", "executed-readonly", "source-only",
+                "audit", "review", "hunt", "standard", "detailed",
+                "compact", "full", "structure", "single", "multi",
+            }
+            if (
+                first
+                and first[0].islower()
+                and first[0].isalpha()
+                and not first.startswith("`")
+                and (" " in first or first.lower() in tokens)
+            ):
+                failures.append(
+                    f"line {index + 1}: Document Information value starts "
+                    "lowercase - descriptive values capitalize the first letter"
+                )
+        if index == 0:
+            m = re.match(r"^#\s+(.+)$", line)
+            if m and (
+                not re.match(r"^.+ Audit Report$", m.group(1).strip())
+                or " - " in m.group(1)
+                or re.search(r"\blens\b", m.group(1), re.IGNORECASE)
+            ):
+                failures.append(
+                    "line 1: document title must be '# <System Name> Audit Report' - "
+                    "no skill name or suffix ('Lens audit report', '- audit', and similar)"
+                )
+        if re.match(r"^#{1,3}\s+Table of Contents\s*$", line.strip()):
+            failures.append(
+                f"line {index + 1}: '## Table of Contents' is never written - "
+                "the report navigates by fixed section order"
+            )
+        m = re.match(r"^\s*\|\s*Overall score\s*\|", line)
+        if m:
+            failures.append(
+                f"line {index + 1}: Overall score row must render "
+                "'| **Overall score** | **<score>** (<band>) |' - "
+                "field name and score display bold"
+            )
+        m = re.search(r"\[Project `?([^`\]]+)`?\]\(#project-", line)
+        if m and "Projects" in line:
+            failures.append(
+                f"line {index + 1}: Projects row link text carries a 'Project' "
+                f"prefix - render bare names like '[{m.group(1)}](#project-...)'"
+            )
+    return failures
+
 def check_tables(lines: list[str], fences: list[bool]) -> list[str]:
     failures: list[str] = []
     for start, rows in table_blocks(lines, fences):
@@ -970,7 +1031,6 @@ DOC_INFO_REQUIRED = {
     "Report Style",
     "Detail Level",
     "Evaluation Scale",
-    "Language",
     "Verification Scope",
     "Evidence Mode",
     "Subject Revision",
@@ -1191,7 +1251,7 @@ def check_health_dashboard(text: str) -> list[str]:
         return failures
     if not blocks:
         return failures  # required-sections already reports a missing dashboard
-    required = ("Risk Map", "Scorecard Summary", "Team & Continuity")
+    required = ("Risk Map", "Scorecard Summary")
     for index, block in enumerate(blocks, 1):
         for label in required:
             pattern = rf"(\*\*{re.escape(label)}\*\*|^#+\s+{re.escape(label)}\s*$)"
@@ -1206,14 +1266,43 @@ def check_health_dashboard(text: str) -> list[str]:
             re.MULTILINE,
         )
         pre = block[: scorecard_at.start()] if scorecard_at else block
-        if "**Legend**" not in pre or not re.search(
-            r"\|\s*Band\s*\|\s*Score\s*\|", pre
+        tc = re.search(r"\*\*Team & Continuity\*\*\s*(.+)", block)
+        if tc and tc.group(1).startswith("Not collected"):
+            failures.append(
+                f"Health Dashboard {index}: Team & Continuity carries a "
+                "Not-collected token - omit the line when nothing was collected"
+            )
+        shared = re.search(
+            r"^#{1,3}\s+Evaluation Legend\s*$[\s\S]*?\|\s*Band\s*\|\s*Score\s*\|",
+            text,
+            re.MULTILINE,
+        )
+        if not shared and (
+            "**Legend**" not in pre
+            or not re.search(r"\|\s*Band\s*\|\s*Score\s*\|", pre)
         ):
             failures.append(
                 f"Health Dashboard {index} has no Legend table before "
                 "the Scorecard Summary - emit `**Legend**` and a "
                 "Band/Score table with one row per scale band"
             )
+    for index, block in enumerate(blocks, 1):
+        matrix = re.search(r"\*\*Risk Map\*\*[\s\S]*?(?=\n\*\*|\n#{1,4}\s|\Z)", block)
+        if matrix:
+            for rline in matrix.group(0).splitlines():
+                if not rline.lstrip().startswith("|") or "Impact" in rline:
+                    continue
+                cells = [c.strip() for c in rline.strip().strip("|").split("|")]
+                if (
+                    len(cells) > 1
+                    and cells[0]
+                    and set(cells[0]) - set("|-: ")
+                    and all(not c for c in cells[1:])
+                ):
+                    failures.append(
+                        f"Health Dashboard {index}: Risk Map carries empty impact "
+                        f"row '{cells[0]}' - omit rows with no risk in any cell"
+                    )
     return failures
 
 
@@ -3139,7 +3228,10 @@ def report_style(text: str) -> str:
 
 def evidence_mode(text: str) -> str:
     match = re.search(r"\|\s*Evidence Mode\s*\|\s*([^|]+)", text)
-    return match.group(1).strip().lower() if match else "source-only"
+    return (
+        match.group(1).strip().lower().replace(" ", "-")
+        if match else "source-only"
+    )
 
 
 def review_scope(text: str) -> str:
@@ -4682,6 +4774,7 @@ def main(
         ),
         ("sentence breaks row", check_sentence_breaks_row(text)),
         ("tables", check_tables(lines, fences)),
+        ("surface conventions", check_style_conventions(lines, fences)),
         ("frame geometry", check_frame_geometry(lines, fences)),
         ("bold markers", check_bold_markers(lines, fences)),
         ("location pattern", check_location(path)),

@@ -27,11 +27,11 @@
 | Report Format                      | 454  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 491  | Supported requests and exclusions                   |
 | What's Inside                      | 515  | Documents, references, tools, and conditional files |
-| Document Style                     | 705  | Pointer to the style rules file                     |
-| Specification                      | 715  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 736  | Maintenance checks and regression scenarios         |
-| License                            | 767  | License for the skill itself                        |
-| Credits                            | 773  | Authorship and attribution                          |
+| Document Style                     | 707  | Pointer to the style rules file                     |
+| Specification                      | 717  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 738  | Maintenance checks and regression scenarios         |
+| License                            | 769  | License for the skill itself                        |
+| Credits                            | 775  | Authorship and attribution                          |
 
 ## Overview
 
@@ -571,6 +571,7 @@ lens-skill/
 │   │   ├── structure-review.md            # Structure Review section and structure-variant contract
 │   │   └── report-closing.md              # Exclusions, limitations, handoff, validation, references
 │   ├── report-contract.md                 # One-page mechanically enforced report contract
+│   ├── report-reformat.md                 # `reformat report` operation: mechanical pass + pipeline
 │   ├── report-parity.md                   # Audit parity checklist and consistency gate before final
 │   ├── readiness-scoring.md               # Deterministic scores, confidence, maturity, and readiness gates
 │   ├── run-state.md                       # Run-state artifact: phase and gate record, resume, reconciliation
@@ -653,6 +654,7 @@ lens-skill/
 │   ├── link-references.py                 # Register-identifier linker and anchor repairer
 │   ├── validate-report.py                 # Audit and Review report validator (`--dump-contract` JSON)
 │   ├── render-contract.py                 # Regenerates the report-contract enumeration block
+│   ├── reformat-report.py                 # Mechanical report reformatter (`--check` dry run)
 │   ├── render-tables.py                   # Renders score, criteria, requirements, and register tables
 │   ├── extract-requirements.py            # Requirement-id inventory extractor
 │   ├── compare-models.py                  # Side-by-side policy-3 model comparison

@@ -385,6 +385,10 @@ If an overall score is shown, disclose its formula, weights, rounding, and cover
 State the lowest-scoring applicable dimension and its score in a paragraph below the table,
 per `synthesis/project-scorecard.md`.
 
+The Scorecard Summary table carries exactly two columns - `Dimension` and `Score`.
+No `Notes`, `Justification`, or commentary column exists: dimension narrative
+belongs in the prose under the table or in the finding blocks it cites.
+
 Never close the Scorecard Summary table with an overall row - the `Overall score` row and the
 headline score table live in the Executive Summary only,
 and a numeric row inside the table corrupts the validator's score recompute.

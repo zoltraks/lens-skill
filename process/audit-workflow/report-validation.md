@@ -352,5 +352,22 @@ this rule - omit the row instead of inventing a duration.
   secrets, internal hostnames, addresses, and personal data appear only as redacted tokens.
 
 
+## Double Verification
+
+Validation runs at least twice, never once:
+
+1. **Post-assembly pass** - immediately after the report body is complete: full
+   `validate-report.py`, plus an eyeball pass over every table's column shape,
+   every Document Information cell, and every register heading. An edit that
+   applied zero replacements is a failed edit - assert each scripted change landed.
+2. **Post-adjustment pass** - after `final-adjustments.md` or any manual fix:
+   re-run the whole validation battery, not the failing check alone - fixes move
+   prose, and moved prose breaks links, widths, and anchors elsewhere.
+
+The validator is the floor, not the ceiling: it tolerates surfaces the spec
+forbids (stale sections, verbose cells, duplicated legends). When the mechanical
+pass is clean, compare the report's conventions against the newest shipped
+example report before declaring it done.
+
 The audit workflow ends here - the completed report and its recorded Validation Protocol are
 the final artifacts.

@@ -521,7 +521,7 @@ def fix_model(model: dict, catalogue: dict | None = None) -> list[str]:
             ),
         }
         caps = [
-            {"rule": rule, "limit": cap_limits[rule], "source": triggered}
+            {"rule": rule, "limit": cap_limits[rule], "source": triggers[rule]}
             for rule in MECHANICAL_CAPS if triggers[rule]
         ]
         capmin = min(cap["limit"] for cap in caps) if caps else None

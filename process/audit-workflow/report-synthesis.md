@@ -93,6 +93,16 @@ When the roadmap contains at least one P1 or P2 recommendation,
 build the Follow-up Plan subsection at the bottom of the roadmap using `synthesis/reaudit-plan.md`,
 mapping those findings to verification owners and closure evidence.
 
+A fresh audit is always generated from the current report-format specification -
+never composed by transforming a previous report file. A previous report may be an
+older contract revision; cloning it imports stale sections, field vocabularies, and
+table shapes that the current spec removed or renamed. Use it only to recover
+parameters and to seed a verification checklist.
+
+When applying scripted or mechanical edits to a draft, assert each substitution
+matched before continuing - a pattern that matched zero lines is a failed edit,
+not a completed one.
+
 When a re-audit was confirmed during intake,
 build the Changes Since Previous Audit section using `synthesis/report-comparison.md`,
 comparing findings, risks, scores, and category statuses against the previous report.

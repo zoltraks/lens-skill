@@ -14,8 +14,8 @@
 | Technical Findings            | 58   | Finding summary and detail blocks   |
 | Technical Debt Register       | 404  | Distinct accumulated debt           |
 | Unified Risk Register         | 454  | Cross-referenced risks              |
-| Remediation Roadmap           | 553  | Prioritized recommendations, once   |
-| Recommendation Classification | 648  | Roadmap-closing disposition classes |
+| Remediation Roadmap           | 559  | Prioritized recommendations, once   |
+| Recommendation Classification | 654  | Roadmap-closing disposition classes |
 
 ## Strengths & What's Working
 
@@ -526,6 +526,12 @@ Use this exact markdown block pattern:
 
 ```markdown
 ### RSK-[NUMBER]: [Clear, Concise Title of Risk]
+
+Register titles are terse nominal phrases - typically eight words or fewer.
+A title is the anchor slug for every `[ID](#anchor)` link in the report and the
+verbatim cell text of its summary row, so a sentence-length title widens every
+table that links the register. The narrative belongs in the block's description
+paragraph, never in the title.
 
 [Description paragraph - what could go wrong, and under what conditions]
 

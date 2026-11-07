@@ -18,6 +18,10 @@ this page is the fast check, not the specification.
 - Headings never go deeper than `###`, and every heading is followed by exactly one blank line.
 - No semicolons in prose outside code spans and link targets - use a comma or split the sentence.
 - No em dash, en dash, or Unicode arrow outside code spans - use `-` and `->`.
+- Table cells carry tokens and short phrases, not sentences - a cell over roughly 80 characters
+  is a defect. Narrative, rationale, and file:line detail live in the block or paragraph
+  around the table, not inside a cell. Link markup counts toward cell width, which is why
+  register titles stay terse.
 - Every table's separator widths match its header cell widths and all pipes align vertically - run
   `scripts/format-table.py` rather than aligning by hand.
   Column widths count the full `[text](target)` markup - brackets, text, and target together.

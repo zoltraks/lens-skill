@@ -11,19 +11,21 @@
 | Section              | Line | What it covers                       |
 |----------------------|------|--------------------------------------|
 | Document Information | 18   | Report metadata and revisions        |
-| Contents             | 172  | Linked navigation of report sections |
-| Audit Coverage       | 191  | Coverage of canonical audit types    |
-| Glossary             | 250  | Abbreviation and acronym definitions |
+| Contents             | 175  | Linked navigation of report sections |
+| Audit Coverage       | 183  | Coverage of canonical audit types    |
+| Glossary             | 242  | Abbreviation and acronym definitions |
 
 ## Document Information
 
-Open the report with a document title as a level-1 markdown heading (`#`),
-followed by the `## Document Information` section.
+Open the report with a document title as a level-1 markdown heading (`#`), followed by the
+`## Document Information` section. The title is always `<System Name> Audit Report`, for software and non-software subjects alike.
+Do not append a skill name, report type, or separator - `Lens audit report`, `- audit`,
+and similar suffixes are never part of the title.
 
 Present the document metadata as a two-column table with an empty header row and no column names:
 
 ```markdown
-# <System Name> Software Audit Report
+# <System Name> Audit Report
 
 ## Document Information
 
@@ -56,7 +58,8 @@ Rows appear in this order, each label in the first column and its value in the s
 - `Sentence breaks` - `Off`, written only when the user explicitly suppressed sentence-per-paragraph
   prose per `process/report-format.md`, and omit the row when the default
   sentence-separated layout applies.
-- `Language` - the report language.
+- `Language` - the report language, written only when the report language is not English
+  or the report was translated from another language; omit the row for a plain English report.
 - `Translations` - the sibling language renderings of the same report,
   written only when the run ships a language pair per `principles/output-style.md`:
   names each sibling file and its language,
@@ -173,20 +176,9 @@ and `Verification Scope` are rendered per the same file.
 
 A `## Table of Contents` section is never written - the report navigates by its fixed section order,
 and `process/report-format.md` and `process/navigation-rules.md` forbid a contents table.
+Do not emit the section even when a previous revision of the same report carried one -
+a stale contents list from an older contract is not a reason to keep it.
 
-It lists every level-2 section as a bullet of links to its heading anchor:
-
-```markdown
-## Table of Contents
-
-- [Audit Coverage](#audit-coverage)
-- [Executive Summary](#executive-summary)
-- [Technical Findings](#technical-findings)
-```
-
-Link text matches the `##` heading verbatim.
-
-A section that carries no navigable subsection still lists once.
 
 ## Audit Coverage
 
@@ -196,7 +188,7 @@ deliberately does not run.
 The table makes the report's coverage explicit so it cannot be mistaken for a penetration test,
 a certifying audit, or a full technical due diligence.
 
-The section appears once per report, immediately after `## Table of Contents` and before
+The section appears once per report, immediately after `## Document Information` and before
 `## Project Inventory` in a multi-project report,
 or before `## Glossary Index` in a single-project report.
 
