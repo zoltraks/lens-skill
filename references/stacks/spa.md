@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** Checkable constraints for React-class single-page applications and PWAs **Key items:**
+> **Scope:**Checkable constraints for React-class single-page applications and PWAs**Key items:**
 > rules of hooks, effect-misuse checklist, key discipline, PWA/service-worker surface
 
 This file distills the React documentation and MDN Service Worker source listed in
@@ -113,7 +113,7 @@ https://cwe.mitre.org/data/definitions/922.html.
 - Client-side JWT decode that hides routes or buttons is advisory only - real authorization gates
   live server-side, and a UI that treats its own decode as enforcement is a finding.
 - `react-scripts` 5.x or Create React App lineage is a deprecated toolchain - bundler migration debt
-  grows each release; an `overrides` / `resolutions` block fighting upstream drift deepens it.
+  grows each release - an `overrides` / `resolutions` block fighting upstream drift deepens it.
 - Dependencies pinned to tarball URLs or non-registry sources bypass registry metadata and
   advisories - a finding unless a documented constraint requires it.
 - Dev-proxy configuration (`setupProxy.js`, `proxy` field)

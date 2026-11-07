@@ -271,6 +271,7 @@ Under `executed-readonly` or `executed-commands` the environment census from
 `references/topics/execution-isolation.md` runs first and bounds which checks the matrix can select,
 Under it the census also measures capacity - free disk against the expected build and test footprint
 - so a check the host cannot complete is recorded before it starts, not after it dies.
+
 and every executed `Fail` or `Error` result carries a triage class in the model.
 
 Under `source-only` the audit never executes them.

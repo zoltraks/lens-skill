@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** How to report vulnerabilities in the Lens skill and what to expect **Key items:**
+> **Scope:**How to report vulnerabilities in the Lens skill and what to expect**Key items:**
 > private reporting, covered risks, supported versions, response expectations
 
 Lens is a routed instruction set: its Markdown content becomes agent instructions,

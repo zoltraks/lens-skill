@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** Logging, metrics, tracing, alerting **Key items:** structured logs, meaningful metrics,
+> **Scope:**Logging, metrics, tracing, alerting**Key items:** structured logs, meaningful metrics,
 > request tracing, actionable alerts
 
 This file guides assessment of how well the system can be understood while running.

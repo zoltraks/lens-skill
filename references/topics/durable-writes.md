@@ -58,7 +58,7 @@ From https://www.evanjones.ca/durability-filesystem.html.
   crash point, and recovery code has fault-injection coverage for boundary cases (mid-commit,
   mid-record, torn tail).
 - A "never fsync" or relaxed-durability mode is acceptable only behind an explicit non-production
-  gate; silently selectable lossy defaults are a finding.
+  gate - silently selectable lossy defaults are a finding.
 
 ## Ownership And Fencing
 

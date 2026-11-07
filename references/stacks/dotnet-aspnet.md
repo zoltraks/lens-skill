@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** Checkable constraints for .NET libraries and ASP.NET Core services **Key items:**
+> **Scope:**Checkable constraints for .NET libraries and ASP.NET Core services**Key items:**
 > naming/design rules, security analyzers, TLS enforcement, authentication middleware,
 > rate limiting, NuGet lockfiles, constant-time comparison
 

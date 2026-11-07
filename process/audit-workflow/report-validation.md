@@ -143,9 +143,9 @@ Confirm the Delivery Practice section is present per project:
 computable metrics are labeled as proxies, unmeasurable metrics are `Not specified` with reasons,
 and the bus-factor rating carries its commit-share, contributor-count, and window basis.
 
-Confirm the audit Executive Summary carries the `Product Quality` and `Engineering Process`
-rows in the headline table and states the overall once, bolded, in the key-value
-`Overall score` row - each numeric sub-score names its lowest dimensions,
+Confirm the audit Executive Summary carries the `Product Quality` and `Engineering Process` rows in
+the headline table and states the overall once, bolded,
+in the key-value `Overall score` row - each numeric sub-score names its lowest dimensions,
 and the paragraph below the headline table names `Product-only` and `ceiling` when they apply - per
 `process/report-format/summary-changes.md`, and every place an overall score appears reports the
 lowest-scoring applicable dimension and its score in a paragraph below the table,
@@ -356,18 +356,17 @@ this rule - omit the row instead of inventing a duration.
 
 Validation runs at least twice, never once:
 
-1. **Post-assembly pass** - immediately after the report body is complete: full
-   `validate-report.py`, plus an eyeball pass over every table's column shape,
-   every Document Information cell, and every register heading. An edit that
-   applied zero replacements is a failed edit - assert each scripted change landed.
+1. **Post-assembly pass** - immediately after the report body is complete:
+   full `validate-report.py`, plus an eyeball pass over every table's column shape,
+   every Document Information cell, and every register heading.
+   An edit that applied zero replacements is a failed edit - assert each scripted change landed.
 2. **Post-adjustment pass** - after `final-adjustments.md` or any manual fix:
-   re-run the whole validation battery, not the failing check alone - fixes move
-   prose, and moved prose breaks links, widths, and anchors elsewhere.
+   re-run the whole validation battery, not the failing check alone - fixes move prose,
+   and moved prose breaks links, widths, and anchors elsewhere.
 
-The validator is the floor, not the ceiling: it tolerates surfaces the spec
-forbids (stale sections, verbose cells, duplicated legends). When the mechanical
-pass is clean, compare the report's conventions against the newest shipped
-example report before declaring it done.
+The validator is the floor, not the ceiling: it tolerates surfaces the spec forbids (stale sections,
+verbose cells, duplicated legends). When the mechanical pass is clean,
+compare the report's conventions against the newest shipped example report before declaring it done.
 
 The audit workflow ends here - the completed report and its recorded Validation Protocol are
 the final artifacts.

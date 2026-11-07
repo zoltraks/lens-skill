@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** The report-table schema for the per-project Software Bill of Materials section **Key
+> **Scope:**The report-table schema for the per-project Software Bill of Materials section**Key
 > items:** column contract, license and advisory fields, completeness touchstone,
 > source-derived disclaimer
 

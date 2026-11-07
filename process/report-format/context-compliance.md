@@ -112,8 +112,8 @@ section exists with its completeness statement - a module line-count inventory i
 and the validator rejects the mismatch.
 
 Advisory coverage likewise states which advisories were checked (advisory ID, exact version,
-dependency path, reachability or `Unknown`)
-- a scanner's finding count is not a confirmed application-defect count.
+dependency path, reachability or `Unknown`) -
+a scanner's finding count is not a confirmed application-defect count.
 
 When the report language is not English,
 apply the column header translations from the matching `translations/` file.

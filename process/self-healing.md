@@ -2,13 +2,13 @@
 
 ## Purpose
 
-> **Scope:** The evidence-gated self-repair loop for this skill - diagnose a named defect in atlas's
+> **Scope:** The evidence-gated self-repair loop for this skill - diagnose a named defect in lens's
 > own behavior, patch minimally, replay against external evidence, promote only what improves.
 > **Key items:** safety taxonomy, the healing loop, external verifiers, rollback
 
 This file defines how Lens repairs itself: a named misfire, regression,
 or drift in this skill's own routing, procedures, or documents.
-Follow it for requests like "heal lens-skill", "fix atlas's triggering",
+Follow it for requests like "heal lens-skill", "fix lens's triggering",
 or "the review gate misfired".
 
 A request to improve the skill from session lessons routes to `process/session-review.md` instead -

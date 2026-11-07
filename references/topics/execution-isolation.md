@@ -96,8 +96,8 @@ A non-zero exit status still produces evidence.
 
 - Capture the emitted diagnostic set - compiler warnings, analyzer diagnostics,
   failed test names - as retained output with a sanitized artifact path or digest.
-- A build that fails still yields its warning inventory
-  a suite that fails still yields its per-test results.
+- A build that fails still yields its warning inventory a suite that fails still yields
+  its per-test results.
 - `FAIL` and `ERROR` describe the runner outcome per `principles/evaluation-rules.md` - the mined
   diagnostics become `Observation` rows that feed findings on their own evidence.
 

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** Procedure for improving the skill from the current session's history **Key items:**
+> **Scope:**Procedure for improving the skill from the current session's history**Key items:**
 > session gather, findings, approval gate, review modes, rule-file application, validation
 
 This file defines the session-review path of skill maintenance:

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** Checkable constraints for Rust crates and binaries **Key items:** API guideline subset,
+> **Scope:**Checkable constraints for Rust crates and binaries**Key items:** API guideline subset,
 > Clippy lint posture, RustSec advisories, Cargo semver rules, unsafe usage
 
 This file distills the Rust API Guidelines, Clippy lint list, RustSec,
@@ -135,17 +135,17 @@ and the Rust engineering-practices supply-chain guidance.
   license, advisory, ban, and source policy - a committed `deny.toml` carrying an allowlist is
   stronger evidence than a bare scan.
 - Human-review trust: `cargo vet` (`supply-chain/audits.toml` with imported organizations)
-  or `cargo crev` records that a trusted party reviewed the dependency set
-  their absence is an observation, not a defect.
+  or `cargo crev` records that a trusted party reviewed the dependency set their absence is an
+  observation, not a defect.
 - `cargo supply-chain` exposes the implicit publisher trust set - a small,
   enumerated set is the healthy shape.
 - `cargo semver-checks` gates published crates against accidental breaking API changes
   `cargo-geiger` censuses `unsafe` across the dependency tree, not just own code.
-- Test runner: `cargo nextest` is the faster, isolated-process runner
-  `cargo llvm-cov` (or `tarpaulin`) produces coverage - nextest output never includes doctests,
-  which need a separate llvm-cov pass.
+- Test runner: `cargo nextest` is the faster,
+  isolated-process runner `cargo llvm-cov` (or `tarpaulin`)
+  produces coverage - nextest output never includes doctests, which need a separate llvm-cov pass.
 - Benchmarks: `criterion` for statistical regression detection or `divan` for development-time
-  checks; ad-hoc timing loops are measurement, not benchmark.
+  checks - ad-hoc timing loops are measurement, not benchmark.
 - Static/foreign targets: `x86_64-unknown-linux-musl` for static Linux binaries,
   `cross` or `cargo-zigbuild` for older glibc and foreign arch.
 - Provenance: a `build.rs` embedding a git hash or version gives binaries traceable identity.

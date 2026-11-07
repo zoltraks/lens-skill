@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** The regression scenario table exercised when maintaining this skill **Key items:**
+> **Scope:**The regression scenario table exercised when maintaining this skill**Key items:**
 > scenario, expected behavior
 
 This file is part of the audit workflow package indexed by `process/audit-workflow.md`.

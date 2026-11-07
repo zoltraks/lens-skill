@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** Checkable constraints for Dockerfiles and Compose deployments **Key items:** base-image
+> **Scope:**Checkable constraints for Dockerfiles and Compose deployments**Key items:** base-image
 > pinning, USER instruction, .dockerignore, healthchecks, secret handling, Compose env model
 
 This file distills the Docker best-practices guide, the docker-node best practices,

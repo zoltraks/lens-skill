@@ -17,8 +17,9 @@
 
 ## Document Information
 
-Open the report with a document title as a level-1 markdown heading (`#`), followed by the
-`## Document Information` section. The title is always `<System Name> Audit Report`, for software and non-software subjects alike.
+Open the report with a document title as a level-1 markdown heading (`#`),
+followed by the `## Document Information` section. The title is always `<System Name> Audit Report`,
+for software and non-software subjects alike.
 Do not append a skill name, report type, or separator - `Lens audit report`, `- audit`,
 and similar suffixes are never part of the title.
 
@@ -58,8 +59,8 @@ Rows appear in this order, each label in the first column and its value in the s
 - `Sentence breaks` - `Off`, written only when the user explicitly suppressed sentence-per-paragraph
   prose per `process/report-format.md`, and omit the row when the default
   sentence-separated layout applies.
-- `Language` - the report language, written only when the report language is not English
-  or the report was translated from another language; omit the row for a plain English report.
+- `Language` - the report language, written only when the report language is not English or the
+  report was translated from another language - omit the row for a plain English report.
 - `Translations` - the sibling language renderings of the same report,
   written only when the run ships a language pair per `principles/output-style.md`:
   names each sibling file and its language,
@@ -176,8 +177,8 @@ and `Verification Scope` are rendered per the same file.
 
 A `## Table of Contents` section is never written - the report navigates by its fixed section order,
 and `process/report-format.md` and `process/navigation-rules.md` forbid a contents table.
-Do not emit the section even when a previous revision of the same report carried one -
-a stale contents list from an older contract is not a reason to keep it.
+Do not emit the section even when a previous revision of the same report carried one - a stale
+contents list from an older contract is not a reason to keep it.
 
 
 ## Audit Coverage
@@ -420,7 +421,7 @@ State them here so the prose contract and the mechanical check agree.
   `Change`, `Absence`, `Verification`, `Confidence`, `Class`, `Result`, `Priority`, `Likelihood`,
   `Residual`, `Owner`, and `Exploitability`.
   The value of such a line stays literal even when the token is a glossary term,
-  so `* **Priority:** P2` keeps a bare `P2` and `* **Absence:** N/A` keeps a bare `N/A`.
+  so `* **Priority:**P2` keeps a bare `P2` and `***Absence:** N/A` keeps a bare `N/A`.
   A `* **Field:**` label not on this list still links normally.
 - The status tokens that populate those fields - `N/A`, `PASS`, `FAIL`, `UNKNOWN`, `NOT RUN`,
   `NOT PERFORMED`, `NOT SPECIFIED`, `INSUFFICIENT INFORMATION`, `NO BASELINE`,

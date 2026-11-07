@@ -163,7 +163,7 @@ The scoring engine enforces this section mechanically as **scoring policy 2**
 - Multi-project models publish `scores.per_project` records - `overall.score` stays null and no
   combined mean collapses the projects.
 
-`scope.scoring_policy` records which policy produced the scores;
+`scope.scoring_policy` records which policy produced the scores.
 models written before policy 2 fail the check until migrated or regenerated.
 
 Severity and conformance anchor two further rules:

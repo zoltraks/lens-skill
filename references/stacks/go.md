@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** Checkable constraints for Go services, libraries, and CLIs **Key items:** module files,
+> **Scope:**Checkable constraints for Go services, libraries, and CLIs**Key items:** module files,
 > version-suffix rules, idiomatic conventions, security tooling, CLI structure, crypto primitives
 
 This file distills the Go documentation, module reference, security policy, OWASP Go-SCP,

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** Report-production and skill-maintenance scripts **Key items:** table formatting,
+> **Scope:**Report-production and skill-maintenance scripts**Key items:** table formatting,
 > report validation, skill validation, reference integrity, self-update check
 
 These scripts support deterministic maintenance of Lens and production of audit reports.
@@ -65,13 +65,13 @@ that dump, and `--check` fails when the checked-in block has drifted from the li
 `extract-requirements.py <doc.md> ... [--json]` inventories requirement ids from spec documents -
 first table cell, heading start, or list item - with obligation hints,
 for the model's `requirements[]` registry.
-It never decides obligations; the auditor freezes the list.
+It never decides obligations - the auditor freezes the list.
 
 `render-tables.py <audit-model.json> --part scorecard|headline|criteria|requirements|findings|risks|roadmap|evidence|registers|all`
 renders the report's number-bearing tables mechanically from the canonical model,
 so scores and rows are never retyped by hand.
-`findings`, `risks`, `roadmap`, and `evidence` render the register tables;
-`registers` emits all four; `all` emits every part.
+`findings`, `risks`, `roadmap`, and `evidence` render the register tables.
+`registers` emits all four - `all` emits every part.
 `--project NAME` selects a project inside a multi-project model.
 
 `compare-models.py <model.json> <model.json> [...] [--json] [--anyway]` compares policy-3 audit
@@ -202,9 +202,9 @@ whenever finding blocks assess `Breaking change`.
 Its scorecard-mean check recomputes each `Scorecard Summary` table's overall from the displayed
 dimension scores and compares it to the stated `Overall score` at one decimal place.
 
-Its references check requires the closing Reference Sources section to stay last and carry a
-source entry - an external `[title](url)` link, an unlinked title, or `No external sources consulted` -
-and it rejects repository-path rows in the reference table.
+Its references check requires the closing Reference Sources section to stay last and carry a source
+entry - an external `[title](url)` link, an unlinked title,
+or `No external sources consulted` - and it rejects repository-path rows in the reference table.
 
 Pass `--repo-root <dir>` to also verify that `path:line` citations in finding `Targets` and
 `Evidence` fields resolve to real files whose recorded line numbers are within file length.
@@ -235,6 +235,7 @@ Run it on every Polish report before delivery - a pre-delivery gate, not a Valid
 
 Like the other report tools it is copied into the audited repository under a `.tmp.` name before use
 - a copy without `--rules` resolves the rules file relative to the skill tree,
+
 so a `.tmp.` copy must always pass `--rules <path to polish-language.md>` - the tool prints a hint
 when zero forbidden forms load, because silent zero coverage is the failure mode to avoid.
 

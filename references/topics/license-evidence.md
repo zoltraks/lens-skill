@@ -2,8 +2,8 @@
 
 ## Purpose
 
-> **Scope:** Where license declarations live per ecosystem and what counts as evidence **Key
-> items:** LICENSE/COPYING files, manifest `license` fields, header conventions, SPDX
+> **Scope:**Where license declarations live per ecosystem and what counts as evidence**Key items:**
+> LICENSE/COPYING files, manifest `license` fields, header conventions, SPDX
 > identifiers, NOTICE obligations
 
 This file consolidates per-ecosystem license evidence locations proven across audit sessions.

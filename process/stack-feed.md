@@ -75,7 +75,7 @@ Present the proposed change set before any shipped edit:
 - The outline of each `new-stack` digest.
 - Cross-stack rules targeting `topics/` or flat `references/`.
 
-The gate asks whether to apply; `autonomous` resolves it to apply,
+The gate asks whether to apply - `autonomous` resolves it to apply,
 per the member-contract flag semantics.
 
 Applied edits follow `docs/MAINTENANCE.md` - new digests register in `SKILL.md` and `README.md`,

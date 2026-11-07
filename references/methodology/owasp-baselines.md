@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** Checkable vocabulary and category anchors from the OWASP flagship documents **Key
+> **Scope:**Checkable vocabulary and category anchors from the OWASP flagship documents**Key
 > items:** Top 10 and API Top 10 category names, ASVS level structure, LLM Top 10,
 > agentic ASI and AST vocabularies, cheat-sheet index, SAMM maturity levels,
 > Secure Headers checklist

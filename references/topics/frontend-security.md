@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** Checkable client-side injection and browser-policy constraints **Key items:** DOM sink
+> **Scope:**Checkable client-side injection and browser-policy constraints**Key items:** DOM sink
 > inventory, CSP directives and delivery, Trusted Types, Permissions-Policy, eslint rule cross-refs
 
 This file distills the OWASP DOM-XSS, XSS-prevention, CSP,

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** The architectural assessment section and its conditional subsections **Key items:**
+> **Scope:**The architectural assessment section and its conditional subsections**Key items:**
 > design principles, data flow diagram, design patterns, decision records
 
 Provide an architectural critique against industry baselines.

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** Feature flags, ADR usage, release governance **Key items:** controlled rollout,
+> **Scope:**Feature flags, ADR usage, release governance**Key items:** controlled rollout,
 > recorded decisions, change approval, traceability
 
 This file guides assessment of how changes are introduced, recorded, and governed.

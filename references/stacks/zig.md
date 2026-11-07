@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** Checkable constraints for Zig toolchains and codebases **Key items:** build.zig
+> **Scope:**Checkable constraints for Zig toolchains and codebases**Key items:** build.zig
 > conventions, allocator discipline, comptime idioms, version pinning
 
 This file distills the Zig language documentation listed in `references/source-catalog.md` into

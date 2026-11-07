@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** The combined multi-project report layout **Key items:** project inventory,
+> **Scope:**The combined multi-project report layout**Key items:** project inventory,
 > shared sections, per-project blocks
 
 When the audit covers more than one project in a repository or directory,
@@ -13,7 +13,7 @@ The `project_layout` parameter selects between two structures:
 as this file first describes) and `combined` (a fully grouped layout with no per-project level-2
 blocks - see the Combined-layout section below).
 The agent asks the `project-layout` surface during the Parameter Configuration phase - whether
-findings, observations, and registers are grouped across projects or described per project;
+findings, observations, and registers are grouped across projects or described per project.
 when the user does not choose, `separate` applies.
 
 Each project is assessed independently regardless of layout.
@@ -51,7 +51,7 @@ per-project `##` headings, and every table cell naming a project.
 In a Polish pair file the label translates like every section name - ``Projekt ` <name> ` `` with
 `](#projekt-<slug>)` link targets.
 
-Under the `separate` layout the link target is the project's `##` heading;
+Under the `separate` layout the link target is the project's `##` heading.
 under the `combined` layout it is the project's row in the shared registers.
 
 When the report language is not English,
@@ -189,7 +189,7 @@ The validator enforces three multi-project rules once a `Project Inventory` exis
 - A shared-table cell never carries an ambiguous project label - `both`, `either`,
   and `the projects` all fail, so split the row or name each project explicitly.
 - Identifier references are bare everywhere - `FND-SEC-001` - since every register family numbers
-  report-globally; the `(<project>)` suffix on the defining heading names the owner.
+  report-globally - the `(<project>)` suffix on the defining heading names the owner.
 - The Project column appears only in combined and shared tables - a single-project report without a
   Project Inventory must not carry one, and the evidence ledger follows the same rule.
 - The Remediation Roadmap renders once at level 2 - a `### Remediation Roadmap` or a project-block

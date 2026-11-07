@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** Checkable constraints for C and C++ codebases **Key items:** C++ Core Guidelines
+> **Scope:**Checkable constraints for C and C++ codebases**Key items:** C++ Core Guidelines
 > enforceable subset, CERT rule-ID anchors, memory-safety and UB review classes
 
 This file distills the C++ Core Guidelines and CERT coding-standard anchors listed in

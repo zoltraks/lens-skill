@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** The required structure and template for the final audit report **Key items:** document
+> **Scope:**The required structure and template for the final audit report**Key items:** document
 > information, technology stack, executive summary, health dashboard, auditing methodology,
 > scoring rubrics, system context, architectural assessment, detailed technical findings,
 > unified risk register, trade-off analysis, remediation roadmap, scope exclusions
@@ -57,7 +57,7 @@ In tables, use shortened, general values.
 
 Every table cell's prose begins with a capital letter - `In-tree`,
 not `in-tree` - in header and body cells alike.
-Cells opening with a code span or link (an identifier, command, or path) keep their verbatim form;
+Cells opening with a code span or link (an identifier, command, or path) keep their verbatim form.
 the capital-first rule covers prose starts, never identifier casing.
 
 One or two words per cell.
@@ -457,8 +457,8 @@ All twenty-two baseline sections are present in full, subject to explicit parame
 
 Every scaffolded field on a finding block is required output - `Method`, `Mitigating factors`,
 and `Defect scenario` are never dropped.
-`Method` carries the concrete check that confirms the finding;
-`Mitigating factors` lists what limits the exposure (`Brak` when none);
+`Method` carries the concrete check that confirms the finding.
+`Mitigating factors` lists what limits the exposure (`Brak` when none).
 `Defect scenario` carries the initial-conditions, steps, expected, observed, confirmation narrative.
 
 Every criteria identifier cited in a `* **Criteria:**` field appears as a row in the Auditing
@@ -468,6 +468,7 @@ Every `FND-` identifier appears in the Remediation Roadmap or the finding block 
 `Accepted - no action` disposition - an undisposed finding is
 
 a defect.
+
 - Unified Risk Register
 - Remediation Roadmap (full matrix with P1-P4, impact/effort/complexity, verification)
 - Scope Exclusions

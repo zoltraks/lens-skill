@@ -68,8 +68,8 @@ Each sentence should stand on its own line, with an empty line between consecuti
 
 Anchor every claim to a concrete fact: a file path, a config key, a command, or a direct quote.
 
-Date and numeric ranges use words, never `..` - `between **2026-08-20** and **2026-10-24**` for a
-standalone range, `**2026-08-20** to **2026-10-24**` when the range modifies a noun,
+Date and numeric ranges use words, never `..` - `between **2026-08-20**and**2026-10-24**` for a
+standalone range, `**2026-08-20**to**2026-10-24**` when the range modifies a noun,
 and the range dates render bold.
 
 Register identifiers are cited individually, never as a range - write `REC-001, REC-002, REC-003`,

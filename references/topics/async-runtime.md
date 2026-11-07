@@ -52,7 +52,7 @@ From https://tokio.rs and https://sunshowers.io/posts/cancelling-async-rust/.
 - Dropped futures leave no broken invariant:
   code that must finish a critical section uses a completion mechanism (channel reply, guard object,
   or a task that owns the work) rather than relying on the future reaching its end.
-- Timeouts bound waits; an unbounded `.await` on a peer, queue,
+- Timeouts bound waits - an unbounded `.await` on a peer, queue,
   or lock without a timeout or cancellation path is an operational finding.
 
 ## Channels And Backpressure
@@ -77,8 +77,8 @@ From https://tokio.rs and https://sunshowers.io/posts/cancelling-async-rust/.
 
 - Shutdown is a sequence, not a flag: stop accepting new work, drain or cancel in-flight tasks,
   then join - with a stated bound on the drain wait.
-- A `CancellationToken` or equivalent cooperative signal propagates to spawned tasks
-  abrupt `abort()` on state-bearing tasks is a finding unless recorded.
+- A `CancellationToken` or equivalent cooperative signal propagates to spawned tasks abrupt
+  `abort()` on state-bearing tasks is a finding unless recorded.
 - Persistent writers flush before exit - a graceful path that skips a durable commit
   loses acknowledged state.
 

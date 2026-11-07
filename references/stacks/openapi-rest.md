@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** Checkable constraints for OpenAPI-described APIs and REST services **Key items:**
+> **Scope:**Checkable constraints for OpenAPI-described APIs and REST services**Key items:**
 > spec-required fields, schema-object rules, error contract (RFC 9457), lint expectations,
 > OWASP REST hardening
 

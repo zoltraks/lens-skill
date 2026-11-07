@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** Canonical counting methods for recurring audit censuses **Key items:** git history,
+> **Scope:**Canonical counting methods for recurring audit censuses**Key items:** git history,
 > author concentration, conditional directives, catch clauses, test inventory, tracked artifacts
 
 This file defines the standard measurement for each recurring census an audit reports.

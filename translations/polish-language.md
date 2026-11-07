@@ -943,7 +943,7 @@ Fixing them here is cheaper than discovering them through validator output.
 - **Verbatim terms:** contract English terms that must not be translated
   (`pin the measured baseline`, CI/CD stage names, tool identifiers)
   stay inside code spans - `lint-polish` flags them in plain text.
-- **Block field labels:** `* **Label:**` fields inside `### FND-...`, `### RSK-...`, `### REC-...`,
+- **Block field labels:** `***Label:**` fields inside `### FND-...`, `### RSK-...`, `### REC-...`,
   `### TDR-...` blocks come from that register's label table only - `Wpływ` on findings,
   never `Skutek` (which is `Effect` and belongs to risk narrative, not a field label at all).
   `check-translation.py` flags any out-of-set label.

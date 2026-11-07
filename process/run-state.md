@@ -14,7 +14,7 @@ This file defines the run-state record an audit maintains next to the canonical 
 and timestamps - so an interrupted audit resumes and a finished one reconciles what it declared
 against what is on disk.
 
-Apply this file inside `process/audit-workflow/`; phases, gates,
+Apply this file inside `process/audit-workflow/` - phases, gates,
 and the report contract are unchanged.
 
 ## Contents
@@ -65,11 +65,11 @@ Top-level shape:
 `state_version` is `1` for this schema.
 
 Phase names are the canonical workflow vocabulary: `intake`, `parameter-configuration`,
-`scope-definition`, `evidence-gathering`, `category-assessment`, `synthesis`,
-`validation`, `final-adjustments` - lower-kebab, in workflow order.
+`scope-definition`, `evidence-gathering`, `category-assessment`, `synthesis`, `validation`,
+`final-adjustments` - lower-kebab, in workflow order.
 `run.phase` names the phase currently in progress (a delivered report ends in `final-adjustments`),
 and `completed_phases` lists finished phases in that order.
-Artifact `kind` is one of `params`, `model`, `state`, `part`, `report`, `translation`;
+Artifact `kind` is one of `params`, `model`, `state`, `part`, `report`, `translation`.
 `part` files consumed by assembly are exempt from the on-disk reconciliation.
 
 The `gates` map records one entry per resolved question surface - the surface name from the phase
@@ -107,7 +107,7 @@ the host's equivalent - never a date-only guess, never a reconstructed value.
 When a real value was not captured - for example a phase whose start predates the state file - write
 `null` rather than a plausible time.
 
-A `null` is visibly incomplete; a reconstructed time is silently wrong.
+A `null` is visibly incomplete - a reconstructed time is silently wrong.
 
 ## Resume Protocol
 
@@ -118,8 +118,8 @@ On resume:
 
 1. Read and validate the state file before any phase work - a malformed file follows the
    Malformed State rule below.
-2. Verify each artifact already declared in `artifacts` still exists on disk
-   absent files drop from the declaration and the owning phase reruns.
+2. Verify each artifact already declared in `artifacts` still exists on disk absent files drop from
+   the declaration and the owning phase reruns.
 3. Announce the resume point before continuing - the phase named in `run.phase`,
    the gates already resolved, and the next pending surface.
 4. Keep `run.started` unchanged so `Time taken` reports the whole effort, not the resumed slice.
@@ -144,7 +144,7 @@ without state tracking, rather than fabricating a file.
 
 Before the completion message, reconcile the `artifacts` declarations against disk.
 
-Every declared path is checked; a missing artifact produces a `Missing artifacts` block in the
+Every declared path is checked - a missing artifact produces a `Missing artifacts` block in the
 completion report naming the path, its `kind`, and the phase that declared it.
 
 Reconciliation reports, it never repairs - do not regenerate the artifact, re-run the phase,

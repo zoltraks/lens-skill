@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** Source-derivable component inventories from dependency manifests and lockfiles **Key
+> **Scope:**Source-derivable component inventories from dependency manifests and lockfiles**Key
 > items:** per-ecosystem extraction procedures, component list format, evidence labeling
 
 This file defines a family of text-only manifest readers.

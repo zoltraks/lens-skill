@@ -168,6 +168,7 @@ which stays the run's resume and reconciliation record for the rest of the audit
 
 Once intake resolves, write the resolved values to `work/lens-params.json` in the audited repository
 - a plain JSON object carrying `subject`, `revision`, `projects`, `report_style`, `report_language`,
+
 `language_output`, `detail_level`, `evaluation_scale`, `evidence_mode`, `output_dir`,
 and `output_filename` - a `pair` language output records the two filenames in
 `output_filenames` instead.
@@ -457,15 +458,15 @@ Under `Accept defaults` it is never asked and the default applies.
 Apply `executed-readonly` or `executed-commands` only when the user explicitly commissions the mode
 - through this prompt's answer or a statement in the request.
 
-- **`source-only`** (default) - the audit executes nothing: no build, test, linter, scanner,
+- ** `source-only` ** (default) - the audit executes nothing: no build, test, linter, scanner,
   or generator runs against the project, and verification steps become Further Verification entries.
-- **`executed-readonly`** - additionally runs non-mutating, read-only analyzers the user names,
+- ** `executed-readonly` ** - additionally runs non-mutating, read-only analyzers the user names,
   such as dependency advisory or policy scanners (`cargo audit`, `cargo deny check`).
   The project itself is still never built, tested, or run,
   no tool is installed or upgraded for the audit,
   and every executed check is recorded in the Executed Evidence with tool, version, exact command,
   and timestamp per `process/report-format/report-closing.md`.
-- **`executed-commands`** - additionally runs the explicitly commissioned non-mutating commands
+- ** `executed-commands` ** - additionally runs the explicitly commissioned non-mutating commands
   the user names, which may include test suites, builds, lint, typecheck, coverage runs,
   and isolated reproduction harnesses. The subject is still never deployed, mutated,
   or connected to live systems, no tool is installed or upgraded unless the user commissioned it,

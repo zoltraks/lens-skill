@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** The conditional conformance sections of the report **Key items:** API contract,
+> **Scope:**The conditional conformance sections of the report**Key items:** API contract,
 > skill definition, agent guidance, AI system, standards, requirements, engineering baseline,
 > naming and layout, API compatibility
 

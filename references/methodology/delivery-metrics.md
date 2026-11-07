@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** Vocabulary and proxy rules for delivery-performance and reliability metrics **Key
+> **Scope:**Vocabulary and proxy rules for delivery-performance and reliability metrics**Key
 > items:** DORA five metrics, capability catalog, SLO/SLI definitions, SSDF verification-loop tasks
 
 This file distills the DORA, Google SRE,

@@ -2,8 +2,8 @@
 
 ## Purpose
 
-> **Scope:** Checkable constraints for assembly-language source partitions and projects **Key
-> items:** file and include conventions, label and equate naming per dialect, routine contracts,
+> **Scope:**Checkable constraints for assembly-language source partitions and projects**Key items:**
+> file and include conventions, label and equate naming per dialect, routine contracts,
 > memory-map documentation, terse-name temperament
 
 This file distills the DASM user guide and the ca65 users guide listed in

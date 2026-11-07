@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** Evidence of code origin and the controls used to validate generated artifacts **Key
+> **Scope:**Evidence of code origin and the controls used to validate generated artifacts**Key
 > items:** provenance, review records, reproducibility, SDLC controls, uncertainty
 
 Assess observable development artifacts and validation controls,

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** The source-inspectable subset of WCAG 2.2 and WAI-ARIA practice **Key items:**
+> **Scope:**The source-inspectable subset of WCAG 2.2 and WAI-ARIA practice**Key items:**
 > checkable conformance criteria, keyboard and focus rules, ARIA discipline,
 > media and form requirements
 

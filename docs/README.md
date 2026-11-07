@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** Index of the repository-governance documents under `docs/`. **Key items:** style,
+> **Scope:**Index of the repository-governance documents under `docs/`. **Key items:** style,
 > maintenance, versioning, contributing, security.
 
 These documents govern the Lens repository itself, not the audit reports the skill produces.

@@ -166,8 +166,8 @@ Present under `executed-readonly` or `executed-commands` evidence mode in `audit
 
 One row per commissioned execution:
 
-| Check | Tool & Version | Command | Result | Resolves |
-|-------|----------------|---------|-----------|--------|----------|
+| Check | Tool & Version | Command | Result | Resolves |   |
+|-------|----------------|---------|--------|----------|---|
 
 Each row records the exact command, the tool and advisory-database or ruleset revision,
 the exit status or outcome, and a retained-output reference (sanitized artifact path or
@@ -236,8 +236,8 @@ proposed roles are not assignments.
 
 ## Validation Protocol
 
-Run-internal by default: the protocol executes and is reported inline during the run and
-appears in the shipped report only when the request explicitly asks for it.
+Run-internal by default: the protocol executes and is reported inline during the run and appears in
+the shipped report only when the request explicitly asks for it.
 
 
 Close the analysis with a self-check table verifying the report's internal consistency.
@@ -325,8 +325,8 @@ link: `[<title>](<url>)`.
 
 Do not put URLs in the table itself, because long URLs make the table unreadable in plain text.
 
-A consulted source with no public URL keeps its row and renders its title without a link
-paragraph - no marker text is used.
+A consulted source with no public URL keeps its row and renders its title without a link paragraph -
+no marker text is used.
 
 When no external source was consulted at all, replace the table with one sentence:
 `No external sources consulted`.

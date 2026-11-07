@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** Session-proven mechanical evidence patterns that no external source owns **Key items:**
+> **Scope:**Session-proven mechanical evidence patterns that no external source owns**Key items:**
 > dispatch enumeration, stub detection, shipped-surface completeness, version coherence,
 > artifact sweeps, secret-chain tracing, spec-conformance diffs, NOT RUN ledger convention
 

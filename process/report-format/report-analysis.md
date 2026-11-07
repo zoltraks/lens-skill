@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** Trade-off analysis and threat model sections **Key items:** engineering
+> **Scope:**Trade-off analysis and threat model sections**Key items:** engineering
 > trade-offs, STRIDE threats
 
 ## Solution Comparison

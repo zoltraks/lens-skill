@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** Checkable constraints for Electron shells and desktop-packaged web apps **Key items:**
+> **Scope:**Checkable constraints for Electron shells and desktop-packaged web apps**Key items:**
 > context isolation, nodeIntegration, IPC contracts, sandboxing, code signing and distribution
 
 This file distills the Electron security, IPC, context-isolation,

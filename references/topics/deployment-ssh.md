@@ -2,8 +2,8 @@
 
 ## Purpose
 
-> **Scope:** Checkable patterns for SSH-based deployment paths found in audit subjects **Key
-> items:** key handling, StrictHostKeyChecking posture, scp/rsync patterns, agent forwarding risk,
+> **Scope:**Checkable patterns for SSH-based deployment paths found in audit subjects**Key items:**
+> key handling, StrictHostKeyChecking posture, scp/rsync patterns, agent forwarding risk,
 > host-key verification class
 
 This file consolidates deployment-path knowledge proven across audit sessions.

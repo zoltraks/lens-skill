@@ -78,7 +78,8 @@ From the audit-session evidence base and the benchmarking-toolchain guidance.
 - Targets declared `provisional` are recorded as such - the audit reports misses as data and never
   fabricates a confirmed baseline.
 - Reference-environment baselining: numbers transfer only to the profile and platform they were
-  measured on; a debug-on-laptop figure is a `limits` -tagged proxy for the release-on-server claim.
+  measured on - a debug-on-laptop figure is a `limits` -tagged proxy for the
+  release-on-server claim.
 - Contention metrics (claim races, queue rejects, lock waits)
   are reported beside throughput - a high-throughput figure under zero contention hides the
   coordination cost that dominates at scale.

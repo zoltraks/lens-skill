@@ -15,8 +15,8 @@ This section contains the Risk Map, the Scorecard Summary, and the Team & Contin
 **Risk Map**
 
 Provide a consolidated Likelihood vs Impact matrix summarizing the top risks.
-Impact rows that carry no risk in any Likelihood cell are omitted - the matrix shows
-only occupied bands, never an empty severity band.
+Impact rows that carry no risk in any Likelihood cell are omitted - the matrix shows only occupied
+bands, never an empty severity band.
 
 Use a table:
 
@@ -45,10 +45,10 @@ apply the heading translation from the matching `translations/` file.
 
 Provide a compact summary of the project scorecard dimensions.
 
-Precede the table with a `**Legend**` label and a `Band`/`Score` table naming the band for each
+Precede the table with a `**Legend**` label and a `Band` / `Score` table naming the band for each
 score range of the selected scale, so no score appears before its band is defined.
-In a multi-project report emit the legend once - a shared `## Evaluation Legend` section before
-the first `## Project` heading - rather than repeating the identical table inside every
+In a multi-project report emit the legend once - a shared `## Evaluation Legend` section before the
+first `## Project` heading - rather than repeating the identical table inside every
 project's Health Dashboard:
 
 | Band      | Score |
@@ -121,15 +121,15 @@ and any documented ownership or maintenance statement.
 
 Anchor it to evidence IDs.
 
-When no contributor or continuity evidence exists, omit the line entirely -
-do not write `Not collected` or any reason clause, because the absence reason
-(no Git history, no window) already appears in Scope Exclusions and Known Limitations.
+When no contributor or continuity evidence exists,
+omit the line entirely - do not write `Not collected` or any reason clause,
+because the absence reason (no Git history, no window)
+already appears in Scope Exclusions and Known Limitations.
 
-Never render the line as a pointer to another section -
-`Team & Continuity - see Delivery Practice` duplicates a section that follows immediately
-and misnames it.
+Never render the line as a pointer to another section - `Team & Continuity - see Delivery Practice`
+duplicates a section that follows immediately and misnames it.
 
-Delivery Practice carries the delivery-side continuity proxies (cadence, windows, bus factor);
+Delivery Practice carries the delivery-side continuity proxies (cadence, windows, bus factor).
 the dashboard line summarizes the contributor side only.
 
 When Git history or repository data was not in scope,

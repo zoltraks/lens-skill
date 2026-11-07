@@ -23,7 +23,7 @@ Confirm each item while composing sections, not after assembly.
 - Register summary rows carry the block's title text verbatim - the risk register's `Title` column
   copies its `### RSK-` heading.
 - `EVD` and `PAR` identifiers are row-defined in tables under a single section,
-  so their links point at the family section slug; `FND`, `RSK`, `REC`,
+  so their links point at the family section slug - `FND`, `RSK`, `REC`,
   and `TDR` links point at their `###` block slugs, never a section anchor.
 - Every finding identifier appears inside the Remediation Roadmap or Recommendation Classification
   region, or carries an `Accepted - no action` disposition on its block.

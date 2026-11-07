@@ -2,25 +2,25 @@
 
 ## Purpose
 
-> **Scope:** Executive summary and the previous-audit comparison block **Key items:** readiness
+> **Scope:**Executive summary and the previous-audit comparison block**Key items:** readiness
 > threshold, changes since previous audit
 
 ## Executive Summary
 
 Provide a compact overview a reader can absorb without the detail sections.
 
-Carry no score-band legend here - the legend list lives in Health Dashboard, before the
-Scorecard Summary, so no score appears before its band is defined.
+Carry no score-band legend here - the legend list lives in Health Dashboard,
+before the Scorecard Summary, so no score appears before its band is defined.
 
 Use a key-value table:
 
-| Field          | Value                                                 |
-|----------------|-------------------------------------------------------|
-| System type    | <prototype / codebase / production system / proposal> |
-| Scope          | <what was reviewed and what was excluded>             |
-| Source basis   | <running system / inspected code / description>       |
-| Maturity level | <maturity level>                                      |
-| **Overall score** | <score display>                                   |
+| Field             | Value                                                 |
+|-------------------|-------------------------------------------------------|
+| System type       | <prototype / codebase / production system / proposal> |
+| Scope             | <what was reviewed and what was excluded>             |
+| Source basis      | <running system / inspected code / description>       |
+| Maturity level    | <maturity level>                                      |
+| **Overall score** | <score display>                                       |
 
 Maturity level is one of: `Prototype`, `Early development`, `Pre-production`,
 `Production-ready`, or `Undetermined`.
@@ -33,8 +33,8 @@ For numeric scales, use `<mean>/<scale> (<band>)` and `<score>/<scale>`.
 For `5 stars` or `3 stars`, use the rounded star bar followed by the exact mean in parentheses,
 for example `★★★☆☆ (3.4/5)`.
 
-The `Overall score` row renders its field name and its score display bold -
-the overall appears exactly once, in this row.
+The `Overall score` row renders its field name and its score display bold - the overall appears
+exactly once, in this row.
 
 Under scoring policy 3 the key-value table is followed by the headline score table,
 rendered from the model with `scripts/render-tables.py --part headline` rather than typed by hand:
@@ -44,11 +44,11 @@ rendered from the model with `scripts/render-tables.py --part headline` rather t
 | Product Quality     | <score display> | Tier-weighted mean of <n> product dimensions, lowest <dims> |
 | Engineering Process | <score display> | Equal-weight mean, lowest <dims>                            |
 
-The headline table carries no `Overall Score` row - the overall already appears once,
-bolded, in the key-value table.
+The headline table carries no `Overall Score` row - the overall already appears once, bolded,
+in the key-value table.
 
-The key-value table carries no sub-score rows - `Product Quality` and `Engineering Process`
-belong in the headline score table.
+The key-value table carries no sub-score rows - `Product Quality` and `Engineering Process` belong
+in the headline score table.
 
 A score table Value cell holds only the score display with its band - `<score>/<scale> (<band>)`,
 an unresolved-interval suffix allowed, or `Not published` - basis text never enters the cell.
@@ -62,8 +62,8 @@ count, the product record on tier-3 eligibility and eligible tier weight.
 
 A descriptive paragraph directly below the headline table carries the blend basis:
 the product/process weights, `Product-only` when `Engineering Process` is `Not published`,
-and `ceiling` with its limit and reasons when the overall sits below the value recomputed
-from the displayed sub-scores.
+and `ceiling` with its limit and reasons when the overall sits below the value recomputed from the
+displayed sub-scores.
 
 The lowest-scoring applicable dimension and its score go in a paragraph below the blend paragraph,
 so a weak pillar is never hidden inside the average,

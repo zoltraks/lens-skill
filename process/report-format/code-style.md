@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** The conditional Code Style section of the report **Key items:** convention profile,
+> **Scope:**The conditional Code Style section of the report**Key items:** convention profile,
 > consistency census, naming quality review, structure and comprehension, enforcement and drift,
 > style sub-scores, craft notes
 

@@ -144,8 +144,8 @@ One row per check.
 The register is the report's spine - findings cite it, the retest register replays it,
 and a later report can rerun it verbatim.
 
-| Check | Command | Cwd | Tool & Version | Input revision | Exit status | Result | Interpretation | Artifact |
-|-------|---------|-----|----------------|-----------|----------------|-------------|--------|----------------|----------|
+| Check | Command | Cwd | Tool & Version | Input revision | Exit status | Result | Interpretation | Artifact |   |
+|-------|---------|-----|----------------|----------------|-------------|--------|----------------|----------|---|
 
 Required columns are `Check`, `Command`,
 and `Result` - carry the remaining columns whenever the mode permits them.

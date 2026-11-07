@@ -2,8 +2,8 @@
 
 ## Purpose
 
-> **Scope:** Checkable anchors for Markdown conformance and documentation architecture **Key
-> items:** CommonMark conformance surface, Diataxis documentation quadrants, prose format contracts
+> **Scope:**Checkable anchors for Markdown conformance and documentation architecture**Key items:**
+> CommonMark conformance surface, Diataxis documentation quadrants, prose format contracts
 
 This file distills the CommonMark spec and Diataxis sources listed in `references/source-catalog.md`
 into constraints an audit can verify from repository source.

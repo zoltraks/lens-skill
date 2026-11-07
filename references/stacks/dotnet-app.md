@@ -88,11 +88,11 @@ base convention).
 - Categorized error surfaces: one domain exception carrying a failure kind maps to the host's exit
   code or status - parallel exception families per failure kind are duplication.
 - Lazy enumerables throw inside `MoveNext`,
-  not at the call - a `try` / `catch` around `Directory.EnumerateFiles` guards nothing
-  guard the iteration site or pass `EnumerationOptions` with `IgnoreInaccessible`.
+  not at the call - a `try` / `catch` around `Directory.EnumerateFiles` guards nothing guard the
+  iteration site or pass `EnumerationOptions` with `IgnoreInaccessible`.
 - A `using` declaration disposes at the end of its block - a resource a consumer still needs after
-  the block (a shared `HttpClient`) is disposed out from under it
-  give the consumer ownership or create short-lived instances per operation.
+  the block (a shared `HttpClient`) is disposed out from under it give the consumer ownership or
+  create short-lived instances per operation.
 - `async` code passes `CancellationToken` through the whole chain,
   never calls `.Result` / `.Wait()` (deadlock + wasted thread),
   never uses `Thread.Sleep` in async paths,
@@ -101,11 +101,11 @@ base convention).
   `#pragma warning disable` without one, `async void` outside event handlers, static mutable state,
   empty `catch`, `Contains` used as a prefix test (anchor positionally instead), hardcoded secrets.
 - XML documentation covers every public API member (`<summary>`, `<param>`, `<returns>`,
-  deliberate `<exception>`); `<GenerateDocumentationFile>` makes the compiler report `CS1591`,
+  deliberate `<exception>`) - `<GenerateDocumentationFile>` makes the compiler report `CS1591`,
   and an orphaned `///` block (member inserted between doc and declaration) reports `CS1572`.
-- `.editorconfig` is the single source for style and analyzer severity
-  the checkable analyzer posture is `EnableNETAnalyzers` + `AnalysisLevel=latest` +
-  `AnalysisMode=Recommended` + `EnforceCodeStyleInBuild` - without the last,
+- `.editorconfig` is the single source for style and analyzer severity the checkable analyzer
+  posture is `EnableNETAnalyzers` + `AnalysisLevel=latest` + `AnalysisMode=Recommended` +
+  `EnforceCodeStyleInBuild` - without the last,
   `IDExxxx` rules run only in the IDE and CI silently disagrees.
 
 ## CLI Surface Contract
@@ -119,15 +119,16 @@ From the maintainer's `csharp-cli` engineering standard.
 - The help gate runs before the argument-error gate - `tool --bogus --help` still prints
   usage and exits `0`.
 - Option names form one flat namespace across all commands - a command-local meaning on a shared
-  name silently hijacks it; use scoped names (`--out`, `--session`).
-- A literal `--` terminates flag parsing; raw-arg scans (`--version` / `--help` shortcuts)
+  name silently hijacks it - use scoped names (`--out`, `--session`).
+- A literal `--` terminates flag parsing - raw-arg scans (`--version` / `--help` shortcuts)
   must stop at `--` too or a child's flag hijacks the parent's gate.
 - Resource-root resolution precedence: explicit `--root`, then environment variable,
   then walk-up marker-file discovery - a sidecar resource (cache, note store) degrades to a warning,
   the payload resource fails `not-found`.
-- Layered settings merge recursively (baseline scope, then profile scope
-  `null` inherits the lower layer), explicit command-line options always outrank configured
-  defaults, credentials live in a version-control-excluded secrets file referenced by `secrets:key`
+- Layered settings merge recursively (baseline scope,
+  then profile scope `null` inherits the lower layer),
+  explicit command-line options always outrank configured defaults,
+  credentials live in a version-control-excluded secrets file referenced by `secrets:key`
   indirection, and spawned sibling tools receive the resolved root and scope flags.
 - Sibling/external invocation goes through one shared runner returning a result record - never
   ad-hoc `Process.Start`: drain stdout and stderr before waiting,
@@ -180,7 +181,7 @@ https://learn.microsoft.com/en-us/dotnet/core/tutorials/testing-with-cli.
   date. A test needing a guaranteed zero-exit child spawns the host's shell (`%ComSpec%` or
   `/bin/sh`), never `Environment.ProcessPath` (the testhost apphost exits nonzero bare).
 - Portable-assembly tests do not assume Windows host semantics (no `cmd.exe`, no `\\` -only splits,
-  no registry); host-shaped fixtures branch on `OperatingSystem.IsWindows()` or move to a
+  no registry) - host-shaped fixtures branch on `OperatingSystem.IsWindows()` or move to a
   Windows-TFM test assembly, which compiles anywhere but executes only on Windows.
 - The documented verification set is evidence for tooling presence:
   `dotnet build -c Release` with warnings-as-errors, `dotnet test`,

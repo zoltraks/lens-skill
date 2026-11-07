@@ -2,8 +2,8 @@
 
 ## Purpose
 
-> **Scope:** The mechanically enforced surface of every Lens report **Key items:** required
-> sections, field syntax, token vocabularies, style-specific rules
+> **Scope:**The mechanically enforced surface of every Lens report**Key items:** required sections,
+> field syntax, token vocabularies, style-specific rules
 
 This file lists only what `scripts/validate-report.py` enforces - nothing more.
 
@@ -18,10 +18,10 @@ this page is the fast check, not the specification.
 - Headings never go deeper than `###`, and every heading is followed by exactly one blank line.
 - No semicolons in prose outside code spans and link targets - use a comma or split the sentence.
 - No em dash, en dash, or Unicode arrow outside code spans - use `-` and `->`.
-- Table cells carry tokens and short phrases, not sentences - a cell over roughly 80 characters
-  is a defect. Narrative, rationale, and file:line detail live in the block or paragraph
-  around the table, not inside a cell. Link markup counts toward cell width, which is why
-  register titles stay terse.
+- Table cells carry tokens and short phrases,
+  not sentences - a cell over roughly 80 characters is a defect. Narrative, rationale,
+  and file:line detail live in the block or paragraph around the table, not inside a cell.
+  Link markup counts toward cell width, which is why register titles stay terse.
 - Every table's separator widths match its header cell widths and all pipes align vertically - run
   `scripts/format-table.py` rather than aligning by hand.
   Column widths count the full `[text](target)` markup - brackets, text, and target together.
@@ -37,8 +37,8 @@ this page is the fast check, not the specification.
   and an executed `review` -style report additionally carries an Artifact Manifest.
 - The Audit Coverage table keeps only `Covered`, `Partially`,
   and `Not done` status cells - `Not Applicable` rows are omitted entirely.
-- The Validation Protocol is a run-internal record reported inline during the run - rows
-  `PAR-1` through `PAR-33` in fixed order - and enters the report only when the request asks for it.
+- The Validation Protocol is a run-internal record reported inline during the run - rows `PAR-1`
+  through `PAR-33` in fixed order - and enters the report only when the request asks for it.
 - At `Detail Level: Detailed`, when `## Glossary Index` is present,
   it carries a separate `**Identifier triplets**` table (`Triplet | Scope | Description`)
   after the alphabetical `Term | Definition` index table, starting with `FND` and `EVD`,
@@ -51,14 +51,14 @@ this page is the fast check, not the specification.
   valid status tokens, and when the conditional `Code Style` section is present its lens sub-score
   table and census rows carry valid status tokens.
 - The closing Reference Sources section lists external authoritative sources only - each linked
-  source renders a `[title](url)` link paragraph and an unlinked source renders its title
-  without a link,
-  `No external sources consulted` replaces the table,
+  source renders a `[title](url)` link paragraph and an unlinked source renders its title without a
+  link, `No external sources consulted` replaces the table,
   and repository paths never appear as references.
 - `FND`, `RSK`, and `REC` references must resolve to defined entries - a `REC-XXX` or `RSK-XXX` cite
   of a nonexistent `FND-` fails.
 - Reports carry no `State` row: every generated report is a final artifact,
-  and gate outcomes are recorded in run state and the inline protocol instead of an in-progress marker.
+  and gate outcomes are recorded in run state and the inline protocol instead of
+  an in-progress marker.
 
 ## Field Blocks
 
@@ -81,8 +81,8 @@ this page is the fast check, not the specification.
 - Recommendation blocks require: `Priority`, `Finding`, `Condition`, `Impact`, `Effort`,
   `Complexity`, `Verification`.
 - Debt blocks require: `Category`, `Source` - `Cost` and `Delay` appear only when they carry a real
-  estimate or qualitative note, and never an `Insufficient information` token
-  a value with no estimable basis omits the field entirely.
+  estimate or qualitative note, and never an `Insufficient information` token a value with no
+  estimable basis omits the field entirely.
 - A risk block's `Source` names a defined `FND-`,
   a recommendation block's `Finding` names a defined `FND-` and its `Depends on` names defined
   `REC-` identifiers or `none`, and a debt block's `Source` is a defined `FND-` or
@@ -123,16 +123,15 @@ English renders title case where the vocabulary lists give canonical uppercase n
 - `**Scorecard Summary**` rows carry numeric `n/m` Score cells - the validator recomputes the mean
   and compares it to every stated `Overall score` row in `hunt` and `review` reports,
   and they must agree.
-- `Overall score` never appears inside the scorecard table - it lives in the Executive
-  Summary key-value table, where its value renders bold.
-- An audit Executive Summary carries `Product Quality` and `Engineering Process`
-  rows in the headline score table and states the overall once, in the key-value
-  `Overall score` row - a numeric sub-score value names `lowest` within six lines,
-  a paragraph below the headline table names `Product-only` when `Engineering Process`
-  is `Not published` and names `ceiling` when the overall sits below the value
-  recomputed from the displayed sub-scores,
-  and every headline value recomputes from the displayed scorecard cells under the
-  catalogue tier weights.
+- `Overall score` never appears inside the scorecard table - it lives in the Executive Summary
+  key-value table, where its value renders bold.
+- An audit Executive Summary carries `Product Quality` and `Engineering Process` rows in the
+  headline score table and states the overall once,
+  in the key-value `Overall score` row - a numeric sub-score value names `lowest` within six lines,
+  a paragraph below the headline table names `Product-only` when `Engineering Process` is
+  `Not published` and names `ceiling` when the overall sits below the value recomputed from the
+  displayed sub-scores, and every headline value recomputes from the displayed scorecard cells under
+  the catalogue tier weights.
 - An audit `Requirements Conformance` table keeps one row per requirement - a merged range row such
   as `A-01 through A-11` or `A-01..A-11` fails.
 - Every `Dimension | Score` table - each `**Scorecard Summary**` table and every table inside a
@@ -169,9 +168,8 @@ English renders title case where the vocabulary lists give canonical uppercase n
 
 Under `Report Style: hunt` the required sections are Document Information, Audit Type Coverage,
 Verdict, System Context, Methodology And Evidence, Journey Traces, Domain Findings, Risk Register,
-Remediation Phases, Scope Exclusions, Known Limitations,
-Reference Sources - plus Glossary, Contradiction Register,
-and the handoff or executed-log section when conditional.
+Remediation Phases, Scope Exclusions, Known Limitations, Reference Sources - plus Glossary,
+Contradiction Register, and the handoff or executed-log section when conditional.
 
 - The Verdict section carries a `Verdict:` token (`Ready`, `Conditionally ready`, `Not ready`),
   a domain ratings table, a gates table, a top-five actions list citing `REC-` / `FND-` identifiers,
@@ -197,7 +195,8 @@ and the handoff or executed-log section when conditional.
 
 Under `Report Style: review` the required sections are Document Information, Audit Type Coverage,
 Verdict, System Context, Check Plan And Methodology, Execution Register, Domain Findings,
-Risk Register, Improvement Plan, Scope Exclusions, Known Limitations, Reference Sources - plus the conditional Retest Register, Metrics Snapshot, Artifact Manifest,
+Risk Register, Improvement Plan, Scope Exclusions, Known Limitations,
+Reference Sources - plus the conditional Retest Register, Metrics Snapshot, Artifact Manifest,
 Glossary, Contradiction Register, and the handoff section.
 
 - The Verdict carries the same verdict token, domain ratings, gates, top-five,
@@ -230,39 +229,41 @@ then rerun the renderer. Do not edit inside the markers.
 
 ### Canonical Dimensions
 
-Scorecard display names in canonical order and the `audit-model.json`
-dimension key each maps to:
+Scorecard display names in canonical order and the `audit-model.json` dimension key each maps to:
 
-| #  | Scorecard name        | Model id              |
-|----|-----------------------|-----------------------|
-| 1  | Functional Suitability | functional_suitability |
-| 2  | Testability           | testability           |
-| 3  | Design Soundness      | design_soundness      |
-| 4  | Code Quality          | code_quality          |
-| 5  | Code Style            | code_style            |
-| 6  | Stack Alignment       | stack_alignment       |
-| 7  | Dependency Health     | dependency_health     |
-| 8  | Maintainability       | maintainability       |
-| 9  | Structure             | structure             |
-| 10 | Deployability         | deployability         |
-| 11 | Scalability           | scalability           |
-| 12 | Security              | security              |
-| 13 | Compliance            | compliance            |
-| 14 | Observability         | observability         |
-| 15 | Operational Safety    | operational_safety    |
-| 16 | Documentation         | documentation         |
-| 17 | API Compatibility     | api_compatibility     |
-| 18 | Delivery & Continuity | delivery_continuity   |
-| 19 | Originality & Licensing | originality_licensing |
-| 20 | Skill Definition      | skill_definition      |
+| #  | Scorecard name          | Model id               |
+|----|-------------------------|------------------------|
+| 1  | Functional Suitability  | functional_suitability |
+| 2  | Testability             | testability            |
+| 3  | Design Soundness        | design_soundness       |
+| 4  | Code Quality            | code_quality           |
+| 5  | Code Style              | code_style             |
+| 6  | Stack Alignment         | stack_alignment        |
+| 7  | Dependency Health       | dependency_health      |
+| 8  | Maintainability         | maintainability        |
+| 9  | Structure               | structure              |
+| 10 | Deployability           | deployability          |
+| 11 | Scalability             | scalability            |
+| 12 | Security                | security               |
+| 13 | Compliance              | compliance             |
+| 14 | Observability           | observability          |
+| 15 | Operational Safety      | operational_safety     |
+| 16 | Documentation           | documentation          |
+| 17 | API Compatibility       | api_compatibility      |
+| 18 | Delivery & Continuity   | delivery_continuity    |
+| 19 | Originality & Licensing | originality_licensing  |
+| 20 | Skill Definition        | skill_definition       |
 
 Multi-project models prefix each key - `<project>.security`.
 
 ### Document Information Fields
 
-Required rows: `Detail Level`, `Evaluation Scale`, `Evidence Mode`, `Language`, `Report Date`, `Report Revision`, `Report Style`, `Skill Version`, `Subject Revision`, `Time taken`, `Verification Scope`.
+Required rows: `Detail Level`, `Evaluation Scale`, `Evidence Mode`, `Report Date`,
+`Report Revision`, `Report Style`, `Skill Version`, `Subject Revision`, `Time taken`,
+`Verification Scope`.
 
-Optional rows: `Audit Purpose`, `Dirty-Tree State`, `Previous Report`, `Projects`, `Review Scope`, `Sentence breaks`, `Target Environment`, `Translations`.
+Optional rows: `Audit Purpose`, `Dirty-Tree State`, `Language`, `Previous Report`, `Projects`,
+`Review Scope`, `Sentence breaks`, `Target Environment`, `Translations`.
 
 ### Health Dashboard Markers
 
@@ -270,10 +271,10 @@ Every Health Dashboard section carries: `Risk Map`, `Scorecard Summary`, `Team &
 
 ### Run State
 
-`work/audit-state.json` carries `state_version` 1 and
-this vocabulary:
+`work/audit-state.json` carries `state_version` 1 and this vocabulary:
 
-- Phases in order: `intake`, `parameter-configuration`, `scope-definition`, `evidence-gathering`, `category-assessment`, `synthesis`, `validation`.
+- Phases in order: `intake`, `parameter-configuration`, `scope-definition`, `evidence-gathering`,
+  `category-assessment`, `synthesis`, `validation`.
 - Gate tiers: `explicit`, `convention`, `discovered`, `default`, `automated`, `unknown`.
 - Required gates: `audit-mode`, `project-inclusion`, `parameters-acceptance`, `report-delivery`.
 - Artifact kinds: `params`, `model`, `state`, `part`, `report`, `translation`.

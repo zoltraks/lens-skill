@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** Auditing methodology and scoring rubric sections **Key items:** method, standards,
+> **Scope:**Auditing methodology and scoring rubric sections**Key items:** method, standards,
 > evidence ledger, score bands, ISO crosswalk
 
 ## Contents
@@ -67,13 +67,13 @@ Typical references:
 - **OWASP ASVS 5.0.0** - selected version-qualified security controls, with scope and level stated.
 - **CWE and CVSS** - weakness classification and vulnerability severity where applicable.
 - **SSDF and SAMM** - selected secure-development practices when process evidence is assessed.
-- **OWASP Top 10 (2025)** and, for APIs, **OWASP API Security Top 10 (2023)** - for the
+- **OWASP Top 10 (2025)**and, for APIs,**OWASP API Security Top 10 (2023)** - for the
   security category coverage.
 - **NIST SP 800-30** - risk assessment process, for the risk register and threat model.
 - **STRIDE** - threat enumeration framework, when a threat model is included.
 - **CISQ / SQALE** - structural quality and technical-debt cost model,
   when a technical debt register is included.
-- **ISO 19011** and **NIST RMF** - audit follow-up and continuous monitoring,
+- **ISO 19011**and**NIST RMF** - audit follow-up and continuous monitoring,
   when a re-audit plan is included.
 
 Beyond the generic standards above, name the stack-specific canonical sources applied,
@@ -243,8 +243,8 @@ The `Type` column carries `Observation` or `Concern` per `principles/evaluation-
 `Observation` for a fact another auditor could re-derive from the same artifact,
 `Concern` for a risk judgment built on observations.
 
-Most ledger rows are `Observation` -
-omit the `Type` column entirely when every row carries the same tag.
+Most ledger rows are `Observation` - omit the `Type` column entirely when every row
+carries the same tag.
 
 The tag is enforced mechanically: `scripts/validate-report.py` flags every `| EVD-` row and every
 finding block whose `Type` cell or field is missing or carries another value,
@@ -386,8 +386,8 @@ State the lowest-scoring applicable dimension and its score in a paragraph below
 per `synthesis/project-scorecard.md`.
 
 The Scorecard Summary table carries exactly two columns - `Dimension` and `Score`.
-No `Notes`, `Justification`, or commentary column exists: dimension narrative
-belongs in the prose under the table or in the finding blocks it cites.
+No `Notes`, `Justification`, or commentary column exists:
+dimension narrative belongs in the prose under the table or in the finding blocks it cites.
 
 Never close the Scorecard Summary table with an overall row - the `Overall score` row and the
 headline score table live in the Executive Summary only,

@@ -136,7 +136,7 @@ Top-level shape:
 
 Criteria `dimension` values are the canonical ids in `process/readiness-scoring.md` (scoring policy
 3) - snake_case keys like `security` and `delivery_continuity`,
-never the legacy `process` bucket or kebab-case;
+never the legacy `process` bucket or kebab-case.
 a process-family criteria entry names its own dimension (`delivery_continuity`,
 `originality_licensing`, `skill_definition`).
 Multi-project models prefix each dimension key with the project `name` (`<project>.security`)

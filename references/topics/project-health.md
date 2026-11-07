@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** Checkable signals for open-source project hygiene and community files **Key items:**
+> **Scope:**Checkable signals for open-source project hygiene and community files**Key items:**
 > OpenSSF best-practices criteria, community-health file conventions, SECURITY.md
 > semantics, gitignore coverage
 

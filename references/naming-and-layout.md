@@ -321,9 +321,9 @@ Where the toolchain is silent, component purpose and cohesion decide.
 | `partitioned-polyglot`  | Language partitions at top level, repo artifacts stay at root             | Parallel multi-language implementations           |
 
 Key enforcement signals: mixed file-and-directory modules are normal in Rust only when one
-module-file style is pinned (`clippy::self_named_module_files`);
+module-file style is pinned (`clippy::self_named_module_files`).
 a `cmd/` package holding subcommands is the Cobra shape while `cmd/<name>/main.go` directories of
-mains are the module shape - one module picks one meaning;
+mains are the module shape - one module picks one meaning.
 and `config/` example files sit outside packaged trees (`src/main/resources`,
 web-SDK-globbed project folders) so samples never ship as content.
 

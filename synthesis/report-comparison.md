@@ -356,8 +356,9 @@ Under `source-only` evidence mode a re-inspected `Open` / `Unchanged` finding re
 matching `Verified: yes` and `Runtime confirmed: no` in the block.
 
 `Status` is the lifecycle (`Open`, `Closed`, `Pass`),
-`Change` is the movement since the previous audit (`New`, `Unchanged`, `Reopened`, `Closed`)
-- provenance never doubles as a lifecycle state, so a first-audit finding reads
+`Change` is the movement since the previous audit (`New`, `Unchanged`, `Reopened`, `Closed`) -
+provenance never doubles as a lifecycle state, so a first-audit finding reads
+
 `Status: Open`, `Change: New`.
 
 Carry the evidence qualification in the `Verification` column rather than inventing new markers.

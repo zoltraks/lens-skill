@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** Checkable constraints for service-worker caching and offline behavior **Key items:**
+> **Scope:**Checkable constraints for service-worker caching and offline behavior**Key items:**
 > lifecycle semantics, cache-version cleanup, strategy recipes, HTTP-cache interaction,
 > stale-cache finding class
 

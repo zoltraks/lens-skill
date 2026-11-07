@@ -94,8 +94,8 @@ Write short sentences.
 
 Write one sentence per line.
 
-Sentences that form a related group - such as the blend, ceiling, and lowest-dimension lines
-of an audit summary - share one paragraph on consecutive lines.
+Sentences that form a related group - such as the blend, ceiling,
+and lowest-dimension lines of an audit summary - share one paragraph on consecutive lines.
 
 Unrelated sentences are separated by a blank line.
 
@@ -531,10 +531,10 @@ The `SKILL.md` file must contain YAML frontmatter followed by Markdown content.
 
 Required frontmatter fields:
 
-- **`name`** - 1-64 characters, lowercase letters and hyphens only,
+- ** `name` ** - 1-64 characters, lowercase letters and hyphens only,
   must not start or end with a hyphen, must not contain consecutive hyphens,
   must match the parent directory name.
-- **`description`** - 1-1024 characters, non-empty,
+- ** `description` ** - 1-1024 characters, non-empty,
   describes what the skill does and when to use it, should include specific trigger keywords.
 
 Optional frontmatter fields:

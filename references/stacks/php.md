@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** Checkable constraints for PHP services and libraries **Key items:** PSR-4 autoload
+> **Scope:**Checkable constraints for PHP services and libraries**Key items:** PSR-4 autoload
 > layout, PSR-12 style, Composer commands, PHPUnit, PHPStan ladder, php.ini hardening
 
 This file distills the PHP-FIG standards, PHP security manual, Composer, PHPUnit, PHPStan,

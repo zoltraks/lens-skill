@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** End-to-end audit process from intake to validated report **Key items:** intake, scope,
+> **Scope:**End-to-end audit process from intake to validated report**Key items:** intake, scope,
 > evidence gathering, per-category assessment, synthesis, validation
 
 This file defines the order of operations for producing an audit.

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-> **Scope:** Checkable anchors for supply-chain integrity and advisory conventions **Key items:**
+> **Scope:**Checkable anchors for supply-chain integrity and advisory conventions**Key items:**
 > SLSA levels, OpenSSF Scorecard checks, provenance vocabulary, GHSA/OSV advisory format
 
 This file distills the SLSA, OpenSSF Scorecard, GitHub Advisory Database,
