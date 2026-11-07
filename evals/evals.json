@@ -49,7 +49,7 @@
     "The new report contains Changes Since Previous Audit and a revisioned filename.",
     "Historical execution results are labeled REPORTED rather than current verification.",
     "Structural additions caused by the skill version are distinguished from product changes.",
-    "A baseline produced by an older skill version gets the current capability set applied, named as a capability change in the Validation Protocol.",
+    "A baseline produced by an older skill version gets the current capability set applied, named as a capability change in the inline Validation Protocol.",
     "Field and column names that differ between the baseline report's schema and the current contract are read through the legacy field-name mapping, and the rename is recorded as a capability change rather than a product change."
    ]
   },
@@ -88,7 +88,7 @@
     "Descriptive fixed values are rendered in Polish (Polski, Szczeg\u00f3\u0142owy, Etap przedprodukcyjny), the Stan and Stan prac rows are omitted for a final report on a clean tree, and no Tryb opisowy row appears in Document Information.",
     "The star-scale legend is labeled Skala oceny and names every band, including Z\u0142a for one star and S\u0142aba for two stars.",
     "The report output uses ASCII punctuation only - straight quotes, spaced hyphens for dashes, and '...' - with no typographic quotes, em-dashes, en-dashes, or arrow characters.",
-    "scripts/lint-polish.py reports zero errors on the rendered report, and the Validation Protocol mirrors the English rows without adding Polish-language checks.",
+    "scripts/lint-polish.py reports zero errors on the rendered report, and the inline Validation Protocol mirrors the English rows without adding Polish-language checks.",
     "Headings render Podsumowanie wykonawcze and the summary column header Ryzyka, and the skill-version row carries a bare semver such as `2.0.2`.",
     "The not-run scope sentence names skanowania podatno\u015bci, and readiness or severity adjectives used in prose render in declined lowercase bold (for example **niegotowa**, **wysokiej**) rather than uppercase."
    ]
@@ -207,7 +207,7 @@
    "expected_output": "Findings that carry a Type tag separating observation from concern, and an exploitability narrative in the Exploitability field of the network-facing security finding that stays theoretical.",
    "files": [],
    "expectations": [
-    "Every finding carries a Type field reading Observation or Concern, and every Evidence Ledger row carries the same tag.",
+    "Every finding carries a Type field reading Observation or Concern, and the Evidence Ledger carries a Type column with that tag only when its rows mix both - a single-type ledger omits the column.",
     "The HIGH security finding on the upload endpoint carries an Exploitability field with a tier, preconditions, attack-path steps, trust boundaries, impact, and uncertainty.",
     "The narrative is marked Theoretical and NOT EXECUTED, states the live validation needed, and never claims exploitation occurred.",
     "The Scope Exclusions name dynamic penetration testing as not performed by default and point to a separately commissioned engagement.",
@@ -775,7 +775,7 @@
    "files": [],
    "expectations": [
     "The previous report's checksum, or byte size and line count when hashing is unavailable, is recorded at baseline confirmation.",
-    "The baseline file is re-verified against the recorded checksum before concatenation and again at the consistency gate, and a mismatch stops delivery and is named in the Validation Protocol.",
+    "The baseline file is re-verified against the recorded checksum before concatenation and again at the consistency gate, and a mismatch stops delivery and is named in the inline Validation Protocol.",
     "The completion message states the output path, skill version, validation result, elapsed time, and that the baseline file is unchanged from the intake record."
    ]
   },
@@ -1023,7 +1023,7 @@
    "expected_output": "A structurally valid hunt skeleton that passes the validator with zero issues.",
    "files": [],
    "expectations": [
-    "The skeleton carries every required hunt section, the fixed domain-ratings rows, a gates table, an empty producer/consumer matrix, a hop table, the PAR-1..PAR-20 record, and one fully labeled `### FND-`, `### RSK-`, and `### REC-` template block.",
+    "The skeleton carries every required hunt section, the fixed domain-ratings rows, a gates table, an empty producer/consumer matrix, a hop table, the inline PAR-1..PAR-20 record, and one fully labeled `### FND-`, `### RSK-`, and `### REC-` template block.",
     "`new-report.py` runs `format-table.py` on `--output` when the formatter resolves next to the script or under `LENS_SKILL_ROOT`.",
     "`--params work/lens-params.json` prefills the style and project list from the saved intake file, with command-line options taking precedence.",
     "`python scripts/validate-report.py --dump-contract` prints the enforced contract as JSON generated from the live constants."
@@ -1035,7 +1035,7 @@
    "expected_output": "A structurally valid review skeleton that passes the validator with zero issues.",
    "files": [],
    "expectations": [
-    "The skeleton carries every required review section: Document Information, Audit Coverage, Verdict, System Context, Check Plan And Methodology, Execution Register, Domain Findings, Risk Register, Improvement Plan, Scope Exclusions, Known Limitations, Validation Protocol, and Reference Sources.",
+    "The skeleton carries every required review section: Document Information, Audit Coverage, Verdict, System Context, Check Plan And Methodology, Execution Register, Domain Findings, Risk Register, Improvement Plan, Scope Exclusions, Known Limitations, and Reference Sources, with the Validation Protocol reported inline rather than shipped.",
     "The Execution Register template row carries command, cwd, tool and version, timestamp, input revision, exit status, result, interpretation, and artifact columns.",
     "The `### FND-` template block carries an `Evidence level` field and the Improvement Plan carries a disposition column or field.",
     "An `evidence-mode` of `executed-readonly` or `executed-commands` in the params file adds the Artifact Manifest section."
@@ -1283,7 +1283,7 @@
    "files": [],
    "expectations": [
     "Reference Sources is the final `##` section and carries a table of external authoritative sources - standards, specifications, official documentation - never internal repository files or paths.",
-    "Every table row renders a `[title](url)` link paragraph below the table; a consulted source without a public URL states `No public URL` in its supporting paragraph instead.",
+    "Every linked source renders a `[title](url)` link paragraph below the table; a consulted source without a public URL renders its title without a link.",
     "Canonical URLs for bundled-digest sources come from references/stack-standards.md and references/source-catalog.md; offline audits mark dated cached sources.",
     "When no external source was consulted at all, the section states `No external sources consulted` in place of the table.",
     "The Polish sibling renders the heading as `Bibliografia` with `Odniesienie`, `Wydawca lub autor`, and `Zastosowane w` columns."
@@ -1458,13 +1458,13 @@
   },
   {
    "id": 122,
-   "prompt": "Audit this repository and produce a report whose prose uses single-sentence paragraphs.",
-   "expected_output": "A report where every prose sentence stands alone as its own paragraph, separated from the previous and next sentence by exactly one blank line.",
+   "prompt": "Audit this repository and produce a report whose prose uses one sentence per line.",
+   "expected_output": "A report where every prose sentence sits on its own line - related sentences share one paragraph on consecutive lines, unrelated sentences are separated by a blank line.",
    "files": [],
    "expectations": [
-    "No prose line carries two sentences joined by '. ' + capital and no sentence boundary sits inside a paragraph without a blank line.",
-    "List items, * **Field:** register lines, table cells, and headings stay unsplit - the rule covers running prose only.",
-    "Joining sentences is allowed only when the user explicitly asks for it and the report records '| Sentence breaks | Off |' in Document Information."
+    "No prose line carries two sentences joined by '. ' + capital - each sentence is its own line.",
+    "Related short sentences - the blend, ceiling, and lowest-dimension lines of an Executive Summary, or Owner/Closure-evidence lines - group into one paragraph without blank lines between them.",
+    "List items, * **Field:** register lines, table cells, and headings stay unsplit - the rule covers running prose only."
    ]
   },
   {
@@ -2290,8 +2290,8 @@
    "files": [],
    "expectations": [
     "scripts/render-tables.py runs with --part scorecard, headline, criteria, and requirements (or all), plus --project for a multi-project model.",
-    "The Executive Summary carries Product Quality, Engineering Process, and Overall Score rows rendered from the model's headline records.",
-    "Each numeric sub-score names its lowest dimensions, and Overall Score names Product-only when Engineering Process is Not published and ceiling when capped.",
+    "The Executive Summary carries Product Quality and Engineering Process rows rendered from the model's headline records, with the overall stated once, bolded, in the key-value Overall score row.",
+    "Each numeric sub-score names its lowest dimensions, and the paragraph below the headline table names Product-only when Engineering Process is Not published and ceiling when capped.",
     "Score-bearing table cells equal the model values - the report never recalculates or retypes a number."
    ]
   },

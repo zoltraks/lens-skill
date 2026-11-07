@@ -9,14 +9,8 @@
 
 Provide a compact overview a reader can absorb without the detail sections.
 
-Precede the table with a one-line legend naming the band for each score range of the selected scale,
-so no score appears before its band is defined:
-
-- `1-10`: `1-3 Poor · 4-6 Average · 7-8 Good · 9-10 Excellent`
-- `1-5`: `1 Bad · 2 Poor · 3 Average · 4 Good · 5 Excellent`
-- `1-3`: `1 Poor · 2 Average · 3 Excellent`
-- `5 stars`: `★ Bad · ★★ Poor · ★★★ Average · ★★★★ Good · ★★★★★ Excellent`
-- `3 stars`: `★ Poor · ★★ Average · ★★★ Excellent`
+Carry no score-band legend here - the legend list lives in Health Dashboard, before the
+Scorecard Summary, so no score appears before its band is defined.
 
 Use a key-value table:
 
@@ -26,7 +20,7 @@ Use a key-value table:
 | Scope          | <what was reviewed and what was excluded>             |
 | Source basis   | <running system / inspected code / description>       |
 | Maturity level | <maturity level>                                      |
-| Overall score  | <score display>                                       |
+| **Overall score** | <score display>                                   |
 
 Maturity level is one of: `Prototype`, `Early development`, `Pre-production`,
 `Production-ready`, or `Undetermined`.
@@ -39,7 +33,8 @@ For numeric scales, use `<mean>/<scale> (<band>)` and `<score>/<scale>`.
 For `5 stars` or `3 stars`, use the rounded star bar followed by the exact mean in parentheses,
 for example `★★★☆☆ (3.4/5)`.
 
-The Overall score cell holds only the score display.
+The `Overall score` row renders its field name and its score display bold -
+the overall appears exactly once, in this row.
 
 Under scoring policy 3 the key-value table is followed by the headline score table,
 rendered from the model with `scripts/render-tables.py --part headline` rather than typed by hand:
@@ -48,7 +43,15 @@ rendered from the model with `scripts/render-tables.py --part headline` rather t
 |---------------------|-----------------|-------------------------------------------------------------|
 | Product Quality     | <score display> | Tier-weighted mean of <n> product dimensions, lowest <dims> |
 | Engineering Process | <score display> | Equal-weight mean, lowest <dims>                            |
-| Overall Score       | <score display> | <blend wording, Product-only, ceiling>                      |
+
+The headline table carries no `Overall Score` row - the overall already appears once,
+bolded, in the key-value table.
+
+The key-value table carries no sub-score rows - `Product Quality` and `Engineering Process`
+belong in the headline score table.
+
+A score table Value cell holds only the score display with its band - `<score>/<scale> (<band>)`,
+an unresolved-interval suffix allowed, or `Not published` - basis text never enters the cell.
 
 Each numeric `Product Quality` and `Engineering Process` value names its lowest-scoring eligible
 dimensions with the word `lowest` - the validator checks the six-line window after the value,
@@ -57,11 +60,12 @@ and the Basis cell carries it.
 A sub-score that fails its publish gate renders `Not published` - the process record gates on scored
 count, the product record on tier-3 eligibility and eligible tier weight.
 
-When `Engineering Process` renders `Not published`, the `Overall Score` basis names `Product-only`,
-and when the overall sits below the blend recomputed from the displayed sub-scores the basis names
-`ceiling` with its limit and reasons.
+A descriptive paragraph directly below the headline table carries the blend basis:
+the product/process weights, `Product-only` when `Engineering Process` is `Not published`,
+and `ceiling` with its limit and reasons when the overall sits below the value recomputed
+from the displayed sub-scores.
 
-The lowest-scoring applicable dimension and its score go in a paragraph directly below the table,
+The lowest-scoring applicable dimension and its score go in a paragraph below the blend paragraph,
 so a weak pillar is never hidden inside the average,
 for example `Lowest-scoring dimensions: Security ★★☆☆☆.` Exclude `N/A` and `Unknown`
 dimensions from both values.

@@ -14,7 +14,7 @@ Follow it after Synthesis.
 | Section                      | Line | What it covers               |
 |------------------------------|------|------------------------------|
 | Validation                   | 20   | Validation                   |
-| Evidence And Decision Checks | 335  | Evidence And Decision Checks |
+| Evidence And Decision Checks | 336  | Evidence And Decision Checks |
 
 
 ## Validation
@@ -143,9 +143,10 @@ Confirm the Delivery Practice section is present per project:
 computable metrics are labeled as proxies, unmeasurable metrics are `Not specified` with reasons,
 and the bus-factor rating carries its commit-share, contributor-count, and window basis.
 
-Confirm the audit Executive Summary carries the `Product Quality`, `Engineering Process`,
-and `Overall Score` rows - each numeric sub-score names its lowest dimensions,
-and the `Overall Score` names `Product-only` and `ceiling` when they apply - per
+Confirm the audit Executive Summary carries the `Product Quality` and `Engineering Process`
+rows in the headline table and states the overall once, bolded, in the key-value
+`Overall score` row - each numeric sub-score names its lowest dimensions,
+and the paragraph below the headline table names `Product-only` and `ceiling` when they apply - per
 `process/report-format/summary-changes.md`, and every place an overall score appears reports the
 lowest-scoring applicable dimension and its score in a paragraph below the table,
 per `synthesis/project-scorecard.md`.

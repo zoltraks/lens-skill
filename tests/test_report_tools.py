@@ -249,13 +249,13 @@ class TestValidateReport(unittest.TestCase):
         self.assertEqual(self.validator.check_criteria_references(lines, "hunt"), [])
 
     def test_par_bound_is_thirty_three(self):
-        rows = "".join(f"| PAR-{n} | Pass | x |\n" for n in range(1, 34))
+        rows = "## Validation Protocol\n\n" + "".join(f"| PAR-{n} | Pass | x |\n" for n in range(1, 34))
         self.assertEqual(self.validator.check_par_rows(rows), [])
-        missing_30 = "".join(f"| PAR-{n} | Pass | x |\n" for n in range(1, 33))
+        missing_30 = "## Validation Protocol\n\n" + "".join(f"| PAR-{n} | Pass | x |\n" for n in range(1, 33))
         self.assertTrue(any("PAR-33" in f for f in self.validator.check_par_rows(missing_30)))
 
     def test_par_result_cells_render_check_vocabulary(self):
-        rows = "".join(f"| PAR-{n} | Pass | x |\n" for n in range(1, 34))
+        rows = "## Validation Protocol\n\n" + "".join(f"| PAR-{n} | Pass | x |\n" for n in range(1, 34))
         bad = rows.replace("| PAR-3 | Pass |", "| PAR-3 | PASS |").replace(
             "| PAR-9 | Pass |", "| PAR-9 | Skipped |"
         )
@@ -393,8 +393,11 @@ class TestValidateReport(unittest.TestCase):
             "|-----------|---------------------|---------|\n"
             "| OWASP ASVS 5.0 | OWASP | Auditing Methodology |\n"
         )
-        failures = self.validator.check_references_section(block)
-        self.assertTrue(any("external link" in f for f in failures))
+        self.assertEqual(self.validator.check_references_section(block), [])
+
+        bare = "## Reference Sources\n\nNothing cited here.\n"
+        failures = self.validator.check_references_section(bare)
+        self.assertTrue(any("no source entry" in f for f in failures))
 
         linked = block + "\n[OWASP ASVS](https://owasp.org/)\n"
         self.assertEqual(self.validator.check_references_section(linked), [])
@@ -418,12 +421,12 @@ class TestValidateReport(unittest.TestCase):
         lines = ["First sentence.", "Second sentence.", "", "Only one."]
         fences = self.validator.split_code(lines)
         failures = self.validator.check_sentence_breaks(lines, fences, True)
-        self.assertTrue(any("boundary inside a paragraph" in f for f in failures))
-        joined = "\n".join(lines) + "\n| Sentence breaks | Off |\n"
-        suppressed = self.validator.check_sentence_breaks(
-            lines, fences, self.validator.sentence_breaks_on(joined)
+        self.assertFalse(any("boundary inside a paragraph" in f for f in failures))
+        joined = ["Alpha ends here. Beta starts next."]
+        failures = self.validator.check_sentence_breaks(
+            joined, self.validator.split_code(joined), True
         )
-        self.assertFalse(any("boundary inside" in f for f in suppressed))
+        self.assertTrue(any("joined in one line" in f for f in failures))
 
     def test_midline_sentence_join(self):
         lines = ["Alpha ends here. Beta starts next."]
@@ -1804,13 +1807,19 @@ class TestHealthDashboard(unittest.TestCase):
     def test_missing_markers_flagged(self):
         vr = load_script("validate-report.py")
         fails = vr.check_health_dashboard(self._report("| a | b |\n|---|---|\n"))
-        self.assertEqual(len(fails), 3)
+        self.assertEqual(len(fails), 4)
 
     def test_bold_and_heading_forms_accepted(self):
         vr = load_script("validate-report.py")
-        body = "**Risk Map**\n\nx\n\n**Scorecard Summary**\n\ny\n\n**Team & Continuity**\n\nz\n"
+        body = ("**Risk Map**\n\nx\n\n**Legend**\n\n"
+                "| Band | Score |\n|---|---|\n"
+                "| Poor | 1-3 |\n| Average | 4-6 |\n| Good | 7-8 |\n| Excellent | 9-10 |\n\n"
+                "**Scorecard Summary**\n\ny\n\n**Team & Continuity**\n\nz\n")
         self.assertEqual(vr.check_health_dashboard(self._report(body)), [])
-        body2 = "### Risk Map\n\nx\n\n### Scorecard Summary\n\ny\n\n### Team & Continuity\n\nz\n"
+        body2 = ("### Risk Map\n\nx\n\n**Legend**\n\n"
+                 "| Band | Score |\n|---|---|\n"
+                 "| Poor | 1-3 |\n| Average | 4-6 |\n| Good | 7-8 |\n| Excellent | 9-10 |\n\n"
+                 "### Scorecard Summary\n\ny\n\n### Team & Continuity\n\nz\n")
         self.assertEqual(vr.check_health_dashboard(self._report(body2)), [])
 
 
@@ -1917,6 +1926,24 @@ class TestModelConsistency(unittest.TestCase):
 The lowest dimension is security.
 
 ## Health Dashboard
+
+**Legend**
+
+| Band | Score |
+|---|---|
+| Poor | 1-3 |
+| Average | 4-6 |
+| Good | 7-8 |
+| Excellent | 9-10 |
+
+**Legend**
+
+| Band | Score |
+|---|---|
+| Poor | 1-3 |
+| Average | 4-6 |
+| Good | 7-8 |
+| Excellent | 9-10 |
 
 **Scorecard Summary**
 
@@ -2073,6 +2100,15 @@ Security's interval [4-5] bounds the unresolved criteria.
 | Overall score | 5.0/10 |
 |---------------|--------|
 
+**Legend**
+
+| Band | Score |
+|---|---|
+| Poor | 1-3 |
+| Average | 4-6 |
+| Good | 7-8 |
+| Excellent | 9-10 |
+
 **Scorecard Summary**
 
 | Dimension | Score      | Notes |
@@ -2085,6 +2121,15 @@ Security's interval [4-5] bounds the unresolved criteria.
 
 | Overall score | 7.0/10 |
 |---------------|--------|
+
+**Legend**
+
+| Band | Score |
+|---|---|
+| Poor | 1-3 |
+| Average | 4-6 |
+| Good | 7-8 |
+| Excellent | 9-10 |
 
 **Scorecard Summary**
 
@@ -2289,6 +2334,9 @@ class TestRepairs26(unittest.TestCase):
                 "| Report Style | audit |\n\n"
                 "## Health Dashboard\n\n"
                 "### Risk Map\n\nx\n\n"
+                "**Legend**\n\n| Band | Score |\n|---|---|\n"
+                "| Poor | 1-3 |\n| Average | 4-6 |\n"
+                "| Good | 7-8 |\n| Excellent | 9-10 |\n\n"
                 "### Scorecard Summary\n\nx\n\n"
                 "### Team & Continuity\n\nx\n\n"
                 "## Scope Exclusions\n\nx\n")
@@ -3253,7 +3301,7 @@ class TestRenderTables(unittest.TestCase):
         self.assertIn("lowest Security 5/10", text)
         self.assertIn("| Engineering Process | Not published", text)
         self.assertIn("1 of 2 applicable process dimensions scored", text)
-        self.assertIn("| Overall Score", text)
+        self.assertNotIn("| Overall Score", text)
         self.assertIn("Product-only", text)
         self.assertIn("ceiling 6: severity HIGH", text)
 

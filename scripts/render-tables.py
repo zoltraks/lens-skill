@@ -197,28 +197,33 @@ def render_headline(model: dict, project: str | None) -> str:
         )
     process_row = ["Engineering Process", value, basis]
 
-    if single.get("score") is None:
-        single_row = ["Overall Score", "Not published", "-"]
-    else:
-        value = score_value(
-            single.get("score"), scale_max, single.get("interval")
-        )
-        parts = []
-        if single.get("flag") == "product-only":
-            parts.append("Product-only")
-        else:
-            parts.append("7/10 product + 3/10 process")
-        ceiling = single.get("ceiling")
-        if isinstance(ceiling, dict):
-            reasons = ", ".join(
-                str(r).replace(":", " ") for r in ceiling.get("reasons", [])
-            )
-            parts.append(f"ceiling {ceiling.get('limit')}: {reasons}")
-        single_row = ["Overall Score", value, ", ".join(parts)]
-
-    return render_table(
-        ["Score", "Value", "Basis"], [product_row, process_row, single_row]
+    table = render_table(
+        ["Score", "Value", "Basis"], [product_row, process_row]
     )
+
+    if single.get("score") is None:
+        blend = "The overall score is Not published."
+    elif single.get("flag") == "product-only":
+        blend = (
+            "The overall score is the product value alone (Product-only) - "
+            "Engineering Process is Not published."
+        )
+    else:
+        blend = (
+            "The overall score blends product quality (0.7) and "
+            "engineering process (0.3)."
+        )
+    ceiling = single.get("ceiling")
+    if isinstance(ceiling, dict):
+        reasons = ", ".join(
+            str(r).replace(":", " ") for r in ceiling.get("reasons", [])
+        )
+        blend += (
+            f"\n\nThe overall is capped at ceiling {ceiling.get('limit')}: "
+            f"{reasons}."
+        )
+
+    return table + "\n\n" + blend
 
 
 def render_criteria(model: dict, project: str | None, catalogue: dict) -> str:

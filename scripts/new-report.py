@@ -46,7 +46,6 @@ AUDIT_SECTIONS = [
 CLOSING_SECTIONS = [
     "Scope Exclusions",
     "Known Limitations",
-    "Validation Protocol",
     "Reference Sources",
 ]
 
@@ -271,7 +270,7 @@ def audit_project_body(project: str, number: int = 1) -> list[str]:
                         "| Scope | <what was reviewed and what was excluded> |\n",
                         "| Source basis | <running system / inspected code / description> |\n",
                         "| Maturity level | <maturity level> |\n",
-                        "| Overall score | <mean>/<scale> (<band>) |\n",
+                        "| **Overall score** | <mean>/<scale> (<band>) |\n",
                     ],
                 )
             )
@@ -282,10 +281,10 @@ def audit_project_body(project: str, number: int = 1) -> list[str]:
                     [
                         "| Product Quality | <score>/<scale> (<band>) | <formula>, lowest <dimension> <score> |\n",
                         "| Engineering Process | <score>/<scale> (<band>) or Not published | <formula>, lowest <dimension> <score> |\n",
-                        "| Overall Score | <score>/<scale> (<band>) or Not published | <blend, Product-only, ceiling wording> |\n",
                     ],
                 )
             )
+            parts.append("The overall score <blend wording - Product-only, ceiling>.\n\n")
             parts.append("Lowest-scoring applicable dimension: <dimension> <score>.\n\n")
         elif section == "Health Dashboard":
             parts.append("**Risk Map**\n\n")
@@ -295,6 +294,19 @@ def audit_project_body(project: str, number: int = 1) -> list[str]:
                     "|---|---|---|---|",
                     ["| Critical |  |  |  |\n", "| High |  |  |  |\n",
                      "| Medium |  |  |  |\n", "| Low |  |  |  |\n"],
+                )
+            )
+            parts.append("**Legend**\n\n")
+            parts.append(
+                table(
+                    "| Band | Score |",
+                    "|---|---|",
+                    [
+                        "| Poor | 1-3 |\n",
+                        "| Average | 4-6 |\n",
+                        "| Good | 7-8 |\n",
+                        "| Excellent | 9-10 |\n",
+                    ],
                 )
             )
             parts.append("**Scorecard Summary**\n\n")
@@ -422,8 +434,6 @@ def audit_shared_tail(multi: bool, projects: list[str] | None = None) -> list[st
         heading(2, "Further Verification"),
         "Every material claim the audit could not resolve from source, with the\n"
         "exact command or procedure and its pass criteria.\n\n",
-        heading(2, "Validation Protocol"),
-        validation_record(),
     ]
     parts += roadmap_sections(list(projects or []))
     parts += [
@@ -535,8 +545,6 @@ def hunt_skeleton(projects: list[str], params: dict) -> str:
         "- Glossary omitted - Descriptive mode disabled.\n\n",
         heading(2, "Known Limitations"),
         "- <each check that would require execution and was not performed>\n\n",
-        heading(2, "Validation Protocol"),
-        validation_record(),
         heading(2, "Reference Sources"),
         table(
             "| Reference | Publisher or Author | Used In |",
@@ -607,10 +615,10 @@ def review_skeleton(projects: list[str], params: dict) -> str:
         "`Not run` is never a pass.\n\n"
         "Every non-Pass row states its Interpretation.\n\n",
         table(
-            "| Check | Command | Cwd | Tool & Version | Timestamp | Input revision | Exit status | Result | Interpretation | Artifact |",
-            "|---|---|---|---|---|---|---|---|---|---|",
+            "| Check | Command | Cwd | Tool & Version | Input revision | Exit status | Result | Interpretation | Artifact |",
+            "|---|---|---|---|---|---|---|---|---|",
             [
-                "| <check> | <exact command> | <cwd> | <tool and version> | <timestamp> | "
+                "| <check> | <exact command> | <cwd> | <tool and version> | "
                 "<revision> | <exit code> | Not run | <why or outcome meaning> | <artifact or `None retained`> |\n"
             ],
         ),
@@ -666,8 +674,6 @@ def review_skeleton(projects: list[str], params: dict) -> str:
         else "- Glossary omitted - Descriptive mode disabled.\n\n",
         heading(2, "Known Limitations"),
         "- <each check that stayed NOT RUN and every unresolved unknown>\n\n",
-        heading(2, "Validation Protocol"),
-        validation_record(),
         heading(2, "Reference Sources"),
         table(
             "| Reference | Publisher or Author | Used In |",
@@ -732,8 +738,6 @@ def structure_review_skeleton(projects: list[str], params: dict) -> str:
         ),
         heading(2, "Limitations and Assumptions"),
         "- <areas that could not be evaluated and assumptions the verdicts rest on>\n\n",
-        heading(2, "Validation Protocol"),
-        validation_record(),
         heading(2, "Reference Sources"),
         table(
             "| Reference | Publisher or Author | Used In |",
@@ -816,15 +820,26 @@ def populate_audit(body: str, model: dict) -> str:
             1,
         )
         ceiling = (single.get("ceiling") or {}).get("reasons")
-        ceiling_text = f"ceiling {ceiling}" if ceiling else "blend"
+        blend_text = (
+            "is the product value alone (Product-only) - "
+            "Engineering Process is Not published"
+            if single.get("flag") == "product-only"
+            else "blends product quality (0.7) and engineering process (0.3)"
+        )
+        if ceiling:
+            blend_text += (
+                f", capped at ceiling "
+                f"{(single.get('ceiling') or {}).get('limit')}: {ceiling}"
+            )
         body = body.replace(
-            "| Overall Score | <score>/<scale> (<band>) or Not published | <blend, Product-only, ceiling wording> |",
-            f"| Overall Score | {single['score']}/{scale_max} ({single.get('band','')}) | {ceiling_text}, raw {single.get('raw','?')} |",
+            "The overall score <blend wording - Product-only, ceiling>.",
+            f"The overall score {blend_text}.",
             1,
         )
         body = body.replace(
-            "| Overall score | <mean>/<scale> (<band>) |",
-            f"| Overall score | {single['score']}/{scale_max} ({single.get('band','')}) |",
+            "| **Overall score** | <mean>/<scale> (<band>) |",
+            f"| **Overall score** | **{single['score']}/{scale_max} "
+            f"({single.get('band','')})** |",
             1,
         )
     findings = model.get("findings", [])
@@ -950,8 +965,8 @@ def populate_audit(body: str, model: dict) -> str:
             f" {_clean(e.get('result',''))[:120]} | {e.get('type','Observation')} | <artifact> |\n"
             for e in evidence
         )
-        ledger = "## Evidence Ledger\n\n| Evidence | Source | Result | Type | Artifact |\n|---|---|---|---|---|\n" + ledger_rows + "\n"
-        body = body.replace("## Validation Protocol", ledger + "\n## Validation Protocol", 1)
+        ledger = "## Evidence List\n\n| Evidence | Source | Result | Type | Artifact |\n|---|---|---|---|---|\n" + ledger_rows + "\n"
+        body = body.replace("## Remediation Roadmap", ledger + "\n## Remediation Roadmap", 1)
     executed = [e for e in evidence if e.get("kind") == "EXECUTED"]
     executed_rows = "".join(
         f"| {_clean(e.get('method',''))[:40]} | `{_clean(e.get('locator',{}).get('path',''))}` |"

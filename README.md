@@ -27,11 +27,11 @@
 | Report Format                      | 454  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 491  | Supported requests and exclusions                   |
 | What's Inside                      | 515  | Documents, references, tools, and conditional files |
-| Document Style                     | 704  | Pointer to the style rules file                     |
-| Specification                      | 714  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 735  | Maintenance checks and regression scenarios         |
-| License                            | 766  | License for the skill itself                        |
-| Credits                            | 772  | Authorship and attribution                          |
+| Document Style                     | 705  | Pointer to the style rules file                     |
+| Specification                      | 715  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 736  | Maintenance checks and regression scenarios         |
+| License                            | 767  | License for the skill itself                        |
+| Credits                            | 773  | Authorship and attribution                          |
 
 ## Overview
 
@@ -540,6 +540,7 @@ lens-skill/
 │   │   ├── category-assessment.md         # Category Assessment phase: per-category checklists
 │   │   ├── report-synthesis.md            # Synthesis phase: drafting, assembly, counter-evidence
 │   │   ├── report-validation.md           # Validation phase: mechanical gates, decision checks
+│   │   ├── final-adjustments.md           # Final Adjustments phase: confirmation, corrections, delivery
 │   │   └── regression-scenarios.md        # Skill-maintenance regression scenario table
 │   ├── audit-model.md                     # Evidence-to-finding pipeline and canonical audit-model.json
 │   ├── calibration.md                     # Paired-run reproducibility procedure and tolerances

@@ -59,28 +59,28 @@ This file is loaded only when the report language is Polish.
 | Structure Conformance                       | 1563 | Structure Conformance guidance              |
 | Code Style                                  | 1580 | Code Style guidance                         |
 | Reference Sources                           | 1611 | Reference Sources guidance                  |
-| Strengths And What's Working                | 1622 | Strengths And What's Working guidance       |
-| Technical Findings                          | 1628 | Technical Findings guidance                 |
-| Technical Debt Register                     | 1696 | Technical Debt Register guidance            |
-| Unified Risk Register                       | 1712 | Unified Risk Register guidance              |
-| Solution Comparison                         | 1733 | Solution Comparison guidance                |
-| Remediation Roadmap                         | 1745 | Remediation Roadmap guidance                |
-| Recommendation Classification               | 1768 | Recommendation Classification guidance      |
-| Changes Since Previous Audit                | 1783 | Changes Since Previous Audit guidance       |
-| Scope Exclusions                            | 1817 | Scope Exclusions guidance                   |
-| Limitations And Unknowns                    | 1825 | Limitations And Unknowns guidance           |
-| Follow-up Plan                              | 1842 | Follow-up Plan guidance                     |
-| Further Verification                        | 1857 | Further Verification guidance               |
-| Executed Evidence                           | 1870 | Executed Evidence guidance                  |
-| Hunt Style Sections                         | 1883 | Hunt Style Sections guidance                |
-| Review Style Sections                       | 1912 | Review Style Sections guidance              |
-| Validation Protocol                         | 1954 | Validation Protocol guidance                |
-| Threat Model                                | 2012 | Threat Model guidance                       |
-| API Contract Conformance                    | 2027 | API Contract Conformance guidance           |
-| API Compatibility And Versioning Discipline | 2036 | API Compatibility And Versioning guidance   |
-| Evidence And Decision Terms                 | 2045 | Evidence And Decision Terms guidance        |
-| Skill Definition Conformance Table          | 2106 | Skill Definition Conformance Table guidance |
-| Structure Review                            | 2121 | Structure Review guidance                   |
+| Strengths And What's Working                | 1621 | Strengths And What's Working guidance       |
+| Technical Findings                          | 1627 | Technical Findings guidance                 |
+| Technical Debt Register                     | 1695 | Technical Debt Register guidance            |
+| Unified Risk Register                       | 1711 | Unified Risk Register guidance              |
+| Solution Comparison                         | 1732 | Solution Comparison guidance                |
+| Remediation Roadmap                         | 1744 | Remediation Roadmap guidance                |
+| Recommendation Classification               | 1767 | Recommendation Classification guidance      |
+| Changes Since Previous Audit                | 1782 | Changes Since Previous Audit guidance       |
+| Scope Exclusions                            | 1816 | Scope Exclusions guidance                   |
+| Limitations And Unknowns                    | 1824 | Limitations And Unknowns guidance           |
+| Follow-up Plan                              | 1841 | Follow-up Plan guidance                     |
+| Further Verification                        | 1856 | Further Verification guidance               |
+| Executed Evidence                           | 1869 | Executed Evidence guidance                  |
+| Hunt Style Sections                         | 1882 | Hunt Style Sections guidance                |
+| Review Style Sections                       | 1911 | Review Style Sections guidance              |
+| Validation Protocol                         | 1953 | Validation Protocol guidance                |
+| Threat Model                                | 2011 | Threat Model guidance                       |
+| API Contract Conformance                    | 2026 | API Contract Conformance guidance           |
+| API Compatibility And Versioning Discipline | 2035 | API Compatibility And Versioning guidance   |
+| Evidence And Decision Terms                 | 2044 | Evidence And Decision Terms guidance        |
+| Skill Definition Conformance Table          | 2105 | Skill Definition Conformance Table guidance |
+| Structure Review                            | 2120 | Structure Review guidance                   |
 
 ## Analysis And Rendering
 
@@ -1616,7 +1616,6 @@ or `Nieznany` in its `Status` cell.
 | Reference                     | Odniesienie              |
 | Publisher or Author           | Wydawca lub autor        |
 | Used In                       | Zastosowane w            |
-| No public URL                 | Brak publicznego adresu  |
 | No external sources consulted | Brak źródeł zewnętrznych |
 
 ## Strengths And What's Working

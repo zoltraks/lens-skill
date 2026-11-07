@@ -66,8 +66,8 @@ Top-level shape:
 
 Phase names are the canonical workflow vocabulary: `intake`, `parameter-configuration`,
 `scope-definition`, `evidence-gathering`, `category-assessment`, `synthesis`,
-`validation` - lower-kebab, in workflow order.
-`run.phase` names the phase currently in progress (a delivered report ends in `validation`),
+`validation`, `final-adjustments` - lower-kebab, in workflow order.
+`run.phase` names the phase currently in progress (a delivered report ends in `final-adjustments`),
 and `completed_phases` lists finished phases in that order.
 Artifact `kind` is one of `params`, `model`, `state`, `part`, `report`, `translation`;
 `part` files consumed by assembly are exempt from the on-disk reconciliation.

@@ -33,7 +33,8 @@ this page is the fast check, not the specification.
   and an executed `review` -style report additionally carries an Artifact Manifest.
 - The Audit Coverage table keeps only `Covered`, `Partially`,
   and `Not done` status cells - `Not Applicable` rows are omitted entirely.
-- The Validation Protocol carries rows `PAR-1` through `PAR-33` in fixed order.
+- The Validation Protocol is a run-internal record reported inline during the run - rows
+  `PAR-1` through `PAR-33` in fixed order - and enters the report only when the request asks for it.
 - At `Detail Level: Detailed`, when `## Glossary Index` is present,
   it carries a separate `**Identifier triplets**` table (`Triplet | Scope | Description`)
   after the alphabetical `Term | Definition` index table, starting with `FND` and `EVD`,
@@ -45,14 +46,15 @@ this page is the fast check, not the specification.
   and when the conditional `Structure Conformance` section is present its conformance tables carry
   valid status tokens, and when the conditional `Code Style` section is present its lens sub-score
   table and census rows carry valid status tokens.
-- The closing Reference Sources section lists external authoritative sources only - each row renders
-  a `[title](url)` link paragraph, `No public URL` marks an unlinked source,
+- The closing Reference Sources section lists external authoritative sources only - each linked
+  source renders a `[title](url)` link paragraph and an unlinked source renders its title
+  without a link,
   `No external sources consulted` replaces the table,
   and repository paths never appear as references.
 - `FND`, `RSK`, and `REC` references must resolve to defined entries - a `REC-XXX` or `RSK-XXX` cite
   of a nonexistent `FND-` fails.
 - Reports carry no `State` row: every generated report is a final artifact,
-  and gate outcomes are recorded in the Validation Protocol instead of an in-progress marker.
+  and gate outcomes are recorded in run state and the inline protocol instead of an in-progress marker.
 
 ## Field Blocks
 
@@ -118,11 +120,13 @@ English renders title case where the vocabulary lists give canonical uppercase n
   and compares it to every stated `Overall score` row in `hunt` and `review` reports,
   and they must agree.
 - `Overall score` never appears inside the scorecard table - it lives in the Executive
-  Summary key-value table.
-- An audit Executive Summary carries `Product Quality`, `Engineering Process`,
-  and `Overall Score` rows - a numeric sub-score value names `lowest` within six lines,
-  `Overall Score` names `Product-only` when `Engineering Process` is `Not published` and names
-  `ceiling` when it sits below the value recomputed from the displayed sub-scores,
+  Summary key-value table, where its value renders bold.
+- An audit Executive Summary carries `Product Quality` and `Engineering Process`
+  rows in the headline score table and states the overall once, in the key-value
+  `Overall score` row - a numeric sub-score value names `lowest` within six lines,
+  a paragraph below the headline table names `Product-only` when `Engineering Process`
+  is `Not published` and names `ceiling` when the overall sits below the value
+  recomputed from the displayed sub-scores,
   and every headline value recomputes from the displayed scorecard cells under the
   catalogue tier weights.
 - An audit `Requirements Conformance` table keeps one row per requirement - a merged range row such
@@ -161,7 +165,7 @@ English renders title case where the vocabulary lists give canonical uppercase n
 
 Under `Report Style: hunt` the required sections are Document Information, Audit Type Coverage,
 Verdict, System Context, Methodology And Evidence, Journey Traces, Domain Findings, Risk Register,
-Remediation Phases, Scope Exclusions, Known Limitations, Validation Protocol,
+Remediation Phases, Scope Exclusions, Known Limitations,
 Reference Sources - plus Glossary, Contradiction Register,
 and the handoff or executed-log section when conditional.
 
@@ -189,8 +193,7 @@ and the handoff or executed-log section when conditional.
 
 Under `Report Style: review` the required sections are Document Information, Audit Type Coverage,
 Verdict, System Context, Check Plan And Methodology, Execution Register, Domain Findings,
-Risk Register, Improvement Plan, Scope Exclusions, Known Limitations, Validation Protocol,
-Reference Sources - plus the conditional Retest Register, Metrics Snapshot, Artifact Manifest,
+Risk Register, Improvement Plan, Scope Exclusions, Known Limitations, Reference Sources - plus the conditional Retest Register, Metrics Snapshot, Artifact Manifest,
 Glossary, Contradiction Register, and the handoff section.
 
 - The Verdict carries the same verdict token, domain ratings, gates, top-five,

@@ -43,8 +43,18 @@ apply the heading translation from the matching `translations/` file.
 
 Provide a compact summary of the project scorecard dimensions.
 
-Precede the table with the same one-line score-band legend defined for the Executive Summary,
-so no score appears before its band is defined.
+Precede the table with a `**Legend**` label and a `Band`/`Score` table naming the band for each
+score range of the selected scale, so no score appears before its band is defined:
+
+| Band      | Score |
+|-----------|-------|
+| Poor      | 1-3   |
+| Average   | 4-6   |
+| Good      | 7-8   |
+| Excellent | 9-10  |
+
+Band names come from the selected scale's vocabulary - `Bad`, `Poor`, `Average`, `Good`,
+`Excellent` - and the Score cell carries the range token (`1-3`, `5`, `★★`).
 
 | Dimension               | Score | Notes |
 |-------------------------|-------|-------|
@@ -105,6 +115,13 @@ author concentration, commit cadence, tag and release history,
 and any documented ownership or maintenance statement.
 
 Anchor it to evidence IDs.
+
+Never render the line as a pointer to another section -
+`Team & Continuity - see Delivery Practice` duplicates a section that follows immediately
+and misnames it.
+
+Delivery Practice carries the delivery-side continuity proxies (cadence, windows, bus factor);
+the dashboard line summarizes the contributor side only.
 
 When Git history or repository data was not in scope,
 mark it `Not collected` rather than omitting the line.

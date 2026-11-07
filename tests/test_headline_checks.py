@@ -48,11 +48,18 @@ SCORECARD = """## Health Dashboard
 
 HEADLINE = """## Executive Summary
 
+| Field         | Value                |
+|---------------|----------------------|
+| **Overall score** | **6.0/10 (Average)** |
+
 | Score               | Value            | Basis                                                                 |
 |---------------------|------------------|-----------------------------------------------------------------------|
 | Product Quality     | 7.0/10 (Good)    | Tier-weighted mean of 14 product dimensions, lowest Testability 4/10  |
 | Engineering Process | Not published    | 1 of 2 applicable process dimensions scored                           |
-| Overall Score       | 6.0/10 (Average) | Product-only, ceiling 6: readiness NOT READY                          |
+
+The overall score is the product value alone (Product-only).
+
+The overall is capped at ceiling 6: readiness NOT READY.
 """
 
 REPORT = DOC_INFO + "\n" + HEADLINE + "\n" + SCORECARD
@@ -65,11 +72,16 @@ PROCESS_PUBLISHED_SCORECARD = SCORECARD.replace(
 
 PROCESS_PUBLISHED_HEADLINE = """## Executive Summary
 
+| Field         | Value             |
+|---------------|-------------------|
+| **Overall score** | **7.0/10 (Good)** |
+
 | Score               | Value            | Basis                                            |
 |---------------------|------------------|--------------------------------------------------|
 | Product Quality     | 7.0/10 (Good)    | Tier-weighted mean, lowest Testability 4/10      |
 | Engineering Process | 7.0/10 (Good)    | Equal-weight mean, lowest Delivery & Continuity  |
-| Overall Score       | 7.0/10 (Good)    | 7/10 product + 3/10 process                      |
+
+The overall score blends product quality (0.7) and engineering process (0.3).
 """
 
 
@@ -82,13 +94,12 @@ class TestHeadlineDisclosure(unittest.TestCase):
 
     def test_missing_rows_fail(self):
         text = REPORT.replace(
-            "| Overall Score       | 6.0/10 (Average) | "
-            "Product-only, ceiling 6: readiness NOT READY                          |\n",
+            "| **Overall score** | **6.0/10 (Average)** |\n",
             "",
         )
         fails = self.validator.check_headline_disclosure(text)
         self.assertTrue(
-            any("lacks the Overall Score row" in f for f in fails), fails
+            any("lacks the Overall score row" in f for f in fails), fails
         )
         text = REPORT.replace(
             "| Product Quality     | 7.0/10 (Good)    | "
@@ -106,7 +117,20 @@ class TestHeadlineDisclosure(unittest.TestCase):
         joined = "\n".join(fails)
         self.assertIn("lacks the Product Quality row", joined)
         self.assertIn("lacks the Engineering Process row", joined)
-        self.assertIn("lacks the Overall Score row", joined)
+        self.assertIn("lacks the Overall score row", joined)
+
+    def test_score_table_overall_row_duplicates(self):
+        text = REPORT.replace(
+            "| Engineering Process | Not published    | "
+            "1 of 2 applicable process dimensions scored                           |\n",
+            "| Engineering Process | Not published    | "
+            "1 of 2 applicable process dimensions scored                           |\n"
+            "| Overall Score       | 6.0/10 (Average) | Product-only, ceiling 6  |\n",
+        )
+        fails = self.validator.check_headline_disclosure(text)
+        self.assertTrue(
+            any("duplicates the overall" in f for f in fails), fails
+        )
 
     def test_numeric_product_needs_lowest_nearby(self):
         text = REPORT.replace("lowest Testability 4/10", "tier-weighted blend")
@@ -162,8 +186,8 @@ class TestHeadlineDisclosure(unittest.TestCase):
             fails,
         )
         swapped = text.replace(
-            "| Overall Score       | 7.0/10 (Good)",
-            "| Overall Score       | 7.2/10 (Good)",
+            "| **Overall score** | **7.0/10 (Good)**",
+            "| **Overall score** | **7.2/10 (Good)**",
         )
         fails = self.validator.check_headline_disclosure(swapped)
         self.assertTrue(
@@ -177,7 +201,7 @@ class TestHeadlineDisclosure(unittest.TestCase):
         )
 
     def test_product_only_must_be_named(self):
-        text = REPORT.replace("Product-only, ceiling 6", "ceiling 6")
+        text = REPORT.replace(" (Product-only)", "")
         fails = self.validator.check_headline_disclosure(text)
         self.assertTrue(
             any("does not name Product-only" in f for f in fails), fails
@@ -185,7 +209,7 @@ class TestHeadlineDisclosure(unittest.TestCase):
 
     def test_ceiling_must_be_named(self):
         text = REPORT.replace(
-            "Product-only, ceiling 6: readiness NOT READY", "Product-only"
+            "\nThe overall is capped at ceiling 6: readiness NOT READY.\n", ""
         )
         fails = self.validator.check_headline_disclosure(text)
         self.assertTrue(
@@ -233,17 +257,22 @@ class TestHeadlineDisclosure(unittest.TestCase):
         )
         headline = """## Executive Summary
 
+| Field         | Value         |
+|---------------|---------------|
+| **Overall score** | Not published |
+
 | Score               | Value         | Basis                                  |
 |---------------------|---------------|--------------------------------------|
 | Product Quality     | Not published | tier weight short of half            |
 | Engineering Process | Not published | 1 of 2 applicable dimensions scored  |
-| Overall Score       | Not published | -                                    |
+
+The overall score is Not published.
 """
         text = DOC_INFO + "\n" + headline + "\n" + scorecard
         self.assertEqual(self.validator.check_headline_disclosure(text), [])
         numeric = text.replace(
-            "| Overall Score       | Not published",
-            "| Overall Score       | 5.0/10 (Average)",
+            "| **Overall score** | Not published",
+            "| **Overall score** | **5.0/10 (Average)**",
         )
         fails = self.validator.check_headline_disclosure(numeric)
         self.assertTrue(
@@ -253,6 +282,52 @@ class TestHeadlineDisclosure(unittest.TestCase):
                 "(Not published)" in f
                 for f in fails
             ),
+            fails,
+        )
+
+
+class TestExecutiveSummaryShape(unittest.TestCase):
+    def setUp(self):
+        self.validator = load_script("validate-report.py")
+
+    BODY = """## Document Information
+
+| Field | Value |
+|-------|-------|
+| Report Style | audit |
+
+## Executive Summary
+
+| Field | Value |
+|-------|-------|
+| System type | Codebase |
+| Scope | x |
+| Source basis | x |
+| Maturity level | Pre-production |
+| Overall score | **5.0/10** |
+"""
+
+    def test_legend_absent_passes(self):
+        fails = self.validator.check_executive_summary(self.BODY)
+        self.assertFalse(any("legend" in f for f in fails), fails)
+
+    def test_legend_in_summary_fails(self):
+        text = self.BODY.replace(
+            "## Executive Summary\n",
+            "## Executive Summary\n\n1-3 Poor · 4-6 Average · 7-8 Good · 9-10 Excellent\n",
+        )
+        fails = self.validator.check_executive_summary(text)
+        self.assertTrue(any("Health Dashboard" in f for f in fails), fails)
+
+    def test_subscore_row_in_kv_table_fails(self):
+        text = self.BODY.replace(
+            "| Overall score | **5.0/10** |\n",
+            "| Overall score | **5.0/10** |\n"
+            "| Product Quality | 5.0/10 - lowest x |\n",
+        )
+        fails = self.validator.check_executive_summary(text)
+        self.assertTrue(
+            any("Field/Value table" in f and "Product Quality" in f for f in fails),
             fails,
         )
 
@@ -438,7 +513,7 @@ class TestModelHeadline(unittest.TestCase):
     def test_product_only_marker_required(self):
         model = self._model()
         model["requirements"] = []
-        text = self.REPORT.replace("Product-only, ceiling 6", "ceiling 6")
+        text = self.REPORT.replace(" (Product-only)", "")
         fails = self._check(text, model)
         self.assertTrue(
             any(
@@ -455,12 +530,15 @@ class TestModelHeadline(unittest.TestCase):
         model["scores"]["single"]["score"] = 7.0
         model["scores"]["single"]["ceiling"] = None
         text = self.REPORT.replace(
-            "Product-only, ceiling 6: readiness NOT READY", "Product-only"
+            "\nThe overall is capped at ceiling 6: readiness NOT READY.\n", ""
         ).replace(
-            "| Overall Score       | 6.0/10", "| Overall Score       | 7.0/10"
+            "**6.0/10 (Average)**", "**7.0/10 (Average)**"
         )
         self.assertEqual(self._check(text, model), [])
-        extra = text.replace("Product-only", "Product-only, ceiling 6")
+        extra = text.replace(
+            "The overall score is the product value alone (Product-only).",
+            "The overall score is the product value alone (Product-only), ceiling 6.",
+        )
         fails = self._check(extra, model)
         self.assertTrue(
             any(
@@ -497,15 +575,19 @@ class TestModelHeadline(unittest.TestCase):
         text = (
             DOC_INFO
             + "\n## Project `api`\n\n### Executive Summary\n\n"
+            + "| Field | Value |\n|---|---|\n"
+            + "| **Overall score** | **6.0/10** |\n\n"
             + "| Score | Value | Basis |\n|---|---|---|\n"
-            + "| Product Quality | 7.0/10 | lowest x |\n"
-            + "| Engineering Process | Not published | - |\n"
-            + "| Overall Score | 6.0/10 | Product-only, ceiling 6 |\n"
+            + "| Product Quality | 7.0/10 (Good) | lowest x |\n"
+            + "| Engineering Process | Not published | - |\n\n"
+            + "The overall score is the product value alone (Product-only), ceiling 6.\n"
             + "\n## Project `cli`\n\n### Executive Summary\n\n"
+            + "| Field | Value |\n|---|---|\n"
+            + "| **Overall score** | **6.0/10** |\n\n"
             + "| Score | Value | Basis |\n|---|---|---|\n"
-            + "| Product Quality | 7.0/10 | lowest x |\n"
-            + "| Engineering Process | Not published | - |\n"
-            + "| Overall Score | 6.0/10 | Product-only, ceiling 6 |\n"
+            + "| Product Quality | 7.0/10 (Good) | lowest x |\n"
+            + "| Engineering Process | Not published | - |\n\n"
+            + "The overall score is the product value alone (Product-only), ceiling 6.\n"
         )
         self.assertEqual(self._check(text, model), [])
         head, sep, tail = text.rpartition("## Project `cli`")

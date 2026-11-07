@@ -16,13 +16,13 @@ Every document created or modified as part of this skill must follow the rules b
 |-----------------------------|------|-------------------------------------------------|
 | Document Structure          | 27   | Titles, purpose blocks, and contents tables     |
 | Paragraphs And Wrapping     | 91   | Sentence structure and line width               |
-| Headings And Lists          | 155  | Heading depth, lists, and spacing               |
-| Code And Inline Formatting  | 194  | Fences, code spans, and special characters      |
-| Tables                      | 294  | Source-width alignment and automated formatting |
-| Characters And Language     | 482  | Box-drawing, emoji, and per-language rules      |
-| File References             | 503  | Relative paths and backticked file paths        |
-| Skill Document Requirements | 517  | Frontmatter and progressive disclosure          |
-| Maintenance                 | 579  | File naming, encoding, and registration         |
+| Headings And Lists          | 158  | Heading depth, lists, and spacing               |
+| Code And Inline Formatting  | 200  | Fences, code spans, and special characters      |
+| Tables                      | 300  | Source-width alignment and automated formatting |
+| Characters And Language     | 488  | Box-drawing, emoji, and per-language rules      |
+| File References             | 509  | Relative paths and backticked file paths        |
+| Skill Document Requirements | 523  | Frontmatter and progressive disclosure          |
+| Maintenance                 | 585  | File naming, encoding, and registration         |
 
 ## Document Structure
 
@@ -92,11 +92,14 @@ Update line numbers when sections move significantly.
 
 Write short sentences.
 
-Use one sentence per paragraph for technical descriptions.
+Write one sentence per line.
+
+Sentences that form a related group - such as the blend, ceiling, and lowest-dimension lines
+of an audit summary - share one paragraph on consecutive lines.
+
+Unrelated sentences are separated by a blank line.
 
 This keeps the text readable in plain text editors, terminal viewers, and diff output.
-
-Separate every sentence with an empty line.
 
 A sentence may contain multiple related clauses if they express a single thought.
 

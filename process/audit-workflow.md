@@ -20,15 +20,15 @@ The `hunt` and `review` report styles apply the same phases with the section-ord
 | Section                 | Line | What it covers                   |
 |-------------------------|------|----------------------------------|
 | Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 55   | Intake Checklist guidance        |
-| Handling Thin Input     | 80   | Handling Thin Input guidance     |
-| Single-Dimension Audits | 93   | Single-Dimension Audits guidance |
-| Re-Audit                | 108  | Re-Audit guidance                |
-| Multi-Project Audits    | 175  | Multi-Project Audits guidance    |
+| Intake Checklist        | 56   | Intake Checklist guidance        |
+| Handling Thin Input     | 81   | Handling Thin Input guidance     |
+| Single-Dimension Audits | 94   | Single-Dimension Audits guidance |
+| Re-Audit                | 109  | Re-Audit guidance                |
+| Multi-Project Audits    | 176  | Multi-Project Audits guidance    |
 
 ## Step Overview
 
-The workflow has seven phases.
+The workflow has eight phases.
 
 Complete each phase before moving to the next.
 
@@ -44,6 +44,7 @@ audit is entering and keep it loaded while that phase runs.
 | Category Assessment     | `process/audit-workflow/category-assessment.md` | per-category checklists                        |
 | Synthesis               | `process/audit-workflow/report-synthesis.md`    | section drafting, part assembly, review        |
 | Validation              | `process/audit-workflow/report-validation.md`   | mechanical gates, evidence and decision checks |
+| Final Adjustments       | `process/audit-workflow/final-adjustments.md`   | post-write confirmation, corrections, delivery |
 
 `process/audit-workflow/regression-scenarios.md` holds the regression table exercised when
 maintaining this skill.

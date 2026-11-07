@@ -16,7 +16,7 @@
 | Executed Evidence    | 162  | executed-mode checks, commands, results                |
 | Follow-up Plan       | 194  | roadmap-closing retest and re-audit plan               |
 | Validation Protocol  | 237  | PAR-1 through PAR-27 rows, evidence basis              |
-| Reference Sources    | 271  | external sources, link paragraphs, cached-source notes |
+| Reference Sources    | 275  | external sources, link paragraphs, cached-source notes |
 
 ## Scope Exclusions
 
@@ -166,7 +166,7 @@ Present under `executed-readonly` or `executed-commands` evidence mode in `audit
 
 One row per commissioned execution:
 
-| Check | Tool & Version | Command | Timestamp | Result | Resolves |
+| Check | Tool & Version | Command | Result | Resolves |
 |-------|----------------|---------|-----------|--------|----------|
 
 Each row records the exact command, the tool and advisory-database or ruleset revision,
@@ -235,6 +235,10 @@ Unknown owners or missing required verification leave sign-off pending,
 proposed roles are not assignments.
 
 ## Validation Protocol
+
+Run-internal by default: the protocol executes and is reported inline during the run and
+appears in the shipped report only when the request explicitly asks for it.
+
 
 Close the analysis with a self-check table verifying the report's internal consistency.
 
@@ -321,8 +325,8 @@ link: `[<title>](<url>)`.
 
 Do not put URLs in the table itself, because long URLs make the table unreadable in plain text.
 
-A consulted source with no public URL keeps its row and states `No public URL` in its supporting
-paragraph instead of a link paragraph.
+A consulted source with no public URL keeps its row and renders its title without a link
+paragraph - no marker text is used.
 
 When no external source was consulted at all, replace the table with one sentence:
 `No external sources consulted`.

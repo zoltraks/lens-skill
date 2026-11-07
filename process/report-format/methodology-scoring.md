@@ -10,7 +10,7 @@
 | Section              | Line | What it covers                             |
 |----------------------|------|--------------------------------------------|
 | Auditing Methodology | 15   | Method, standards, criteria matrix, ledger |
-| Scoring Rubrics      | 306  | Score bands, grouping, ISO crosswalk       |
+| Scoring Rubrics      | 307  | Score bands, grouping, ISO crosswalk       |
 
 ## Auditing Methodology
 
@@ -243,7 +243,8 @@ The `Type` column carries `Observation` or `Concern` per `principles/evaluation-
 `Observation` for a fact another auditor could re-derive from the same artifact,
 `Concern` for a risk judgment built on observations.
 
-Most ledger rows are `Observation`.
+Most ledger rows are `Observation` -
+omit the `Type` column entirely when every row carries the same tag.
 
 The tag is enforced mechanically: `scripts/validate-report.py` flags every `| EVD-` row and every
 finding block whose `Type` cell or field is missing or carries another value,

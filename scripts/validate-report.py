@@ -70,7 +70,6 @@ BASELINE_SECTIONS = [
     "Remediation Roadmap",
     "Scope Exclusions",
     "Known Limitations",
-    "Validation Protocol",
     "Reference Sources",
 ]
 BRIEF_SECTIONS = {
@@ -83,7 +82,6 @@ BRIEF_SECTIONS = {
     "Strengths & What's Working",
     "Scope Exclusions",
     "Known Limitations",
-    "Validation Protocol",
     "Reference Sources",
 }
 
@@ -199,15 +197,6 @@ def check_sentence_breaks(
                         f"line {index + 1}: sentence split at line break (period "
                         f"then lowercase continuation): {line[:80]}"
                     )
-                elif (
-                    breaks_on
-                    and prose_line(line, fenced)
-                    and prose_line(nxt, fences[index + 1])
-                ):
-                    failures.append(
-                        f"line {index + 1}: sentence boundary inside a paragraph - "
-                        f"separate sentences with one blank line: {line[:80]}"
-                    )
         if breaks_on and prose_line(line, fenced):
             for match in SENT_JOIN.finditer(collapsed):
                 prefix = collapsed[: match.start() + 1]
@@ -218,6 +207,25 @@ def check_sentence_breaks(
                     f"sentence is its own paragraph: {line[:80]}"
                 )
                 break
+    return failures
+
+
+def check_prose_width(lines: list[str], fences: list[bool]) -> list[str]:
+    failures: list[str] = []
+    for index, (line, fenced) in enumerate(zip(lines, fences)):
+        if fenced or not line.strip() or len(line) <= 100:
+            continue
+        if line.startswith(("|", "#", ">")) or line.lstrip().startswith(
+            ("```", "<!--")
+        ):
+            continue
+        # The 100-column prose width tolerates a line whose overflow is a
+        # single unbreakable span - no word boundary exists past column 99.
+        if line.rfind(" ") > 99:
+            failures.append(
+                f"line {index + 1}: prose line exceeds the 100-character "
+                "width - wrap it at a word boundary"
+            )
     return failures
 
 
@@ -1037,6 +1045,8 @@ DIMENSION_TIER = {
     "skill_definition": 1,
 }
 HEADLINE_ROWS = ("Product Quality", "Engineering Process", "Overall Score")
+HEADLINE_TABLE_ROWS = ("Product Quality", "Engineering Process")
+HEADLINE_LABELS = HEADLINE_ROWS + ("Overall score",)
 HEADLINE_RECORD = {
     "Product Quality": "product",
     "Engineering Process": "process",
@@ -1190,6 +1200,20 @@ def check_health_dashboard(text: str) -> list[str]:
                     f"Health Dashboard {index} has no '{label}' - the dashboard "
                     "carries a Risk Map, a Scorecard Summary, and a Team & Continuity line"
                 )
+        scorecard_at = re.search(
+            r"(?:^#{1,4}\s+Scorecard Summary\s*$|\*\*Scorecard Summary\*\*)",
+            block,
+            re.MULTILINE,
+        )
+        pre = block[: scorecard_at.start()] if scorecard_at else block
+        if "**Legend**" not in pre or not re.search(
+            r"\|\s*Band\s*\|\s*Score\s*\|", pre
+        ):
+            failures.append(
+                f"Health Dashboard {index} has no Legend table before "
+                "the Scorecard Summary - emit `**Legend**` and a "
+                "Band/Score table with one row per scale band"
+            )
     return failures
 
 
@@ -1370,12 +1394,20 @@ def check_security_classification(lines: list[str]) -> list[str]:
 
 def check_type_tags(lines: list[str], fences: list[bool]) -> list[str]:
     failures: list[str] = []
+    table_has_type = False
     for index, (line, fenced) in enumerate(zip(lines, fences)):
-        if fenced or not line.startswith("| EVD-"):
+        if fenced:
             continue
-        cells = [cell.strip() for cell in line.split("|")[1:-1]]
-        if not any(cell in ("Observation", "Concern") for cell in cells):
-            failures.append(f"line {index + 1}: evidence ledger row lacks an Observation/Concern tag")
+        if line.startswith("|"):
+            cells = [cell.strip() for cell in line.split("|")[1:-1]]
+            if not set(line) <= set("|- "):
+                table_has_type = "Type" in cells
+            if not line.startswith("| EVD-"):
+                continue
+            if table_has_type and not any(
+                cell in ("Observation", "Concern") for cell in cells
+            ):
+                failures.append(f"line {index + 1}: evidence ledger row lacks an Observation/Concern tag")
     starts = [index for index, line in enumerate(lines) if line.startswith("### FND-")]
     for position, start in enumerate(starts):
         end = starts[position + 1] if position + 1 < len(starts) else len(lines)
@@ -1392,6 +1424,8 @@ PAR_COUNT = 33
 
 def check_par_rows(text: str) -> list[str]:
     failures: list[str] = []
+    if "## Validation Protocol" not in text:
+        return failures
     for number in range(1, PAR_COUNT + 1):
         if not re.search(rf"^\|\s*PAR-{number}(?:\s|\||:)", text, re.MULTILINE):
             failures.append(f"missing Validation Protocol row PAR-{number}")
@@ -2096,14 +2130,19 @@ def check_references_section(text: str) -> list[str]:
         block = block[: end.start()]
     if (
         not re.search(r"\]\(https?://", block)
-        and not re.search(r"No external sources consulted|No public URL", block)
+        and not re.search(r"No external sources consulted", block)
         and not re.search(r"\]\(<url>\)", block)
+        and not re.search(r"^[-*]\s+\S", block, re.MULTILINE)
+        and not any(
+            header and header[0] == "Reference"
+            for header, _rows in (table_cells(t) for t in tables_in(block))
+        )
     ):
         failures.append(
-            "Reference Sources section carries no external link or declared absence - "
-            "each row renders a [title](url) link paragraph, `No public URL` "
-            "marks an unlinked source, `No external sources consulted` replaces "
-            "the table"
+            "Reference Sources section carries no source entry or declared absence - "
+            "linked sources render a [title](url) link paragraph, unlinked sources "
+            "render their title without a link, `No external sources consulted` "
+            "replaces the table"
         )
     for table in tables_in(block):
         header, rows = table_cells(table)
@@ -2267,10 +2306,23 @@ def check_final_state(text: str) -> list[str]:
     if "Document Information" not in text:
         return []
     failures: list[str] = []
-    if "## Validation Protocol" not in text:
-        failures.append("Final report has no Validation Protocol")
-    if "Parity baseline" not in text:
-        failures.append("Final report has no parity baseline result")
+    if (
+        "## Validation Protocol" in text
+        and not re.search(r"^\|\s*PAR-1\s*\|", text, re.MULTILINE)
+    ):
+        failures.append("Validation Protocol carries no PAR rows")
+    if "## Validation Protocol" in text and "Parity baseline" not in text:
+        failures.append("Validation Protocol has no parity baseline result")
+    if re.search(r"^##\s+Evidence Ledger\s*$", text, re.MULTILINE):
+        failures.append(
+            "evidence register section heading must be `## Evidence List`"
+        )
+    if "## Validation Protocol" in text and "Parity baseline" in text and not re.search(
+        r"^\|\s*Parity baseline\s*\|", text, re.MULTILINE
+    ):
+        failures.append(
+            "Parity baseline must render as a Validation Protocol table row"
+        )
     return failures
 
 
@@ -2324,10 +2376,28 @@ def check_executive_summary(text: str) -> list[str]:
         for row in kv[2:]:
             cells = [cell.strip() for cell in raw_cells(row)]
             if len(cells) >= 2:
-                fields[cells[0]] = cells[1]
+                fields[cells[0].strip("*").strip()] = cells[1]
         for wanted in EXEC_SUMMARY_FIELDS:
             if wanted not in fields:
                 failures.append(f"Executive Summary table lacks the {wanted} row")
+        first_table_at = block.find("|")
+        preamble = block[: first_table_at] if first_table_at >= 0 else block
+        if re.search(
+            r"\b(?:Bad|Poor|Average|Good|Excellent)\b|★", preamble
+        ):
+            failures.append(
+                "Executive Summary carries a score-band legend - "
+                "the legend list belongs in Health Dashboard"
+            )
+        for row in kv[2:]:
+            cells = [
+                cell.strip().strip("*").strip() for cell in raw_cells(row)
+            ]
+            if cells and cells[0] in HEADLINE_TABLE_ROWS:
+                failures.append(
+                    f"headline row '{cells[0]}' sits in the Field/Value "
+                    "table - sub-scores belong in the headline score table"
+                )
         level_value = fields.get("Maturity level", "")
         if level_value:
             clean = cell_text(level_value).strip().strip("`")
@@ -2394,7 +2464,6 @@ HUNT_SECTIONS = [
     "Remediation Phases",
     "Scope Exclusions",
     "Known Limitations",
-    "Validation Protocol",
     "Reference Sources",
 ]
 
@@ -2428,7 +2497,6 @@ REVIEW_SECTIONS = [
     "Improvement Plan",
     "Scope Exclusions",
     "Known Limitations",
-    "Validation Protocol",
     "Reference Sources",
 ]
 
@@ -3455,7 +3523,7 @@ def headline_rows(text: str) -> list[tuple[int, str, str, str]]:
         if line.startswith("|"):
             cells = [cell.strip() for cell in raw_cells(line)]
             label = cells[0].strip("*` ") if cells else ""
-            if len(cells) >= 2 and label in HEADLINE_ROWS:
+            if len(cells) >= 2 and label in HEADLINE_LABELS:
                 found.append((cursor, label, cells[1], line))
         cursor += len(line) + 1
     return found
@@ -3575,14 +3643,39 @@ def check_headline_disclosure(text: str) -> list[str]:
         if placeholder:
             continue  # unfilled scaffold - placeholders never validate
         rows: dict[str, tuple[int, str, str]] = {}
+        overall_row_dup = False
         for pos, label, value, line in found:
-            if start <= pos < end and label not in rows:
+            if not start <= pos < end:
+                continue
+            if label == "Overall Score":
+                overall_row_dup = True
+                continue
+            if label == "Overall score":
+                label = "Overall Score"
+            if label not in rows:
                 rows[label] = (pos, value, line)
-        for label in HEADLINE_ROWS:
+        for label in HEADLINE_TABLE_ROWS:
             if label not in rows:
                 failures.append(
                     f"Executive Summary table lacks the {label} row"
                 )
+        if "Overall Score" not in rows:
+            failures.append(
+                "Executive Summary Field/Value table lacks the "
+                "Overall score row"
+            )
+        if overall_row_dup:
+            failures.append(
+                "Executive Summary score table duplicates the overall - "
+                "the Overall score lives in the Field/Value table, "
+                "remove the Overall Score row"
+            )
+        sub_positions = [
+            rows[label][0]
+            for label in HEADLINE_TABLE_ROWS
+            if label in rows
+        ]
+        tail = text[max(sub_positions):end] if sub_positions else block
         scope = (0, len(text))
         if level == 3:
             scope = next(
@@ -3595,7 +3688,20 @@ def check_headline_disclosure(text: str) -> list[str]:
             if entry is None:
                 continue
             pos, value, line = entry
-            numeric = HEADLINE_VALUE.match(value.strip())
+            numeric = HEADLINE_VALUE.match(value.strip().strip("*").strip())
+            if (
+                numeric is not None
+                and label in HEADLINE_TABLE_ROWS
+                and not re.fullmatch(
+                    r"\d+(?:\.\d+)?/\d+\s*\([^)]*\)(\s*\[[^\]]*\])?",
+                    value.strip().strip("*").strip(),
+                )
+            ):
+                failures.append(
+                    f"headline {label} value cell lacks the "
+                    "`<score>/<scale> (<band>)` display - the Value cell "
+                    "holds only the score display and its band"
+                )
             shown[label] = (
                 float(numeric.group(1)) if numeric else None,
                 numeric.group(2) if numeric else "10",
@@ -3636,7 +3742,8 @@ def check_headline_disclosure(text: str) -> list[str]:
         entry = rows.get("Overall Score")
         if entry is not None:
             _, value, line = entry
-            cell = value.strip()
+            cell = value.strip().strip("*").strip()
+            probe = line + "\n" + tail
             numeric = HEADLINE_VALUE.match(cell)
             product_num = shown.get("Product Quality", (None, ""))[0]
             process_num = shown.get("Engineering Process", (None, ""))[0]
@@ -3650,7 +3757,7 @@ def check_headline_disclosure(text: str) -> list[str]:
                     Fraction(7, 10) * Fraction(str(product_num))
                     + Fraction(3, 10) * Fraction(str(process_num))
                 )
-            ceiling = HEADLINE_CEILING.search(line)
+            ceiling = HEADLINE_CEILING.search(probe)
             capped = (
                 min(raw, Fraction(ceiling.group(1)))
                 if raw is not None and ceiling is not None
@@ -3658,7 +3765,7 @@ def check_headline_disclosure(text: str) -> list[str]:
             )
             if numeric is not None:
                 if process_cell.strip() == "Not published" and not PRODUCT_ONLY.search(
-                    line
+                    probe
                 ):
                     failures.append(
                         f"headline Overall Score {cell} does not name "
@@ -3668,7 +3775,7 @@ def check_headline_disclosure(text: str) -> list[str]:
                 if (
                     raw is not None
                     and Fraction(numeric.group(1)) < raw
-                    and not CEILING_WORD.search(line)
+                    and not CEILING_WORD.search(probe)
                 ):
                     failures.append(
                         f"headline Overall Score {cell} does not name "
@@ -3914,6 +4021,8 @@ def check_model_consistency(text: str, model: dict, style: str) -> list[str]:
             cursor += len(line) + 1
 
         for pos, label, value, line in headline_rows(text):
+            if label == "Overall score":
+                label = "Overall Score"
             project = section_project(ranges, pos) if multi else None
             where = f"{project} " if project else ""
             records = per_project.get(project) if multi else scores
@@ -3922,7 +4031,15 @@ def check_model_consistency(text: str, model: dict, style: str) -> list[str]:
                 if isinstance(records, dict)
                 else None
             )
-            cell = value.strip()
+            if record is None and label == "Overall Score" and isinstance(
+                records, dict
+            ):
+                record = records.get("overall")
+                if record is None and "score" in records:
+                    record = records
+            cell = value.strip().strip("*").strip()
+            if cell.startswith("<"):
+                continue
             numeric = HEADLINE_VALUE.match(cell)
             shown = numeric.group(0) if numeric else cell
             if not isinstance(record, dict):
@@ -3964,9 +4081,11 @@ def check_model_consistency(text: str, model: dict, style: str) -> list[str]:
                     flags.append(f"ceiling {ceiling.get('limit')}")
                 if flags:
                     expected += " (" + ", ".join(flags) + ")"
-                if bool(PRODUCT_ONLY.search(line)) != want_only:
+                lno = text[:pos].count("\n")
+                probe = "\n".join(lines[lno : lno + 15])
+                if bool(PRODUCT_ONLY.search(probe)) != want_only:
                     mismatch = True
-                if bool(CEILING_WORD.search(line)) != want_ceiling:
+                if bool(CEILING_WORD.search(probe)) != want_ceiling:
                     mismatch = True
             if mismatch:
                 failures.append(
@@ -4339,7 +4458,6 @@ def report_contract() -> dict:
                     "recommended_columns": [
                         "Cwd",
                         "Tool & Version",
-                        "Timestamp",
                         "Input revision",
                         "Exit status",
                         "Interpretation",
@@ -4557,6 +4675,7 @@ def main(
         ("headings", check_headings(lines, fences)),
         ("semicolons", check_semicolons(lines, fences)),
         ("non-ASCII dashes and arrows", check_dashes(lines, fences)),
+        ("prose width", check_prose_width(lines, fences)),
         (
             "sentence line breaks",
             check_sentence_breaks(lines, fences, sentence_breaks_on(text)),
