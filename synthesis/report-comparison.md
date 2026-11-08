@@ -31,8 +31,8 @@ never assumed from the previous report alone.
 | Observation Folding              | 300  | Attaching new defects to existing findings |
 | Identifier Continuity            | 311  | FND/RSK/REC sequence rules                 |
 | Status, Change, And Verification | 338  | Status/Change vocabulary for re-audits     |
-| Legacy Field Names               | 371  | Old-schema-to-current name mapping         |
-| Rules                            | 417  | Comparison constraints                     |
+| Legacy Field Names               | 372  | Old-schema-to-current name mapping         |
+| Rules                            | 418  | Comparison constraints                     |
 
 ## When This Applies
 

@@ -20,8 +20,8 @@ style, format, and completeness defects are found and fixed here, before deliver
 | Mechanical Confirmation | 27   | Mechanical Confirmation |
 | Completeness Sweep      | 39   | Completeness Sweep      |
 | Style Confirmation      | 54   | Style Confirmation      |
-| Adjustment Loop         | 66   | Adjustment Loop         |
-| Delivery Gate           | 82   | Delivery Gate           |
+| Adjustment Loop         | 67   | Adjustment Loop         |
+| Delivery Gate           | 84   | Delivery Gate           |
 
 
 ## Mechanical Confirmation

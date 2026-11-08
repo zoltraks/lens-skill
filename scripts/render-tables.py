@@ -18,6 +18,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import re
 import sys
 from fractions import Fraction
 from pathlib import Path
@@ -56,8 +57,14 @@ BANDS = {
 CATALOGUE_FILE = "references/criteria-catalogue.json"
 
 
+def _cap(cell: str) -> str:
+    """Table cells start on a capital letter; non-letters pass through."""
+    return cell[:1].upper() + cell[1:] if cell[:1].islower() else cell
+
+
 def render_table(headers: list[str], rows: list[list[str]]) -> str:
     """One Markdown table with format-table.py source-width alignment."""
+    rows = [[_cap(str(c)) for c in row] for row in rows]
     widths = [len(h) for h in headers]
     for row in rows:
         for j, cell in enumerate(row):
@@ -127,10 +134,15 @@ def render_scorecard(model: dict, project: str | None) -> str:
             cell = "Unknown"
         else:
             cell = f"{score}/{scale_max}"
-        rows.append(
-            [DIMENSION_NAMES[ident], cell, str(record.get("note") or "-")]
-        )
-    return render_table(["Dimension", "Score", "Notes"], rows)
+        rows.append([DIMENSION_NAMES[ident], cell])
+    table = render_table(["Dimension", "Score"], rows)
+    notes = [
+        f"{DIMENSION_NAMES[ident]}: {dims[prefix + ident]['note']}"
+        for ident in DIMENSION_ORDER
+        if dims.get(prefix + ident, {}).get("note")
+        and dims[prefix + ident].get("applicable") is not False
+    ]
+    return table + ("\n\n" + "\n".join(notes) if notes else "")
 
 
 def _lowest_clause(records: dict, lowest: list, prefix: str, scale_max: int) -> str:
@@ -255,7 +267,8 @@ def render_criteria(model: dict, project: str | None, catalogue: dict) -> str:
                 DIMENSION_NAMES.get(leaf, leaf),
                 f"{weight:g}" if isinstance(weight, (int, float)) else str(weight),
                 str(c.get("level") or "-"),
-                str(c.get("outcome") or "-"),
+                OUTCOME_DISPLAY.get(c.get("outcome") or "-",
+                                    c.get("outcome") or "-"),
             ]
         )
     return render_table(
@@ -283,6 +296,12 @@ def render_requirements(model: dict, project: str | None) -> str:
 OUTCOME_WORD = {
     "PASS": "Pass", "PARTIAL": "Partial", "FAIL": "Fail",
     "UNKNOWN": "Unknown", "NOT_ASSESSED": "Unknown",
+    "NOT_APPLICABLE": "N/A",
+}
+
+
+OUTCOME_DISPLAY = {
+    "NOT_ASSESSED": "Not assessed",
     "NOT_APPLICABLE": "N/A",
 }
 
@@ -318,10 +337,16 @@ def render_findings(model: dict, project: str | None) -> str:
                 str(f.get("change", "New")),
             ]
         )
-    return render_table(
-        ["Finding", "Pillar", "Severity", "Title", "Result", "Status",
-         "Change"], rows
-    )
+    header = ["Finding", "Pillar", "Severity", "Title", "Result", "Status",
+              "Change"]
+    for column in ("Change", "Status"):
+        index = header.index(column)
+        values = {row[index] for row in rows}
+        if len(values) <= 1:
+            header.pop(index)
+            for row in rows:
+                row.pop(index)
+    return render_table(header, rows)
 
 
 def render_risks(model: dict, project: str | None) -> str:
@@ -388,19 +413,111 @@ def render_roadmap(model: dict, project: str | None) -> str:
 def render_evidence(model: dict, project: str | None) -> str:
     """Evidence ledger table: one row per model evidence record."""
     rows = []
+    tags = set()
     for e in model.get("evidence", []):
         locator = e.get("locator") or {}
         source = locator.get("path") or e.get("method") or "<source>"
         result = e.get("result") or "<result>"
+        tag = str(e.get("type", "Observation"))
+        tags.add(tag)
+        rows.append([str(e.get("id", "")), str(source), str(result), tag])
+    if len(tags) > 1:
+        return render_table(["Evidence", "Source", "Result", "Type"], rows)
+    return render_table(["Evidence", "Source", "Result"], [row[:3] for row in rows])
+
+
+def render_followup(model: dict, project: str | None) -> str:
+    """Follow-up Plan table: one row per P1/P2 finding, uniform columns drop."""
+    rows = []
+    for c in model.get("recommendations", []):
+        if c.get("priority") not in ("P1", "P2"):
+            continue
         rows.append(
             [
-                str(e.get("id", "")),
-                str(source),
-                str(result),
-                str(e.get("type", "Observation")),
+                str(c.get("finding", "")),
+                str(c.get("priority", "")),
+                str(c.get("owner", "") or ""),
+                str(c.get("verification", "")),
+                str(c.get("trigger", "") or ""),
             ]
         )
-    return render_table(["Evidence", "Source", "Result", "Type"], rows)
+    header = ["Finding", "Priority", "Owner", "Evidence", "Trigger"]
+    owners = {row[2] for row in rows}
+    if len(owners) <= 1 or owners == {""}:
+        index = header.index("Owner")
+        header.pop(index)
+        for row in rows:
+            row.pop(index)
+    for column in ("Trigger", "Priority", "Evidence"):
+        if column not in header:
+            continue
+        index = header.index(column)
+        values = {row[index] for row in rows}
+        if len(values) <= 1:
+            header.pop(index)
+            for row in rows:
+                row.pop(index)
+    return render_table(header, rows)
+
+
+SPLICE_MARKERS = {
+    "scorecard": r"\*\*Scorecard Summary\*\*[^\n]*$",
+    "criteria": r"\*\*Criteria table\*\*[^\n]*$",
+    "requirements": r"^## Requirements Conformance[^\n]*$",
+    "findings": r"^## Technical Findings[^\n]*$",
+    "risks": r"^## Unified Risk Register[^\n]*$",
+    "roadmap": r"^## Remediation Roadmap[^\n]*$",
+    "evidence": r"^### Evidence List[^\n]*$",
+}
+
+
+def block_titles(text: str) -> dict[str, str]:
+    """Map `### <id>:` heading prefixes to their block titles."""
+    titles = {}
+    for match in re.finditer(
+        r"^### ((?:FND|RSK|REC|TDR)-[A-Z]+-\d{3}):\s*(.+)$", text, re.MULTILINE
+    ):
+        titles[match.group(1)] = match.group(2).strip()
+    return titles
+
+
+def fill_titles(table: str, titles: dict[str, str]) -> str:
+    """Replace `<title>` cells using the report's own block headings."""
+    lines = table.split("\n")
+    for index, line in enumerate(lines):
+        if "<title>" not in line:
+            continue
+        ident = next(
+            (identifier for identifier in titles if identifier in line), None
+        )
+        if ident:
+            lines[index] = line.replace("<title>", titles[ident])
+    return "\n".join(lines)
+
+
+def splice_table(report: Path, marker: str, table: str) -> bool:
+    """Replace the first table after `marker` inside `report` in place."""
+    text = report.read_text(encoding="utf-8")
+    match = re.search(marker, text, re.MULTILINE)
+    if not match:
+        return False
+    rest = text[match.end() :]
+    table_match = re.search(r"(\n[ \t]*\n)((?:\|[^\n]*\n)+)", rest)
+    if not table_match:
+        return False
+    new_table = fill_titles(table.strip("\n"), block_titles(text))
+    updated = (
+        text[: match.end()]
+        + rest[: table_match.start()]
+        + table_match.group(1)
+        + new_table
+        + "\n"
+        + rest[table_match.end() :]
+    )
+    if updated == text:
+        return False
+    report.write_text(updated, encoding="utf-8")
+    return True
 
 
 def main(argv: list[str]) -> int:
@@ -413,7 +530,8 @@ def main(argv: list[str]) -> int:
         required=True,
         choices=(
             "scorecard", "headline", "criteria", "requirements",
-            "findings", "risks", "roadmap", "evidence", "registers", "all",
+            "findings", "risks", "roadmap", "evidence", "followup", "registers",
+            "all",
         ),
         help="which table(s) to render",
     )
@@ -424,6 +542,12 @@ def main(argv: list[str]) -> int:
         "--lang", default="en", choices=("en", "pl"), help="table language"
     )
     parser.add_argument("--output", help="write to FILE instead of stdout")
+    parser.add_argument(
+        "--splice",
+        metavar="REPORT",
+        help="replace the first table after the part's section marker "
+        "inside REPORT in place",
+    )
     args = parser.parse_args(argv)
 
     if args.lang == "pl":
@@ -468,6 +592,7 @@ def main(argv: list[str]) -> int:
         lambda: render_risks(model, args.project),
         lambda: render_roadmap(model, args.project),
         lambda: render_evidence(model, args.project),
+        lambda: render_followup(model, args.project),
     ]
     parts = {
         "scorecard": lambda: render_scorecard(model, args.project),
@@ -478,7 +603,35 @@ def main(argv: list[str]) -> int:
         "risks": lambda: render_risks(model, args.project),
         "roadmap": lambda: render_roadmap(model, args.project),
         "evidence": lambda: render_evidence(model, args.project),
+        "followup": lambda: render_followup(model, args.project),
     }
+    if args.splice:
+        if args.part not in SPLICE_MARKERS:
+            print(
+                f"render-tables: --splice has no marker for part "
+                f"{args.part!r} - supported: {', '.join(sorted(SPLICE_MARKERS))}",
+                file=sys.stderr,
+            )
+            return 2
+        report = Path(args.splice)
+        if not report.is_file():
+            print(
+                f"render-tables: no such report: {args.splice}",
+                file=sys.stderr,
+            )
+            return 2
+        table = parts[args.part]()
+        if splice_table(report, SPLICE_MARKERS[args.part], table):
+            print(f"spliced {args.part} table into {args.splice}")
+        else:
+            print(
+                f"render-tables: no marker table found in {args.splice} "
+                f"for part {args.part}",
+                file=sys.stderr,
+            )
+            return 1
+        return 0
+
     if args.part == "all":
         selected = list(parts.values())
     elif args.part == "registers":

@@ -40,6 +40,11 @@ improvement". The flag arms improvement mode for the described work:
 improvements the work surfaces are applied to this repository's files through the member's own
 maintenance path, and the flag alone never routes to the session-history gather.
 
+Every error class fixed in an artifact during improvement-mode work is also encoded into the
+skill itself - a validator check, a tooling rule, or a contract line so the defect cannot
+recur. Fixes never land only in the artifact: report repairs update `scripts/`,
+`process/`, or `docs/` in the same change set.
+
 ## What Does Not Apply
 
 - The mode never edits on assumption - standby ends at a described change, not before.

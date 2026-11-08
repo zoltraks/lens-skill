@@ -200,9 +200,14 @@ def main() -> int:
     arguments = [argument for argument in sys.argv[1:] if argument != "--fix"]
     fix = "--fix" in sys.argv[1:]
     root = Path(arguments[0]).resolve() if arguments else Path.cwd().resolve()
+    targets = (
+        [root]
+        if root.is_file()
+        else markdown_files(root)
+    )
     issues: list[str] = []
-    for path in markdown_files(root):
-        issues.extend(check_file(path, root, fix))
+    for path in targets:
+        issues.extend(check_file(path, root if root.is_dir() else root.parent, fix))
     return report(issues, "contents tables match section headings")
 
 

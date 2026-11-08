@@ -87,7 +87,7 @@ Every criteria result uses exactly one of these states:
 
 The mapping to report markers is `PASS` / `FAIL` / `PARTIAL` / `UNKNOWN` / `N/A` unchanged,
 with `NOT_ASSESSED` rendered as `Not assessed` and `NOT_APPLICABLE` rendered as `N/A` where the
-report vocabulary requires it.
+report vocabulary requires it - the underscored model token never appears in report tables.
 
 Executed-procedure rows keep their own runner vocabulary (`PASS`, `FAIL`, `ERROR`, `BLOCKED`,
 `SKIPPED`, `NOT RUN`) per `principles/evaluation-rules.md` - a runner status is not a criteria-entry

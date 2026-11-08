@@ -21,12 +21,12 @@ Two audits of similar systems should produce reports of similar shape, vocabular
 | Tone And Register              | 31   | Neutral, precise report voice    |
 | Structure Preferences          | 45   | Tables over paragraphs, ordering |
 | Fixed Vocabularies             | 84   | Status and severity word lists   |
-| Consistency Rules              | 180  | Same input, same output shape    |
-| Plain-Text Friendly Formatting | 196  | Terminal and diff readability    |
-| Multilingual Output            | 304  | Non-English report rendering     |
-| Information Security In Output | 443  | Redaction and disclosure limits  |
-| Report Termination             | 458  | End-of-report rules              |
-| Determinism                    | 478  | Repeatability guarantees         |
+| Consistency Rules              | 194  | Same input, same output shape    |
+| Plain-Text Friendly Formatting | 210  | Terminal and diff readability    |
+| Multilingual Output            | 318  | Non-English report rendering     |
+| Information Security In Output | 457  | Redaction and disclosure limits  |
+| Report Termination             | 472  | End-of-report rules              |
+| Determinism                    | 492  | Repeatability guarantees         |
 
 ## Tone And Register
 
@@ -163,6 +163,20 @@ hyphen keeps its aside role, never a token-qualifier join.
 Machine tokens stay unchanged: record and classification identifiers (`EVD-001`, `FND-XXX`,
 `RSK-XXX`, `REC-XXX`, `TDR-XXX`, `PAR-NN`, `P1` - `P4`, CWE IDs, CVSS vectors, OWASP IDs)
 and tool commands render verbatim in every report language.
+
+Free-text cells and `* **Field:**` values start with a capital letter.
+Literal identifiers, paths, commands, and tool or package names keep their natural case - a cell
+opening `git log` or `deny.toml` stays lowercase because the token is verbatim, not prose.
+
+Register blocks (`FND`, `RSK`, `REC`, `TDR`) keep their title short - the narrative belongs in
+the description paragraph under the heading, never in the title itself.
+
+Every description paragraph is one or more complete sentences: each starts on a capital letter
+or a digit, ends with a period, and runs at most 20 words - split a longer sentence into two.
+
+A sentence never opens on a conjunction such as `And` or `So`.
+
+Paragraphs separate by exactly one blank line.
 
 Maturity levels:
 
@@ -481,3 +495,6 @@ Given the same input, aim to produce the same findings, statuses, and scores.
 
 Anchor every judgement to a rule in this skill and to evidence in the input,
 so that the result is reproducible rather than stylistic.
+
+A metric or Field/Value row whose value is a bare `0`, `None`, or `-` carries no
+information and is omitted - the absence of an artifact is not a measurement.

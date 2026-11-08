@@ -95,5 +95,9 @@ A request to improve the skill from the current session follows `process/session
 gather, findings, approval gate, apply, validate - with autonomous and verbose modes
 for the gate behavior.
 
+When work runs with the `improvement` flag, every error class fixed in an artifact is encoded
+into the skill in the same change set - a check in `scripts/`, a contract line in `process/` or
+`docs/`, or a tooling rule - never left as an artifact-only fix.
+
 Session and program-level improvement planning lives in the gitignored `work/` workspace and never
 ships as part of the skill payload.

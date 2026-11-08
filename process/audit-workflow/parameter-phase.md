@@ -18,19 +18,19 @@ On completion, proceed to `process/audit-workflow/scope-definition.md`.
 |--------------------------------------------|------|--------------------------------------------|
 | Parameter Configuration                    | 36   | Parameter Configuration                    |
 | Saved Parameters (`work/lens-params.json`) | 167  | Saved Parameters (`work/lens-params.json`) |
-| Parameter Prompts                          | 192  | Parameter Prompts                          |
-| Delivery And Output File                   | 220  | Delivery And Output File                   |
-| Previous Report Files                      | 372  | Previous Report Files                      |
-| Report Language                            | 392  | Report Language                            |
-| Report Style                               | 414  | Report Style                               |
+| Parameter Prompts                          | 193  | Parameter Prompts                          |
+| Delivery And Output File                   | 221  | Delivery And Output File                   |
+| Previous Report Files                      | 373  | Previous Report Files                      |
+| Report Language                            | 393  | Report Language                            |
+| Report Style                               | 415  | Report Style                               |
 | Project Layout                             | ?    | Project Layout                             |
-| Evidence Mode                              | 448  | Evidence Mode                              |
-| Detail Level                               | 486  | Detail Level                               |
-| Evaluation Scale                           | 502  | Evaluation Scale                           |
-| Improvement Suggestions                    | 531  | Improvement Suggestions                    |
-| Trade-off Analysis                         | 544  | Trade-off Analysis                         |
-| Descriptive Mode                           | 556  | Descriptive Mode                           |
-| Bypass Rule                                | 570  | Bypass Rule                                |
+| Evidence Mode                              | 449  | Evidence Mode                              |
+| Detail Level                               | 487  | Detail Level                               |
+| Evaluation Scale                           | 503  | Evaluation Scale                           |
+| Improvement Suggestions                    | 532  | Improvement Suggestions                    |
+| Trade-off Analysis                         | 545  | Trade-off Analysis                         |
+| Descriptive Mode                           | 557  | Descriptive Mode                           |
+| Bypass Rule                                | 571  | Bypass Rule                                |
 
 
 ## Parameter Configuration

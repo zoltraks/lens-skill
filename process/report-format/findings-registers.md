@@ -12,10 +12,10 @@
 |-------------------------------|------|-------------------------------------|
 | Strengths & What's Working    | 20   | Evidence-based positive baselines   |
 | Technical Findings            | 58   | Finding summary and detail blocks   |
-| Technical Debt Register       | 404  | Distinct accumulated debt           |
-| Unified Risk Register         | 454  | Cross-referenced risks              |
-| Remediation Roadmap           | 559  | Prioritized recommendations, once   |
-| Recommendation Classification | 654  | Roadmap-closing disposition classes |
+| Technical Debt Register       | 419  | Distinct accumulated debt           |
+| Unified Risk Register         | 469  | Cross-referenced risks              |
+| Remediation Roadmap           | 574  | Prioritized recommendations, once   |
+| Recommendation Classification | 669  | Roadmap-closing disposition classes |
 
 ## Strengths & What's Working
 
@@ -102,6 +102,10 @@ Present a compact summary of all findings:
 
 The `Title` column copies the finding's `### FND-...` heading verbatim - the summary never
 rephrases a heading.
+
+A `Result`, `Status`, or `Change` column is omitted when every row would carry the same value - a
+fresh audit whose findings are all `Open`/`New` renders neither column, and the columns
+return the moment a re-audit mixes provenance or lifecycle states.
 
 A cell drawn from any fixed vocabulary in this file - Status, Change, Verification, Result,
 Severity, Impact, Effort, Complexity, Absence, Breaking change, Provenance basis, Evidence level,
@@ -400,6 +404,17 @@ per Register Reference Links in `process/report-format.md` - the summary `Findin
 `Resolves`, `Evidence`, and traceability columns all carry `[ID](#anchor)` forms,
 while the `### <ID>:` heading and the `EVD` / `PAR` register row that declares the
 identifier stay plain.
+
+A recommendation block's description paragraph never restates `Resolves FND-XXX` - the
+`* **Finding:**` field below the paragraph already carries that link, so the sentence adds
+nothing.
+
+Description paragraphs are direct prose: they never open on a meta label such as
+`The defect:`, and they are never truncated with an ellipsis - every sentence runs
+complete.
+
+A metric or status row whose value is a bare `0`, `None`, or `-` records nothing and is
+omitted from Field/Value and metric tables, per `principles/output-style.md`.
 
 ## Technical Debt Register
 

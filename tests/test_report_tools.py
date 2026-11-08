@@ -360,6 +360,30 @@ class TestValidateReport(unittest.TestCase):
             self.validator.check_tables(clean, [False] * len(clean)), []
         )
 
+    def test_duplicate_separator_flagged(self):
+        lines = [
+            "",
+            "| A | B |",
+            "|---|---|",
+            "|---|---|",
+            "| x | y |",
+            "",
+        ]
+        failures = self.validator.check_tables(lines, [False] * len(lines))
+        self.assertTrue(any("duplicate separator" in f for f in failures))
+
+    def test_placeholder_column_flagged(self):
+        lines = [
+            "",
+            "| A | B |",
+            "|---|---|",
+            "| x | - |",
+            "| y | - |",
+            "",
+        ]
+        failures = self.validator.check_tables(lines, [False] * len(lines))
+        self.assertTrue(any("no value in any row" in f for f in failures))
+
     def test_bold_markers_balanced(self):
         bad = ["* **Done when:** ** The thing holds."]
         self.assertTrue(
@@ -1777,13 +1801,13 @@ if __name__ == "__main__":
 class TestScorecardConformance(unittest.TestCase):
     def test_noncanonical_dimension_flagged(self):
         vr = load_script("validate-report.py")
-        text = "**Scorecard Summary**\n\n| Dimension | Score | Notes |\n|---|---|---|\n| Correctness | 7/10 | x |\n| Security | 6/10 | y |\n"
+        text = "**Scorecard Summary**\n\n| Dimension | Score |\n|---|---|\n| Correctness | 7/10 |\n| Security | 6/10 |\n"
         fails = vr.check_scorecard_dimensions(text)
         self.assertTrue(any("Correctness" in f for f in fails))
 
     def test_out_of_order_dimension_flagged(self):
         vr = load_script("validate-report.py")
-        text = "**Scorecard Summary**\n\n| Dimension | Score | Notes |\n|---|---|---|\n| API Compatibility | 3/10 | x |\n| Security | 6/10 | y |\n"
+        text = "**Scorecard Summary**\n\n| Dimension | Score |\n|---|---|\n| API Compatibility | 3/10 |\n| Security | 6/10 |\n"
         fails = vr.check_scorecard_dimensions(text)
         self.assertTrue(any("order" in f for f in fails))
 
@@ -1795,8 +1819,14 @@ class TestScorecardConformance(unittest.TestCase):
 
     def test_interval_cell_accepted(self):
         vr = load_script("validate-report.py")
-        text = "**Scorecard Summary**\n\n| Dimension | Score | Notes |\n|---|---|---|\n| Scalability | 8/10 [6-8] | x |\n"
+        text = "**Scorecard Summary**\n\n| Dimension | Score |\n|---|---|\n| Scalability | 8/10 [6-8] |\n"
         self.assertEqual(vr.check_scorecard_dimensions(text), [])
+
+    def test_extra_column_flagged(self):
+        vr = load_script("validate-report.py")
+        text = "**Scorecard Summary**\n\n| Dimension | Score | Notes |\n|---|---|---|\n| Scalability | 8/10 | x |\n"
+        fails = vr.check_scorecard_dimensions(text)
+        self.assertTrue(any("exactly" in f for f in fails), fails)
 
 
 class TestHealthDashboard(unittest.TestCase):
@@ -1947,9 +1977,9 @@ The lowest dimension is security.
 
 **Scorecard Summary**
 
-| Dimension | Score      | Notes |
-|-----------|------------|-------|
-| Security  | 5/10       | x     |
+| Dimension | Score |
+|-----------|-------|
+| Security  | 5/10  |
 
 Security's interval [4-5] bounds the unresolved criteria.
 
@@ -1992,7 +2022,7 @@ Security's interval [4-5] bounds the unresolved criteria.
         self.assertEqual(self._check(), [])
 
     def test_x2_score_mismatch(self):
-        text = self.REPORT.replace("| Security  | 5/10       |", "| Security  | 6/10       |")
+        text = self.REPORT.replace("| Security  | 5/10  |", "| Security  | 6/10       |")
         fails = self._check(text)
         self.assertTrue(any("Security" in f and "model has 5/10" in f
                             for f in fails), fails)
@@ -2004,13 +2034,13 @@ Security's interval [4-5] bounds the unresolved criteria.
         self.assertFalse(any("interval" in f for f in fails), fails)
 
     def test_x2_interval_in_cell_flagged(self):
-        text = self.REPORT.replace("| Security  | 5/10       |",
+        text = self.REPORT.replace("| Security  | 5/10  |",
                                    "| Security  | 5/10 [4-5] |")
         fails = self._check(text)
         self.assertTrue(any("disclosure line" in f for f in fails), fails)
 
     def test_x2_unknown_cell_while_model_scores(self):
-        text = self.REPORT.replace("| Security  | 5/10       |", "| Security  | Unknown    |")
+        text = self.REPORT.replace("| Security  | 5/10  |", "| Security  | Unknown |")
         fails = self._check(text)
         self.assertTrue(any("Security" in f for f in fails), fails)
 
@@ -2111,9 +2141,9 @@ Security's interval [4-5] bounds the unresolved criteria.
 
 **Scorecard Summary**
 
-| Dimension | Score      | Notes |
-|-----------|------------|-------|
-| Security  | 5/10       | x     |
+| Dimension | Score |
+|-----------|-------|
+| Security  | 5/10  |
 
 Security's interval [4-5] bounds the unresolved criteria.
 
@@ -2133,9 +2163,9 @@ Security's interval [4-5] bounds the unresolved criteria.
 
 **Scorecard Summary**
 
-| Dimension | Score | Notes |
-|-----------|-------|-------|
-| Security  | 7/10  | x     |
+| Dimension | Score |
+|-----------|-------|
+| Security  | 7/10  |
 """
         self.assertEqual(self._check(text, model), [])
         swapped = text.replace("| Overall score | 7.0/10 |",
@@ -2318,14 +2348,14 @@ class TestRepairs26(unittest.TestCase):
 
     def test_r2_linked_dimension_name(self):
         text = ("**Scorecard Summary**\n\n"
-                "| Dimension | Score | Notes |\n|---|---|---|\n"
-                "| [Security](#security) | 7/10 | x |\n")
+                "| Dimension | Score |\n|---|---|\n"
+                "| [Security](#security) | 7/10 |\n")
         self.assertEqual(self.validator.check_scorecard_dimensions(text), [])
 
     def test_r3_anchored_score_grammar(self):
         text = ("**Scorecard Summary**\n\n"
-                "| Dimension | Score | Notes |\n|---|---|---|\n"
-                "| Security | 7/10 garbage | x |\n")
+                "| Dimension | Score |\n|---|---|\n"
+                "| Security | 7/10 garbage |\n")
         fails = self.validator.check_scorecard_dimensions(text)
         self.assertTrue(any("expected n/m" in f for f in fails), fails)
 
@@ -3280,7 +3310,11 @@ class TestRenderTables(unittest.TestCase):
         text = self.renderer.render_scorecard(self._model(), None)
         lines = text.splitlines()
         self.assertTrue(lines[0].startswith("| Dimension"))
-        names = [line.split("|")[1].strip() for line in lines[2:]]
+        names = [
+            line.split("|")[1].strip()
+            for line in lines[2:]
+            if line.startswith("|")
+        ]
         self.assertEqual(
             names, ["Testability", "Design Soundness", "Security"])
         self.assertIn("Unknown", text)
@@ -3289,6 +3323,54 @@ class TestRenderTables(unittest.TestCase):
         self.assertIn("7/10", text)
         self.assertIn("coverage too thin", text)
         self.assertNotIn("Functional Suitability", text)
+
+    def test_splice_replaces_table_and_fills_titles(self):
+        report = (
+            "## Technical Findings\n\n"
+            "| Finding | Result |\n|---|---|\n| FND-SEC-001 | old |\n\n"
+            "### FND-SEC-001: Injection sink\n\nbody\n"
+        )
+        titles = self.renderer.block_titles(report)
+        self.assertEqual(titles["FND-SEC-001"], "Injection sink")
+        table = self.renderer.fill_titles(
+            "| Finding | Result |\n|---|---|\n| FND-SEC-001 | <title> |",
+            titles,
+        )
+        self.assertIn("Injection sink", table)
+        import tempfile
+        from pathlib import Path
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "r.md"
+            path.write_text(report, encoding="utf-8")
+            changed = self.renderer.splice_table(
+                path,
+                r"^## Technical Findings[^\n]*$",
+                "| Finding | Result |\n|---|---|\n| FND-SEC-001 | <title> |",
+            )
+            self.assertTrue(changed)
+            self.assertIn("Injection sink", path.read_text())
+
+    def test_evidence_uniform_tag_omits_type(self):
+        model = {"evidence": [
+            {"id": "EVD-001", "locator": {"path": "a"}, "result": "r1",
+             "type": "Observation"},
+            {"id": "EVD-002", "locator": {"path": "b"}, "result": "r2",
+             "type": "Observation"},
+        ]}
+        text = self.renderer.render_evidence(model, None)
+        self.assertNotIn("Type", text)
+        self.assertTrue(text.splitlines()[0].startswith("| Evidence"))
+
+    def test_evidence_mixed_tag_keeps_type(self):
+        model = {"evidence": [
+            {"id": "EVD-001", "locator": {"path": "a"}, "result": "r1",
+             "type": "Observation"},
+            {"id": "EVD-002", "locator": {"path": "b"}, "result": "r2",
+             "type": "Concern"},
+        ]}
+        text = self.renderer.render_evidence(model, None)
+        self.assertIn("| Type", text)
+        self.assertIn("Concern", text)
 
     def test_headline_rows(self):
         text = self.renderer.render_headline(self._model(), None)
@@ -3771,6 +3853,148 @@ class TestCompareModels(unittest.TestCase):
         self.assertEqual(failures, [])
         self.assertTrue(result["detail_level_mismatch"])
         self.assertIn("warning", result)
+
+class TestFollowupPlan(unittest.TestCase):
+    """Follow-up Plan contract: columns and FND-keyed rows."""
+
+    PLAN = """## Remediation Roadmap
+
+### Follow-up Plan
+
+| Finding     | Priority | Owner      | Evidence        |
+|-------------|----------|------------|-----------------|
+| FND-SEC-001 | P1       | Maintainer | Regression test |
+
+"""
+
+    def test_conforming_plan_passes(self):
+        vr = load_script("validate-report.py")
+        self.assertEqual(vr.check_followup_plan(self.PLAN), [])
+
+    def test_missing_columns_flagged(self):
+        vr = load_script("validate-report.py")
+        bad = self.PLAN.replace("| Finding     | Priority | Owner      | Evidence        |",
+                                "| Item | Owner | Closure evidence |")
+        fails = vr.check_followup_plan(bad)
+        self.assertTrue(any("Finding" in f for f in fails))
+
+    def test_rec_keyed_rows_flagged(self):
+        vr = load_script("validate-report.py")
+        bad = self.PLAN.replace("FND-SEC-001", "REC-001")
+        fails = vr.check_followup_plan(bad)
+        self.assertTrue(any("FND-XXX" in f for f in fails))
+
+    def test_render_followup_p1_p2_only(self):
+        rt = load_script("render-tables.py")
+        model = {"recommendations": [
+            {"finding": "FND-A", "priority": "P1", "owner": "maintainer",
+             "verification": "regression test"},
+            {"finding": "FND-B", "priority": "P3", "owner": "maintainer",
+             "verification": "cosmetic"},
+        ]}
+        text = rt.render_followup(model, None)
+        self.assertIn("FND-A", text)
+        self.assertNotIn("FND-B", text)
+        self.assertNotIn("Owner", text)
+
+    def test_render_followup_keeps_distinct_owners(self):
+        rt = load_script("render-tables.py")
+        model = {"recommendations": [
+            {"finding": "FND-A", "priority": "P1", "owner": "alice",
+             "verification": "t1"},
+            {"finding": "FND-B", "priority": "P2", "owner": "bob",
+             "verification": "t2"},
+        ]}
+        text = rt.render_followup(model, None)
+        self.assertIn("Owner", text)
+
+
+class TestRegisterProse(unittest.TestCase):
+    """Register-block prose rules."""
+
+    GOOD = "### FND-SEC-001: Short title\n\nThe sentence reads fine.\n\n* **Pillar:** SEC\n"
+    BAD = "### FND-SEC-001: t\n\nlowercase start without period\n\n* **Pillar:** SEC\n"
+
+    def test_good_block_passes(self):
+        vr = load_script("validate-report.py")
+        self.assertEqual(vr.check_register_prose(self.GOOD, self.GOOD.split("\n")), [])
+
+    def test_lowercase_no_period_flagged(self):
+        vr = load_script("validate-report.py")
+        fails = vr.check_register_prose(self.BAD, self.BAD.split("\n"))
+        self.assertTrue(any("capital" in f for f in fails))
+        self.assertTrue(any("period" in f for f in fails))
+
+    def test_long_sentence_flagged(self):
+        vr = load_script("validate-report.py")
+        block = "### FND-A-001: t\n\n" + " ".join(["word"] * 21) + ".\n\n* **Pillar:** A\n"
+        fails = vr.check_register_prose(block, block.split("\n"))
+        self.assertTrue(any("20-word" in f for f in fails))
+
+    def test_conjunction_start_flagged(self):
+        vr = load_script("validate-report.py")
+        block = "### FND-A-001: t\n\nAnd then it broke.\n\n* **Pillar:** A\n"
+        fails = vr.check_register_prose(block, block.split("\n"))
+        self.assertTrue(any("conjunction" in f for f in fails))
+
+    def test_long_title_flagged(self):
+        vr = load_script("validate-report.py")
+        block = "### FND-A-001: " + "x" * 90 + "\n\nFine.\n\n* **Pillar:** A\n"
+        fails = vr.check_register_prose(block, block.split("\n"))
+        self.assertTrue(any("title" in f for f in fails))
+
+    def test_blank_run_flagged(self):
+        vr = load_script("validate-report.py")
+        fails = vr.check_register_prose("a\n\n\nb", ["a", "", "", "b"])
+        self.assertTrue(any("blank" in f for f in fails))
+
+
+class TestValuelessRows(unittest.TestCase):
+    """Metric rows carrying no information."""
+
+    def test_zero_value_flagged(self):
+        vr = load_script("validate-report.py")
+        fails = vr.check_valueless_rows(["| Metric | Value |", "|---|---|", "| Tags | 0 |"])
+        self.assertTrue(any("no" in f and "information" in f for f in fails))
+
+    def test_meaningful_value_passes(self):
+        vr = load_script("validate-report.py")
+        self.assertEqual(vr.check_valueless_rows(["| Metric | Value |", "|---|---|", "| Commits | 148 |"]), [])
+
+    def test_none_value_flagged(self):
+        vr = load_script("validate-report.py")
+        fails = vr.check_valueless_rows(["| Metric | Value |", "|---|---|", "| Tags | None |"])
+        self.assertTrue(fails)
+
+
+class TestRecResolves(unittest.TestCase):
+    """REC description must not restate Resolves FND-XXX."""
+
+    def test_resolves_restatement_flagged(self):
+        vr = load_script("validate-report.py")
+        block = "### REC-001: Fix the thing\n\nFix the thing. Resolves [FND-SEC-001](#x).\n\n* **Priority:** P1\n* **Finding:** FND-SEC-001\n"
+        fails = vr.check_rec_blocks(block.split("\n"))
+        self.assertTrue(any("restates" in f for f in fails))
+
+
+    def test_meta_prefix_flagged(self):
+        vr = load_script("validate-report.py")
+        block = "### REC-001: t\n\nThe defect: something broke.\n\n* **Priority:** P1\n"
+        fails = vr.check_register_prose(block, block.split("\n"))
+        self.assertTrue(any("meta prefix" in f for f in fails))
+
+    def test_truncation_flagged(self):
+        vr = load_script("validate-report.py")
+        block = "### REC-001: t\n\nSomething broke badly...\n\n* **Priority:** P1\n"
+        fails = vr.check_register_prose(block, block.split("\n"))
+        self.assertTrue(any("truncation" in f for f in fails))
+
+    def test_ellipsis_inside_code_allowed(self):
+        vr = load_script("validate-report.py")
+        block = "### FND-A-001: t\n\nThe `bind(...)` call discards errors.\n\n* **Pillar:** A\n"
+        fails = vr.check_register_prose(block, block.split("\n"))
+        self.assertFalse(any("truncation" in f for f in fails))
+
 
 class TestFinalizeGate(unittest.TestCase):
     """--gate delivery battery verdicts."""

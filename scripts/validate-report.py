@@ -397,21 +397,26 @@ def check_tables(lines: list[str], fences: list[bool]) -> list[str]:
                 failures.append(
                     f"line {start + sep_index + 1}: separator cell {index + 1} has no hyphen"
                 )
+        for index, row in enumerate(rows):
+            if index != sep_index and is_separator(content_cells(row)):
+                failures.append(
+                    f"line {start + index + 1}: duplicate separator row inside table"
+                )
         data_rows = [
             row
             for index, row in enumerate(rows)
-            if index != sep_index and not is_separator(content_cells(row))
+            if index not in (0, sep_index) and not is_separator(content_cells(row))
         ]
         if data_rows:
             ncols = max(len(content_cells(row)) for row in data_rows)
             for column in range(ncols):
                 if all(
                     column >= len(content_cells(row))
-                    or content_cells(row)[column] == ""
+                    or content_cells(row)[column] in ("", "-")
                     for row in data_rows
                 ):
                     failures.append(
-                        f"line {start + 1}: column {column + 1} is empty in every row"
+                        f"line {start + 1}: column {column + 1} carries no value in any row"
                     )
         if sep_index != 1:
             continue
@@ -782,6 +787,12 @@ def check_rec_blocks(lines: list[str]) -> list[str]:
             ref = re.search(FINDING_ID, finding)
             if not ref or ref.group(0) not in fnd_blocks:
                 failures.append(f"{name}: Finding does not name a defined finding")
+        desc_zone = block.split("* **", 1)[0]
+        if re.search(r"Resolves\s+\[?FND-", desc_zone):
+            failures.append(
+                f"{name}: description restates 'Resolves FND-XXX' - "
+                "the Finding field already carries that link"
+            )
         depends = field_value(block, "Depends on")
         if depends and not re.match(r"^none\b", depends, re.IGNORECASE):
             for ref in re.findall(r"REC-\d{3}", depends):
@@ -900,7 +911,7 @@ def check_finding_summary(text: str) -> list[str]:
         return []
     cells = [cell.strip() for cell in raw_cells(lines[header_index])]
     failures = []
-    for wanted in ("Finding", "Result", "Status", "Change"):
+    for wanted in ("Finding",):
         if wanted not in cells:
             failures.append(f"findings summary table lacks a {wanted} column")
     for legacy in ("Finding ID", "Remediation Status"):
@@ -1184,6 +1195,7 @@ def dimension_name(cell: str) -> str:
 def check_scorecard_dimensions(text: str) -> list[str]:
     failures: list[str] = []
     tables: list[list[list[str]]] = []
+    marked: list[list[list[str]]] = []
     for marker in SCORECARD_MARKER.finditer(text):
         rest = text[marker.end():]
         lines = rest.split("\n")
@@ -1194,7 +1206,16 @@ def check_scorecard_dimensions(text: str) -> list[str]:
             elif table:
                 break
         if len(table) >= 2:
-            tables.append([[cell.strip() for cell in raw_cells(row)] for row in table])
+            parsed = [[cell.strip() for cell in raw_cells(row)] for row in table]
+            tables.append(parsed)
+            marked.append(parsed)
+    for table in marked:
+        header = table[0]
+        if header != ["Dimension", "Score"]:
+            failures.append(
+                "Scorecard Summary header is "
+                f"{header} - it carries exactly `Dimension` and `Score` columns"
+            )
     for _, block in dashboard_sections(text):
         tables.extend(parsed for _, parsed in dimension_tables(block))
     seen: set[tuple] = set()
@@ -3415,6 +3436,129 @@ def check_roadmap_structure(text: str) -> list[str]:
     return failures
 
 
+def check_followup_plan(text: str) -> list[str]:
+    """Follow-up Plan table: Finding/Priority/Evidence columns, FND-keyed rows."""
+    block = section_block(text, r"^###\s+Follow-up Plan\s*$")
+    if not block:
+        return []
+    lines = block.split("\n")
+    header_index = next(
+        (index for index, line in enumerate(lines) if line.startswith("|")),
+        None,
+    )
+    if header_index is None:
+        return []
+    cells = [cell.strip() for cell in raw_cells(lines[header_index])]
+    failures = []
+    if "Finding" not in cells:
+        failures.append("follow-up plan table lacks a Finding column")
+    for wanted in ("Priority", "Evidence"):
+        if wanted not in cells:
+            failures.append(f"follow-up plan table lacks a {wanted} column")
+    fnd_idx = cells.index("Finding") if "Finding" in cells else -1
+    for row in lines[header_index + 2 :]:
+        if not row.startswith("|"):
+            break
+        row_cells = [cell.strip() for cell in raw_cells(row)]
+        if fnd_idx >= 0 and len(row_cells) > fnd_idx:
+            value = row_cells[fnd_idx]
+            if "FND-" not in value:
+                failures.append(
+                    f"follow-up plan row keys '{value[:40]}' - every row must "
+                    "reference a specific FND-XXX finding"
+                )
+    return failures
+
+
+def check_valueless_rows(lines: list[str]) -> list[str]:
+    """Metric or Field/Value rows whose value records nothing."""
+    failures: list[str] = []
+    for index, line in enumerate(lines):
+        if not line.startswith("|") or "---" in line:
+            continue
+        cells = [cell.strip() for cell in line.strip("|").split("|")]
+        if len(cells) != 2:
+            continue
+        if cells[1] in ("0", "None", "-"):
+            failures.append(
+                f"line {index + 1}: metric row '{cells[0]}' carries no "
+                "information - omit valueless rows"
+            )
+    return failures
+
+
+def check_register_prose(text: str, lines: list[str]) -> list[str]:
+    """Register-block prose: short titles, sentence-formed paragraphs, spacing."""
+    failures: list[str] = []
+    if re.search(r"\n{3,}", text):
+        failures.append(
+            "consecutive blank lines found - paragraphs separate by exactly "
+            "one blank line"
+        )
+    fence = False
+    for index, line in enumerate(lines):
+        if line.startswith("```"):
+            fence = not fence
+            continue
+        if fence:
+            continue
+        match = re.match(r"^### ((?:FND|RSK|REC|TDR)-\S+):\s*(.+)$", line)
+        if not match:
+            continue
+        ident, title = match.group(1), match.group(2)
+        if len(title) > 80:
+            failures.append(
+                f"{ident}: block title is {len(title)} chars - the narrative "
+                "belongs in the description paragraph, not the title"
+            )
+        cursor = index + 1
+        while (
+            cursor < len(lines)
+            and not re.match(r"^\* \*\*", lines[cursor])
+            and not lines[cursor].startswith("#")
+        ):
+            paragraph = lines[cursor].strip()
+            cursor += 1
+            if not paragraph or paragraph.startswith("|"):
+                continue
+            if not (paragraph[0].isupper() or paragraph[0].isdigit()
+                    or paragraph[0] == "["):
+                failures.append(
+                    f"{ident}: paragraph starts '{paragraph[0]}' - sentences "
+                    "start on a capital letter or digit"
+                )
+            if not paragraph.endswith("."):
+                failures.append(
+                    f"{ident}: paragraph does not end with a period"
+                )
+            if re.match(r"(?i)^the defect\s*:", paragraph):
+                failures.append(
+                    f"{ident}: paragraph opens on a meta prefix - "
+                    "describe the defect directly, no 'The defect:' label"
+                )
+            prose = re.sub(r"`[^`]*`", "", paragraph)
+            if "..." in prose or prose.endswith(("..,", "..")):
+                failures.append(
+                    f"{ident}: paragraph carries truncation marks - "
+                    "write complete sentences, never ellipsis-truncate"
+                )
+            for sentence in re.split(r"(?<=\.)\s+(?=[A-Z`0-9\[])", paragraph):
+                words = len(
+                    re.sub(r"[`()\[\];,:.-]", " ", sentence).split()
+                )
+                if words > 20:
+                    failures.append(
+                        f"{ident}: sentence of {words} words exceeds the "
+                        "20-word limit - split it"
+                    )
+                if sentence.startswith(("And ", "So ")):
+                    failures.append(
+                        f"{ident}: sentence opens on a conjunction - "
+                        "rephrase the opening"
+                    )
+    return failures
+
+
 def check_roadmap_breaking(text: str) -> list[str]:
     if "**Breaking change:**" not in text:
         return []
@@ -4846,6 +4990,9 @@ def main(
                     ("summary verification labels", check_summary_verified(text)),
                     ("fresh-audit claims", check_fresh_audit_claims(lines, fences)),
                     ("roadmap breaking column", check_roadmap_breaking(text)),
+                    ("follow-up plan", check_followup_plan(text)),
+                    ("valueless rows", check_valueless_rows(lines)),
+                    ("register prose", check_register_prose(text, lines)),
                     ("evidence paths", check_evidence_paths(text, repo_root)),
                     ("glossary", check_glossary(text)),
                     ("final-state gate", check_final_state(text)),
