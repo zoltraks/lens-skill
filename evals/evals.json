@@ -2316,6 +2316,17 @@
     "Populated register identifiers stay contiguous and every cited identifier resolves.",
     "The generated report passes `validate-report.py` with zero issues on a conformant model."
    ]
+  },
+  {
+   "id": 199,
+   "prompt": "Summarize the run in verbose mode.",
+   "expected_output": "The report closes with an operations table - one row per operation carrying `Operation`, `Time`, and `Context` columns - and the timing sentence stays last.",
+   "files": [],
+   "expectations": [
+    "a verbose report closes with an operations table carrying `Operation`, `Time`, and `Context` columns",
+    "the driving agent and model are named in a separate paragraph once per session or on request",
+    "the `<description> operation took <m:ss>` sentence stays the last sentence"
+   ]
   }
  ]
 }
