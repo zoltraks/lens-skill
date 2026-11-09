@@ -12,11 +12,11 @@
 |-------------------------------------------|------|--------------------------------------------|
 | API Contract Conformance                  | 23   | API specification and security conformance |
 | Skill Definition Conformance              | 49   | Agent Skill and artifact spec conformance  |
-| Agent Guidance Conformance                | 116  | Guidance-set topology and ownership        |
+| Guidance Conformance                      | 116  | Guidance-set topology and ownership        |
 | AI System Assessment                      | 146  | AI model, dataset, and safety assessment   |
 | Standards Conformance                     | 165  | Project development standards conformance  |
 | Requirements Conformance                  | 228  | Declared requirements and criteria checks  |
-| Engineering Baseline Conformance          | 274  | Bundled stack and purpose baseline floor   |
+| Baseline Conformance                      | 274  | Bundled stack and purpose baseline floor   |
 | Structure Conformance                     | 300  | Directory, file, and code-division rules   |
 | API Compatibility & Versioning Discipline | 352  | Library API surface and SemVer discipline  |
 
@@ -113,7 +113,7 @@ The aggregate status follows the weakest in-scope item.
 When the report language is not English,
 apply the column header translations from the matching `translations/` file.
 
-## Agent Guidance Conformance
+## Guidance Conformance
 
 Include this section only when the subject carries a structured agent-guidance documentation set,
 per `assessment/agent-guidance.md`.
@@ -271,7 +271,7 @@ An `Unknown` row names the artifact or check that would resolve it.
 When the report language is not English,
 apply the column header translations from the matching `translations/` file.
 
-## Engineering Baseline Conformance
+## Baseline Conformance
 
 Include this section when the subject ships or develops executable source and at least one bundled
 baseline digest covers its detected stack or nature, per `assessment/baseline-conformance.md`.

@@ -349,11 +349,11 @@ Use this fixed vocabulary in the `Status`, `Change`, and `Verification` columns 
 | `Open`   | `Reopened`  | `Confirmed`  | A closed finding reproduces again under current evidence           |
 | `Pass`   | `Unchanged` | `Verified`   | A passing control, re-verified                                     |
 
-`Confirmed` is the runtime-confirmed qualifier - it requires `Runtime confirmed: yes` in the
+`Confirmed` is the execution-confirmed qualifier - it requires `Confirmation: Yes` in the
 finding's detailed block, which a source-only audit never produces.
 
 Under `source-only` evidence mode a re-inspected `Open` / `Unchanged` finding renders `Verified`,
-matching `Verified: yes` and `Runtime confirmed: no` in the block.
+matching `Verification: Yes` in the block - the finding carries no `Confirmation` field.
 
 `Status` is the lifecycle (`Open`, `Closed`, `Pass`),
 `Change` is the movement since the previous audit (`New`, `Unchanged`, `Reopened`, `Closed`) -
@@ -386,9 +386,9 @@ Finding block fields:
 | Requirement Basis          | `Basis`              |
 | Remediation Recommendation | `Recommendation`     |
 | Verification Method        | `Method`             |
-| Verification State         | `Verified`           |
-| Counter-check              | `Mitigating factors` |
-| Countercheck               | `Mitigating factors` |
+| Verification State         | `Verification`       |
+| Counter-check              | `Mitigation`         |
+| Countercheck               | `Mitigation`         |
 | Exploitability Narrative   | `Exploitability`     |
 
 Risk block fields: `Source Finding` -> `Source`, `Triggering Condition` -> `Trigger`,

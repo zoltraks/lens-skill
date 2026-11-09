@@ -46,7 +46,7 @@ Column meanings:
 - **Complexity**: the architectural or organizational complexity of the change
   (`High`, `Medium`, `Low`).
 - **Breaking**: the compatibility impact of the change (`None`, `Internal`, or `Public API`),
-  matching the finding's `Breaking change` field.
+  matching the finding's `Breaking` field.
 - **Verification**: a specific test, command, or process to confirm the fix is successful,
   stated with measurable pass criteria.
 
@@ -85,9 +85,9 @@ Priority expresses urgency, not a delivery commitment, use only supplied or appr
   The validator reconciles the mapping and flags an unmapped finding.
 - An action is usable without reinterpreting the report:
   a recommendation block carries a required `Condition` field - the verifiable end state the action
-  must establish - and may carry `Alternatives`, `Effort confidence`, `Residual`,
-  `Owner` (a role or `UNASSIGNED`), `Depends on`, `Acceptance milestone`,
-  and `Closure evidence` fields so the roadmap functions as an action tracker.
+  must establish - and may carry `Alternatives`, `Confidence`, `Residual`,
+  `Owner` (a role or `UNASSIGNED`), `Depends`, `Milestone`,
+  and `Proof` fields so the roadmap functions as an action tracker.
 - When the subject already contains a correct implementation of the mechanism the finding needs - a
   shared helper or a sibling module that does it right - the Recommendation names it as the
   remediation template rather than inventing a parallel fix.

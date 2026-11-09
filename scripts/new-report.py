@@ -40,7 +40,7 @@ AUDIT_SECTIONS = [
     "Architectural Assessment",
     "Structure Review",
     "Solution Comparison",
-    "Strengths & What's Working",
+    "Strengths and What's Working",
 ]
 
 CLOSING_SECTIONS = [
@@ -68,7 +68,6 @@ DOC_INFO = [
     ("Report Style", None),
     ("Detail Level", None),
     ("Evaluation Scale", "1-10"),
-    ("Language", "English"),
     ("Audit Purpose", "<audit purpose>"),
     ("Target Environment", "<target environment>"),
     ("Verification Scope", "Static repository analysis - no execution"),
@@ -84,51 +83,51 @@ FINDING_BLOCK = """### {fnd_id}: <finding title>{suffix}
 
 <what the discovered state is, where, and why it is a finding>
 
-* **Pillar:** Security & Compliance
-* **Severity:** <Critical | High | Medium | Low>
-* **Type:** Concern
-* **Targets:** {targets}
-* **Basis:** <requirement or source basis>
-* **Criteria:** <criteria ID - violated or uncertain property>
-* **Impact:** <concrete consequence>
-* **Method:** <test or command that confirms the fix>
-* **Verification:** Observed in source, <basis>
-* **Defect scenario:** <initial conditions, steps, expected result, observed result, confirmation level - required on High/Critical>
-* **Runtime:** <confirmed behavior note>
-* **Confidence:** <High | Medium | Low>
-* **Mitigating factors:** <factors or omit line>
-* **Breaking change:** None
-* **Evidence:** <EVD IDs, `path:line` ranges, inspected basis>
-* **Recommendation:** <step-by-step technical guidance>
+- **Pillar:** Security & Compliance
+- **Severity:** <Critical | High | Medium | Low>
+- **Type:** Concern
+- **Targets:** {targets}
+- **Basis:** <requirement or source basis>
+- **Criteria:** <criteria ID - violated or uncertain property>
+- **Impact:** <concrete consequence>
+- **Method:** <test or command that confirms the fix>
+- **Verification:** Yes - <basis>
+- **Scenario:** <conditions, steps, expected, observed, confirmation - required on High/Critical>
+- **Confirmation:** Yes - <execution basis>
+- **Confidence:** <High | Medium | Low>
+- **Mitigation:** <factors or omit line>
+- **Breaking:** None
+- **Evidence:** <EVD IDs, `path:line` ranges, inspected basis>
+- **Recommendation:** <step-by-step technical guidance>
 """
 
 RISK_BLOCK = """### {rsk_id}: <risk title>{suffix}
 
 <what could go wrong>
 
-* **Severity:** <Critical | High | Medium | Low>
-* **Likelihood:** <High | Medium | Low>
-* **Residual:** <residual after mitigation>
-* **Impact:** <concrete consequence>
-* **Trigger:** <what sets it off>
-* **Controls:** <existing controls>
-* **Closure:** <closure condition>
-* **Source:** {fnd_id}
-* **Confidence:** <High | Medium | Low>
-* **Mitigation:** <treatment plan>
+- **Severity:** <Critical | High | Medium | Low>
+- **Likelihood:** <High | Medium | Low>
+- **Residual:** <residual after mitigation>
+- **Impact:** <concrete consequence>
+- **Trigger:** <what sets it off>
+- **Controls:** <existing controls>
+- **Closure:** <closure condition>
+- **Source:** {fnd_id}
+- **Confidence:** <High | Medium | Low>
+- **Mitigation:** <treatment plan>
 """
 
 REC_BLOCK = """### {rec_id}: <recommendation title>{suffix}
 
 <what the action changes and how it resolves the finding>
 
-* **Priority:** P1
-* **Finding:** {target}
-* **Condition:** <verifiable end state the action must establish>
-* **Impact:** <business or technical impact of applying this fix>
-* **Effort:** <Low | Medium | High>
-* **Complexity:** <Low | Medium | High>
-* **Verification:** <test or process confirming the fix, with pass criteria>
+- **Priority:** P1
+- **Finding:** {target}
+- **Condition:** <verifiable end state the action must establish>
+- **Impact:** <business or technical impact of applying this fix>
+- **Effort:** <Low | Medium | High>
+- **Complexity:** <Low | Medium | High>
+- **Verification:** <test or process confirming the fix, with pass criteria>
 """
 
 PAR_ROWS = [
@@ -150,6 +149,9 @@ def heading(level: int, title: str) -> str:
 
 
 def table(header: str, separator: str, rows: list[str] | None = None) -> str:
+    cells = [c for c in header.split("|")[1:-1]]
+    if cells:
+        separator = "|" + "|".join("-" * max(len(c), 1) for c in cells) + "|"
     return header + "\n" + separator + "\n" + "".join(rows or []) + "\n"
 
 
@@ -172,15 +174,28 @@ def document_info(style: str, projects: list[str], params: dict) -> str:
         elif field == "Detail Level":
             value = params.get("detail_level", "Standard")
         elif field == "Evidence Mode":
-            value = params.get("evidence_mode", "Source-only")
+            value = {
+                "source-only": "Source-only",
+                "executed-readonly": "Executed read-only",
+                "executed-commands": "Executed commands",
+            }.get(params.get("evidence_mode", "source-only").replace("_", "-"), "Source-only")
+        elif field == "Verification Scope":
+            mode = params.get("evidence_mode", "source-only").replace("_", "-")
+            value = "Static repository analysis - no execution"
+            if mode == "executed-readonly":
+                value = "Static repository analysis - non-mutating analyzers executed"
+            elif mode == "executed-commands":
+                value = "Static repository analysis - non-mutating commands executed"
         elif field == "Skill Version":
             value = skill_version()
+        if field == "Language" and value == "English":
+            continue
         rows.append(f"| {field} | {value} |")
         if field == "Report Style" and params.get("review_scope") == "structure":
             rows.append("| Review Scope | Structure |")
-    if projects:
+    if len(projects) > 1:
         rows.append(f"| Projects | {', '.join('[' + p + '](#' + p.lstrip('.').replace(' ', '-').lower() + ')' for p in projects)} |")
-    return table("| Field | Value |", "|---|---|", [row + "\n" for row in rows])
+    return table("|  |  |", "|---|---|", [row + "\n" for row in rows])
 
 
 def inventory(projects: list[str]) -> str:
@@ -210,20 +225,26 @@ def finding_summary_table(projects: list[str], fnd_id: str = "FND-SEC-001") -> s
             "| Project | Finding | Pillar | Severity | Title | Result | Status | Change | Verification |",
             "|---|---|---|---|---|---|---|---|---|",
             [
-                f"| {projects[0]} | {fnd_id} | Security & Compliance | <severity> | <title> | <result> | Open | New | Verification |\n"
+                f"| {projects[0]} | {fnd_id} | Security & Compliance | <severity> | <title> | <result> | Open | New | Verified |\n"
             ],
         )
     return table(
         "| Finding | Pillar | Severity | Title | Result | Status | Change | Verification |",
         "|---|---|---|---|---|---|---|---|",
-        [f"| {fnd_id} | Security & Compliance | <severity> | <title> | <result> | Open | New | Verification |\n"],
+        [f"| {fnd_id} | Security & Compliance | <severity> | <title> | <result> | Open | New | Verified |\n"],
     )
+
+
+def gate_confirmation(body: str, params: dict) -> str:
+    if params.get("evidence_mode", "source-only").replace("_", "-") == "source-only":
+        return re.sub(r"\* \*\*Confirmation:\*\*[^\n]*\n", "", body)
+    return body
 
 
 def audit_skeleton(projects: list[str], params: dict) -> str:
     multi = len(projects) > 1
     parts = [
-        "# <subject> - Lens audit report\n\n",
+        "# <subject> Audit Report\n\n",
         heading(2, "Document Information"),
         document_info("audit", projects, params),
         heading(2, "Audit Coverage"),
@@ -247,7 +268,7 @@ def audit_skeleton(projects: list[str], params: dict) -> str:
     else:
         parts += audit_project_body("")
         parts += audit_shared_tail(False)
-    return "".join(parts)
+    return gate_confirmation("".join(parts), params)
 
 
 def audit_project_body(project: str, number: int = 1) -> list[str]:
@@ -292,8 +313,10 @@ def audit_project_body(project: str, number: int = 1) -> list[str]:
                 table(
                     "| Impact | Low | Medium | High |",
                     "|---|---|---|---|",
-                    ["| Critical |  |  |  |\n", "| High |  |  |  |\n",
-                     "| Medium |  |  |  |\n", "| Low |  |  |  |\n"],
+                    ["| Critical | <RSK-XXX> | <RSK-XXX> | <RSK-XXX> |\n",
+                      "| High | <RSK-XXX> | <RSK-XXX> | <RSK-XXX> |\n",
+                      "| Medium | <RSK-XXX> | <RSK-XXX> | <RSK-XXX> |\n",
+                      "| Low | <RSK-XXX> | <RSK-XXX> | <RSK-XXX> |\n"],
                 )
             )
             parts.append("**Legend**\n\n")
@@ -310,11 +333,10 @@ def audit_project_body(project: str, number: int = 1) -> list[str]:
                 )
             )
             parts.append("**Scorecard Summary**\n\n")
-            parts.append(table("| Dimension | Score | Notes |", "|---|---|---|"))
+            parts.append(table("| Dimension | Score |", "|---|---|"))
             parts.append("**Team & Continuity**\n\n")
             parts.append(
-                "<one-line contributor/continuity summary anchored to EVD-XXX - "
-                "`Not collected` when git history was out of scope>\n\n"
+                "<contributor/continuity summary anchored to EVD-XXX or `Not collected`>\n\n"
             )
         elif section == "Structure Review":
             parts.append(
@@ -455,7 +477,7 @@ def qualified(project: str, fnd_id: str) -> str:
 def hunt_skeleton(projects: list[str], params: dict) -> str:
     multi = len(projects) > 1
     parts = [
-        "# <subject> - Lens hunt report\n\n",
+        "# <subject> Audit Report\n\n",
         heading(2, "Document Information"),
         document_info("hunt", projects, params),
         heading(2, "Audit Coverage"),
@@ -553,14 +575,14 @@ def hunt_skeleton(projects: list[str], params: dict) -> str:
         ),
         "- [<title>](<url>)\n",
     ]
-    return "".join(parts)
+    return gate_confirmation("".join(parts), params)
 
 
 HUNT_FINDING_BLOCK = FINDING_BLOCK
 
 REVIEW_FINDING_BLOCK = HUNT_FINDING_BLOCK.replace(
-    "* **Evidence:**",
-    "* **Evidence level:** Source - <inspected basis>\n* **Evidence:**",
+    "- **Evidence:**",
+    "- **Level:** Source - <inspected basis>\n- **Evidence:**",
 )
 
 
@@ -570,7 +592,7 @@ def review_skeleton(projects: list[str], params: dict) -> str:
     suffix = f" ({projects[0]})" if multi else ""
     target = qualified(projects[0] if multi else "", "FND-SEC-001")
     parts = [
-        "# <subject> - Lens review report\n\n",
+        "# <subject> Audit Report\n\n",
         heading(2, "Document Information"),
         document_info("review", projects, params),
         heading(2, "Audit Coverage"),
@@ -601,17 +623,17 @@ def review_skeleton(projects: list[str], params: dict) -> str:
         "<purpose, stack with locked versions, component inventory, runtime environment>\n\n",
         table("| Component | Lines | Role |", "|---|---|---|"),
         heading(2, "Check Plan And Methodology"),
-        "Checks selected, the criteria entry each evaluates, the evidence level each reaches, "
+        "Checks selected, the criteria entry each evaluates, the evidence level each reaches,\n"
         "and the commands the user commissioned:\n\n",
-        table("| Check | Criteria | Evidence level |", "|---|---|---|"),
+        table("| Check | Criteria | Level |", "|---|---|---|"),
         "Read-depth table:\n\n",
         table("| Area | Files | Read depth |", "|---|---|---|"),
         "Evidence ledger:\n\n",
         ledger_table(multi),
         heading(2, "Execution Register"),
         "One row per check.\n\n"
-        "`Result` is Pass, Fail, Error, Blocked, Skipped, Not run, or N/A - "
-        "`Error`/`Blocked` are runner states, never product failures, and "
+        "`Result` is Pass, Fail, Error, Blocked, Skipped, Not run, or N/A -\n"
+        "`Error`/`Blocked` are runner states, never product failures, and\n"
         "`Not run` is never a pass.\n\n"
         "Every non-Pass row states its Interpretation.\n\n",
         table(
@@ -682,17 +704,17 @@ def review_skeleton(projects: list[str], params: dict) -> str:
         ),
         "- [<title>](<url>)\n",
     ]
-    return "".join(parts)
+    return gate_confirmation("".join(parts), params)
 
 
 STR_FINDING_BLOCK = FINDING_BLOCK.replace(
-    "* **Pillar:** Security & Compliance", "* **Pillar:** Structure & Organization"
+    "- **Pillar:** Security & Compliance", "- **Pillar:** Structure & Organization"
 )
 
 
 def structure_review_skeleton(projects: list[str], params: dict) -> str:
     parts = [
-        "# <subject> - Lens structure review report\n\n",
+        "# <subject> Audit Report\n\n",
         heading(2, "Document Information"),
         document_info("review", projects, {**params, "review_scope": "structure"}),
         heading(2, "Project Context"),
@@ -746,7 +768,7 @@ def structure_review_skeleton(projects: list[str], params: dict) -> str:
         ),
         "- [<title>](<url>)\n",
     ]
-    return "".join(parts)
+    return gate_confirmation("".join(parts), params)
 
 
 
@@ -779,6 +801,9 @@ def _clean(text: str) -> str:
 
 
 def populate_audit(body: str, model: dict) -> str:
+    executed_mode = bool(
+        re.search(r"\|\s*Evidence Mode\s*\|\s*Executed", body)
+    )
     """Seed an audit skeleton's model-driven cells from ``audit-model.json``.
 
     Fills the scorecard, executive-summary score cells, finding/risk/rec
@@ -795,11 +820,11 @@ def populate_audit(body: str, model: dict) -> str:
         cell = dims.get(key, {})
         if not cell or not cell.get("eligible", True):
             continue
-        rows.append(f"| {name} | {cell['score']}/{scale} |  |\n")
+        rows.append(f"| {name} | {cell['score']}/{scale} |\n")
     if rows:
         body = body.replace(
-            "| Dimension | Score | Notes |\n|---|---|---|\n",
-            "| Dimension | Score | Notes |\n|---|---|---|\n" + "".join(rows),
+            "| Dimension | Score |\n|---|---|\n",
+            "| Dimension | Score |\n|---|---|\n" + "".join(rows),
             1,
         )
     prod = scores.get("product", {})
@@ -848,7 +873,7 @@ def populate_audit(body: str, model: dict) -> str:
         summary_rows = "".join(
             f"| {f['id']} | {_pillar(f['id'])} | {f['severity'].title()} | {_clean(f.get('observation',''))[:60]} |"
             f" {_clean(f.get('claim_class',''))} | Open | New | "
-            f"{'Confirmed' if any(e.get('kind')=='EXECUTED' for e in model.get('evidence',[]) if e.get('id') in f.get('evidence',[])) else ('Verification' if f.get('confidence')=='HIGH' else '')} |\n"
+            f"{'Confirmed' if any(e.get('kind')=='EXECUTED' for e in model.get('evidence',[]) if e.get('id') in f.get('evidence',[])) else ('Verified' if f.get('confidence')=='HIGH' else '')} |\n"
             for f in findings
         )
         body = re.sub(
@@ -858,36 +883,39 @@ def populate_audit(body: str, model: dict) -> str:
         blocks = ""
         for f in findings:
             evidence = ", ".join(f.get("evidence", [])) or "<EVD IDs>"
-            verification = ""
-            if any(
+            executed = any(
                 e.get("kind") == "EXECUTED"
                 for e in model.get("evidence", [])
                 if e.get("id") in f.get("evidence", [])
-            ):
-                verification = "* **Runtime:** Confirmed - executed evidence\n"
-            elif f.get("confidence") == "HIGH":
-                verification = "* **Verification:** Verified - source inspection\n"
-            absence = f"* **Absence:** {f['absence']}\n" if f.get("absence") else ""
+            )
+            verification = ""
+            if f.get("confidence") == "HIGH":
+                verification += "- **Verification:** Yes - source inspection\n"
+            if executed:
+                verification += "- **Confirmation:** Yes - executed evidence\n"
+            elif executed_mode:
+                verification += "- **Confirmation:** No - not exercised by commissioned evidence\n"
+            absence = f"- **Absence:** {f['absence']}\n" if f.get("absence") else ""
             blocks += (
-                f"### {f['id']}: {_clean(f.get('observation',''))[:70]}\n\n"
+                f"### {f['id']} {_clean(f.get('observation',''))[:70]}\n\n"
                 f"{_clean(f.get('observation',''))}\n\n"
-                f"* **Pillar:** {_pillar(f['id'])}\n"
-                f"* **Severity:** {f['severity'].title()}\n"
-                f"* **Type:** {f.get('type','Concern')}\n"
-                f"* **Targets:** {subject}\n"
-                f"* **Basis:** Inspected\n"
-                f"* **Criteria:** {f.get('criteria','')}\n"
-                f"* **Impact:** {_clean(f.get('consequence',''))}\n"
-                f"* **Method:** {_clean(f.get('next_verification',''))}\n"
+                f"- **Pillar:** {_pillar(f['id'])}\n"
+                f"- **Severity:** {f['severity'].title()}\n"
+                f"- **Type:** {f.get('type','Concern')}\n"
+                f"- **Targets:** {subject}\n"
+                f"- **Basis:** Inspected\n"
+                f"- **Criteria:** {f.get('criteria','')}\n"
+                f"- **Impact:** {_clean(f.get('consequence',''))}\n"
+                f"- **Method:** {_clean(f.get('next_verification',''))}\n"
                 f"{verification}"
-                f"* **Confidence:** {f.get('confidence','').title()}\n"
-                f"* **Mitigating factors:** {_clean(f.get('counter',''))}\n"
-                f"* **Evidence:** {evidence}\n"
-                f"* **Recommendation:** {_clean(f.get('next_verification',''))}\n"
+                f"- **Confidence:** {f.get('confidence','').title()}\n"
+                f"- **Mitigation:** {_clean(f.get('counter',''))}\n"
+                f"- **Evidence:** {evidence}\n"
+                f"- **Recommendation:** {_clean(f.get('next_verification',''))}\n"
                 f"{absence}\n"
             )
         body = re.sub(
-            r"### FND-[A-Z]+-001:.*?(?=### |## |\Z)",
+            r"### FND-[A-Z]+-001.*?(?=### |## |\Z)",
             blocks.rstrip() + "\n\n", body, count=1, flags=re.S,
         )
     risks = model.get("risks", [])
@@ -895,21 +923,21 @@ def populate_audit(body: str, model: dict) -> str:
         blocks = ""
         for r in risks:
             blocks += (
-                f"### {r['id']}: {_clean(r.get('impact',''))[:60]}\n\n"
+                f"### {r['id']} {_clean(r.get('impact',''))[:60]}\n\n"
                 f"{_clean(r.get('impact',''))}.\n\n"
-                f"* **Severity:** {r.get('severity','').title()}\n"
-                f"* **Likelihood:** {_clean(r.get('likelihood',''))}\n"
-                f"* **Residual:** {r.get('severity','').title()}\n"
-                f"* **Impact:** {_clean(r.get('impact',''))}\n"
-                f"* **Trigger:** {_clean(r.get('prerequisites',''))}\n"
-                f"* **Controls:** {_clean(r.get('controls',''))}\n"
-                f"* **Closure:** {_clean(r.get('closure','<closure condition>'))}\n"
-                f"* **Source:** {r.get('finding','')}\n"
-                f"* **Confidence:** {r.get('uncertainty','').title()}\n"
-                f"* **Mitigation:** {_clean(r.get('mitigation','<treatment plan>'))}\n\n"
+                f"- **Severity:** {r.get('severity','').title()}\n"
+                f"- **Likelihood:** {_clean(r.get('likelihood',''))}\n"
+                f"- **Residual:** {r.get('severity','').title()}\n"
+                f"- **Impact:** {_clean(r.get('impact',''))}\n"
+                f"- **Trigger:** {_clean(r.get('prerequisites',''))}\n"
+                f"- **Controls:** {_clean(r.get('controls',''))}\n"
+                f"- **Closure:** {_clean(r.get('closure','<closure condition>'))}\n"
+                f"- **Source:** {r.get('finding','')}\n"
+                f"- **Confidence:** {r.get('uncertainty','').title()}\n"
+                f"- **Mitigation:** {_clean(r.get('mitigation','<treatment plan>'))}\n\n"
             )
         body = re.sub(
-            r"### RSK-001:.*?(?=### |## |\Z)",
+            r"### RSK-001.*?(?=### |## |\Z)",
             blocks.rstrip() + "\n\n", body, count=1, flags=re.S,
         )
     recs = model.get("recommendations", [])
@@ -917,18 +945,18 @@ def populate_audit(body: str, model: dict) -> str:
         blocks = ""
         for r in recs:
             blocks += (
-                f"### {r['id']}: {_clean(r.get('postcondition',''))[:60]}\n\n"
+                f"### {r['id']} {_clean(r.get('postcondition',''))[:60]}\n\n"
                 f"{_clean(r.get('postcondition',''))}.\n\n"
-                f"* **Priority:** {r.get('priority','P3')}\n"
-                f"* **Finding:** {r.get('finding','')}\n"
-                f"* **Condition:** {_clean(r.get('postcondition',''))}\n"
-                f"* **Impact:** {_clean(r.get('residual','closes the finding'))}\n"
-                f"* **Effort:** {r.get('effort','M')}\n"
-                f"* **Complexity:** low\n"
-                f"* **Verification:** {_clean(r.get('verification',''))}\n\n"
+                f"- **Priority:** {r.get('priority','P3')}\n"
+                f"- **Finding:** {r.get('finding','')}\n"
+                f"- **Condition:** {_clean(r.get('postcondition',''))}\n"
+                f"- **Impact:** {_clean(r.get('residual','closes the finding'))}\n"
+                f"- **Effort:** {r.get('effort','M')}\n"
+                f"- **Complexity:** low\n"
+                f"- **Verification:** {_clean(r.get('verification',''))}\n\n"
             )
         body = re.sub(
-            r"### REC-001:.*?(?=### |## |\Z)",
+            r"### REC-001.*?(?=### |## |\Z)",
             blocks.rstrip() + "\n\n", body, count=1, flags=re.S,
         )
         roadmap_rows = "".join(

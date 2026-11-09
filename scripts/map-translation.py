@@ -77,11 +77,11 @@ FIELD_YES_NO = re.compile(
 YES_NO = {"tak": "yes", "nie": "no", "nie dotyczy": "not applicable"}
 
 # `Zadeklarowana` inverts to the Verification-column token `Reported`, but
-# the Provenance basis field wants the provenance qualifier `Declared`. The
+# the Provenance field wants the provenance qualifier `Declared`. The
 # remaining provenance values never appear in contract tables, so the field
 # itself rewrites them here (`Wskazana` -> `Indicated` and so on).
 FIELD_PROVENANCE = re.compile(
-    r"^(\s*\*\s+\*\*Provenance basis:\*\*\s*)"
+    r"^(\s*\*\s+\*\*Provenance:\*\*\s*)"
     r"(Reported|Zaświadczona|Dostarczona|Wskazana|Nieokreślona)\b"
 )
 PROVENANCE_VALUE = {

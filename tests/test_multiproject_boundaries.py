@@ -26,12 +26,12 @@ def _project_block(project: str, number: int) -> str:
 
 Body.
 
-* **Pillar:** Security & Compliance
-* **Severity:** High
-* **Type:** Concern
-* **Criteria:** SEC-AUTHZ - x
-* **Evidence:** EVD-001
-* **Recommendation:** fix it
+- **Pillar:** Security & Compliance
+- **Severity:** High
+- **Type:** Concern
+- **Criteria:** SEC-AUTHZ - x
+- **Evidence:** EVD-001
+- **Recommendation:** fix it
 
 """
 
@@ -67,11 +67,11 @@ class MultiProjectBoundaries(unittest.TestCase):
 | REC-001 | a | Recommended | b |
 | REC-002 | c | Optional | follows REC-001 |
 
-### REC-001: a
+### REC-001 a
 
 x
 
-### REC-002: c
+### REC-002 c
 
 x
 """

@@ -69,7 +69,7 @@ the Technical Findings.
 
 Keep each observation brief, full detail lives in the finding blocks.
 
-Draft the Strengths & What's Working section by identifying 5-8 evidenced positive
+Draft the Strengths and What's Working section by identifying 5-8 evidenced positive
 baselines from the codebase.
 
 Surface trade-offs both as a standalone Solution Comparison section (using
@@ -123,7 +123,7 @@ copy `scripts/link-glossary.py`, `scripts/link-references.py`, `scripts/format-t
 and `scripts/validate-report.py` (or `scripts/finalize-report.py`, which orchestrates all four)
 into the audited repository under `.tmp.` names,
 run them on a stub report carrying one canonical populated instance of every fixed field token
-(`* **Absence:**`, `* **Exploitability:**`, `* **Status:**`, and so on),
+(`- **Absence:**`, `- **Exploitability:**`, `- **Status:**`, and so on),
 and confirm the tools behave as specified.
 
 Before drafting registers, read `validate-report.py --dump-contract` output for the mechanically

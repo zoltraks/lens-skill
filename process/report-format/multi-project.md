@@ -99,15 +99,15 @@ full set of report sections for that project:
 - Threat Model *(conditional)*
 - API Contract Conformance *(conditional)*
 - Skill Definition Conformance *(conditional)*
-- Agent Guidance Conformance *(conditional)*
+- Guidance Conformance *(conditional)*
 - AI System Assessment *(conditional)*
 - Standards Conformance *(conditional)*
 - Requirements Conformance *(conditional)*
-- Engineering Baseline Conformance *(conditional)*
+- Baseline Conformance *(conditional)*
 - Structure Conformance *(conditional)*
 - Code Style *(conditional)*
 - API Compatibility & Versioning Discipline *(conditional)*
-- Strengths & What's Working
+- Strengths and What's Working
 - Technical Findings
 - Technical Debt Register *(conditional)*
 - Unified Risk Register
@@ -126,7 +126,7 @@ report-wide, and the next SEC finding in any project continues the sequence.
 Qualify each finding heading with the project identifier as a trailing parenthetical so the
 reader can navigate.
 
-For example: `### FND-ARC-001: Missing input validation (api-service)`.
+For example: `### FND-ARC-001 Missing input validation (api-service)`.
 
 Register-item headings stay `###` exactly - never `####` or deeper - even inside `##` project
 blocks, and each carries the `(<project>)` suffix.

@@ -51,6 +51,7 @@ ENDASH = chr(0x2013)
 ARROW = chr(0x2192)
 BASELINE_SECTIONS = [
     "Document Information",
+    "Contents",
     "Audit Coverage",
     "Executive Summary",
     "System Context",
@@ -64,7 +65,7 @@ BASELINE_SECTIONS = [
     "Architectural Assessment",
     "Structure Review",
     "Solution Comparison",
-    "Strengths & What's Working",
+    "Strengths and What's Working",
     "Technical Findings",
     "Unified Risk Register",
     "Remediation Roadmap",
@@ -79,7 +80,7 @@ BRIEF_SECTIONS = {
     "System Context",
     "Health Dashboard",
     "High-Level Observations",
-    "Strengths & What's Working",
+    "Strengths and What's Working",
     "Scope Exclusions",
     "Known Limitations",
     "Reference Sources",
@@ -202,10 +203,15 @@ def check_sentence_breaks(
                 prefix = collapsed[: match.start() + 1]
                 if ABBREV_TAIL.search(prefix) or SINGLE_INITIAL.search(prefix):
                     continue
-                failures.append(
-                    f"line {index + 1}: sentences joined in one line - each "
-                    f"sentence is its own paragraph: {line[:80]}"
+                joined = collapsed[match.start() + 2 :]
+                words = len(
+                    re.sub(r"[`()\[\];,:.-]", " ", joined).split()
                 )
+                if words > 20:
+                    failures.append(
+                        f"line {index + 1}: long sentence joins a shared line - "
+                        f"a sentence over 20 words is its own paragraph: {line[:80]}"
+                    )
                 break
     return failures
 
@@ -243,10 +249,109 @@ def check_sentence_breaks_row(text: str) -> list[str]:
 def check_semicolons(lines: list[str], fences: list[bool]) -> list[str]:
     failures: list[str] = []
     for index, (line, fenced) in enumerate(zip(lines, fences)):
-        if not fenced and ";" in strip_spans(line):
+        if fenced:
+            continue
+        probe = strip_spans(line)
+        if ";" in probe:
             failures.append(
                 f"line {index + 1}: semicolon in prose - use a comma or split the "
                 f"sentence: {line[:80]}"
+            )
+    return failures
+
+
+def check_star_field_lines(lines: list[str], fences: list[bool]) -> list[str]:
+    failures: list[str] = []
+    for index, (line, fenced) in enumerate(zip(lines, fences)):
+        if fenced:
+            continue
+        if re.match(r"^\*\s*\*\*[A-Za-z][^*]*:\*\*", line):
+            failures.append(
+                f"line {index + 1}: field line carries a '* ' bullet - "
+                f"register fields use '- **Label:**' only: {line[:80]}"
+            )
+    return failures
+
+
+def check_loose_field_lists(lines: list[str], fences: list[bool]) -> list[str]:
+    failures: list[str] = []
+    for index, (line, fenced) in enumerate(zip(lines, fences)):
+        if fenced or line.strip() != "":
+            continue
+        j = index - 1
+        while j >= 0 and lines[j].strip() == "":
+            j -= 1
+        k = index + 1
+        while k < len(lines) and lines[k].strip() == "":
+            k += 1
+        nxt = lines[k] if k < len(lines) else ""
+        if not nxt.startswith("- **"):
+            continue
+        prev = lines[j] if j >= 0 else ""
+        if prev.startswith("- **") or prev.startswith("  "):
+            failures.append(
+                f"line {index + 1}: blank line inside a field list - "
+                "'- **Field:**' items stay tight with no blank lines between"
+            )
+    return failures
+
+
+def check_spaced_punctuation(lines: list[str], fences: list[bool]) -> list[str]:
+    failures: list[str] = []
+    for index, (line, fenced) in enumerate(zip(lines, fences)):
+        if fenced or line.startswith("|"):
+            continue
+        if re.search(r"\S +[.,]", line):
+            failures.append(
+                f"line {index + 1}: space before punctuation: {line[:80]}"
+            )
+    return failures
+
+
+def check_split_link_atoms(lines: list[str], fences: list[bool]) -> list[str]:
+    failures: list[str] = []
+    for index, (line, fenced) in enumerate(zip(lines, fences)):
+        if fenced:
+            continue
+        if re.search(r"\]\([^)]*$", line):
+            failures.append(
+                f"line {index + 1}: link atom split across lines - "
+                "a link is unbreakable, move the whole atom to its own line"
+            )
+    return failures
+
+
+def check_paren_enumeration(lines: list[str], fences: list[bool]) -> list[str]:
+    abbrev = {"e.g", "i.e", "etc", "vs", "cf", "ca", "approx", "no",
+              "dr", "st", "inc", "ltd", "jr", "sr", "u.s"}
+    failures: list[str] = []
+    for index, (line, fenced) in enumerate(zip(lines, fences)):
+        if fenced or not prose_line(line, fenced):
+            continue
+        for m in re.finditer(r"\([^()]*(?:\([^()]*\)[^()]*)*\)", strip_spans(line)):
+            inner = m.group(0)[1:-1]
+            for j in re.finditer(r"\. [A-Z]", inner):
+                prev = inner[: j.start()].split()
+                w = prev[-1].rstrip(".").lower() if prev else ""
+                if w in abbrev:
+                    continue
+                failures.append(
+                    f"line {index + 1}: enumeration inside parentheses uses "
+                    f"'. ' - separate with a comma: {line[:80]}"
+                )
+                break
+    return failures
+
+
+def check_paren_balance(lines: list[str], fences: list[bool]) -> list[str]:
+    failures: list[str] = []
+    for index, (line, fenced) in enumerate(zip(lines, fences)):
+        if fenced or not prose_line(line, fenced):
+            continue
+        if strip_spans(line).count("(") != strip_spans(line).count(")"):
+            failures.append(
+                f"line {index + 1}: line breaks inside an unclosed parenthesis - "
+                f"keep the parenthetical on one line: {line[:80]}"
             )
     return failures
 
@@ -347,7 +452,7 @@ def check_style_conventions(lines: list[str], fences: list[bool]) -> list[str]:
         if re.match(r"^#{1,3}\s+Table of Contents\s*$", line.strip()):
             failures.append(
                 f"line {index + 1}: '## Table of Contents' is never written - "
-                "the report navigates by fixed section order"
+                "the navigation section is named '## Contents' and links every H2 section"
             )
         m = re.match(r"^\s*\|\s*Overall score\s*\|", line)
         if m:
@@ -495,7 +600,7 @@ FINDING_REQUIRED = [
     "Recommendation:",
     "Method:",
     "Confidence:",
-    "Mitigating factors:",
+    "Mitigation:",
     "Evidence:",
 ]
 RISK_REQUIRED = [
@@ -513,7 +618,7 @@ RISK_REQUIRED = [
 FINDING_STATUS = ("Open", "Closed", "Pass")
 CHANGE_VALUES = ("New", "Unchanged", "Reopened", "Closed")
 RISK_STATUS = ("Open", "Accepted", "Transferred", "Monitoring", "Closed")
-VERIFICATION_QUALIFIERS = ("Verification", "Confirmed", "Reported")
+VERIFICATION_QUALIFIERS = ("Verified", "Confirmed", "Reported")
 FINDING_PILLARS = ("ARC", "CQY", "SEC", "INF", "AIP", "CPR", "API", "STR")
 FINDING_ID = re.compile(r"FND-(?:ARC|CQY|SEC|INF|AIP|CPR|API|STR)-\d{3}")
 ABSENCE_VALUES = ("No documented rationale", "Deliberate - recorded decision",
@@ -551,6 +656,7 @@ def check_description_paragraphs(lines: list[str]) -> list[str]:
 
 def check_finding_blocks(lines: list[str]) -> list[str]:
     failures: list[str] = []
+    mode = evidence_mode(NL.join(lines))
     starts = [index for index, line in enumerate(lines) if line.startswith("### FND-")]
     for position, start in enumerate(starts):
         end = starts[position + 1] if position + 1 < len(starts) else len(lines)
@@ -566,7 +672,7 @@ def check_finding_blocks(lines: list[str]) -> list[str]:
             if f"**{field}**" not in block:
                 failures.append(
                     f"{name}: missing {field[:-1]} - expected literal "
-                    f"'* **{field}** <value>'"
+                    f"'- **{field}** <value>'"
                 )
         status = field_value(block, "Status")
         if status and not re.match(rf"^({'|'.join(FINDING_STATUS)})\b", status):
@@ -588,17 +694,23 @@ def check_finding_blocks(lines: list[str]) -> list[str]:
                 f"{name}: Criteria renders {criteria_field.split(' ')[0]} - name a declared "
                 "criteria-table row instead"
             )
-        verified = field_value(block, "Verification")
-        if verified and re.match(r"^(yes|no)\b", verified, re.IGNORECASE):
-            failures.append(f"{name}: Verification value must not start with yes or no")
-        runtime = field_value(block, "Runtime")
-        if runtime and re.match(r"^(yes|no|not applicable)\b", runtime, re.IGNORECASE):
+        verification = field_value(block, "Verification")
+        if verification and not re.match(r"^(Yes|No)\b", verification):
+            failures.append(f"{name}: Verification value must start with Yes or No")
+        confirmation = field_value(block, "Confirmation")
+        if confirmation and not re.match(r"^(Yes|No)\b", confirmation):
+            failures.append(f"{name}: Confirmation value must start with Yes or No")
+        if mode in ("executed-readonly", "executed-commands") and not confirmation:
             failures.append(
-                f"{name}: Runtime value must not start with yes, no, or not applicable"
+                f"{name}: missing Confirmation - expected literal "
+                "'- **Confirmation:** <Yes | No - execution basis>' "
+                "under executed evidence modes"
             )
-        breaking = field_value(block, "Breaking change")
+        if mode == "source-only" and confirmation:
+            failures.append(f"{name}: Confirmation is omitted under source-only")
+        breaking = field_value(block, "Breaking")
         if breaking and not re.match(r"^(None|Internal|Public API)\b", breaking):
-            failures.append(f"{name}: Breaking change is not None/Internal/Public API")
+            failures.append(f"{name}: Breaking is not None/Internal/Public API")
         applicability = field_value(block, "Applicability")
         if applicability and not re.match(
             r"^(applicable|conditional|inapplicable|unverified)\b", applicability
@@ -713,7 +825,7 @@ def check_risk_blocks(lines: list[str]) -> list[str]:
             if f"**{field}**" not in block:
                 failures.append(
                     f"{name}: missing {field[:-1]} - expected literal "
-                    f"'* **{field}** <value>'"
+                    f"'- **{field}** <value>'"
                 )
         status = field_value(block, "Status")
         if status and not re.match(rf"^({'|'.join(RISK_STATUS)})\b", status):
@@ -777,7 +889,7 @@ def check_rec_blocks(lines: list[str]) -> list[str]:
             if f"**{field}**" not in block:
                 failures.append(
                     f"{name}: missing {field[:-1]} - expected literal "
-                    f"'* **{field}** <value>'"
+                    f"'- **{field}** <value>'"
                 )
         priority = field_value(block, "Priority")
         if priority and not re.match(r"^P[1-4]\b", priority):
@@ -787,17 +899,17 @@ def check_rec_blocks(lines: list[str]) -> list[str]:
             ref = re.search(FINDING_ID, finding)
             if not ref or ref.group(0) not in fnd_blocks:
                 failures.append(f"{name}: Finding does not name a defined finding")
-        desc_zone = block.split("* **", 1)[0]
+        desc_zone = block.split("- **", 1)[0]
         if re.search(r"Resolves\s+\[?FND-", desc_zone):
             failures.append(
                 f"{name}: description restates 'Resolves FND-XXX' - "
                 "the Finding field already carries that link"
             )
-        depends = field_value(block, "Depends on")
+        depends = field_value(block, "Depends")
         if depends and not re.match(r"^none\b", depends, re.IGNORECASE):
             for ref in re.findall(r"REC-\d{3}", depends):
                 if ref not in rec_ids:
-                    failures.append(f"{name}: Depends on cites undefined {ref}")
+                    failures.append(f"{name}: Depends cites undefined {ref}")
     return failures
 
 
@@ -814,7 +926,7 @@ def check_tdr_blocks(lines: list[str]) -> list[str]:
             if f"**{field}**" not in block:
                 failures.append(
                     f"{name}: missing {field[:-1]} - expected literal "
-                    f"'* **{field}** <value>'"
+                    f"'- **{field}** <value>'"
                 )
         category = field_value(block, "Category")
         if category and not re.match(rf"^({'|'.join(TDR_CATEGORIES)})\b", category):
@@ -878,16 +990,41 @@ LEGACY_FIELDS = [
     "Cost of Delay",
 ]
 
+RENAMED_LABELS = [
+    "Mitigating factors",
+    "Runtime confirmed",
+    "Runtime",
+    "Verified",
+    "Defect scenario",
+    "Evidence level",
+    "Provenance basis",
+    "Breaking change",
+    "Depends on",
+    "Effort confidence",
+    "Acceptance milestone",
+    "Closure evidence",
+    "Cost model",
+]
+
 
 def check_legacy_fields(lines: list[str], fences: list[bool]) -> list[str]:
     failures: list[str] = []
     pattern = re.compile(r"\*\*(" + "|".join(re.escape(f) for f in LEGACY_FIELDS) + r"):\*\*")
+    renamed = re.compile(r"\*\*(" + "|".join(re.escape(f) for f in RENAMED_LABELS) + r"):\*\*")
     for index, (line, fenced) in enumerate(zip(lines, fences)):
+        if fenced:
+            continue
         match = pattern.search(line)
-        if match and not fenced:
+        if match:
             failures.append(
                 f"line {index + 1}: legacy field name {match.group(1)} - "
                 "expected the current field name per findings-registers.md"
+            )
+        renamed_match = renamed.search(line)
+        if renamed_match:
+            failures.append(
+                f"line {index + 1}: superseded field label {renamed_match.group(1)} - "
+                "field labels are single words per findings-registers.md"
             )
     return failures
 
@@ -945,7 +1082,7 @@ def check_finding_summary(text: str) -> list[str]:
             if value and field_token(value) not in VERIFICATION_QUALIFIERS:
                 failures.append(
                     f"findings summary row has bad Verification '{value}' - "
-                    "expected Verification/Confirmed/Reported or empty"
+                    "expected Verified/Confirmed/Reported or empty"
                 )
     return failures
 
@@ -2929,7 +3066,7 @@ def check_review_execution_register(text: str) -> list[str]:
 
 
 def check_hunt_scenarios(lines: list[str]) -> list[str]:
-    """Defect scenario is required on High/Critical findings under the
+    """Scenario is required on High/Critical findings under the
     `audit` and `hunt` report styles - the call site gates on style."""
     failures: list[str] = []
     starts = [index for index, line in enumerate(lines) if line.startswith("### FND-")]
@@ -2939,10 +3076,10 @@ def check_hunt_scenarios(lines: list[str]) -> list[str]:
         severity = field_token(field_value(block, "Severity"))
         if severity.lower() not in ("high", "critical"):
             continue
-        if not field_value(block, "Defect scenario"):
+        if not field_value(block, "Scenario"):
             failures.append(
-                f"{lines[start][4:70]}: {severity} finding lacks a Defect scenario - "
-                "expected '* **Defect scenario:** <initial conditions; steps; expected; "
+                f"{lines[start][4:70]}: {severity} finding lacks a Scenario - "
+                "expected '- **Scenario:** <initial conditions; steps; expected; "
                 "observed; confirmation level>'"
             )
     return failures
@@ -3008,45 +3145,45 @@ def check_review_evidence_levels(lines: list[str]) -> list[str]:
         end = starts[position + 1] if position + 1 < len(starts) else len(lines)
         block = NL.join(lines[start:end])
         name = lines[start][4:][:70]
-        value = field_value(block, "Evidence level")
+        value = field_value(block, "Level")
         if not value:
             failures.append(
-                f"{name}: missing Evidence level - expected literal "
-                "'* **Evidence level:** <Source | Model | App | Deployed | Unknown>'"
+                f"{name}: missing Level - expected literal "
+                "'- **Level:** <Source | Model | App | Deployed | Unknown>'"
             )
             continue
         if field_token(value).capitalize() not in REVIEW_EVIDENCE_LEVELS:
             failures.append(
-                f"{name}: Evidence level '{value[:60]}' is not one of "
+                f"{name}: Level '{value[:60]}' is not one of "
                 f"{'/'.join(REVIEW_EVIDENCE_LEVELS)}"
             )
     return failures
 
 
 def check_aip_provenance(lines: list[str]) -> list[str]:
-    """`Provenance basis` is required on FND-AIP- blocks and omitted elsewhere."""
+    """`Provenance` is required on FND-AIP- blocks and omitted elsewhere."""
     failures: list[str] = []
     starts = [index for index, line in enumerate(lines) if line.startswith("### FND-")]
     for position, start in enumerate(starts):
         end = starts[position + 1] if position + 1 < len(starts) else len(lines)
         block = NL.join(lines[start:end])
         name = lines[start][4:][:70]
-        value = field_value(block, "Provenance basis")
+        value = field_value(block, "Provenance")
         if name.upper().startswith("FND-AIP-"):
             if not value:
                 failures.append(
-                    f"{name}: missing Provenance basis - expected literal "
-                    "'* **Provenance basis:** <Declared / Attested / Supplied / "
+                    f"{name}: missing Provenance - expected literal "
+                    "'- **Provenance:** <Declared / Attested / Supplied / "
                     "Indicated / Undetermined>'"
                 )
             elif field_token(value).capitalize() not in PROVENANCE_BASIS_VALUES:
                 failures.append(
-                    f"{name}: Provenance basis '{value[:60]}' is not one of "
+                    f"{name}: Provenance '{value[:60]}' is not one of "
                     f"{'/'.join(PROVENANCE_BASIS_VALUES)}"
                 )
         elif value:
             failures.append(
-                f"{name}: Provenance basis is reserved for FND-AIP- blocks"
+                f"{name}: Provenance is reserved for FND-AIP- blocks"
             )
     return failures
 
@@ -3338,11 +3475,11 @@ def check_summary_verified(text: str) -> list[str]:
                 continue
             detail = details[fid]
             claimed = cells[vidx] if len(cells) > vidx else ""
-            verified = field_value(detail, "Verification").lower()
-            runtime = field_value(detail, "Runtime").lower()
-            if claimed.startswith("Verified") and not verified:
+            verification = field_value(detail, "Verification").lower()
+            confirmation = field_value(detail, "Confirmation").lower()
+            if claimed.startswith("Verified") and not verification:
                 failures.append(f"{fid}: summary says Verified but block has no Verification field")
-            if claimed.startswith("Confirmed") and not runtime:
+            if claimed.startswith("Confirmed") and not confirmation.startswith("yes"):
                 failures.append(f"{fid}: summary says Confirmed but block does not confirm it")
     return failures
 
@@ -3559,8 +3696,65 @@ def check_register_prose(text: str, lines: list[str]) -> list[str]:
     return failures
 
 
+SBOM_COLUMNS = ["Component", "Version", "License", "Risk", "Advisory", "Source"]
+SBOM_RISK_VALUES = ("None", "Review", "Conflict", "Unknown")
+SBOM_ADVISORY_VALUES = (
+    "Applicable", "Mitigated", "Not applicable", "None identified", "Not checked"
+)
+
+
+def check_sbom_table(text: str) -> list[str]:
+    match = re.search(r"^#{2,3}\s+Software Bill of Materials\s*$", text, re.MULTILINE)
+    if not match:
+        return []
+    rest = text[match.end() :]
+    block = rest[: section_end(rest, heading_depth(match))]
+    header_line = next(
+        (line for line in block.split("\n") if line.lstrip().startswith("|")), None
+    )
+    if header_line is None:
+        return []
+    header = [cell.strip() for cell in raw_cells(header_line)]
+    expected = list(SBOM_COLUMNS)
+    if header and header[0] == "Project":
+        expected = ["Project"] + expected
+    failures: list[str] = []
+    if header != expected:
+        failures.append(
+            f"SBOM table header is {header} - expected {expected} "
+            "per references/sbom-schema.md"
+        )
+        return failures
+    rows = block.split("\n")
+    try:
+        sep_at = rows.index(header_line) + 1
+    except ValueError:
+        sep_at = 1
+    offset = 1 if header[0] == "Project" else 0
+    risk_idx, advisory_idx = 3 + offset, 4 + offset
+    for row in rows[sep_at + 1 :]:
+        if not row.lstrip().startswith("|"):
+            break
+        cells = [cell.strip() for cell in raw_cells(row)]
+        if len(cells) <= advisory_idx:
+            continue
+        risk = field_token(cells[risk_idx])
+        if risk not in SBOM_RISK_VALUES:
+            failures.append(
+                f"SBOM row carries Risk '{cells[risk_idx][:40]}' - expected "
+                "None/Review/Conflict/Unknown"
+            )
+        advisory = " ".join(cells[advisory_idx].split()[:2]).rstrip(",")
+        if advisory not in SBOM_ADVISORY_VALUES:
+            failures.append(
+                f"SBOM row carries Advisory '{cells[advisory_idx][:40]}' - expected "
+                "Applicable/Mitigated/Not applicable/None identified/Not checked"
+            )
+    return failures
+
+
 def check_roadmap_breaking(text: str) -> list[str]:
-    if "**Breaking change:**" not in text:
+    if "**Breaking:**" not in text:
         return []
     failures: list[str] = []
     for match in re.finditer(r"^#{2,3}\s+Remediation Roadmap\s*$", text, re.MULTILINE):
@@ -4614,7 +4808,7 @@ def report_contract() -> dict:
     """The mechanically enforced contract, generated from the live constants."""
     return {
         "schema": "lens-report-contract/1",
-        "field_syntax": "* **Field:** value - asterisk bullet, bold name, colon outside the bold",
+        "field_syntax": "- **Field:** value - asterisk bullet, bold name, colon outside the bold",
         "evidence_modes": ["source-only", "executed-readonly", "executed-commands"],
         "id_patterns": {
             "finding": "FND-<pillar>-NNN",
@@ -4718,7 +4912,8 @@ def report_contract() -> dict:
             "finding_required": [field.rstrip(":") for field in FINDING_REQUIRED],
             "risk_required": [field.rstrip(":") for field in RISK_REQUIRED],
             "legacy_forbidden": LEGACY_FIELDS,
-            "aip_finding_required": ["Provenance basis"],
+            "renamed_labels": RENAMED_LABELS,
+            "aip_finding_required": ["Provenance"],
             "provenance_basis_exclusive_to": "FND-AIP-",
         },
         "tokens": {
@@ -4759,6 +4954,7 @@ def report_contract() -> dict:
         },
         "par_rows": PAR_COUNT,
         "tables": {
+            "sbom_columns": list(SBOM_COLUMNS),
             "findings_summary_columns": [
                 "Finding",
                 "Result",
@@ -4796,7 +4992,7 @@ def report_contract() -> dict:
             "row of the frame",
             "a coverage row claiming SBOM/component-inventory Covered requires a "
             "Software Bill of Materials section - a module inventory is not an SBOM",
-            "High/Critical findings carry a Defect scenario field under the "
+            "High/Critical findings carry a Scenario field under the "
             "audit and hunt styles",
             "Error/Blocked are runner states, never product failures - "
             "Not run is never a pass",
@@ -4910,6 +5106,12 @@ def main(
     checks = [
         ("headings", check_headings(lines, fences)),
         ("semicolons", check_semicolons(lines, fences)),
+                    ("paren balance", check_paren_balance(lines, fences)),
+                    ("paren enumeration", check_paren_enumeration(lines, fences)),
+                    ("star field lines", check_star_field_lines(lines, fences)),
+                    ("loose field lists", check_loose_field_lists(lines, fences)),
+                    ("spaced punctuation", check_spaced_punctuation(lines, fences)),
+                    ("split link atoms", check_split_link_atoms(lines, fences)),
         ("non-ASCII dashes and arrows", check_dashes(lines, fences)),
         ("prose width", check_prose_width(lines, fences)),
         (
@@ -4989,6 +5191,7 @@ def main(
                     ("evidence sections", check_evidence_sections(text)),
                     ("summary verification labels", check_summary_verified(text)),
                     ("fresh-audit claims", check_fresh_audit_claims(lines, fences)),
+                    ("sbom table", check_sbom_table(text)),
                     ("roadmap breaking column", check_roadmap_breaking(text)),
                     ("follow-up plan", check_followup_plan(text)),
                     ("valueless rows", check_valueless_rows(lines)),

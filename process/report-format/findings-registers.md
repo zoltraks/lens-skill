@@ -10,14 +10,14 @@
 
 | Section                       | Line | What it covers                      |
 |-------------------------------|------|-------------------------------------|
-| Strengths & What's Working    | 20   | Evidence-based positive baselines   |
+| Strengths and What's Working  | 20   | Evidence-based positive baselines   |
 | Technical Findings            | 58   | Finding summary and detail blocks   |
-| Technical Debt Register       | 419  | Distinct accumulated debt           |
-| Unified Risk Register         | 469  | Cross-referenced risks              |
-| Remediation Roadmap           | 574  | Prioritized recommendations, once   |
-| Recommendation Classification | 669  | Roadmap-closing disposition classes |
+| Technical Debt Register       | 424  | Distinct accumulated debt           |
+| Unified Risk Register         | 474  | Cross-referenced risks              |
+| Remediation Roadmap           | 579  | Prioritized recommendations, once   |
+| Recommendation Classification | 674  | Roadmap-closing disposition classes |
 
-## Strengths & What's Working
+## Strengths and What's Working
 
 Add a short section with 5-8 bullet points acknowledging what the system does well.
 
@@ -108,14 +108,14 @@ fresh audit whose findings are all `Open`/`New` renders neither column, and the 
 return the moment a re-audit mixes provenance or lifecycle states.
 
 A cell drawn from any fixed vocabulary in this file - Status, Change, Verification, Result,
-Severity, Impact, Effort, Complexity, Absence, Breaking change, Provenance basis, Evidence level,
+Severity, Impact, Effort, Complexity, Absence, Breaking, Provenance, Level,
 or the debt, risk, and classification vocabularies - renders the token in the form the report
 language defines: English cells render the natural forms (`Open`, `New`, `Pass`, `High`,
 `Verified`), while the uppercase forms in the vocabulary lists below are the canonical token names,
 not the rendered cells.
 
 The rendered-forms table in `principles/output-style.md` is the single source of truth for every
-fixed vocabulary, and a token followed by a qualifier inside a `* **Field:**`
+fixed vocabulary, and a token followed by a qualifier inside a `- **Field:**`
 value joins with a comma.
 
 Languages that decline tokens render the agreed form per the matching `translations/` file,
@@ -175,7 +175,7 @@ these tokens render in the localized forms defined by the matching `translations
 along with result markers such as `NOT RUN`, `NOT ASSESSED`, `NOT INSPECTED`, `EXCLUDED BY SCOPE`,
 and `INSUFFICIENT INFORMATION`.
 
-`* **Field:**` bullet values in the detailed blocks render title case too - the canonical uppercase
+`- **Field:**` bullet values in the detailed blocks render title case too - the canonical uppercase
 forms name the vocabulary, they are not the rendered form.
 
 **Detailed findings**
@@ -185,56 +185,59 @@ After the summary table, write one block per finding in the same order.
 Use this exact markdown block pattern:
 
 ```markdown
-### FND-[PILLAR]-[NUMBER]: [Clear, Concise Title of Finding]
+### FND-[PILLAR]-[NUMBER] [Clear, Concise Title of Finding]
 
 [Description paragraph - detailed technical explanation of the discovered state,
 architectural anti-pattern, or code flaw]
 
-* **Pillar:** [Architecture & Design | Structure & Organization | Code Quality | Security &
+- **Pillar:** [Architecture & Design | Structure & Organization | Code Quality | Security &
   Compliance | Infrastructure & CI/CD | AI Provenance & Code Origin | Copyrights &
   Originality | API Compatibility & Versioning Discipline]
-* **Severity:** [Critical | High | Medium | Low]
-* **Type:** [Observation | Concern]
-* **Security:** [CWE and rationale, CVSS version/vector/score or gap] *(omit when N/A)*
-* **Targets:** [Exact paths or components evaluated]
-* **Basis:** [Applicable requirement or explicitly optional improvement]
-* **Criteria:** [Criteria ID from the report's criteria table] - [the violated or
+- **Severity:** [Critical | High | Medium | Low]
+- **Type:** [Observation | Concern]
+- **Security:** [CWE and rationale, CVSS version/vector/score or gap] *(omit when N/A)*
+- **Targets:** [Exact paths or components evaluated]
+- **Basis:** [Applicable requirement or explicitly optional improvement]
+- **Criteria:** [Criteria ID from the report's criteria table] - [the violated or
   uncertain property the finding establishes]
-* **Absence:** [No documented rationale | Deliberate - recorded decision | Undetermined],
+- **Absence:** [No documented rationale | Deliberate - recorded decision | Undetermined],
   [one-line evidence basis] *(omit when no capability is absent)*
-* **Impact:** [Concrete operational, business, or security consequence if left unremediated]
-* **Method:** [Specific test, command, or process to confirm the fix is successful]
-* **Defect scenario:** [Initial conditions; reproduction steps; expected result; observed
+- **Impact:** [Concrete operational, business, or security consequence if left unremediated]
+- **Method:** [Specific test, command, or process to confirm the fix is successful]
+- **Scenario:** [Initial conditions; reproduction steps; expected result; observed
   result; confirmation level] *(required on High/Critical findings under `Report Style:
   audit` and `Report Style: hunt`, optional otherwise)*
-* **Verification:** [Yes | No, with a short qualifier]
-* **Runtime:** [short qualifier, only when execution confirmed the behavior - omit otherwise]
-* **Evidence level:** [Source | Model | App | Deployed | Unknown] *(required under
+- **Verification:** [Yes | No, with a short qualifier]
+- **Confirmation:** [Yes | No - execution-confirmation basis] *(required on every finding
+  under `executed-readonly` and `executed-commands`, omitted under `source-only`)*
+- **Level:** [Source | Model | App | Deployed | Unknown] *(required under
   `Report Style: review`, optional otherwise)*
-* **Provenance basis:** [Declared | Attested | Supplied | Indicated | Undetermined],
+- **Provenance:** [Declared | Attested | Supplied | Indicated | Undetermined],
   [one-line artifact basis] *(required on `FND-AIP-` findings, omitted elsewhere)*
-* **Breaking change:** [None | Internal | Public API, surfaces and migration note]
+- **Breaking:** [None | Internal | Public API, surfaces and migration note]
   *(omit when N/A)*
-* **Applicability:** [applicable | conditional | inapplicable | unverified, reachability
+- **Applicability:** [applicable | conditional | inapplicable | unverified, reachability
   basis] *(dependency-advisory findings only)*
-* **Confidence:** [High | Medium | Low, with rationale]
-* **Mitigating factors:** [Refuting evidence examined and remaining uncertainty]
-* **Exploitability:** [Tier + attack-path reasoning] *(omit when N/A)*
-* **Evidence:** [EVD IDs, `path:line` ranges, and Inspected/Reported/Inferred/Executed basis]
-* **Recommendation:** [Step-by-step technical guidance to resolve the finding]
+- **Confidence:** [High | Medium | Low, with rationale]
+- **Mitigation:** [Refuting evidence examined and remaining uncertainty]
+- **Exploitability:** [Tier + attack-path reasoning] *(omit when N/A)*
+- **Evidence:** [EVD IDs, `path:line` ranges, and Inspected/Reported/Inferred/Executed basis]
+- **Recommendation:** [Step-by-step technical guidance to resolve the finding]
 ```
 
-The validator parses only the literal `* **Field:**` form - an asterisk bullet,
-a bold field name matching the list below exactly (asterisk-capitalized like `Breaking change`,
-not `BREAKING CHANGE`), a colon outside the bold, then the value.
+The validator parses only the literal `- **Field:**` form - an asterisk bullet,
+a bold field name matching the list below exactly (capitalized like `Confidence`,
+not `CONFIDENCE`), a colon outside the bold, then the value.
 
 Bold-only lines without the bullet, trailing punctuation inside the bold,
 or renamed fields are not seen as fields at all and fail as missing.
 
+Field labels are single words - a compound concept reduces to its head noun.
+
 The required fields, in template order: `Pillar`, `Severity`, `Type`, `Targets`, `Basis`,
-`Criteria`, `Impact`, `Method`, `Confidence`, `Mitigating factors`, `Evidence`,
+`Criteria`, `Impact`, `Method`, `Confidence`, `Mitigation`, `Evidence`,
 `Recommendation` - `Status`, `Change`, `Verification`,
-and `Runtime` are conditional and appear only when they differ from their default or apply.
+and `Confirmation` are conditional and appear only when they differ from their default or apply.
 
 Every finding identifier must match `FND-<pillar>-NNN` with a pillar abbreviation from the list
 above - a stem like `FND-PERF-001` parses but is not a legal pillar.
@@ -243,10 +246,10 @@ When the report language is not English,
 apply the bullet label translations from the matching `translations/` file.
 
 Omit a field line entirely when its value would be `N/A` or an unspecified token: `Security`,
-`Exploitability`, `Absence`, and `Provenance basis` render only when they carry information,
+`Exploitability`, `Absence`, and `Provenance` render only when they carry information,
 and the same applies in every report language.
 
-`Provenance basis` is the inverse conditional:
+`Provenance` is the inverse conditional:
 it is required on `FND-AIP-` blocks and omitted on every other pillar.
 
 Each finding must cite concrete evidence: file paths, config keys, commands, or direct quotes.
@@ -263,7 +266,7 @@ The indentation keeps the continuation inside the list item,
 so a stricter Markdown linter reads it as list content rather than a list break.
 
 The same rule applies to every register block - `RSK`, `REC`, `TDR`,
-and any other `* **Field:**` run.
+and any other `- **Field:**` run.
 
 Every finding carries a description paragraph under its heading, plus Impact,
 Recommendation, and Method.
@@ -272,7 +275,7 @@ A finding with only a title and status is incomplete.
 
 The same rule applies to `RSK`, `REC`, and `TDR` register blocks - each `###` register heading is
 followed by its own description paragraph before the field list,
-never straight into `* **Field:**` lines.
+never straight into `- **Field:**` lines.
 
 Every finding resolves to a remediation entry or an `Accepted - no action` disposition - an unmapped
 finding is a report defect.
@@ -296,15 +299,16 @@ each with a short qualifier such as `Yes, observed in source`.
 
 The re-audit lifecycle fields `Change` and `Verification` appear on `### FND-` blocks only -
 `### RSK-`, `### REC-`, and `### TDR-` blocks never carry them,
-and a bulk insert anchored on a shared field such as `* **Confidence:**` leaks
+and a bulk insert anchored on a shared field such as `- **Confidence:**` leaks
 them into risk blocks.
 
-The `Runtime` field appears only when the claimed behavior was confirmed by execution - unconfirmed
-findings omit the field: `Yes` only under `executed-readonly` or documented runtime evidence,
-`No` for a static inference awaiting confirmation, `Not applicable` when no runtime claim exists.
+The `Confirmation` field records whether execution confirmed the claimed behavior - `Yes`
+with a title-cased qualifier when commissioned evidence exercised it, `No` with the reason
+it did not. It is required on every finding under `executed-readonly` and `executed-commands`
+and omitted under `source-only`.
 
-Every runtime-claiming summary must match this field - a finding without a `Runtime` field never
-appears as verified in a summary table.
+Every execution-claiming summary must match this field - a finding without `Confirmation: Yes`
+never appears as execution-confirmed in a summary table.
 
 The `Criteria` field names the declared criteria entry the finding bears on,
 from the criteria table in Auditing Methodology per `process/report-format/methodology-scoring.md`,
@@ -321,7 +325,7 @@ A `REC-XXX` or `RSK-XXX` reference must identify the same responsibility or prob
 describes - identifier existence is necessary, not sufficient,
 and a mismatched semantic link is a publication stop per `process/audit-model.md`.
 
-The `Breaking change` field records the remediation's compatibility impact: `None`,
+The `Breaking` field records the remediation's compatibility impact: `None`,
 `Internal` (callers inside the codebase adapt), or `Public API` (consumers, wire protocol,
 configuration, stored data, credentials, or deployment prerequisites change),
 with the affected surfaces and any migration note.
@@ -332,7 +336,7 @@ vulnerable code path is `applicable`, `conditional` on a named feature or config
 
 Advisory presence in a lockfile is not exploitability.
 
-The `Defect scenario` field turns a defect into a scenario another person can run:
+The `Scenario` field turns a defect into a scenario another person can run:
 initial conditions, the reproduction steps, the expected result, the observed result,
 and the confirmation level reached (`Source`, `Model`, `App`, `Deployed`, or `Unknown`).
 
@@ -340,7 +344,7 @@ It is required on every `High` or `Critical` finding under `Report Style: audit`
 `Report Style: hunt` - a source-only report still supplies a precise operator scenario,
 and `Source` -level confirmation satisfies it - and optional elsewhere.
 
-The `Evidence level` field records the strongest level the cited evidence reaches:
+The `Level` field records the strongest level the cited evidence reaches:
 `Source` (read in code or configuration), `Model` (an isolated reproduction or harness),
 `App` (the real application running locally), `Deployed` (a deployed environment), or `Unknown`.
 
@@ -390,7 +394,7 @@ below the summary table, following `assessment/security-review.md`.
 
 Do not assign a CVSS score or adverse severity to an ordinary positive observation.
 
-Place strengths in Strengths & What's Working rather than using `Pass` as a severity.
+Place strengths in Strengths and What's Working rather than using `Pass` as a severity.
 
 Shared sections use bare identifiers - the ID alone is unambiguous because every register family
 numbers report-globally.
@@ -402,11 +406,12 @@ The compound is never split, partially linked, or abbreviated to a bare prefix i
 Every occurrence outside the identifier's defining location links to the definition,
 per Register Reference Links in `process/report-format.md` - the summary `Finding` cell, `Source`,
 `Resolves`, `Evidence`, and traceability columns all carry `[ID](#anchor)` forms,
-while the `### <ID>:` heading and the `EVD` / `PAR` register row that declares the
+Glossary identifier headings carry no parenthesized expansion - `### EVD Evidence identifier`,
+never `### EVD (Evidence identifier)` - and while the `### <ID>` heading and the `EVD` / `PAR` register row that declares the
 identifier stay plain.
 
 A recommendation block's description paragraph never restates `Resolves FND-XXX` - the
-`* **Finding:**` field below the paragraph already carries that link, so the sentence adds
+`- **Finding:**` field below the paragraph already carries that link, so the sentence adds
 nothing.
 
 Description paragraphs are direct prose: they never open on a meta label such as
@@ -455,12 +460,12 @@ After the table, write one block per debt item in the same order.
 Use this exact markdown block pattern:
 
 ```markdown
-### TDR-[NUMBER]: [Clear, Concise Title of Debt Item]
+### TDR-[NUMBER] [Clear, Concise Title of Debt Item]
 
 [Description paragraph - what the debt is, where it is located, and why it is costly]
 
-* **Category:** [Reliability | Performance Efficiency | Security | Maintainability]
-* **Source:** [FND-XXX or Direct observation]
+- **Category:** [Reliability | Performance Efficiency | Security | Maintainability]
+- **Source:** [FND-XXX or Direct observation]
 ```
 
 When the report language is not English,
@@ -540,7 +545,7 @@ After the table, write one block per risk in the same order.
 Use this exact markdown block pattern:
 
 ```markdown
-### RSK-[NUMBER]: [Clear, Concise Title of Risk]
+### RSK-[NUMBER] [Clear, Concise Title of Risk]
 
 Register titles are terse nominal phrases - typically eight words or fewer.
 A title is the anchor slug for every `[ID](#anchor)` link in the report and the
@@ -550,19 +555,19 @@ paragraph, never in the title.
 
 [Description paragraph - what could go wrong, and under what conditions]
 
-* **Severity:** [Low | Medium | High | Critical]
-* **Likelihood:** [How probable the risk is given the evidence, with justification]
-* **Residual:** [Remaining risk after the proposed mitigation, or `Unknown`]
-* **Owner:** [Role] *(omit when unspecified)*
-* **Impact:** [Concrete consequence if the risk is realized]
-* **Scope:** [Components, users, or data the realization affects] *(omit when it is the whole
+- **Severity:** [Low | Medium | High | Critical]
+- **Likelihood:** [How probable the risk is given the evidence, with justification]
+- **Residual:** [Remaining risk after the proposed mitigation, or `Unknown`]
+- **Owner:** [Role] *(omit when unspecified)*
+- **Impact:** [Concrete consequence if the risk is realized]
+- **Scope:** [Components, users, or data the realization affects] *(omit when it is the whole
   subject)*
-* **Trigger:** [Threat, failure event, or predisposing condition]
-* **Controls:** [Present controls and verification state]
-* **Closure:** [Evidence or event that starts re-verification]
-* **Source:** [FND-XXX]
-* **Confidence:** [High | Medium | Low, with rationale]
-* **Mitigation:** [Neutral, optional action that would reduce the risk]
+- **Trigger:** [Threat, failure event, or predisposing condition]
+- **Controls:** [Present controls and verification state]
+- **Closure:** [Evidence or event that starts re-verification]
+- **Source:** [FND-XXX]
+- **Confidence:** [High | Medium | Low, with rationale]
+- **Mitigation:** [Neutral, optional action that would reduce the risk]
 ```
 
 When the report language is not English,
@@ -628,28 +633,28 @@ After the table, write one block per recommendation in the same order.
 Use this exact markdown block pattern:
 
 ```markdown
-### REC-[NUMBER]: [Clear, Concise Title of Recommendation]
+### REC-[NUMBER] [Clear, Concise Title of Recommendation]
 
 [Description paragraph - what the action changes and how it resolves the finding]
 
-* **Priority:** [P1 | P2 | P3 | P4]
-* **Finding:** [FND-XXX]
-* **Condition:** [Verifiable end state the action must establish]
-* **Impact:** [Business or technical impact of applying this fix]
-* **Effort:** [Estimated engineering effort with one-line justification]
-* **Complexity:** [Architectural or organizational complexity with one-line justification]
-* **Verification:** [Specific test, command, or process to confirm the fix is successful, with
+- **Priority:** [P1 | P2 | P3 | P4]
+- **Finding:** [FND-XXX]
+- **Condition:** [Verifiable end state the action must establish]
+- **Impact:** [Business or technical impact of applying this fix]
+- **Effort:** [Estimated engineering effort with one-line justification]
+- **Complexity:** [Architectural or organizational complexity with one-line justification]
+- **Verification:** [Specific test, command, or process to confirm the fix is successful, with
   its measurable pass criteria]
-* **Residual:** [Expected residual risk after the action, and any acceptance action needed]
+- **Residual:** [Expected residual risk after the action, and any acceptance action needed]
   *(omit when the action fully retires the finding)*
-* **Owner:** [Role or Unassigned] *(omit when the report does not assign ownership)*
-* **Alternatives:** [Options considered and why they were rejected] *(omit when the action is
+- **Owner:** [Role or Unassigned] *(omit when the report does not assign ownership)*
+- **Alternatives:** [Options considered and why they were rejected] *(omit when the action is
   the only reasonable one)*
-* **Effort confidence:** [High | Medium | Low, basis for the Effort estimate] *(omit when the
+- **Confidence:** [High | Medium | Low, basis for the Effort estimate] *(omit when the
   estimate is well-founded)*
-* **Depends on:** [REC-XXX or `none`] *(omit when the action stands alone)*
-* **Acceptance milestone:** [Milestone or gate the fix feeds] *(omit when none is set)*
-* **Closure evidence:** [Artifact that proves the action landed] *(omit when Verification
+- **Depends:** [REC-XXX or `none`] *(omit when the action stands alone)*
+- **Milestone:** [Milestone or gate the fix feeds] *(omit when none is set)*
+- **Proof:** [Artifact that proves the action landed] *(omit when Verification
   already names it)*
 ```
 

@@ -17,6 +17,9 @@ this page is the fast check, not the specification.
 
 - Headings never go deeper than `###`, and every heading is followed by exactly one blank line.
 - No semicolons in prose outside code spans and link targets - use a comma or split the sentence.
+- A prose line never ends inside an unclosed parenthesis - wrap before or after the parenthetical.
+- An enumeration inside parentheses separates items with `, ` never `. `.
+- Register fields carry `* ` bullets only - a `- ` bullet line is not a field.
 - No em dash, en dash, or Unicode arrow outside code spans - use `-` and `->`.
 - Table cells carry tokens and short phrases,
   not sentences - a cell over roughly 80 characters is a defect. Narrative, rationale,
@@ -62,17 +65,20 @@ this page is the fast check, not the specification.
 
 ## Field Blocks
 
-- The only parsed field syntax is `* **Field:** value` - an asterisk bullet, a bold field name,
-  a colon outside the bold.
+- The only parsed field syntax is `- **Field:** value` - an asterisk bullet, a bold field name,
+  a colon outside the bold. Field labels are single words - a compound concept reduces to its
+  head noun.
 - Every register block (`FND`, `RSK`, `REC`, `TDR`)
   opens with a description paragraph directly under its `### ` heading,
-  before the field list - the paragraph may span multiple sentences or paragraphs and carries no
+  before the field list - short sentences may share a paragraph line, a sentence over
+  20 words stands alone as its own paragraph, and the block carries no
   `Description` field label.
 - Finding blocks require, in order: `Pillar`, `Severity`, `Type`, `Targets`, `Basis`, `Criteria`,
-  `Impact`, `Method`, `Confidence`, `Mitigating factors`, `Evidence`, `Recommendation`.
+  `Impact`, `Method`, `Confidence`, `Mitigation`, `Evidence`, `Recommendation`.
 - `Verification` appears only when the finding was verified - a `Yes` / `No` lead with a title-cased
   qualifier, never a lowercase `yes` / `no` prefix.
-  `Runtime` appears only when execution confirmed the behavior.
+  `Confirmation` is required on every finding under `executed-readonly` and `executed-commands`
+  and omitted under `source-only` - a `Yes` / `No` lead with a title-cased qualifier.
 - `Status` appears only when it differs from `Open`,
   and `Change` only when it differs from `New` - both are lifecycle defaults and carry no
   information at the default value.
@@ -84,7 +90,7 @@ this page is the fast check, not the specification.
   estimate or qualitative note, and never an `Insufficient information` token a value with no
   estimable basis omits the field entirely.
 - A risk block's `Source` names a defined `FND-`,
-  a recommendation block's `Finding` names a defined `FND-` and its `Depends on` names defined
+  a recommendation block's `Finding` names a defined `FND-` and its `Depends` names defined
   `REC-` identifiers or `none`, and a debt block's `Source` is a defined `FND-` or
   `Direct observation`.
 - Recommendation `Priority` starts with `P1` - `P4`. Debt `Category` is `Reliability`,
@@ -92,11 +98,11 @@ this page is the fast check, not the specification.
   `In progress`, or `Resolved`.
 - Finding identifiers match `FND-<pillar>-NNN` with pillar `ARC`, `CQY`, `SEC`, `INF`, `AIP`,
   `CPR`, `API`, or `STR`.
-- `Type` is `Observation` or `Concern`. `Runtime` appears only when the reported behavior was
-  confirmed by execution - never a lowercase `yes` / `no` / `not applicable` prefix.
-  `Breaking change` starts with `None`, `Internal`, or `Public API`.
+- `Type` is `Observation` or `Concern`. `Confirmation` carries a `Yes` / `No` lead with a
+  title-cased qualifier, never a lowercase `yes` / `no` prefix.
+  `Breaking` starts with `None`, `Internal`, or `Public API`.
   `Applicability` starts with `applicable`, `conditional`, `inapplicable`, or `unverified`.
-- `Provenance basis` starts with `Declared`, `Attested`, `Supplied`, `Indicated`,
+- `Provenance` starts with `Declared`, `Attested`, `Supplied`, `Indicated`,
   or `Undetermined` - required on `FND-AIP-` blocks, omitted on other pillars.
 - A `Criteria` value never renders `N/A` or a placeholder,
   and each cited criteria entry resolves to a declared row of the report's `**Criteria table**` with
@@ -116,7 +122,7 @@ English renders title case where the vocabulary lists give canonical uppercase n
 - Classification `Class`: `Recommended`, `Optional`, `Not recommended`.
 - `Absence`: `No documented rationale`, `Deliberate - recorded decision`, `Undetermined`.
 - A summary row's `Verification` / `Confirmed` claim must agree with the block's `Verification`
-  and `Runtime` fields.
+  and `Confirmation` fields.
 
 ## Scorecard And Overall Score
 
@@ -186,7 +192,7 @@ Contradiction Register, and the handoff or executed-log section when conditional
 - Every `### FND-` block maps to a remediation phase or an `Accepted - no action` row,
   and multi-project findings match by the `(<project>)` heading qualifier.
 - A `Recommendation Classification` section is forbidden under hunt - phases carry the disposition.
-- Every `High` or `Critical` finding carries a `Defect scenario` field - initial conditions, steps,
+- Every `High` or `Critical` finding carries a `Scenario` field - initial conditions, steps,
   expected result, observed result, confirmation level.
   The requirement binds `audit` and `hunt` styles alike,
   and `Source` -level confirmation satisfies it.
@@ -204,7 +210,7 @@ Glossary, Contradiction Register, and the handoff section.
 - The Execution Register table carries `Check`, `Command`, and `Result` columns,
   and `Result` cells take `Pass`, `Fail`, `Error`, `Blocked`, `Skipped`, `Not run`, or `N/A`,
   and every non- `Pass` row states an `Interpretation`.
-- Every `### FND-` block carries an `Evidence level` field valued `Source`, `Model`, `App`,
+- Every `### FND-` block carries a `Level` field valued `Source`, `Model`, `App`,
   `Deployed`, or `Unknown`.
 - A `Fail`, `Error`, or `Blocked` register row requires a Retest Register section
   covering the failed check.

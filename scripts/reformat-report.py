@@ -95,7 +95,7 @@ def reformat(text: str) -> tuple[str, list[str]]:
         if re.match(r"^\|\s*[^|]+\|\s*", line):
             for old, newv in (
                 ("executed-commands", "Executed commands"),
-                ("executed-readonly", "Executed-readonly"),
+                ("executed-readonly", "Executed read-only"),
                 ("source-only", "Source-only"),
                 ("unversioned working tree", "Unversioned working tree"),
             ):

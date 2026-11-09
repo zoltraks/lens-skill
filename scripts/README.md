@@ -110,7 +110,7 @@ Is skipped entirely, so deliberate examples of misalignment stay untouched.
 Run it on any document that contains directory trees, file listings, or commented plain-text blocks,
 including the skill's own files.
 
-`link-glossary.py` never links glossary terms inside the value of a `* **Field:**` bullet (Pillar,
+`link-glossary.py` never links glossary terms inside the value of a `- **Field:**` bullet (Pillar,
 Severity, Type, Security, Status, Change, Absence, Verified, Confidence, Class, Result, Priority,
 Likelihood, Residual, Owner, Exploitability),
 because those positions hold fixed-vocabulary tokens the validator compares literally.
@@ -164,7 +164,7 @@ before validating it.
 summary-table titles agree with their `### FND-` / `RSK-` / `REC-` / `TDR-` block headings,
 prose counts (`22 ustaleń`, `13 ryzyk`) equal the real register counts,
 no `##` / `###` heading stays verbatim in English,
-`* **Label:**` field values start uppercase and never wrap a governed English token in a code span,
+`- **Label:**` field values start uppercase and never wrap a governed English token in a code span,
 `TDD` never appears, and prose sentences stay within `--max-words` (warn-level).
 
 On a language-pair file the pair-skeleton convention applies:
@@ -201,7 +201,7 @@ Its fresh-audit check rejects comparative claims against a previous report whene
 no `Changes Since Previous Audit` section.
 
 Its roadmap check requires a `Breaking` column in every `Actionable Remediation Roadmap` table
-whenever finding blocks assess `Breaking change`.
+whenever finding blocks assess `Breaking`.
 
 Its scorecard-mean check recomputes each `Scorecard Summary` table's overall from the displayed
 dimension scores and compares it to the stated `Overall score` at one decimal place.
@@ -218,7 +218,7 @@ it applies that style's section contract from `process/report-format/hunt-style.
 `process/report-format/review-style.md` instead of the baseline section list.
 
 A `review` report also validates the Execution Register rows, check statuses,
-`Evidence level` fields, and the Retest Register trigger.
+`Level` fields, and the Retest Register trigger.
 
 `lint-polish.py` lints Polish report output for the calques listed in the
 `Calque And Style Replacements` table of `translations/polish-language.md`, plus comma splices,

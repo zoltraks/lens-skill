@@ -131,7 +131,7 @@ mark the schedule `Not specified` and state the recommended trigger neutrally.
 - Every row must reference a specific `FND-XXX`.
 - Do not invent owner names or dates. Leave owner cells empty and mark dates `Not specified` where
   the input is silent.
-- Closure evidence must be a concrete, verifiable artifact, not a vague assurance.
+- `Proof` entries are concrete, verifiable artifacts, not vague assurances.
 - Keep sign-off gates consistent with the Production Readiness Threshold and the
   Unified Risk Register.
 - Phrase triggers and gates as options, not directives, unless the user asked for directives.

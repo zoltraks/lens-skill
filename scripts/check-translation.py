@@ -11,7 +11,7 @@ the Polish text itself:
   that carries the identifier link is compared after markup is stripped.
 * Prose counts such as `22 ustaleń` or `13 ryzyk` must equal the real
   register block/row counts (FND/RSK/REC block headings, EVD ledger rows).
-* `* **Label:**` fields inside `### FND-…`, `### RSK-…`, `### REC-…`, and
+* `- **Label:**` fields inside `### FND-…`, `### RSK-…`, `### REC-…`, and
   `### TDR-…` blocks must come from that register's contract label set -
   a label borrowed from another register (for example `Skutek` in a
   finding block) leaves the English-mapped copy missing a required field.
@@ -24,7 +24,7 @@ the Polish text itself:
   keeps headings and field labels English so `](#anchor)` targets stay
   stable. The sibling resolves from `--en`, or from a `<stem>-EN.md`
   file beside a `<stem>-<LANG>` report.
-* `* **Label:**` field values start uppercase, and a governed vocabulary
+* `- **Label:**` field values start uppercase, and a governed vocabulary
   token inside a code span is translated like the unspanned form
   (`Teoretyczne`, never `Theoretical`).
 * `TDD` never appears - the contract spells out `due diligence
@@ -59,7 +59,7 @@ INTERNAL_LINK = re.compile(r"\]\(#([^)\s]+)\)")
 BLOCK_FIELD = re.compile(r"^\*\s+\*\*([^:*]+):\*\*")
 HEADING = re.compile(r"^#{1,6}\s+(.+?)\s*$")
 
-# `* **Label:**` fields allowed inside each register's detail blocks,
+# `- **Label:**` fields allowed inside each register's detail blocks,
 # taken from the label tables in `translations/polish-language.md` -
 # keep in sync when the contract adds or renames a field. Labels unique
 # to one register (for example `Środek ograniczający ryzyko`, `Zwłoka`,
@@ -140,7 +140,7 @@ GOVERNED_TOKENS = {
 
 # Subset of governed tokens that never name subject identifiers, so a code
 # span holding one is a missed translation wherever it appears - not only in
-# `* **Label:**` field values.
+# `- **Label:**` field values.
 GOVERNED_ANYWHERE = {
     "theoretical", "undetermined", "deliberate", "early development",
     "pre-production", "production-ready", "conditionally ready",
@@ -252,7 +252,7 @@ def check_prose_counts(lines, masked):
 
 
 def check_block_labels(lines, extra_labels=None):
-    """`* **Label:**` fields inside register detail blocks must belong
+    """`- **Label:**` fields inside register detail blocks must belong
     to that register's contract label set. A label from another
     register's table - `Skutek` under `### FND-…`, `Wpływ` under
     `### TDR-…` - survives mapping unmapped and drops the required
@@ -371,7 +371,7 @@ def check_untranslated_headings(lines, masked, keys, en_headings=None):
 
 
 def check_field_values(lines, masked):
-    """`* **Label:**` field values start uppercase per the style rules, and
+    """`- **Label:**` field values start uppercase per the style rules, and
     a code span holding a governed English token (`Theoretical`, `Open`,
     `Critical`) keeps it untranslated through the mapping - both defects
     leave the Polish contract unmet."""
@@ -573,7 +573,7 @@ def english_sibling(path, explicit):
 
 
 def sibling_surface(en_path):
-    """Normalized headings and `* **Label:**` field labels of the English
+    """Normalized headings and `- **Label:**` field labels of the English
     sibling. The pair-skeleton convention keeps both verbatim English in
     the translation file, so a match is not a defect."""
     en_lines = en_path.read_text(encoding="utf-8").split("\n")

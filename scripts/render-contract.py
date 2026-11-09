@@ -107,6 +107,8 @@ def main(argv: list[str]) -> int:
         Path(paths[0]) if paths
         else script_dir.parent / "process" / "report-contract.md"
     )
+    if target.is_dir():
+        target = target / "report-contract.md"
     if not target.is_file():
         print(f"contract file not found: {target}")
         return 1

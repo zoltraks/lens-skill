@@ -82,7 +82,7 @@ risks, or recommendations:
 - `Suggestion`: <one line>
 ```
 
-Strengths found by this assessment are also summarized in Strengths & What's Working.
+Strengths found by this assessment are also summarized in Strengths and What's Working.
 
 ## Finding Conventions
 
@@ -94,7 +94,7 @@ for example `Tier T2 Observed: 88% snake_case across parameter names (EVD-041)`.
 Every consistency finding quantifies prevalence (n/N and %)
 and lists at least three `file:line` examples, or all of them when fewer exist.
 
-`Mitigating factors` considers interop, forced names, and the cost of change.
+`Mitigation` considers interop, forced names, and the cost of change.
 
 Severity follows the guide in `assessment/code-style.md`: `Low` by default,
 `Medium` for public-API splits, security or safety paths, or more than 25% of a core partition,

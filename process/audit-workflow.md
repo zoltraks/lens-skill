@@ -223,7 +223,7 @@ run a single Synthesis phase that combines all projects into one report:
    conditional sections, Strengths, Technical Findings, and Unified Risk Register.
 4. Finding IDs, risk IDs, and recommendation IDs number globally across the whole report.
    Use the project identifier as a trailing parenthetical in the finding heading so the reader can
-   navigate. For example, `### FND-ARC-001: Missing input validation (api-service)`.
+   navigate. For example, `### FND-ARC-001 Missing input validation (api-service)`.
 5. The Document Information section appears once at the top of the report and lists
    all audited projects.
 6. A Project Inventory table immediately after Document Information lists each project with its

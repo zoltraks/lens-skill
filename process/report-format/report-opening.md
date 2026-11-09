@@ -11,9 +11,9 @@
 | Section              | Line | What it covers                       |
 |----------------------|------|--------------------------------------|
 | Document Information | 18   | Report metadata and revisions        |
-| Contents             | 176  | Linked navigation of report sections |
-| Audit Coverage       | 184  | Coverage of canonical audit types    |
-| Glossary             | 243  | Abbreviation and acronym definitions |
+| Contents             | 175  | Linked navigation of report sections |
+| Audit Coverage       | 185  | Coverage of canonical audit types    |
+| Glossary             | 244  | Abbreviation and acronym definitions |
 
 ## Document Information
 
@@ -71,12 +71,11 @@ Rows appear in this order, each label in the first column and its value in the s
   The cell carries the purpose value only. A re-audit is marked by `Report Revision`,
   `Previous Report`, and the Changes section, never prefixed into `Audit Purpose`.
 - `Target Environment` - where the software runs or ships.
-- `Verification Scope` -
-  `Static repository analysis (code, configuration, documentation, git history) - no execution` for
-  `Source-only`, or the same phrase plus `; commissioned non-mutating analyzers executed` under
-  `executed-readonly` or `; commissioned non-mutating commands executed` under `executed-commands` -
+- `Verification Scope` - `Static repository analysis - no execution` for `Source-only`,
+  `Static repository analysis - non-mutating analyzers executed` under `executed-readonly`, or
+  `Static repository analysis - non-mutating commands executed` under `executed-commands` -
   the short token `Source-only` may stand when a previous revision already established it.
-- `Evidence Mode` - `Source-only`, `Executed-readonly`, or `Executed-commands`.
+- `Evidence Mode` - `Source-only`, `Executed read-only`, or `Executed commands`.
 - `Subject Revision` - the audited revision of the subject:
   the commit SHA with branch or detached state in parentheses when VCS metadata exists,
   or `unversioned working tree` with the capture timestamp when it does not.
@@ -173,12 +172,14 @@ apply the label translations from the matching `translations/` file.
 Descriptive values such as `State`, `Detail Level`, `Evaluation Scale`, `Audit Purpose`,
 and `Verification Scope` are rendered per the same file.
 
-## Table of Contents
+## Contents
 
-A `## Table of Contents` section is never written - the report navigates by its fixed section order,
-and `process/report-format.md` and `process/navigation-rules.md` forbid a contents table.
-Do not emit the section even when a previous revision of the same report carried one - a stale
-contents list from an older contract is not a reason to keep it.
+A `## Contents` section follows Document Information and links every H2 section of the report.
+
+Each entry is a `- [Section Name](#anchor)` bullet with the section's own heading anchor - a link
+list for human navigation, never a line-number table.
+
+The section name is `## Contents` exactly - `## Table of Contents` is never written.
 
 
 ## Audit Coverage
@@ -416,13 +417,13 @@ State them here so the prose contract and the mechanical check agree.
 - A spaced slash does not form a compound.
   `SBOM / Software` still requires `[SBOM](#glossary-index)` on the acronym,
   only the adjacent form `SBOM/Software` is exempt.
-- Machine-readable `* **Field:**` value positions are exempt from linking when the field carries a
+- Machine-readable `- **Field:**` value positions are exempt from linking when the field carries a
   fixed-vocabulary token. The exempt labels are `Pillar`, `Severity`, `Type`, `Security`, `Status`,
   `Change`, `Absence`, `Verification`, `Confidence`, `Class`, `Result`, `Priority`, `Likelihood`,
   `Residual`, `Owner`, and `Exploitability`.
   The value of such a line stays literal even when the token is a glossary term,
-  so `* **Priority:**P2` keeps a bare `P2` and `***Absence:** N/A` keeps a bare `N/A`.
-  A `* **Field:**` label not on this list still links normally.
+  so `- **Priority:**P2` keeps a bare `P2` and `***Absence:** N/A` keeps a bare `N/A`.
+  A `- **Field:**` label not on this list still links normally.
 - The status tokens that populate those fields - `N/A`, `PASS`, `FAIL`, `UNKNOWN`, `NOT RUN`,
   `NOT PERFORMED`, `NOT SPECIFIED`, `INSUFFICIENT INFORMATION`, `NO BASELINE`,
   `NO GAPS` are a fixed vocabulary. They may be indexed as terms when the report uses them in prose,

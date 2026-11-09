@@ -17,7 +17,7 @@ checklist names the contract, never re-lists it.
 Confirm each item while composing sections, not after assembly.
 
 - Every `### FND-` block carries a description paragraph plus the field set in
-  `findings-registers.md`, and `High` findings carry `Defect scenario` and a counter-check.
+  `findings-registers.md`, and `High` findings carry `Scenario` and a counter-check.
 - `### RSK-`, `### REC-`, and `### TDR-` blocks exist for every register row,
   and each identifier family runs contiguously from `001`.
 - Register summary rows carry the block's title text verbatim - the risk register's `Title` column

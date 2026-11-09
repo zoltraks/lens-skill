@@ -124,7 +124,7 @@ def strip_code(line):
 def pair_sibling(path):
     """True when the file is the translation sibling of a language pair:
     a `<stem>-<LANG>` name with a `<stem>-EN.md` file beside it. Under the
-    pair-skeleton convention headings, `* **Label:**` field labels, and
+    pair-skeleton convention headings, `- **Label:**` field labels, and
     table label cells stay English verbatim and are exempt."""
     match = re.match(r"^(.*)-[A-Z]{2}$", path.stem)
     if not match:

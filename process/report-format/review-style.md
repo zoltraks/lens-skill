@@ -45,7 +45,7 @@ The following carry over unchanged from `process/report-format.md` and its spec 
   and Reference Sources per `report-closing.md`.
 
 Review adds one mandatory finding field everywhere the shared schema applies:
-`Evidence level` per this file.
+`Level` per this file.
 
 The review style includes the structure assessment from `assessment/structure-review.md` in its
 evidence base - structure findings render in Domain Findings under the Maintainability domain with
@@ -185,7 +185,7 @@ and the validator reconciles its row count against the `### FND-` blocks.
 
 Review adds a mandatory field to every finding block:
 
-- `* **Evidence level:**` - the strongest level the cited evidence reaches:
+- `- **Level:**` - the strongest level the cited evidence reaches:
   `Source` (read in code or config), `Model` (an isolated reproduction or harness),
   `App` (the real application running locally), `Deployed` (a deployed environment),
   or `Unknown` when the level cannot be established.
@@ -194,7 +194,7 @@ A `Model` reproduction demonstrates a mechanism.
 It never upgrades application-wide reachability claims,
 which stay `Source` -derived until exercised against the real routes.
 
-`Evidence level` is independent of `Confidence` - a claim can be confidently inferred from source
+`Level` is independent of `Confidence` - a claim can be confidently inferred from source
 without any execution.
 
 Structure findings render under the `### Maintainability` domain heading with

@@ -216,7 +216,7 @@ equals the reported mean after the documented rounding rule.
 `Unknown` and `N/A` dimensions stay out of the denominator.
 
 Confirm no summary table promotes a finding's verification status beyond what its block carries.
-A finding without a `Runtime` field cannot appear as verified in any summary.
+A finding whose `Confirmation` field is not `Yes` cannot appear as execution-confirmed in any summary.
 
 Under `executed-readonly`, confirm the Executed Evidence lists every executed check with tool,
 version, exact command, and timestamp, and that the report claims no build, test, or project run.
@@ -257,7 +257,7 @@ runs on a translated report directly.
 Instead, run
 `scripts/map-translation.py <report> --rules translations/polish-language.md --en <english-sibling.md>`
 to generate an English-mapped working copy:
-it inverts the contract tables to translate `* **Field:**` finding-block labels,
+it inverts the contract tables to translate `- **Field:**` finding-block labels,
 fixed-vocabulary values, and section headings,
 and remaps every report-internal anchor - glossary links, `### <ID>:` heading links,
 the evidence-ledger and validation-protocol section anchors - to their English forms.

@@ -23,10 +23,10 @@ Two audits of similar systems should produce reports of similar shape, vocabular
 | Fixed Vocabularies             | 84   | Status and severity word lists   |
 | Consistency Rules              | 194  | Same input, same output shape    |
 | Plain-Text Friendly Formatting | 210  | Terminal and diff readability    |
-| Multilingual Output            | 318  | Non-English report rendering     |
-| Information Security In Output | 457  | Redaction and disclosure limits  |
-| Report Termination             | 472  | End-of-report rules              |
-| Determinism                    | 492  | Repeatability guarantees         |
+| Multilingual Output            | 332  | Non-English report rendering     |
+| Information Security In Output | 471  | Redaction and disclosure limits  |
+| Report Termination             | 486  | End-of-report rules              |
+| Determinism                    | 506  | Repeatability guarantees         |
 
 ## Tone And Register
 
@@ -156,7 +156,7 @@ This covers status, severity, result, verification, lifecycle, change, readiness
 and classification cells in every report language - each `translations/` file defines the localized
 rendered forms for its language.
 
-A token followed by a qualifier inside a `* **Field:**` value or a cell joins with a comma,
+A token followed by a qualifier inside a `- **Field:**` value or a cell joins with a comma,
 for example `High, chain traced end to end` or `Undetermined, no rationale found` - the spaced
 hyphen keeps its aside role, never a token-qualifier join.
 
@@ -164,7 +164,7 @@ Machine tokens stay unchanged: record and classification identifiers (`EVD-001`,
 `RSK-XXX`, `REC-XXX`, `TDR-XXX`, `PAR-NN`, `P1` - `P4`, CWE IDs, CVSS vectors, OWASP IDs)
 and tool commands render verbatim in every report language.
 
-Free-text cells and `* **Field:**` values start with a capital letter.
+Free-text cells and `- **Field:**` values start with a capital letter.
 Literal identifiers, paths, commands, and tool or package names keep their natural case - a cell
 opening `git log` or `deny.toml` stays lowercase because the token is verbatim, not prose.
 
@@ -231,7 +231,7 @@ Join closely related clauses with a comma or split them into separate sentences.
 The prose scope includes sentences, headings, table cells, and list items, only code blocks,
 inline code, and file paths are exempt.
 
-An enumeration of parallel items inside a table cell, a `* **Field:**` value,
+An enumeration of parallel items inside a table cell, a `- **Field:**` value,
 or a list item joins with commas - `one, two, three`.
 
 Reserve the spaced hyphen ` - ` for attaching a qualifier, consequence, or exception to a claim,
@@ -244,6 +244,20 @@ the next sentence, so each sentence renders as its own paragraph in Markdown.
 
 Single-sentence paragraphs are suppressed only when the user explicitly asks for joined prose -
 phrasing such as "don't break sentences" or "no blank lines between sentences" - and the suppression
+
+Report prose follows the readable-form rules of the target's declared style plus these floor rules.
+
+A sentence opens with a word, never a code span or an emphasis marker.
+
+No space precedes `,` or `.` and no sentence fragment - `.` or `,` - ever opens a continuation line.
+
+A list item carries one sentence or comma-joined clauses, and field lists stay tight with no blank
+lines between `- **Field:**` items.
+
+A link atom is unbreakable - never split `[text](url)` across lines; overflow beyond the wrap width
+is accepted only for that atom.
+
+Table cells stay telegraphic - a row that overflows the width budget splits into two rows.
 is recorded in the `Sentence breaks` Document Information row per `process/report-format.md`.
 
 Put exactly one empty line before and after lists of items.
@@ -437,7 +451,7 @@ and encoding requirements are defined per language in the translation file.
 **Grammatical agreement:**
 
 Where the report language declines adjectives,
-a declinable cell or `* **Field:**` value takes the form that agrees with the noun named
+a declinable cell or `- **Field:**` value takes the form that agrees with the noun named
 by its column header.
 
 In a two-column key-value table, the row label's head noun governs instead.
@@ -451,7 +465,7 @@ When prose cites a fixed-vocabulary value - a severity, a readiness state,
 a result marker - it renders as a bold natural-case word of the report language,
 declined as grammar requires, for example `**high**` or `**not ready**`.
 
-Literal token forms appear only in token columns, `* **Field:**` bullet values,
+Literal token forms appear only in token columns, `- **Field:**` bullet values,
 and the tables that define the vocabulary.
 
 ## Information Security In Output
@@ -480,7 +494,7 @@ End after Reference Sources without trailing boilerplate.
 
 Table-cell and field-value conventions:
 
-- Prose cells and `* **Field:**` values start with an uppercase first letter. Exceptions:
+- Prose cells and `- **Field:**` values start with an uppercase first letter. Exceptions:
   code spans, identifiers, package names, paths, camelCase names,
   and controlled-vocabulary tokens render verbatim.
 - A datum with no value renders an empty cell - never a placeholder token such as

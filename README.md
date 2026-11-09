@@ -53,15 +53,15 @@ The default output is an Audit report with twenty-two baseline sections: Documen
 the Audit Coverage table, Executive Summary, System Context (including the technology stack),
 a source-derived Software Bill of Materials, License Compliance, Health Dashboard,
 Delivery Practice, High-Level Observations, Auditing Methodology, Scoring Rubrics,
-Architectural Assessment, Structure Review, Solution Comparison, Strengths & What's Working,
+Architectural Assessment, Structure Review, Solution Comparison, Strengths and What's Working,
 Technical Findings with theoretical exploitability narratives on serious security findings,
 Unified Risk Register, Remediation Roadmap, Scope Exclusions, Known Limitations,
 Validation Protocol, and Reference Sources.
 
 Conditional sections appear only when the subject warrants them: Data Flow Diagram, Design Patterns,
 Architecture Decision Records, Threat Model, API Contract Conformance, Skill Definition Conformance,
-Agent Guidance Conformance, AI System Assessment, Standards Conformance,
-Engineering Baseline Conformance, Structure Conformance, Code Style,
+Guidance Conformance, AI System Assessment, Standards Conformance,
+Baseline Conformance, Structure Conformance, Code Style,
 API Compatibility & Versioning Discipline, Technical Debt Register, Changes Since Previous
 Audit, and Follow-up Plan.
 
@@ -471,7 +471,7 @@ All report styles share a hybrid table-paragraph format throughout:
 - **Severities** are shown as `SEVERITY: CRITICAL` inline after the finding title. Severity, status,
   and result-marker tokens localize per the report language's `translations/` file.
 - **High-Level Observations** provide a fast-skim path for non-technical readers.
-- **Strengths & What's Working** balances the tone with 5-8 acknowledged positives.
+- **Strengths and What's Working** balances the tone with 5-8 acknowledged positives.
 - **Solution Comparison** surfaces architectural tensions in a dedicated table.
 - **Document style** - generated reports follow the same Markdown rules as the skill's documents:
   `#` / `##` / `###` headings only, one-sentence paragraphs,

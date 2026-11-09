@@ -15,7 +15,7 @@ establish code authorship.
 Snapshot date: 2026-10-09.
 
 Feeds `assessment/generated-code.md`, the attribution census in `references/census-commands.md`,
-and the `Provenance basis` field vocabulary in `process/report-format/findings-registers.md`.
+and the `Provenance` field vocabulary in `process/report-format/findings-registers.md`.
 
 ## The Asymmetry Rule
 

@@ -398,9 +398,9 @@
    "expected_output": "A report whose finding and risk blocks and register tables use the renamed field schema.",
    "files": [],
    "expectations": [
-    "Finding blocks carry the contract fields in order: Pillar, Severity, Type, Security, Targets, Basis, Absence, Impact, Method, Verified, Confidence, Mitigating factors, Exploitability, Evidence, with Security, Absence, and Exploitability omitted whenever their value would be N/A.",
+    "Finding blocks carry the contract fields in order: Pillar, Severity, Type, Security, Targets, Basis, Absence, Impact, Method, Verification, Confidence, Mitigation, Exploitability, Evidence, with Security, Absence, and Exploitability omitted whenever their value would be N/A.",
     "No finding or risk detail line renders an N/A or NOT SPECIFIED value - the line is omitted instead.",
-    "No legacy field names appear: Target Files/Modules, Requirement Basis, Verification State, Counter-check, Security Classification, Remediation Recommendation, Verification Method, Exploitability Narrative, or Remediation Status.",
+    "No legacy field names appear: Target Files/Modules, Requirement Basis, Verification State, Counter-check, Security Classification, Remediation Recommendation, Verification Method, Exploitability Narrative, or Remediation Status. No superseded labels appear: Mitigating factors, Runtime confirmed, Runtime, Verified, Defect scenario, Evidence level, Provenance basis, Breaking change, Depends on, Effort confidence, Acceptance milestone, Closure evidence, or Cost model.",
     "The findings summary table uses Finding, Result, Status, and Verification columns, with Verification limited to VERIFIED, CONFIRMED, REPORTED, or empty.",
     "Risk blocks use Severity, Likelihood, Residual, Impact, Trigger, Controls, Closure, Source, Confidence, Mitigation order, with Owner appearing between Status and Description only when a responsible role is established, and the risk table uses Source rather than Source Finding.",
     "Debt tables use Debt/Item/Category/Source headers - Cost, Delay, and Status columns appear only when they carry at least one non-default value."
@@ -513,11 +513,11 @@
   },
   {
    "id": 40,
-   "prompt": "A report draft has `* **Absence:** N/A` and `* **Exploitability:** N/A - internal-only` field lines, and the glossary indexes N/A. Run the linking pass.",
+   "prompt": "A report draft has `- **Absence:** N/A` and `- **Exploitability:** N/A - internal-only` field lines, and the glossary indexes N/A. Run the linking pass.",
    "expected_output": "The glossary linker leaves the fixed field values literal and links only standalone prose occurrences of N/A.",
    "files": [],
    "expectations": [
-    "`* **Absence:** N/A` and `* **Exploitability:** N/A` keep literal values after `link-glossary.py`.",
+    "`- **Absence:** N/A` and `- **Exploitability:** N/A` keep literal values after `link-glossary.py`.",
     "A bare `N/A` in a prose sentence still becomes a link.",
     "`validate-report.py` does not flag the field-value tokens as unlinked glossary terms."
    ]
@@ -541,7 +541,7 @@
    "expectations": [
     "The tooling probe runs the copied `.tmp.` scripts on a stub report first.",
     "A probe failure is treated as a toolchain problem, not a report problem.",
-    "The stub exercises `* **Absence:**`-style fixed-vocabulary field lines."
+    "The stub exercises `- **Absence:**`-style fixed-vocabulary field lines."
    ]
   },
   {
@@ -808,9 +808,9 @@
     "Document Information records Report Style as audit and Evidence Mode as source-only.",
     "Document Information records a Subject Revision anchor naming the inspected commit or tree state.",
     "The report carries a Further Verification section listing runtime checks for the operator.",
-    "Only findings confirmed by execution carry a Runtime field - unconfirmed findings omit it.",
+    "No finding carries a Confirmation field under source-only mode.",
     "The stated overall score equals the recomputed one-decimal mean of the displayed dimension scores.",
-    "Every Remediation Roadmap table carries a Breaking column when findings assess Breaking change."
+    "Every Remediation Roadmap table carries a Breaking column when findings assess the Breaking field."
    ]
   },
   {
@@ -835,8 +835,8 @@
    "expectations": [
     "Document Information records Evidence Mode as executed-readonly.",
     "The report carries an Executed Evidence naming each command, version, scope, and exit status.",
-    "Runtime fields on findings appear only for behaviors the recorded execution actually exercised.",
-    "Findings not exercised by execution carry no Runtime field rather than an unverified claim.",
+    "Every finding carries a Confirmation field - Yes only for behaviors the recorded execution actually exercised.",
+    "Findings not exercised by execution carry Confirmation: No with the reason, never an unverified Yes.",
     "Scanner or test output is never presented as proof of exploitability or application behavior."
    ]
   },
@@ -870,12 +870,12 @@
    "expected_output": "An audit that recognizes the recorded guidance topology, resolves output into docs/report/audit/, and flags no drift for the recorded non-default conventions.",
    "files": [],
    "expectations": [
-    "The report includes Agent Guidance Conformance because the repository carries a structured agent-guidance set.",
+    "The report includes Guidance Conformance because the repository carries a structured agent-guidance set.",
     "AGENTS.md serving as the central rules document is evaluated as a consolidated topology and conforms when the repository records that role.",
     "Plural flat numbered change and plan directories are treated as recorded conventions, not as drift against a canonical singular or version-grouped layout.",
     "The delivery resolution descends into docs/report/audit/ for the audit report rather than offering bare docs/report/ as the primary path.",
     "Previously written reports under docs/report/audit/ are discovered as prior-audit candidates.",
-    "The Validation Protocol carries rows PAR-1 through PAR-19 in fixed order, and PAR-19 records the Agent Guidance Conformance inventory as evidence."
+    "The Validation Protocol carries rows PAR-1 through PAR-19 in fixed order, and PAR-19 records the Guidance Conformance inventory as evidence."
    ]
   },
   {
@@ -892,7 +892,7 @@
   {
    "id": 73,
    "prompt": "Audit this repository, which vendors a PREPARATION.md repository-preparation document carrying a Version marker that is two releases behind the canonical copy.",
-   "expected_output": "The stale vendored document is reported under Agent Guidance Conformance rather than silently trusted.",
+   "expected_output": "The stale vendored document is reported under Guidance Conformance rather than silently trusted.",
    "files": [],
    "expectations": [
     "The vendored document's version marker is compared against the canonical source when determinable.",
@@ -1045,7 +1045,7 @@
    "expectations": [
     "The skeleton carries every required review section: Document Information, Audit Coverage, Verdict, System Context, Check Plan And Methodology, Execution Register, Domain Findings, Risk Register, Improvement Plan, Scope Exclusions, Known Limitations, and Reference Sources, with the Validation Protocol reported inline rather than shipped.",
     "The Execution Register template row carries command, cwd, tool and version, timestamp, input revision, exit status, result, interpretation, and artifact columns.",
-    "The `### FND-` template block carries an `Evidence level` field and the Improvement Plan carries a disposition column or field.",
+    "The `### FND-` template block carries a `Level` field and the Improvement Plan carries a disposition column or field.",
     "An `evidence-mode` of `executed-readonly` or `executed-commands` in the params file adds the Artifact Manifest section."
    ]
   },
@@ -1062,11 +1062,11 @@
   },
   {
    "id": 88,
-   "prompt": "Validate a review report where one `### FND-` finding block lacks an `Evidence level` field and another sets it to `Tested`.",
+   "prompt": "Validate a review report where one `### FND-` finding block lacks a `Level` field and another sets it to `Tested`.",
    "expected_output": "The validator fails the `review evidence levels` check.",
    "files": [],
    "expectations": [
-    "Every `### FND-` block under Domain Findings carries an `Evidence level` field.",
+    "Every `### FND-` block under Domain Findings carries a `Level` field.",
     "The field value is one of `Source`, `Model`, `App`, `Deployed`, or `Unknown` - `Tested` fails with the expected vocabulary.",
     "A `Model` reproduction does not upgrade an application-wide reachability claim."
    ]
@@ -1116,10 +1116,10 @@
   {
    "id": 93,
    "prompt": "Audit this Node.js command-line tool. The project documents no development standards of its own. Check whether it meets the engineering floor a well-governed CLI would carry.",
-   "expected_output": "An audit whose Engineering Baseline Conformance section checks the universal floor plus the CLI contract digest, with baselines recorded.",
+   "expected_output": "An audit whose Baseline Conformance section checks the universal floor plus the CLI contract digest, with baselines recorded.",
    "files": [],
    "expectations": [
-    "Engineering Baseline Conformance appears because the subject is code-bearing and the bundled digests cover its stack and cli nature; Standards Conformance is omitted with a Scope Exclusions note since no project standards exist.",
+    "Baseline Conformance appears because the subject is code-bearing and the bundled digests cover its stack and cli nature; Standards Conformance is omitted with a Scope Exclusions note since no project standards exist.",
     "The baseline table checks the universal floor rows - runtime pinning, lockfile, lint/format gate, test floor, secrets hygiene, error propagation, bounded work - and the cli-purpose rows for stdout/stderr separation, semantic exit codes, and --help/--version.",
     "The audit records which baseline governed each judgement and the digest snapshot date in Auditing Methodology.",
     "A configured-but-unexercised check, such as an eslint config no CI step runs, is reported as documented-not-enforced rather than a pass.",
@@ -1180,7 +1180,7 @@
    "expected_output": "An AI provenance assessment that qualifies each scoped artifact set by an evidence tier and never declares human authorship.",
    "files": [],
    "expectations": [
-    "Every `FND-AIP-` finding carries a `Provenance basis` field set to `Declared`, `Attested`, `Supplied`, `Indicated`, or `Undetermined` - and no other finding pillar carries the field.",
+    "Every `FND-AIP-` finding carries a `Provenance` field set to `Declared`, `Attested`, `Supplied`, `Indicated`, or `Undetermined` - and no other finding pillar carries the field.",
     "Bot-author and trailer evidence grounds `Declared` provenance for the attributed commits only; it never expands to the whole repository.",
     "Stylistic uniformity, formatting consistency, and code-fingerprint resemblance are never cited as provenance evidence - no statistical or style-based inference appears anywhere in the report.",
     "Artifacts without attribution evidence are reported `Undetermined`, never described or implied as human-authored.",
@@ -1448,7 +1448,7 @@
    "files": [],
    "expectations": [
     "Every ## and ### section heading matches a Polish form in translations/polish-language.md - no heading stays verbatim in English.",
-    "Every '* **Label:**' field value starts with an uppercase letter unless it opens with a code span or link.",
+    "Every '- **Label:**' field value starts with an uppercase letter unless it opens with a code span or link.",
     "Governed vocabulary tokens are translated even inside code spans - 'Poziom: `Teoretyczne`', never '`Theoretical`'.",
     "The token TDD never appears - 'due diligence techniczne' is spelled out.",
     "Bold threat-narrative lead-in labels are translated like table cells while keeping the bold markup."
@@ -1472,7 +1472,7 @@
    "expectations": [
     "No prose line carries two sentences joined by '. ' + capital - each sentence is its own line.",
     "Related short sentences - the blend, ceiling, and lowest-dimension lines of an Executive Summary, or Owner/Closure-evidence lines - group into one paragraph without blank lines between them.",
-    "List items, * **Field:** register lines, table cells, and headings stay unsplit - the rule covers running prose only."
+    "List items, - **Field:** register lines, table cells, and headings stay unsplit - the rule covers running prose only."
    ]
   },
   {
@@ -1546,7 +1546,7 @@
   },
   {
    "id": 129,
-   "prompt": "A report draft contains a line `* **Done when:** ** The migration completes without data loss.` with an extra `**` marker. Run the prose linter and report validator.",
+   "prompt": "A report draft contains a line `- **Done when:*- ** The migration completes without data loss.` with an extra `**` marker. Run the prose linter and report validator.",
    "expected_output": "Both `lint-prose.py` and `validate-report.py` fail on the unbalanced `**` marker.",
    "files": [],
    "expectations": [
@@ -1999,7 +1999,7 @@
    "files": [],
    "expectations": [
     "Status, Result, Severity, Confidence, Verdict, and coverage cells render natural forms such as High, Partial, Passed, Not done - no all-caps PASS, CRITICAL, or NOT SPECIFIED in governed cells.",
-    "A token followed by its qualifier inside a * **Field:** value joins with a comma, for example 'High, chain traced'.",
+    "A token followed by its qualifier inside a - **Field:** value joins with a comma, for example 'High, chain traced'.",
     "Machine tokens (FND-SEC-001, EVD-001, RSK-001, REC-001, TDR-001, PAR-1, P1-P4, CWE/CVSS/OWASP identifiers) stay unchanged."
    ]
   },
@@ -2017,11 +2017,11 @@
   {
    "id": 171,
    "prompt": "Run a defect-hunt audit on this repository and also produce a standard audit-style report for the same subject.",
-   "expected_output": "Both reports carry a Defect scenario on every High/Critical finding - the requirement now covers audit style, not only hunt style.",
+   "expected_output": "Both reports carry a Scenario on every High/Critical finding - the requirement now covers audit style, not only hunt style.",
    "files": [],
    "expectations": [
-    "Every High or Critical finding in the audit-style report carries a Defect scenario field, matching the hunt-style requirement.",
-    "Findings below High severity may omit the Defect scenario field."
+    "Every High or Critical finding in the audit-style report carries a Scenario field, matching the hunt-style requirement.",
+    "Findings below High severity may omit the Scenario field."
    ]
   },
   {
@@ -2070,10 +2070,12 @@
   {
    "id": 176,
    "prompt": "work on lens-skill development",
-   "expected_output": "Runs process/development.md - update check, readiness report, standby for a described change.",
+   "expected_output": "Runs process/development.md - update check, readiness report, standby for a described change, with 'Do nothing yet' as the standby option of the specification ask.",
    "files": [],
    "expectations": [
-    "runs process/development.md and stands by for a described change"
+    "runs process/development.md and stands by for a described change",
+    "the specification ask offers 'Develop new feature' and carries 'Do nothing yet' as the standby option when improvement mode is not armed",
+    "a 'Do nothing yet' answer skips the question flow and keeps the mode on standby"
    ]
   },
   {
@@ -2345,6 +2347,28 @@
     "does not route to process/session-review.md on the improvement-mode flag alone",
     "applies improvements during the work through the member's own maintenance path",
     "reviews no session history that precedes the mode request"
+   ]
+  },
+  {
+   "id": 201,
+   "prompt": "A register block field line carries a '* **Mitigation:**' star bullet. What does the validator report?",
+   "expected_output": "A '* ' bullet field line fails 'star field lines' - register fields carry '- **Label:**' bullets only, a star-bullet field parses as nothing.",
+   "files": [],
+   "expectations": [
+    "flags '* **Label:**' field lines as a 'star field lines' failure",
+    "states that register fields use '* ' bullets only",
+    "does not treat a star-bullet line as a parsed field"
+   ]
+  },
+  {
+   "id": 202,
+   "prompt": "work on lens-skill development and improvement",
+   "expected_output": "Runs process/development.md - update check, readiness report, standby for a described change, with 'Improve on the fly' as the standby option of the specification ask.",
+   "files": [],
+   "expectations": [
+    "runs process/development.md and stands by for a described change",
+    "the specification ask carries 'Improve on the fly' as the standby option because improvement mode is armed",
+    "an 'Improve on the fly' answer does nothing now and waits for a named operation, applying surfaced improvements on the fly"
    ]
   }
  ]

@@ -73,6 +73,11 @@ def format_block(block, start, drop_empty):
                 f"line {start + k + 1}: separator row cell(s) lacked hyphens - "
                 "normalized"
             )
+        if sep_like(r) and re.search(r"\|\s+-+|-+\s+\|", block[k]):
+            warnings.append(
+                f"line {start + k + 1}: separator cell(s) carried spaces - "
+                "normalized to compact hyphens"
+            )
     ncols = max(len(r) for r in rows)
     rows = [r + [""] * (ncols - len(r)) for r in rows]
     empty = [

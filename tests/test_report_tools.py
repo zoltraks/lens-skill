@@ -54,8 +54,8 @@ class TestLinkReferences(unittest.TestCase):
         "| Evidence | Check | Result |\n|---|---|---|\n"
         "| EVD-001 | git | sha |\n\n"
         "## Technical Findings\n\n"
-        "### FND-SEC-001: Bad thing\n\n"
-        "* **Evidence:** EVD-001 - inspected\n\n"
+        "### FND-SEC-001 Bad thing\n\n"
+        "- **Evidence:** EVD-001 - inspected\n\n"
         "## Handoff\n\n"
         "| Claim | Resolves |\n|---|---|\n"
         "| tests pass | EVD-001, FND-SEC-001 |\n"
@@ -80,7 +80,7 @@ class TestLinkReferences(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             text = self.write(tmp, self.DOC)
             self.assertIn("| EVD-001 | git | sha |", text)
-            self.assertIn("### FND-SEC-001: Bad thing", text)
+            self.assertIn("### FND-SEC-001 Bad thing", text)
 
     def test_inline_code_and_links_untouched(self):
         doc = self.DOC + "\n`EVD-001` stays code and [FND-SEC-001](#x) is repaired.\n"
@@ -98,8 +98,8 @@ class TestLinkReferences(unittest.TestCase):
 
     def test_qualified_reference_resolves_project_block(self):
         doc = (
-            "# T\n\n## api-service\n\n### FND-SEC-001: Bad (api-service)\n\n"
-            "Block.\n\n## web-app\n\n### FND-SEC-001: Bad (web-app)\n\n"
+            "# T\n\n## api-service\n\n### FND-SEC-001 Bad (api-service)\n\n"
+            "Block.\n\n## web-app\n\n### FND-SEC-001 Bad (web-app)\n\n"
             "Cites api-service::FND-SEC-001.\n"
         )
         with tempfile.TemporaryDirectory() as tmp:
@@ -190,7 +190,7 @@ class TestValidateReport(unittest.TestCase):
     def test_finding_fields_cover_runtime_and_change(self):
         for field in ("Criteria:",):
             self.assertIn(field, self.validator.FINDING_REQUIRED)
-        for field in ("Runtime:", "Verification:", "Status:", "Change:"):
+        for field in ("Confirmation:", "Verification:", "Status:", "Change:"):
             self.assertNotIn(field, self.validator.FINDING_REQUIRED)
 
     def test_criteria_references(self):
@@ -201,15 +201,15 @@ class TestValidateReport(unittest.TestCase):
             "|-----------|----------|---------------|-------------|----------|-------------|",
             "| SEC-AUTHZ | SEC      | applicable    | high        | inspect  | rule        |",
             "",
-            "### FND-SEC-001: Bad thing",
+            "### FND-SEC-001 Bad thing",
             "",
-            "* **Criteria:** SEC-INPUT - missing authz check",
+            "- **Criteria:** SEC-INPUT - missing authz check",
         ]
         failures = self.validator.check_criteria_references(lines, "audit")
         self.assertTrue(any("SEC-INPUT" in f for f in failures))
 
         resolved = lines[:]
-        resolved[-1] = "* **Criteria:** SEC-AUTHZ - missing authz check"
+        resolved[-1] = "- **Criteria:** SEC-AUTHZ - missing authz check"
         self.assertEqual(self.validator.check_criteria_references(resolved, "audit"), [])
 
     def test_criteria_table_rejects_legacy_heading_long_prefix_and_unneeded_01(self):
@@ -240,9 +240,9 @@ class TestValidateReport(unittest.TestCase):
 
     def test_criteria_table_required_for_audit_style(self):
         lines = [
-            "### FND-SEC-001: Bad thing",
+            "### FND-SEC-001 Bad thing",
             "",
-            "* **Criteria:** SEC-AUTHZ - missing authz check",
+            "- **Criteria:** SEC-AUTHZ - missing authz check",
         ]
         failures = self.validator.check_criteria_references(lines, "audit")
         self.assertTrue(any("no Criteria table" in f for f in failures))
@@ -299,7 +299,7 @@ class TestValidateReport(unittest.TestCase):
             "|----------|--------|",
             "| EVD-001  | sha    |",
             "",
-            "### FND-SEC-001: Bad thing",
+            "### FND-SEC-001 Bad thing",
             "",
             "## Handoff",
             "",
@@ -385,27 +385,27 @@ class TestValidateReport(unittest.TestCase):
         self.assertTrue(any("no value in any row" in f for f in failures))
 
     def test_bold_markers_balanced(self):
-        bad = ["* **Done when:** ** The thing holds."]
+        bad = ["- **Done when:*- ** The thing holds."]
         self.assertTrue(
             self.validator.check_bold_markers(bad, [False])
         )
-        good = ["* **Done when:** The thing holds.", "**Run heading**"]
+        good = ["- **Done when:** The thing holds.", "**Run heading**"]
         self.assertEqual(self.validator.check_bold_markers(good, [False] * 2), [])
         code = ["`` `**` stays inside code ``"]
         self.assertEqual(self.validator.check_bold_markers(code, [False]), [])
 
     def test_aip_provenance_basis(self):
-        block = ["### FND-AIP-001 x", "", "* **Provenance basis:** Declared, trailers"]
+        block = ["### FND-AIP-001 x", "", "- **Provenance:** Declared, trailers"]
         self.assertEqual(self.validator.check_aip_provenance(block), [])
-        missing = ["### FND-AIP-001 x", "", "* **Severity:** Low"]
+        missing = ["### FND-AIP-001 x", "", "- **Severity:** Low"]
         self.assertTrue(
-            any("Provenance basis" in f for f in self.validator.check_aip_provenance(missing))
+            any("Provenance" in f for f in self.validator.check_aip_provenance(missing))
         )
-        stray = ["### FND-SEC-001 x", "", "* **Provenance basis:** Declared"]
+        stray = ["### FND-SEC-001 x", "", "- **Provenance:** Declared"]
         self.assertTrue(
             any("reserved" in f for f in self.validator.check_aip_provenance(stray))
         )
-        bad_value = ["### FND-AIP-001 x", "", "* **Provenance basis:** Human-authored"]
+        bad_value = ["### FND-AIP-001 x", "", "- **Provenance:** Human-authored"]
         self.assertTrue(
             any("not one of" in f for f in self.validator.check_aip_provenance(bad_value))
         )
@@ -450,13 +450,23 @@ class TestValidateReport(unittest.TestCase):
         failures = self.validator.check_sentence_breaks(
             joined, self.validator.split_code(joined), True
         )
-        self.assertTrue(any("joined in one line" in f for f in failures))
+        self.assertFalse(any("own paragraph" in f for f in failures))
 
     def test_midline_sentence_join(self):
-        lines = ["Alpha ends here. Beta starts next."]
-        fences = self.validator.split_code(lines)
-        failures = self.validator.check_sentence_breaks(lines, fences, True)
-        self.assertTrue(any("joined in one line" in f for f in failures))
+        short = ["Alpha ends here. Beta starts next."]
+        fences = self.validator.split_code(short)
+        self.assertEqual(
+            self.validator.check_sentence_breaks(short, fences, True), []
+        )
+        long_join = [
+            "Alpha ends here. This second sentence carries a clause list of "
+            "twenty one plain words that push the sentence past the limit set "
+            "for shared paragraph lines and it keeps going still."
+        ]
+        failures = self.validator.check_sentence_breaks(
+            long_join, self.validator.split_code(long_join), True
+        )
+        self.assertTrue(any("own paragraph" in f for f in failures))
         exempt = ["See e.g. Foo for details.", "", "Name J. Smith wrote it."]
         self.assertEqual(
             self.validator.check_sentence_breaks(
@@ -702,7 +712,7 @@ class TestMapReportTranslation(unittest.TestCase):
         "Termin [X](#słownik-pojęć) w tekście.\n\n"
         "## Szczegóły\n\n"
         "| Objęty | Otwarty |\n\n"
-        "* **Weryfikacja:** Zaobserwowane w źródłach.\n\n"
+        "- **Weryfikacja:** Zaobserwowane w źródłach.\n\n"
         "Proza: tak i nie zostają.\n"
     )
     EN_DOC = (
@@ -767,7 +777,7 @@ class TestMapReportTranslation(unittest.TestCase):
         self.assertEqual(rc, 0)
         self.assertIn("english sibling check: PASS", out.getvalue())
         self.assertIn("| Language | English", mapped)
-        self.assertIn("* **Verification:**", mapped)
+        self.assertIn("- **Verification:**", mapped)
         self.assertIn("[X](#glossary-index)", mapped)
         self.assertIn("tak i nie zostają", mapped)
 
@@ -778,7 +788,7 @@ class TestCheckPlReport(unittest.TestCase):
         "## Ustalenia techniczne\n\n"
         "| Ustalenie | Tytuł |\n|---|---|\n"
         "| [FND-001](#fnd-001-pierwsze-ustalenie) | Pierwsze ustalenie |\n\n"
-        "### FND-001: Pierwsze ustalenie\n\n"
+        "### FND-001 Pierwsze ustalenie\n\n"
         "Rejestr liczy 1 ustalenie.\n"
     )
 
@@ -827,13 +837,13 @@ class TestCheckPlReport(unittest.TestCase):
         self.assertIn("WARN", out)
 
     def test_foreign_block_label_fails(self):
-        doc = self.DOC + "\n* **Skutek:** wpływ bloku.\n"
+        doc = self.DOC + "\n- **Skutek:** wpływ bloku.\n"
         rc, out = self.run_checker(doc)
         self.assertEqual(rc, 1)
         self.assertIn("Skutek", out)
 
     def test_known_block_label_passes(self):
-        doc = self.DOC + "\n* **Wpływ:** Wpływ bloku.\n"
+        doc = self.DOC + "\n- **Wpływ:** Wpływ bloku.\n"
         rc, out = self.run_checker(doc)
         self.assertEqual(rc, 0, out)
 
@@ -1483,18 +1493,18 @@ class TestRegisterBlocks(unittest.TestCase):
         self.validator = load_script("validate-report.py")
 
     REC_BLOCK = (
-        "### REC-001: Add input validation\n\n"
-        "* **Priority:** P1\n"
-        "* **Finding:** FND-SEC-001\n"
-        "* **Condition:** input rejected at boundary\n"
-        "* **Description:** adds a validator\n"
-        "* **Impact:** fewer injection paths\n"
-        "* **Effort:** Low\n"
-        "* **Complexity:** Low\n"
-        "* **Verification:** unit test rejects payload\n"
+        "### REC-001 Add input validation\n\n"
+        "- **Priority:** P1\n"
+        "- **Finding:** FND-SEC-001\n"
+        "- **Condition:** input rejected at boundary\n"
+        "- **Description:** adds a validator\n"
+        "- **Impact:** fewer injection paths\n"
+        "- **Effort:** Low\n"
+        "- **Complexity:** Low\n"
+        "- **Verification:** unit test rejects payload\n"
     )
 
-    FND_HEADING = "### FND-SEC-001: Missing input validation\n\n"
+    FND_HEADING = "### FND-SEC-001 Missing input validation\n\n"
 
     def test_rec_block_complete_passes(self):
         lines = (self.FND_HEADING + self.REC_BLOCK).split("\n")
@@ -1502,26 +1512,26 @@ class TestRegisterBlocks(unittest.TestCase):
 
     def test_rec_block_missing_condition_and_bad_refs(self):
         block = self.REC_BLOCK.replace(
-            "* **Condition:** input rejected at boundary\n", ""
-        ).replace("* **Priority:** P1", "* **Priority:** P9")
-        block += "* **Depends on:** REC-042\n"
-        block = block.replace("* **Finding:** FND-SEC-001",
-                              "* **Finding:** FND-SEC-099")
+            "- **Condition:** input rejected at boundary\n", ""
+        ).replace("- **Priority:** P1", "- **Priority:** P9")
+        block += "- **Depends:** REC-042\n"
+        block = block.replace("- **Finding:** FND-SEC-001",
+                              "- **Finding:** FND-SEC-099")
         lines = (self.FND_HEADING + block).split("\n")
         joined = "\n".join(self.validator.check_rec_blocks(lines))
         self.assertIn("missing Condition", joined)
         self.assertIn("Priority is not P1-P4", joined)
         self.assertIn("Finding does not name a defined finding", joined)
-        self.assertIn("Depends on cites undefined REC-042", joined)
+        self.assertIn("Depends cites undefined REC-042", joined)
 
     def test_tdr_block_validation(self):
         lines = (
             self.FND_HEADING
-            + "### TDR-001: Legacy session store\n\n"
-            + "* **Category:** Habitability\n"
-            + "* **Source:** FND-SEC-099\n"
-            + "* **Description:** debt\n"
-            + "* **Status:** Open\n"
+            + "### TDR-001 Legacy session store\n\n"
+            + "- **Category:** Habitability\n"
+            + "- **Source:** FND-SEC-099\n"
+            + "- **Description:** debt\n"
+            + "- **Status:** Open\n"
         ).split("\n")
         joined = "\n".join(self.validator.check_tdr_blocks(lines))
         self.assertNotIn("missing Cost", joined)
@@ -1531,19 +1541,19 @@ class TestRegisterBlocks(unittest.TestCase):
 
     def test_risk_source_must_resolve(self):
         risk = (
-            "### RSK-001: Injection reaches production\n\n"
-            "* **Severity:** High\n"
-            "* **Likelihood:** Medium\n"
-            "* **Residual:** Medium\n"
-            "* **Status:** Open\n"
-            "* **Description:** what could go wrong\n"
-            "* **Impact:** consequence\n"
-            "* **Trigger:** crafted input\n"
-            "* **Controls:** none verified\n"
-            "* **Mitigation:** validate input\n"
-            "* **Closure:** retest\n"
-            "* **Source:** {source}\n"
-            "* **Confidence:** High\n"
+            "### RSK-001 Injection reaches production\n\n"
+            "- **Severity:** High\n"
+            "- **Likelihood:** Medium\n"
+            "- **Residual:** Medium\n"
+            "- **Status:** Open\n"
+            "- **Description:** what could go wrong\n"
+            "- **Impact:** consequence\n"
+            "- **Trigger:** crafted input\n"
+            "- **Controls:** none verified\n"
+            "- **Mitigation:** validate input\n"
+            "- **Closure:** retest\n"
+            "- **Source:** {source}\n"
+            "- **Confidence:** High\n"
         )
         good = self.FND_HEADING + risk.format(source="FND-SEC-001")
         bad = self.FND_HEADING + risk.format(source="FND-SEC-099")
@@ -1617,7 +1627,7 @@ class TestRegisterBlocks(unittest.TestCase):
             "| TST-UNIT | test | applicable | high | inspect | files |\n"
             "| SEC-AUTHZ | sec | applicable | high | inspect | files |\n\n"
             "## Technical Findings\n\n"
-            "### FND-SEC-001: Finding\n"
+            "### FND-SEC-001 Finding\n"
         )
         missing = base.format(triplets="")
         self.assertTrue(
@@ -1670,9 +1680,9 @@ class TestRegisterNumbering(unittest.TestCase):
 
     def test_global_contiguous_numbering_passes(self):
         body = (
-            "## alpha\n\n### FND-SEC-001: A\n\n### FND-ARC-001: B\n\n"
-            "## beta\n\n### FND-SEC-002: C\n\n### RSK-001: R\n\n"
-            "### REC-001: X\n\n### REC-002: Y\n\n### TDR-001: D\n\n"
+            "## alpha\n\n### FND-SEC-001 A\n\n### FND-ARC-001 B\n\n"
+            "## beta\n\n### FND-SEC-002 C\n\n### RSK-001 R\n\n"
+            "### REC-001 X\n\n### REC-002 Y\n\n### TDR-001 D\n\n"
             "## Evidence List\n\n| Evidence | Result |\n|---|---|\n"
             "| EVD-001 | ok |\n| EVD-002 | ok |\n"
         )
@@ -1680,15 +1690,15 @@ class TestRegisterNumbering(unittest.TestCase):
 
     def test_per_project_reset_is_flagged(self):
         body = (
-            "## alpha\n\n### FND-SEC-001: A\n\n### RSK-001: R\n\n"
-            "## beta\n\n### FND-SEC-001: B\n\n### RSK-001: S\n\n"
+            "## alpha\n\n### FND-SEC-001 A\n\n### RSK-001 R\n\n"
+            "## beta\n\n### FND-SEC-001 B\n\n### RSK-001 S\n\n"
         )
         joined = "\n".join(self.run_check(body))
         self.assertIn("FND-SEC-001 is defined more than once", joined)
         self.assertIn("RSK-001 is defined more than once", joined)
 
     def test_gap_in_sequence_is_flagged(self):
-        body = "### FND-SEC-001: A\n\n### FND-SEC-003: B\n\n### REC-002: X\n"
+        body = "### FND-SEC-001 A\n\n### FND-SEC-003 B\n\n### REC-002 X\n"
         joined = "\n".join(self.run_check(body))
         self.assertIn("FND-SEC identifiers", joined)
         self.assertIn("REC identifiers", joined)
@@ -1773,14 +1783,14 @@ class TestDefectScenarios(unittest.TestCase):
         self.validator = load_script("validate-report.py")
 
     BLOCK = (
-        "### FND-SEC-001: Bad\n\n"
-        "* **Severity:** {sev}\n"
+        "### FND-SEC-001 Bad\n\n"
+        "- **Severity:** {sev}\n"
     )
 
     def test_high_finding_needs_scenario(self):
         lines = self.BLOCK.format(sev="High, chain traced").split("\n")
         failures = self.validator.check_hunt_scenarios(lines)
-        self.assertTrue(any("Defect scenario" in f for f in failures))
+        self.assertTrue(any("Scenario" in f for f in failures))
 
     def test_medium_finding_exempt(self):
         lines = self.BLOCK.format(sev="Medium").split("\n")
@@ -1789,7 +1799,7 @@ class TestDefectScenarios(unittest.TestCase):
     def test_high_finding_with_scenario_passes(self):
         lines = (
             self.BLOCK.format(sev="Critical")
-            + "* **Defect scenario:** conditions; steps; expected; observed; static\n"
+            + "- **Scenario:** conditions; steps; expected; observed; static\n"
         ).split("\n")
         self.assertEqual(self.validator.check_hunt_scenarios(lines), [])
 
@@ -1985,21 +1995,21 @@ Security's interval [4-5] bounds the unresolved criteria.
 
 ## Technical Findings
 
-### FND-SEC-001: Injection sink reaches the handler
+### FND-SEC-001 Injection sink reaches the handler
 
-* **Severity:** High
+- **Severity:** High
 
 ## Unified Risk Register
 
-### RSK-001: Injection ships to release
+### RSK-001 Injection ships to release
 
-* **Severity:** High
+- **Severity:** High
 
 ## Remediation Roadmap
 
-### REC-001: Validate the input path
+### REC-001 Validate the input path
 
-* **Priority:** P1
+- **Priority:** P1
 
 ## Auditing Methodology
 
@@ -2075,8 +2085,8 @@ Security's interval [4-5] bounds the unresolved criteria.
         self.assertIn("report has 1 FND blocks, model has 2", joined)
         self.assertIn("FND-SEC-002 appears in the model but not in the report",
                       joined)
-        text = self.REPORT.replace("* **Severity:** High",
-                                   "* **Severity:** Low", 1)
+        text = self.REPORT.replace("- **Severity:** High",
+                                   "- **Severity:** Low", 1)
         fails = self._check(text)
         self.assertTrue(any("FND-SEC-001: report severity Low differs" in f
                             for f in fails), fails)
@@ -3328,7 +3338,7 @@ class TestRenderTables(unittest.TestCase):
         report = (
             "## Technical Findings\n\n"
             "| Finding | Result |\n|---|---|\n| FND-SEC-001 | old |\n\n"
-            "### FND-SEC-001: Injection sink\n\nbody\n"
+            "### FND-SEC-001 Injection sink\n\nbody\n"
         )
         titles = self.renderer.block_titles(report)
         self.assertEqual(titles["FND-SEC-001"], "Injection sink")
@@ -3912,8 +3922,8 @@ class TestFollowupPlan(unittest.TestCase):
 class TestRegisterProse(unittest.TestCase):
     """Register-block prose rules."""
 
-    GOOD = "### FND-SEC-001: Short title\n\nThe sentence reads fine.\n\n* **Pillar:** SEC\n"
-    BAD = "### FND-SEC-001: t\n\nlowercase start without period\n\n* **Pillar:** SEC\n"
+    GOOD = "### FND-SEC-001 Short title\n\nThe sentence reads fine.\n\n- **Pillar:** SEC\n"
+    BAD = "### FND-SEC-001 t\n\nlowercase start without period\n\n- **Pillar:** SEC\n"
 
     def test_good_block_passes(self):
         vr = load_script("validate-report.py")
@@ -3927,19 +3937,19 @@ class TestRegisterProse(unittest.TestCase):
 
     def test_long_sentence_flagged(self):
         vr = load_script("validate-report.py")
-        block = "### FND-A-001: t\n\n" + " ".join(["word"] * 21) + ".\n\n* **Pillar:** A\n"
+        block = "### FND-A-001 t\n\n" + " ".join(["word"] * 21) + ".\n\n- **Pillar:** A\n"
         fails = vr.check_register_prose(block, block.split("\n"))
         self.assertTrue(any("20-word" in f for f in fails))
 
     def test_conjunction_start_flagged(self):
         vr = load_script("validate-report.py")
-        block = "### FND-A-001: t\n\nAnd then it broke.\n\n* **Pillar:** A\n"
+        block = "### FND-A-001 t\n\nAnd then it broke.\n\n- **Pillar:** A\n"
         fails = vr.check_register_prose(block, block.split("\n"))
         self.assertTrue(any("conjunction" in f for f in fails))
 
     def test_long_title_flagged(self):
         vr = load_script("validate-report.py")
-        block = "### FND-A-001: " + "x" * 90 + "\n\nFine.\n\n* **Pillar:** A\n"
+        block = "### FND-A-001 " + "x" * 90 + "\n\nFine.\n\n- **Pillar:** A\n"
         fails = vr.check_register_prose(block, block.split("\n"))
         self.assertTrue(any("title" in f for f in fails))
 
@@ -3972,26 +3982,26 @@ class TestRecResolves(unittest.TestCase):
 
     def test_resolves_restatement_flagged(self):
         vr = load_script("validate-report.py")
-        block = "### REC-001: Fix the thing\n\nFix the thing. Resolves [FND-SEC-001](#x).\n\n* **Priority:** P1\n* **Finding:** FND-SEC-001\n"
+        block = "### REC-001 Fix the thing\n\nFix the thing. Resolves [FND-SEC-001](#x).\n\n- **Priority:** P1\n- **Finding:** FND-SEC-001\n"
         fails = vr.check_rec_blocks(block.split("\n"))
         self.assertTrue(any("restates" in f for f in fails))
 
 
     def test_meta_prefix_flagged(self):
         vr = load_script("validate-report.py")
-        block = "### REC-001: t\n\nThe defect: something broke.\n\n* **Priority:** P1\n"
+        block = "### REC-001 t\n\nThe defect: something broke.\n\n- **Priority:** P1\n"
         fails = vr.check_register_prose(block, block.split("\n"))
         self.assertTrue(any("meta prefix" in f for f in fails))
 
     def test_truncation_flagged(self):
         vr = load_script("validate-report.py")
-        block = "### REC-001: t\n\nSomething broke badly...\n\n* **Priority:** P1\n"
+        block = "### REC-001 t\n\nSomething broke badly...\n\n- **Priority:** P1\n"
         fails = vr.check_register_prose(block, block.split("\n"))
         self.assertTrue(any("truncation" in f for f in fails))
 
     def test_ellipsis_inside_code_allowed(self):
         vr = load_script("validate-report.py")
-        block = "### FND-A-001: t\n\nThe `bind(...)` call discards errors.\n\n* **Pillar:** A\n"
+        block = "### FND-A-001 t\n\nThe `bind(...)` call discards errors.\n\n- **Pillar:** A\n"
         fails = vr.check_register_prose(block, block.split("\n"))
         self.assertFalse(any("truncation" in f for f in fails))
 

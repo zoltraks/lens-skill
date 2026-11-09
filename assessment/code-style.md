@@ -288,7 +288,7 @@ and the dimension maps to Maintainability - Analysability and Modifiability - in
   or a dominant observed shape above `DOMINANCE_PASS`.
 - Naming rules encoded in `.editorconfig` or linter configuration with low suppression density.
 - Names that state responsibility and units, and public API surfaces that read fluently.
-- Good naming, clear structure, and idiomatic fluency feed the Strengths & What's Working
+- Good naming, clear structure, and idiomatic fluency feed the Strengths and What's Working
   section with examples.
 
 Mark each missing signal explicitly rather than inferring its presence.

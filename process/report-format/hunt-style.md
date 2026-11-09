@@ -37,9 +37,9 @@ The following carry over unchanged from `process/report-format.md` and its spec 
   and Reference Sources per `report-closing.md`.
 
 Hunt adds two mandatory finding fields where the shared schema applies:
-`Breaking change` on every finding, and `Runtime` only on execution-confirmed findings.
+`Breaking` on every finding, and `Confirmation` per the shared executed-mode rule.
 
-`Defect scenario` is required on every `High` or `Critical` finding under `hunt` and `audit` alike,
+`Scenario` is required on every `High` or `Critical` finding under `hunt` and `audit` alike,
 per `findings-registers.md`.
 
 Hunt scopes its evidence base to defect hunting:
@@ -177,8 +177,8 @@ The section opens with a summary table carrying the shared columns (`Finding`, `
 and the validator reconciles its row count against the `### FND-` blocks.
 The `###` domain headings do not close the section, only the next `##` does.
 
-Every finding cites `path:line` evidence and carries `Breaking change` and `Runtime confirmed`
-fields, and every `High` or `Critical` finding carries `Defect scenario` - the validator
+Every finding cites `path:line` evidence and carries the `Breaking` field, and every `High`
+or `Critical` finding carries `Scenario` - the validator
 rejects the missing field.
 
 In a multi-project report the register stays single and unified.
@@ -192,8 +192,8 @@ The roadmap groups recommendations into phases ordered by dependency - for examp
 verification steps, and the findings each closes.
 
 Each recommendation block or phase row carries the tracker fields from
-`synthesis/remediation-roadmap.md` - `Owner` (a role or `Unassigned`), `Depends on`,
-`Acceptance milestone`, and `Closure evidence` - so a phase is actionable without
+`synthesis/remediation-roadmap.md` - `Owner` (a role or `Unassigned`), `Depends`,
+`Milestone`, and `Proof` - so a phase is actionable without
 reinterpreting the report.
 
 Every finding maps to a phase or to an explicit `Accepted - no action` disposition - the validator

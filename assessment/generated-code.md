@@ -24,7 +24,7 @@ and the detection-research basis for the constraints below.
 
 Establish provenance from artifacts, never from style.
 
-Assign each scoped artifact or change set a `Provenance basis` from the evidence tiers:
+Assign each scoped artifact or change set a `Provenance` from the evidence tiers:
 
 - `Declared` - an explicit attribution artifact exists in the repository: an agent commit trailer,
   a bot author or committer identity, a generation manifest, a session-log link,

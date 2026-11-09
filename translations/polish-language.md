@@ -51,36 +51,36 @@ This file is loaded only when the report language is Polish.
 | Architectural Assessment                    | 1457 | Architectural Assessment guidance           |
 | Architectural Subsections                   | 1464 | Architectural Subsections guidance          |
 | Skill Definition Conformance                | 1480 | Skill Definition Conformance guidance       |
-| Agent Guidance Conformance                  | 1488 | Agent Guidance Conformance guidance         |
+| Guidance Conformance                        | 1488 | Guidance Conformance guidance               |
 | AI System Assessment                        | 1502 | AI System Assessment guidance               |
 | Standards Conformance                       | 1513 | Standards Conformance guidance              |
 | Requirements Conformance                    | 1534 | Requirements Conformance guidance           |
-| Engineering Baseline Conformance            | 1549 | Engineering Baseline Conformance guidance   |
+| Baseline Conformance                        | 1549 | Baseline Conformance guidance               |
 | Structure Conformance                       | 1563 | Structure Conformance guidance              |
 | Code Style                                  | 1580 | Code Style guidance                         |
 | Reference Sources                           | 1611 | Reference Sources guidance                  |
 | Strengths And What's Working                | 1621 | Strengths And What's Working guidance       |
 | Technical Findings                          | 1627 | Technical Findings guidance                 |
-| Technical Debt Register                     | 1695 | Technical Debt Register guidance            |
-| Unified Risk Register                       | 1711 | Unified Risk Register guidance              |
-| Solution Comparison                         | 1732 | Solution Comparison guidance                |
-| Remediation Roadmap                         | 1744 | Remediation Roadmap guidance                |
-| Recommendation Classification               | 1767 | Recommendation Classification guidance      |
-| Changes Since Previous Audit                | 1782 | Changes Since Previous Audit guidance       |
-| Scope Exclusions                            | 1816 | Scope Exclusions guidance                   |
-| Limitations And Unknowns                    | 1824 | Limitations And Unknowns guidance           |
-| Follow-up Plan                              | 1841 | Follow-up Plan guidance                     |
-| Further Verification                        | 1856 | Further Verification guidance               |
-| Executed Evidence                           | 1869 | Executed Evidence guidance                  |
-| Hunt Style Sections                         | 1882 | Hunt Style Sections guidance                |
-| Review Style Sections                       | 1911 | Review Style Sections guidance              |
-| Validation Protocol                         | 1953 | Validation Protocol guidance                |
-| Threat Model                                | 2011 | Threat Model guidance                       |
-| API Contract Conformance                    | 2026 | API Contract Conformance guidance           |
-| API Compatibility And Versioning Discipline | 2035 | API Compatibility And Versioning guidance   |
-| Evidence And Decision Terms                 | 2044 | Evidence And Decision Terms guidance        |
-| Skill Definition Conformance Table          | 2105 | Skill Definition Conformance Table guidance |
-| Structure Review                            | 2120 | Structure Review guidance                   |
+| Technical Debt Register                     | 1696 | Technical Debt Register guidance            |
+| Unified Risk Register                       | 1712 | Unified Risk Register guidance              |
+| Solution Comparison                         | 1733 | Solution Comparison guidance                |
+| Remediation Roadmap                         | 1745 | Remediation Roadmap guidance                |
+| Recommendation Classification               | 1768 | Recommendation Classification guidance      |
+| Changes Since Previous Audit                | 1783 | Changes Since Previous Audit guidance       |
+| Scope Exclusions                            | 1817 | Scope Exclusions guidance                   |
+| Limitations And Unknowns                    | 1825 | Limitations And Unknowns guidance           |
+| Follow-up Plan                              | 1842 | Follow-up Plan guidance                     |
+| Further Verification                        | 1857 | Further Verification guidance               |
+| Executed Evidence                           | 1870 | Executed Evidence guidance                  |
+| Hunt Style Sections                         | 1883 | Hunt Style Sections guidance                |
+| Review Style Sections                       | 1912 | Review Style Sections guidance              |
+| Validation Protocol                         | 1954 | Validation Protocol guidance                |
+| Threat Model                                | 2012 | Threat Model guidance                       |
+| API Contract Conformance                    | 2027 | API Contract Conformance guidance           |
+| API Compatibility And Versioning Discipline | 2036 | API Compatibility And Versioning guidance   |
+| Evidence And Decision Terms                 | 2045 | Evidence And Decision Terms guidance        |
+| Skill Definition Conformance Table          | 2106 | Skill Definition Conformance Table guidance |
+| Structure Review                            | 2121 | Structure Review guidance                   |
 
 ## Analysis And Rendering
 
@@ -115,9 +115,9 @@ and result markers - render in Polish per Status And Severity Vocabulary.
 
 A report shipped as a language pair (`<stem>-<revision>-EN.md` plus `<stem>-<revision>-PL.md`)
 renders a fully Polish surface in the translation file: `##` and `###` section headings,
-`* **Label:**` field labels, Document Information row labels, summary-table headers,
+`- **Label:**` field labels, Document Information row labels, summary-table headers,
 and status and verdict tokens all render per this file's canonical tables - `## Spis treści`,
-`## Słownik pojęć`, `* **Filar:**`, `Styl raportu`, `Zastosowany`, `OK`.
+`## Słownik pojęć`, `- **Filar:**`, `Styl raportu`, `Zastosowany`, `OK`.
 
 The English skeleton that remains is the declared set only:
 register and evidence identifiers (`FND-SEC-001`, `EVD-022`, `PAR-1`),
@@ -205,12 +205,12 @@ Tokens that do not decline keep fixed label forms:
 `Obserwacja` records an independently re-derivable fact,
 `Zastrzeżenie` is a judgment built on observations - never `Wniosek`, which means conclusion.
 
-In `* **Field:**` bullet lists they render title-cased `Obserwacja`/`Zastrzeżenie`.
+In `- **Field:**` bullet lists they render title-cased `Obserwacja`/`Zastrzeżenie`.
 
 The Due Diligence Coverage column named `Concern` keeps its separate rendering `Obszar ryzyka`,
 the two uses are not the same word's job.
 
-Declinable values agree in gender with the noun their column header or `* **Field:**` label names.
+Declinable values agree in gender with the noun their column header or `- **Field:**` label names.
 
 The governed nouns are masculine `wynik`, `status`, `charakter odstępstwa`, `wpływ`, `wysiłek`,
 `priorytet`, and `poziom`, feminine `ważność`, `złożoność`, `pewność oceny`, `gotowość`, `zmiana`,
@@ -288,7 +288,7 @@ Only true abbreviations stay uppercase: `OK`, `N/D`.
 A token-column cell is one word - only the indeclinable phrase tokens (`Częściowo`, `Poza zakresem`,
 `Nie dotyczy`, `Niewystarczające informacje`) run longer.
 
-In `* **Field:**` bullet lists, values keep title case consistent with neighboring values,
+In `- **Field:**` bullet lists, values keep title case consistent with neighboring values,
 for example `Ważność: Wysoka` next to `Status: Otwarty` - never `Niskie` next to `Otwarty`.
 
 Running prose cites a token as a bold declined lowercase word - `ustalenia o ważności **wysokiej**`,
@@ -817,8 +817,8 @@ Apply these phrasing rules:
   `Nie uruchamiano aplikacji, testów, budowania ani skanowania podatności.` - `skanowanie` names the
   unrun activity, `skanery` would name tools.
 - In a multi-project report the project tag trails the title or heading as a parenthetical -
-  `Brak pliku LICENSE (backend)`, `### FND-SEC-001: Tytuł (backend)` - never a `[backend]` prefix.
-- `* **Field:**` bullet-list values start with an uppercase letter,
+  `Brak pliku LICENSE (backend)`, `### FND-SEC-001 Tytuł (backend)` - never a `[backend]` prefix.
+- `- **Field:**` bullet-list values start with an uppercase letter,
   for example `Podstawa: Kontrola dostępu bez uwierzytelnienia`.
   Values that start with a code span or link stay verbatim.
 - A code span holding a governed vocabulary token - a status, severity, confidence, maturity,
@@ -1485,19 +1485,19 @@ Where the decisions list stands as a main section, `Decyzje architektoniczne` is
 | Skills Inventory             | Inwentaryzacja umiejętności     |
 | Agent Artifacts              | Artefakty agentowe              |
 
-## Agent Guidance Conformance
+## Guidance Conformance
 
-| English                    | Polish                         |
-|----------------------------|--------------------------------|
-| Agent Guidance Conformance | Zgodność wytycznych agentowych |
-| Guidance inventory         | Inwentaryzacja wytycznych      |
-| Entry route                | Ścieżka wejścia                |
-| Index of record            | Indeks podstawowy              |
-| Consolidated topology      | Topologia scalona              |
-| Owner selection            | Dobór właściciela              |
-| Role resolution            | Rozwiązanie ról                |
-| Restricted directories     | Katalogi zastrzeżone           |
-| Vendored documents         | Dokumenty dołączone            |
+| English                | Polish                         |
+|------------------------|--------------------------------|
+| Guidance Conformance   | Zgodność wytycznych agentowych |
+| Guidance inventory     | Inwentaryzacja wytycznych      |
+| Entry route            | Ścieżka wejścia                |
+| Index of record        | Indeks podstawowy              |
+| Consolidated topology  | Topologia scalona              |
+| Owner selection        | Dobór właściciela              |
+| Role resolution        | Rozwiązanie ról                |
+| Restricted directories | Katalogi zastrzeżone           |
+| Vendored documents     | Dokumenty dołączone            |
 
 ## AI System Assessment
 
@@ -1546,19 +1546,19 @@ The section appears when the subject ships a document that declares product requ
 acceptance criteria, and each requirement row renders `OK`, `Częściowy`, `Niezaliczony`,
 or `Nieznany` in its `Status` cell.
 
-## Engineering Baseline Conformance
+## Baseline Conformance
 
-| English                          | Polish                          |
-|----------------------------------|---------------------------------|
-| Engineering Baseline Conformance | Zgodność z podstawą inżynierską |
-| Baseline                         | Podstawa                        |
-| Applicability                    | Dotyczy                         |
-| Runtime/toolchain pinning        | Przypięcie wykonania/toolchainu |
-| Dependency reproducibility       | Powtarzalność zależności        |
-| Lint/format gate                 | Brama lint/format               |
-| Test floor                       | Podstawa testowa                |
-| Secrets hygiene                  | Higiena sekretów                |
-| CLI output contract              | Kontrakt wyjścia CLI            |
+| English                    | Polish                          |
+|----------------------------|---------------------------------|
+| Baseline Conformance       | Zgodność z podstawą inżynierską |
+| Baseline                   | Podstawa                        |
+| Applicability              | Dotyczy                         |
+| Runtime/toolchain pinning  | Przypięcie wykonania/toolchainu |
+| Dependency reproducibility | Powtarzalność zależności        |
+| Lint/format gate           | Brama lint/format               |
+| Test floor                 | Podstawa testowa                |
+| Secrets hygiene            | Higiena sekretów                |
+| CLI output contract        | Kontrakt wyjścia CLI            |
 
 ## Structure Conformance
 
@@ -1620,9 +1620,9 @@ or `Nieznany` in its `Status` cell.
 
 ## Strengths And What's Working
 
-| English                    | Polish                   |
-|----------------------------|--------------------------|
-| Strengths & What's Working | Mocne strony i co działa |
+| English                      | Polish                   |
+|------------------------------|--------------------------|
+| Strengths and What's Working | Mocne strony i co działa |
 
 ## Technical Findings
 
@@ -1649,23 +1649,24 @@ or `Nieznany` in its `Status` cell.
 | Recommendation     | Zalecenie                |
 | Method             | Metoda                   |
 | Verification       | Weryfikacja              |
-| Runtime            | Uruchomienie             |
-| Breaking change    | Łamanie kompatybilności  |
+| Confirmation       | Potwierdzenie            |
+| Breaking           | Łamanie                  |
 | Applicability      | Dotyczy                  |
 | Confidence         | Pewność oceny            |
-| Mitigating factors | Czynniki łagodzące       |
+| Mitigation         | Łagodzenie               |
 | Exploitability     | Wykorzystanie podatności |
 | Evidence           | Dowód                    |
-| Provenance basis   | Podstawa pochodzenia     |
+| Provenance         | Pochodzenie              |
 
-The `Weryfikacja` field carries a title-cased evidence note such as `Zaobserwowane w źródłach`,
-for example `* **Weryfikacja:** Zaobserwowane w źródłach`.
-Omit the field when not verified.
+The `Weryfikacja` field leads with `Tak` or `Nie` and a title-cased qualifier,
+for example `- **Weryfikacja:** Tak - zaobserwowane w źródłach`.
+Omit the field when verification was never attempted.
 
-The `Uruchomienie` field appears only when execution confirmed the behavior - unconfirmed findings
-omit it, and the label never renders a calque that leaves a bare `Runtime` before a Polish noun.
+The `Potwierdzenie` field is required on every finding under `executed-readonly` and
+`executed-commands` and omitted under `source-only` - it leads with `Tak` or `Nie` and a
+qualifier.
 
-The `Łamanie kompatybilności` field takes `Brak`, `wewnętrzne`, or `publiczne API`,
+The `Łamanie` field takes `Brak`, `wewnętrzne`, or `publiczne API`,
 and the `Dotyczy` field takes `dotyczy`, `warunkowe`, `nie dotyczy`, or `niezweryfikowane`.
 
 `Pewność oceny` and `Wykorzystanie podatności` carry the same title-case token values as every other
@@ -1743,26 +1744,26 @@ calque and never renders.
 
 ## Remediation Roadmap
 
-| English              | Polish                   |
-|----------------------|--------------------------|
-| Remediation Roadmap  | Działania naprawcze      |
-| Rec                  | Identyfikator zalecenia  |
-| Priority             | Priorytet                |
-| Finding              | Ustalenie                |
-| Recommendation       | Zalecenie                |
-| Impact               | Wpływ                    |
-| Effort               | Wysiłek                  |
-| Complexity           | Złożoność                |
-| Verification         | Weryfikacja              |
-| Breaking             | Łamanie                  |
-| Condition            | Warunek końcowy          |
-| Alternatives         | Rozważane alternatywy    |
-| Effort confidence    | Pewność oceny nakładu    |
-| Residual             | Ryzyko rezydualne        |
-| Owner                | Właściciel               |
-| Depends on           | Zależy od                |
-| Acceptance milestone | Kamień milowy akceptacji |
-| Closure evidence     | Dowód zamknięcia         |
+| English             | Polish                  |
+|---------------------|-------------------------|
+| Remediation Roadmap | Działania naprawcze     |
+| Rec                 | Identyfikator zalecenia |
+| Priority            | Priorytet               |
+| Finding             | Ustalenie               |
+| Recommendation      | Zalecenie               |
+| Impact              | Wpływ                   |
+| Effort              | Wysiłek                 |
+| Complexity          | Złożoność               |
+| Verification        | Weryfikacja             |
+| Breaking            | Łamanie                 |
+| Condition           | Warunek końcowy         |
+| Alternatives        | Rozważane alternatywy   |
+| Confidence          | Pewność                 |
+| Residual            | Ryzyko rezydualne       |
+| Owner               | Właściciel              |
+| Depends             | Zależy                  |
+| Milestone           | Kamień milowy           |
+| Proof               | Dowód zamknięcia        |
 
 ## Recommendation Classification
 
@@ -1922,8 +1923,8 @@ verdicts and remediation phases, and `Kontekst systemu` carries the project disc
 | Retest Register            | Rejestr retestów            |
 | Metrics Snapshot           | Zestawienie metryk          |
 | Artifact Manifest          | Manifest artefaktów         |
-| Evidence level             | Poziom dowodu               |
-| Defect scenario            | Scenariusz usterki          |
+| Level                      | Poziom                      |
+| Scenario                   | Scenariusz                  |
 | Disposition                | Dyspozycja                  |
 | Contradiction Register     | Rejestr sprzeczności        |
 | Appendix                   | Załącznik                   |
@@ -2058,7 +2059,7 @@ CVSS vectors, tool commands, and execution-state codes.
 | Absence                      | Charakter odstępstwa              |
 | Confidence                   | Pewność oceny                     |
 | Weryfikacja                  | Weryfikacja                       |
-| Mitigating factors           | Czynniki łagodzące                |
+| Mitigation                   | Łagodzenie                        |
 | Security                     | Bezpieczeństwo                    |
 | Inspected                    | Zweryfikowany                     |
 | Reported                     | Zadeklarowany                     |
