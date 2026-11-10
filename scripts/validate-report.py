@@ -644,7 +644,7 @@ def check_description_paragraphs(lines: list[str]) -> list[str]:
             continue
         cursor = index + 1
         body: list[str] = []
-        while cursor < len(lines) and not re.match(r"^\* \*\*", lines[cursor])                 and not lines[cursor].startswith("#"):
+        while cursor < len(lines) and not re.match(r"^[*-] \*\*", lines[cursor])                 and not lines[cursor].startswith("#"):
             body.append(lines[cursor])
             cursor += 1
         if not any(segment.strip() for segment in body):
@@ -660,6 +660,8 @@ def check_finding_blocks(lines: list[str]) -> list[str]:
     starts = [index for index, line in enumerate(lines) if line.startswith("### FND-")]
     for position, start in enumerate(starts):
         end = starts[position + 1] if position + 1 < len(starts) else len(lines)
+        end = min(end, next((i for i in range(start + 1, len(lines))
+                             if lines[i].startswith("#")), end))
         block = NL.join(lines[start:end])
         name = lines[start][4:][:70]
         pillar = re.match(r"FND-([A-Z]{3})-\d{3}", name)
@@ -792,6 +794,8 @@ def check_criteria_references(lines: list[str], style: str) -> list[str]:
     used = False
     for position, start in enumerate(starts):
         end = starts[position + 1] if position + 1 < len(starts) else len(lines)
+        end = min(end, next((i for i in range(start + 1, len(lines))
+                             if lines[i].startswith("#")), end))
         block = NL.join(lines[start:end])
         name = lines[start][4:][:70]
         value = field_value(block, "Criteria")
@@ -819,6 +823,8 @@ def check_risk_blocks(lines: list[str]) -> list[str]:
                   for line in lines if line.startswith("### FND-")}
     for position, start in enumerate(starts):
         end = starts[position + 1] if position + 1 < len(starts) else len(lines)
+        end = min(end, next((i for i in range(start + 1, len(lines))
+                             if lines[i].startswith("#")), end))
         block = NL.join(lines[start:end])
         name = lines[start][4:][:70]
         for field in RISK_REQUIRED:
@@ -883,6 +889,8 @@ def check_rec_blocks(lines: list[str]) -> list[str]:
                   for line in lines if line.startswith("### FND-")}
     for position, start in enumerate(starts):
         end = starts[position + 1] if position + 1 < len(starts) else len(lines)
+        end = min(end, next((i for i in range(start + 1, len(lines))
+                             if lines[i].startswith("#")), end))
         block = NL.join(lines[start:end])
         name = lines[start][4:][:70]
         for field in REC_REQUIRED:
@@ -920,6 +928,8 @@ def check_tdr_blocks(lines: list[str]) -> list[str]:
                   for line in lines if line.startswith("### FND-")}
     for position, start in enumerate(starts):
         end = starts[position + 1] if position + 1 < len(starts) else len(lines)
+        end = min(end, next((i for i in range(start + 1, len(lines))
+                             if lines[i].startswith("#")), end))
         block = NL.join(lines[start:end])
         name = lines[start][4:][:70]
         for field in TDR_REQUIRED:
@@ -1624,6 +1634,8 @@ def check_security_classification(lines: list[str]) -> list[str]:
     starts = [index for index, line in enumerate(lines) if line.startswith("### FND-")]
     for position, start in enumerate(starts):
         end = starts[position + 1] if position + 1 < len(starts) else len(lines)
+        end = min(end, next((i for i in range(start + 1, len(lines))
+                             if lines[i].startswith("#")), end))
         block = NL.join(lines[start:end])
         match = re.search(r"\* \*\*Security:\*\*\s*(.*)", block)
         if match and not EMPTY_FIELD_VALUE.match(match.group(1).strip()) \
@@ -1658,6 +1670,8 @@ def check_type_tags(lines: list[str], fences: list[bool]) -> list[str]:
     starts = [index for index, line in enumerate(lines) if line.startswith("### FND-")]
     for position, start in enumerate(starts):
         end = starts[position + 1] if position + 1 < len(starts) else len(lines)
+        end = min(end, next((i for i in range(start + 1, len(lines))
+                             if lines[i].startswith("#")), end))
         block = NL.join(lines[start:end])
         match = re.search(r"\* \*\*Type:\*\*\s*(.*)", block)
         if match and match.group(1).strip() not in ("Observation", "Concern"):
@@ -2988,6 +3002,8 @@ def check_finding_disposition(text: str, lines: list[str]) -> list[str]:
     starts = [index for index, line in enumerate(lines) if line.startswith("### FND-")]
     for position, start in enumerate(starts):
         end = starts[position + 1] if position + 1 < len(starts) else len(lines)
+        end = min(end, next((i for i in range(start + 1, len(lines))
+                             if lines[i].startswith("#")), end))
         block = NL.join(lines[start:end])
         status = field_value(block, "Status")
         if re.match(r"^(Closed|Pass)\b", status):
@@ -3072,6 +3088,8 @@ def check_hunt_scenarios(lines: list[str]) -> list[str]:
     starts = [index for index, line in enumerate(lines) if line.startswith("### FND-")]
     for position, start in enumerate(starts):
         end = starts[position + 1] if position + 1 < len(starts) else len(lines)
+        end = min(end, next((i for i in range(start + 1, len(lines))
+                             if lines[i].startswith("#")), end))
         block = NL.join(lines[start:end])
         severity = field_token(field_value(block, "Severity"))
         if severity.lower() not in ("high", "critical"):
@@ -3143,6 +3161,8 @@ def check_review_evidence_levels(lines: list[str]) -> list[str]:
     starts = [index for index, line in enumerate(lines) if line.startswith("### FND-")]
     for position, start in enumerate(starts):
         end = starts[position + 1] if position + 1 < len(starts) else len(lines)
+        end = min(end, next((i for i in range(start + 1, len(lines))
+                             if lines[i].startswith("#")), end))
         block = NL.join(lines[start:end])
         name = lines[start][4:][:70]
         value = field_value(block, "Level")
@@ -3166,6 +3186,8 @@ def check_aip_provenance(lines: list[str]) -> list[str]:
     starts = [index for index, line in enumerate(lines) if line.startswith("### FND-")]
     for position, start in enumerate(starts):
         end = starts[position + 1] if position + 1 < len(starts) else len(lines)
+        end = min(end, next((i for i in range(start + 1, len(lines))
+                             if lines[i].startswith("#")), end))
         block = NL.join(lines[start:end])
         name = lines[start][4:][:70]
         value = field_value(block, "Provenance")
@@ -3194,6 +3216,8 @@ def check_risk_consistency(lines: list[str], fences: list[bool]) -> list[str]:
     starts = [index for index, line in enumerate(lines) if line.startswith("### RSK-")]
     for position, start in enumerate(starts):
         end = starts[position + 1] if position + 1 < len(starts) else len(lines)
+        end = min(end, next((i for i in range(start + 1, len(lines))
+                             if lines[i].startswith("#")), end))
         rid = re.match(r"###\s+(RSK-\d+)", lines[start])
         if rid:
             blocks.setdefault(rid.group(1), []).append(NL.join(lines[start:end]))
@@ -3639,7 +3663,7 @@ def check_register_prose(text: str, lines: list[str]) -> list[str]:
             continue
         if fence:
             continue
-        match = re.match(r"^### ((?:FND|RSK|REC|TDR)-\S+):\s*(.+)$", line)
+        match = re.match(r"^### ((?:FND|RSK|REC|TDR)-\S+):?\s*(.+)$", line)
         if not match:
             continue
         ident, title = match.group(1), match.group(2)
@@ -3651,7 +3675,7 @@ def check_register_prose(text: str, lines: list[str]) -> list[str]:
         cursor = index + 1
         while (
             cursor < len(lines)
-            and not re.match(r"^\* \*\*", lines[cursor])
+            and not re.match(r"^[*-] \*\*", lines[cursor])
             and not lines[cursor].startswith("#")
         ):
             paragraph = lines[cursor].strip()

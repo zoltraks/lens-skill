@@ -185,10 +185,10 @@ After the summary table, write one block per finding in the same order.
 Use this exact markdown block pattern:
 
 ```markdown
-### FND-[PILLAR]-[NUMBER] [Clear, Concise Title of Finding]
+### FND-[PILLAR]-[NUMBER]: [Clear, Concise Title of Finding]
 
-[Description paragraph - detailed technical explanation of the discovered state,
-architectural anti-pattern, or code flaw]
+[Description - one sentence per line, each line starting with a capital letter or digit
+and ending with a period, no sentence over 20 words]
 
 - **Pillar:** [Architecture & Design | Structure & Organization | Code Quality | Security &
   Compliance | Infrastructure & CI/CD | AI Provenance & Code Origin | Copyrights &
