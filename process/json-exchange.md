@@ -31,7 +31,9 @@ The informational mode never triggers this emission - it arms only the elapsed-t
 The emission order is fixed: the JSON document first,
 then a text description of the pending decisions, then the question menus.
 
-The question menus still run.
+The question menus still run - every pending surface is presented through the host's own
+question mechanism, or appended to the reply with its recommendation per
+`process/decision-modes.md` where prose delivery applies.
 The emitted document does not replace the question flow.
 
 Answers may still arrive as menu selections, natural-language responses, or a returned document.

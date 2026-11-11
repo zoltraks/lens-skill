@@ -2382,6 +2382,19 @@
     "a cancel-class answer pauses for the next prompt and `repeat` re-asks the last question",
     "a `selection` answer mixing a no-answer entry with content entries warns and re-asks"
    ]
+  },
+  {
+   "id": 204,
+   "prompt": "the intake summary names its audit-scope options at the end - proceed?",
+   "expected_output": "The pending choice is asked through the host's question mechanism - a menu ending with a cancel-class entry - never answered by options named in reply prose.",
+   "files": [],
+   "expectations": [
+    "asks the pending surface through the host's question mechanism",
+    "a reply ending by waiting on a choice is treated as a pending surface",
+    "naming options in reply prose is not asking them",
+    "the question ends with a cancel-class entry",
+    "an appended question names its recommendation, and a verbose-mode append also states what it decides and each answer's consequences"
+   ]
   }
  ]
 }

@@ -58,6 +58,8 @@ Keep each rule in its owning document and link to it instead of duplicating it.
   or editing on assumption.
 - On a named operation, decide which additional skill documents the task needs and read them first,
   loading the smallest useful set per the router.
+- Pending questions and option surfaces are asked through the host's question mechanism, never
+  appended to a reply in prose.
 
 ## Local Workspace
 
