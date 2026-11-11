@@ -9,7 +9,9 @@
 > Evidence-based engineering audits of any software subject - prototypes,
 > codebases under development, and already-running production systems - in audit, hunt,
 > or review style, including dedicated structure analysis.
+>
 > [Versioning Policy](./docs/VERSIONING.md)
+>
 > [Agent Skills Specification](https://agentskills.io/specification)
 
 ## Contents
@@ -60,10 +62,9 @@ Validation Protocol, and Reference Sources.
 
 Conditional sections appear only when the subject warrants them: Data Flow Diagram, Design Patterns,
 Architecture Decision Records, Threat Model, API Contract Conformance, Skill Definition Conformance,
-Guidance Conformance, AI System Assessment, Standards Conformance,
-Baseline Conformance, Structure Conformance, Code Style,
-API Compatibility & Versioning Discipline, Technical Debt Register, Changes Since Previous
-Audit, and Follow-up Plan.
+Guidance Conformance, AI System Assessment, Standards Conformance, Baseline Conformance,
+Structure Conformance, Code Style, API Compatibility & Versioning Discipline,
+Technical Debt Register, Changes Since Previous Audit, and Follow-up Plan.
 
 At Standard and Detailed detail levels the Remediation Roadmap closes with a Recommendation
 Classification subsection that assigns every recommendation a `Recommended`, `Optional`,

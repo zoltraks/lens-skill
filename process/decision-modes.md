@@ -62,6 +62,16 @@ because a gate that skips a surface is a protocol defect, not a shortcut.
 Each decision is its own question with its own option set - flattening several decisions' options
 into one list lets an answer select conflicting options or none at all.
 
+An interactive question lists at most four entries and ends with a cancel-class entry - `Cancel`,
+`Pause`, `Skip`, `None`, `Break`, or `Stop` - which means no answer and pauses the operation for
+the next user prompt.
+Five or more candidates page the question: non-final pages end with `Next`,
+the final page carries the cancel entry, and a page asks only after `Next` was selected.
+A `Proceed` entry may replace the cancel entry,
+accepting every recommendation and answering the current and remaining questions at once.
+A canceled questionnaire resumes on `repeat` - the last question is re-asked and the task continues.
+A `selection` answer mixing a no-answer entry with content entries warns and re-asks.
+
 Anti-patterns:
 
 | Anti-pattern                                      | Why it is wrong                                                                             |

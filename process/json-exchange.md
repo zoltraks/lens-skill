@@ -74,6 +74,18 @@ Routine prompts' trailing `Use default: <value>` and `Use defaults for all remai
 options do not become `menu` entries - the `default` key and the returned document's "use defaults"
 semantics cover them.
 
+The same menu rules apply to the emitted document and to interactive questions asked without JSON:
+
+- A question lists at most four entries, ending with a cancel-class entry - `Cancel` or a
+  member-owned label such as `Pause`, `Skip`, or `Stop`.
+  A cancel-class answer means no answer - the operation pauses for the next user prompt,
+  and a later `repeat` re-asks the last question and continues.
+- Five or more candidates page the question - a non-final page ends with a `Next` continuation
+  entry, the final page carries the cancel entry, and a page asks only after `Next` was selected.
+  The emitted document still carries the full menu - paging is a prompt-side mechanism only.
+- A `Proceed` entry may replace the cancel entry where skipping is meaningful - it accepts every
+  recommendation and answers the current and all remaining questions at once.
+
 ```json
 {
     "description": "Intake parameters for <project>",
@@ -194,6 +206,10 @@ on its own or embedded inside a natural-language reply.
 Answers are applied from the `response` value.
 Natural language surrounding the document is treated as supplementary context,
 not as part of the answers.
+
+A `selection` answer that mixes a no-answer entry (`None` or the cancel entry)
+with content entries warns and re-asks rather than resolving the mix,
+and an empty `selection` answer never advances the surface.
 
 ```json
 {

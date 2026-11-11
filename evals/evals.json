@@ -2370,6 +2370,18 @@
     "the specification ask carries 'Improve on the fly' as the standby option because improvement mode is armed",
     "an 'Improve on the fly' answer does nothing now and waits for a named operation, applying surfaced improvements on the fly"
    ]
+  },
+  {
+   "id": 203,
+   "prompt": "ask me which of six projects the audit should include",
+   "expected_output": "A paged option question - the first page offers three candidates plus `Next`, the final page asks only after `Next` was selected and carries the remaining candidates plus the cancel entry.",
+   "files": [],
+   "expectations": [
+    "a menu over five or more candidates pages with a `Next` continuation entry",
+    "the final page carries the cancel entry and asks only after `Next` was selected",
+    "a cancel-class answer pauses for the next prompt and `repeat` re-asks the last question",
+    "a `selection` answer mixing a no-answer entry with content entries warns and re-asks"
+   ]
   }
  ]
 }
