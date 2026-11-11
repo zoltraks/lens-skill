@@ -3,6 +3,7 @@
 ## Purpose
 
 > **Scope:** Canonical style yardsticks per programming ecosystem for the code-style assessment
+>
 > **Key items:** casing conventions, unit granularity, naming temperament, primary authorities,
 > snapshot date, fallback rule
 

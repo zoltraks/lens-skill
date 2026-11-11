@@ -18,22 +18,22 @@
 
 | Section                            | Line | What it covers                                      |
 |------------------------------------|------|-----------------------------------------------------|
-| Overview                           | 36   | Audit purpose and standard report shape             |
-| What The Skill Does                | 86   | Update check, evidence, assessment, synthesis       |
-| Installation                       | 168  | Clone and update instructions                       |
-| Usage                              | 201  | Activation, parameters, and report delivery         |
-| Example Prompts                    | 238  | Full and focused audit requests                     |
-| Workflow Diagrams                  | 319  | ASCII and Mermaid audit pipelines                   |
-| Evidence And Decision Quality      | 379  | Evidence strength and verification limits           |
-| Core Principles                    | 438  | Evaluation constraints and status rules             |
-| Report Format                      | 454  | Report structure, identifiers, and style            |
-| When To Use This Skill             | 491  | Supported requests and exclusions                   |
-| What's Inside                      | 515  | Documents, references, tools, and conditional files |
-| Document Style                     | 707  | Pointer to the style rules file                     |
-| Specification                      | 717  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 738  | Maintenance checks and regression scenarios         |
-| License                            | 769  | License for the skill itself                        |
-| Credits                            | 775  | Authorship and attribution                          |
+| Overview                           | 38   | Audit purpose and standard report shape             |
+| What The Skill Does                | 87   | Update check, evidence, assessment, synthesis       |
+| Installation                       | 169  | Clone and update instructions                       |
+| Usage                              | 202  | Activation, parameters, and report delivery         |
+| Example Prompts                    | 239  | Full and focused audit requests                     |
+| Workflow Diagrams                  | 320  | ASCII and Mermaid audit pipelines                   |
+| Evidence And Decision Quality      | 380  | Evidence strength and verification limits           |
+| Core Principles                    | 439  | Evaluation constraints and status rules             |
+| Report Format                      | 455  | Report structure, identifiers, and style            |
+| When To Use This Skill             | 492  | Supported requests and exclusions                   |
+| What's Inside                      | 516  | Documents, references, tools, and conditional files |
+| Document Style                     | 708  | Pointer to the style rules file                     |
+| Specification                      | 718  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 739  | Maintenance checks and regression scenarios         |
+| License                            | 770  | License for the skill itself                        |
+| Credits                            | 776  | Authorship and attribution                          |
 
 ## Overview
 

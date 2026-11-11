@@ -15,14 +15,14 @@ Every document created or modified as part of this skill must follow the rules b
 | Section                     | Line | What it covers                                  |
 |-----------------------------|------|-------------------------------------------------|
 | Document Structure          | 27   | Titles, purpose blocks, and contents tables     |
-| Paragraphs And Wrapping     | 91   | Sentence structure and line width               |
-| Headings And Lists          | 158  | Heading depth, lists, and spacing               |
-| Code And Inline Formatting  | 200  | Fences, code spans, and special characters      |
-| Tables                      | 300  | Source-width alignment and automated formatting |
-| Characters And Language     | 488  | Box-drawing, emoji, and per-language rules      |
-| File References             | 509  | Relative paths and backticked file paths        |
-| Skill Document Requirements | 523  | Frontmatter and progressive disclosure          |
-| Maintenance                 | 585  | File naming, encoding, and registration         |
+| Paragraphs And Wrapping     | 95   | Sentence structure and line width               |
+| Headings And Lists          | 162  | Heading depth, lists, and spacing               |
+| Code And Inline Formatting  | 204  | Fences, code spans, and special characters      |
+| Tables                      | 304  | Source-width alignment and automated formatting |
+| Characters And Language     | 492  | Box-drawing, emoji, and per-language rules      |
+| File References             | 513  | Relative paths and backticked file paths        |
+| Skill Document Requirements | 527  | Frontmatter and progressive disclosure          |
+| Maintenance                 | 589  | File naming, encoding, and registration         |
 
 ## Document Structure
 
@@ -42,10 +42,14 @@ The Purpose section may use a blockquote format to summarize scope and key items
 ## Purpose
 
 > **Scope:** one-line description of what this file covers
+>
 > **Key items:** comma-separated list of key concepts or references
 ```
 
 This format is recommended for reference files and topic documents.
+
+The `**Scope:**` and `**Key items:**` rows are separate blockquote paragraphs -
+a `>` blank line divides them, because consecutive `>` lines render as one merged line.
 
 ### Out-of-Scope Table
 

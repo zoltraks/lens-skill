@@ -4,6 +4,7 @@
 
 > **Scope:** The evidence-gated self-repair loop for this skill - diagnose a named defect in lens's
 > own behavior, patch minimally, replay against external evidence, promote only what improves.
+>
 > **Key items:** safety taxonomy, the healing loop, external verifiers, rollback
 
 This file defines how Lens repairs itself: a named misfire, regression,

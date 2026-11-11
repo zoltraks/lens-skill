@@ -3,6 +3,7 @@
 ## Purpose
 
 > **Scope:** Cross-reference between CWE identifiers and ecosystem-specific static analyzer rules
+>
 > **Key items:** rule IDs per stack, enablement evidence, "not yet enabled" reporting
 
 This file maps CWE identifiers to the static-analysis rules that check for the matching code

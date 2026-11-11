@@ -3,6 +3,7 @@
 ## Purpose
 
 > **Scope:** Repeated-audit agreement procedure for scoring policy 3.
+>
 > **Key items:** paired independent runs, agreement tolerances, tightening loop, recording.
 
 Scoring reproducibility is tested by running the audit twice on the same subject and comparing the
