@@ -50,7 +50,7 @@ Keep each rule in its owning document and link to it instead of duplicating it.
   committed or delivered together, per `docs/VERSIONING.md` - at most once until
   the set is committed.
 - Do not claim validation that did not run.
-- Never commit automatically - propose a one-sentence commit message per `docs/CONTRIBUTING.md`.
+- Never commit automatically - propose a commit message per `docs/CONTRIBUTING.md`.
   The one exception is a commit completing a user-approved upstream merge,
   which may be made - pushing always runs on a separate request.
 - A bare `work on lens-skill` request that names no operation is standby - read this file,

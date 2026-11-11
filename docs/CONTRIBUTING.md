@@ -49,12 +49,10 @@ required, not advisory.
 
 AI-assisted contributions are welcome.
 
-Disclose meaningful AI involvement in the pull request description or commit trailer,
-for example a `Co-Authored-By` line, so code and content provenance stays traceable.
+Disclose meaningful AI involvement in the pull request description,
+so code and content provenance stays traceable.
 
-Trailers are expected only when meaningful AI involvement occurred,
-so a low trailer count is the expected state under low AI usage rather than a
-sign of undisclosed use.
+Commit messages carry no AI attribution or `Co-Authored-By` trailers.
 
 ## Versioning And Releases
 
@@ -67,13 +65,16 @@ No git tags are used.
 
 ## Commit Messages
 
-The subject line is one short, general sentence.
+Match the repository's own convention - read `git log -10 --format=%s` before proposing.
 
-Optional detail goes in the body after a blank line as a few sentences of description.
+The subject line is one short, general sentence with no type prefixes
+(`feat:`, `fix:`, `docs:`, `chore:`) and no trailing period.
 
-The message carries no author lines, sign-offs,
-or other metadata trailers beyond the AI-involvement disclosure described in AI-Assisted
-Contributions when it applies.
+Optional detail goes in the body, separated from the subject by one blank line.
+The message itself never ends with a blank line or a trailing newline.
+
+The message carries no author lines, sign-offs, AI attribution,
+or other metadata trailers.
 
 ## Security Issues
 
