@@ -18,35 +18,54 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.9.0"
+  version: "2.9.1"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
 
 # Software Audit Skill
 
-> **Type:**Root router and taxonomy**Purpose:** Route software audit requests to the smallest useful
-> audit file and enforce evidence-based, neutral assessment.
+> **Type:** Root router and taxonomy
+> **Purpose:** Route software audit requests to the relevant procedure and require evidence for findings.
+
+## Task Entry
+
+| Request              | First step                                                                                                                                                                      |
+|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Bare activation      | Follow [activation](process/skill-activation.md) and wait for a task.                                                                                                           |
+| List capabilities    | Read the [operations catalog](process/operations-catalog.md).                                                                                                                   |
+| Perform a task       | Identify the requested operation and target, then load its procedure and the resources it calls for.                                                                            |
+| Develop this skill   | Follow [development](process/development.md) and use [repository instructions](AGENTS.md) for maintenance.                                                                      |
+| Use improvement mode | Apply improvements surfaced by the work through the owning skill's maintenance procedure. A separate session-review request starts [session review](process/session-review.md). |
+| Use verbose mode     | Follow [timing and reporting](process/operation-timing.md) and expose pending questions through [JSON exchange](process/json-exchange.md).                                      |
+
+Read the selected procedure before acting. At each phase, read every file required for that
+phase, including conditional files once their conditions apply. Use a directory index when you
+need to discover a path. Defer later-phase material until that phase begins.
+
+Use the skill's procedures for its own files and the target repository's instructions for artifacts.
+When a procedure calls for a script, use its documented invocation and check the result. Read
+script source when reviewing, modifying, or diagnosing the script, or when its behavior is unclear.
 
 ## Contents
 
 | Section                 | Line | What it covers                                     |
 |-------------------------|------|----------------------------------------------------|
-| Skill Update Check      | 62   | Once-per-session git freshness gate before use     |
-| Trigger Keywords        | 84   | Activation phrases                                 |
-| How To Use              | 116  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 139  | Defaults and user-controlled report shape          |
-| Principles              | 146  | Evaluation and output rules                        |
-| Process                 | 152  | Workflow, format, and parity                       |
-| Assessments             | 200  | Core and conditional assessment guides             |
-| Synthesis               | 206  | Findings, risk, score, and remediation assembly    |
-| Translations            | 218  | Per-language report translations                   |
-| References              | 229  | Lookup tables                                      |
-| Scripts                 | 260  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 296  | Behavioral regression prompts                      |
-| Repository Files        | 300  | Housekeeping files governing this repository       |
-| Evidence Contract       | 312  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 341  | File-selection and section-placement rules         |
+| Skill Update Check      | 81   | Once-per-session git freshness gate before use     |
+| Trigger Keywords        | 103  | Activation phrases                                 |
+| How To Use              | 137  | Progressive disclosure and mandatory reading       |
+| Parameter Configuration | 161  | Defaults and user-controlled report shape          |
+| Principles              | 168  | Evaluation and output rules                        |
+| Process                 | 174  | Workflow, format, and parity                       |
+| Assessments             | 210  | Core and conditional assessment guides             |
+| Synthesis               | 216  | Findings, risk, score, and remediation assembly    |
+| Translations            | 228  | Per-language report translations                   |
+| References              | 239  | Lookup tables                                      |
+| Scripts                 | 270  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 280  | Behavioral regression prompts                      |
+| Repository Files        | 284  | Housekeeping files governing this repository       |
+| Evidence Contract       | 296  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 325  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -100,6 +119,8 @@ The skill activates on phrases such as:
 - library reviews: api compatibility, api versioning audit, library audit
 - review requests: review report, run the checks, structure review
 - skill maintenance: work on lens-skill, update lens-skill, maintain this skill
+- report benchmarks: compare audit reports, benchmark the audit, audit report comparison,
+  improve the skill from an external audit
 - stack feed: feed lens skill with, extend stack standards with
 - automated invocations: audit automatically, automated mode, unattended, non-interactive
 - catalog requests: list all operations, show all capabilities
@@ -122,14 +143,15 @@ Use progressive disclosure:
   status markers, hard constraints) and `process/audit-workflow.md` (the workflow index,
   whose phase files load as the audit enters each phase) before producing any audit.
   They are mandatory for every audit.
-- For report production, `process/report-contract.md` is the first read - the mechanically enforced
-  contract - then the selected style file (`process/report-format.md` or the `hunt-style.md` /
-  `review-style.md` under it) - `--dump-contract` emits the same JSON surface.
+- Complete Parameter Configuration before assessment. After intake resolves a report operation,
+  read `process/report-contract.md` before report planning or assembly, then read the selected
+  style and applicable section specifications from `process/report-format.md`.
+  Inline descriptive analysis uses its own route and skips report-only contracts.
 - Apply `process/navigation-rules.md` to every report - it carries the file-selection and
   section-placement rules.
 - Open only the assessment files that match the system under audit - the index is
   `assessment/README.md`.
-- Use the synthesis files to assemble the final report sections.
+- During report assembly, use the synthesis files selected for the sections being produced.
 
 This skill is self-contained. The topic files below are the available reference material.
 
@@ -152,31 +174,19 @@ resolution rules, and re-audit parameters live in `process/parameter-configurati
 ## `process/` - Audit Process
 
 - **`process/audit-workflow.md`** - Audit workflow index: phase order, checklists, variants.
-- **`process/audit-workflow/`** - Per-phase workflow files,
+- **`process/audit-workflow/`** - Phase files mapped in the workflow index.
 - **`process/report-reformat.md`** - The `reformat report` operation: mechanical pass,
   tool pipeline, and manual tail for bringing existing reports to the current contract.
-  mapped in the index's Step Overview table.
+- **`process/report-benchmark.md`** - External-report comparison: verification, gap attribution,
+  adjustment plan feeding skill improvement.
 - **`process/audit-model.md`** - Evidence-to-finding pipeline and the canonical audit model.
 - **`process/audit-request.md`** - External-agent audit-request prompt generation.
 - **`process/decision-modes.md`** - Interaction-mode matrix: interactive and automated resolution.
 - **`process/calibration.md`** - Paired-run reproducibility procedure and tolerances.
 - **`process/report-format.md`** - Report format index: rules, parameters, spec-file map.
 - **`process/report-contract.md`** - One-page mechanically enforced report contract.
-- **`process/report-format/report-opening.md`** - Document Information, coverage matrix, Glossary.
-- **`process/report-format/multi-project.md`** - Combined multi-project report structure.
-- **`process/report-format/summary-changes.md`** - Executive Summary and Changes.
-- **`process/report-format/context-compliance.md`** - System Context, SBOM, License Compliance.
-- **`process/report-format/dashboard-observations.md`** - Health Dashboard, delivery practice.
-- **`process/report-format/methodology-scoring.md`** - Auditing Methodology, Scoring Rubrics.
-- **`process/report-format/architectural-assessment.md`** - Architectural Assessment.
-- **`process/report-format/report-analysis.md`** - Solution Comparison, Threat Model.
-- **`process/report-format/conditional-conformance.md`** - Conditional conformance sections.
-- **`process/report-format/findings-registers.md`** - Strengths, findings, debt, risk, roadmap.
-- **`process/report-format/report-closing.md`** - Exclusions, Limitations,
-  Validation, Reference Sources.
-- **`process/report-format/code-style.md`** - Code Style section spec.
-- **`process/report-format/hunt-style.md`** / **`review-style.md`** - `hunt` and `review` styles.
-- **`process/report-format/structure-review.md`** - Structure Review variant contract.
+  Use its section map to read only the specifications for included sections.
+  The selected hunt, review, or structure-review style supplies its own requirements.
 - **`process/json-exchange.md`** - JSON parameter documents for intake question surfaces.
 - **`process/operation-timing.md`** - Timing under verbose, informational,
   diagnostic, or timing modes.
@@ -264,32 +274,6 @@ tree via `finalize-report.py --skill-root <path>`,
 or copy them into the audited repository's `work/` directory under a `.tmp.` name and remove
 the copies when done.
 
-- **`scripts/format-table.py`** / **`align-comments.py`** - Table formatter and `#`-comment aligner.
-- **`scripts/check-model.py`** - Audit-model checker (referential integrity, scoring recompute).
-  `--fix` recomputes derived records in place.
-- **`scripts/link-glossary.py`** / **`link-references.py`** - Glossary and register linkers.
-  `link-references.py` also repairs wrong register anchors in place.
-- **`scripts/validate-report.py`** - Mechanical report checker (`--dump-contract` emits JSON,
-  `--model` / `--state` cross-check report against model and run state).
-- **`scripts/render-contract.py`** - Regenerates the `report-contract.md` enumeration block from
-  `--dump-contract` (`--check` gates drift).
-- **`scripts/extract-requirements.py`** - Extracts requirement ids and obligation hints from spec
-  documents into the model's `requirements[]` registry.
-- **`scripts/reformat-report.py`** - Mechanical report reformatter (`--check` dry run,
-  applies title, Document Information, legend, risk-map, and register conventions).
-- **`scripts/render-tables.py`** - Renders scorecard, headline, criteria, requirements, findings,
-  risks, roadmap, and evidence tables mechanically from `audit-model.json`.
-- **`scripts/compare-models.py`** - Compares two or more policy-3 audit models side by side,
-  refusing rankings across incompatible denominators.
-- **`scripts/new-report.py`** - Report skeleton generator (`--style`, `--scope`, `--params`).
-- **`scripts/validate-skill.py`** / **`check-references.py`** / **`check-contents.py`** -
-  Frontmatter, disclosure, reference, and Contents validators.
-- **`scripts/check-update.py`** / **`style-census.py`** - Update check and identifier-shape census.
-- **`scripts/scan-standards.py`** / **`scan-structure.py`** - Corpus manifest and tree census.
-- **`scripts/finalize-report.py`** - Runs link, format, and validate in order on a report.
-- **`scripts/lint-polish.py`** / **`lint-prose.py`** - Polish calque and draft prose linters.
-- **`scripts/map-translation.py`** / **`check-translation.py`** - Translated-report gates.
-- **`scripts/common-helpers.py`** - Shared frontmatter and reporting helpers for maintenance tools.
 - **`scripts/README.md`** - Tool classes, usage, validation order, limitations.
 - **`tests/`** - Focused `unittest` contract tests for the report and maintenance tools.
 

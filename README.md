@@ -29,11 +29,11 @@
 | Report Format                      | 455  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 492  | Supported requests and exclusions                   |
 | What's Inside                      | 516  | Documents, references, tools, and conditional files |
-| Document Style                     | 710  | Pointer to the style rules file                     |
-| Specification                      | 720  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 741  | Maintenance checks and regression scenarios         |
-| License                            | 772  | License for the skill itself                        |
-| Credits                            | 778  | Authorship and attribution                          |
+| Document Style                     | 711  | Pointer to the style rules file                     |
+| Specification                      | 721  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 742  | Maintenance checks and regression scenarios         |
+| License                            | 773  | License for the skill itself                        |
+| Credits                            | 779  | Authorship and attribution                          |
 
 ## Overview
 
@@ -574,6 +574,7 @@ lens-skill/
 │   │   └── report-closing.md              # Exclusions, limitations, handoff, validation, references
 │   ├── report-contract.md                 # One-page mechanically enforced report contract
 │   ├── report-reformat.md                 # `reformat report` operation: mechanical pass + pipeline
+│   ├── report-benchmark.md                # External-report comparison benchmark and skill-gap extraction
 │   ├── report-parity.md                   # Audit parity checklist and consistency gate before final
 │   ├── readiness-scoring.md               # Deterministic scores, confidence, maturity, and readiness gates
 │   ├── run-state.md                       # Run-state artifact: phase and gate record, resume, reconciliation

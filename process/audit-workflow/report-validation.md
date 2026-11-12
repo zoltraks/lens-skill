@@ -14,7 +14,7 @@ Follow it after Synthesis.
 | Section                      | Line | What it covers               |
 |------------------------------|------|------------------------------|
 | Validation                   | 20   | Validation                   |
-| Evidence And Decision Checks | 336  | Evidence And Decision Checks |
+| Evidence And Decision Checks | 337  | Evidence And Decision Checks |
 
 
 ## Validation
@@ -216,7 +216,8 @@ equals the reported mean after the documented rounding rule.
 `Unknown` and `N/A` dimensions stay out of the denominator.
 
 Confirm no summary table promotes a finding's verification status beyond what its block carries.
-A finding whose `Confirmation` field is not `Yes` cannot appear as execution-confirmed in any summary.
+A finding whose `Confirmation` field is not `Yes` cannot appear as
+execution-confirmed in any summary.
 
 Under `executed-readonly`, confirm the Executed Evidence lists every executed check with tool,
 version, exact command, and timestamp, and that the report claims no build, test, or project run.

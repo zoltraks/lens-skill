@@ -8,21 +8,23 @@ of this Agent Skill.
 It compiles rules from the [Agent Skills specification](https://agentskills.io/specification),
 the `skill-creator` skill, and general Markdown formatting best practices.
 
-Every document created or modified as part of this skill must follow the rules below.
+These rules govern Markdown maintained in this repository.
+Audit deliverables follow the selected report style and the report contract in
+`process/report-contract.md`.
 
 ## Contents
 
 | Section                     | Line | What it covers                                  |
 |-----------------------------|------|-------------------------------------------------|
-| Document Structure          | 27   | Titles, purpose blocks, and contents tables     |
-| Paragraphs And Wrapping     | 95   | Sentence structure and line width               |
-| Headings And Lists          | 162  | Heading depth, lists, and spacing               |
-| Code And Inline Formatting  | 204  | Fences, code spans, and special characters      |
-| Tables                      | 304  | Source-width alignment and automated formatting |
-| Characters And Language     | 492  | Box-drawing, emoji, and per-language rules      |
-| File References             | 513  | Relative paths and backticked file paths        |
-| Skill Document Requirements | 527  | Frontmatter and progressive disclosure          |
-| Maintenance                 | 589  | File naming, encoding, and registration         |
+| Document Structure          | 29   | Titles, purpose blocks, and contents tables     |
+| Paragraphs And Wrapping     | 97   | Sentence structure and line width               |
+| Headings And Lists          | 164  | Heading depth, lists, and spacing               |
+| Code And Inline Formatting  | 220  | Fences, code spans, and special characters      |
+| Tables                      | 306  | Source-width alignment and automated formatting |
+| Characters And Language     | 494  | Box-drawing, emoji, and per-language rules      |
+| File References             | 519  | Relative paths and backticked file paths        |
+| Skill Document Requirements | 533  | Frontmatter and progressive disclosure          |
+| Maintenance                 | 595  | File naming, encoding, and registration         |
 
 ## Document Structure
 
@@ -497,8 +499,12 @@ Do not replace box-drawing characters with `+`, `-`, or other ASCII approximatio
 
 Do not use emojis unless explicitly requested.
 
-Star-bar glyphs `★` and `☆` are allowed inside code spans and code blocks when they render
-documented output formats such as the star-scale display.
+Filled and empty stars are allowed in code examples of documented output formats such as the
+star-scale display.
+
+```text
+★☆
+```
 
 ## Language
 
@@ -535,10 +541,10 @@ The `SKILL.md` file must contain YAML frontmatter followed by Markdown content.
 
 Required frontmatter fields:
 
-- ** `name` ** - 1-64 characters, lowercase letters and hyphens only,
+- **`name`** - 1-64 characters, lowercase letters, digits, and hyphens only,
   must not start or end with a hyphen, must not contain consecutive hyphens,
   must match the parent directory name.
-- ** `description` ** - 1-1024 characters, non-empty,
+- **`description`** - 1-1024 characters, non-empty,
   describes what the skill does and when to use it, should include specific trigger keywords.
 
 Optional frontmatter fields:

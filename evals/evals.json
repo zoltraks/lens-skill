@@ -2440,6 +2440,18 @@
     "counts, dependency inventories, and scores derive mechanically and unrun declared checks render as Not run rows with what each would establish",
     "a command the project does not declare never appears as executed evidence"
    ]
+  },
+  {
+   "id": 211,
+   "prompt": "Compare this Lens-generated audit with this externally produced audit of the same repository and tell me how to improve the skill.",
+   "expected_output": "The report-benchmark procedure runs: revisions aligned, both reports' claims verified against the tree, coverage and findings cross-mapped, every difference attributed to subject divergence, report defect, or mechanics gap, and a comparison document with an adjustment plan delivered to the subject's report location.",
+   "files": [],
+   "expectations": [
+    "each report's declared subject revision is recorded and divergent findings are attributed, never silently merged or discounted",
+    "material claims from both reports are verified against the tree and classified verified, failed, or unverifiable - phantom command rows are report defects",
+    "only mechanics gaps feed the adjustment plan, each mapped to an owning skill file; subject divergence is explained and report defects are listed without edits",
+    "the compared reports and the audited subject are never modified, and skill changes land only through the described change or the session-review gate"
+   ]
   }
  ]
 }

@@ -106,3 +106,6 @@ This file is the session-review path inside skill maintenance.
 
 The `Maintain the skill` operation routes to it when the request asks to improve the skill from the
 session, and `docs/MAINTENANCE.md` governs the edits it produces.
+
+External-report comparisons follow `process/report-benchmark.md` - confirmed mechanics gaps from a
+benchmark land through this file's Apply path, never through edits to the compared reports.

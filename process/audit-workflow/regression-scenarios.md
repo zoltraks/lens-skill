@@ -115,4 +115,7 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Scoped check passed, broad claim drafted       | Claim bounded to the command's declared scope                   |
 | Executed row names an undeclared script        | Report defect, corrected before publication                     |
 | Material claim published                       | Double check passed; verdict-deciding claims triple-checked     |
+| External audit named for comparison            | Report benchmark: verify both reports, attribute every delta    |
+| Benchmark reports audit different revisions    | Divergence recorded first, attributed before gap extraction     |
+| Comparison yields no mechanics gaps            | Document delivered, no invented improvements                    |
 

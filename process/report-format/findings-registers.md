@@ -407,8 +407,8 @@ Every occurrence outside the identifier's defining location links to the definit
 per Register Reference Links in `process/report-format.md` - the summary `Finding` cell, `Source`,
 `Resolves`, `Evidence`, and traceability columns all carry `[ID](#anchor)` forms,
 Glossary identifier headings carry no parenthesized expansion - `### EVD Evidence identifier`,
-never `### EVD (Evidence identifier)` - and while the `### <ID>` heading and the `EVD` / `PAR` register row that declares the
-identifier stay plain.
+never `### EVD (Evidence identifier)` - and while the `### <ID>` heading and the `EVD` / `PAR`
+register row that declares the identifier stay plain.
 
 A recommendation block's description paragraph never restates `Resolves FND-XXX` - the
 `- **Finding:**` field below the paragraph already carries that link, so the sentence adds

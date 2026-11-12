@@ -378,18 +378,18 @@ and treat the rename itself as a capability change per the Evidence Transitions 
 
 Finding block fields:
 
-| Legacy                     | Current              |
-|----------------------------|----------------------|
-| Security Classification    | `Security`           |
-| Remediation Status         | `Status`             |
-| Target Files/Modules       | `Targets`            |
-| Requirement Basis          | `Basis`              |
-| Remediation Recommendation | `Recommendation`     |
-| Verification Method        | `Method`             |
-| Verification State         | `Verification`       |
-| Counter-check              | `Mitigation`         |
-| Countercheck               | `Mitigation`         |
-| Exploitability Narrative   | `Exploitability`     |
+| Legacy                     | Current          |
+|----------------------------|------------------|
+| Security Classification    | `Security`       |
+| Remediation Status         | `Status`         |
+| Target Files/Modules       | `Targets`        |
+| Requirement Basis          | `Basis`          |
+| Remediation Recommendation | `Recommendation` |
+| Verification Method        | `Method`         |
+| Verification State         | `Verification`   |
+| Counter-check              | `Mitigation`     |
+| Countercheck               | `Mitigation`     |
+| Exploitability Narrative   | `Exploitability` |
 
 Risk block fields: `Source Finding` -> `Source`, `Triggering Condition` -> `Trigger`,
 `Existing Controls` -> `Controls`, `Residual Risk` -> `Residual`, `Treatment State` -> `Status`,

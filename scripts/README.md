@@ -73,10 +73,9 @@ so scores and rows are never retyped by hand.
 `findings`, `risks`, `roadmap`, and `evidence` render the register tables.
 `registers` emits all four - `all` emits every part.
 `--project NAME` selects a project inside a multi-project model.
-`--splice REPORT.md` replaces the first table after the part's section marker inside
-the report in place, carrying `<title>` cells from the report's own `###` block
-headings - supported for `scorecard`, `criteria`, `requirements`, `findings`,
-`risks`, `roadmap`, and `evidence`.
+`--splice REPORT.md` replaces the first table after the part's section marker inside the report in
+place, carrying `<title>` cells from the report's own `###` block headings - supported for
+`scorecard`, `criteria`, `requirements`, `findings`, `risks`, `roadmap`, and `evidence`.
 
 `compare-models.py <model.json> <model.json> [...] [--json] [--anyway]` compares policy-3 audit
 models: headline records, per-dimension deltas, finding and requirement diffs,
