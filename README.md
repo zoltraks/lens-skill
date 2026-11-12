@@ -29,11 +29,11 @@
 | Report Format                      | 455  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 492  | Supported requests and exclusions                   |
 | What's Inside                      | 516  | Documents, references, tools, and conditional files |
-| Document Style                     | 709  | Pointer to the style rules file                     |
-| Specification                      | 719  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 740  | Maintenance checks and regression scenarios         |
-| License                            | 771  | License for the skill itself                        |
-| Credits                            | 777  | Authorship and attribution                          |
+| Document Style                     | 710  | Pointer to the style rules file                     |
+| Specification                      | 720  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 741  | Maintenance checks and regression scenarios         |
+| License                            | 772  | License for the skill itself                        |
+| Credits                            | 778  | Authorship and attribution                          |
 
 ## Overview
 
@@ -630,6 +630,7 @@ lens-skill/
 │   ├── cwe-analyzer.md                    # CWE to static-analyzer-rule cross-reference per ecosystem
 │   ├── dependency-manifests.md            # Text-only manifest readers, source-derived component inventory
 │   ├── census-commands.md                 # Canonical reproducible census methods
+│   ├── check-surface.md                   # Declared check census, commission proposal, verification passes
 │   ├── domain-profiles.md                 # Project-nature classification and mandatory stack/purpose checks
 │   ├── audit-taxonomy.md                  # Canonical audit types, coverage statuses, source corpus
 │   ├── evidence-schema.md                 # Evidence kinds, outcome states, sufficiency, coverage labels

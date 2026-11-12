@@ -17,20 +17,20 @@ On completion, proceed to `process/audit-workflow/scope-definition.md`.
 | Section                                    | Line | What it covers                             |
 |--------------------------------------------|------|--------------------------------------------|
 | Parameter Configuration                    | 36   | Parameter Configuration                    |
-| Saved Parameters (`work/lens-params.json`) | 167  | Saved Parameters (`work/lens-params.json`) |
-| Parameter Prompts                          | 193  | Parameter Prompts                          |
-| Delivery And Output File                   | 221  | Delivery And Output File                   |
-| Previous Report Files                      | 373  | Previous Report Files                      |
-| Report Language                            | 393  | Report Language                            |
-| Report Style                               | 415  | Report Style                               |
+| Saved Parameters (`work/lens-params.json`) | 171  | Saved Parameters (`work/lens-params.json`) |
+| Parameter Prompts                          | 197  | Parameter Prompts                          |
+| Delivery And Output File                   | 225  | Delivery And Output File                   |
+| Previous Report Files                      | 377  | Previous Report Files                      |
+| Report Language                            | 397  | Report Language                            |
+| Report Style                               | 419  | Report Style                               |
 | Project Layout                             | ?    | Project Layout                             |
-| Evidence Mode                              | 449  | Evidence Mode                              |
-| Detail Level                               | 487  | Detail Level                               |
-| Evaluation Scale                           | 503  | Evaluation Scale                           |
-| Improvement Suggestions                    | 532  | Improvement Suggestions                    |
-| Trade-off Analysis                         | 545  | Trade-off Analysis                         |
-| Descriptive Mode                           | 557  | Descriptive Mode                           |
-| Bypass Rule                                | 571  | Bypass Rule                                |
+| Evidence Mode                              | 453  | Evidence Mode                              |
+| Detail Level                               | 497  | Detail Level                               |
+| Evaluation Scale                           | 513  | Evaluation Scale                           |
+| Improvement Suggestions                    | 542  | Improvement Suggestions                    |
+| Trade-off Analysis                         | 555  | Trade-off Analysis                         |
+| Descriptive Mode                           | 567  | Descriptive Mode                           |
+| Bypass Rule                                | 581  | Bypass Rule                                |
 
 
 ## Parameter Configuration
@@ -64,6 +64,10 @@ or test scripts - the presented summary annotates the `Evidence mode` row with a
 
 The annotation is informational only - it adds no question surface,
 and automated runs keep the `source-only` default.
+
+The same intake note names each declared check the audit cannot run under `source-only` -
+a declared coverage gate, advisory sweep, or packaging check stays visible as a declared-but-unrun
+item so the evidence-mode decision sees the full declared surface, never only the test suite.
 
 **Gate** - `parameters-acceptance`: a blocking gate per `process/decision-modes.md`.
 
@@ -478,8 +482,14 @@ Apply `executed-readonly` or `executed-commands` only when the user explicitly c
 The question ends with `Use default: source-only` and `Use defaults for all remaining questions`.
 
 When the answer is `executed-readonly` or `executed-commands`,
-a free-text follow-up asks which analyzers or commands are commissioned - only the
-commissioned set may run.
+the audit first enumerates the subject's declared check surface per
+`references/check-surface.md` - every runnable test, coverage, lint, format, typecheck,
+build, packaging, advisory, and scan check the repository declares -
+and the free-text follow-up presents that set as the proposed commission with the
+readiness-relevant entries marked.
+
+The user confirms the set, narrows it, or replaces it - an "all" or empty answer commissions
+the proposed set, and only the commissioned set may run.
 
 Under JSON exchange this is the `evidence-mode` `choice` parameter,
 and the commission follow-up is the `commissioned-commands` `text` parameter.

@@ -107,4 +107,12 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Executed run needed a compatibility shim       | Harness disclosed, results labeled shim-assisted                |
 | Proxy compile against an available profile     | Labeled proxy evidence, never claims legacy-target verification |
 | Defect-census pattern match                    | Candidate confirmed by reading before it becomes a finding      |
+| `executed-commands` chosen                     | Declared check surface proposed as the commission set           |
+| Lockfile present, advisories allowed           | Ecosystem sweep in the proposal, `on` unless declined           |
+| Use-case rows in the requirements doc          | Disclosed as coverage notes, out of the mandatory registry      |
+| Runtime or hardware-equivalence clause         | `Unknown` without executed evidence on the named surface        |
+| Readiness audit, unresolved high criterion     | `PENDING EVIDENCE`, `gate:` blocking entries, ceiling applied   |
+| Scoped check passed, broad claim drafted       | Claim bounded to the command's declared scope                   |
+| Executed row names an undeclared script        | Report defect, corrected before publication                     |
+| Material claim published                       | Double check passed; verdict-deciding claims triple-checked     |
 

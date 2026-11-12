@@ -19,12 +19,12 @@ Apply `principles/evaluation-rules.md` throughout.
 | Criteria Inputs           | 49   | Criteria Inputs guidance           |
 | Dimension Scoring         | 75   | Dimension Scoring guidance         |
 | Scoring Policy 3          | 193  | Scoring Policy 3 guidance          |
-| Overall Score             | 242  | Overall Score guidance             |
-| Confidence                | 274  | Confidence guidance                |
-| Maturity Levels           | 292  | Maturity Levels guidance           |
-| Readiness Gates           | 311  | Readiness Gates guidance           |
-| Required Summary Fields   | 363  | Required Summary Fields guidance   |
-| Multi-Project Rules       | 376  | Multi-Project Rules guidance       |
+| Overall Score             | 243  | Overall Score guidance             |
+| Confidence                | 275  | Confidence guidance                |
+| Maturity Levels           | 293  | Maturity Levels guidance           |
+| Readiness Gates           | 312  | Readiness Gates guidance           |
+| Required Summary Fields   | 371  | Required Summary Fields guidance   |
+| Multi-Project Rules       | 384  | Multi-Project Rules guidance       |
 
 ## Separate Decision Outputs
 
@@ -228,7 +228,8 @@ checked by `scripts/check-model.py`):
   `single` blends `0.7 * product + 0.3 * process` when both publish,
   or takes the product value flagged `product-only` when process is unpublished,
   then applies the ceiling: `3` on an open Critical,
-  `6` on an open High or a `NOT READY` readiness at scale 10, proportional on scales 5 and 3.
+  `6` on an open High, a `NOT READY`, or a `PENDING EVIDENCE` readiness at scale 10,
+  proportional on scales 5 and 3 - a pending-evidence audit never publishes a top-band headline.
 - Multi-project models carry the three records under `scores.per_project[<name>]` while
   `scores.product`, `scores.process`, and `scores.single` stay absent,
   and `readiness` becomes `{"per_project": {<name>: {"state", "blocking"}}}`.
@@ -316,7 +317,9 @@ At minimum, assess:
 
 - Applicable `Critical` and `High` findings.
 - Advertised-workflow integrity: every documented capability traces to working implementation.
-- Required build, test, scan, recovery, and deployment evidence.
+- Required build, test, coverage, lint, format, advisory, scan, packaging, recovery,
+  and deployment evidence - each entry on the subject's declared check surface
+  (`references/check-surface.md`) that feeds a readiness claim is its own gate.
 - Confirmed verification ownership.
 - Operational objectives and recovery evidence for operated systems.
 - Dependency and artifact identity for shipped software.
@@ -341,6 +344,11 @@ An incorrect authorization check or a broken declared invariant is a defect unde
 laboratory status never legitimizes it.
 
 A gate the evidence cannot satisfy stays open - silence never waives a reconstructed gate.
+
+An unresolved `critical` or `high` criticality criteria entry blocks `READY` in a
+readiness-purpose audit - the state resolves `PENDING EVIDENCE` with a `gate:<id>`
+blocking entry per unresolved criterion, and `scripts/check-model.py` enforces it
+mechanically.
 
 Use these readiness states:
 

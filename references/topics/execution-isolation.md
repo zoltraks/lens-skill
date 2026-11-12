@@ -18,7 +18,8 @@ The rules are distilled from audit sessions that ran commissioned builds and tes
 
 Feeds the evidence-mode paragraphs in `process/audit-workflow/parameter-phase.md` and the
 Verification Plan in `process/audit-workflow/evidence-gathering.md`,
-and the `EXECUTED` record fields in `references/evidence-schema.md`.
+and the `EXECUTED` record fields in `references/evidence-schema.md`,
+and is extended by `references/check-surface.md`.
 
 Every rule keeps the evidence-mode contract: the subject is never deployed, mutated,
 or connected to live systems, and nothing runs that the user did not commission.
@@ -118,6 +119,22 @@ the evidence record.
 The class decides where the result lands:
 an environment failure is never reported as a subject defect,
 and a subject defect is never dismissed as an environment quirk.
+
+## Executed-Record Fidelity
+
+What the record says is what ran - never what was intended to run.
+
+- The `procedure` field carries the literal command exactly as invoked.
+  A script name copied from the manifest but never invoked - or invoked differently -
+  is a report defect, not evidence.
+- The record names the command's declared scope (suite selector, glob, directory argument),
+  and the claim it supports never outgrows that scope - a `Pass` on a configured subset
+  is a subset pass, never a whole-tree one.
+- The commissioned set is enumerated before it runs per `references/check-surface.md`,
+  so a check the census declared but the commission dropped is a visible `Not run` entry,
+  not an invisible gap.
+- `Not run` and `Not checked` are honest ledger states - they mark missing evidence
+  the verdict must price, never claim a result.
 
 ## Live Check
 

@@ -769,6 +769,65 @@ def declared_criteria(lines: list[str]) -> tuple[list[str], list[str]]:
     return criteria, heading_issues
 
 
+def check_readiness_vs_criteria(text: str) -> list[str]:
+    """READY verdict conflicts with unresolved critical/high criteria rows."""
+    failures: list[str] = []
+    ready_stated = False
+    for line in text.split("\n"):
+        if "readiness" not in line.lower():
+            continue
+        if re.search(r"\bPENDING\b|\bNOT\s+READY\b|\bNOT\s+ASSESSED\b", line):
+            continue
+        if re.search(r"\bREADY\b", line):
+            ready_stated = True
+            break
+    if not ready_stated:
+        return failures
+    lines = text.split("\n")
+    for index, line in enumerate(lines):
+        if not re.match(
+            r"(?:\*\*Criteria table\*\*|#{2,3}\s+Criteria table\s*$)",
+            line,
+            re.IGNORECASE,
+        ):
+            continue
+        j = index + 1
+        while j < len(lines) and not lines[j].lstrip().startswith("|"):
+            if re.match(r"\*\*[^*]+\*\*", lines[j]) or lines[j].startswith("#"):
+                break
+            j += 1
+        if j >= len(lines) or not lines[j].lstrip().startswith("|"):
+            continue
+        header = [
+            cell.strip().lower()
+            for cell in lines[j].strip("|").split("|")
+        ]
+        try:
+            crit_col = header.index("criticality")
+            out_col = header.index("outcome")
+        except ValueError:
+            continue
+        j += 1
+        if j < len(lines) and set(lines[j].strip()) <= set("|-: "):
+            j += 1
+        while j < len(lines) and lines[j].lstrip().startswith("|"):
+            cells = [
+                cell.strip().strip("`").upper()
+                for cell in lines[j].strip("|").split("|")
+            ]
+            if (
+                len(cells) > max(crit_col, out_col)
+                and cells[crit_col] in ("CRITICAL", "HIGH")
+                and cells[out_col] in ("UNKNOWN", "NOT_ASSESSED")
+            ):
+                failures.append(
+                    f"line {j + 1}: READY verdict conflicts with unresolved "
+                    f"{cells[crit_col].lower()} criterion {cells[0]}"
+                )
+            j += 1
+    return failures
+
+
 def check_criteria_references(lines: list[str], style: str) -> list[str]:
     declared_list, failures = declared_criteria(lines)
     declared = set(declared_list)
@@ -5255,6 +5314,7 @@ def main(
                 checks.extend(
                     [
                         ("headline disclosure", check_headline_disclosure(text)),
+                        ("readiness vs unresolved criteria", check_readiness_vs_criteria(text)),
                         ("requirements table", check_requirements_table(text)),
                         ("structure and naming conformance", check_structure_and_naming(text)),
                         ("audit finding disposition", check_finding_disposition(text, lines)),

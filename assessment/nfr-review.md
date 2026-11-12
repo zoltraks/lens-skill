@@ -52,6 +52,10 @@ Record the policy for budget exhaustion or excessive burn and the role authorize
 
 Separate proposed targets from approved targets, leaving absent baselines `UNKNOWN`.
 
+A stated target with no measured, executed, or reported result on the surface it names
+is `UNKNOWN` - the target's presence in a document is a claim, never its fulfillment,
+and architecture or test-suite evidence alone supports at most `PARTIAL`.
+
 For non-hosted software, use appropriate task performance and recovery criteria rather than
 requiring service uptime, on-call, or distributed tracing.
 

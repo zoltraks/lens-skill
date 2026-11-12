@@ -18,7 +18,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.8.9"
+  version: "2.9.0"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -42,11 +42,11 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 | Synthesis               | 206  | Findings, risk, score, and remediation assembly    |
 | Translations            | 218  | Per-language report translations                   |
 | References              | 229  | Lookup tables                                      |
-| Scripts                 | 258  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 294  | Behavioral regression prompts                      |
-| Repository Files        | 298  | Housekeeping files governing this repository       |
-| Evidence Contract       | 310  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 339  | File-selection and section-placement rules         |
+| Scripts                 | 260  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 296  | Behavioral regression prompts                      |
+| Repository Files        | 300  | Housekeeping files governing this repository       |
+| Evidence Contract       | 312  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 341  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -234,6 +234,8 @@ Load these during intake, assessment, and report writing when the stack or findi
 - **`references/cwe-analyzer.md`** - CWE-to-analyzer-rule cross-reference per ecosystem.
 - **`references/dependency-manifests.md`** - Text-only manifest readers, source-derived inventory.
 - **`references/census-commands.md`** - Reproducible census and counting methods.
+- **`references/check-surface.md`** - Declared check-surface census, commission proposal,
+  scope-bounded claims, verification passes.
 - **`references/audit-taxonomy.md`** - Audit types, coverage statuses, methodology corpus.
 - **`references/evidence-schema.md`** - Evidence kinds, outcome states, sufficiency, coverage.
 - **`references/criteria-catalogue.md`** - Criteria records, families, applicability freeze.

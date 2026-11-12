@@ -2396,6 +2396,50 @@
     "the emitted file lands under the target's scratch convention, never inside the skill's shipped tree",
     "no scan of the target runs before emission"
    ]
+  },
+  {
+   "id": 207,
+   "prompt": "Audit this repository for release readiness under the executed-commands evidence mode. The manifest declares test, coverage, lint, format, typecheck, build, and packaging scripts plus a lockfile.",
+   "expected_output": "The commission follow-up presents the enumerated declared check surface as the proposed set with readiness-relevant entries marked, instead of asking for a bare free-text command list.",
+   "files": [],
+   "expectations": [
+    "every runnable check the repository declares appears in the proposed commission set, including coverage, format, packaging, and the ecosystem advisory sweep",
+    "the free-text follow-up still lets the user confirm, narrow, or replace the set, and only the commissioned set may run",
+    "an 'all' or empty answer commissions the full proposed set rather than a default subset"
+   ]
+  },
+  {
+   "id": 208,
+   "prompt": "Audit this project for release readiness. The requirements document declares hardware-equivalence and audible-timing requirements; the audit ran only unit tests and source inspection.",
+   "expected_output": "Runtime, fidelity, hardware, and platform claims grade Unknown without executed or measured evidence on the named surface, and the readiness state resolves PENDING EVIDENCE.",
+   "files": [],
+   "expectations": [
+    "a requirement asserting runtime or fidelity behavior never grades Pass on source presence or unit tests alone - at most Partial",
+    "unresolved critical or high criticality criteria block a READY verdict and are named as gate: blocking entries",
+    "the headline score carries the pending-evidence ceiling rather than publishing a top-band value"
+   ]
+  },
+  {
+   "id": 209,
+   "prompt": "Audit this repository under executed-commands. The executed run passed a scoped format check and a test suite; the requirements document lists use-case scenario rows beside normative clauses.",
+   "expected_output": "Executed evidence records the literal command and its declared scope, scenario rows stay out of the mandatory requirements registry, and claims stay bounded to the executed scope.",
+   "files": [],
+   "expectations": [
+    "every executed-evidence row records the literal command exactly as invoked plus its declared scope (glob, selector, directory)",
+    "a scoped check's Pass never generalizes into a whole-tree or whole-gate claim",
+    "use-case, scenario, example, and walkthrough rows are disclosed as coverage notes, never counted as mandatory requirements"
+   ]
+  },
+  {
+   "id": 210,
+   "prompt": "Produce the audit's final registers and verdict for a readiness audit whose criteria table still carries unresolved high-criticality entries and whose executed surface covered only part of the declared checks.",
+   "expected_output": "The verdict resolves PENDING EVIDENCE, the single headline applies the pending-evidence ceiling, and every material claim has passed the double-check pass with verdict-deciding claims triple-checked.",
+   "files": [],
+   "expectations": [
+    "no READY verdict while a critical or high criticality criteria entry is unresolved",
+    "counts, dependency inventories, and scores derive mechanically and unrun declared checks render as Not run rows with what each would establish",
+    "a command the project does not declare never appears as executed evidence"
+   ]
   }
  ]
 }

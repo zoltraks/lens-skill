@@ -301,6 +301,9 @@ def compute_headline(dims, scale_max, critical_open, high_open, readiness_state)
         if readiness_state == "NOT READY":
             reasons.append("readiness:NOT READY")
             limits.append(ceilings["high"])
+        if readiness_state == "PENDING EVIDENCE":
+            reasons.append("readiness:PENDING EVIDENCE")
+            limits.append(ceilings["high"])
         ceiling = (
             {"limit": min(limits), "reasons": reasons} if reasons else None
         )
@@ -1428,6 +1431,27 @@ def check_model(model: dict, catalogue: dict | None = None) -> list[str]:
                     f"{label} READY conflicts with open "
                     f"{f.get('severity')} finding {f.get('id')}"
                 )
+            purpose = str(scope.get("purpose", "")).lower()
+            if any(
+                p in purpose for p in ("readiness", "release", "production")
+            ):
+                for c in criteria:
+                    if c.get("criticality") not in ("critical", "high"):
+                        continue
+                    if c.get("outcome") in RESOLVED or (
+                        c.get("outcome") == "NOT_APPLICABLE"
+                    ):
+                        continue
+                    if prefix is not None:
+                        dim = c.get("dimension")
+                        if not isinstance(dim, str) or not dim.startswith(
+                            prefix + "."
+                        ):
+                            continue
+                    failures.append(
+                        f"{label} READY conflicts with unresolved "
+                        f"{c.get('criticality')} criterion {c.get('id')}"
+                    )
         if state in ("NOT READY", "PENDING EVIDENCE") and not blocking:
             failures.append(
                 f"{label} {state} needs at least one blocking id"

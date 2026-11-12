@@ -4,7 +4,10 @@
 A candidate id is one that appears in a defining position: as the first
 non-empty cell of a Markdown table row, at the start of a heading text, or at
 the start of a list item followed by `:` or `-`. Ids that appear only in prose
-are reported separately as referenced-only.
+are reported separately as referenced-only. Each record carries a `kind` hint:
+`scenario` when its enclosing heading names a use-case, scenario, example, or
+walkthrough section, `requirement` otherwise - scenario rows are candidates for
+disclosure, never automatic registry members.
 
 Usage:
     python3 scripts/extract-requirements.py <doc.md> [<doc.md> ...] [--pattern REGEX] [--json]
@@ -32,6 +35,14 @@ OBLIGATION_HINTS = (
     (re.compile(r"proposed|optional|may\b", re.IGNORECASE), "optional"),
     (re.compile(r"should|recommended", re.IGNORECASE), "recommended"),
 )
+
+SCENARIO_HEADING = re.compile(
+    r"\b(use[\s-]?cases?|scenarios?|examples?|walkthroughs?)\b", re.IGNORECASE
+)
+
+
+def heading_kind(text: str) -> str:
+    return "scenario" if SCENARIO_HEADING.search(text) else "requirement"
 
 
 def obligation_hint(text: str) -> str:
@@ -70,12 +81,16 @@ def extract(docs: list[tuple[str, str]], pattern: re.Pattern) -> dict:
     occurrences: dict[str, int] = {}
     for path, text in docs:
         in_fence = False
+        kind = "requirement"
         for number, line in enumerate(text.splitlines(), 1):
             if FENCE.match(line):
                 in_fence = not in_fence
                 continue
             if in_fence:
                 continue
+            heading = HEADING.match(line)
+            if heading:
+                kind = heading_kind(heading.group(1))
             for ident in pattern.findall(line):
                 occurrences[ident] = occurrences.get(ident, 0) + 1
             site = defining_site(line, pattern)
@@ -86,6 +101,7 @@ def extract(docs: list[tuple[str, str]], pattern: re.Pattern) -> dict:
                     "path": path,
                     "line": number,
                     "text": row_text[:160],
+                    "kind": kind,
                     "obligation_hint": obligation_hint(row_text),
                     "occurrences": occurrences[ident],
                 }
@@ -152,8 +168,8 @@ def main(argv: list[str]) -> int:
         for record in result["requirements"]:
             print(
                 f"{record['id']}  {record['path']}:{record['line']}  "
-                f"{record['obligation_hint']}  ({record['occurrences']} "
-                f"occurrence(s))  {record['text']}"
+                f"{record['kind']}/{record['obligation_hint']}  "
+                f"({record['occurrences']} occurrence(s))  {record['text']}"
             )
         for ident in result["referenced_only"]:
             print(f"{ident}  (referenced only)")

@@ -140,6 +140,9 @@ English renders title case where the vocabulary lists give canonical uppercase n
   the catalogue tier weights.
 - An audit `Requirements Conformance` table keeps one row per requirement - a merged range row such
   as `A-01 through A-11` or `A-01..A-11` fails.
+- A `READY` readiness verdict never coexists with a `critical` or `high` criticality
+  criteria-table row in `UNKNOWN` or `NOT_ASSESSED` state - such a report publishes
+  `PENDING EVIDENCE` instead, and the validator fails the contradiction.
 - Every `Dimension | Score` table - each `**Scorecard Summary**` table and every table inside a
   `Health Dashboard` section - uses only the 19 canonical dimension names,
   in canonical order with `N/A` rows omitted, and each Score cell renders `n/m`, a star bar,

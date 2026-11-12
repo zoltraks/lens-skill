@@ -30,9 +30,9 @@ On completion, proceed to `process/audit-workflow/category-assessment.md`.
 | Check-execution Reconciliation                    | 220  | Check-execution Reconciliation                    |
 | Shared Evidence Capture (`work/audit-model.json`) | 236  | Shared Evidence Capture (`work/audit-model.json`) |
 | Verification Plan                                 | 262  | Verification Plan                                 |
-| No Execution                                      | 306  | No Execution                                      |
-| Evidence Ledger                                   | 318  | Evidence Ledger                                   |
-| Claim And Evidence Traceability                   | 356  | Claim And Evidence Traceability                   |
+| No Execution                                      | 322  | No Execution                                      |
+| Evidence Ledger                                   | 349  | Evidence Ledger                                   |
+| Claim And Evidence Traceability                   | 387  | Claim And Evidence Traceability                   |
 
 
 ## Evidence Gathering
@@ -261,11 +261,19 @@ it never replaces the model or the read-depth and traceability rules in this fil
 
 ## Verification Plan
 
+Enumerate the subject's complete declared check surface per `references/check-surface.md`
+before building the matrix - the matrix covers every runnable check the repository declares,
+not only the ones the auditor happened to select.
+
 Build a small verification matrix per project before assessment.
 
-Select the checks that would verify material claims from the project's documented commands and the
-relevant assessment guides: build and test commands, lint and formatting rules,
-dependency advisory scans, and license or SBOM checks.
+Select the checks that would verify material claims from the enumerated surface, the project's
+documented commands, and the relevant assessment guides: build and test commands,
+lint and formatting rules, coverage runs against declared thresholds,
+dependency advisory scans, packaging or artifact checks, and license or SBOM checks.
+
+Every census entry lands in the matrix or is named as excluded with its reason -
+a declared check that falls outside the matrix is a visible coverage bound, never a silent drop.
 
 Under `executed-readonly` or `executed-commands` the environment census from
 `references/topics/execution-isolation.md` runs first and bounds which checks the matrix can select,
@@ -296,12 +304,20 @@ A documented or committed result is `Reported` evidence.
 
 It supports the claim it covers, never "verified" status.
 
+An executed result bounds the claim it supports to the command's declared scope -
+the evidence record names the literal command exactly as invoked, and a claim never
+generalizes a scoped `Pass` into a whole-tree or whole-gate one.
+
+A ledger row citing a command the project does not declare is a report defect, never evidence.
+
 If a material claim has no documented result and cannot be resolved from source, record the gap,
 its confidence impact, and the exact next step as a recommendation.
 
 Do not mark the absence of tool execution as a product defect.
 
-A missing check is missing evidence, not a missing feature.
+A missing check is missing evidence, not a missing feature -
+and a missing check that a declared readiness gate depends on is `PENDING EVIDENCE` input,
+not a resolved gate.
 
 ## No Execution
 
@@ -314,6 +330,21 @@ and version control history.
 
 Do not mutate the repository or its configuration,
 and do not treat inspection findings as runtime-verified behavior.
+
+## Verification Passes
+
+Claims publish through independent checks, not through the reading that produced them,
+per the Verification Passes and Anti-Slop Discipline in `references/check-surface.md`.
+
+Every material claim clears a double check before it publishes - a second derivation
+from a different channel or a re-read of the cited evidence.
+
+A claim that decides the readiness state, the headline score, or a `Critical` or `High` finding
+clears a triple check - the second pass plus a hostile falsification attempt from the
+same evidence.
+
+Counts, dependency inventories, and scores publish only from mechanical derivation or
+recorded executed output - an estimate is marked approximate and never renders as exact.
 
 ## Evidence Ledger
 

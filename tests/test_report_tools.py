@@ -1173,7 +1173,8 @@ class TestCheckModel(unittest.TestCase):
                 "single": {"score": 5.0, "raw": 5.0, "interval": [4.0, 5.0],
                            "flag": "product-only",
                            "ceiling": {"limit": 6,
-                                       "reasons": ["severity:HIGH"]},
+                                       "reasons": ["severity:HIGH",
+                                                   "readiness:PENDING EVIDENCE"]},
                            "band": "Average"},
             },
             "coverage": {"families": {}, "labels": {"security": "PARTIAL"}},
@@ -2501,7 +2502,7 @@ class TestComputeHeadline(unittest.TestCase):
 
     def test_e2_both_published_no_ceiling(self):
         result = self.checker.compute_headline(
-            self._e2_dims(), 10, False, False, "PENDING EVIDENCE")
+            self._e2_dims(), 10, False, False, "READY")
         self.assertEqual(result["product"]["score"], 6.5)  # 201/31 = 6.4839
         self.assertEqual(result["process"]["score"], 5.3)  # 16/3 = 5.3333
         self.assertEqual(result["process"]["scored"], 3)
@@ -2522,7 +2523,7 @@ class TestComputeHeadline(unittest.TestCase):
             dims[ident] = {"applicable": True, "eligible": True,
                            "score": 5, "lo": 5, "hi": 5}
         result = self.checker.compute_headline(
-            dims, 10, False, False, "PENDING EVIDENCE")
+            dims, 10, False, False, "READY")
         self.assertEqual(result["product"]["score"], 6.5)
         self.assertEqual(result["process"]["score"], 5.0)
         # 0.7 x 6.5 + 0.3 x 5.0 = 6.05 -> half-up 6.1; a float floor gives 6.0
@@ -2554,7 +2555,7 @@ class TestComputeHeadline(unittest.TestCase):
         dims = self._e2_dims()
         dims["security"] = self._ineligible()
         result = self.checker.compute_headline(
-            dims, 10, False, False, "PENDING EVIDENCE")
+            dims, 10, False, False, "READY")
         product = result["product"]
         self.assertFalse(product["published"])
         self.assertIsNone(product["score"])
@@ -2625,7 +2626,7 @@ class TestComputeHeadline(unittest.TestCase):
         dims = self._e2_dims()
         dims["observability"] = self._ineligible()
         result = self.checker.compute_headline(
-            dims, 10, False, False, "PENDING EVIDENCE")
+            dims, 10, False, False, "READY")
         product = result["product"]
         self.assertEqual(product["score"], 6.5)  # 189/29 = 6.5172
         self.assertEqual(product["interval"], [6.2, 6.7])
@@ -2665,7 +2666,7 @@ class TestComputeHeadline(unittest.TestCase):
         dims["testability"] = {"applicable": True, "eligible": True,
                                "score": 8, "lo": 6, "hi": 9}
         result = self.checker.compute_headline(
-            dims, 10, False, False, "PENDING EVIDENCE")
+            dims, 10, False, False, "READY")
         product = result["product"]
         self.assertEqual(product["score"], 6.5)
         self.assertEqual(product["interval"], [6.3, 6.6])
@@ -2673,6 +2674,26 @@ class TestComputeHeadline(unittest.TestCase):
         self.assertEqual(single["interval"], [6.0, 6.2])
         self.assertEqual(single["raw"], 6.1)
         self.assertEqual(single["score"], 6.1)
+
+    def test_e13_pending_evidence_ceiling(self):
+        dims = self._dims({
+            "functional_suitability": 8, "testability": 7, "security": 8,
+            "operational_safety": 7, "design_soundness": 7, "code_quality": 7,
+            "maintainability": 7, "dependency_health": 7, "deployability": 7,
+            "scalability": 7, "observability": 7, "compliance": 7,
+            "code_style": 8, "stack_alignment": 8, "structure": 8,
+            "delivery_continuity": 6, "originality_licensing": 7,
+            "skill_definition": 7,
+        })
+        result = self.checker.compute_headline(
+            dims, 10, False, False, "PENDING EVIDENCE")
+        self.assertEqual(result["product"]["score"], 7.3)
+        single = result["single"]
+        self.assertEqual(single["raw"], 7.1)
+        self.assertEqual(
+            single["ceiling"],
+            {"limit": 6, "reasons": ["readiness:PENDING EVIDENCE"]})
+        self.assertEqual(single["score"], 6.0)
 
 
 class TestCheckModelPolicy3(unittest.TestCase):
@@ -2797,7 +2818,8 @@ class TestCheckModelPolicy3(unittest.TestCase):
                 "single": {"score": 5.0, "raw": 5.0, "interval": [4.0, 5.0],
                            "flag": "product-only",
                            "ceiling": {"limit": 6,
-                                       "reasons": ["severity:HIGH"]},
+                                       "reasons": ["severity:HIGH",
+                                                   "readiness:PENDING EVIDENCE"]},
                            "band": "Average"},
             },
             "coverage": {}, "exclusions": [],
@@ -3082,7 +3104,8 @@ class TestCheckModelPolicy3(unittest.TestCase):
         model["scores"]["single"] = {
             "score": 5.0, "raw": 5.0, "interval": [4.5, 5.0],
             "flag": "product-only",
-            "ceiling": {"limit": 6, "reasons": ["severity:HIGH"]},
+            "ceiling": {"limit": 6, "reasons": ["severity:HIGH",
+                                                "readiness:PENDING EVIDENCE"]},
             "band": "Average"}
         self.assertEqual(self.check(model), [])
         model["criteria"][0]["level"] = "PASS"
@@ -3311,7 +3334,8 @@ class TestRenderTables(unittest.TestCase):
                 "single": {"score": 5.0, "raw": 5.0, "interval": [4.0, 5.0],
                            "flag": "product-only",
                            "ceiling": {"limit": 6,
-                                       "reasons": ["severity:HIGH"]},
+                                       "reasons": ["severity:HIGH",
+                                                   "readiness:PENDING EVIDENCE"]},
                            "band": "Average"},
             },
         }
@@ -3583,7 +3607,8 @@ class TestCompareModels(unittest.TestCase):
                 "single": {"score": 5.0, "raw": 5.0, "interval": [4.0, 5.0],
                            "flag": "product-only",
                            "ceiling": {"limit": 6,
-                                       "reasons": ["severity:HIGH"]},
+                                       "reasons": ["severity:HIGH",
+                                                   "readiness:PENDING EVIDENCE"]},
                            "band": "Average"},
             },
             "coverage": {}, "exclusions": [],

@@ -26,12 +26,12 @@ with the mapping defined here.
 | Evidence Kinds                   | 36   | What each kind can and cannot establish            |
 | Outcome States                   | 71   | Per-criteria result vocabulary                     |
 | Evidence Records                 | 96   | Required fields and redaction rules                |
-| Supplied And Historical Evidence | 137  | Reuse rules for prior artifacts                    |
-| Coverage And Collection          | 147  | Inventory, classification, and sampling discipline |
-| Claim Sufficiency                | 164  | What verification each claim type requires         |
-| Closure Rules                    | 182  | What may and may not close a criteria entry        |
-| Advisory States                  | 198  | Dependency-advisory vocabulary                     |
-| Coverage Labels                  | 219  | Criteria-coverage label vocabulary                 |
+| Supplied And Historical Evidence | 139  | Reuse rules for prior artifacts                    |
+| Coverage And Collection          | 149  | Inventory, classification, and sampling discipline |
+| Claim Sufficiency                | 166  | What verification each claim type requires         |
+| Closure Rules                    | 185  | What may and may not close a criteria entry        |
+| Advisory States                  | 201  | Dependency-advisory vocabulary                     |
+| Coverage Labels                  | 222  | Criteria-coverage label vocabulary                 |
 
 ## Evidence Kinds
 
@@ -97,28 +97,30 @@ outcome, and `NOT RUN` never counts toward `PASS`.
 
 Every material observation or procedure in `audit-model.json` carries a record with these fields:
 
-| Field         | Required content                                                      |
-|---------------|-----------------------------------------------------------------------|
-| `id`          | `EVD-NNN`, unique within the audit                                    |
-| `audit`       | The audit identity and report revision                                |
-| `subject`     | Full subject revision or content identity                             |
-| `kind`        | One of the six evidence kinds                                         |
-| `collector`   | The stage or agent that produced the record                           |
-| `method`      | How the observation was produced                                      |
-| `timestamp`   | Collection time, ISO 8601                                             |
-| `tool`        | Tool and version where applicable, `null` for manual inspection       |
-| `locator`     | For `INSPECTED`: path, symbol, and line range plus a content digest   |
-| `procedure`   | For `EXECUTED`/`MEASURED`: command or procedure, working directory,   |
-|               | environment profile, features/target, exit status, artifact digest,   |
-|               | isolation root, and audit-created harness disclosure                  |
-| `result`      | What was observed - for a failed `EXECUTED` result, the triage class  |
-|               | (`subject`, `harness`, `environment`, `inconclusive`) and its basis   |
-| `claims`      | Claim or criteria IDs the record supports                             |
-| `limits`      | What the record cannot establish                                      |
-| `sampling`    | Sampling depth and selection rule, `full` for complete review         |
-| `counter`     | Counter-evidence examined                                             |
-| `redaction`   | `none`, `redacted`, or `withheld` with reason                         |
-| `unavailable` | Reason when expected evidence could not be produced, `null` otherwise |
+| Field         | Required content                                                       |
+|---------------|------------------------------------------------------------------------|
+| `id`          | `EVD-NNN`, unique within the audit                                     |
+| `audit`       | The audit identity and report revision                                 |
+| `subject`     | Full subject revision or content identity                              |
+| `kind`        | One of the six evidence kinds                                          |
+| `collector`   | The stage or agent that produced the record                            |
+| `method`      | How the observation was produced                                       |
+| `timestamp`   | Collection time, ISO 8601                                              |
+| `tool`        | Tool and version where applicable, `null` for manual inspection        |
+| `locator`     | For `INSPECTED`: path, symbol, and line range plus a content digest    |
+| `procedure`   | For `EXECUTED`/`MEASURED`: the literal command or procedure exactly    |
+|               | as invoked, declared scope (suite selector, glob, directory argument), |
+|               | working directory, environment profile, features/target,               |
+|               | exit status, artifact digest, isolation root,                          |
+|               | and audit-created harness disclosure                                   |
+| `result`      | What was observed - for a failed `EXECUTED` result, the triage class   |
+|               | (`subject`, `harness`, `environment`, `inconclusive`) and its basis    |
+| `claims`      | Claim or criteria IDs the record supports                              |
+| `limits`      | What the record cannot establish                                       |
+| `sampling`    | Sampling depth and selection rule, `full` for complete review          |
+| `counter`     | Counter-evidence examined                                              |
+| `redaction`   | `none`, `redacted`, or `withheld` with reason                          |
+| `unavailable` | Reason when expected evidence could not be produced, `null` otherwise  |
 
 Method is recorded separately from outcome - a recorded command is not a passed check.
 
@@ -165,17 +167,18 @@ never a silent hole in coverage figures.
 
 Each claim class names the verification that is sufficient and the substitutes that are not.
 
-| Claim or risk                  | Sufficient verification                                                               | Insufficient substitute                                 |
-|--------------------------------|---------------------------------------------------------------------------------------|---------------------------------------------------------|
-| No secret in process arguments | All supported invocation paths avoid secret-bearing argv, inspected or executed       | A warning while the secret path remains accepted        |
-| Automated merge verification   | Configured enforcement plus a recorded run on the applicable branch and targets       | One local test run                                      |
-| License-policy conformance     | Complete applicable inventory plus scan or manual obligation review                   | Policy file presence                                    |
-| Native dependency provisioning | Recorded acquisition, version, integrity, and successful provisioning or build        | A dependency-policy check passing                       |
-| Concurrency or latency target  | Defined workload, environment, warmup, duration, error budget, percentile target      | A mechanism description with no defined load            |
-| Authorization isolation        | Per-entry-point negative cases over permitted and denied resources                    | Existence of one permission helper                      |
-| Test adequacy                  | Exercised critical behaviors and failure paths, with results                          | Counted test functions                                  |
-| Deployability                  | Recorded build or provisioning on the intended target                                 | A Dockerfile or compose file being present              |
-| Feature shipped on a branch    | Marker greps and path reads at the target ref (`git grep`, `git show`, `git ls-tree`) | The change-record or spec document existing on that ref |
+| Claim or risk                   | Sufficient verification                                                                  | Insufficient substitute                                   |
+|---------------------------------|------------------------------------------------------------------------------------------|-----------------------------------------------------------|
+| No secret in process arguments  | All supported invocation paths avoid secret-bearing argv, inspected or executed          | A warning while the secret path remains accepted          |
+| Automated merge verification    | Configured enforcement plus a recorded run on the applicable branch and targets          | One local test run                                        |
+| License-policy conformance      | Complete applicable inventory plus scan or manual obligation review                      | Policy file presence                                      |
+| Native dependency provisioning  | Recorded acquisition, version, integrity, and successful provisioning or build           | A dependency-policy check passing                         |
+| Concurrency or latency target   | Defined workload, environment, warmup, duration, error budget, percentile target         | A mechanism description with no defined load              |
+| Authorization isolation         | Per-entry-point negative cases over permitted and denied resources                       | Existence of one permission helper                        |
+| Test adequacy                   | Exercised critical behaviors and failure paths, with results                             | Counted test functions                                    |
+| Deployability                   | Recorded build or provisioning on the intended target                                    | A Dockerfile or compose file being present                |
+| Feature shipped on a branch     | Marker greps and path reads at the target ref (`git grep`, `git show`, `git ls-tree`)    | The change-record or spec document existing on that ref   |
+| Runtime or fidelity equivalence | Executed or measured result on the surface the clause names (hardware, timing, platform) | Source presence, unit tests, or a similar-surface harness |
 
 Extend this table in the criteria catalogue when a subject needs a claim class it lacks.
 

@@ -98,10 +98,10 @@ Two advanced parameters govern what evidence may be touched.
 
 They apply the defaults unless the request names them.
 
-| Parameter               | Default | What it controls                                                         |
-|-------------------------|---------|--------------------------------------------------------------------------|
-| `evidence-exclusions`   | none    | User-declared paths or patterns withheld from evidence gathering         |
-| `dependency-advisories` | `off`   | Whether a commissioned advisory sweep may run or be fetched for the SBOM |
+| Parameter               | Default                                              | What it controls                                                         |
+|-------------------------|------------------------------------------------------|--------------------------------------------------------------------------|
+| `evidence-exclusions`   | none                                                 | User-declared paths or patterns withheld from evidence gathering         |
+| `dependency-advisories` | `off` under `source-only`, `on` under executed modes | Whether a commissioned advisory sweep may run or be fetched for the SBOM |
 
 `evidence-exclusions` lists paths, file names, or glob patterns the audit never opens, quotes,
 or summarizes - the canonical use is a prior report when the user asks for a
@@ -118,9 +118,14 @@ against, and the report states the exclusion rather than a changes section.
 `executed-commands` for other commissioned commands,
 or an explicit web-fetch commission for public advisory data.
 
+When a lockfile or dependency manifest exists and the evidence mode allows the sweep,
+the check-surface census per `references/check-surface.md` names the ecosystem's advisory
+command in the proposed commission set and `dependency-advisories` resolves `on` unless
+the request or the narrowed commission set declines it.
+
 When the sweep runs, advisory IDs land in the SBOM `Advisory` column per
 `assessment/dependency-review.md`.
 
-When it is `off` or the evidence mode disallows it,
+When it is `off`, declined, or the evidence mode disallows it,
 the column keeps its honest `Not checked` or `N` entries - freshness flags alone never
-claim advisory status.
+claim advisory status, and a `source-only` audit never implies the sweep ran.
