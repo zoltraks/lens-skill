@@ -86,6 +86,7 @@ columns `Operation` and `What it covers`, aligned by source width:
 | Re-audit           | New revisioned report compared against a previous baseline |
 | Focused review     | Single-dimension or conditional-scope assessments          |
 | Skill audit        | Agent Skill spec and agent-guidance conformance            |
+| Audit request      | Generalized prompt commissioning an external-agent audit   |
 | Maintain the skill | Changes and session reviews of this skill repository       |
 
 Close with a line inviting the task request.

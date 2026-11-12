@@ -49,6 +49,7 @@ request's language changes the cell text.
 | Focused     | standards conformance | coding-standards and convention conformance review        |
 | Skill       | skill audit           | Agent Skill spec and agent-guidance conformance           |
 | Descriptive | inline analysis       | evidence-based description, no report artifact            |
+| Generate    | audit request         | generalized prompt commissioning an external-agent audit  |
 | Enable      | enablement            | bare-activation standby with version and operations table |
 | Enable      | self-update check     | once-per-session upstream check                           |
 | Enable      | operations catalog    | this table                                                |

@@ -81,6 +81,49 @@ class TestCheckContents(unittest.TestCase):
         out = self.checker.fix_rows(lines, rows, headings, contents_at)
         self.assertIn("| Grouped Area | 9    |", out)
 
+    def test_fix_snaps_backticked_headings_by_name(self):
+        # A label like `Synthesis` must snap to `## `synthesis/` - ...`,
+        # not fall back to proximity snapping against unrelated headings.
+        lines = (
+            "# Doc\n\n## Contents\n\n"
+            "| Section | Line |\n|---|---|\n"
+            "| Assessments | 9  |\n"
+            "| Synthesis | 9  |\n\n"
+            "## `assessment/` - Assessment Categories\n\n"
+            "## `synthesis/` - Findings\n"
+        ).splitlines()
+        fences = self.checker.fenced_flags(lines)
+        contents_at = 2
+        headings = [
+            (index, self.checker.HEADING.match(line).group(1))
+            for index, line in enumerate(lines)
+            if not fences[index] and self.checker.HEADING.match(line)
+        ]
+        rows = self.checker.collect_rows(lines, fences, contents_at)
+        out = self.checker.fix_rows(lines, rows, headings, contents_at)
+        self.assertIn("| Assessments | 10  |", out)
+        self.assertIn("| Synthesis | 12  |", out)
+
+    def test_fix_tie_prefers_forward_anchor(self):
+        # A recorded anchor equidistant from two headings must snap forward -
+        # snapping backward lands the row on the previous row's section.
+        lines = (
+            "# Doc\n\n## Contents\n\n"
+            "| Section | Line |\n|---|---|\n"
+            "| Grouped | 10  |\n\n"
+            "## Alpha\n\n## Beta\n"
+        ).splitlines()
+        fences = self.checker.fenced_flags(lines)
+        contents_at = 2
+        headings = [
+            (index, self.checker.HEADING.match(line).group(1))
+            for index, line in enumerate(lines)
+            if not fences[index] and self.checker.HEADING.match(line)
+        ]
+        rows = self.checker.collect_rows(lines, fences, contents_at)
+        out = self.checker.fix_rows(lines, rows, headings, contents_at)
+        self.assertIn("| Grouped | 11  |", out)
+
     def test_fix_preserves_line_endings(self):
         doc = (
             "# Doc\n\n## Contents\n\n"

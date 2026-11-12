@@ -57,33 +57,54 @@ def normalize_name(text: str) -> str:
     return re.sub(r"[^0-9a-z]+", "", folded)
 
 
+def heading_key(name: str) -> str:
+    """Fold a heading into its snap key - a leading backticked token such as
+    `` `synthesis/` `` reduces to its inner text, other headings fold whole."""
+    match = re.match(r"`([^`]+)`", name)
+    return normalize_name(match.group(1) if match else name)
+
+
 def fix_rows(lines: list[str], rows: list[tuple[int, str, int]],
              headings: list[tuple[int, str]], contents_at: int) -> list[str]:
     """Return lines with each row's recorded line snapped to a section heading.
 
     A row whose label matches a heading name snaps to that heading - a section
     inserted without a Contents row then leaves its neighbours untouched.
+    Labels match exactly or by prefix - `Assessments` snaps to `assessment/`.
     Rows whose labels name no heading (grouped-section descriptors) fall back
-    to the nearest heading that still follows the previous row's anchor.
+    to the nearest heading that still follows the previous row's anchor,
+    preferring the forward anchor when two candidates sit equally close.
     """
     after_contents = [(position + 1, name) for position, name in headings
                       if position > contents_at]
     anchors = sorted(position for position, _ in after_contents)
     by_name: dict[str, list[int]] = {}
     for position, name in after_contents:
-        by_name.setdefault(normalize_name(name), []).append(position)
+        by_name.setdefault(heading_key(name), []).append(position)
     out = list(lines)
     previous = contents_at
     for row_index, name, recorded in rows:
-        named = [anchor for anchor in by_name.get(normalize_name(name), [])
+        key = normalize_name(name)
+        named = [anchor for anchor in by_name.get(key, [])
                  if anchor > previous]
+        if not named:
+            prefixes = sorted(
+                hkey for hkey in by_name
+                if len(hkey) >= 4 and (key.startswith(hkey) or hkey.startswith(key))
+            )
+            if len(prefixes) == 1:
+                named = [anchor for anchor in by_name[prefixes[0]]
+                         if anchor > previous]
         if len(named) == 1:
             nearest = named[0]
         elif not named:
             candidates = [anchor for anchor in anchors if anchor > previous]
             if not candidates:
                 break
-            nearest = min(candidates, key=lambda anchor: abs(anchor - recorded))
+            nearest = min(
+                candidates,
+                key=lambda anchor: (abs(anchor - recorded), anchor < recorded),
+            )
         else:
             continue
         previous = nearest - 1

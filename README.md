@@ -29,11 +29,11 @@
 | Report Format                      | 455  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 492  | Supported requests and exclusions                   |
 | What's Inside                      | 516  | Documents, references, tools, and conditional files |
-| Document Style                     | 708  | Pointer to the style rules file                     |
-| Specification                      | 718  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 739  | Maintenance checks and regression scenarios         |
-| License                            | 770  | License for the skill itself                        |
-| Credits                            | 776  | Authorship and attribution                          |
+| Document Style                     | 709  | Pointer to the style rules file                     |
+| Specification                      | 719  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 740  | Maintenance checks and regression scenarios         |
+| License                            | 771  | License for the skill itself                        |
+| Credits                            | 777  | Authorship and attribution                          |
 
 ## Overview
 
@@ -544,6 +544,7 @@ lens-skill/
 │   │   ├── final-adjustments.md           # Final Adjustments phase: confirmation, corrections, delivery
 │   │   └── regression-scenarios.md        # Skill-maintenance regression scenario table
 │   ├── audit-model.md                     # Evidence-to-finding pipeline and canonical audit-model.json
+│   ├── audit-request.md                   # External-agent audit-request prompt generation
 │   ├── calibration.md                     # Paired-run reproducibility procedure and tolerances
 │   ├── decision-modes.md                  # Interaction-mode matrix: interactive and automated resolution
 │   ├── development.md                     # Standby-for-specification development mode

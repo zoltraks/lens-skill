@@ -18,7 +18,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.8.8"
+  version: "2.8.9"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -34,19 +34,19 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 |-------------------------|------|----------------------------------------------------|
 | Skill Update Check      | 62   | Once-per-session git freshness gate before use     |
 | Trigger Keywords        | 84   | Activation phrases                                 |
-| How To Use              | 114  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 137  | Defaults and user-controlled report shape          |
-| Principles              | 144  | Evaluation and output rules                        |
-| Process                 | 150  | Workflow, format, and parity                       |
-| Assessments             | 197  | Core and conditional assessment guides             |
-| Synthesis               | 203  | Findings, risk, score, and remediation assembly    |
-| Translations            | 215  | Per-language report translations                   |
-| References              | 226  | Lookup tables                                      |
-| Scripts                 | 255  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 291  | Behavioral regression prompts                      |
-| Repository Files        | 295  | Housekeeping files governing this repository       |
-| Evidence Contract       | 307  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 336  | File-selection and section-placement rules         |
+| How To Use              | 116  | Progressive disclosure and mandatory reading       |
+| Parameter Configuration | 139  | Defaults and user-controlled report shape          |
+| Principles              | 146  | Evaluation and output rules                        |
+| Process                 | 152  | Workflow, format, and parity                       |
+| Assessments             | 200  | Core and conditional assessment guides             |
+| Synthesis               | 206  | Findings, risk, score, and remediation assembly    |
+| Translations            | 218  | Per-language report translations                   |
+| References              | 229  | Lookup tables                                      |
+| Scripts                 | 258  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 294  | Behavioral regression prompts                      |
+| Repository Files        | 298  | Housekeeping files governing this repository       |
+| Evidence Contract       | 310  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 339  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -103,6 +103,8 @@ The skill activates on phrases such as:
 - stack feed: feed lens skill with, extend stack standards with
 - automated invocations: audit automatically, automated mode, unattended, non-interactive
 - catalog requests: list all operations, show all capabilities
+- request prompts: generate an audit prompt, write an audit request,
+  prompt an external agent to audit, produce a delegation prompt
 
 A request that names no report artifact - "explain how it works",
 "describe what it brings" - is descriptive analysis: inline and evidence-based,
@@ -155,6 +157,7 @@ resolution rules, and re-audit parameters live in `process/parameter-configurati
   tool pipeline, and manual tail for bringing existing reports to the current contract.
   mapped in the index's Step Overview table.
 - **`process/audit-model.md`** - Evidence-to-finding pipeline and the canonical audit model.
+- **`process/audit-request.md`** - External-agent audit-request prompt generation.
 - **`process/decision-modes.md`** - Interaction-mode matrix: interactive and automated resolution.
 - **`process/calibration.md`** - Paired-run reproducibility procedure and tolerances.
 - **`process/report-format.md`** - Report format index: rules, parameters, spec-file map.
