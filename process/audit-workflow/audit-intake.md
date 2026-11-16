@@ -147,7 +147,7 @@ confirmation prompt.
   then the recovered previous style on re-audit, then the `audit` default.
 - `language-output` resolves to the recovered pair when a previous report shipped one,
   then to the `pair` / `single` default the rules above produce.
-- `project-layout` resolves to `separate`.
+- `project-layout` resolves to `combined`.
 - `report-delivery`, `review-scope`, `detail-level`, `evaluation-scale`,
   and `star-count` resolve to the defaults `process/audit-workflow/parameter-phase.md` produces.
 - Thin-input clarifications are not asked - missing inputs record `Unknown` or

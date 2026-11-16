@@ -1415,12 +1415,20 @@ def check_scorecard_dimensions(text: str) -> list[str]:
             parsed = [[cell.strip() for cell in raw_cells(row)] for row in table]
             tables.append(parsed)
             marked.append(parsed)
+    multi_project = "Project Inventory" in text
     for table in marked:
         header = table[0]
-        if header != ["Dimension", "Score"]:
+        allowed = (
+            ["Project", "Dimension", "Score"]
+            if multi_project
+            else ["Dimension", "Score"]
+        )
+        if header not in (allowed, ["Dimension", "Score"]):
             failures.append(
                 "Scorecard Summary header is "
                 f"{header} - it carries exactly `Dimension` and `Score` columns"
+                + (" plus a leading `Project` column in a multi-project report"
+                   if multi_project else "")
             )
     for _, block in dashboard_sections(text):
         tables.extend(parsed for _, parsed in dimension_tables(block))
@@ -1437,8 +1445,10 @@ def check_scorecard_dimensions(text: str) -> list[str]:
         if "Dimension" not in header or "Score" not in header:
             continue
         position = -1
+        last_project = None
         dim_idx = header.index("Dimension")
         score_idx = header.index("Score")
+        proj_idx = header.index("Project") if "Project" in header else -1
         for row in table[2:]:
             if len(row) <= max(dim_idx, score_idx):
                 continue
@@ -1446,6 +1456,14 @@ def check_scorecard_dimensions(text: str) -> list[str]:
             score = row[score_idx].strip()
             if name in ("", "Overall score"):
                 continue
+            row_project = (
+                row[proj_idx].strip()
+                if proj_idx >= 0 and len(row) > proj_idx
+                else None
+            )
+            if row_project != last_project:
+                position = -1
+                last_project = row_project
             try:
                 pos = SCORECARD_DIMENSIONS.index(name)
             except ValueError:
@@ -3975,6 +3993,18 @@ def section_project(ranges: list[tuple[int, int, str]], position: int) -> str | 
     return None
 
 
+def project_cell_name(cell: str, names: set[str]) -> str | None:
+    """Project identifier carried by a combined-layout `Project` column cell -
+    accepts `Project `<name>``, a bare name, or a link wrapping either."""
+    text = cell_text(cell).strip()
+    text = LINK_MARKUP.sub(r"\1", text)
+    text = text.strip().strip("*").strip().replace("`", "").strip()
+    match = re.match(r"Project\s+(.+?)\s*$", text)
+    if match:
+        text = match.group(1).strip()
+    return text if text in names else None
+
+
 SCORE_CELL = re.compile(
     r"^(\d+(?:\.\d+)?)/(\d+)"
     r"(?:\s*\[\s*(\d+(?:\.\d+)?)\s*-\s*(\d+(?:\.\d+)?)\s*\])?$"
@@ -4425,10 +4455,10 @@ def check_model_consistency(text: str, model: dict, style: str) -> list[str]:
         covered: dict[str | None, set[str]] = {}
         for tstart, table in covered_dimension_tables(text):
             project = section_project(ranges, tstart) if multi else None
-            covered.setdefault(project, set())
             header = table[0]
             dim_idx = header.index("Dimension")
             score_idx = header.index("Score")
+            proj_idx = header.index("Project") if "Project" in header else -1
             for row in table[2:]:
                 if len(row) <= max(dim_idx, score_idx):
                     continue
@@ -4436,14 +4466,25 @@ def check_model_consistency(text: str, model: dict, style: str) -> list[str]:
                 if name not in DIMENSION_IDS:
                     continue  # scorecard dimensions already reports it
                 leaf = DIMENSION_IDS[name]
-                key = f"{project}.{leaf}" if project else leaf
-                covered[project].add(key)
+                row_project = project
+                if proj_idx >= 0 and len(row) > proj_idx:
+                    cell_project = project_cell_name(row[proj_idx], named)
+                    if cell_project is None:
+                        failures.append(
+                            f"scorecard row for '{name}' carries Project "
+                            f"'{row[proj_idx].strip()[:40]}' - expected one of "
+                            f"{sorted(named)}"
+                        )
+                    else:
+                        row_project = cell_project
+                key = f"{row_project}.{leaf}" if row_project else leaf
+                covered.setdefault(row_project, set()).add(key)
                 kind, point, interval = parse_score_cell(row[score_idx])
                 if kind == "other":
                     continue  # scorecard grammar already reports the cell
                 record = dims.get(key)
                 expected = expected_score(record, scale_max)
-                where = f"{project} " if project else ""
+                where = f"{row_project} " if row_project else ""
                 cell = row[score_idx].strip()
                 score = record.get("score") if isinstance(record, dict) else None
                 record_interval = (

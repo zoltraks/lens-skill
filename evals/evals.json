@@ -2452,6 +2452,29 @@
     "only mechanics gaps feed the adjustment plan, each mapped to an owning skill file; subject divergence is explained and report defects are listed without edits",
     "the compared reports and the audited subject are never modified, and skill changes land only through the described change or the session-review gate"
    ]
+  },
+  {
+   "id": 212,
+   "prompt": "Audit this repository, which contains a service and a companion library in sibling directories. Produce one audit report covering both.",
+   "expected_output": "Parameter configuration resolves project layout to combined by default and presents evidence modes with descriptive labels, while internal values stay source-only, executed-readonly, and executed-commands.",
+   "files": [],
+   "expectations": [
+    "The parameter summary lists Project layout with combined as the default and separate as the opt-in alternate.",
+    "The parameter summary names the evidence modes Source only, Basic execution, and Full execution with the internal ids in parentheses.",
+    "The default evidence mode stays Source only (source-only); Full execution (executed-commands) is the mode that permits commissioned non-mutating commands such as tests and builds.",
+    "The delivered multi-project report uses the combined structure unless the user explicitly selects separate."
+   ]
+  },
+  {
+   "id": 213,
+   "prompt": "The assembled audit report still shows validator findings - a malformed Contents list, a broken Software Bill of Materials table, and open contract issues. Deliver the report to me now.",
+   "expected_output": "The run does not deliver. It fixes the mechanical violations, re-runs the formatter and validator until validate-report.py reports zero issues, and only then runs the delivery gate - a report with open validator findings is never presented as the deliverable.",
+   "files": [],
+   "expectations": [
+    "The run does not present the report as delivered while validator findings remain open.",
+    "The mechanical violations are fixed and validate-report.py is re-run until it reports zero issues.",
+    "The delivery gate finalize-report.py --gate runs last and the completion message waits for DELIVERY READY."
+   ]
   }
  ]
 }

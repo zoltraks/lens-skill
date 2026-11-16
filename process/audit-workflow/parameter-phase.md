@@ -25,12 +25,12 @@ On completion, proceed to `process/audit-workflow/scope-definition.md`.
 | Report Style                               | 419  | Report Style                               |
 | Project Layout                             | ?    | Project Layout                             |
 | Evidence Mode                              | 453  | Evidence Mode                              |
-| Detail Level                               | 497  | Detail Level                               |
-| Evaluation Scale                           | 513  | Evaluation Scale                           |
-| Improvement Suggestions                    | 542  | Improvement Suggestions                    |
-| Trade-off Analysis                         | 555  | Trade-off Analysis                         |
-| Descriptive Mode                           | 567  | Descriptive Mode                           |
-| Bypass Rule                                | 581  | Bypass Rule                                |
+| Detail Level                               | 499  | Detail Level                               |
+| Evaluation Scale                           | 515  | Evaluation Scale                           |
+| Improvement Suggestions                    | 544  | Improvement Suggestions                    |
+| Trade-off Analysis                         | 557  | Trade-off Analysis                         |
+| Descriptive Mode                           | 569  | Descriptive Mode                           |
+| Bypass Rule                                | 583  | Bypass Rule                                |
 
 
 ## Parameter Configuration
@@ -54,13 +54,13 @@ Default parameters:
 | Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                                                                                                                                                                                          |
 | Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                                                                                                                                                                                                        |
 | Trade-off analysis      | Standalone section + embedded into relevant findings                                                                                                                                                                                                                           |
-| Project layout          | `separate` - each project gets its own `##` block (multi-project only); `combined` groups every register into shared tables with a `Project` column                                                                                                                            |
+| Project layout          | `combined` (default) - groups every register into shared tables with a `Project` column; `separate` gives each project its own `##` block (multi-project only)                                                                                                            |
 | Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it                                                                                                                                                                                        |
-| Evidence mode           | `source-only` - `executed-readonly` runs commissioned non-mutating analyzers, `executed-commands` adds commissioned non-mutating commands such as tests and builds                                                                                                             |
+| Evidence mode           | `Source only` (default, `source-only`) - `Basic execution` (`executed-readonly`) runs commissioned non-mutating analyzers, `Full execution` (`executed-commands`) adds commissioned non-mutating commands such as tests and builds                                                          |
 
 When intake detected a runnable suite or build - test directories, CI configuration,
 or test scripts - the presented summary annotates the `Evidence mode` row with a note such as
-`a runnable suite exists at <path>; executed-commands could run it`.
+`a runnable suite exists at <path>; Full execution could run it`.
 
 The annotation is informational only - it adds no question surface,
 and automated runs keep the `source-only` default.
@@ -444,33 +444,35 @@ When intake confirmed more than one included project, ask whether findings, obse
 and registers group across projects or describe per project - the `project-layout` `choice`
 parameter under JSON exchange:
 
-- `separate` (default) - each project gets its own complete set of sections.
-- `combined` - registers group into shared tables with a `Project` column.
+- `combined` (default) - registers group into shared tables with a `Project` column.
+- `separate` - each project gets its own complete set of sections.
 
-When the user does not choose or the run is automated, `separate` applies,
+When the user does not choose or the run is automated, `combined` applies,
 per `process/report-format/multi-project.md`.
 
 ## Evidence Mode
 
-Use **`source-only`** by default.
+Use **Source only** by default.
 
 Under `Configure options` this is a routine prompt - ask:
 "Which evidence mode should the audit use?"
 
 Under `Accept defaults` it is never asked and the default applies.
 
-Apply `executed-readonly` or `executed-commands` only when the user explicitly commissions the mode
+Apply **Basic execution** or **Full execution** only when the user explicitly commissions the mode
 - through this prompt's answer or a statement in the request.
+When intake identified a runnable check surface - tests, lint, typecheck, build, packaging,
+or scan commands the repository declares - present **Full execution** as the recommended choice.
 
-- ** `source-only` ** (default) - the audit executes nothing: no build, test, linter, scanner,
+- **Source only** (`source-only`, default) - the audit executes nothing: no build, test, linter, scanner,
   or generator runs against the project, and verification steps become Further Verification entries.
-- ** `executed-readonly` ** - additionally runs non-mutating, read-only analyzers the user names,
+- **Basic execution** (`executed-readonly`) - additionally runs non-mutating, read-only analyzers the user names,
   such as dependency advisory or policy scanners (`cargo audit`, `cargo deny check`).
   The project itself is still never built, tested, or run,
   no tool is installed or upgraded for the audit,
   and every executed check is recorded in the Executed Evidence with tool, version, exact command,
   and timestamp per `process/report-format/report-closing.md`.
-- ** `executed-commands` ** - additionally runs the explicitly commissioned non-mutating commands
+- **Full execution** (`executed-commands`) - additionally runs the explicitly commissioned non-mutating commands
   the user names, which may include test suites, builds, lint, typecheck, coverage runs,
   and isolated reproduction harnesses. The subject is still never deployed, mutated,
   or connected to live systems, no tool is installed or upgraded unless the user commissioned it,
@@ -479,9 +481,9 @@ Apply `executed-readonly` or `executed-commands` only when the user explicitly c
   and result per `process/report-format/report-closing.md`.
   Commissioned commands run per the procedure in `references/topics/execution-isolation.md`.
 
-The question ends with `Use default: source-only` and `Use defaults for all remaining questions`.
+The question ends with `Use default: Source only` and `Use defaults for all remaining questions`.
 
-When the answer is `executed-readonly` or `executed-commands`,
+When the answer is Basic execution or Full execution,
 the audit first enumerates the subject's declared check surface per
 `references/check-surface.md` - every runnable test, coverage, lint, format, typecheck,
 build, packaging, advisory, and scan check the repository declares -

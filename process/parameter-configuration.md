@@ -24,13 +24,13 @@ Defaults are:
 | Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                                                                                                                                   |
 | Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                                                                                                                                                 |
 | Trade-off analysis      | Standalone section + embedded into relevant findings                                                                                                                                                                    |
-| Project layout          | `separate` - each project gets its own `##` block (multi-project only); `combined` groups every register into shared tables with a `Project` column. The agent may ask this when intake confirms more than one project. |
+| Project layout          | `combined` (default) - groups every register into shared tables with a `Project` column; `separate` gives each project its own `##` block (multi-project only). The agent may ask this when intake confirms more than one project. |
 | Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it                                                                                                                                 |
-| Evidence mode           | `source-only` (default), `executed-readonly` analyzers, or `executed-commands` commissioned commands                                                                                                                    |
+| Evidence mode           | `Source only` (default, `source-only`), `Basic execution` (`executed-readonly`) analyzers, or `Full execution` (`executed-commands`) commissioned commands                                                                              |
 
 When intake detected a runnable suite or build - test directories, CI configuration,
 or test scripts - the presented defaults summary annotates the `Evidence mode` row with a note such
-as `a runnable suite exists at <path>; executed-commands could run it`.
+as `a runnable suite exists at <path>; Full execution could run it`.
 
 The annotation is informational only - it adds no question surface,
 and automated runs keep the `source-only` default.

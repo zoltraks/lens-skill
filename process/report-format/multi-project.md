@@ -9,12 +9,12 @@ When the audit covers more than one project in a repository or directory,
 the report uses a combined structure.
 
 The `project_layout` parameter selects between two structures:
-`separate` (the default - each project receives its own complete set of sections,
-as this file first describes) and `combined` (a fully grouped layout with no per-project level-2
-blocks - see the Combined-layout section below).
+`combined` (the default - a fully grouped layout with no per-project level-2
+blocks - see the Combined-layout section below) and `separate` (each project receives its own
+complete set of sections, as this file first describes).
 The agent asks the `project-layout` surface during the Parameter Configuration phase - whether
 findings, observations, and registers are grouped across projects or described per project.
-when the user does not choose, `separate` applies.
+when the user does not choose, `combined` applies.
 
 Each project is assessed independently regardless of layout.
 

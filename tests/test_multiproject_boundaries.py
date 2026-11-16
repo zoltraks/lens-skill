@@ -83,5 +83,98 @@ x
         )
 
 
+class CombinedLayoutProjectColumns(unittest.TestCase):
+    """Combined multi-project reports carry a leading `Project` column
+    instead of `## Project <name>` sections - model consistency must
+    attribute scorecard rows from that column."""
+
+    def setUp(self):
+        self.validator = load_script("validate-report.py")
+        self.names = {"alpha", "beta"}
+
+    def test_project_cell_name_forms(self):
+        for cell, expected in (
+            ("Project `alpha`", "alpha"),
+            ("alpha", "alpha"),
+            ("`alpha`", "alpha"),
+            ("[Project `beta`](#project-beta)", "beta"),
+        ):
+            self.assertEqual(
+                self.validator.project_cell_name(cell, self.names), expected
+            )
+        self.assertIsNone(
+            self.validator.project_cell_name(
+                "Project `alpha` + Project `beta`", self.names
+            )
+        )
+        self.assertIsNone(
+            self.validator.project_cell_name("gamma", self.names)
+        )
+
+    def test_combined_scorecard_rows_verify_per_project(self):
+        text = (
+            "# T\n\nDocument Information\n\n"
+            "## Health Dashboard\n\n"
+            "| Project | Dimension | Score |\n"
+            "|---------|-----------|-------|\n"
+            "| Project `alpha` | Functional Suitability | 7/10 |\n"
+            "| Project `beta` | Functional Suitability | 3/10 |\n"
+        )
+        model = {
+            "scope": {
+                "projects": [{"name": "alpha"}, {"name": "beta"}]
+            },
+            "scores": {
+                "scale_max": 10,
+                "dimensions": {
+                    "alpha.functional_suitability": {"score": 7},
+                    "beta.functional_suitability": {"score": 3},
+                },
+            },
+            "criteria": [],
+            "requirements": [],
+            "findings": [],
+            "risks": [],
+            "recommendations": [],
+            "evidence": [],
+        }
+        failures = self.validator.check_model_consistency(text, model, "audit")
+        scorecard_failures = [f for f in failures if f.startswith("scorecard")]
+        self.assertEqual(scorecard_failures, [])
+
+    def test_combined_scorecard_mismatch_is_flagged(self):
+        text = (
+            "# T\n\nDocument Information\n\n"
+            "## Health Dashboard\n\n"
+            "| Project | Dimension | Score |\n"
+            "|---------|-----------|-------|\n"
+            "| Project `alpha` | Functional Suitability | 7/10 |\n"
+            "| Project `beta` | Functional Suitability | 9/10 |\n"
+        )
+        model = {
+            "scope": {
+                "projects": [{"name": "alpha"}, {"name": "beta"}]
+            },
+            "scores": {
+                "scale_max": 10,
+                "dimensions": {
+                    "alpha.functional_suitability": {"score": 7},
+                    "beta.functional_suitability": {"score": 3},
+                },
+            },
+            "criteria": [],
+            "requirements": [],
+            "findings": [],
+            "risks": [],
+            "recommendations": [],
+            "evidence": [],
+        }
+        failures = self.validator.check_model_consistency(text, model, "audit")
+        self.assertTrue(
+            any("beta" in f and "Functional Suitability" in f for f in failures),
+            msg=f"expected a beta scorecard mismatch, got {failures}",
+        )
+
+
 if __name__ == "__main__":
     unittest.main()
