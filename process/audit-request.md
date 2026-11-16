@@ -15,8 +15,8 @@ rather than the audit.
 
 ## When This Applies
 
-The request asks for a prompt that commissions an audit by another agent - the deliverable is
-the prompt text, not a report.
+The request asks for a prompt that commissions an audit by another agent - the deliverable is the
+prompt text, not a report.
 
 The generated prompt targets an agent that does not carry this skill.
 It describes the audit's nature and quality bar without relying on any file in this repository.
@@ -35,15 +35,15 @@ Two surfaces resolve before emission.
 | `prompt-shape`    | `choice` | Generic (recommended), Configured     | Generic           |
 | `prompt-delivery` | `choice` | Inline blockquote (recommended), File | Inline blockquote |
 
-- `Generic` emits the canonical skeleton verbatim - the prompt stays valid for any software
-  project and carries no parameter lines.
-- `Configured` adds a `**Parameters**` clause listing the resolved audit parameters - report
-  style, detail level, evaluation scale, evidence mode, report language, and delivery path -
-  resolved with the vocabulary of `process/parameter-configuration.md`,
+- `Generic` emits the canonical skeleton verbatim - the prompt stays valid for any software project
+  and carries no parameter lines.
+- `Configured` adds a `**Parameters**` clause listing the resolved audit parameters - report style,
+  detail level, evaluation scale, evidence mode, report language,
+  and delivery path - resolved with the vocabulary of `process/parameter-configuration.md`,
   so the external report lands comparable to a Lens report on the same subject.
 - `Inline blockquote` delivers the prompt as a quoted block for copy-paste.
-- `File` writes the prompt to a named path - a `work/` scratch path or the target repository's
-  own scratch convention, never a shipped location of this repository.
+- `File` writes the prompt to a named path - a `work/` scratch path or the target repository's own
+  scratch convention, never a shipped location of this repository.
 
 ## Procedure
 
@@ -51,8 +51,7 @@ Two surfaces resolve before emission.
    defaulting to the working repository.
 2. Resolve `prompt-shape` and `prompt-delivery`,
    asking once through the host's question mechanism when the request does not name them.
-3. Emit the canonical skeleton below,
-   filling the parameters clause for the configured shape.
+3. Emit the canonical skeleton below, filling the parameters clause for the configured shape.
 4. Deliver per `prompt-delivery` and stop - no intake classification, subject discovery,
    or audit phase runs.
 
@@ -137,23 +136,23 @@ For the configured shape, insert the clause directly after the opening paragraph
 
 ## Guardrails
 
-- The generic shape never names a real project, path, stack, or identifier - session examples
-  generalize the same way `docs/MAINTENANCE.md` anonymizes shipped examples.
+- The generic shape never names a real project, path, stack,
+  or identifier - session examples generalize the same way `docs/MAINTENANCE.md`
+  anonymizes shipped examples.
 - The prompt never instructs the external agent to commit, push, deploy,
   or modify the subject's source.
-- Command execution is offered conditionally - "if permitted" - so the same prompt stays valid
-  under source-only policies.
-- The prompt asks for self-validation mechanics by nature,
-  never naming this skill's validators, register identifiers, or contract vocabulary.
-- The emitted prompt must be self-contained - an agent reading only the prompt can perform
-  the work.
+- Command execution is offered conditionally - "if permitted" - so the same prompt stays valid under
+  source-only policies.
+- The prompt asks for self-validation mechanics by nature, never naming this skill's validators,
+  register identifiers, or contract vocabulary.
+- The emitted prompt must be self-contained - an agent reading only the prompt can perform the work.
 
 ## What Does Not Apply
 
 - No intake classification, subject discovery,
   or audit phase runs - the request named a generation task.
 - No scan of the target runs - the prompt describes a procedure the target's reader executes.
-- No parameter document emits while no surface is pending -
-  under verbose the two surfaces emit per `process/json-exchange.md`.
+- No parameter document emits while no surface is pending - under verbose the two surfaces emit per
+  `process/json-exchange.md`.
 - An emitted file is a working artifact - keep it under the target's scratch convention,
   never inside this skill's shipped tree.

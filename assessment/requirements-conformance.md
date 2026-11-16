@@ -42,8 +42,8 @@ that should deliver it.
   that merges several requirements into a theme is a summary, not a grade,
   and the table's row count reconciles against the document's requirement count.
   The registry carries normative clauses only - use-case, scenario, example,
-  and walkthrough rows are disclosed separately as coverage notes and never inflate
-  the requirement count or the mandatory denominator.
+  and walkthrough rows are disclosed separately as coverage notes and never inflate the requirement
+  count or the mandatory denominator.
 - **Per-requirement grading**: evaluate each requirement against code and configuration evidence and
   grade it `Pass`, `Partial`, `Fail`, or `Unknown`.
 - **Unmet requirements**: every `Partial` or `Fail` requirement produces a `FND-XXX` finding that
@@ -95,13 +95,14 @@ A requirement that names a mechanism is met only by that mechanism or a document
 Grade the product, not the spec: an untestable or self-contradictory clause is a spec-quality
 finding, and its requirement grade is `Unknown`.
 
-A clause that asserts runtime, hardware, external-fidelity, compatibility, or platform behavior -
-equivalence with a physical device, audible quality, real interface operation,
-cross-platform delivery, or a performance figure - grades `Unknown` without `EXECUTED`,
-`MEASURED`, or `Reported` evidence on the surface the clause names.
+A clause that asserts runtime, hardware, external-fidelity, compatibility,
+or platform behavior - equivalence with a physical device, audible quality,
+real interface operation, cross-platform delivery,
+or a performance figure - grades `Unknown` without `EXECUTED`, `MEASURED`,
+or `Reported` evidence on the surface the clause names.
 
-Source presence, unit tests, or a similar harness support at most `Partial` for such clauses -
-they demonstrate the code path exists, never that the named surface behaves.
+Source presence, unit tests, or a similar harness support at most `Partial` for such clauses - they
+demonstrate the code path exists, never that the named surface behaves.
 
 ## How To Present
 

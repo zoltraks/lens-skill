@@ -50,8 +50,8 @@ The Purpose section may use a blockquote format to summarize scope and key items
 
 This format is recommended for reference files and topic documents.
 
-The `**Scope:**` and `**Key items:**` rows are separate blockquote paragraphs -
-a `>` blank line divides them, because consecutive `>` lines render as one merged line.
+The `**Scope:**` and `**Key items:**` rows are separate blockquote paragraphs - a `>` blank line
+divides them, because consecutive `>` lines render as one merged line.
 
 ### Out-of-Scope Table
 
@@ -499,8 +499,8 @@ Do not replace box-drawing characters with `+`, `-`, or other ASCII approximatio
 
 Do not use emojis unless explicitly requested.
 
-Filled and empty stars are allowed in code examples of documented output formats such as the
-star-scale display.
+Filled and empty stars are allowed in code examples of documented output formats such as
+the star-scale display.
 
 ```text
 ★☆

@@ -56,4 +56,3 @@ For each finding that records an absent capability,
 also record its absence assessment per `principles/evaluation-rules.md`.
 
 Record evidence, concrete risks, and neutral notes for each category.
-

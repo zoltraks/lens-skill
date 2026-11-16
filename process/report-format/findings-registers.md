@@ -12,10 +12,10 @@
 |-------------------------------|------|-------------------------------------|
 | Strengths and What's Working  | 20   | Evidence-based positive baselines   |
 | Technical Findings            | 58   | Finding summary and detail blocks   |
-| Technical Debt Register       | 424  | Distinct accumulated debt           |
-| Unified Risk Register         | 474  | Cross-referenced risks              |
-| Remediation Roadmap           | 579  | Prioritized recommendations, once   |
-| Recommendation Classification | 674  | Roadmap-closing disposition classes |
+| Technical Debt Register       | 423  | Distinct accumulated debt           |
+| Unified Risk Register         | 473  | Cross-referenced risks              |
+| Remediation Roadmap           | 578  | Prioritized recommendations, once   |
+| Recommendation Classification | 673  | Roadmap-closing disposition classes |
 
 ## Strengths and What's Working
 
@@ -104,14 +104,14 @@ The `Title` column copies the finding's `### FND-...` heading verbatim - the sum
 rephrases a heading.
 
 A `Result`, `Status`, or `Change` column is omitted when every row would carry the same value - a
-fresh audit whose findings are all `Open`/`New` renders neither column, and the columns
-return the moment a re-audit mixes provenance or lifecycle states.
+fresh audit whose findings are all `Open` / `New` renders neither column,
+and the columns return the moment a re-audit mixes provenance or lifecycle states.
 
 A cell drawn from any fixed vocabulary in this file - Status, Change, Verification, Result,
-Severity, Impact, Effort, Complexity, Absence, Breaking, Provenance, Level,
-or the debt, risk, and classification vocabularies - renders the token in the form the report
-language defines: English cells render the natural forms (`Open`, `New`, `Pass`, `High`,
-`Verified`), while the uppercase forms in the vocabulary lists below are the canonical token names,
+Severity, Impact, Effort, Complexity, Absence, Breaking, Provenance, Level, or the debt, risk,
+and classification vocabularies - renders the token in the form the report language defines:
+English cells render the natural forms (`Open`, `New`, `Pass`, `High`, `Verified`),
+while the uppercase forms in the vocabulary lists below are the canonical token names,
 not the rendered cells.
 
 The rendered-forms table in `principles/output-style.md` is the single source of truth for every
@@ -226,8 +226,8 @@ and ending with a period, no sentence over 20 words]
 ```
 
 The validator parses only the literal `- **Field:**` form - an asterisk bullet,
-a bold field name matching the list below exactly (capitalized like `Confidence`,
-not `CONFIDENCE`), a colon outside the bold, then the value.
+a bold field name matching the list below exactly (capitalized like `Confidence`, not `CONFIDENCE`),
+a colon outside the bold, then the value.
 
 Bold-only lines without the bullet, trailing punctuation inside the bold,
 or renamed fields are not seen as fields at all and fail as missing.
@@ -235,9 +235,9 @@ or renamed fields are not seen as fields at all and fail as missing.
 Field labels are single words - a compound concept reduces to its head noun.
 
 The required fields, in template order: `Pillar`, `Severity`, `Type`, `Targets`, `Basis`,
-`Criteria`, `Impact`, `Method`, `Confidence`, `Mitigation`, `Evidence`,
-`Recommendation` - `Status`, `Change`, `Verification`,
-and `Confirmation` are conditional and appear only when they differ from their default or apply.
+`Criteria`, `Impact`, `Method`, `Confidence`, `Mitigation`, `Evidence`, `Recommendation` - `Status`,
+`Change`, `Verification`, and `Confirmation` are conditional and appear only when they differ from
+their default or apply.
 
 Every finding identifier must match `FND-<pillar>-NNN` with a pillar abbreviation from the list
 above - a stem like `FND-PERF-001` parses but is not a legal pillar.
@@ -302,13 +302,13 @@ The re-audit lifecycle fields `Change` and `Verification` appear on `### FND-` b
 and a bulk insert anchored on a shared field such as `- **Confidence:**` leaks
 them into risk blocks.
 
-The `Confirmation` field records whether execution confirmed the claimed behavior - `Yes`
-with a title-cased qualifier when commissioned evidence exercised it, `No` with the reason
-it did not. It is required on every finding under `executed-readonly` and `executed-commands`
-and omitted under `source-only`.
+The `Confirmation` field records whether execution confirmed the claimed behavior - `Yes` with a
+title-cased qualifier when commissioned evidence exercised it, `No` with the reason it did not.
+It is required on every finding under `executed-readonly` and `executed-commands` and omitted
+under `source-only`.
 
-Every execution-claiming summary must match this field - a finding without `Confirmation: Yes`
-never appears as execution-confirmed in a summary table.
+Every execution-claiming summary must match this field - a finding without `Confirmation: Yes` never
+appears as execution-confirmed in a summary table.
 
 The `Criteria` field names the declared criteria entry the finding bears on,
 from the criteria table in Auditing Methodology per `process/report-format/methodology-scoring.md`,
@@ -411,15 +411,14 @@ never `### EVD (Evidence identifier)` - and while the `### <ID>` heading and the
 register row that declares the identifier stay plain.
 
 A recommendation block's description paragraph never restates `Resolves FND-XXX` - the
-`- **Finding:**` field below the paragraph already carries that link, so the sentence adds
-nothing.
+`- **Finding:**` field below the paragraph already carries that link, so the sentence adds nothing.
 
-Description paragraphs are direct prose: they never open on a meta label such as
-`The defect:`, and they are never truncated with an ellipsis - every sentence runs
-complete.
+Description paragraphs are direct prose: they never open on a meta label such as `The defect:`,
+and they are never truncated with an ellipsis - every sentence runs complete.
 
-A metric or status row whose value is a bare `0`, `None`, or `-` records nothing and is
-omitted from Field/Value and metric tables, per `principles/output-style.md`.
+A metric or status row whose value is a bare `0`, `None`,
+or `-` records nothing and is omitted from Field/Value and metric tables,
+per `principles/output-style.md`.
 
 ## Technical Debt Register
 

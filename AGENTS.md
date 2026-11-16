@@ -59,8 +59,8 @@ Keep each rule in its owning document and link to it instead of duplicating it.
   or editing on assumption.
 - On a named operation, decide which additional skill documents the task needs and read them first,
   loading the smallest useful set per the router.
-- Pending questions and option surfaces are asked through the host's question mechanism, never
-  appended to a reply in prose.
+- Pending questions and option surfaces are asked through the host's question mechanism,
+  never appended to a reply in prose.
 
 ## Local Workspace
 
@@ -98,9 +98,10 @@ A request to improve the skill from the current session follows `process/session
 gather, findings, approval gate, apply, validate - with autonomous and verbose modes
 for the gate behavior.
 
-When work runs with the `improvement` flag, every error class fixed in an artifact is encoded
-into the skill in the same change set - a check in `scripts/`, a contract line in `process/` or
-`docs/`, or a tooling rule - never left as an artifact-only fix.
+When work runs with the `improvement` flag,
+every error class fixed in an artifact is encoded into the skill in the same change set - a check in
+`scripts/`, a contract line in `process/` or `docs/`,
+or a tooling rule - never left as an artifact-only fix.
 
 Session and program-level improvement planning lives in the gitignored `work/` workspace and never
 ships as part of the skill payload.

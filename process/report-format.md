@@ -40,10 +40,10 @@ A present-but-empty section signals a gap, a missing section hides it.
 | Formatting Rules                            | 48   | Formatting Rules guidance                   |
 | Report Delivery And Parameter Configuration | 373  | Report delivery and output configuration    |
 | Detail Level Configuration                  | 430  | Standard, detailed, and brief reports       |
-| Conditional Sections                        | 542  | Inclusion criteria for conditional sections |
-| Section Order                               | 602  | Single-project and multi-project order      |
-| Specification Files                         | 704  | Per-section specification file index        |
-| Pre-Delivery Mechanical Checklist           | 739  | Final mechanical checks                     |
+| Conditional Sections                        | 541  | Inclusion criteria for conditional sections |
+| Section Order                               | 601  | Single-project and multi-project order      |
+| Specification Files                         | 703  | Per-section specification file index        |
+| Pre-Delivery Mechanical Checklist           | 738  | Final mechanical checks                     |
 
 ## Formatting Rules
 
@@ -482,10 +482,9 @@ In addition, any conditional sections whose criteria are met are included in ful
 
 See the Conditional Sections rule below for the inclusion criteria of the Data Flow Diagram,
 Design Patterns, Architecture Decision Records, Threat Model, API Contract Conformance,
-Skill Definition Conformance, Guidance Conformance, AI System Assessment,
-Standards Conformance, Requirements Conformance, Baseline Conformance,
-Structure Conformance, Code Style, API Compatibility & Versioning Discipline,
-Technical Debt Register, and Follow-up Plan.
+Skill Definition Conformance, Guidance Conformance, AI System Assessment, Standards Conformance,
+Requirements Conformance, Baseline Conformance, Structure Conformance, Code Style,
+API Compatibility & Versioning Discipline, Technical Debt Register, and Follow-up Plan.
 
 **Detailed**
 

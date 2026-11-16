@@ -154,7 +154,6 @@ Produce the report in this order so each mechanical pass is effective:
 5. Run `scripts/validate-report.py` and fix whole issue classes per run, not one problem at a time.
 6. Re-run the linking passes and formatter whenever report prose changes, then re-validate.
 
-
 Compose every File-mode report as ordered parts, never as a single write.
 
 A report delivered as Inline text is exempt,
@@ -270,4 +269,3 @@ mechanical validation in `process/audit-workflow/report-validation.md` reports z
 
 Challenge both inflated praise and unsupported defect claims,
 and record retained disagreements and their dispositions in the model.
-

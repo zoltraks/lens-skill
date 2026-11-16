@@ -13,9 +13,8 @@ Follow it after Synthesis.
 
 | Section                      | Line | What it covers               |
 |------------------------------|------|------------------------------|
-| Validation                   | 20   | Validation                   |
-| Evidence And Decision Checks | 346  | Evidence And Decision Checks |
-
+| Validation                   | 19   | Validation                   |
+| Evidence And Decision Checks | 345  | Evidence And Decision Checks |
 
 ## Validation
 
@@ -26,8 +25,8 @@ from - then run `validate-report.py` with `--model work/audit-model.json` and
 `--state work/audit-state.json` so scorecard cells, overall scores, register blocks,
 evidence citations, criteria outcomes, and the run-state vocabulary reconcile with the
 records they render from.
-Combined multi-project reports attribute scorecard rows through their leading `Project`
-column, so the model cross-check covers that layout as well as per-project `##` blocks.
+Combined multi-project reports attribute scorecard rows through their leading `Project` column,
+so the model cross-check covers that layout as well as per-project `##` blocks.
 `finalize-report.py` accepts the same two flags and passes them through.
 
 Re-check every finding against `principles/evaluation-rules.md`.
@@ -299,11 +298,11 @@ Run the delivery gate as the last operation before the completion message -
 deliver only on `DELIVERY READY`.
 
 A report that still carries open validator findings is never a deliverable:
-malformed tables, a broken Contents list, or an invalid SBOM are mechanical
-contract violations the validator exists to catch, and presenting such a
-report as finished is a workflow failure, not a formatting nit. When the gate
-prints `DELIVERY NOT READY`, keep fixing and re-validating - the completion
-message waits for the gate, never precedes it.
+malformed tables, a broken Contents list,
+or an invalid SBOM are mechanical contract violations the validator exists to catch,
+and presenting such a report as finished is a workflow failure, not a formatting nit.
+When the gate prints `DELIVERY NOT READY`,
+keep fixing and re-validating - the completion message waits for the gate, never precedes it.
 
 The authored-side checklist in `references/delivery-checklist.md` consolidates what the validator
 enforces - run it against the assembled report before the gate so the gate
@@ -360,7 +359,6 @@ this rule - omit the row instead of inventing a duration.
   audit-created artifacts is reported, never silently left.
 - Sweep the finished report for every sensitive literal gathered during evidence collection -
   secrets, internal hostnames, addresses, and personal data appear only as redacted tokens.
-
 
 ## Double Verification
 

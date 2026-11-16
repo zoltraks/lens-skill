@@ -17,12 +17,11 @@ style, format, and completeness defects are found and fixed here, before deliver
 
 | Section                 | Line | What it covers          |
 |-------------------------|------|-------------------------|
-| Mechanical Confirmation | 27   | Mechanical Confirmation |
-| Completeness Sweep      | 39   | Completeness Sweep      |
-| Style Confirmation      | 54   | Style Confirmation      |
-| Adjustment Loop         | 67   | Adjustment Loop         |
-| Delivery Gate           | 84   | Delivery Gate           |
-
+| Mechanical Confirmation | 26   | Mechanical Confirmation |
+| Completeness Sweep      | 38   | Completeness Sweep      |
+| Style Confirmation      | 53   | Style Confirmation      |
+| Adjustment Loop         | 66   | Adjustment Loop         |
+| Delivery Gate           | 83   | Delivery Gate           |
 
 ## Mechanical Confirmation
 

@@ -12,21 +12,21 @@ configure options, or specify the operation to run.
 
 Defaults are:
 
-| Parameter               | Default                                                                                                                                                                                                                 |
-|-------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Report style            | a style named in the request, then the recovered previous style on re-audit - `audit` governance report (fallback default), `hunt` defect-hunt report, or `review` execution-register report                            |
-| Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/` - `review/` or `reviews/` for a review report - else Inline                                                                                  |
-| Output location         | Resolved across `docs/`, `document/`, `doc/` roots or the repository root                                                                                                                                               |
-| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md`/`REVIEW.md` for a first hunt/review                                                                                  |
-| Report language         | Match the language of the user's request                                                                                                                                                                                |
-| Language output         | `pair` when the report language is not English or a previous report was a language pair, `single` when the request scopes to one language                                                                               |
-| Detail level            | Detailed                                                                                                                                                                                                                |
-| Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                                                                                                                                   |
-| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                                                                                                                                                 |
-| Trade-off analysis      | Standalone section + embedded into relevant findings                                                                                                                                                                    |
+| Parameter               | Default                                                                                                                                                                                                                            |
+|-------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Report style            | a style named in the request, then the recovered previous style on re-audit - `audit` governance report (fallback default), `hunt` defect-hunt report, or `review` execution-register report                                       |
+| Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/` - `review/` or `reviews/` for a review report - else Inline                                                                                             |
+| Output location         | Resolved across `docs/`, `document/`, `doc/` roots or the repository root                                                                                                                                                          |
+| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md`/`REVIEW.md` for a first hunt/review                                                                                             |
+| Report language         | Match the language of the user's request                                                                                                                                                                                           |
+| Language output         | `pair` when the report language is not English or a previous report was a language pair, `single` when the request scopes to one language                                                                                          |
+| Detail level            | Detailed                                                                                                                                                                                                                           |
+| Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                                                                                                                                              |
+| Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                                                                                                                                                            |
+| Trade-off analysis      | Standalone section + embedded into relevant findings                                                                                                                                                                               |
 | Project layout          | `combined` (default) - groups every register into shared tables with a `Project` column; `separate` gives each project its own `##` block (multi-project only). The agent may ask this when intake confirms more than one project. |
-| Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it                                                                                                                                 |
-| Evidence mode           | `Source only` (default, `source-only`), `Basic execution` (`executed-readonly`) analyzers, or `Full execution` (`executed-commands`) commissioned commands                                                                              |
+| Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it                                                                                                                                            |
+| Evidence mode           | `Source only` (default, `source-only`), `Basic execution` (`executed-readonly`) analyzers, or `Full execution` (`executed-commands`) commissioned commands                                                                         |
 
 When intake detected a runnable suite or build - test directories, CI configuration,
 or test scripts - the presented defaults summary annotates the `Evidence mode` row with a note such
@@ -119,13 +119,13 @@ against, and the report states the exclusion rather than a changes section.
 or an explicit web-fetch commission for public advisory data.
 
 When a lockfile or dependency manifest exists and the evidence mode allows the sweep,
-the check-surface census per `references/check-surface.md` names the ecosystem's advisory
-command in the proposed commission set and `dependency-advisories` resolves `on` unless
-the request or the narrowed commission set declines it.
+the check-surface census per `references/check-surface.md` names the ecosystem's advisory command in
+the proposed commission set and `dependency-advisories` resolves `on` unless the request or the
+narrowed commission set declines it.
 
 When the sweep runs, advisory IDs land in the SBOM `Advisory` column per
 `assessment/dependency-review.md`.
 
 When it is `off`, declined, or the evidence mode disallows it,
-the column keeps its honest `Not checked` or `N` entries - freshness flags alone never
-claim advisory status, and a `source-only` audit never implies the sweep ran.
+the column keeps its honest `Not checked` or `N` entries - freshness flags alone never claim
+advisory status, and a `source-only` audit never implies the sweep ran.

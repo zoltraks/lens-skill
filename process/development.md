@@ -40,30 +40,29 @@ improvement". The flag arms improvement mode for the described work:
 improvements the work surfaces are applied to this repository's files through the member's own
 maintenance path, and the flag alone never routes to the session-history gather.
 
-Every error class fixed in an artifact during improvement-mode work is also encoded into the
-skill itself - a validator check, a tooling rule, or a contract line so the defect cannot
-recur. Fixes never land only in the artifact: report repairs update `scripts/`,
-`process/`, or `docs/` in the same change set.
+Every error class fixed in an artifact during improvement-mode work is also encoded into the skill
+itself - a validator check, a tooling rule, or a contract line so the defect cannot recur.
+Fixes never land only in the artifact: report repairs update `scripts/`, `process/`,
+or `docs/` in the same change set.
 
 ## Option Surfaces
 
-When the mode offers options - on entry or at a later gate - "Develop new feature" is the
-offered option.
+When the mode offers options - on entry or at a later gate - "Develop new feature"
+is the offered option.
 
 The specification ask always carries a standby option as the last entry of its offered list,
 before `Cancel` in JSON-exchange menus, and the label follows the working modes the request armed:
 
-- `Improve on the fly` when the request armed `improvement` - the answer does nothing now and
-  waits for a named operation, and improvements that operation surfaces apply on the fly during
-  the work.
+- `Improve on the fly` when the request armed `improvement` - the answer does nothing now and waits
+  for a named operation, and improvements that operation surfaces apply on the fly during the work.
 - `Do nothing yet` when `improvement` is not armed - the answer skips the question flow and the
   mode stays on standby.
 
-Either resolution ends the ask without ending the mode - a later described change or named
-operation still routes through this file's procedure.
+Either resolution ends the ask without ending the mode - a later described change or named operation
+still routes through this file's procedure.
 
-"Update the skill" is never offered: the update check already ran as procedure step 1, and an
-option that re-names completed work only duplicates it.
+"Update the skill" is never offered: the update check already ran as procedure step 1,
+and an option that re-names completed work only duplicates it.
 
 ## What Does Not Apply
 

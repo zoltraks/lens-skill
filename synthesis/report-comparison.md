@@ -349,8 +349,8 @@ Use this fixed vocabulary in the `Status`, `Change`, and `Verification` columns 
 | `Open`   | `Reopened`  | `Confirmed`  | A closed finding reproduces again under current evidence           |
 | `Pass`   | `Unchanged` | `Verified`   | A passing control, re-verified                                     |
 
-`Confirmed` is the execution-confirmed qualifier - it requires `Confirmation: Yes` in the
-finding's detailed block, which a source-only audit never produces.
+`Confirmed` is the execution-confirmed qualifier - it requires `Confirmation: Yes` in the finding's
+detailed block, which a source-only audit never produces.
 
 Under `source-only` evidence mode a re-inspected `Open` / `Unchanged` finding renders `Verified`,
 matching `Verification: Yes` in the block - the finding carries no `Confirmation` field.

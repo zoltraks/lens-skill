@@ -16,7 +16,7 @@
 | Executed Evidence    | 162  | executed-mode checks, commands, results                |
 | Follow-up Plan       | 194  | roadmap-closing retest and re-audit plan               |
 | Validation Protocol  | 237  | PAR-1 through PAR-27 rows, evidence basis              |
-| Reference Sources    | 275  | external sources, link paragraphs, cached-source notes |
+| Reference Sources    | 274  | external sources, link paragraphs, cached-source notes |
 
 ## Scope Exclusions
 
@@ -238,7 +238,6 @@ proposed roles are not assignments.
 
 Run-internal by default: the protocol executes and is reported inline during the run and appears in
 the shipped report only when the request explicitly asks for it.
-
 
 Close the analysis with a self-check table verifying the report's internal consistency.
 

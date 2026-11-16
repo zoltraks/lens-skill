@@ -16,22 +16,21 @@ On completion, proceed to `process/audit-workflow/scope-definition.md`.
 
 | Section                                    | Line | What it covers                             |
 |--------------------------------------------|------|--------------------------------------------|
-| Parameter Configuration                    | 36   | Parameter Configuration                    |
-| Saved Parameters (`work/lens-params.json`) | 171  | Saved Parameters (`work/lens-params.json`) |
-| Parameter Prompts                          | 197  | Parameter Prompts                          |
-| Delivery And Output File                   | 225  | Delivery And Output File                   |
-| Previous Report Files                      | 377  | Previous Report Files                      |
-| Report Language                            | 397  | Report Language                            |
-| Report Style                               | 419  | Report Style                               |
+| Parameter Configuration                    | 35   | Parameter Configuration                    |
+| Saved Parameters (`work/lens-params.json`) | 170  | Saved Parameters (`work/lens-params.json`) |
+| Parameter Prompts                          | 196  | Parameter Prompts                          |
+| Delivery And Output File                   | 224  | Delivery And Output File                   |
+| Previous Report Files                      | 376  | Previous Report Files                      |
+| Report Language                            | 396  | Report Language                            |
+| Report Style                               | 418  | Report Style                               |
 | Project Layout                             | ?    | Project Layout                             |
-| Evidence Mode                              | 453  | Evidence Mode                              |
-| Detail Level                               | 499  | Detail Level                               |
-| Evaluation Scale                           | 515  | Evaluation Scale                           |
-| Improvement Suggestions                    | 544  | Improvement Suggestions                    |
-| Trade-off Analysis                         | 557  | Trade-off Analysis                         |
-| Descriptive Mode                           | 569  | Descriptive Mode                           |
-| Bypass Rule                                | 583  | Bypass Rule                                |
-
+| Evidence Mode                              | 452  | Evidence Mode                              |
+| Detail Level                               | 501  | Detail Level                               |
+| Evaluation Scale                           | 517  | Evaluation Scale                           |
+| Improvement Suggestions                    | 546  | Improvement Suggestions                    |
+| Trade-off Analysis                         | 559  | Trade-off Analysis                         |
+| Descriptive Mode                           | 571  | Descriptive Mode                           |
+| Bypass Rule                                | 585  | Bypass Rule                                |
 
 ## Parameter Configuration
 
@@ -54,9 +53,9 @@ Default parameters:
 | Evaluation scale        | 1-10 (options: 1-5, 1-3, Stars - count via follow-up)                                                                                                                                                                                                                          |
 | Improvement suggestions | Include with priorities (P1-P4 roadmap)                                                                                                                                                                                                                                        |
 | Trade-off analysis      | Standalone section + embedded into relevant findings                                                                                                                                                                                                                           |
-| Project layout          | `combined` (default) - groups every register into shared tables with a `Project` column; `separate` gives each project its own `##` block (multi-project only)                                                                                                            |
+| Project layout          | `combined` (default) - groups every register into shared tables with a `Project` column; `separate` gives each project its own `##` block (multi-project only)                                                                                                                 |
 | Descriptive mode        | Enabled - a Glossary section defines every acronym used and body occurrences link to it                                                                                                                                                                                        |
-| Evidence mode           | `Source only` (default, `source-only`) - `Basic execution` (`executed-readonly`) runs commissioned non-mutating analyzers, `Full execution` (`executed-commands`) adds commissioned non-mutating commands such as tests and builds                                                          |
+| Evidence mode           | `Source only` (default, `source-only`) - `Basic execution` (`executed-readonly`) runs commissioned non-mutating analyzers, `Full execution` (`executed-commands`) adds commissioned non-mutating commands such as tests and builds                                             |
 
 When intake detected a runnable suite or build - test directories, CI configuration,
 or test scripts - the presented summary annotates the `Evidence mode` row with a note such as
@@ -65,9 +64,9 @@ or test scripts - the presented summary annotates the `Evidence mode` row with a
 The annotation is informational only - it adds no question surface,
 and automated runs keep the `source-only` default.
 
-The same intake note names each declared check the audit cannot run under `source-only` -
-a declared coverage gate, advisory sweep, or packaging check stays visible as a declared-but-unrun
-item so the evidence-mode decision sees the full declared surface, never only the test suite.
+The same intake note names each declared check the audit cannot run under `source-only` - a declared
+coverage gate, advisory sweep, or packaging check stays visible as a declared-but-unrun item so the
+evidence-mode decision sees the full declared surface, never only the test suite.
 
 **Gate** - `parameters-acceptance`: a blocking gate per `process/decision-modes.md`.
 
@@ -459,21 +458,25 @@ Under `Configure options` this is a routine prompt - ask:
 
 Under `Accept defaults` it is never asked and the default applies.
 
-Apply **Basic execution** or **Full execution** only when the user explicitly commissions the mode
-- through this prompt's answer or a statement in the request.
+Apply **Basic execution** or **Full execution** only when the user explicitly commissions the mode -
+through this prompt's answer or a statement in the request.
+
 When intake identified a runnable check surface - tests, lint, typecheck, build, packaging,
 or scan commands the repository declares - present **Full execution** as the recommended choice.
 
-- **Source only** (`source-only`, default) - the audit executes nothing: no build, test, linter, scanner,
-  or generator runs against the project, and verification steps become Further Verification entries.
-- **Basic execution** (`executed-readonly`) - additionally runs non-mutating, read-only analyzers the user names,
-  such as dependency advisory or policy scanners (`cargo audit`, `cargo deny check`).
+- **Source only** (`source-only`, default) - the audit executes nothing: no build, test, linter,
+  scanner, or generator runs against the project,
+  and verification steps become Further Verification entries.
+- **Basic execution** (`executed-readonly`) - additionally runs non-mutating,
+  read-only analyzers the user names, such as dependency advisory or policy scanners (`cargo audit`,
+  `cargo deny check`).
   The project itself is still never built, tested, or run,
   no tool is installed or upgraded for the audit,
   and every executed check is recorded in the Executed Evidence with tool, version, exact command,
   and timestamp per `process/report-format/report-closing.md`.
-- **Full execution** (`executed-commands`) - additionally runs the explicitly commissioned non-mutating commands
-  the user names, which may include test suites, builds, lint, typecheck, coverage runs,
+- **Full execution** (`executed-commands`) -
+  additionally runs the explicitly commissioned non-mutating commands the user names,
+  which may include test suites, builds, lint, typecheck, coverage runs,
   and isolated reproduction harnesses. The subject is still never deployed, mutated,
   or connected to live systems, no tool is installed or upgraded unless the user commissioned it,
   and every executed command lands in the Executed Evidence - or the Execution Register under
@@ -484,14 +487,13 @@ or scan commands the repository declares - present **Full execution** as the rec
 The question ends with `Use default: Source only` and `Use defaults for all remaining questions`.
 
 When the answer is Basic execution or Full execution,
-the audit first enumerates the subject's declared check surface per
-`references/check-surface.md` - every runnable test, coverage, lint, format, typecheck,
-build, packaging, advisory, and scan check the repository declares -
-and the free-text follow-up presents that set as the proposed commission with the
-readiness-relevant entries marked.
+the audit first enumerates the subject's declared check surface per `references/check-surface.md` -
+every runnable test, coverage, lint, format, typecheck, build, packaging, advisory,
+and scan check the repository declares - and the free-text follow-up presents that set as the
+proposed commission with the readiness-relevant entries marked.
 
-The user confirms the set, narrows it, or replaces it - an "all" or empty answer commissions
-the proposed set, and only the commissioned set may run.
+The user confirms the set, narrows it, or replaces it - an "all" or empty answer commissions the
+proposed set, and only the commissioned set may run.
 
 Under JSON exchange this is the `evidence-mode` `choice` parameter,
 and the commission follow-up is the `commissioned-commands` `text` parameter.
@@ -587,4 +589,3 @@ Every routine prompt ends with the named option `Use defaults for all remaining 
 Selecting it, or responding with "bypass", "skip", "defaults", or equivalent at any prompt,
 immediately accepts all remaining defaults and proceeds to Scope Definition
 (`process/audit-workflow/scope-definition.md`).
-

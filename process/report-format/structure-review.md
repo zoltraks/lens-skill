@@ -68,8 +68,8 @@ per `process/report-format/multi-project.md`.
 The `review` style has no Structure Review section.
 
 Structure findings render inside Domain Findings under the `### Maintainability` domain,
-carrying `FND-STR-` identifiers and the standard finding block schema with the `Level`
-field per `process/report-format/findings-registers.md`.
+carrying `FND-STR-` identifiers and the standard finding block schema with the `Level` field per
+`process/report-format/findings-registers.md`.
 
 A `hunt` report never loads the structure assessment and never renders `FND-STR-` findings.
 

@@ -18,21 +18,20 @@ On completion, proceed to `process/audit-workflow/parameter-phase.md`.
 
 | Section                                   | Line | What it covers                            |
 |-------------------------------------------|------|-------------------------------------------|
-| Intake                                    | 37   | Intake                                    |
-| Deliverable Classification                | 48   | Deliverable Classification                |
-| Automated Run                             | 123  | Automated Run                             |
-| Report Parity Discovery                   | 161  | Report Parity Discovery                   |
-| Output Location Discovery                 | 174  | Output Location Discovery                 |
-| Development Standards Discovery           | 207  | Development Standards Discovery           |
-| Nested Repository And Working-tree Census | 232  | Nested Repository And Working-tree Census |
-| Snapshot Identity                         | 271  | Snapshot Identity                         |
-| External Report Discovery                 | 286  | External Report Discovery                 |
-| Agent-facing Artifact Discovery           | 295  | Agent-facing Artifact Discovery           |
-| Project Identification                    | 342  | Project Identification                    |
-| Automation Signal Census                  | 424  | Automation Signal Census                  |
-| Stack And Subject Classification          | 444  | Stack And Subject Classification          |
-| Audit Mode And Previous Reports           | 491  | Audit Mode And Previous Reports           |
-
+| Intake                                    | 36   | Intake                                    |
+| Deliverable Classification                | 47   | Deliverable Classification                |
+| Automated Run                             | 122  | Automated Run                             |
+| Report Parity Discovery                   | 160  | Report Parity Discovery                   |
+| Output Location Discovery                 | 173  | Output Location Discovery                 |
+| Development Standards Discovery           | 206  | Development Standards Discovery           |
+| Nested Repository And Working-tree Census | 231  | Nested Repository And Working-tree Census |
+| Snapshot Identity                         | 270  | Snapshot Identity                         |
+| External Report Discovery                 | 285  | External Report Discovery                 |
+| Agent-facing Artifact Discovery           | 294  | Agent-facing Artifact Discovery           |
+| Project Identification                    | 341  | Project Identification                    |
+| Automation Signal Census                  | 423  | Automation Signal Census                  |
+| Stack And Subject Classification          | 443  | Stack And Subject Classification          |
+| Audit Mode And Previous Reports           | 490  | Audit Mode And Previous Reports           |
 
 ## Intake
 
@@ -642,4 +641,3 @@ section, per `synthesis/report-comparison.md` and `process/report-format/summary
 If no previous report is found and the conversation context contains no record of previously chosen
 parameters, treat the request as a new audit and run the full Parameter Configuration phase in
 `process/audit-workflow/parameter-phase.md`.
-

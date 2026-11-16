@@ -21,12 +21,12 @@ Two audits of similar systems should produce reports of similar shape, vocabular
 | Tone And Register              | 31   | Neutral, precise report voice    |
 | Structure Preferences          | 45   | Tables over paragraphs, ordering |
 | Fixed Vocabularies             | 84   | Status and severity word lists   |
-| Consistency Rules              | 194  | Same input, same output shape    |
-| Plain-Text Friendly Formatting | 210  | Terminal and diff readability    |
-| Multilingual Output            | 332  | Non-English report rendering     |
-| Information Security In Output | 471  | Redaction and disclosure limits  |
-| Report Termination             | 486  | End-of-report rules              |
-| Determinism                    | 506  | Repeatability guarantees         |
+| Consistency Rules              | 196  | Same input, same output shape    |
+| Plain-Text Friendly Formatting | 212  | Terminal and diff readability    |
+| Multilingual Output            | 334  | Non-English report rendering     |
+| Information Security In Output | 473  | Redaction and disclosure limits  |
+| Report Termination             | 488  | End-of-report rules              |
+| Determinism                    | 508  | Repeatability guarantees         |
 
 ## Tone And Register
 
@@ -168,11 +168,13 @@ Free-text cells and `- **Field:**` values start with a capital letter.
 Literal identifiers, paths, commands, and tool or package names keep their natural case - a cell
 opening `git log` or `deny.toml` stays lowercase because the token is verbatim, not prose.
 
-Register blocks (`FND`, `RSK`, `REC`, `TDR`) keep their title short - the narrative belongs in
-the description paragraph under the heading, never in the title itself.
+Register blocks (`FND`, `RSK`, `REC`, `TDR`)
+keep their title short - the narrative belongs in the description paragraph under the heading,
+never in the title itself.
 
-Every description paragraph is one or more complete sentences: each starts on a capital letter
-or a digit, ends with a period, and runs at most 20 words - split a longer sentence into two.
+Every description paragraph is one or more complete sentences:
+each starts on a capital letter or a digit, ends with a period,
+and runs at most 20 words - split a longer sentence into two.
 
 A sentence never opens on a conjunction such as `And` or `So`.
 
@@ -251,10 +253,10 @@ A sentence opens with a word, never a code span or an emphasis marker.
 
 No space precedes `,` or `.` and no sentence fragment - `.` or `,` - ever opens a continuation line.
 
-A list item carries one sentence or comma-joined clauses, and field lists stay tight with no blank
-lines between `- **Field:**` items.
+A list item carries one sentence or comma-joined clauses,
+and field lists stay tight with no blank lines between `- **Field:**` items.
 
-A link atom is unbreakable - never split `[text](url)` across lines; overflow beyond the wrap width
+A link atom is unbreakable - never split `[text](url)` across lines - overflow beyond the wrap width
 is accepted only for that atom.
 
 Table cells stay telegraphic - a row that overflows the width budget splits into two rows.
@@ -510,5 +512,5 @@ Given the same input, aim to produce the same findings, statuses, and scores.
 Anchor every judgement to a rule in this skill and to evidence in the input,
 so that the result is reproducible rather than stylistic.
 
-A metric or Field/Value row whose value is a bare `0`, `None`, or `-` carries no
-information and is omitted - the absence of an artifact is not a measurement.
+A metric or Field/Value row whose value is a bare `0`, `None`,
+or `-` carries no information and is omitted - the absence of an artifact is not a measurement.

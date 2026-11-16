@@ -12,8 +12,8 @@
 |----------------------|------|--------------------------------------|
 | Document Information | 18   | Report metadata and revisions        |
 | Contents             | 175  | Linked navigation of report sections |
-| Audit Coverage       | 185  | Coverage of canonical audit types    |
-| Glossary             | 244  | Abbreviation and acronym definitions |
+| Audit Coverage       | 184  | Coverage of canonical audit types    |
+| Glossary             | 243  | Abbreviation and acronym definitions |
 
 ## Document Information
 
@@ -72,9 +72,9 @@ Rows appear in this order, each label in the first column and its value in the s
   `Previous Report`, and the Changes section, never prefixed into `Audit Purpose`.
 - `Target Environment` - where the software runs or ships.
 - `Verification Scope` - `Static repository analysis - no execution` for `Source-only`,
-  `Static repository analysis - non-mutating analyzers executed` under `executed-readonly`, or
-  `Static repository analysis - non-mutating commands executed` under `executed-commands` -
-  the short token `Source-only` may stand when a previous revision already established it.
+  `Static repository analysis - non-mutating analyzers executed` under `executed-readonly`,
+  or `Static repository analysis - non-mutating commands executed` under `executed-commands` - the
+  short token `Source-only` may stand when a previous revision already established it.
 - `Evidence Mode` - `Source-only`, `Executed read-only`, or `Executed commands`.
 - `Subject Revision` - the audited revision of the subject:
   the commit SHA with branch or detached state in parentheses when VCS metadata exists,
@@ -180,7 +180,6 @@ Each entry is a `- [Section Name](#anchor)` bullet with the section's own headin
 list for human navigation, never a line-number table.
 
 The section name is `## Contents` exactly - `## Table of Contents` is never written.
-
 
 ## Audit Coverage
 

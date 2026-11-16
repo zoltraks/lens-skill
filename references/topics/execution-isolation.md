@@ -125,16 +125,16 @@ and a subject defect is never dismissed as an environment quirk.
 What the record says is what ran - never what was intended to run.
 
 - The `procedure` field carries the literal command exactly as invoked.
-  A script name copied from the manifest but never invoked - or invoked differently -
-  is a report defect, not evidence.
+  A script name copied from the manifest but never invoked - or invoked differently - is a report
+  defect, not evidence.
 - The record names the command's declared scope (suite selector, glob, directory argument),
-  and the claim it supports never outgrows that scope - a `Pass` on a configured subset
-  is a subset pass, never a whole-tree one.
+  and the claim it supports never outgrows that scope - a `Pass` on a configured subset is a subset
+  pass, never a whole-tree one.
 - The commissioned set is enumerated before it runs per `references/check-surface.md`,
   so a check the census declared but the commission dropped is a visible `Not run` entry,
   not an invisible gap.
-- `Not run` and `Not checked` are honest ledger states - they mark missing evidence
-  the verdict must price, never claim a result.
+- `Not run` and `Not checked` are honest ledger states - they mark missing evidence the verdict must
+  price, never claim a result.
 
 ## Live Check
 

@@ -23,8 +23,8 @@ Apply `principles/evaluation-rules.md` throughout.
 | Confidence                | 275  | Confidence guidance                |
 | Maturity Levels           | 293  | Maturity Levels guidance           |
 | Readiness Gates           | 312  | Readiness Gates guidance           |
-| Required Summary Fields   | 371  | Required Summary Fields guidance   |
-| Multi-Project Rules       | 384  | Multi-Project Rules guidance       |
+| Required Summary Fields   | 370  | Required Summary Fields guidance   |
+| Multi-Project Rules       | 383  | Multi-Project Rules guidance       |
 
 ## Separate Decision Outputs
 
@@ -227,8 +227,8 @@ checked by `scripts/check-model.py`):
   publishes only when more than half the applicable process dimensions scored.
   `single` blends `0.7 * product + 0.3 * process` when both publish,
   or takes the product value flagged `product-only` when process is unpublished,
-  then applies the ceiling: `3` on an open Critical,
-  `6` on an open High, a `NOT READY`, or a `PENDING EVIDENCE` readiness at scale 10,
+  then applies the ceiling: `3` on an open Critical, `6` on an open High, a `NOT READY`,
+  or a `PENDING EVIDENCE` readiness at scale 10,
   proportional on scales 5 and 3 - a pending-evidence audit never publishes a top-band headline.
 - Multi-project models carry the three records under `scores.per_project[<name>]` while
   `scores.product`, `scores.process`, and `scores.single` stay absent,
@@ -345,10 +345,9 @@ laboratory status never legitimizes it.
 
 A gate the evidence cannot satisfy stays open - silence never waives a reconstructed gate.
 
-An unresolved `critical` or `high` criticality criteria entry blocks `READY` in a
-readiness-purpose audit - the state resolves `PENDING EVIDENCE` with a `gate:<id>`
-blocking entry per unresolved criterion, and `scripts/check-model.py` enforces it
-mechanically.
+An unresolved `critical` or `high` criticality criteria entry blocks `READY` in a readiness-purpose
+audit - the state resolves `PENDING EVIDENCE` with a `gate:<id>` blocking entry per unresolved
+criterion, and `scripts/check-model.py` enforces it mechanically.
 
 Use these readiness states:
 

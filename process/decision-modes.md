@@ -62,10 +62,10 @@ because a gate that skips a surface is a protocol defect, not a shortcut.
 Each decision is its own question with its own option set - flattening several decisions' options
 into one list lets an answer select conflicting options or none at all.
 
-An interactive question is delivered through the host's own question mechanism - a dedicated ask
-or question tool - whenever the host provides one.
-A reply that ends by waiting on a choice carries a pending surface, and naming options in prose is
-not asking them.
+An interactive question is delivered through the host's own question mechanism - a dedicated ask or
+question tool - whenever the host provides one.
+A reply that ends by waiting on a choice carries a pending surface,
+and naming options in prose is not asking them.
 A question appends to the tail of the reply in prose where the host offers no question mechanism,
 and may append under `verbose` where the explanation the mode adds belongs with the question.
 Every appended question names its recommendation.

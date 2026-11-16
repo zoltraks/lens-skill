@@ -67,14 +67,13 @@ No git tags are used.
 
 Match the repository's own convention - read `git log -10 --format=%s` before proposing.
 
-The subject line is one short, general sentence with no type prefixes
-(`feat:`, `fix:`, `docs:`, `chore:`) and no trailing period.
+The subject line is one short, general sentence with no type prefixes (`feat:`, `fix:`, `docs:`,
+`chore:`) and no trailing period.
 
 Optional detail goes in the body, separated from the subject by one blank line.
 The message itself never ends with a blank line or a trailing newline.
 
-The message carries no author lines, sign-offs, AI attribution,
-or other metadata trailers.
+The message carries no author lines, sign-offs, AI attribution, or other metadata trailers.
 
 ## Security Issues
 

@@ -66,19 +66,19 @@ this page is the fast check, not the specification.
 ## Field Blocks
 
 - The only parsed field syntax is `- **Field:** value` - an asterisk bullet, a bold field name,
-  a colon outside the bold. Field labels are single words - a compound concept reduces to its
-  head noun.
+  a colon outside the bold. Field labels are single words - a compound concept
+  reduces to its head noun.
 - Every register block (`FND`, `RSK`, `REC`, `TDR`)
   opens with a description paragraph directly under its `### ` heading,
-  before the field list - short sentences may share a paragraph line, a sentence over
-  20 words stands alone as its own paragraph, and the block carries no
-  `Description` field label.
+  before the field list - short sentences may share a paragraph line,
+  a sentence over 20 words stands alone as its own paragraph,
+  and the block carries no `Description` field label.
 - Finding blocks require, in order: `Pillar`, `Severity`, `Type`, `Targets`, `Basis`, `Criteria`,
   `Impact`, `Method`, `Confidence`, `Mitigation`, `Evidence`, `Recommendation`.
 - `Verification` appears only when the finding was verified - a `Yes` / `No` lead with a title-cased
   qualifier, never a lowercase `yes` / `no` prefix.
-  `Confirmation` is required on every finding under `executed-readonly` and `executed-commands`
-  and omitted under `source-only` - a `Yes` / `No` lead with a title-cased qualifier.
+  `Confirmation` is required on every finding under `executed-readonly` and `executed-commands` and
+  omitted under `source-only` - a `Yes` / `No` lead with a title-cased qualifier.
 - `Status` appears only when it differs from `Open`,
   and `Change` only when it differs from `New` - both are lifecycle defaults and carry no
   information at the default value.
@@ -90,9 +90,8 @@ this page is the fast check, not the specification.
   estimate or qualitative note, and never an `Insufficient information` token a value with no
   estimable basis omits the field entirely.
 - A risk block's `Source` names a defined `FND-`,
-  a recommendation block's `Finding` names a defined `FND-` and its `Depends` names defined
-  `REC-` identifiers or `none`, and a debt block's `Source` is a defined `FND-` or
-  `Direct observation`.
+  a recommendation block's `Finding` names a defined `FND-` and its `Depends` names defined `REC-`
+  identifiers or `none`, and a debt block's `Source` is a defined `FND-` or `Direct observation`.
 - Recommendation `Priority` starts with `P1` - `P4`. Debt `Category` is `Reliability`,
   `Performance Efficiency`, `Security`, or `Maintainability`, and debt `Status` is `Open`,
   `In progress`, or `Resolved`.
@@ -121,8 +120,8 @@ English renders title case where the vocabulary lists give canonical uppercase n
 - Risk `Status`: `Open`, `Accepted`, `Transferred`, `Monitoring`, `Closed`.
 - Classification `Class`: `Recommended`, `Optional`, `Not recommended`.
 - `Absence`: `No documented rationale`, `Deliberate - recorded decision`, `Undetermined`.
-- A summary row's `Verification` / `Confirmed` claim must agree with the block's `Verification`
-  and `Confirmation` fields.
+- A summary row's `Verification` / `Confirmed` claim must agree with the block's `Verification` and
+  `Confirmation` fields.
 
 ## Scorecard And Overall Score
 
@@ -140,9 +139,9 @@ English renders title case where the vocabulary lists give canonical uppercase n
   the catalogue tier weights.
 - An audit `Requirements Conformance` table keeps one row per requirement - a merged range row such
   as `A-01 through A-11` or `A-01..A-11` fails.
-- A `READY` readiness verdict never coexists with a `critical` or `high` criticality
-  criteria-table row in `UNKNOWN` or `NOT_ASSESSED` state - such a report publishes
-  `PENDING EVIDENCE` instead, and the validator fails the contradiction.
+- A `READY` readiness verdict never coexists with a `critical` or `high` criticality criteria-table
+  row in `UNKNOWN` or `NOT_ASSESSED` state - such a report publishes `PENDING EVIDENCE` instead,
+  and the validator fails the contradiction.
 - Every `Dimension | Score` table - each `**Scorecard Summary**` table and every table inside a
   `Health Dashboard` section - uses only the 19 canonical dimension names,
   in canonical order with `N/A` rows omitted, and each Score cell renders `n/m`, a star bar,

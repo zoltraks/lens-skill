@@ -128,13 +128,13 @@ inventory requirement ids with obligation and kind hints,
 then freeze the confirmed set into the model's `requirements[]` registry - the script proposes the
 inventory, the auditor decides the obligations.
 
-The registry carries normative requirement clauses only - rows the extractor classifies
-`scenario` (use-case, scenario, example, or walkthrough sections) and statements the auditor
-reads as contextual or aspirational are disclosed as coverage notes, never frozen into
-`requirements[]` or counted in the mandatory denominator.
+The registry carries normative requirement clauses only - rows the extractor classifies `scenario`
+(use-case, scenario, example, or walkthrough sections)
+and statements the auditor reads as contextual or aspirational are disclosed as coverage notes,
+never frozen into `requirements[]` or counted in the mandatory denominator.
 
-Every frozen registry entry records its id, obligation, kind, and spec location -
-a row that cannot cite the clause it comes from is not a requirement.
+Every frozen registry entry records its id, obligation, kind,
+and spec location - a row that cannot cite the clause it comes from is not a requirement.
 
 Record the frozen registry's `requirements_baseline` as `check-model.py` computes it - the SHA-256
 hex of the newline-joined, sorted `"<id>:<obligation>"` lines - so the scope record recomputes
@@ -145,4 +145,3 @@ and record any later applicability change with its reason.
 
 Render the table in the Auditing Methodology section per
 `process/report-format/methodology-scoring.md`.
-

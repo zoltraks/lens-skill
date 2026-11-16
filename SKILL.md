@@ -18,7 +18,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.9.2"
+  version: "2.9.3"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -26,7 +26,9 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 # Software Audit Skill
 
 > **Type:** Root router and taxonomy
-> **Purpose:** Route software audit requests to the relevant procedure and require evidence for findings.
+>
+> **Purpose:** Route software audit requests to the relevant procedure and require
+> evidence for findings.
 
 ## Task Entry
 
@@ -39,33 +41,35 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 | Use improvement mode | Apply improvements surfaced by the work through the owning skill's maintenance procedure. A separate session-review request starts [session review](process/session-review.md). |
 | Use verbose mode     | Follow [timing and reporting](process/operation-timing.md) and expose pending questions through [JSON exchange](process/json-exchange.md).                                      |
 
-Read the selected procedure before acting. At each phase, read every file required for that
-phase, including conditional files once their conditions apply. Use a directory index when you
-need to discover a path. Defer later-phase material until that phase begins.
+Read the selected procedure before acting. At each phase, read every file required for that phase,
+including conditional files once their conditions apply.
+Use a directory index when you need to discover a path.
+Defer later-phase material until that phase begins.
 
 Use the skill's procedures for its own files and the target repository's instructions for artifacts.
-When a procedure calls for a script, use its documented invocation and check the result. Read
-script source when reviewing, modifying, or diagnosing the script, or when its behavior is unclear.
+When a procedure calls for a script, use its documented invocation and check the result.
+Read script source when reviewing, modifying, or diagnosing the script,
+or when its behavior is unclear.
 
 ## Contents
 
 | Section                 | Line | What it covers                                     |
 |-------------------------|------|----------------------------------------------------|
-| Skill Update Check      | 81   | Once-per-session git freshness gate before use     |
-| Trigger Keywords        | 103  | Activation phrases                                 |
-| How To Use              | 137  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 161  | Defaults and user-controlled report shape          |
-| Principles              | 168  | Evaluation and output rules                        |
-| Process                 | 174  | Workflow, format, and parity                       |
-| Assessments             | 210  | Core and conditional assessment guides             |
-| Synthesis               | 216  | Findings, risk, score, and remediation assembly    |
-| Translations            | 228  | Per-language report translations                   |
-| References              | 239  | Lookup tables                                      |
-| Scripts                 | 270  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 280  | Behavioral regression prompts                      |
-| Repository Files        | 284  | Housekeeping files governing this repository       |
-| Evidence Contract       | 296  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 325  | File-selection and section-placement rules         |
+| Skill Update Check      | 85   | Once-per-session git freshness gate before use     |
+| Trigger Keywords        | 107  | Activation phrases                                 |
+| How To Use              | 141  | Progressive disclosure and mandatory reading       |
+| Parameter Configuration | 166  | Defaults and user-controlled report shape          |
+| Principles              | 173  | Evaluation and output rules                        |
+| Process                 | 179  | Workflow, format, and parity                       |
+| Assessments             | 215  | Core and conditional assessment guides             |
+| Synthesis               | 221  | Findings, risk, score, and remediation assembly    |
+| Translations            | 233  | Per-language report translations                   |
+| References              | 244  | Lookup tables                                      |
+| Scripts                 | 275  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 285  | Behavioral regression prompts                      |
+| Repository Files        | 289  | Housekeeping files governing this repository       |
+| Evidence Contract       | 301  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 330  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -144,8 +148,9 @@ Use progressive disclosure:
   whose phase files load as the audit enters each phase) before producing any audit.
   They are mandatory for every audit.
 - Complete Parameter Configuration before assessment. After intake resolves a report operation,
-  read `process/report-contract.md` before report planning or assembly, then read the selected
-  style and applicable section specifications from `process/report-format.md`.
+  read `process/report-contract.md` before report planning or assembly,
+  then read the selected style and applicable section specifications from
+  `process/report-format.md`.
   Inline descriptive analysis uses its own route and skips report-only contracts.
 - Apply `process/navigation-rules.md` to every report - it carries the file-selection and
   section-placement rules.

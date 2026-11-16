@@ -177,9 +177,8 @@ The section opens with a summary table carrying the shared columns (`Finding`, `
 and the validator reconciles its row count against the `### FND-` blocks.
 The `###` domain headings do not close the section, only the next `##` does.
 
-Every finding cites `path:line` evidence and carries the `Breaking` field, and every `High`
-or `Critical` finding carries `Scenario` - the validator
-rejects the missing field.
+Every finding cites `path:line` evidence and carries the `Breaking` field,
+and every `High` or `Critical` finding carries `Scenario` - the validator rejects the missing field.
 
 In a multi-project report the register stays single and unified.
 
@@ -192,9 +191,8 @@ The roadmap groups recommendations into phases ordered by dependency - for examp
 verification steps, and the findings each closes.
 
 Each recommendation block or phase row carries the tracker fields from
-`synthesis/remediation-roadmap.md` - `Owner` (a role or `Unassigned`), `Depends`,
-`Milestone`, and `Proof` - so a phase is actionable without
-reinterpreting the report.
+`synthesis/remediation-roadmap.md` - `Owner` (a role or `Unassigned`), `Depends`, `Milestone`,
+and `Proof` - so a phase is actionable without reinterpreting the report.
 
 Every finding maps to a phase or to an explicit `Accepted - no action` disposition - the validator
 reconciles the mapping.

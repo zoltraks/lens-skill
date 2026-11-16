@@ -73,10 +73,10 @@ so scores and rows are never retyped by hand.
 `findings`, `risks`, `roadmap`, and `evidence` render the register tables.
 `registers` emits all four - `all` emits every part.
 `--project NAME` selects a project inside a multi-project model.
-For a `combined` multi-project report the shared tables carry a leading `Project`
-column per `process/report-format/multi-project.md` - `render-tables.py` emits the
-per-project fragments (`--project`) and whole-model tables, and the combined
-assembly composes those rows under the contract's column rules.
+For a `combined` multi-project report the shared tables carry a leading `Project` column per
+`process/report-format/multi-project.md` - `render-tables.py` emits the per-project fragments
+(`--project`) and whole-model tables, and the combined assembly composes those rows under the
+contract's column rules.
 `--splice REPORT.md` replaces the first table after the part's section marker inside the report in
 place, carrying `<title>` cells from the report's own `###` block headings - supported for
 `scorecard`, `criteria`, `requirements`, `findings`, `risks`, `roadmap`, and `evidence`.
@@ -220,8 +220,8 @@ When the `Report Style` row reads `hunt` or `review`,
 it applies that style's section contract from `process/report-format/hunt-style.md` or
 `process/report-format/review-style.md` instead of the baseline section list.
 
-A `review` report also validates the Execution Register rows, check statuses,
-`Level` fields, and the Retest Register trigger.
+A `review` report also validates the Execution Register rows, check statuses, `Level` fields,
+and the Retest Register trigger.
 
 `lint-polish.py` lints Polish report output for the calques listed in the
 `Calque And Style Replacements` table of `translations/polish-language.md`, plus comma splices,
