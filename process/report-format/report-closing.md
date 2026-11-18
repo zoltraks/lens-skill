@@ -161,13 +161,13 @@ A claim with no proposed check is a defect of the audit, not of the subject.
 
 ## Executed Evidence
 
-Present under `executed-readonly` or `executed-commands` evidence mode in `audit` and `hunt` reports
-- a `review` report records the same provenance in its Execution Register instead.
+Present under `executed-readonly` or `executed-commands` evidence mode in `audit` and `hunt`
+reports. A `review` report records the same provenance in its Execution Register instead.
 
 One row per commissioned execution:
 
-| Check | Tool & Version | Command | Result | Resolves |   |
-|-------|----------------|---------|--------|----------|---|
+| Check | Tool & Version | Command | Result | Resolves |
+|-------|----------------|---------|--------|----------|
 
 Each row records the exact command, the tool and advisory-database or ruleset revision,
 the exit status or outcome, and a retained-output reference (sanitized artifact path or
@@ -211,9 +211,9 @@ concrete owner - omit the column when every owner is unspecified.
 
 Include one row per P1 and P2 finding at minimum.
 
-| Finding | Priority | Evidence              | Trigger              |   |
-|---------|----------|-----------------------|----------------------|---|
-| FND-XXX | P1       | <verifiable artifact> | <milestone or empty> |   |
+| Finding | Priority | Evidence              | Trigger              |
+|---------|----------|-----------------------|----------------------|
+| FND-XXX | P1       | <verifiable artifact> | <milestone or empty> |
 
 When the report language is not English,
 apply the column header translations from the matching `translations/` file.

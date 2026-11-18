@@ -1270,6 +1270,8 @@ The label is `Źródło danych` - `Podstawa źródłowa` is never a governed lab
 and `Poziom dojrzałości` carries the governed value `Etap przedprodukcyjny`,
 never the bare adjective `Przedprodukcyjny`.
 
+| English                        | Polish                      |
+|--------------------------------|-----------------------------|
 | Overall score                  | Wynik ogólny                |
 | Summary description            | Opis podsumowujący          |
 | Production Readiness Threshold | Próg gotowości produkcyjnej |

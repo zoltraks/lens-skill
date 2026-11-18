@@ -318,7 +318,7 @@ such as `5.8/10 (Average)` or `★★★☆☆ (3.4/5)`,
 and the lowest-scoring applicable dimension and its score go in a paragraph directly below the
 table, for example "Lowest-scoring dimensions:
 
-Security ★★☆☆☆".
+Security `★★☆☆☆`".
 
 When several dimensions tie for the lowest score, name them all.
 

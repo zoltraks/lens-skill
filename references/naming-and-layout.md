@@ -213,8 +213,8 @@ and terse labels plus dialect local-label syntax are idiomatic rather than noise
 
 ## Framework And Tooling Overrides
 
-A detected framework or toolchain imposes names that supersede the language defaults in the matrices
-- framework-conforming names are never flagged against the language row.
+A detected framework or toolchain imposes names that supersede the language defaults in the
+matrices. Framework-conforming names are never flagged against the language row.
 
 | Detected signal                               | Override the language defaults with                                                                              |
 |-----------------------------------------------|------------------------------------------------------------------------------------------------------------------|

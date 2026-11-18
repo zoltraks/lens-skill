@@ -169,8 +169,9 @@ which stays the run's resume and reconciliation record for the rest of the audit
 
 ## Saved Parameters (`work/lens-params.json`)
 
-Once intake resolves, write the resolved values to `work/lens-params.json` in the audited repository
-- a plain JSON object carrying `subject`, `revision`, `projects`, `report_style`, `report_language`,
+Once intake resolves, write the resolved values to `work/lens-params.json` in the audited
+repository, a plain JSON object carrying `subject`, `revision`, `projects`,
+`report_style`, `report_language`,
 
 `language_output`, `detail_level`, `evaluation_scale`, `evidence_mode`, `output_dir`,
 and `output_filename` - a `pair` language output records the two filenames in

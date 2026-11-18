@@ -124,8 +124,8 @@ On resume:
    the gates already resolved, and the next pending surface.
 4. Keep `run.started` unchanged so `Time taken` reports the whole effort, not the resumed slice.
 
-A state file that shows the run reached delivery - the report artifact exists and validation passed
-- never resumes, and the next request starts a fresh run and a fresh file.
+A state file that shows the run reached delivery (the report artifact exists and validation passed)
+never resumes, and the next request starts a fresh run and a fresh file.
 
 ## Malformed State
 

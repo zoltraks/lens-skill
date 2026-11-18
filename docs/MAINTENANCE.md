@@ -166,8 +166,8 @@ Update `process/navigation-rules.md` and add evaluation prompts when the behavio
 
 ### Changing Process Or Synthesis
 
-When changing audit phases, update `process/audit-workflow/` - the index and the matching phase file
-- and the corresponding intake, assessment, synthesis, or validation guidance.
+When changing audit phases, update `process/audit-workflow/` (the index and the matching phase file)
+and the corresponding intake, assessment, synthesis, or validation guidance.
 
 When adding or changing a report section,
 update the matching section file under `process/report-format/` (or `process/report-format.md` for

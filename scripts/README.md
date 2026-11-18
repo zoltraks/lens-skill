@@ -240,9 +240,8 @@ Enumeration-aware splice suppression keeps legitimate noun lists quiet.
 
 Run it on every Polish report before delivery - a pre-delivery gate, not a Validation Protocol row.
 
-Like the other report tools it is copied into the audited repository under a `.tmp.` name before use
-- a copy without `--rules` resolves the rules file relative to the skill tree,
-
+Like the other report tools it is copied into the audited repository under a `.tmp.` name before
+use. A copy without `--rules` resolves the rules file relative to the skill tree,
 so a `.tmp.` copy must always pass `--rules <path to polish-language.md>` - the tool prints a hint
 when zero forbidden forms load, because silent zero coverage is the failure mode to avoid.
 

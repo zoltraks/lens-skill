@@ -106,12 +106,12 @@ A non-zero exit status still produces evidence.
 
 Every failing executed result is classified before it becomes a finding or a limitation.
 
-| Class                    | Meaning                                                           | Lands as                                |   |                          |                                                                                                       |                                        |
-|--------------------------|-------------------------------------------------------------------|-----------------------------------------|---|--------------------------|-------------------------------------------------------------------------------------------------------|----------------------------------------|
-| `subject defect`         | The product code produced the failure                             | A `FND-XXX` finding                     |   |                          |                                                                                                       |                                        |
-| `harness defect`         | Test, fixture, or harness code produced the failure               | A test-quality finding or a suite note  |   |                          |                                                                                                       |                                        |
-| `environment limitation` | Toolchain, platform, or package availability produced the failure | A `limits` entry and a Limitations row  |   | `environment limitation` | Toolchain, platform, package availability, or capacity exhaustion (disk, memory) produced the failure | A `limits` entry and a Limitations row |
-| `inconclusive`           | The failure cannot be attributed from the output                  | An `UNKNOWN` and a verification request |   |                          |                                                                                                       |                                        |
+| Class                    | Meaning                                                                                               | Lands as                                |
+|--------------------------|-------------------------------------------------------------------------------------------------------|-----------------------------------------|
+| `subject defect`         | The product code produced the failure                                                                 | A `FND-XXX` finding                     |
+| `harness defect`         | Test, fixture, or harness code produced the failure                                                   | A test-quality finding or a suite note  |
+| `environment limitation` | Toolchain, platform, package availability, or capacity exhaustion (disk, memory) produced the failure | A `limits` entry and a Limitations row  |
+| `inconclusive`           | The failure cannot be attributed from the output                                                      | An `UNKNOWN` and a verification request |
 
 Record the classification basis - the diagnostic text or reproduced mechanism - in
 the evidence record.
