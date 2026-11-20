@@ -118,3 +118,4 @@ These are reasoning checks, not proof of improvement from an independent model b
 | External audit named for comparison            | Report benchmark: verify both reports, attribute every delta    |
 | Benchmark reports audit different revisions    | Divergence recorded first, attributed before gap extraction     |
 | Comparison yields no mechanics gaps            | Document delivered, no invented improvements                    |
+| Generated report deviates from contract        | Structure Conformance blocks delivery until regenerated         |

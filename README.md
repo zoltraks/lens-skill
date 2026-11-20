@@ -29,11 +29,11 @@
 | Report Format                      | 455  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 492  | Supported requests and exclusions                   |
 | What's Inside                      | 516  | Documents, references, tools, and conditional files |
-| Document Style                     | 711  | Pointer to the style rules file                     |
-| Specification                      | 721  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 742  | Maintenance checks and regression scenarios         |
-| License                            | 773  | License for the skill itself                        |
-| Credits                            | 779  | Authorship and attribution                          |
+| Document Style                     | 713  | Pointer to the style rules file                     |
+| Specification                      | 723  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 744  | Maintenance checks and regression scenarios         |
+| License                            | 775  | License for the skill itself                        |
+| Credits                            | 781  | Authorship and attribution                          |
 
 ## Overview
 
@@ -549,6 +549,7 @@ lens-skill/
 │   ├── decision-modes.md                  # Interaction-mode matrix: interactive and automated resolution
 │   ├── development.md                     # Standby-for-specification development mode
 │   ├── housekeeping.md                    # Self-repository upkeep routine
+│   ├── history-visualisation.md           # Named lifecycle operation producing history.json
 │   ├── json-exchange.md                   # Machine-readable parameter documents for intake questions
 │   ├── navigation-rules.md                # File-selection and section-placement rules for every report
 │   ├── operation-timing.md                # Elapsed-time report for named operations
@@ -641,6 +642,7 @@ lens-skill/
 │   ├── naming-and-layout.md               # Cross-stack naming matrices, code-division rules, 11-stack fixtures
 │   ├── language-conventions.md            # Per-ecosystem style yardstick snapshot for code style
 │   ├── sbom-schema.md                     # Report-level source-derived component inventory schema
+│   ├── history-schema.md                  # Canonical history.json dataset schema for lifecycle interfaces
 │   ├── license-compliance.md              # License classes, copyleft, notices, ownership checks
 │   ├── delivery-checklist.md              # Authored-side delivery checklist and gate contract
 │   ├── delivery-practice.md               # DORA proxies, bus-factor rubric, continuity evidence

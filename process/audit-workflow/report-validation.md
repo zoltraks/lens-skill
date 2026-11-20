@@ -14,7 +14,7 @@ Follow it after Synthesis.
 | Section                      | Line | What it covers               |
 |------------------------------|------|------------------------------|
 | Validation                   | 19   | Validation                   |
-| Evidence And Decision Checks | 345  | Evidence And Decision Checks |
+| Evidence And Decision Checks | 355  | Evidence And Decision Checks |
 
 ## Validation
 
@@ -28,6 +28,16 @@ records they render from.
 Combined multi-project reports attribute scorecard rows through their leading `Project` column,
 so the model cross-check covers that layout as well as per-project `##` blocks.
 `finalize-report.py` accepts the same two flags and passes them through.
+
+Run the Structure Conformance task before any content-level check:
+compare the report's `##` heading map against the contract's required and conditional
+sections - `validate-report.py --dump-contract` lists both - and treat every missing,
+renamed, reordered, or invented section as a structural deviance.
+A structural deviance is repaired by regenerating the affected sections from
+`scripts/new-report.py` scaffolding and `scripts/render-tables.py` tables,
+never by hand-editing prose into shape, and the validator's `section structure`
+check must report zero issues before the remaining checks continue.
+A report whose section map deviates from the contract is never a deliverable.
 
 Re-check every finding against `principles/evaluation-rules.md`.
 

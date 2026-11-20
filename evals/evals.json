@@ -2475,6 +2475,39 @@
     "The mechanical violations are fixed and validate-report.py is re-run until it reports zero issues.",
     "The delivery gate finalize-report.py --gate runs last and the completion message waits for DELIVERY READY."
    ]
+  },
+  {
+   "id": 214,
+   "prompt": "Generate an audit report for this repository. During validation the report is found to carry an invented section `## Closing`, a renamed `## Audit Scope` section, and `## Executive Summary` placed before `## Audit Coverage`.",
+   "expected_output": "The run treats the deviating heading map as structural deviance, repairs it by regenerating sections from new-report.py scaffolding and render-tables.py tables, re-runs the section structure check until it reports zero issues, and never delivers a report whose section map deviates from the contract.",
+   "files": [],
+   "expectations": [
+    "The section structure check reports the reordered and invented `##` headings as contract violations.",
+    "Deviating sections are regenerated from the scaffold rather than renamed in place.",
+    "The report is not delivered while its section map deviates from the required and conditional section catalogue."
+   ]
+  },
+  {
+   "id": 215,
+   "prompt": "Create a history visualisation for this repository - gather its development history into history.json for the interface.",
+   "expected_output": "The run loads process/history-visualisation.md, gathers commit history, version boundaries, and documentation records including archived trees, extracts staged JSON under the workspace gathering tree, merges them into history.json per references/history-schema.md with the bundled JavaScript shim, and verifies schema conformance and traceable sources before delivery.",
+   "files": [],
+   "expectations": [
+    "The run loads process/history-visualisation.md as the governing procedure and produces no audit report.",
+    "history.json conforms to references/history-schema.md - project, categories, and ordered version records with kind, dates, stats, events, and eventCounts.",
+    "Every event carries a traceable source - a commit hash or a document path - and planned versions omit dates and stats rather than carrying nulls."
+   ]
+  },
+  {
+   "id": 216,
+   "prompt": "Audit this codebase.",
+   "expected_output": "The run produces the audit report per the standard audit workflow and does not propose the history visualisation operation as a follow-up - process/history-visualisation.md activates only when the request names it.",
+   "files": [],
+   "expectations": [
+    "The audit report is produced without loading process/history-visualisation.md.",
+    "No history.json generation or lifecycle visualisation is offered as a suggested follow-up or next step.",
+    "The history visualisation route stays dormant for non-matching requests."
+   ]
   }
  ]
 }

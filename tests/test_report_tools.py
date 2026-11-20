@@ -248,6 +248,54 @@ class TestValidateReport(unittest.TestCase):
         self.assertTrue(any("no Criteria table" in f for f in failures))
         self.assertEqual(self.validator.check_criteria_references(lines, "hunt"), [])
 
+    def test_section_structure_order_and_unexpected(self):
+        good = [
+            "| Report Style | audit |",
+            "",
+            "## Document Information",
+            "",
+            "## Contents",
+            "",
+            "## Audit Coverage",
+            "",
+            "## Executive Summary",
+            "",
+            "## Threat Model",
+            "",
+            "## Scope Exclusions",
+        ]
+        lines = good
+        fences = self.validator.split_code(lines)
+        self.assertEqual(
+            self.validator.check_section_structure(lines, fences), []
+        )
+        reordered = [
+            "| Report Style | audit |",
+            "",
+            "## Document Information",
+            "",
+            "## Executive Summary",
+            "",
+            "## Audit Coverage",
+            "",
+        ]
+        fences = self.validator.split_code(reordered)
+        joined = "\n".join(
+            self.validator.check_section_structure(reordered, fences)
+        )
+        self.assertIn("section order deviates", joined)
+        invented = good + ["", "## Closing"]
+        fences = self.validator.split_code(invented)
+        joined = "\n".join(
+            self.validator.check_section_structure(invented, fences)
+        )
+        self.assertIn("unexpected section '## Closing'", joined)
+        project = good + ["", "## Project backend"]
+        fences = self.validator.split_code(project)
+        self.assertEqual(
+            self.validator.check_section_structure(project, fences), []
+        )
+
     def test_par_bound_is_thirty_three(self):
         rows = "## Validation Protocol\n\n" + "".join(f"| PAR-{n} | Pass | x |\n" for n in range(1, 34))
         self.assertEqual(self.validator.check_par_rows(rows), [])

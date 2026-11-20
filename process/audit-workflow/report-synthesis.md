@@ -133,6 +133,9 @@ token vocabularies - so blocks are composed to the enforced shape rather than co
 Scaffold the report with `scripts/new-report.py` (with `--projects` for multi-project subjects)
 instead of hand-authoring the skeleton, so every required heading, table header,
 and register block shape starts conformant.
+A report authored without the scaffold is regenerated, not patched - its heading map
+cannot be edited into conformance by renaming alone,
+because sections also carry required rows, tables, and register blocks.
 When `work/audit-model.json` holds registers, `--model` also seeds the scorecard,
 register rows and blocks, evidence ledger, and requirements table from the model,
 so population is generated rather than transcribed.

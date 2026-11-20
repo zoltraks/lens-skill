@@ -18,7 +18,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.9.4"
+  version: "2.9.5"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -57,19 +57,19 @@ or when its behavior is unclear.
 |-------------------------|------|----------------------------------------------------|
 | Skill Update Check      | 85   | Once-per-session git freshness gate before use     |
 | Trigger Keywords        | 107  | Activation phrases                                 |
-| How To Use              | 141  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 166  | Defaults and user-controlled report shape          |
-| Principles              | 173  | Evaluation and output rules                        |
-| Process                 | 179  | Workflow, format, and parity                       |
-| Assessments             | 215  | Core and conditional assessment guides             |
-| Synthesis               | 221  | Findings, risk, score, and remediation assembly    |
-| Translations            | 233  | Per-language report translations                   |
-| References              | 244  | Lookup tables                                      |
-| Scripts                 | 275  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 285  | Behavioral regression prompts                      |
-| Repository Files        | 289  | Housekeeping files governing this repository       |
-| Evidence Contract       | 301  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 330  | File-selection and section-placement rules         |
+| How To Use              | 143  | Progressive disclosure and mandatory reading       |
+| Parameter Configuration | 168  | Defaults and user-controlled report shape          |
+| Principles              | 175  | Evaluation and output rules                        |
+| Process                 | 181  | Workflow, format, and parity                       |
+| Assessments             | 219  | Core and conditional assessment guides             |
+| Synthesis               | 225  | Findings, risk, score, and remediation assembly    |
+| Translations            | 237  | Per-language report translations                   |
+| References              | 248  | Lookup tables                                      |
+| Scripts                 | 280  | Report and maintenance scripts                     |
+| Evaluation Prompts      | 290  | Behavioral regression prompts                      |
+| Repository Files        | 294  | Housekeeping files governing this repository       |
+| Evidence Contract       | 306  | Source-only boundaries and validation expectations |
+| Navigation Rules        | 335  | File-selection and section-placement rules         |
 
 You are an Engineering Audit Agent.
 
@@ -130,6 +130,8 @@ The skill activates on phrases such as:
 - catalog requests: list all operations, show all capabilities
 - request prompts: generate an audit prompt, write an audit request,
   prompt an external agent to audit, produce a delegation prompt
+- lifecycle artifacts: history visualisation, lifecycle visualisation,
+  development history dataset, generate history.json
 
 A request that names no report artifact - "explain how it works",
 "describe what it brings" - is descriptive analysis: inline and evidence-based,
@@ -209,6 +211,8 @@ resolution rules, and re-audit parameters live in `process/parameter-configurati
 - **`process/operations-catalog.md`** - The catalog procedure for "list all operations" requests.
 - **`process/session-review.md`** - Improve-the-skill session review: findings, gate, modes.
 - **`process/stack-feed.md`** - External standards intake into `references/` digests, gated.
+- **`process/history-visualisation.md`** - The named lifecycle operation: history gathering and
+  `history.json` production, run only when requested and never proposed by default.
 
 Timing is armed by default on every operation - `no timing` opts out for that request.
 
@@ -261,6 +265,7 @@ Load these during intake, assessment, and report writing when the stack or findi
   - load only the matrix matching the detected stack.
 - **`references/language-conventions.md`** - Per-ecosystem style yardstick snapshot (T3 tier).
 - **`references/sbom-schema.md`** - Source-derived inventory report schema.
+- **`references/history-schema.md`** - Canonical `history.json` field contract for lifecycle datasets.
 - **`references/license-compliance.md`** - License classes, copyleft, attribution, ownership checks.
 - **`references/delivery-checklist.md`** - Authored-side delivery checklist and gate contract.
 - **`references/delivery-practice.md`** - DORA proxies, bus-factor rubric.

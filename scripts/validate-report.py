@@ -85,6 +85,33 @@ BRIEF_SECTIONS = {
     "Known Limitations",
     "Reference Sources",
 }
+CONDITIONAL_SECTIONS = {
+    "Glossary Index",
+    "Evidence List",
+    "Executed Evidence",
+    "Artifact Manifest",
+    "API Contract Conformance",
+    "API Compatibility & Versioning Discipline",
+    "Skill Definition Conformance",
+    "Guidance Conformance",
+    "AI System Assessment",
+    "Standards Conformance",
+    "Requirements Conformance",
+    "Baseline Conformance",
+    "Structure Conformance",
+    "Project Structure Conformance",
+    "Code Style",
+    "Code Style Conformance",
+    "Project Inventory",
+    "Threat Model",
+    "Technical Debt Register",
+    "Recommendation Classification",
+    "Changes Since Previous Audit",
+    "Contradiction Register",
+    "Validation Protocol",
+    "Further Verification",
+    "Follow-up Plan",
+}
 
 
 def split_code(lines: list[str]) -> list[bool]:
@@ -2519,7 +2546,7 @@ REPORT_STYLES = ("audit", "hunt", "review")
 
 def check_required_sections(text: str) -> list[str]:
     if "Document Information" not in text:
-        return []
+        return ["missing required section: Document Information"]
     style = report_style(text)
     if style not in REPORT_STYLES:
         return [
@@ -2543,6 +2570,45 @@ def check_required_sections(text: str) -> list[str]:
         ordered.append("Recommendation Classification")
     headings = set(re.findall(r"^#{2,3}\s+(.+?)\s*$", text, re.MULTILINE))
     return [f"missing required section: {section}" for section in ordered if section in required and section not in headings]
+
+
+def check_section_structure(lines: list[str], fences: list[bool]) -> list[str]:
+    """Audit-style reports carry the canonical required sections in contract
+    order and no `##` heading outside the required and conditional catalogue."""
+    text = "\n".join(lines)
+    failures: list[str] = []
+    if "Document Information" not in text:
+        return ["missing required section: Document Information"]
+    if report_style(text) != "audit":
+        return failures
+    headings = [
+        match.group(1)
+        for line, fenced in zip(lines, fences)
+        if not fenced
+        for match in [re.match(r"^##\s+(.+?)\s*$", line)]
+        if match
+    ]
+    required = set(BASELINE_SECTIONS)
+    seen = set(headings)
+    present = [name for name in headings if name in required]
+    expected = [name for name in BASELINE_SECTIONS if name in seen]
+    for found, wanted in zip(present, expected):
+        if found != wanted:
+            failures.append(
+                f"section order deviates from the contract at '## {found}' - "
+                f"expected '## {wanted}' next in canonical order"
+            )
+            break
+    known = required | CONDITIONAL_SECTIONS
+    for name in headings:
+        if name in known or name.startswith("Project "):
+            continue
+        failures.append(
+            f"unexpected section '## {name}' - the audit contract defines no "
+            "such section; rename it to a canonical or conditional section or "
+            "remove it"
+        )
+    return failures
 
 
 def check_coverage_rows(text: str) -> list[str]:
@@ -4962,6 +5028,7 @@ def report_contract() -> dict:
                         "recommendation exists - no standalone section",
                 },
                 "brief_sections": sorted(BRIEF_SECTIONS),
+                "conditional_sections": sorted(CONDITIONAL_SECTIONS),
                 "findings_section": "Technical Findings",
                 "recommendation_classification":
                     "required at Standard/Detailed inside Remediation Roadmap",
@@ -5286,6 +5353,7 @@ def main(
             checks.extend(
                 [
                     ("required sections", check_required_sections(text)),
+                    ("section structure", check_section_structure(lines, fences)),
                     ("executive summary table", check_executive_summary(text)),
                     ("coverage rows", check_coverage_rows(text)),
                     ("FND/RSK/REC cross-references", check_ids(text)),

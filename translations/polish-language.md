@@ -39,48 +39,48 @@ This file is loaded only when the report language is Polish.
 | Glossary                                    | 1165 | Glossary guidance                           |
 | Technology Stack                            | 1240 | Technology Stack guidance                   |
 | Executive Summary                           | 1257 | Executive Summary guidance                  |
-| Health Dashboard                            | 1280 | Health Dashboard guidance                   |
-| Scorecard                                   | 1291 | Scorecard guidance                          |
-| Scoring Rubrics                             | 1319 | Scoring Rubrics guidance                    |
-| Delivery Practice                           | 1344 | Delivery and continuity rendering           |
-| High-Level Observations                     | 1368 | High-Level Observations guidance            |
-| Auditing Methodology                        | 1375 | Auditing Methodology guidance               |
-| System Context                              | 1404 | System Context guidance                     |
-| Software Bill of Materials                  | 1417 | SBOM section rendering                      |
-| License Compliance                          | 1439 | License and IP section rendering            |
-| Architectural Assessment                    | 1457 | Architectural Assessment guidance           |
-| Architectural Subsections                   | 1464 | Architectural Subsections guidance          |
-| Skill Definition Conformance                | 1480 | Skill Definition Conformance guidance       |
-| Guidance Conformance                        | 1488 | Guidance Conformance guidance               |
-| AI System Assessment                        | 1502 | AI System Assessment guidance               |
-| Standards Conformance                       | 1513 | Standards Conformance guidance              |
-| Requirements Conformance                    | 1534 | Requirements Conformance guidance           |
-| Baseline Conformance                        | 1549 | Baseline Conformance guidance               |
-| Structure Conformance                       | 1563 | Structure Conformance guidance              |
-| Code Style                                  | 1580 | Code Style guidance                         |
-| Reference Sources                           | 1611 | Reference Sources guidance                  |
-| Strengths And What's Working                | 1621 | Strengths And What's Working guidance       |
-| Technical Findings                          | 1627 | Technical Findings guidance                 |
-| Technical Debt Register                     | 1695 | Technical Debt Register guidance            |
-| Unified Risk Register                       | 1711 | Unified Risk Register guidance              |
-| Solution Comparison                         | 1732 | Solution Comparison guidance                |
-| Remediation Roadmap                         | 1744 | Remediation Roadmap guidance                |
-| Recommendation Classification               | 1767 | Recommendation Classification guidance      |
-| Changes Since Previous Audit                | 1782 | Changes Since Previous Audit guidance       |
-| Scope Exclusions                            | 1816 | Scope Exclusions guidance                   |
-| Limitations And Unknowns                    | 1824 | Limitations And Unknowns guidance           |
-| Follow-up Plan                              | 1841 | Follow-up Plan guidance                     |
-| Further Verification                        | 1856 | Further Verification guidance               |
-| Executed Evidence                           | 1869 | Executed Evidence guidance                  |
-| Hunt Style Sections                         | 1882 | Hunt Style Sections guidance                |
-| Review Style Sections                       | 1911 | Review Style Sections guidance              |
-| Validation Protocol                         | 1953 | Validation Protocol guidance                |
-| Threat Model                                | 2011 | Threat Model guidance                       |
-| API Contract Conformance                    | 2026 | API Contract Conformance guidance           |
-| API Compatibility And Versioning Discipline | 2035 | API Compatibility And Versioning guidance   |
-| Evidence And Decision Terms                 | 2044 | Evidence And Decision Terms guidance        |
-| Skill Definition Conformance Table          | 2105 | Skill Definition Conformance Table guidance |
-| Structure Review                            | 2120 | Structure Review guidance                   |
+| Health Dashboard                            | 1282 | Health Dashboard guidance                   |
+| Scorecard                                   | 1293 | Scorecard guidance                          |
+| Scoring Rubrics                             | 1321 | Scoring Rubrics guidance                    |
+| Delivery Practice                           | 1346 | Delivery and continuity rendering           |
+| High-Level Observations                     | 1370 | High-Level Observations guidance            |
+| Auditing Methodology                        | 1377 | Auditing Methodology guidance               |
+| System Context                              | 1406 | System Context guidance                     |
+| Software Bill of Materials                  | 1419 | SBOM section rendering                      |
+| License Compliance                          | 1441 | License and IP section rendering            |
+| Architectural Assessment                    | 1459 | Architectural Assessment guidance           |
+| Architectural Subsections                   | 1466 | Architectural Subsections guidance          |
+| Skill Definition Conformance                | 1482 | Skill Definition Conformance guidance       |
+| Guidance Conformance                        | 1490 | Guidance Conformance guidance               |
+| AI System Assessment                        | 1504 | AI System Assessment guidance               |
+| Standards Conformance                       | 1515 | Standards Conformance guidance              |
+| Requirements Conformance                    | 1536 | Requirements Conformance guidance           |
+| Baseline Conformance                        | 1551 | Baseline Conformance guidance               |
+| Structure Conformance                       | 1565 | Structure Conformance guidance              |
+| Code Style                                  | 1582 | Code Style guidance                         |
+| Reference Sources                           | 1613 | Reference Sources guidance                  |
+| Strengths And What's Working                | 1623 | Strengths And What's Working guidance       |
+| Technical Findings                          | 1629 | Technical Findings guidance                 |
+| Technical Debt Register                     | 1697 | Technical Debt Register guidance            |
+| Unified Risk Register                       | 1713 | Unified Risk Register guidance              |
+| Solution Comparison                         | 1734 | Solution Comparison guidance                |
+| Remediation Roadmap                         | 1746 | Remediation Roadmap guidance                |
+| Recommendation Classification               | 1769 | Recommendation Classification guidance      |
+| Changes Since Previous Audit                | 1784 | Changes Since Previous Audit guidance       |
+| Scope Exclusions                            | 1818 | Scope Exclusions guidance                   |
+| Limitations And Unknowns                    | 1826 | Limitations And Unknowns guidance           |
+| Follow-up Plan                              | 1843 | Follow-up Plan guidance                     |
+| Further Verification                        | 1858 | Further Verification guidance               |
+| Executed Evidence                           | 1871 | Executed Evidence guidance                  |
+| Hunt Style Sections                         | 1884 | Hunt Style Sections guidance                |
+| Review Style Sections                       | 1913 | Review Style Sections guidance              |
+| Validation Protocol                         | 1955 | Validation Protocol guidance                |
+| Threat Model                                | 2013 | Threat Model guidance                       |
+| API Contract Conformance                    | 2028 | API Contract Conformance guidance           |
+| API Compatibility And Versioning Discipline | 2037 | API Compatibility And Versioning guidance   |
+| Evidence And Decision Terms                 | 2046 | Evidence And Decision Terms guidance        |
+| Skill Definition Conformance Table          | 2107 | Skill Definition Conformance Table guidance |
+| Structure Review                            | 2122 | Structure Review guidance                   |
 
 ## Analysis And Rendering
 

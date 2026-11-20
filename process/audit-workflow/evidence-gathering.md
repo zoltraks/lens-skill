@@ -30,9 +30,9 @@ On completion, proceed to `process/audit-workflow/category-assessment.md`.
 | Check-execution Reconciliation                    | 219  | Check-execution Reconciliation                    |
 | Shared Evidence Capture (`work/audit-model.json`) | 235  | Shared Evidence Capture (`work/audit-model.json`) |
 | Verification Plan                                 | 261  | Verification Plan                                 |
-| No Execution                                      | 320  | No Execution                                      |
-| Evidence Ledger                                   | 347  | Evidence Ledger                                   |
-| Claim And Evidence Traceability                   | 385  | Claim And Evidence Traceability                   |
+| No Execution                                      | 319  | No Execution                                      |
+| Evidence Ledger                                   | 346  | Evidence Ledger                                   |
+| Claim And Evidence Traceability                   | 384  | Claim And Evidence Traceability                   |
 
 ## Evidence Gathering
 

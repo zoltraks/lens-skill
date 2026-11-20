@@ -33,30 +33,31 @@ When it follows an activation or another task, the check is not repeated.
 Answer with the operations table below, reproduced inline and re-aligned to source width when the
 request's language changes the cell text.
 
-| Family      | Operation             | What it covers                                            |
-|-------------|-----------------------|-----------------------------------------------------------|
-| Report      | audit                 | full governance report across the assessment categories   |
-| Report      | hunt                  | defect-hunt verdict over the same evidence base           |
-| Report      | review                | execution-register review                                 |
-| Report      | structure review      | the structure-review variant                              |
-| Report      | re-audit              | revisioned report compared against a previous baseline    |
-| Focused     | security review       | vulnerability and control-verification assessment         |
-| Focused     | dependency audit      | supply chain, SBOM, and license review                    |
-| Focused     | code quality review   | quality, style, naming, and design-principle assessment   |
-| Focused     | testing review        | TDD, coverage, and testability assessment                 |
-| Focused     | operational readiness | observability, rollback, and deployment-strategy review   |
-| Focused     | maintainability       | maintainability and documentation assessment              |
-| Focused     | standards conformance | coding-standards and convention conformance review        |
-| Skill       | skill audit           | Agent Skill spec and agent-guidance conformance           |
-| Descriptive | inline analysis       | evidence-based description, no report artifact            |
-| Generate    | audit request         | generalized prompt commissioning an external-agent audit  |
-| Enable      | enablement            | bare-activation standby with version and operations table |
-| Enable      | self-update check     | once-per-session upstream check                           |
-| Enable      | operations catalog    | this table                                                |
-| Maintain    | skill maintenance     | changes to this skill repository                          |
-| Maintain    | session review        | session lessons harvested into the rule corpus            |
-| Maintain    | report benchmark      | external-report comparison feeding skill improvement      |
-| Maintain    | stack feed            | external standards-source intake extending the corpus     |
+| Family      | Operation             | What it covers                                                                  |
+|-------------|-----------------------|---------------------------------------------------------------------------------|
+| Report      | audit                 | full governance report across the assessment categories                         |
+| Report      | hunt                  | defect-hunt verdict over the same evidence base                                 |
+| Report      | review                | execution-register review                                                       |
+| Report      | structure review      | the structure-review variant                                                    |
+| Report      | re-audit              | revisioned report compared against a previous baseline                          |
+| Focused     | security review       | vulnerability and control-verification assessment                               |
+| Focused     | dependency audit      | supply chain, SBOM, and license review                                          |
+| Focused     | code quality review   | quality, style, naming, and design-principle assessment                         |
+| Focused     | testing review        | TDD, coverage, and testability assessment                                       |
+| Focused     | operational readiness | observability, rollback, and deployment-strategy review                         |
+| Focused     | maintainability       | maintainability and documentation assessment                                    |
+| Focused     | standards conformance | coding-standards and convention conformance review                              |
+| Skill       | skill audit           | Agent Skill spec and agent-guidance conformance                                 |
+| Descriptive | inline analysis       | evidence-based description, no report artifact                                  |
+| Generate    | audit request         | generalized prompt commissioning an external-agent audit                        |
+| Generate    | history visualisation | development-history `history.json` dataset for lifecycle interfaces, named-only |
+| Enable      | enablement            | bare-activation standby with version and operations table                       |
+| Enable      | self-update check     | once-per-session upstream check                                                 |
+| Enable      | operations catalog    | this table                                                                      |
+| Maintain    | skill maintenance     | changes to this skill repository                                                |
+| Maintain    | session review        | session lessons harvested into the rule corpus                                  |
+| Maintain    | report benchmark      | external-report comparison feeding skill improvement                            |
+| Maintain    | stack feed            | external standards-source intake extending the corpus                           |
 
 ## Response
 

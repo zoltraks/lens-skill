@@ -16,6 +16,11 @@ this page is the fast check, not the specification.
 ## Every Report
 
 - Headings never go deeper than `###`, and every heading is followed by exactly one blank line.
+- Required sections appear in canonical `BASELINE` order, and no `##` heading outside
+  the required or conditional catalogue is present - a missing, renamed, reordered,
+  or invented section is a structural deviance that blocks delivery.
+  `## Project <name>` blocks in multi-project reports are the only sanctioned
+  extra `##` headings.
 - No semicolons in prose outside code spans and link targets - use a comma or split the sentence.
 - A prose line never ends inside an unclosed parenthesis - wrap before or after the parenthetical.
 - An enumeration inside parentheses separates items with `, ` never `. `.
