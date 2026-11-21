@@ -15,6 +15,8 @@ and `assessment/security-review.md`, and `assessment/baseline-conformance.md` fo
 
 `references/topics/offline-cache.md` covers service-worker caching strategy.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Rules Of Hooks
 
 From https://react.dev/reference/rules/rules-of-hooks.

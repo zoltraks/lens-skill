@@ -10,6 +10,8 @@
 This file distills the [Agent Skills specification](https://agentskills.io/specification)
 into the constraints an audit can check mechanically.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 The specification site is the authoritative source.
 
 Snapshot date: 2026-10-02.

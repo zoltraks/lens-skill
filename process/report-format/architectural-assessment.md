@@ -7,6 +7,8 @@
 
 Provide an architectural critique against industry baselines.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 Evaluate coupling, cohesion, state management, separation of concerns,
 and pattern consistency against the stated constraints.
 

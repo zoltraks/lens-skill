@@ -15,6 +15,8 @@ not only cross-cutting sources such as OWASP or CWE.
 
 Apply `principles/evaluation-rules.md` throughout.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## How To Use
 
 - During Intake and Evidence Gathering, detect each stack from the signals in the table below.

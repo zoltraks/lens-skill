@@ -15,6 +15,8 @@ Snapshot date: 2026-10-09.
 Feeds `assessment/security-review.md`, `assessment/threat-model.md`,
 and `references/cwe-analyzer.md`.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## OWASP Top 10 (2025 Edition)
 
 From https://owasp.org/www-project-top-ten/ and https://owasp.org/Top10/2025/.

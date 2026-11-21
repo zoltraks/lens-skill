@@ -162,7 +162,8 @@ A claim with no proposed check is a defect of the audit, not of the subject.
 ## Executed Evidence
 
 Present under `executed-readonly` or `executed-commands` evidence mode in `audit` and `hunt`
-reports. A `review` report records the same provenance in its Execution Register instead.
+reports.
+A `review` report records the same provenance in its Execution Register instead.
 
 One row per commissioned execution:
 

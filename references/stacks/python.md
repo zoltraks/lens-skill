@@ -16,6 +16,8 @@ Feeds `assessment/best-practices.md`, `assessment/code-quality.md`, `assessment/
 `assessment/skill-definition.md`, and `assessment/baseline-conformance.md` for the
 declared-runtime floor check.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Version Floor
 
 From https://devguide.python.org/versions/ and https://docs.python.org/3/whatsnew/index.html.

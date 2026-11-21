@@ -8,6 +8,8 @@
 
 This file specifies the `Code Style` report section produced by `assessment/code-style.md`.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Inclusion And Position
 
 Include this section only when the subject contains source code files.

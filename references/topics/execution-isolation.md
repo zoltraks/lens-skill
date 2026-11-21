@@ -10,6 +10,8 @@
 This file defines how commissioned checks run without touching the audited tree and how their
 results become reliable evidence.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 Snapshot date: 2026-10-27.
 
 No external sources.

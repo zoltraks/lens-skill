@@ -12,6 +12,8 @@ Follow it after Category Assessment.
 
 On completion, proceed to `process/audit-workflow/report-validation.md`.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Synthesis
 
 When the report style is `hunt`, synthesize per `process/report-format/hunt-style.md`.
@@ -94,7 +96,8 @@ build the Follow-up Plan subsection at the bottom of the roadmap using `synthesi
 mapping those findings to verification owners and closure evidence.
 
 A fresh audit is always generated from the current report-format specification - never composed by
-transforming a previous report file. A previous report may be an older contract revision - cloning
+transforming a previous report file.
+A previous report may be an older contract revision - cloning
 it imports stale sections, field vocabularies,
 and table shapes that the current spec removed or renamed.
 Use it only to recover parameters and to seed a verification checklist.

@@ -36,7 +36,8 @@ edited under `docs/MAINTENANCE.md` and `docs/STYLE.md` through the maintenance p
 those documents define.
 
 A development request may also name `improvement` - "work on lens-skill development and
-improvement". The flag arms improvement mode for the described work:
+improvement".
+The flag arms improvement mode for the described work:
 improvements the work surfaces are applied to this repository's files through the member's own
 maintenance path, and the flag alone never routes to the session-history gather.
 

@@ -15,6 +15,8 @@ Snapshot date: 2026-09-30.
 Feeds `assessment/security-review.md` and `references/cwe-analyzer.md` for
 credential-surface findings.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Password Storage
 
 From https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html.

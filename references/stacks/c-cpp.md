@@ -16,6 +16,8 @@ only rule identifiers and public rule titles are distilled here, never rule text
 Feeds `assessment/code-quality.md`, `assessment/security-review.md`,
 and `assessment/baseline-conformance.md` for native-code subjects.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## C++ Core Guidelines, Naming, And Layout
 
 From https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines and

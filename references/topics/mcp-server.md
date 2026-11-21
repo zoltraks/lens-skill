@@ -16,6 +16,8 @@ Feeds `assessment/baseline-conformance.md`, `assessment/api-contract.md`,
 and `assessment/security-review.md` for subjects classified `agent-tooling` in
 `references/domain-profiles.md`.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Transport Ownership
 
 From https://modelcontextprotocol.io/specification/latest and the transport documentation

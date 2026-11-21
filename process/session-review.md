@@ -12,6 +12,8 @@ and lands them in the rule corpus.
 Follow it when the request asks to improve this skill from this session - "improve lens-skill",
 "improve the skill from this session", "review the session for lessons".
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Modes
 
 Two optional flags named in the request modify how the review's question surfaces behave - "improve

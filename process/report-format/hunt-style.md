@@ -18,6 +18,8 @@ the same completeness rules, and the same readiness gates.
 
 Style changes presentation, never what must be found.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Shared Contract
 
 The following carry over unchanged from `process/report-format.md` and its spec files:

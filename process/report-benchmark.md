@@ -17,6 +17,8 @@ Follow it when the request asks to compare audit reports, benchmark a report,
 or improve the skill from an external audit - "compare these two audit reports",
 "benchmark the lens report against this audit", "improve lens-skill from this comparison".
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## When This Applies
 
 The request supplies or names an external report of a subject Lens also reported on - or asks for

@@ -14,6 +14,8 @@ Every procedure resolves its question surfaces through this matrix.
 The session review keeps the shared two-flag review contract of `process/session-review.md` - the
 `autonomous` and `verbose` semantics there and here are the same.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Mode Selection
 
 Classify the request first, then record the interaction mode once at intake and carry it through the

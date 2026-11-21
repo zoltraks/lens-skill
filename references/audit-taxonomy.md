@@ -14,6 +14,8 @@ so the report's References section can cite them the same way it cites standards
 
 Apply `principles/evaluation-rules.md` throughout.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Status Vocabulary
 
 The Coverage Matrix uses exactly these statuses, and no others:

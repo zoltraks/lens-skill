@@ -383,7 +383,8 @@ Validation runs at least twice, never once:
    and moved prose breaks links, widths, and anchors elsewhere.
 
 The validator is the floor, not the ceiling: it tolerates surfaces the spec forbids (stale sections,
-verbose cells, duplicated legends). When the mechanical pass is clean,
+verbose cells, duplicated legends).
+When the mechanical pass is clean,
 compare the report's conventions against the newest shipped example report before declaring it done.
 
 The audit workflow ends here - the completed report and its recorded Validation Protocol are

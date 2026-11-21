@@ -5,6 +5,8 @@
 > **Scope:** System context, component inventory,
 > and license review sections **Key items:** technology stack, SBOM, license classification
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## System Context
 
 Describe the system as understood from the input.

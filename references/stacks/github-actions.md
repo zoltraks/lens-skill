@@ -13,6 +13,8 @@ Snapshot date: 2026-09-30.
 Feeds `assessment/security-review.md` (CI pin discipline), `assessment/deployment-review.md`,
 and `assessment/baseline-conformance.md` for CI/CD subjects.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Action Pinning
 
 From

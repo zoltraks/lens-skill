@@ -15,15 +15,6 @@ and what does each part of it actually do.
 
 Apply `principles/evaluation-rules.md` throughout.
 
-## Contents
-
-| Section                  | Line | What it covers                                 |
-|--------------------------|------|------------------------------------------------|
-| Organization Model       | 27   | Area map from scan census plus declared roles  |
-| Responsibility Inventory | 51   | What each area implements, with evidence       |
-| Producer-Consumer Edges  | 81   | Cross-boundary edges inside the inventory      |
-| Findings The Model Feeds | 94   | Which structural findings the artifacts ground |
-
 ## Organization Model
 
 The organization model is the audit's record of how the subject organizes itself - built from the

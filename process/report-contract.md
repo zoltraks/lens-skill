@@ -13,6 +13,8 @@ generated from the live constants, so an agent can load it without reading this 
 Rationale and detail live in the section specs under `process/report-format/` and `synthesis/` -
 this page is the fast check, not the specification.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Every Report
 
 - Headings never go deeper than `###`, and every heading is followed by exactly one blank line.

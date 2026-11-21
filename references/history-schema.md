@@ -15,6 +15,8 @@ both serialize the same object.
 Example values below use generic placeholder versions such as `2.1.0` and
 invented hashes.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Top Level
 
 | Field        | Type     | Contents                                   |
@@ -54,11 +56,11 @@ and similar - plus a `release` entry used by version-tower styling.
 
 Optional presentation defaults the dataset declares for the interface:
 
-| Field     | Type          | Contents                                         |
-|-----------|---------------|--------------------------------------------------|
-| `layout`  | string, opt.  | Default scene layout id the viewer opens         |
-| `theme`   | string, opt.  | Default theme (`dark` or `day`)                  |
-| `palette` | string, opt.  | Default accent palette id                        |
+| Field     | Type         | Contents                                 |
+|-----------|--------------|------------------------------------------|
+| `layout`  | string, opt. | Default scene layout id the viewer opens |
+| `theme`   | string, opt. | Default theme (`dark` or `day`)          |
+| `palette` | string, opt. | Default accent palette id                |
 
 A consumer applies `view` only when the user has no stored preference -
 persisted choices always win, and a reset falls back to these values
@@ -111,23 +113,24 @@ insertion/deletion measurement exists for the era.
 The `metrics` block carries process-assessment measures that let the
 interface compare eras and surface problems, not only display events:
 
-| Field       | Type   | Contents                                                       |
-|-------------|--------|----------------------------------------------------------------|
-| `days`      | int    | Era duration in days (first to last commit date)               |
-| `testRatio` | float  | `loc.test / loc.src` at the boundary commit                    |
+| Field       | Type   | Contents                                                        |
+|-------------|--------|-----------------------------------------------------------------|
+| `days`      | int    | Era duration in days (first to last commit date)                |
+| `testRatio` | float  | `loc.test / loc.src` at the boundary commit                     |
 | `modules`   | object | `{module: {src,test,docs,other,total,ins,del}}` - per top-level |
 |             |        | directory LOC at the boundary plus era churn                    |
 | `hotspots`  | array  | `[{"file", "commits"}]` most-touched files of the era           |
-| `authors`   | object | `{name: commits}` author activity inside the era               |
-| `commitMix` | object | `{type: count}` classified commit-type distribution, e.g.      |
-|             |        | `{"feature": 8, "fix": 3, "docs": 2}`                          |
-| `files`     | array  | `[{"path","loc","module"}]` top ~12 largest src/test files  |
-| `aspects`   | object | Quality-aspect telemetry, see Aspects                          |
+| `authors`   | object | `{name: commits}` author activity inside the era                |
+| `commitMix` | object | `{type: count}` classified commit-type distribution, e.g.       |
+|             |        | `{"feature": 8, "fix": 3, "docs": 2}`                           |
+| `files`     | array  | `[{"path","loc","module"}]` top ~12 largest src/test files      |
+| `aspects`   | object | Quality-aspect telemetry, see Aspects                           |
 
 `commitMix` counts only commit events (those carrying `ins`/`del`), never
 documentation or dependency events, so it describes engineering focus.
 Module keys are the repository's own top-level directories - the producer
-derives them from the tree, never from a fixed list; a `src/` root splits
+derives them from the tree, never from a fixed list.
+A `src/` root splits
 one level deeper (`src/components`) so a monorepo's real components surface.
 Module entries may also carry `files`, `deps` (`{prod,dev}` from the
 module's own manifest), and `added` when the module first appears this era.
@@ -139,14 +142,14 @@ module's own manifest), and `added` when the module first appears this era.
 single-version scope render the release as a city of concerns -
 every key is omitted when its evidence does not exist:
 
-| Key              | Contents                                                        |
-|------------------|-----------------------------------------------------------------|
-| `testability`    | `{ratio, files, cases}` - test/source LOC, test files, case ids  |
-| `maintainability`| `{avgFile, maxFile, godFiles}` - file-size distribution         |
-| `security`       | `{schemes, authDeps}` - security schemes + auth-family deps      |
-| `api`            | `{paths, operations}` - declared API surface (e.g. OpenAPI)      |
-| `documentation`  | `{ratio, loc, records}` - docs share + doc events of the era     |
-| `problems`       | `{findings, fixes}` - finding counts + fix commits of the era    |
+| Key               | Contents                                                        |
+|-------------------|-----------------------------------------------------------------|
+| `testability`     | `{ratio, files, cases}` - test/source LOC, test files, case ids |
+| `maintainability` | `{avgFile, maxFile, godFiles}` - file-size distribution         |
+| `security`        | `{schemes, authDeps}` - security schemes + auth-family deps     |
+| `api`             | `{paths, operations}` - declared API surface (e.g. OpenAPI)     |
+| `documentation`   | `{ratio, loc, records}` - docs share + doc events of the era    |
+| `problems`        | `{findings, fixes}` - finding counts + fix commits of the era   |
 
 ## Events
 
@@ -164,14 +167,14 @@ every key is omitted when its evidence does not exist:
 Report-family records (audits, hunts, reviews, assessments, proposals,
 reports) may additionally carry extracted fields:
 
-| Field             | Type          | Contents                                          |
-|-------------------|---------------|---------------------------------------------------|
-| `score`           | string, opt.  | Overall score as printed, e.g. `"7.3/10"`         |
-| `verdict`         | string, opt.  | Outcome word or phrase (Pass, REQUEST CHANGES, Red) |
-| `findings`        | int, opt.     | Unique finding-id count found in the record       |
-| `revision`        | string, opt.  | Report revision, e.g. `"1.8"`                     |
-| `subject_version` | string, opt.  | Project version the record assesses               |
-| `requirements`    | int, opt.     | Count of requirement/use-case ids in a spec record |
+| Field             | Type         | Contents                                            |
+|-------------------|--------------|-----------------------------------------------------|
+| `score`           | string, opt. | Overall score as printed, e.g. `"7.3/10"`           |
+| `verdict`         | string, opt. | Outcome word or phrase (Pass, REQUEST CHANGES, Red) |
+| `findings`        | int, opt.    | Unique finding-id count found in the record         |
+| `revision`        | string, opt. | Report revision, e.g. `"1.8"`                       |
+| `subject_version` | string, opt. | Project version the record assesses                 |
+| `requirements`    | int, opt.    | Count of requirement/use-case ids in a spec record  |
 
 A change-request record may carry `subtype` (`feature`, `fix`, `refactor`,
 `chore`) which the producer folds into the event `type` at merge time.
@@ -179,14 +182,14 @@ A change-request record may carry `subtype` (`feature`, `fix`, `refactor`,
 Dependency-change events use the `dependency` category and carry a `dep`
 object:
 
-| Field      | Type           | Contents                                    |
-|------------|----------------|---------------------------------------------|
-| `name`     | string         | Package or image name                       |
-| `manifest` | string         | Manifest path, e.g. `server/Cargo.toml`     |
-| `kind`     | string         | Channel: `prod`, `dev`, `build`, `indirect` |
-| `action`   | string         | `added`, `bumped`, or `removed`             |
-| `from`     | string, opt.   | Previous declared version (absent on added) |
-| `to`       | string, opt.   | New declared version (absent on removed)    |
+| Field      | Type         | Contents                                    |
+|------------|--------------|---------------------------------------------|
+| `name`     | string       | Package or image name                       |
+| `manifest` | string       | Manifest path, e.g. `server/Cargo.toml`     |
+| `kind`     | string       | Channel: `prod`, `dev`, `build`, `indirect` |
+| `action`   | string       | `added`, `bumped`, or `removed`             |
+| `from`     | string, opt. | Previous declared version (absent on added) |
+| `to`       | string, opt. | New declared version (absent on removed)    |
 
 Every event carries a traceable source: `sha` for commit events,
 `ref` for documentation events.

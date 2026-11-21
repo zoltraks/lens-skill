@@ -23,16 +23,6 @@ weights, criticality, declared level anchors, `na_rules`,
 and severity anchors - and the model's completeness, membership, level,
 and census/history decisions are checked mechanically against it per `process/readiness-scoring.md`.
 
-## Contents
-
-| Section                | Line | What it covers                              |
-|------------------------|------|---------------------------------------------|
-| Criteria Records       | 36   | The fields every criteria entry carries     |
-| Applicability Freeze   | 71   | Denominator locking and change rules        |
-| Criteria Families      | 86   | Minimum family set and per-family notes     |
-| Criticality And Weight | 140  | How criteria earn weight inside a dimension |
-| Crosswalk Integrity    | 151  | Mapping to external quality models honestly |
-
 ## Criteria Records
 
 Every criteria entry in `audit-model.json` `criteria[]` carries these fields:

@@ -17,16 +17,7 @@ against what is on disk.
 Apply this file inside `process/audit-workflow/` - phases, gates,
 and the report contract are unchanged.
 
-## Contents
-
-| Section            | Line | What it covers                           |
-|--------------------|------|------------------------------------------|
-| The State Artifact | 31   | `work/audit-state.json` schema           |
-| Lifecycle          | 82   | Creation, updates, single-writer rule    |
-| Timestamps         | 102  | Clock discipline for every recorded time |
-| Resume Protocol    | 112  | Restarting an interrupted run            |
-| Malformed State    | 130  | Stop-and-report rule for a damaged file  |
-| Reconciliation     | 143  | Declared-artifact check at finalization  |
+Read the sections the task needs - grep the `## ` headings for the section map.
 
 ## The State Artifact
 

@@ -357,17 +357,6 @@
    ]
   },
   {
-   "id": 28,
-   "prompt": "Write the review report in Polish. Produce a review-style report of the supplied repository per the Polish rendering rules.",
-   "expected_output": "A Polish review-style report using the przegląd mappings from translations/polish-language.md with a PRZEGLĄD filename.",
-   "files": [],
-   "expectations": [
-    "Section names render per translations/polish-language.md: Werdykt, Plan kontroli i metodologia, Rejestr wykonania, Ustalenia domenowe, and Plan poprawy.",
-    "The filename uses the PRZEGLĄD stem: bare PRZEGLĄD.md is the default for a first Polish review, with PRZEGLĄD-1.0.md offered as the revisioned alternative.",
-    "Machine-readable identifiers, commands, and status tokens stay in English while prose and headings render in Polish."
-   ]
-  },
-  {
    "id": 29,
    "prompt": "Audit this repository, whose documentation references automated checks and a .github/workflows directory that does not exist in the tree. Assess how the report treats the missing pipeline.",
    "expected_output": "A report that still records the absent CI/CD capability as a finding and classifies the absence from repository signals.",
@@ -394,8 +383,8 @@
   },
   {
    "id": 31,
-   "prompt": "Audit this repository with default report parameters. Check that the report uses the current one-word field vocabulary.",
-   "expected_output": "A report whose finding and risk blocks and register tables use the renamed field schema.",
+   "prompt": "Audit this repository with default report parameters. Check the field vocabulary and the table shapes in the generated report.",
+   "expected_output": "A report whose finding and risk blocks and register tables use the renamed field schema, and whose ledger, scorecard, threat model, and standards tables follow the trimmed column contract.",
    "files": [],
    "expectations": [
     "Finding blocks carry the contract fields in order: Pillar, Severity, Type, Security, Targets, Basis, Absence, Impact, Method, Verification, Confidence, Mitigation, Exploitability, Evidence, with Security, Absence, and Exploitability omitted whenever their value would be N/A.",
@@ -403,15 +392,7 @@
     "No legacy field names appear: Target Files/Modules, Requirement Basis, Verification State, Counter-check, Security Classification, Remediation Recommendation, Verification Method, Exploitability Narrative, or Remediation Status. No superseded labels appear: Mitigating factors, Runtime confirmed, Runtime, Verified, Defect scenario, Evidence level, Provenance basis, Breaking change, Depends on, Effort confidence, Acceptance milestone, Closure evidence, or Cost model.",
     "The findings summary table uses Finding, Result, Status, and Verification columns, with Verification limited to VERIFIED, CONFIRMED, REPORTED, or empty.",
     "Risk blocks use Severity, Likelihood, Residual, Impact, Trigger, Controls, Closure, Source, Confidence, Mitigation order, with Owner appearing between Status and Description only when a responsible role is established, and the risk table uses Source rather than Source Finding.",
-    "Debt tables use Debt/Item/Category/Source headers - Cost, Delay, and Status columns appear only when they carry at least one non-default value."
-   ]
-  },
-  {
-   "id": 32,
-   "prompt": "Audit this repository with default report parameters. Check the table shapes in the generated report.",
-   "expected_output": "A report whose ledger, scorecard, threat model, and standards tables follow the trimmed column contract.",
-   "files": [],
-   "expectations": [
+    "Debt tables use Debt/Item/Category/Source headers - Cost, Delay, and Status columns appear only when they carry at least one non-default value.",
     "The Evidence List has no Execution column, and no Project column in a single-project report.",
     "A documented but unrun check records NOT RUN in the Result column.",
     "The Scorecard Summary omits rows whose score is N/A, and at Detailed names each excluded dimension with its reason in a paragraph below the table.",
@@ -442,14 +423,18 @@
   {
    "id": 34,
    "prompt": "Audit this repository, which contains a backend service, a frontend application, and a utility library in sibling directories. Produce a combined audit.",
-   "expected_output": "An intake that collects the project list and confirms inclusion through a multi-select question before Parameter Configuration, then produces a multi-project report covering the confirmed projects.",
+   "expected_output": "An intake that collects the project list and confirms inclusion through a multi-select question before Parameter Configuration, resolves project layout to combined by default with evidence modes labeled by their internal ids, and produces a multi-project report covering the confirmed projects.",
    "files": [],
    "expectations": [
     "Intake collects the list of identified projects with paths before configuring parameters.",
     "A blocking project-inclusion question presents every project as a checkbox item with recommended projects checked by default.",
     "The question is emitted as a multi-select or checkbox surface, never a single-choice list that forces an either/or answer.",
     "Unchecked projects are disclosed in Scope Exclusions with their reason and receive no per-project report block.",
-    "The confirmed projects each receive their own findings, scorecard, and registers inside one combined report."
+    "The confirmed projects each receive their own findings, scorecard, and registers inside one combined report.",
+    "The parameter summary lists Project layout with combined as the default and separate as the opt-in alternate.",
+    "The parameter summary names the evidence modes Source only, Basic execution, and Full execution with the internal ids in parentheses.",
+    "The default evidence mode stays Source only (source-only); Full execution (executed-commands) is the mode that permits commissioned non-mutating commands such as tests and builds.",
+    "The delivered multi-project report uses the combined structure unless the user explicitly selects separate."
    ]
   },
   {
@@ -1443,23 +1428,15 @@
   },
   {
    "id": 120,
-   "prompt": "Audit this repository and produce the report in Polish.",
-   "expected_output": "A Polish report whose headings, field values, and governed tokens follow the polish-language contract with nothing left in English.",
+   "prompt": "Audit this repository and produce the report in Polish, then run the translated-report gates.",
+   "expected_output": "A Polish report whose headings, field values, and governed tokens follow the polish-language contract with nothing left in English, and that passes lint-polish.py with zero findings - every calque-class flag is a delivery-blocking error.",
    "files": [],
    "expectations": [
     "Every ## and ### section heading matches a Polish form in translations/polish-language.md - no heading stays verbatim in English.",
     "Every '- **Label:**' field value starts with an uppercase letter unless it opens with a code span or link.",
     "Governed vocabulary tokens are translated even inside code spans - 'Poziom: `Teoretyczne`', never '`Theoretical`'.",
     "The token TDD never appears - 'due diligence techniczne' is spelled out.",
-    "Bold threat-narrative lead-in labels are translated like table cells while keeping the bold markup."
-   ]
-  },
-  {
-   "id": 121,
-   "prompt": "Audit this repository and produce the report in Polish, then run the translated-report gates.",
-   "expected_output": "A Polish report that passes lint-polish.py with zero findings - every calque-class flag is a delivery-blocking error.",
-   "files": [],
-   "expectations": [
+    "Bold threat-narrative lead-in labels are translated like table cells while keeping the bold markup.",
     "lint-polish.py returns a non-zero exit on any calque, spliced-clause, or typography finding - no finding is advisory.",
     "The report passes finalize-report.py --polish end to end, including check-translation.py and mapped-copy validation."
    ]
@@ -1477,13 +1454,16 @@
   },
   {
    "id": 123,
-   "prompt": "Audit this repository and produce a report containing wide register tables.",
-   "expected_output": "A report where no table exceeds the 300-character source-width budget; detail removed from cells appears in paragraphs directly below the table rather than being dropped.",
+   "prompt": "Audit this repository and produce a standard audit report containing wide register tables.",
+   "expected_output": "A report whose governed cells and field values render natural forms - Pass, Partial, Fail, High, Not specified - never all-caps canonical tokens, and where no table exceeds the 300-character source-width budget; detail removed from cells appears in paragraphs directly below the table rather than being dropped.",
    "files": [],
    "expectations": [
     "format-table.py emits a warning for any table wider than 300 characters and the generated report carries none.",
     "When a cell would push a table over the budget, the cell holds a compact summary and the removed detail lives in a paragraph directly below the table that names the column it carries.",
-    "Fixed table schemas keep their required column order - detail moves to prose or the ### detail blocks, columns are not deleted except genuinely empty ones."
+    "Fixed table schemas keep their required column order - detail moves to prose or the ### detail blocks, columns are not deleted except genuinely empty ones.",
+    "Status, Result, Severity, Confidence, Verdict, and coverage cells render natural forms such as High, Partial, Passed, Not done - no all-caps PASS, CRITICAL, or NOT SPECIFIED in governed cells.",
+    "A token followed by its qualifier inside a - **Field:** value joins with a comma, for example 'High, chain traced'.",
+    "Machine tokens (FND-SEC-001, EVD-001, RSK-001, REC-001, TDR-001, PAR-1, P1-P4, CWE/CVSS/OWASP identifiers) stay unchanged."
    ]
   },
   {
@@ -1796,13 +1776,16 @@
   },
   {
    "id": 153,
-   "prompt": "The repository's only previous report is HUNT-1.0-EN.md/HUNT-1.0-PL.md. Make a general audit report.",
-   "expected_output": "The named audit style wins over the recovered hunt style: an audit-style report is proposed, with the recovered hunt style listed as a non-default alternative.",
+   "prompt": "The repository's only previous report is the language pair HUNT-1.0-EN.md and HUNT-1.0-PL.md. Make a general audit report.",
+   "expected_output": "The named audit style wins over the recovered hunt style, and the language output resolves to pair in the previous pair's second language - the new report ships its own EN file plus the PL sibling.",
    "files": [],
    "expectations": [
     "The proposed report style is audit, not hunt - the request-named style overrides the last-used style.",
     "The recovered hunt style remains visible as a non-default alternative in the parameter summary.",
-    "The filename resolves on the AUDIT stem, not HUNT."
+    "The filename resolves on the AUDIT stem, not HUNT.",
+    "The resolved language output is pair because the previous report was a pair.",
+    "The pair convention survives a style-family switch - an AUDIT-stem report still ships EN plus PL.",
+    "The resolved translation set is named in the parameter summary, or in the decisions list on an automated run."
    ]
   },
   {
@@ -1814,17 +1797,6 @@
     "The revision increments the last decimal component and carries on nine: 1.9 becomes 2.0, not 1.10.",
     "The same rule applies at higher bounds: 9.9 becomes 10.0.",
     "The previous report file is never overwritten."
-   ]
-  },
-  {
-   "id": 155,
-   "prompt": "Fresh audit of this repository whose previous report shipped HUNT-1.0-EN.md and HUNT-1.0-PL.md.",
-   "expected_output": "The language output resolves to pair in the previous pair's second language - the new report ships its own EN file plus the PL sibling.",
-   "files": [],
-   "expectations": [
-    "The resolved language output is pair because the previous report was a pair.",
-    "The pair convention survives a style-family switch - an AUDIT-stem report still ships EN plus PL.",
-    "The resolved translation set is named in the parameter summary, or in the decisions list on an automated run."
    ]
   },
   {
@@ -1968,17 +1940,6 @@
     "Each register identifier appears once report-wide - REC-NNN is never renumbered per project.",
     "FND numbers run contiguously per pillar across projects (a second SEC finding continues the SEC sequence, it does not restart at 001).",
     "Cross-project citations keep the <project>::<ID> qualifier and the (project) heading suffix for clarity."
-   ]
-  },
-  {
-   "id": 169,
-   "prompt": "Audit this repository and produce a standard audit report.",
-   "expected_output": "A report whose governed cells and field values render natural forms - Pass, Partial, Fail, High, Not specified - never all-caps canonical tokens.",
-   "files": [],
-   "expectations": [
-    "Status, Result, Severity, Confidence, Verdict, and coverage cells render natural forms such as High, Partial, Passed, Not done - no all-caps PASS, CRITICAL, or NOT SPECIFIED in governed cells.",
-    "A token followed by its qualifier inside a - **Field:** value joins with a comma, for example 'High, chain traced'.",
-    "Machine tokens (FND-SEC-001, EVD-001, RSK-001, REC-001, TDR-001, PAR-1, P1-P4, CWE/CVSS/OWASP identifiers) stay unchanged."
    ]
   },
   {
@@ -2451,18 +2412,6 @@
     "material claims from both reports are verified against the tree and classified verified, failed, or unverifiable - phantom command rows are report defects",
     "only mechanics gaps feed the adjustment plan, each mapped to an owning skill file; subject divergence is explained and report defects are listed without edits",
     "the compared reports and the audited subject are never modified, and skill changes land only through the described change or the session-review gate"
-   ]
-  },
-  {
-   "id": 212,
-   "prompt": "Audit this repository, which contains a service and a companion library in sibling directories. Produce one audit report covering both.",
-   "expected_output": "Parameter configuration resolves project layout to combined by default and presents evidence modes with descriptive labels, while internal values stay source-only, executed-readonly, and executed-commands.",
-   "files": [],
-   "expectations": [
-    "The parameter summary lists Project layout with combined as the default and separate as the opt-in alternate.",
-    "The parameter summary names the evidence modes Source only, Basic execution, and Full execution with the internal ids in parentheses.",
-    "The default evidence mode stays Source only (source-only); Full execution (executed-commands) is the mode that permits commissioned non-mutating commands such as tests and builds.",
-    "The delivered multi-project report uses the combined structure unless the user explicitly selects separate."
    ]
   },
   {

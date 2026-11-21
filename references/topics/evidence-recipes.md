@@ -18,6 +18,8 @@ The recipes are distilled from session evidence.
 Feeds `references/census-commands.md` consumers and
 `process/audit-workflow/evidence-gathering.md` evidence gathering.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Dispatch Entry Enumeration
 
 List every entry point the subject exposes before judging coverage.

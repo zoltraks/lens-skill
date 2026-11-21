@@ -16,6 +16,8 @@ Feeds `assessment/best-practices.md`, `assessment/security-review.md`, `assessme
 `assessment/baseline-conformance.md`, and `references/topics/accessibility-baseline.md` consumers
 for vanilla-web subjects.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## HTML Structure
 
 From https://html.spec.whatwg.org/multipage/.

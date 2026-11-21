@@ -18,6 +18,8 @@ Check the list explicitly before finalizing any report.
 
 Do not rely on per-run memory of what a previous report happened to include.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Mandatory Core Checklist
 
 | Item   | Requirement                                                                                                                                                                                                           | Governing file                                                        |

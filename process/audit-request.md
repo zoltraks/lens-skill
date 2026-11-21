@@ -13,6 +13,8 @@ Follow it when the request says "generate an audit prompt", "write an audit requ
 "create an agent prompt for an audit", or an equivalent that asks for the request itself
 rather than the audit.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## When This Applies
 
 The request asks for a prompt that commissions an audit by another agent - the deliverable is the

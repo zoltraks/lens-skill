@@ -18,15 +18,7 @@ Apply `principles/evaluation-rules.md` throughout.
 Evidence kinds and record fields live in `references/evidence-schema.md`,
 and criteria records live in `references/criteria-catalogue.md`.
 
-## Contents
-
-| Section                 | Line | What it covers                                   |
-|-------------------------|------|--------------------------------------------------|
-| Pipeline Stages         | 31   | The nine stages and their publication conditions |
-| The Model Artifact      | 49   | `work/audit-model.json` schema and lifecycle     |
-| Derivation Rule         | 209  | Rendering every surface from the model           |
-| Counter-Evidence Review | 266  | The second-pass challenge discipline             |
-| Publication Stops       | 281  | Errors that block final publication              |
+Read the sections the task needs - grep the `## ` headings for the section map.
 
 ## Pipeline Stages
 

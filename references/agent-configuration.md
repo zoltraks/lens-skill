@@ -19,6 +19,8 @@ This file covers every other format discovered during agent-facing artifact disc
 
 `assessment/agent-guidance.md` consumes the Guidance Set Baselines section.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Sources And Baselines
 
 Each format section names its authoritative documentation.

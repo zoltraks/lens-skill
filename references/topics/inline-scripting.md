@@ -16,6 +16,8 @@ Snapshot date: 2026-10-27.
 Feeds `assessment/baseline-conformance.md` and `assessment/best-practices.md` for subjects whose
 repositories ship `.bat`, `.cmd`, `.ps1`, or embedded script invocations.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Batch Files
 
 From https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/cmd and

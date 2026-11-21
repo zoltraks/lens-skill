@@ -15,6 +15,8 @@ Feeds `assessment/security-review.md`, `assessment/best-practices.md`,
 and `assessment/deployment-review.md`, and `assessment/baseline-conformance.md`
 for desktop subjects.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Security Checklist
 
 From https://www.electronjs.org/docs/latest/tutorial/security - the headline controls.

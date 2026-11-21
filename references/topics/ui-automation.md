@@ -16,6 +16,8 @@ Snapshot date: 2026-10-27.
 Feeds `assessment/baseline-conformance.md` and `assessment/best-practices.md` for subjects
 classified `automation` in `references/domain-profiles.md`.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Control Channel Selection
 
 From https://learn.microsoft.com/en-us/windows/win32/winauto/uiauto-uiautomationoverview and

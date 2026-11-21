@@ -11,6 +11,8 @@ This file defines the intake for a request that names the skill but no work.
 Follow it when the request is a bare activation phrase - "run lens", "use lens", "activate lens",
 "use this skill" - or an equivalent.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## When This Applies
 
 Resolve the referent of a generic phrase before treating the request as a Lens activation - "use

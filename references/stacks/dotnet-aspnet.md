@@ -16,6 +16,8 @@ Feeds `assessment/best-practices.md`, `assessment/structure-review.md`,
 `assessment/security-review.md`, `assessment/api-compatibility.md`,
 and `assessment/baseline-conformance.md` for .NET subjects.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Design, Naming, And Project Structure
 
 From https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/,

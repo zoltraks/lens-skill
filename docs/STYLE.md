@@ -17,14 +17,14 @@ Audit deliverables follow the selected report style and the report contract in
 | Section                     | Line | What it covers                                  |
 |-----------------------------|------|-------------------------------------------------|
 | Document Structure          | 29   | Titles, purpose blocks, and contents tables     |
-| Paragraphs And Wrapping     | 97   | Sentence structure and line width               |
-| Headings And Lists          | 164  | Heading depth, lists, and spacing               |
-| Code And Inline Formatting  | 220  | Fences, code spans, and special characters      |
-| Tables                      | 306  | Source-width alignment and automated formatting |
-| Characters And Language     | 494  | Box-drawing, emoji, and per-language rules      |
-| File References             | 519  | Relative paths and backticked file paths        |
-| Skill Document Requirements | 533  | Frontmatter and progressive disclosure          |
-| Maintenance                 | 595  | File naming, encoding, and registration         |
+| Paragraphs And Wrapping     | 104  | Sentence structure and line width               |
+| Headings And Lists          | 171  | Heading depth, lists, and spacing               |
+| Code And Inline Formatting  | 227  | Fences, code spans, and special characters      |
+| Tables                      | 313  | Source-width alignment and automated formatting |
+| Characters And Language     | 501  | Box-drawing, emoji, and per-language rules      |
+| File References             | 526  | Relative paths and backticked file paths        |
+| Skill Document Requirements | 540  | Frontmatter and progressive disclosure          |
+| Maintenance                 | 602  | File naming, encoding, and registration         |
 
 ## Document Structure
 
@@ -93,6 +93,13 @@ The table has exactly three columns: `Section`, `Line`, and `What it covers`.
 `Line` is the approximate starting line number of the section.
 
 Update line numbers when sections move significantly.
+
+### Load Note
+
+A document over 100 lines with several `## ` sections and no Contents table may carry a load
+note as the last line of its Purpose block:
+
+``Read the sections the task needs - grep the `## ` headings for the section map.``
 
 ## Paragraph and Sentence Structure
 

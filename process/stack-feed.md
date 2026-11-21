@@ -13,6 +13,8 @@ It converts the source's stack-relevant standards into checkable constraints,
 diffs them against `references/stacks/`,
 and presents proposed digest changes behind an approval gate.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Source Resolution
 
 The operation takes one argument: the source name or path.

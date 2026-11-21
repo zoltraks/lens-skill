@@ -23,7 +23,7 @@ On completion, proceed to `process/audit-workflow/scope-definition.md`.
 | Previous Report Files                      | 377  | Previous Report Files                      |
 | Report Language                            | 397  | Report Language                            |
 | Report Style                               | 419  | Report Style                               |
-| Project Layout                             | ?    | Project Layout                             |
+| Project Layout                             | 441  | Project Layout                             |
 | Evidence Mode                              | 453  | Evidence Mode                              |
 | Detail Level                               | 502  | Detail Level                               |
 | Evaluation Scale                           | 518  | Evaluation Scale                           |

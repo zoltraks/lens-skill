@@ -20,6 +20,8 @@ Free Pascal documentation, and ecosystem practice.
 Feeds `assessment/best-practices.md`, `assessment/structure-review.md`,
 `assessment/code-quality.md`, and `assessment/baseline-conformance.md` for Object Pascal subjects.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Naming, Code Division, And Layout
 
 From https://edn.embarcadero.com/article/10280 (the classic Object Pascal style guide)

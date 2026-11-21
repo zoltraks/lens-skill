@@ -16,6 +16,8 @@ Snapshot date: 2026-10-27.
 Feeds `assessment/code-quality.md`, `assessment/testing-review.md`, `assessment/best-practices.md`,
 and `assessment/baseline-conformance.md` for TypeScript and browser-toolchain subjects.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Compiler Strictness
 
 From the TypeScript handbook ( https://www.typescriptlang.org/docs/handbook/intro.html)

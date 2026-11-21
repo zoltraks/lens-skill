@@ -12,6 +12,8 @@ agents for wall-clock efficiency on large audit surfaces.
 It applies inside `process/audit-workflow/` - the phase order, canonical model,
 and report contract are unchanged.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Applicability
 
 Use parallel execution when two conditions hold.

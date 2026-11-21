@@ -13,16 +13,6 @@ Follow it after Validation, once the report file is written.
 The phase exists because a report is not finished when its prose is drafted:
 style, format, and completeness defects are found and fixed here, before delivery.
 
-## Contents
-
-| Section                 | Line | What it covers          |
-|-------------------------|------|-------------------------|
-| Mechanical Confirmation | 26   | Mechanical Confirmation |
-| Completeness Sweep      | 38   | Completeness Sweep      |
-| Style Confirmation      | 53   | Style Confirmation      |
-| Adjustment Loop         | 66   | Adjustment Loop         |
-| Delivery Gate           | 83   | Delivery Gate           |
-
 ## Mechanical Confirmation
 
 Run the finalization chain once more against the written report, in order:

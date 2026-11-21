@@ -16,6 +16,8 @@ Apply `principles/evaluation-rules.md` throughout.
 
 The derived inventory is `Inspected` evidence about the source, not a report from a generation tool.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Output Contract
 
 Every reader produces the same component list shape.

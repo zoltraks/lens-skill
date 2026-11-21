@@ -15,6 +15,8 @@ Snapshot date: 2026-10-27.
 Feeds `assessment/api-contract.md`, `assessment/best-practices.md`,
 and `assessment/baseline-conformance.md` for API subjects.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## OpenAPI Structure
 
 From https://spec.openapis.org/oas/v3.1 (canonical text mirror:

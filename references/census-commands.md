@@ -12,6 +12,8 @@ so a re-audit can reproduce the number instead of re-inventing the method.
 
 A census figure without its counting rule is not comparable across reports.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Recording Rule
 
 For every census number in a report, the ledger note names the command or pattern

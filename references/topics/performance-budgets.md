@@ -15,6 +15,8 @@ Snapshot date: 2026-10-27.
 
 Feeds `assessment/baseline-conformance.md` and `assessment/nfr-review.md`.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Measurement Discipline
 
 From https://web.dev/vitals/ and https://k6.io/docs/.

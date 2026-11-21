@@ -15,6 +15,8 @@ The map turns a CWE-tagged finding into a concrete, verifiable follow-up action.
 
 Apply `principles/evaluation-rules.md` throughout.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## How To Apply
 
 - For every security finding that carries a CWE classification,

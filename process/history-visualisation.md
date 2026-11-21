@@ -16,21 +16,21 @@ It is not an audit and produces no report.
 
 ## Contents
 
-| Section             | Line | Description                                        |
-|---------------------|------|----------------------------------------------------|
-| Activation Contract | 35    | When the operation runs and what it never does     |
-| Intake              | 47    | Parameters resolved before gathering               |
-| Ref Selection       | 88    | Fullest reachable history of the target branch     |
-| Workspace Layout    | 102    | Workspace tree and its README contract             |
-| Scout Delegation    | 129    | Read-only scouts for the evidence surface          |
-| Gathering           | 138    | Source families and their collection order         |
-| Extraction Pipeline | 177    | Staged scripts, dating, enrichment, merge          |
-| Data Model          | 279    | Version kinds and their provenance                 |
-| Bundled Shim        | 296    | The file:// twin of history.json                   |
-| Prototype           | 311    | The commissioned interface contract                |
-| Verification        | 321    | Mechanical checks before delivery                  |
-| Incremental Reuse   | 336    | Ref-sha comparison and resume state                |
-| Boundaries          | 343    | Source-only limits of the operation                |
+| Section             | Line | Description                                    |
+|---------------------|------|------------------------------------------------|
+| Activation Contract | 35   | When the operation runs and what it never does |
+| Intake              | 47   | Parameters resolved before gathering           |
+| Ref Selection       | 89   | Fullest reachable history of the target branch |
+| Workspace Layout    | 104  | Workspace tree and its README contract         |
+| Scout Delegation    | 131  | Read-only scouts for the evidence surface      |
+| Gathering           | 141  | Source families and their collection order     |
+| Extraction Pipeline | 181  | Staged scripts, dating, enrichment, merge      |
+| Data Model          | 285  | Version kinds and their provenance             |
+| Bundled Shim        | 302  | The file:// twin of history.json               |
+| Prototype           | 318  | The commissioned interface contract            |
+| Verification        | 328  | Mechanical checks before delivery              |
+| Incremental Reuse   | 343  | Ref-sha comparison and resume state            |
+| Boundaries          | 350  | Source-only limits of the operation            |
 
 ## Activation Contract
 
@@ -52,21 +52,21 @@ be offered the defaults and a way to change them.
 
 Present the parameter set through the host's question mechanism, with a
 default for every parameter, then gather only after approval.
-An answer of "defaults" or silence accepts the table as shown;
+An answer of "defaults" or silence accepts the table as shown.
 "change a decision" reopens the one parameter the user names.
 
-| Parameter       | Default                                                        |
-|-----------------|----------------------------------------------------------------|
-| **Target**      | The repository named by the request, else the current directory |
-| **Workspace**   | `work/history/` inside the target, or its own `work`/`temporary` convention |
-| **Ref**         | The upstream tip when it strictly contains `HEAD`, else `HEAD`  |
-| **Depth**       | Full: commits, boundaries, dependencies, docs, metrics, aspects |
-| **Landing**     | The consumer's `src/` when a viewer exists, else the workspace `out/` |
-| **Dataset role**| Replace the consumer's default `history.json`                   |
-| **file:// shim** | Landed beside `history.json` as the generic `js/history.js` |
-| **View layout** | `square`                                                         |
-| **View theme**  | `dark`                                                           |
-| **View palette**| `blue`                                                           |
+| Parameter        | Default                                                                     |
+|------------------|-----------------------------------------------------------------------------|
+| **Target**       | The repository named by the request, else the current directory             |
+| **Workspace**    | `work/history/` inside the target, or its own `work`/`temporary` convention |
+| **Ref**          | The upstream tip when it strictly contains `HEAD`, else `HEAD`              |
+| **Depth**        | Full: commits, boundaries, dependencies, docs, metrics, aspects             |
+| **Landing**      | The consumer's `src/` when a viewer exists, else the workspace `out/`       |
+| **Dataset role** | Replace the consumer's default `history.json`                               |
+| **file:// shim** | Landed beside `history.json` as the generic `js/history.js`                 |
+| **View layout**  | `square`                                                                    |
+| **View theme**   | `dark`                                                                      |
+| **View palette** | `blue`                                                                      |
 
 Notes on the parameters:
 
@@ -83,7 +83,8 @@ Notes on the parameters:
   only when no user preference exists.
 - **Prototype** - whether the request also commissions a visualisation
   prototype - resolves from the request text and is confirmed in the
-  same gate; the dataset is always the primary deliverable.
+  same gate.
+  The dataset is always the primary deliverable.
 
 ## Ref Selection
 
@@ -97,7 +98,8 @@ Gather the fullest reachable history of the target branch.
   `gathering/out/ref.json` and the manifest - the dataset never silently covers
   less history than the repository already fetched.
 - Probe for non-git systems once: `.svn`, `git-svn-id` commit markers.
-  Absence is recorded; a real SVN checkout uses `svn log` as the commit source.
+  Absence is recorded.
+  A real SVN checkout uses `svn log` as the commit source.
 
 ## Workspace Layout
 
@@ -132,7 +134,8 @@ Spawn read-only scout agents for the evidence surface when the host supports
 delegation, unless the request says otherwise.
 Typical roles: document-field inventory, version-boundary facts,
 consumer-side contract (what the viewer reads).
-Scouts never write; the parent folds their reports into scripts and notes
+Scouts never write.
+The parent folds their reports into scripts and notes
 per `process/parallel-execution.md`.
 
 ## Gathering
@@ -141,7 +144,8 @@ Collect source families in this order.
 
 1. **Commit history** - the full `git log` with subjects, hashes, dates,
    and insertion/deletion counts, oldest first, at the chosen ref.
-   Merge commits stay in the stream; the classifier routes them to a
+   Merge commits stay in the stream.
+   The classifier routes them to a
    neutral type rather than dropping them.
    Every commit that touches a dependency manifest (`Cargo.toml`,
    `package.json`, `pyproject.toml`, `requirements.txt`, `go.mod`,
@@ -179,11 +183,11 @@ Collect source families in this order.
 Run the pipeline as staged scripts under `gathering/scripts/`
 with intermediate output under `gathering/out/`:
 
-| Stage        | Script shape       | Output                                            |
-|--------------|--------------------|---------------------------------------------------|
+| Stage        | Script shape       | Output                                                                          |
+|--------------|--------------------|---------------------------------------------------------------------------------|
 | Git extract  | `extract_git.py`   | commits, version boundaries, dependency changes, per-boundary stats, ref record |
-| Docs extract | `extract_docs.py`  | categorized + enriched development records        |
-| Merge        | `build_history.py` | `history.json`, the bundled shim, `manifest.json` |
+| Docs extract | `extract_docs.py`  | categorized + enriched development records                                      |
+| Merge        | `build_history.py` | `history.json`, the bundled shim, `manifest.json`                               |
 
 Per-version statistics are captured at the version's own boundary commit -
 line counts, file counts by category, dependency counts, commit count,
@@ -203,7 +207,7 @@ engineering focus moved between releases:
 - `hotspots` - the most-touched files of the era (top ~8 by commit count),
   from per-commit `--numstat`, not only `--shortstat`.
 - `authors` - commit counts per author inside the era.
-- `commitMix` - the classified commit-type distribution per era; computed
+- `commitMix` - the classified commit-type distribution per era - computed
   at merge time from the same classifier that types events, so the
   interface can diff focus between consecutive versions.
 - `files` - the era's largest source/test files (path, LOC, module), the
@@ -216,7 +220,8 @@ engineering focus moved between releases:
 
 Component modules are the top-level directories, with `src/` splitting one
 level deeper, so each era's city sections match the project's real
-structure; a module that first appears in an era is marked `added` so the
+structure.
+A module that first appears in an era is marked `added` so the
 scope can show the city growing.
 Lockfiles never feed LOC or god-file metrics - generated artifacts are not
 maintainability evidence - and gitlinks (submodules) are skipped since
@@ -236,7 +241,8 @@ Each doc record carries two dates:
   on a version era when it carries no explicit version directory.
 
 A declared date may legitimately predate the repository (preparation
-documents); era assignment always uses the commit-era date.
+documents).
+Era assignment always uses the commit-era date.
 
 ### Record Enrichment
 
@@ -305,7 +311,8 @@ so they can never diverge.
 
 The shim's filename must be the path the consumer's own script tag loads
 (e.g. `js/history.js`) - a name the consumer does not reference silently
-breaks the `file://` fallback. The shim is always the generic twin:
+breaks the `file://` fallback.
+The shim is always the generic twin:
 project-named shims never land in the consumer.
 
 ## Prototype

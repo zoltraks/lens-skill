@@ -12,6 +12,8 @@ Follow it after Parameter Configuration.
 
 On completion, proceed to `process/audit-workflow/evidence-gathering.md`.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Scope Definition
 
 State what is in scope and what is not.

@@ -15,6 +15,8 @@ Feeds `assessment/deployment-review.md`, `assessment/security-review.md`,
 and `assessment/dependency-review.md`, and `assessment/baseline-conformance.md` for
 containerized subjects.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Dockerfile Rules
 
 From https://docs.docker.com/build/building/best-practices/ and

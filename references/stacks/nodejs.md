@@ -16,6 +16,8 @@ Feeds `assessment/best-practices.md`, `assessment/security-review.md`,
 `assessment/dependency-review.md`, `assessment/testing-review.md`,
 and `assessment/baseline-conformance.md` for JavaScript backends.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Runtime Floor
 
 The Node.js release schedule ( https://nodejs.org/en/about/previous-releases)

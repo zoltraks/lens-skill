@@ -15,6 +15,8 @@ Feeds `assessment/best-practices.md`, `assessment/api-compatibility.md`,
 `assessment/dependency-review.md`, `assessment/security-review.md`,
 and `assessment/baseline-conformance.md` for Rust subjects.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## API Guidelines, Naming, And Layout
 
 From https://rust-lang.github.io/api-guidelines/,

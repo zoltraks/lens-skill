@@ -17,6 +17,8 @@ Snapshot date: 2026-10-09.
 Feeds `assessment/generated-code.md`, the attribution census in `references/census-commands.md`,
 and the `Provenance` field vocabulary in `process/report-format/findings-registers.md`.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## The Asymmetry Rule
 
 Agent involvement can be proven: an attribution artifact either exists or it does not.

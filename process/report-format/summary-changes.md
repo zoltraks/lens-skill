@@ -5,6 +5,8 @@
 > **Scope:**Executive summary and the previous-audit comparison block**Key items:** readiness
 > threshold, changes since previous audit
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Executive Summary
 
 Provide a compact overview a reader can absorb without the detail sections.

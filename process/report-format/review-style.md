@@ -9,6 +9,8 @@
 This file defines the report produced when `report-style: review` is resolved during Parameter
 Configuration in `process/audit-workflow/parameter-phase.md`.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 The `audit` style measures conformance against the governed contract and `hunt`
 measures fitness for use.
 `review` answers a narrower question: what do the commissioned checks actually show,

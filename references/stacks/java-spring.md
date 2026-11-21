@@ -16,6 +16,8 @@ Feeds `assessment/security-review.md`, `assessment/dependency-review.md`,
 `assessment/api-compatibility.md`, `assessment/best-practices.md`,
 and `assessment/baseline-conformance.md` for JVM subjects.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Spring Security
 
 From

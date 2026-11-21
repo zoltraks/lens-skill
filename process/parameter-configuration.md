@@ -10,6 +10,8 @@ Before beginning the audit, the agent runs the Parameter Configuration phase in
 `process/audit-workflow/parameter-phase.md` and MUST ask whether to accept defaults,
 configure options, or specify the operation to run.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 Defaults are:
 
 | Parameter               | Default                                                                                                                                                                                                                            |

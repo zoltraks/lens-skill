@@ -12,6 +12,8 @@ and as a standalone structure-scoped variant of the `review` style.
 
 The analysis itself is governed by `assessment/structure-review.md`.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Structure Review Section
 
 The `audit` style carries a `Structure Review` section immediately after `Architectural Assessment`

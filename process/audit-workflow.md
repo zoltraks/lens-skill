@@ -15,16 +15,7 @@ one requested category.
 The `hunt` and `review` report styles apply the same phases with the section-order deltas defined in
 `process/report-format/hunt-style.md` and `process/report-format/review-style.md`.
 
-## Contents
-
-| Section                 | Line | What it covers                   |
-|-------------------------|------|----------------------------------|
-| Step Overview           | 29   | Step Overview guidance           |
-| Intake Checklist        | 56   | Intake Checklist guidance        |
-| Handling Thin Input     | 81   | Handling Thin Input guidance     |
-| Single-Dimension Audits | 94   | Single-Dimension Audits guidance |
-| Re-Audit                | 109  | Re-Audit guidance                |
-| Multi-Project Audits    | 176  | Multi-Project Audits guidance    |
+Read the sections the task needs - grep the `## ` headings for the section map.
 
 ## Step Overview
 

@@ -6,6 +6,8 @@
 > and reader-facing observations **Key items:** risk map, scorecard, continuity
 > proxies, observation blocks
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Health Dashboard
 
 Present the quantitative health summary in a consolidated view.

@@ -18,7 +18,7 @@ compatibility: >-
   access required for the audit itself, optional web fetch for external
   documentation or CVE lookups.
 metadata:
-  version: "2.9.9"
+  version: "3.0.0"
   author: Filip Golewski
 allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
@@ -41,7 +41,8 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 | Use improvement mode | Apply improvements surfaced by the work through the owning skill's maintenance procedure. A separate session-review request starts [session review](process/session-review.md). |
 | Use verbose mode     | Follow [timing and reporting](process/operation-timing.md) and expose pending questions through [JSON exchange](process/json-exchange.md).                                      |
 
-Read the selected procedure before acting. At each phase, read every file required for that phase,
+Read the selected procedure before acting.
+At each phase, read every file required for that phase,
 including conditional files once their conditions apply.
 Use a directory index when you need to discover a path.
 Defer later-phase material until that phase begins.
@@ -55,9 +56,9 @@ or when its behavior is unclear.
 
 | Section                 | Line | What it covers                                     |
 |-------------------------|------|----------------------------------------------------|
-| Skill Update Check      | 85   | Once-per-session git freshness gate before use     |
-| Trigger Keywords        | 107  | Activation phrases                                 |
-| How To Use              | 143  | Progressive disclosure and mandatory reading       |
+| Skill Update Check      | 86   | Once-per-session git freshness gate before use     |
+| Trigger Keywords        | 108  | Activation phrases                                 |
+| How To Use              | 144  | Progressive disclosure and mandatory reading       |
 | Parameter Configuration | 168  | Defaults and user-controlled report shape          |
 | Principles              | 175  | Evaluation and output rules                        |
 | Process                 | 181  | Workflow, format, and parity                       |
@@ -156,8 +157,7 @@ Use progressive disclosure:
   Inline descriptive analysis uses its own route and skips report-only contracts.
 - Apply `process/navigation-rules.md` to every report - it carries the file-selection and
   section-placement rules.
-- Open only the assessment files that match the system under audit - the index is
-  `assessment/README.md`.
+- Open only the assessment files that match the subject - see the `assessment/` entry below.
 - During report assembly, use the synthesis files selected for the sections being produced.
 
 This skill is self-contained. The topic files below are the available reference material.

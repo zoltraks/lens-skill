@@ -16,6 +16,8 @@ Feeds `assessment/best-practices.md`, `assessment/code-quality.md`,
 and `assessment/security-review.md`, and `assessment/baseline-conformance.md` for
 script-heavy subjects.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## ShellCheck Rule Classes
 
 From https://www.shellcheck.net/wiki/ - rule IDs feed `references/cwe-analyzer.md`.

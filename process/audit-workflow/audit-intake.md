@@ -542,7 +542,8 @@ it presents concrete options with one marked `(recommended)` and never carries t
 trailing options of routine prompts.
 
 Under an automated run the gate is not asked and the mode resolves per the Automated run block
-above. The confirmed-re-audit recovery below then applies as if the user had confirmed.
+above.
+The confirmed-re-audit recovery below then applies as if the user had confirmed.
 
 Under JSON exchange it emits as the `audit-mode` `choice` parameter per `process/json-exchange.md`.
 

@@ -18,7 +18,8 @@
 ## Document Information
 
 Open the report with a document title as a level-1 markdown heading (`#`),
-followed by the `## Document Information` section. The title is always `<System Name> Audit Report`,
+followed by the `## Document Information` section.
+The title is always `<System Name> Audit Report`,
 for software and non-software subjects alike.
 Do not append a skill name, report type, or separator - `Lens audit report`, `- audit`,
 and similar suffixes are never part of the title.

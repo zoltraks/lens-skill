@@ -15,6 +15,8 @@ Feeds `assessment/best-practices.md`, `assessment/security-review.md`,
 `assessment/dependency-review.md`, `assessment/testing-review.md`,
 and `assessment/baseline-conformance.md` for PHP subjects.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Autoload, Layout, And Style
 
 From PSR-1 ( https://www.php-fig.org/psr/psr-1/), PSR-4 ( https://www.php-fig.org/psr/psr-4/),

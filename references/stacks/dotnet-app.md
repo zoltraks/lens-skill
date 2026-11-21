@@ -19,6 +19,8 @@ Feeds `assessment/structure-review.md`, `assessment/code-style.md`, `assessment/
 `references/stacks/dotnet-aspnet.md` covers the web-service surface and its security baseline - this
 file carries the shared .NET naming floor plus the non-web project shapes.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Naming And Layout
 
 From the Microsoft program-organization guide at

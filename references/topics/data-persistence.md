@@ -17,6 +17,8 @@ Feeds `assessment/baseline-conformance.md`, `assessment/security-review.md`,
 and `assessment/nfr-review.md` for subjects classified `database` in
 `references/domain-profiles.md`.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Query Construction
 
 From https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html.

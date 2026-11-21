@@ -15,6 +15,8 @@ Feeds `assessment/best-practices.md`, `assessment/dependency-review.md`,
 `assessment/security-review.md`, `assessment/api-compatibility.md`, `assessment/testing-review.md`,
 `assessment/structure-review.md`, and `assessment/baseline-conformance.md` for Go subjects.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## Module And Dependency Rules
 
 From https://go.dev/ref/mod, https://go.dev/doc/modules/managing-dependencies,

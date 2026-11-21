@@ -19,19 +19,7 @@ and the ledger `Observation` / `Concern` tags stay unchanged - the kinds below a
 layer recorded in the audit model and cited in finding `Evidence` fields,
 with the mapping defined here.
 
-## Contents
-
-| Section                          | Line | What it covers                                     |
-|----------------------------------|------|----------------------------------------------------|
-| Evidence Kinds                   | 36   | What each kind can and cannot establish            |
-| Outcome States                   | 71   | Per-criteria result vocabulary                     |
-| Evidence Records                 | 96   | Required fields and redaction rules                |
-| Supplied And Historical Evidence | 139  | Reuse rules for prior artifacts                    |
-| Coverage And Collection          | 149  | Inventory, classification, and sampling discipline |
-| Claim Sufficiency                | 166  | What verification each claim type requires         |
-| Closure Rules                    | 185  | What may and may not close a criteria entry        |
-| Advisory States                  | 201  | Dependency-advisory vocabulary                     |
-| Coverage Labels                  | 222  | Criteria-coverage label vocabulary                 |
+Read the sections the task needs - grep the `## ` headings for the section map.
 
 ## Evidence Kinds
 

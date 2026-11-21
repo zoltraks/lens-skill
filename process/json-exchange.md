@@ -8,6 +8,8 @@
 
 This file defines how Lens exposes its intake questions as JSON and how it consumes JSON answers.
 
+Read the sections the task needs - grep the `## ` headings for the section map.
+
 ## When to Emit
 
 When the request asks for the questions, settings, or parameters "in JSON", "as JSON",
