@@ -346,6 +346,20 @@ They use the Python standard library and do not require PyYAML or a package mana
 The `tests/` directory at the repository root holds focused `unittest` contract tests for the
 scripts - run them with `python -m unittest discover -s tests` after changing a tool.
 
+### History-Visualisation Tools
+
+`validate-history.py` mechanically checks a produced `history.json` dataset against
+`references/history-schema.md`: schema and project fields, category registry integrity,
+event traceability (`sha` or `ref`), kind-specific stats/metrics presence, `eventCounts`
+consistency, `categoryDetail` key registration and internal consistency, date-grouping
+`era` rules, and the no-`null` contract.
+
+Copy it into the history workspace under a `.tmp.` name per the report-production copy
+contract, and run it against `gathering/out/history.json` as part of the operation's
+verification gate.
+
+It reads the dataset as data and exits non-zero listing every violation found.
+
 ## Commands
 
 ```

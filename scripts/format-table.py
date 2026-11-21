@@ -41,9 +41,34 @@ def decode(raw):
 
 
 def parse_row(line):
-    parts = line.split("|")
-    cells = parts[1:-1] if parts and parts[-1].strip() == "" else parts[1:]
-    return [c.strip() for c in cells]
+    """Split a table row on pipes that sit outside backtick code spans."""
+    cells, cur, i, n = [], [], 1 if line.startswith("|") else 0, len(line)
+    while i < n:
+        ch = line[i]
+        if ch == "`":
+            j = i
+            while j < n and line[j] == "`":
+                j += 1
+            ticks = line[i:j]
+            end = line.find(ticks, j)
+            if end != -1:
+                cur.append(line[i:end + len(ticks)])
+                i = end + len(ticks)
+                continue
+            cur.append(line[i:])  # unclosed span swallows the rest of the row
+            i = n
+            continue
+        if ch == "|":
+            cells.append("".join(cur).strip())
+            cur = []
+            i += 1
+            continue
+        cur.append(ch)
+        i += 1
+    tail = "".join(cur).strip()
+    if tail:
+        cells.append(tail)
+    return cells
 
 
 def is_sep(cells):
@@ -78,6 +103,16 @@ def format_block(block, start, drop_empty):
                 f"line {start + k + 1}: separator cell(s) carried spaces - "
                 "normalized to compact hyphens"
             )
+    for k, r in enumerate(rows):
+        if sep_like(r):
+            continue
+        for c in r:
+            if len(c) > 300:
+                warnings.append(
+                    f"line {start + k + 1}: cell exceeds the 300-character "
+                    f"width budget ({len(c)})"
+                )
+                break
     ncols = max(len(r) for r in rows)
     rows = [r + [""] * (ncols - len(r)) for r in rows]
     empty = [
@@ -129,6 +164,43 @@ def in_payload(fences, payload_markdown):
     )
 
 
+def format_text(raw, drop_empty=False, payload_markdown=False):
+    """Format one document's worth of text; returns (lines, warnings, tables)."""
+    lines = raw.replace("\r\n", "\n").split("\n")
+    out, i, tables, all_warnings = [], 0, 0, []
+    fences = []
+    while i < len(lines):
+        line = lines[i]
+        fence = FENCE.match(line)
+        if fence:
+            marker = len(fence.group(1))
+            if fences:
+                if marker >= fences[-1][0] and fence.group(1)[0] == fences[-1][2]:
+                    fences.pop()
+                elif fences[-1][1] == "markdown":
+                    fences.append((marker, fence.group(2), fence.group(1)[0]))
+            else:
+                fences.append((marker, fence.group(2), fence.group(1)[0]))
+            out.append(line)
+            i += 1
+            continue
+        if (not fences or in_payload(fences, payload_markdown)) \
+                and line.startswith("|"):
+            block = []
+            start = i
+            while i < len(lines) and lines[i].startswith("|"):
+                block.append(lines[i])
+                i += 1
+            formatted, warnings = format_block(block, start, drop_empty)
+            all_warnings.extend(warnings)
+            out.extend(formatted)
+            tables += 1
+        else:
+            out.append(line)
+            i += 1
+    return out, all_warnings, tables
+
+
 def main(path, check_only, payload_markdown, drop_empty, excludes=None):
     if os.path.isdir(path):
         from pathlib import Path
@@ -154,41 +226,10 @@ def main(path, check_only, payload_markdown, drop_empty, excludes=None):
         return 1
     lines = text.replace("\r\n", "\n").split("\n")
 
-    out, i, tables = [], 0, 0
-    fences = []
-    changed = []
-    while i < len(lines):
-        line = lines[i]
-        fence = FENCE.match(line)
-        if fence:
-            marker = len(fence.group(1))
-            if fences:
-                if marker >= fences[-1][0] and fence.group(1)[0] == fences[-1][2]:
-                    fences.pop()
-                elif fences[-1][1] == "markdown":
-                    fences.append((marker, fence.group(2), fence.group(1)[0]))
-            else:
-                fences.append((marker, fence.group(2), fence.group(1)[0]))
-            out.append(line)
-            i += 1
-            continue
-        if (not fences or in_payload(fences, payload_markdown)) \
-                and line.startswith("|"):
-            block = []
-            start = i
-            while i < len(lines) and lines[i].startswith("|"):
-                block.append(lines[i])
-                i += 1
-            formatted, warnings = format_block(block, start, drop_empty)
-            for message in warnings:
-                print(message)
-            if formatted != block:
-                changed.append(start + 1)
-            out.extend(formatted)
-            tables += 1
-        else:
-            out.append(line)
-            i += 1
+    out, warnings, tables = format_text(text, drop_empty, payload_markdown)
+    for message in warnings:
+        print(message)
+    changed = [i + 1 for i, pair in enumerate(zip(lines, out)) if pair[0] != pair[1]]
 
     if check_only:
         for n in changed:

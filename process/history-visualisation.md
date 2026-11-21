@@ -16,21 +16,22 @@ It is not an audit and produces no report.
 
 ## Contents
 
-| Section             | Line | Description                                    |
-|---------------------|------|------------------------------------------------|
-| Activation Contract | 35   | When the operation runs and what it never does |
-| Intake              | 47   | Parameters resolved before gathering           |
-| Ref Selection       | 89   | Fullest reachable history of the target branch |
-| Workspace Layout    | 104  | Workspace tree and its README contract         |
-| Scout Delegation    | 131  | Read-only scouts for the evidence surface      |
-| Gathering           | 141  | Source families and their collection order     |
-| Extraction Pipeline | 181  | Staged scripts, dating, enrichment, merge      |
-| Data Model          | 285  | Version kinds and their provenance             |
-| Bundled Shim        | 302  | The file:// twin of history.json               |
-| Prototype           | 318  | The commissioned interface contract            |
-| Verification        | 328  | Mechanical checks before delivery              |
-| Incremental Reuse   | 343  | Ref-sha comparison and resume state            |
-| Boundaries          | 350  | Source-only limits of the operation            |
+| Section             | Line | Description                                        |
+|---------------------|------|----------------------------------------------------|
+| Activation Contract | 35   | When the operation runs and what it never does     |
+| Intake              | 47   | Parameters resolved before gathering               |
+| Ref Selection       | 101  | Fullest reachable history of the target branch     |
+| Era Discovery       | 116  | How commits group into eras - version or date mode |
+| Workspace Layout    | 142  | Workspace tree and its README contract             |
+| Scout Delegation    | 170  | Read-only scouts for the evidence surface          |
+| Gathering           | 180  | Source families and their collection order         |
+| Extraction Pipeline | 220  | Staged scripts, dating, enrichment, merge          |
+| Data Model          | 356  | Version kinds and their provenance                 |
+| Bundled Shim        | 373  | The file:// twin of history.json                   |
+| Prototype           | 389  | The commissioned interface contract                |
+| Verification        | 399  | Mechanical checks before delivery                  |
+| Incremental Reuse   | 424  | Ref-sha comparison and resume state                |
+| Boundaries          | 433  | Source-only limits of the operation                |
 
 ## Activation Contract
 
@@ -60,6 +61,7 @@ An answer of "defaults" or silence accepts the table as shown.
 | **Target**       | The repository named by the request, else the current directory             |
 | **Workspace**    | `work/history/` inside the target, or its own `work`/`temporary` convention |
 | **Ref**          | The upstream tip when it strictly contains `HEAD`, else `HEAD`              |
+| **Grouping**     | `version`; falls back to `month` when no boundary exists                    |
 | **Depth**        | Full: commits, boundaries, dependencies, docs, metrics, aspects             |
 | **Landing**      | The consumer's `src/` when a viewer exists, else the workspace `out/`       |
 | **Dataset role** | Replace the consumer's default `history.json`                               |
@@ -78,9 +80,20 @@ Notes on the parameters:
   The consumer's tree carries exactly one dataset - alternate datasets
   stay in their own workspace outputs, and a swap is a rebuild plus copy,
   never extra files beside `history.json`.
+- **Grouping** selects the era strategy: `version` for manifest, tag, and
+  changelog boundaries, or a date strategy - `month`, `quarter`, `year`,
+  or `gap` (an activity split wherever consecutive commits sit at least 30
+  quiet days apart) - used directly or as the automatic fallback when
+  boundary discovery finds nothing.
 - **View \*** parameters feed the dataset's `view` block - the producer's
   `VIEW` constant takes the chosen values, and the viewer applies them
   only when no user preference exists.
+- **Configuration** - the intake answers land in `gathering/config.json`
+  inside the workspace: `repo`, `target_dir`, `ref`, `grouping`, `view`,
+  and `project` (`name`, `description`).
+  Every script resolves its subject, landing, and mode from this file -
+  a reusable script never hardcodes a repository path or consumer
+  directory, and its header comment names the actual target.
 - **Prototype** - whether the request also commissions a visualisation
   prototype - resolves from the request text and is confirmed in the
   same gate.
@@ -101,6 +114,32 @@ Gather the fullest reachable history of the target branch.
   Absence is recorded.
   A real SVN checkout uses `svn log` as the commit source.
 
+## Era Discovery
+
+Boundary discovery runs before extraction and decides how commits group
+into eras - it is a first-class stage of the operation, never incidental.
+
+1. Probe version signals at the chosen ref: version-manifest fields
+   (package files, build descriptors, `version.go`-style constants), git
+   tags, and changelog headings (`## Version x.y.z` or equivalent).
+2. When at least one boundary exists and grouping is `version`, boundaries
+   order eras exactly as today - a bump commit ends the era it completes,
+   and pre-first-boundary history folds into the first era.
+3. When no boundary exists, or the intake asked for a date strategy,
+   commits group by calendar period (`month`, `quarter`, `year`) or by
+   activity gap (`gap` - a split wherever consecutive commits sit at least
+   30 quiet days apart, the same convention `gapDays` already reports).
+   A period that holds no commits produces no boundary, so sparse spans
+   yield few eras rather than many empty ones.
+4. Date eras serialize as `kind: "era"` with the period label in the
+   version field (`2026-04`, `2026-Q2`, `2026`, or the era's start date
+   under `gap`).
+   The era containing HEAD marks `developing`, `changelog`-only records
+   keep `kind: "changelog"`, and `planned` keeps meaning "records, no code".
+5. The effective strategy lands in `ref.json`, `manifest.json`, and the
+   dataset's `project.grouping`, so a consumer can tell a versioned
+   history from a date-sliced one.
+
 ## Workspace Layout
 
 Establish this tree inside the workspace before gathering:
@@ -108,6 +147,7 @@ Establish this tree inside the workspace before gathering:
 ```
 <workspace>/README.md              # workspace identity contract
 <workspace>/plan/                  # the recorded plan + steps log
+<workspace>/gathering/config.json  # intake answers the scripts run under
 <workspace>/gathering/scripts/     # extraction scripts
 <workspace>/gathering/out/         # intermediate JSON per extractor
 <workspace>/gathering/notes/       # findings, anomalies, unassigned records
@@ -183,11 +223,11 @@ Collect source families in this order.
 Run the pipeline as staged scripts under `gathering/scripts/`
 with intermediate output under `gathering/out/`:
 
-| Stage        | Script shape       | Output                                                                          |
-|--------------|--------------------|---------------------------------------------------------------------------------|
-| Git extract  | `extract_git.py`   | commits, version boundaries, dependency changes, per-boundary stats, ref record |
-| Docs extract | `extract_docs.py`  | categorized + enriched development records                                      |
-| Merge        | `build_history.py` | `history.json`, the bundled shim, `manifest.json`                               |
+| Stage        | Script shape       | Output                                                                                            |
+|--------------|--------------------|---------------------------------------------------------------------------------------------------|
+| Git extract  | `extract_git.py`   | commits, version boundaries, dependency changes, per-boundary stats, per-bucket churn, ref record |
+| Docs extract | `extract_docs.py`  | categorized + enriched development records                                                        |
+| Merge        | `build_history.py` | `history.json`, the bundled shim, `manifest.json`                                                 |
 
 Per-version statistics are captured at the version's own boundary commit -
 line counts, file counts by category, dependency counts, commit count,
@@ -282,6 +322,38 @@ The merge emits `gathering/out/manifest.json`: generation timestamp,
 chosen ref and sha, local head and behind count, commit/version/record
 totals, unassigned count, and landing paths.
 
+### Category Detail
+
+Each version record carries a `categoryDetail` block so the interface can
+render per-category sidebars with category-relevant evidence rather than
+the full version dump.
+
+For every category with era activity the producer computes:
+
+- `events`, `ins`, `del` - the category's own event count and churn.
+- `churn` and `modules` - the era's insertions and deletions restricted to
+  the file buckets the category cares about, overall and per module:
+  `docs` and `test` map to their own buckets, code categories
+  (`feature`, `change`, `fix`, `refactor`, `chore`, `release`, `test`)
+  map to `src` and `test`, and record-driven categories (plans, specs,
+  audits, and similar) carry no bucket slice.
+  A documentation building shows documentation churn, never unrelated code.
+- `loc` - the boundary-measured LOC of the relevant buckets.
+- `facts` - category-specific structured detail: dependency actions with
+  names and versions, test cases/files/ratio, report scores, verdicts,
+  findings and subject versions, record counts with archived totals,
+  spec requirement counts.
+  `facts` is the extension point - new keys land additively without a
+  schema change.
+- `summary` - one generated sentence per category, produced from the
+  gathered evidence by deterministic templates (counts, churn, module
+  hotspots, names) - summaries describe what was gathered and never
+  invent detail.
+
+Per-bucket churn comes from the git extract's `churn.json` - per-commit
+per-module per-bucket insertions and deletions kept when the numstat pass
+runs - so a category slice aggregates without re-walking the tree.
+
 ## Data Model
 
 Versions are ordered oldest to newest and each carries a `kind`:
@@ -339,6 +411,16 @@ Before delivery, confirm mechanically:
 - No record is fabricated: unknown fields are omitted, never invented.
 - `manifest.json` records the covered ref and counts.
 - `view` carries the intake's layout, theme, and palette answers.
+- `categoryDetail` keys resolve to registry categories, its `events`
+  counts match the version's per-type event totals, and its `churn`
+  totals never exceed the era `delta`.
+- Date-grouped datasets carry `kind: "era"` on period records and
+  `project.grouping` naming the effective strategy.
+- `scripts/validate-history.py` runs clean on the produced dataset.
+- Reproducibility: a second run at the same ref emits a byte-identical
+  dataset apart from `project.generated` and `manifest.generated`.
+- Script header comments name the actual target project - a comment left
+  from an adapted pipeline misdocuments the run.
 
 ## Incremental Reuse
 
@@ -346,6 +428,8 @@ A re-run compares the recorded `manifest.json` ref sha against the
 repository's current chosen ref: equal means unchanged stages can be
 skipped and only the merge re-runs.
 The `out/` intermediates are the resume state - keep them.
+`config.json` pins the run's parameters, so a resume replays the same
+target, grouping, view, and landing without re-asking.
 
 ## Boundaries
 

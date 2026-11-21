@@ -475,7 +475,7 @@ def block_titles(text: str) -> dict[str, str]:
     """Map `### <id>:` heading prefixes to their block titles."""
     titles = {}
     for match in re.finditer(
-        r"^### ((?:FND|RSK|REC|TDR)-[A-Z]+-\d{3}):\s*(.+)$", text, re.MULTILINE
+        r"^### ((?:FND|RSK|REC|TDR)-[A-Z]+-\d{3}):?\s+(.+)$", text, re.MULTILINE
     ):
         titles[match.group(1)] = match.group(2).strip()
     return titles

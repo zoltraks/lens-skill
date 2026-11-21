@@ -21,7 +21,7 @@ Read the sections the task needs - grep the `## ` headings for the section map.
 
 | Field        | Type     | Contents                                   |
 |--------------|----------|--------------------------------------------|
-| `schema`     | integer  | Schema version, currently `1`              |
+| `schema`     | integer  | Schema version, currently `2`              |
 | `project`    | object   | Project identity and coverage, see Project |
 | `view`       | object   | Interface defaults, see View, optional     |
 | `categories` | object[] | Event category registry, see Categories    |
@@ -29,15 +29,21 @@ Read the sections the task needs - grep the `## ` headings for the section map.
 
 ## Project
 
-| Field         | Type         | Contents                                 |
-|---------------|--------------|------------------------------------------|
-| `name`        | string       | Project name                             |
-| `description` | string, opt. | Short description, omitted when unknown  |
-| `repository`  | string       | Source path or remote name               |
-| `generated`   | string       | Build timestamp                          |
-| `head`        | string       | HEAD commit hash at generation time      |
-| `commits`     | int          | Total commit count covered               |
-| `span`        | object       | `{"from": ISO, "to": ISO}` date coverage |
+| Field         | Type         | Contents                                                      |
+|---------------|--------------|---------------------------------------------------------------|
+| `name`        | string       | Project name                                                  |
+| `description` | string, opt. | Short description, omitted when unknown                       |
+| `repository`  | string       | Source path or remote name                                    |
+| `generated`   | string       | Build timestamp                                               |
+| `head`        | string       | HEAD commit hash at generation time                           |
+| `commits`     | int          | Total commit count covered                                    |
+| `span`        | object       | `{"from": ISO, "to": ISO}` date coverage                      |
+| `grouping`    | string       | Era strategy: `version`, `month`, `quarter`, `year`, or `gap` |
+
+`grouping` records how commits grouped into eras - `version` when
+manifest, tag, or changelog boundaries exist (the best choice whenever
+present), a calendar period or activity-gap strategy otherwise or when the
+intake asked for one.
 
 ## Categories
 
@@ -70,8 +76,8 @@ rather than to hardcoded constants.
 
 | Field             | Type           | Contents                                                |
 |-------------------|----------------|---------------------------------------------------------|
-| `version`         | string         | Semantic version string                                 |
-| `kind`            | enum           | `release` `changelog` `developing` `planned`            |
+| `version`         | string         | Era label - a semantic version or a date-period label   |
+| `kind`            | enum           | `release` `changelog` `developing` `planned` `era`      |
 | `range`           | object, opt.   | `{"from": sha, "to": sha}` commit boundaries            |
 | `dates`           | object, opt.   | `{"from": ISO, "to": ISO}` activity span                |
 | `stats`           | object, opt.   | Measured at the boundary commit, see Stats              |
@@ -83,11 +89,17 @@ rather than to hardcoded constants.
 | `eventCounts`     | object         | `{category-id: count}` totals for interface rendering   |
 | `gapDays`         | int            | Quiet days between this version and the previous        |
 | `superseded`      | bool, optional | True when a later record reuses the same version number |
+| `categoryDetail`  | object, opt.   | Per-category era evidence, see Category Detail          |
 | `planned`         | bool, optional | True on `planned` records                               |
 
 Kinds differ by provenance: `release` has a manifest or tag boundary,
 `changelog` exists only in documents, `developing` is open at HEAD,
-and `planned` has records but no code.
+`era` is a date-grouped activity period produced when the project has no
+version boundaries or a date strategy was asked for, and `planned` has
+records but no code.
+
+Date-era labels are `YYYY-MM` for `month`, `YYYY-Qn` for `quarter`,
+`YYYY` for `year`, and the era's first commit date `YYYY-MM-DD` for `gap`.
 
 `dates` is absent on `planned` records - date arithmetic must skip them,
 because an empty or missing bound would hijack range resolution.
@@ -150,6 +162,46 @@ every key is omitted when its evidence does not exist:
 | `api`             | `{paths, operations}` - declared API surface (e.g. OpenAPI)     |
 | `documentation`   | `{ratio, loc, records}` - docs share + doc events of the era    |
 | `problems`        | `{findings, fixes}` - finding counts + fix commits of the era   |
+
+## Category Detail
+
+`categoryDetail` maps each category id with era activity to the evidence a
+per-category sidebar needs - the category's own measures, never the full
+version dump.
+Keys appear in registry `order`; a category with no era events and no
+relevant churn is omitted, and so is the whole block on a silent era.
+
+| Field     | Type         | Contents                                                  |
+|-----------|--------------|-----------------------------------------------------------|
+| `events`  | int          | Event count for the category this era                     |
+| `ins`     | int, opt.    | Insertions summed over the category's own events          |
+| `del`     | int, opt.    | Deletions summed over the category's own events           |
+| `churn`   | object, opt. | `{"ins", "del"}` era churn restricted to relevant buckets |
+| `modules` | object, opt. | `{module: {"ins","del","loc"}}` per-module churn of the   |
+|           |              | relevant buckets plus the module's boundary LOC in them   |
+| `loc`     | object, opt. | `{bucket: lines}` boundary LOC of the relevant buckets    |
+| `facts`   | object, opt. | Category-specific structured detail, see below            |
+| `summary` | string, opt. | One generated sentence from the gathered evidence         |
+
+Relevant buckets: `docs` and `test` map to their own buckets; `feature`,
+`change`, `fix`, `refactor`, `chore`, and `release` map to `src` and
+`test`; `dependency` and record-driven categories (plans, specs, audits,
+and similar) carry no `churn`, `modules`, or `loc` slice - their evidence
+is the record itself.
+`docs` and `test` may also appear without era events when their own
+bucket churned - file-level activity is attributable to them alone,
+while code-category churn cannot be attributed to an eventless category.
+
+`facts` is the extension point: producers add keys without a schema
+change. Known shapes: `dependency` carries `added`, `bumped`, `removed`
+counts, `names` per action, and `prod`/`dev` totals; `test` carries
+`cases`, `files`, `ratio`; report-family categories carry `records`,
+`archived`, `scores`, `verdicts`, `findings`, `subjects`; `spec` and
+`contract` carry `requirements`; changelog carries `items`.
+
+`summary` is generated by deterministic templates over the gathered
+evidence - counts, churn, module hotspots, names - and never fabricates
+content the gatherers did not find.
 
 ## Events
 
@@ -215,4 +267,7 @@ An event with neither is a fabrication and fails verification.
   to a global the interface reads when `fetch` is unavailable.
 - Versions serialize oldest to newest.
 - Events serialize in chronological order inside each version.
+- `categoryDetail` keys serialize in registry `order`.
 - Numbers are integers, dates are ISO strings, no trailing metadata.
+- The dataset is reproducible: a re-run at the same ref emits identical
+  content apart from `project.generated`.

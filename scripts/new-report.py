@@ -68,6 +68,7 @@ DOC_INFO = [
     ("Report Style", None),
     ("Detail Level", None),
     ("Evaluation Scale", "1-10"),
+    ("Language", "English"),
     ("Audit Purpose", "<audit purpose>"),
     ("Target Environment", "<target environment>"),
     ("Verification Scope", "Static repository analysis - no execution"),
@@ -188,8 +189,6 @@ def document_info(style: str, projects: list[str], params: dict) -> str:
                 value = "Static repository analysis - non-mutating commands executed"
         elif field == "Skill Version":
             value = skill_version()
-        if field == "Language" and value == "English":
-            continue
         rows.append(f"| {field} | {value} |")
         if field == "Report Style" and params.get("review_scope") == "structure":
             rows.append("| Review Scope | Structure |")
@@ -237,7 +236,7 @@ def finding_summary_table(projects: list[str], fnd_id: str = "FND-SEC-001") -> s
 
 def gate_confirmation(body: str, params: dict) -> str:
     if params.get("evidence_mode", "source-only").replace("_", "-") == "source-only":
-        return re.sub(r"\* \*\*Confirmation:\*\*[^\n]*\n", "", body)
+        return re.sub(r"^[-*] \*\*Confirmation:\*\*[^\n]*\n", "", body, flags=re.MULTILINE)
     return body
 
 
@@ -456,6 +455,8 @@ def audit_shared_tail(multi: bool, projects: list[str] | None = None) -> list[st
         heading(2, "Further Verification"),
         "Every material claim the audit could not resolve from source, with the\n"
         "exact command or procedure and its pass criteria.\n\n",
+        heading(2, "Validation Protocol"),
+        validation_record(),
     ]
     parts += roadmap_sections(list(projects or []))
     parts += [
@@ -800,6 +801,15 @@ def _clean(text: str) -> str:
     return re.sub(r"\s{2,}", " ", str(text).replace(";", ",")).strip()
 
 
+def _sentence(text: str) -> str:
+    """Render model text as a contract sentence - capital start, period end."""
+    cleaned = _clean(text)
+    if not cleaned:
+        return cleaned
+    cleaned = cleaned[0].upper() + cleaned[1:]
+    return cleaned if cleaned.endswith(".") else cleaned + "."
+
+
 def populate_audit(body: str, model: dict) -> str:
     executed_mode = bool(
         re.search(r"\|\s*Evidence Mode\s*\|\s*Executed", body)
@@ -822,10 +832,11 @@ def populate_audit(body: str, model: dict) -> str:
             continue
         rows.append(f"| {name} | {cell['score']}/{scale} |\n")
     if rows:
-        body = body.replace(
-            "| Dimension | Score |\n|---|---|\n",
-            "| Dimension | Score |\n|---|---|\n" + "".join(rows),
-            1,
+        body = re.sub(
+            r"(\| Dimension \| Score \|\n\|[-| ]+\|\n)",
+            lambda match: match.group(1) + "".join(rows),
+            body,
+            count=1,
         )
     prod = scores.get("product", {})
     proc = scores.get("process", {})
@@ -851,14 +862,18 @@ def populate_audit(body: str, model: dict) -> str:
             if single.get("flag") == "product-only"
             else "blends product quality (0.7) and engineering process (0.3)"
         )
+        score_sentence = f"The overall score {blend_text}."
         if ceiling:
-            blend_text += (
-                f", capped at ceiling "
-                f"{(single.get('ceiling') or {}).get('limit')}: {ceiling}"
-            )
+            reasons = ", ".join(str(reason) for reason in ceiling)
+            limit = (single.get("ceiling") or {}).get("limit")
+            if limit is not None:
+                cap = f"Ceiling cap {limit} applies on {reasons}."
+            else:
+                cap = f"Ceiling cap applies on {reasons}."
+            score_sentence += f"\n\n{cap}"
         body = body.replace(
             "The overall score <blend wording - Product-only, ceiling>.",
-            f"The overall score {blend_text}.",
+            score_sentence,
             1,
         )
         body = body.replace(
@@ -872,7 +887,7 @@ def populate_audit(body: str, model: dict) -> str:
     if findings:
         summary_rows = "".join(
             f"| {f['id']} | {_pillar(f['id'])} | {f['severity'].title()} | {_clean(f.get('observation',''))[:60]} |"
-            f" {_clean(f.get('claim_class',''))} | Open | New | "
+            f" {_clean(f.get('claim_class','')) or '<result>'} | Open | New | "
             f"{'Confirmed' if any(e.get('kind')=='EXECUTED' for e in model.get('evidence',[]) if e.get('id') in f.get('evidence',[])) else ('Verified' if f.get('confidence')=='HIGH' else '')} |\n"
             for f in findings
         )
@@ -898,7 +913,7 @@ def populate_audit(body: str, model: dict) -> str:
             absence = f"- **Absence:** {f['absence']}\n" if f.get("absence") else ""
             blocks += (
                 f"### {f['id']} {_clean(f.get('observation',''))[:70]}\n\n"
-                f"{_clean(f.get('observation',''))}\n\n"
+                f"{_sentence(f.get('observation',''))}\n\n"
                 f"- **Pillar:** {_pillar(f['id'])}\n"
                 f"- **Severity:** {f['severity'].title()}\n"
                 f"- **Type:** {f.get('type','Concern')}\n"
@@ -924,7 +939,7 @@ def populate_audit(body: str, model: dict) -> str:
         for r in risks:
             blocks += (
                 f"### {r['id']} {_clean(r.get('impact',''))[:60]}\n\n"
-                f"{_clean(r.get('impact',''))}.\n\n"
+                f"{_sentence(r.get('impact',''))}\n\n"
                 f"- **Severity:** {r.get('severity','').title()}\n"
                 f"- **Likelihood:** {_clean(r.get('likelihood',''))}\n"
                 f"- **Residual:** {r.get('severity','').title()}\n"
@@ -946,7 +961,7 @@ def populate_audit(body: str, model: dict) -> str:
         for r in recs:
             blocks += (
                 f"### {r['id']} {_clean(r.get('postcondition',''))[:60]}\n\n"
-                f"{_clean(r.get('postcondition',''))}.\n\n"
+                f"{_sentence(r.get('postcondition',''))}\n\n"
                 f"- **Priority:** {r.get('priority','P3')}\n"
                 f"- **Finding:** {r.get('finding','')}\n"
                 f"- **Condition:** {_clean(r.get('postcondition',''))}\n"
@@ -961,7 +976,8 @@ def populate_audit(body: str, model: dict) -> str:
         )
         roadmap_rows = "".join(
             f"| {r['id']} | {r.get('priority','P3')} | {r.get('finding','')} |"
-            f" {_clean(r.get('options',''))} | {_clean(r.get('residual',''))} |"
+            f" {_clean(r.get('options','')) or '<recommendation>'} |"
+            f" {_clean(r.get('residual','')) or '<impact>'} |"
             f" {r.get('effort','M')} | low | None | {_clean(r.get('verification',''))} |\n"
             for r in recs
         )

@@ -51,7 +51,6 @@ ENDASH = chr(0x2013)
 ARROW = chr(0x2192)
 BASELINE_SECTIONS = [
     "Document Information",
-    "Contents",
     "Audit Coverage",
     "Executive Summary",
     "System Context",
@@ -68,9 +67,10 @@ BASELINE_SECTIONS = [
     "Strengths and What's Working",
     "Technical Findings",
     "Unified Risk Register",
-    "Remediation Roadmap",
     "Scope Exclusions",
     "Known Limitations",
+    "Validation Protocol",
+    "Remediation Roadmap",
     "Reference Sources",
 ]
 BRIEF_SECTIONS = {
@@ -108,9 +108,9 @@ CONDITIONAL_SECTIONS = {
     "Recommendation Classification",
     "Changes Since Previous Audit",
     "Contradiction Register",
-    "Validation Protocol",
     "Further Verification",
     "Follow-up Plan",
+    "Contents",
 }
 
 
@@ -479,7 +479,8 @@ def check_style_conventions(lines: list[str], fences: list[bool]) -> list[str]:
         if re.match(r"^#{1,3}\s+Table of Contents\s*$", line.strip()):
             failures.append(
                 f"line {index + 1}: '## Table of Contents' is never written - "
-                "the navigation section is named '## Contents' and links every H2 section"
+                "reports carry no contents section; the fixed section order "
+                "and Health Dashboard provide navigation"
             )
         m = re.match(r"^\s*\|\s*Overall score\s*\|", line)
         if m:
@@ -589,9 +590,14 @@ def check_bold_markers(lines: list[str], fences: list[bool]) -> list[str]:
     for index, (line, fenced) in enumerate(zip(lines, fences)):
         if fenced:
             continue
-        if len(re.findall(r"\*\*", strip_spans(line))) % 2:
+        stripped = strip_spans(line)
+        if len(re.findall(r"\*\*", stripped)) % 2:
             failures.append(
                 f"line {index + 1}: unbalanced '**' marker: {line[:80]}"
+            )
+        if re.search(r"\*-\s*\*\*|\*\*\s*-\*(?!\*)", stripped):
+            failures.append(
+                f"line {index + 1}: stray '*' adjacent to '**' marker: {line[:80]}"
             )
         if re.match(r"^\*\*[^*]+\.\*\*\s*$", line):
             failures.append(
@@ -905,8 +911,8 @@ def check_criteria_references(lines: list[str], style: str) -> list[str]:
 def check_risk_blocks(lines: list[str]) -> list[str]:
     failures: list[str] = []
     starts = [index for index, line in enumerate(lines) if line.startswith("### RSK-")]
-    fnd_blocks = {line[4:].split(":", 1)[0].strip()
-                  for line in lines if line.startswith("### FND-")}
+    fnd_blocks = {m.group(1) for line in lines
+                  for m in [re.match(r"###\s+(FND-[A-Z]{3}-\d{3})", line)] if m}
     for position, start in enumerate(starts):
         end = starts[position + 1] if position + 1 < len(starts) else len(lines)
         end = min(end, next((i for i in range(start + 1, len(lines))
@@ -936,9 +942,11 @@ def check_risk_blocks(lines: list[str]) -> list[str]:
     # can verify the register against its detail blocks. Glossary-link
     # markup inside a cell is normalized away before comparing.
     for start in starts:
-        ident, _, title = lines[start][4:].partition(":")
-        ident = ident.strip()
-        title = re.sub(r"\s*\(.*?\)\s*$", "", title.strip())
+        hm = re.match(r"###\s+(RSK-\d{3}):?\s*(.*)$", lines[start])
+        if not hm:
+            continue
+        ident = hm.group(1)
+        title = re.sub(r"\s*\(.*?\)\s*$", "", hm.group(2).strip())
         for line in lines:
             if re.match(rf"^\|\s*\[{re.escape(ident)}\]", line):
                 plain = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", line)
@@ -970,9 +978,10 @@ TDR_STATUS = ("Open", "In progress", "Resolved")
 def check_rec_blocks(lines: list[str]) -> list[str]:
     failures: list[str] = []
     starts = [index for index, line in enumerate(lines) if line.startswith("### REC-")]
-    rec_ids = {lines[start].split(":", 1)[0][4:].strip() for start in starts}
-    fnd_blocks = {line[4:].split(":", 1)[0].strip()
-                  for line in lines if line.startswith("### FND-")}
+    rec_ids = {m.group(1) for start in starts
+               for m in [re.match(r"###\s+(REC-\d{3})", lines[start])] if m}
+    fnd_blocks = {m.group(1) for line in lines
+                  for m in [re.match(r"###\s+(FND-[A-Z]{3}-\d{3})", line)] if m}
     for position, start in enumerate(starts):
         end = starts[position + 1] if position + 1 < len(starts) else len(lines)
         end = min(end, next((i for i in range(start + 1, len(lines))
@@ -1010,8 +1019,8 @@ def check_rec_blocks(lines: list[str]) -> list[str]:
 def check_tdr_blocks(lines: list[str]) -> list[str]:
     failures: list[str] = []
     starts = [index for index, line in enumerate(lines) if line.startswith("### TDR-")]
-    fnd_blocks = {line[4:].split(":", 1)[0].strip()
-                  for line in lines if line.startswith("### FND-")}
+    fnd_blocks = {m.group(1) for line in lines
+                  for m in [re.match(r"###\s+(FND-[A-Z]{3}-\d{3})", line)] if m}
     for position, start in enumerate(starts):
         end = starts[position + 1] if position + 1 < len(starts) else len(lines)
         end = min(end, next((i for i in range(start + 1, len(lines))
@@ -1275,6 +1284,7 @@ DOC_INFO_REQUIRED = {
     "Report Style",
     "Detail Level",
     "Evaluation Scale",
+    "Language",
     "Verification Scope",
     "Evidence Mode",
     "Subject Revision",
@@ -1523,7 +1533,7 @@ def check_health_dashboard(text: str) -> list[str]:
         return failures
     if not blocks:
         return failures  # required-sections already reports a missing dashboard
-    required = ("Risk Map", "Scorecard Summary")
+    required = ("Risk Map", "Scorecard Summary", "Team & Continuity")
     for index, block in enumerate(blocks, 1):
         for label in required:
             pattern = rf"(\*\*{re.escape(label)}\*\*|^#+\s+{re.escape(label)}\s*$)"
@@ -2168,7 +2178,8 @@ REF_TOKEN = (
 REF_PATTERN = re.compile(REF_TOKEN)
 REF_LINK = re.compile(r"\[(" + REF_TOKEN + r")\]\(#([^)]+)\)")
 REF_BLOCK_HEADING = re.compile(
-    r"^#{3,6}\s+((?:FND-(?:ARC|CQY|SEC|INF|AIP|CPR|API|STR)|RSK|REC|TDR)-\d{3})\s*:"
+    r"^#{3,6}\s+((?:FND-(?:ARC|CQY|SEC|INF|AIP|CPR|API|STR)|RSK|REC|TDR)-\d{3})"
+    r"(?=\s|:|$)"
 )
 REF_PROJECT_SUFFIX = re.compile(r"\(([^()]+)\)\s*$")
 
@@ -2600,8 +2611,15 @@ def check_section_structure(lines: list[str], fences: list[bool]) -> list[str]:
             )
             break
     known = required | CONDITIONAL_SECTIONS
+    project_names = set()
+    for line in lines:
+        cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
+        if len(cells) >= 2 and cells[0] == "Projects":
+            project_names.update(
+                re.findall(r"\[([^\]]+)\]\(#", cells[1])
+            )
     for name in headings:
-        if name in known or name.startswith("Project "):
+        if name in known or name.startswith("Project ") or name in project_names:
             continue
         failures.append(
             f"unexpected section '## {name}' - the audit contract defines no "
@@ -3824,6 +3842,8 @@ def check_register_prose(text: str, lines: list[str]) -> list[str]:
             paragraph = lines[cursor].strip()
             cursor += 1
             if not paragraph or paragraph.startswith("|"):
+                continue
+            if re.fullmatch(r"<[^<>]+>", paragraph):
                 continue
             if not (paragraph[0].isupper() or paragraph[0].isdigit()
                     or paragraph[0] == "["):

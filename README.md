@@ -678,6 +678,7 @@ lens-skill/
 │   ├── map-translation.py                 # English-mapped copy of a translated report for validation
 │   ├── check-translation.py               # Polish-report checker: titles, counts, sentence length
 │   ├── lint-prose.py                      # Pre-assembly prose linter for report drafts
+│   ├── validate-history.py                # history.json dataset validator (schema 2 contract)
 │   ├── common-helpers.py                  # Shared helpers for skill-maintenance tools
 │   └── README.md                          # Tool usage, safety, and cleanup rules
 ├── tests/                                 # Focused `unittest` contract tests for the tools

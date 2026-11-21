@@ -60,8 +60,8 @@ Rows appear in this order, each label in the first column and its value in the s
 - `Sentence breaks` - `Off`, written only when the user explicitly suppressed sentence-per-paragraph
   prose per `process/report-format.md`, and omit the row when the default
   sentence-separated layout applies.
-- `Language` - the report language, written only when the report language is not English or the
-  report was translated from another language - omit the row for a plain English report.
+- `Language` - the report language, required on every report - an English report writes `English`,
+  a translation writes its own language name.
 - `Translations` - the sibling language renderings of the same report,
   written only when the run ships a language pair per `principles/output-style.md`:
   names each sibling file and its language,

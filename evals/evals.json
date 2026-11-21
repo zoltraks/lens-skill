@@ -2442,13 +2442,14 @@
    "expected_output": "The run loads process/history-visualisation.md, selects the fullest reachable ref of the target branch, gathers commit history, version boundaries, and documentation records including archived trees, extracts staged JSON under the workspace gathering tree, merges them into history.json per references/history-schema.md with the bundled JavaScript shim at the consumer's referenced path, and verifies schema conformance and traceable sources before delivery.",
    "files": [],
    "expectations": [
-    "The run loads process/history-visualisation.md, presents the intake parameter table with defaults (target, workspace, ref, depth, landing, dataset role, file:// shim, view layout/theme/palette) through the question mechanism, and gathers only after approval - no audit report is produced.",
+    "The run loads process/history-visualisation.md, presents the intake parameter table with defaults (target, workspace, ref, grouping, depth, landing, dataset role, file:// shim, view layout/theme/palette) through the question mechanism, and gathers only after approval - no audit report is produced.",
     "history.json conforms to references/history-schema.md - project, categories, and ordered version records with kind, dates, stats, events, and eventCounts.",
     "Every event carries a traceable source - a commit hash or a document path - and planned versions omit dates and stats rather than carrying nulls.",
     "Ref selection prefers an upstream tracking ref that strictly contains HEAD, and enriched fields such as score, verdict, and findings are emitted only when found.",
     "Dependency manifests are discovered at the chosen ref and parsed per format (Cargo.toml, package.json, go.mod, pom.xml, csproj, Dockerfiles) - additions, removals, and version bumps emit `dependency` events carrying name, from/to versions, manifest, and channel.",
     "Per-era metrics land on every stats-bearing version - days, testRatio, per-module LOC and churn, hotspots, authors, and the commitMix distribution - so the consumer can compare focus across releases.",
-    "Each stats-bearing version also carries aspect telemetry (testability, maintainability, api surface, security, documentation, problems) and the largest-file list, with lockfiles and submodule gitlinks excluded and pre-first-release records attached to the first era."
+    "Each stats-bearing version also carries aspect telemetry (testability, maintainability, api surface, security, documentation, problems) and the largest-file list, with lockfiles and submodule gitlinks excluded and pre-first-release records attached to the first era.",
+    "When no version boundary exists the era discovery falls back to a date grouping (month by default) - date eras serialize as kind \"era\", project.grouping records the effective strategy, and every version carries a categoryDetail block mapping each active category to its own evidence (category-relevant churn, facts, and a generated summary) instead of the full version dump."
    ]
   },
   {

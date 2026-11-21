@@ -39,7 +39,7 @@ ID_TOKEN = r"(?:" + BLOCK_FAMILY + r"|" + ROW_FAMILY + r")"
 QUALIFIED = r"(?:[\w][\w.-]*::)?"
 
 REF = re.compile(QUALIFIED + ID_TOKEN)
-BLOCK_HEADING = re.compile(r"^#{3,6}\s+(" + BLOCK_FAMILY + r")\s*:")
+BLOCK_HEADING = re.compile(r"^#{3,6}\s+(" + BLOCK_FAMILY + r")(?=\s|:|$)")
 ROW_ID = re.compile(r"^(" + QUALIFIED + ROW_FAMILY + r")$")
 HEADING = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
 H2 = re.compile(r"^##\s+(.+?)\s*$")

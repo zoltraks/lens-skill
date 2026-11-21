@@ -52,11 +52,11 @@ import re
 import sys
 from pathlib import Path
 
-ID_HEADING = re.compile(r"^###\s+((?:FND|RSK|REC|TDR)-[A-Z0-9-]+):\s*(.+?)\s*$")
+ID_HEADING = re.compile(r"^###\s+((?:FND|RSK|REC|TDR)-[A-Z0-9-]+):?\s+(.+?)\s*$")
 ROW_ID = re.compile(r"^\|\s*\[?((?:FND|RSK|REC|TDR|EVD)-[A-Z0-9-]+)\]?")
 LINK = re.compile(r"\[([^\]]+)\]\([^)]*\)")
 INTERNAL_LINK = re.compile(r"\]\(#([^)\s]+)\)")
-BLOCK_FIELD = re.compile(r"^\*\s+\*\*([^:*]+):\*\*")
+BLOCK_FIELD = re.compile(r"^[-*]\s+\*\*([^:*]+):\*\*")
 HEADING = re.compile(r"^#{1,6}\s+(.+?)\s*$")
 
 # `- **Label:**` fields allowed inside each register's detail blocks,

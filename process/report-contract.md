@@ -274,9 +274,9 @@ Multi-project models prefix each key - `<project>.security`.
 
 ### Document Information Fields
 
-Required rows: `Detail Level`, `Evaluation Scale`, `Evidence Mode`, `Report Date`, `Report Revision`, `Report Style`, `Skill Version`, `Subject Revision`, `Time taken`, `Verification Scope`.
+Required rows: `Detail Level`, `Evaluation Scale`, `Evidence Mode`, `Language`, `Report Date`, `Report Revision`, `Report Style`, `Skill Version`, `Subject Revision`, `Time taken`, `Verification Scope`.
 
-Optional rows: `Audit Purpose`, `Dirty-Tree State`, `Language`, `Previous Report`, `Projects`, `Review Scope`, `Sentence breaks`, `Target Environment`, `Translations`.
+Optional rows: `Audit Purpose`, `Dirty-Tree State`, `Previous Report`, `Projects`, `Review Scope`, `Sentence breaks`, `Target Environment`, `Translations`.
 
 ### Health Dashboard Markers
 
