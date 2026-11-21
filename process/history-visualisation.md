@@ -14,6 +14,24 @@ the prototype interface itself.
 
 It is not an audit and produces no report.
 
+## Contents
+
+| Section             | Line | Description                                        |
+|---------------------|------|----------------------------------------------------|
+| Activation Contract | 35    | When the operation runs and what it never does     |
+| Intake              | 47    | Parameters resolved before gathering               |
+| Ref Selection       | 88    | Fullest reachable history of the target branch     |
+| Workspace Layout    | 102    | Workspace tree and its README contract             |
+| Scout Delegation    | 129    | Read-only scouts for the evidence surface          |
+| Gathering           | 138    | Source families and their collection order         |
+| Extraction Pipeline | 177    | Staged scripts, dating, enrichment, merge          |
+| Data Model          | 279    | Version kinds and their provenance                 |
+| Bundled Shim        | 296    | The file:// twin of history.json                   |
+| Prototype           | 311    | The commissioned interface contract                |
+| Verification        | 321    | Mechanical checks before delivery                  |
+| Incremental Reuse   | 336    | Ref-sha comparison and resume state                |
+| Boundaries          | 343    | Source-only limits of the operation                |
+
 ## Activation Contract
 
 The operation runs only when the request names it - phrases such as
@@ -28,20 +46,44 @@ another task inside the same session.
 
 ## Intake
 
-Resolve these parameters before gathering, asking only for what the request leaves open:
+Every request to create the dataset runs a parameter pass before any
+gathering, even when the request names everything it needs - the user must
+be offered the defaults and a way to change them.
 
-- **Target** - the repository or project location whose history is gathered.
-- **Workspace** - the directory receiving all artifacts.
-  When the request names a directory, use it.
-  Otherwise create `work/history/` inside the target repository,
-  or its own `work` or `temporary` convention when one exists.
-- **Prototype** - whether the request commissions a visualisation prototype
-  in addition to the dataset.
-  The dataset is always the primary deliverable.
-- **Sources** - confirm that version history and all documentation,
-  including archived documentation, are readable.
-- **Landing** - where the finished `history.json` and its shim are placed
-  when a consuming viewer exists outside the workspace.
+Present the parameter set through the host's question mechanism, with a
+default for every parameter, then gather only after approval.
+An answer of "defaults" or silence accepts the table as shown;
+"change a decision" reopens the one parameter the user names.
+
+| Parameter       | Default                                                        |
+|-----------------|----------------------------------------------------------------|
+| **Target**      | The repository named by the request, else the current directory |
+| **Workspace**   | `work/history/` inside the target, or its own `work`/`temporary` convention |
+| **Ref**         | The upstream tip when it strictly contains `HEAD`, else `HEAD`  |
+| **Depth**       | Full: commits, boundaries, dependencies, docs, metrics, aspects |
+| **Landing**     | The consumer's `src/` when a viewer exists, else the workspace `out/` |
+| **Dataset role**| Replace the consumer's default `history.json`                   |
+| **file:// shim** | Landed beside `history.json` as the generic `js/history.js` |
+| **View layout** | `square`                                                         |
+| **View theme**  | `dark`                                                           |
+| **View palette**| `blue`                                                           |
+
+Notes on the parameters:
+
+- **Sources** is confirmed, not asked: report once that version history
+  and all documentation trees, including archives, are readable.
+- **Dataset role** names the landing choice explicitly: replacing the
+  consumer's active `history.json` + `js/history.js`, or landing only
+  in the workspace `out/` without touching the consumer.
+  The consumer's tree carries exactly one dataset - alternate datasets
+  stay in their own workspace outputs, and a swap is a rebuild plus copy,
+  never extra files beside `history.json`.
+- **View \*** parameters feed the dataset's `view` block - the producer's
+  `VIEW` constant takes the chosen values, and the viewer applies them
+  only when no user preference exists.
+- **Prototype** - whether the request also commissions a visualisation
+  prototype - resolves from the request text and is confirmed in the
+  same gate; the dataset is always the primary deliverable.
 
 ## Ref Selection
 
@@ -164,6 +206,21 @@ engineering focus moved between releases:
 - `commitMix` - the classified commit-type distribution per era; computed
   at merge time from the same classifier that types events, so the
   interface can diff focus between consecutive versions.
+- `files` - the era's largest source/test files (path, LOC, module), the
+  landmark buildings of a zoomed single-version scope.
+- `aspects` - quality telemetry per era: testability (ratio, files, case
+  count), maintainability (avg/max file LOC, god-file count), security
+  (schemes, auth-family deps), api surface (paths/operations parsed from
+  contract manifests), documentation share, and problems (era findings +
+  fix commits) folded at merge.
+
+Component modules are the top-level directories, with `src/` splitting one
+level deeper, so each era's city sections match the project's real
+structure; a module that first appears in an era is marked `added` so the
+scope can show the city growing.
+Lockfiles never feed LOC or god-file metrics - generated artifacts are not
+maintainability evidence - and gitlinks (submodules) are skipped since
+their blob does not exist locally.
 
 Commit extraction therefore records `%an` and `--numstat` per commit,
 and the merge folds per-era metrics onto each version record.
@@ -208,6 +265,13 @@ Records that land on no version era are written to
 `notes/unassigned.json` - an empty file is the expected result,
 a non-empty one is an anomaly to review, not to hide.
 
+Records whose declared version predates the first boundary attach to the
+first era - an archived pre-release plan is evidence of that era.
+
+The merge stamps the intake's view answers into the dataset's `view`
+block (layout, theme, palette) - the consumer restores those values
+whenever its state is reset or the user has no stored preference.
+
 The merge emits `gathering/out/manifest.json`: generation timestamp,
 chosen ref and sha, local head and behind count, commit/version/record
 totals, unassigned count, and landing paths.
@@ -241,7 +305,8 @@ so they can never diverge.
 
 The shim's filename must be the path the consumer's own script tag loads
 (e.g. `js/history.js`) - a name the consumer does not reference silently
-breaks the `file://` fallback.
+breaks the `file://` fallback. The shim is always the generic twin:
+project-named shims never land in the consumer.
 
 ## Prototype
 
@@ -262,9 +327,11 @@ Before delivery, confirm mechanically:
   consumer's referenced path.
 - Every released version appears once, in order, with stats present.
 - Every stats-bearing version also carries its `metrics` block.
-- Every event carries a traceable source - a commit hash or a document path.
+- Every event carries a traceable source - `sha` for commit-sourced
+  events, `ref` for document paths - never neither.
 - No record is fabricated: unknown fields are omitted, never invented.
 - `manifest.json` records the covered ref and counts.
+- `view` carries the intake's layout, theme, and palette answers.
 
 ## Incremental Reuse
 

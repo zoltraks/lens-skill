@@ -21,6 +21,7 @@ invented hashes.
 |--------------|----------|--------------------------------------------|
 | `schema`     | integer  | Schema version, currently `1`              |
 | `project`    | object   | Project identity and coverage, see Project |
+| `view`       | object   | Interface defaults, see View, optional     |
 | `categories` | object[] | Event category registry, see Categories    |
 | `versions`   | object[] | Version records ordered oldest to newest   |
 
@@ -48,6 +49,20 @@ Each category is `{"id", "label", "color", "order"}`.
 The registry carries one entry per event family - features, changes, refactors,
 fixes, plans, releases, reports, tests, decisions, lessons, discards,
 and similar - plus a `release` entry used by version-tower styling.
+
+## View
+
+Optional presentation defaults the dataset declares for the interface:
+
+| Field     | Type          | Contents                                         |
+|-----------|---------------|--------------------------------------------------|
+| `layout`  | string, opt.  | Default scene layout id the viewer opens         |
+| `theme`   | string, opt.  | Default theme (`dark` or `day`)                  |
+| `palette` | string, opt.  | Default accent palette id                        |
+
+A consumer applies `view` only when the user has no stored preference -
+persisted choices always win, and a reset falls back to these values
+rather than to hardcoded constants.
 
 ## Version Record
 
@@ -106,12 +121,32 @@ interface compare eras and surface problems, not only display events:
 | `authors`   | object | `{name: commits}` author activity inside the era               |
 | `commitMix` | object | `{type: count}` classified commit-type distribution, e.g.      |
 |             |        | `{"feature": 8, "fix": 3, "docs": 2}`                          |
+| `files`     | array  | `[{"path","loc","module"}]` top ~12 largest src/test files  |
+| `aspects`   | object | Quality-aspect telemetry, see Aspects                          |
 
 `commitMix` counts only commit events (those carrying `ins`/`del`), never
 documentation or dependency events, so it describes engineering focus.
 Module keys are the repository's own top-level directories - the producer
-derives them from the tree, never from a fixed list.
+derives them from the tree, never from a fixed list; a `src/` root splits
+one level deeper (`src/components`) so a monorepo's real components surface.
+Module entries may also carry `files`, `deps` (`{prod,dev}` from the
+module's own manifest), and `added` when the module first appears this era.
 `metrics` is absent on `planned` and `changelog` records.
+
+### Aspects
+
+`metrics.aspects` carries quality-aspect measures that let a zoomed
+single-version scope render the release as a city of concerns -
+every key is omitted when its evidence does not exist:
+
+| Key              | Contents                                                        |
+|------------------|-----------------------------------------------------------------|
+| `testability`    | `{ratio, files, cases}` - test/source LOC, test files, case ids  |
+| `maintainability`| `{avgFile, maxFile, godFiles}` - file-size distribution         |
+| `security`       | `{schemes, authDeps}` - security schemes + auth-family deps      |
+| `api`            | `{paths, operations}` - declared API surface (e.g. OpenAPI)      |
+| `documentation`  | `{ratio, loc, records}` - docs share + doc events of the era     |
+| `problems`       | `{findings, fixes}` - finding counts + fix commits of the era    |
 
 ## Events
 
@@ -136,6 +171,7 @@ reports) may additionally carry extracted fields:
 | `findings`        | int, opt.     | Unique finding-id count found in the record       |
 | `revision`        | string, opt.  | Report revision, e.g. `"1.8"`                     |
 | `subject_version` | string, opt.  | Project version the record assesses               |
+| `requirements`    | int, opt.     | Count of requirement/use-case ids in a spec record |
 
 A change-request record may carry `subtype` (`feature`, `fix`, `refactor`,
 `chore`) which the producer folds into the event `type` at merge time.
