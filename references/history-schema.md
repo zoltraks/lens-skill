@@ -58,6 +58,7 @@ and similar - plus a `release` entry used by version-tower styling.
 | `range`           | object, opt.   | `{"from": sha, "to": sha}` commit boundaries            |
 | `dates`           | object, opt.   | `{"from": ISO, "to": ISO}` activity span                |
 | `stats`           | object, opt.   | Measured at the boundary commit, see Stats              |
+| `metrics`         | object, opt.   | Process-assessment measures, see Metrics                |
 | `commit_span`     | int[], opt.    | `[first, last]` commit indices into the commit list     |
 | `events`          | object[]       | Development events inside the era, see Events           |
 | `summary`         | string, opt.   | Prose rollup of the era's work                          |
@@ -90,6 +91,28 @@ never at HEAD.
 `stats` is absent on `planned` records, and `delta` is absent when no
 insertion/deletion measurement exists for the era.
 
+## Metrics
+
+The `metrics` block carries process-assessment measures that let the
+interface compare eras and surface problems, not only display events:
+
+| Field       | Type   | Contents                                                       |
+|-------------|--------|----------------------------------------------------------------|
+| `days`      | int    | Era duration in days (first to last commit date)               |
+| `testRatio` | float  | `loc.test / loc.src` at the boundary commit                    |
+| `modules`   | object | `{module: {src,test,docs,other,total,ins,del}}` - per top-level |
+|             |        | directory LOC at the boundary plus era churn                    |
+| `hotspots`  | array  | `[{"file", "commits"}]` most-touched files of the era           |
+| `authors`   | object | `{name: commits}` author activity inside the era               |
+| `commitMix` | object | `{type: count}` classified commit-type distribution, e.g.      |
+|             |        | `{"feature": 8, "fix": 3, "docs": 2}`                          |
+
+`commitMix` counts only commit events (those carrying `ins`/`del`), never
+documentation or dependency events, so it describes engineering focus.
+Module keys are the repository's own top-level directories - the producer
+derives them from the tree, never from a fixed list.
+`metrics` is absent on `planned` and `changelog` records.
+
 ## Events
 
 | Field      | Type           | Contents                                       |
@@ -102,6 +125,32 @@ insertion/deletion measurement exists for the era.
 | `del`      | int, optional  | Deletions for commit events                    |
 | `ref`      | string, opt.   | Document path for documentation-sourced events |
 | `archived` | bool, optional | True when `ref` lives in an archived tree      |
+
+Report-family records (audits, hunts, reviews, assessments, proposals,
+reports) may additionally carry extracted fields:
+
+| Field             | Type          | Contents                                          |
+|-------------------|---------------|---------------------------------------------------|
+| `score`           | string, opt.  | Overall score as printed, e.g. `"7.3/10"`         |
+| `verdict`         | string, opt.  | Outcome word or phrase (Pass, REQUEST CHANGES, Red) |
+| `findings`        | int, opt.     | Unique finding-id count found in the record       |
+| `revision`        | string, opt.  | Report revision, e.g. `"1.8"`                     |
+| `subject_version` | string, opt.  | Project version the record assesses               |
+
+A change-request record may carry `subtype` (`feature`, `fix`, `refactor`,
+`chore`) which the producer folds into the event `type` at merge time.
+
+Dependency-change events use the `dependency` category and carry a `dep`
+object:
+
+| Field      | Type           | Contents                                    |
+|------------|----------------|---------------------------------------------|
+| `name`     | string         | Package or image name                       |
+| `manifest` | string         | Manifest path, e.g. `server/Cargo.toml`     |
+| `kind`     | string         | Channel: `prod`, `dev`, `build`, `indirect` |
+| `action`   | string         | `added`, `bumped`, or `removed`             |
+| `from`     | string, opt.   | Previous declared version (absent on added) |
+| `to`       | string, opt.   | New declared version (absent on removed)    |
 
 Every event carries a traceable source: `sha` for commit events,
 `ref` for documentation events.
