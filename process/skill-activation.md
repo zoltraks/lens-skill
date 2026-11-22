@@ -3,7 +3,7 @@
 ## Purpose
 
 > **Scope:**Enablement procedure for requests that activate the skill without naming a task**Key
-> items:** bare activation, referent resolution, update check, enablement response,
+> items:** bare activation, referent resolution, enablement response,
 > standby contract, mode hand-off
 
 This file defines the intake for a request that names the skill but no work.
@@ -34,9 +34,8 @@ Under JSON exchange the referent ask emits as the `skill-selection` `choice` par
 A bare activation names the skill and nothing else - no subject to audit, no report style to select,
 and no maintenance request.
 
-An `"update lens-skill"` or context-resolved `"update the skill"` request is not a bare activation -
-it routes to `process/session-review.md`, the self-improvement routine,
-on every request without a separate "improve" keyword.
+A standalone `update` request follows Skill Update Check in `SKILL.md`.
+A request to improve from session lessons follows `process/session-review.md`.
 
 An activation may also name a working target - a repository, directory,
 or document set - while still naming no operation: "use lens on the service repository".
@@ -63,7 +62,11 @@ Under JSON exchange a genuine ambiguity emits as the `mode-selection` `choice` p
 
 ## Procedure
 
-1. Run the once-per-session Skill Update Check from `SKILL.md` - the gate applies in every mode.
+On a bare `use`, follow Skill Update Check in `SKILL.md`.
+Reuse this session's result for the checkout when available.
+Continue with the installed package when the check cannot run.
+
+1. Use the installed skill.
 2. Confirm the router state - the loaded `SKILL.md` is the enabled state,
    re-read it when it may have changed during the session.
 3. Answer with the enablement response below, then wait for the next request.
@@ -134,4 +137,4 @@ Enable mode is the standby state.
 It precedes audit work and skill maintenance.
 
 A task-bearing request that follows enters audit work or maintenance per the routing rules in
-`SKILL.md` and `AGENTS.md`, without repeating the update check this session.
+`SKILL.md` and `AGENTS.md`.

@@ -167,7 +167,7 @@ frontmatter plus `AGENTS.md` and `scripts/check-update.py` - evaluates against t
 required files (`SKILL.md`, `AGENTS.md`, `README.md`, `LICENSE`, `docs/` governance set, `evals/`),
 the five shared `process/` procedures (`skill-activation`, `json-exchange`, `operation-timing`,
 `session-review`, `operations-catalog`) plus `decision-modes.md`,
-and the once-per-session update check.
+and the explicit upstream check.
 
 Member-owned variance is conformant when recorded - the member's own documents first,
 the owning collection's member contract when one resolves.

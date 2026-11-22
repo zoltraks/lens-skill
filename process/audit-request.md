@@ -25,9 +25,6 @@ It describes the audit's nature and quality bar without relying on any file in t
 
 A request that asks for the audit itself enters `process/audit-workflow.md` instead.
 
-When this operation is the session's first action,
-the once-per-session Skill Update Check from `SKILL.md` runs first.
-
 ## Parameters
 
 Two surfaces resolve before emission.

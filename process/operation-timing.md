@@ -10,8 +10,7 @@ This file defines how Lens reports the time an operation took.
 
 ## Trigger
 
-Timing is armed by default on every operation the skill answers - the bare activation's
-once-per-session update check and every task request alike.
+Timing is armed by default on every operation the skill answers - local activation and task execution alike.
 
 Naming `no timing`, `without timing`, or an equivalent opt-out on the request disarms it for that
 request only - the default re-arms on the next request.
@@ -97,5 +96,5 @@ an honest answer rather than a failure.
 
 ## Coverage
 
-The timing covers every operation the skill answers - a bare activation times its once-per-session
-update check, and task requests time the task work.
+Bare activation times readiness and the automatic update check when it runs.
+Task requests time the task work.

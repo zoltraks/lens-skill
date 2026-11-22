@@ -113,8 +113,7 @@ Every automated resolution is recorded exactly like an answered question - the s
 the same `work/lens-params.json`, and the same completion-message disclosure,
 per `process/audit-workflow/audit-intake.md`.
 
-The skill update check applies its merge without asking when the reported state allows it,
-and the run continues with a brief note when it does not.
+An upstream check follows `SKILL.md`. Apply an update only with user approval.
 
 ## Reporting Flags
 

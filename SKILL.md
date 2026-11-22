@@ -1,26 +1,16 @@
 ---
 name: lens-skill
 description: >-
-  Software audit skill. Produces structured, evidence-based engineering
-  assessments of codebases, prototypes, multi-project locations, skill
-  collections, and technical proposals - code quality, security,
-  dependencies, operations, standards conformance. Source-only: never
-  builds, tests, or executes the subject. Use for software or architecture
-  audits, codebase and structure reviews, production readiness, technical
-  due diligence, risk registers, scorecards, or remediation roadmaps.
-  Triggers on audit this codebase, run lens, review this codebase, defect hunt, code style review.
+  Audit software and produce evidence-based engineering reviews, findings, risk registers,
+  or remediation roadmaps. Use for code quality, security, dependencies, readiness, standards,
+  or project structure. Defaults to source inspection.
 license: MIT
 compatibility: >-
-  Designed for agent coding environments with file system access (Claude Code,
-  Claude Desktop, Windsurf, Devin, and similar). Requires the ability to read
-  source files and write Markdown reports, and Python 3.8+ for the bundled
-  scripts. The audit never builds, tests, or executes the project. No network
-  access required for the audit itself, optional web fetch for external
-  documentation or CVE lookups.
+  Requires access to source files and the ability to write Markdown reports.
+  Python 3.10+ is used for bundled tools. External sources and upstream checks require network access.
 metadata:
-  version: "3.0.1"
+  version: "3.0.2"
   author: Filip Golewski
-allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob Grep
 ---
 
 # Software Audit Skill
@@ -32,153 +22,53 @@ allowed-tools: Bash(python:*) Bash(python3:*) Bash(git:*) Read Write Edit Glob G
 
 ## Task Entry
 
-| Request              | First step                                                                                                                                                                      |
-|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Bare activation      | Follow [activation](process/skill-activation.md) and wait for a task.                                                                                                           |
-| List capabilities    | Read the [operations catalog](process/operations-catalog.md).                                                                                                                   |
-| Perform a task       | Identify the requested operation and target, then load its procedure and the resources it calls for.                                                                            |
-| Develop this skill   | Follow [development](process/development.md) and use [repository instructions](AGENTS.md) for maintenance.                                                                      |
-| Use improvement mode | Apply improvements surfaced by the work through the owning skill's maintenance procedure. A separate session-review request starts [session review](process/session-review.md). |
-| Use verbose mode     | Follow [timing and reporting](process/operation-timing.md) and expose pending questions through [JSON exchange](process/json-exchange.md).                                      |
+| Request                             | First step                                                                                                        |
+|-------------------------------------|-------------------------------------------------------------------------------------------------------------------|
+| Bare activation                     | Follow [activation](process/skill-activation.md) and wait for a task.                                             |
+| List capabilities                   | Read the [operations catalog](process/operations-catalog.md).                                                     |
+| Perform a task                      | Choose the operation under [Operations](#operations).                                                             |
+| Develop this skill                  | Follow [development](process/development.md) and the [repository instructions](AGENTS.md).                        |
+| Improvement mode                    | Apply lessons from the work through this skill's maintenance rules.                                               |
+| Review a session                    | Follow [session review](process/session-review.md).                                                               |
+| Verbose reporting                   | Follow [timing](process/operation-timing.md) and [JSON exchange](process/json-exchange.md) for pending questions. |
+| Update this skill or check upstream | Follow [Skill Update Check](#skill-update-check).                                                                 |
 
-Read the selected procedure before acting.
-At each phase, read every file required for that phase,
-including conditional files once their conditions apply.
-Use a directory index when you need to discover a path.
-Defer later-phase material until that phase begins.
+Resolve the operation and target first.
+Read the selected procedure and its required resources as each phase begins.
+Consult directory indexes to locate an unspecified resource.
+Use the target repository's instructions for its artifacts.
 
-Use the skill's procedures for its own files and the target repository's instructions for artifacts.
-When a procedure calls for a script, use its documented invocation and check the result.
-Read script source when reviewing, modifying, or diagnosing the script,
-or when its behavior is unclear.
+Run a procedure's documented commands and check the results.
+Read script source when reviewing, modifying, or diagnosing the script.
+Use the host's question mechanism when available and ask directly if the host has none.
 
-## Contents
+## Operations
 
-| Section                 | Line | What it covers                                     |
-|-------------------------|------|----------------------------------------------------|
-| Skill Update Check      | 86   | Once-per-session git freshness gate before use     |
-| Trigger Keywords        | 108  | Activation phrases                                 |
-| How To Use              | 144  | Progressive disclosure and mandatory reading       |
-| Parameter Configuration | 168  | Defaults and user-controlled report shape          |
-| Principles              | 175  | Evaluation and output rules                        |
-| Process                 | 181  | Workflow, format, and parity                       |
-| Assessments             | 219  | Core and conditional assessment guides             |
-| Synthesis               | 225  | Findings, risk, score, and remediation assembly    |
-| Translations            | 237  | Per-language report translations                   |
-| References              | 248  | Lookup tables                                      |
-| Scripts                 | 280  | Report and maintenance scripts                     |
-| Evaluation Prompts      | 290  | Behavioral regression prompts                      |
-| Repository Files        | 294  | Housekeeping files governing this repository       |
-| Evidence Contract       | 306  | Source-only boundaries and validation expectations |
-| Navigation Rules        | 335  | File-selection and section-placement rules         |
+| Request                                                              | Read first                                                                                         |
+|----------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
+| Audit software, hunt for defects, or review engineering or structure | [Audit workflow](process/audit-workflow.md) and [evaluation rules](principles/evaluation-rules.md) |
+| Explain a subject or its observed engineering properties inline      | [Audit intake](process/audit-workflow/audit-intake.md), descriptive route                          |
+| Reformat an existing audit report                                    | [Report reformat](process/report-reformat.md)                                                      |
+| Compare or benchmark external audit reports                          | [Report benchmark](process/report-benchmark.md)                                                    |
+| Prepare an audit prompt for another agent                            | [Audit request](process/audit-request.md)                                                          |
+| Produce a project history dataset                                    | [History visualisation](process/history-visualisation.md)                                          |
+| Feed external standards into this skill                              | [Stack feed](process/stack-feed.md)                                                                |
 
-You are an Engineering Audit Agent.
+For an audit, use the workflow's intake and parameter phase before assessing the subject.
+Honor supplied parameters and the documented defaults bypass.
+Read [report contract](process/report-contract.md) and [navigation](process/navigation-rules.md)
+before planning a report, then open the selected style and section rules from
+[report format](process/report-format.md).
 
-You analyze any software subject - a prototype, a codebase under development,
-a live production system, or a technical proposal - and produce a structured,
-evidence-based engineering assessment covering technical quality, code health,
-operational readiness, and architectural soundness.
+## Resource Map
 
-The same structure applies to prototypes and mature production code - only the categories differ.
-
-You do not evaluate people, assign blame, infer intent, or give personal opinions.
-
-## Skill Update Check
-
-Before any other step, once per session, run `python <skill-root>/scripts/check-update.py`,
-where `<skill-root>` is the directory holding this `SKILL.md` - never the audited subject.
-
-- `UPDATE-AVAILABLE` - ask the user to update the skill now or skip for this session,
-  and wait for the answer - an automated run merges without asking. On approval or under automation,
-  run `git -C <skill-root> merge --ff-only <tip_sha>` when the reported state allows it (`ahead=0`
-  and `dirty=no`), then re-read `SKILL.md` and any loaded rule files.
-  A blocked or declined merge reports briefly and continues with the current version,
-  never re-asked this session.
-- A user-requested merge that cannot fast-forward may still run as a real merge - conflicts resolve
-  and its completing merge commit may be made,
-  while other changes the merge left behind are proposed as one commit.
-  Pushing runs only on a separately named request.
-- The `tip_sha` and `tip_date` detail lines identify the incoming tip commit - cite them when
-  reviewing `git log @{u}..` diffs before a merge or when pinning or reverting to a known state.
-  The merge fast-forwards to the reported `tip_sha`, never a later tip.
-- Any other status - proceed silently and do not mention the check.
-
-The check writes no state files and never commits, stashes, or discards skill changes.
-
-## Trigger Keywords
-
-The skill activates on phrases such as:
-
-- audit requests: software audit, architecture audit, audit this codebase, engineering assessment,
-  technical due diligence, production readiness, review this codebase
-- analysis artifacts: risk register, scorecard, maturity assessment, trade-off analysis, NFR review
-- focused reviews: security review, dependency audit, supply chain review,
-  code quality or style review, testability, license audit, SBOM review
-- operational reviews: observability, operational readiness, rollback or deployment strategy,
-  maintainability assessment
-- conventions: best practices, coding conventions, stack or framework conventions,
-  standards conformance, coding standards audit
-- lens invocations: perform lens on, run lens, lens audit
-- skill audits: audit this skill, skill definition review, skill spec conformance,
-  skill collection audit, agent-guidance review
-- library reviews: api compatibility, api versioning audit, library audit
-- review requests: review report, run the checks, structure review
-- skill maintenance: work on lens-skill, update lens-skill, maintain this skill
-- report benchmarks: compare audit reports, benchmark the audit, audit report comparison,
-  improve the skill from an external audit
-- stack feed: feed lens skill with, extend stack standards with
-- automated invocations: audit automatically, automated mode, unattended, non-interactive
-- catalog requests: list all operations, show all capabilities
-- request prompts: generate an audit prompt, write an audit request,
-  prompt an external agent to audit, produce a delegation prompt
-- lifecycle artifacts: history visualisation, lifecycle visualisation,
-  development history dataset, generate history.json
-
-A request that names no report artifact - "explain how it works",
-"describe what it brings" - is descriptive analysis: inline and evidence-based,
-never entering `process/audit-workflow.md`.
-
-Bare activation and `work on lens-skill` standby follow `process/skill-activation.md`,
-and scope-matched audit or review work in any repository activates the skill without being named.
-
-## How To Use This Skill
-
-Use progressive disclosure:
-
-- Read this router first - a bare activation follows `process/skill-activation.md` instead.
-- Read `principles/evaluation-rules.md` (evidence-only reasoning, no-assumption rule, neutrality,
-  status markers, hard constraints) and `process/audit-workflow.md` (the workflow index,
-  whose phase files load as the audit enters each phase) before producing any audit.
-  They are mandatory for every audit.
-- Complete Parameter Configuration before assessment. After intake resolves a report operation,
-  read `process/report-contract.md` before report planning or assembly,
-  then read the selected style and applicable section specifications from
-  `process/report-format.md`.
-  Inline descriptive analysis uses its own route and skips report-only contracts.
-- Apply `process/navigation-rules.md` to every report - it carries the file-selection and
-  section-placement rules.
-- Open only the assessment files that match the subject - see the `assessment/` entry below.
-- During report assembly, use the synthesis files selected for the sections being produced.
-
-This skill is self-contained. The topic files below are the available reference material.
-
-When asked how this skill works, explain that Lens produces evidence-based engineering reports
-(audit, hunt, or review) with dedicated structure analysis and refinable advanced parameters.
-
-## Parameter Configuration
-
-Before beginning the audit, the agent runs the Parameter Configuration phase in
-`process/audit-workflow/parameter-phase.md` and MUST ask whether to accept defaults,
-configure options, or specify the operation to run - the parameter surfaces, defaults,
-resolution rules, and re-audit parameters live in `process/parameter-configuration.md`.
-
-## `principles/` - Rules Of Evaluation
+### `principles/` - Rules Of Evaluation
 
 - **`principles/evaluation-rules.md`** - Evidence-only reasoning, no assumptions, neutrality,
   status markers, absent-capability assessment.
 - **`principles/output-style.md`** - Tone, fixed vocabularies, consistency, determinism.
 
-## `process/` - Audit Process
+### `process/` - Audit Process
 
 - **`process/audit-workflow.md`** - Audit workflow index: phase order, checklists, variants.
 - **`process/audit-workflow/`** - Phase files mapped in the workflow index.
@@ -216,13 +106,13 @@ resolution rules, and re-audit parameters live in `process/parameter-configurati
 
 Timing is armed by default on every operation - `no timing` opts out for that request.
 
-## `assessment/` - Assessment Categories
+### `assessment/` - Assessment Categories
 
 Open only the assessment files that match the system under audit - the index of core and conditional
 files is `assessment/README.md`, and a conditional file loads only when the subject meets its
 inclusion criteria in `process/report-format.md`.
 
-## `synthesis/` - Findings And Report Assembly
+### `synthesis/` - Findings And Report Assembly
 
 - **`synthesis/risk-register.md`** - Unified risk register: `RSK-[001]` to `FND-XXX` findings.
 - **`synthesis/project-scorecard.md`** - 1-10 scorecard, rubric, scales (1-5, 1-3, star bars).
@@ -234,7 +124,7 @@ inclusion criteria in `process/report-format.md`.
 - **`synthesis/report-comparison.md`** / **`report-triangulation.md`** - Re-audit discovery and
   second-opinion rules for prior or external reports.
 
-## `translations/` - Report Languages
+### `translations/` - Report Languages
 
 Load the matching file when the report language is not English.
 
@@ -245,7 +135,7 @@ per `principles/output-style.md`:
   Large file - read the vocabulary and style sections first,
   then resolve each section block by heading as the report emits it.
 
-## `references/` - Lookup Tables
+### `references/` - Lookup Tables
 
 Load these during intake, assessment, and report writing when the stack or finding type requires.
 
@@ -277,7 +167,7 @@ Load these during intake, assessment, and report writing when the stack or findi
   grep the catalog row needed rather than loading it whole.
 - **`references/stacks/`** / **`methodology/`** / **`topics/`** - digests, see `source-catalog.md`.
 
-## `scripts/` - Canonical Scripts
+### `scripts/` - Canonical Scripts
 
 They are report-production tooling, not analysis of the audited project - run them from the skill
 tree via `finalize-report.py --skill-root <path>`,
@@ -336,3 +226,24 @@ and validate summaries against evidence while running the regression scenarios i
 
 The file-selection, section-placement, and report-construction rules live in
 `process/navigation-rules.md` - apply them to every report.
+
+## Skill Update Check
+
+Run the check on the first bare `use` of this skill in a session, or on an explicit
+`update` or upstream-check request. Reuse a check already attempted for this exact checkout in
+the session, unless the user explicitly requests another one. Record the attempted checkout and
+result in session state. Catalog queries and ordinary tasks use the installed package.
+
+Use the directory containing this `SKILL.md`. Verify that it is the root of its own Git checkout
+before running `python <skill-root>/scripts/check-update.py` with the available Python 3 launcher.
+If Git, an upstream, or authorized network access is unavailable, use the installed package.
+Report the limitation on an explicit request.
+
+For `UPDATE-AVAILABLE`, report the incoming `tip_sha`, `tip_date`, and working-tree state.
+After the user approves the reported update, run `git -C <skill-root> merge --ff-only <tip_sha>`
+only if `ahead=0` and `dirty=no`, then re-read this entry point and the active procedures.
+If the check or merge cannot run, report it for the requested maintenance operation and use the
+installed files. A separately requested merge or push follows repository rules.
+
+The check may update remote-tracking refs but leaves the working tree intact.
+Review incoming changes if the upstream is uncertain.

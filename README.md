@@ -90,7 +90,7 @@ When you ask for an audit, the agent loads the skill and performs the following:
 
 **Checks for updates**
 
-Once per session, the agent runs a git self-update check on the skill's own repository and offers to
+On request, the agent checks the skill's own Git upstream and offers to
 merge incoming commits before starting, when the skill lives in a git clone.
 
 **Reads everything you supplied**
@@ -179,7 +179,7 @@ git clone https://github.com/zoltraks/lens-skill.git
 
 ### Updating
 
-Once per session, Lens checks its own Git upstream.
+On request, Lens checks its own Git upstream.
 
 If an update is available, it asks whether to merge or skip.
 
@@ -319,7 +319,7 @@ or execute the audited project.
 
 ## Workflow Diagrams
 
-The diagrams show the audit pipeline from the session update check through report delivery.
+The diagrams show the audit pipeline from intake through report delivery.
 
 The audit uses inspected repository contents as evidence and never executes the audited project.
 
@@ -329,7 +329,7 @@ The audit uses inspected repository contents as evidence and never executes the 
 User request
     |
     v
-Once-per-session update check
+Use the installed skill
     |
     v
 Intake: classify report style, subject, boundaries, and prior reports
@@ -363,7 +363,7 @@ Deliver inline or to a file
 
 ```mermaid
 flowchart TD
-    A[User request] --> B[Once-per-session update check]
+    A[User request] --> B[Use the installed skill]
     B --> C[Intake: classify report style, subject, boundaries, and prior reports]
     C --> D[Resolve prior-report mode or baseline when applicable]
     D --> E[Configure parameters or reuse confirmed re-audit settings]

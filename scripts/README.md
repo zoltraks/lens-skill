@@ -293,7 +293,7 @@ When rows and headings pair one-to-one they are re-anchored in order.
 
 Run it whenever a document's sections move.
 
-`check-update.py` reports the git upstream status of the skill repository for the once-per-session
+`check-update.py` reports the git upstream status of the skill repository for the explicit
 Skill Update Check in `SKILL.md`, and always exits `0` with a `STATUS` verdict line.
 
 Its verdicts after upstream resolution carry `tip_sha` and `tip_date` details identifying the

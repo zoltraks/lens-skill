@@ -11,7 +11,7 @@ run on a `housekeep lens-skill` request or as part of a session review's index p
 
 ## Procedure
 
-1. Run `scripts/check-update.py` once and report upstream state.
+1. Report local Git state when available. Check upstream only if requested and authorized.
 2. Reconcile `SKILL.md` against `assessment/`, `principles/`, `process/`, `synthesis/`,
    `translations/`, `references/`, `scripts/`, `tests/`, `docs/`,
    and `evals/` - every shipped resource must be registered in `SKILL.md` and

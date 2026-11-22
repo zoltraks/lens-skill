@@ -20,11 +20,10 @@ development mode is the named operation, never the default reading.
 
 ## Procedure
 
-1. Run the once-per-session `scripts/check-update.py` per `SKILL.md` - a skill whose check cannot
-   fast-forward is reported, never blocking the rest.
+1. Use the installed checkout.
 2. Report readiness - repository state, version,
    and any uncommitted in-flight work the tree carries.
-3. Wait for the described change.
+3. Proceed with a supplied change or wait for the specification.
 
 ## The Specification
 
@@ -62,8 +61,7 @@ before `Cancel` in JSON-exchange menus, and the label follows the working modes 
 Either resolution ends the ask without ending the mode - a later described change or named operation
 still routes through this file's procedure.
 
-"Update the skill" is never offered: the update check already ran as procedure step 1,
-and an option that re-names completed work only duplicates it.
+An upstream check is a separately named operation.
 
 ## What Does Not Apply
 
