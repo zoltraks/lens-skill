@@ -1806,7 +1806,8 @@
    "files": [],
    "expectations": [
     "The agent loaded process/operations-catalog.md and answered with its canonical operations table inline.",
-    "The table covers every family expanded into concrete operations and ends with a line inviting a task request.",
+    "The table's first column is Operation, with Family second, covering every family expanded into concrete operations.",
+    "The table ends with a line inviting a task request.",
     "No intake classification, parameter resolution, subject discovery, or file write runs."
    ]
   },
@@ -2484,6 +2485,44 @@
         "the specification ask carries 'Train on the fly' as the standby option because training mode is armed",
         "a 'Train on the fly' answer does nothing now and waits for a named operation, applying surfaced adjustments on the fly"
       ]
-    }
+    },
+  {
+   "id": 219,
+   "prompt": "What types of report can lens-skill generate?",
+   "expected_output": "A brief direct answer per the Partial Questions contract in process/operations-catalog.md: a one- or two-sentence summary, then a compact table of the report styles, with shared parameters such as detail levels on their own line.",
+   "files": [],
+   "expectations": [
+    "The answer opens with a short summary rather than the full operations catalog or a section walkthrough.",
+    "The enumerated set renders as a compact table with one row per item.",
+    "No rule files beyond the loaded router and process/operations-catalog.md were consulted.",
+    "No intake classification, parameter resolution, subject discovery, or file write runs."
+   ]
+  },
+  {
+   "id": 220,
+   "prompt": "Create a history visualisation for this repository - generate history.json for the viewer and run it in the default green palette, dark theme, and city layout at the last version.",
+   "expected_output": "The request names the dataset and every view parameter explicitly, so the intake reports the resolved parameter set and gathers without a confirmation question - a surface fires only for a parameter the request left unresolved and ends with a cancel-class entry.",
+   "files": [],
+   "expectations": [
+    "A request that explicitly resolves every intake parameter reports the resolved set once and gathers - no approval question is asked.",
+    "A parameter surface that fires is asked through the host's question mechanism and ends with a cancel-class entry.",
+    "A cancel-class answer pauses the operation for the next prompt - it is not an approval and gathering does not start.",
+    "Under the automated mode no parameter question is asked and each default resolution is recorded like an answered question.",
+    "The resolved-set report keeps \"change a decision\" as the way to reopen a named parameter."
+   ]
+  },
+  {
+   "id": 221,
+   "prompt": "Create a history visualisation for this repository. Its merge commits land as `chore(pr): merge feature/<id>-slug into main`, doc records carry `## Summary` sections, and a `.gitlab-ci.yml` pins `${PREFIX}/node` images.",
+   "expected_output": "The dataset classifies merge commits to a dedicated `merge` category with `branch` and `ticket` fields, doc events carry content `summary` strings, CI image lines feed the `build` dependency channel, and each aspect object may carry a generated `summary`.",
+   "files": [],
+   "expectations": [
+    "Merge commits classify to a `merge` category, never the `chore` bucket - the commit-type mix counts engineering work only.",
+    "`merge` events carry `branch` (the merged ref) and `ticket` (the tracker id from the subject or branch slug) when found; other commit events carry `ticket` when the subject references one.",
+    "Report-family, change, plan, decision, refactoring, spec, and concept records carry a content `summary` - the first prose paragraph under a summary-shaped heading or after the title - emitted only when found.",
+    "CI and compose `image:` lines feed the `build` dependency channel with `${VAR}/` prefixes normalized to the image name.",
+    "Each aspect object may carry a generated `summary` produced by deterministic templates."
+   ]
+  }
  ]
 }

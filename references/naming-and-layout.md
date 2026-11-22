@@ -28,10 +28,10 @@ Snapshot date: 2026-10-27.
 | Directory Naming Principles        | 115  | Full-word discipline, singular/plural, and catch-all bans   |
 | Cross-Language Naming Matrices     | 142  | File, package, type, member, variable, and test conventions |
 | Framework And Tooling Overrides    | 214  | Framework-imposed names that supersede language defaults    |
-| Language-Idiomatic Code Division   | 239  | Type-to-file rules, interfaces, abstracts, and DI wiring    |
-| Layout Convention Catalog          | 294  | Selectable layout shapes and the toolchain-binding rule     |
-| Canonical Stack Fixtures           | 330  | Reference layouts and idioms across 11 languages/stacks     |
-| Fallback For Unlisted Technologies | 797  | Auditing languages, frameworks, and docs not in the tables  |
+| Language-Idiomatic Code Division   | 240  | Type-to-file rules, interfaces, abstracts, and DI wiring    |
+| Layout Convention Catalog          | 295  | Selectable layout shapes and the toolchain-binding rule     |
+| Canonical Stack Fixtures           | 331  | Reference layouts and idioms across 11 languages/stacks     |
+| Fallback For Unlisted Technologies | 798  | Auditing languages, frameworks, and docs not in the tables  |
 
 ## Component-Purpose Layout Rules
 

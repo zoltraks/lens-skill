@@ -49,6 +49,9 @@ parameter acceptance, report delivery - not every routine sub-step.
 
 The interaction mode is classified once at intake and never re-litigated at a later gate.
 
+A surface whose answer the request already supplies is resolved, not asked - asking anyway is
+ceremony, not a gate, unless the operation's own contract records the surface as required.
+
 Host signals urging fewer questions apply to the agent's own discretionary prompts,
 never to the workflow's blocking gates, and a user who answered several gates in a row was being
 patient, not setting policy - each gate is a fresh surface.

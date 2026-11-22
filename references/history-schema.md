@@ -56,7 +56,9 @@ Each category is `{"id", "label", "color", "order"}`.
 
 The registry carries one entry per event family - features, changes, refactors,
 fixes, plans, releases, reports, tests, decisions, lessons, discards,
-and similar - plus a `release` entry used by version-tower styling.
+and similar - plus a `release` entry used by version-tower styling and a
+`merge` entry for pull/merge commits, which keep their own neutral family
+so the commit-type mix stays honest.
 
 ## View
 
@@ -163,6 +165,9 @@ every key is omitted when its evidence does not exist:
 | `documentation`   | `{ratio, loc, records}` - docs share + doc events of the era    |
 | `problems`        | `{findings, fixes}` - finding counts + fix commits of the era   |
 
+Any aspect object may additionally carry `summary` - one generated
+sentence produced from the gathered measures.
+
 ## Category Detail
 
 `categoryDetail` maps each category id with era activity to the evidence a
@@ -215,6 +220,9 @@ content the gatherers did not find.
 | `del`      | int, optional  | Deletions for commit events                    |
 | `ref`      | string, opt.   | Document path for documentation-sourced events |
 | `archived` | bool, optional | True when `ref` lives in an archived tree      |
+| `summary`  | string, opt.   | Content summary extracted from the record      |
+| `ticket`   | string, opt.   | Tracker id referenced by the commit or branch  |
+| `branch`   | string, opt.   | Merged branch ref on `merge` events            |
 
 Report-family records (audits, hunts, reviews, assessments, proposals,
 reports) may additionally carry extracted fields:
@@ -226,7 +234,8 @@ reports) may additionally carry extracted fields:
 | `findings`        | int, opt.    | Unique finding-id count found in the record         |
 | `revision`        | string, opt. | Report revision, e.g. `"1.8"`                       |
 | `subject_version` | string, opt. | Project version the record assesses                 |
-| `requirements`    | int, opt.    | Count of requirement/use-case ids in a spec record  |
+| `requirements`    | int, opt.    | Count of requirement/use-case ids in a spec or     |
+|                   |              | report record (`X-n`, `<NS>-REQ-<n>` id families)  |
 
 A change-request record may carry `subtype` (`feature`, `fix`, `refactor`,
 `chore`) which the producer folds into the event `type` at merge time.

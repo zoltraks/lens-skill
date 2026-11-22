@@ -18,20 +18,20 @@ It is not an audit and produces no report.
 
 | Section             | Line | Description                                        |
 |---------------------|------|----------------------------------------------------|
-| Activation Contract | 35   | When the operation runs and what it never does     |
-| Intake              | 47   | Parameters resolved before gathering               |
-| Ref Selection       | 101  | Fullest reachable history of the target branch     |
-| Era Discovery       | 116  | How commits group into eras - version or date mode |
-| Workspace Layout    | 142  | Workspace tree and its README contract             |
-| Scout Delegation    | 170  | Read-only scouts for the evidence surface          |
-| Gathering           | 180  | Source families and their collection order         |
-| Extraction Pipeline | 220  | Staged scripts, dating, enrichment, merge          |
-| Data Model          | 356  | Version kinds and their provenance                 |
-| Bundled Shim        | 373  | The file:// twin of history.json                   |
-| Prototype           | 389  | The commissioned interface contract                |
-| Verification        | 399  | Mechanical checks before delivery                  |
-| Incremental Reuse   | 424  | Ref-sha comparison and resume state                |
-| Boundaries          | 433  | Source-only limits of the operation                |
+| Activation Contract | 36   | When the operation runs and what it never does     |
+| Intake              | 48   | Parameters resolved before gathering               |
+| Ref Selection       | 111  | Fullest reachable history of the target branch     |
+| Era Discovery       | 126  | How commits group into eras - version or date mode |
+| Workspace Layout    | 152  | Workspace tree and its README contract             |
+| Scout Delegation    | 180  | Read-only scouts for the evidence surface          |
+| Gathering           | 190  | Source families and their collection order         |
+| Extraction Pipeline | 239  | Staged scripts, dating, enrichment, merge          |
+| Data Model          | 377  | Version kinds and their provenance                 |
+| Bundled Shim        | 394  | The file:// twin of history.json                   |
+| Prototype           | 410  | The commissioned interface contract                |
+| Verification        | 420  | Mechanical checks before delivery                  |
+| Incremental Reuse   | 445  | Ref-sha comparison and resume state                |
+| Boundaries          | 454  | Source-only limits of the operation                |
 
 ## Activation Contract
 
@@ -48,11 +48,20 @@ another task inside the same session.
 ## Intake
 
 Every request to create the dataset runs a parameter pass before any
-gathering, even when the request names everything it needs - the user must
-be offered the defaults and a way to change them.
+gathering - each parameter resolves per `process/decision-modes.md`,
+explicit request statements first.
 
-Present the parameter set through the host's question mechanism, with a
-default for every parameter, then gather only after approval.
+A request whose text resolves every parameter asks no confirmation
+question - the resolved set is reported once before gathering, then the
+run proceeds, and the report is the way to change a decision without
+blocking.
+Only a parameter left unresolved surfaces a question, presented through
+the host's question mechanism under the interactive default, with a
+default for every parameter, and ending with a cancel-class entry per
+`process/decision-modes.md`.
+Under the automated mode every unset parameter resolves to its default,
+nothing is asked, and each resolution is recorded like an answered
+question.
 An answer of "defaults" or silence accepts the table as shown.
 "change a decision" reopens the one parameter the user names.
 
@@ -95,8 +104,8 @@ Notes on the parameters:
   a reusable script never hardcodes a repository path or consumer
   directory, and its header comment names the actual target.
 - **Prototype** - whether the request also commissions a visualisation
-  prototype - resolves from the request text and is confirmed in the
-  same gate.
+  prototype - resolves from the request text and, when a parameter
+  question fires, is confirmed on the same surface.
   The dataset is always the primary deliverable.
 
 ## Ref Selection
@@ -184,9 +193,11 @@ Collect source families in this order.
 
 1. **Commit history** - the full `git log` with subjects, hashes, dates,
    and insertion/deletion counts, oldest first, at the chosen ref.
-   Merge commits stay in the stream.
-   The classifier routes them to a
-   neutral type rather than dropping them.
+   Merge commits stay in the stream, classified to a dedicated `merge`
+   category - never a code-family bucket, so the commit-type mix stays
+   honest - carrying `branch` (the merged ref) and `ticket` (the tracker
+   id parsed from the subject or branch slug) when found.
+   Other commit events carry `ticket` when the subject references one.
    Every commit that touches a dependency manifest (`Cargo.toml`,
    `package.json`, `pyproject.toml`, `requirements.txt`, `go.mod`,
    `pom.xml`, `*.csproj`, build descriptors) is diffed against its
@@ -196,8 +207,10 @@ Collect source families in this order.
    Manifests are discovered by walking the tree at the chosen ref and
    parsed per format - lockfiles are excluded (resolved versions are
    not declarations), each manifest's own `version` field is a version
-   signal, not a dependency, and `FROM image:tag` lines in Dockerfiles
-   feed the `build` channel.
+   signal, not a dependency, `FROM image:tag` lines in Dockerfiles and
+   `image:` lines in CI and compose manifests (`.gitlab-ci.yml`,
+   `azure-pipelines.yml`, `docker-compose*.yml`) feed the `build`
+   channel, and `${VAR}/` prefixes normalize to the image name.
    Boundary commits emit them too - dependency changes on the commit
    that bumps the version still belong to the era that contains it.
 2. **Version boundaries** - the commit at which each version began and ended:
@@ -215,6 +228,11 @@ Collect source families in this order.
    Record kind resolves from the directory family before the filename, so
    a template-directory file never inherits its filename's apparent family
    (`<x>-assessment-template.md` stays a template, not an assessment).
+   Report-family, change, plan, decision, refactoring, spec, and concept
+   records also carry a content `summary` - the first prose paragraph
+   under a summary-shaped heading (`Summary`, `Purpose`, `Overview`,
+   `Analysis`), else the first prose paragraph after the title - emitted
+   only when found and capped near 280 characters.
 4. **Local scratch probe** - the subject's `work/` or scratch trees are
    inventoried into `gathering/notes/` only - never turned into events.
 
@@ -257,6 +275,8 @@ engineering focus moved between releases:
   (schemes, auth-family deps), api surface (paths/operations parsed from
   contract manifests), documentation share, and problems (era findings +
   fix commits) folded at merge.
+  Each aspect object may also carry a generated `summary` one-liner,
+  produced by deterministic templates at merge time.
 
 Component modules are the top-level directories, with `src/` splitting one
 level deeper, so each era's city sections match the project's real

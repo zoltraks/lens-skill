@@ -14,9 +14,9 @@
 | Known Limitations    | 106  | unresolved limits, unknowns, evidence gaps             |
 | Further Verification | 137  | deferred checks, commands, pass criteria               |
 | Executed Evidence    | 162  | executed-mode checks, commands, results                |
-| Follow-up Plan       | 194  | roadmap-closing retest and re-audit plan               |
-| Validation Protocol  | 237  | PAR-1 through PAR-27 rows, evidence basis              |
-| Reference Sources    | 274  | external sources, link paragraphs, cached-source notes |
+| Follow-up Plan       | 195  | roadmap-closing retest and re-audit plan               |
+| Validation Protocol  | 238  | PAR-1 through PAR-27 rows, evidence basis              |
+| Reference Sources    | 275  | external sources, link paragraphs, cached-source notes |
 
 ## Scope Exclusions
 
