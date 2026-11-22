@@ -545,10 +545,10 @@ lens-skill/
 │   │   └── regression-scenarios.md        # Skill-maintenance regression scenario table
 │   ├── audit-model.md                     # Evidence-to-finding pipeline and canonical audit-model.json
 │   ├── audit-request.md                   # External-agent audit-request prompt generation
-│   ├── calibration.md                     # Paired-run reproducibility procedure and tolerances
+│   ├── audit-calibration.md               # Paired-run reproducibility procedure and tolerances
 │   ├── decision-modes.md                  # Interaction-mode matrix: interactive and automated resolution
-│   ├── development.md                     # Standby-for-specification development mode
-│   ├── housekeeping.md                    # Self-repository upkeep routine
+│   ├── skill-development.md               # Standby-for-specification development mode
+│   ├── skill-housekeeping.md              # Self-repository upkeep routine
 │   ├── history-visualisation.md           # Named lifecycle operation producing history.json
 │   ├── json-exchange.md                   # Machine-readable parameter documents for intake questions
 │   ├── navigation-rules.md                # File-selection and section-placement rules for every report

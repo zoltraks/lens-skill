@@ -45,6 +45,13 @@ itself - a validator check, a tooling rule, or a contract line so the defect can
 Fixes never land only in the artifact: report repairs update `scripts/`, `process/`,
 or `docs/` in the same change set.
 
+A development request may also name `training` - "work on lens-skill development and
+training".
+The flag arms training mode for the described work:
+adjustments the operations surface are applied on the fly to this repository's files through
+the member's own maintenance path, so the skill performs better, quicker, and with less
+context - the flag alone never routes to the session-history gather.
+
 ## Option Surfaces
 
 When the mode offers options - on entry or at a later gate - "Develop new feature"
@@ -53,10 +60,16 @@ is the offered option.
 The specification ask always carries a standby option as the last entry of its offered list,
 before `Cancel` in JSON-exchange menus, and the label follows the working modes the request armed:
 
-- `Improve on the fly` when the request armed `improvement` - the answer does nothing now and waits
-  for a named operation, and improvements that operation surfaces apply on the fly during the work.
-- `Do nothing yet` when `improvement` is not armed - the answer skips the question flow and the
-  mode stays on standby.
+- `Improve on the fly` when the request armed `improvement` but not `training` - the answer does
+  nothing now and waits for a named operation, and improvements that operation surfaces apply on
+  the fly during the work.
+- `Train on the fly` when the request armed `training` but not `improvement` - the answer does
+  nothing now and waits for a named operation, and adjustments that operation surfaces apply on
+  the fly during the work.
+- `Improve and train on the fly` when the request armed both - the answer does nothing now and
+  waits for a named operation, and the armed modes apply on the fly during the work.
+- `Do nothing yet` when neither `improvement` nor `training` is armed - the answer skips the
+  question flow and the mode stays on standby.
 
 Either resolution ends the ask without ending the mode - a later described change or named operation
 still routes through this file's procedure.
@@ -69,6 +82,8 @@ An upstream check is a separately named operation.
 - Session review stays a separate operation - development mode delivers a described change,
   while "improve lens-skill" gathers lessons.
 - An `improvement` flag on the request arms the working mode above - it never triggers the
+  session-review gather on its own.
+- A `training` flag on the request arms the working mode above - it never triggers the
   session-review gather on its own.
 - Timing follows `process/operation-timing.md` - the start-up check is the operation the readiness
   report's closing line times.

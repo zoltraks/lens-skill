@@ -2000,20 +2000,20 @@
   {
    "id": 175,
    "prompt": "housekeep lens-skill",
-   "expected_output": "Runs process/housekeeping.md - registration reconciliation, coverage checks, workspace hygiene, validation, proposal report.",
+   "expected_output": "Runs process/skill-housekeeping.md - registration reconciliation, coverage checks, workspace hygiene, validation, proposal report.",
    "files": [],
    "expectations": [
-    "runs process/housekeeping.md and reports findings as a proposal"
+    "runs process/skill-housekeeping.md and reports findings as a proposal"
    ]
   },
   {
    "id": 176,
    "prompt": "work on lens-skill development",
-   "expected_output": "Runs process/development.md - local readiness report, standby for a described change, with 'Do nothing yet' as the standby option of the specification ask.",
+   "expected_output": "Runs process/skill-development.md - local readiness report, standby for a described change, with 'Do nothing yet' as the standby option of the specification ask.",
    "files": [],
    "expectations": [
-    "runs process/development.md and stands by for a described change",
-    "the specification ask offers 'Develop new feature' and carries 'Do nothing yet' as the standby option when improvement mode is not armed",
+    "runs process/skill-development.md and stands by for a described change",
+    "the specification ask offers 'Develop new feature' and carries 'Do nothing yet' as the standby option when neither working mode is armed",
     "a 'Do nothing yet' answer skips the question flow and keeps the mode on standby"
    ]
   },
@@ -2302,10 +2302,10 @@
   {
    "id": 202,
    "prompt": "work on lens-skill development and improvement",
-   "expected_output": "Runs process/development.md - local readiness report, standby for a described change, with 'Improve on the fly' as the standby option of the specification ask.",
+   "expected_output": "Runs process/skill-development.md - local readiness report, standby for a described change, with 'Improve on the fly' as the standby option of the specification ask.",
    "files": [],
    "expectations": [
-    "runs process/development.md and stands by for a described change",
+    "runs process/skill-development.md and stands by for a described change",
     "the specification ask carries 'Improve on the fly' as the standby option because improvement mode is armed",
     "an 'Improve on the fly' answer does nothing now and waits for a named operation, applying surfaced improvements on the fly"
    ]
@@ -2462,6 +2462,28 @@
     "No history.json generation or lifecycle visualisation is offered as a suggested follow-up or next step.",
     "The history visualisation route stays dormant for non-matching requests."
    ]
-  }
+  },
+  {
+   "id": 217,
+   "prompt": "work on lens-skill in training mode",
+   "expected_output": "Training mode is a working mode - adjustments the operations surface are applied on the fly to this repository's files through the member's own maintenance path, so the skill performs better, quicker, and with less context, during the work itself. The session-history gather does not run: it belongs to the named `improve` operation alone.",
+   "files": [],
+   "expectations": [
+    "does not route to process/session-review.md on the training-mode flag alone",
+    "applies on-the-fly adjustments during operations through the member's own maintenance path",
+    "reviews no session history that precedes the mode request"
+   ]
+  },
+    {
+      "id": 218,
+      "prompt": "work on lens-skill development and training",
+      "expected_output": "Runs process/skill-development.md - local readiness report, standby for a described change, with 'Train on the fly' as the standby option of the specification ask.",
+      "files": [],
+      "expectations": [
+        "runs process/skill-development.md and stands by for a described change",
+        "the specification ask carries 'Train on the fly' as the standby option because training mode is armed",
+        "a 'Train on the fly' answer does nothing now and waits for a named operation, applying surfaced adjustments on the fly"
+      ]
+    }
  ]
 }

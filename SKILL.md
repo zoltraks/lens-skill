@@ -9,7 +9,7 @@ compatibility: >-
   Requires access to source files and the ability to write Markdown reports.
   Python 3.10+ is used for bundled tools. External sources and upstream checks require network access.
 metadata:
-  version: "3.0.2"
+  version: "3.0.3"
   author: Filip Golewski
 ---
 
@@ -27,8 +27,9 @@ metadata:
 | Bare activation                     | Follow [activation](process/skill-activation.md) and wait for a task.                                             |
 | List capabilities                   | Read the [operations catalog](process/operations-catalog.md).                                                     |
 | Perform a task                      | Choose the operation under [Operations](#operations).                                                             |
-| Develop this skill                  | Follow [development](process/development.md) and the [repository instructions](AGENTS.md).                        |
+| Develop this skill                  | Follow [development](process/skill-development.md) and the [repository instructions](AGENTS.md).                  |
 | Improvement mode                    | Apply lessons from the work through this skill's maintenance rules.                                               |
+| Training mode                       | Apply on-the-fly adjustments through this skill's maintenance rules.                                              |
 | Review a session                    | Follow [session review](process/session-review.md).                                                               |
 | Verbose reporting                   | Follow [timing](process/operation-timing.md) and [JSON exchange](process/json-exchange.md) for pending questions. |
 | Update this skill or check upstream | Follow [Skill Update Check](#skill-update-check).                                                                 |
@@ -79,7 +80,7 @@ before planning a report, then open the selected style and section rules from
 - **`process/audit-model.md`** - Evidence-to-finding pipeline and the canonical audit model.
 - **`process/audit-request.md`** - External-agent audit-request prompt generation.
 - **`process/decision-modes.md`** - Interaction-mode matrix: interactive and automated resolution.
-- **`process/calibration.md`** - Paired-run reproducibility procedure and tolerances.
+- **`process/audit-calibration.md`** - Paired-run reproducibility procedure and tolerances.
 - **`process/report-format.md`** - Report format index: rules, parameters, spec-file map.
 - **`process/report-contract.md`** - One-page mechanically enforced report contract.
   Use its section map to read only the specifications for included sections.
@@ -89,10 +90,10 @@ before planning a report, then open the selected style and section rules from
   diagnostic, or timing modes.
 - **`process/parameter-configuration.md`** - Parameter surfaces, defaults, and resolution rules.
 - **`process/parallel-execution.md`** - Delegated read-only scout model for large audit surfaces.
-- **`process/housekeeping.md`** - Self-repository upkeep: registration, coverage,
+- **`process/skill-housekeeping.md`** - Self-repository upkeep: registration, coverage,
   workspace, validation.
 - **`process/self-healing.md`** - The evidence-gated self-repair loop for this skill.
-- **`process/development.md`** - Standby-for-specification mode for developing this skill.
+- **`process/skill-development.md`** - Standby-for-specification mode for developing this skill.
 - **`process/navigation-rules.md`** - File-selection and section-placement rules for every report.
 - **`process/report-parity.md`** - Mandatory core checklist and consistency gate.
 - **`process/readiness-scoring.md`** - Score aggregation, confidence, maturity, readiness gates.

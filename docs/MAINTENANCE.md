@@ -56,24 +56,21 @@ register it in `SKILL.md` and mirror it in the `README.md` tree.
 
 ## File Naming
 
-Use lowercase kebab-case for assessment, process, principle, synthesis, and reference files.
+Authored filenames are lowercase kebab-case. Conventional uppercase names stay exempt -
+`README.md`, `AGENTS.md`, `LICENSE`, and the governance documents under `docs/`.
 
-Name each resource file with exactly two words joined by a hyphen, `<word>-<word>.md`.
-
-Stack digests under `references/stacks/` named after a single technology keep one-word names,
-such as `go.md` or `php.md`.
-
-Follow the naming pattern of the target directory and choose a name that describes the file's
-responsibility, such as `security-review.md` or `report-parity.md`.
+Procedure and rule documents carry at least two words in `<domain>-<role>` or `<verb>-<object>` form,
+keeping three or more words where meaningful - `assessment/`, `process/`, `principles/`,
+`references/` rule files, and `synthesis/` follow it: `audit-calibration.md`, `report-parity.md`.
+A file named for a single unambiguous thing may keep one word - a stack digest under
+`references/stacks/` named after a single technology such as `go.md` or `php.md`,
+a translation file, or a fixture.
 
 Name translation files `translations/<language>-language.md`,
 following the existing `polish-language.md` pattern.
 
-Name tools `scripts/<verb>-<object>.py` and use the Python standard library unless an additional
+Tools are named `scripts/<verb>-<object>.py` and use the Python standard library unless an additional
 dependency is documented.
-
-Keep conventional uppercase names for root and governance files, including `README.md`, `AGENTS.md`,
-`LICENSE`, and the documents under `docs/`.
 
 Keep evaluation prompts in `evals/evals.json`.
 
