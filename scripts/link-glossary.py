@@ -118,6 +118,17 @@ FIELD_VALUE_LABELS = (
     "Change",
     "Absence",
     "Verified",
+    "Verification",
+    "Observation",
+    "Closure",
+    "Area",
+    "Blocks",
+    "Impact",
+    "Fix",
+    "Effort",
+    "Reason",
+    "Control",
+    "Review",
     "Confidence",
     "Class",
     "Result",
@@ -147,17 +158,28 @@ FIELD_VALUE_LABELS_PL = (
     "Właściciel",
     "Wykorzystanie podatności",
     "Środek ograniczający ryzyko",
+    "Obszar",
+    "Potwierdzenie",
+    "Blokuje",
+    "Obserwacja",
+    "Wpływ",
+    "Naprawa",
+    "Nakład",
+    "Warunek",
+    "Powód",
+    "Środek zastępczy",
+    "Termin przeglądu",
 )
 
 LANGUAGES = {
     "en": {
-        "glossary_heading": "Glossary Index",
+        "glossary_heading": r"Glossary( Index)?",
         "default_anchor": "glossary-index",
         "field_labels": FIELD_VALUE_LABELS,
         "stopwords": COMPOUND_NEIGHBOR_STOPWORDS,
     },
     "pl": {
-        "glossary_heading": "Słownik pojęć",
+        "glossary_heading": r"Słownik( pojęć)?",
         "default_anchor": "słownik-pojęć",
         "field_labels": FIELD_VALUE_LABELS_PL,
         "stopwords": COMPOUND_NEIGHBOR_STOPWORDS_PL,
@@ -181,6 +203,7 @@ def parse_glossary(
         raise SystemExit(
             "report has no ## %s section" % lang["glossary_heading"]
         )
+    default_anchor = slugify(lines[heading_at].lstrip("#").strip())
     end = next(
         (i for i in range(heading_at + 1, len(lines)) if re.match(r"^##\s+\S", lines[i])),
         len(lines),
@@ -206,7 +229,7 @@ def parse_glossary(
             anchors[link.group(1)] = link.group(2)
         elif re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9/().+-]*", cell):
             terms.append(cell)
-            anchors[cell] = lang["default_anchor"]
+            anchors[cell] = default_anchor
     return terms, anchors, heading_at, end
 
 

@@ -11,14 +11,15 @@
 | Section              | Line | What it covers                       |
 |----------------------|------|--------------------------------------|
 | Document Information | 18   | Report metadata and revisions        |
-| Contents             | 176  | Linked navigation of report sections |
-| Audit Coverage       | 185  | Coverage of canonical audit types    |
-| Glossary             | 244  | Abbreviation and acronym definitions |
+| Contents             | 186  | Linked navigation of report sections |
+| Audit Coverage       | 209  | Coverage of canonical audit types    |
+| Glossary             | 268  | Abbreviation and acronym definitions |
 
 ## Document Information
 
-Open the report with a document title as a level-1 markdown heading (`#`),
-followed by the `## Document Information` section.
+Open the report with a document title as a level-1 markdown heading (`#`).
+The `## Document Information` section follows the title directly,
+under the default `audit` style and under `audit (legacy)` alike.
 The title is always `<System Name> Audit Report`,
 for software and non-software subjects alike.
 Do not append a skill name, report type, or separator - `Lens audit report`, `- audit`,
@@ -50,16 +51,18 @@ Rows appear in this order, each label in the first column and its value in the s
 
 - `Report Revision` - the report document revision, assigned per the report revision rules below.
 - `Report Date` - the audit date.
-- `Report Style` - `Audit`, `Hunt`, or `Review`,
-  per `process/report-format/hunt-style.md` and `process/report-format/review-style.md`.
-- `Review Scope` - `Structure`, written only when a `review` -style report renders the
+- `Report Style` - `Audit`, `Audit (legacy)`, `Hunt`, `Hunt (legacy)`, `Brief`,
+  or `Review (legacy)`, per `process/report-format/audit-legacy.md`,
+  `process/report-format/hunt-style.md`, `process/report-format/hunt-legacy.md`,
+  `process/report-format/brief-style.md`, and `process/report-format/review-legacy.md`.
+  Bare `Review` appears only on reports recovered from or reproducing the pre-rename form
+  and on the structure-review variant.
+- `Review Scope` - `Structure`, written only when a `Review` report renders the
   structure-review variant per `process/report-format/structure-review.md`,
   and omit the row on a full-scope review.
 - `Detail Level` - `Standard`, `Detailed`, or `Brief`.
 - `Evaluation Scale` - `1-10`, `1-5`, `1-3`, `5 stars`, or `3 stars`.
-- `Sentence breaks` - `Off`, written only when the user explicitly suppressed sentence-per-paragraph
-  prose per `process/report-format.md`, and omit the row when the default
-  sentence-separated layout applies.
+
 - `Language` - the report language, required on every report - an English report writes `English`,
   a translation writes its own language name.
 - `Translations` - the sibling language renderings of the same report,
@@ -95,6 +98,10 @@ Rows appear in this order, each label in the first column and its value in the s
   and an interrupted or re-done assembly does not reset the start timestamp.
 - `Previous Report` - the previous report path and revision, only on a confirmed re-audit.
   Omit the row on a fresh audit.
+  The cell names a report file that exists in the delivery tree - never cite a title or filename
+  for a document that was not produced; when the revision's evidence is restated without a
+  produced predecessor, the cell records `None` and names the sibling reports sharing the
+  evidence instead.
 - `Projects` - the audited project names rendered as links to their `##` sections,
   multi-project reports only - `[api-service](#api-service)`.
 
@@ -175,7 +182,21 @@ and `Verification Scope` are rendered per the same file.
 
 ## Contents
 
-A `## Contents` section follows Document Information and links every H2 section of the report.
+Under the default `audit` style a `## Contents` section is required and sits immediately
+after `## Document Information`, linking every H2 section of the report except the
+document-information section itself - the reader has already passed it,
+so the list never links `Document Information`, `Report Overview`, or its translation.
+
+Group its entries under the bold reader-task labels `**Scope and context**`,
+`**Overview and decisions**`, `**Dependencies and conformance**`,
+`**Methodology and evidence**`, `**Engineering assessment**`, `**Findings and action**`,
+and `**Glossary and sources**` - navigation grouping only, never extra heading levels.
+
+The groups link every substantive section plus direct links to the `### Scorecard Summary`
+and `### Immediate Actions` subsections;
+they never list individual `###` register records.
+
+Under `audit (legacy)` a `## Contents` is optional and flat, following Document Information.
 
 Each entry is a `- [Section Name](#anchor)` bullet with the section's own heading anchor - a link
 list for human navigation, never a line-number table.
@@ -190,9 +211,9 @@ deliberately does not run.
 The table makes the report's coverage explicit so it cannot be mistaken for a penetration test,
 a certifying audit, or a full technical due diligence.
 
-The section appears once per report, immediately after `## Document Information` and before
+The section appears once per report, immediately after `## Contents` and before
 `## Project Inventory` in a multi-project report,
-or before `## Glossary Index` in a single-project report.
+or before `## Executive Summary` in a single-project report.
 
 Present the fixed table from `references/audit-taxonomy.md`,
 one row per canonical audit type whose status is not `Not applicable`.
@@ -290,7 +311,7 @@ and criteria identifiers across the report:
 | FND     | Findings  | Technical Findings identifier prefix (`FND-SEC-001`)  |
 | EVD     | Evidence  | Evidence List identifier prefix (`EVD-001`) |
 | TDR     | Debt      | Technical Debt Register identifier prefix (`TDR-001`)          |
-| RSK     | Risks     | Unified Risk Register identifier prefix (`RSK-001`)            |
+| RSK     | Risks     | Risk Register identifier prefix (`RSK-001`)            |
 | REC     | Roadmap   | Remediation Roadmap identifier prefix (`REC-001`)   |
 | PAR     | Checklist | Protocol Audit Requirement identifier prefix (`PAR-1`)         |
 | TST     | Criteria  | Testing, test isolation, pipeline coverage, suite execution    |

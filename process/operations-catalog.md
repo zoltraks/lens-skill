@@ -34,8 +34,10 @@ request's language changes the cell text.
 | Operation             | Family      | What it covers                                                                  |
 |-----------------------|-------------|---------------------------------------------------------------------------------|
 | audit                 | Report      | full governance report across the assessment categories                         |
-| hunt                  | Report      | defect-hunt verdict over the same evidence base                                 |
-| review                | Report      | execution-register review                                                       |
+| hunt                  | Report      | defect and health register over the same evidence base                          |
+| hunt (legacy)         | Report      | preserved pre-redesign verdict/domain hunt layout                               |
+| brief                 | Report      | compact status-driven decision brief over the same evidence base                |
+| review (legacy)       | Report      | preserved execution-register review layout                                      |
 | structure review      | Report      | the structure-review variant                                                    |
 | re-audit              | Report      | revisioned report compared against a previous baseline                          |
 | security review       | Focused     | vulnerability and control-verification assessment                               |

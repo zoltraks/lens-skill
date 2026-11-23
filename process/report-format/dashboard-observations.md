@@ -12,7 +12,24 @@ Read the sections the task needs - grep the `## ` headings for the section map.
 
 Present the quantitative health summary in a consolidated view.
 
-This section contains the Risk Map, the Scorecard Summary, and the Team & Continuity line.
+Under the `audit` style this section closes the report's front block,
+directly behind the summary material:
+the scorecard leads, the risk overview follows it,
+and a reader deciding from the summary sees scores, limits, and risks together.
+
+A multi-project dashboard opens with a project overview table naming each project,
+its published score, its readiness, and its key qualification:
+
+| Project | Published score | Readiness | Key qualification |
+|---------|-----------------|-----------|-------------------|
+
+The section then contains, in order, the `### Scorecard Summary` subsection,
+a `**Interpretation limits**` note, the `**Risk Map**`,
+and the `**Team & Continuity**` line.
+
+Under `audit (legacy)` the order is Risk Map, Legend, Scorecard Summary,
+Team & Continuity, with no overview table and no Interpretation limits note -
+see `process/report-format/audit-legacy.md`.
 
 **Risk Map**
 
@@ -32,7 +49,7 @@ Use a table:
 When the report language is not English,
 apply the axis label translations from the matching `translations/` file.
 
-Populate cells with `RSK-XXX` identifiers from the Unified Risk Register.
+Populate cells with `RSK-XXX` identifiers from the Risk Register.
 
 Leave empty cells blank.
 
@@ -40,12 +57,29 @@ Do not include plaintext secrets, passwords, or cryptographic keys in this summa
 
 Use generic descriptions or masked placeholders.
 
-**Scorecard Summary**
+**Interpretation limits**
+
+Place a brief `**Interpretation limits**` note adjacent to the scorecard - before the Risk Map.
+
+It names the material execution and coverage limits in one or two sentences and distinguishes
+project readiness from deployment approval: `Ready` never claims that every check passed
+or that production was verified - the details stay in Scope Exclusions and Known Limitations.
+
+### Scorecard Summary
+
+Under the `audit` style the scorecard is a level-3 heading so Contents can link it directly;
+under `audit (legacy)` it stays a `**Scorecard Summary**` bold label in the legacy order.
 
 When the report language is not English,
 apply the heading translation from the matching `translations/` file.
 
 Provide a compact summary of the project scorecard dimensions.
+
+A multi-project `audit` report pivots the matrix - one `Dimension` column followed by
+one column per project, each header cell naming the project identifier verbatim
+(for example `` `backend` ``), preserving every project's score per dimension.
+A single-project report and every `audit (legacy)` report keep the long form:
+`Dimension | Score`, or `Project | Dimension | Score` for a legacy multi-project report.
 
 Precede the table with a `**Legend**` label and a `Band` / `Score` table naming the band for each
 score range of the selected scale, so no score appears before its band is defined.
@@ -86,7 +120,9 @@ Band names come from the selected scale's vocabulary - `Bad`, `Poor`, `Average`,
 | Originality & Licensing |       |       |
 | Skill Definition        |       |       |
 
-Omit rows whose Score is `N/A` from the table entirely: the table lists scored dimensions only.
+Omit rows whose Score is `N/A` from the table entirely: the table lists scored dimensions only -
+under the pivot form, drop only a row that is `N/A` for every project and render per-project `N/A`
+cells inside scored rows.
 
 The Delivery & Continuity dimension is `N/A` when Git history was not in scope,
 per `references/delivery-practice.md`.

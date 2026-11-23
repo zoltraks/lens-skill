@@ -39,16 +39,17 @@ When the copies are absent, pass `--skill-root <path>` (or set `LENS_SKILL_ROOT`
 pointing at the skill repository so the tools resolve in its `scripts/` directory - running it
 straight from the skill tree needs no flag at all.
 
-`new-report.py --style audit|hunt|review [--scope structure] [--projects a,b] [--params work/lens-params.json] [--model work/audit-model.json] [--output file]`
+`new-report.py --style audit|audit-legacy|hunt|hunt-legacy|brief|review-legacy [--scope structure] [--projects a,b] [--params work/lens-params.json] [--model work/audit-model.json] [--output file]`
 emits a structurally valid report skeleton - required sections, table headers,
 and one field-labeled template block per register - and runs `format-table.py` on `--output` when
 the formatter resolves next to the script or under `LENS_SKILL_ROOT`.
 
 `--params` reads the saved intake values from `work/lens-params.json`,
 so a second report style in the same session reuses the locked parameters.
-`--scope structure` with `--style review` emits the structure-review variant contract.
+`--scope structure` with `--style review-legacy` emits the structure-review variant contract.
+Bare `review` or `check` resolves to `brief`.
 
-For `--style review`, an `evidence-mode` of `executed-readonly` or `executed-commands` in the params
+For `--style review-legacy`, an `evidence-mode` of `executed-readonly` or `executed-commands` in the params
 file adds the Artifact Manifest section to the skeleton.
 
 `validate-report.py --dump-contract` prints the mechanically enforced contract - required sections,
@@ -97,8 +98,8 @@ heading depth, blank lines before and after headings, semicolons outside code sp
 sentences split across a line break by a stray period, doubled end marks, `..` identifier ranges,
 sentences joined inside one paragraph, and the typographic characters the ASCII convention forbids.
 
-The joined-sentence checks honor the `Sentence breaks | Off` Document Information row and the
-`--no-sentence-breaks` flag.
+The joined-sentence checks detect the flowing paragraph layout from the content itself,
+with `--no-sentence-breaks` as a manual override.
 
 `align-comments.py` aligns trailing `#` comments inside untagged fenced blocks and shell-tagged
 blocks to one shared column per block - the established column when most comments already share one,
@@ -114,7 +115,8 @@ Run it on any document that contains directory trees, file listings, or commente
 including the skill's own files.
 
 `link-glossary.py` never links glossary terms inside the value of a `- **Field:**` bullet (Pillar,
-Severity, Type, Security, Status, Change, Absence, Verified, Confidence, Class, Result, Priority,
+Severity, Type, Security, Status, Change, Absence, Verified, Verification, Observation, Closure,
+Area, Blocks, Impact, Fix, Effort, Reason, Control, Review, Confidence, Class, Result, Priority,
 Likelihood, Residual, Owner, Exploitability),
 because those positions hold fixed-vocabulary tokens the validator compares literally.
 
@@ -167,7 +169,8 @@ before validating it.
 summary-table titles agree with their `### FND-` / `RSK-` / `REC-` / `TDR-` block headings,
 prose counts (`22 ustaleń`, `13 ryzyk`) equal the real register counts,
 no `##` / `###` heading stays verbatim in English,
-`- **Label:**` field values start uppercase and never wrap a governed English token in a code span,
+`- **Label:**` token-valued fields start uppercase - free-text labels keep their lowercase
+phrases - and values never wrap a governed English token in a code span,
 `TDD` never appears, and prose sentences stay within `--max-words` (warn-level).
 
 On a language-pair file the pair-skeleton convention applies:
@@ -216,12 +219,13 @@ or `No external sources consulted` - and it rejects repository-path rows in the 
 Pass `--repo-root <dir>` to also verify that `path:line` citations in finding `Targets` and
 `Evidence` fields resolve to real files whose recorded line numbers are within file length.
 
-When the `Report Style` row reads `hunt` or `review`,
-it applies that style's section contract from `process/report-format/hunt-style.md` or
-`process/report-format/review-style.md` instead of the baseline section list.
+When the `Report Style` row reads `hunt`, `hunt (legacy)`, `brief`, or `review (legacy)`,
+it applies that style's section contract from `process/report-format/hunt-style.md`,
+`process/report-format/hunt-legacy.md`, `process/report-format/brief-style.md`, or
+`process/report-format/review-legacy.md` instead of the baseline section list.
 
-A `review` report also validates the Execution Register rows, check statuses, `Level` fields,
-and the Retest Register trigger.
+A `review (legacy)` report also validates the Execution Register rows, check statuses,
+`Level` fields, and the Retest Register trigger.
 
 `lint-polish.py` lints Polish report output for the calques listed in the
 `Calque And Style Replacements` table of `translations/polish-language.md`, plus comma splices,
@@ -246,7 +250,7 @@ A copy without `--rules` resolves the rules file relative to the skill tree,
 so a `.tmp.` copy must always pass `--rules <path to polish-language.md>` - the tool prints a hint
 when zero forbidden forms load, because silent zero coverage is the failure mode to avoid.
 
-A `review` -style report carrying a `Review Scope: Structure` row in Document Information selects
+A `review (legacy)` report carrying a `Review Scope: Structure` row in Document Information selects
 the structure-variant contract from `process/report-format/structure-review.md`,
 which checks the eight canonical sections in order instead of the execution-register contract.
 
@@ -257,7 +261,8 @@ Is classified `legacy` and fails with a pointer to the current contract.
 A `REVIEW` -family filename with a custom suffix is classified `custom` and receives the shared
 mechanical checks only, since a user-supplied template overrides the canonical section contract.
 
-`link-glossary.py` applies to audit reports only: review reports carry no Glossary.
+`link-glossary.py` applies to audit reports and to `brief` reports that carry the optional
+trailing glossary - `review (legacy)` and `hunt` reports carry no Glossary.
 
 The validator prints at most ten problems per check, so fix, re-run the formatter,
 and re-validate until it reports zero issues rather than stopping after the first batch.
@@ -287,6 +292,9 @@ It is never run on a report artifact or inside an audited repository.
 
 `check-contents.py` verifies that `## Contents` tables in the skill's own documents still anchor to
 real `##` section headings.
+The checker anchors on the first `## Contents` heading in the file -
+a document that carries a `## Contents` spec section about the report
+must therefore keep its own Contents index first, and `--fix` populates it.
 
 Pass `--fix` to rewrite each row's recorded line to its section heading.
 When rows and headings pair one-to-one they are re-anchored in order.
@@ -379,7 +387,7 @@ python scripts/validate-report.py path/to/AUDIT.md [--repo-root path/to/repo] [-
 python scripts/validate-report.py --dump-contract
 python scripts/render-contract.py [--check] [process/report-contract.md]
 python scripts/new-report.py --style hunt --projects api,cli --output path/to/HUNT.md
-python scripts/new-report.py --style review --scope structure --output path/to/REVIEW.md
+python scripts/new-report.py --style review-legacy --scope structure --output path/to/REVIEW.md
 python scripts/lint-polish.py path/to/AUDYT.md --rules translations/polish-language.md
 python scripts/link-glossary.py path/to/AUDYT.md --lang pl [--check]
 python scripts/map-translation.py path/to/AUDYT.md --rules translations/polish-language.md [--en path/to/AUDIT-EN.md]

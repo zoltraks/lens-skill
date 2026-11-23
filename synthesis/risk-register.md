@@ -1,4 +1,4 @@
-# Unified Risk Register
+# Risk Register
 
 ## Purpose
 

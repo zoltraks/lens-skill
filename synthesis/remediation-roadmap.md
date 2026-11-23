@@ -186,7 +186,7 @@ which stays a P1 or P2 recommendation present in the roadmap.
 Recommendations summarize and plan, they do not introduce new findings.
 
 Every recommendation must trace back to a finding in the Technical Findings or an entry in the
-Unified Risk Register.
+Risk Register.
 
 Trade-off analyses appear both as a standalone Solution Comparison section (immediately after the
 Architectural Assessment) and embedded into relevant findings.

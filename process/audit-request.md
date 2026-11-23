@@ -124,7 +124,7 @@ For the configured shape, insert the clause directly after the opening paragraph
 ```
 **Parameters**
 
-- Report style: <audit, hunt, or review>.
+- Report style: <audit, hunt, hunt (legacy), brief, or review (legacy)>.
 - Detail level: <Brief, Standard, or Detailed>.
 - Evaluation scale: <1-10, 1-5, 1-3, or Stars>.
 - Evidence mode: <source-only, executed-readonly, or executed-commands as commissioned>.

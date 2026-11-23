@@ -18,7 +18,7 @@ For each category, open the matching `assessment/` file and apply its checklist.
 
 For a full audit, this includes the two additional categories `assessment/generated-code.md` and
 `assessment/copyright-review.md`, plus `assessment/structure-review.md` for the `audit` and `review`
-report styles - the structure assessment never loads under `hunt`.
+report styles - the structure assessment never loads under `hunt` in either variant.
 
 On a code-bearing subject `assessment/correctness-review.md` also loads for every style - its census
 results feed the `FNC` criteria and the findings register.

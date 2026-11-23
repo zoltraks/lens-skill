@@ -7,15 +7,16 @@ file. Placeholder cells carry ``<...>`` markers: content-bearing checks fail
 until the author replaces them, which is deliberate.
 
 Usage:
-  python new-report.py --style audit|hunt|review [--scope structure]
+  python new-report.py --style audit|audit-legacy|hunt|hunt-legacy|brief|review-legacy [--scope structure]
                        [--projects a,b] [--params file] [--model file]\n                       [--output report.md]
 
 ``--params`` reads a saved intake file (``work/lens-params.json``) carrying
 ``report_style``, ``review_scope``, ``projects``, ``subject``, ``revision``,
 ``language``, and ``detail_level`` so a second report in the same session
 reuses the locked intake values. Command-line options override the file.
-``--scope structure`` with ``--style review`` emits the structure-review
-variant contract instead of the execution-register one.
+``--scope structure`` with ``--style review-legacy`` emits the
+structure-review variant contract instead of the execution-register one.
+Bare ``review`` or ``check`` resolves to ``brief``.
 """
 
 from __future__ import annotations
@@ -33,6 +34,22 @@ AUDIT_SECTIONS = [
     "Software Bill of Materials",
     "License Compliance",
     "Health Dashboard",
+    "Delivery Practice",
+    "High-Level Observations",
+    "Auditing Methodology",
+    "Scoring Rubrics",
+    "Architectural Assessment",
+    "Structure Review",
+    "Solution Comparison",
+    "Strengths and What's Working",
+]
+
+# the default audit per-project span - the promoted dashboard sits in the
+# shared front, the rest keeps the legacy order so nothing is dropped
+DECISION_PROJECT_SECTIONS = [
+    "System Context",
+    "Software Bill of Materials",
+    "License Compliance",
     "Delivery Practice",
     "High-Level Observations",
     "Auditing Methodology",
@@ -74,6 +91,36 @@ DOC_INFO = [
     ("Verification Scope", "Static repository analysis - no execution"),
     ("Evidence Mode", "Source-only"),
     ("Subject Revision", "<commit> (branch <branch>)"),
+    ("Skill Version", "<version>"),
+    ("Time taken", "<mm:ss>"),
+]
+
+# The defect hunt overview table - the slimmer metadata set the defect
+# contract requires inside Document Information.
+DEFECT_DOC_INFO = [
+    ("Report Revision", "1.0"),
+    ("Report Date", "<YYYY-MM-DD>"),
+    ("Report Style", None),
+    ("Detail Level", None),
+    ("Language", "English"),
+    ("Assessment Scope", "<components and areas covered>"),
+    ("Evidence Mode", "Source-only"),
+    ("Subject Revision", "<commit> (branch <branch>)"),
+    ("Skill Version", "<version>"),
+    ("Time taken", "<mm:ss>"),
+]
+
+# The brief overview table - the compact metadata set the brief contract
+# requires inside Document Information.
+BRIEF_DOC_INFO = [
+    ("Report Revision", "1.0"),
+    ("Report Date", "<YYYY-MM-DD>"),
+    ("Report Style", None),
+    ("Language", "English"),
+    ("Evidence Mode", "Source-only"),
+    ("Subject Revision", "<commit> (branch <branch>)"),
+    ("Previous Report", "None"),
+    ("Known Horizon", "Next milestone"),
     ("Skill Version", "<version>"),
     ("Time taken", "<mm:ss>"),
 ]
@@ -153,7 +200,29 @@ def table(header: str, separator: str, rows: list[str] | None = None) -> str:
     cells = [c for c in header.split("|")[1:-1]]
     if cells:
         separator = "|" + "|".join("-" * max(len(c), 1) for c in cells) + "|"
-    return header + "\n" + separator + "\n" + "".join(rows or []) + "\n"
+    body = rows or []
+    cols = [c.strip() for c in cells]
+    parts_rows = [
+        (p if len(p) == len(cols) else None)
+        for p in (r.rstrip("\n").split("|")[1:-1] for r in body)
+    ]
+    if cols:
+        widths = [
+            max([len(c)] + [len(p[i].strip()) for p in parts_rows if p])
+            for i, c in enumerate(cols)
+        ]
+        lines = [
+            "| " + " | ".join(c.ljust(w) for c, w in zip(cols, widths)) + " |",
+            "|" + "|".join("-" * (w + 2) for w in widths) + "|",
+        ]
+        for row, parts in zip(body, parts_rows):
+            lines.append(
+                "| " + " | ".join(p.strip().ljust(w) for p, w in zip(parts, widths)) + " |"
+                if parts
+                else row.rstrip("\n")
+            )
+        return "\n".join(lines) + "\n\n"
+    return header + "\n" + separator + "\n" + "".join(body) + "\n"
 
 
 def skill_version() -> str:
@@ -167,11 +236,11 @@ def skill_version() -> str:
     return "<version>"
 
 
-def document_info(style: str, projects: list[str], params: dict) -> str:
+def document_info(style: str, fields: list, projects: list[str], params: dict) -> str:
     rows = []
-    for field, value in DOC_INFO:
+    for field, value in fields:
         if field == "Report Style":
-            value = style.capitalize()
+            value = style
         elif field == "Detail Level":
             value = params.get("detail_level", "Standard")
         elif field == "Evidence Mode":
@@ -240,12 +309,12 @@ def gate_confirmation(body: str, params: dict) -> str:
     return body
 
 
-def audit_skeleton(projects: list[str], params: dict) -> str:
+def audit_legacy_skeleton(projects: list[str], params: dict) -> str:
     multi = len(projects) > 1
     parts = [
         "# <subject> Audit Report\n\n",
         heading(2, "Document Information"),
-        document_info("audit", projects, params),
+        document_info("Audit (legacy)", DOC_INFO, projects, params),
         heading(2, "Audit Coverage"),
         COVERAGE_HEADER + "\n",
     ]
@@ -270,15 +339,256 @@ def audit_skeleton(projects: list[str], params: dict) -> str:
     return gate_confirmation("".join(parts), params)
 
 
-def audit_project_body(project: str, number: int = 1) -> list[str]:
+def slug(name: str) -> str:
+    return re.sub(r"[^\w -]", "", name.lower()).replace(" ", "-")
+
+
+def decision_dashboard(projects: list[str]) -> list[str]:
+    multi = len(projects) > 1
+    parts: list[str] = []
+    if multi:
+        parts.append(
+            table(
+                "| Project | Published score | Readiness | Key qualification |",
+                "|---|---|---|---|",
+                [
+                    f"| {name} | <mean>/<scale> (<band>) | <readiness> |"
+                    " <qualification> |\n"
+                    for name in projects
+                ],
+            )
+        )
+    parts.append("**Legend**\n\n")
+    parts.append(
+        table(
+            "| Band | Score |",
+            "|---|---|",
+            [
+                "| Poor | 1-3 |\n",
+                "| Average | 4-6 |\n",
+                "| Good | 7-8 |\n",
+                "| Excellent | 9-10 |\n",
+            ],
+        )
+    )
+    parts.append(heading(3, "Scorecard Summary"))
+    if multi:
+        parts.append(
+            table(
+                "| Dimension | " + " | ".join(projects) + " |",
+                "|---|" + "---|" * (len(projects) + 1),
+            )
+        )
+    else:
+        parts.append(table("| Dimension | Score |", "|---|---|"))
+    parts.append(
+        "**Interpretation limits** - <what `Ready` does and does not claim under the\n"
+        "stated evidence - project readiness, never deployment approval>\n\n"
+    )
+    parts.append("**Risk Map**\n\n")
+    parts.append(
+        table(
+            "| Impact | Low | Medium | High |",
+            "|---|---|---|---|",
+            [
+                "| Critical | <RSK-XXX> | <RSK-XXX> | <RSK-XXX> |\n",
+                "| High | <RSK-XXX> | <RSK-XXX> | <RSK-XXX> |\n",
+                "| Medium | <RSK-XXX> | <RSK-XXX> | <RSK-XXX> |\n",
+                "| Low | <RSK-XXX> | <RSK-XXX> | <RSK-XXX> |\n",
+            ],
+        )
+    )
+    parts.append("**Team & Continuity**\n\n")
+    parts.append(
+        "<contributor/continuity summary anchored to EVD-XXX or `Not collected`>\n\n"
+    )
+    return parts
+
+
+def exec_summary_rows(projects: list[str]) -> list[str]:
+    parts: list[str] = []
+    if len(projects) > 1:
+        parts.append(
+            table(
+                "| Project | Score | Lowest | Risks | Readiness |",
+                "|---|---|---|---|---|",
+                [
+                    f"| {name} | <mean>/<scale> (<band>) | <dimension> <score> |"
+                    " <top RSK-XXX> | <readiness> |\n"
+                    for name in projects
+                ],
+            )
+        )
+    else:
+        parts.append(
+            table(
+                "| Field | Value |",
+                "|---|---|",
+                [
+                    "| System type | <prototype / codebase / production system / proposal> |\n",
+                    "| Scope | <what was reviewed and what was excluded> |\n",
+                    "| Source basis | <running system / inspected code / description> |\n",
+                    "| Maturity level | <maturity level> |\n",
+                    "| **Overall score** | <mean>/<scale> (<band>) |\n",
+                ],
+            )
+        )
+        parts.append(
+            table(
+                "| Score | Value | Basis |",
+                "|---|---|---|",
+                [
+                    "| Product Quality | <score>/<scale> (<band>) | <formula>, lowest <dimension> <score> |\n",
+                    "| Engineering Process | <score>/<scale> (<band>) or Not published | <formula>, lowest <dimension> <score> |\n",
+                ],
+            )
+        )
+        parts.append("The overall score <blend wording - Product-only, ceiling>.\n\n")
+        parts.append("Lowest-scoring applicable dimension: <dimension> <score>.\n\n")
+    return parts
+
+
+def immediate_actions(projects: list[str]) -> str:
+    multi = len(projects) > 1
+    header = (
+        "| Rec | Priority | Project | Recommendation |"
+        if multi
+        else "| Rec | Priority | Recommendation |"
+    )
+    row = (
+        f"| REC-001 | P1 | {projects[0]} | <recommendation> |\n"
+        if multi
+        else "| REC-001 | P1 | <recommendation> |\n"
+    )
+    return (
+        "The five highest-priority recommendations by roadmap priority - the complete\n"
+        "register is in [Remediation Roadmap](#remediation-roadmap).\n\n"
+        + table(header, "|---|", [row])
+        + "<when more mandatory actions exist than the preview shows, say so>\n\n"
+    )
+
+
+def contents_links(projects: list[str]) -> str:
+    groups = [
+        (
+            "Scope and context",
+            [
+                "Document Information",
+                "Audit Coverage",
+                "Scope Exclusions",
+                "Known Limitations",
+                "Project Inventory",
+                "System Context",
+            ],
+        ),
+        (
+            "Overview and decisions",
+            [
+                "Executive Summary",
+                "Immediate Actions",
+                "Changes Since Previous Audit",
+                "Health Dashboard",
+                "Scorecard Summary",
+                "High-Level Observations",
+                "Strengths and What's Working",
+            ],
+        ),
+        (
+            "Dependencies and conformance",
+            [
+                "Software Bill of Materials",
+                "License Compliance",
+                "API Contract Conformance",
+                "Skill Definition Conformance",
+                "Guidance Conformance",
+                "AI System Assessment",
+                "Standards Conformance",
+                "Requirements Conformance",
+                "Baseline Conformance",
+                "Structure Conformance",
+                "API Compatibility & Versioning Discipline",
+            ],
+        ),
+        (
+            "Methodology and evidence",
+            [
+                "Auditing Methodology",
+                "Scoring Rubrics",
+                "Further Verification",
+                "Executed Evidence",
+                "Validation Protocol",
+            ],
+        ),
+        (
+            "Engineering assessment",
+            [
+                "Delivery Practice",
+                "Architectural Assessment",
+                "Structure Review",
+                "Solution Comparison",
+                "Threat Model",
+                "Code Style",
+            ],
+        ),
+        (
+            "Findings and action",
+            ["Technical Findings", "Risk Register", "Remediation Roadmap"],
+        ),
+        ("Glossary and sources", ["Glossary Index", "Reference Sources"]),
+    ]
+    lines: list[str] = []
+    for label, names in groups:
+        lines.append(f"**{label}**\n\n")
+        for name in names:
+            if name == "Project Inventory" and len(projects) < 2:
+                continue
+            lines.append(f"- [{name}](#{slug(name)})\n")
+        lines.append("\n")
+    return "".join(lines)
+
+
+def audit_skeleton(projects: list[str], params: dict) -> str:
+    multi = len(projects) > 1
+    parts = [
+        "# <subject> Audit Report\n\n",
+        heading(2, "Document Information"),
+        document_info("Audit", DOC_INFO, projects, params),
+        heading(2, "Contents"),
+        contents_links(projects),
+        heading(2, "Audit Coverage"),
+        COVERAGE_HEADER + "\n",
+    ]
+    if multi:
+        parts += [heading(2, "Project Inventory"), inventory(projects)]
+    parts.append(heading(2, "Executive Summary"))
+    parts += exec_summary_rows(projects)
+    parts.append(
+        "<summary description, coverage and risk flags, readiness threshold>\n\n"
+    )
+    parts.append(heading(3, "Immediate Actions"))
+    parts.append(immediate_actions(projects))
+    parts.append(heading(2, "Health Dashboard"))
+    parts += decision_dashboard(projects)
+    for index, name in enumerate(projects if multi else [""]):
+        if multi:
+            parts.append(heading(2, name))
+        parts += audit_project_body(name, index + 1, decision=True)
+    parts += audit_shared_tail(multi, projects)
+    return gate_confirmation("".join(parts), params)
+
+
+def audit_project_body(
+    project: str, number: int = 1, decision: bool = False
+) -> list[str]:
     level = 3 if project else 2
-    suffix = f" ({project})" if project else ""
+    suffix = ""
     # Register identifiers number globally across the whole report - each
     # project's blocks continue the single FND/RSK/REC sequences.
     fnd_id = f"FND-SEC-{number:03d}"
     rsk_id = f"RSK-{number:03d}"
     parts: list[str] = []
-    for section in AUDIT_SECTIONS:
+    sections = DECISION_PROJECT_SECTIONS if decision else AUDIT_SECTIONS
+    for section in sections:
         parts.append(heading(level, section))
         if section == "Executive Summary":
             parts.append(
@@ -369,9 +679,9 @@ def audit_project_body(project: str, number: int = 1) -> list[str]:
             parts.append(table("| Observation |", "|---|", ["| <observation> |\n"]))
     parts.append(heading(level, "Technical Findings"))
     parts.append(finding_summary_table([project] if project else [], fnd_id))
-    parts.append(FINDING_BLOCK.format(suffix=suffix, targets=qualified(project, fnd_id), fnd_id=fnd_id) + "\n")
-    parts.append(heading(level, "Unified Risk Register"))
-    parts.append(RISK_BLOCK.format(suffix=suffix, rsk_id=rsk_id, fnd_id=fnd_id) + "\n")
+    parts.append(FINDING_BLOCK.format(suffix=suffix, targets="<affected components>", fnd_id=fnd_id) + "\n")
+    parts.append(heading(level, "Risk Register"))
+    parts.append(RISK_BLOCK.format(suffix=suffix, rsk_id=rsk_id, fnd_id=fnd_ref(fnd_id)) + "\n")
     return parts
 
 
@@ -396,19 +706,19 @@ def roadmap_sections(projects: list[str]) -> list[str]:
         fnd_id = f"FND-SEC-{number:03d}"
         rec_id = f"REC-{number:03d}"
         cells = f"{name} | " if multi else ""
-        suffix = f" ({name})" if name else ""
+        suffix = ""
         rows.append(
-            f"| {cells}{rec_id} | P1 | {fnd_id} | <recommendation> | <impact> |"
+            f"| {cells}{rec_id} | P1 | {fnd_ref(fnd_id)} | <recommendation> | <impact> |"
             " <effort> | <complexity> | None | <verification step> |\n"
         )
         blocks.append(
-            REC_BLOCK.format(suffix=suffix, target=fnd_id, rec_id=rec_id) + "\n"
+            REC_BLOCK.format(suffix=suffix, target=fnd_ref(fnd_id), rec_id=rec_id) + "\n"
         )
         class_rows.append(
-            f"| {cells}{rec_id} | <action> | Recommended | {fnd_id} - <short reason> |\n"
+            f"| {cells}{rec_id} | <action> | Recommended | {fnd_ref(fnd_id)} - <short reason> |\n"
         )
         followup_rows.append(
-            f"| {cells}{fnd_id} | P1 | <verifiable artifact> | <milestone> |\n"
+            f"| {cells}{fnd_ref(fnd_id)} | P1 | <verifiable artifact> | <milestone> |\n"
         )
     return [
         heading(2, "Remediation Roadmap"),
@@ -471,16 +781,16 @@ def audit_shared_tail(multi: bool, projects: list[str] | None = None) -> list[st
     return parts
 
 
-def qualified(project: str, fnd_id: str) -> str:
-    return f"{project}::{fnd_id}" if project else fnd_id
+def fnd_ref(fnd_id: str) -> str:
+    return f"[{fnd_id}](#{fnd_id.lower()}-finding-title)"
 
 
-def hunt_skeleton(projects: list[str], params: dict) -> str:
+def hunt_legacy_skeleton(projects: list[str], params: dict) -> str:
     multi = len(projects) > 1
     parts = [
         "# <subject> Audit Report\n\n",
         heading(2, "Document Information"),
-        document_info("hunt", projects, params),
+        document_info("Hunt (legacy)", DOC_INFO, projects, params),
         heading(2, "Audit Coverage"),
         COVERAGE_HEADER + "\n",
     ]
@@ -502,7 +812,8 @@ def hunt_skeleton(projects: list[str], params: dict) -> str:
             ["| <gate> | Not assessable | <basis> |\n"],
         ),
         "Top five actions:\n\n",
-        "1. REC-001 - <first remediation step> (FND-SEC-001).\n\n",
+        "1. REC-001 - <first remediation step> "
+        "([FND-SEC-001](#fnd-sec-001-finding-title)).\n\n",
         "Strengths:\n\n",
         "- <evidenced positive>\n\n",
         heading(2, "System Context"),
@@ -524,7 +835,8 @@ def hunt_skeleton(projects: list[str], params: dict) -> str:
         table(
             "| Hop | Status | Evidence |",
             "|---|---|---|",
-            ["| <hop> | conforming | <EVD-XXX> |\n", "| <hop> | failing | <EVD-XXX> (FND-SEC-001) |\n"],
+            ["| <hop> | conforming | <EVD-XXX> |\n",
+             "| <hop> | failing | <EVD-XXX> ([FND-SEC-001](#fnd-sec-001-finding-title)) |\n"],
         ),
         heading(2, "Domain Findings"),
         finding_summary_table(projects),
@@ -533,8 +845,8 @@ def hunt_skeleton(projects: list[str], params: dict) -> str:
         parts.append(heading(3, domain))
         parts.append(
             HUNT_FINDING_BLOCK.format(
-                suffix=f" ({projects[0]})" if multi else "",
-                targets=qualified(projects[0] if multi else "", "FND-SEC-001"),
+                suffix="",
+                targets="<affected components>",
                 fnd_id="FND-SEC-001",
             )
             + "\n"
@@ -542,20 +854,20 @@ def hunt_skeleton(projects: list[str], params: dict) -> str:
     parts += [
         heading(2, "Risk Register"),
         RISK_BLOCK.format(
-            suffix=f" ({projects[0]})" if multi else "",
+            suffix="",
             rsk_id="RSK-001",
-            fnd_id="FND-SEC-001",
+            fnd_id=fnd_ref("FND-SEC-001"),
         ) + "\n",
         heading(2, "Remediation Phases"),
         heading(3, "Stabilize"),
         table(
             "| Rec | Recommendation | Resolves | Effort | Breaking |",
             "|---|---|---|---|---|",
-            [f"| REC-001 | <recommendation> | {qualified(projects[0] if multi else '', 'FND-SEC-001')} | <effort> | None |\n"],
+            [f"| REC-001 | <recommendation> | {fnd_ref('FND-SEC-001')} | <effort> | None |\n"],
         ),
         REC_BLOCK.format(
-            suffix=f" ({projects[0]})" if multi else "",
-            target=qualified(projects[0] if multi else "", "FND-SEC-001"),
+            suffix="",
+            target=fnd_ref("FND-SEC-001"),
             rec_id="REC-001",
         )
         + "\n",
@@ -581,21 +893,222 @@ def hunt_skeleton(projects: list[str], params: dict) -> str:
 
 HUNT_FINDING_BLOCK = FINDING_BLOCK
 
+DEFECT_FINDING_BLOCK = """### {fnd_id}: <finding title>{suffix}
+
+<what the problem is, where it lives, and why it is a defect>
+
+- **Component:** <component>
+- **Class:** Defect
+- **Severity:** High
+- **Status:** Open
+- **Disposition:** Planned
+- **Priority:** P1
+- **Confidence:** Medium
+- **Impact:** <concrete consequence>
+- **Evidence:** <source locations and inspected basis>
+- **Recommendation:** <remediation action>
+- **Verification:** <the check that establishes resolution>
+"""
+
+
+def defect_summary_table(projects: list[str]) -> str:
+    if len(projects) > 1:
+        return table(
+            "| Project | Finding | Severity | Class | Status | Disposition | Priority | Title |",
+            "|---|---|---|---|---|---|---|---|",
+            [
+                f"| {projects[0]} | FND-SEC-001 | High | Defect | Open | Planned | P1 | <title> |\n"
+            ],
+        )
+    return table(
+        "| Finding | Severity | Class | Status | Disposition | Priority | Title |",
+        "|---|---|---|---|---|---|---|",
+        ["| FND-SEC-001 | High | Defect | Open | Planned | P1 | <title> |\n"],
+    )
+
+
+def defect_skeleton(projects: list[str], params: dict) -> str:
+    multi = len(projects) > 1
+    parts = [
+        "# <subject> Audit Report\n\n",
+        heading(2, "Document Information"),
+        document_info("Hunt", DEFECT_DOC_INFO, projects, params),
+        "<executive summary - overall condition, release readiness,\n"
+        "key defects, accepted or deferred risks, immediate actions>\n\n",
+        heading(2, "Contents"),
+        "**Scope and context**\n\n"
+        "- [Scope and Limitations](#scope-and-limitations)\n\n"
+        "**Findings and plan**\n\n"
+        "- [Health Assessment](#health-assessment)\n"
+        "- [Findings](#findings)\n"
+        "- [Remediation Plan](#remediation-plan)\n"
+        "- [Previous Findings](#previous-findings)\n\n"
+        "**Evidence and reference**\n\n"
+        "- [Glossary](#glossary)\n\n",
+        heading(2, "Health Assessment"),
+        "**Readiness:** Not Assessed\n\n",
+        "Defect severity and class distribution:\n\n",
+        table(
+            "| Severity | Defect | Improvement | Hypothesis | Observation |",
+            "|---|---|---|---|---|",
+            [
+                "| Critical | 0 | 0 | 0 | 0 |\n",
+                "| High | 1 | 0 | 0 | 0 |\n",
+                "| Medium | 0 | 0 | 0 | 0 |\n",
+                "| Low | 0 | 0 | 0 | 0 |\n",
+                "| Informational | 0 | 0 | 0 | 0 |\n",
+            ],
+        ),
+        "Disposition summary:\n\n",
+        table(
+            "| Disposition | Findings |",
+            "|---|---|",
+            ["| Planned | 1 |\n"],
+        ),
+        "<figures - unresolved defects, hypotheses, accepted risks,\n"
+        "deferred findings, release blockers>\n\n",
+    ]
+    if multi:
+        parts += [heading(2, "Project Inventory"), inventory(projects)]
+    parts += [
+        heading(2, "Findings"),
+        defect_summary_table(projects),
+    ]
+    for domain in ("Security",):
+        parts.append(heading(3, domain))
+        parts.append(
+            DEFECT_FINDING_BLOCK.format(
+                suffix="",
+                fnd_id="FND-SEC-001",
+            )
+            + "\n"
+        )
+    parts += [
+        heading(2, "Remediation Plan"),
+        table(
+            "| Priority | Finding | Action | Depends | Verification |",
+            "|---|---|---|---|---|",
+            [
+                "| P1 | [FND-SEC-001](#fnd-sec-001-finding-title) | <remediation step> | None | "
+                "<the check that establishes resolution> |\n"
+            ],
+        ),
+        heading(2, "Previous Findings"),
+        "This is the first assessment of the subject - no previous findings exist.\n\n",
+        heading(2, "Scope and Limitations"),
+        "- Assessed components: <areas covered>\n"
+        "- Excluded areas: <areas out of scope>\n"
+        "- Unexecuted checks: <checks the evidence mode did not run>\n"
+        "- Evidence limitations: <what could not be established>\n\n",
+        heading(2, "Glossary"),
+        "Optional - the last section when rendered. One row per term the report uses\n"
+        "that a reader would not already know, omitted entirely when there are none.\n\n",
+        table(
+            "| Term | Definition |",
+            "|---|---|",
+            [
+                "| FND | Finding identifier - prefix of the canonical finding blocks |\n",
+                "| EVD | Evidence identifier - prefix of evidence ledger rows |\n",
+            ],
+        ).rstrip("\n") + "\n",
+    ]
+    return gate_confirmation("".join(parts), params)
+
+
 REVIEW_FINDING_BLOCK = HUNT_FINDING_BLOCK.replace(
     "- **Evidence:**",
     "- **Level:** Source - <inspected basis>\n- **Evidence:**",
 )
 
 
-def review_skeleton(projects: list[str], params: dict) -> str:
-    multi = len(projects) > 1
-    executed = params.get("evidence_mode", "source-only") != "source-only"
-    suffix = f" ({projects[0]})" if multi else ""
-    target = qualified(projects[0] if multi else "", "FND-SEC-001")
+BRIEF_FINDING_BLOCK = """### {fnd_id}: <finding title>{suffix}
+
+<what is wrong, where it lives, and why it is a defect>
+
+- **Area:** <component or area>
+- **Severity:** High
+- **Priority:** P1
+- **Status:** Open
+- **Verification:** Src
+- **Observation:** <what is wrong and where it lives>
+- **Impact:** <concrete consequence if unfixed>
+- **Fix:** <remediation action>
+- **Effort:** <Small | Medium | Large>
+- **Closure:** <the check that closes it>
+"""
+
+
+def brief_skeleton(projects: list[str], params: dict) -> str:
     parts = [
         "# <subject> Audit Report\n\n",
         heading(2, "Document Information"),
-        document_info("review", projects, params),
+        document_info("Brief", BRIEF_DOC_INFO, projects, params),
+        heading(2, "Current State"),
+        "**Verdict:** Not assessable\n\n",
+        table(
+            "| Gate | Result | Basis |",
+            "|---|---|---|",
+            [
+                "| Laboratory | Not assessable | <basis> |\n",
+                "| Controlled Sharing | Not assessable | <basis> |\n",
+                "| Production | Not assessable | <basis> |\n",
+            ],
+        ),
+        table(
+            "| Status | Findings |",
+            "|---|---|",
+            ["| Open | 1 |\n"],
+        ),
+        "### Immediate Actions\n\n- [FND-SEC-001](#fnd-sec-001-finding-title) - <top action>.\n\n",
+        "### What Works\n\n- <evidenced positive>\n\n",
+        heading(2, "Findings"),
+        "One row per finding - the summary table is the complete register, with a\n"
+        "short summary in the Fix cell.\n\n",
+        table(
+            "| Finding | Area | Title | Severity | Priority | Status | Verification | Fix |",
+            "|---|---|---|---|---|---|---|---|---|",
+            ["| FND-SEC-001 | <area> | <title> | High | P1 | Open | Src | <fix> |\n"],
+        ),
+        BRIEF_FINDING_BLOCK.format(
+            suffix="",
+            fnd_id="FND-SEC-001",
+        )
+        + "\n",
+        heading(2, "Plan"),
+        table(
+            "| Phase | Target | Findings | Action |",
+            "|---|---|---|---|",
+            ["| Immediate | <version or phase> | [FND-SEC-001](#fnd-sec-001-finding-title) | <the work in one line> |\n"],
+        ),
+        heading(2, "Known And Deferred"),
+        "None recorded.\n\n",
+        heading(2, "Evidence And Trust"),
+        "- Evidence mode: `source-only` - findings rest on source evidence alone.\n"
+        "- Coverage: <components assessed, check categories run, deliberate omissions>\n"
+        "- Environment failures: <checks that failed for environment reasons, never "
+        "product defects>\n"
+        "- Unverified items: <every `Hyp` finding and weaker-evidence claim>\n\n",
+        heading(2, "Glossary"),
+        "Optional - always the last section when rendered, one row per term a\n"
+        "reader needs to parse this report, omitted entirely when there are none.\n\n",
+        table(
+            "| Term | Meaning |",
+            "|---|---|",
+            ["| <project term> | <one-line meaning> |\n"],
+        ).rstrip("\n") + "\n",
+    ]
+    return gate_confirmation("".join(parts), params)
+
+
+def review_skeleton(projects: list[str], params: dict) -> str:
+    multi = len(projects) > 1
+    executed = params.get("evidence_mode", "source-only") != "source-only"
+    suffix = ""
+    target = fnd_ref("FND-SEC-001")
+    parts = [
+        "# <subject> Audit Report\n\n",
+        heading(2, "Document Information"),
+        document_info("Review (legacy)", DOC_INFO, projects, params),
         heading(2, "Audit Coverage"),
         COVERAGE_HEADER + "\n",
     ]
@@ -617,7 +1130,8 @@ def review_skeleton(projects: list[str], params: dict) -> str:
             ["| <gate> | Not assessable | <basis> |\n"],
         ),
         "Top five actions:\n\n",
-        "1. REC-001 - <first remediation step> (FND-SEC-001).\n\n",
+        "1. REC-001 - <first remediation step> "
+        "([FND-SEC-001](#fnd-sec-001-finding-title)).\n\n",
         "Strengths:\n\n",
         "- <evidenced positive>\n\n",
         heading(2, "System Context"),
@@ -648,9 +1162,9 @@ def review_skeleton(projects: list[str], params: dict) -> str:
         heading(2, "Domain Findings"),
         finding_summary_table(projects),
         heading(3, "Security"),
-        REVIEW_FINDING_BLOCK.format(suffix=suffix, targets=target, fnd_id="FND-SEC-001") + "\n",
+        REVIEW_FINDING_BLOCK.format(suffix=suffix, targets="<affected components>", fnd_id="FND-SEC-001") + "\n",
         heading(2, "Risk Register"),
-        RISK_BLOCK.format(suffix=suffix, rsk_id="RSK-001", fnd_id="FND-SEC-001") + "\n",
+        RISK_BLOCK.format(suffix=suffix, rsk_id="RSK-001", fnd_id=fnd_ref("FND-SEC-001")) + "\n",
         heading(2, "Improvement Plan"),
         heading(3, "Stabilize"),
         table(
@@ -717,7 +1231,7 @@ def structure_review_skeleton(projects: list[str], params: dict) -> str:
     parts = [
         "# <subject> Audit Report\n\n",
         heading(2, "Document Information"),
-        document_info("review", projects, {**params, "review_scope": "structure"}),
+        document_info("Review (legacy)", DOC_INFO, projects, {**params, "review_scope": "structure"}),
         heading(2, "Project Context"),
         table(
             "| Field | Value |",
@@ -740,7 +1254,7 @@ def structure_review_skeleton(projects: list[str], params: dict) -> str:
             ["| 1 | <directory> | <contents> | <role> |\n"],
         ),
         heading(2, "Findings"),
-        STR_FINDING_BLOCK.format(suffix="", targets="FND-STR-001", fnd_id="FND-STR-001") + "\n",
+        STR_FINDING_BLOCK.format(suffix="", targets="<affected components>", fnd_id="FND-STR-001") + "\n",
         heading(2, "Positive Practices"),
         table(
             "| Practice | Evidence |",
@@ -1079,28 +1593,60 @@ def main(argv: list[str]) -> int:
     params: dict = {}
     if options["params"]:
         params = json.loads(Path(options["params"]).read_text(encoding="utf-8"))
-    style = options["style"] or params.get("report_style") or "audit"
-    if style not in ("audit", "hunt", "review"):
-        print(f"unknown style '{style}' - expected audit, hunt, or review")
+    raw_style = options["style"] or params.get("report_style") or "audit"
+    audit_legacy = raw_style.lower() in (
+        "audit (legacy)",
+        "audit-legacy",
+        "audit_legacy",
+    )
+    hunt_legacy = raw_style.lower() in (
+        "hunt (legacy)",
+        "hunt-legacy",
+        "hunt_legacy",
+    )
+    review_legacy = raw_style.lower() in (
+        "review (legacy)",
+        "review-legacy",
+        "review_legacy",
+    )
+    lowered = raw_style.lower()
+    style = (
+        "audit" if audit_legacy
+        else "hunt" if hunt_legacy
+        else "review" if review_legacy
+        else "brief" if lowered in ("review", "check", "brief")
+        else raw_style
+    )
+    if style not in ("audit", "hunt", "review", "brief"):
+        print(
+            f"unknown style '{style}' - expected audit, audit (legacy), hunt, "
+            "hunt (legacy), brief, or review (legacy)"
+        )
         return 1
     scope = options["scope"] or params.get("review_scope") or "full"
     if scope != "structure" and scope != "full":
         print(f"unknown scope '{scope}' - expected full or structure")
         return 1
     if scope == "structure" and style != "review":
-        print("--scope structure only applies to --style review")
+        print("--scope structure only applies to --style review (legacy)")
         return 1
     projects = (
         [name.strip() for name in options["projects"].split(",") if name.strip()]
         if options["projects"]
         else list(params.get("projects", []))
     )
-    if style == "hunt":
-        body = hunt_skeleton(projects, params)
+    if style == "hunt" and hunt_legacy:
+        body = hunt_legacy_skeleton(projects, params)
+    elif style == "hunt":
+        body = defect_skeleton(projects, params)
     elif style == "review" and scope == "structure":
         body = structure_review_skeleton(projects, params)
     elif style == "review":
         body = review_skeleton(projects, params)
+    elif style == "brief":
+        body = brief_skeleton(projects, params)
+    elif style == "audit" and audit_legacy:
+        body = audit_legacy_skeleton(projects, params)
     else:
         body = audit_skeleton(projects, params)
         if options["model"]:

@@ -29,10 +29,10 @@ On completion, proceed to `process/audit-workflow/category-assessment.md`.
 | Read-depth Floor                                  | 208  | Read-depth Floor                                  |
 | Check-execution Reconciliation                    | 219  | Check-execution Reconciliation                    |
 | Shared Evidence Capture (`work/audit-model.json`) | 235  | Shared Evidence Capture (`work/audit-model.json`) |
-| Verification Plan                                 | 261  | Verification Plan                                 |
-| No Execution                                      | 319  | No Execution                                      |
-| Evidence Ledger                                   | 346  | Evidence Ledger                                   |
-| Claim And Evidence Traceability                   | 384  | Claim And Evidence Traceability                   |
+| Verification Plan                                 | 262  | Verification Plan                                 |
+| No Execution                                      | 320  | No Execution                                      |
+| Evidence Ledger                                   | 347  | Evidence Ledger                                   |
+| Claim And Evidence Traceability                   | 385  | Claim And Evidence Traceability                   |
 
 ## Evidence Gathering
 
@@ -247,7 +247,8 @@ per Model Quality Checks in `process/audit-model.md`.
 
 When the session plans more than one report - for example an `audit` and a `hunt` over the same
 snapshot - the same model registers serve every style: the audit renders its ledger, methodology,
-and register sections from `evidence[]`, and the hunt renders the same rows plus the journey traces.
+and register sections from `evidence[]`, and the hunt renders the same rows - the `hunt (legacy)`
+variant adding journey traces, the defect contract folding them into optional appendixes.
 
 Style changes presentation, never the captured evidence.
 
@@ -289,7 +290,7 @@ and the project itself still never execute,
 and their results are `Executed` evidence in the Executed Evidence rather than `Not run` rows.
 
 Under `executed-commands` the commissioned non-mutating commands run - tests and builds included -
-and land in the same register, or in the Execution Register under `Report Style: review`,
+and land in the same register, or in the Execution Register under `Report Style: Review`,
 each with its status token (`Pass` / `Fail` / `Error` / `Blocked` / `Skipped` / `Not run` / `N/A`).
 
 For each selected check, record what the repository itself shows: a documented command,

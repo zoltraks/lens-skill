@@ -2,13 +2,14 @@
 
 ## Purpose
 
-> **Scope:** The Structure Review section, structure findings in review-style reports,
-> and the structure-review variant contract **Key items:** section layout, verdict table,
+> **Scope:** The Structure Review section, structure findings in `brief` and `review (legacy)`
+> reports, and the structure-review variant contract **Key items:** section layout, verdict table,
 > `FND-STR-` pillar, variant section order
 
 This file defines how structure assessment output renders:
-as a baseline section in `audit` -style reports, as findings inside `review` -style reports,
-and as a standalone structure-scoped variant of the `review` style.
+as a baseline section in `audit` -style reports, as findings inside `brief` and
+`review (legacy)` reports,
+and as a standalone structure-scoped variant of the `review` genre.
 
 The analysis itself is governed by `assessment/structure-review.md`.
 
@@ -65,15 +66,19 @@ each verdict marked `N/A` and the justification stated, never silently omitted.
 In a multi-project report the section renders once per project block,
 per `process/report-format/multi-project.md`.
 
-## Structure Findings In Review-Style Reports
+## Structure Findings In Brief And Review Reports
 
-The `review` style has no Structure Review section.
+Neither the `brief` nor the `review (legacy)` style carries a Structure Review section.
 
-Structure findings render inside Domain Findings under the `### Maintainability` domain,
-carrying `FND-STR-` identifiers and the standard finding block schema with the `Level` field per
-`process/report-format/findings-registers.md`.
+In a `review (legacy)` report, structure findings render inside Domain Findings under the
+`### Maintainability` domain, carrying `FND-STR-` identifiers and the standard finding block
+schema with the `Level` field per `process/report-format/findings-registers.md`.
 
-A `hunt` report never loads the structure assessment and never renders `FND-STR-` findings.
+In a `brief` report they render as `FND-STR-` canonical records in Findings,
+per `process/report-format/brief-style.md`.
+
+A `hunt` report in either variant never loads the structure assessment and never renders
+`FND-STR-` findings.
 
 ## Structure Review Variant
 

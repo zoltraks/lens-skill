@@ -13,7 +13,7 @@ names and structure are readable to a programmer.
 Apply `principles/evaluation-rules.md` throughout.
 
 This assessment is mandatory for `audit` and `review` reports on code-bearing subjects and never
-loads under `Report Style: hunt`.
+loads under `Report Style: hunt` in either variant.
 
 A subject with no source code marks the category `N/A` and records the omission in Scope Exclusions.
 

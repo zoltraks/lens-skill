@@ -18,16 +18,18 @@ when the user does not choose, `combined` applies.
 
 Each project is assessed independently regardless of layout.
 
-**Document Information** appears once at the top.
+**Document Information** appears once - at the top of the report under both `audit`
+and `audit (legacy)`.
 
 The title uses the repository or directory name, not a single project name.
 
 Include a `Projects` row in the table listing the audited projects.
 
 The **Audit Coverage** table appears once,
-immediately after Document Information and before the Project Inventory.
+immediately after Contents and before the Project Inventory.
 
-**Project Inventory** appears after the Coverage Matrix.
+**Project Inventory** appears before the combined Executive Summary
+under the `audit` style, or after the Coverage Matrix under `audit (legacy)`.
 
 It lists each project confirmed at the intake inclusion question with its path, version, provenance,
 and a one-line description.
@@ -57,8 +59,9 @@ under the `combined` layout it is the project's row in the shared registers.
 When the report language is not English,
 apply the column header translations from the matching `translations/` file.
 
-**Combined summary sections** appear immediately after the Project Inventory,
-so orientation material precedes per-project detail.
+**Combined summary sections** close the `audit` report's front block - the shared
+Executive Summary, Changes Since Previous Audit, and Health Dashboard -
+so the decision material follows the metadata and precedes per-project detail.
 
 The **Executive Summary** is a condensed combined summary.
 
@@ -78,39 +81,38 @@ project-qualified finding IDs.
 
 Do not repeat the section inside the per-project blocks.
 
-**Per-project sections** follow the combined summary sections.
+**Per-project sections** follow the shared context sections under `project-layout: separate`.
 
 Each project gets a level-2 heading (`##`)
 in the ``Project ` <name> ` `` form - for example ``## Project ` api-service ` `` - followed by the
-full set of report sections for that project:
+assessment and registers span for that project:
 
-- Executive Summary
-- System Context (with the Technology Stack subsection)
-- Software Bill of Materials
-- License Compliance
-- Health Dashboard
-- Delivery Practice
-- High-Level Observations
-- Auditing Methodology
-- Scoring Rubrics
 - Architectural Assessment (with conditional subsections)
 - Structure Review
 - Solution Comparison
 - Threat Model *(conditional)*
+- Delivery Practice
+- Code Style *(conditional)*
+- Software Bill of Materials
+- License Compliance
 - API Contract Conformance *(conditional)*
-- Skill Definition Conformance *(conditional)*
-- Guidance Conformance *(conditional)*
-- AI System Assessment *(conditional)*
-- Standards Conformance *(conditional)*
 - Requirements Conformance *(conditional)*
+- Standards Conformance *(conditional)*
 - Baseline Conformance *(conditional)*
 - Structure Conformance *(conditional)*
-- Code Style *(conditional)*
+- Guidance Conformance *(conditional)*
+- Skill Definition Conformance *(conditional)*
+- AI System Assessment *(conditional)*
 - API Compatibility & Versioning Discipline *(conditional)*
-- Strengths and What's Working
 - Technical Findings
 - Technical Debt Register *(conditional)*
-- Unified Risk Register
+- Risk Register
+
+Under `audit (legacy)` each project block carries the full legacy section set instead -
+Executive Summary, System Context, the dependency sections, Health Dashboard, Delivery
+Practice, High-Level Observations, Auditing Methodology, Scoring Rubrics, and the same
+assessment and registers span listed above, with Strengths and What's Working before
+Technical Findings.
 
 Use level-3 headings (`###`) for subsections within each project block.
 
@@ -123,35 +125,42 @@ below owns them report-wide.
 and `FND` numbers contiguously within each pillar across projects - `FND-SEC-001` occurs once
 report-wide, and the next SEC finding in any project continues the sequence.
 
-Qualify each finding heading with the project identifier as a trailing parenthetical so the
-reader can navigate.
+Finding headings carry no project qualifier - the heading keeps the bare identifier and title,
+and the project attribution lives in the block's `Component`/`Targets` field and in the
+summary table's `Project` column so the reader can navigate.
 
-For example: `### FND-ARC-001 Missing input validation (api-service)`.
+For example: `### FND-ARC-001 Missing input validation`.
 
 Register-item headings stay `###` exactly - never `####` or deeper - even inside `##` project
-blocks, and each carries the `(<project>)` suffix.
+blocks.
 
 Register references use the bare identifier alone - `FND-SEC-001` - everywhere,
 inside shared sections and project blocks alike,
 since every register family numbers report-globally and the ID is unambiguous on its own.
 
 On a re-audit, a prior cross-cutting finding that now maps to one project keeps its identifier and
-gains that project's `(<project>)` suffix,
+its `Component`/`Targets` field records that project,
 and the mapping is recorded in the Changes Since Previous Audit section.
 
 A prior finding that applies to several projects splits into one finding per project,
 each receiving the next identifier of its pillar in the report-global sequence under its own project
-suffix, and the split is recorded in the Changes section.
+attribution, and the split is recorded in the Changes section.
 
 **Shared sections** appear once at the end of the report, after all per-project sections:
 
 - Solution Comparison (combined)
 - Remediation Roadmap (consolidated)
-- Scope Exclusions
-- Known Limitations
+- Auditing Methodology
+- Scoring Rubrics
 - Further Verification *(source-only mode)* / Executed Evidence *(executed modes)*
 - Validation Protocol
+- Contradiction Register *(conditional - external report found at intake)*
+- Glossary Index *(when Descriptive mode is enabled)*
 - Reference Sources
+
+Under `audit (legacy)` the shared tail instead runs Solution Comparison, Remediation
+Roadmap, Scope Exclusions, Known Limitations, the verification record, Validation Protocol,
+and Reference Sources.
 
 The combined **Solution Comparison** holds only cross-project trade-offs.
 
@@ -167,7 +176,8 @@ The combined table adds a leading `Project` column.
 When no cross-project trade-off qualifies,
 the section stays present and the table carries a single `N/A` row with a one-line justification.
 
-The consolidated **Remediation Roadmap** renders once, immediately before `Reference Sources`,
+The consolidated **Remediation Roadmap** renders once before the methodology run
+(immediately before `Reference Sources` under `audit (legacy)`),
 merging every project's recommendations into one prioritized matrix,
 one set of `### REC` detail blocks, and one `### Recommendation Classification` table,
 and closes with the `### Follow-up Plan` subsection when the roadmap carries a P1
@@ -203,7 +213,7 @@ Under `combined` the report carries no per-project level-2 blocks.
 
 Sections appear once at level 2 in the standard single-project order, and every register, scorecard,
 and per-project table gains a `Project` column carrying the project identifier - one Technical
-Findings table, one Unified Risk Register, one Remediation Roadmap, one Evidence List,
+Findings table, one Risk Register, one Remediation Roadmap, one Evidence List,
 each with all projects' rows merged - the roadmap carries the Recommendation Classification and
 Follow-up Plan subsections like a single-project report.
 

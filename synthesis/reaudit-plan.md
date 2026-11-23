@@ -133,5 +133,5 @@ mark the schedule `Not specified` and state the recommended trigger neutrally.
   the input is silent.
 - `Proof` entries are concrete, verifiable artifacts, not vague assurances.
 - Keep sign-off gates consistent with the Production Readiness Threshold and the
-  Unified Risk Register.
+  Risk Register.
 - Phrase triggers and gates as options, not directives, unless the user asked for directives.

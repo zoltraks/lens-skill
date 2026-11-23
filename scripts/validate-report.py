@@ -49,7 +49,7 @@ NL = "\n"
 EMDASH = chr(0x2014)
 ENDASH = chr(0x2013)
 ARROW = chr(0x2192)
-BASELINE_SECTIONS = [
+LEGACY_SECTIONS = [
     "Document Information",
     "Audit Coverage",
     "Executive Summary",
@@ -66,14 +66,14 @@ BASELINE_SECTIONS = [
     "Solution Comparison",
     "Strengths and What's Working",
     "Technical Findings",
-    "Unified Risk Register",
+    "Risk Register",
     "Scope Exclusions",
     "Known Limitations",
     "Validation Protocol",
     "Remediation Roadmap",
     "Reference Sources",
 ]
-BRIEF_SECTIONS = {
+LEGACY_BRIEF_SECTIONS = {
     "Document Information",
     "Audit Coverage",
     "Executive Summary",
@@ -85,6 +85,80 @@ BRIEF_SECTIONS = {
     "Known Limitations",
     "Reference Sources",
 }
+AUDIT_ORDER = [
+    # the default audit layout of `process/report-format.md` - metadata and
+    # navigation first, the promoted Health Dashboard behind the summary
+    # block, and every remaining section in the legacy order so no content
+    # is dropped. Conditional positions are pinned too
+    "Document Information",
+    "Contents",
+    "Audit Coverage",
+    "Project Inventory",
+    "Executive Summary",
+    "Changes Since Previous Audit",
+    "Health Dashboard",
+    "System Context",
+    "Software Bill of Materials",
+    "License Compliance",
+    "Delivery Practice",
+    "High-Level Observations",
+    "Auditing Methodology",
+    "Scoring Rubrics",
+    "Architectural Assessment",
+    "Structure Review",
+    "Solution Comparison",
+    "Threat Model",
+    "API Contract Conformance",
+    "Skill Definition Conformance",
+    "Guidance Conformance",
+    "AI System Assessment",
+    "Standards Conformance",
+    "Requirements Conformance",
+    "Baseline Conformance",
+    "Structure Conformance",
+    "API Compatibility & Versioning Discipline",
+    "Code Style",
+    "Strengths and What's Working",
+    "Technical Findings",
+    "Technical Debt Register",
+    "Risk Register",
+    "Scope Exclusions",
+    "Known Limitations",
+    "Further Verification",
+    "Executed Evidence",
+    "Validation Protocol",
+    "Contradiction Register",
+    "Remediation Roadmap",
+    "Glossary Index",
+    "Reference Sources",
+]
+AUDIT_SECTIONS = {
+    # always-required subset of AUDIT_ORDER - the rest stay conditional
+    "Health Dashboard",
+    "Executive Summary",
+    "Contents",
+    "High-Level Observations",
+    "Strengths and What's Working",
+    "Document Information",
+    "Audit Coverage",
+    "Scope Exclusions",
+    "Known Limitations",
+    "System Context",
+    "Architectural Assessment",
+    "Structure Review",
+    "Solution Comparison",
+    "Delivery Practice",
+    "Software Bill of Materials",
+    "License Compliance",
+    "Technical Findings",
+    "Risk Register",
+    "Remediation Roadmap",
+    "Auditing Methodology",
+    "Scoring Rubrics",
+    "Validation Protocol",
+    "Reference Sources",
+}
+AUDIT_BRIEF_SECTIONS = LEGACY_BRIEF_SECTIONS | {"Contents"}
 CONDITIONAL_SECTIONS = {
     "Glossary Index",
     "Evidence List",
@@ -176,12 +250,24 @@ def prose_line(line: str, fenced: bool) -> bool:
 
 
 def sentence_breaks_on(text: str) -> bool:
-    match = re.search(
-        r"\|\s*Sentence breaks\s*\|\s*([^|]+)", text, re.IGNORECASE
-    )
-    return not (
-        match and re.search(r"off|disabled|wyłącz", match.group(1), re.IGNORECASE)
-    )
+    """Detect the layout from content alone - a complete prose sentence
+    sharing a paragraph with another prose line means the flowing layout,
+    where blank-separated sentences are off."""
+    lines = text.replace("\r\n", "\n").split("\n")
+    fences = split_code(lines)
+    for index, (line, fenced) in enumerate(zip(lines, fences)):
+        if (
+            prose_line(line, fenced)
+            and line.rstrip().endswith((".", "!", "?"))
+            and index + 1 < len(lines)
+        ):
+            nxt = lines[index + 1]
+            if (
+                prose_line(nxt, fences[index + 1])
+                and not nxt.lstrip()[:1].islower()
+            ):
+                return False
+    return True
 
 
 def check_sentence_breaks(
@@ -243,32 +329,13 @@ def check_sentence_breaks(
     return failures
 
 
-def check_prose_width(lines: list[str], fences: list[bool]) -> list[str]:
-    failures: list[str] = []
-    for index, (line, fenced) in enumerate(zip(lines, fences)):
-        if fenced or not line.strip() or len(line) <= 100:
-            continue
-        if line.startswith(("|", "#", ">")) or line.lstrip().startswith(
-            ("```", "<!--")
-        ):
-            continue
-        # The 100-column prose width tolerates a line whose overflow is a
-        # single unbreakable span - no word boundary exists past column 99.
-        if line.rfind(" ") > 99:
-            failures.append(
-                f"line {index + 1}: prose line exceeds the 100-character "
-                "width - wrap it at a word boundary"
-            )
-    return failures
-
-
 def check_sentence_breaks_row(text: str) -> list[str]:
-    match = re.search(r"\|\s*Sentence breaks\s*\|\s*([^|]+)", text, re.IGNORECASE)
-    if match and not re.search(r"off|disabled|wyłącz", match.group(1), re.IGNORECASE):
+    if re.search(
+        r"\|\s*(?:Sentence breaks|Podział zdań)\s*\|", text, re.IGNORECASE
+    ):
         return [
-            "Document Information has a Sentence breaks row that is not 'Off' - "
-            "the row is written only when sentence-per-paragraph prose is "
-            "explicitly suppressed"
+            "Document Information carries a Sentence breaks row - the layout "
+            "is detected from content and the row is never written"
         ]
     return []
 
@@ -688,6 +755,10 @@ def check_description_paragraphs(lines: list[str]) -> list[str]:
 
 
 def check_finding_blocks(lines: list[str]) -> list[str]:
+    if is_defect(NL.join(lines)):
+        return check_defect_blocks(lines)
+    if is_brief(NL.join(lines)):
+        return check_brief_blocks(lines)
     failures: list[str] = []
     mode = evidence_mode(NL.join(lines))
     starts = [index for index, line in enumerate(lines) if line.startswith("### FND-")]
@@ -1112,10 +1183,11 @@ RENAMED_LABELS = [
 ]
 
 
-def check_legacy_fields(lines: list[str], fences: list[bool]) -> list[str]:
+def check_legacy_fields(lines: list[str], fences: list[bool], text: str = "") -> list[str]:
     failures: list[str] = []
     pattern = re.compile(r"\*\*(" + "|".join(re.escape(f) for f in LEGACY_FIELDS) + r"):\*\*")
-    renamed = re.compile(r"\*\*(" + "|".join(re.escape(f) for f in RENAMED_LABELS) + r"):\*\*")
+    renamed_labels = list(RENAMED_LABELS)
+    renamed = re.compile(r"\*\*(" + "|".join(re.escape(f) for f in renamed_labels) + r"):\*\*")
     for index, (line, fenced) in enumerate(zip(lines, fences)):
         if fenced:
             continue
@@ -1135,6 +1207,8 @@ def check_legacy_fields(lines: list[str], fences: list[bool]) -> list[str]:
 
 
 def findings_heading(text: str) -> str:
+    if is_defect(text) or is_brief(text):
+        return "Findings"
     if report_style(text) in ("hunt", "review"):
         return "Domain Findings"
     return "Technical Findings"
@@ -1159,6 +1233,30 @@ def check_finding_summary(text: str) -> list[str]:
     for legacy in ("Finding ID", "Remediation Status"):
         if legacy in cells:
             failures.append(f"findings summary table still uses legacy column {legacy}")
+    if is_defect(text) or is_brief(text):
+        vocab_map = DEFECT_SUMMARY_VOCAB if is_defect(text) else BRIEF_SUMMARY_VOCAB
+        for wanted in vocab_map:
+            if wanted not in cells:
+                failures.append(f"findings summary table lacks a {wanted} column")
+        for row in lines[header_index + 2 :]:
+            if not row.startswith("|"):
+                break
+            row_cells = [cell.strip() for cell in raw_cells(row)]
+            if not any("FND-" in cell for cell in row_cells):
+                continue
+            for column, vocab in vocab_map.items():
+                if column not in cells:
+                    continue
+                index = cells.index(column)
+                if len(row_cells) <= index:
+                    continue
+                value = row_cells[index]
+                if value and not re.match(rf"^({'|'.join(vocab)})\b", value):
+                    failures.append(
+                        f"findings summary row has bad {column} '{value}' - "
+                        f"expected {'/'.join(vocab)}"
+                    )
+        return failures
     status_idx = cells.index("Status") if "Status" in cells else -1
     change_idx = cells.index("Change") if "Change" in cells else -1
     verification_idx = cells.index("Verification") if "Verification" in cells else -1
@@ -1195,7 +1293,7 @@ def check_finding_summary(text: str) -> list[str]:
 def check_finding_counts(text: str) -> list[str]:
     failures: list[str] = []
     heading = findings_heading(text)
-    hunt = heading == "Domain Findings"
+    hunt = heading in ("Domain Findings", "Findings")
     pattern = re.compile(rf"^#{{2,3}}\s+{re.escape(heading)}\s*$", re.MULTILINE)
     for match in pattern.finditer(text):
         rest = text[match.end() :]
@@ -1207,6 +1305,12 @@ def check_finding_counts(text: str) -> list[str]:
             end = re.search(r"^#{2,3}\s+(?!FND-)", rest, re.MULTILINE)
         block = rest[: end.start()] if end else rest
         blocks = len(re.findall(r"^###\s+FND-", block, re.MULTILINE))
+        if is_brief(text):
+            # The brief register allows one-line `- **FND-` entries instead of
+            # blocks for lower severities - both forms count as findings.
+            blocks += len(
+                re.findall(r"^-\s+\*\*FND-[A-Z]{3}-\d{3}", block, re.MULTILINE)
+            )
         # The hunt register opens its per-domain ### headings after the summary table,
         # so the summary ends at the first ### heading of any kind.
         first_block = re.search(
@@ -1214,13 +1318,27 @@ def check_finding_counts(text: str) -> list[str]:
         )
         summary_part = block[: first_block.start()] if first_block else block
         rows = 0
+        row_ids: set[str] = set()
         for line in summary_part.split("\n"):
             if line.startswith("|") and "FND-" in line:
                 rows += 1
-        if blocks and rows != blocks:
+                cell_id = re.search(r"FND-[A-Z]{3}-\d{3}", line)
+                if cell_id:
+                    row_ids.add(cell_id.group(0))
+        if is_brief(text):
+            block_ids = set(
+                re.findall(r"^###\s+(FND-[A-Z]{3}-\d{3})", block, re.MULTILINE)
+            )
+            for bid in sorted(block_ids - row_ids):
+                failures.append(
+                    f"{heading}: ### {bid} has a block but no summary-table row - "
+                    "every finding carries one row"
+                )
+        elif blocks and rows != blocks:
+            label = "finding record(s)" if is_brief(text) else "### FND- block(s)"
             failures.append(
                 f"{heading}: summary cites {rows} finding row(s) "
-                f"but the section defines {blocks} ### FND- block(s)"
+                f"but the section defines {blocks} {label}"
             )
     return failures
 
@@ -1264,7 +1382,6 @@ DOC_INFO_FIELDS = {
     "Review Scope",
     "Detail Level",
     "Evaluation Scale",
-    "Sentence breaks",
     "Language",
     "Translations",
     "Audit Purpose",
@@ -1277,6 +1394,10 @@ DOC_INFO_FIELDS = {
     "Time taken",
     "Previous Report",
     "Projects",
+    "Project",
+    "Subject Version",
+    "Assessment Scope",
+    "Known Horizon",
 }
 DOC_INFO_REQUIRED = {
     "Report Revision",
@@ -1453,8 +1574,22 @@ def check_scorecard_dimensions(text: str) -> list[str]:
             tables.append(parsed)
             marked.append(parsed)
     multi_project = "Project Inventory" in text
+    pivoted = multi_project and audit_variant(text) not in ("", "legacy")
     for table in marked:
         header = table[0]
+        if pivoted:
+            if not (
+                header[0] == "Dimension"
+                and len(header) >= 3
+                and "Score" not in header
+                and all(header[1:])
+            ):
+                failures.append(
+                    "Scorecard Summary header is "
+                    f"{header} - the decision-first multi-project scorecard "
+                    "carries `Dimension` plus one column per project"
+                )
+            continue
         allowed = (
             ["Project", "Dimension", "Score"]
             if multi_project
@@ -1479,7 +1614,43 @@ def check_scorecard_dimensions(text: str) -> list[str]:
         uniq.append(table)
     for table in uniq:
         header = table[0]
-        if "Dimension" not in header or "Score" not in header:
+        if "Dimension" not in header:
+            continue
+        if "Score" not in header:
+            if not pivoted:
+                continue
+            position = -1
+            for row in table[2:]:
+                name = dimension_name(row[0])
+                if name in ("", "Overall score"):
+                    continue
+                try:
+                    pos = SCORECARD_DIMENSIONS.index(name)
+                except ValueError:
+                    failures.append(
+                        f"scorecard dimension '{name}' is not in the canonical "
+                        "set - keep the 20 fixed names so reports stay comparable"
+                    )
+                    continue
+                if pos <= position:
+                    failures.append(
+                        f"scorecard dimension '{name}' is out of canonical order"
+                    )
+                position = max(position, pos)
+                scores = [cell.strip() for cell in row[1:]]
+                if scores and all(cell == "N/A" for cell in scores):
+                    failures.append(
+                        f"scorecard keeps an N/A row: {name} - "
+                        "omit rows not applicable to any project"
+                    )
+                elif any(
+                    cell != "N/A" and not SCORE_VALUE.match(cell)
+                    for cell in scores
+                ):
+                    failures.append(
+                        f"scorecard cells for '{name}' are {scores} - "
+                        "expected n/m, star bar, Unknown, or N/A per project"
+                    )
             continue
         position = -1
         last_project = None
@@ -1533,6 +1704,7 @@ def check_health_dashboard(text: str) -> list[str]:
         return failures
     if not blocks:
         return failures  # required-sections already reports a missing dashboard
+    multi_project = "Project Inventory" in text
     required = ("Risk Map", "Scorecard Summary", "Team & Continuity")
     for index, block in enumerate(blocks, 1):
         for label in required:
@@ -1568,6 +1740,38 @@ def check_health_dashboard(text: str) -> list[str]:
                 "the Scorecard Summary - emit `**Legend**` and a "
                 "Band/Score table with one row per scale band"
             )
+        if audit_variant(text) == "decision":
+            risk_at = re.search(
+                r"(?:^#{1,4}\s+Risk Map\s*$|\*\*Risk Map\*\*)",
+                block,
+                re.MULTILINE,
+            )
+            if scorecard_at and risk_at and risk_at.start() < scorecard_at.start():
+                failures.append(
+                    f"Health Dashboard {index} shows the Risk Map before "
+                    "the Scorecard Summary - the decision-first layout leads "
+                    "with the scorecard"
+                )
+            if not re.search(
+                r"(?:\*\*Interpretation limits\*\*|^#+\s+Interpretation Limits\s*$)",
+                block,
+                re.MULTILINE,
+            ):
+                failures.append(
+                    f"Health Dashboard {index} has no Interpretation limits "
+                    "note - the decision-first dashboard keeps readiness "
+                    "limits adjacent to the scorecard"
+                )
+            if multi_project and not re.search(
+                r"\|\s*Project\s*\|\s*Published score\s*\|\s*Readiness\s*\|",
+                block,
+            ):
+                failures.append(
+                    f"Health Dashboard {index} lacks the project overview "
+                    "table - the decision-first dashboard opens with a "
+                    "`Project | Published score | Readiness | "
+                    "Key qualification` table"
+                )
     for index, block in enumerate(blocks, 1):
         matrix = re.search(r"\*\*Risk Map\*\*[\s\S]*?(?=\n\*\*|\n#{1,4}\s|\Z)", block)
         if matrix:
@@ -1590,7 +1794,16 @@ def check_health_dashboard(text: str) -> list[str]:
 
 def check_doc_info_fields(text: str) -> list[str]:
     failures: list[str] = []
-    match = re.search(r"^#{2,3}\s+Document Information\s*$", text, re.MULTILINE)
+    defect = is_defect(text)
+    brief = is_brief(text)
+    heading = "Document Information"
+    if defect:
+        required = DEFECT_DOC_INFO_REQUIRED
+    elif brief:
+        required = BRIEF_DOC_INFO_REQUIRED
+    else:
+        required = DOC_INFO_REQUIRED
+    match = re.search(rf"^#{{2,3}}\s+{heading}\s*$", text, re.MULTILINE)
     if not match:
         return failures
     rest = text[match.end():]
@@ -1611,12 +1824,12 @@ def check_doc_info_fields(text: str) -> list[str]:
             continue
         labels.append(label)
         values[label] = cells[1].strip()
-    for field in sorted(DOC_INFO_REQUIRED - set(labels)):
-        failures.append(f"Document Information misses required row '{field}'")
+    for field in sorted(required - set(labels)):
+        failures.append(f"{heading} misses required row '{field}'")
     for label in labels:
         if label not in DOC_INFO_FIELDS:
             failures.append(
-                f"Document Information carries non-canonical row '{label}'"
+                f"{heading} carries non-canonical row '{label}'"
             )
     if "Skill Version" in values:
         if not re.fullmatch(r"\d+\.\d+\.\d+", values["Skill Version"]):
@@ -1627,7 +1840,7 @@ def check_doc_info_fields(text: str) -> list[str]:
     for label, value in values.items():
         if value in ("", "Not specified"):
             failures.append(
-                f"Document Information row '{label}' carries an empty or "
+                f"{heading} row '{label}' carries an empty or "
                 "Not specified value - omit the row instead"
             )
     return failures
@@ -1736,9 +1949,16 @@ def check_scorecard_na(text: str) -> list[str]:
             continue
         if rows:
             break
+    if not rows:
+        return []
+    header = [cell.strip() for cell in raw_cells(rows[0])]
+    pivoted = "Score" not in header and len(header) >= 3
     for row in rows[2:]:
         cells = [cell.strip() for cell in raw_cells(row)]
-        if len(cells) >= 2 and cells[1] == "N/A":
+        if len(cells) >= 2 and (
+            (pivoted and all(cell == "N/A" for cell in cells[1:]))
+            or (not pivoted and cells[1] == "N/A")
+        ):
             failures.append(f"scorecard summary keeps an N/A row: {cells[0]}")
     return failures
 
@@ -1962,6 +2182,8 @@ def check_glossary(text: str) -> list[str]:
         return failures
     heading = re.search(r"^#{2,3}\s+Glossary Index\s*$", text, re.MULTILINE)
     if not heading:
+        if re.search(r"^#{2,3}\s+Glossary\s*$", text, re.MULTILINE):
+            return failures
         exclusions = re.search(r"^#{2,3}\s+Scope Exclusions\s*$", text, re.MULTILINE)
         scope = ""
         if exclusions:
@@ -2189,23 +2411,24 @@ REF_ROW_TOKEN = re.compile(r"(?:[\w][\w.-]*::)?(?:EVD-\d{3}|PAR-\d+)")
 
 def defining_row_id(line: str) -> tuple[str, int]:
     """Return (identifier, second-pipe index) when the row's first cell is
-    exactly one row-defined register identifier (EVD or PAR)."""
+    exactly one register identifier - the row is its own definition."""
     second_pipe = line.find("|", 1)
     if second_pipe < 0:
         return "", -1
     text = cell_text(line[1:second_pipe].strip())
-    if not REF_ROW_TOKEN.fullmatch(text):
+    if not REF_PATTERN.fullmatch(text):
         return "", -1
     return text, second_pipe
 
 
 def register_definitions(
     lines: list[str], fences: list[bool]
-) -> tuple[dict[str, list[str]], set[str], dict[str, str]]:
-    """Return (block ID -> heading slugs, row-defined IDs, family -> section
-    slug) collected from the report's own register definitions."""
+) -> tuple[dict[str, list[str]], dict[str, str], dict[str, str]]:
+    """Return (block ID -> heading slugs, row-defined ID -> section slug,
+    family -> section slug) collected from the report's own register
+    definitions."""
     blocks: dict[str, list[str]] = {}
-    row_ids: set[str] = set()
+    row_ids: dict[str, str] = {}
     section: dict[str, str] = {}
     counts: dict[str, int] = {}
     last_slug = ""
@@ -2228,17 +2451,19 @@ def register_definitions(
             family = next(
                 (f for f in ("EVD", "PAR") if bare.startswith(f + "-")), None
             )
-            if family:
-                row_ids.add(bare)
-                if family not in section and last_slug:
-                    section[family] = last_slug
+            if token and last_slug:
+                row_ids.setdefault(bare, last_slug)
+            if family and family not in section and last_slug:
+                section[family] = last_slug
     return blocks, row_ids, section
 
 
 def check_reference_links(
-    lines: list[str], fences: list[bool], text: str
+    lines: list[str], fences: list[bool], text: str,
+    external_ids: set[str] | None = None,
 ) -> list[str]:
     failures: list[str] = []
+    external_ids = external_ids or set()
     blocks, row_ids, section = register_definitions(lines, fences)
     slugs = heading_slugs(text)
     for index, (line, fenced) in enumerate(zip(lines, fences)):
@@ -2273,6 +2498,15 @@ def check_reference_links(
                         f"line {lineno}: [{token}](#{anchor}) does not point "
                         f"at a ### {bare}: heading"
                     )
+                elif (
+                    not candidates
+                    and bare in row_ids
+                    and anchor != row_ids[bare]
+                ):
+                    failures.append(
+                        f"line {lineno}: [{token}](#{anchor}) should link to "
+                        f"#{row_ids[bare]}"
+                    )
         masked = re.sub(r"`[^`]*`", lambda m: " " * len(m.group(0)), line)
         masked = LINK_MARKUP.sub(lambda m: " " * len(m.group(0)), masked)
         masked = re.sub(r"https?://\S+", lambda m: " " * len(m.group(0)), masked)
@@ -2304,6 +2538,8 @@ def check_reference_links(
                 failures.append(
                     f"line {lineno}: unlinked register reference {token}"
                 )
+            elif bare in external_ids:
+                continue
             else:
                 failures.append(
                     f"line {lineno}: {token} cites an undefined register "
@@ -2313,9 +2549,11 @@ def check_reference_links(
 
 
 REVIEW_CANONICAL_STEM = re.compile(
-    r"^(?:REVIEW|PRZEGLĄD|PRZEGLAD)(?:-\d+(?:\.\d+)?)(?:-(?:EN|PL))?$"
+    r"^(?:REVIEW|PRZEGLĄD|PRZEGLAD|BRIEF|SKRÓT|SKROT)(?:-\d+(?:\.\d+)?)(?:-(?:EN|PL))?$"
 )
-REVIEW_FAMILY_STEM = re.compile(r"(?:^|[-_])(?:REVIEW|PRZEGLĄD|PRZEGLAD)(?:-|$)")
+REVIEW_FAMILY_STEM = re.compile(
+    r"(?:^|[-_])(?:REVIEW|PRZEGLĄD|PRZEGLAD|BRIEF|SKRÓT|SKROT)(?:-|$)"
+)
 LEGACY_REVIEW_SHAPE = re.compile(
     r"(?m)^#\s+.+\bReview and Amendment Instructions\s*$"
     r"|^###\s+Findings and Corrections\s*$"
@@ -2500,7 +2738,10 @@ def check_references_section(text: str) -> list[str]:
     if not match:
         return []
     failures: list[str] = []
-    if re.search(r"^##\s+\S", text[match.end() :], re.MULTILINE):
+    trailing = re.findall(
+        r"^##\s+(.+?)\s*$", text[match.end() :], re.MULTILINE
+    )
+    if any(name != "Glossary" for name in trailing):
         failures.append("Reference Sources is not the final section of the report")
     block = text[match.end() :]
     end = re.search(r"^##\s+", block, re.MULTILINE)
@@ -2554,11 +2795,11 @@ def check_references_section(text: str) -> list[str]:
     return failures
 
 
-REPORT_STYLES = ("audit", "hunt", "review")
+REPORT_STYLES = ("audit", "hunt", "review", "brief")
 
 
 def check_required_sections(text: str) -> list[str]:
-    if "Document Information" not in text:
+    if "Document Information" not in text and "Report Overview" not in text:
         return ["missing required section: Document Information"]
     style = report_style(text)
     if style not in REPORT_STYLES:
@@ -2566,8 +2807,15 @@ def check_required_sections(text: str) -> list[str]:
             f"unknown Report Style '{style}' - expected "
             f"{'/'.join(REPORT_STYLES)}"
         ]
-    if style in ("hunt", "review"):
-        required = HUNT_SECTIONS if report_style(text) == "hunt" else REVIEW_SECTIONS
+    if style in ("hunt", "review", "brief"):
+        if style == "hunt" and is_defect(text):
+            required = DEFECT_SECTIONS
+        elif style == "hunt":
+            required = HUNT_SECTIONS
+        elif style == "brief":
+            required = BRIEF_SECTIONS
+        else:
+            required = REVIEW_SECTIONS
         headings = set(re.findall(r"^#{2,3}\s+(.+?)\s*$", text, re.MULTILINE))
         return [
             f"missing required section: {section}"
@@ -2576,11 +2824,17 @@ def check_required_sections(text: str) -> list[str]:
         ]
     detail = re.search(r"\|\s*Detail Level\s*\|\s*([^|]+)", text)
     brief = detail is not None and detail.group(1).strip() == "Brief"
-    required = set(BRIEF_SECTIONS if brief else BASELINE_SECTIONS)
-    ordered = list(BASELINE_SECTIONS)
+    legacy = audit_variant(text) == "legacy"
+    required = set(
+        (LEGACY_BRIEF_SECTIONS if legacy else AUDIT_BRIEF_SECTIONS)
+        if brief
+        else (LEGACY_SECTIONS if legacy else AUDIT_SECTIONS)
+    )
+    ordered = list(LEGACY_SECTIONS if legacy else AUDIT_ORDER)
     if not brief:
         required.add("Recommendation Classification")
-        ordered.append("Recommendation Classification")
+        if legacy:
+            ordered.append("Recommendation Classification")
     headings = set(re.findall(r"^#{2,3}\s+(.+?)\s*$", text, re.MULTILINE))
     return [f"missing required section: {section}" for section in ordered if section in required and section not in headings]
 
@@ -2590,10 +2844,10 @@ def check_section_structure(lines: list[str], fences: list[bool]) -> list[str]:
     order and no `##` heading outside the required and conditional catalogue."""
     text = "\n".join(lines)
     failures: list[str] = []
-    if "Document Information" not in text:
-        return ["missing required section: Document Information"]
     if report_style(text) != "audit":
         return failures
+    if "Document Information" not in text:
+        return ["missing required section: Document Information"]
     headings = [
         match.group(1)
         for line, fenced in zip(lines, fences)
@@ -2601,10 +2855,12 @@ def check_section_structure(lines: list[str], fences: list[bool]) -> list[str]:
         for match in [re.match(r"^##\s+(.+?)\s*$", line)]
         if match
     ]
-    required = set(BASELINE_SECTIONS)
+    legacy = audit_variant(text) == "legacy"
+    order = LEGACY_SECTIONS if legacy else AUDIT_ORDER
+    required = set(order)
     seen = set(headings)
     present = [name for name in headings if name in required]
-    expected = [name for name in BASELINE_SECTIONS if name in seen]
+    expected = [name for name in order if name in seen]
     for found, wanted in zip(present, expected):
         if found != wanted:
             failures.append(
@@ -2780,6 +3036,24 @@ def check_executive_summary(text: str) -> list[str]:
         following = re.search(rf"^#{{1,{level}}}\s", rest, re.MULTILINE)
         block = rest[: following.start()] if following else rest
         tables = tables_in(block)
+        if level == 2 and audit_variant(text) == "decision":
+            actions = re.search(
+                r"^###\s+Immediate Actions\s*$", block, re.MULTILINE
+            )
+            if not actions:
+                failures.append(
+                    "Executive Summary lacks the `### Immediate Actions` "
+                    "preview - the decision-first layout previews up to five "
+                    "recommendations and links the complete roadmap"
+                )
+            else:
+                preview = tables_in(block[actions.end():])
+                if preview and len(preview[0]) - 2 > 5:
+                    failures.append(
+                        "Immediate Actions preview carries more than five "
+                        "recommendation rows - cap the preview at five and "
+                        "link the complete Remediation Roadmap"
+                    )
         if tables:
             header = [cell.strip() for cell in raw_cells(tables[0][0])]
             if "Project" in header:
@@ -2928,6 +3202,211 @@ REVIEW_RESULTS = ("Pass", "Fail", "Error", "Blocked", "Skipped", "Not run", "N/A
 REVIEW_EVIDENCE_LEVELS = ("Source", "Model", "App", "Deployed", "Unknown")
 PROVENANCE_BASIS_VALUES = ("Declared", "Attested", "Supplied", "Indicated", "Undetermined")
 REVIEW_DISPOSITIONS = ("Planned", "Deferred", "Accepted - no action", "Unresolved")
+
+DEFECT_SECTIONS = [
+    "Document Information",
+    "Contents",
+    "Health Assessment",
+    "Findings",
+    "Remediation Plan",
+    "Previous Findings",
+    "Scope and Limitations",
+]
+
+DEFECT_CONDITIONAL_SECTIONS = {
+    "Contradiction Register",
+    "Journey Traces",
+    "Methodology And Evidence",
+    "Executed Evidence",
+    "Artifact Manifest",
+    "Reference Sources",
+    "Project Inventory",
+    "Glossary",
+}
+
+# Sections from the shared or legacy contract that the defect report folds,
+# merges, or never carries - each maps to its successor section, or None
+# when no successor exists.
+DEFECT_MOVED_SECTIONS = {
+    "Audit Coverage": None,
+    "Glossary Index": "Glossary",
+    "Executive Summary": "Document Information",
+    "Verdict": "Health Assessment",
+    "Domain Ratings": "Health Assessment",
+    "System Context": "Document Information",
+    "Domain Findings": "Findings",
+    "Technical Findings": "Findings",
+    "Risk Register": "Findings",
+    "Remediation Phases": "Remediation Plan",
+    "Remediation Roadmap": "Remediation Plan",
+    "Recommendation Classification": "Remediation Plan",
+    "Improvement Plan": "Remediation Plan",
+    "Retest": "Previous Findings",
+    "Retest Register": "Previous Findings",
+    "Changes Since Previous Audit": "Previous Findings",
+    "Scope Exclusions": "Scope and Limitations",
+    "Known Limitations": "Scope and Limitations",
+    "Further Verification": "Scope and Limitations",
+    "Validation Protocol": None,
+    "Scorecard Summary": "Health Assessment",
+    "Health Dashboard": "Health Assessment",
+    "Software Bill of Materials": None,
+    "Threat Model": "Findings",
+}
+
+DEFECT_CLASSES = ("Defect", "Improvement", "Hypothesis", "Observation")
+DEFECT_SEVERITIES = ("Critical", "High", "Medium", "Low", "Informational")
+DEFECT_STATUS = ("In Progress", "Resolved", "Verified", "Reopened", "Rejected", "Open")
+DEFECT_UNRESOLVED = ("Open", "In Progress", "Reopened")
+DEFECT_DISPOSITIONS = (
+    "Accepted Risk",
+    "Out of Scope",
+    "Won't Fix",
+    "Planned",
+    "Deferred",
+    "None",
+)
+DEFECT_DECISION_DISPOSITIONS = ("Deferred", "Accepted Risk", "Won't Fix")
+DEFECT_PRIORITIES = ("P0", "P1", "P2", "P3")
+DEFECT_CONFIDENCE = ("High", "Medium", "Low")
+DEFECT_CHANGES = (
+    "Reclassified",
+    "Still Open",
+    "Resolved",
+    "Reopened",
+    "Deferred",
+    "Accepted",
+    "Retired",
+    "New",
+)
+DEFECT_READINESS = ("Not Assessed", "At Risk", "Blocked", "Ready")
+DEFECT_REQUIRED_FIELDS = (
+    "Component",
+    "Class",
+    "Severity",
+    "Status",
+    "Disposition",
+    "Priority",
+    "Confidence",
+    "Impact",
+    "Evidence",
+    "Recommendation",
+    "Verification",
+)
+DEFECT_DECISION_FIELDS = ("Reason", "Owner", "Decided", "Review", "Conditions")
+DEFECT_DOC_INFO_REQUIRED = {
+    "Report Revision",
+    "Report Date",
+    "Report Style",
+    "Detail Level",
+    "Language",
+    "Evidence Mode",
+    "Subject Revision",
+    "Skill Version",
+    "Time taken",
+}
+DEFECT_SUMMARY_VOCAB = {
+    "Severity": DEFECT_SEVERITIES,
+    "Class": DEFECT_CLASSES,
+    "Status": DEFECT_STATUS,
+    "Disposition": DEFECT_DISPOSITIONS,
+    "Priority": DEFECT_PRIORITIES,
+}
+
+BRIEF_SECTIONS = [
+    "Document Information",
+    "Current State",
+    "Findings",
+    "Plan",
+    "Known And Deferred",
+    "Evidence And Trust",
+]
+
+BRIEF_CONDITIONAL_SECTIONS = {
+    "Changes Since Previous Report",
+    "Glossary",
+}
+
+# Sections from the shared or legacy contract that the brief folds, merges, or
+# moves to the evidence companion - each maps to its successor section, the
+# string "EVIDENCE-FILE" for content that moved to the evidence file, or None
+# when no successor exists.
+BRIEF_MOVED_SECTIONS = {
+    "Executive Summary": "Current State",
+    "Verdict": "Current State",
+    "Domain Ratings": "Current State",
+    "Health Dashboard": "Current State",
+    "Domain Findings": "Findings",
+    "Technical Findings": "Findings",
+    "Risk Register": "Findings",
+    "Improvement Plan": "Plan",
+    "Remediation Phases": "Plan",
+    "Remediation Roadmap": "Plan",
+    "Recommendation Classification": "Plan",
+    "Scope Exclusions": "Evidence And Trust",
+    "Known Limitations": "Evidence And Trust",
+    "Further Verification": "Evidence And Trust",
+    "Changes Since Previous Audit": "Changes Since Previous Report",
+    "Audit Coverage": "EVIDENCE-FILE",
+    "Glossary Index": "EVIDENCE-FILE",
+    "System Context": "EVIDENCE-FILE",
+    "Check Plan And Methodology": "EVIDENCE-FILE",
+    "Execution Register": "EVIDENCE-FILE",
+    "Retest Register": "EVIDENCE-FILE",
+    "Metrics Snapshot": "EVIDENCE-FILE",
+    "Artifact Manifest": "EVIDENCE-FILE",
+    "Executed Evidence": "EVIDENCE-FILE",
+    "Validation Protocol": "EVIDENCE-FILE",
+    "Reference Sources": "EVIDENCE-FILE",
+    "Journey Traces": "EVIDENCE-FILE",
+    "Report Context": "EVIDENCE-FILE",
+}
+
+BRIEF_STATUS = (
+    "Open",
+    "Planned",
+    "In Progress",
+    "Known",
+    "Investigating",
+    "Fixed",
+    "Not a defect",
+)
+BRIEF_VERIFIED = ("Exec", "Src", "Hyp")
+BRIEF_PRIORITIES = ("P1", "P2", "P3")
+BRIEF_GATE_RESULTS = ("Met", "Met (provisional)", "Not met", "Not assessable")
+BRIEF_VERDICTS = ("Ready", "Conditionally ready", "Not ready", "Not assessable")
+BRIEF_REQUIRED_FIELDS = (
+    "Area",
+    "Severity",
+    "Priority",
+    "Status",
+    "Verification",
+    "Observation",
+    "Impact",
+    "Fix",
+    "Closure",
+)
+BRIEF_DECISION_FIELDS = ("Reason", "Owner", "Review", "Control")
+BRIEF_DOC_INFO_REQUIRED = {
+    "Report Revision",
+    "Report Date",
+    "Report Style",
+    "Language",
+    "Evidence Mode",
+    "Subject Revision",
+    "Previous Report",
+    "Known Horizon",
+    "Skill Version",
+    "Time taken",
+}
+BRIEF_SUMMARY_VOCAB = {
+    "Severity": DEFECT_SEVERITIES,
+    "Status": BRIEF_STATUS,
+    "Verification": BRIEF_VERIFIED,
+    "Priority": BRIEF_PRIORITIES,
+}
+BRIEF_BUDGET_LINES = 250
+BRIEF_BUDGET_BYTES = 20 * 1024
 
 
 def tables_in(block: str) -> list[list[str]]:
@@ -3129,7 +3608,10 @@ def disposition_regions(text: str) -> list[tuple[str, str]]:
         for match in re.finditer(r"^##\s+(.+?)\s*$", text, re.MULTILINE)
     ]
     style = report_style(text)
-    names = [DISPOSITION_SECTION.get(style, "Remediation Roadmap")]
+    name = DISPOSITION_SECTION.get(style, "Remediation Roadmap")
+    if is_defect(text):
+        name = "Remediation Plan"
+    names = [name]
     if style not in ("hunt", "review"):
         names.append("Recommendation Classification")
     regions: list[tuple[str, str]] = []
@@ -3185,11 +3667,11 @@ def check_finding_disposition(text: str, lines: list[str]) -> list[str]:
     return failures
 
 
-def check_hunt_classification(text: str) -> list[str]:
+def check_hunt_classification(text: str, owner: str = "Remediation Phases") -> list[str]:
     if re.search(r"^#{2,3}\s+Recommendation Classification\s*$", text, re.MULTILINE):
         return [
             "hunt report carries a Recommendation Classification section - "
-            "disposition lives in Remediation Phases"
+            f"disposition lives in {owner}"
         ]
     return []
 
@@ -3264,6 +3746,781 @@ def check_hunt_scenarios(lines: list[str]) -> list[str]:
                 "observed; confirmation level>'"
             )
     return failures
+
+
+def defect_blocks(lines: list[str]) -> list[tuple[str, str]]:
+    """(heading label, block text) pairs for every ### FND- block."""
+    starts = [index for index, line in enumerate(lines) if line.startswith("### FND-")]
+    blocks: list[tuple[str, str]] = []
+    for position, start in enumerate(starts):
+        end = starts[position + 1] if position + 1 < len(starts) else len(lines)
+        end = min(
+            end,
+            next(
+                (i for i in range(start + 1, len(lines)) if lines[i].startswith("#")),
+                end,
+            ),
+        )
+        blocks.append((lines[start][4:][:70], NL.join(lines[start:end])))
+    return blocks
+
+
+def check_defect_blocks(lines: list[str]) -> list[str]:
+    """The canonical finding record of the defect hunt contract."""
+    failures: list[str] = []
+    for name, block in defect_blocks(lines):
+        pillar = re.match(r"FND-([A-Z]{3})-\d{3}", name)
+        if pillar and pillar.group(1) not in FINDING_PILLARS:
+            failures.append(
+                f"{name}: pillar code '{pillar.group(1)}' is not one of "
+                f"{'/'.join(FINDING_PILLARS)} - expected FND-<pillar>-NNN"
+            )
+        for field in DEFECT_REQUIRED_FIELDS:
+            if f"**{field}:**" not in block:
+                failures.append(
+                    f"{name}: missing {field} - expected literal "
+                    f"'- **{field}:** <value>'"
+                )
+        for field, vocab in (
+            ("Class", DEFECT_CLASSES),
+            ("Severity", DEFECT_SEVERITIES),
+            ("Status", DEFECT_STATUS),
+            ("Disposition", DEFECT_DISPOSITIONS),
+            ("Priority", DEFECT_PRIORITIES),
+            ("Confidence", DEFECT_CONFIDENCE),
+        ):
+            value = field_value(block, field)
+            if value and not re.match(rf"^({'|'.join(vocab)})\b", value):
+                failures.append(
+                    f"{name}: {field} '{value[:30]}' is not one of "
+                    f"{'/'.join(vocab)}"
+                )
+        disposition = field_value(block, "Disposition")
+        decided = next(
+            (token for token in DEFECT_DECISION_DISPOSITIONS
+             if disposition.startswith(token)),
+            "",
+        )
+        if decided:
+            for field in DEFECT_DECISION_FIELDS:
+                if f"**{field}:**" not in block:
+                    failures.append(
+                        f"{name}: {decided} disposition requires a {field} field"
+                    )
+        elif disposition.startswith("Out of Scope") and "**Reason:**" not in block:
+            failures.append(f"{name}: Out of Scope disposition requires a Reason field")
+        evidence = field_value(block, "Evidence")
+        if evidence and EMPTY_FIELD_VALUE.match(evidence):
+            failures.append(
+                f"{name}: Evidence renders {evidence.split(' ')[0]} - "
+                "name the source locations that establish the finding"
+            )
+    return failures
+
+
+def check_defect_sections(lines: list[str], fences: list[bool]) -> list[str]:
+    """The defect contract's ## section catalogue - anything outside the
+    required and conditional sets, and every section the redesign folded or
+    removed, is flagged."""
+    failures: list[str] = []
+    headings = [
+        match.group(1)
+        for line, fenced in zip(lines, fences)
+        if not fenced
+        for match in [re.match(r"^##\s+(.+?)\s*$", line)]
+        if match
+    ]
+    known = set(DEFECT_SECTIONS) | DEFECT_CONDITIONAL_SECTIONS
+    for name in headings:
+        if name in known or name.startswith(("Appendix ", "Project ")):
+            continue
+        if name in DEFECT_MOVED_SECTIONS:
+            moved = DEFECT_MOVED_SECTIONS[name]
+            if moved:
+                failures.append(
+                    f"unexpected section '## {name}' - its content lives in "
+                    f"'## {moved}' under the defect contract"
+                )
+            else:
+                failures.append(
+                    f"unexpected section '## {name}' - the defect report never "
+                    "carries it"
+                )
+        else:
+            failures.append(
+                f"unexpected section '## {name}' - the defect contract defines "
+                "no such section"
+            )
+    if "Glossary" in headings and headings[-1] != "Glossary":
+        failures.append(
+            "## Glossary is not the last section - the defect contract renders "
+            "the glossary at the bottom of the report"
+        )
+    text = NL.join(lines)
+    for prefix, label in (
+        ("RSK-", "risk register blocks"),
+        ("REC-", "recommendation blocks"),
+        ("TDR-", "debt register blocks"),
+    ):
+        if re.search(rf"^###\s+{prefix}", text, re.MULTILINE):
+            failures.append(
+                f"defect report carries {label} - risk and action live on the "
+                "canonical finding records"
+            )
+    return failures
+
+
+def check_defect_health(text: str, lines: list[str]) -> list[str]:
+    """Health Assessment figures reconcile against the finding blocks."""
+    block = section_block(text, r"^##\s+Health Assessment\s*$")
+    if not block:
+        return []
+    failures: list[str] = []
+    overview = section_block(text, r"^##\s+Document Information\s*$")
+    if not re.search(
+        rf"(?i)\breadiness\b\*{{0,2}}\s*:\s*\**\s*"
+        rf"({'|'.join(DEFECT_READINESS)})\b",
+        overview + block,
+    ):
+        failures.append(
+            "Health Assessment lacks a '**Readiness:** <token>' line - "
+            f"expected {'/'.join(sorted(DEFECT_READINESS))}"
+        )
+    counts: dict[tuple[str, str], int] = {}
+    dispositions: dict[str, int] = {}
+    for _name, finding in defect_blocks(lines):
+        severity = next(
+            (token for token in DEFECT_SEVERITIES
+             if field_value(finding, "Severity").startswith(token)),
+            "",
+        )
+        classification = next(
+            (token for token in DEFECT_CLASSES
+             if field_value(finding, "Class").startswith(token)),
+            "",
+        )
+        if severity and classification:
+            counts[(severity, classification)] = (
+                counts.get((severity, classification), 0) + 1
+            )
+        disposition = next(
+            (token for token in DEFECT_DISPOSITIONS
+             if field_value(finding, "Disposition").startswith(token)),
+            "",
+        )
+        if disposition:
+            dispositions[disposition] = dispositions.get(disposition, 0) + 1
+    for candidate in tables_in(block):
+        header, rows = table_cells(candidate)
+        if "Severity" in header and "Defect" in header:
+            missing = [column for column in DEFECT_CLASSES if column not in header]
+            if missing:
+                failures.append(
+                    f"severity table lacks class column(s) {', '.join(missing)}"
+                )
+            else:
+                for row in rows:
+                    if not row or not row[0].strip():
+                        continue
+                    severity = row[0].strip().strip("*`")
+                    for column in DEFECT_CLASSES:
+                        index = header.index(column)
+                        if len(row) <= index:
+                            continue
+                        cell = row[index].strip()
+                        if not cell:
+                            continue
+                        if not cell.isdigit():
+                            failures.append(
+                                f"Health Assessment severity row '{severity}' has "
+                                f"non-numeric {column} count '{cell}'"
+                            )
+                            continue
+                        actual = counts.get((severity, column), 0)
+                        if int(cell) != actual:
+                            failures.append(
+                                f"Health Assessment counts {cell} {severity} "
+                                f"{column} finding(s) but the register holds {actual}"
+                            )
+        elif "Disposition" in header:
+            seen = set()
+            for row in rows:
+                if not row or not row[0].strip():
+                    continue
+                token = row[0].strip().strip("*`")
+                if token not in DEFECT_DISPOSITIONS:
+                    failures.append(
+                        f"disposition table row '{token}' is not one of "
+                        f"{'/'.join(sorted(DEFECT_DISPOSITIONS))}"
+                    )
+                    continue
+                seen.add(token)
+                count_idx = header.index("Findings") if "Findings" in header else -1
+                if count_idx < 0 or len(row) <= count_idx:
+                    continue
+                cell = row[count_idx].strip()
+                if not cell.isdigit():
+                    continue
+                actual = dispositions.get(token, 0)
+                if int(cell) != actual:
+                    failures.append(
+                        f"disposition table counts {cell} '{token}' finding(s) "
+                        f"but the register holds {actual}"
+                    )
+            for token, count in sorted(dispositions.items()):
+                if count and token not in seen:
+                    failures.append(
+                        f"disposition table omits '{token}' - {count} finding(s) "
+                        "carry it in the register"
+                    )
+    return failures
+
+
+def check_defect_plan(text: str, lines: list[str]) -> list[str]:
+    """The Remediation Plan cites defined findings, and every unresolved
+    `Disposition: Planned` finding is planned exactly once."""
+    block = section_block(text, r"^##\s+Remediation Plan\s*$")
+    if not block:
+        return []
+    failures: list[str] = []
+    defined = {
+        match.group(1)
+        for match in re.finditer(r"^###\s+(FND-[A-Z]{3}-\d{3})", text, re.MULTILINE)
+    }
+    cited = re.findall(r"FND-[A-Z]{3}-\d{3}", block)
+    for fid in sorted(set(cited) - defined):
+        failures.append(f"Remediation Plan cites {fid} but no ### FND- block defines it")
+    planned = set()
+    for _name, finding in defect_blocks(lines):
+        fid = re.search(r"FND-[A-Z]{3}-\d{3}", _name)
+        status = next(
+            (token for token in DEFECT_STATUS
+             if field_value(finding, "Status").startswith(token)),
+            "",
+        )
+        disposition = field_value(finding, "Disposition")
+        if status in DEFECT_UNRESOLVED and disposition.startswith("Planned"):
+            planned.add(fid.group(0) if fid else "")
+    for fid in sorted(planned - set(cited)):
+        failures.append(
+            f"{fid} is unresolved with Disposition: Planned but the "
+            "Remediation Plan never cites it"
+        )
+    for fid in sorted(planned):
+        if cited.count(fid) > 1:
+            failures.append(
+                f"{fid} appears {cited.count(fid)} times in the Remediation Plan - "
+                "each action cites its finding once"
+            )
+    return failures
+
+
+def check_defect_previous(text: str) -> list[str]:
+    """The Previous Findings change table tracks stable identifiers across
+    revisions - current findings keep blocks, resolved ones drop them."""
+    block = section_block(text, r"^##\s+Previous Findings\s*$")
+    if not block:
+        return []
+    failures: list[str] = []
+    defined = {
+        match.group(1)
+        for match in re.finditer(r"^###\s+(FND-[A-Z]{3}-\d{3})", text, re.MULTILINE)
+    }
+    closed = ("Resolved", "Retired")
+    tables = [
+        candidate
+        for candidate in tables_in(block)
+        if {"Finding", "Change"} <= {
+            cell.strip() for cell in raw_cells(candidate[0])
+        }
+    ]
+    if not tables and "first" not in block.lower():
+        failures.append(
+            "Previous Findings lacks a Finding/Change table and no "
+            "first-assessment note"
+        )
+    for candidate in tables:
+        header, rows = table_cells(candidate)
+        change_idx = header.index("Change")
+        find_idx = header.index("Finding")
+        for row in rows:
+            if len(row) <= max(change_idx, find_idx):
+                continue
+            value = row[change_idx].strip()
+            change = next(
+                (token for token in DEFECT_CHANGES if value.startswith(token)),
+                "",
+            )
+            if value and not change:
+                failures.append(
+                    f"Previous Findings Change '{value}' is not one of "
+                    f"{'/'.join(sorted(DEFECT_CHANGES))}"
+                )
+            fid_match = re.search(r"FND-[A-Z]{3}-\d{3}", row[find_idx])
+            if not fid_match:
+                continue
+            fid = fid_match.group(0)
+            if change in closed and fid in defined:
+                failures.append(
+                    f"{fid} reads {change} but still carries a ### FND- block - "
+                    "closed findings live in Previous Findings only"
+                )
+            if change and change not in closed and fid not in defined:
+                failures.append(
+                    f"{fid} reads {change} but no ### FND- block defines it - "
+                    "an open finding needs its canonical record"
+                )
+    return failures
+
+
+def brief_oneliner_ids(lines: list[str]) -> set[str]:
+    """FND identifiers carried as `- **FND-` one-line entries."""
+    return {
+        match.group(1)
+        for line in lines
+        for match in [re.match(r"^-\s+\*\*(FND-[A-Z]{3}-\d{3})", line)]
+        if match
+    }
+
+
+def brief_summary_statuses(text: str) -> dict[str, str]:
+    """fid -> Status token for every finding in the brief summary table."""
+    block = section_block(text, r"^##\s+Findings\s*$")
+    statuses: dict[str, str] = {}
+    if not block:
+        return statuses
+    for candidate in tables_in(block):
+        header, rows = table_cells(candidate)
+        if "Status" not in header:
+            continue
+        sidx = header.index("Status")
+        for row in rows:
+            fid = next(
+                (
+                    m.group(0)
+                    for cell in row
+                    for m in [re.search(r"FND-[A-Z]{3}-\d{3}", cell)]
+                    if m
+                ),
+                None,
+            )
+            if fid is None or len(row) <= sidx:
+                continue
+            value = row[sidx].strip()
+            token = next((t for t in BRIEF_STATUS if value.startswith(t)), "")
+            if token:
+                statuses[fid] = token
+        if statuses:
+            return statuses
+    return statuses
+
+
+def check_brief_sections(lines: list[str], fences: list[bool]) -> list[str]:
+    """The brief contract's ## section catalogue - anything outside the
+    required and conditional sets, and every section the redesign folded or
+    moved to the evidence file, is flagged."""
+    failures: list[str] = []
+    headings = [
+        match.group(1)
+        for line, fenced in zip(lines, fences)
+        if not fenced
+        for match in [re.match(r"^##\s+(.+?)\s*$", line)]
+        if match
+    ]
+    known = set(BRIEF_SECTIONS) | BRIEF_CONDITIONAL_SECTIONS
+    for name in headings:
+        if name in known or name.startswith(("Appendix ", "Project ")):
+            continue
+        if name in BRIEF_MOVED_SECTIONS:
+            moved = BRIEF_MOVED_SECTIONS[name]
+            if moved == "EVIDENCE-FILE":
+                failures.append(
+                    f"unexpected section '## {name}' - the brief contract "
+                    "omits it; keep such detail in the run's working artifacts"
+                )
+            elif moved:
+                failures.append(
+                    f"unexpected section '## {name}' - its content lives in "
+                    f"'## {moved}' under the brief contract"
+                )
+            else:
+                failures.append(
+                    f"unexpected section '## {name}' - the brief report never "
+                    "carries it"
+                )
+        else:
+            failures.append(
+                f"unexpected section '## {name}' - the brief contract defines "
+                "no such section"
+            )
+    order = BRIEF_SECTIONS + ["Changes Since Previous Report", "Glossary"]
+    present = [name for name in headings if name in order]
+    if present != sorted(present, key=order.index):
+        failures.append("brief sections are not in the contract order")
+    if "Glossary" in headings and headings[-1] != "Glossary":
+        failures.append("## Glossary is not the last section - it always renders last")
+    text = NL.join(lines)
+    for prefix, label in (
+        ("RSK-", "risk register blocks"),
+        ("REC-", "recommendation blocks"),
+        ("TDR-", "debt register blocks"),
+    ):
+        if re.search(rf"^###\s+{prefix}", text, re.MULTILINE):
+            failures.append(
+                f"brief report carries {label} - risk and action live on the "
+                "canonical finding records"
+            )
+    return failures
+
+
+def check_brief_state(
+    text: str, sidecar: dict[str, str] | None = None
+) -> list[str]:
+    """Current State carries the verdict, gate results, and a status-count
+    table reconciling against the Findings summary."""
+    block = section_block(text, r"^##\s+Current State\s*$")
+    if not block:
+        return []
+    failures: list[str] = []
+    if not re.search(
+        rf"(?i)\bverdict\b\*{{0,2}}\s*(?::\**\s*|reads\s+\**|is\s+\**)"
+        rf"({'|'.join(BRIEF_VERDICTS)})\b",
+        block,
+    ):
+        failures.append(
+            "Current State lacks a verdict line - expected one of "
+            f"{'/'.join(BRIEF_VERDICTS)}"
+        )
+    for candidate in tables_in(block):
+        header, rows = table_cells(candidate)
+        if "Gate" not in header or "Result" not in header:
+            continue
+        ridx = header.index("Result")
+        for row in rows:
+            if len(row) <= ridx:
+                continue
+            value = row[ridx].strip()
+            if value and not any(
+                value.startswith(token) for token in BRIEF_GATE_RESULTS
+            ):
+                failures.append(
+                    f"gate Result '{value}' is not one of "
+                    f"{'/'.join(BRIEF_GATE_RESULTS)}"
+                )
+    status_tables = [
+        candidate
+        for candidate in tables_in(block)
+        if {"Status", "Findings"}
+        <= {cell.strip() for cell in raw_cells(candidate[0])}
+    ]
+    if not status_tables:
+        failures.append("Current State lacks the Status/Findings count table")
+        return failures
+    header, rows = table_cells(status_tables[0])
+    sidx = header.index("Status")
+    cidx = header.index("Findings")
+    declared: dict[str, int] = {}
+    for row in rows:
+        if len(row) <= max(sidx, cidx):
+            continue
+        label = row[sidx].strip()
+        token = next((t for t in BRIEF_STATUS if label.startswith(t)), "")
+        if label and not token:
+            failures.append(
+                f"status table row '{label}' is not a known status - expected "
+                f"{'/'.join(BRIEF_STATUS)}"
+            )
+            continue
+        digits = re.sub(r"[^\d]", "", row[cidx])
+        declared[token] = int(digits) if digits else 0
+    actual: dict[str, int] = {}
+    merged = dict(sidecar or {})
+    merged.update(brief_summary_statuses(text))
+    for status in merged.values():
+        actual[status] = actual.get(status, 0) + 1
+    for status, count in declared.items():
+        if actual.get(status, 0) != count:
+            failures.append(
+                f"status table counts {count} {status} finding(s) but the "
+                f"Findings summary carries {actual.get(status, 0)}"
+            )
+    for status in actual:
+        if status not in declared:
+            failures.append(
+                f"Findings summary carries {status} findings the status "
+                "table omits"
+            )
+    return failures
+
+
+def check_brief_blocks(lines: list[str]) -> list[str]:
+    """The canonical finding record of the brief contract."""
+    failures: list[str] = []
+    for name, block in defect_blocks(lines):
+        pillar = re.match(r"FND-([A-Z]{3})-\d{3}", name)
+        if pillar and pillar.group(1) not in FINDING_PILLARS:
+            failures.append(
+                f"{name}: pillar code '{pillar.group(1)}' is not one of "
+                f"{'/'.join(FINDING_PILLARS)} - expected FND-<pillar>-NNN"
+            )
+        for field in BRIEF_REQUIRED_FIELDS:
+            if f"**{field}:**" not in block:
+                failures.append(
+                    f"{name}: missing {field} - expected literal "
+                    f"'- **{field}:** <value>'"
+                )
+        for field, vocab in (
+            ("Severity", DEFECT_SEVERITIES),
+            ("Priority", BRIEF_PRIORITIES),
+            ("Status", BRIEF_STATUS),
+            ("Verification", BRIEF_VERIFIED),
+        ):
+            value = field_value(block, field)
+            if value and not re.match(rf"^({'|'.join(vocab)})\b", value):
+                failures.append(
+                    f"{name}: {field} '{value[:30]}' is not one of "
+                    f"{'/'.join(vocab)}"
+                )
+        status = field_value(block, "Status")
+        if status.startswith("Known"):
+            for field in BRIEF_DECISION_FIELDS:
+                if f"**{field}:**" not in block:
+                    failures.append(
+                        f"{name}: Known status requires a {field} field"
+                    )
+        if field_value(block, "Blocks") and not field_value(
+            block, "Priority"
+        ).startswith("P1"):
+            failures.append(
+                f"{name}: a gate-blocker carries Priority other than P1"
+            )
+        for field in ("Observation", "Impact", "Fix", "Closure"):
+            value = field_value(block, field)
+            if value and EMPTY_FIELD_VALUE.match(value):
+                failures.append(
+                    f"{name}: {field} renders {value.split(' ')[0]} - "
+                    "state the content or omit the field"
+                )
+    return failures
+
+
+def brief_sidecar_path(report_path: Path) -> Path:
+    base = re.sub(r"-(?:EN|PL)$", "", report_path.stem)
+    return report_path.with_name(f"{base}-findings.json")
+
+
+def brief_sidecar_statuses(report_path: Path) -> dict[str, str] | None:
+    """fid -> status from the `<stem>-findings.json` canonical register, or
+    None when the sidecar is absent or unparseable."""
+    path = brief_sidecar_path(report_path)
+    if not path.exists():
+        return None
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return None
+    findings = data.get("findings") if isinstance(data, dict) else None
+    if not isinstance(findings, list):
+        return None
+    return {
+        entry["id"]: entry.get("status", "")
+        for entry in findings
+        if isinstance(entry, dict) and entry.get("id")
+    }
+
+
+def check_brief_sidecar(report_path: Path, text: str) -> list[str]:
+    """A findings sidecar may be kept in a working directory - when one sits
+    beside the report it must parse, keep each pillar's numbering contiguous
+    from 001, use the status vocabulary, and include every finding the report
+    names."""
+    path = brief_sidecar_path(report_path)
+    if not path.exists():
+        return []
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError) as exc:
+        return [f"findings sidecar '{path.name}' does not parse - {exc}"]
+    findings = data.get("findings") if isinstance(data, dict) else None
+    if not isinstance(findings, list):
+        return [f"findings sidecar '{path.name}' carries no 'findings' list"]
+    failures: list[str] = []
+    ids = []
+    families: dict[str, list[int]] = {}
+    for entry in findings:
+        if not isinstance(entry, dict) or not entry.get("id"):
+            failures.append("findings sidecar entry without an 'id'")
+            continue
+        fid = entry["id"]
+        ids.append(fid)
+        pillar = re.match(r"FND-([A-Z]{3})-(\d{3})", str(fid))
+        if not pillar:
+            failures.append(f"findings sidecar id '{fid}' is not FND-<pillar>-NNN")
+            continue
+        families.setdefault(pillar.group(1), []).append(int(pillar.group(2)))
+        status = entry.get("status", "")
+        if status not in BRIEF_STATUS:
+            failures.append(
+                f"findings sidecar {fid} status '{status}' is not one of "
+                f"{'/'.join(BRIEF_STATUS)}"
+            )
+    for pillar, numbers in families.items():
+        if numbers != list(range(1, len(numbers) + 1)):
+            failures.append(
+                f"findings sidecar FND-{pillar} numbering is not contiguous "
+                "from 001 in register order"
+            )
+    named = set(
+        re.findall(r"FND-[A-Z]{3}-\d{3}", text)
+    ) | brief_oneliner_ids(text.split("\n"))
+    for fid in sorted(named - set(ids)):
+        failures.append(
+            f"report names {fid} but the findings sidecar does not define it"
+        )
+    return failures
+
+
+def check_brief_plan(
+    text: str, lines: list[str], sidecar: dict[str, str] | None = None
+) -> list[str]:
+    """The Plan cites defined findings, and every Planned or In Progress
+    finding is planned exactly once."""
+    block = section_block(text, r"^##\s+Plan\s*$")
+    if not block:
+        return []
+    failures: list[str] = []
+    defined = {
+        match.group(1)
+        for match in re.finditer(r"^###\s+(FND-[A-Z]{3}-\d{3})", text, re.MULTILINE)
+    } | brief_oneliner_ids(lines) | set(brief_summary_statuses(text)) | set(sidecar or {})
+    cited = re.findall(r"FND-[A-Z]{3}-\d{3}", block)
+    for fid in sorted(set(cited) - defined):
+        failures.append(f"Plan cites {fid} but the report defines no such finding")
+    planned = {
+        fid
+        for fid, status in brief_summary_statuses(text).items()
+        if status in ("Planned", "In Progress")
+    }
+    for fid in sorted(planned - set(cited)):
+        failures.append(
+            f"{fid} is {brief_summary_statuses(text)[fid]} but the Plan "
+            "never cites it"
+        )
+    for fid in sorted(planned):
+        if cited.count(fid) > 1:
+            failures.append(
+                f"{fid} appears {cited.count(fid)} times in the Plan - "
+                "each finding is planned once"
+            )
+    return failures
+
+
+def check_brief_known(text: str) -> list[str]:
+    """Known And Deferred mirrors every `Known` finding's decision fields."""
+    block = section_block(text, r"^##\s+Known And Deferred\s*$")
+    if not block:
+        return []
+    failures: list[str] = []
+    known = {
+        fid
+        for fid, status in brief_summary_statuses(text).items()
+        if status == "Known"
+    }
+    tables = [
+        candidate
+        for candidate in tables_in(block)
+        if {"Finding", "Reason", "Owner", "Review"}
+        <= {cell.strip() for cell in raw_cells(candidate[0])}
+    ]
+    if not tables:
+        if known:
+            failures.append(
+                "Known And Deferred lacks the Finding/Reason/Owner/Review "
+                "table for the Known findings it must record"
+            )
+        elif "None recorded" not in block:
+            failures.append(
+                "Known And Deferred states no 'None recorded' for an empty set"
+            )
+        return failures
+    header, rows = table_cells(tables[0])
+    find_idx = header.index("Finding")
+    table_ids = {
+        match.group(0)
+        for row in rows
+        if len(row) > find_idx
+        for match in [re.search(r"FND-[A-Z]{3}-\d{3}", row[find_idx])]
+        if match
+    }
+    for fid in sorted(known - table_ids):
+        failures.append(
+            f"{fid} carries Status: Known but Known And Deferred omits it"
+        )
+    for fid in sorted(table_ids - known):
+        failures.append(
+            f"{fid} sits in Known And Deferred but carries no Known status"
+        )
+    return failures
+
+
+def check_brief_delta(text: str) -> list[str]:
+    """Changes Since Previous Report renders only with a previous report and
+    its Change column keeps the provenance vocabulary."""
+    failures: list[str] = []
+    prev = re.search(r"\|\s*Previous Report\s*\|\s*([^|]+)", text)
+    has_prev = prev is not None and bool(
+        re.sub(r"[\s`*_-]", "", prev.group(1).lower().replace("none", ""))
+    )
+    block = section_block(text, r"^##\s+Changes Since Previous Report\s*$")
+    if block and not has_prev:
+        failures.append(
+            "the report carries Changes Since Previous Report but Previous "
+            "Report records none - the section renders only against a "
+            "previous brief report"
+        )
+    if not block:
+        return failures
+    for candidate in tables_in(block):
+        header, rows = table_cells(candidate)
+        if "Change" not in header:
+            continue
+        cidx = header.index("Change")
+        for row in rows:
+            if len(row) <= cidx:
+                continue
+            value = row[cidx].strip()
+            if value and not next(
+                (t for t in DEFECT_CHANGES if value.startswith(t)), ""
+            ):
+                failures.append(
+                    f"Changes Since Previous Report Change '{value}' is not "
+                    f"one of {'/'.join(sorted(DEFECT_CHANGES))}"
+                )
+    return failures
+
+
+def check_brief_budget(lines: list[str], text: str) -> list[str]:
+    failures: list[str] = []
+    if len(lines) > BRIEF_BUDGET_LINES:
+        failures.append(
+            f"brief report is {len(lines)} lines - the contract budget is "
+            f"{BRIEF_BUDGET_LINES}"
+        )
+    if len(text.encode("utf-8")) > BRIEF_BUDGET_BYTES:
+        failures.append(
+            f"brief report is {len(text.encode('utf-8'))} bytes - the "
+            f"contract budget is {BRIEF_BUDGET_BYTES}"
+        )
+    return failures
+
+
+def check_brief_classification(text: str) -> list[str]:
+    if re.search(r"^#{2,3}\s+Recommendation Classification\s*$", text, re.MULTILINE):
+        return [
+            "brief report carries a Recommendation Classification section - "
+            "dispositions live in the Plan"
+        ]
+    return []
 
 
 def check_review_dispositions(text: str) -> list[str]:
@@ -3453,12 +4710,13 @@ def check_executed_log(text: str) -> list[str]:
     return failures
 
 
-def check_register_numbering(lines: list[str], fences: list[bool]) -> list[str]:
+def check_register_numbering(lines: list[str], fences: list[bool], text: str = "") -> list[str]:
     """Register identifiers are report-global: each block identifier defines
     exactly once in a `### <ID>:` heading (each EVD identifier in exactly one
     first-cell ledger row), and every family's numbers run contiguously from
     001 in document order - FND contiguous per pillar."""
     failures: list[str] = []
+    brief = bool(text) and is_brief(text)
     sequences: dict[str, list[str]] = {}
     for line, fenced in zip(lines, fences):
         if fenced:
@@ -3467,6 +4725,8 @@ def check_register_numbering(lines: list[str], fences: list[bool]) -> list[str]:
         if block:
             ident = block.group(1)
             family = ident.rsplit("-", 1)[0]
+            if brief and family.startswith("FND-"):
+                continue
             sequences.setdefault(family, []).append(ident)
             continue
         if line.startswith("|"):
@@ -3584,21 +4844,52 @@ def review_scope(text: str) -> str:
     return match.group(1).strip().lower() if match else "full"
 
 
+def audit_variant(text: str) -> str:
+    """The audit genre variant recorded in Report Style - 'decision' (the
+    default reorganized contract) or 'legacy' (the pre-redesign
+    metadata-first layout)."""
+    match = re.search(r"\|\s*Report Style\s*\|\s*([^|]+)", text)
+    if not match or report_style(text) != "audit":
+        return ""
+    if "(" in match.group(1):
+        return match.group(1).split("(", 1)[1].rstrip(") ").strip().lower()
+    return "decision"
+
+
+def hunt_variant(text: str) -> str:
+    """The hunt genre variant recorded in Report Style - 'defect' (the default
+    contract) or 'legacy' (the pre-redesign verdict/domain layout)."""
+    match = re.search(r"\|\s*Report Style\s*\|\s*([^|]+)", text)
+    if not match or not match.group(1).strip().lower().startswith("hunt"):
+        return ""
+    if "(" in match.group(1):
+        return match.group(1).split("(", 1)[1].rstrip(") ").strip().lower()
+    return "defect"
+
+
+def is_defect(text: str) -> bool:
+    return report_style(text) == "hunt" and hunt_variant(text) != "legacy"
+
+
+def is_brief(text: str) -> bool:
+    return report_style(text) == "brief"
+
+
 def check_snapshot_identity(text: str) -> list[str]:
-    if "Document Information" not in text:
+    if "Document Information" not in text and "Report Overview" not in text:
         return []
     failures: list[str] = []
     if not re.search(r"\|\s*Subject Revision\s*\|\s*\S", text):
-        failures.append("Document Information lacks a Subject Revision snapshot anchor")
+        failures.append("metadata table lacks a Subject Revision snapshot anchor")
     if not re.search(r"\|\s*Report Style\s*\|", text):
-        failures.append("Document Information lacks a Report Style row")
+        failures.append("metadata table lacks a Report Style row")
     if not re.search(r"\|\s*Evidence Mode\s*\|", text):
-        failures.append("Document Information lacks an Evidence Mode row")
+        failures.append("metadata table lacks an Evidence Mode row")
     return failures
 
 
 def check_evidence_sections(text: str) -> list[str]:
-    if "Document Information" not in text:
+    if "Document Information" not in text and "Report Overview" not in text:
         return []
     if review_scope(text) == "structure":
         return []
@@ -3608,6 +4899,8 @@ def check_evidence_sections(text: str) -> list[str]:
             if not re.search(r"^#{2,3}\s+Artifact Manifest\s*$", text, re.MULTILINE):
                 return ["executed review report has no Artifact Manifest section"]
             return []
+        if is_brief(text):
+            return []
         if not re.search(r"^#{2,3}\s+Executed Evidence\s*$", text, re.MULTILINE):
             return [f"{mode} report has no Executed Evidence section"]
         return []
@@ -3616,6 +4909,8 @@ def check_evidence_sections(text: str) -> list[str]:
             f"Evidence Mode '{mode}' is not a known mode - expected "
             "source-only, executed-readonly, or executed-commands"
         ]
+    if is_defect(text) or is_brief(text):
+        return []
     if not re.search(r"^#{2,3}\s+Further Verification\s*$", text, re.MULTILINE):
         return ["source-only report has no Further Verification section"]
     return []
@@ -3673,7 +4968,9 @@ def check_summary_verified(text: str) -> list[str]:
 
 def check_fresh_audit_claims(lines: list[str], fences: list[bool]) -> list[str]:
     text = NL.join(lines)
-    if re.search(r"^#{2,3}\s+Changes Since Previous Audit\s*$", text, re.MULTILINE):
+    if re.search(
+        r"^#{2,3}\s+Changes Since Previous (Audit|Report)\s*$", text, re.MULTILINE
+    ):
         return []
     failures: list[str] = []
     for index, (line, fenced) in enumerate(zip(lines, fences)):
@@ -3714,7 +5011,7 @@ def check_roadmap_structure(text: str) -> list[str]:
     roadmaps = [i for i, (_, title) in enumerate(level2) if title == "Remediation Roadmap"]
     if len(roadmaps) > 1:
         failures.append("more than one level-2 Remediation Roadmap section")
-    elif roadmaps and (
+    elif roadmaps and audit_variant(text) == "legacy" and (
         roadmaps[0] + 1 >= len(level2)
         or level2[roadmaps[0] + 1][1] != "Reference Sources"
     ):
@@ -3802,6 +5099,8 @@ def check_valueless_rows(lines: list[str]) -> list[str]:
             continue
         cells = [cell.strip() for cell in line.strip("|").split("|")]
         if len(cells) != 2:
+            continue
+        if cells[0] == "Previous Report":
             continue
         if cells[1] in ("0", "None", "-"):
             failures.append(
@@ -3945,6 +5244,10 @@ def check_sbom_table(text: str) -> list[str]:
 def check_roadmap_breaking(text: str) -> list[str]:
     if "**Breaking:**" not in text:
         return []
+    if report_style(text) == "audit" and audit_variant(text) != "legacy":
+        # the default audit roadmap overview is compact by contract - the
+        # Breaking assessment stays in the finding and REC- detail records
+        return []
     failures: list[str] = []
     for match in re.finditer(r"^#{2,3}\s+Remediation Roadmap\s*$", text, re.MULTILINE):
         rest = text[match.end() :]
@@ -4043,6 +5346,21 @@ def covered_dimension_tables(text: str) -> list[tuple[int, list[list[str]]]]:
             header = parsed[0]
             if "Dimension" in header and "Score" in header:
                 tables.append((tstart, parsed))
+            elif (
+                header
+                and header[0] == "Dimension"
+                and "Score" not in header
+                and len(header) >= 3
+            ):
+                # default-style pivot - expand `Dimension | <project> | ...`
+                # into long-form `Project | Dimension | Score` rows so every
+                # downstream check reads one shape
+                expanded = [["Project", "Dimension", "Score"], ["---"] * 3]
+                for row in parsed[2:]:
+                    for col, project in enumerate(header[1:], start=1):
+                        if len(row) > col:
+                            expanded.append([project, row[0], row[col]])
+                tables.append((tstart, expanded))
     for position, block in dashboard_sections(text):
         tables.extend(dimension_tables(block, position))
     deduped: list[tuple[int, list[list[str]]]] = []
@@ -5041,43 +6359,128 @@ def report_contract() -> dict:
         },
         "styles": {
             "audit": {
-                "sections": BASELINE_SECTIONS,
-                "roadmap_subsections": {
-                    "Recommendation Classification":
-                        "required at Standard/Detailed - ### inside Remediation Roadmap",
-                    "Follow-up Plan":
-                        "### subsection closing Remediation Roadmap when a P1/P2 "
-                        "recommendation exists - no standalone section",
+                "default_variant": "decision",
+                "decision": {
+                    "sections": AUDIT_ORDER,
+                    "required_sections": sorted(AUDIT_SECTIONS),
+                    "brief_sections": sorted(AUDIT_BRIEF_SECTIONS),
+                    "conditional_sections": sorted(CONDITIONAL_SECTIONS),
+                    "findings_section": "Technical Findings",
+                    "dashboard": "Scorecard Summary leads (pivoted "
+                    "Dimension x project matrix for multi-project reports), "
+                    "then Interpretation limits, Risk Map, Team & Continuity",
+                    "executive_summary": "### Immediate Actions previews up to "
+                    "five recommendations and links the complete roadmap",
+                    "contents": "required after Document Information - links "
+                    "grouped by reader task",
+                    "roadmap_subsections": {
+                        "Recommendation Classification":
+                            "required at Standard/Detailed - ### inside Remediation Roadmap",
+                        "Follow-up Plan":
+                            "### subsection closing Remediation Roadmap when a P1/P2 "
+                            "recommendation exists - no standalone section",
+                    },
+                    "recommendation_classification":
+                        "required at Standard/Detailed inside Remediation Roadmap",
+                    "finding_disposition": "every open ### FND- block is cited in the "
+                    "roadmap/classification region or carries an explicit disposition",
+                    "defect_scenarios": "required on High/Critical findings",
                 },
-                "brief_sections": sorted(BRIEF_SECTIONS),
-                "conditional_sections": sorted(CONDITIONAL_SECTIONS),
-                "findings_section": "Technical Findings",
-                "recommendation_classification":
-                    "required at Standard/Detailed inside Remediation Roadmap",
-                "finding_disposition": "every open ### FND- block is cited in the "
-                "roadmap/classification region or carries an explicit disposition",
-                "defect_scenarios": "required on High/Critical findings",
+                "legacy": {
+                    "sections": LEGACY_SECTIONS,
+                    "brief_sections": sorted(LEGACY_BRIEF_SECTIONS),
+                    "conditional_sections": sorted(CONDITIONAL_SECTIONS),
+                    "findings_section": "Technical Findings",
+                    "roadmap_subsections": {
+                        "Recommendation Classification":
+                            "required at Standard/Detailed - ### inside Remediation Roadmap",
+                        "Follow-up Plan":
+                            "### subsection closing Remediation Roadmap when a P1/P2 "
+                            "recommendation exists - no standalone section",
+                    },
+                    "recommendation_classification":
+                        "required at Standard/Detailed inside Remediation Roadmap",
+                    "finding_disposition": "every open ### FND- block is cited in the "
+                    "roadmap/classification region or carries an explicit disposition",
+                    "defect_scenarios": "required on High/Critical findings",
+                },
             },
             "hunt": {
-                "sections": HUNT_SECTIONS,
-                "conditional_sections": [
-                    "Glossary Index",
-                    "Contradiction Register",
-                    "Further Verification",
-                    "Executed Evidence",
-                ],
-                "findings_section": "Domain Findings",
-                "domains": list(HUNT_DOMAINS),
-                "ratings": list(HUNT_RATINGS),
-                "verdicts": list(HUNT_VERDICTS),
-                "gate_results": list(HUNT_GATE_RESULTS),
-                "hop_status": list(HUNT_HOP_STATUS),
-                "match_values": list(HUNT_MATCH_VALUES),
-                "strengths_cap": 5,
-                "defect_scenarios": "required on High/Critical findings",
-                "recommendation_classification": "forbidden - disposition lives in Remediation Phases",
+                "default_variant": "defect",
+                "defect": {
+                    "sections": DEFECT_SECTIONS,
+                    "conditional_sections": sorted(DEFECT_CONDITIONAL_SECTIONS),
+                    "removed_sections": DEFECT_MOVED_SECTIONS,
+                    "findings_section": "Findings",
+                    "domains": list(HUNT_DOMAINS),
+                    "classes": list(DEFECT_CLASSES),
+                    "severities": list(DEFECT_SEVERITIES),
+                    "statuses": list(DEFECT_STATUS),
+                    "unresolved_statuses": list(DEFECT_UNRESOLVED),
+                    "dispositions": list(DEFECT_DISPOSITIONS),
+                    "decision_dispositions": list(DEFECT_DECISION_DISPOSITIONS),
+                    "priorities": list(DEFECT_PRIORITIES),
+                    "confidence": list(DEFECT_CONFIDENCE),
+                    "changes": list(DEFECT_CHANGES),
+                    "readiness": list(DEFECT_READINESS),
+                    "finding_required": list(DEFECT_REQUIRED_FIELDS),
+                    "decision_fields": list(DEFECT_DECISION_FIELDS),
+                    "doc_info_required": sorted(DEFECT_DOC_INFO_REQUIRED),
+                    "recommendation_classification": "forbidden - actions live in the Remediation Plan",
+                    "register_blocks": "RSK-/REC-/TDR- blocks forbidden - one canonical finding record",
+                },
+                "legacy": {
+                    "sections": HUNT_SECTIONS,
+                    "conditional_sections": [
+                        "Glossary Index",
+                        "Contradiction Register",
+                        "Further Verification",
+                        "Executed Evidence",
+                    ],
+                    "findings_section": "Domain Findings",
+                    "domains": list(HUNT_DOMAINS),
+                    "ratings": list(HUNT_RATINGS),
+                    "verdicts": list(HUNT_VERDICTS),
+                    "gate_results": list(HUNT_GATE_RESULTS),
+                    "hop_status": list(HUNT_HOP_STATUS),
+                    "match_values": list(HUNT_MATCH_VALUES),
+                    "strengths_cap": 5,
+                    "defect_scenarios": "required on High/Critical findings",
+                    "recommendation_classification": "forbidden - disposition lives in Remediation Phases",
+                },
+            },
+            "brief": {
+                "sections": BRIEF_SECTIONS,
+                "conditional_sections": sorted(BRIEF_CONDITIONAL_SECTIONS),
+                "moved_sections": BRIEF_MOVED_SECTIONS,
+                "findings_section": "Findings",
+                "statuses": list(BRIEF_STATUS),
+                "decision_fields": list(BRIEF_DECISION_FIELDS),
+                "verified": list(BRIEF_VERIFIED),
+                "priorities": list(BRIEF_PRIORITIES),
+                "gate_results": list(BRIEF_GATE_RESULTS),
+                "verdicts": list(BRIEF_VERDICTS),
+                "finding_required": list(BRIEF_REQUIRED_FIELDS),
+                "doc_info_required": sorted(BRIEF_DOC_INFO_REQUIRED),
+                "budget": {
+                    "lines": BRIEF_BUDGET_LINES,
+                    "bytes": BRIEF_BUDGET_BYTES,
+                },
+                "changes": list(DEFECT_CHANGES),
+                "recommendation_classification":
+                    "forbidden - dispositions live in the Plan",
+                "register_blocks": "RSK-/REC-/TDR-/EVD-/PAR- registers forbidden - "
+                    "one canonical finding record, the summary table carries "
+                    "every finding",
+                "glossary": "optional, always the last section, report-relevant "
+                    "terms only",
+                "working_artifacts": "optional only - evidence extractions or a "
+                    "findings JSON may live in a temporary working directory, "
+                    "never beside the report",
             },
             "review": {
+                "default_variant": "legacy",
+                "legacy": {
                 "sections": REVIEW_SECTIONS,
                 "conditional_sections": [
                     "Glossary Index",
@@ -5118,6 +6521,7 @@ def report_contract() -> dict:
                 "structure_variant": {
                     "detection": "Review Scope row in Document Information reads Structure",
                     "sections": STRUCTURE_VARIANT_SECTIONS,
+                },
                 },
             },
         },
@@ -5195,9 +6599,18 @@ def report_contract() -> dict:
             "shared tables when a Project Inventory exists",
             "failing journey hops must cite a defined FND- identifier",
             "every open finding maps to a remediation entry or an "
-            "'Accepted - no action'/'Deferred' disposition - Remediation Phases "
+            "'Accepted - no action'/'Deferred' disposition - Remediation Plan "
             "under hunt, Improvement Plan under review, roadmap/classification "
             "under audit",
+            "defect findings carry Status (technical lifecycle) and "
+            "Disposition (management decision) as separate fields, and a "
+            "Deferred/Accepted Risk/Won't Fix disposition requires the "
+            "Reason/Owner/Decided/Review/Conditions decision fields",
+            "the Health Assessment severity/class and disposition tables "
+            "reconcile against the defect register's finding blocks",
+            "finding identifiers stay stable across report revisions - a "
+            "Resolved or Retired previous finding drops its block and lives "
+            "in Previous Findings only",
             "risk table Severity/Likelihood cells must match the RSK- block fields",
             "register identifiers are report-global - defined exactly once "
             "and contiguous from 001 per family, FND contiguous per pillar",
@@ -5206,7 +6619,7 @@ def report_contract() -> dict:
             "a coverage row claiming SBOM/component-inventory Covered requires a "
             "Software Bill of Materials section - a module inventory is not an SBOM",
             "High/Critical findings carry a Scenario field under the "
-            "audit and hunt styles",
+            "audit and hunt (legacy) styles",
             "Error/Blocked are runner states, never product failures - "
             "Not run is never a pass",
             "a model reproduction never upgrades app-level reachability",
@@ -5238,14 +6651,33 @@ TRANSLATED_REPORT_GUIDANCE = (
 
 def non_english_language(text: str) -> str | None:
     """Return a `label: value` string when the Document Information
-    language row declares a non-English report, else None. The row lives
-    in the first `##` section; scanning the whole document would risk a
-    stray `Language` cell in an unrelated table."""
+    language row declares a non-English report, else None. The row shares
+    the Document Information table with the Report Style row - anchoring
+    the scan on that table keeps it correct under every section layout
+    without risking a stray `Language` cell in an unrelated table."""
     lines = text.split("\n")
-    sections = [i for i, line in enumerate(lines) if line.startswith("## ")]
-    if len(sections) > 1:
-        text = "\n".join(lines[: sections[1]])
-    match = LANGUAGE_ROW.search(text)
+    region = text
+    style_at = next(
+        (
+            index
+            for index, line in enumerate(lines)
+            if re.match(r"^\|\s*(?:Report Style|Styl raportu)\s*\|", line)
+        ),
+        None,
+    )
+    if style_at is not None:
+        top = style_at
+        while top > 0 and lines[top - 1].startswith("|"):
+            top -= 1
+        bottom = style_at
+        while bottom + 1 < len(lines) and lines[bottom + 1].startswith("|"):
+            bottom += 1
+        region = "\n".join(lines[top : bottom + 1])
+    else:
+        sections = [i for i, line in enumerate(lines) if line.startswith("## ")]
+        if len(sections) > 1:
+            region = "\n".join(lines[: sections[1]])
+    match = LANGUAGE_ROW.search(region)
     if not match:
         return None
     label, value = match.group(1).strip(), match.group(2).strip()
@@ -5316,6 +6748,18 @@ def main(
             print(f"  {step}")
         return 2
     kind = report_kind(path, text)
+    sidecar = (
+        brief_sidecar_statuses(Path(path))
+        if is_brief(text)
+        else None
+    )
+    external = (
+        set(sidecar or {})
+        | set(brief_summary_statuses(text))
+        | brief_oneliner_ids(lines)
+        if is_brief(text)
+        else set()
+    )
     checks = [
         ("headings", check_headings(lines, fences)),
         ("semicolons", check_semicolons(lines, fences)),
@@ -5326,7 +6770,7 @@ def main(
                     ("spaced punctuation", check_spaced_punctuation(lines, fences)),
                     ("split link atoms", check_split_link_atoms(lines, fences)),
         ("non-ASCII dashes and arrows", check_dashes(lines, fences)),
-        ("prose width", check_prose_width(lines, fences)),
+
         (
             "sentence line breaks",
             check_sentence_breaks(lines, fences, sentence_breaks_on(text)),
@@ -5347,7 +6791,7 @@ def main(
                 [
                     "file follows the removed amendment-review contract - "
                     "that report type was deleted; regenerate it as a "
-                    "review-style report per process/report-format/review-style.md"
+                    "review-style report per process/report-format/review-legacy.md"
                 ],
             )
         )
@@ -5359,11 +6803,11 @@ def main(
                 [
                     ("structure-variant sections", check_structure_variant_sections(text)),
                     ("FND cross-references", check_ids(text)),
-                    ("register reference links", check_reference_links(lines, fences, text)),
-                    ("register numbering", check_register_numbering(lines, fences)),
+                    ("register reference links", check_reference_links(lines, fences, text, external)),
+                    ("register numbering", check_register_numbering(lines, fences, text)),
                     ("finding-block fields", check_finding_blocks(lines)),
                     ("criteria references", check_criteria_references(lines, style)),
-                    ("legacy field names", check_legacy_fields(lines, fences)),
+                    ("legacy field names", check_legacy_fields(lines, fences, text)),
                     ("Observation/Concern tags", check_type_tags(lines, fences)),
                     ("snapshot identity", check_snapshot_identity(text)),
                     ("evidence sections", check_evidence_sections(text)),
@@ -5379,15 +6823,15 @@ def main(
                     ("executive summary table", check_executive_summary(text)),
                     ("coverage rows", check_coverage_rows(text)),
                     ("FND/RSK/REC cross-references", check_ids(text)),
-                    ("register reference links", check_reference_links(lines, fences, text)),
-                    ("register numbering", check_register_numbering(lines, fences)),
+                    ("register reference links", check_reference_links(lines, fences, text, external)),
+                    ("register numbering", check_register_numbering(lines, fences, text)),
                     ("finding-block fields", check_finding_blocks(lines)),
                     ("criteria references", check_criteria_references(lines, style)),
                     ("description paragraphs", check_description_paragraphs(lines)),
                     ("risk-block fields", check_risk_blocks(lines)),
                     ("recommendation blocks", check_rec_blocks(lines)),
                     ("debt blocks", check_tdr_blocks(lines)),
-                    ("legacy field names", check_legacy_fields(lines, fences)),
+                    ("legacy field names", check_legacy_fields(lines, fences, text)),
                     ("findings summary columns", check_finding_summary(text)),
                     ("findings count", check_finding_counts(text)),
                     ("scorecard intervals", check_scorecard_interval(text)),
@@ -5419,15 +6863,27 @@ def main(
                 ]
             )
             if style == "hunt":
-                checks.extend(
-                    [
-                        ("hunt domain ratings", check_hunt_ratings(text)),
-                        ("hunt verdict elements", check_hunt_verdict(text)),
-                        ("hunt journey traces", check_hunt_journeys(text)),
-                        ("hunt finding disposition", check_finding_disposition(text, lines)),
-                        ("hunt classification ban", check_hunt_classification(text)),
-                    ]
-                )
+                if hunt_variant(text) == "legacy":
+                    checks.extend(
+                        [
+                            ("hunt domain ratings", check_hunt_ratings(text)),
+                            ("hunt verdict elements", check_hunt_verdict(text)),
+                            ("hunt journey traces", check_hunt_journeys(text)),
+                            ("hunt finding disposition", check_finding_disposition(text, lines)),
+                            ("hunt classification ban", check_hunt_classification(text)),
+                        ]
+                    )
+                else:
+                    checks.extend(
+                        [
+                            ("defect sections", check_defect_sections(lines, fences)),
+                            ("defect health assessment", check_defect_health(text, lines)),
+                            ("defect remediation plan", check_defect_plan(text, lines)),
+                            ("defect previous findings", check_defect_previous(text)),
+                            ("hunt journey traces", check_hunt_journeys(text)),
+                            ("hunt classification ban", check_hunt_classification(text, "the Remediation Plan")),
+                        ]
+                    )
             elif style == "review":
                 checks.extend(
                     [
@@ -5439,6 +6895,19 @@ def main(
                         ("review finding disposition", check_finding_disposition(text, lines)),
                         ("review dispositions", check_review_dispositions(text)),
                         ("review classification ban", check_review_classification(text)),
+                    ]
+                )
+            elif style == "brief":
+                checks.extend(
+                    [
+                        ("brief sections", check_brief_sections(lines, fences)),
+                        ("brief sidecar", check_brief_sidecar(Path(path), text)),
+                        ("brief current state", check_brief_state(text, sidecar)),
+                        ("brief plan", check_brief_plan(text, lines, sidecar)),
+                        ("brief known and deferred", check_brief_known(text)),
+                        ("brief delta", check_brief_delta(text)),
+                        ("brief budget", check_brief_budget(lines, text)),
+                        ("brief classification ban", check_brief_classification(text)),
                     ]
                 )
             elif style == "audit":
@@ -5459,14 +6928,18 @@ def main(
                         ("score disclosure", check_score_disclosure(lines)),
                     ]
                 )
-            if style in ("audit", "hunt"):
+            if style == "audit" or hunt_variant(text) == "legacy":
                 checks.append(("defect scenarios", check_hunt_scenarios(lines)))
             checks.append(("AIP provenance basis", check_aip_provenance(lines)))
-        if model is not None and "Document Information" in text:
+        if model is not None and (
+            "Document Information" in text or "Report Overview" in text
+        ):
             checks.append(
                 ("model consistency", check_model_consistency(text, model, style))
             )
-        if state is not None and "Document Information" in text:
+        if state is not None and (
+            "Document Information" in text or "Report Overview" in text
+        ):
             checks.append(
                 (
                     "state consistency",
@@ -5477,6 +6950,10 @@ def main(
         label = report_style(text)
         if variant:
             label = f"{label} ({variant})"
+        elif label == "hunt":
+            label = f"hunt ({hunt_variant(text) or 'defect'})"
+        elif label == "audit":
+            label = f"audit ({audit_variant(text) or 'decision'})"
     else:
         label = kind
     print(f"report style: {label}")

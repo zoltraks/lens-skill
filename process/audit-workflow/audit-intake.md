@@ -20,18 +20,18 @@ On completion, proceed to `process/audit-workflow/parameter-phase.md`.
 |-------------------------------------------|------|-------------------------------------------|
 | Intake                                    | 36   | Intake                                    |
 | Deliverable Classification                | 47   | Deliverable Classification                |
-| Automated Run                             | 122  | Automated Run                             |
-| Report Parity Discovery                   | 160  | Report Parity Discovery                   |
-| Output Location Discovery                 | 173  | Output Location Discovery                 |
-| Development Standards Discovery           | 206  | Development Standards Discovery           |
-| Nested Repository And Working-tree Census | 231  | Nested Repository And Working-tree Census |
-| Snapshot Identity                         | 270  | Snapshot Identity                         |
-| External Report Discovery                 | 285  | External Report Discovery                 |
-| Agent-facing Artifact Discovery           | 294  | Agent-facing Artifact Discovery           |
-| Project Identification                    | 341  | Project Identification                    |
-| Automation Signal Census                  | 423  | Automation Signal Census                  |
-| Stack And Subject Classification          | 443  | Stack And Subject Classification          |
-| Audit Mode And Previous Reports           | 490  | Audit Mode And Previous Reports           |
+| Automated Run                             | 125  | Automated Run                             |
+| Report Parity Discovery                   | 163  | Report Parity Discovery                   |
+| Output Location Discovery                 | 176  | Output Location Discovery                 |
+| Development Standards Discovery           | 209  | Development Standards Discovery           |
+| Nested Repository And Working-tree Census | 234  | Nested Repository And Working-tree Census |
+| Snapshot Identity                         | 273  | Snapshot Identity                         |
+| External Report Discovery                 | 288  | External Report Discovery                 |
+| Agent-facing Artifact Discovery           | 297  | Agent-facing Artifact Discovery           |
+| Project Identification                    | 344  | Project Identification                    |
+| Automation Signal Census                  | 426  | Automation Signal Census                  |
+| Stack And Subject Classification          | 446  | Stack And Subject Classification          |
+| Audit Mode And Previous Reports           | 493  | Audit Mode And Previous Reports           |
 
 ## Intake
 
@@ -70,8 +70,10 @@ enters this workflow.
 
 Determine the report style from the request wording: `audit` by default,
 `hunt` when the request asks for a defect hunt,
-and `review` when the request explicitly names a review or check report - `check` remains an
-accepted alias for the execution-register style.
+and `brief` when the request explicitly names a review, check, or brief report -
+`review` and `check` remain accepted aliases for the renamed genre.
+An explicit `review (legacy)` or `legacy review` request selects the preserved
+execution-register layout instead.
 
 Bare "review this codebase" wording stays `audit`.
 The style is selected when the request names the report, not the activity.
@@ -79,7 +81,8 @@ The style is selected when the request names the report, not the activity.
 A request scoped to the project structure - "make a structure review",
 "review the structure" - resolves to `review` with `Review Scope: Structure` per
 `process/report-format/structure-review.md`, and a request scoped to a change set - a commit range,
-pull or merge request, or branch diff - produces a `review` -style report scoped to that change set.
+pull or merge request, or branch diff - produces a `brief` -style report scoped to
+that change set.
 
 Determine the natural language of the user's request.
 
@@ -180,13 +183,13 @@ the project version used, and the resolved output directory.
 
 When the resolved base is a `report/` directory that contains a subdirectory matching the report
 style - `audit/` for the `audit` or `hunt` style,
-`review/` for the `review` style - descend into that subdirectory and record it as the base,
-so a `docs/report/audit/` landing zone wins over the bare `docs/report/` for an
+`review/` for the `brief` or `review` style - descend into that subdirectory and record it as
+the base, so a `docs/report/audit/` landing zone wins over the bare `docs/report/` for an
 `audit` -style report.
 
 A dedicated `review/` or `reviews/` directory under a documentation root is the review-purpose base
-for a `review` -style report, and its date-named subdirectories record the `date-named` pattern for
-the subdirectory grouping.
+for a `brief` - or `review` -style report, and its date-named subdirectories record the
+`date-named` pattern for the subdirectory grouping.
 
 Classify the subdirectory names inside the resolved base output directory:
 
@@ -500,22 +503,28 @@ the default locations (`audit/` and `report/` directories and the bare root unde
 per `synthesis/report-comparison.md`.
 
 Inside a `report/` directory, also search its `audit/` subdirectory when the report style is `audit`
-or `hunt`, or its `review/` subdirectory when the report style is `review`.
+or `hunt`, or its `review/` subdirectory when the report style is `brief` or `review`.
 
-For a `review` -style report, also search dedicated `review/` and `reviews/` directories under the
-documentation roots, including their dated subdirectories.
+For a `brief` - or `review` -style report, also search dedicated `review/` and `reviews/`
+directories under the documentation roots, including their dated subdirectories.
 
 A previous report may be named `AUDIT.md`, `AUDIT-<revision>.md`, or the language-specific filename.
 
 For a `hunt` report style the same rules apply to the hunt filename family: `HUNT.md`,
-`HUNT-<revision>.md`, and the language-specific stem such as `POLOWANIE-<revision>.md`.
+`HUNT-<revision>.md`, and the language-specific stem such as `USTERKI-<revision>.md`.
+
+For a `brief` report style the family is `BRIEF.md`, `BRIEF-<revision>.md`,
+and the language-specific stem such as `SKRÓT-<revision>.md`.
 
 For a `review` report style the family is `REVIEW.md`, `REVIEW-<revision>.md`,
 and the language-specific stem such as `PRZEGLĄD-<revision>.md`.
 
-A `review` -family file serves as a baseline only when it carries `Report Style: review` and the
-same `Review Scope` value - a structure-variant report baselines a structure-variant report,
-and a full-scope review baselines a full-scope review.
+A `brief` -family file serves as a baseline only when it carries `Report Style: Brief`.
+
+A `review` -family file serves as a baseline only when it carries `Report Style: review` in
+either form and the same `Review Scope` value - a structure-variant report baselines a
+structure-variant report, and a full-scope review baselines a full-scope review.
+A recovered full-scope `Review` baselines as the `review (legacy)` variant.
 
 A `REVIEW` -family file carrying a custom suffix is treated as a custom report and still appears as
 a baseline candidate.
@@ -526,8 +535,9 @@ baseline, though its name still occupies the revision slot.
 A legacy `CHECK` -family file is never identified as a previous `review` -style report and never
 serves as a baseline.
 
-A report never baselines a report of another style - an `audit` report never baselines a `review`
-report, a `review` report never baselines an `audit` or `hunt` report, and so on.
+A report never baselines a report of another style - an `audit` report never baselines a `brief`
+or `review` report, a `brief` or `review` report never baselines an `audit` or `hunt` report,
+and so on.
 
 When several exist, present the one with the highest revision as the candidate baseline.
 

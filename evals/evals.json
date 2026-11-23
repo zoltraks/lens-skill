@@ -227,7 +227,7 @@
     "Loanwords such as commit, pull request, copyleft, SBOM, and due diligence stay untranslated and established terms such as Ważność, Panel oceny projektu, and kryterium jakości are used.",
     "The findings table separates lifecycle (Status: Otwarty/Zamknięty/OK) from movement since the previous audit (Zmiana: Nowa/Niezmieniona/Wznowiona/Zamknięta), and the Charakter odstępstwa field uses only Brak udokumentowanego uzasadnienia, Świadomy - udokumentowana decyzja, Nieokreślony, or N/D.",
     "The compliance rows are split into Certyfikacja ISO/IEC 27001 and Badanie atestacyjne SOC 2, and the coverage table never claims an assurance level.",
-    "Architectural subsection headings render Rejestr decyzji architektonicznych, Przegląd kompromisów, and Zgodność kontraktu; per-project subjects carry a trailing (project) qualifier."
+    "Architectural subsection headings render Rejestr decyzji architektonicznych, Przegląd kompromisów, and Zgodność kontraktu; per-project attribution lives in the Projekt column and block fields - headings carry no (project) qualifier."
    ]
   },
   {
@@ -804,10 +804,10 @@
    "expected_output": "A hunt-style report organized around journeys and domain findings rather than governance scorecards.",
    "files": [],
    "expectations": [
-    "Document Information records Report Style as hunt.",
-    "The report carries Verdict, Journey Traces, Domain Findings, Risk Register, and Remediation Phases sections.",
-    "Finding blocks keep the FND-<pillar> schema with the same evidence and verification fields.",
-    "The numeric scorecard and Recommendation Classification section are replaced by domain verdicts and remediation phases.",
+    "Document Information records Report Style as Hunt inside its metadata table.",
+    "The report carries Document Information, Health Assessment, Findings, Remediation Plan, Previous Findings, and Scope and Limitations sections.",
+    "Finding blocks keep the FND-<pillar> identifiers with the defect field set: Component, Class, Severity, Status, Disposition, Priority, Confidence, Impact, Evidence, Recommendation, Verification.",
+    "Findings are the single canonical register - no Verdict, Domain Ratings, Domain Findings, Risk Register, Remediation Phases, or Recommendation Classification sections appear.",
     "Project purpose, technology stack, and inventory discovery still complete before findings are written.",
     "The output filename uses the HUNT stem: bare HUNT.md is the default for a first hunt report, with HUNT-1.0.md offered as the revisioned alternative."
    ]
@@ -936,18 +936,19 @@
   {
    "id": 78,
    "prompt": "Write the defect-hunt report in Polish - report style hunt - for a repository with no previous hunt report.",
-   "expected_output": "A Polish hunt-style report using the POLOWANIE filename stem.",
+   "expected_output": "A Polish Usterki report using the USTERKI filename stem.",
    "files": [],
    "expectations": [
-    "The output filename uses the POLOWANIE stem: bare POLOWANIE.md is the default for a first Polish hunt report, with POLOWANIE-1.0.md offered as the revisioned alternative.",
-    "A subsequent Polish hunt writes POLOWANIE-<revision>.md and renames a bare POLOWANIE.md previous report to its revisioned name first.",
-    "Section names render per translations/polish-language.md: Werdykt, Oceny domen, Ustalenia domenowe, Fazy naprawcze, and the conditional Rejestr sprzeczności.",
-    "The verdict paragraph takes Gotowy, Warunkowo gotowy, or Niegotowy, and domain ratings take Czerwona, Bursztynowa, Zielona, or Nieoceniona."
+    "The output filename uses the USTERKI stem: bare USTERKI.md is the default for a first Polish hunt report, with USTERKI-1.0.md offered as the revisioned alternative.",
+    "A subsequent Polish hunt writes USTERKI-<revision>.md and renames a bare USTERKI.md previous report to its revisioned name first.",
+    "Section names render per translations/polish-language.md: Przegląd raportu, Spis treści, Ocena stanu, Ustalenia, Plan naprawczy, Wcześniejsze ustalenia, and Zakres i ograniczenia.",
+    "The Styl raportu cell renders Usterki, finding Klasa values render Usterka/Usprawnienie/Hipoteza/Obserwacja, and Postanowienie renders Zaplanowane or another neuter form.",
+    "check-translation.py accepts the defect FND label set (Komponent, Klasa, Postanowienie) under Styl raportu: Usterki and the findings-register row whose identifier link sits in its second column."
    ]
   },
   {
    "id": 79,
-   "prompt": "Validate a hunt report whose Verdict domain ratings table rates Security `Yellow` and omits the Provenance row.",
+   "prompt": "Validate a hunt (legacy) report whose Verdict domain ratings table rates Security `Yellow` and omits the Provenance row.",
    "expected_output": "The validator fails the `hunt domain ratings` check.",
    "files": [],
    "expectations": [
@@ -958,7 +959,7 @@
   },
   {
    "id": 80,
-   "prompt": "Validate a hunt report whose Verdict section states no verdict token, carries no gates table, and lists seven strengths.",
+   "prompt": "Validate a hunt (legacy) report whose Verdict section states no verdict token, carries no gates table, and lists seven strengths.",
    "expected_output": "The validator fails the `hunt verdict elements` check.",
    "files": [],
    "expectations": [
@@ -969,7 +970,7 @@
   },
   {
    "id": 81,
-   "prompt": "Validate a hunt report whose Journey Traces mark a hop `failing` without citing any FND- identifier, and another hop marked `broken`.",
+   "prompt": "Validate a hunt (legacy) report whose Journey Traces mark a hop `failing` without citing any FND- identifier, and another hop marked `broken`.",
    "expected_output": "The validator fails the `hunt journey traces` check.",
    "files": [],
    "expectations": [
@@ -980,7 +981,7 @@
   },
   {
    "id": 82,
-   "prompt": "Validate a hunt report where one `### FND-` finding is mapped to no remediation phase and no `Accepted - no action` disposition row.",
+   "prompt": "Validate a hunt (legacy) report where one `### FND-` finding is mapped to no remediation phase and no `Accepted - no action` disposition row.",
    "expected_output": "The validator fails the `hunt finding disposition` check.",
    "files": [],
    "expectations": [
@@ -995,7 +996,7 @@
    "expected_output": "The validator fails the `hunt classification ban` check.",
    "files": [],
    "expectations": [
-    "Under `Report Style: hunt` the Recommendation Classification section is forbidden - disposition judgment lives in the Remediation Phases.",
+    "Under `Report Style: hunt (legacy)` or the defect `hunt` style the Recommendation Classification section is forbidden - disposition judgment lives in the Remediation Phases or the Remediation Plan.",
     "The same section remains required at Standard and Detailed detail levels under `Report Style: audit`."
    ]
   },
@@ -1012,11 +1013,12 @@
   },
   {
    "id": 85,
-   "prompt": "Scaffold a new hunt report with `python scripts/new-report.py --style hunt --projects api,worker --output HUNT-1.0.md`, then validate the generated skeleton.",
+   "prompt": "Scaffold a new hunt report with `python scripts/new-report.py --style hunt --projects api,worker --output HUNT-1.0.md`, then a legacy-layout skeleton with `--style hunt-legacy`, then validate both generated skeletons.",
    "expected_output": "A structurally valid hunt skeleton that passes the validator with zero issues.",
    "files": [],
    "expectations": [
-    "The skeleton carries every required hunt section, the fixed domain-ratings rows, a gates table, an empty producer/consumer matrix, a hop table, the inline PAR-1..PAR-20 record, and one fully labeled `### FND-`, `### RSK-`, and `### REC-` template block.",
+    "The `--style hunt` skeleton carries the defect sections Document Information, Health Assessment, Findings, Remediation Plan, Previous Findings, Scope and Limitations, and passes the validator.",
+    "The `--style hunt-legacy` skeleton carries every legacy hunt section - Document Information, Verdict, Journey Traces, Domain Findings, Risk Register, Remediation Phases - and validates as the legacy variant.",
     "`new-report.py` runs `format-table.py` on `--output` when the formatter resolves next to the script or under `LENS_SKILL_ROOT`.",
     "`--params work/lens-params.json` prefills the style and project list from the saved intake file, with command-line options taking precedence.",
     "`python scripts/validate-report.py --dump-contract` prints the enforced contract as JSON generated from the live constants."
@@ -1142,9 +1144,9 @@
    "expected_output": "A hunt-style report that carries no structure findings, because the structure assessment never loads under `Report Style: hunt`.",
    "files": [],
    "expectations": [
-    "No `FND-STR-` findings appear anywhere in the hunt report.",
-    "The domain ratings table contains only the ten fixed hunt domains - no Structure row.",
-    "PAR-20 renders `N/A` in the hunt report's Validation Protocol."
+    "No `FND-STR-` findings appear anywhere in the hunt report of either variant.",
+    "The Findings register contains no Structure row or section, and a legacy-layout report's domain ratings table contains only the ten fixed hunt domains.",
+    "PAR-20 renders `N/A` in a hunt report's Validation Protocol (legacy variant) or the run-internal protocol record (defect variant)."
    ]
   },
   {
@@ -1940,7 +1942,7 @@
    "expectations": [
     "Each register identifier appears once report-wide - REC-NNN is never renumbered per project.",
     "FND numbers run contiguously per pillar across projects (a second SEC finding continues the SEC sequence, it does not restart at 001).",
-    "Cross-project citations keep the <project>::<ID> qualifier and the (project) heading suffix for clarity."
+    "Cross-project citations keep the <project>::<ID> qualifier for clarity - headings stay bare without a (project) suffix."
    ]
   },
   {
@@ -1960,7 +1962,7 @@
    "expected_output": "Both reports carry a Scenario on every High/Critical finding - the requirement now covers audit style, not only hunt style.",
    "files": [],
    "expectations": [
-    "Every High or Critical finding in the audit-style report carries a Scenario field, matching the hunt-style requirement.",
+    "Every High or Critical finding in the audit-style report carries a Scenario field, matching the hunt (legacy) requirement.",
     "Findings below High severity may omit the Scenario field."
    ]
   },
@@ -2098,7 +2100,7 @@
     "Running check-translation.py with --en <sibling> emits INHERITED lines for anomalies present identically in the EN source.",
     "Only new failures the translation introduced print as FAIL.",
     "A faithful pair exits 0 when every PL failure already exists in the EN baseline.",
-    "Block-title comparisons normalize the contract's (project) heading suffix before matching summary cells."
+    "Block-title comparisons match summary cells verbatim - headings carry no (project) suffix to normalize."
    ]
   },
   {
@@ -2475,17 +2477,17 @@
     "reviews no session history that precedes the mode request"
    ]
   },
-    {
-      "id": 218,
-      "prompt": "work on lens-skill development and training",
-      "expected_output": "Runs process/skill-development.md - local readiness report, standby for a described change, with 'Train on the fly' as the standby option of the specification ask.",
-      "files": [],
-      "expectations": [
-        "runs process/skill-development.md and stands by for a described change",
-        "the specification ask carries 'Train on the fly' as the standby option because training mode is armed",
-        "a 'Train on the fly' answer does nothing now and waits for a named operation, applying surfaced adjustments on the fly"
-      ]
-    },
+  {
+   "id": 218,
+   "prompt": "work on lens-skill development and training",
+   "expected_output": "Runs process/skill-development.md - local readiness report, standby for a described change, with 'Train on the fly' as the standby option of the specification ask.",
+   "files": [],
+   "expectations": [
+    "runs process/skill-development.md and stands by for a described change",
+    "the specification ask carries 'Train on the fly' as the standby option because training mode is armed",
+    "a 'Train on the fly' answer does nothing now and waits for a named operation, applying surfaced adjustments on the fly"
+   ]
+  },
   {
    "id": 219,
    "prompt": "What types of report can lens-skill generate?",
@@ -2534,6 +2536,60 @@
     "A commit closes an era only when its version is strictly greater than the running version - rebased duplicates mint no duplicate eras.",
     "Untracked or uncommitted doc-shaped files inside the documentation trees are inventoried into gathering/notes/, never turned into records.",
     "The run reports the untracked-record gap in its notes or final summary rather than silently omitting it."
+   ]
+  },
+  {
+   "id": 223,
+   "prompt": "Validate a defect-hunt report that carries a `## Risk Register` section with `### RSK-` blocks, a `## Verdict` section, and a Health Assessment severity table whose counts do not match the finding blocks.",
+   "expectations": [
+    "Under `Report Style: Hunt` (the defect contract), `##` headings outside the required and conditional catalogue fail - Verdict, Domain Findings, Risk Register, Remediation Phases, and Validation Protocol are rejected with their successor sections named.",
+    "`### RSK-`, `### REC-`, and `### TDR-` blocks are forbidden - risk and action live on the canonical finding records.",
+    "The Health Assessment severity/class and disposition tables must reconcile against the `### FND-` blocks - a count mismatch fails.",
+    "Every unresolved `Disposition: Planned` finding cites exactly once in the Remediation Plan, and every `FND-` the plan cites is defined.",
+    "A `Deferred`, `Accepted Risk`, or `Won't Fix` disposition requires the Reason, Owner, Decided, Review, and Conditions decision fields.",
+    "The Previous Findings change table uses the New/Still Open/Resolved/Reopened/Deferred/Accepted/Reclassified/Retired vocabulary, and a Resolved or Retired row keeps no `### FND-` block."
+   ]
+  },
+  {
+   "id": 224,
+   "prompt": "Re-audit this repository and keep the previous report's metadata-first layout for comparability - the prior report predates the decision-first redesign.",
+   "expected_output": "A report recorded as `Report Style: Audit (legacy)` that reproduces the pre-redesign section order and the long-format scorecard.",
+   "files": [],
+   "expectations": [
+    "The Report Style parameter resolves to `audit (legacy)` because the user asked to keep the previous layout.",
+    "The report opens with Document Information, Audit Coverage, and Executive Summary in the legacy order, with the Health Dashboard between License Compliance and Delivery Practice.",
+    "A multi-project scorecard keeps the `Project | Dimension | Score` long format, the Risk Map precedes the Scorecard Summary, and no Interpretation limits note, project overview table, or `### Immediate Actions` preview appears.",
+    "The validator accepts the report under the legacy contract while the same text marked `Report Style: Audit` fails the decision-first checks."
+   ]
+  },
+  {
+   "id": 225,
+   "prompt": "Review this repository - report style review - and give me the compact status picture for the current version.",
+   "expected_output": "A brief-style report recorded as `Report Style: Brief` that reads as a compact decision input rather than an evidence dump.",
+   "files": [],
+   "expectations": [
+    "The bare `review` or `check` request resolves to the `brief` style - `review (legacy)` applies only on explicit request or a recovered previous report.",
+    "Document Information records Report Style as Brief inside its metadata table.",
+    "The report carries Document Information, Current State, Findings, Plan, Known And Deferred, and Evidence And Trust sections, with an optional Changes Since Previous Report and a trailing Glossary that sits last when rendered.",
+    "Finding blocks carry the contract field set: Area, Severity, Priority, Status, Verification, Observation, Impact, Fix, Effort, and Closure - never the superseded Verified or Observed labels.",
+    "The findings summary table is the complete register - one concise row per finding, and detailed blocks appear only for Critical and High findings.",
+    "Status counts in Current State reconcile against the summary table, planned findings cite exactly once in the Plan, and Known findings carry reason, owner, control, and review horizon.",
+    "Evidence and findings artifacts stay temporary working files - only the report itself is delivered.",
+    "The output filename uses the BRIEF stem: bare BRIEF.md by default, BRIEF-<rev>.md when revisioned."
+   ]
+  },
+  {
+   "id": 226,
+   "prompt": "Write the review report in Polish - report style brief - as the pair to the English brief.",
+   "expected_output": "A Polish brief sharing the English filename stem with the -PL suffix, fully translated under the skrót section set.",
+   "files": [],
+   "expectations": [
+    "The Polish file lands beside the English pair as BRIEF-<rev>-PL.md - the SKRÓT stem applies only to standalone Polish reports, never to the pair.",
+    "Report metadata records Styl raportu as Skrót and Language as Polski.",
+    "Finding blocks use the Polish field labels Obszar, Ważność, Priorytet, Status, Potwierdzenie, Blokuje, Obserwacja, Wpływ, Naprawa, Nakład, and Warunek.",
+    "The gates table uses Kryterium | Wynik | Podstawa headers, gate profile names stay verbatim, and Wynik keeps the contract vocabulary Met, Met (provisional), Not met, or Not assessable.",
+    "Status renders Otwarty, Zaplanowany, W toku, Znany, Badany, Naprawiony, or Nie usterka, Potwierdzenie takes Wyk, Źr, or Hip, and domain signals use the Oceny domen vocabulary with feminine rating agreement.",
+    "An optional trailing Słownik sits last and each term's first occurrence links to #słownik, table header cells included."
    ]
   }
  ]

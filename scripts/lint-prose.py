@@ -5,7 +5,8 @@ so an author can lint draft text before composing the full document:
 heading depth and blank-line spacing, semicolons outside code spans,
 sentences split across a line break by a stray period, doubled end marks,
 identifier ranges written with ``..``, sentences joined inside one paragraph
-(single-sentence paragraphs are the default; a ``Sentence breaks | Off``
+(single-sentence paragraphs are the default; the flowing layout is detected from
+content alone and a ``--no-sentence-breaks``
 Document Information row suppresses it), table rows butting directly onto
 surrounding text, unbalanced ``**`` markers, and the typographic characters
 the ASCII convention forbids (em dash, en dash, arrow).
@@ -48,12 +49,25 @@ def prose_line(line: str, fenced: bool) -> bool:
 
 
 def sentence_breaks_on(text: str) -> bool:
-    match = re.search(
-        r"\|\s*Sentence breaks\s*\|\s*([^|]+)", text, re.IGNORECASE
-    )
-    return not (
-        match and re.search(r"off|disabled|wyłącz", match.group(1), re.IGNORECASE)
-    )
+    """Detect the layout from content alone - a complete prose sentence
+    sharing a paragraph with another prose line means the flowing layout,
+    where blank-separated sentences are off."""
+    lines = text.replace("\r\n", "\n").split("\n")
+    fences = split_code(lines)
+    for index, (line, fenced) in enumerate(zip(lines, fences)):
+        if (
+            prose_line(line, fenced)
+            and line.rstrip().endswith((".", "!", "?"))
+            and not ABBREV_TAIL.search(line.rstrip())
+            and index + 1 < len(lines)
+        ):
+            nxt = lines[index + 1]
+            if (
+                prose_line(nxt, fences[index + 1])
+                and not nxt.lstrip()[:1].islower()
+            ):
+                return False
+    return True
 
 
 def split_code(lines: list[str]) -> list[bool]:

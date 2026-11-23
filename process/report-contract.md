@@ -15,10 +15,26 @@ this page is the fast check, not the specification.
 
 Read the sections the task needs - grep the `## ` headings for the section map.
 
+## Contents
+
+| Section                     | Line | What it covers                                 |
+|-----------------------------|------|------------------------------------------------|
+| Every Report                | 32   | Heading, table, and field rules for all styles |
+| Field Blocks                | 89   | Document Information and finding field syntax  |
+| Token Casing                | 137  | Vocabulary casing rules                        |
+| Scorecard And Overall Score | 149  | Dimension list and overall score computation   |
+| Multi-Project               | 186  | Per-project block rules                        |
+| Audit Style                 | 199  | Audit decision and audit legacy variant rules  |
+| Hunt Style                  | 258  | Hunt defect and hunt legacy variant rules      |
+| Review Style                | 328  | Review variant rules                           |
+| Generated Contract          | 354  | Machine-rendered constants block               |
+
 ## Every Report
 
 - Headings never go deeper than `###`, and every heading is followed by exactly one blank line.
-- Required sections appear in canonical `BASELINE` order, and no `##` heading outside
+- Required sections appear in the canonical order of the active style variant -
+  the default order under `audit`, the `LEGACY` order under `audit (legacy)` -
+  and no `##` heading outside
   the required or conditional catalogue is present - a missing, renamed, reordered,
   or invented section is a structural deviance that blocks delivery.
   `## Project <name>` blocks in multi-project reports are the only sanctioned
@@ -175,16 +191,120 @@ English renders title case where the vocabulary lists give canonical uppercase n
   Every register family numbers report-globally, so the bare identifier is unambiguous.
 - The `Project` column appears only in shared tables - a single-project evidence
   ledger must not carry one.
-- The `Remediation Roadmap` renders once at level 2 - immediately before `Reference Sources` -
+- The `Remediation Roadmap` renders once at level 2 - immediately before `Reference Sources`
+  under `audit (legacy)` and before the methodology run under `audit` -
   carrying `Recommendation Classification` and `Follow-up Plan` only as `###` subsections,
   never as standalone sections or per-project blocks.
 
+## Audit Style
+
+`Report Style: Audit` produces the reorganized report - metadata and grouped Contents
+first, the summary block and scorecard-led dashboard closing the front, then every
+assessment, register, and closing section in the legacy order - and
+`Report Style: Audit (legacy)` reproduces the pre-redesign metadata-first layout.
+
+### Audit Decision
+
+Under `Report Style: Audit` with no variant suffix the required sections appear in this
+order: Document Information, Contents, Audit Coverage, Executive Summary,
+Health Dashboard, System Context, Software Bill of Materials, License Compliance,
+Delivery Practice, High-Level Observations, Auditing Methodology, Scoring Rubrics,
+Architectural Assessment, Structure Review, Solution Comparison,
+Strengths and What's Working, Technical Findings, Risk Register,
+Scope Exclusions, Known Limitations, Validation Protocol, Remediation Roadmap,
+Reference Sources -
+plus Recommendation Classification at `###` inside the roadmap,
+and the conditional sections in their ordered slots when present
+(Changes Since Previous Audit, Project Inventory, Threat Model, Code Style,
+the conformance sections, Technical Debt Register, Executed Evidence or
+Further Verification, Contradiction Register, Glossary Index).
+
+- The report opens with front matter - title, one identity line, one navigation line -
+  before `## Health Dashboard`.
+- Health Dashboard leads with `### Scorecard Summary` - a `Dimension` x project pivot
+  matrix for multi-project reports, `Dimension | Score` for a single project - followed
+  by the `**Interpretation limits**` note, `**Risk Map**`, and `**Team & Continuity**`.
+  A multi-project dashboard opens with a `Project | Published score | Readiness |
+  Key qualification` overview table.
+- `## Executive Summary` closes with a `### Immediate Actions` subsection previewing up
+  to five recommendations and linking the complete roadmap.
+- `## Contents` is required after Executive Summary - links grouped under reader-task
+  bold labels, plus direct links to `### Scorecard Summary` and `### Immediate Actions`.
+- The Technical Findings summary is a compact index - `Finding | Severity | Title | Result`
+  plus `Project` and lifecycle columns where they carry data.
+- The Remediation Roadmap overview is compact - `Rec | Priority | Project | Recommendation |
+  Effort` sorted by priority, project, identifier - with every other field in the
+  `### REC-` detail records.
+
+### Audit Legacy
+
+Under `Report Style: Audit (legacy)` the required sections keep the former metadata-first
+order: Document Information, Audit Coverage, Executive Summary, System Context,
+Software Bill of Materials, License Compliance, Health Dashboard, Delivery Practice,
+High-Level Observations, Auditing Methodology, Scoring Rubrics, Architectural Assessment,
+Structure Review, Solution Comparison, Strengths and What's Working, Technical Findings,
+Risk Register, Scope Exclusions, Known Limitations, Validation Protocol,
+Remediation Roadmap, Reference Sources.
+
+- No front matter or required Contents - a flat `## Contents` may follow Document
+  Information.
+- Health Dashboard keeps the legacy order - Risk Map, Legend, Scorecard Summary
+  (`Project | Dimension | Score` long-form for multi-project), Team & Continuity -
+  with no project overview table and no Interpretation limits note.
+- The Executive Summary carries no `### Immediate Actions` subsection.
+- Remediation Roadmap stays penultimate before Reference Sources and may keep the wide
+  consolidated matrix.
+
 ## Hunt Style
 
-Under `Report Style: hunt` the required sections are Document Information, Audit Type Coverage,
-Verdict, System Context, Methodology And Evidence, Journey Traces, Domain Findings, Risk Register,
-Remediation Phases, Scope Exclusions, Known Limitations, Reference Sources - plus Glossary,
-Contradiction Register, and the handoff or executed-log section when conditional.
+`Report Style: Hunt` produces the defect report - a version-specific defect and health register -
+and `Report Style: Hunt (legacy)` reproduces the pre-redesign verdict/domain layout.
+
+### Hunt Defect
+
+Under `Report Style: hunt` with no variant suffix the required sections are Report Overview,
+Contents, Health Assessment, Findings, Remediation Plan, Previous Findings,
+Scope and Limitations -
+plus Contradiction Register, Journey Traces, Methodology And Evidence, Executed Evidence,
+Artifact Manifest, Project Inventory, Reference Sources, Glossary - a brief section that always
+renders last - and `Appendix <letter>:` sections when conditional.
+
+- Report Overview carries the metadata table - required rows Report Revision, Report Date,
+  Report Style, Detail Level, Language, Evidence Mode, Subject Revision, Skill Version,
+  Time taken - and the executive summary.
+- Health Assessment carries a `**Readiness:**` token (`Ready`, `At Risk`, `Blocked`,
+  `Not Assessed`), a severity-by-class distribution table, and a disposition table -
+  every count reconciles against the finding blocks.
+- Findings is the single canonical register - no `RSK-`, `REC-`, or `TDR-` blocks exist.
+  Its summary table carries `Finding`, `Severity`, `Class`, `Status`, `Disposition`, `Priority`,
+  `Title`, plus `Project` when multi-project, and `###` domain headings sit inside the section.
+- Every `### FND-` block requires `Component`, `Class`, `Severity`, `Status`, `Disposition`,
+  `Priority`, `Confidence`, `Impact`, `Evidence`, `Recommendation`, `Verification` fields.
+- `Class` is `Defect`, `Improvement`, `Hypothesis`, or `Observation`.
+  `Severity` is `Critical`, `High`, `Medium`, `Low`, or `Informational`.
+  `Status` is `Open`, `In Progress`, `Resolved`, `Verified`, `Reopened`, or `Rejected`.
+  `Disposition` is `Planned`, `Deferred`, `Accepted Risk`, `Won't Fix`, `Out of Scope`, or `None`.
+  `Priority` is `P0` - `P3`, and `Confidence` is `High`, `Medium`, or `Low`.
+- A `Deferred`, `Accepted Risk`, or `Won't Fix` disposition requires the decision fields `Reason`,
+  `Owner`, `Decided`, `Review`, `Conditions` - `Out of Scope` requires `Reason`.
+- Every unresolved `Disposition: Planned` finding cites exactly once in Remediation Plan,
+  and every `FND-` the plan cites is defined by a block.
+- Previous Findings carries a `Finding | Change | Notes` table with Change `New`, `Still Open`,
+  `Resolved`, `Reopened`, `Deferred`, `Accepted`, `Reclassified`, or `Retired` - `Resolved` and
+  `Retired` rows keep no block, every other change needs one - or a first-assessment note.
+- The sections the redesign folded or removed - Document Information, Audit Coverage, Verdict,
+  Domain Ratings, Domain Findings, Risk Register, Remediation Phases, Retest, Scope Exclusions,
+  Known Limitations, Further Verification, Validation Protocol, and any scorecard block -
+  are rejected as `##` headings.
+- A `Recommendation Classification` section is forbidden under either hunt variant.
+
+### Hunt Legacy
+
+Under `Report Style: Hunt (legacy)` the required sections are Document Information,
+Audit Type Coverage, Verdict, System Context, Methodology And Evidence, Journey Traces,
+Domain Findings, Risk Register, Remediation Phases, Scope Exclusions, Known Limitations,
+Reference Sources - plus Glossary, Contradiction Register, and the handoff or executed-log
+section when conditional.
 
 - The Verdict section carries a `Verdict:` token (`Ready`, `Conditionally ready`, `Not ready`),
   a domain ratings table, a gates table, a top-five actions list citing `REC-` / `FND-` identifiers,
@@ -200,10 +320,9 @@ Contradiction Register, and the handoff or executed-log section when conditional
   headings sit inside the section and end only at the next `##`.
 - Every `### FND-` block maps to a remediation phase or an `Accepted - no action` row,
   and multi-project findings match by the `(<project>)` heading qualifier.
-- A `Recommendation Classification` section is forbidden under hunt - phases carry the disposition.
 - Every `High` or `Critical` finding carries a `Scenario` field - initial conditions, steps,
   expected result, observed result, confirmation level.
-  The requirement binds `audit` and `hunt` styles alike,
+  The requirement binds `audit` and `hunt (legacy)` styles alike,
   and `Source` -level confirmation satisfies it.
 
 ## Review Style
@@ -276,7 +395,7 @@ Multi-project models prefix each key - `<project>.security`.
 
 Required rows: `Detail Level`, `Evaluation Scale`, `Evidence Mode`, `Language`, `Report Date`, `Report Revision`, `Report Style`, `Skill Version`, `Subject Revision`, `Time taken`, `Verification Scope`.
 
-Optional rows: `Audit Purpose`, `Dirty-Tree State`, `Previous Report`, `Projects`, `Review Scope`, `Sentence breaks`, `Target Environment`, `Translations`.
+Optional rows: `Assessment Scope`, `Audit Purpose`, `Dirty-Tree State`, `Known Horizon`, `Previous Report`, `Project`, `Projects`, `Review Scope`, `Subject Version`, `Target Environment`, `Translations`.
 
 ### Health Dashboard Markers
 

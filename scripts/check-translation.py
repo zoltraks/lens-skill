@@ -53,7 +53,9 @@ import sys
 from pathlib import Path
 
 ID_HEADING = re.compile(r"^###\s+((?:FND|RSK|REC|TDR)-[A-Z0-9-]+):?\s+(.+?)\s*$")
-ROW_ID = re.compile(r"^\|\s*\[?((?:FND|RSK|REC|TDR|EVD)-[A-Z0-9-]+)\]?")
+ROW_ID = re.compile(
+    r"^\|\s*(?:[^|]*\|\s*)?\[?((?:FND|RSK|REC|TDR|EVD)-[A-Z0-9-]+)"
+)
 LINK = re.compile(r"\[([^\]]+)\]\([^)]*\)")
 INTERNAL_LINK = re.compile(r"\]\(#([^)\s]+)\)")
 BLOCK_FIELD = re.compile(r"^[-*]\s+\*\*([^:*]+):\*\*")
@@ -74,6 +76,8 @@ BLOCK_LABELS = {
         "Dotyczy", "Pewność oceny", "Łagodzenie", "Czynniki łagodzące",
         "Wykorzystanie podatności", "Dowód", "Pochodzenie",
         "Podstawa pochodzenia", "Poziom dowodu",
+        "Obszar", "Priorytet", "Obserwacja", "Naprawa", "Nakład",
+        "Warunek", "Blokuje",
     },
     "RSK": {
         "Ryzyko", "Źródło", "Wpływ", "Zakres",
@@ -93,6 +97,27 @@ BLOCK_LABELS = {
         "Pewność oceny nakładu", "Ryzyko rezydualne",
         "Kamień milowy akceptacji", "Dowód zamknięcia",
     },
+}
+
+# The `hunt` defect contract replaces the FND label set entirely - a
+# report whose `Styl raportu` cell reads `Usterki` validates FND blocks
+# against this set, never the legacy union.
+DEFECT_FND_LABELS = {
+    "Komponent", "Klasa", "Ważność", "Status", "Postanowienie",
+    "Priorytet", "Pewność oceny", "Wpływ", "Dowód", "Zalecenie",
+    "Weryfikacja", "Powód", "Właściciel", "Decyzja",
+    "Termin przeglądu", "Warunki",
+}
+
+# Labels whose values are governed tokens - a lowercase start there is a
+# real defect. Free-text labels (`Wpływ`, `Dowód`, `Zalecenie`,
+# `Weryfikacja`) carry lowercase action phrases on purpose.
+TOKEN_LABELS = {
+    "Ważność", "Status", "Klasa", "Postanowienie", "Dyspozycja",
+    "Priorytet", "Pewność oceny", "Gotowość", "Zmiana", "Wynik",
+    "Poziom dowodu", "Podstawa pochodzenia", "Werdykt",
+    "Ryzyko rezydualne", "Prawdopodobieństwo", "Charakter odstępstwa",
+    "Bezpieczeństwo",
 }
 
 # Genitive/paucal/singular forms a Polish count statement can take for
@@ -231,6 +256,17 @@ def check_prose_counts(lines, masked):
         )
         for family in ("FND", "RSK", "REC")
     }
+    fnd_ids = set()
+    for index, line in enumerate(lines):
+        if index in masked:
+            continue
+        heading = re.match(r"^###\s+(FND-(?:[A-Z]+-)?\d+)", line)
+        if heading:
+            fnd_ids.add(heading.group(1))
+        elif line.startswith("|"):
+            fnd_ids.update(re.findall(r"FND-(?:[A-Z]+-)?\d+", line))
+    if fnd_ids:
+        actual["FND"] = len(fnd_ids)
     actual["EVD"] = sum(1 for line in lines if re.match(r"^\|\s*\[?EVD-", line))
     failures = []
     for index, line in enumerate(lines):
@@ -251,12 +287,26 @@ def check_prose_counts(lines, masked):
     return failures
 
 
-def check_block_labels(lines, extra_labels=None):
+def report_style(lines):
+    """The `Styl raportu` cell value, casefolded - the signal that picks
+    variant label sets for shared register families."""
+    for line in lines:
+        if "Styl raportu" not in line or not line.startswith("|"):
+            continue
+        cells = [cell.strip() for cell in line.split("|")[1:-1]]
+        for index, cell in enumerate(cells):
+            if cell == "Styl raportu" and index + 1 < len(cells):
+                return cells[index + 1].casefold()
+    return None
+
+
+def check_block_labels(lines, extra_labels=None, defect_fnd=False):
     """`- **Label:**` fields inside register detail blocks must belong
     to that register's contract label set. A label from another
     register's table - `Skutek` under `### FND-…`, `Wpływ` under
     `### TDR-…` - survives mapping unmapped and drops the required
-    English field."""
+    English field. `defect_fnd` swaps the FND set for the `Usterki`
+    defect contract's labels."""
     failures = []
     current = None
     for index, line in enumerate(lines):
@@ -272,7 +322,12 @@ def check_block_labels(lines, extra_labels=None):
         field = BLOCK_FIELD.match(line)
         if field:
             label = field.group(1).strip()
-            if label not in BLOCK_LABELS[current] and not (
+            allowed = (
+                DEFECT_FND_LABELS
+                if current == "FND" and defect_fnd
+                else BLOCK_LABELS[current]
+            )
+            if label not in allowed and not (
                 extra_labels and label.casefold() in extra_labels
             ):
                 failures.append(
@@ -371,10 +426,11 @@ def check_untranslated_headings(lines, masked, keys, en_headings=None):
 
 
 def check_field_values(lines, masked):
-    """`- **Label:**` field values start uppercase per the style rules, and
-    a code span holding a governed English token (`Theoretical`, `Open`,
-    `Critical`) keeps it untranslated through the mapping - both defects
-    leave the Polish contract unmet."""
+    """Token-valued `- **Label:**` fields start uppercase per the style
+    rules, and a code span holding a governed English token
+    (`Theoretical`, `Open`, `Critical`) keeps it untranslated through the
+    mapping - both defects leave the Polish contract unmet. Free-text
+    labels keep their lowercase action phrases."""
     failures = []
     for index, line in enumerate(lines):
         if index in masked:
@@ -382,6 +438,7 @@ def check_field_values(lines, masked):
         match = BLOCK_FIELD.match(line)
         if not match:
             continue
+        label = match.group(1).strip()
         value = line[match.end() :].strip()
         if not value:
             continue
@@ -396,11 +453,11 @@ def check_field_values(lines, masked):
                     )
                 )
         first = value[:1]
-        if first.islower():
+        if label in TOKEN_LABELS and first.islower():
             failures.append(
                 (
                     index,
-                    f"field value starts lowercase: '{value[:50]}'",
+                    f"token field value starts lowercase: '{value[:50]}'",
                 )
             )
     for index, line in enumerate(lines):
@@ -637,10 +694,11 @@ def main():
 
     def collect(file_lines):
         m = fenced_mask(file_lines)
+        defect = report_style(file_lines) == "usterki"
         return (
             check_summary_titles(file_lines)
             + check_prose_counts(file_lines, m)
-            + check_block_labels(file_lines, en_labels)
+            + check_block_labels(file_lines, en_labels, defect_fnd=defect)
             + check_internal_anchors(file_lines, m)
             + check_untranslated_headings(file_lines, m, keys, en_headings)
             + check_field_values(file_lines, m)

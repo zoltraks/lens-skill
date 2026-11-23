@@ -12,10 +12,10 @@
 |-------------------------------|------|-------------------------------------|
 | Strengths and What's Working  | 20   | Evidence-based positive baselines   |
 | Technical Findings            | 58   | Finding summary and detail blocks   |
-| Technical Debt Register       | 423  | Distinct accumulated debt           |
-| Unified Risk Register         | 473  | Cross-referenced risks              |
-| Remediation Roadmap           | 578  | Prioritized recommendations, once   |
-| Recommendation Classification | 673  | Roadmap-closing disposition classes |
+| Technical Debt Register       | 428  | Distinct accumulated debt           |
+| Risk Register         | 478  | Cross-referenced risks              |
+| Remediation Roadmap           | 583  | Prioritized recommendations, once   |
+| Recommendation Classification | 686  | Roadmap-closing disposition classes |
 
 ## Strengths and What's Working
 
@@ -87,7 +87,15 @@ or consequences stay distinct findings.
 When the report language is not English,
 apply the heading translation from the matching `translations/` file.
 
-Present a compact summary of all findings:
+Under the `audit` style the summary is a compact index - `| Finding | Severity | Title |
+Result |`, a leading `Project` column in a multi-project report,
+and `Status`, `Change`, or `Verification` columns only when values differ across rows -
+followed by the complete detail blocks that carry every field.
+
+The `Finding` cell links to the detail block and the `Title` column copies the finding's
+`### FND-...` heading verbatim - the summary never rephrases a heading.
+
+Under `audit (legacy)` the summary may keep the wider column set:
 
 | Finding     | Pillar                                    | Severity   | Title   | Result   | Status | Change |
 |-------------|-------------------------------------------|------------|---------|----------|--------|--------|
@@ -99,9 +107,6 @@ Present a compact summary of all findings:
 | FND-AIP-001 | AI Provenance & Code Origin               | <severity> | <title> | <result> | Open   | New    |
 | FND-CPR-001 | Copyrights & Originality                  | <severity> | <title> | <result> | Open   | New    |
 | FND-API-001 | API Compatibility & Versioning Discipline | <severity> | <title> | <result> | Open   | New    |
-
-The `Title` column copies the finding's `### FND-...` heading verbatim - the summary never
-rephrases a heading.
 
 A `Result`, `Status`, or `Change` column is omitted when every row would carry the same value - a
 fresh audit whose findings are all `Open` / `New` renders neither column,
@@ -206,7 +211,7 @@ and ending with a period, no sentence over 20 words]
 - **Method:** [Specific test, command, or process to confirm the fix is successful]
 - **Scenario:** [Initial conditions; reproduction steps; expected result; observed
   result; confirmation level] *(required on High/Critical findings under `Report Style:
-  audit` and `Report Style: hunt`, optional otherwise)*
+  audit` and `Report Style: hunt (legacy)`, optional otherwise)*
 - **Verification:** [Yes | No, with a short qualifier]
 - **Confirmation:** [Yes | No - execution-confirmation basis] *(required on every finding
   under `executed-readonly` and `executed-commands`, omitted under `source-only`)*
@@ -341,7 +346,7 @@ initial conditions, the reproduction steps, the expected result, the observed re
 and the confirmation level reached (`Source`, `Model`, `App`, `Deployed`, or `Unknown`).
 
 It is required on every `High` or `Critical` finding under `Report Style: audit` and
-`Report Style: hunt` - a source-only report still supplies a precise operator scenario,
+`Report Style: hunt (legacy)` - a source-only report still supplies a precise operator scenario,
 and `Source` -level confirmation satisfies it - and optional elsewhere.
 
 The `Level` field records the strongest level the cited evidence reaches:
@@ -427,7 +432,7 @@ per `synthesis/debt-register.md`.
 
 Omit it when no such debt exists.
 
-This register is distinct from the Unified Risk Register: risks describe what could go wrong,
+This register is distinct from the Risk Register: risks describe what could go wrong,
 debt describes accumulated cost that is already present.
 
 Use the CISQ categories and SQALE-inspired cost guidance in `synthesis/debt-register.md`,
@@ -452,7 +457,7 @@ Category is one of the CISQ characteristics: `Reliability`, `Performance Efficie
 
 Every item must trace to a `FND-XXX` or be marked `Direct observation` with a cited file.
 
-Do not duplicate security risks here, those belong in the Unified Risk Register.
+Do not duplicate security risks here, those belong in the Risk Register.
 
 After the table, write one block per debt item in the same order.
 
@@ -470,7 +475,7 @@ Use this exact markdown block pattern:
 When the report language is not English,
 apply the bullet label translations from the matching `translations/` file.
 
-## Unified Risk Register
+## Risk Register
 
 This section builds a cross-referenced risk table from the risks surfaced during assessment.
 
@@ -581,7 +586,7 @@ This section transforms recommendations into a prioritized, traceable remediatio
 
 Every recommendation must resolve a specific finding.
 
-The section renders once per report - a single-project report carries it after the Unified Risk
+The section renders once per report - a single-project report carries it after the Risk
 Register, and a multi-project report renders it as a shared level-2 section after the combined
 Solution Comparison, merging every project's recommendations into one matrix and one block set per
 `process/report-format/multi-project.md`.
@@ -592,7 +597,15 @@ Present recommendations as a table.
 
 One row per recommendation.
 
-Use this fixed column order:
+Under the `audit` style the matrix is a compact overview sorted deterministically by
+priority, then project, then identifier - `| Rec | Priority | Project | Recommendation |
+Effort |`, omitting `Project` in a single-project report - and every other field
+(`Finding`, `Impact`, `Complexity`, `Verification`, `Residual`, `Breaking`, classification)
+stays in the `### REC-` detail records below.
+
+The `Rec` cell links to the detail block, and the sort changes no identifier or priority.
+
+Under `audit (legacy)` the matrix may keep the consolidated column order:
 
 | Rec     | Priority | Finding | Recommendation | Impact            | Effort            | Complexity        | Verification        |
 |---------|----------|---------|----------------|-------------------|-------------------|-------------------|---------------------|

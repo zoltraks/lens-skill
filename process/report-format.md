@@ -10,13 +10,27 @@
 This file defines the exact shape of the audit report and indexes the per-section specifications
 under `process/report-format/`.
 
-The `hunt` report style follows `process/report-format/hunt-style.md`, which reuses the finding,
-risk, and roadmap contracts defined here under its own section order.
+The `audit` style leads with metadata and navigation: Document Information and a grouped
+Contents open the report, the project inventory and Executive Summary follow, the
+scorecard-led Health Dashboard closes the front block, and every remaining section keeps
+the legacy order - a reorganization that drops nothing.
 
-The `review` report style follows `process/report-format/review-style.md`,
-which adds an execution register, evidence levels,
-and a retest register on top of the same contracts - a structure-scoped request renders the variant
-defined in `process/report-format/structure-review.md` instead.
+A request or a recovered previous report naming `audit (legacy)` produces the pre-redesign
+metadata-first layout defined in `process/report-format/audit-legacy.md`,
+which reuses the section contracts defined here under the former section order.
+
+The `hunt` report style follows `process/report-format/hunt-style.md` - the defect-report contract
+built around one canonical record per finding - or the preserved `hunt (legacy)` variant in
+`process/report-format/hunt-legacy.md`, which reuses the finding, risk, and roadmap contracts
+defined here under its own section order.
+
+The `brief` report style follows `process/report-format/brief-style.md` - the compact
+status-driven decision brief with governed finding statuses and a self-contained
+findings summary - or the preserved `review (legacy)` variant in
+`process/report-format/review-legacy.md`, which adds an execution register, evidence levels,
+and a retest register on top of the same contracts.
+A structure-scoped request renders the variant defined in
+`process/report-format/structure-review.md` instead.
 
 For a fast mechanical view before producing a report,
 `process/report-contract.md` lists only the validator-enforced constraints,
@@ -37,13 +51,13 @@ A present-but-empty section signals a gap, a missing section hides it.
 
 | Section                                     | Line | What it covers                              |
 |---------------------------------------------|------|---------------------------------------------|
-| Formatting Rules                            | 48   | Formatting Rules guidance                   |
-| Report Delivery And Parameter Configuration | 373  | Report delivery and output configuration    |
-| Detail Level Configuration                  | 430  | Standard, detailed, and brief reports       |
-| Conditional Sections                        | 541  | Inclusion criteria for conditional sections |
-| Section Order                               | 601  | Single-project and multi-project order      |
-| Specification Files                         | 703  | Per-section specification file index        |
-| Pre-Delivery Mechanical Checklist           | 738  | Final mechanical checks                     |
+| Formatting Rules                            | 62   | Formatting Rules guidance                   |
+| Report Delivery And Parameter Configuration | 390  | Report delivery and output configuration    |
+| Detail Level Configuration                  | 447  | Standard, detailed, and brief reports       |
+| Conditional Sections                        | 558  | Inclusion criteria for conditional sections |
+| Section Order                               | 618  | Single-project and multi-project order      |
+| Specification Files                         | 718  | Per-section specification file index        |
+| Pre-Delivery Mechanical Checklist           | 761  | Final mechanical checks                     |
 
 ## Formatting Rules
 
@@ -110,8 +124,8 @@ Place descriptive paragraphs immediately after each table.
 
 In the paragraphs, explain every aspect with concrete evidence, file paths, and reasoning.
 
-Use short sentences separated by blank lines,
-each sentence stands on its own line with an empty line between consecutive sentences.
+Use short sentences - each stands on its own line,
+and sentences that develop one statement group into one paragraph on consecutive lines.
 
 Start each detailed paragraph with a bold heading on its own line - no trailing period
 inside the bold markers.
@@ -127,29 +141,28 @@ Use this bold-heading pattern for paragraphs that expand on a table row.
 For actual section or subsection titles, use markdown header syntax (`##` or `###`)
 rather than bold text.
 
-Break prose lines that exceed the selected wrap width - 100 characters by default - at a natural
-boundary such as after a comma or clause end, per `docs/STYLE.md`.
+Every sentence occupies one logical line - prose lines are never hard-wrapped for width.
 
-Offer the width choice per the Selecting The Wrap Width rules in `docs/STYLE.md` before wrapping.
+Sentences that develop one statement group into a paragraph on consecutive lines -
+the lines render as a single paragraph while the source keeps one sentence per line.
+
+A blank line separates distinct thoughts into their own paragraphs.
+
+Each line is a complete sentence - never chop a sentence into continuation fragments,
+and a sentence opens with a word, not a code span or an emphasis marker.
 
 Do not break inside inline code, file paths, or URLs.
-
-The limit does not apply to table rows, URLs, links, or file paths,
-so a line carrying an unbreakable URL may remain over the limit.
-
-Separate consecutive sentences into their own paragraphs - one blank line between sentences,
-so each sentence renders as its own paragraph in Markdown.
-
-This is the default layout for running prose.
 
 List items, `- **Field:**` register lines, table cells,
 and headings are already one unit per line and stay unsplit.
 
-The layout is suppressed only when the user explicitly asks for joined prose - phrasing such as
-"don't break sentences", "no sentence breaks", or "don't put blank lines between sentences".
+The flowing paragraph layout is suppressed only when the user explicitly asks for
+blank-separated sentences - phrasing such as "one sentence per paragraph" or
+"separate every sentence with a blank line".
 
-Record the suppression in Document Information as `| Sentence breaks | Off |` and write no row when
-the default applies, per `process/report-format/report-opening.md`.
+The layout is never declared in Document Information - the flowing or separated layout
+is detected from the content itself: a paragraph of consecutive complete-sentence lines
+marks the flowing layout.
 
 Do not use the semicolon character in prose.
 
@@ -358,6 +371,10 @@ for example a finding `Closed` in this audit that survives only in the Changes S
 disposition table, is cited inside a code span - an unlinked bare citation of a retired
 identifier fails validation.
 
+A register identifier whose entry lives only in a sibling report -
+for example a finding the brief lists as a register row but never carries as a `###` block -
+stays plain text when cited: register links never cross file boundaries.
+
 Cite every register identifier individually - never render an identifier range such as
 `RSK-007..RSK-014` or `FND-SEC-001..004` - list each identifier as its own link or cell entry.
 
@@ -410,7 +427,7 @@ or the language-specific revisioned name such as `AUDYT-1.0.md`,
 with the filename without the revision number offered as an alternative.
 
 A `hunt` -style report uses the `HUNT` stem instead - or the language-specific stem such as
-`POLOWANIE` - and defaults to the bare `HUNT.md` for a first report,
+`USTERKI` - and defaults to the bare `HUNT.md` for a first report,
 with `HUNT-1.0.md` offered as the revisioned alternative.
 
 A `review` -style report uses the `REVIEW` stem - `PRZEGLĄD` in Polish - under the
@@ -471,7 +488,7 @@ Every `FND-` identifier appears in the Remediation Roadmap or the finding block 
 
 a defect.
 
-- Unified Risk Register
+- Risk Register
 - Remediation Roadmap (full matrix with P1-P4, impact/effort/complexity, verification)
 - Scope Exclusions
 - Known Limitations
@@ -584,8 +601,8 @@ Each lists its inclusion criteria and the assessment file that governs it:
 | Contradiction Register (standalone or in Limitations)             | An external or prior report asserts conflicting claims                               | `synthesis/report-triangulation.md`       |
 | Further Verification (standalone)                                 | `source-only` evidence mode - the default                                            | `process/report-format/report-closing.md` |
 | Executed Evidence (standalone)                                    | `executed-readonly` or `executed-commands` evidence mode                             | `process/report-format/report-closing.md` |
-| Retest Register (standalone, review style)                        | The Execution Register carries `Fail`/`Error`/`Blocked` rows                         | `process/report-format/review-style.md`   |
-| Artifact Manifest (standalone, review style)                      | `executed-readonly` or `executed-commands` evidence mode                             | `process/report-format/review-style.md`   |
+| Retest Register (standalone, review (legacy) style)               | The Execution Register carries `Fail`/`Error`/`Blocked` rows                         | `process/report-format/review-legacy.md`  |
+| Artifact Manifest (standalone, review (legacy) style)             | `executed-readonly` or `executed-commands` evidence mode                             | `process/report-format/review-legacy.md`  |
 
 In a multi-project report, evaluate each section's inclusion criteria independently per project.
 
@@ -600,6 +617,16 @@ Only omit a section when it genuinely cannot apply to the subject.
 
 ## Section Order
 
+The `audit` style keeps the metadata-first opening and promotes the decision
+surfaces: Document Information and a grouped Contents lead, the project
+inventory and Executive Summary follow, and the Health Dashboard closes the
+front block ahead of every assessment.
+Every section of the legacy layout stays - the change is reorganization,
+not removal, with the Glossary Index moved beside Reference Sources.
+
+The report opens with the document title alone - the full metadata table in
+Document Information is the first level-2 section.
+
 The report has these top-level sections, in this order, with unnumbered headings.
 
 The Specification Files table below maps each section to its specification file.
@@ -607,17 +634,22 @@ The Specification Files table below maps each section to its specification file.
 Sections marked *(conditional)* are included only when their criteria in the Conditional
 Sections table are met.
 
+`audit (legacy)` reports keep the former metadata-first order defined in
+`process/report-format/audit-legacy.md`.
+
 For a **single-project** audit:
 
 - Document Information
+- Contents (links grouped by reader task)
 - Audit Coverage
-- Glossary Index *(when Descriptive mode is enabled)*
-- Executive Summary
+- Project Inventory *(conditional - multi-project audit)*
+- Executive Summary (closing with the Immediate Actions subsection)
 - Changes Since Previous Audit *(conditional)*
+- Health Dashboard (Scorecard Summary first, then Interpretation limits, the Risk Map,
+  and Team & Continuity)
 - System Context (contains the Technology Stack subsection)
 - Software Bill of Materials
 - License Compliance
-- Health Dashboard
 - Delivery Practice
 - High-Level Observations
 - Auditing Methodology
@@ -635,19 +667,21 @@ For a **single-project** audit:
 - Requirements Conformance *(conditional)*
 - Baseline Conformance *(conditional)*
 - Structure Conformance *(conditional)*
-- Code Style *(conditional)*
 - API Compatibility & Versioning Discipline *(conditional)*
+- Code Style *(conditional)*
 - Strengths and What's Working
 - Technical Findings
 - Technical Debt Register *(conditional)*
-- Unified Risk Register
+- Risk Register
 - Scope Exclusions
 - Known Limitations
 - Further Verification *(source-only mode)* / Executed Evidence
   *(executed-readonly or executed-commands mode, conditional)*
 - Validation Protocol
+- Contradiction Register *(conditional - external report found at intake)*
 - Remediation Roadmap (with Recommendation Classification *(conditional)* and Follow-up Plan
   *(conditional)* subsections)
+- Glossary Index *(when Descriptive mode is enabled)*
 - Reference Sources
 
 For a **multi-project** audit, the structure changes.
@@ -657,47 +691,28 @@ See `process/report-format/multi-project.md` for the full layout.
 In summary:
 
 - Document Information (once)
+- Contents (grouped, combined)
 - Audit Coverage (once)
 - Project Inventory (once)
-- Glossary Index *(when Descriptive mode is enabled)* (once)
-- Executive Summary (condensed, combined)
+- Executive Summary (condensed, combined, with the Immediate Actions subsection)
 - Changes Since Previous Audit *(conditional)* (combined)
-- Per project (level-2 heading per project, full section set each):
-  - Executive Summary
-  - System Context (with the Technology Stack subsection)
-  - Software Bill of Materials
-  - License Compliance
-  - Health Dashboard
-  - Delivery Practice
-  - High-Level Observations
-  - Auditing Methodology
-  - Scoring Rubrics
-  - Architectural Assessment
-  - Structure Review
-  - Solution Comparison
-  - Threat Model *(conditional)*
-  - API Contract Conformance *(conditional)*
-  - Skill Definition Conformance *(conditional)*
-  - Guidance Conformance *(conditional)*
-  - AI System Assessment *(conditional)*
-  - Standards Conformance *(conditional)*
-  - Requirements Conformance *(conditional)*
-  - Baseline Conformance *(conditional)*
-  - Structure Conformance *(conditional)*
-  - Code Style *(conditional)*
-  - API Compatibility & Versioning Discipline *(conditional)*
-  - Strengths and What's Working
-  - Technical Findings
-  - Technical Debt Register *(conditional)*
-  - Unified Risk Register
-- Solution Comparison (combined, cross-project trade-offs only)
+- Health Dashboard (once, combined - the Scorecard Summary pivots to a
+  Dimension x project matrix)
+- System Context (once, shared - per-project Technology Stack subsections)
+- For `project-layout: combined` - the single shared section set from Software Bill of
+  Materials through Risk Register, with a `Project` column in the register tables.
+- For `project-layout: separate` - one level-2 `## Project <name>` section per project,
+  each carrying that same span (assessments, findings, debt, and risks) as `###` subsections,
+  then Solution Comparison (once, combined - cross-project trade-offs only).
 - Scope Exclusions (once, shared)
 - Known Limitations (once, shared)
 - Further Verification *(source-only mode)* / Executed Evidence *(executed-readonly or
   executed-commands mode, conditional)* (once, shared)
 - Validation Protocol (once, shared)
-- Remediation Roadmap (once, shared - consolidated matrix and registers with a Project column,
+- Contradiction Register *(conditional)* (once, shared)
+- Remediation Roadmap (once, shared - compact overview and registers with a Project column,
   carrying Recommendation Classification and Follow-up Plan subsections)
+- Glossary Index *(when Descriptive mode is enabled)* (once)
 - Reference Sources (once, shared)
 
 ## Specification Files
@@ -723,14 +738,22 @@ Each report section is specified in a file under `process/report-format/`.
 |                               | Versioning                                               |
 | `code-style.md`               | Code Style                                               |
 | `findings-registers.md`       | Strengths, Technical Findings, Technical Debt            |
-|                               | Register, Unified Risk Register, Remediation Roadmap,    |
+|                               | Register, Risk Register, Remediation Roadmap,    |
 |                               | Recommendation Classification                            |
 | `report-closing.md`           | Scope Exclusions, Known Limitations, Verification        |
 |                               | Handoff, Executed Evidence, Follow-up Plan,              |
 |                               | Validation Protocol, Reference Sources                   |
-| `hunt-style.md`               | Hunt report style: verdict, domain register, journey     |
+| `audit-legacy.md`             | Audit legacy variant: metadata-first section order,      |
+|                               | long-form scorecard, wide roadmap matrix                 |
+| `hunt-style.md`               | Hunt defect report (default): report overview, health    |
+|                               | assessment, canonical findings, remediation plan,        |
+|                               | previous findings                                        |
+| `hunt-legacy.md`              | Hunt legacy variant: verdict, domain register, journey   |
 |                               | traces, remediation phases                               |
-| `review-style.md`             | Review report style: execution register, evidence        |
+| `brief-style.md`              | Brief report (default): report overview, current state,  |
+|                               | canonical findings, plan, known and deferred, evidence   |
+|                               | and trust                                                |
+| `review-legacy.md`            | Review legacy variant: execution register, evidence      |
 |                               | levels, retest register, artifact manifest               |
 | `structure-review.md`         | Structure Review section, `FND-STR` findings, structure  |
 |                               | review variant contract                                  |
@@ -777,7 +800,8 @@ heading spacing, split-sentence and doubled-end-mark defects, `..` identifier ra
 sentences joined inside one paragraph, table rows butting onto surrounding text,
 and unbalanced `**` markers) on draft parts before assembly, copy it the same way.
 
-Pass `--no-sentence-breaks` when linting a report recorded with `Sentence breaks | Off`.
+Pass `--no-sentence-breaks` only when linting a report whose flowing layout the content
+detection fails to see.
 
 `scripts/validate-report.py` runs the scriptable items in this checklist plus finding-block field,
 register cross-reference, and PAR-row checks, copy and run it the same way.

@@ -1,22 +1,30 @@
-# Review Report Style
+# Review (legacy) Report Style
 
 ## Purpose
 
-> **Scope:** The `review` report genre - an execution-oriented technical assessment built around a
-> run register of commissioned checks **Key items:** execution register, check statuses,
-> evidence levels, verdict and gates, retest register, artifact manifest, structure review variant
+> **Scope:** The `review (legacy)` report variant - the preserved execution-oriented technical
+> assessment built around a run register of commissioned checks **Key items:** execution register,
+> check statuses, evidence levels, verdict and gates, retest register, artifact manifest,
+> structure review variant
 
-This file defines the report produced when `report-style: review` is resolved during Parameter
-Configuration in `process/audit-workflow/parameter-phase.md`.
+This file defines the report produced when `report-style: review` or `review (legacy)` is
+resolved during Parameter Configuration in `process/audit-workflow/parameter-phase.md`.
+
+It is the preserved pre-redesign review layout - the default review-oriented format is the
+`brief` genre in `process/report-format/brief-style.md`, and a new review-oriented report
+produces a `brief` unless the legacy form is explicitly requested.
+
+A report under this contract records `Report Style: Review (legacy)` in its metadata table,
+or `Report Style: Review` when reproducing the form of a recovered previous report.
 
 Read the sections the task needs - grep the `## ` headings for the section map.
 
 The `audit` style measures conformance against the governed contract and `hunt`
 measures fitness for use.
-`review` answers a narrower question: what do the commissioned checks actually show,
+`review (legacy)` answers a narrower question: what do the commissioned checks actually show,
 and what do the findings drawn from them mean.
 
-All three styles share one evidence base: the same finding schema, the same completeness rules,
+All styles share one evidence base: the same finding schema, the same completeness rules,
 and the same readiness gates.
 
 Style changes presentation, never what must be found.
@@ -32,7 +40,8 @@ and a model reproduction never upgrades an application-level claim.
 The following carry over unchanged from `process/report-format.md` and its spec files:
 
 - Document Information per `report-opening.md`,
-  including `Report Style: review` and the `Evidence Mode` row that decides which checks may run.
+  including `Report Style: Review (legacy)` and the `Evidence Mode` row that decides which
+  checks may run.
 - Audit Coverage per `report-opening.md`.
 - The finding block schema per `findings-registers.md`, with the same field vocabulary.
 - The risk register schema per `synthesis/risk-register.md`,
@@ -111,7 +120,7 @@ It carries, in order:
 1. A purpose statement - what the subject is, what was checked, at which snapshot.
 2. A one-paragraph plain verdict: `Ready`, `Conditionally ready`, or `Not ready`,
    plus one sentence on what the verdict does not mean.
-3. The domain ratings table per `hunt-style.md` (fixed domains,
+3. The domain ratings table per `hunt-legacy.md` (fixed domains,
    `Red` / `Amber` / `Green` / `Not assessed`, `FND-` basis for degraded ratings).
 4. The hard readiness gates: every gate listed with `Met`, `Not met`, or `Not assessable`.
    State which permitted-use profile each gate belongs to - laboratory, controlled sharing,
@@ -217,7 +226,8 @@ Every finding maps to a phase or to an explicit `Accepted - no action` dispositi
 `Deferred` and `Unresolved` dispositions are permitted with their blocking condition named.
 
 A review report has no Recommendation Classification section - the plan records the disposition
-judgment, and the validator flags the section when it appears under `Report Style: review`.
+judgment, and the validator flags the section when it appears under `Report Style: Review`
+in either form.
 
 ## Retest Register
 

@@ -14,7 +14,7 @@ Follow it after Synthesis.
 | Section                      | Line | What it covers               |
 |------------------------------|------|------------------------------|
 | Validation                   | 19   | Validation                   |
-| Evidence And Decision Checks | 355  | Evidence And Decision Checks |
+| Evidence And Decision Checks | 357  | Evidence And Decision Checks |
 
 ## Validation
 
@@ -178,7 +178,7 @@ and that configured tools are treated as intended checks, not executed ones.
 
 When a Technical Debt Register is present,
 confirm every `TDR-XXX` traces to a `FND-XXX` or a cited direct observation,
-and that no security risk is duplicated from the Unified Risk Register.
+and that no security risk is duplicated from the Risk Register.
 
 When a Follow-up Plan subsection is present,
 confirm every row references a `FND-XXX` and that owners or dates absent from the input are marked
@@ -240,9 +240,11 @@ Under `source-only`, confirm the Further Verification covers every material clai
 resolved from source, each entry naming command, pass criteria,
 and the finding it would confirm or close.
 
-When the report style is `hunt` or `review`, confirm the layout, verdict block,
-and rating columns match `process/report-format/hunt-style.md` or
-`process/report-format/review-style.md`.
+When the report style is `hunt` or `review`, confirm the layout matches
+`process/report-format/hunt-style.md` (the defect contract), the `hunt (legacy)` layout in
+`process/report-format/hunt-legacy.md`, or `process/report-format/review-legacy.md` -
+the defect report carries no verdict block or rating columns, those apply to the
+legacy variant and review style only.
 
 The fix-and-revalidate loop is bounded - three iterations of fix-then-re-validate,
 then stop and surface the remaining issues instead of looping further.
@@ -286,7 +288,7 @@ The translated-report gates then run in this order:
 `scripts/lint-prose.py <report>`, `scripts/link-glossary.py <report> --lang pl --check`,
 `scripts/check-translation.py <report> --rules <translations/polish-language.md>` for summary-title
 agreement, prose-count reconciliation, block field-label conformance, internal-anchor resolution,
-untranslated-heading detection, field-value capitalization, governed tokens inside code spans,
+untranslated-heading detection, token-field capitalization, governed tokens inside code spans,
 the `TDD` ban, and the warn-level sentence-length review,
 then the mapped-copy format and validation pair - the block-label and anchor checks must run first
 so their failures surface as contract violations instead of inexplicable mapped-copy field losses.

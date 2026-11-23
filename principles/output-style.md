@@ -416,7 +416,7 @@ table headers, style rules, and any language-specific encoding or diacritics req
   "AI Provenance & Code Origin", "Copyrights & Originality")
 - All dimension names in the Scorecard Summary (e.g., "Testability", "Design
   Soundness", "Code Quality")
-- All risk names in the Unified Risk Register
+- All risk names in the Risk Register
 - All recommendation summaries in the Remediation Roadmap
 - All descriptive paragraphs, evidence, reasoning, and justification text
 - "Summary description" and observation paragraph headings

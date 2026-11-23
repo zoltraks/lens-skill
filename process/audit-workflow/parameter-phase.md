@@ -17,20 +17,20 @@ On completion, proceed to `process/audit-workflow/scope-definition.md`.
 | Section                                    | Line | What it covers                             |
 |--------------------------------------------|------|--------------------------------------------|
 | Parameter Configuration                    | 35   | Parameter Configuration                    |
-| Saved Parameters (`work/lens-params.json`) | 170  | Saved Parameters (`work/lens-params.json`) |
-| Parameter Prompts                          | 197  | Parameter Prompts                          |
-| Delivery And Output File                   | 225  | Delivery And Output File                   |
-| Previous Report Files                      | 377  | Previous Report Files                      |
-| Report Language                            | 397  | Report Language                            |
-| Report Style                               | 419  | Report Style                               |
-| Project Layout                             | 441  | Project Layout                             |
-| Evidence Mode                              | 453  | Evidence Mode                              |
-| Detail Level                               | 502  | Detail Level                               |
-| Evaluation Scale                           | 518  | Evaluation Scale                           |
-| Improvement Suggestions                    | 547  | Improvement Suggestions                    |
-| Trade-off Analysis                         | 560  | Trade-off Analysis                         |
-| Descriptive Mode                           | 572  | Descriptive Mode                           |
-| Bypass Rule                                | 586  | Bypass Rule                                |
+| Saved Parameters (`work/lens-params.json`) | 171  | Saved Parameters (`work/lens-params.json`) |
+| Parameter Prompts                          | 198  | Parameter Prompts                          |
+| Delivery And Output File                   | 226  | Delivery And Output File                   |
+| Previous Report Files                      | 378  | Previous Report Files                      |
+| Report Language                            | 398  | Report Language                            |
+| Report Style                               | 420  | Report Style                               |
+| Project Layout                             | 479  | Project Layout                             |
+| Evidence Mode                              | 491  | Evidence Mode                              |
+| Detail Level                               | 540  | Detail Level                               |
+| Evaluation Scale                           | 556  | Evaluation Scale                           |
+| Improvement Suggestions                    | 585  | Improvement Suggestions                    |
+| Trade-off Analysis                         | 598  | Trade-off Analysis                         |
+| Descriptive Mode                           | 610  | Descriptive Mode                           |
+| Bypass Rule                                | 624  | Bypass Rule                                |
 
 ## Parameter Configuration
 
@@ -44,9 +44,10 @@ Default parameters:
 
 | Parameter               | Default                                                                                                                                                                                                                                                                        |
 |-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Report style            | a style named in the request, then the recovered previous style on re-audit - `audit` governance contract, `hunt` defect-hunt genre, `review` execution-register genre; `audit` is the fallback default                                                                        |
-| Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/` - `review/` or `reviews/` for a review report - else Inline                                                                                                                                         |
-| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md` for a first hunt, `REVIEW.md` for a first review                                                                                                                            |
+| Report style            | a style named in the request, then the recovered previous style on re-audit - `audit` reorganized governance contract (`audit (legacy)` for the preserved metadata-first layout), `hunt` defect-hunt genre (`hunt (legacy)` for the preserved verdict/domain layout), `brief` decision brief (`review (legacy)` for the preserved execution-register layout); `audit` is the fallback default |
+| Report delivery         | File if `audit/` or `report/` exists under `docs/`, `document/`, or `doc/` - `review/` or `reviews/` for a brief or review report - else Inline                                                                                                                                       |
+| Output filename         | `AUDIT-1.0.md` or language-specific revisioned name, `AUDIT-<revision>.md` on re-audit - `HUNT.md` for a first hunt, `BRIEF.md` for a first brief, `REVIEW.md` for a first review (legacy)                                                                                             |
+| Known horizon           | `Next milestone` - the `Known` review-by horizon under `report-style: brief`, `90-day cap` or a project-set value via follow-up                                                                                                                                                      |
 | Report language         | Match the language of the user's request                                                                                                                                                                                                                                       |
 | Language output         | `pair` when the report language is not English, or when the previous report was a language pair, the English report plus its translation - the pair convention survives a report-style switch, `single` when the request scopes to one language and no pair convention applies |
 | Detail level            | Detailed                                                                                                                                                                                                                                                                       |
@@ -115,7 +116,7 @@ When a translation sibling is produced for a report that already exists under a 
 name, rename the existing file to its `<stem>-<LANG>` form first so the pair shares the suffix
 convention, and add or update the `Translations` row in both files' Document Information tables.
 
-For the `hunt` report style the stem is `HUNT` - or the language-specific stem such as `POLOWANIE` -
+For the `hunt` report style the stem is `HUNT` - or the language-specific stem such as `USTERKI` -
 and a first hunt defaults to the bare stem `HUNT.md`,
 with `HUNT-1.0.md` offered as the revisioned alternative.
 
@@ -290,7 +291,7 @@ or the language-specific stem from the matching `translations/` file.
 A first audit uses `AUDIT-1.0.md` or the language-specific equivalent such as `AUDYT-1.0.md`.
 
 A first hunt or review report instead defaults to the bare stem `HUNT.md` / `REVIEW.md` or its
-language-specific equivalent such as `POLOWANIE.md` / `PRZEGLĄD.md`,
+language-specific equivalent such as `USTERKI.md` / `PRZEGLĄD.md`,
 with the revisioned name offered as the alternative.
 
 When a previous report exists, use the incremented filename defined in
@@ -420,23 +421,60 @@ per `principles/output-style.md`.
 
 Ask: "Which report style should the report use?"
 
-- **`audit`** (default) - the governance contract defined across `process/report-format/`:
-  per-project assurance blocks, scorecard, risk and debt registers, validation record.
+- **`audit`** (default) - the reorganized governance contract defined across
+  `process/report-format/`:
+  metadata and grouped Contents leading, the summary block and scorecard-led
+  dashboard closing the front, then per-project assurance blocks,
+  risk and debt registers, validation record.
+- **`audit (legacy)`** - the pre-redesign audit layout in
+  `process/report-format/audit-legacy.md`: Document Information leading, the
+  long-form scorecard, and the wide roadmap matrix. Select it only by explicit request
+  or when a recovered previous report carries `Report Style: Audit (legacy)`.
 - **`hunt`** - the defect-hunt genre defined in `process/report-format/hunt-style.md`:
+  a version-specific defect and health register with one canonical record per finding,
+  separate severity and remediation priority, management dispositions,
+  and a prioritized remediation plan.
+- **`hunt (legacy)`** - the pre-redesign hunt layout in `process/report-format/hunt-legacy.md`:
   a verdict-first, domain-organized engineering report with `file:line` evidence, journey traces,
-  breaking-change assessment, and a phase-mapped roadmap.
-- **`review`** - the execution-oriented genre defined in `process/report-format/review-style.md`:
-  a run register of commissioned checks with per-check status, evidence levels,
-  a verdict with permitted-use gates, and a retest register.
+  breaking-change assessment, and a phase-mapped roadmap. Select it only by explicit request
+  or when a recovered previous report carries the legacy layout.
+- **`brief`** - the review-oriented genre defined in `process/report-format/brief-style.md`:
+  a compact status-driven brief answering what is defective, what the plan is,
+  what is known and deliberately not fixed, and how far the result can be trusted -
+  one self-contained report file.
+- **`review (legacy)`** - the pre-redesign review layout in
+  `process/report-format/review-legacy.md`: a run register of commissioned checks with
+  per-check status, evidence levels, a verdict with permitted-use gates, and a retest register.
+  Select it only by explicit request or when a recovered previous report carries
+  `Report Style: Review`.
 
-All three styles share the same evidence rigor, finding schema,
+All styles share the same evidence rigor, finding schema,
 and completeness rules - style changes presentation, never what must be found.
 
-`check` wording selects the `review` style - the old style name remains an accepted alias.
+`check` or bare `review` wording selects the `brief` style - the review genre was renamed,
+and `review (legacy)` resolves only by explicit request or a recovered `Report Style: Review`.
 
 The question ends with `Use default: audit` and `Use defaults for all remaining questions`.
 
 Under JSON exchange this is the `report-style` `choice` parameter.
+
+## Known Horizon
+
+Under `report-style: brief`, ask under `Configure options` how far a `Known` finding's
+review-by date may reach:
+
+- **Next milestone** (default) - every `Known` finding reviews no later than the next
+  planned milestone.
+- **90-day cap** - every `Known` finding reviews within ninety days of the report date.
+- **Custom** - a project-set horizon the answer names, recorded verbatim.
+
+The follow-up ends with `Use default: Next milestone` and
+`Use defaults for all remaining questions` like every routine prompt.
+
+Under JSON exchange it is the `known-horizon` `choice` parameter.
+
+The resolved horizon records in the `Known Horizon` row of Report Overview and bounds
+every `Review` field per `process/report-format/brief-style.md`.
 
 ## Project Layout
 

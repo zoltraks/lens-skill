@@ -9,7 +9,7 @@
 
 - Always apply `principles/evaluation-rules.md` and `principles/output-style.md` to every report.
 - The `audit` report style is the default deliverable.
-  A `review` style report renders per `process/report-format/review-style.md`,
+  A `review` style report renders per `process/report-format/review-legacy.md`,
   and a structure-scoped review renders the variant contract in
   `process/report-format/structure-review.md`.
 - Never compile, build, test, or execute the audited project, and never run linters, scanners,
@@ -25,7 +25,8 @@
 - The generated report follows the skill's Markdown rules adapted by `process/report-format.md`:
   `#` / `##` / `###` headings only, one-sentence paragraphs,
   wrap at a selectable width (default 100), no semicolons, tables aligned by a formatting
-  script, no Contents table.
+  script, and a `## Contents` section under the `audit` style - `audit (legacy)` keeps
+  the former optional flat Contents.
 - Test layers, TDD, coverage, and design-for-testability belong in `assessment/testing-review.md`.
 - SOLID and design principles (SRP, OCP, LSP, ISP, DIP), cohesion, coupling,
   and DRY belong in `assessment/design-principles.md`, code-level metrics (lint, type safety,
@@ -116,7 +117,7 @@
 - Conditional sections appear only when their inclusion criteria are met per the table in
   `process/report-format.md`, with omissions noted in Scope Exclusions - never force one.
 - The Technical Debt Register (`synthesis/debt-register.md`)
-  is distinct from the Unified Risk Register: debt is cost already present,
+  is distinct from the Risk Register: debt is cost already present,
   risk is what could go wrong. Never duplicate entries.
 - The Follow-up Plan (`synthesis/reaudit-plan.md`)
   closes the Remediation Roadmap as its final `###` subsection when a P1 or P2 recommendation
@@ -130,12 +131,14 @@
 - The Changes Since Previous Audit section (`synthesis/report-comparison.md`)
   appears only when a previous report exists - never overwritten,
   the new file carries the next revision.
-- `report-style: hunt` or `review` renders the same evidence base per
-  `process/report-format/hunt-style.md` / `review-style.md` - intake records the snapshot,
-  external reports reconcile per `synthesis/report-triangulation.md`.
+- `report-style: hunt`, `hunt (legacy)`, `brief`, or `review (legacy)` renders the same
+  evidence base per `process/report-format/hunt-style.md` / `hunt-legacy.md` / `brief-style.md` /
+  `review-legacy.md` - intake records the snapshot, external reports reconcile per
+  `synthesis/report-triangulation.md`.
 - Known Limitations lists every unperformed check.
   Validation Protocol closes the report with the Mandatory Core Checklist result and the
-  `process/report-parity.md` gate outcome.
+  `process/report-parity.md` gate outcome - under the defect `hunt` style the protocol
+  stays a run-internal record and the merged Scope and Limitations section closes instead.
 - Multi-project reports: a condensed combined Executive Summary and Changes follow the Project
   Inventory, combined Solution Comparison holds only cross-project trade-offs,
   and one consolidated Remediation Roadmap closes the register sections just before

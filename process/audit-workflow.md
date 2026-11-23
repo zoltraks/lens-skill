@@ -13,7 +13,8 @@ For a single-dimension request, run the same steps but limit the assessment phas
 one requested category.
 
 The `hunt` and `review` report styles apply the same phases with the section-order deltas defined in
-`process/report-format/hunt-style.md` and `process/report-format/review-style.md`.
+`process/report-format/hunt-style.md` (or the `hunt (legacy)` variant in
+`process/report-format/hunt-legacy.md`) and `process/report-format/review-legacy.md`.
 
 Read the sections the task needs - grep the `## ` headings for the section map.
 
@@ -50,7 +51,7 @@ Use this checklist to confirm you understand the input before assessing.
 
 | Question                                        | Record As                                            |
 |-------------------------------------------------|------------------------------------------------------|
-| What report style was resolved?                 | `audit` / `hunt` / `review`                          |
+| What report style was resolved?                 | `audit` / `hunt` / `hunt (legacy)` / `review`        |
 | What review scope was resolved?                 | `full` / `structure`, or `N/A` outside `review`      |
 | What artifact type is this?                     | Prototype / Codebase / Production system / Proposal  |
 | What is the source format?                      | Running / Inspected code / Description               |
@@ -211,7 +212,7 @@ run a single Synthesis phase that combines all projects into one report:
 3. Each project gets its own complete set of sections: Executive Summary,
    System Context (with the Technology Stack subsection), Health Dashboard, High-Level Observations,
    Auditing Methodology, Scoring Rubrics, Architectural Assessment, Solution Comparison,
-   conditional sections, Strengths, Technical Findings, and Unified Risk Register.
+   conditional sections, Strengths, Technical Findings, and Risk Register.
 4. Finding IDs, risk IDs, and recommendation IDs number globally across the whole report.
    Use the project identifier as a trailing parenthetical in the finding heading so the reader can
    navigate. For example, `### FND-ARC-001 Missing input validation (api-service)`.

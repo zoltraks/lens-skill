@@ -82,12 +82,19 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Evidence ledger written                        | Every row carries `Observation` or `Concern`                    |
 | Polish-language report                         | Headings and dimension names match glossary verbatim            |
 | Polish audit request                           | `AUDIT-<rev>-EN.md` and `AUDIT-<rev>-PL.md`, translation last   |
-| Polish review request                          | `REVIEW-<rev>-EN.md` and `REVIEW-<rev>-PL.md` pair              |
-| Explicit review or check request               | `REVIEW.md` with the review-style section set                   |
-| Explicit change-set review request             | `REVIEW.md` scoped to the change set                            |
+| Polish brief request                           | `BRIEF-<rev>-PL.md` plus the English `BRIEF-<rev>-EN.md` pair   |
+| Polish review (legacy) request                 | `REVIEW-<rev>-EN.md` and `REVIEW-<rev>-PL.md` pair              |
+| Explicit review or check request               | `BRIEF.md` with the brief section set                           |
+| Explicit `review (legacy)` request             | `REVIEW.md` with the execution-register section set             |
+| Explicit change-set review request             | `BRIEF.md` scoped to the change set                             |
 | "Make a structure review" request              | `REVIEW.md` with the structure-review variant contract          |
 | Full audit on a code-bearing subject           | Structure Review section before Solution Comparison             |
 | Hunt report synthesized                        | No Structure Review content, the assessment was not loaded      |
+| Default hunt synthesized                       | Defect sections - no Verdict, ratings, or risk register         |
+| `hunt (legacy)` requested                      | Verdict/domain/journey layout, `Report Style: Hunt (legacy)`    |
+| Legacy-layout HUNT baseline, re-hunt           | `hunt (legacy)` recovered - variant change needs explicit ask   |
+| `REVIEW-1.0.md` baseline, new review           | `review (legacy)` recovered - variant change needs explicit ask |
+| Brief baseline exists                          | Changes section reconciles against the previous report's summary |
 | Legacy `CHECK-1.0.md` found                    | Not identified as a previous report                             |
 | Legacy `REVIEW-1.0.md` lacking `Report Style`  | Legacy shape, never a baseline, name keeps the revision slot    |
 | Bare "review this codebase" request            | Audit stays the default, single-dimension when scoped           |

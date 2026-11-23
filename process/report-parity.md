@@ -60,16 +60,17 @@ Read the sections the task needs - grep the `## ` headings for the section map.
 
 PAR-5 may report `Not collected` when Git history is unavailable, silence is not acceptable.
 
-PAR-18 reports `N/A` under `Report Style: hunt` or `review`.
-Neither style carries a Recommendation Classification subsection,
-disposition lives in Remediation Phases or the Improvement Plan,
-per `process/report-format/hunt-style.md` and `process/report-format/review-style.md`.
+PAR-18 reports `N/A` under `Report Style: hunt`, `hunt (legacy)`, or `review`.
+Those styles carry no Recommendation Classification subsection - disposition lives in the
+Remediation Plan, Remediation Phases, or the Improvement Plan,
+per `process/report-format/hunt-style.md`, `process/report-format/hunt-legacy.md`,
+and `process/report-format/review-legacy.md`.
 
-PAR-20 reports `N/A` under `Report Style: hunt`.
+PAR-20 reports `N/A` under `Report Style: hunt` in either variant.
 The structure assessment is not part of the hunt evidence base.
 
-PAR-21 through PAR-27 report `N/A` under `Report Style: hunt` or when the subject
-carries no source code.
+PAR-21 through PAR-27 report `N/A` under `Report Style: hunt` in either variant, or when the
+subject carries no source code.
 
 A checklist row is `Applied` only when the requirement is met as written - a partially met item
 records its actual state with a justification rather than redefining the

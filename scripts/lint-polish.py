@@ -94,7 +94,7 @@ CAPS_TOKEN_PREFIXES = (
 )
 
 # Polish filename stems stay uppercase - they are literals, not vocabulary.
-CAPS_TOKEN_KEEP = {"POLOWANIE", "PRZEGLĄD", "AUDYT"}
+CAPS_TOKEN_KEEP = {"USTERKI", "POLOWANIE", "PRZEGLĄD", "AUDYT"}
 
 POLISH_DIACRITICS = "ĄĆĘŁŃÓŚŹŻ"
 

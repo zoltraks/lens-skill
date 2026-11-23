@@ -9,7 +9,7 @@
 This file defines the Technical Debt Register (TDR),
 a structured inventory of debt items that are not security risks but compound over time.
 
-It is distinct from the Unified Risk Register: risks describe what could go wrong,
+It is distinct from the Risk Register: risks describe what could go wrong,
 debt describes accumulated cost that is already present and invisible.
 
 Use CISQ characteristics to organize structural debt and a SQALE-inspired distinction between
@@ -71,7 +71,7 @@ Discarded authorization results belong in security findings and the risk registe
 
 ## What Does Not Belong Here
 
-- Security risks. Those belong in the Unified Risk Register.
+- Security risks. Those belong in the Risk Register.
 - Missing features. The TDR records debt in existing code, not absent functionality.
 - Subjective style preferences with no maintainability cost.
 

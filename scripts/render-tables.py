@@ -465,7 +465,7 @@ SPLICE_MARKERS = {
     "criteria": r"\*\*Criteria table\*\*[^\n]*$",
     "requirements": r"^## Requirements Conformance[^\n]*$",
     "findings": r"^## Technical Findings[^\n]*$",
-    "risks": r"^## Unified Risk Register[^\n]*$",
+    "risks": r"^## Risk Register[^\n]*$",
     "roadmap": r"^## Remediation Roadmap[^\n]*$",
     "evidence": r"^### Evidence List[^\n]*$",
 }

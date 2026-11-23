@@ -86,7 +86,7 @@ columns `Operation` and `What it covers`, aligned by source width:
 | Operation          | What it covers                                             |
 |--------------------|------------------------------------------------------------|
 | Audit              | Full governance report across the assessment categories    |
-| Hunt               | Defect-hunt verdict over the same evidence base            |
+| Hunt               | Defect and health register over the same evidence base     |
 | Review             | Execution-register review and the structure-review variant |
 | Re-audit           | New revisioned report compared against a previous baseline |
 | Focused review     | Single-dimension or conditional-scope assessments          |

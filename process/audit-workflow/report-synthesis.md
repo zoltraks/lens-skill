@@ -16,12 +16,13 @@ Read the sections the task needs - grep the `## ` headings for the section map.
 
 ## Synthesis
 
-When the report style is `hunt`, synthesize per `process/report-format/hunt-style.md`.
+When the report style is `hunt`, synthesize per `process/report-format/hunt-style.md`,
+or per `process/report-format/hunt-legacy.md` when the `hunt (legacy)` variant was resolved.
 
 That style reuses the finding, risk, and roadmap schemas below with its own section order and adds
 the journey-trace matrix, per-domain ratings, and the phase-mapped roadmap.
 
-When the report style is `review`, synthesize per `process/report-format/review-style.md` - or
+When the report style is `review`, synthesize per `process/report-format/review-legacy.md` - or
 `process/report-format/structure-review.md` when the resolved scope is structure-only.
 
 That style reuses the same schemas and adds the execution register, evidence levels,
@@ -194,6 +195,10 @@ and stop and surface the discrepancy on a mismatch.
 
 Concatenate the parts in the fixed section order into the final file with a mechanical file join,
 never by rewriting the document from context.
+When a requested layout change supplies an explicit section order,
+that list is authoritative over the request's narrative prose and shorthand labels -
+read phrases such as "dashboard-first" or "decision-first" through the list,
+never against it.
 
 Finalize with `finalize-report.py`, never by hand-ordering passes - glossary links, register links,
 table formatting, then validation, in that order,

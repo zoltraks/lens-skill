@@ -154,6 +154,44 @@ Proposed targets and gates are not stakeholder-approved requirements until confi
 Incomplete required checks or unassigned verification ownership leave sign-off pending,
 regardless of the scorecard average.
 
+The readiness statement names the complete readiness threshold and its authority -
+a `Ready` verdict means the readiness criteria are met under the stated evidence,
+never that every check passed or that production was verified.
+
+**Narrative length**
+
+The Executive Summary stays a summary - roughly 300 to 500 words of prose across
+its description, coverage and risk flags, and readiness paragraphs when the material allows.
+
+It interprets the scorecard rather than repeating it:
+dimension values live in Health Dashboard, never re-listed here.
+
+### Immediate Actions
+
+Under the `audit` style the section closes with a level-3 `### Immediate Actions` subsection -
+the immediate-action preview so Contents can link it directly.
+
+It presents up to five existing recommendations drawn from Remediation Roadmap,
+selected by the report's priority order (`P1` before `P2`, then project and identifier order)
+and rendered as a compact index:
+
+| Rec | Priority | Project | Recommendation |
+|-----|----------|---------|----------------|
+
+A single-project report omits the `Project` column.
+
+One sentence under the table states the selection rule - for example
+`Preview lists the five highest-priority mandatory recommendations by roadmap priority` -
+and links the complete register `[Remediation Roadmap](#remediation-roadmap)`.
+
+When more mandatory actions exist than the preview shows, say so explicitly - the preview
+is a preview, never a silent truncation.
+
+The preview carries no new content: no owners, no dates, and no commitments that the
+roadmap records do not already state.
+
+`audit (legacy)` reports have no Immediate Actions subsection.
+
 ## Changes Since Previous Audit
 
 Include this section only when a previously created audit report was found during intake and

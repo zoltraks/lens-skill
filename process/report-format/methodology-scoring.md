@@ -302,7 +302,7 @@ When the report language is not English,
 apply the column header and severity description translations from the matching
 `translations/` file.
 
-Use these definitions consistently across the Technical Findings and the Unified Risk Register.
+Use these definitions consistently across the Technical Findings and the Risk Register.
 
 ## Scoring Rubrics
 
@@ -385,7 +385,9 @@ If an overall score is shown, disclose its formula, weights, rounding, and cover
 State the lowest-scoring applicable dimension and its score in a paragraph below the table,
 per `synthesis/project-scorecard.md`.
 
-The Scorecard Summary table carries exactly two columns - `Dimension` and `Score`.
+The Scorecard Summary table carries exactly two columns - `Dimension` and `Score` -
+except a multi-project `audit` report, which pivots to `Dimension` plus one column per
+project per `process/report-format/dashboard-observations.md`.
 No `Notes`, `Justification`, or commentary column exists:
 dimension narrative belongs in the prose under the table or in the finding blocks it cites.
 

@@ -19,21 +19,21 @@
 | Section                            | Line | What it covers                                      |
 |------------------------------------|------|-----------------------------------------------------|
 | Overview                           | 38   | Audit purpose and standard report shape             |
-| What The Skill Does                | 87   | Update check, evidence, assessment, synthesis       |
-| Installation                       | 169  | Clone and update instructions                       |
-| Usage                              | 202  | Activation, parameters, and report delivery         |
-| Example Prompts                    | 239  | Full and focused audit requests                     |
-| Workflow Diagrams                  | 320  | ASCII and Mermaid audit pipelines                   |
-| Evidence And Decision Quality      | 380  | Evidence strength and verification limits           |
-| Core Principles                    | 439  | Evaluation constraints and status rules             |
-| Report Format                      | 455  | Report structure, identifiers, and style            |
-| When To Use This Skill             | 492  | Supported requests and exclusions                   |
-| What's Inside                      | 516  | Documents, references, tools, and conditional files |
-| Document Style                     | 714  | Pointer to the style rules file                     |
-| Specification                      | 724  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 745  | Maintenance checks and regression scenarios         |
-| License                            | 776  | License for the skill itself                        |
-| Credits                            | 782  | Authorship and attribution                          |
+| What The Skill Does                | 89   | Update check, evidence, assessment, synthesis       |
+| Installation                       | 171  | Clone and update instructions                       |
+| Usage                              | 204  | Activation, parameters, and report delivery         |
+| Example Prompts                    | 241  | Full and focused audit requests                     |
+| Workflow Diagrams                  | 322  | ASCII and Mermaid audit pipelines                   |
+| Evidence And Decision Quality      | 382  | Evidence strength and verification limits           |
+| Core Principles                    | 441  | Evaluation constraints and status rules             |
+| Report Format                      | 457  | Report structure, identifiers, and style            |
+| When To Use This Skill             | 494  | Supported requests and exclusions                   |
+| What's Inside                      | 518  | Documents, references, tools, and conditional files |
+| Document Style                     | 719  | Pointer to the style rules file                     |
+| Specification                      | 729  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 750  | Maintenance checks and regression scenarios         |
+| License                            | 781  | License for the skill itself                        |
+| Credits                            | 787  | Authorship and attribution                          |
 
 ## Overview
 
@@ -57,7 +57,7 @@ a source-derived Software Bill of Materials, License Compliance, Health Dashboar
 Delivery Practice, High-Level Observations, Auditing Methodology, Scoring Rubrics,
 Architectural Assessment, Structure Review, Solution Comparison, Strengths and What's Working,
 Technical Findings with theoretical exploitability narratives on serious security findings,
-Unified Risk Register, Remediation Roadmap, Scope Exclusions, Known Limitations,
+Risk Register, Remediation Roadmap, Scope Exclusions, Known Limitations,
 Validation Protocol, and Reference Sources.
 
 Conditional sections appear only when the subject warrants them: Data Flow Diagram, Design Patterns,
@@ -74,10 +74,12 @@ recommendation, so the report can serve directly as a basis for change documents
 Every section uses a hybrid table-paragraph format for scannable summaries backed
 by detailed evidence.
 
-A `hunt` report renders the same evidence base as a defect-hunt verdict with journey traces and
-remediation phases, and a `review` report renders it as an execution register with evidence levels
-and a retest register, per `process/report-format/hunt-style.md` and
-`process/report-format/review-style.md`.
+A `hunt` report renders the same evidence base as a defect and health register - one canonical
+record per finding with severity, priority, and disposition - and a `review` report renders it as
+an execution register with evidence levels and a retest register, per
+`process/report-format/hunt-style.md` and `process/report-format/review-legacy.md`.
+The pre-redesign verdict/domain hunt layout remains available as the `hunt (legacy)` variant in
+`process/report-format/hunt-legacy.md`.
 
 A request scoped to the project structure - "make a structure review" - produces a review-style
 report under the structure-review variant contract in `process/report-format/structure-review.md`.
@@ -483,7 +485,7 @@ This format keeps the report readable in plain-text consoles while preserving de
 
 Audit reports follow `process/report-format.md` and carry `AUDIT-<revision>.md` filenames.
 
-Review reports follow the execution-register contract in `process/report-format/review-style.md` -
+Review reports follow the execution-register contract in `process/report-format/review-legacy.md` -
 or the structure-review variant in `process/report-format/structure-review.md` - and carry
 `REVIEW.md` / `REVIEW-<revision>.md` filenames.
 
@@ -569,8 +571,11 @@ lens-skill/
 │   │   ├── conditional-conformance.md     # Conditional conformance sections
 │   │   ├── code-style.md                  # Code Style section spec
 │   │   ├── findings-registers.md          # Findings, debt, risk, roadmap, and classification
-│   │   ├── hunt-style.md                  # `hunt` report style: verdict, journeys, domain findings
-│   │   ├── review-style.md                # `review` report style: execution register, evidence levels, retests
+│   │   ├── hunt-style.md                  # `hunt` report style: defect and health register
+│   │   ├── hunt-legacy.md                 # `hunt (legacy)` variant: verdict, journeys, domain findings
+│   │   ├── audit-legacy.md                # `audit (legacy)` variant: metadata-first audit layout
+│   │   ├── brief-style.md                 # `brief` report style: compact status-driven decision brief
+│   │   ├── review-legacy.md               # `review (legacy)` variant: execution register, evidence levels, retests
 │   │   ├── structure-review.md            # Structure Review section and structure-variant contract
 │   │   └── report-closing.md              # Exclusions, limitations, handoff, validation, references
 │   ├── report-contract.md                 # One-page mechanically enforced report contract

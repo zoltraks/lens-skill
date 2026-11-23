@@ -250,7 +250,7 @@ class TestValidateReport(unittest.TestCase):
 
     def test_section_structure_order_and_unexpected(self):
         good = [
-            "| Report Style | audit |",
+            "| Report Style | audit (legacy) |",
             "",
             "## Document Information",
             "",
@@ -270,7 +270,7 @@ class TestValidateReport(unittest.TestCase):
             self.validator.check_section_structure(lines, fences), []
         )
         reordered = [
-            "| Report Style | audit |",
+            "| Report Style | audit (legacy) |",
             "",
             "## Document Information",
             "",
@@ -525,16 +525,20 @@ class TestValidateReport(unittest.TestCase):
 
     def test_sentence_breaks_row_values(self):
         self.assertFalse(
-            self.validator.sentence_breaks_on("| Sentence breaks | Off |\n")
+            self.validator.sentence_breaks_on("Sentence one.\nSentence two.\n")
         )
         self.assertTrue(
-            self.validator.sentence_breaks_on("| Detail Level | Detailed |\n")
+            self.validator.sentence_breaks_on("Sentence one.\n\nSentence two.\n")
+        )
+        self.assertTrue(
+            self.validator.check_sentence_breaks_row("| Sentence breaks | Off |\n")
+        )
+        self.assertTrue(
+            self.validator.check_sentence_breaks_row("| Podział zdań | Włączony |\n")
         )
         self.assertEqual(
-            self.validator.check_sentence_breaks_row("| Sentence breaks | Off |\n"), []
-        )
-        self.assertTrue(
-            self.validator.check_sentence_breaks_row("| Sentence breaks | On |\n")
+            self.validator.check_sentence_breaks_row("| Detail Level | Detailed |\n"),
+            [],
         )
 
     def test_prose_line_scope(self):
@@ -561,11 +565,13 @@ class TestNewReport(unittest.TestCase):
     def test_references_scaffold(self):
         for skeleton in (
             self.generator.audit_skeleton,
-            self.generator.hunt_skeleton,
+            self.generator.hunt_legacy_skeleton,
             self.generator.review_skeleton,
         ):
             body = skeleton([], {})
-            self.assertIn("| Reference | Publisher or Author | Used In |", body)
+            self.assertRegex(
+                body, r"\| Reference +\| Publisher or Author +\| Used In +\|"
+            )
             self.assertIn("[<title>](<url>)", body)
 
     def test_model_population_validates_clean(self):
@@ -634,14 +640,32 @@ class TestNewReport(unittest.TestCase):
             for args, name in (
                 (["--style", "audit"], "AUDIT-1.0.md"),
                 (["--style", "audit", "--projects", "api,worker"], "AUDIT-2.0.md"),
+                (["--style", "audit-legacy"], "AUDIT-LEGACY.md"),
                 (["--style", "hunt", "--projects", "api,worker"], "HUNT-1.0.md"),
+                (["--style", "hunt-legacy"], "HUNT-2.0.md"),
                 (["--style", "review"], "REVIEW.md"),
-                (["--style", "review", "--scope", "structure"], "REVIEW-1.0.md"),
+                (["--style", "review-legacy", "--scope", "structure"], "REVIEW-1.0.md"),
             ):
                 target = Path(tmp) / name
                 rc = self.generator.main(["new-report.py", *args, "--output", str(target)])
                 self.assertEqual(rc, 0)
                 self.assertEqual(validator.main(str(target)), 0)
+
+    def test_defect_contract_rejects_legacy_layout(self):
+        validator = load_script("validate-report.py")
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "HUNT-1.0.md"
+            rc = self.generator.main(
+                ["new-report.py", "--style", "hunt", "--output", str(target)]
+            )
+            self.assertEqual(rc, 0)
+            body = target.read_text()
+            target.write_text(
+                body
+                + "\n## Verdict\n\nVerdict: Not ready.\n\n"
+                + "## Risk Register\n\n### RSK-001: leftover register\n\n<desc>\n"
+            )
+            self.assertEqual(validator.main(str(target)), 1)
 
 
 RULES = SCRIPTS.parent / "translations" / "polish-language.md"
@@ -905,6 +929,75 @@ class TestCheckPlReport(unittest.TestCase):
         doc = self.DOC + "\nOdnośnik do [ustaleń](#ustalenia-techniczne).\n"
         rc, out = self.run_checker(doc)
         self.assertEqual(rc, 0, out)
+
+    def test_brief_block_labels_pass(self):
+        doc = (
+            self.DOC
+            + "\n- **Obszar:** Obszar.\n"
+            + "- **Obserwacja:** Obserwacja.\n"
+            + "- **Naprawa:** Naprawa.\n"
+            + "- **Nakład:** Mały.\n"
+            + "- **Warunek:** Warunek.\n"
+            + "- **Blokuje:** Production.\n"
+        )
+        rc, out = self.run_checker(doc)
+        self.assertEqual(rc, 0, out)
+
+    def test_table_rows_count_toward_register(self):
+        doc = self.DOC.replace(
+            "Rejestr liczy 1 ustalenie.", "Rejestr liczy 2 ustalenia."
+        ).replace(
+            "| [FND-001](#fnd-001-pierwsze-ustalenie) | Pierwsze ustalenie |\n",
+            "| [FND-001](#fnd-001-pierwsze-ustalenie) | Pierwsze ustalenie |\n"
+            "| FND-002 | Drugie ustalenie |\n",
+        )
+        rc, out = self.run_checker(doc)
+        self.assertEqual(rc, 0, out)
+
+    def test_second_column_register_row_carries_block(self):
+        doc = self.DOC.replace(
+            "| [FND-001](#fnd-001-pierwsze-ustalenie) | Pierwsze ustalenie |",
+            "| projekt | [FND-001](#fnd-001-pierwsze-ustalenie) | Pierwsze ustalenie |",
+        )
+        rc, out = self.run_checker(doc)
+        self.assertEqual(rc, 0, out)
+
+    def test_defect_fnd_labels_pass(self):
+        doc = (
+            "| Styl raportu | Usterki |\n"
+            + self.DOC
+            + "\n- **Komponent:** moduł.\n"
+            + "- **Klasa:** Usterka.\n"
+            + "- **Postanowienie:** Zaplanowane.\n"
+        )
+        rc, out = self.run_checker(doc)
+        self.assertEqual(rc, 0, out)
+
+    def test_defect_fnd_foreign_label_fails(self):
+        doc = (
+            "| Styl raportu | Usterki |\n"
+            + self.DOC
+            + "\n- **Potwierdzenie:** Źródło.\n"
+        )
+        rc, out = self.run_checker(doc)
+        self.assertEqual(rc, 1)
+        self.assertIn("Potwierdzenie", out)
+
+    def test_legacy_fnd_label_still_passes(self):
+        doc = self.DOC + "\n- **Potwierdzenie:** Źródło.\n"
+        rc, out = self.run_checker(doc)
+        self.assertEqual(rc, 0, out)
+
+    def test_free_text_field_lowercase_passes(self):
+        doc = self.DOC + "\n- **Wpływ:** wpływ bloku.\n"
+        rc, out = self.run_checker(doc)
+        self.assertEqual(rc, 0, out)
+
+    def test_token_field_lowercase_fails(self):
+        doc = self.DOC + "\n- **Ważność:** niska\n"
+        rc, out = self.run_checker(doc)
+        self.assertEqual(rc, 1)
+        self.assertIn("niska", out)
 
 
 class TestLinkGlossaryPolish(unittest.TestCase):
@@ -2048,7 +2141,7 @@ Security's interval [4-5] bounds the unresolved criteria.
 
 - **Severity:** High
 
-## Unified Risk Register
+## Risk Register
 
 ### RSK-001 Injection ships to release
 
@@ -2420,7 +2513,7 @@ class TestRepairs26(unittest.TestCase):
 
     def test_r4_dashboard_subsections_do_not_end_block(self):
         text = ("## Document Information\n\n| Field | Value |\n|---|---|\n"
-                "| Report Style | audit |\n\n"
+                "| Report Style | audit (legacy) |\n\n"
                 "## Health Dashboard\n\n"
                 "### Risk Map\n\nx\n\n"
                 "**Legend**\n\n| Band | Score |\n|---|---|\n"

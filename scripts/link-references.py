@@ -62,26 +62,30 @@ def mask_line(line: str) -> str:
 
 def first_cell_token(line: str) -> tuple[str, int]:
     """Return (bare identifier, second-pipe index) when the row's first
-    cell is exactly one row-defined register identifier (EVD or PAR),
-    else ("", -1). Block-register cells are references, not definitions."""
+    cell is exactly one register identifier, else ("", -1). A first-cell
+    register identifier is the row's own definition and stays unlinked."""
     second_pipe = line.find("|", 1)
     if second_pipe < 0:
         return "", -1
     cell = line[1:second_pipe]
     link = re.fullmatch(r"\s*\[([^\]]+)\]\([^)]*\)\s*", cell)
     text = link.group(1) if link else cell.strip()
-    if not re.fullmatch(QUALIFIED + ROW_FAMILY, text):
+    if not re.fullmatch(QUALIFIED + ID_TOKEN, text):
         return "", -1
     return text.rsplit("::", 1)[-1], second_pipe
 
 
 def collect(lines: list[str]) -> tuple[
-    dict[str, list[tuple[str, str | None]]], dict[str, str], list[str]
+    dict[str, list[tuple[str, str | None]]],
+    dict[str, str],
+    dict[str, str],
+    list[str],
 ]:
     """Return (block ID -> [(slug, project)], row family -> section slug,
-    warnings)."""
+    row-defined ID -> section slug, warnings)."""
     blocks: dict[str, list[tuple[str, str | None]]] = {}
     section: dict[str, str] = {}
+    rows: dict[str, str] = {}
     warnings: list[str] = []
     counts: dict[str, int] = {}
     last_slug = ""
@@ -118,7 +122,9 @@ def collect(lines: list[str]) -> tuple[
                         f"line {index + 1}: {family} register row has no "
                         "preceding heading to anchor"
                     )
-    return blocks, section, warnings
+            if first and last_slug:
+                rows.setdefault(first, last_slug)
+    return blocks, section, rows, warnings
 
 
 def resolve(
@@ -129,6 +135,7 @@ def resolve(
     current_h2: str,
     blocks: dict[str, list[tuple[str, str | None]]],
     section: dict[str, str],
+    rows: dict[str, str],
     warnings: list[str],
 ) -> str | None:
     if bare.startswith(("EVD-", "PAR-")):
@@ -165,6 +172,9 @@ def resolve(
             f"line {line_no}: {token} is ambiguous across projects - qualify it"
         )
         return None
+    row_anchor = rows.get(bare)
+    if row_anchor is not None:
+        return row_anchor
     warnings.append(f"line {line_no}: {token} cites an undefined identifier")
     return None
 
@@ -173,7 +183,7 @@ def main(path: str) -> int:
     raw = Path(path).read_bytes()
     crlf = b"\r\n" in raw
     lines = raw.decode("utf-8").replace("\r\n", "\n").split("\n")
-    blocks, section, warnings = collect(lines)
+    blocks, section, rows, warnings = collect(lines)
     linked = 0
     repaired = 0
     in_fence = False
@@ -201,7 +211,7 @@ def main(path: str) -> int:
                 qualifier, bare = None, qualifier
             anchor = resolve(
                 token, bare, qualifier, index + 1, current_h2,
-                blocks, section, warnings,
+                blocks, section, rows, warnings,
             )
             if anchor is not None and anchor != old_anchor:
                 repairs.append(
@@ -228,7 +238,7 @@ def main(path: str) -> int:
                 continue
             anchor = resolve(
                 token, bare, qualifier, index + 1, current_h2,
-                blocks, section, warnings,
+                blocks, section, rows, warnings,
             )
             if anchor is not None:
                 inserts.append((start, end_, f"[{token}](#{anchor})"))
