@@ -22,16 +22,16 @@ It is not an audit and produces no report.
 | Intake              | 48   | Parameters resolved before gathering               |
 | Ref Selection       | 111  | Fullest reachable history of the target branch     |
 | Era Discovery       | 126  | How commits group into eras - version or date mode |
-| Workspace Layout    | 152  | Workspace tree and its README contract             |
-| Scout Delegation    | 180  | Read-only scouts for the evidence surface          |
-| Gathering           | 190  | Source families and their collection order         |
-| Extraction Pipeline | 239  | Staged scripts, dating, enrichment, merge          |
-| Data Model          | 377  | Version kinds and their provenance                 |
-| Bundled Shim        | 394  | The file:// twin of history.json                   |
-| Prototype           | 410  | The commissioned interface contract                |
-| Verification        | 420  | Mechanical checks before delivery                  |
-| Incremental Reuse   | 445  | Ref-sha comparison and resume state                |
-| Boundaries          | 454  | Source-only limits of the operation                |
+| Workspace Layout    | 157  | Workspace tree and its README contract             |
+| Scout Delegation    | 185  | Read-only scouts for the evidence surface          |
+| Gathering           | 195  | Source families and their collection order         |
+| Extraction Pipeline | 248  | Staged scripts, dating, enrichment, merge          |
+| Data Model          | 386  | Version kinds and their provenance                 |
+| Bundled Shim        | 403  | The file:// twin of history.json                   |
+| Prototype           | 419  | The commissioned interface contract                |
+| Verification        | 429  | Mechanical checks before delivery                  |
+| Incremental Reuse   | 457  | Ref-sha comparison and resume state                |
+| Boundaries          | 466  | Source-only limits of the operation                |
 
 ## Activation Contract
 
@@ -134,6 +134,11 @@ into eras - it is a first-class stage of the operation, never incidental.
 2. When at least one boundary exists and grouping is `version`, boundaries
    order eras exactly as today - a bump commit ends the era it completes,
    and pre-first-boundary history folds into the first era.
+   The version-signal walks run with `--full-history` so bumps living on
+   a merged side-line are not pruned by path simplification, and a commit
+   closes an era only when its version is strictly greater than the
+   running version - rebased duplicates and parallel-line bumps
+   otherwise mint duplicate eras.
 3. When no boundary exists, or the intake asked for a date strategy,
    commits group by calendar period (`month`, `quarter`, `year`) or by
    activity gap (`gap` - a split wherever consecutive commits sit at least
@@ -235,6 +240,10 @@ Collect source families in this order.
    only when found and capped near 280 characters.
 4. **Local scratch probe** - the subject's `work/` or scratch trees are
    inventoried into `gathering/notes/` only - never turned into events.
+   Untracked or uncommitted doc-shaped files inside the documentation
+   trees are inventoried the same way - extraction reads the chosen ref,
+   so a file the ref cannot see produces no record, and the notes entry
+   keeps an expected record from silently going missing.
 
 ## Extraction Pipeline
 
@@ -441,6 +450,9 @@ Before delivery, confirm mechanically:
   dataset apart from `project.generated` and `manifest.generated`.
 - Script header comments name the actual target project - a comment left
   from an adapted pipeline misdocuments the run.
+- When the run observes the consumer not rendering fields the dataset
+  emits, record the consumption gaps under `plan/` for the consumer's
+  own maintenance.
 
 ## Incremental Reuse
 

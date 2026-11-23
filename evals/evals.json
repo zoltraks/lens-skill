@@ -2523,6 +2523,18 @@
     "CI and compose `image:` lines feed the `build` dependency channel with `${VAR}/` prefixes normalized to the image name.",
     "Each aspect object may carry a generated `summary` produced by deterministic templates."
    ]
+  },
+  {
+   "id": 222,
+   "prompt": "Create a history visualisation for this repository. Its version bumps live partly on a merged side-line with rebased duplicate bump commits, and one doc record exists only as an untracked file.",
+   "expected_output": "The dataset recovers the real era boundaries from both history lines, each version era appears once, and the untracked doc-shaped file is inventoried in the gathering notes rather than silently absent.",
+   "files": [],
+   "expectations": [
+    "Boundary and manifest discovery walks use --full-history so version signals on merged side-lines are not pruned by path simplification.",
+    "A commit closes an era only when its version is strictly greater than the running version - rebased duplicates mint no duplicate eras.",
+    "Untracked or uncommitted doc-shaped files inside the documentation trees are inventoried into gathering/notes/, never turned into records.",
+    "The run reports the untracked-record gap in its notes or final summary rather than silently omitting it."
+   ]
   }
  ]
 }

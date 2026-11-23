@@ -82,6 +82,7 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Evidence ledger written                        | Every row carries `Observation` or `Concern`                    |
 | Polish-language report                         | Headings and dimension names match glossary verbatim            |
 | Polish audit request                           | `AUDIT-<rev>-EN.md` and `AUDIT-<rev>-PL.md`, translation last   |
+| Polish review request                          | `REVIEW-<rev>-EN.md` and `REVIEW-<rev>-PL.md` pair              |
 | Explicit review or check request               | `REVIEW.md` with the review-style section set                   |
 | Explicit change-set review request             | `REVIEW.md` scoped to the change set                            |
 | "Make a structure review" request              | `REVIEW.md` with the structure-review variant contract          |

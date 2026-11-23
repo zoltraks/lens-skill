@@ -2312,7 +2312,9 @@ def check_reference_links(
     return failures
 
 
-REVIEW_CANONICAL_STEM = re.compile(r"^(?:REVIEW|PRZEGLĄD|PRZEGLAD)(?:-\d+(?:\.\d+)?)?$")
+REVIEW_CANONICAL_STEM = re.compile(
+    r"^(?:REVIEW|PRZEGLĄD|PRZEGLAD)(?:-\d+(?:\.\d+)?)(?:-(?:EN|PL))?$"
+)
 REVIEW_FAMILY_STEM = re.compile(r"(?:^|[-_])(?:REVIEW|PRZEGLĄD|PRZEGLAD)(?:-|$)")
 LEGACY_REVIEW_SHAPE = re.compile(
     r"(?m)^#\s+.+\bReview and Amendment Instructions\s*$"

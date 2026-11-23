@@ -27,6 +27,12 @@ translated prose and are not compared).
 
 The mapped copy is a validation artifact - run `format-table.py` on it
 before `validate-report.py`, then remove it with the other `.tmp.` files.
+
+Name the `-o` output with the report family's canonical stem (for example
+`REVIEW-2.1-EN.md` inside a scratch directory). `validate-report.py`
+classifies REVIEW/PRZEGLĄD-family filenames carrying a custom suffix as
+`custom` and runs mechanical checks only - a `*-mapped.tmp.md` name
+silently skips the full section contract.
 """
 
 from __future__ import annotations
@@ -119,6 +125,7 @@ PREFERRED = {
     "podstawa": "Basis",
     "zgodność": "Compliance",
     "częściowo": "Partially",
+    "język": "Language",
     "gotowy": "Ready",
     "błąd": "Error",
     "poza zakresem": "Out of scope",
@@ -129,6 +136,8 @@ PREFERRED = {
 # they occur: (section heading, cell text, replacement). Applied after the
 # global map, inside the named `##`/`###` section only.
 CONTEXT_FIXUPS = (
+    ("Health Dashboard", "Result", "Score"),
+    ("Health Dashboard", "Dependencies", "Dependency Health"),
     ("Project Scorecard", "Result", "Score"),
     ("Audit Coverage", "Justification", "Rationale"),
     ("Document Information", "Source", "source-only"),
@@ -244,8 +253,13 @@ def fixup(text):
     )
     # English renders these sentence-internal occurrences lowercase; the
     # title-case table pairs would otherwise leave capitalized strays that
-    # trip the capitalized-compound glossary heuristic.
-    text = re.sub(r"(\]\(#glossary\)\s+)Applied\b", r"\1applied", text)
+    # trip the capitalized-compound glossary heuristic. Any internal link
+    # anchor counts - sub-anchors such as `#cse-...` trigger the same check.
+    text = re.sub(
+        r"(\]\(#[^)\s]+\)\s+)(Applied|Resolved)\b",
+        lambda m: m.group(1) + m.group(2).lower(),
+        text,
+    )
     text = text.replace(
         "Operational Objectives (", "Operational objectives ("
     )
@@ -279,6 +293,119 @@ def fixup(text):
         lambda m: m.group(1) + applicability_tokens[m.group(2)],
         text,
     )
+    # `Potwierdzenie`/`Weryfikacja` field values lead with `Tak`/`Nie`;
+    # the phrase tables never invert those two tokens globally.
+    for label in ("Confirmation", "Verification"):
+        text = re.sub(
+            r"(?m)^(\s*(?:[-*]\s+)?\*\*" + label + r":\*\*\s*)(Tak|Nie)\b",
+            lambda m: m.group(1) + {"Tak": "Yes", "Nie": "No"}[m.group(2)],
+            text,
+        )
+    # The score-band legend label `Skala oceny` maps to `Evaluation Scale`
+    # via the doc-info pair; only the bold-wrapped form is the legend.
+    text = re.sub(r"\*\*Evaluation Scale\*\*", "**Legend**", text)
+    # `Poziom` inverts to `Level` via the vocabulary pair, so the review
+    # `Poziom dowodu` field label arrives as `Level dowodu` - restore the
+    # contract label, then map the field-scoped evidence-level tokens that
+    # share ordinary Polish words (`Aplikacja`, `Źródło`).
+    text = re.sub(r"\*\*Level dowodu:\*\*", "**Level:**", text)
+    text = re.sub(
+        r"(?m)^(\s*[-*]\s*\*\*Level:\*\*\s*)"
+        r"(Aplikacja|Źródło|Wdrożenie|Nieznany)\b",
+        lambda m: m.group(1) + {
+            "Aplikacja": "App",
+            "Źródło": "Source",
+            "Wdrożenie": "Deployed",
+            "Nieznany": "Unknown",
+        }[m.group(2)],
+        text,
+    )
+    # `Łamanie` field values lead with governed tokens; `Brak`/`wewnętrzne`
+    # invert through the vocabulary pairs but the linkified `publiczne API`
+    # form has no pair - restore `Public API` inside the field bullet only.
+    text = re.sub(
+        r"(?m)^(\s*[-*]\s*\*\*Breaking:\*\*\s*)publiczne \[API\]\([^)]*\)",
+        r"\1Public API",
+        text,
+    )
+    # `Warunkowo gotowy` is the hunt verdict's conditional form - no
+    # contract table pairs it.
+    text = re.sub(r"Warunkowo gotowy", "Conditionally ready", text)
+    text = re.sub(r"warunkowo gotowy", "conditionally ready", text)
+    # Hunt verdict section: domain names, ratings, gate names and gate
+    # results are declared in contract prose only, so the phrase map
+    # cannot invert them. Substitute inside the `## Verdict` section's
+    # table rows, where these tokens can only be governed cells.
+    verdict = re.search(r"(?ms)^##\s+Verdict\s*$(.*?)(?=^##\s|\Z)", text)
+    if verdict:
+        block = verdict.group(1)
+        dom = {
+            "Poprawność": "Correctness", "Bezpieczeństwo": "Security",
+            "Niezawodność": "Reliability", "Wydajność": "Performance",
+            "Testowalność": "Testability", "Dokumentacja": "Documentation",
+            "Utrzymywalność": "Maintainability", "Pochodzenie": "Provenance",
+        }
+        for pl, en in dom.items():
+            block = re.sub(
+                r"(?<![\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ])" + pl + r"\b", en, block
+            )
+        block = re.sub(r"\|\s*Deployed\s*\|", "| Deployment |", block)
+        for pl, en in {
+            "Czerwona": "Red", "Bursztynowa": "Amber", "Zielona": "Green",
+        }.items():
+            block = re.sub(
+                r"(?<![\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ])" + pl + r"\b", en, block
+            )
+        gate_names = {
+            "laboratoryjny": "Laboratory use",
+            "kontrolowane udostępnienie": "Controlled sharing",
+            "produkcyjny": "Production",
+        }
+        res_map = {
+            "Spełniona": "Met", "Niespełniona": "Not met",
+            "Nieoceniona": "Not assessable", "Not assessed": "Not assessable",
+        }
+        lines = block.split("\n")
+        in_gates = False
+        for i, line in enumerate(lines):
+            if line.lstrip().startswith("|") and "Result" in line and "Basis" in line:
+                in_gates = True
+                parts = line.split("|")
+                if len(parts) > 1 and parts[1].strip() not in ("Gate", "Warunek", "Condition"):
+                    parts[1] = " Gate "
+                    lines[i] = "|".join(parts)
+                continue
+            if in_gates and not line.lstrip().startswith("|"):
+                in_gates = False
+            if in_gates and line.lstrip().startswith("|"):
+                cells = line.split("|")
+                if len(cells) > 3:
+                    name = cells[1].strip().lower()
+                    if name in gate_names:
+                        cells[1] = " " + gate_names[name] + " "
+                    res = cells[2].strip()
+                    if res in res_map:
+                        cells[2] = " " + res_map[res] + " "
+                    lines[i] = "|".join(cells)
+        block = "\n".join(lines)
+        text = text[: verdict.start(1)] + block + text[verdict.end(1):]
+    # Score-band legend: `Średnia` inverts to severity `Medium` but the
+    # band name is `Average`. Scope to the table carrying a `Band`
+    # header so risk-map `Medium` cells stay untouched.
+    lines = text.split("\n")
+    in_legend = False
+    for i, line in enumerate(lines):
+        if line.lstrip().startswith("|") and "Band" in line and "Result" in line:
+            in_legend = True
+            continue
+        if in_legend and not line.lstrip().startswith("|"):
+            in_legend = False
+        if in_legend and line.lstrip().startswith("|") and "|" in line:
+            cells = line.split("|")
+            if len(cells) > 1 and cells[1].strip() == "Medium":
+                cells[1] = " Average "
+                lines[i] = "|".join(cells)
+    text = "\n".join(lines)
     return text
 
 
@@ -427,6 +554,15 @@ def main():
                     line,
                 )
 
+    # The document title is a proper-name surface - copy the English
+    # sibling's H1 verbatim so surface checks see the canonical form.
+    if en_lines:
+        en_h1 = next((l for l in en_lines if l.startswith("# ")), None)
+        if en_h1:
+            for index, line in enumerate(lines):
+                if line.startswith("# "):
+                    lines[index] = en_h1
+                    break
     output = args.output
     if output is None:
         output = args.file.with_name(args.file.stem + "-en-mapped.tmp.md")

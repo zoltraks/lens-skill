@@ -68,12 +68,12 @@ BLOCK_LABELS = {
     "FND": {
         "Filar", "Ważność", "Tytuł", "Wynik", "Status", "Zmiana",
         "Weryfikacja", "Typ", "Bezpieczeństwo", "Obiekty", "Podstawa",
-        "Kryterium", "Charakter odstępstwa", "Wpływ",
-        "Zalecenie", "Metoda", "Zweryfikowane",
+        "Kryterium", "Charakter odstępstwa", "Opis", "Wpływ",
+        "Zalecenie", "Metoda", "Potwierdzenie", "Łamanie", "Zweryfikowane",
         "Uruchomienie", "Łamanie kompatybilności", "Scenariusz usterki",
-        "Dotyczy", "Pewność oceny", "Czynniki łagodzące",
-        "Wykorzystanie podatności", "Dowód", "Podstawa pochodzenia",
-        "Poziom dowodu",
+        "Dotyczy", "Pewność oceny", "Łagodzenie", "Czynniki łagodzące",
+        "Wykorzystanie podatności", "Dowód", "Pochodzenie",
+        "Podstawa pochodzenia", "Poziom dowodu",
     },
     "RSK": {
         "Ryzyko", "Źródło", "Wpływ", "Zakres",

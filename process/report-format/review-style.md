@@ -267,6 +267,10 @@ with `REVIEW-1.0.md` offered as the revisioned alternative at delivery time.
 When a previous review report exists, the filename carries the new revision,
 for example `REVIEW-1.1.md`, per `synthesis/report-comparison.md`.
 
+When the language output ships a pair per `principles/output-style.md`, both files
+share the English `REVIEW` stem and differ only by the language suffix -
+for example `REVIEW-1.1-EN.md` with `REVIEW-1.1-PL.md`.
+
 ## Structure Review Variant
 
 When intake resolves a structure-only scope - wording such as "make a structure review" or "review
