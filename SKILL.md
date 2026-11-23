@@ -9,7 +9,7 @@ compatibility: >-
   Requires access to source files and the ability to write Markdown reports.
   Python 3.10+ is used for bundled tools. External sources and upstream checks require network access.
 metadata:
-  version: "3.0.7"
+  version: "3.0.8"
   author: Filip Golewski
 ---
 
@@ -25,7 +25,7 @@ metadata:
 | Request                             | First step                                                                                                        |
 |-------------------------------------|-------------------------------------------------------------------------------------------------------------------|
 | Bare activation                     | Follow [activation](process/skill-activation.md) and wait for a task.                                             |
-| List capabilities                   | Read the [operations catalog](process/operations-catalog.md).                                                     |
+| List capabilities                   | Read the [operations catalog](process/operation-catalog.md).                                                     |
 | Perform a task                      | Choose the operation under [Operations](#operations).                                                             |
 | Develop this skill                  | Follow [development](process/skill-development.md) and the [repository instructions](AGENTS.md).                  |
 | Improvement mode                    | Apply lessons from the work through this skill's maintenance rules.                                               |
@@ -99,7 +99,7 @@ before planning a report, then open the selected style and section rules from
 - **`process/readiness-scoring.md`** - Score aggregation, confidence, maturity, readiness gates.
 - **`process/run-state.md`** - Run-state artifact: phase and gate record, resume, reconciliation.
 - **`process/skill-activation.md`** - Enable-mode intake, enablement response, and standby.
-- **`process/operations-catalog.md`** - The catalog procedure for "list all operations" requests.
+- **`process/operation-catalog.md`** - The catalog procedure for "list all operations" requests.
 - **`process/session-review.md`** - Improve-the-skill session review: findings, gate, modes.
 - **`process/stack-feed.md`** - External standards intake into `references/` digests, gated.
 - **`process/history-visualisation.md`** - The named lifecycle operation: history gathering and

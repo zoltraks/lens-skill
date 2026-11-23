@@ -88,7 +88,7 @@ parameter under JSON exchange - with three options:
 - `Full audit` (default) - the operation the request already implied,
   resolves the acceptance as `Accept defaults` and proceeds to Scope Definition.
 - `List all operations` - delivers the operations catalog inline per
-  `process/operations-catalog.md`, then re-presents the `operation-selection` question.
+  `process/operation-catalog.md`, then re-presents the `operation-selection` question.
 - `Custom operation` - asks for a free-text description of the requested operation,
   the `operation-description` `text` parameter under JSON exchange.
   A description naming a report artifact applies the named report style or review scope as an

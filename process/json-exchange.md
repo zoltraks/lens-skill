@@ -276,5 +276,5 @@ emitted or asked at all - each resolves to its discovered or `default` answer di
 ## What Does Not Apply
 
 - No parameter document emits while no question surface is pending.
-- The catalog is not a parameter surface - `process/operations-catalog.md` answers inline
+- The catalog is not a parameter surface - `process/operation-catalog.md` answers inline
   and never emits JSON.

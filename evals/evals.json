@@ -1804,10 +1804,10 @@
   {
    "id": 156,
    "prompt": "List all operations.",
-   "expected_output": "The operations catalog: the full operations table from process/operations-catalog.md delivered inline, expanded past the family names into the concrete operations, with no file written.",
+   "expected_output": "The operations catalog: the full operations table from process/operation-catalog.md delivered inline, expanded past the family names into the concrete operations, with no file written.",
    "files": [],
    "expectations": [
-    "The agent loaded process/operations-catalog.md and answered with its canonical operations table inline.",
+    "The agent loaded process/operation-catalog.md and answered with its canonical operations table inline.",
     "The table's first column is Operation, with Family second, covering every family expanded into concrete operations.",
     "The table ends with a line inviting a task request.",
     "No intake classification, parameter resolution, subject discovery, or file write runs."
@@ -2491,12 +2491,12 @@
   {
    "id": 219,
    "prompt": "What types of report can lens-skill generate?",
-   "expected_output": "A brief direct answer per the Partial Questions contract in process/operations-catalog.md: a one- or two-sentence summary, then a compact table of the report styles, with shared parameters such as detail levels on their own line.",
+   "expected_output": "A brief direct answer per the Partial Questions contract in process/operation-catalog.md: a one- or two-sentence summary, then a compact table of the report styles, with shared parameters such as detail levels on their own line.",
    "files": [],
    "expectations": [
     "The answer opens with a short summary rather than the full operations catalog or a section walkthrough.",
     "The enumerated set renders as a compact table with one row per item.",
-    "No rule files beyond the loaded router and process/operations-catalog.md were consulted.",
+    "No rule files beyond the loaded router and process/operation-catalog.md were consulted.",
     "No intake classification, parameter resolution, subject discovery, or file write runs."
    ]
   },
