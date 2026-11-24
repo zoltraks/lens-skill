@@ -9,7 +9,7 @@ compatibility: >-
   Requires access to source files and the ability to write Markdown reports.
   Python 3.10+ is used for bundled tools. External sources and upstream checks require network access.
 metadata:
-  version: "3.0.8"
+  version: "3.0.9"
   author: Filip Golewski
 ---
 
@@ -230,10 +230,12 @@ The file-selection, section-placement, and report-construction rules live in
 
 ## Skill Update Check
 
-Run the check on the first bare `use` of this skill in a session, or on an explicit
-`update` or upstream-check request. Reuse a check already attempted for this exact checkout in
-the session, unless the user explicitly requests another one. Record the attempted checkout and
-result in session state. Catalog queries and ordinary tasks use the installed package.
+Run the check once per session when the request names `improvement`, `development`, or
+`training` as a working mode, or makes an explicit `update` or upstream-check request -
+on the bare `use` that carries the mode or on the mode-carrying task.
+Reuse a check already attempted for this exact checkout in the session, unless the user
+explicitly requests another one. Record the attempted checkout and result in session state.
+Catalog queries and requests naming no mode use the installed package.
 
 Use the directory containing this `SKILL.md`. Verify that it is the root of its own Git checkout
 before running `python <skill-root>/scripts/check-update.py` with the available Python 3 launcher.

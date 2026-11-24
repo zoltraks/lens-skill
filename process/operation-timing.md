@@ -96,5 +96,5 @@ an honest answer rather than a failure.
 
 ## Coverage
 
-Bare activation times readiness and the automatic update check when it runs.
+Bare activation times readiness and the update check when it runs.
 Task requests time the task work.

@@ -52,7 +52,7 @@ request's language changes the cell text.
 | audit request         | Generate    | generalized prompt commissioning an external-agent audit                        |
 | history visualisation | Generate    | development-history `history.json` dataset for lifecycle interfaces, named-only |
 | enablement            | Enable      | bare-activation standby with version and operations table                       |
-| self-update check     | Enable      | explicit upstream check                                                         |
+| self-update check     | Enable      | upstream check on working modes or explicit request                             |
 | operations catalog    | Enable      | this table                                                                      |
 | skill maintenance     | Maintain    | changes to this skill repository                                                |
 | session review        | Maintain    | session lessons harvested into the rule corpus                                  |

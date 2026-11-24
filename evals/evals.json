@@ -1539,10 +1539,10 @@
   {
    "id": 130,
    "prompt": "Use lens.",
-   "expected_output": "An enablement response per process/skill-activation.md - the eligible session check runs or its result is reused, and the router and the activation procedure are the only loaded rule material, and the reply confirms enablement with a one-sentence description, the skill version, and a compact operations table - then the agent waits for a task.",
+   "expected_output": "An enablement response per process/skill-activation.md - the installed package is used without an upstream check, and the router and the activation procedure are the only loaded rule material, and the reply confirms enablement with a one-sentence description, the skill version, and a compact operations table - then the agent waits for a task.",
    "files": [],
    "expectations": [
-    "On bare use the agent checks the skill checkout once or reuses its session result.",
+    "On bare use the agent uses the installed package without an upstream check.",
     "The reply names the skill version from metadata.version, describes the skill in one sentence, and presents the operation families as a two-column operations table.",
     "No rule files beyond SKILL.md and process/skill-activation.md were loaded, no scan of any target ran, and no file was created or modified.",
     "The reply closes by inviting a task request and then waits."
@@ -2017,7 +2017,8 @@
    "expectations": [
     "runs process/skill-development.md and stands by for a described change",
     "the specification ask offers 'Develop new feature' and carries 'Do nothing yet' as the standby option when neither working mode is armed",
-    "a 'Do nothing yet' answer skips the question flow and keeps the mode on standby"
+    "a 'Do nothing yet' answer skips the question flow and keeps the mode on standby",
+    "runs the skill update check once per SKILL.md Skill Update Check"
    ]
   },
   {
@@ -2288,7 +2289,8 @@
    "expectations": [
     "does not route to process/session-review.md on the improvement-mode flag alone",
     "applies improvements during the work through the member's own maintenance path",
-    "reviews no session history that precedes the mode request"
+    "reviews no session history that precedes the mode request",
+    "runs the skill update check once per SKILL.md Skill Update Check"
    ]
   },
   {
@@ -2310,7 +2312,8 @@
    "expectations": [
     "runs process/skill-development.md and stands by for a described change",
     "the specification ask carries 'Improve on the fly' as the standby option because improvement mode is armed",
-    "an 'Improve on the fly' answer does nothing now and waits for a named operation, applying surfaced improvements on the fly"
+    "an 'Improve on the fly' answer does nothing now and waits for a named operation, applying surfaced improvements on the fly",
+    "runs the skill update check once per SKILL.md Skill Update Check"
    ]
   },
   {
@@ -2474,7 +2477,8 @@
    "expectations": [
     "does not route to process/session-review.md on the training-mode flag alone",
     "applies on-the-fly adjustments during operations through the member's own maintenance path",
-    "reviews no session history that precedes the mode request"
+    "reviews no session history that precedes the mode request",
+    "runs the skill update check once per SKILL.md Skill Update Check"
    ]
   },
   {
@@ -2485,7 +2489,8 @@
    "expectations": [
     "runs process/skill-development.md and stands by for a described change",
     "the specification ask carries 'Train on the fly' as the standby option because training mode is armed",
-    "a 'Train on the fly' answer does nothing now and waits for a named operation, applying surfaced adjustments on the fly"
+    "a 'Train on the fly' answer does nothing now and waits for a named operation, applying surfaced adjustments on the fly",
+    "runs the skill update check once per SKILL.md Skill Update Check"
    ]
   },
   {

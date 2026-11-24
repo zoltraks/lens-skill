@@ -20,7 +20,8 @@ development mode is the named operation, never the default reading.
 
 ## Procedure
 
-1. Use the installed checkout.
+1. Run the update check per Skill Update Check in `SKILL.md` - development mode is a named
+   trigger - then use the resulting checkout.
 2. Report readiness - repository state, version,
    and any uncommitted in-flight work the tree carries.
 3. Proceed with a supplied change or wait for the specification.
@@ -74,7 +75,7 @@ before `Cancel` in JSON-exchange menus, and the label follows the working modes 
 Either resolution ends the ask without ending the mode - a later described change or named operation
 still routes through this file's procedure.
 
-An upstream check is a separately named operation.
+An explicit upstream check outside the mode triggers remains a separately named operation.
 
 ## What Does Not Apply
 

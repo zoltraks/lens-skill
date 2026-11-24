@@ -62,7 +62,9 @@ Under JSON exchange a genuine ambiguity emits as the `mode-selection` `choice` p
 
 ## Procedure
 
-On a bare `use`, follow Skill Update Check in `SKILL.md`.
+On a bare `use`, follow Skill Update Check in `SKILL.md` when the request names
+`improvement`, `development`, or `training`, or makes an explicit update request.
+A request naming no mode uses the installed package.
 Reuse this session's result for the checkout when available.
 Continue with the installed package when the check cannot run.
 
