@@ -264,3 +264,27 @@ use the current date in ISO `YYYY-MM-DD` format.
 
 When no single primary version applies and no date pattern exists,
 use the root of the resolved directory without a subdirectory.
+
+## Multiple Report Types
+
+When one request names more than one report type over the same subject snapshot -
+an `audit` and a `hunt`, an `audit` and a `review` - the run produces one report
+file per named type, each resolved to its own style during Intake.
+
+Intake, Scope Definition, Evidence Gathering, and Category Assessment run once
+for the whole set.
+
+Parameters that bind to a report type - its style, review scope, delivery, and
+output file - resolve per type, and the rest resolve once for the set.
+
+Evidence Gathering takes a single pass extended to the union of every requested
+type's evidence inputs, per `process/audit-workflow/evidence-gathering.md`.
+
+Synthesis, Validation, Final Adjustments, and delivery run once per report type.
+
+Each type composes, validates, and writes its own file - one type's defect never
+blocks, rewrites, or renumbers another type's report.
+
+When the host supports delegation, each type's generation may run in a reporting
+subagent per `process/parallel-execution.md`, while the parent keeps sole
+ownership of `work/audit-model.json`.

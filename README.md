@@ -555,8 +555,8 @@ lens-skill/
 │   ├── json-exchange.md                   # Machine-readable parameter documents for intake questions
 │   ├── navigation-rules.md                # File-selection and section-placement rules for every report
 │   ├── operation-timing.md                # Elapsed-time report for named operations
-│   ├── operation-catalog.md              # Canonical operations table for "list all operations"
-│   ├── parallel-execution.md              # Delegated read-only scout model for large surfaces
+│   ├── operation-catalog.md               # Canonical operations table for "list all operations"
+│   ├── parallel-execution.md              # Delegated scout and reporter model for evidence and reports
 │   ├── parameter-configuration.md         # Parameter surfaces, defaults, and resolution rules
 │   ├── report-format.md                   # Audit report format index: rules, section order, spec map
 │   ├── report-format/                     # Per-section report specifications

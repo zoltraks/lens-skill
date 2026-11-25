@@ -9,7 +9,7 @@ compatibility: >-
   Requires access to source files and the ability to write Markdown reports.
   Python 3.10+ is used for bundled tools. External sources and upstream checks require network access.
 metadata:
-  version: "3.0.9"
+  version: "3.1.0"
   author: Filip Golewski
 ---
 
@@ -89,7 +89,8 @@ before planning a report, then open the selected style and section rules from
 - **`process/operation-timing.md`** - Timing under verbose, informational,
   diagnostic, or timing modes.
 - **`process/parameter-configuration.md`** - Parameter surfaces, defaults, and resolution rules.
-- **`process/parallel-execution.md`** - Delegated read-only scout model for large audit surfaces.
+- **`process/parallel-execution.md`** - Delegated scout and reporter model for evidence gathering
+  and per-type report generation.
 - **`process/skill-housekeeping.md`** - Self-repository upkeep: registration, coverage,
   workspace, validation.
 - **`process/self-healing.md`** - The evidence-gated self-repair loop for this skill.

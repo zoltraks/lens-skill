@@ -20,18 +20,18 @@ On completion, proceed to `process/audit-workflow/parameter-phase.md`.
 |-------------------------------------------|------|-------------------------------------------|
 | Intake                                    | 36   | Intake                                    |
 | Deliverable Classification                | 47   | Deliverable Classification                |
-| Automated Run                             | 125  | Automated Run                             |
-| Report Parity Discovery                   | 163  | Report Parity Discovery                   |
-| Output Location Discovery                 | 176  | Output Location Discovery                 |
-| Development Standards Discovery           | 209  | Development Standards Discovery           |
-| Nested Repository And Working-tree Census | 234  | Nested Repository And Working-tree Census |
-| Snapshot Identity                         | 273  | Snapshot Identity                         |
-| External Report Discovery                 | 288  | External Report Discovery                 |
-| Agent-facing Artifact Discovery           | 297  | Agent-facing Artifact Discovery           |
-| Project Identification                    | 344  | Project Identification                    |
-| Automation Signal Census                  | 426  | Automation Signal Census                  |
-| Stack And Subject Classification          | 446  | Stack And Subject Classification          |
-| Audit Mode And Previous Reports           | 493  | Audit Mode And Previous Reports           |
+| Automated Run                             | 129  | Automated Run                             |
+| Report Parity Discovery                   | 167  | Report Parity Discovery                   |
+| Output Location Discovery                 | 180  | Output Location Discovery                 |
+| Development Standards Discovery           | 213  | Development Standards Discovery           |
+| Nested Repository And Working-tree Census | 238  | Nested Repository And Working-tree Census |
+| Snapshot Identity                         | 277  | Snapshot Identity                         |
+| External Report Discovery                 | 292  | External Report Discovery                 |
+| Agent-facing Artifact Discovery           | 301  | Agent-facing Artifact Discovery           |
+| Project Identification                    | 348  | Project Identification                    |
+| Automation Signal Census                  | 430  | Automation Signal Census                  |
+| Stack And Subject Classification          | 450  | Stack And Subject Classification          |
+| Audit Mode And Previous Reports           | 497  | Audit Mode And Previous Reports           |
 
 ## Intake
 
@@ -83,6 +83,10 @@ A request scoped to the project structure - "make a structure review",
 `process/report-format/structure-review.md`, and a request scoped to a change set - a commit range,
 pull or merge request, or branch diff - produces a `brief` -style report scoped to
 that change set.
+
+A request naming more than one report type - an audit and a defect hunt, an audit
+and a review - resolves one style per named type, and the run follows the
+multiple-report contract in `process/audit-workflow.md`.
 
 Determine the natural language of the user's request.
 

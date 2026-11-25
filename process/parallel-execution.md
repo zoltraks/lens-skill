@@ -3,11 +3,16 @@
 ## Purpose
 
 > **Scope:** Delegation model for running audit evidence gathering through parallel read-only scout
-> agents when the host environment supports subagents **Key items:** applicability, scout roles,
-> scout contract, merge discipline, provenance, sequential fallback
+> agents when the host environment supports subagents, and for running each report type's
+> generation in a reporting subagent when a session produces multiple report types
+> **Key items:** applicability, scout roles, scout contract, merge discipline, provenance,
+> sequential fallback, reporter contract
 
 This file defines how a full audit's Evidence Gathering phase splits work across parallel read-only
 agents for wall-clock efficiency on large audit surfaces.
+
+It also defines how each report type's generation may run in a reporting subagent when a session
+produces multiple report types.
 
 It applies inside `process/audit-workflow/` - the phase order, canonical model,
 and report contract are unchanged.
@@ -102,3 +107,31 @@ demands - the role list becomes a reading checklist, not a skip list.
 
 A partially delegated run that loses a worker mid-flight continues sequentially for the remaining
 roles and records the mix in Auditing Methodology.
+
+## Report Generation Delegation
+
+When a session produces more than one report type per `process/audit-workflow.md`, each type's
+Synthesis-through-delivery may run in its own reporting subagent when the host supports
+delegation - one reporter per type, in place of the parent generating every report itself.
+
+The parent resolves each type's style, output name, and parameter set up front, then briefs the
+reporter with the frozen `work/audit-model.json` path, the type's style specification, its output
+location and filename, and the session-locked parameter values.
+
+The reporter contract mirrors the scout invariants with one deliberate difference - the
+reporter writes.
+
+- Read-only against the subject and `work/audit-model.json` - the canonical model keeps its
+  single writer, the parent.
+- Writes only its own report file and its `.tmp.` part files in the resolved location - never
+  another type's report, never `work/` model or state files.
+- Runs the type's full generation path - scaffold, part assembly, mechanical passes,
+  validation, delivery - and returns its status, output path, and any model gap it hit.
+- A model gap returns to the parent, which updates `work/audit-model.json`; the reporter
+  re-renders the affected sections and never patches the model itself.
+
+The parent collects every reporter's result and records the delegation mix in each report's
+Auditing Methodology section, per the Provenance rules above.
+
+Without delegation capability the parent generates each type sequentially in the resolved
+order - the same phases and contracts, one writer throughout.

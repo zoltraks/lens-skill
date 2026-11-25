@@ -29,10 +29,10 @@ On completion, proceed to `process/audit-workflow/category-assessment.md`.
 | Read-depth Floor                                  | 208  | Read-depth Floor                                  |
 | Check-execution Reconciliation                    | 219  | Check-execution Reconciliation                    |
 | Shared Evidence Capture (`work/audit-model.json`) | 235  | Shared Evidence Capture (`work/audit-model.json`) |
-| Verification Plan                                 | 262  | Verification Plan                                 |
-| No Execution                                      | 320  | No Execution                                      |
-| Evidence Ledger                                   | 347  | Evidence Ledger                                   |
-| Claim And Evidence Traceability                   | 385  | Claim And Evidence Traceability                   |
+| Verification Plan                                 | 267  | Verification Plan                                 |
+| No Execution                                      | 325  | No Execution                                      |
+| Evidence Ledger                                   | 352  | Evidence Ledger                                   |
+| Claim And Evidence Traceability                   | 390  | Claim And Evidence Traceability                   |
 
 ## Evidence Gathering
 
@@ -245,8 +245,13 @@ recomputes its scoring records.
 A failing model is repaired in the records, never rendered around,
 per Model Quality Checks in `process/audit-model.md`.
 
-When the session plans more than one report - for example an `audit` and a `hunt` over the same
-snapshot - the same model registers serve every style: the audit renders its ledger, methodology,
+When the request names more than one report type - for example an `audit` and a `hunt` over the
+same snapshot - this phase still runs a single pass, extended to the union of every requested
+type's evidence inputs: the `hunt` journey traces, the `review` execution register inputs, and
+the structure-review rows are collected in the same sweep, and each row records which report
+types consume it.
+
+The same model registers serve every style: the audit renders its ledger, methodology,
 and register sections from `evidence[]`, and the hunt renders the same rows - the `hunt (legacy)`
 variant adding journey traces, the defect contract folding them into optional appendixes.
 

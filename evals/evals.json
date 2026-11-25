@@ -2596,6 +2596,19 @@
     "Status renders Otwarty, Zaplanowany, W toku, Znany, Badany, Naprawiony, or Nie usterka, Potwierdzenie takes Wyk, Źr, or Hip, and domain signals use the Oceny domen vocabulary with feminine rating agreement.",
     "An optional trailing Słownik sits last and each term's first occurrence links to #słownik, table header cells included."
    ]
+  },
+  {
+   "id": 227,
+   "prompt": "Audit this repository and in the same request also produce a defect-hunt report over the same snapshot.",
+   "expected_output": "Two report files - one audit-style and one hunt-style - produced from a single extended evidence-gathering pass and one shared evidence model, each generated and validated independently.",
+   "files": [],
+   "expectations": [
+    "Intake resolves one style per named report type, and Evidence Gathering runs a single pass extended to the union of both types' evidence inputs - hunt journey traces are collected in the same sweep as the audit evidence.",
+    "Synthesis, Validation, Final Adjustments, and delivery run once per report type, each composing, validating, and writing its own file - one type's defect never blocks, rewrites, or renumbers the other report.",
+    "Both reports render from the same work/audit-model.json registers - style changes presentation, never the captured evidence.",
+    "Each report type's style-bound parameters - style, review scope, delivery, output file - resolve per type while subject-level parameters resolve once.",
+    "When the host supports delegation, each type's generation may run in its own reporting subagent that writes only its own report file and never modifies the canonical model - the parent keeps sole ownership of work/audit-model.json."
+   ]
   }
  ]
 }

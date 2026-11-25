@@ -28,6 +28,11 @@ When the report style is `review`, synthesize per `process/report-format/review-
 That style reuses the same schemas and adds the execution register, evidence levels,
 and the retest register.
 
+When the session produces more than one report type, this phase runs once per type - each run
+resolves its own style specification and renders from the same frozen `work/audit-model.json`,
+and the type's Validation, Final Adjustments, and delivery follow it independently, per
+`process/audit-workflow.md`.
+
 Render the Audit Coverage table first, from the fixed row set in `references/audit-taxonomy.md`.
 
 It is the report's coverage declaration,

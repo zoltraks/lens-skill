@@ -127,3 +127,4 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Benchmark reports audit different revisions    | Divergence recorded first, attributed before gap extraction     |
 | Comparison yields no mechanics gaps            | Document delivered, no invented improvements                    |
 | Generated report deviates from contract        | Structure Conformance blocks delivery until regenerated         |
+| One request names two report types             | One extended evidence pass, separate per-type generation         |
