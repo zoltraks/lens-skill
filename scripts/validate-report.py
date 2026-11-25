@@ -4048,7 +4048,11 @@ def check_defect_previous(text: str) -> list[str]:
                 continue
             value = row[change_idx].strip()
             change = next(
-                (token for token in DEFECT_CHANGES if value.startswith(token)),
+                (
+                    token
+                    for token in DEFECT_CHANGES
+                    if value.lower().startswith(token.lower())
+                ),
                 "",
             )
             if value and not change:
@@ -4490,7 +4494,8 @@ def check_brief_delta(text: str) -> list[str]:
                 continue
             value = row[cidx].strip()
             if value and not next(
-                (t for t in DEFECT_CHANGES if value.startswith(t)), ""
+                (t for t in DEFECT_CHANGES if value.lower().startswith(t.lower())),
+                "",
             ):
                 failures.append(
                     f"Changes Since Previous Report Change '{value}' is not "

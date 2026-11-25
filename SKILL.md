@@ -9,7 +9,7 @@ compatibility: >-
   Requires access to source files and the ability to write Markdown reports.
   Python 3.10+ is used for bundled tools. External sources and upstream checks require network access.
 metadata:
-  version: "3.1.0"
+  version: "3.1.1"
   author: Filip Golewski
 ---
 

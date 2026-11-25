@@ -128,3 +128,6 @@ These are reasoning checks, not proof of improvement from an independent model b
 | Comparison yields no mechanics gaps            | Document delivered, no invented improvements                    |
 | Generated report deviates from contract        | Structure Conformance blocks delivery until regenerated         |
 | One request names two report types             | One extended evidence pass, separate per-type generation         |
+| `brief` report validated with `--model`        | Summary registers cannot reconcile; `--state` alone applies      |
+| Re-hunt closes a numbered finding              | Numbering gap maps to a `Resolved`/`Retired` row, not a defect   |
+| Mapped copy writes a change token in lower case | Case-insensitive match accepts it, vocabulary stays canonical  |

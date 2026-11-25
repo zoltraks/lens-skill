@@ -2609,6 +2609,18 @@
     "Each report type's style-bound parameters - style, review scope, delivery, output file - resolve per type while subject-level parameters resolve once.",
     "When the host supports delegation, each type's generation may run in its own reporting subagent that writes only its own report file and never modifies the canonical model - the parent keeps sole ownership of work/audit-model.json."
    ]
+  },
+  {
+   "id": 228,
+   "prompt": "Translate the delivered hunt report into Polish and validate the translation end to end.",
+   "expected_output": "A Polish report file that passes lint-polish, check-translation, and validate-report on its English-mapped copy, with register identifiers, scores, and the Previous Findings change vocabulary preserved.",
+   "files": [],
+   "expectations": [
+    "The translation runs the documented pipeline order - lint-polish to zero errors, map-translation producing the English-mapped copy, format-table realignment on the mapped copy, validate-report on the mapped copy, then check-translation.",
+    "The Previous Findings Change column keeps canonical English vocabulary tokens in the mapped copy - case variants such as 'Still open' validate under the case-insensitive token match instead of forcing English cells into the Polish report.",
+    "Register-numbering residuals that map to Resolved or Retired Previous Findings rows are recognized as contract-expected and never 'fixed' by renumbering live findings.",
+    "Style-scoped validation applies - a brief-style translation is validated without --model because its registers are summary views of the model."
+   ]
   }
  ]
 }

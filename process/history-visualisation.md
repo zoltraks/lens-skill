@@ -25,13 +25,13 @@ It is not an audit and produces no report.
 | Workspace Layout    | 157  | Workspace tree and its README contract             |
 | Scout Delegation    | 185  | Read-only scouts for the evidence surface          |
 | Gathering           | 195  | Source families and their collection order         |
-| Extraction Pipeline | 248  | Staged scripts, dating, enrichment, merge          |
-| Data Model          | 386  | Version kinds and their provenance                 |
-| Bundled Shim        | 403  | The file:// twin of history.json                   |
-| Prototype           | 419  | The commissioned interface contract                |
-| Verification        | 429  | Mechanical checks before delivery                  |
-| Incremental Reuse   | 457  | Ref-sha comparison and resume state                |
-| Boundaries          | 466  | Source-only limits of the operation                |
+| Extraction Pipeline | 249  | Staged scripts, dating, enrichment, merge          |
+| Data Model          | 396  | Version kinds and their provenance                 |
+| Bundled Shim        | 413  | The file:// twin of history.json                   |
+| Prototype           | 429  | The commissioned interface contract                |
+| Verification        | 439  | Mechanical checks before delivery                  |
+| Incremental Reuse   | 469  | Ref-sha comparison and resume state                |
+| Boundaries          | 478  | Source-only limits of the operation                |
 
 ## Activation Contract
 
@@ -226,7 +226,8 @@ Collect source families in this order.
 3. **Development records** - every documentation tree that records decisions,
    lessons, issues, bugs, changes, plans, refactorings, assessments, proposals,
    reviews, audits, hunts, reports, prompts, tests, standards, templates,
-   preparations, and discards, including archived trees.
+   preparations, and discards, plus any comparable record family the tree
+   carries, including archived trees.
    Each record keeps its path and date so it stays traceable.
    A doc holding several dated entries under its own headings
    (a decision register, a lessons log) splits into one record per entry.
@@ -331,10 +332,19 @@ Doc record categories are normalized to the dataset's category registry
 at merge time, so `refactoring` records land on the `refactor` category
 and every event type has a known id.
 
+When the run replaces an existing consumer dataset, the merge carries the
+consumer's current `categories` registry forward unchanged - ids, labels,
+colors, and orders are consumer-owned state once landed, and a
+regeneration appends only genuinely new categories, never reverting a
+consumer's re-skinning.
+
 Commits are classified into event types by a subject-pattern rule bank -
 release markers, merge messages, audit/report additions, fixes,
 refactors, docs, tests, features, changes, chores - with an explicit
 fallback type, never a dropped commit.
+Classification is a heuristic over subject text - `type` is approximate
+while `title` and `sha` stay truthful, so consumers treat the type as a
+hint, never an assertion.
 
 Records that land on no version era are written to
 `notes/unassigned.json` - an empty file is the expected result,
@@ -439,6 +449,8 @@ Before delivery, confirm mechanically:
   events, `ref` for document paths - never neither.
 - No record is fabricated: unknown fields are omitted, never invented.
 - `manifest.json` records the covered ref and counts.
+- `notes/` carries both required inventories - the subject's scratch-tree
+  listing and the doc-shaped files the chosen ref cannot see.
 - `view` carries the intake's layout, theme, and palette answers.
 - `categoryDetail` keys resolve to registry categories, its `events`
   counts match the version's per-type event totals, and its `churn`

@@ -14,7 +14,7 @@ Follow it after Synthesis.
 | Section                      | Line | What it covers               |
 |------------------------------|------|------------------------------|
 | Validation                   | 19   | Validation                   |
-| Evidence And Decision Checks | 357  | Evidence And Decision Checks |
+| Evidence And Decision Checks | 366  | Evidence And Decision Checks |
 
 ## Validation
 
@@ -28,6 +28,11 @@ records they render from.
 Combined multi-project reports attribute scorecard rows through their leading `Project` column,
 so the model cross-check covers that layout as well as per-project `##` blocks.
 `finalize-report.py` accepts the same two flags and passes them through.
+
+`brief` style is the exception: its registers are summary views of the model, not the
+model's canonical registers, so the `--model` cross-check cannot reconcile and its
+consistency residuals are out of contract - validate a brief with `--state` alone (or no
+flags) and never repair the report toward model consistency.
 
 Run the Structure Conformance task before any content-level check:
 compare the report's `##` heading map against the contract's required and conditional
@@ -47,6 +52,10 @@ and that no language evaluates people.
 Confirm every `FND-XXX` finding uses the correct pillar abbreviation and report-global sequential
 numbering - one sequence per register family across the whole report,
 `FND` contiguous per pillar across projects.
+On a re-hunt, `Resolved` and `Retired` Previous Findings rows keep their stable identifiers but
+carry no `### FND-` block, so the register-numbering check flags the resulting gaps - each flagged
+gap is expected only when a closed Previous Findings row cites that identifier, and a gap without
+one is a real numbering defect.
 
 Confirm every `RSK-XXX` references its source `FND-XXX`.
 
