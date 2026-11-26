@@ -35,6 +35,12 @@ The target is this repository's own files,
 edited under `docs/MAINTENANCE.md` and `docs/STYLE.md` through the maintenance path
 those documents define.
 
+Markdown formatting work under an armed mode - development, improvement, or training -
+follows the conventions the touched documents declare: wrapping is a confirmed feature,
+never introduced on an unwrapped document without an explicit request or a declared style
+rule, and mechanical repairs such as blockquote-block splits run through document tooling
+rather than repeated hand edits.
+
 A development request may also name `improvement` - "work on lens-skill development and
 improvement".
 The flag arms improvement mode for the described work:

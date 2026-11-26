@@ -44,14 +44,15 @@ The Purpose section may use a blockquote format to summarize scope and key items
 ## Purpose
 
 > **Scope:** one-line description of what this file covers
->
+
 > **Key items:** comma-separated list of key concepts or references
 ```
 
 This format is recommended for reference files and topic documents.
 
-The `**Scope:**` and `**Key items:**` rows are separate blockquote paragraphs - a `>` blank line
-divides them, because consecutive `>` lines render as one merged line.
+The `**Scope:**` and `**Key items:**` rows are separate blockquote blocks - a real blank line
+divides them, because consecutive `>` lines render as one merged line and a `>`-only separator
+row is the retired form.
 
 ### Out-of-Scope Table
 

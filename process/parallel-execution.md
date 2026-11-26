@@ -5,6 +5,7 @@
 > **Scope:** Delegation model for running audit evidence gathering through parallel read-only scout
 > agents when the host environment supports subagents, and for running each report type's
 > generation in a reporting subagent when a session produces multiple report types
+
 > **Key items:** applicability, scout roles, scout contract, merge discipline, provenance,
 > sequential fallback, reporter contract
 

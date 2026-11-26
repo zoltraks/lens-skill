@@ -3,7 +3,7 @@
 ## Purpose
 
 > **Scope:** Generation of a self-contained agent prompt that commissions an audit elsewhere
->
+
 > **Key items:** triggers, prompt shapes, canonical skeleton, delivery, guardrails
 
 This file defines the operation that writes an audit-request prompt for an external agent.

@@ -5,7 +5,7 @@
 > **Scope:** Enumerating a subject's declared verification surface,
 > proposing the commissioned command set, bounding claims to the executed scope,
 > and the verification-pass discipline
->
+
 > **Key items:** check-surface census, per-ecosystem checklists, commission proposal,
 > scope-bounded claims, double and triple verification, verbatim commands
 

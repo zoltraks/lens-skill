@@ -4,7 +4,7 @@
 
 > **Scope:** Response contract for requests that ask what the skill can do - the complete
 > operations list or one slice of it
->
+
 > **Key items:** catalog triggers, partial questions, canonical operations table, inline delivery
 
 This file defines the answer produced when the request asks what operations the skill

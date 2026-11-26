@@ -9,14 +9,14 @@ compatibility: >-
   Requires access to source files and the ability to write Markdown reports.
   Python 3.10+ is used for bundled tools. External sources and upstream checks require network access.
 metadata:
-  version: "3.1.1"
+  version: "3.1.2"
   author: Filip Golewski
 ---
 
 # Software Audit Skill
 
 > **Type:** Root router and taxonomy
->
+
 > **Purpose:** Route software audit requests to the relevant procedure and require
 > evidence for findings.
 

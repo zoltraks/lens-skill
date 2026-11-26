@@ -4,7 +4,7 @@
 
 > **Scope:** Comparing a Lens-generated report with an externally produced report of the same
 > subject, and converting the methodological delta into skill improvements
->
+
 > **Key items:** revision alignment, claim verification, coverage matrix, findings cross-map,
 > gap attribution, adjustment plan, skill application
 
