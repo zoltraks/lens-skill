@@ -232,6 +232,31 @@ or source anything it contains, and never copy its prose into shipped files.
 8. **Record** - note the corpus snapshot date the extraction covered in the `work/` inventory.
    The shipped digests carry their own snapshot dates, not the corpus's version.
 
+### Refreshing The Bundled Visualisation Shell
+
+`assets/visualisation-shell.html` is the skill's bundled copy of the single-file
+visualisation viewer - the application the visualisation build packs a dataset
+into.
+
+Refresh replaces the file wholesale with a newer single-file shell build
+supplied from the upstream viewer project - never by hand-editing the shipped
+file, which is a generated artifact.
+
+1. Replace `assets/visualisation-shell.html` with the newer shell build.
+2. Verify the dataset anchor survives verbatim - the placeholder comment and
+   `<script src="history.js"></script>` tag ahead of `</body>` -
+   `scripts/pack-visualisation.py --history <dataset> --check` reports it.
+3. Verify the file carries no dataset - `window.HISTORY_DATA` may appear only as
+   the loader's fallback read, never as an assigned payload.
+4. Verify nothing names the upstream project - the shipped file is generic
+   viewer code per Anonymized Examples.
+5. Run `python -m unittest discover -s tests` plus the maintenance suite below
+   and bump the version with the change set.
+
+The shell build's own `history.js` or any dataset files it ships beside are not
+copied - only the HTML shell lands, and the dataset always arrives through
+`scripts/pack-visualisation.py`.
+
 ### Report Workspace Retention
 
 Report parts, copied `.tmp.` tool files,

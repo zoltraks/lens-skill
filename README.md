@@ -29,11 +29,11 @@
 | Report Format                      | 457  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 494  | Supported requests and exclusions                   |
 | What's Inside                      | 518  | Documents, references, tools, and conditional files |
-| Document Style                     | 719  | Pointer to the style rules file                     |
-| Specification                      | 729  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 750  | Maintenance checks and regression scenarios         |
-| License                            | 781  | License for the skill itself                        |
-| Credits                            | 787  | Authorship and attribution                          |
+| Document Style                     | 723  | Pointer to the style rules file                     |
+| Specification                      | 733  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 754  | Maintenance checks and regression scenarios         |
+| License                            | 785  | License for the skill itself                        |
+| Credits                            | 791  | Authorship and attribution                          |
 
 ## Overview
 
@@ -552,6 +552,7 @@ lens-skill/
 │   ├── skill-development.md               # Standby-for-specification development mode
 │   ├── skill-housekeeping.md              # Self-repository upkeep routine
 │   ├── history-visualisation.md           # Named lifecycle operation producing history.json
+│   ├── visualisation-build.md             # Named build operation packing the dataset into one HTML file
 │   ├── json-exchange.md                   # Machine-readable parameter documents for intake questions
 │   ├── navigation-rules.md                # File-selection and section-placement rules for every report
 │   ├── operation-timing.md                # Elapsed-time report for named operations
@@ -658,6 +659,8 @@ lens-skill/
 │   ├── stacks/                            # Per-stack offline baselines, indexed in source-catalog.md
 │   ├── methodology/                       # Methodology digests, indexed in source-catalog.md
 │   └── topics/                            # Domain digests, indexed in source-catalog.md
+├── assets/
+│   └── visualisation-shell.html           # Bundled single-file visualisation viewer shell (no dataset)
 ├── scripts/
 │   ├── format-table.py                    # Source-width Markdown table formatter
 │   ├── align-comments.py                  # Plain-text `#` comment column aligner
@@ -684,6 +687,7 @@ lens-skill/
 │   ├── check-translation.py               # Polish-report checker: titles, counts, sentence length
 │   ├── lint-prose.py                      # Pre-assembly prose linter for report drafts
 │   ├── validate-history.py                # history.json dataset validator (schema 2 contract)
+│   ├── pack-visualisation.py              # Packs history.json into the viewer shell as one HTML file
 │   ├── common-helpers.py                  # Shared helpers for skill-maintenance tools
 │   └── README.md                          # Tool usage, safety, and cleanup rules
 ├── tests/                                 # Focused `unittest` contract tests for the tools

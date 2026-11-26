@@ -11,9 +11,9 @@
 | Section              | Line | What it covers                       |
 |----------------------|------|--------------------------------------|
 | Document Information | 18   | Report metadata and revisions        |
-| Contents             | 186  | Linked navigation of report sections |
-| Audit Coverage       | 209  | Coverage of canonical audit types    |
-| Glossary             | 268  | Abbreviation and acronym definitions |
+| Contents             | 183  | Linked navigation of report sections |
+| Audit Coverage       | 206  | Coverage of canonical audit types    |
+| Glossary             | 265  | Abbreviation and acronym definitions |
 
 ## Document Information
 

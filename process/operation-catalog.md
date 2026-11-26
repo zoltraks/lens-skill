@@ -51,6 +51,7 @@ request's language changes the cell text.
 | inline analysis       | Descriptive | evidence-based description, no report artifact                                  |
 | audit request         | Generate    | generalized prompt commissioning an external-agent audit                        |
 | history visualisation | Generate    | development-history `history.json` dataset for lifecycle interfaces, named-only |
+| visualisation build   | Generate    | single-file HTML visualisation packing the dataset into the bundled viewer      |
 | enablement            | Enable      | bare-activation standby with version and operations table                       |
 | self-update check     | Enable      | upstream check on working modes or explicit request                             |
 | operations catalog    | Enable      | this table                                                                      |

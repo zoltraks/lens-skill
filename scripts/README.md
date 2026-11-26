@@ -368,6 +368,22 @@ verification gate.
 
 It reads the dataset as data and exits non-zero listing every violation found.
 
+`pack-visualisation.py` compiles a `history.json` dataset into one self-contained
+HTML visualisation - it reads the bundled viewer shell
+(`assets/visualisation-shell.html`), replaces the dataset anchor with a
+`window.HISTORY_DATA` payload built from the dataset, and writes a single file
+that opens over `file://` with no server and no siblings.
+
+`--layout`, `--theme`, and `--palette` stamp resolved view overrides into the
+embedded copy only - the source dataset stays untouched.
+`--shell` swaps the bundled asset, `--shim <path>` additionally emits the
+file:// JavaScript twin, and `--check` verifies the shell anchor and dataset
+without writing.
+
+Copy it into the history workspace under a `.tmp.` name per the report-production
+copy contract - the copy then needs `--shell` pointed back at the skill's asset,
+or run it from the skill tree.
+
 ## Commands
 
 ```
@@ -393,6 +409,7 @@ python scripts/link-glossary.py path/to/AUDYT.md --lang pl [--check]
 python scripts/map-translation.py path/to/AUDYT.md --rules translations/polish-language.md [--en path/to/AUDIT-EN.md]
 python scripts/check-translation.py path/to/AUDYT.md [--max-words 40] [--rules translations/polish-language.md]
 python scripts/finalize-report.py [--polish] [--skill-root path/to/lens-skill] path/to/AUDIT.md
+python scripts/pack-visualisation.py --history path/to/history.json [--out path/to/out.html] [--layout id] [--theme id] [--palette id] [--shim path/to/history.js] [--check]
 python -m unittest discover -s tests
 ```
 

@@ -3,8 +3,10 @@
 ## Purpose
 
 > **Scope:** The named lifecycle operation that produces a `history.json` dataset from
-> a project's development record **Key items:** activation contract, workspace layout,
-> ref selection, gathering sources, extraction pipeline, schema, verification
+> a project's development record
+
+> **Key items:** activation contract, workspace layout, ref selection, gathering
+> sources, extraction pipeline, schema, verification
 
 This document governs the `history visualisation` and `lifecycle visualisation` operation.
 
@@ -18,20 +20,20 @@ It is not an audit and produces no report.
 
 | Section             | Line | Description                                        |
 |---------------------|------|----------------------------------------------------|
-| Activation Contract | 36   | When the operation runs and what it never does     |
-| Intake              | 48   | Parameters resolved before gathering               |
-| Ref Selection       | 111  | Fullest reachable history of the target branch     |
-| Era Discovery       | 126  | How commits group into eras - version or date mode |
-| Workspace Layout    | 157  | Workspace tree and its README contract             |
-| Scout Delegation    | 185  | Read-only scouts for the evidence surface          |
-| Gathering           | 195  | Source families and their collection order         |
-| Extraction Pipeline | 249  | Staged scripts, dating, enrichment, merge          |
-| Data Model          | 396  | Version kinds and their provenance                 |
-| Bundled Shim        | 413  | The file:// twin of history.json                   |
-| Prototype           | 429  | The commissioned interface contract                |
-| Verification        | 439  | Mechanical checks before delivery                  |
-| Incremental Reuse   | 469  | Ref-sha comparison and resume state                |
-| Boundaries          | 478  | Source-only limits of the operation                |
+| Activation Contract | 38   | When the operation runs and what it never does     |
+| Intake              | 50   | Parameters resolved before gathering               |
+| Ref Selection       | 120  | Fullest reachable history of the target branch     |
+| Era Discovery       | 135  | How commits group into eras - version or date mode |
+| Workspace Layout    | 166  | Workspace tree and its README contract             |
+| Scout Delegation    | 194  | Read-only scouts for the evidence surface          |
+| Gathering           | 204  | Source families and their collection order         |
+| Extraction Pipeline | 258  | Staged scripts, dating, enrichment, merge          |
+| Data Model          | 405  | Version kinds and their provenance                 |
+| Bundled Shim        | 422  | The file:// twin of history.json                   |
+| Prototype           | 438  | The commissioned interface contract                |
+| Verification        | 452  | Mechanical checks before delivery                  |
+| Incremental Reuse   | 482  | Ref-sha comparison and resume state                |
+| Boundaries          | 491  | Source-only limits of the operation                |
 
 ## Activation Contract
 
@@ -97,6 +99,13 @@ Notes on the parameters:
 - **View \*** parameters feed the dataset's `view` block - the producer's
   `VIEW` constant takes the chosen values, and the viewer applies them
   only when no user preference exists.
+  Resolve them like every parameter but with one extra evidence step
+  before the question surface: an explicit request statement wins, then a
+  previously generated visualisation HTML, an existing `history.json` or
+  `history.js` for the same subject, or a project-documentation scheme
+  already records the presentation - only when none of those answers does
+  the surface offer the defaults alongside the other layouts, themes, and
+  palettes rather than defaulting silently.
 - **Configuration** - the intake answers land in `gathering/config.json`
   inside the workspace: `repo`, `target_dir`, `ref`, `grouping`, `view`,
   and `project` (`name`, `description`).
@@ -435,6 +444,10 @@ and offers a file picker as last resort.
 
 The prototype visual language, layout, and interaction model belong
 to the commissioning request, not to this operation.
+
+A request to compile the produced dataset into one self-contained
+HTML visualisation routes to `process/visualisation-build.md`,
+which packs the dataset into the bundled viewer shell.
 
 ## Verification
 

@@ -53,6 +53,7 @@ Use the host's question mechanism when available and ask directly if the host ha
 | Compare or benchmark external audit reports                          | [Report benchmark](process/report-benchmark.md)                                                    |
 | Prepare an audit prompt for another agent                            | [Audit request](process/audit-request.md)                                                          |
 | Produce a project history dataset                                    | [History visualisation](process/history-visualisation.md)                                          |
+| Compile a dataset into a single-file history visualisation           | [Visualisation build](process/visualisation-build.md)                                              |
 | Feed external standards into this skill                              | [Stack feed](process/stack-feed.md)                                                                |
 
 For an audit, use the workflow's intake and parameter phase before assessing the subject.
@@ -105,6 +106,9 @@ before planning a report, then open the selected style and section rules from
 - **`process/stack-feed.md`** - External standards intake into `references/` digests, gated.
 - **`process/history-visualisation.md`** - The named lifecycle operation: history gathering and
   `history.json` production, run only when requested and never proposed by default.
+- **`process/visualisation-build.md`** - The named build operation: packs a `history.json`
+  dataset into the bundled viewer shell as one self-contained HTML visualisation,
+  run only when requested and never proposed by default.
 
 Timing is armed by default on every operation - `no timing` opts out for that request.
 
@@ -168,6 +172,13 @@ Load these during intake, assessment, and report writing when the stack or findi
 - **`references/source-catalog.md`** - Authoritative external-source registry and corpus index -
   grep the catalog row needed rather than loading it whole.
 - **`references/stacks/`** / **`methodology/`** / **`topics/`** - digests, see `source-catalog.md`.
+
+### `assets/` - Bundled Applications
+
+- **`assets/visualisation-shell.html`** - The bundled single-file visualisation viewer shell,
+  carrying a dataset anchor the visualisation build replaces with the packed
+  `window.HISTORY_DATA` payload - data-free viewer code, refreshed wholesale
+  per `docs/MAINTENANCE.md`.
 
 ### `scripts/` - Canonical Scripts
 

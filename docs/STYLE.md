@@ -17,14 +17,14 @@ Audit deliverables follow the selected report style and the report contract in
 | Section                     | Line | What it covers                                  |
 |-----------------------------|------|-------------------------------------------------|
 | Document Structure          | 29   | Titles, purpose blocks, and contents tables     |
-| Paragraphs And Wrapping     | 104  | Sentence structure and line width               |
-| Headings And Lists          | 171  | Heading depth, lists, and spacing               |
-| Code And Inline Formatting  | 227  | Fences, code spans, and special characters      |
-| Tables                      | 313  | Source-width alignment and automated formatting |
-| Characters And Language     | 501  | Box-drawing, emoji, and per-language rules      |
-| File References             | 526  | Relative paths and backticked file paths        |
-| Skill Document Requirements | 540  | Frontmatter and progressive disclosure          |
-| Maintenance                 | 602  | File naming, encoding, and registration         |
+| Paragraphs And Wrapping     | 105  | Sentence structure and line width               |
+| Headings And Lists          | 172  | Heading depth, lists, and spacing               |
+| Code And Inline Formatting  | 228  | Fences, code spans, and special characters      |
+| Tables                      | 314  | Source-width alignment and automated formatting |
+| Characters And Language     | 502  | Box-drawing, emoji, and per-language rules      |
+| File References             | 527  | Relative paths and backticked file paths        |
+| Skill Document Requirements | 541  | Frontmatter and progressive disclosure          |
+| Maintenance                 | 603  | File naming, encoding, and registration         |
 
 ## Document Structure
 

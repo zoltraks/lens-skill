@@ -2621,6 +2621,50 @@
     "Register-numbering residuals that map to Resolved or Retired Previous Findings rows are recognized as contract-expected and never 'fixed' by renumbering live findings.",
     "Style-scoped validation applies - a brief-style translation is validated without --model because its registers are summary views of the model."
    ]
+  },
+  {
+   "id": 229,
+   "prompt": "Create the visualisation for this repository - compile its development history into a single HTML file.",
+   "expected_output": "The run loads process/visualisation-build.md, resolves the dataset per its prerequisite contract (running process/history-visualisation.md first when no valid history.json exists), resolves view layout/theme/palette per the documented ladder, and packs via scripts/pack-visualisation.py into a <project>-<version>.html artifact.",
+   "files": [],
+   "expectations": [
+    "The run loads process/visualisation-build.md - the operation is named-only and never proposed as a follow-up to other operations.",
+    "A valid history.json is required before packing - when none exists or it is stale, the run completes process/history-visualisation.md first as a prerequisite stage.",
+    "Packing runs scripts/pack-visualisation.py against assets/visualisation-shell.html, producing one self-contained HTML file whose dataset anchor is replaced by an embedded window.HISTORY_DATA payload.",
+    "Verification confirms the output is a single file with the payload parseable and identical to the source dataset, and the filename follows <project>-<version>.html from the dataset's own identity."
+   ]
+  },
+  {
+   "id": 230,
+   "prompt": "Pack the existing history.json into one HTML visualisation - use the islands layout and the green palette.",
+   "expected_output": "The run resolves view overrides from the request, packs via scripts/pack-visualisation.py with --layout islands --palette green, and verifies the embedded view block equals the resolved values while the source history.json stays untouched.",
+   "files": [],
+   "expectations": [
+    "Explicit request statements for layout, theme, or palette win over every other source in the view-resolution ladder.",
+    "View overrides stamp into the embedded copy of the dataset only - the source history.json is never mutated by packing.",
+    "The embedded view block in the packed artifact equals the resolved intake values."
+   ]
+  },
+  {
+   "id": 231,
+   "prompt": "Build the history visualisation HTML for this repository - no history.json exists yet.",
+   "expected_output": "The run treats the dataset build as a prerequisite stage of the operation, runs process/history-visualisation.md to produce history.json first, then packs it into the single-file HTML without re-asking the same intake parameters.",
+   "files": [],
+   "expectations": [
+    "When no dataset exists the run proceeds through the dataset operation first - the missing history.json triggers the prerequisite stage, never a refusal or a separate operation ask.",
+    "View parameters unresolved after the artifact ladder surface as one question with the square/dark/blue defaults plus the alternate layouts, themes, and palettes - proposing alternates rather than silently defaulting."
+   ]
+  },
+  {
+   "id": 232,
+   "prompt": "Refresh this skill's bundled visualisation shell from the newer upstream build supplied in work/.",
+   "expected_output": "The run is skill maintenance - it replaces assets/visualisation-shell.html wholesale per docs/MAINTENANCE.md, verifies the dataset anchor survives, confirms no dataset is embedded, and runs the maintenance validation suite.",
+   "files": [],
+   "expectations": [
+    "The shell is replaced wholesale from the supplied upstream build - the shipped file is never hand-edited, and the upstream project's history.js or dataset siblings are not copied.",
+    "Verification confirms the placeholder comment and history.js script-tag anchor survive verbatim and no window.HISTORY_DATA payload is embedded.",
+    "The refresh bumps metadata.version with its change set and updates no routing tables - the asset registration is unchanged."
+   ]
   }
  ]
 }
