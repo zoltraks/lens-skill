@@ -110,6 +110,15 @@ and member names besides declarations.
 
 Use a declaration-shaped pattern or an explicit enumeration of declaring lines.
 
+## Marker Census
+
+Marker scans (`TODO`, `FIXME`, `HACK`, `XXX` and equivalents) match word-boundary
+patterns, never bare substrings - `HACK` inside `shack` or `TODO` inside `todoist`
+is a false hit.
+
+Record the exact pattern beside the count,
+and record the recount when an initial loose scan is corrected.
+
 ## Identifier Shape Census
 
 The code-style census classifies every declaration in a partition by casing shape,

@@ -262,14 +262,14 @@ and `Report Style: Hunt (legacy)` reproduces the pre-redesign verdict/domain lay
 
 ### Hunt Defect
 
-Under `Report Style: hunt` with no variant suffix the required sections are Report Overview,
+Under `Report Style: hunt` with no variant suffix the required sections are Document Information,
 Contents, Health Assessment, Findings, Remediation Plan, Previous Findings,
 Scope and Limitations -
 plus Contradiction Register, Journey Traces, Methodology And Evidence, Executed Evidence,
 Artifact Manifest, Project Inventory, Reference Sources, Glossary - a brief section that always
 renders last - and `Appendix <letter>:` sections when conditional.
 
-- Report Overview carries the metadata table - required rows Report Revision, Report Date,
+- Document Information carries the metadata table - required rows Report Revision, Report Date,
   Report Style, Detail Level, Language, Evidence Mode, Subject Revision, Skill Version,
   Time taken - and the executive summary.
 - Health Assessment carries a `**Readiness:**` token (`Ready`, `At Risk`, `Blocked`,
@@ -292,7 +292,7 @@ renders last - and `Appendix <letter>:` sections when conditional.
 - Previous Findings carries a `Finding | Change | Notes` table with Change `New`, `Still Open`,
   `Resolved`, `Reopened`, `Deferred`, `Accepted`, `Reclassified`, or `Retired` - `Resolved` and
   `Retired` rows keep no block, every other change needs one - or a first-assessment note.
-- The sections the redesign folded or removed - Document Information, Audit Coverage, Verdict,
+- The sections the redesign folded or removed - Audit Coverage, Verdict,
   Domain Ratings, Domain Findings, Risk Register, Remediation Phases, Retest, Scope Exclusions,
   Known Limitations, Further Verification, Validation Protocol, and any scorecard block -
   are rejected as `##` headings.

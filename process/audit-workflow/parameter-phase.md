@@ -473,7 +473,7 @@ The follow-up ends with `Use default: Next milestone` and
 
 Under JSON exchange it is the `known-horizon` `choice` parameter.
 
-The resolved horizon records in the `Known Horizon` row of Report Overview and bounds
+The resolved horizon records in the `Known Horizon` row of Document Information and bounds
 every `Review` field per `process/report-format/brief-style.md`.
 
 ## Project Layout

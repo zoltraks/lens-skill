@@ -50,6 +50,9 @@ Commissioned commands run against a copy, never against the audited tree.
 
 - Copy the audited tree into the audit's work or scratch area and run every commissioned
   command inside the copy.
+- When ignored generated inputs feed the commissioned checks,
+  expose them into the copy read-only - a symlink or read-only mount - instead of copying
+  the bulk, and record the exposure on the evidence record's `procedure` block.
 - Redirect tool caches, package downloads, build output,
   and test artifacts into the copy so nothing writes back into the audited tree.
 - Record the isolation root in the evidence record's `procedure` block.

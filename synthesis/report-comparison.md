@@ -52,7 +52,7 @@ and the English file is the canonical form for comparison.
 For a `hunt` -style report, the same rules apply to the hunt filename family: `HUNT.md`,
 `HUNT-<revision>.md`, and the language-specific stem such as `POLOWANIE-<revision>.md`,
 identified by a `Report Style` row reading `hunt` or `hunt (legacy)` in Document Information -
-the row may live inside a `Report Overview` section under the defect variant.
+the row lives inside the Document Information section under the defect variant.
 
 A `HUNT` -family baseline defines which layout the re-hunt recovers: a `Report Style` row
 reading `hunt (legacy)`, or a bare `hunt` row in a report that carries the legacy layout
@@ -63,7 +63,7 @@ capability change per the Evidence Transitions rules, never a product change.
 
 For a `brief` -style report, the same rules apply to the brief filename family: `BRIEF.md`,
 `BRIEF-<revision>.md`, and the language-specific stem such as `SKRÓT-<revision>.md`,
-identified by a `Report Style` row reading `Brief` in Report Overview.
+identified by a `Report Style` row reading `Brief` in Document Information.
 A `BRIEF` -family baseline reconciles finding-by-finding against the previous report's
 Findings summary records, per `process/report-format/brief-style.md`.
 
