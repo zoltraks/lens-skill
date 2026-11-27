@@ -133,8 +133,8 @@ class TestPackVisualisation(unittest.TestCase):
                 capture_output=True, text=True)
             self.assertEqual(result.returncode, 0, result.stderr)
             twin = shim.read_text(encoding="utf-8")
-            self.assertIn("window.HISTORY_DATA = {", twin)
-            self.assertIn("Generated twin", twin)
+            self.assertTrue(twin.startswith("window.HISTORY_DATA = {"))
+            self.assertEqual(len(twin.strip().splitlines()), 1)
 
 
 if __name__ == "__main__":

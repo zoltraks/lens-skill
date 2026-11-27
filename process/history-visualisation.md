@@ -28,12 +28,12 @@ It is not an audit and produces no report.
 | Scout Delegation    | 194  | Read-only scouts for the evidence surface          |
 | Gathering           | 204  | Source families and their collection order         |
 | Extraction Pipeline | 258  | Staged scripts, dating, enrichment, merge          |
-| Data Model          | 405  | Version kinds and their provenance                 |
-| Bundled Shim        | 422  | The file:// twin of history.json                   |
-| Prototype           | 438  | The commissioned interface contract                |
-| Verification        | 452  | Mechanical checks before delivery                  |
-| Incremental Reuse   | 482  | Ref-sha comparison and resume state                |
-| Boundaries          | 491  | Source-only limits of the operation                |
+| Data Model          | 414  | Version kinds and their provenance                 |
+| Bundled Shim        | 431  | The file:// twin of history.json                   |
+| Prototype           | 447  | The commissioned interface contract                |
+| Verification        | 461  | Mechanical checks before delivery                  |
+| Incremental Reuse   | 491  | Ref-sha comparison and resume state                |
+| Boundaries          | 500  | Source-only limits of the operation                |
 
 ## Activation Contract
 
@@ -340,6 +340,15 @@ Fields are emitted only when found - never invented.
 Doc record categories are normalized to the dataset's category registry
 at merge time, so `refactoring` records land on the `refactor` category
 and every event type has a known id.
+
+The registry's `order` values place categories in their filter families -
+tens inside a family, a jump of 20 or more before the next family
+(releases/code first, then process, quality, documentation) - and a
+`changelog` entry joins the registry whenever the tree produced changelog
+items, since the interface draws changelog satellites from that entry.
+Colors and family seats seed from the canonical registry table in
+`references/history-schema.md`, and `scripts/repair-history.py` applies the
+same contract mechanically when an existing dataset drifts from it.
 
 When the run replaces an existing consumer dataset, the merge carries the
 consumer's current `categories` registry forward unchanged - ids, labels,

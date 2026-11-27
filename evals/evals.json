@@ -2665,6 +2665,39 @@
     "Verification confirms the placeholder comment and history.js script-tag anchor survive verbatim and no window.HISTORY_DATA payload is embedded.",
     "The refresh bumps metadata.version with its change set and updates no routing tables - the asset registration is unchanged."
    ]
+  },
+  {
+   "id": 233,
+   "prompt": "Extract the history.json dataset from this cooked single-file visualisation HTML.",
+   "expected_output": "The run recovers the embedded window.HISTORY_DATA payload with scripts/extract-visualisation.py, writes the pretty-printed history.json dataset, and reports the project, version count, and schema it carries.",
+   "files": [],
+   "expectations": [
+    "The extraction runs scripts/extract-visualisation.py --html <file> [--out <path>] - a mechanical tool operation, never a hand-edited payload copy.",
+    "The recovered dataset parses as a history.json object with categories and versions lists, identical to the embedded payload.",
+    "--check reports the embedded dataset without writing when only verification is asked for."
+   ]
+  },
+  {
+   "id": 234,
+   "prompt": "Produce the history visualisation dataset for this repository - its changelog documents carry versioned entries.",
+   "expected_output": "The run emits a history.json whose categories registry groups categories into filter families - order values spaced by tens inside a family with jumps of 20 or more at family boundaries - and registers a changelog category because changelog_items exist.",
+   "files": [],
+   "expectations": [
+    "Every kind the interface renders resolves to a registry id - event types, eventCounts keys, and the changelog satellites drawn from changelog_items.",
+    "Category orders space by tens inside each family and jump by 20 or more at family boundaries so the interface draws filter group gaps - releases/code first, then process, quality, documentation.",
+    "scripts/validate-history.py fails a dataset whose changelog_items have no changelog registry entry or whose eventCounts keys sit outside the registry."
+   ]
+  },
+  {
+   "id": 235,
+   "prompt": "A previously generated history visualisation shows changelog buildings rendered gray with no filter chip and one ungrouped filter row.",
+   "expected_output": "The dataset is recovered from the packed file, its categories registry is repaired to the canonical contract, validated, and repacked into a fresh visualisation.",
+   "files": [],
+   "expectations": [
+    "scripts/extract-visualisation.py recovers history.json from the packed HTML.",
+    "scripts/repair-history.py registers the missing changelog category, restores canonical colors, and compacts family orders so filter group gaps appear only at family boundaries.",
+    "scripts/validate-history.py confirms the repaired dataset, and pack-visualisation.py emits the repacked visualisation."
+   ]
   }
  ]
 }

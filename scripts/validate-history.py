@@ -61,6 +61,7 @@ def check(h, err):
         err.append("categories: missing or not an array")
         cats = []
     ids = set()
+    orders = set()
     for i, c in enumerate(cats):
         for f in ("id", "label", "color", "order"):
             if f not in c:
@@ -68,8 +69,12 @@ def check(h, err):
         if c.get("id") in ids:
             err.append("categories[%d]: duplicate id %r" % (i, c.get("id")))
         ids.add(c.get("id"))
+        if "order" in c:
+            if c["order"] in orders:
+                err.append("categories[%d]: duplicate order %r" % (i, c["order"]))
+            orders.add(c["order"])
         if "color" in c and not re.match(r"^#[0-9a-fA-F]{6}$", str(c["color"])):
-            err.append("categories[%d]: bad color %r" % (i, c.get("color")))
+            err.append("categories[%d]: bad color %r" % (i, c["color"]))
 
     vers = h.get("versions")
     if not isinstance(vers, list):
@@ -122,6 +127,10 @@ def check(h, err):
         ec = v.get("eventCounts")
         if ec is not None and ec != counts:
             err.append(where + ": eventCounts %s != actual %s" % (ec, counts))
+        if isinstance(ec, dict):
+            for k in ec:
+                if k not in ids:
+                    err.append(where + ": eventCounts key %r not in registry" % k)
 
         cd = v.get("categoryDetail")
         if cd is not None:
@@ -145,6 +154,11 @@ def check(h, err):
                            (ch.get("ins") or 0) > delta["ins"]:
                             err.append(where + ": categoryDetail.%s.churn.ins %s > era delta %s"
                                        % (k, ch.get("ins"), delta["ins"]))
+
+    if any((v.get("changelog_items") or []) for v in vers if isinstance(v, dict)) \
+            and "changelog" not in ids:
+        err.append("changelog_items present but 'changelog' is not in the registry"
+                   " - the interface draws changelog satellites from that entry")
 
     err += ["null value at " + p for p in find_nulls(h, "$")]
 

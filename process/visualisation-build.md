@@ -132,6 +132,37 @@ Before delivery, confirm mechanically:
 - The output filename follows `<project>-<version>.html` from the dataset's
   own identity.
 
+## Dataset Recovery
+
+A packed visualisation yields its dataset back -
+`scripts/extract-visualisation.py --html <file> [--out <path>]` recovers the
+embedded `window.HISTORY_DATA` payload as a pretty-printed `history.json`,
+and `--check` reports the embedded dataset without writing.
+
+Recovery serves dataset hand-offs - replacing a viewer's bundled dataset from
+a packed artifact, or confirming a packed file carries the intended dataset.
+
+## Dataset Repair
+
+An older or hand-produced dataset can violate the registry contract - flat
+orders with no family gaps, scattered colors, a missing `changelog` entry -
+which the interface renders as unfilterable gray buildings and one ungrouped
+filter row.
+
+`scripts/repair-history.py <file> [--out <path>] [--check]` rewrites the
+`categories` array to the canonical contract in
+`references/history-schema.md`: known ids take their canonical colors and
+family-compacted orders, unknown ids keep their fields inside the family
+their declared order falls into, and rendered kinds missing from the
+registry gain an entry - `changelog` included. `--check` lists the proposed
+changes and exits non-zero when any are needed.
+
+Repairing a packed visualisation is the recovery pipeline plus a repack:
+extract the dataset, run repair, confirm with `validate-history.py`, and
+pack the repaired dataset into a fresh single file with
+`pack-visualisation.py`. Only the `categories` array is touched - version
+records and view defaults pass through unchanged.
+
 ## Boundaries
 
 The bundled shell ships without a dataset - it is viewer code only, and a

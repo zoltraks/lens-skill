@@ -29,11 +29,11 @@
 | Report Format                      | 457  | Report structure, identifiers, and style            |
 | When To Use This Skill             | 494  | Supported requests and exclusions                   |
 | What's Inside                      | 518  | Documents, references, tools, and conditional files |
-| Document Style                     | 723  | Pointer to the style rules file                     |
-| Specification                      | 733  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 754  | Maintenance checks and regression scenarios         |
-| License                            | 785  | License for the skill itself                        |
-| Credits                            | 791  | Authorship and attribution                          |
+| Document Style                     | 725  | Pointer to the style rules file                     |
+| Specification                      | 735  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 756  | Maintenance checks and regression scenarios         |
+| License                            | 787  | License for the skill itself                        |
+| Credits                            | 793  | Authorship and attribution                          |
 
 ## Overview
 
@@ -688,6 +688,8 @@ lens-skill/
 │   ├── lint-prose.py                      # Pre-assembly prose linter for report drafts
 │   ├── validate-history.py                # history.json dataset validator (schema 2 contract)
 │   ├── pack-visualisation.py              # Packs history.json into the viewer shell as one HTML file
+│   ├── extract-visualisation.py           # Extracts history.json back out of a packed HTML file
+│   ├── repair-history.py                  # Repairs a dataset's category registry to the canonical contract
 │   ├── common-helpers.py                  # Shared helpers for skill-maintenance tools
 │   └── README.md                          # Tool usage, safety, and cleanup rules
 ├── tests/                                 # Focused `unittest` contract tests for the tools

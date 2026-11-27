@@ -357,10 +357,12 @@ scripts - run them with `python -m unittest discover -s tests` after changing a 
 ### History-Visualisation Tools
 
 `validate-history.py` mechanically checks a produced `history.json` dataset against
-`references/history-schema.md`: schema and project fields, category registry integrity,
-event traceability (`sha` or `ref`), kind-specific stats/metrics presence, `eventCounts`
-consistency, `categoryDetail` key registration and internal consistency, date-grouping
-`era` rules, and the no-`null` contract.
+`references/history-schema.md`: schema and project fields, category registry integrity
+(unique ids and orders), event traceability (`sha` or `ref`), kind-specific
+stats/metrics presence, `eventCounts` consistency and key registration,
+`changelog` registration alongside `changelog_items`, `categoryDetail` key
+registration and internal consistency, date-grouping `era` rules, and the
+no-`null` contract.
 
 Copy it into the history workspace under a `.tmp.` name per the report-production copy
 contract, and run it against `gathering/out/history.json` as part of the operation's
@@ -383,6 +385,26 @@ without writing.
 Copy it into the history workspace under a `.tmp.` name per the report-production
 copy contract - the copy then needs `--shell` pointed back at the skill's asset,
 or run it from the skill tree.
+
+`extract-visualisation.py` runs the pack in reverse - it reads a packed
+single-file visualisation, recovers the embedded `window.HISTORY_DATA` payload,
+and writes it back as a pretty-printed `history.json` dataset.
+
+`--out <path>` picks the output file (default `history.json`) and `--check`
+reports the embedded dataset - project, version count, and schema - without
+writing.
+
+`repair-history.py` mechanically repairs a dataset's `categories` registry
+against the canonical contract in `references/history-schema.md` - family
+bases with tens-compacted member orders, canonical colors, and registration
+of every kind the interface draws, including `changelog` satellites from
+`changelog_items`. `--check` lists the proposed changes and exits non-zero
+when any are needed; otherwise the repaired dataset is written in place or
+to `--out`. Only the `categories` array is touched - rerun
+`validate-history.py` after a repair.
+
+Copy it into the history workspace under a `.tmp.` name per the report-production
+copy contract, or run it from the skill tree.
 
 ## Commands
 
@@ -410,6 +432,8 @@ python scripts/map-translation.py path/to/AUDYT.md --rules translations/polish-l
 python scripts/check-translation.py path/to/AUDYT.md [--max-words 40] [--rules translations/polish-language.md]
 python scripts/finalize-report.py [--polish] [--skill-root path/to/lens-skill] path/to/AUDIT.md
 python scripts/pack-visualisation.py --history path/to/history.json [--out path/to/out.html] [--layout id] [--theme id] [--palette id] [--shim path/to/history.js] [--check]
+python scripts/extract-visualisation.py --html path/to/city.html [--out path/to/history.json] [--check]
+python scripts/repair-history.py path/to/history.json [--out path/to/fixed.json] [--check]
 python -m unittest discover -s tests
 ```
 

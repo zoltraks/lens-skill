@@ -64,11 +64,9 @@ def data_script(data: dict, source_name: str) -> str:
 
 
 def shim_text(data: dict) -> str:
-    """The file:// JavaScript twin of the dataset."""
+    """The file:// JavaScript twin of the dataset - one line, no banner."""
     payload = json.dumps(data, separators=(",", ":")).replace("</", "<\\/")
-    return ("/* Generated twin of history.json - lets file:// pages load "
-            "without fetch.\n * Regenerate the pack instead of editing by "
-            "hand. */\nwindow.HISTORY_DATA = " + payload + ";\n")
+    return "window.HISTORY_DATA = " + payload + ";\n"
 
 
 def pack(html: str, script: str) -> str:

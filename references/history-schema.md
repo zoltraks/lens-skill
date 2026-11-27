@@ -17,6 +17,22 @@ invented hashes.
 
 Read the sections the task needs - grep the `## ` headings for the section map.
 
+## Contents
+
+| Section           | Line | Description                              |
+|-------------------|------|------------------------------------------|
+| Top Level         | 36   | Root fields and dataset shape            |
+| Project           | 46   | Project identity and grouping strategy   |
+| Categories        | 64   | Registry contract and canonical families |
+| View              | 101  | Presentation defaults                    |
+| Version Record    | 115  | Version kinds and record fields          |
+| Stats             | 147  | LOC and churn stats block                |
+| Metrics           | 163  | Derived metric block                     |
+| Category Detail   | 209  | Per-category detail records              |
+| Events            | 249  | Event fields and traceability            |
+| Nullability       | 298  | The no-null contract                     |
+| Producer Contract | 310  | Producer obligations                     |
+
 ## Top Level
 
 | Field        | Type     | Contents                                   |
@@ -52,13 +68,35 @@ Each category is `{"id", "label", "color", "order"}`.
 - `id` - machine key every event `type` resolves to.
 - `label` - display name.
 - `color` - `#rrggbb` interface accent.
-- `order` - sort position, spacing of tens leaves room for insertion.
+- `order` - sort position, spacing of tens inside a family and a jump of 20 or
+  more before the next family - interfaces draw filter group gaps at the jumps.
+
+The canonical registry fixes each shared id's color and family seat; a
+dataset's registry carries the subset of the vocabulary its data needs, with
+present members compacted by tens from the family base so an absent member
+never leaves a gap inside the family:
+
+| Family block | Base `order` | Members in canonical order (`id` `color`)                                                                                                                                                 |
+|--------------|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| releases     | -10          | `release` `#c0c8d4`                                                                                                                                                                       |
+| code         | 10           | `change` `#339af0`, `feature` `#14b8a6`, `fix` `#e64980`, `refactor` `#5c7cfa`, `contract` `#66d9e8`, `merge` `#94a3b8`, `chore` `#364fc7`, `test` `#1098ad`, `dependency` `#74c0fc`      |
+| process      | 120          | `plan` `#6741d9`, `concept` `#845ef7`, `spec` `#5f3dc4`, `proposal` `#b197fc`, `preparation` `#9775fa`, `decision` `#e599f7`, `prompt` `#da77f2`, `lesson` `#f783ac`, `discard` `#9d8ec7` |
+| quality      | 240          | `review` `#f06595`, `audit` `#d9480f`, `hunt` `#fd7e14`, `assessment` `#ffa94d`, `report` `#ffd8a8`, `comparison` `#748ffc`                                                               |
+| docs         | 340          | `docs` `#40c057`, `changelog` `#69db7c`, `reference` `#8ce99a`, `standard` `#2b8a3e`, `template` `#d3f9d8`                                                                                |
+
+An id outside this vocabulary keeps a dataset-chosen order inside the family
+it belongs to and a family-coherent color.
 
 The registry carries one entry per event family - features, changes, refactors,
 fixes, plans, releases, reports, tests, decisions, lessons, discards,
 and similar - plus a `release` entry used by version-tower styling and a
 `merge` entry for pull/merge commits, which keep their own neutral family
 so the commit-type mix stays honest.
+
+Every kind the interface renders resolves to a registry id - an event `type`,
+an `eventCounts` key, and the `changelog` satellites drawn whenever a version
+carries `changelog_items`, so `changelog` joins the registry alongside
+`changelog_items` and is never left as an unregistered fallback.
 
 ## View
 
@@ -234,8 +272,8 @@ reports) may additionally carry extracted fields:
 | `findings`        | int, opt.    | Unique finding-id count found in the record         |
 | `revision`        | string, opt. | Report revision, e.g. `"1.8"`                       |
 | `subject_version` | string, opt. | Project version the record assesses                 |
-| `requirements`    | int, opt.    | Count of requirement/use-case ids in a spec or     |
-|                   |              | report record (`X-n`, `<NS>-REQ-<n>` id families)  |
+| `requirements`    | int, opt.    | Count of requirement/use-case ids in a spec or      |
+|                   |              | report record (`X-n`, `<NS>-REQ-<n>` id families)   |
 
 A change-request record may carry `subtype` (`feature`, `fix`, `refactor`,
 `chore`) which the producer folds into the event `type` at merge time.
