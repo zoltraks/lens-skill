@@ -18,22 +18,23 @@
 
 | Section                            | Line | What it covers                                      |
 |------------------------------------|------|-----------------------------------------------------|
-| Overview                           | 38   | Audit purpose and standard report shape             |
-| What The Skill Does                | 89   | Update check, evidence, assessment, synthesis       |
-| Installation                       | 171  | Clone and update instructions                       |
-| Usage                              | 204  | Activation, parameters, and report delivery         |
-| Example Prompts                    | 241  | Full and focused audit requests                     |
-| Workflow Diagrams                  | 322  | ASCII and Mermaid audit pipelines                   |
-| Evidence And Decision Quality      | 382  | Evidence strength and verification limits           |
-| Core Principles                    | 441  | Evaluation constraints and status rules             |
-| Report Format                      | 457  | Report structure, identifiers, and style            |
-| When To Use This Skill             | 494  | Supported requests and exclusions                   |
-| What's Inside                      | 518  | Documents, references, tools, and conditional files |
-| Document Style                     | 725  | Pointer to the style rules file                     |
-| Specification                      | 735  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 756  | Maintenance checks and regression scenarios         |
-| License                            | 787  | License for the skill itself                        |
-| Credits                            | 793  | Authorship and attribution                          |
+| Overview                           | 39   | Audit purpose and standard report shape             |
+| What The Skill Does                | 90   | Update check, evidence, assessment, synthesis       |
+| Installation                       | 172  | Clone and update instructions                       |
+| Usage                              | 205  | Activation, parameters, and report delivery         |
+| Working Modes                      | 242  | Interaction modes, report styles, evidence modes    |
+| Example Prompts                    | 292  | Full and focused audit requests                     |
+| Workflow Diagrams                  | 395  | ASCII and Mermaid audit pipelines                   |
+| Evidence And Decision Quality      | 455  | Evidence strength and verification limits           |
+| Core Principles                    | 514  | Evaluation constraints and status rules             |
+| Report Format                      | 530  | Report structure, identifiers, and style            |
+| When To Use This Skill             | 567  | Supported requests and exclusions                   |
+| What's Inside                      | 591  | Documents, references, tools, and conditional files |
+| Document Style                     | 798  | Pointer to the style rules file                     |
+| Specification                      | 808  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 829  | Maintenance checks and regression scenarios         |
+| License                            | 860  | License for the skill itself                        |
+| Credits                            | 866  | Authorship and attribution                          |
 
 ## Overview
 
@@ -238,6 +239,56 @@ or execute the audited project.
 
 ---
 
+## Working Modes
+
+Every operation runs in interactive mode by default: recommendations are shown and
+material checkpoints ask through the host's question mechanism.
+
+| Mode                  | Request words                                                           | Effect                                                                                |
+|-----------------------|-------------------------------------------------------------------------|---------------------------------------------------------------------------------------|
+| Interactive (default) | -                                                                       | Recommendations shown, material decisions ask                                         |
+| Autonomous            | `autonomous`, `automatic`, `unattended`, `non-interactive`, `automated` | Gates resolve to the discovered or default answer, recorded in a `Decisions:` list    |
+| Verbose               | `verbose`                                                               | Full option menus and rationale reported, JSON parameter document on pending surfaces |
+| Diagnostic            | `diagnostic`, `timing`                                                  | The verbose parameter surface plus the operations table                               |
+| Informational         | `informational`                                                         | The elapsed-time report alone                                                         |
+| Timing opt-out        | `no timing`                                                             | Disarms the timing report for that request                                            |
+
+Timing is armed by default on every operation, and a `verbose`, `diagnostic`,
+or `timing` request closes with an operations table.
+
+The report style is a separate axis - the request selects the contract the evidence
+base renders into:
+
+| Style              | Renders                                                          |
+|--------------------|------------------------------------------------------------------|
+| `audit` (default)  | The twenty-two-section engineering assessment                    |
+| `hunt`             | A defect and health register, one canonical record per finding   |
+| `review`           | An execution register with evidence levels and a retest register |
+| `structure-review` | A review variant scoped to project structure                     |
+| `brief`            | A compact status-driven decision brief                           |
+| `hunt (legacy)`    | The pre-redesign verdict/domain hunt layout                      |
+| `audit (legacy)`   | The metadata-first audit layout                                  |
+| `review (legacy)`  | The legacy execution-register contract                           |
+
+The evidence mode is a third axis, gated per run:
+
+| Mode                  | Permits                                                                           |
+|-----------------------|-----------------------------------------------------------------------------------|
+| Source-only (default) | Inspected repository contents only - never builds, tests, or executes the subject |
+| `executed-readonly`   | Additionally runs commissioned non-mutating, read-only analyzers                  |
+| `executed-commands`   | Additionally runs commissioned non-mutating commands such as tests and builds     |
+
+The subject is still never deployed, mutated, or connected to live systems under the
+executed modes.
+
+Naming `development`, `improvement`, or `training` on a request runs the skill's upstream
+update check once per session and applies rule adjustments during the work.
+
+Running `improve lens-skill` starts the session review - it gathers the session's
+lessons, reports findings for approval, and lands the approved changes in the rule corpus.
+
+---
+
 ## Example Prompts
 
 **Full audit**
@@ -316,6 +367,28 @@ or execute the audited project.
 > (The agent produces a review-style report scoped to the structure - project context,
 > structural overview, `FND-STR-` findings, recommendations,
 > and prioritization - under the structure-review variant contract.)
+
+**Executed-evidence audit**
+> Audit this codebase under `executed-readonly` - commission the dependency advisory
+> scan and record it in the Executed Evidence.
+> (The agent runs only the commissioned non-mutating analyzers.
+> The project itself is still never built, tested, or deployed.)
+
+**Report benchmark**
+> Compare this external audit report against the current contract and list the gaps
+> it leaves.
+> (The agent runs the benchmark procedure, attributes each gap, and proposes the
+> adjustment plan.)
+
+**Audit request for another agent**
+> Prepare an audit-request prompt for an external agent to run on this repository.
+> (The agent renders the intake parameters and scope into a portable prompt.)
+
+**History visualisation**
+> Gather this repository's audit history into a `history.json` dataset and build the
+> single-file HTML visualisation.
+> (Both lifecycle operations run only on the named request and are never proposed
+> by default.)
 
 ---
 
