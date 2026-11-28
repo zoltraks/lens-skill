@@ -21,6 +21,8 @@ Usage:
 import argparse
 import json
 import re
+import subprocess
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -89,6 +91,29 @@ def output_name(data: dict) -> str:
     return re.sub(r"[^A-Za-z0-9._-]+", "-", proj) + ("-" + ver if ver else "") + ".html"
 
 
+def enforce_registry_gate(history: Path) -> None:
+    """Refuse a dataset that fails the sibling registry validator.
+
+    The Dataset Requirement makes `validate-history.py` clean the entry gate -
+    this call is the mechanical half of that contract. A `.tmp.` pack copy with
+    no sibling validator warns and proceeds rather than silently dropping the
+    gate.
+    """
+    validator = Path(__file__).resolve().with_name("validate-history.py")
+    if not validator.is_file():
+        print("pack-visualisation: validate-history.py not beside the packer"
+              " - registry gate skipped, run it manually", file=sys.stderr)
+        return
+    result = subprocess.run(
+        [sys.executable, str(validator), str(history)],
+        capture_output=True, encoding="utf-8", errors="replace")
+    if result.returncode != 0:
+        detail = (result.stdout or result.stderr or "").strip()
+        raise SystemExit(
+            "pack-visualisation: dataset fails validate-history.py"
+            " - run scripts/repair-history.py first\n" + detail)
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(
         description="Pack a history.json dataset into the single-file HTML visualisation")
@@ -114,6 +139,7 @@ def main() -> None:
     html = shell.read_text(encoding="utf-8")
 
     history = Path(a.history)
+    enforce_registry_gate(history)
     data = apply_view(read_dataset(history), a)
     script = data_script(data, history.name)
 

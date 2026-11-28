@@ -16,11 +16,14 @@ from tests import SCRIPTS, load_script
 def _dataset(view=None) -> dict:
     data = {
         "schema": 2,
-        "project": {"name": "example-service"},
+        "project": {"name": "example-service", "head": "a" * 40, "commits": 2,
+                    "span": {"from": "2026-01-01", "to": "2026-01-31"}},
         "categories": [{"id": "fix", "label": "Fixes", "color": "#e64980", "order": 30}],
         "versions": [
-            {"version": "1.0.0", "kind": "release", "events": []},
-            {"version": "1.1.0", "kind": "developing", "events": []},
+            {"version": "1.0.0", "kind": "release", "events": [],
+             "stats": {"delta": {"added": 1}}, "metrics": {"files": 1}},
+            {"version": "1.1.0", "kind": "developing", "events": [],
+             "stats": {"delta": {"added": 1}}, "metrics": {"files": 1}},
         ],
     }
     if view is not None:
@@ -135,6 +138,22 @@ class TestPackVisualisation(unittest.TestCase):
             twin = shim.read_text(encoding="utf-8")
             self.assertTrue(twin.startswith("window.HISTORY_DATA = {"))
             self.assertEqual(len(twin.strip().splitlines()), 1)
+
+    def test_registry_gate_refuses_violating_dataset(self):
+        data = _dataset()
+        data["versions"][0]["changelog_items"] = [{"sha": "abc"}]
+        with tempfile.TemporaryDirectory() as tmp:
+            history = Path(tmp) / "history.json"
+            history.write_text(json.dumps(data), encoding="utf-8")
+            with self.assertRaises(SystemExit) as ctx:
+                self.packer.enforce_registry_gate(history)
+            self.assertIn("repair-history.py", str(ctx.exception))
+
+    def test_registry_gate_passes_conforming_dataset(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            history = Path(tmp) / "history.json"
+            history.write_text(json.dumps(_dataset()), encoding="utf-8")
+            self.packer.enforce_registry_gate(history)
 
 
 if __name__ == "__main__":

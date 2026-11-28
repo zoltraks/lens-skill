@@ -2698,6 +2698,17 @@
     "scripts/repair-history.py registers the missing changelog category, restores canonical colors, and compacts family orders so filter group gaps appear only at family boundaries.",
     "scripts/validate-history.py confirms the repaired dataset, and pack-visualisation.py emits the repacked visualisation."
    ]
+  },
+  {
+   "id": 236,
+   "prompt": "Pack a visualisation from a history.json whose categories registry violates the contract - flat orders and no changelog entry.",
+   "expected_output": "The packer refuses the dataset: it runs the sibling validate-history.py as the entry gate and exits non-zero pointing at scripts/repair-history.py instead of emitting a defective visualisation.",
+   "files": [],
+   "expectations": [
+    "scripts/pack-visualisation.py exits non-zero on a dataset validate-history.py rejects.",
+    "The refusal names scripts/repair-history.py as the repair path.",
+    "A conforming dataset still packs normally."
+   ]
   }
  ]
 }

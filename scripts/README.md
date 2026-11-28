@@ -376,6 +376,11 @@ HTML visualisation - it reads the bundled viewer shell
 `window.HISTORY_DATA` payload built from the dataset, and writes a single file
 that opens over `file://` with no server and no siblings.
 
+The tool runs the sibling `validate-history.py` as its entry gate and refuses a
+dataset that fails the registry contract, pointing at `repair-history.py` -
+a missing validator warns and proceeds because `.tmp.` workspace copies run
+without siblings.
+
 `--layout`, `--theme`, and `--palette` stamp resolved view overrides into the
 embedded copy only - the source dataset stays untouched.
 `--shell` swaps the bundled asset, `--shim <path>` additionally emits the
