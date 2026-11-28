@@ -38,9 +38,11 @@ this order:
 
 1. A dataset the request names or the conversation already established.
 2. A dataset waiting in the workspace `out/` of a completed dataset run.
-3. A fresh dataset run under `process/history-visualisation.md` when none of the
-   above exists or the existing dataset is stale against the target's current
-   history - the dataset build is a prerequisite stage of this operation, never
+3. A continued dataset when a prior packed visualisation, `history.json`, or
+   `history.js` exists but is stale - the Continuation section of
+   `process/history-visualisation.md` keeps its eras and re-gathers the tail.
+4. A fresh dataset run under `process/history-visualisation.md` when none of the
+   above exists - the dataset build is a prerequisite stage of this operation, never
    a separate ask.
 
 Every dataset packed here conforms to `references/history-schema.md` and carries

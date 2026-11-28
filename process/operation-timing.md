@@ -2,28 +2,33 @@
 
 ## Purpose
 
-> **Scope:** Elapsed-time reporting for operations,
-> armed by default on every operation the skill answers. **Key items:** default arming, opt-out,
-> clock capture, closing report, coverage
+> **Scope:** Elapsed-time and context reporting for operations, armed by default on every
+> operation the skill answers.
 
-This file defines how Lens reports the time an operation took.
+> **Key items:** default arming, reporting modes, closing report, breakdown, heartbeat, identity
+
+This file defines how Lens closes an operation with its time and context report.
 
 ## Trigger
 
-Timing is armed by default on every operation the skill answers - local activation and task execution alike.
+Timing is armed by default on every operation the skill answers - local activation and task
+execution alike. Naming `no timing`, `without timing`, or an equivalent opt-out disarms it for that
+request only.
 
-Naming `no timing`, `without timing`, or an equivalent opt-out on the request disarms it for that
-request only - the default re-arms on the next request.
+| Mode            | Adds to the closing report                                        |
+|-----------------|-------------------------------------------------------------------|
+| `timing`        | Operations table                                                  |
+| `context usage` | Context line, then the operations table                           |
+| `verbose`       | Operations table, and the parameter document for pending surfaces |
+| `diagnostic`    | Same as `verbose`                                                 |
+| `informational` | Nothing beyond the timing sentence                                |
 
-The verbose, diagnostic, and timing modes additionally emit the parameter document of
-`process/json-exchange.md` - that file owns the parameter-document emission,
-this file owns only the timing report.
+`timing` and `context usage` never load `process/json-exchange.md` - only `verbose`, `diagnostic`,
+or an explicit JSON request emit the parameter document, which that file owns.
 
-The informational mode adds nothing beyond the timing paragraph - no parameter document emits and no
-option lists expand.
-
-A named mode is request-scoped - it is named in the request text and is never resolved from
-environment variables.
+A mode named on a request without a task stays armed for the session and closes every later
+operation. A mode named on a task request applies to that request only.
+Modes are named in the request text, never resolved from environment variables.
 
 ## Timing
 
@@ -31,72 +36,55 @@ The agent notes the system clock before starting the operation's work.
 
 ## Report
 
-The response ends with a separate paragraph whose single sentence is the last sentence of the
-response: `<description> operation took <m:ss>`,
-where `<description>` is a short phrase naming the operation the last user query asked for and
-`<m:ss>` is the elapsed time in minutes:seconds.
+The closing elements print in this order, each a separate block divided by exactly one blank line:
 
-A verbose, diagnostic, or timing report also closes with an operations table above the timing
-paragraph - one row per operation the session has run:
+1. Context line - `context usage` only: `Context in use: <n>k tokens`, with the window share when
+   the window size is known.
+2. Breakdown table - operations past three minutes only, per Performance Analysis.
+3. Operations table - `timing`, `context usage`, `verbose`, and `diagnostic` only,
+   one row per operation the session has run:
 
-| Operation | Time     | Context |
-|-----------|----------|---------|
-| `<name>`  | `<m:ss>` | `<n>%`  |
+   | Operation | Time     | Context  |
+   |-----------|----------|----------|
+   | `<name>`  | `<m:ss>` | `+<n>k`  |
 
-The `Time` column is the operation's measured elapsed time and `Context` is the change in
-context-window fulfillment the operation caused - the best measure available,
-an estimate when the environment reports none.
+   `Context` is what the operation consumed, in tokens or as a window share.
+4. Timing sentence - `<description> operation took <m:ss>`, the last sentence of the response,
+   where `<description>` names the operation the last request asked for.
 
-Each closing element - the breakdown table, the operations table,
-and the timing paragraph - is its own block divided from its neighbours by exactly one blank
-line, the same spacing as between paragraphs, so adjacent tables never merge.
-
-The operations table is the standard report's context-usage surface - a single small table with no
-report headings, a few rows covering the context share and elapsed time of the session's operations.
-
-A fuller context-usage report emits only when context usage is specifically requested - it never
-rides along on an unrelated response.
-
-A descriptive context-usage form answers only a direct context question.
-
-A counter the environment does not expose is omitted entirely - no `unknown` or placeholder
-value is ever reported.
+Counters come from the host - a token counter it reports, or one it records in its own session store
+or logs. An estimate is marked `~`. A counter the environment does not expose is omitted entirely,
+never reported as `unknown` or another placeholder.
+Context usage never rides along on a response whose request armed no such mode.
 
 ## Performance Analysis
 
-An operation that runs longer than three minutes closes with a breakdown table placed immediately
-before the timing sentence.
+An operation that runs longer than three minutes closes with a breakdown table placed before the
+operations table and the timing sentence.
 
 | Stage    | Elapsed  | Share  | Note                            |
 |----------|----------|--------|---------------------------------|
 | `<name>` | `<m:ss>` | `<n>%` | what consumed or saved the time |
 
-The rule binds every long operation the session runs, not only the skill's own procedures.
-Stage times come from command-reported elapsed values, recorded clock captures,
-or output timestamps - when none exists, the note says so instead of guessing.
+Stage times come from command-reported elapsed values, recorded clock captures, or output timestamps.
+When none exists, the note says so instead of guessing.
 
 ## Progress Heartbeat
 
-While a backgrounded command runs past about a minute,
-the agent reports progress roughly every 60 seconds - the output printed since the last note
-aggregated into one short line carrying the current stage, items done of the
-total, and warnings seen.
+While a backgrounded command runs past about a minute, the agent reports progress roughly every
+60 seconds in one short line - current stage, items done of the total, and warnings seen.
 A poll that finds no new output still earns a brief "still in <stage>" line.
 
 ## Agent Identity
 
-The driving agent and model are named once per session - on the first verbose, diagnostic,
-or timing report - and again whenever a request asks for them,
-as a separate paragraph outside the report block.
-Detection follows a ladder - an explicit value named in the request,
-then the tool's own namespace variables,
-then known environment markers (`AI_AGENT` carrying `devin` proves Devin,
+The driving agent and model are named once per session - on the first report carrying an operations
+table - and again whenever a request asks for them, as a separate paragraph.
+Detection follows a ladder: an explicit value in the request, the tool's own namespace variables,
+known environment markers (`AI_AGENT` carrying `devin` proves Devin,
 `CLAUDECODE` and `CLAUDE_CODE_*` prove Claude Code, `CODEX_*` proves Codex,
 `CURSOR_TRACE_ID` proves Cursor, `ANTIGRAVITY_*` proves AntiGravity, `GEMINI_CLI` proves Gemini,
 `QWEN_CODE` proves Qwen, a `windsurf` `ACP_BACKEND` proves a Windsurf-family host),
-then configured settings keys, then agent self-declaration for what stays unresolved.
-The markers identify the host product best-effort - an unresolved value reports `unset`,
-an honest answer rather than a failure.
+configured settings keys, then agent self-declaration. An unresolved value reports `unset`.
 
 ## Coverage
 

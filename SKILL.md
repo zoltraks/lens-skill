@@ -9,7 +9,7 @@ compatibility: >-
   Requires access to source files and the ability to write Markdown reports.
   Python 3.10+ is used for bundled tools. External sources and upstream checks require network access.
 metadata:
-  version: "3.1.7"
+  version: "3.1.8"
   author: Filip Golewski
 ---
 
@@ -31,7 +31,8 @@ metadata:
 | Improvement mode               | Apply lessons from the work through this skill's maintenance rules.                                               |
 | Training mode                  | Apply on-the-fly adjustments through this skill's maintenance rules.                                              |
 | Review a session               | Follow [session review](process/session-review.md).                                                               |
-| Verbose reporting              | Follow [timing](process/operation-timing.md) and [JSON exchange](process/json-exchange.md) for pending questions. |
+| Timing or context usage        | Follow [timing](process/operation-timing.md) only.                                                                |
+| Verbose or diagnostic          | Follow [timing](process/operation-timing.md) and [JSON exchange](process/json-exchange.md) for pending questions. |
 | Working mode or update request | Run the [update check](process/skill-update.md) once per session.                                                 |
 
 Resolve the operation and target first.
@@ -53,6 +54,7 @@ Use the host's question mechanism when available and ask directly if the host ha
 | Compare or benchmark external audit reports                          | [Report benchmark](process/report-benchmark.md)                                                    |
 | Prepare an audit prompt for another agent                            | [Audit request](process/audit-request.md)                                                          |
 | Produce a project history dataset                                    | [History visualisation](process/history-visualisation.md)                                          |
+| Update a prior history visualisation from its last version           | [History visualisation](process/history-visualisation.md), Continuation section                    |
 | Compile a dataset into a single-file history visualisation           | [Visualisation build](process/visualisation-build.md)                                              |
 | Feed external standards into this skill                              | [Stack feed](process/stack-feed.md)                                                                |
 
@@ -76,7 +78,7 @@ never bulk-read a directory.
 | `synthesis/`    | Findings and report assembly | Report assembly - `synthesis/README.md`                                                                            |
 | `translations/` | Report languages             | Only when the report language is not English - `translations/README.md`                                            |
 | `references/`   | Lookup tables                | Intake, assessment, and report writing when the stack or finding type requires - `references/README.md`            |
-| `assets/`       | Bundled applications         | `assets/visualisation-shell.html`, read by the visualisation build only                                            |
+| `assets/`       | Bundled applications         | `assets/visualisation-shell.html` for the visualisation build, `assets/history-pipeline/` for the dataset run      |
 | `scripts/`      | Report-production tooling    | `scripts/README.md` for tool classes, usage, and validation order                                                  |
 | `tests/`        | Tool contract tests          | Skill maintenance only                                                                                             |
 

@@ -123,9 +123,9 @@ An upstream check follows `SKILL.md`. Apply an update only with user approval.
 `verbose` adds the offered options and rationale to every resolved surface and never changes a
 selection or a gate.
 
-`informational` arms the timing report alone,
-while `diagnostic` and `timing` also emit the `process/json-exchange.md` parameter document for
-every pending surface.
+`informational` arms the timing sentence alone, and `timing` and `context usage` add the operations
+table without loading `process/json-exchange.md`, while `diagnostic` also emits its parameter
+document for every pending surface.
 
 ## Permission Boundary
 

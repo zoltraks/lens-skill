@@ -2721,6 +2721,32 @@
     "runs the check once per session and reuses a recorded result",
     "applies an update only after approval with ahead=0 and dirty=no"
    ]
+  },
+  {
+   "id": 238,
+   "prompt": "use lens with timing",
+   "expected_output": "The agent answers the bare activation per process/skill-activation.md, arms timing for the rest of the session, and closes with the operations table followed by the timing sentence, without loading process/json-exchange.md or emitting a parameter document.",
+   "files": [],
+   "expectations": [
+    "loads process/operation-timing.md and never process/json-exchange.md for the timing mode",
+    "emits no JSON parameter document",
+    "closes with an operations table carrying `Operation`, `Time`, and `Context` columns, then the `<description> operation took <m:ss>` sentence last",
+    "keeps timing armed for later operations in the session because the mode was named without a task"
+   ]
+  },
+  {
+   "id": 239,
+   "prompt": "create a history visualisation of this repository - a visualisation from last month is in docs/",
+   "expected_output": "The agent finds the prior packed visualisation, runs scripts/continue-history.py plan, and asks the mode with continuation first and recommended. On continuation it gathers only from the boundary before the last prior version, splices with continue-history.py merge, keeps the prior view, title, and categories, validates, and packs a new file.",
+   "files": [],
+   "expectations": [
+    "detects the prior HTML, history.json, or history.js before asking the mode",
+    "offers continuation first and marked recommended, full regeneration second",
+    "re-gathers only the last prior version and later, keeping earlier eras verbatim",
+    "carries view, project name, description, and the category registry from the prior artifact",
+    "never edits the prior artifact",
+    "copies assets/history-pipeline/ into the workspace and sets from_version to the anchor instead of writing extractors from scratch"
+   ]
   }
  ]
 }

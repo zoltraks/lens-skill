@@ -2,63 +2,23 @@
 
 ## Purpose
 
-> **Scope:**Enablement procedure for requests that activate the skill without naming a task**Key
-> items:** bare activation, referent resolution, enablement response,
-> standby contract, mode hand-off
+> **Scope:** Standby procedure for a request that names Lens but no operation.
 
-This file defines the intake for a request that names the skill but no work.
+> **Key items:** referent resolution, standby, enablement response
 
-Follow it when the request is a bare activation phrase - "run lens", "use lens", "activate lens",
-"use this skill" - or an equivalent.
-
-Read the sections the task needs - grep the `## ` headings for the section map.
+`use lens`, `run lens`, `work on lens-skill`, or host-native invocation without a task names this
+procedure.
 
 ## When This Applies
 
-Resolve the referent of a generic phrase before treating the request as a Lens activation - "use
-skill", "work with skill", "use this skill", and "work on this skill" name no skill by themselves.
+A generic phrase ("use skill", "use this skill", "work on this skill") binds to Lens only when the
+context identifies it - the lens-skill repository is the target, the session already uses Lens,
+or no other skill competes - otherwise ask which skill is meant and wait.
 
-A phrase that names Lens - "run lens", "use lens", "work on lens-skill" - binds directly.
-
-A generic phrase binds to this skill only when the context identifies it - the lens-skill repository
-is the working target, the session already treats Lens as the skill in play,
-or no other skill competes for the referent.
-
-When another skill's repository is the working context, or several skills could equally be meant,
-the referent is ambiguous - ask which skill the request means and wait,
-instead of enabling Lens on assumption.
-
-Under JSON exchange the referent ask emits as the `skill-selection` `choice` parameter per
-`process/json-exchange.md`.
-
-A bare activation names the skill and nothing else - no subject to audit, no report style to select,
-and no maintenance request.
-
-A standalone `update` request follows `process/skill-update.md`.
-A request to improve from session lessons follows `process/session-review.md`.
-
-An activation may also name a working target - a repository, directory,
-or document set - while still naming no operation: "use lens on the service repository".
-
-Naming a target is not a task, so the request stays in enable mode with the target held as context
-for the next request.
-
-A purpose qualifier such as "for audits" is not a task either.
-It names a mode, not an operation, and the request stays in enable mode.
-
-A request that combines activation with a task is a task request - "run lens,
-audit this repository" enters audit work directly and this procedure does not run.
-
-Ambiguity asks are rare - `mode-selection` fires only when the request mixes genuinely conflicting
-signals, such as an activation phrase joined to an operation verb whose object is missing.
-
-A named target without a named operation resolves to standby, never to a mode-selection question.
-
-A target whose own agent-facing rules define bare-request behavior confirms the same
-answer without any scan.
-
-Under JSON exchange a genuine ambiguity emits as the `mode-selection` `choice` parameter per
-`process/json-exchange.md`.
+A named target, a purpose qualifier ("for audits"), or a mode without an operation stays standby,
+never a mode-selection question.
+Activation joined to a task ("run lens, audit this repository") is a task request and skips this
+file.
 
 ## Procedure
 
@@ -68,75 +28,29 @@ A request naming no mode uses the installed package.
 Reuse this session's result for the checkout when available.
 Continue with the installed package when the check cannot run.
 
-1. Use the installed skill.
-2. Confirm the router state - the loaded `SKILL.md` is the enabled state,
-   re-read it when it may have changed during the session.
-3. Answer with the enablement response below, then wait for the next request.
+1. Treat the loaded `SKILL.md` as the enabled state.
+2. Print the enablement response in the language of the request.
+3. Ask any pending question through the host's question tool, then wait for the named operation.
 
 ## Enablement Response
 
-Open with one sentence confirming the skill is enabled.
+Without a target, one sentence confirms enablement, one names the skill and its `metadata.version`,
+then an `Operation` and `What it covers` table lists Audit, Hunt, Review, Re-audit, Focused review,
+Skill audit, Audit request, and Maintain the skill, and a line invites the task.
 
-Follow with one sentence describing the skill.
-It produces evidence-based engineering audit, hunt,
-and review reports from source-only inspection - and name the skill version read from
-`metadata.version` in the loaded `SKILL.md`.
+With a target, including `work on lens-skill`, one or two lines confirm enablement on it - no
+roster.
 
-Follow with a compact operations table - one row per family,
-columns `Operation` and `What it covers`, aligned by source width:
-
-| Operation          | What it covers                                             |
-|--------------------|------------------------------------------------------------|
-| Audit              | Full governance report across the assessment categories    |
-| Hunt               | Defect and health register over the same evidence base     |
-| Review             | Execution-register review and the structure-review variant |
-| Re-audit           | New revisioned report compared against a previous baseline |
-| Focused review     | Single-dimension or conditional-scope assessments          |
-| Skill audit        | Agent Skill spec and agent-guidance conformance            |
-| Audit request      | Generalized prompt commissioning an external-agent audit   |
-| Maintain the skill | Changes and session reviews of this skill repository       |
-
-Close with a line inviting the task request.
-
-A target-scoped activation - including `work on lens-skill`,
-which names this repository - answers with a minimal standby instead:
-one or two lines confirming the skill is enabled on the named target,
-then the wait begins - no capability list.
-
-The standby never scans or surveys the target to infer the intended task - guessing intent from the
-repository's state is analysis the request did not ask for.
-
-The reply confirms enablement and waits for the next request, or asks what to do.
-
-A read-only survey with proposed work belongs in the reply only when the request names that
-operation itself - "take a look around" asks for the survey, a purpose qualifier does not.
-
-A diagnostic, timing, or informational flag folds into the opening sentence - "enabled in diagnostic
-mode", "enabled in timing mode", or "enabled in informational mode" - and adds no intake-state
-preamble, since a bare activation has no pending surface to report.
-
-Write the response in the language of the request.
+A named mode folds into the opening sentence, such as "enabled in timing mode".
 
 ## What Does Not Apply
 
-- No intake classification, parameter resolution,
-  or subject discovery runs - the request named no task.
-- No read or scan of the named target runs.
-  A bare activation does not open the target to guess the task.
-- No rule files load beyond the router and this file - progressive disclosure stays lazy,
-  the next request selects its own rule set.
-- A diagnostic, timing, or verbose flag adds `process/json-exchange.md` to the loaded set and
-  nothing else - no scan of the target runs and no assessment files load,
-  and no parameter document emits while no question surface is pending.
-- An informational flag adds `process/operation-timing.md` to the loaded set and nothing else - the
-  standby reply itself emits no timing line.
-- No file is written. A proposed change waits for a request that names the
-  operation and confirms it.
+No intake, target scan, or task guessing runs, and no file is written.
+No rule file loads beyond the router and this file - a `verbose` or `diagnostic` mode adds
+`process/json-exchange.md`, and a `timing`, `context usage`, or `informational` mode adds only
+`process/operation-timing.md`.
 
 ## Relation To The Modes
 
-Enable mode is the standby state.
-It precedes audit work and skill maintenance.
-
-A task-bearing request that follows enters audit work or maintenance per the routing rules in
-`SKILL.md` and `AGENTS.md`.
+Standby precedes audit work and skill maintenance, and the next task-bearing request routes per
+`SKILL.md`.

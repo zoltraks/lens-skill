@@ -23,11 +23,11 @@ Emit the document where the request directs - inline in the response by default.
 
 ## Diagnostic Output
 
-When the request names a debugging mode, a diagnostic mode, a timing mode,
+When the request names a debugging mode, a diagnostic mode,
 or asks for detailed or verbose information,
 emit the parameter document for information purposes only.
 
-The informational mode never triggers this emission - it arms only the elapsed-time report in
+The timing, context-usage, and informational modes never trigger this emission - they arm only
 `process/operation-timing.md`.
 
 The emission order is fixed: the JSON document first,

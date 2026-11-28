@@ -399,6 +399,14 @@ and writes it back as a pretty-printed `history.json` dataset.
 reports the embedded dataset - project, version count, and schema - without
 writing.
 
+`continue-history.py` continues a dataset from a prior visualisation.
+The `plan` subcommand reads a packed HTML, a `history.json`, or a `history.js` shim with the repository and
+reports the anchor version, the kept versions, the gather range, which prior commits still
+resolve, and the carried settings.
+The `merge` subcommand splices a dataset gathered from the anchor onward onto the kept prior versions,
+re-bases `commit_span`, and carries the prior view, project identity, and category registry.
+It reads the repository through `git` only and never writes to it or to the prior artifact.
+
 `repair-history.py` mechanically repairs a dataset's `categories` registry
 against the canonical contract in `references/history-schema.md` - family
 bases with tens-compacted member orders, canonical colors, and registration
@@ -439,6 +447,8 @@ python scripts/finalize-report.py [--polish] [--skill-root path/to/lens-skill] p
 python scripts/pack-visualisation.py --history path/to/history.json [--out path/to/out.html] [--layout id] [--theme id] [--palette id] [--shim path/to/history.js] [--check]
 python scripts/extract-visualisation.py --html path/to/city.html [--out path/to/history.json] [--check]
 python scripts/repair-history.py path/to/history.json [--out path/to/fixed.json] [--check]
+python scripts/continue-history.py plan --prior path/to/old.html --repo path/to/repo [--ref HEAD] [--out plan.json]
+python scripts/continue-history.py merge --prior path/to/old.html --update tail.json --out history.json [--provenance prov.json]
 python -m unittest discover -s tests
 ```
 

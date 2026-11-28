@@ -25,8 +25,8 @@ Open this index when a phase needs a `process/` file the routed procedure does n
   Use its section map to read only the specifications for included sections.
   The selected hunt, review, or structure-review style supplies its own requirements.
 - **`process/json-exchange.md`** - JSON parameter documents for intake question surfaces.
-- **`process/operation-timing.md`** - Timing under verbose, informational,
-  diagnostic, or timing modes.
+- **`process/operation-timing.md`** - Default timing report and the timing, context-usage,
+  informational, verbose, and diagnostic closing modes.
 - **`process/parameter-configuration.md`** - Parameter surfaces, defaults, and resolution rules.
 - **`process/parallel-execution.md`** - Delegated scout and reporter model for evidence gathering
   and per-type report generation.

@@ -23,18 +23,18 @@
 | Installation                       | 175  | Clone and update instructions                       |
 | Usage                              | 208  | Activation, parameters, and report delivery         |
 | Working Modes                      | 245  | Interaction modes, report styles, evidence modes    |
-| Example Prompts                    | 295  | Full and focused audit requests                     |
-| Workflow Diagrams                  | 398  | ASCII and Mermaid audit pipelines                   |
-| Evidence And Decision Quality      | 458  | Evidence strength and verification limits           |
-| Core Principles                    | 517  | Evaluation constraints and status rules             |
-| Report Format                      | 533  | Report structure, identifiers, and style            |
-| When To Use This Skill             | 570  | Supported requests and exclusions                   |
-| What's Inside                      | 594  | Documents, references, tools, and conditional files |
-| Document Style                     | 807  | Pointer to the style rules file                     |
-| Specification                      | 817  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 838  | Maintenance checks and regression scenarios         |
-| License                            | 869  | License for the skill itself                        |
-| Credits                            | 875  | Authorship and attribution                          |
+| Example Prompts                    | 296  | Full and focused audit requests                     |
+| Workflow Diagrams                  | 399  | ASCII and Mermaid audit pipelines                   |
+| Evidence And Decision Quality      | 459  | Evidence strength and verification limits           |
+| Core Principles                    | 518  | Evaluation constraints and status rules             |
+| Report Format                      | 534  | Report structure, identifiers, and style            |
+| When To Use This Skill             | 571  | Supported requests and exclusions                   |
+| What's Inside                      | 595  | Documents, references, tools, and conditional files |
+| Document Style                     | 815  | Pointer to the style rules file                     |
+| Specification                      | 825  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 846  | Maintenance checks and regression scenarios         |
+| License                            | 877  | License for the skill itself                        |
+| Credits                            | 883  | Authorship and attribution                          |
 
 ## Overview
 
@@ -252,12 +252,13 @@ material checkpoints ask through the host's question mechanism.
 | Interactive (default) | -                                                                       | Recommendations shown, material decisions ask                                         |
 | Autonomous            | `autonomous`, `automatic`, `unattended`, `non-interactive`, `automated` | Gates resolve to the discovered or default answer, recorded in a `Decisions:` list    |
 | Verbose               | `verbose`                                                               | Full option menus and rationale reported, JSON parameter document on pending surfaces |
-| Diagnostic            | `diagnostic`, `timing`                                                  | The verbose parameter surface plus the operations table                               |
+| Diagnostic            | `diagnostic`                                                            | The verbose parameter surface plus the operations table                               |
+| Timing                | `timing`, `context usage`                                               | The operations table, without the JSON parameter document                             |
 | Informational         | `informational`                                                         | The elapsed-time report alone                                                         |
 | Timing opt-out        | `no timing`                                                             | Disarms the timing report for that request                                            |
 
-Timing is armed by default on every operation, and a `verbose`, `diagnostic`,
-or `timing` request closes with an operations table.
+Timing is armed by default on every operation, and a `verbose`, `diagnostic`, `timing`,
+or `context usage` request closes with an operations table.
 
 The report style is a separate axis - the request selects the contract the evidence
 base renders into:
@@ -741,6 +742,12 @@ lens-skill/
 │   ├── methodology/                       # Methodology digests, indexed in source-catalog.md
 │   └── topics/                            # Domain digests, indexed in source-catalog.md
 ├── assets/
+│   ├── history-pipeline/                  # Reference dataset pipeline copied into history workspaces
+│   │   ├── README.md                      # Stages, configuration, continuation, adaptation
+│   │   ├── common.py                      # Shared configuration, buckets, modules, commit classifier
+│   │   ├── extract_git.py                 # Commits, version eras, boundary stats, dependency events
+│   │   ├── extract_docs.py                # Development records, report fields, changelog items
+│   │   └── build_history.py               # Merge into history.json, the shim, and the manifest
 │   └── visualisation-shell.html           # Bundled single-file visualisation viewer shell (no dataset)
 ├── scripts/
 │   ├── format-table.py                    # Source-width Markdown table formatter
@@ -771,6 +778,7 @@ lens-skill/
 │   ├── pack-visualisation.py              # Packs history.json into the viewer shell as one HTML file
 │   ├── extract-visualisation.py           # Extracts history.json back out of a packed HTML file
 │   ├── repair-history.py                  # Repairs a dataset's category registry to the canonical contract
+│   ├── continue-history.py                # Continues a dataset from a prior visualisation
 │   ├── common-helpers.py                  # Shared helpers for skill-maintenance tools
 │   └── README.md                          # Tool usage, safety, and cleanup rules
 ├── tests/                                 # Focused `unittest` contract tests for the tools

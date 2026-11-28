@@ -20,20 +20,21 @@ It is not an audit and produces no report.
 
 | Section             | Line | Description                                        |
 |---------------------|------|----------------------------------------------------|
-| Activation Contract | 38   | When the operation runs and what it never does     |
-| Intake              | 50   | Parameters resolved before gathering               |
-| Ref Selection       | 120  | Fullest reachable history of the target branch     |
-| Era Discovery       | 135  | How commits group into eras - version or date mode |
-| Workspace Layout    | 166  | Workspace tree and its README contract             |
-| Scout Delegation    | 194  | Read-only scouts for the evidence surface          |
-| Gathering           | 204  | Source families and their collection order         |
-| Extraction Pipeline | 258  | Staged scripts, dating, enrichment, merge          |
-| Data Model          | 414  | Version kinds and their provenance                 |
-| Bundled Shim        | 431  | The file:// twin of history.json                   |
-| Prototype           | 447  | The commissioned interface contract                |
-| Verification        | 461  | Mechanical checks before delivery                  |
-| Incremental Reuse   | 491  | Ref-sha comparison and resume state                |
-| Boundaries          | 500  | Source-only limits of the operation                |
+| Activation Contract | 39   | When the operation runs and what it never does     |
+| Intake              | 51   | Parameters resolved before gathering               |
+| Ref Selection       | 127  | Fullest reachable history of the target branch     |
+| Era Discovery       | 142  | How commits group into eras - version or date mode |
+| Workspace Layout    | 177  | Workspace tree and its README contract             |
+| Scout Delegation    | 205  | Read-only scouts for the evidence surface          |
+| Gathering           | 215  | Source families and their collection order         |
+| Extraction Pipeline | 269  | Staged scripts, dating, enrichment, merge          |
+| Data Model          | 428  | Version kinds and their provenance                 |
+| Bundled Shim        | 445  | The file:// twin of history.json                   |
+| Prototype           | 461  | The commissioned interface contract                |
+| Verification        | 475  | Mechanical checks before delivery                  |
+| Incremental Reuse   | 505  | Ref-sha comparison and resume state                |
+| Continuation        | 516  | Reuse a prior visualisation, re-gather the tail    |
+| Boundaries          | 544  | Source-only limits of the operation                |
 
 ## Activation Contract
 
@@ -69,6 +70,7 @@ An answer of "defaults" or silence accepts the table as shown.
 
 | Parameter        | Default                                                                     |
 |------------------|-----------------------------------------------------------------------------|
+| **Mode**         | `continue` when a prior visualisation exists, else `full`                   |
 | **Target**       | The repository named by the request, else the current directory             |
 | **Workspace**    | `work/history/` inside the target, or its own `work`/`temporary` convention |
 | **Ref**          | The upstream tip when it strictly contains `HEAD`, else `HEAD`              |
@@ -83,6 +85,11 @@ An answer of "defaults" or silence accepts the table as shown.
 
 Notes on the parameters:
 
+- **Mode** is detected before it is asked: a previously generated visualisation HTML, a
+  `history.json`, or a `history.js` for the same subject makes `continue` the recommended,
+  first-listed option, ahead of `full` - see Continuation.
+  Interactive runs ask it with the prior artifact's version count, last version, and generation
+  date in the question, and the chosen mode lands in `config.json`.
 - **Sources** is confirmed, not asked: report once that version history
   and all documentation trees, including archives, are readable.
 - **Dataset role** names the landing choice explicitly: replacing the
@@ -140,6 +147,10 @@ into eras - it is a first-class stage of the operation, never incidental.
 1. Probe version signals at the chosen ref: version-manifest fields
    (package files, build descriptors, `version.go`-style constants), git
    tags, and changelog headings (`## Version x.y.z` or equivalent).
+   A project version can move between manifests over time - from a
+   `backend/` package to the root, for example - so the walk covers every
+   manifest that ever carried the version and takes the running maximum,
+   never only the manifest that holds it at the chosen ref.
 2. When at least one boundary exists and grouping is `version`, boundaries
    order eras exactly as today - a bump commit ends the era it completes,
    and pre-first-boundary history folds into the first era.
@@ -258,7 +269,10 @@ Collect source families in this order.
 ## Extraction Pipeline
 
 Run the pipeline as staged scripts under `gathering/scripts/`
-with intermediate output under `gathering/out/`:
+with intermediate output under `gathering/out/`.
+Start from the reference pipeline in `assets/history-pipeline/` - copy its scripts into the
+workspace, set `gathering/config.json`, and adapt only what the configuration cannot express -
+rather than writing the stages from scratch:
 
 | Stage        | Script shape       | Output                                                                                            |
 |--------------|--------------------|---------------------------------------------------------------------------------------------------|
@@ -496,6 +510,36 @@ skipped and only the merge re-runs.
 The `out/` intermediates are the resume state - keep them.
 `config.json` pins the run's parameters, so a resume replays the same
 target, grouping, view, and landing without re-asking.
+When the workspace is gone but a prior visualisation survives, the run continues from that
+artifact per Continuation.
+
+## Continuation
+
+A prior visualisation is evidence the repository may no longer hold - retention, archiving,
+or a history rewrite can truncate what a full gather sees.
+Continuation keeps the prior eras and re-gathers only the last included version and later.
+
+1. Recover the prior dataset - `scripts/continue-history.py plan --prior <file> --repo <target>`
+   reads a packed HTML, a `history.json`, or a `history.js` shim and reports the anchor (the
+   last prior version with a commit range), the kept versions, the gather range from the
+   boundary before the anchor to the chosen ref, whether the prior head and first commit still
+   resolve, and the carried settings.
+2. Present the plan with the mode question - continuation first and recommended, full
+   regeneration second. A plan whose boundary before the anchor no longer resolves says so,
+   and the anchor is re-gathered by its version signal instead of its sha.
+3. Gather and extract from the gather range only - the reference pipeline does this when
+   `config.json` sets `from_version` to the anchor - and merge into a dataset whose first
+   version is the anchor.
+4. Splice - `scripts/continue-history.py merge --prior <file> --update <dataset> --out
+   <history.json> --provenance <file>` keeps every prior version before the anchor verbatim,
+   takes the anchor and later versions from the update, re-bases `commit_span` indices,
+   recomputes the anchor's `gapDays`, and carries the prior `view`, project name, description,
+   repository, and category registry - new categories append, prior ones never change.
+5. Verify the spliced dataset like a full run, then pack it with the carried view.
+   The provenance record lands in `gathering/out/` beside `manifest.json`.
+
+Continuation never edits the prior artifact, and a request for a full regeneration still
+carries the prior settings unless it names new ones.
 
 ## Boundaries
 
