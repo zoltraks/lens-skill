@@ -2018,7 +2018,7 @@
     "runs process/skill-development.md and stands by for a described change",
     "the specification ask offers 'Develop new feature' and carries 'Do nothing yet' as the standby option when neither working mode is armed",
     "a 'Do nothing yet' answer skips the question flow and keeps the mode on standby",
-    "runs the skill update check once per SKILL.md Skill Update Check"
+    "runs the skill update check once per process/skill-update.md"
    ]
   },
   {
@@ -2290,7 +2290,7 @@
     "does not route to process/session-review.md on the improvement-mode flag alone",
     "applies improvements during the work through the member's own maintenance path",
     "reviews no session history that precedes the mode request",
-    "runs the skill update check once per SKILL.md Skill Update Check"
+    "runs the skill update check once per process/skill-update.md"
    ]
   },
   {
@@ -2313,7 +2313,7 @@
     "runs process/skill-development.md and stands by for a described change",
     "the specification ask carries 'Improve on the fly' as the standby option because improvement mode is armed",
     "an 'Improve on the fly' answer does nothing now and waits for a named operation, applying surfaced improvements on the fly",
-    "runs the skill update check once per SKILL.md Skill Update Check"
+    "runs the skill update check once per process/skill-update.md"
    ]
   },
   {
@@ -2478,7 +2478,7 @@
     "does not route to process/session-review.md on the training-mode flag alone",
     "applies on-the-fly adjustments during operations through the member's own maintenance path",
     "reviews no session history that precedes the mode request",
-    "runs the skill update check once per SKILL.md Skill Update Check"
+    "runs the skill update check once per process/skill-update.md"
    ]
   },
   {
@@ -2490,7 +2490,7 @@
     "runs process/skill-development.md and stands by for a described change",
     "the specification ask carries 'Train on the fly' as the standby option because training mode is armed",
     "a 'Train on the fly' answer does nothing now and waits for a named operation, applying surfaced adjustments on the fly",
-    "runs the skill update check once per SKILL.md Skill Update Check"
+    "runs the skill update check once per process/skill-update.md"
    ]
   },
   {
@@ -2546,6 +2546,7 @@
   {
    "id": 223,
    "prompt": "Validate a defect-hunt report that carries a `## Risk Register` section with `### RSK-` blocks, a `## Verdict` section, and a Health Assessment severity table whose counts do not match the finding blocks.",
+   "expected_output": "Validation under the Hunt report style fails the report: Verdict and Risk Register are rejected as out-of-catalogue sections with their successors named, the RSK- blocks are forbidden, and the Health Assessment severity table is reported as not reconciling with the FND- blocks.",
    "expectations": [
     "Under `Report Style: Hunt` (the defect contract), `##` headings outside the required and conditional catalogue fail - Verdict, Domain Findings, Risk Register, Remediation Phases, and Validation Protocol are rejected with their successor sections named.",
     "`### RSK-`, `### REC-`, and `### TDR-` blocks are forbidden - risk and action live on the canonical finding records.",
@@ -2708,6 +2709,17 @@
     "scripts/pack-visualisation.py exits non-zero on a dataset validate-history.py rejects.",
     "The refusal names scripts/repair-history.py as the repair path.",
     "A conforming dataset still packs normally."
+   ]
+  },
+  {
+   "id": 237,
+   "prompt": "use lens-skill in improvement mode - check whether this skill has an upstream update first",
+   "expected_output": "The request names a working mode, so the agent follows the Task Entry trigger to process/skill-update.md, runs the once-per-session check through scripts/check-update.py, and reports the result before the task.",
+   "files": [],
+   "expectations": [
+    "loads process/skill-update.md for the update check rather than a section of SKILL.md",
+    "runs the check once per session and reuses a recorded result",
+    "applies an update only after approval with ahead=0 and dirty=no"
    ]
   }
  ]

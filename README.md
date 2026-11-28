@@ -19,26 +19,29 @@
 | Section                            | Line | What it covers                                      |
 |------------------------------------|------|-----------------------------------------------------|
 | Overview                           | 39   | Audit purpose and standard report shape             |
-| What The Skill Does                | 90   | Update check, evidence, assessment, synthesis       |
-| Installation                       | 172  | Clone and update instructions                       |
-| Usage                              | 205  | Activation, parameters, and report delivery         |
-| Working Modes                      | 242  | Interaction modes, report styles, evidence modes    |
-| Example Prompts                    | 292  | Full and focused audit requests                     |
-| Workflow Diagrams                  | 395  | ASCII and Mermaid audit pipelines                   |
-| Evidence And Decision Quality      | 455  | Evidence strength and verification limits           |
-| Core Principles                    | 514  | Evaluation constraints and status rules             |
-| Report Format                      | 530  | Report structure, identifiers, and style            |
-| When To Use This Skill             | 567  | Supported requests and exclusions                   |
-| What's Inside                      | 591  | Documents, references, tools, and conditional files |
-| Document Style                     | 798  | Pointer to the style rules file                     |
-| Specification                      | 808  | Agent Skills specification conformance              |
-| Verification For Skill Maintenance | 829  | Maintenance checks and regression scenarios         |
-| License                            | 860  | License for the skill itself                        |
-| Credits                            | 866  | Authorship and attribution                          |
+| What The Skill Does                | 93   | Update check, evidence, assessment, synthesis       |
+| Installation                       | 175  | Clone and update instructions                       |
+| Usage                              | 208  | Activation, parameters, and report delivery         |
+| Working Modes                      | 245  | Interaction modes, report styles, evidence modes    |
+| Example Prompts                    | 295  | Full and focused audit requests                     |
+| Workflow Diagrams                  | 398  | ASCII and Mermaid audit pipelines                   |
+| Evidence And Decision Quality      | 458  | Evidence strength and verification limits           |
+| Core Principles                    | 517  | Evaluation constraints and status rules             |
+| Report Format                      | 533  | Report structure, identifiers, and style            |
+| When To Use This Skill             | 570  | Supported requests and exclusions                   |
+| What's Inside                      | 594  | Documents, references, tools, and conditional files |
+| Document Style                     | 807  | Pointer to the style rules file                     |
+| Specification                      | 817  | Agent Skills specification conformance              |
+| Verification For Skill Maintenance | 838  | Maintenance checks and regression scenarios         |
+| License                            | 869  | License for the skill itself                        |
+| Credits                            | 875  | Authorship and attribution                          |
 
 ## Overview
 
 Lens is a structured audit process packaged as an agent skill.
+
+This skill is not built for one specific agent, it follows the open Agent Skills format
+and works with Claude, Codex, Antigravity, Devin, and other agents that load skills.
 
 It guides an AI coding agent through a complete engineering assessment of any software subject - a
 prototype, codebase under development, production system,
@@ -604,9 +607,11 @@ lens-skill/
 ├── evals/
 │   └── evals.json                         # Skill-creator behavioral regression prompts
 ├── principles/
+│   ├── README.md                          # Evaluation-rules index
 │   ├── evaluation-rules.md                # Evidence-only, no assumptions, neutrality, status markers, constraints
 │   └── output-style.md                    # Tone, fixed vocabularies, consistency, determinism
 ├── process/
+│   ├── README.md                          # Process index: procedures, contracts, lifecycle operations
 │   ├── audit-workflow.md                  # Workflow index: phase order, checklists, variants
 │   ├── audit-workflow/                    # Per-phase audit workflow files
 │   │   ├── audit-intake.md                # Intake phase: input reading, project census, audit mode
@@ -623,6 +628,7 @@ lens-skill/
 │   ├── audit-calibration.md               # Paired-run reproducibility procedure and tolerances
 │   ├── decision-modes.md                  # Interaction-mode matrix: interactive and automated resolution
 │   ├── skill-development.md               # Standby-for-specification development mode
+│   ├── skill-update.md                    # Once-per-session upstream check and update
 │   ├── skill-housekeeping.md              # Self-repository upkeep routine
 │   ├── history-visualisation.md           # Named lifecycle operation producing history.json
 │   ├── visualisation-build.md             # Named build operation packing the dataset into one HTML file
@@ -698,6 +704,7 @@ lens-skill/
 │   ├── baseline-conformance.md            # (conditional) Engineering floor against bundled stack/purpose baselines
 │   └── api-compatibility.md               # (conditional) API compat gates, versioning, breaking-change tracking
 ├── synthesis/
+│   ├── README.md                          # Synthesis index: report-assembly files
 │   ├── risk-register.md                   # Unified risk register with FND cross-referencing
 │   ├── project-scorecard.md               # Project scorecard, rubric, and scale display rules
 │   ├── solution-comparison.md             # Engineering trade-offs in standalone table and embedded findings
@@ -707,6 +714,7 @@ lens-skill/
 │   ├── reaudit-plan.md                    # (conditional) Verification ownership, sign-off gates, re-audit triggers
 │   └── report-comparison.md               # (conditional) Previous report discovery, revisions, comparison
 ├── references/
+│   ├── README.md                          # Lookup-table index
 │   ├── stack-standards.md                 # Stack, supply-chain, and AI reference sources
 │   ├── cwe-analyzer.md                    # CWE to static-analyzer-rule cross-reference per ecosystem
 │   ├── dependency-manifests.md            # Text-only manifest readers, source-derived component inventory
@@ -767,6 +775,7 @@ lens-skill/
 │   └── README.md                          # Tool usage, safety, and cleanup rules
 ├── tests/                                 # Focused `unittest` contract tests for the tools
 └── translations/
+    ├── README.md                          # Report-language index
     └── polish-language.md                 # Polish rendering: vocabulary and style rules
 ```
 

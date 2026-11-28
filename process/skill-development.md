@@ -20,7 +20,7 @@ development mode is the named operation, never the default reading.
 
 ## Procedure
 
-1. Run the update check per Skill Update Check in `SKILL.md` - development mode is a named
+1. Run the update check per `process/skill-update.md` - development mode is a named
    trigger - then use the resulting checkout.
 2. Report readiness - repository state, version,
    and any uncommitted in-flight work the tree carries.

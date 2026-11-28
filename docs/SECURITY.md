@@ -20,7 +20,7 @@ Report vulnerabilities privately through GitHub Security Advisories:
 
 Reports are welcome for:
 
-- The skill-update path: `scripts/check-update.py` and the `Skill Update Check` flow in `SKILL.md`,
+- The skill-update path: `scripts/check-update.py` and the update-check flow in `process/skill-update.md`,
   including tag-integrity and upstream-divergence handling.
 - Skill content that could produce unsafe or misleading audit instructions.
 - Script behavior that writes files, mutates repositories,

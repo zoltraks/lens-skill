@@ -47,6 +47,10 @@ The `Time` column is the operation's measured elapsed time and `Context` is the 
 context-window fulfillment the operation caused - the best measure available,
 an estimate when the environment reports none.
 
+Each closing element - the breakdown table, the operations table,
+and the timing paragraph - is its own block divided from its neighbours by exactly one blank
+line, the same spacing as between paragraphs, so adjacent tables never merge.
+
 The operations table is the standard report's context-usage surface - a single small table with no
 report headings, a few rows covering the context share and elapsed time of the session's operations.
 

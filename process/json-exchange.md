@@ -55,14 +55,20 @@ and an `intake` array.
 - `time` - the local time in `hh:mm:ss` followed by the timezone offset,
   for example `13:45:21 GMT+2`.
 
+A key without a value is omitted - never emitted as an empty string, `null`, or a placeholder
+such as an unread clock, so an unclassified `task` or an unavailable `time` drops out.
+
+The one exception is `answer`, the reply placeholder described below.
+
 Each parameter object keeps a fixed key order: `id`, `question`, `answer`, `description`,
 optional `when`, `type`, `menu`, `open`,
 `default` - the `default` key is always the last key of the object.
 
 - `id` - a stable kebab-case identifier for the parameter.
 - `question` - the literal question wording presented to the answering side.
-- `answer` - emitted as an empty string (an empty array for `selection`),
-  to be filled by the answering side.
+- `answer` - the reply placeholder, always present and empty right after `question` - an empty
+  string, or an empty array for `selection` - so the whole document can return with it filled.
+  The answering side may strip the returned document down to `id` and `answer` pairs.
 - `description` - what the parameter controls and the discovery evidence behind its default.
 - `type` - `choice` for a single-option answer, `selection` when multiple options may be chosen,
   or `text` for free input.
